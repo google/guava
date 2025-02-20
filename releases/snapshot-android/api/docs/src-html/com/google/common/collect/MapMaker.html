@@ -220,109 +220,111 @@
 <span class="source-line-no">207</span><span id="line-207">    return setKeyStrength(Strength.WEAK);</span>
 <span class="source-line-no">208</span><span id="line-208">  }</span>
 <span class="source-line-no">209</span><span id="line-209"></span>
-<span class="source-line-no">210</span><span id="line-210">  MapMaker setKeyStrength(Strength strength) {</span>
-<span class="source-line-no">211</span><span id="line-211">    checkState(keyStrength == null, "Key strength was already set to %s", keyStrength);</span>
-<span class="source-line-no">212</span><span id="line-212">    keyStrength = checkNotNull(strength);</span>
-<span class="source-line-no">213</span><span id="line-213">    if (strength != Strength.STRONG) {</span>
-<span class="source-line-no">214</span><span id="line-214">      // STRONG could be used during deserialization.</span>
-<span class="source-line-no">215</span><span id="line-215">      useCustomMap = true;</span>
-<span class="source-line-no">216</span><span id="line-216">    }</span>
-<span class="source-line-no">217</span><span id="line-217">    return this;</span>
-<span class="source-line-no">218</span><span id="line-218">  }</span>
-<span class="source-line-no">219</span><span id="line-219"></span>
-<span class="source-line-no">220</span><span id="line-220">  Strength getKeyStrength() {</span>
-<span class="source-line-no">221</span><span id="line-221">    return MoreObjects.firstNonNull(keyStrength, Strength.STRONG);</span>
-<span class="source-line-no">222</span><span id="line-222">  }</span>
-<span class="source-line-no">223</span><span id="line-223"></span>
-<span class="source-line-no">224</span><span id="line-224">  /**</span>
-<span class="source-line-no">225</span><span id="line-225">   * Specifies that each value (not key) stored in the map should be wrapped in a {@link</span>
-<span class="source-line-no">226</span><span id="line-226">   * WeakReference} (by default, strong references are used).</span>
-<span class="source-line-no">227</span><span id="line-227">   *</span>
-<span class="source-line-no">228</span><span id="line-228">   * &lt;p&gt;Weak values will be garbage collected once they are weakly reachable. This makes them a poor</span>
-<span class="source-line-no">229</span><span id="line-229">   * candidate for caching.</span>
-<span class="source-line-no">230</span><span id="line-230">   *</span>
-<span class="source-line-no">231</span><span id="line-231">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; when this method is used, the resulting map will use identity ({@code ==})</span>
-<span class="source-line-no">232</span><span id="line-232">   * comparison to determine equality of values. This technically violates the specifications of the</span>
-<span class="source-line-no">233</span><span id="line-233">   * methods {@link Map#containsValue containsValue}, {@link ConcurrentMap#remove(Object, Object)</span>
-<span class="source-line-no">234</span><span id="line-234">   * remove(Object, Object)} and {@link ConcurrentMap#replace(Object, Object, Object) replace(K, V,</span>
-<span class="source-line-no">235</span><span id="line-235">   * V)}, and may not be what you expect.</span>
-<span class="source-line-no">236</span><span id="line-236">   *</span>
-<span class="source-line-no">237</span><span id="line-237">   * @throws IllegalStateException if the value strength was already set</span>
-<span class="source-line-no">238</span><span id="line-238">   * @see WeakReference</span>
-<span class="source-line-no">239</span><span id="line-239">   */</span>
-<span class="source-line-no">240</span><span id="line-240">  @CanIgnoreReturnValue</span>
-<span class="source-line-no">241</span><span id="line-241">  @GwtIncompatible // java.lang.ref.WeakReference</span>
-<span class="source-line-no">242</span><span id="line-242">  public MapMaker weakValues() {</span>
-<span class="source-line-no">243</span><span id="line-243">    return setValueStrength(Strength.WEAK);</span>
-<span class="source-line-no">244</span><span id="line-244">  }</span>
-<span class="source-line-no">245</span><span id="line-245"></span>
-<span class="source-line-no">246</span><span id="line-246">  /**</span>
-<span class="source-line-no">247</span><span id="line-247">   * A dummy singleton value type used by {@link Interners}.</span>
-<span class="source-line-no">248</span><span id="line-248">   *</span>
-<span class="source-line-no">249</span><span id="line-249">   * &lt;p&gt;{@link MapMakerInternalMap} can optimize for memory usage in this case; see {@link</span>
-<span class="source-line-no">250</span><span id="line-250">   * MapMakerInternalMap#createWithDummyValues}.</span>
-<span class="source-line-no">251</span><span id="line-251">   */</span>
-<span class="source-line-no">252</span><span id="line-252">  enum Dummy {</span>
-<span class="source-line-no">253</span><span id="line-253">    VALUE</span>
-<span class="source-line-no">254</span><span id="line-254">  }</span>
-<span class="source-line-no">255</span><span id="line-255"></span>
-<span class="source-line-no">256</span><span id="line-256">  MapMaker setValueStrength(Strength strength) {</span>
-<span class="source-line-no">257</span><span id="line-257">    checkState(valueStrength == null, "Value strength was already set to %s", valueStrength);</span>
-<span class="source-line-no">258</span><span id="line-258">    valueStrength = checkNotNull(strength);</span>
-<span class="source-line-no">259</span><span id="line-259">    if (strength != Strength.STRONG) {</span>
-<span class="source-line-no">260</span><span id="line-260">      // STRONG could be used during deserialization.</span>
-<span class="source-line-no">261</span><span id="line-261">      useCustomMap = true;</span>
-<span class="source-line-no">262</span><span id="line-262">    }</span>
-<span class="source-line-no">263</span><span id="line-263">    return this;</span>
-<span class="source-line-no">264</span><span id="line-264">  }</span>
-<span class="source-line-no">265</span><span id="line-265"></span>
-<span class="source-line-no">266</span><span id="line-266">  Strength getValueStrength() {</span>
-<span class="source-line-no">267</span><span id="line-267">    return MoreObjects.firstNonNull(valueStrength, Strength.STRONG);</span>
-<span class="source-line-no">268</span><span id="line-268">  }</span>
-<span class="source-line-no">269</span><span id="line-269"></span>
-<span class="source-line-no">270</span><span id="line-270">  /**</span>
-<span class="source-line-no">271</span><span id="line-271">   * Builds a thread-safe map. This method does not alter the state of this {@code MapMaker}</span>
-<span class="source-line-no">272</span><span id="line-272">   * instance, so it can be invoked again to create multiple independent maps.</span>
-<span class="source-line-no">273</span><span id="line-273">   *</span>
-<span class="source-line-no">274</span><span id="line-274">   * &lt;p&gt;The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to</span>
-<span class="source-line-no">275</span><span id="line-275">   * be performed atomically on the returned map. Additionally, {@code size} and {@code</span>
-<span class="source-line-no">276</span><span id="line-276">   * containsValue} are implemented as bulk read operations, and thus may fail to observe concurrent</span>
-<span class="source-line-no">277</span><span id="line-277">   * writes.</span>
-<span class="source-line-no">278</span><span id="line-278">   *</span>
-<span class="source-line-no">279</span><span id="line-279">   * @return a serializable concurrent map having the requested features</span>
-<span class="source-line-no">280</span><span id="line-280">   */</span>
-<span class="source-line-no">281</span><span id="line-281">  public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; makeMap() {</span>
-<span class="source-line-no">282</span><span id="line-282">    if (!useCustomMap) {</span>
-<span class="source-line-no">283</span><span id="line-283">      return new ConcurrentHashMap&lt;&gt;(getInitialCapacity(), 0.75f, getConcurrencyLevel());</span>
-<span class="source-line-no">284</span><span id="line-284">    }</span>
-<span class="source-line-no">285</span><span id="line-285">    return MapMakerInternalMap.create(this);</span>
-<span class="source-line-no">286</span><span id="line-286">  }</span>
-<span class="source-line-no">287</span><span id="line-287"></span>
-<span class="source-line-no">288</span><span id="line-288">  /**</span>
-<span class="source-line-no">289</span><span id="line-289">   * Returns a string representation for this MapMaker instance. The exact form of the returned</span>
-<span class="source-line-no">290</span><span id="line-290">   * string is not specified.</span>
-<span class="source-line-no">291</span><span id="line-291">   */</span>
-<span class="source-line-no">292</span><span id="line-292">  @Override</span>
-<span class="source-line-no">293</span><span id="line-293">  public String toString() {</span>
-<span class="source-line-no">294</span><span id="line-294">    MoreObjects.ToStringHelper s = MoreObjects.toStringHelper(this);</span>
-<span class="source-line-no">295</span><span id="line-295">    if (initialCapacity != UNSET_INT) {</span>
-<span class="source-line-no">296</span><span id="line-296">      s.add("initialCapacity", initialCapacity);</span>
-<span class="source-line-no">297</span><span id="line-297">    }</span>
-<span class="source-line-no">298</span><span id="line-298">    if (concurrencyLevel != UNSET_INT) {</span>
-<span class="source-line-no">299</span><span id="line-299">      s.add("concurrencyLevel", concurrencyLevel);</span>
-<span class="source-line-no">300</span><span id="line-300">    }</span>
-<span class="source-line-no">301</span><span id="line-301">    if (keyStrength != null) {</span>
-<span class="source-line-no">302</span><span id="line-302">      s.add("keyStrength", Ascii.toLowerCase(keyStrength.toString()));</span>
-<span class="source-line-no">303</span><span id="line-303">    }</span>
-<span class="source-line-no">304</span><span id="line-304">    if (valueStrength != null) {</span>
-<span class="source-line-no">305</span><span id="line-305">      s.add("valueStrength", Ascii.toLowerCase(valueStrength.toString()));</span>
-<span class="source-line-no">306</span><span id="line-306">    }</span>
-<span class="source-line-no">307</span><span id="line-307">    if (keyEquivalence != null) {</span>
-<span class="source-line-no">308</span><span id="line-308">      s.addValue("keyEquivalence");</span>
-<span class="source-line-no">309</span><span id="line-309">    }</span>
-<span class="source-line-no">310</span><span id="line-310">    return s.toString();</span>
-<span class="source-line-no">311</span><span id="line-311">  }</span>
-<span class="source-line-no">312</span><span id="line-312">}</span>
+<span class="source-line-no">210</span><span id="line-210">  @CanIgnoreReturnValue</span>
+<span class="source-line-no">211</span><span id="line-211">  MapMaker setKeyStrength(Strength strength) {</span>
+<span class="source-line-no">212</span><span id="line-212">    checkState(keyStrength == null, "Key strength was already set to %s", keyStrength);</span>
+<span class="source-line-no">213</span><span id="line-213">    keyStrength = checkNotNull(strength);</span>
+<span class="source-line-no">214</span><span id="line-214">    if (strength != Strength.STRONG) {</span>
+<span class="source-line-no">215</span><span id="line-215">      // STRONG could be used during deserialization.</span>
+<span class="source-line-no">216</span><span id="line-216">      useCustomMap = true;</span>
+<span class="source-line-no">217</span><span id="line-217">    }</span>
+<span class="source-line-no">218</span><span id="line-218">    return this;</span>
+<span class="source-line-no">219</span><span id="line-219">  }</span>
+<span class="source-line-no">220</span><span id="line-220"></span>
+<span class="source-line-no">221</span><span id="line-221">  Strength getKeyStrength() {</span>
+<span class="source-line-no">222</span><span id="line-222">    return MoreObjects.firstNonNull(keyStrength, Strength.STRONG);</span>
+<span class="source-line-no">223</span><span id="line-223">  }</span>
+<span class="source-line-no">224</span><span id="line-224"></span>
+<span class="source-line-no">225</span><span id="line-225">  /**</span>
+<span class="source-line-no">226</span><span id="line-226">   * Specifies that each value (not key) stored in the map should be wrapped in a {@link</span>
+<span class="source-line-no">227</span><span id="line-227">   * WeakReference} (by default, strong references are used).</span>
+<span class="source-line-no">228</span><span id="line-228">   *</span>
+<span class="source-line-no">229</span><span id="line-229">   * &lt;p&gt;Weak values will be garbage collected once they are weakly reachable. This makes them a poor</span>
+<span class="source-line-no">230</span><span id="line-230">   * candidate for caching.</span>
+<span class="source-line-no">231</span><span id="line-231">   *</span>
+<span class="source-line-no">232</span><span id="line-232">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; when this method is used, the resulting map will use identity ({@code ==})</span>
+<span class="source-line-no">233</span><span id="line-233">   * comparison to determine equality of values. This technically violates the specifications of the</span>
+<span class="source-line-no">234</span><span id="line-234">   * methods {@link Map#containsValue containsValue}, {@link ConcurrentMap#remove(Object, Object)</span>
+<span class="source-line-no">235</span><span id="line-235">   * remove(Object, Object)} and {@link ConcurrentMap#replace(Object, Object, Object) replace(K, V,</span>
+<span class="source-line-no">236</span><span id="line-236">   * V)}, and may not be what you expect.</span>
+<span class="source-line-no">237</span><span id="line-237">   *</span>
+<span class="source-line-no">238</span><span id="line-238">   * @throws IllegalStateException if the value strength was already set</span>
+<span class="source-line-no">239</span><span id="line-239">   * @see WeakReference</span>
+<span class="source-line-no">240</span><span id="line-240">   */</span>
+<span class="source-line-no">241</span><span id="line-241">  @CanIgnoreReturnValue</span>
+<span class="source-line-no">242</span><span id="line-242">  @GwtIncompatible // java.lang.ref.WeakReference</span>
+<span class="source-line-no">243</span><span id="line-243">  public MapMaker weakValues() {</span>
+<span class="source-line-no">244</span><span id="line-244">    return setValueStrength(Strength.WEAK);</span>
+<span class="source-line-no">245</span><span id="line-245">  }</span>
+<span class="source-line-no">246</span><span id="line-246"></span>
+<span class="source-line-no">247</span><span id="line-247">  /**</span>
+<span class="source-line-no">248</span><span id="line-248">   * A dummy singleton value type used by {@link Interners}.</span>
+<span class="source-line-no">249</span><span id="line-249">   *</span>
+<span class="source-line-no">250</span><span id="line-250">   * &lt;p&gt;{@link MapMakerInternalMap} can optimize for memory usage in this case; see {@link</span>
+<span class="source-line-no">251</span><span id="line-251">   * MapMakerInternalMap#createWithDummyValues}.</span>
+<span class="source-line-no">252</span><span id="line-252">   */</span>
+<span class="source-line-no">253</span><span id="line-253">  enum Dummy {</span>
+<span class="source-line-no">254</span><span id="line-254">    VALUE</span>
+<span class="source-line-no">255</span><span id="line-255">  }</span>
+<span class="source-line-no">256</span><span id="line-256"></span>
+<span class="source-line-no">257</span><span id="line-257">  @CanIgnoreReturnValue</span>
+<span class="source-line-no">258</span><span id="line-258">  MapMaker setValueStrength(Strength strength) {</span>
+<span class="source-line-no">259</span><span id="line-259">    checkState(valueStrength == null, "Value strength was already set to %s", valueStrength);</span>
+<span class="source-line-no">260</span><span id="line-260">    valueStrength = checkNotNull(strength);</span>
+<span class="source-line-no">261</span><span id="line-261">    if (strength != Strength.STRONG) {</span>
+<span class="source-line-no">262</span><span id="line-262">      // STRONG could be used during deserialization.</span>
+<span class="source-line-no">263</span><span id="line-263">      useCustomMap = true;</span>
+<span class="source-line-no">264</span><span id="line-264">    }</span>
+<span class="source-line-no">265</span><span id="line-265">    return this;</span>
+<span class="source-line-no">266</span><span id="line-266">  }</span>
+<span class="source-line-no">267</span><span id="line-267"></span>
+<span class="source-line-no">268</span><span id="line-268">  Strength getValueStrength() {</span>
+<span class="source-line-no">269</span><span id="line-269">    return MoreObjects.firstNonNull(valueStrength, Strength.STRONG);</span>
+<span class="source-line-no">270</span><span id="line-270">  }</span>
+<span class="source-line-no">271</span><span id="line-271"></span>
+<span class="source-line-no">272</span><span id="line-272">  /**</span>
+<span class="source-line-no">273</span><span id="line-273">   * Builds a thread-safe map. This method does not alter the state of this {@code MapMaker}</span>
+<span class="source-line-no">274</span><span id="line-274">   * instance, so it can be invoked again to create multiple independent maps.</span>
+<span class="source-line-no">275</span><span id="line-275">   *</span>
+<span class="source-line-no">276</span><span id="line-276">   * &lt;p&gt;The bulk operations {@code putAll}, {@code equals}, and {@code clear} are not guaranteed to</span>
+<span class="source-line-no">277</span><span id="line-277">   * be performed atomically on the returned map. Additionally, {@code size} and {@code</span>
+<span class="source-line-no">278</span><span id="line-278">   * containsValue} are implemented as bulk read operations, and thus may fail to observe concurrent</span>
+<span class="source-line-no">279</span><span id="line-279">   * writes.</span>
+<span class="source-line-no">280</span><span id="line-280">   *</span>
+<span class="source-line-no">281</span><span id="line-281">   * @return a serializable concurrent map having the requested features</span>
+<span class="source-line-no">282</span><span id="line-282">   */</span>
+<span class="source-line-no">283</span><span id="line-283">  public &lt;K, V&gt; ConcurrentMap&lt;K, V&gt; makeMap() {</span>
+<span class="source-line-no">284</span><span id="line-284">    if (!useCustomMap) {</span>
+<span class="source-line-no">285</span><span id="line-285">      return new ConcurrentHashMap&lt;&gt;(getInitialCapacity(), 0.75f, getConcurrencyLevel());</span>
+<span class="source-line-no">286</span><span id="line-286">    }</span>
+<span class="source-line-no">287</span><span id="line-287">    return MapMakerInternalMap.create(this);</span>
+<span class="source-line-no">288</span><span id="line-288">  }</span>
+<span class="source-line-no">289</span><span id="line-289"></span>
+<span class="source-line-no">290</span><span id="line-290">  /**</span>
+<span class="source-line-no">291</span><span id="line-291">   * Returns a string representation for this MapMaker instance. The exact form of the returned</span>
+<span class="source-line-no">292</span><span id="line-292">   * string is not specified.</span>
+<span class="source-line-no">293</span><span id="line-293">   */</span>
+<span class="source-line-no">294</span><span id="line-294">  @Override</span>
+<span class="source-line-no">295</span><span id="line-295">  public String toString() {</span>
+<span class="source-line-no">296</span><span id="line-296">    MoreObjects.ToStringHelper s = MoreObjects.toStringHelper(this);</span>
+<span class="source-line-no">297</span><span id="line-297">    if (initialCapacity != UNSET_INT) {</span>
+<span class="source-line-no">298</span><span id="line-298">      s.add("initialCapacity", initialCapacity);</span>
+<span class="source-line-no">299</span><span id="line-299">    }</span>
+<span class="source-line-no">300</span><span id="line-300">    if (concurrencyLevel != UNSET_INT) {</span>
+<span class="source-line-no">301</span><span id="line-301">      s.add("concurrencyLevel", concurrencyLevel);</span>
+<span class="source-line-no">302</span><span id="line-302">    }</span>
+<span class="source-line-no">303</span><span id="line-303">    if (keyStrength != null) {</span>
+<span class="source-line-no">304</span><span id="line-304">      s.add("keyStrength", Ascii.toLowerCase(keyStrength.toString()));</span>
+<span class="source-line-no">305</span><span id="line-305">    }</span>
+<span class="source-line-no">306</span><span id="line-306">    if (valueStrength != null) {</span>
+<span class="source-line-no">307</span><span id="line-307">      s.add("valueStrength", Ascii.toLowerCase(valueStrength.toString()));</span>
+<span class="source-line-no">308</span><span id="line-308">    }</span>
+<span class="source-line-no">309</span><span id="line-309">    if (keyEquivalence != null) {</span>
+<span class="source-line-no">310</span><span id="line-310">      s.addValue("keyEquivalence");</span>
+<span class="source-line-no">311</span><span id="line-311">    }</span>
+<span class="source-line-no">312</span><span id="line-312">    return s.toString();</span>
+<span class="source-line-no">313</span><span id="line-313">  }</span>
+<span class="source-line-no">314</span><span id="line-314">}</span>
 
 
 

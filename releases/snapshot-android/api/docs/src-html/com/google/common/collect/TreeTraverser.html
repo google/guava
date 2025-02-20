@@ -104,7 +104,7 @@
 <span class="source-line-no">091</span><span id="line-91">   */</span>
 <span class="source-line-no">092</span><span id="line-92">  @Deprecated</span>
 <span class="source-line-no">093</span><span id="line-93">  public static &lt;T&gt; TreeTraverser&lt;T&gt; using(</span>
-<span class="source-line-no">094</span><span id="line-94">      final Function&lt;T, ? extends Iterable&lt;T&gt;&gt; nodeToChildrenFunction) {</span>
+<span class="source-line-no">094</span><span id="line-94">      Function&lt;T, ? extends Iterable&lt;T&gt;&gt; nodeToChildrenFunction) {</span>
 <span class="source-line-no">095</span><span id="line-95">    checkNotNull(nodeToChildrenFunction);</span>
 <span class="source-line-no">096</span><span id="line-96">    return new TreeTraverser&lt;T&gt;() {</span>
 <span class="source-line-no">097</span><span id="line-97">      @Override</span>
@@ -128,7 +128,7 @@
 <span class="source-line-no">115</span><span id="line-115">   *     the same behavior.</span>
 <span class="source-line-no">116</span><span id="line-116">   */</span>
 <span class="source-line-no">117</span><span id="line-117">  @Deprecated</span>
-<span class="source-line-no">118</span><span id="line-118">  public final FluentIterable&lt;T&gt; preOrderTraversal(final T root) {</span>
+<span class="source-line-no">118</span><span id="line-118">  public final FluentIterable&lt;T&gt; preOrderTraversal(T root) {</span>
 <span class="source-line-no">119</span><span id="line-119">    checkNotNull(root);</span>
 <span class="source-line-no">120</span><span id="line-120">    return new FluentIterable&lt;T&gt;() {</span>
 <span class="source-line-no">121</span><span id="line-121">      @Override</span>
@@ -181,7 +181,7 @@
 <span class="source-line-no">168</span><span id="line-168">   *     has the same behavior.</span>
 <span class="source-line-no">169</span><span id="line-169">   */</span>
 <span class="source-line-no">170</span><span id="line-170">  @Deprecated</span>
-<span class="source-line-no">171</span><span id="line-171">  public final FluentIterable&lt;T&gt; postOrderTraversal(final T root) {</span>
+<span class="source-line-no">171</span><span id="line-171">  public final FluentIterable&lt;T&gt; postOrderTraversal(T root) {</span>
 <span class="source-line-no">172</span><span id="line-172">    checkNotNull(root);</span>
 <span class="source-line-no">173</span><span id="line-173">    return new FluentIterable&lt;T&gt;() {</span>
 <span class="source-line-no">174</span><span id="line-174">      @Override</span>
@@ -244,7 +244,7 @@
 <span class="source-line-no">231</span><span id="line-231">   *     same behavior.</span>
 <span class="source-line-no">232</span><span id="line-232">   */</span>
 <span class="source-line-no">233</span><span id="line-233">  @Deprecated</span>
-<span class="source-line-no">234</span><span id="line-234">  public final FluentIterable&lt;T&gt; breadthFirstTraversal(final T root) {</span>
+<span class="source-line-no">234</span><span id="line-234">  public final FluentIterable&lt;T&gt; breadthFirstTraversal(T root) {</span>
 <span class="source-line-no">235</span><span id="line-235">    checkNotNull(root);</span>
 <span class="source-line-no">236</span><span id="line-236">    return new FluentIterable&lt;T&gt;() {</span>
 <span class="source-line-no">237</span><span id="line-237">      @Override</span>

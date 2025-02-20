@@ -307,7 +307,7 @@
 <span class="source-line-no">294</span><span id="line-294">  // Static factories</span>
 <span class="source-line-no">295</span><span id="line-295"></span>
 <span class="source-line-no">296</span><span id="line-296">  /** Returns a {@code char} matcher that matches only one specified BMP character. */</span>
-<span class="source-line-no">297</span><span id="line-297">  public static CharMatcher is(final char match) {</span>
+<span class="source-line-no">297</span><span id="line-297">  public static CharMatcher is(char match) {</span>
 <span class="source-line-no">298</span><span id="line-298">    return new Is(match);</span>
 <span class="source-line-no">299</span><span id="line-299">  }</span>
 <span class="source-line-no">300</span><span id="line-300"></span>
@@ -316,7 +316,7 @@
 <span class="source-line-no">303</span><span id="line-303">   *</span>
 <span class="source-line-no">304</span><span id="line-304">   * &lt;p&gt;To negate another {@code CharMatcher}, use {@link #negate()}.</span>
 <span class="source-line-no">305</span><span id="line-305">   */</span>
-<span class="source-line-no">306</span><span id="line-306">  public static CharMatcher isNot(final char match) {</span>
+<span class="source-line-no">306</span><span id="line-306">  public static CharMatcher isNot(char match) {</span>
 <span class="source-line-no">307</span><span id="line-307">    return new IsNot(match);</span>
 <span class="source-line-no">308</span><span id="line-308">  }</span>
 <span class="source-line-no">309</span><span id="line-309"></span>
@@ -324,7 +324,7 @@
 <span class="source-line-no">311</span><span id="line-311">   * Returns a {@code char} matcher that matches any BMP character present in the given character</span>
 <span class="source-line-no">312</span><span id="line-312">   * sequence. Returns a bogus matcher if the sequence contains supplementary characters.</span>
 <span class="source-line-no">313</span><span id="line-313">   */</span>
-<span class="source-line-no">314</span><span id="line-314">  public static CharMatcher anyOf(final CharSequence sequence) {</span>
+<span class="source-line-no">314</span><span id="line-314">  public static CharMatcher anyOf(CharSequence sequence) {</span>
 <span class="source-line-no">315</span><span id="line-315">    switch (sequence.length()) {</span>
 <span class="source-line-no">316</span><span id="line-316">      case 0:</span>
 <span class="source-line-no">317</span><span id="line-317">        return none();</span>
@@ -354,7 +354,7 @@
 <span class="source-line-no">341</span><span id="line-341">   *</span>
 <span class="source-line-no">342</span><span id="line-342">   * @throws IllegalArgumentException if {@code endInclusive &lt; startInclusive}</span>
 <span class="source-line-no">343</span><span id="line-343">   */</span>
-<span class="source-line-no">344</span><span id="line-344">  public static CharMatcher inRange(final char startInclusive, final char endInclusive) {</span>
+<span class="source-line-no">344</span><span id="line-344">  public static CharMatcher inRange(char startInclusive, char endInclusive) {</span>
 <span class="source-line-no">345</span><span id="line-345">    return new InRange(startInclusive, endInclusive);</span>
 <span class="source-line-no">346</span><span id="line-346">  }</span>
 <span class="source-line-no">347</span><span id="line-347"></span>
@@ -362,7 +362,7 @@
 <span class="source-line-no">349</span><span id="line-349">   * Returns a matcher with identical behavior to the given {@link Character}-based predicate, but</span>
 <span class="source-line-no">350</span><span id="line-350">   * which operates on primitive {@code char} instances instead.</span>
 <span class="source-line-no">351</span><span id="line-351">   */</span>
-<span class="source-line-no">352</span><span id="line-352">  public static CharMatcher forPredicate(final Predicate&lt;? super Character&gt; predicate) {</span>
+<span class="source-line-no">352</span><span id="line-352">  public static CharMatcher forPredicate(Predicate&lt;? super Character&gt; predicate) {</span>
 <span class="source-line-no">353</span><span id="line-353">    return predicate instanceof CharMatcher ? (CharMatcher) predicate : new ForPredicate(predicate);</span>
 <span class="source-line-no">354</span><span id="line-354">  }</span>
 <span class="source-line-no">355</span><span id="line-355"></span>
@@ -429,7 +429,7 @@
 <span class="source-line-no">416</span><span id="line-416">   */</span>
 <span class="source-line-no">417</span><span id="line-417">  @GwtIncompatible // SmallCharMatcher</span>
 <span class="source-line-no">418</span><span id="line-418">  CharMatcher precomputedInternal() {</span>
-<span class="source-line-no">419</span><span id="line-419">    final BitSet table = new BitSet();</span>
+<span class="source-line-no">419</span><span id="line-419">    BitSet table = new BitSet();</span>
 <span class="source-line-no">420</span><span id="line-420">    setBits(table);</span>
 <span class="source-line-no">421</span><span id="line-421">    int totalCharacters = table.cardinality();</span>
 <span class="source-line-no">422</span><span id="line-422">    if (totalCharacters * 2 &lt;= DISTINCT_CHARS) {</span>
@@ -439,7 +439,7 @@
 <span class="source-line-no">426</span><span id="line-426">      table.flip(Character.MIN_VALUE, Character.MAX_VALUE + 1);</span>
 <span class="source-line-no">427</span><span id="line-427">      int negatedCharacters = DISTINCT_CHARS - totalCharacters;</span>
 <span class="source-line-no">428</span><span id="line-428">      String suffix = ".negate()";</span>
-<span class="source-line-no">429</span><span id="line-429">      final String description = toString();</span>
+<span class="source-line-no">429</span><span id="line-429">      String description = toString();</span>
 <span class="source-line-no">430</span><span id="line-430">      String negatedDescription =</span>
 <span class="source-line-no">431</span><span id="line-431">          description.endsWith(suffix)</span>
 <span class="source-line-no">432</span><span id="line-432">              ? description.substring(0, description.length() - suffix.length())</span>

@@ -156,15 +156,17 @@
 <span class="source-line-no">143</span><span id="line-143">  }</span>
 <span class="source-line-no">144</span><span id="line-144"></span>
 <span class="source-line-no">145</span><span id="line-145">  @Override</span>
-<span class="source-line-no">146</span><span id="line-146">  public boolean equals(@Nullable Object object) {</span>
-<span class="source-line-no">147</span><span id="line-147">    return object == this || delegate().equals(object);</span>
-<span class="source-line-no">148</span><span id="line-148">  }</span>
-<span class="source-line-no">149</span><span id="line-149"></span>
-<span class="source-line-no">150</span><span id="line-150">  @Override</span>
-<span class="source-line-no">151</span><span id="line-151">  public int hashCode() {</span>
-<span class="source-line-no">152</span><span id="line-152">    return delegate().hashCode();</span>
-<span class="source-line-no">153</span><span id="line-153">  }</span>
-<span class="source-line-no">154</span><span id="line-154">}</span>
+<span class="source-line-no">146</span><span id="line-146">  // A forwarding implementation can't do any better than the underlying object.</span>
+<span class="source-line-no">147</span><span id="line-147">  @SuppressWarnings("UndefinedEquals")</span>
+<span class="source-line-no">148</span><span id="line-148">  public boolean equals(@Nullable Object object) {</span>
+<span class="source-line-no">149</span><span id="line-149">    return object == this || delegate().equals(object);</span>
+<span class="source-line-no">150</span><span id="line-150">  }</span>
+<span class="source-line-no">151</span><span id="line-151"></span>
+<span class="source-line-no">152</span><span id="line-152">  @Override</span>
+<span class="source-line-no">153</span><span id="line-153">  public int hashCode() {</span>
+<span class="source-line-no">154</span><span id="line-154">    return delegate().hashCode();</span>
+<span class="source-line-no">155</span><span id="line-155">  }</span>
+<span class="source-line-no">156</span><span id="line-156">}</span>
 
 
 

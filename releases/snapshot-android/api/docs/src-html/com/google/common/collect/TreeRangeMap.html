@@ -528,7 +528,7 @@
 <span class="source-line-no">515</span><span id="line-515">          if (subRange.isEmpty()) {</span>
 <span class="source-line-no">516</span><span id="line-516">            return emptyIterator();</span>
 <span class="source-line-no">517</span><span id="line-517">          }</span>
-<span class="source-line-no">518</span><span id="line-518">          final Iterator&lt;RangeMapEntry&lt;K, V&gt;&gt; backingItr =</span>
+<span class="source-line-no">518</span><span id="line-518">          Iterator&lt;RangeMapEntry&lt;K, V&gt;&gt; backingItr =</span>
 <span class="source-line-no">519</span><span id="line-519">              entriesByLowerBound</span>
 <span class="source-line-no">520</span><span id="line-520">                  .headMap(subRange.upperBound, false)</span>
 <span class="source-line-no">521</span><span id="line-521">                  .descendingMap()</span>
@@ -694,7 +694,7 @@
 <span class="source-line-no">681</span><span id="line-681">        Cut&lt;K&gt; cutToStart =</span>
 <span class="source-line-no">682</span><span id="line-682">            MoreObjects.firstNonNull(</span>
 <span class="source-line-no">683</span><span id="line-683">                entriesByLowerBound.floorKey(subRange.lowerBound), subRange.lowerBound);</span>
-<span class="source-line-no">684</span><span id="line-684">        final Iterator&lt;RangeMapEntry&lt;K, V&gt;&gt; backingItr =</span>
+<span class="source-line-no">684</span><span id="line-684">        Iterator&lt;RangeMapEntry&lt;K, V&gt;&gt; backingItr =</span>
 <span class="source-line-no">685</span><span id="line-685">            entriesByLowerBound.tailMap(cutToStart, true).values().iterator();</span>
 <span class="source-line-no">686</span><span id="line-686">        return new AbstractIterator&lt;Entry&lt;Range&lt;K&gt;, V&gt;&gt;() {</span>
 <span class="source-line-no">687</span><span id="line-687"></span>

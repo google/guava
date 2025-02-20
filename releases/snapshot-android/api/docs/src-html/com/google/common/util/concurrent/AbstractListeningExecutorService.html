@@ -28,71 +28,69 @@
 <span class="source-line-no">015</span><span id="line-15">package com.google.common.util.concurrent;</span>
 <span class="source-line-no">016</span><span id="line-16"></span>
 <span class="source-line-no">017</span><span id="line-17">import com.google.common.annotations.GwtIncompatible;</span>
-<span class="source-line-no">018</span><span id="line-18">import com.google.common.annotations.J2ktIncompatible;</span>
-<span class="source-line-no">019</span><span id="line-19">import com.google.errorprone.annotations.CanIgnoreReturnValue;</span>
-<span class="source-line-no">020</span><span id="line-20">import com.google.errorprone.annotations.CheckReturnValue;</span>
-<span class="source-line-no">021</span><span id="line-21">import java.util.concurrent.AbstractExecutorService;</span>
-<span class="source-line-no">022</span><span id="line-22">import java.util.concurrent.Callable;</span>
-<span class="source-line-no">023</span><span id="line-23">import java.util.concurrent.RunnableFuture;</span>
-<span class="source-line-no">024</span><span id="line-24">import org.jspecify.annotations.Nullable;</span>
-<span class="source-line-no">025</span><span id="line-25"></span>
-<span class="source-line-no">026</span><span id="line-26">/**</span>
-<span class="source-line-no">027</span><span id="line-27"> * Abstract {@link ListeningExecutorService} implementation that creates {@link ListenableFuture}</span>
-<span class="source-line-no">028</span><span id="line-28"> * instances for each {@link Runnable} and {@link Callable} submitted to it. These tasks are run</span>
-<span class="source-line-no">029</span><span id="line-29"> * with the abstract {@link #execute execute(Runnable)} method.</span>
-<span class="source-line-no">030</span><span id="line-30"> *</span>
-<span class="source-line-no">031</span><span id="line-31"> * &lt;p&gt;In addition to {@link #execute}, subclasses must implement all methods related to shutdown and</span>
-<span class="source-line-no">032</span><span id="line-32"> * termination.</span>
-<span class="source-line-no">033</span><span id="line-33"> *</span>
-<span class="source-line-no">034</span><span id="line-34"> * @author Chris Povirk</span>
-<span class="source-line-no">035</span><span id="line-35"> * @since 14.0</span>
-<span class="source-line-no">036</span><span id="line-36"> */</span>
-<span class="source-line-no">037</span><span id="line-37">@CheckReturnValue</span>
-<span class="source-line-no">038</span><span id="line-38">@GwtIncompatible</span>
-<span class="source-line-no">039</span><span id="line-39">@J2ktIncompatible</span>
-<span class="source-line-no">040</span><span id="line-40">public abstract class AbstractListeningExecutorService extends AbstractExecutorService</span>
-<span class="source-line-no">041</span><span id="line-41">    implements ListeningExecutorService {</span>
-<span class="source-line-no">042</span><span id="line-42">  /** Constructor for use by subclasses. */</span>
-<span class="source-line-no">043</span><span id="line-43">  public AbstractListeningExecutorService() {}</span>
-<span class="source-line-no">044</span><span id="line-44"></span>
-<span class="source-line-no">045</span><span id="line-45">  /**</span>
-<span class="source-line-no">046</span><span id="line-46">   * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)</span>
-<span class="source-line-no">047</span><span id="line-47">   */</span>
-<span class="source-line-no">048</span><span id="line-48">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
-<span class="source-line-no">049</span><span id="line-49">  @Override</span>
-<span class="source-line-no">050</span><span id="line-50">  protected final &lt;T extends @Nullable Object&gt; RunnableFuture&lt;T&gt; newTaskFor(</span>
-<span class="source-line-no">051</span><span id="line-51">      Runnable runnable, @ParametricNullness T value) {</span>
-<span class="source-line-no">052</span><span id="line-52">    return TrustedListenableFutureTask.create(runnable, value);</span>
-<span class="source-line-no">053</span><span id="line-53">  }</span>
-<span class="source-line-no">054</span><span id="line-54"></span>
-<span class="source-line-no">055</span><span id="line-55">  /**</span>
-<span class="source-line-no">056</span><span id="line-56">   * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)</span>
-<span class="source-line-no">057</span><span id="line-57">   */</span>
-<span class="source-line-no">058</span><span id="line-58">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
-<span class="source-line-no">059</span><span id="line-59">  @Override</span>
-<span class="source-line-no">060</span><span id="line-60">  protected final &lt;T extends @Nullable Object&gt; RunnableFuture&lt;T&gt; newTaskFor(Callable&lt;T&gt; callable) {</span>
-<span class="source-line-no">061</span><span id="line-61">    return TrustedListenableFutureTask.create(callable);</span>
-<span class="source-line-no">062</span><span id="line-62">  }</span>
-<span class="source-line-no">063</span><span id="line-63"></span>
-<span class="source-line-no">064</span><span id="line-64">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
-<span class="source-line-no">065</span><span id="line-65">  @Override</span>
-<span class="source-line-no">066</span><span id="line-66">  public ListenableFuture&lt;?&gt; submit(Runnable task) {</span>
-<span class="source-line-no">067</span><span id="line-67">    return (ListenableFuture&lt;?&gt;) super.submit(task);</span>
-<span class="source-line-no">068</span><span id="line-68">  }</span>
-<span class="source-line-no">069</span><span id="line-69"></span>
-<span class="source-line-no">070</span><span id="line-70">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
-<span class="source-line-no">071</span><span id="line-71">  @Override</span>
-<span class="source-line-no">072</span><span id="line-72">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submit(</span>
-<span class="source-line-no">073</span><span id="line-73">      Runnable task, @ParametricNullness T result) {</span>
-<span class="source-line-no">074</span><span id="line-74">    return (ListenableFuture&lt;T&gt;) super.submit(task, result);</span>
-<span class="source-line-no">075</span><span id="line-75">  }</span>
-<span class="source-line-no">076</span><span id="line-76"></span>
-<span class="source-line-no">077</span><span id="line-77">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
-<span class="source-line-no">078</span><span id="line-78">  @Override</span>
-<span class="source-line-no">079</span><span id="line-79">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submit(Callable&lt;T&gt; task) {</span>
-<span class="source-line-no">080</span><span id="line-80">    return (ListenableFuture&lt;T&gt;) super.submit(task);</span>
-<span class="source-line-no">081</span><span id="line-81">  }</span>
-<span class="source-line-no">082</span><span id="line-82">}</span>
+<span class="source-line-no">018</span><span id="line-18">import com.google.errorprone.annotations.CanIgnoreReturnValue;</span>
+<span class="source-line-no">019</span><span id="line-19">import com.google.errorprone.annotations.CheckReturnValue;</span>
+<span class="source-line-no">020</span><span id="line-20">import java.util.concurrent.AbstractExecutorService;</span>
+<span class="source-line-no">021</span><span id="line-21">import java.util.concurrent.Callable;</span>
+<span class="source-line-no">022</span><span id="line-22">import java.util.concurrent.RunnableFuture;</span>
+<span class="source-line-no">023</span><span id="line-23">import org.jspecify.annotations.Nullable;</span>
+<span class="source-line-no">024</span><span id="line-24"></span>
+<span class="source-line-no">025</span><span id="line-25">/**</span>
+<span class="source-line-no">026</span><span id="line-26"> * Abstract {@link ListeningExecutorService} implementation that creates {@link ListenableFuture}</span>
+<span class="source-line-no">027</span><span id="line-27"> * instances for each {@link Runnable} and {@link Callable} submitted to it. These tasks are run</span>
+<span class="source-line-no">028</span><span id="line-28"> * with the abstract {@link #execute execute(Runnable)} method.</span>
+<span class="source-line-no">029</span><span id="line-29"> *</span>
+<span class="source-line-no">030</span><span id="line-30"> * &lt;p&gt;In addition to {@link #execute}, subclasses must implement all methods related to shutdown and</span>
+<span class="source-line-no">031</span><span id="line-31"> * termination.</span>
+<span class="source-line-no">032</span><span id="line-32"> *</span>
+<span class="source-line-no">033</span><span id="line-33"> * @author Chris Povirk</span>
+<span class="source-line-no">034</span><span id="line-34"> * @since 14.0</span>
+<span class="source-line-no">035</span><span id="line-35"> */</span>
+<span class="source-line-no">036</span><span id="line-36">@CheckReturnValue</span>
+<span class="source-line-no">037</span><span id="line-37">@GwtIncompatible</span>
+<span class="source-line-no">038</span><span id="line-38">public abstract class AbstractListeningExecutorService extends AbstractExecutorService</span>
+<span class="source-line-no">039</span><span id="line-39">    implements ListeningExecutorService {</span>
+<span class="source-line-no">040</span><span id="line-40">  /** Constructor for use by subclasses. */</span>
+<span class="source-line-no">041</span><span id="line-41">  public AbstractListeningExecutorService() {}</span>
+<span class="source-line-no">042</span><span id="line-42"></span>
+<span class="source-line-no">043</span><span id="line-43">  /**</span>
+<span class="source-line-no">044</span><span id="line-44">   * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)</span>
+<span class="source-line-no">045</span><span id="line-45">   */</span>
+<span class="source-line-no">046</span><span id="line-46">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
+<span class="source-line-no">047</span><span id="line-47">  @Override</span>
+<span class="source-line-no">048</span><span id="line-48">  protected final &lt;T extends @Nullable Object&gt; RunnableFuture&lt;T&gt; newTaskFor(</span>
+<span class="source-line-no">049</span><span id="line-49">      Runnable runnable, @ParametricNullness T value) {</span>
+<span class="source-line-no">050</span><span id="line-50">    return TrustedListenableFutureTask.create(runnable, value);</span>
+<span class="source-line-no">051</span><span id="line-51">  }</span>
+<span class="source-line-no">052</span><span id="line-52"></span>
+<span class="source-line-no">053</span><span id="line-53">  /**</span>
+<span class="source-line-no">054</span><span id="line-54">   * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)</span>
+<span class="source-line-no">055</span><span id="line-55">   */</span>
+<span class="source-line-no">056</span><span id="line-56">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
+<span class="source-line-no">057</span><span id="line-57">  @Override</span>
+<span class="source-line-no">058</span><span id="line-58">  protected final &lt;T extends @Nullable Object&gt; RunnableFuture&lt;T&gt; newTaskFor(Callable&lt;T&gt; callable) {</span>
+<span class="source-line-no">059</span><span id="line-59">    return TrustedListenableFutureTask.create(callable);</span>
+<span class="source-line-no">060</span><span id="line-60">  }</span>
+<span class="source-line-no">061</span><span id="line-61"></span>
+<span class="source-line-no">062</span><span id="line-62">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
+<span class="source-line-no">063</span><span id="line-63">  @Override</span>
+<span class="source-line-no">064</span><span id="line-64">  public ListenableFuture&lt;?&gt; submit(Runnable task) {</span>
+<span class="source-line-no">065</span><span id="line-65">    return (ListenableFuture&lt;?&gt;) super.submit(task);</span>
+<span class="source-line-no">066</span><span id="line-66">  }</span>
+<span class="source-line-no">067</span><span id="line-67"></span>
+<span class="source-line-no">068</span><span id="line-68">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
+<span class="source-line-no">069</span><span id="line-69">  @Override</span>
+<span class="source-line-no">070</span><span id="line-70">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submit(</span>
+<span class="source-line-no">071</span><span id="line-71">      Runnable task, @ParametricNullness T result) {</span>
+<span class="source-line-no">072</span><span id="line-72">    return (ListenableFuture&lt;T&gt;) super.submit(task, result);</span>
+<span class="source-line-no">073</span><span id="line-73">  }</span>
+<span class="source-line-no">074</span><span id="line-74"></span>
+<span class="source-line-no">075</span><span id="line-75">  @CanIgnoreReturnValue // TODO(kak): consider removing this</span>
+<span class="source-line-no">076</span><span id="line-76">  @Override</span>
+<span class="source-line-no">077</span><span id="line-77">  public &lt;T extends @Nullable Object&gt; ListenableFuture&lt;T&gt; submit(Callable&lt;T&gt; task) {</span>
+<span class="source-line-no">078</span><span id="line-78">    return (ListenableFuture&lt;T&gt;) super.submit(task);</span>
+<span class="source-line-no">079</span><span id="line-79">  }</span>
+<span class="source-line-no">080</span><span id="line-80">}</span>
 
 
 

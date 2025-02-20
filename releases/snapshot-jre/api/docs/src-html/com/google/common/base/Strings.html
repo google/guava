@@ -169,14 +169,14 @@
 <span class="source-line-no">156</span><span id="line-156">    }</span>
 <span class="source-line-no">157</span><span id="line-157"></span>
 <span class="source-line-no">158</span><span id="line-158">    // IF YOU MODIFY THE CODE HERE, you must update StringsRepeatBenchmark</span>
-<span class="source-line-no">159</span><span id="line-159">    final int len = string.length();</span>
-<span class="source-line-no">160</span><span id="line-160">    final long longSize = (long) len * (long) count;</span>
-<span class="source-line-no">161</span><span id="line-161">    final int size = (int) longSize;</span>
+<span class="source-line-no">159</span><span id="line-159">    int len = string.length();</span>
+<span class="source-line-no">160</span><span id="line-160">    long longSize = (long) len * (long) count;</span>
+<span class="source-line-no">161</span><span id="line-161">    int size = (int) longSize;</span>
 <span class="source-line-no">162</span><span id="line-162">    if (size != longSize) {</span>
 <span class="source-line-no">163</span><span id="line-163">      throw new ArrayIndexOutOfBoundsException("Required array size too large: " + longSize);</span>
 <span class="source-line-no">164</span><span id="line-164">    }</span>
 <span class="source-line-no">165</span><span id="line-165"></span>
-<span class="source-line-no">166</span><span id="line-166">    final char[] array = new char[size];</span>
+<span class="source-line-no">166</span><span id="line-166">    char[] array = new char[size];</span>
 <span class="source-line-no">167</span><span id="line-167">    string.getChars(0, len, array, 0);</span>
 <span class="source-line-no">168</span><span id="line-168">    int n;</span>
 <span class="source-line-no">169</span><span id="line-169">    for (n = len; n &lt; size - n; n &lt;&lt;= 1) {</span>

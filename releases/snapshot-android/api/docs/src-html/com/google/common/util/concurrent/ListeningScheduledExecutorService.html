@@ -28,53 +28,51 @@
 <span class="source-line-no">015</span><span id="line-15">package com.google.common.util.concurrent;</span>
 <span class="source-line-no">016</span><span id="line-16"></span>
 <span class="source-line-no">017</span><span id="line-17">import com.google.common.annotations.GwtIncompatible;</span>
-<span class="source-line-no">018</span><span id="line-18">import com.google.common.annotations.J2ktIncompatible;</span>
-<span class="source-line-no">019</span><span id="line-19">import java.util.concurrent.Callable;</span>
-<span class="source-line-no">020</span><span id="line-20">import java.util.concurrent.ScheduledExecutorService;</span>
-<span class="source-line-no">021</span><span id="line-21">import java.util.concurrent.TimeUnit;</span>
-<span class="source-line-no">022</span><span id="line-22">import org.jspecify.annotations.Nullable;</span>
-<span class="source-line-no">023</span><span id="line-23"></span>
-<span class="source-line-no">024</span><span id="line-24">/**</span>
-<span class="source-line-no">025</span><span id="line-25"> * A {@link ScheduledExecutorService} that returns {@link ListenableFuture} instances from its</span>
-<span class="source-line-no">026</span><span id="line-26"> * {@code ExecutorService} methods. To create an instance from an existing {@link</span>
-<span class="source-line-no">027</span><span id="line-27"> * ScheduledExecutorService}, call {@link</span>
-<span class="source-line-no">028</span><span id="line-28"> * MoreExecutors#listeningDecorator(ScheduledExecutorService)}.</span>
-<span class="source-line-no">029</span><span id="line-29"> *</span>
-<span class="source-line-no">030</span><span id="line-30"> * @author Chris Povirk</span>
-<span class="source-line-no">031</span><span id="line-31"> * @since 10.0</span>
-<span class="source-line-no">032</span><span id="line-32"> */</span>
-<span class="source-line-no">033</span><span id="line-33">@J2ktIncompatible</span>
-<span class="source-line-no">034</span><span id="line-34">@GwtIncompatible</span>
-<span class="source-line-no">035</span><span id="line-35">public interface ListeningScheduledExecutorService</span>
-<span class="source-line-no">036</span><span id="line-36">    extends ScheduledExecutorService, ListeningExecutorService {</span>
-<span class="source-line-no">037</span><span id="line-37"></span>
-<span class="source-line-no">038</span><span id="line-38">  /**</span>
-<span class="source-line-no">039</span><span id="line-39">   * @since 15.0 (previously returned ScheduledFuture)</span>
-<span class="source-line-no">040</span><span id="line-40">   */</span>
-<span class="source-line-no">041</span><span id="line-41">  @Override</span>
-<span class="source-line-no">042</span><span id="line-42">  ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, long delay, TimeUnit unit);</span>
-<span class="source-line-no">043</span><span id="line-43"></span>
-<span class="source-line-no">044</span><span id="line-44">  /**</span>
-<span class="source-line-no">045</span><span id="line-45">   * @since 15.0 (previously returned ScheduledFuture)</span>
-<span class="source-line-no">046</span><span id="line-46">   */</span>
-<span class="source-line-no">047</span><span id="line-47">  @Override</span>
-<span class="source-line-no">048</span><span id="line-48">  &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</span>
-<span class="source-line-no">049</span><span id="line-49">      Callable&lt;V&gt; callable, long delay, TimeUnit unit);</span>
-<span class="source-line-no">050</span><span id="line-50"></span>
-<span class="source-line-no">051</span><span id="line-51">  /**</span>
-<span class="source-line-no">052</span><span id="line-52">   * @since 15.0 (previously returned ScheduledFuture)</span>
-<span class="source-line-no">053</span><span id="line-53">   */</span>
-<span class="source-line-no">054</span><span id="line-54">  @Override</span>
-<span class="source-line-no">055</span><span id="line-55">  ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</span>
-<span class="source-line-no">056</span><span id="line-56">      Runnable command, long initialDelay, long period, TimeUnit unit);</span>
-<span class="source-line-no">057</span><span id="line-57"></span>
-<span class="source-line-no">058</span><span id="line-58">  /**</span>
-<span class="source-line-no">059</span><span id="line-59">   * @since 15.0 (previously returned ScheduledFuture)</span>
-<span class="source-line-no">060</span><span id="line-60">   */</span>
-<span class="source-line-no">061</span><span id="line-61">  @Override</span>
-<span class="source-line-no">062</span><span id="line-62">  ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</span>
-<span class="source-line-no">063</span><span id="line-63">      Runnable command, long initialDelay, long delay, TimeUnit unit);</span>
-<span class="source-line-no">064</span><span id="line-64">}</span>
+<span class="source-line-no">018</span><span id="line-18">import java.util.concurrent.Callable;</span>
+<span class="source-line-no">019</span><span id="line-19">import java.util.concurrent.ScheduledExecutorService;</span>
+<span class="source-line-no">020</span><span id="line-20">import java.util.concurrent.TimeUnit;</span>
+<span class="source-line-no">021</span><span id="line-21">import org.jspecify.annotations.Nullable;</span>
+<span class="source-line-no">022</span><span id="line-22"></span>
+<span class="source-line-no">023</span><span id="line-23">/**</span>
+<span class="source-line-no">024</span><span id="line-24"> * A {@link ScheduledExecutorService} that returns {@link ListenableFuture} instances from its</span>
+<span class="source-line-no">025</span><span id="line-25"> * {@code ExecutorService} methods. To create an instance from an existing {@link</span>
+<span class="source-line-no">026</span><span id="line-26"> * ScheduledExecutorService}, call {@link</span>
+<span class="source-line-no">027</span><span id="line-27"> * MoreExecutors#listeningDecorator(ScheduledExecutorService)}.</span>
+<span class="source-line-no">028</span><span id="line-28"> *</span>
+<span class="source-line-no">029</span><span id="line-29"> * @author Chris Povirk</span>
+<span class="source-line-no">030</span><span id="line-30"> * @since 10.0</span>
+<span class="source-line-no">031</span><span id="line-31"> */</span>
+<span class="source-line-no">032</span><span id="line-32">@GwtIncompatible</span>
+<span class="source-line-no">033</span><span id="line-33">public interface ListeningScheduledExecutorService</span>
+<span class="source-line-no">034</span><span id="line-34">    extends ScheduledExecutorService, ListeningExecutorService {</span>
+<span class="source-line-no">035</span><span id="line-35"></span>
+<span class="source-line-no">036</span><span id="line-36">  /**</span>
+<span class="source-line-no">037</span><span id="line-37">   * @since 15.0 (previously returned ScheduledFuture)</span>
+<span class="source-line-no">038</span><span id="line-38">   */</span>
+<span class="source-line-no">039</span><span id="line-39">  @Override</span>
+<span class="source-line-no">040</span><span id="line-40">  ListenableScheduledFuture&lt;?&gt; schedule(Runnable command, long delay, TimeUnit unit);</span>
+<span class="source-line-no">041</span><span id="line-41"></span>
+<span class="source-line-no">042</span><span id="line-42">  /**</span>
+<span class="source-line-no">043</span><span id="line-43">   * @since 15.0 (previously returned ScheduledFuture)</span>
+<span class="source-line-no">044</span><span id="line-44">   */</span>
+<span class="source-line-no">045</span><span id="line-45">  @Override</span>
+<span class="source-line-no">046</span><span id="line-46">  &lt;V extends @Nullable Object&gt; ListenableScheduledFuture&lt;V&gt; schedule(</span>
+<span class="source-line-no">047</span><span id="line-47">      Callable&lt;V&gt; callable, long delay, TimeUnit unit);</span>
+<span class="source-line-no">048</span><span id="line-48"></span>
+<span class="source-line-no">049</span><span id="line-49">  /**</span>
+<span class="source-line-no">050</span><span id="line-50">   * @since 15.0 (previously returned ScheduledFuture)</span>
+<span class="source-line-no">051</span><span id="line-51">   */</span>
+<span class="source-line-no">052</span><span id="line-52">  @Override</span>
+<span class="source-line-no">053</span><span id="line-53">  ListenableScheduledFuture&lt;?&gt; scheduleAtFixedRate(</span>
+<span class="source-line-no">054</span><span id="line-54">      Runnable command, long initialDelay, long period, TimeUnit unit);</span>
+<span class="source-line-no">055</span><span id="line-55"></span>
+<span class="source-line-no">056</span><span id="line-56">  /**</span>
+<span class="source-line-no">057</span><span id="line-57">   * @since 15.0 (previously returned ScheduledFuture)</span>
+<span class="source-line-no">058</span><span id="line-58">   */</span>
+<span class="source-line-no">059</span><span id="line-59">  @Override</span>
+<span class="source-line-no">060</span><span id="line-60">  ListenableScheduledFuture&lt;?&gt; scheduleWithFixedDelay(</span>
+<span class="source-line-no">061</span><span id="line-61">      Runnable command, long initialDelay, long delay, TimeUnit unit);</span>
+<span class="source-line-no">062</span><span id="line-62">}</span>
 
 
 

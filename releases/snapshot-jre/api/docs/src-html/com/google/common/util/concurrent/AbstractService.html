@@ -104,7 +104,7 @@
 <span class="source-line-no">091</span><span id="line-91">  private static final ListenerCallQueue.Event&lt;Listener&gt; TERMINATED_FROM_STOPPING_EVENT =</span>
 <span class="source-line-no">092</span><span id="line-92">      terminatedEvent(STOPPING);</span>
 <span class="source-line-no">093</span><span id="line-93"></span>
-<span class="source-line-no">094</span><span id="line-94">  private static ListenerCallQueue.Event&lt;Listener&gt; terminatedEvent(final State from) {</span>
+<span class="source-line-no">094</span><span id="line-94">  private static ListenerCallQueue.Event&lt;Listener&gt; terminatedEvent(State from) {</span>
 <span class="source-line-no">095</span><span id="line-95">    return new ListenerCallQueue.Event&lt;Listener&gt;() {</span>
 <span class="source-line-no">096</span><span id="line-96">      @Override</span>
 <span class="source-line-no">097</span><span id="line-97">      public void call(Listener listener) {</span>
@@ -118,7 +118,7 @@
 <span class="source-line-no">105</span><span id="line-105">    };</span>
 <span class="source-line-no">106</span><span id="line-106">  }</span>
 <span class="source-line-no">107</span><span id="line-107"></span>
-<span class="source-line-no">108</span><span id="line-108">  private static ListenerCallQueue.Event&lt;Listener&gt; stoppingEvent(final State from) {</span>
+<span class="source-line-no">108</span><span id="line-108">  private static ListenerCallQueue.Event&lt;Listener&gt; stoppingEvent(State from) {</span>
 <span class="source-line-no">109</span><span id="line-109">    return new ListenerCallQueue.Event&lt;Listener&gt;() {</span>
 <span class="source-line-no">110</span><span id="line-110">      @Override</span>
 <span class="source-line-no">111</span><span id="line-111">      public void call(Listener listener) {</span>
@@ -548,7 +548,7 @@
 <span class="source-line-no">535</span><span id="line-535">    listeners.enqueue(RUNNING_EVENT);</span>
 <span class="source-line-no">536</span><span id="line-536">  }</span>
 <span class="source-line-no">537</span><span id="line-537"></span>
-<span class="source-line-no">538</span><span id="line-538">  private void enqueueStoppingEvent(final State from) {</span>
+<span class="source-line-no">538</span><span id="line-538">  private void enqueueStoppingEvent(State from) {</span>
 <span class="source-line-no">539</span><span id="line-539">    if (from == State.STARTING) {</span>
 <span class="source-line-no">540</span><span id="line-540">      listeners.enqueue(STOPPING_FROM_STARTING_EVENT);</span>
 <span class="source-line-no">541</span><span id="line-541">    } else if (from == State.RUNNING) {</span>
@@ -558,7 +558,7 @@
 <span class="source-line-no">545</span><span id="line-545">    }</span>
 <span class="source-line-no">546</span><span id="line-546">  }</span>
 <span class="source-line-no">547</span><span id="line-547"></span>
-<span class="source-line-no">548</span><span id="line-548">  private void enqueueTerminatedEvent(final State from) {</span>
+<span class="source-line-no">548</span><span id="line-548">  private void enqueueTerminatedEvent(State from) {</span>
 <span class="source-line-no">549</span><span id="line-549">    switch (from) {</span>
 <span class="source-line-no">550</span><span id="line-550">      case NEW:</span>
 <span class="source-line-no">551</span><span id="line-551">        listeners.enqueue(TERMINATED_FROM_NEW_EVENT);</span>
@@ -578,7 +578,7 @@
 <span class="source-line-no">565</span><span id="line-565">    }</span>
 <span class="source-line-no">566</span><span id="line-566">  }</span>
 <span class="source-line-no">567</span><span id="line-567"></span>
-<span class="source-line-no">568</span><span id="line-568">  private void enqueueFailedEvent(final State from, final Throwable cause) {</span>
+<span class="source-line-no">568</span><span id="line-568">  private void enqueueFailedEvent(State from, Throwable cause) {</span>
 <span class="source-line-no">569</span><span id="line-569">    // can't memoize this one due to the exception</span>
 <span class="source-line-no">570</span><span id="line-570">    listeners.enqueue(</span>
 <span class="source-line-no">571</span><span id="line-571">        new ListenerCallQueue.Event&lt;Listener&gt;() {</span>

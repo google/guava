@@ -195,7 +195,7 @@
 <span class="source-line-no">182</span><span id="line-182">    }</span>
 <span class="source-line-no">183</span><span id="line-183"></span>
 <span class="source-line-no">184</span><span id="line-184">    @Override</span>
-<span class="source-line-no">185</span><span id="line-185">    public boolean removeAll(final Collection&lt;?&gt; collection) {</span>
+<span class="source-line-no">185</span><span id="line-185">    public boolean removeAll(Collection&lt;?&gt; collection) {</span>
 <span class="source-line-no">186</span><span id="line-186">      boolean changed = false;</span>
 <span class="source-line-no">187</span><span id="line-187">      Iterator&lt;E&gt; itr = unfiltered.iterator();</span>
 <span class="source-line-no">188</span><span id="line-188">      while (itr.hasNext()) {</span>
@@ -209,7 +209,7 @@
 <span class="source-line-no">196</span><span id="line-196">    }</span>
 <span class="source-line-no">197</span><span id="line-197"></span>
 <span class="source-line-no">198</span><span id="line-198">    @Override</span>
-<span class="source-line-no">199</span><span id="line-199">    public boolean retainAll(final Collection&lt;?&gt; collection) {</span>
+<span class="source-line-no">199</span><span id="line-199">    public boolean retainAll(Collection&lt;?&gt; collection) {</span>
 <span class="source-line-no">200</span><span id="line-200">      boolean changed = false;</span>
 <span class="source-line-no">201</span><span id="line-201">      Iterator&lt;E&gt; itr = unfiltered.iterator();</span>
 <span class="source-line-no">202</span><span id="line-202">      while (itr.hasNext()) {</span>
@@ -322,7 +322,7 @@
 <span class="source-line-no">309</span><span id="line-309">  }</span>
 <span class="source-line-no">310</span><span id="line-310"></span>
 <span class="source-line-no">311</span><span id="line-311">  /** An implementation of {@link Collection#toString()}. */</span>
-<span class="source-line-no">312</span><span id="line-312">  static String toStringImpl(final Collection&lt;?&gt; collection) {</span>
+<span class="source-line-no">312</span><span id="line-312">  static String toStringImpl(Collection&lt;?&gt; collection) {</span>
 <span class="source-line-no">313</span><span id="line-313">    StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');</span>
 <span class="source-line-no">314</span><span id="line-314">    boolean first = true;</span>
 <span class="source-line-no">315</span><span id="line-315">    for (Object o : collection) {</span>

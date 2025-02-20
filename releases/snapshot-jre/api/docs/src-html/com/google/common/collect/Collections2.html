@@ -213,12 +213,12 @@
 <span class="source-line-no">200</span><span id="line-200">    }</span>
 <span class="source-line-no">201</span><span id="line-201"></span>
 <span class="source-line-no">202</span><span id="line-202">    @Override</span>
-<span class="source-line-no">203</span><span id="line-203">    public boolean removeAll(final Collection&lt;?&gt; collection) {</span>
+<span class="source-line-no">203</span><span id="line-203">    public boolean removeAll(Collection&lt;?&gt; collection) {</span>
 <span class="source-line-no">204</span><span id="line-204">      return removeIf(collection::contains);</span>
 <span class="source-line-no">205</span><span id="line-205">    }</span>
 <span class="source-line-no">206</span><span id="line-206"></span>
 <span class="source-line-no">207</span><span id="line-207">    @Override</span>
-<span class="source-line-no">208</span><span id="line-208">    public boolean retainAll(final Collection&lt;?&gt; collection) {</span>
+<span class="source-line-no">208</span><span id="line-208">    public boolean retainAll(Collection&lt;?&gt; collection) {</span>
 <span class="source-line-no">209</span><span id="line-209">      return removeIf(element -&gt; !collection.contains(element));</span>
 <span class="source-line-no">210</span><span id="line-210">    }</span>
 <span class="source-line-no">211</span><span id="line-211"></span>
@@ -345,7 +345,7 @@
 <span class="source-line-no">332</span><span id="line-332">  }</span>
 <span class="source-line-no">333</span><span id="line-333"></span>
 <span class="source-line-no">334</span><span id="line-334">  /** An implementation of {@link Collection#toString()}. */</span>
-<span class="source-line-no">335</span><span id="line-335">  static String toStringImpl(final Collection&lt;?&gt; collection) {</span>
+<span class="source-line-no">335</span><span id="line-335">  static String toStringImpl(Collection&lt;?&gt; collection) {</span>
 <span class="source-line-no">336</span><span id="line-336">    StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');</span>
 <span class="source-line-no">337</span><span id="line-337">    boolean first = true;</span>
 <span class="source-line-no">338</span><span id="line-338">    for (Object o : collection) {</span>

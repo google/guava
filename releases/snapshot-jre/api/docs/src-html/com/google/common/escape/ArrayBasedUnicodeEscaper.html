@@ -54,167 +54,168 @@
 <span class="source-line-no">041</span><span id="line-41"> * @since 15.0</span>
 <span class="source-line-no">042</span><span id="line-42"> */</span>
 <span class="source-line-no">043</span><span id="line-43">@GwtCompatible</span>
-<span class="source-line-no">044</span><span id="line-44">public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {</span>
-<span class="source-line-no">045</span><span id="line-45">  // The replacement array (see ArrayBasedEscaperMap).</span>
-<span class="source-line-no">046</span><span id="line-46">  private final char[][] replacements;</span>
-<span class="source-line-no">047</span><span id="line-47">  // The number of elements in the replacement array.</span>
-<span class="source-line-no">048</span><span id="line-48">  private final int replacementsLength;</span>
-<span class="source-line-no">049</span><span id="line-49">  // The first code point in the safe range.</span>
-<span class="source-line-no">050</span><span id="line-50">  private final int safeMin;</span>
-<span class="source-line-no">051</span><span id="line-51">  // The last code point in the safe range.</span>
-<span class="source-line-no">052</span><span id="line-52">  private final int safeMax;</span>
-<span class="source-line-no">053</span><span id="line-53"></span>
-<span class="source-line-no">054</span><span id="line-54">  // Cropped values used in the fast path range checks.</span>
-<span class="source-line-no">055</span><span id="line-55">  private final char safeMinChar;</span>
-<span class="source-line-no">056</span><span id="line-56">  private final char safeMaxChar;</span>
-<span class="source-line-no">057</span><span id="line-57"></span>
-<span class="source-line-no">058</span><span id="line-58">  /**</span>
-<span class="source-line-no">059</span><span id="line-59">   * Creates a new ArrayBasedUnicodeEscaper instance with the given replacement map and specified</span>
-<span class="source-line-no">060</span><span id="line-60">   * safe range. If {@code safeMax &lt; safeMin} then no code points are considered safe.</span>
-<span class="source-line-no">061</span><span id="line-61">   *</span>
-<span class="source-line-no">062</span><span id="line-62">   * &lt;p&gt;If a code point has no mapped replacement then it is checked against the safe range. If it</span>
-<span class="source-line-no">063</span><span id="line-63">   * lies outside that, then {@link #escapeUnsafe} is called, otherwise no escaping is performed.</span>
-<span class="source-line-no">064</span><span id="line-64">   *</span>
-<span class="source-line-no">065</span><span id="line-65">   * @param replacementMap a map of characters to their escaped representations</span>
-<span class="source-line-no">066</span><span id="line-66">   * @param safeMin the lowest character value in the safe range</span>
-<span class="source-line-no">067</span><span id="line-67">   * @param safeMax the highest character value in the safe range</span>
-<span class="source-line-no">068</span><span id="line-68">   * @param unsafeReplacement the default replacement for unsafe characters or null if no default</span>
-<span class="source-line-no">069</span><span id="line-69">   *     replacement is required</span>
-<span class="source-line-no">070</span><span id="line-70">   */</span>
-<span class="source-line-no">071</span><span id="line-71">  protected ArrayBasedUnicodeEscaper(</span>
-<span class="source-line-no">072</span><span id="line-72">      Map&lt;Character, String&gt; replacementMap,</span>
-<span class="source-line-no">073</span><span id="line-73">      int safeMin,</span>
-<span class="source-line-no">074</span><span id="line-74">      int safeMax,</span>
-<span class="source-line-no">075</span><span id="line-75">      @Nullable String unsafeReplacement) {</span>
-<span class="source-line-no">076</span><span id="line-76">    this(ArrayBasedEscaperMap.create(replacementMap), safeMin, safeMax, unsafeReplacement);</span>
-<span class="source-line-no">077</span><span id="line-77">  }</span>
-<span class="source-line-no">078</span><span id="line-78"></span>
-<span class="source-line-no">079</span><span id="line-79">  /**</span>
-<span class="source-line-no">080</span><span id="line-80">   * Creates a new ArrayBasedUnicodeEscaper instance with the given replacement map and specified</span>
-<span class="source-line-no">081</span><span id="line-81">   * safe range. If {@code safeMax &lt; safeMin} then no code points are considered safe. This</span>
-<span class="source-line-no">082</span><span id="line-82">   * initializer is useful when explicit instances of ArrayBasedEscaperMap are used to allow the</span>
-<span class="source-line-no">083</span><span id="line-83">   * sharing of large replacement mappings.</span>
-<span class="source-line-no">084</span><span id="line-84">   *</span>
-<span class="source-line-no">085</span><span id="line-85">   * &lt;p&gt;If a code point has no mapped replacement then it is checked against the safe range. If it</span>
-<span class="source-line-no">086</span><span id="line-86">   * lies outside that, then {@link #escapeUnsafe} is called, otherwise no escaping is performed.</span>
-<span class="source-line-no">087</span><span id="line-87">   *</span>
-<span class="source-line-no">088</span><span id="line-88">   * @param escaperMap the map of replacements</span>
-<span class="source-line-no">089</span><span id="line-89">   * @param safeMin the lowest character value in the safe range</span>
-<span class="source-line-no">090</span><span id="line-90">   * @param safeMax the highest character value in the safe range</span>
-<span class="source-line-no">091</span><span id="line-91">   * @param unsafeReplacement the default replacement for unsafe characters or null if no default</span>
-<span class="source-line-no">092</span><span id="line-92">   *     replacement is required</span>
-<span class="source-line-no">093</span><span id="line-93">   */</span>
-<span class="source-line-no">094</span><span id="line-94">  protected ArrayBasedUnicodeEscaper(</span>
-<span class="source-line-no">095</span><span id="line-95">      ArrayBasedEscaperMap escaperMap,</span>
-<span class="source-line-no">096</span><span id="line-96">      int safeMin,</span>
-<span class="source-line-no">097</span><span id="line-97">      int safeMax,</span>
-<span class="source-line-no">098</span><span id="line-98">      @Nullable String unsafeReplacement) {</span>
-<span class="source-line-no">099</span><span id="line-99">    checkNotNull(escaperMap); // GWT specific check (do not optimize)</span>
-<span class="source-line-no">100</span><span id="line-100">    this.replacements = escaperMap.getReplacementArray();</span>
-<span class="source-line-no">101</span><span id="line-101">    this.replacementsLength = replacements.length;</span>
-<span class="source-line-no">102</span><span id="line-102">    if (safeMax &lt; safeMin) {</span>
-<span class="source-line-no">103</span><span id="line-103">      // If the safe range is empty, set the range limits to opposite extremes</span>
-<span class="source-line-no">104</span><span id="line-104">      // to ensure the first test of either value will fail.</span>
-<span class="source-line-no">105</span><span id="line-105">      safeMax = -1;</span>
-<span class="source-line-no">106</span><span id="line-106">      safeMin = Integer.MAX_VALUE;</span>
-<span class="source-line-no">107</span><span id="line-107">    }</span>
-<span class="source-line-no">108</span><span id="line-108">    this.safeMin = safeMin;</span>
-<span class="source-line-no">109</span><span id="line-109">    this.safeMax = safeMax;</span>
-<span class="source-line-no">110</span><span id="line-110"></span>
-<span class="source-line-no">111</span><span id="line-111">    // This is a bit of a hack but lets us do quicker per-character checks in</span>
-<span class="source-line-no">112</span><span id="line-112">    // the fast path code. The safe min/max values are very unlikely to extend</span>
-<span class="source-line-no">113</span><span id="line-113">    // into the range of surrogate characters, but if they do we must not test</span>
-<span class="source-line-no">114</span><span id="line-114">    // any values in that range. To see why, consider the case where:</span>
-<span class="source-line-no">115</span><span id="line-115">    // safeMin &lt;= {hi,lo} &lt;= safeMax</span>
-<span class="source-line-no">116</span><span id="line-116">    // where {hi,lo} are characters forming a surrogate pair such that:</span>
-<span class="source-line-no">117</span><span id="line-117">    // codePointOf(hi, lo) &gt; safeMax</span>
-<span class="source-line-no">118</span><span id="line-118">    // which would result in the surrogate pair being (wrongly) considered safe.</span>
-<span class="source-line-no">119</span><span id="line-119">    // If we clip the safe range used during the per-character tests so it is</span>
-<span class="source-line-no">120</span><span id="line-120">    // below the values of characters in surrogate pairs, this cannot occur.</span>
-<span class="source-line-no">121</span><span id="line-121">    // This approach does mean that we break out of the fast path code in cases</span>
-<span class="source-line-no">122</span><span id="line-122">    // where we don't strictly need to, but this situation will almost never</span>
-<span class="source-line-no">123</span><span id="line-123">    // occur in practice.</span>
-<span class="source-line-no">124</span><span id="line-124">    if (safeMin &gt;= Character.MIN_HIGH_SURROGATE) {</span>
-<span class="source-line-no">125</span><span id="line-125">      // The safe range is empty or the all safe code points lie in or above the</span>
-<span class="source-line-no">126</span><span id="line-126">      // surrogate range. Either way the character range is empty.</span>
-<span class="source-line-no">127</span><span id="line-127">      this.safeMinChar = Character.MAX_VALUE;</span>
-<span class="source-line-no">128</span><span id="line-128">      this.safeMaxChar = 0;</span>
-<span class="source-line-no">129</span><span id="line-129">    } else {</span>
-<span class="source-line-no">130</span><span id="line-130">      // The safe range is non-empty and contains values below the surrogate</span>
-<span class="source-line-no">131</span><span id="line-131">      // range but may extend above it. We may need to clip the maximum value.</span>
-<span class="source-line-no">132</span><span id="line-132">      this.safeMinChar = (char) safeMin;</span>
-<span class="source-line-no">133</span><span id="line-133">      this.safeMaxChar = (char) min(safeMax, Character.MIN_HIGH_SURROGATE - 1);</span>
-<span class="source-line-no">134</span><span id="line-134">    }</span>
-<span class="source-line-no">135</span><span id="line-135">  }</span>
-<span class="source-line-no">136</span><span id="line-136"></span>
-<span class="source-line-no">137</span><span id="line-137">  /*</span>
-<span class="source-line-no">138</span><span id="line-138">   * This is overridden to improve performance. Rough benchmarking shows that this almost doubles</span>
-<span class="source-line-no">139</span><span id="line-139">   * the speed when processing strings that do not require any escaping.</span>
-<span class="source-line-no">140</span><span id="line-140">   */</span>
-<span class="source-line-no">141</span><span id="line-141">  @Override</span>
-<span class="source-line-no">142</span><span id="line-142">  public final String escape(String s) {</span>
-<span class="source-line-no">143</span><span id="line-143">    checkNotNull(s); // GWT specific check (do not optimize)</span>
-<span class="source-line-no">144</span><span id="line-144">    for (int i = 0; i &lt; s.length(); i++) {</span>
-<span class="source-line-no">145</span><span id="line-145">      char c = s.charAt(i);</span>
-<span class="source-line-no">146</span><span id="line-146">      if ((c &lt; replacementsLength &amp;&amp; replacements[c] != null)</span>
-<span class="source-line-no">147</span><span id="line-147">          || c &gt; safeMaxChar</span>
-<span class="source-line-no">148</span><span id="line-148">          || c &lt; safeMinChar) {</span>
-<span class="source-line-no">149</span><span id="line-149">        return escapeSlow(s, i);</span>
-<span class="source-line-no">150</span><span id="line-150">      }</span>
-<span class="source-line-no">151</span><span id="line-151">    }</span>
-<span class="source-line-no">152</span><span id="line-152">    return s;</span>
-<span class="source-line-no">153</span><span id="line-153">  }</span>
-<span class="source-line-no">154</span><span id="line-154"></span>
-<span class="source-line-no">155</span><span id="line-155">  /**</span>
-<span class="source-line-no">156</span><span id="line-156">   * Escapes a single Unicode code point using the replacement array and safe range values. If the</span>
-<span class="source-line-no">157</span><span id="line-157">   * given character does not have an explicit replacement and lies outside the safe range then</span>
-<span class="source-line-no">158</span><span id="line-158">   * {@link #escapeUnsafe} is called.</span>
-<span class="source-line-no">159</span><span id="line-159">   *</span>
-<span class="source-line-no">160</span><span id="line-160">   * @return the replacement characters, or {@code null} if no escaping was required</span>
-<span class="source-line-no">161</span><span id="line-161">   */</span>
-<span class="source-line-no">162</span><span id="line-162">  @Override</span>
-<span class="source-line-no">163</span><span id="line-163">  protected final char @Nullable [] escape(int cp) {</span>
-<span class="source-line-no">164</span><span id="line-164">    if (cp &lt; replacementsLength) {</span>
-<span class="source-line-no">165</span><span id="line-165">      char[] chars = replacements[cp];</span>
-<span class="source-line-no">166</span><span id="line-166">      if (chars != null) {</span>
-<span class="source-line-no">167</span><span id="line-167">        return chars;</span>
-<span class="source-line-no">168</span><span id="line-168">      }</span>
-<span class="source-line-no">169</span><span id="line-169">    }</span>
-<span class="source-line-no">170</span><span id="line-170">    if (cp &gt;= safeMin &amp;&amp; cp &lt;= safeMax) {</span>
-<span class="source-line-no">171</span><span id="line-171">      return null;</span>
-<span class="source-line-no">172</span><span id="line-172">    }</span>
-<span class="source-line-no">173</span><span id="line-173">    return escapeUnsafe(cp);</span>
-<span class="source-line-no">174</span><span id="line-174">  }</span>
-<span class="source-line-no">175</span><span id="line-175"></span>
-<span class="source-line-no">176</span><span id="line-176">  /* Overridden for performance. */</span>
-<span class="source-line-no">177</span><span id="line-177">  @Override</span>
-<span class="source-line-no">178</span><span id="line-178">  protected final int nextEscapeIndex(CharSequence csq, int index, int end) {</span>
-<span class="source-line-no">179</span><span id="line-179">    while (index &lt; end) {</span>
-<span class="source-line-no">180</span><span id="line-180">      char c = csq.charAt(index);</span>
-<span class="source-line-no">181</span><span id="line-181">      if ((c &lt; replacementsLength &amp;&amp; replacements[c] != null)</span>
-<span class="source-line-no">182</span><span id="line-182">          || c &gt; safeMaxChar</span>
-<span class="source-line-no">183</span><span id="line-183">          || c &lt; safeMinChar) {</span>
-<span class="source-line-no">184</span><span id="line-184">        break;</span>
-<span class="source-line-no">185</span><span id="line-185">      }</span>
-<span class="source-line-no">186</span><span id="line-186">      index++;</span>
-<span class="source-line-no">187</span><span id="line-187">    }</span>
-<span class="source-line-no">188</span><span id="line-188">    return index;</span>
-<span class="source-line-no">189</span><span id="line-189">  }</span>
-<span class="source-line-no">190</span><span id="line-190"></span>
-<span class="source-line-no">191</span><span id="line-191">  /**</span>
-<span class="source-line-no">192</span><span id="line-192">   * Escapes a code point that has no direct explicit value in the replacement array and lies</span>
-<span class="source-line-no">193</span><span id="line-193">   * outside the stated safe range. Subclasses should override this method to provide generalized</span>
-<span class="source-line-no">194</span><span id="line-194">   * escaping for code points if required.</span>
-<span class="source-line-no">195</span><span id="line-195">   *</span>
-<span class="source-line-no">196</span><span id="line-196">   * &lt;p&gt;Note that arrays returned by this method must not be modified once they have been returned.</span>
-<span class="source-line-no">197</span><span id="line-197">   * However it is acceptable to return the same array multiple times (even for different input</span>
-<span class="source-line-no">198</span><span id="line-198">   * characters).</span>
-<span class="source-line-no">199</span><span id="line-199">   *</span>
-<span class="source-line-no">200</span><span id="line-200">   * @param cp the Unicode code point to escape</span>
-<span class="source-line-no">201</span><span id="line-201">   * @return the replacement characters, or {@code null} if no escaping was required</span>
-<span class="source-line-no">202</span><span id="line-202">   */</span>
-<span class="source-line-no">203</span><span id="line-203">  protected abstract char @Nullable [] escapeUnsafe(int cp);</span>
-<span class="source-line-no">204</span><span id="line-204">}</span>
+<span class="source-line-no">044</span><span id="line-44">@SuppressWarnings("EscapedEntity") // We do mean for the user to see "&amp;amp;" etc.</span>
+<span class="source-line-no">045</span><span id="line-45">public abstract class ArrayBasedUnicodeEscaper extends UnicodeEscaper {</span>
+<span class="source-line-no">046</span><span id="line-46">  // The replacement array (see ArrayBasedEscaperMap).</span>
+<span class="source-line-no">047</span><span id="line-47">  private final char[][] replacements;</span>
+<span class="source-line-no">048</span><span id="line-48">  // The number of elements in the replacement array.</span>
+<span class="source-line-no">049</span><span id="line-49">  private final int replacementsLength;</span>
+<span class="source-line-no">050</span><span id="line-50">  // The first code point in the safe range.</span>
+<span class="source-line-no">051</span><span id="line-51">  private final int safeMin;</span>
+<span class="source-line-no">052</span><span id="line-52">  // The last code point in the safe range.</span>
+<span class="source-line-no">053</span><span id="line-53">  private final int safeMax;</span>
+<span class="source-line-no">054</span><span id="line-54"></span>
+<span class="source-line-no">055</span><span id="line-55">  // Cropped values used in the fast path range checks.</span>
+<span class="source-line-no">056</span><span id="line-56">  private final char safeMinChar;</span>
+<span class="source-line-no">057</span><span id="line-57">  private final char safeMaxChar;</span>
+<span class="source-line-no">058</span><span id="line-58"></span>
+<span class="source-line-no">059</span><span id="line-59">  /**</span>
+<span class="source-line-no">060</span><span id="line-60">   * Creates a new ArrayBasedUnicodeEscaper instance with the given replacement map and specified</span>
+<span class="source-line-no">061</span><span id="line-61">   * safe range. If {@code safeMax &lt; safeMin} then no code points are considered safe.</span>
+<span class="source-line-no">062</span><span id="line-62">   *</span>
+<span class="source-line-no">063</span><span id="line-63">   * &lt;p&gt;If a code point has no mapped replacement then it is checked against the safe range. If it</span>
+<span class="source-line-no">064</span><span id="line-64">   * lies outside that, then {@link #escapeUnsafe} is called, otherwise no escaping is performed.</span>
+<span class="source-line-no">065</span><span id="line-65">   *</span>
+<span class="source-line-no">066</span><span id="line-66">   * @param replacementMap a map of characters to their escaped representations</span>
+<span class="source-line-no">067</span><span id="line-67">   * @param safeMin the lowest character value in the safe range</span>
+<span class="source-line-no">068</span><span id="line-68">   * @param safeMax the highest character value in the safe range</span>
+<span class="source-line-no">069</span><span id="line-69">   * @param unsafeReplacement the default replacement for unsafe characters or null if no default</span>
+<span class="source-line-no">070</span><span id="line-70">   *     replacement is required</span>
+<span class="source-line-no">071</span><span id="line-71">   */</span>
+<span class="source-line-no">072</span><span id="line-72">  protected ArrayBasedUnicodeEscaper(</span>
+<span class="source-line-no">073</span><span id="line-73">      Map&lt;Character, String&gt; replacementMap,</span>
+<span class="source-line-no">074</span><span id="line-74">      int safeMin,</span>
+<span class="source-line-no">075</span><span id="line-75">      int safeMax,</span>
+<span class="source-line-no">076</span><span id="line-76">      @Nullable String unsafeReplacement) {</span>
+<span class="source-line-no">077</span><span id="line-77">    this(ArrayBasedEscaperMap.create(replacementMap), safeMin, safeMax, unsafeReplacement);</span>
+<span class="source-line-no">078</span><span id="line-78">  }</span>
+<span class="source-line-no">079</span><span id="line-79"></span>
+<span class="source-line-no">080</span><span id="line-80">  /**</span>
+<span class="source-line-no">081</span><span id="line-81">   * Creates a new ArrayBasedUnicodeEscaper instance with the given replacement map and specified</span>
+<span class="source-line-no">082</span><span id="line-82">   * safe range. If {@code safeMax &lt; safeMin} then no code points are considered safe. This</span>
+<span class="source-line-no">083</span><span id="line-83">   * initializer is useful when explicit instances of ArrayBasedEscaperMap are used to allow the</span>
+<span class="source-line-no">084</span><span id="line-84">   * sharing of large replacement mappings.</span>
+<span class="source-line-no">085</span><span id="line-85">   *</span>
+<span class="source-line-no">086</span><span id="line-86">   * &lt;p&gt;If a code point has no mapped replacement then it is checked against the safe range. If it</span>
+<span class="source-line-no">087</span><span id="line-87">   * lies outside that, then {@link #escapeUnsafe} is called, otherwise no escaping is performed.</span>
+<span class="source-line-no">088</span><span id="line-88">   *</span>
+<span class="source-line-no">089</span><span id="line-89">   * @param escaperMap the map of replacements</span>
+<span class="source-line-no">090</span><span id="line-90">   * @param safeMin the lowest character value in the safe range</span>
+<span class="source-line-no">091</span><span id="line-91">   * @param safeMax the highest character value in the safe range</span>
+<span class="source-line-no">092</span><span id="line-92">   * @param unsafeReplacement the default replacement for unsafe characters or null if no default</span>
+<span class="source-line-no">093</span><span id="line-93">   *     replacement is required</span>
+<span class="source-line-no">094</span><span id="line-94">   */</span>
+<span class="source-line-no">095</span><span id="line-95">  protected ArrayBasedUnicodeEscaper(</span>
+<span class="source-line-no">096</span><span id="line-96">      ArrayBasedEscaperMap escaperMap,</span>
+<span class="source-line-no">097</span><span id="line-97">      int safeMin,</span>
+<span class="source-line-no">098</span><span id="line-98">      int safeMax,</span>
+<span class="source-line-no">099</span><span id="line-99">      @Nullable String unsafeReplacement) {</span>
+<span class="source-line-no">100</span><span id="line-100">    checkNotNull(escaperMap); // GWT specific check (do not optimize)</span>
+<span class="source-line-no">101</span><span id="line-101">    this.replacements = escaperMap.getReplacementArray();</span>
+<span class="source-line-no">102</span><span id="line-102">    this.replacementsLength = replacements.length;</span>
+<span class="source-line-no">103</span><span id="line-103">    if (safeMax &lt; safeMin) {</span>
+<span class="source-line-no">104</span><span id="line-104">      // If the safe range is empty, set the range limits to opposite extremes</span>
+<span class="source-line-no">105</span><span id="line-105">      // to ensure the first test of either value will fail.</span>
+<span class="source-line-no">106</span><span id="line-106">      safeMax = -1;</span>
+<span class="source-line-no">107</span><span id="line-107">      safeMin = Integer.MAX_VALUE;</span>
+<span class="source-line-no">108</span><span id="line-108">    }</span>
+<span class="source-line-no">109</span><span id="line-109">    this.safeMin = safeMin;</span>
+<span class="source-line-no">110</span><span id="line-110">    this.safeMax = safeMax;</span>
+<span class="source-line-no">111</span><span id="line-111"></span>
+<span class="source-line-no">112</span><span id="line-112">    // This is a bit of a hack but lets us do quicker per-character checks in</span>
+<span class="source-line-no">113</span><span id="line-113">    // the fast path code. The safe min/max values are very unlikely to extend</span>
+<span class="source-line-no">114</span><span id="line-114">    // into the range of surrogate characters, but if they do we must not test</span>
+<span class="source-line-no">115</span><span id="line-115">    // any values in that range. To see why, consider the case where:</span>
+<span class="source-line-no">116</span><span id="line-116">    // safeMin &lt;= {hi,lo} &lt;= safeMax</span>
+<span class="source-line-no">117</span><span id="line-117">    // where {hi,lo} are characters forming a surrogate pair such that:</span>
+<span class="source-line-no">118</span><span id="line-118">    // codePointOf(hi, lo) &gt; safeMax</span>
+<span class="source-line-no">119</span><span id="line-119">    // which would result in the surrogate pair being (wrongly) considered safe.</span>
+<span class="source-line-no">120</span><span id="line-120">    // If we clip the safe range used during the per-character tests so it is</span>
+<span class="source-line-no">121</span><span id="line-121">    // below the values of characters in surrogate pairs, this cannot occur.</span>
+<span class="source-line-no">122</span><span id="line-122">    // This approach does mean that we break out of the fast path code in cases</span>
+<span class="source-line-no">123</span><span id="line-123">    // where we don't strictly need to, but this situation will almost never</span>
+<span class="source-line-no">124</span><span id="line-124">    // occur in practice.</span>
+<span class="source-line-no">125</span><span id="line-125">    if (safeMin &gt;= Character.MIN_HIGH_SURROGATE) {</span>
+<span class="source-line-no">126</span><span id="line-126">      // The safe range is empty or the all safe code points lie in or above the</span>
+<span class="source-line-no">127</span><span id="line-127">      // surrogate range. Either way the character range is empty.</span>
+<span class="source-line-no">128</span><span id="line-128">      this.safeMinChar = Character.MAX_VALUE;</span>
+<span class="source-line-no">129</span><span id="line-129">      this.safeMaxChar = 0;</span>
+<span class="source-line-no">130</span><span id="line-130">    } else {</span>
+<span class="source-line-no">131</span><span id="line-131">      // The safe range is non-empty and contains values below the surrogate</span>
+<span class="source-line-no">132</span><span id="line-132">      // range but may extend above it. We may need to clip the maximum value.</span>
+<span class="source-line-no">133</span><span id="line-133">      this.safeMinChar = (char) safeMin;</span>
+<span class="source-line-no">134</span><span id="line-134">      this.safeMaxChar = (char) min(safeMax, Character.MIN_HIGH_SURROGATE - 1);</span>
+<span class="source-line-no">135</span><span id="line-135">    }</span>
+<span class="source-line-no">136</span><span id="line-136">  }</span>
+<span class="source-line-no">137</span><span id="line-137"></span>
+<span class="source-line-no">138</span><span id="line-138">  /*</span>
+<span class="source-line-no">139</span><span id="line-139">   * This is overridden to improve performance. Rough benchmarking shows that this almost doubles</span>
+<span class="source-line-no">140</span><span id="line-140">   * the speed when processing strings that do not require any escaping.</span>
+<span class="source-line-no">141</span><span id="line-141">   */</span>
+<span class="source-line-no">142</span><span id="line-142">  @Override</span>
+<span class="source-line-no">143</span><span id="line-143">  public final String escape(String s) {</span>
+<span class="source-line-no">144</span><span id="line-144">    checkNotNull(s); // GWT specific check (do not optimize)</span>
+<span class="source-line-no">145</span><span id="line-145">    for (int i = 0; i &lt; s.length(); i++) {</span>
+<span class="source-line-no">146</span><span id="line-146">      char c = s.charAt(i);</span>
+<span class="source-line-no">147</span><span id="line-147">      if ((c &lt; replacementsLength &amp;&amp; replacements[c] != null)</span>
+<span class="source-line-no">148</span><span id="line-148">          || c &gt; safeMaxChar</span>
+<span class="source-line-no">149</span><span id="line-149">          || c &lt; safeMinChar) {</span>
+<span class="source-line-no">150</span><span id="line-150">        return escapeSlow(s, i);</span>
+<span class="source-line-no">151</span><span id="line-151">      }</span>
+<span class="source-line-no">152</span><span id="line-152">    }</span>
+<span class="source-line-no">153</span><span id="line-153">    return s;</span>
+<span class="source-line-no">154</span><span id="line-154">  }</span>
+<span class="source-line-no">155</span><span id="line-155"></span>
+<span class="source-line-no">156</span><span id="line-156">  /**</span>
+<span class="source-line-no">157</span><span id="line-157">   * Escapes a single Unicode code point using the replacement array and safe range values. If the</span>
+<span class="source-line-no">158</span><span id="line-158">   * given character does not have an explicit replacement and lies outside the safe range then</span>
+<span class="source-line-no">159</span><span id="line-159">   * {@link #escapeUnsafe} is called.</span>
+<span class="source-line-no">160</span><span id="line-160">   *</span>
+<span class="source-line-no">161</span><span id="line-161">   * @return the replacement characters, or {@code null} if no escaping was required</span>
+<span class="source-line-no">162</span><span id="line-162">   */</span>
+<span class="source-line-no">163</span><span id="line-163">  @Override</span>
+<span class="source-line-no">164</span><span id="line-164">  protected final char @Nullable [] escape(int cp) {</span>
+<span class="source-line-no">165</span><span id="line-165">    if (cp &lt; replacementsLength) {</span>
+<span class="source-line-no">166</span><span id="line-166">      char[] chars = replacements[cp];</span>
+<span class="source-line-no">167</span><span id="line-167">      if (chars != null) {</span>
+<span class="source-line-no">168</span><span id="line-168">        return chars;</span>
+<span class="source-line-no">169</span><span id="line-169">      }</span>
+<span class="source-line-no">170</span><span id="line-170">    }</span>
+<span class="source-line-no">171</span><span id="line-171">    if (cp &gt;= safeMin &amp;&amp; cp &lt;= safeMax) {</span>
+<span class="source-line-no">172</span><span id="line-172">      return null;</span>
+<span class="source-line-no">173</span><span id="line-173">    }</span>
+<span class="source-line-no">174</span><span id="line-174">    return escapeUnsafe(cp);</span>
+<span class="source-line-no">175</span><span id="line-175">  }</span>
+<span class="source-line-no">176</span><span id="line-176"></span>
+<span class="source-line-no">177</span><span id="line-177">  /* Overridden for performance. */</span>
+<span class="source-line-no">178</span><span id="line-178">  @Override</span>
+<span class="source-line-no">179</span><span id="line-179">  protected final int nextEscapeIndex(CharSequence csq, int index, int end) {</span>
+<span class="source-line-no">180</span><span id="line-180">    while (index &lt; end) {</span>
+<span class="source-line-no">181</span><span id="line-181">      char c = csq.charAt(index);</span>
+<span class="source-line-no">182</span><span id="line-182">      if ((c &lt; replacementsLength &amp;&amp; replacements[c] != null)</span>
+<span class="source-line-no">183</span><span id="line-183">          || c &gt; safeMaxChar</span>
+<span class="source-line-no">184</span><span id="line-184">          || c &lt; safeMinChar) {</span>
+<span class="source-line-no">185</span><span id="line-185">        break;</span>
+<span class="source-line-no">186</span><span id="line-186">      }</span>
+<span class="source-line-no">187</span><span id="line-187">      index++;</span>
+<span class="source-line-no">188</span><span id="line-188">    }</span>
+<span class="source-line-no">189</span><span id="line-189">    return index;</span>
+<span class="source-line-no">190</span><span id="line-190">  }</span>
+<span class="source-line-no">191</span><span id="line-191"></span>
+<span class="source-line-no">192</span><span id="line-192">  /**</span>
+<span class="source-line-no">193</span><span id="line-193">   * Escapes a code point that has no direct explicit value in the replacement array and lies</span>
+<span class="source-line-no">194</span><span id="line-194">   * outside the stated safe range. Subclasses should override this method to provide generalized</span>
+<span class="source-line-no">195</span><span id="line-195">   * escaping for code points if required.</span>
+<span class="source-line-no">196</span><span id="line-196">   *</span>
+<span class="source-line-no">197</span><span id="line-197">   * &lt;p&gt;Note that arrays returned by this method must not be modified once they have been returned.</span>
+<span class="source-line-no">198</span><span id="line-198">   * However it is acceptable to return the same array multiple times (even for different input</span>
+<span class="source-line-no">199</span><span id="line-199">   * characters).</span>
+<span class="source-line-no">200</span><span id="line-200">   *</span>
+<span class="source-line-no">201</span><span id="line-201">   * @param cp the Unicode code point to escape</span>
+<span class="source-line-no">202</span><span id="line-202">   * @return the replacement characters, or {@code null} if no escaping was required</span>
+<span class="source-line-no">203</span><span id="line-203">   */</span>
+<span class="source-line-no">204</span><span id="line-204">  protected abstract char @Nullable [] escapeUnsafe(int cp);</span>
+<span class="source-line-no">205</span><span id="line-205">}</span>
 
 
 

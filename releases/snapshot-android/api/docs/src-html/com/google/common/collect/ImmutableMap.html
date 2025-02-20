@@ -977,7 +977,7 @@
 <span class="source-line-no">964</span><span id="line-964">  abstract ImmutableSet&lt;K&gt; createKeySet();</span>
 <span class="source-line-no">965</span><span id="line-965"></span>
 <span class="source-line-no">966</span><span id="line-966">  UnmodifiableIterator&lt;K&gt; keyIterator() {</span>
-<span class="source-line-no">967</span><span id="line-967">    final UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator = entrySet().iterator();</span>
+<span class="source-line-no">967</span><span id="line-967">    UnmodifiableIterator&lt;Entry&lt;K, V&gt;&gt; entryIterator = entrySet().iterator();</span>
 <span class="source-line-no">968</span><span id="line-968">    return new UnmodifiableIterator&lt;K&gt;() {</span>
 <span class="source-line-no">969</span><span id="line-969">      @Override</span>
 <span class="source-line-no">970</span><span id="line-970">      public boolean hasNext() {</span>
@@ -1072,7 +1072,7 @@
 <span class="source-line-no">1059</span><span id="line-1059"></span>
 <span class="source-line-no">1060</span><span id="line-1060">    @Override</span>
 <span class="source-line-no">1061</span><span id="line-1061">    UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt; entryIterator() {</span>
-<span class="source-line-no">1062</span><span id="line-1062">      final Iterator&lt;Entry&lt;K, V&gt;&gt; backingIterator = ImmutableMap.this.entrySet().iterator();</span>
+<span class="source-line-no">1062</span><span id="line-1062">      Iterator&lt;Entry&lt;K, V&gt;&gt; backingIterator = ImmutableMap.this.entrySet().iterator();</span>
 <span class="source-line-no">1063</span><span id="line-1063">      return new UnmodifiableIterator&lt;Entry&lt;K, ImmutableSet&lt;V&gt;&gt;&gt;() {</span>
 <span class="source-line-no">1064</span><span id="line-1064">        @Override</span>
 <span class="source-line-no">1065</span><span id="line-1065">        public boolean hasNext() {</span>
@@ -1081,7 +1081,7 @@
 <span class="source-line-no">1068</span><span id="line-1068"></span>
 <span class="source-line-no">1069</span><span id="line-1069">        @Override</span>
 <span class="source-line-no">1070</span><span id="line-1070">        public Entry&lt;K, ImmutableSet&lt;V&gt;&gt; next() {</span>
-<span class="source-line-no">1071</span><span id="line-1071">          final Entry&lt;K, V&gt; backingEntry = backingIterator.next();</span>
+<span class="source-line-no">1071</span><span id="line-1071">          Entry&lt;K, V&gt; backingEntry = backingIterator.next();</span>
 <span class="source-line-no">1072</span><span id="line-1072">          return new AbstractMapEntry&lt;K, ImmutableSet&lt;V&gt;&gt;() {</span>
 <span class="source-line-no">1073</span><span id="line-1073">            @Override</span>
 <span class="source-line-no">1074</span><span id="line-1074">            public K getKey() {</span>
@@ -1205,7 +1205,7 @@
 <span class="source-line-no">1192</span><span id="line-1192">      return new Builder&lt;&gt;(size);</span>
 <span class="source-line-no">1193</span><span id="line-1193">    }</span>
 <span class="source-line-no">1194</span><span id="line-1194"></span>
-<span class="source-line-no">1195</span><span id="line-1195">    private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">1195</span><span id="line-1195">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
 <span class="source-line-no">1196</span><span id="line-1196">  }</span>
 <span class="source-line-no">1197</span><span id="line-1197"></span>
 <span class="source-line-no">1198</span><span id="line-1198">  /**</span>
@@ -1223,7 +1223,7 @@
 <span class="source-line-no">1210</span><span id="line-1210">    throw new InvalidObjectException("Use SerializedForm");</span>
 <span class="source-line-no">1211</span><span id="line-1211">  }</span>
 <span class="source-line-no">1212</span><span id="line-1212"></span>
-<span class="source-line-no">1213</span><span id="line-1213">  private static final long serialVersionUID = 0xdecaf;</span>
+<span class="source-line-no">1213</span><span id="line-1213">  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xdecaf;</span>
 <span class="source-line-no">1214</span><span id="line-1214">}</span>
 
 

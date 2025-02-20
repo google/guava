@@ -216,276 +216,286 @@
 <span class="source-line-no">203</span><span id="line-203">    }</span>
 <span class="source-line-no">204</span><span id="line-204"></span>
 <span class="source-line-no">205</span><span id="line-205">    @Override</span>
-<span class="source-line-no">206</span><span id="line-206">    public List&lt;?&gt; get() {</span>
-<span class="source-line-no">207</span><span id="line-207">      return new LinkedList&lt;&gt;();</span>
-<span class="source-line-no">208</span><span id="line-208">    }</span>
-<span class="source-line-no">209</span><span id="line-209">  }</span>
-<span class="source-line-no">210</span><span id="line-210"></span>
-<span class="source-line-no">211</span><span id="line-211">  private static final class HashSetSupplier&lt;V extends @Nullable Object&gt;</span>
-<span class="source-line-no">212</span><span id="line-212">      implements Supplier&lt;Set&lt;V&gt;&gt;, Serializable {</span>
-<span class="source-line-no">213</span><span id="line-213">    private final int expectedValuesPerKey;</span>
-<span class="source-line-no">214</span><span id="line-214"></span>
-<span class="source-line-no">215</span><span id="line-215">    HashSetSupplier(int expectedValuesPerKey) {</span>
-<span class="source-line-no">216</span><span id="line-216">      this.expectedValuesPerKey = checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
-<span class="source-line-no">217</span><span id="line-217">    }</span>
-<span class="source-line-no">218</span><span id="line-218"></span>
-<span class="source-line-no">219</span><span id="line-219">    @Override</span>
-<span class="source-line-no">220</span><span id="line-220">    public Set&lt;V&gt; get() {</span>
-<span class="source-line-no">221</span><span id="line-221">      return Platform.newHashSetWithExpectedSize(expectedValuesPerKey);</span>
-<span class="source-line-no">222</span><span id="line-222">    }</span>
-<span class="source-line-no">223</span><span id="line-223">  }</span>
-<span class="source-line-no">224</span><span id="line-224"></span>
-<span class="source-line-no">225</span><span id="line-225">  private static final class LinkedHashSetSupplier&lt;V extends @Nullable Object&gt;</span>
-<span class="source-line-no">226</span><span id="line-226">      implements Supplier&lt;Set&lt;V&gt;&gt;, Serializable {</span>
-<span class="source-line-no">227</span><span id="line-227">    private final int expectedValuesPerKey;</span>
-<span class="source-line-no">228</span><span id="line-228"></span>
-<span class="source-line-no">229</span><span id="line-229">    LinkedHashSetSupplier(int expectedValuesPerKey) {</span>
-<span class="source-line-no">230</span><span id="line-230">      this.expectedValuesPerKey = checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
-<span class="source-line-no">231</span><span id="line-231">    }</span>
-<span class="source-line-no">232</span><span id="line-232"></span>
-<span class="source-line-no">233</span><span id="line-233">    @Override</span>
-<span class="source-line-no">234</span><span id="line-234">    public Set&lt;V&gt; get() {</span>
-<span class="source-line-no">235</span><span id="line-235">      return Platform.newLinkedHashSetWithExpectedSize(expectedValuesPerKey);</span>
-<span class="source-line-no">236</span><span id="line-236">    }</span>
-<span class="source-line-no">237</span><span id="line-237">  }</span>
-<span class="source-line-no">238</span><span id="line-238"></span>
-<span class="source-line-no">239</span><span id="line-239">  private static final class TreeSetSupplier&lt;V extends @Nullable Object&gt;</span>
-<span class="source-line-no">240</span><span id="line-240">      implements Supplier&lt;SortedSet&lt;V&gt;&gt;, Serializable {</span>
-<span class="source-line-no">241</span><span id="line-241">    private final Comparator&lt;? super V&gt; comparator;</span>
-<span class="source-line-no">242</span><span id="line-242"></span>
-<span class="source-line-no">243</span><span id="line-243">    TreeSetSupplier(Comparator&lt;? super V&gt; comparator) {</span>
-<span class="source-line-no">244</span><span id="line-244">      this.comparator = checkNotNull(comparator);</span>
-<span class="source-line-no">245</span><span id="line-245">    }</span>
-<span class="source-line-no">246</span><span id="line-246"></span>
-<span class="source-line-no">247</span><span id="line-247">    @Override</span>
-<span class="source-line-no">248</span><span id="line-248">    public SortedSet&lt;V&gt; get() {</span>
-<span class="source-line-no">249</span><span id="line-249">      return new TreeSet&lt;&gt;(comparator);</span>
-<span class="source-line-no">250</span><span id="line-250">    }</span>
-<span class="source-line-no">251</span><span id="line-251">  }</span>
-<span class="source-line-no">252</span><span id="line-252"></span>
-<span class="source-line-no">253</span><span id="line-253">  private static final class EnumSetSupplier&lt;V extends Enum&lt;V&gt;&gt;</span>
-<span class="source-line-no">254</span><span id="line-254">      implements Supplier&lt;Set&lt;V&gt;&gt;, Serializable {</span>
-<span class="source-line-no">255</span><span id="line-255">    private final Class&lt;V&gt; clazz;</span>
-<span class="source-line-no">256</span><span id="line-256"></span>
-<span class="source-line-no">257</span><span id="line-257">    EnumSetSupplier(Class&lt;V&gt; clazz) {</span>
-<span class="source-line-no">258</span><span id="line-258">      this.clazz = checkNotNull(clazz);</span>
-<span class="source-line-no">259</span><span id="line-259">    }</span>
-<span class="source-line-no">260</span><span id="line-260"></span>
-<span class="source-line-no">261</span><span id="line-261">    @Override</span>
-<span class="source-line-no">262</span><span id="line-262">    public Set&lt;V&gt; get() {</span>
-<span class="source-line-no">263</span><span id="line-263">      return EnumSet.noneOf(clazz);</span>
-<span class="source-line-no">264</span><span id="line-264">    }</span>
-<span class="source-line-no">265</span><span id="line-265">  }</span>
-<span class="source-line-no">266</span><span id="line-266"></span>
-<span class="source-line-no">267</span><span id="line-267">  /**</span>
-<span class="source-line-no">268</span><span id="line-268">   * An intermediate stage in a {@link MultimapBuilder} in which the key-value collection map</span>
-<span class="source-line-no">269</span><span id="line-269">   * implementation has been specified, but the value collection implementation has not.</span>
-<span class="source-line-no">270</span><span id="line-270">   *</span>
-<span class="source-line-no">271</span><span id="line-271">   * @param &lt;K0&gt; The upper bound on the key type of the generated multimap.</span>
-<span class="source-line-no">272</span><span id="line-272">   * @since 16.0</span>
-<span class="source-line-no">273</span><span id="line-273">   */</span>
-<span class="source-line-no">274</span><span id="line-274">  public abstract static class MultimapBuilderWithKeys&lt;K0 extends @Nullable Object&gt; {</span>
-<span class="source-line-no">275</span><span id="line-275"></span>
-<span class="source-line-no">276</span><span id="line-276">    private static final int DEFAULT_EXPECTED_VALUES_PER_KEY = 2;</span>
+<span class="source-line-no">206</span><span id="line-206">    // We recommend against linkedListValues but need to keep it for compatibility.</span>
+<span class="source-line-no">207</span><span id="line-207">    @SuppressWarnings("JdkObsolete")</span>
+<span class="source-line-no">208</span><span id="line-208">    public List&lt;?&gt; get() {</span>
+<span class="source-line-no">209</span><span id="line-209">      return new LinkedList&lt;&gt;();</span>
+<span class="source-line-no">210</span><span id="line-210">    }</span>
+<span class="source-line-no">211</span><span id="line-211">  }</span>
+<span class="source-line-no">212</span><span id="line-212"></span>
+<span class="source-line-no">213</span><span id="line-213">  private static final class HashSetSupplier&lt;V extends @Nullable Object&gt;</span>
+<span class="source-line-no">214</span><span id="line-214">      implements Supplier&lt;Set&lt;V&gt;&gt;, Serializable {</span>
+<span class="source-line-no">215</span><span id="line-215">    private final int expectedValuesPerKey;</span>
+<span class="source-line-no">216</span><span id="line-216"></span>
+<span class="source-line-no">217</span><span id="line-217">    HashSetSupplier(int expectedValuesPerKey) {</span>
+<span class="source-line-no">218</span><span id="line-218">      this.expectedValuesPerKey = checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
+<span class="source-line-no">219</span><span id="line-219">    }</span>
+<span class="source-line-no">220</span><span id="line-220"></span>
+<span class="source-line-no">221</span><span id="line-221">    @Override</span>
+<span class="source-line-no">222</span><span id="line-222">    public Set&lt;V&gt; get() {</span>
+<span class="source-line-no">223</span><span id="line-223">      return Platform.newHashSetWithExpectedSize(expectedValuesPerKey);</span>
+<span class="source-line-no">224</span><span id="line-224">    }</span>
+<span class="source-line-no">225</span><span id="line-225">  }</span>
+<span class="source-line-no">226</span><span id="line-226"></span>
+<span class="source-line-no">227</span><span id="line-227">  private static final class LinkedHashSetSupplier&lt;V extends @Nullable Object&gt;</span>
+<span class="source-line-no">228</span><span id="line-228">      implements Supplier&lt;Set&lt;V&gt;&gt;, Serializable {</span>
+<span class="source-line-no">229</span><span id="line-229">    private final int expectedValuesPerKey;</span>
+<span class="source-line-no">230</span><span id="line-230"></span>
+<span class="source-line-no">231</span><span id="line-231">    LinkedHashSetSupplier(int expectedValuesPerKey) {</span>
+<span class="source-line-no">232</span><span id="line-232">      this.expectedValuesPerKey = checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
+<span class="source-line-no">233</span><span id="line-233">    }</span>
+<span class="source-line-no">234</span><span id="line-234"></span>
+<span class="source-line-no">235</span><span id="line-235">    @Override</span>
+<span class="source-line-no">236</span><span id="line-236">    public Set&lt;V&gt; get() {</span>
+<span class="source-line-no">237</span><span id="line-237">      return Platform.newLinkedHashSetWithExpectedSize(expectedValuesPerKey);</span>
+<span class="source-line-no">238</span><span id="line-238">    }</span>
+<span class="source-line-no">239</span><span id="line-239">  }</span>
+<span class="source-line-no">240</span><span id="line-240"></span>
+<span class="source-line-no">241</span><span id="line-241">  private static final class TreeSetSupplier&lt;V extends @Nullable Object&gt;</span>
+<span class="source-line-no">242</span><span id="line-242">      implements Supplier&lt;SortedSet&lt;V&gt;&gt;, Serializable {</span>
+<span class="source-line-no">243</span><span id="line-243">    private final Comparator&lt;? super V&gt; comparator;</span>
+<span class="source-line-no">244</span><span id="line-244"></span>
+<span class="source-line-no">245</span><span id="line-245">    TreeSetSupplier(Comparator&lt;? super V&gt; comparator) {</span>
+<span class="source-line-no">246</span><span id="line-246">      this.comparator = checkNotNull(comparator);</span>
+<span class="source-line-no">247</span><span id="line-247">    }</span>
+<span class="source-line-no">248</span><span id="line-248"></span>
+<span class="source-line-no">249</span><span id="line-249">    @Override</span>
+<span class="source-line-no">250</span><span id="line-250">    public SortedSet&lt;V&gt; get() {</span>
+<span class="source-line-no">251</span><span id="line-251">      return new TreeSet&lt;&gt;(comparator);</span>
+<span class="source-line-no">252</span><span id="line-252">    }</span>
+<span class="source-line-no">253</span><span id="line-253">  }</span>
+<span class="source-line-no">254</span><span id="line-254"></span>
+<span class="source-line-no">255</span><span id="line-255">  private static final class EnumSetSupplier&lt;V extends Enum&lt;V&gt;&gt;</span>
+<span class="source-line-no">256</span><span id="line-256">      implements Supplier&lt;Set&lt;V&gt;&gt;, Serializable {</span>
+<span class="source-line-no">257</span><span id="line-257">    private final Class&lt;V&gt; clazz;</span>
+<span class="source-line-no">258</span><span id="line-258"></span>
+<span class="source-line-no">259</span><span id="line-259">    EnumSetSupplier(Class&lt;V&gt; clazz) {</span>
+<span class="source-line-no">260</span><span id="line-260">      this.clazz = checkNotNull(clazz);</span>
+<span class="source-line-no">261</span><span id="line-261">    }</span>
+<span class="source-line-no">262</span><span id="line-262"></span>
+<span class="source-line-no">263</span><span id="line-263">    @Override</span>
+<span class="source-line-no">264</span><span id="line-264">    public Set&lt;V&gt; get() {</span>
+<span class="source-line-no">265</span><span id="line-265">      return EnumSet.noneOf(clazz);</span>
+<span class="source-line-no">266</span><span id="line-266">    }</span>
+<span class="source-line-no">267</span><span id="line-267">  }</span>
+<span class="source-line-no">268</span><span id="line-268"></span>
+<span class="source-line-no">269</span><span id="line-269">  /**</span>
+<span class="source-line-no">270</span><span id="line-270">   * An intermediate stage in a {@link MultimapBuilder} in which the key-value collection map</span>
+<span class="source-line-no">271</span><span id="line-271">   * implementation has been specified, but the value collection implementation has not.</span>
+<span class="source-line-no">272</span><span id="line-272">   *</span>
+<span class="source-line-no">273</span><span id="line-273">   * @param &lt;K0&gt; The upper bound on the key type of the generated multimap.</span>
+<span class="source-line-no">274</span><span id="line-274">   * @since 16.0</span>
+<span class="source-line-no">275</span><span id="line-275">   */</span>
+<span class="source-line-no">276</span><span id="line-276">  public abstract static class MultimapBuilderWithKeys&lt;K0 extends @Nullable Object&gt; {</span>
 <span class="source-line-no">277</span><span id="line-277"></span>
-<span class="source-line-no">278</span><span id="line-278">    MultimapBuilderWithKeys() {}</span>
+<span class="source-line-no">278</span><span id="line-278">    private static final int DEFAULT_EXPECTED_VALUES_PER_KEY = 2;</span>
 <span class="source-line-no">279</span><span id="line-279"></span>
-<span class="source-line-no">280</span><span id="line-280">    abstract &lt;K extends K0, V extends @Nullable Object&gt; Map&lt;K, Collection&lt;V&gt;&gt; createMap();</span>
+<span class="source-line-no">280</span><span id="line-280">    MultimapBuilderWithKeys() {}</span>
 <span class="source-line-no">281</span><span id="line-281"></span>
-<span class="source-line-no">282</span><span id="line-282">    /** Uses an {@link ArrayList} to store value collections. */</span>
-<span class="source-line-no">283</span><span id="line-283">    public ListMultimapBuilder&lt;K0, @Nullable Object&gt; arrayListValues() {</span>
-<span class="source-line-no">284</span><span id="line-284">      return arrayListValues(DEFAULT_EXPECTED_VALUES_PER_KEY);</span>
-<span class="source-line-no">285</span><span id="line-285">    }</span>
-<span class="source-line-no">286</span><span id="line-286"></span>
-<span class="source-line-no">287</span><span id="line-287">    /**</span>
-<span class="source-line-no">288</span><span id="line-288">     * Uses an {@link ArrayList} to store value collections, initialized to expect the specified</span>
-<span class="source-line-no">289</span><span id="line-289">     * number of values per key.</span>
-<span class="source-line-no">290</span><span id="line-290">     *</span>
-<span class="source-line-no">291</span><span id="line-291">     * @throws IllegalArgumentException if {@code expectedValuesPerKey &lt; 0}</span>
-<span class="source-line-no">292</span><span id="line-292">     */</span>
-<span class="source-line-no">293</span><span id="line-293">    public ListMultimapBuilder&lt;K0, @Nullable Object&gt; arrayListValues(int expectedValuesPerKey) {</span>
-<span class="source-line-no">294</span><span id="line-294">      checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
-<span class="source-line-no">295</span><span id="line-295">      return new ListMultimapBuilder&lt;K0, @Nullable Object&gt;() {</span>
-<span class="source-line-no">296</span><span id="line-296">        @Override</span>
-<span class="source-line-no">297</span><span id="line-297">        public &lt;K extends K0, V extends @Nullable Object&gt; ListMultimap&lt;K, V&gt; build() {</span>
-<span class="source-line-no">298</span><span id="line-298">          return Multimaps.newListMultimap(</span>
-<span class="source-line-no">299</span><span id="line-299">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(),</span>
-<span class="source-line-no">300</span><span id="line-300">              new ArrayListSupplier&lt;V&gt;(expectedValuesPerKey));</span>
-<span class="source-line-no">301</span><span id="line-301">        }</span>
-<span class="source-line-no">302</span><span id="line-302">      };</span>
-<span class="source-line-no">303</span><span id="line-303">    }</span>
-<span class="source-line-no">304</span><span id="line-304"></span>
-<span class="source-line-no">305</span><span id="line-305">    /** Uses a {@link LinkedList} to store value collections. */</span>
-<span class="source-line-no">306</span><span id="line-306">    public ListMultimapBuilder&lt;K0, @Nullable Object&gt; linkedListValues() {</span>
-<span class="source-line-no">307</span><span id="line-307">      return new ListMultimapBuilder&lt;K0, @Nullable Object&gt;() {</span>
-<span class="source-line-no">308</span><span id="line-308">        @Override</span>
-<span class="source-line-no">309</span><span id="line-309">        public &lt;K extends K0, V extends @Nullable Object&gt; ListMultimap&lt;K, V&gt; build() {</span>
-<span class="source-line-no">310</span><span id="line-310">          return Multimaps.newListMultimap(</span>
-<span class="source-line-no">311</span><span id="line-311">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(), LinkedListSupplier.&lt;V&gt;instance());</span>
-<span class="source-line-no">312</span><span id="line-312">        }</span>
-<span class="source-line-no">313</span><span id="line-313">      };</span>
-<span class="source-line-no">314</span><span id="line-314">    }</span>
-<span class="source-line-no">315</span><span id="line-315"></span>
-<span class="source-line-no">316</span><span id="line-316">    /** Uses a hash-based {@code Set} to store value collections. */</span>
-<span class="source-line-no">317</span><span id="line-317">    public SetMultimapBuilder&lt;K0, @Nullable Object&gt; hashSetValues() {</span>
-<span class="source-line-no">318</span><span id="line-318">      return hashSetValues(DEFAULT_EXPECTED_VALUES_PER_KEY);</span>
-<span class="source-line-no">319</span><span id="line-319">    }</span>
-<span class="source-line-no">320</span><span id="line-320"></span>
-<span class="source-line-no">321</span><span id="line-321">    /**</span>
-<span class="source-line-no">322</span><span id="line-322">     * Uses a hash-based {@code Set} to store value collections, initialized to expect the specified</span>
-<span class="source-line-no">323</span><span id="line-323">     * number of values per key.</span>
-<span class="source-line-no">324</span><span id="line-324">     *</span>
-<span class="source-line-no">325</span><span id="line-325">     * @throws IllegalArgumentException if {@code expectedValuesPerKey &lt; 0}</span>
-<span class="source-line-no">326</span><span id="line-326">     */</span>
-<span class="source-line-no">327</span><span id="line-327">    public SetMultimapBuilder&lt;K0, @Nullable Object&gt; hashSetValues(int expectedValuesPerKey) {</span>
-<span class="source-line-no">328</span><span id="line-328">      checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
-<span class="source-line-no">329</span><span id="line-329">      return new SetMultimapBuilder&lt;K0, @Nullable Object&gt;() {</span>
-<span class="source-line-no">330</span><span id="line-330">        @Override</span>
-<span class="source-line-no">331</span><span id="line-331">        public &lt;K extends K0, V extends @Nullable Object&gt; SetMultimap&lt;K, V&gt; build() {</span>
-<span class="source-line-no">332</span><span id="line-332">          return Multimaps.newSetMultimap(</span>
-<span class="source-line-no">333</span><span id="line-333">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(),</span>
-<span class="source-line-no">334</span><span id="line-334">              new HashSetSupplier&lt;V&gt;(expectedValuesPerKey));</span>
-<span class="source-line-no">335</span><span id="line-335">        }</span>
-<span class="source-line-no">336</span><span id="line-336">      };</span>
-<span class="source-line-no">337</span><span id="line-337">    }</span>
-<span class="source-line-no">338</span><span id="line-338"></span>
-<span class="source-line-no">339</span><span id="line-339">    /** Uses an insertion-ordered hash-based {@code Set} to store value collections. */</span>
-<span class="source-line-no">340</span><span id="line-340">    public SetMultimapBuilder&lt;K0, @Nullable Object&gt; linkedHashSetValues() {</span>
-<span class="source-line-no">341</span><span id="line-341">      return linkedHashSetValues(DEFAULT_EXPECTED_VALUES_PER_KEY);</span>
-<span class="source-line-no">342</span><span id="line-342">    }</span>
-<span class="source-line-no">343</span><span id="line-343"></span>
-<span class="source-line-no">344</span><span id="line-344">    /**</span>
-<span class="source-line-no">345</span><span id="line-345">     * Uses an insertion-ordered hash-based {@code Set} to store value collections, initialized to</span>
-<span class="source-line-no">346</span><span id="line-346">     * expect the specified number of values per key.</span>
-<span class="source-line-no">347</span><span id="line-347">     *</span>
-<span class="source-line-no">348</span><span id="line-348">     * @throws IllegalArgumentException if {@code expectedValuesPerKey &lt; 0}</span>
-<span class="source-line-no">349</span><span id="line-349">     */</span>
-<span class="source-line-no">350</span><span id="line-350">    public SetMultimapBuilder&lt;K0, @Nullable Object&gt; linkedHashSetValues(int expectedValuesPerKey) {</span>
-<span class="source-line-no">351</span><span id="line-351">      checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
-<span class="source-line-no">352</span><span id="line-352">      return new SetMultimapBuilder&lt;K0, @Nullable Object&gt;() {</span>
-<span class="source-line-no">353</span><span id="line-353">        @Override</span>
-<span class="source-line-no">354</span><span id="line-354">        public &lt;K extends K0, V extends @Nullable Object&gt; SetMultimap&lt;K, V&gt; build() {</span>
-<span class="source-line-no">355</span><span id="line-355">          return Multimaps.newSetMultimap(</span>
-<span class="source-line-no">356</span><span id="line-356">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(),</span>
-<span class="source-line-no">357</span><span id="line-357">              new LinkedHashSetSupplier&lt;V&gt;(expectedValuesPerKey));</span>
-<span class="source-line-no">358</span><span id="line-358">        }</span>
-<span class="source-line-no">359</span><span id="line-359">      };</span>
-<span class="source-line-no">360</span><span id="line-360">    }</span>
-<span class="source-line-no">361</span><span id="line-361"></span>
-<span class="source-line-no">362</span><span id="line-362">    /** Uses a naturally-ordered {@link TreeSet} to store value collections. */</span>
-<span class="source-line-no">363</span><span id="line-363">    @SuppressWarnings("rawtypes")</span>
-<span class="source-line-no">364</span><span id="line-364">    public SortedSetMultimapBuilder&lt;K0, Comparable&gt; treeSetValues() {</span>
-<span class="source-line-no">365</span><span id="line-365">      return treeSetValues(Ordering.natural());</span>
-<span class="source-line-no">366</span><span id="line-366">    }</span>
-<span class="source-line-no">367</span><span id="line-367"></span>
-<span class="source-line-no">368</span><span id="line-368">    /**</span>
-<span class="source-line-no">369</span><span id="line-369">     * Uses a {@link TreeSet} ordered by the specified comparator to store value collections.</span>
-<span class="source-line-no">370</span><span id="line-370">     *</span>
-<span class="source-line-no">371</span><span id="line-371">     * &lt;p&gt;Multimaps generated by the resulting builder will not be serializable if {@code</span>
-<span class="source-line-no">372</span><span id="line-372">     * comparator} is not serializable.</span>
-<span class="source-line-no">373</span><span id="line-373">     */</span>
-<span class="source-line-no">374</span><span id="line-374">    public &lt;V0 extends @Nullable Object&gt; SortedSetMultimapBuilder&lt;K0, V0&gt; treeSetValues(</span>
-<span class="source-line-no">375</span><span id="line-375">        Comparator&lt;V0&gt; comparator) {</span>
-<span class="source-line-no">376</span><span id="line-376">      checkNotNull(comparator, "comparator");</span>
-<span class="source-line-no">377</span><span id="line-377">      return new SortedSetMultimapBuilder&lt;K0, V0&gt;() {</span>
-<span class="source-line-no">378</span><span id="line-378">        @Override</span>
-<span class="source-line-no">379</span><span id="line-379">        public &lt;K extends K0, V extends V0&gt; SortedSetMultimap&lt;K, V&gt; build() {</span>
-<span class="source-line-no">380</span><span id="line-380">          return Multimaps.newSortedSetMultimap(</span>
-<span class="source-line-no">381</span><span id="line-381">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(), new TreeSetSupplier&lt;V&gt;(comparator));</span>
-<span class="source-line-no">382</span><span id="line-382">        }</span>
-<span class="source-line-no">383</span><span id="line-383">      };</span>
-<span class="source-line-no">384</span><span id="line-384">    }</span>
-<span class="source-line-no">385</span><span id="line-385"></span>
-<span class="source-line-no">386</span><span id="line-386">    /** Uses an {@link EnumSet} to store value collections. */</span>
-<span class="source-line-no">387</span><span id="line-387">    public &lt;V0 extends Enum&lt;V0&gt;&gt; SetMultimapBuilder&lt;K0, V0&gt; enumSetValues(Class&lt;V0&gt; valueClass) {</span>
-<span class="source-line-no">388</span><span id="line-388">      checkNotNull(valueClass, "valueClass");</span>
-<span class="source-line-no">389</span><span id="line-389">      return new SetMultimapBuilder&lt;K0, V0&gt;() {</span>
-<span class="source-line-no">390</span><span id="line-390">        @Override</span>
-<span class="source-line-no">391</span><span id="line-391">        public &lt;K extends K0, V extends V0&gt; SetMultimap&lt;K, V&gt; build() {</span>
-<span class="source-line-no">392</span><span id="line-392">          // V must actually be V0, since enums are effectively final</span>
-<span class="source-line-no">393</span><span id="line-393">          // (their subclasses are inaccessible)</span>
-<span class="source-line-no">394</span><span id="line-394">          @SuppressWarnings({"unchecked", "rawtypes"})</span>
-<span class="source-line-no">395</span><span id="line-395">          Supplier&lt;Set&lt;V&gt;&gt; factory = (Supplier) new EnumSetSupplier&lt;V0&gt;(valueClass);</span>
-<span class="source-line-no">396</span><span id="line-396">          return Multimaps.newSetMultimap(MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(), factory);</span>
-<span class="source-line-no">397</span><span id="line-397">        }</span>
-<span class="source-line-no">398</span><span id="line-398">      };</span>
-<span class="source-line-no">399</span><span id="line-399">    }</span>
-<span class="source-line-no">400</span><span id="line-400">  }</span>
-<span class="source-line-no">401</span><span id="line-401"></span>
-<span class="source-line-no">402</span><span id="line-402">  /** Returns a new, empty {@code Multimap} with the specified implementation. */</span>
-<span class="source-line-no">403</span><span id="line-403">  public abstract &lt;K extends K0, V extends V0&gt; Multimap&lt;K, V&gt; build();</span>
-<span class="source-line-no">404</span><span id="line-404"></span>
-<span class="source-line-no">405</span><span id="line-405">  /**</span>
-<span class="source-line-no">406</span><span id="line-406">   * Returns a {@code Multimap} with the specified implementation, initialized with the entries of</span>
-<span class="source-line-no">407</span><span id="line-407">   * {@code multimap}.</span>
-<span class="source-line-no">408</span><span id="line-408">   */</span>
-<span class="source-line-no">409</span><span id="line-409">  public &lt;K extends K0, V extends V0&gt; Multimap&lt;K, V&gt; build(</span>
-<span class="source-line-no">410</span><span id="line-410">      Multimap&lt;? extends K, ? extends V&gt; multimap) {</span>
-<span class="source-line-no">411</span><span id="line-411">    Multimap&lt;K, V&gt; result = build();</span>
-<span class="source-line-no">412</span><span id="line-412">    result.putAll(multimap);</span>
-<span class="source-line-no">413</span><span id="line-413">    return result;</span>
-<span class="source-line-no">414</span><span id="line-414">  }</span>
-<span class="source-line-no">415</span><span id="line-415"></span>
-<span class="source-line-no">416</span><span id="line-416">  /**</span>
-<span class="source-line-no">417</span><span id="line-417">   * A specialization of {@link MultimapBuilder} that generates {@link ListMultimap} instances.</span>
-<span class="source-line-no">418</span><span id="line-418">   *</span>
-<span class="source-line-no">419</span><span id="line-419">   * @since 16.0</span>
-<span class="source-line-no">420</span><span id="line-420">   */</span>
-<span class="source-line-no">421</span><span id="line-421">  public abstract static class ListMultimapBuilder&lt;</span>
-<span class="source-line-no">422</span><span id="line-422">          K0 extends @Nullable Object, V0 extends @Nullable Object&gt;</span>
-<span class="source-line-no">423</span><span id="line-423">      extends MultimapBuilder&lt;K0, V0&gt; {</span>
-<span class="source-line-no">424</span><span id="line-424">    ListMultimapBuilder() {}</span>
+<span class="source-line-no">282</span><span id="line-282">    abstract &lt;K extends K0, V extends @Nullable Object&gt; Map&lt;K, Collection&lt;V&gt;&gt; createMap();</span>
+<span class="source-line-no">283</span><span id="line-283"></span>
+<span class="source-line-no">284</span><span id="line-284">    /** Uses an {@link ArrayList} to store value collections. */</span>
+<span class="source-line-no">285</span><span id="line-285">    public ListMultimapBuilder&lt;K0, @Nullable Object&gt; arrayListValues() {</span>
+<span class="source-line-no">286</span><span id="line-286">      return arrayListValues(DEFAULT_EXPECTED_VALUES_PER_KEY);</span>
+<span class="source-line-no">287</span><span id="line-287">    }</span>
+<span class="source-line-no">288</span><span id="line-288"></span>
+<span class="source-line-no">289</span><span id="line-289">    /**</span>
+<span class="source-line-no">290</span><span id="line-290">     * Uses an {@link ArrayList} to store value collections, initialized to expect the specified</span>
+<span class="source-line-no">291</span><span id="line-291">     * number of values per key.</span>
+<span class="source-line-no">292</span><span id="line-292">     *</span>
+<span class="source-line-no">293</span><span id="line-293">     * @throws IllegalArgumentException if {@code expectedValuesPerKey &lt; 0}</span>
+<span class="source-line-no">294</span><span id="line-294">     */</span>
+<span class="source-line-no">295</span><span id="line-295">    public ListMultimapBuilder&lt;K0, @Nullable Object&gt; arrayListValues(int expectedValuesPerKey) {</span>
+<span class="source-line-no">296</span><span id="line-296">      checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
+<span class="source-line-no">297</span><span id="line-297">      return new ListMultimapBuilder&lt;K0, @Nullable Object&gt;() {</span>
+<span class="source-line-no">298</span><span id="line-298">        @Override</span>
+<span class="source-line-no">299</span><span id="line-299">        public &lt;K extends K0, V extends @Nullable Object&gt; ListMultimap&lt;K, V&gt; build() {</span>
+<span class="source-line-no">300</span><span id="line-300">          return Multimaps.newListMultimap(</span>
+<span class="source-line-no">301</span><span id="line-301">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(),</span>
+<span class="source-line-no">302</span><span id="line-302">              new ArrayListSupplier&lt;V&gt;(expectedValuesPerKey));</span>
+<span class="source-line-no">303</span><span id="line-303">        }</span>
+<span class="source-line-no">304</span><span id="line-304">      };</span>
+<span class="source-line-no">305</span><span id="line-305">    }</span>
+<span class="source-line-no">306</span><span id="line-306"></span>
+<span class="source-line-no">307</span><span id="line-307">    /**</span>
+<span class="source-line-no">308</span><span id="line-308">     * Uses a {@link LinkedList} to store value collections.</span>
+<span class="source-line-no">309</span><span id="line-309">     *</span>
+<span class="source-line-no">310</span><span id="line-310">     * &lt;p&gt;&lt;b&gt;Performance note:&lt;/b&gt; {@link ArrayList} and {@link java.util.ArrayDeque} consistently</span>
+<span class="source-line-no">311</span><span id="line-311">     * outperform {@code LinkedList} except in certain rare and specific situations. Unless you have</span>
+<span class="source-line-no">312</span><span id="line-312">     * spent a lot of time benchmarking your specific needs, use one of those instead. (However, we</span>
+<span class="source-line-no">313</span><span id="line-313">     * do not currently offer a {@link Multimap} implementation based on {@link</span>
+<span class="source-line-no">314</span><span id="line-314">     * java.util.ArrayDeque}.)</span>
+<span class="source-line-no">315</span><span id="line-315">     */</span>
+<span class="source-line-no">316</span><span id="line-316">    public ListMultimapBuilder&lt;K0, @Nullable Object&gt; linkedListValues() {</span>
+<span class="source-line-no">317</span><span id="line-317">      return new ListMultimapBuilder&lt;K0, @Nullable Object&gt;() {</span>
+<span class="source-line-no">318</span><span id="line-318">        @Override</span>
+<span class="source-line-no">319</span><span id="line-319">        public &lt;K extends K0, V extends @Nullable Object&gt; ListMultimap&lt;K, V&gt; build() {</span>
+<span class="source-line-no">320</span><span id="line-320">          return Multimaps.newListMultimap(</span>
+<span class="source-line-no">321</span><span id="line-321">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(), LinkedListSupplier.&lt;V&gt;instance());</span>
+<span class="source-line-no">322</span><span id="line-322">        }</span>
+<span class="source-line-no">323</span><span id="line-323">      };</span>
+<span class="source-line-no">324</span><span id="line-324">    }</span>
+<span class="source-line-no">325</span><span id="line-325"></span>
+<span class="source-line-no">326</span><span id="line-326">    /** Uses a hash-based {@code Set} to store value collections. */</span>
+<span class="source-line-no">327</span><span id="line-327">    public SetMultimapBuilder&lt;K0, @Nullable Object&gt; hashSetValues() {</span>
+<span class="source-line-no">328</span><span id="line-328">      return hashSetValues(DEFAULT_EXPECTED_VALUES_PER_KEY);</span>
+<span class="source-line-no">329</span><span id="line-329">    }</span>
+<span class="source-line-no">330</span><span id="line-330"></span>
+<span class="source-line-no">331</span><span id="line-331">    /**</span>
+<span class="source-line-no">332</span><span id="line-332">     * Uses a hash-based {@code Set} to store value collections, initialized to expect the specified</span>
+<span class="source-line-no">333</span><span id="line-333">     * number of values per key.</span>
+<span class="source-line-no">334</span><span id="line-334">     *</span>
+<span class="source-line-no">335</span><span id="line-335">     * @throws IllegalArgumentException if {@code expectedValuesPerKey &lt; 0}</span>
+<span class="source-line-no">336</span><span id="line-336">     */</span>
+<span class="source-line-no">337</span><span id="line-337">    public SetMultimapBuilder&lt;K0, @Nullable Object&gt; hashSetValues(int expectedValuesPerKey) {</span>
+<span class="source-line-no">338</span><span id="line-338">      checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
+<span class="source-line-no">339</span><span id="line-339">      return new SetMultimapBuilder&lt;K0, @Nullable Object&gt;() {</span>
+<span class="source-line-no">340</span><span id="line-340">        @Override</span>
+<span class="source-line-no">341</span><span id="line-341">        public &lt;K extends K0, V extends @Nullable Object&gt; SetMultimap&lt;K, V&gt; build() {</span>
+<span class="source-line-no">342</span><span id="line-342">          return Multimaps.newSetMultimap(</span>
+<span class="source-line-no">343</span><span id="line-343">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(),</span>
+<span class="source-line-no">344</span><span id="line-344">              new HashSetSupplier&lt;V&gt;(expectedValuesPerKey));</span>
+<span class="source-line-no">345</span><span id="line-345">        }</span>
+<span class="source-line-no">346</span><span id="line-346">      };</span>
+<span class="source-line-no">347</span><span id="line-347">    }</span>
+<span class="source-line-no">348</span><span id="line-348"></span>
+<span class="source-line-no">349</span><span id="line-349">    /** Uses an insertion-ordered hash-based {@code Set} to store value collections. */</span>
+<span class="source-line-no">350</span><span id="line-350">    public SetMultimapBuilder&lt;K0, @Nullable Object&gt; linkedHashSetValues() {</span>
+<span class="source-line-no">351</span><span id="line-351">      return linkedHashSetValues(DEFAULT_EXPECTED_VALUES_PER_KEY);</span>
+<span class="source-line-no">352</span><span id="line-352">    }</span>
+<span class="source-line-no">353</span><span id="line-353"></span>
+<span class="source-line-no">354</span><span id="line-354">    /**</span>
+<span class="source-line-no">355</span><span id="line-355">     * Uses an insertion-ordered hash-based {@code Set} to store value collections, initialized to</span>
+<span class="source-line-no">356</span><span id="line-356">     * expect the specified number of values per key.</span>
+<span class="source-line-no">357</span><span id="line-357">     *</span>
+<span class="source-line-no">358</span><span id="line-358">     * @throws IllegalArgumentException if {@code expectedValuesPerKey &lt; 0}</span>
+<span class="source-line-no">359</span><span id="line-359">     */</span>
+<span class="source-line-no">360</span><span id="line-360">    public SetMultimapBuilder&lt;K0, @Nullable Object&gt; linkedHashSetValues(int expectedValuesPerKey) {</span>
+<span class="source-line-no">361</span><span id="line-361">      checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");</span>
+<span class="source-line-no">362</span><span id="line-362">      return new SetMultimapBuilder&lt;K0, @Nullable Object&gt;() {</span>
+<span class="source-line-no">363</span><span id="line-363">        @Override</span>
+<span class="source-line-no">364</span><span id="line-364">        public &lt;K extends K0, V extends @Nullable Object&gt; SetMultimap&lt;K, V&gt; build() {</span>
+<span class="source-line-no">365</span><span id="line-365">          return Multimaps.newSetMultimap(</span>
+<span class="source-line-no">366</span><span id="line-366">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(),</span>
+<span class="source-line-no">367</span><span id="line-367">              new LinkedHashSetSupplier&lt;V&gt;(expectedValuesPerKey));</span>
+<span class="source-line-no">368</span><span id="line-368">        }</span>
+<span class="source-line-no">369</span><span id="line-369">      };</span>
+<span class="source-line-no">370</span><span id="line-370">    }</span>
+<span class="source-line-no">371</span><span id="line-371"></span>
+<span class="source-line-no">372</span><span id="line-372">    /** Uses a naturally-ordered {@link TreeSet} to store value collections. */</span>
+<span class="source-line-no">373</span><span id="line-373">    @SuppressWarnings("rawtypes")</span>
+<span class="source-line-no">374</span><span id="line-374">    public SortedSetMultimapBuilder&lt;K0, Comparable&gt; treeSetValues() {</span>
+<span class="source-line-no">375</span><span id="line-375">      return treeSetValues(Ordering.natural());</span>
+<span class="source-line-no">376</span><span id="line-376">    }</span>
+<span class="source-line-no">377</span><span id="line-377"></span>
+<span class="source-line-no">378</span><span id="line-378">    /**</span>
+<span class="source-line-no">379</span><span id="line-379">     * Uses a {@link TreeSet} ordered by the specified comparator to store value collections.</span>
+<span class="source-line-no">380</span><span id="line-380">     *</span>
+<span class="source-line-no">381</span><span id="line-381">     * &lt;p&gt;Multimaps generated by the resulting builder will not be serializable if {@code</span>
+<span class="source-line-no">382</span><span id="line-382">     * comparator} is not serializable.</span>
+<span class="source-line-no">383</span><span id="line-383">     */</span>
+<span class="source-line-no">384</span><span id="line-384">    public &lt;V0 extends @Nullable Object&gt; SortedSetMultimapBuilder&lt;K0, V0&gt; treeSetValues(</span>
+<span class="source-line-no">385</span><span id="line-385">        Comparator&lt;V0&gt; comparator) {</span>
+<span class="source-line-no">386</span><span id="line-386">      checkNotNull(comparator, "comparator");</span>
+<span class="source-line-no">387</span><span id="line-387">      return new SortedSetMultimapBuilder&lt;K0, V0&gt;() {</span>
+<span class="source-line-no">388</span><span id="line-388">        @Override</span>
+<span class="source-line-no">389</span><span id="line-389">        public &lt;K extends K0, V extends V0&gt; SortedSetMultimap&lt;K, V&gt; build() {</span>
+<span class="source-line-no">390</span><span id="line-390">          return Multimaps.newSortedSetMultimap(</span>
+<span class="source-line-no">391</span><span id="line-391">              MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(), new TreeSetSupplier&lt;V&gt;(comparator));</span>
+<span class="source-line-no">392</span><span id="line-392">        }</span>
+<span class="source-line-no">393</span><span id="line-393">      };</span>
+<span class="source-line-no">394</span><span id="line-394">    }</span>
+<span class="source-line-no">395</span><span id="line-395"></span>
+<span class="source-line-no">396</span><span id="line-396">    /** Uses an {@link EnumSet} to store value collections. */</span>
+<span class="source-line-no">397</span><span id="line-397">    public &lt;V0 extends Enum&lt;V0&gt;&gt; SetMultimapBuilder&lt;K0, V0&gt; enumSetValues(Class&lt;V0&gt; valueClass) {</span>
+<span class="source-line-no">398</span><span id="line-398">      checkNotNull(valueClass, "valueClass");</span>
+<span class="source-line-no">399</span><span id="line-399">      return new SetMultimapBuilder&lt;K0, V0&gt;() {</span>
+<span class="source-line-no">400</span><span id="line-400">        @Override</span>
+<span class="source-line-no">401</span><span id="line-401">        public &lt;K extends K0, V extends V0&gt; SetMultimap&lt;K, V&gt; build() {</span>
+<span class="source-line-no">402</span><span id="line-402">          // V must actually be V0, since enums are effectively final</span>
+<span class="source-line-no">403</span><span id="line-403">          // (their subclasses are inaccessible)</span>
+<span class="source-line-no">404</span><span id="line-404">          @SuppressWarnings({"unchecked", "rawtypes"})</span>
+<span class="source-line-no">405</span><span id="line-405">          Supplier&lt;Set&lt;V&gt;&gt; factory = (Supplier) new EnumSetSupplier&lt;V0&gt;(valueClass);</span>
+<span class="source-line-no">406</span><span id="line-406">          return Multimaps.newSetMultimap(MultimapBuilderWithKeys.this.&lt;K, V&gt;createMap(), factory);</span>
+<span class="source-line-no">407</span><span id="line-407">        }</span>
+<span class="source-line-no">408</span><span id="line-408">      };</span>
+<span class="source-line-no">409</span><span id="line-409">    }</span>
+<span class="source-line-no">410</span><span id="line-410">  }</span>
+<span class="source-line-no">411</span><span id="line-411"></span>
+<span class="source-line-no">412</span><span id="line-412">  /** Returns a new, empty {@code Multimap} with the specified implementation. */</span>
+<span class="source-line-no">413</span><span id="line-413">  public abstract &lt;K extends K0, V extends V0&gt; Multimap&lt;K, V&gt; build();</span>
+<span class="source-line-no">414</span><span id="line-414"></span>
+<span class="source-line-no">415</span><span id="line-415">  /**</span>
+<span class="source-line-no">416</span><span id="line-416">   * Returns a {@code Multimap} with the specified implementation, initialized with the entries of</span>
+<span class="source-line-no">417</span><span id="line-417">   * {@code multimap}.</span>
+<span class="source-line-no">418</span><span id="line-418">   */</span>
+<span class="source-line-no">419</span><span id="line-419">  public &lt;K extends K0, V extends V0&gt; Multimap&lt;K, V&gt; build(</span>
+<span class="source-line-no">420</span><span id="line-420">      Multimap&lt;? extends K, ? extends V&gt; multimap) {</span>
+<span class="source-line-no">421</span><span id="line-421">    Multimap&lt;K, V&gt; result = build();</span>
+<span class="source-line-no">422</span><span id="line-422">    result.putAll(multimap);</span>
+<span class="source-line-no">423</span><span id="line-423">    return result;</span>
+<span class="source-line-no">424</span><span id="line-424">  }</span>
 <span class="source-line-no">425</span><span id="line-425"></span>
-<span class="source-line-no">426</span><span id="line-426">    @Override</span>
-<span class="source-line-no">427</span><span id="line-427">    public abstract &lt;K extends K0, V extends V0&gt; ListMultimap&lt;K, V&gt; build();</span>
-<span class="source-line-no">428</span><span id="line-428"></span>
-<span class="source-line-no">429</span><span id="line-429">    @Override</span>
-<span class="source-line-no">430</span><span id="line-430">    public &lt;K extends K0, V extends V0&gt; ListMultimap&lt;K, V&gt; build(</span>
-<span class="source-line-no">431</span><span id="line-431">        Multimap&lt;? extends K, ? extends V&gt; multimap) {</span>
-<span class="source-line-no">432</span><span id="line-432">      return (ListMultimap&lt;K, V&gt;) super.&lt;K, V&gt;build(multimap);</span>
-<span class="source-line-no">433</span><span id="line-433">    }</span>
-<span class="source-line-no">434</span><span id="line-434">  }</span>
+<span class="source-line-no">426</span><span id="line-426">  /**</span>
+<span class="source-line-no">427</span><span id="line-427">   * A specialization of {@link MultimapBuilder} that generates {@link ListMultimap} instances.</span>
+<span class="source-line-no">428</span><span id="line-428">   *</span>
+<span class="source-line-no">429</span><span id="line-429">   * @since 16.0</span>
+<span class="source-line-no">430</span><span id="line-430">   */</span>
+<span class="source-line-no">431</span><span id="line-431">  public abstract static class ListMultimapBuilder&lt;</span>
+<span class="source-line-no">432</span><span id="line-432">          K0 extends @Nullable Object, V0 extends @Nullable Object&gt;</span>
+<span class="source-line-no">433</span><span id="line-433">      extends MultimapBuilder&lt;K0, V0&gt; {</span>
+<span class="source-line-no">434</span><span id="line-434">    ListMultimapBuilder() {}</span>
 <span class="source-line-no">435</span><span id="line-435"></span>
-<span class="source-line-no">436</span><span id="line-436">  /**</span>
-<span class="source-line-no">437</span><span id="line-437">   * A specialization of {@link MultimapBuilder} that generates {@link SetMultimap} instances.</span>
-<span class="source-line-no">438</span><span id="line-438">   *</span>
-<span class="source-line-no">439</span><span id="line-439">   * @since 16.0</span>
-<span class="source-line-no">440</span><span id="line-440">   */</span>
-<span class="source-line-no">441</span><span id="line-441">  public abstract static class SetMultimapBuilder&lt;</span>
-<span class="source-line-no">442</span><span id="line-442">          K0 extends @Nullable Object, V0 extends @Nullable Object&gt;</span>
-<span class="source-line-no">443</span><span id="line-443">      extends MultimapBuilder&lt;K0, V0&gt; {</span>
-<span class="source-line-no">444</span><span id="line-444">    SetMultimapBuilder() {}</span>
+<span class="source-line-no">436</span><span id="line-436">    @Override</span>
+<span class="source-line-no">437</span><span id="line-437">    public abstract &lt;K extends K0, V extends V0&gt; ListMultimap&lt;K, V&gt; build();</span>
+<span class="source-line-no">438</span><span id="line-438"></span>
+<span class="source-line-no">439</span><span id="line-439">    @Override</span>
+<span class="source-line-no">440</span><span id="line-440">    public &lt;K extends K0, V extends V0&gt; ListMultimap&lt;K, V&gt; build(</span>
+<span class="source-line-no">441</span><span id="line-441">        Multimap&lt;? extends K, ? extends V&gt; multimap) {</span>
+<span class="source-line-no">442</span><span id="line-442">      return (ListMultimap&lt;K, V&gt;) super.&lt;K, V&gt;build(multimap);</span>
+<span class="source-line-no">443</span><span id="line-443">    }</span>
+<span class="source-line-no">444</span><span id="line-444">  }</span>
 <span class="source-line-no">445</span><span id="line-445"></span>
-<span class="source-line-no">446</span><span id="line-446">    @Override</span>
-<span class="source-line-no">447</span><span id="line-447">    public abstract &lt;K extends K0, V extends V0&gt; SetMultimap&lt;K, V&gt; build();</span>
-<span class="source-line-no">448</span><span id="line-448"></span>
-<span class="source-line-no">449</span><span id="line-449">    @Override</span>
-<span class="source-line-no">450</span><span id="line-450">    public &lt;K extends K0, V extends V0&gt; SetMultimap&lt;K, V&gt; build(</span>
-<span class="source-line-no">451</span><span id="line-451">        Multimap&lt;? extends K, ? extends V&gt; multimap) {</span>
-<span class="source-line-no">452</span><span id="line-452">      return (SetMultimap&lt;K, V&gt;) super.&lt;K, V&gt;build(multimap);</span>
-<span class="source-line-no">453</span><span id="line-453">    }</span>
-<span class="source-line-no">454</span><span id="line-454">  }</span>
+<span class="source-line-no">446</span><span id="line-446">  /**</span>
+<span class="source-line-no">447</span><span id="line-447">   * A specialization of {@link MultimapBuilder} that generates {@link SetMultimap} instances.</span>
+<span class="source-line-no">448</span><span id="line-448">   *</span>
+<span class="source-line-no">449</span><span id="line-449">   * @since 16.0</span>
+<span class="source-line-no">450</span><span id="line-450">   */</span>
+<span class="source-line-no">451</span><span id="line-451">  public abstract static class SetMultimapBuilder&lt;</span>
+<span class="source-line-no">452</span><span id="line-452">          K0 extends @Nullable Object, V0 extends @Nullable Object&gt;</span>
+<span class="source-line-no">453</span><span id="line-453">      extends MultimapBuilder&lt;K0, V0&gt; {</span>
+<span class="source-line-no">454</span><span id="line-454">    SetMultimapBuilder() {}</span>
 <span class="source-line-no">455</span><span id="line-455"></span>
-<span class="source-line-no">456</span><span id="line-456">  /**</span>
-<span class="source-line-no">457</span><span id="line-457">   * A specialization of {@link MultimapBuilder} that generates {@link SortedSetMultimap} instances.</span>
-<span class="source-line-no">458</span><span id="line-458">   *</span>
-<span class="source-line-no">459</span><span id="line-459">   * @since 16.0</span>
-<span class="source-line-no">460</span><span id="line-460">   */</span>
-<span class="source-line-no">461</span><span id="line-461">  public abstract static class SortedSetMultimapBuilder&lt;</span>
-<span class="source-line-no">462</span><span id="line-462">          K0 extends @Nullable Object, V0 extends @Nullable Object&gt;</span>
-<span class="source-line-no">463</span><span id="line-463">      extends SetMultimapBuilder&lt;K0, V0&gt; {</span>
-<span class="source-line-no">464</span><span id="line-464">    SortedSetMultimapBuilder() {}</span>
+<span class="source-line-no">456</span><span id="line-456">    @Override</span>
+<span class="source-line-no">457</span><span id="line-457">    public abstract &lt;K extends K0, V extends V0&gt; SetMultimap&lt;K, V&gt; build();</span>
+<span class="source-line-no">458</span><span id="line-458"></span>
+<span class="source-line-no">459</span><span id="line-459">    @Override</span>
+<span class="source-line-no">460</span><span id="line-460">    public &lt;K extends K0, V extends V0&gt; SetMultimap&lt;K, V&gt; build(</span>
+<span class="source-line-no">461</span><span id="line-461">        Multimap&lt;? extends K, ? extends V&gt; multimap) {</span>
+<span class="source-line-no">462</span><span id="line-462">      return (SetMultimap&lt;K, V&gt;) super.&lt;K, V&gt;build(multimap);</span>
+<span class="source-line-no">463</span><span id="line-463">    }</span>
+<span class="source-line-no">464</span><span id="line-464">  }</span>
 <span class="source-line-no">465</span><span id="line-465"></span>
-<span class="source-line-no">466</span><span id="line-466">    @Override</span>
-<span class="source-line-no">467</span><span id="line-467">    public abstract &lt;K extends K0, V extends V0&gt; SortedSetMultimap&lt;K, V&gt; build();</span>
-<span class="source-line-no">468</span><span id="line-468"></span>
-<span class="source-line-no">469</span><span id="line-469">    @Override</span>
-<span class="source-line-no">470</span><span id="line-470">    public &lt;K extends K0, V extends V0&gt; SortedSetMultimap&lt;K, V&gt; build(</span>
-<span class="source-line-no">471</span><span id="line-471">        Multimap&lt;? extends K, ? extends V&gt; multimap) {</span>
-<span class="source-line-no">472</span><span id="line-472">      return (SortedSetMultimap&lt;K, V&gt;) super.&lt;K, V&gt;build(multimap);</span>
-<span class="source-line-no">473</span><span id="line-473">    }</span>
-<span class="source-line-no">474</span><span id="line-474">  }</span>
-<span class="source-line-no">475</span><span id="line-475">}</span>
+<span class="source-line-no">466</span><span id="line-466">  /**</span>
+<span class="source-line-no">467</span><span id="line-467">   * A specialization of {@link MultimapBuilder} that generates {@link SortedSetMultimap} instances.</span>
+<span class="source-line-no">468</span><span id="line-468">   *</span>
+<span class="source-line-no">469</span><span id="line-469">   * @since 16.0</span>
+<span class="source-line-no">470</span><span id="line-470">   */</span>
+<span class="source-line-no">471</span><span id="line-471">  public abstract static class SortedSetMultimapBuilder&lt;</span>
+<span class="source-line-no">472</span><span id="line-472">          K0 extends @Nullable Object, V0 extends @Nullable Object&gt;</span>
+<span class="source-line-no">473</span><span id="line-473">      extends SetMultimapBuilder&lt;K0, V0&gt; {</span>
+<span class="source-line-no">474</span><span id="line-474">    SortedSetMultimapBuilder() {}</span>
+<span class="source-line-no">475</span><span id="line-475"></span>
+<span class="source-line-no">476</span><span id="line-476">    @Override</span>
+<span class="source-line-no">477</span><span id="line-477">    public abstract &lt;K extends K0, V extends V0&gt; SortedSetMultimap&lt;K, V&gt; build();</span>
+<span class="source-line-no">478</span><span id="line-478"></span>
+<span class="source-line-no">479</span><span id="line-479">    @Override</span>
+<span class="source-line-no">480</span><span id="line-480">    public &lt;K extends K0, V extends V0&gt; SortedSetMultimap&lt;K, V&gt; build(</span>
+<span class="source-line-no">481</span><span id="line-481">        Multimap&lt;? extends K, ? extends V&gt; multimap) {</span>
+<span class="source-line-no">482</span><span id="line-482">      return (SortedSetMultimap&lt;K, V&gt;) super.&lt;K, V&gt;build(multimap);</span>
+<span class="source-line-no">483</span><span id="line-483">    }</span>
+<span class="source-line-no">484</span><span id="line-484">  }</span>
+<span class="source-line-no">485</span><span id="line-485">}</span>
 
 
 

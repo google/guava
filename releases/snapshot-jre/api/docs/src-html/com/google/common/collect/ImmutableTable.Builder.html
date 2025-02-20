@@ -508,7 +508,7 @@
 <span class="source-line-no">495</span><span id="line-495">          cellListBuilder.build(), ImmutableSet.copyOf(rowKeys), ImmutableSet.copyOf(columnKeys));</span>
 <span class="source-line-no">496</span><span id="line-496">    }</span>
 <span class="source-line-no">497</span><span id="line-497"></span>
-<span class="source-line-no">498</span><span id="line-498">    private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">498</span><span id="line-498">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
 <span class="source-line-no">499</span><span id="line-499">  }</span>
 <span class="source-line-no">500</span><span id="line-500"></span>
 <span class="source-line-no">501</span><span id="line-501">  @J2ktIncompatible // serialization</span>
@@ -521,7 +521,7 @@
 <span class="source-line-no">508</span><span id="line-508">    throw new InvalidObjectException("Use SerializedForm");</span>
 <span class="source-line-no">509</span><span id="line-509">  }</span>
 <span class="source-line-no">510</span><span id="line-510"></span>
-<span class="source-line-no">511</span><span id="line-511">  private static final long serialVersionUID = 0xcafebabe;</span>
+<span class="source-line-no">511</span><span id="line-511">  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;</span>
 <span class="source-line-no">512</span><span id="line-512">}</span>
 
 

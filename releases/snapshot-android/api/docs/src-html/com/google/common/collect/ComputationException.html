@@ -30,31 +30,33 @@
 <span class="source-line-no">017</span><span id="line-17">package com.google.common.collect;</span>
 <span class="source-line-no">018</span><span id="line-18"></span>
 <span class="source-line-no">019</span><span id="line-19">import com.google.common.annotations.GwtCompatible;</span>
-<span class="source-line-no">020</span><span id="line-20">import org.jspecify.annotations.Nullable;</span>
-<span class="source-line-no">021</span><span id="line-21"></span>
-<span class="source-line-no">022</span><span id="line-22">/**</span>
-<span class="source-line-no">023</span><span id="line-23"> * Wraps an exception that occurred during a computation.</span>
-<span class="source-line-no">024</span><span id="line-24"> *</span>
-<span class="source-line-no">025</span><span id="line-25"> * @author Bob Lee</span>
-<span class="source-line-no">026</span><span id="line-26"> * @since 2.0</span>
-<span class="source-line-no">027</span><span id="line-27"> * @deprecated This exception is no longer thrown by {@code com.google.common}. Previously, it was</span>
-<span class="source-line-no">028</span><span id="line-28"> *     thrown by {@link MapMaker} computing maps. When support for computing maps was removed from</span>
-<span class="source-line-no">029</span><span id="line-29"> *     {@code MapMaker}, it was added to {@code CacheBuilder}, which throws {@code</span>
-<span class="source-line-no">030</span><span id="line-30"> *     ExecutionException}, {@code UncheckedExecutionException}, and {@code ExecutionError}. Any</span>
-<span class="source-line-no">031</span><span id="line-31"> *     code that is still catching {@code ComputationException} may need to be updated to catch some</span>
-<span class="source-line-no">032</span><span id="line-32"> *     of those types instead. (Note that this type, though deprecated, is not planned to be removed</span>
-<span class="source-line-no">033</span><span id="line-33"> *     from Guava.)</span>
-<span class="source-line-no">034</span><span id="line-34"> */</span>
-<span class="source-line-no">035</span><span id="line-35">@Deprecated</span>
-<span class="source-line-no">036</span><span id="line-36">@GwtCompatible</span>
-<span class="source-line-no">037</span><span id="line-37">public class ComputationException extends RuntimeException {</span>
-<span class="source-line-no">038</span><span id="line-38">  /** Creates a new instance with the given cause. */</span>
-<span class="source-line-no">039</span><span id="line-39">  public ComputationException(@Nullable Throwable cause) {</span>
-<span class="source-line-no">040</span><span id="line-40">    super(cause);</span>
-<span class="source-line-no">041</span><span id="line-41">  }</span>
-<span class="source-line-no">042</span><span id="line-42"></span>
-<span class="source-line-no">043</span><span id="line-43">  private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">044</span><span id="line-44">}</span>
+<span class="source-line-no">020</span><span id="line-20">import com.google.common.annotations.GwtIncompatible;</span>
+<span class="source-line-no">021</span><span id="line-21">import com.google.common.annotations.J2ktIncompatible;</span>
+<span class="source-line-no">022</span><span id="line-22">import org.jspecify.annotations.Nullable;</span>
+<span class="source-line-no">023</span><span id="line-23"></span>
+<span class="source-line-no">024</span><span id="line-24">/**</span>
+<span class="source-line-no">025</span><span id="line-25"> * Wraps an exception that occurred during a computation.</span>
+<span class="source-line-no">026</span><span id="line-26"> *</span>
+<span class="source-line-no">027</span><span id="line-27"> * @author Bob Lee</span>
+<span class="source-line-no">028</span><span id="line-28"> * @since 2.0</span>
+<span class="source-line-no">029</span><span id="line-29"> * @deprecated This exception is no longer thrown by {@code com.google.common}. Previously, it was</span>
+<span class="source-line-no">030</span><span id="line-30"> *     thrown by {@link MapMaker} computing maps. When support for computing maps was removed from</span>
+<span class="source-line-no">031</span><span id="line-31"> *     {@code MapMaker}, it was added to {@code CacheBuilder}, which throws {@code</span>
+<span class="source-line-no">032</span><span id="line-32"> *     ExecutionException}, {@code UncheckedExecutionException}, and {@code ExecutionError}. Any</span>
+<span class="source-line-no">033</span><span id="line-33"> *     code that is still catching {@code ComputationException} may need to be updated to catch some</span>
+<span class="source-line-no">034</span><span id="line-34"> *     of those types instead. (Note that this type, though deprecated, is not planned to be removed</span>
+<span class="source-line-no">035</span><span id="line-35"> *     from Guava.)</span>
+<span class="source-line-no">036</span><span id="line-36"> */</span>
+<span class="source-line-no">037</span><span id="line-37">@Deprecated</span>
+<span class="source-line-no">038</span><span id="line-38">@GwtCompatible</span>
+<span class="source-line-no">039</span><span id="line-39">public class ComputationException extends RuntimeException {</span>
+<span class="source-line-no">040</span><span id="line-40">  /** Creates a new instance with the given cause. */</span>
+<span class="source-line-no">041</span><span id="line-41">  public ComputationException(@Nullable Throwable cause) {</span>
+<span class="source-line-no">042</span><span id="line-42">    super(cause);</span>
+<span class="source-line-no">043</span><span id="line-43">  }</span>
+<span class="source-line-no">044</span><span id="line-44"></span>
+<span class="source-line-no">045</span><span id="line-45">  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">046</span><span id="line-46">}</span>
 
 
 

@@ -222,7 +222,7 @@
 <span class="source-line-no">209</span><span id="line-209">    long bitSize = bits.bitSize();</span>
 <span class="source-line-no">210</span><span id="line-210">    long bitCount = bits.bitCount();</span>
 <span class="source-line-no">211</span><span id="line-211"></span>
-<span class="source-line-no">212</span><span id="line-212">    /**</span>
+<span class="source-line-no">212</span><span id="line-212">    /*</span>
 <span class="source-line-no">213</span><span id="line-213">     * Each insertion is expected to reduce the # of clear bits by a factor of</span>
 <span class="source-line-no">214</span><span id="line-214">     * `numHashFunctions/bitSize`. So, after n insertions, expected bitCount is `bitSize * (1 - (1 -</span>
 <span class="source-line-no">215</span><span id="line-215">     * numHashFunctions/bitSize)^n)`. Solving that for n, and approximating `ln x` as `x - 1` when x</span>
@@ -632,31 +632,36 @@
 <span class="source-line-no">619</span><span id="line-619">      numHashFunctions = UnsignedBytes.toInt(din.readByte());</span>
 <span class="source-line-no">620</span><span id="line-620">      dataLength = din.readInt();</span>
 <span class="source-line-no">621</span><span id="line-621"></span>
-<span class="source-line-no">622</span><span id="line-622">      Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];</span>
-<span class="source-line-no">623</span><span id="line-623"></span>
-<span class="source-line-no">624</span><span id="line-624">      LockFreeBitArray dataArray = new LockFreeBitArray(LongMath.checkedMultiply(dataLength, 64L));</span>
-<span class="source-line-no">625</span><span id="line-625">      for (int i = 0; i &lt; dataLength; i++) {</span>
-<span class="source-line-no">626</span><span id="line-626">        dataArray.putData(i, din.readLong());</span>
-<span class="source-line-no">627</span><span id="line-627">      }</span>
+<span class="source-line-no">622</span><span id="line-622">      /*</span>
+<span class="source-line-no">623</span><span id="line-623">       * We document in BloomFilterStrategies that we must not change the ordering, and we have a</span>
+<span class="source-line-no">624</span><span id="line-624">       * test that verifies that we don't do so.</span>
+<span class="source-line-no">625</span><span id="line-625">       */</span>
+<span class="source-line-no">626</span><span id="line-626">      @SuppressWarnings("EnumOrdinal")</span>
+<span class="source-line-no">627</span><span id="line-627">      Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];</span>
 <span class="source-line-no">628</span><span id="line-628"></span>
-<span class="source-line-no">629</span><span id="line-629">      return new BloomFilter&lt;&gt;(dataArray, numHashFunctions, funnel, strategy);</span>
-<span class="source-line-no">630</span><span id="line-630">    } catch (IOException e) {</span>
-<span class="source-line-no">631</span><span id="line-631">      throw e;</span>
-<span class="source-line-no">632</span><span id="line-632">    } catch (Exception e) { // sneaky checked exception</span>
-<span class="source-line-no">633</span><span id="line-633">      String message =</span>
-<span class="source-line-no">634</span><span id="line-634">          "Unable to deserialize BloomFilter from InputStream."</span>
-<span class="source-line-no">635</span><span id="line-635">              + " strategyOrdinal: "</span>
-<span class="source-line-no">636</span><span id="line-636">              + strategyOrdinal</span>
-<span class="source-line-no">637</span><span id="line-637">              + " numHashFunctions: "</span>
-<span class="source-line-no">638</span><span id="line-638">              + numHashFunctions</span>
-<span class="source-line-no">639</span><span id="line-639">              + " dataLength: "</span>
-<span class="source-line-no">640</span><span id="line-640">              + dataLength;</span>
-<span class="source-line-no">641</span><span id="line-641">      throw new IOException(message, e);</span>
-<span class="source-line-no">642</span><span id="line-642">    }</span>
-<span class="source-line-no">643</span><span id="line-643">  }</span>
-<span class="source-line-no">644</span><span id="line-644"></span>
-<span class="source-line-no">645</span><span id="line-645">  private static final long serialVersionUID = 0xcafebabe;</span>
-<span class="source-line-no">646</span><span id="line-646">}</span>
+<span class="source-line-no">629</span><span id="line-629">      LockFreeBitArray dataArray = new LockFreeBitArray(LongMath.checkedMultiply(dataLength, 64L));</span>
+<span class="source-line-no">630</span><span id="line-630">      for (int i = 0; i &lt; dataLength; i++) {</span>
+<span class="source-line-no">631</span><span id="line-631">        dataArray.putData(i, din.readLong());</span>
+<span class="source-line-no">632</span><span id="line-632">      }</span>
+<span class="source-line-no">633</span><span id="line-633"></span>
+<span class="source-line-no">634</span><span id="line-634">      return new BloomFilter&lt;&gt;(dataArray, numHashFunctions, funnel, strategy);</span>
+<span class="source-line-no">635</span><span id="line-635">    } catch (IOException e) {</span>
+<span class="source-line-no">636</span><span id="line-636">      throw e;</span>
+<span class="source-line-no">637</span><span id="line-637">    } catch (Exception e) { // sneaky checked exception</span>
+<span class="source-line-no">638</span><span id="line-638">      String message =</span>
+<span class="source-line-no">639</span><span id="line-639">          "Unable to deserialize BloomFilter from InputStream."</span>
+<span class="source-line-no">640</span><span id="line-640">              + " strategyOrdinal: "</span>
+<span class="source-line-no">641</span><span id="line-641">              + strategyOrdinal</span>
+<span class="source-line-no">642</span><span id="line-642">              + " numHashFunctions: "</span>
+<span class="source-line-no">643</span><span id="line-643">              + numHashFunctions</span>
+<span class="source-line-no">644</span><span id="line-644">              + " dataLength: "</span>
+<span class="source-line-no">645</span><span id="line-645">              + dataLength;</span>
+<span class="source-line-no">646</span><span id="line-646">      throw new IOException(message, e);</span>
+<span class="source-line-no">647</span><span id="line-647">    }</span>
+<span class="source-line-no">648</span><span id="line-648">  }</span>
+<span class="source-line-no">649</span><span id="line-649"></span>
+<span class="source-line-no">650</span><span id="line-650">  private static final long serialVersionUID = 0xcafebabe;</span>
+<span class="source-line-no">651</span><span id="line-651">}</span>
 
 
 

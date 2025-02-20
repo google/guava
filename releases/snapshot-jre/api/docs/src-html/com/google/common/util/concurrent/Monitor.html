@@ -380,7 +380,7 @@
 <span class="source-line-no">367</span><span id="line-367">   *     isSatisfied()})</span>
 <span class="source-line-no">368</span><span id="line-368">   * @since 21.0 (but only since 33.4.0 in the Android flavor)</span>
 <span class="source-line-no">369</span><span id="line-369">   */</span>
-<span class="source-line-no">370</span><span id="line-370">  public Guard newGuard(final BooleanSupplier isSatisfied) {</span>
+<span class="source-line-no">370</span><span id="line-370">  public Guard newGuard(BooleanSupplier isSatisfied) {</span>
 <span class="source-line-no">371</span><span id="line-371">    checkNotNull(isSatisfied, "isSatisfied");</span>
 <span class="source-line-no">372</span><span id="line-372">    return new Guard(this) {</span>
 <span class="source-line-no">373</span><span id="line-373">      @Override</span>
@@ -412,14 +412,14 @@
 <span class="source-line-no">399</span><span id="line-399">   */</span>
 <span class="source-line-no">400</span><span id="line-400">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</span>
 <span class="source-line-no">401</span><span id="line-401">  public boolean enter(long time, TimeUnit unit) {</span>
-<span class="source-line-no">402</span><span id="line-402">    final long timeoutNanos = toSafeNanos(time, unit);</span>
-<span class="source-line-no">403</span><span id="line-403">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">402</span><span id="line-402">    long timeoutNanos = toSafeNanos(time, unit);</span>
+<span class="source-line-no">403</span><span id="line-403">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">404</span><span id="line-404">    if (!fair &amp;&amp; lock.tryLock()) {</span>
 <span class="source-line-no">405</span><span id="line-405">      return true;</span>
 <span class="source-line-no">406</span><span id="line-406">    }</span>
 <span class="source-line-no">407</span><span id="line-407">    boolean interrupted = Thread.interrupted();</span>
 <span class="source-line-no">408</span><span id="line-408">    try {</span>
-<span class="source-line-no">409</span><span id="line-409">      final long startTime = System.nanoTime();</span>
+<span class="source-line-no">409</span><span id="line-409">      long startTime = System.nanoTime();</span>
 <span class="source-line-no">410</span><span id="line-410">      for (long remainingNanos = timeoutNanos; ; ) {</span>
 <span class="source-line-no">411</span><span id="line-411">        try {</span>
 <span class="source-line-no">412</span><span id="line-412">          return lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS);</span>
@@ -486,7 +486,7 @@
 <span class="source-line-no">473</span><span id="line-473">    if (guard.monitor != this) {</span>
 <span class="source-line-no">474</span><span id="line-474">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">475</span><span id="line-475">    }</span>
-<span class="source-line-no">476</span><span id="line-476">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">476</span><span id="line-476">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">477</span><span id="line-477">    boolean signalBeforeWaiting = lock.isHeldByCurrentThread();</span>
 <span class="source-line-no">478</span><span id="line-478">    lock.lockInterruptibly();</span>
 <span class="source-line-no">479</span><span id="line-479"></span>
@@ -529,11 +529,11 @@
 <span class="source-line-no">516</span><span id="line-516">    "LabelledBreakTarget", // TODO(b/345814817): Maybe fix.</span>
 <span class="source-line-no">517</span><span id="line-517">  })</span>
 <span class="source-line-no">518</span><span id="line-518">  public boolean enterWhen(Guard guard, long time, TimeUnit unit) throws InterruptedException {</span>
-<span class="source-line-no">519</span><span id="line-519">    final long timeoutNanos = toSafeNanos(time, unit);</span>
+<span class="source-line-no">519</span><span id="line-519">    long timeoutNanos = toSafeNanos(time, unit);</span>
 <span class="source-line-no">520</span><span id="line-520">    if (guard.monitor != this) {</span>
 <span class="source-line-no">521</span><span id="line-521">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">522</span><span id="line-522">    }</span>
-<span class="source-line-no">523</span><span id="line-523">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">523</span><span id="line-523">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">524</span><span id="line-524">    boolean reentrant = lock.isHeldByCurrentThread();</span>
 <span class="source-line-no">525</span><span id="line-525">    long startTime = 0L;</span>
 <span class="source-line-no">526</span><span id="line-526"></span>
@@ -584,7 +584,7 @@
 <span class="source-line-no">571</span><span id="line-571">    if (guard.monitor != this) {</span>
 <span class="source-line-no">572</span><span id="line-572">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">573</span><span id="line-573">    }</span>
-<span class="source-line-no">574</span><span id="line-574">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">574</span><span id="line-574">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">575</span><span id="line-575">    boolean signalBeforeWaiting = lock.isHeldByCurrentThread();</span>
 <span class="source-line-no">576</span><span id="line-576">    lock.lock();</span>
 <span class="source-line-no">577</span><span id="line-577"></span>
@@ -620,11 +620,11 @@
 <span class="source-line-no">607</span><span id="line-607">   */</span>
 <span class="source-line-no">608</span><span id="line-608">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</span>
 <span class="source-line-no">609</span><span id="line-609">  public boolean enterWhenUninterruptibly(Guard guard, long time, TimeUnit unit) {</span>
-<span class="source-line-no">610</span><span id="line-610">    final long timeoutNanos = toSafeNanos(time, unit);</span>
+<span class="source-line-no">610</span><span id="line-610">    long timeoutNanos = toSafeNanos(time, unit);</span>
 <span class="source-line-no">611</span><span id="line-611">    if (guard.monitor != this) {</span>
 <span class="source-line-no">612</span><span id="line-612">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">613</span><span id="line-613">    }</span>
-<span class="source-line-no">614</span><span id="line-614">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">614</span><span id="line-614">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">615</span><span id="line-615">    long startTime = 0L;</span>
 <span class="source-line-no">616</span><span id="line-616">    boolean signalBeforeWaiting = lock.isHeldByCurrentThread();</span>
 <span class="source-line-no">617</span><span id="line-617">    boolean interrupted = Thread.interrupted();</span>
@@ -652,7 +652,7 @@
 <span class="source-line-no">639</span><span id="line-639">            if (guard.isSatisfied()) {</span>
 <span class="source-line-no">640</span><span id="line-640">              satisfied = true;</span>
 <span class="source-line-no">641</span><span id="line-641">            } else {</span>
-<span class="source-line-no">642</span><span id="line-642">              final long remainingNanos;</span>
+<span class="source-line-no">642</span><span id="line-642">              long remainingNanos;</span>
 <span class="source-line-no">643</span><span id="line-643">              if (startTime == 0L) {</span>
 <span class="source-line-no">644</span><span id="line-644">                startTime = initNanoTime(timeoutNanos);</span>
 <span class="source-line-no">645</span><span id="line-645">                remainingNanos = timeoutNanos;</span>
@@ -689,7 +689,7 @@
 <span class="source-line-no">676</span><span id="line-676">    if (guard.monitor != this) {</span>
 <span class="source-line-no">677</span><span id="line-677">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">678</span><span id="line-678">    }</span>
-<span class="source-line-no">679</span><span id="line-679">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">679</span><span id="line-679">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">680</span><span id="line-680">    lock.lock();</span>
 <span class="source-line-no">681</span><span id="line-681"></span>
 <span class="source-line-no">682</span><span id="line-682">    boolean satisfied = false;</span>
@@ -749,7 +749,7 @@
 <span class="source-line-no">736</span><span id="line-736">    if (guard.monitor != this) {</span>
 <span class="source-line-no">737</span><span id="line-737">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">738</span><span id="line-738">    }</span>
-<span class="source-line-no">739</span><span id="line-739">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">739</span><span id="line-739">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">740</span><span id="line-740">    lock.lockInterruptibly();</span>
 <span class="source-line-no">741</span><span id="line-741"></span>
 <span class="source-line-no">742</span><span id="line-742">    boolean satisfied = false;</span>
@@ -785,7 +785,7 @@
 <span class="source-line-no">772</span><span id="line-772">    if (guard.monitor != this) {</span>
 <span class="source-line-no">773</span><span id="line-773">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">774</span><span id="line-774">    }</span>
-<span class="source-line-no">775</span><span id="line-775">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">775</span><span id="line-775">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">776</span><span id="line-776">    if (!lock.tryLock(time, unit)) {</span>
 <span class="source-line-no">777</span><span id="line-777">      return false;</span>
 <span class="source-line-no">778</span><span id="line-778">    }</span>
@@ -812,7 +812,7 @@
 <span class="source-line-no">799</span><span id="line-799">    if (guard.monitor != this) {</span>
 <span class="source-line-no">800</span><span id="line-800">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">801</span><span id="line-801">    }</span>
-<span class="source-line-no">802</span><span id="line-802">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">802</span><span id="line-802">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">803</span><span id="line-803">    if (!lock.tryLock()) {</span>
 <span class="source-line-no">804</span><span id="line-804">      return false;</span>
 <span class="source-line-no">805</span><span id="line-805">    }</span>
@@ -863,7 +863,7 @@
 <span class="source-line-no">850</span><span id="line-850">   */</span>
 <span class="source-line-no">851</span><span id="line-851">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</span>
 <span class="source-line-no">852</span><span id="line-852">  public boolean waitFor(Guard guard, long time, TimeUnit unit) throws InterruptedException {</span>
-<span class="source-line-no">853</span><span id="line-853">    final long timeoutNanos = toSafeNanos(time, unit);</span>
+<span class="source-line-no">853</span><span id="line-853">    long timeoutNanos = toSafeNanos(time, unit);</span>
 <span class="source-line-no">854</span><span id="line-854">    if (!((guard.monitor == this) &amp;&amp; lock.isHeldByCurrentThread())) {</span>
 <span class="source-line-no">855</span><span id="line-855">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">856</span><span id="line-856">    }</span>
@@ -908,7 +908,7 @@
 <span class="source-line-no">895</span><span id="line-895">   */</span>
 <span class="source-line-no">896</span><span id="line-896">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</span>
 <span class="source-line-no">897</span><span id="line-897">  public boolean waitForUninterruptibly(Guard guard, long time, TimeUnit unit) {</span>
-<span class="source-line-no">898</span><span id="line-898">    final long timeoutNanos = toSafeNanos(time, unit);</span>
+<span class="source-line-no">898</span><span id="line-898">    long timeoutNanos = toSafeNanos(time, unit);</span>
 <span class="source-line-no">899</span><span id="line-899">    if (!((guard.monitor == this) &amp;&amp; lock.isHeldByCurrentThread())) {</span>
 <span class="source-line-no">900</span><span id="line-900">      throw new IllegalMonitorStateException();</span>
 <span class="source-line-no">901</span><span id="line-901">    }</span>
@@ -916,7 +916,7 @@
 <span class="source-line-no">903</span><span id="line-903">      return true;</span>
 <span class="source-line-no">904</span><span id="line-904">    }</span>
 <span class="source-line-no">905</span><span id="line-905">    boolean signalBeforeWaiting = true;</span>
-<span class="source-line-no">906</span><span id="line-906">    final long startTime = initNanoTime(timeoutNanos);</span>
+<span class="source-line-no">906</span><span id="line-906">    long startTime = initNanoTime(timeoutNanos);</span>
 <span class="source-line-no">907</span><span id="line-907">    boolean interrupted = Thread.interrupted();</span>
 <span class="source-line-no">908</span><span id="line-908">    try {</span>
 <span class="source-line-no">909</span><span id="line-909">      for (long remainingNanos = timeoutNanos; ; ) {</span>
@@ -940,7 +940,7 @@
 <span class="source-line-no">927</span><span id="line-927"></span>
 <span class="source-line-no">928</span><span id="line-928">  /** Leaves this monitor. May be called only by a thread currently occupying this monitor. */</span>
 <span class="source-line-no">929</span><span id="line-929">  public void leave() {</span>
-<span class="source-line-no">930</span><span id="line-930">    final ReentrantLock lock = this.lock;</span>
+<span class="source-line-no">930</span><span id="line-930">    ReentrantLock lock = this.lock;</span>
 <span class="source-line-no">931</span><span id="line-931">    try {</span>
 <span class="source-line-no">932</span><span id="line-932">      // No need to signal if we will still be holding the lock when we return</span>
 <span class="source-line-no">933</span><span id="line-933">      if (lock.getHoldCount() == 1) {</span>

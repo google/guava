@@ -153,7 +153,7 @@
 <span class="source-line-no">140</span><span id="line-140">   * requestCount}, or {@code 0.0} when {@code requestCount == 0}. Note that {@code hitRate +</span>
 <span class="source-line-no">141</span><span id="line-141">   * missRate =~ 1.0}. Cache misses include all requests which weren't cache hits, including</span>
 <span class="source-line-no">142</span><span id="line-142">   * requests which resulted in either successful or failed loading attempts, and requests which</span>
-<span class="source-line-no">143</span><span id="line-143">   * waited for other threads to finish loading. It is thus the case that {@code missCount &amp;gt;=</span>
+<span class="source-line-no">143</span><span id="line-143">   * waited for other threads to finish loading. It is thus the case that {@code missCount &gt;=</span>
 <span class="source-line-no">144</span><span id="line-144">   * loadSuccessCount + loadExceptionCount}. Multiple concurrent misses for the same key will result</span>
 <span class="source-line-no">145</span><span id="line-145">   * in a single load operation.</span>
 <span class="source-line-no">146</span><span id="line-146">   */</span>

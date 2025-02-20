@@ -30,43 +30,43 @@
 <span class="source-line-no">017</span><span id="line-17">import static com.google.common.base.Preconditions.checkArgument;</span>
 <span class="source-line-no">018</span><span id="line-18">import static com.google.common.base.Preconditions.checkNotNull;</span>
 <span class="source-line-no">019</span><span id="line-19">import static com.google.common.io.FileWriteMode.APPEND;</span>
-<span class="source-line-no">020</span><span id="line-20"></span>
-<span class="source-line-no">021</span><span id="line-21">import com.google.common.annotations.Beta;</span>
-<span class="source-line-no">022</span><span id="line-22">import com.google.common.annotations.GwtIncompatible;</span>
-<span class="source-line-no">023</span><span id="line-23">import com.google.common.annotations.J2ktIncompatible;</span>
-<span class="source-line-no">024</span><span id="line-24">import com.google.common.base.Joiner;</span>
-<span class="source-line-no">025</span><span id="line-25">import com.google.common.base.Optional;</span>
-<span class="source-line-no">026</span><span id="line-26">import com.google.common.base.Predicate;</span>
-<span class="source-line-no">027</span><span id="line-27">import com.google.common.base.Splitter;</span>
-<span class="source-line-no">028</span><span id="line-28">import com.google.common.collect.ImmutableList;</span>
-<span class="source-line-no">029</span><span id="line-29">import com.google.common.collect.ImmutableSet;</span>
-<span class="source-line-no">030</span><span id="line-30">import com.google.common.collect.Lists;</span>
-<span class="source-line-no">031</span><span id="line-31">import com.google.common.graph.SuccessorsFunction;</span>
-<span class="source-line-no">032</span><span id="line-32">import com.google.common.graph.Traverser;</span>
-<span class="source-line-no">033</span><span id="line-33">import com.google.common.hash.HashCode;</span>
-<span class="source-line-no">034</span><span id="line-34">import com.google.common.hash.HashFunction;</span>
-<span class="source-line-no">035</span><span id="line-35">import com.google.errorprone.annotations.CanIgnoreReturnValue;</span>
-<span class="source-line-no">036</span><span id="line-36">import com.google.errorprone.annotations.InlineMe;</span>
-<span class="source-line-no">037</span><span id="line-37">import com.google.j2objc.annotations.J2ObjCIncompatible;</span>
-<span class="source-line-no">038</span><span id="line-38">import java.io.BufferedReader;</span>
-<span class="source-line-no">039</span><span id="line-39">import java.io.BufferedWriter;</span>
-<span class="source-line-no">040</span><span id="line-40">import java.io.File;</span>
-<span class="source-line-no">041</span><span id="line-41">import java.io.FileInputStream;</span>
-<span class="source-line-no">042</span><span id="line-42">import java.io.FileNotFoundException;</span>
-<span class="source-line-no">043</span><span id="line-43">import java.io.FileOutputStream;</span>
-<span class="source-line-no">044</span><span id="line-44">import java.io.IOException;</span>
-<span class="source-line-no">045</span><span id="line-45">import java.io.InputStreamReader;</span>
-<span class="source-line-no">046</span><span id="line-46">import java.io.OutputStream;</span>
-<span class="source-line-no">047</span><span id="line-47">import java.io.OutputStreamWriter;</span>
-<span class="source-line-no">048</span><span id="line-48">import java.io.RandomAccessFile;</span>
-<span class="source-line-no">049</span><span id="line-49">import java.nio.MappedByteBuffer;</span>
-<span class="source-line-no">050</span><span id="line-50">import java.nio.channels.FileChannel;</span>
-<span class="source-line-no">051</span><span id="line-51">import java.nio.channels.FileChannel.MapMode;</span>
-<span class="source-line-no">052</span><span id="line-52">import java.nio.charset.Charset;</span>
-<span class="source-line-no">053</span><span id="line-53">import java.nio.charset.StandardCharsets;</span>
-<span class="source-line-no">054</span><span id="line-54">import java.util.ArrayList;</span>
-<span class="source-line-no">055</span><span id="line-55">import java.util.Arrays;</span>
-<span class="source-line-no">056</span><span id="line-56">import java.util.Collections;</span>
+<span class="source-line-no">020</span><span id="line-20">import static java.util.Collections.unmodifiableList;</span>
+<span class="source-line-no">021</span><span id="line-21"></span>
+<span class="source-line-no">022</span><span id="line-22">import com.google.common.annotations.Beta;</span>
+<span class="source-line-no">023</span><span id="line-23">import com.google.common.annotations.GwtIncompatible;</span>
+<span class="source-line-no">024</span><span id="line-24">import com.google.common.annotations.J2ktIncompatible;</span>
+<span class="source-line-no">025</span><span id="line-25">import com.google.common.base.Joiner;</span>
+<span class="source-line-no">026</span><span id="line-26">import com.google.common.base.Optional;</span>
+<span class="source-line-no">027</span><span id="line-27">import com.google.common.base.Predicate;</span>
+<span class="source-line-no">028</span><span id="line-28">import com.google.common.base.Splitter;</span>
+<span class="source-line-no">029</span><span id="line-29">import com.google.common.collect.ImmutableList;</span>
+<span class="source-line-no">030</span><span id="line-30">import com.google.common.collect.ImmutableSet;</span>
+<span class="source-line-no">031</span><span id="line-31">import com.google.common.collect.Lists;</span>
+<span class="source-line-no">032</span><span id="line-32">import com.google.common.graph.SuccessorsFunction;</span>
+<span class="source-line-no">033</span><span id="line-33">import com.google.common.graph.Traverser;</span>
+<span class="source-line-no">034</span><span id="line-34">import com.google.common.hash.HashCode;</span>
+<span class="source-line-no">035</span><span id="line-35">import com.google.common.hash.HashFunction;</span>
+<span class="source-line-no">036</span><span id="line-36">import com.google.errorprone.annotations.CanIgnoreReturnValue;</span>
+<span class="source-line-no">037</span><span id="line-37">import com.google.errorprone.annotations.InlineMe;</span>
+<span class="source-line-no">038</span><span id="line-38">import com.google.j2objc.annotations.J2ObjCIncompatible;</span>
+<span class="source-line-no">039</span><span id="line-39">import java.io.BufferedReader;</span>
+<span class="source-line-no">040</span><span id="line-40">import java.io.BufferedWriter;</span>
+<span class="source-line-no">041</span><span id="line-41">import java.io.File;</span>
+<span class="source-line-no">042</span><span id="line-42">import java.io.FileInputStream;</span>
+<span class="source-line-no">043</span><span id="line-43">import java.io.FileNotFoundException;</span>
+<span class="source-line-no">044</span><span id="line-44">import java.io.FileOutputStream;</span>
+<span class="source-line-no">045</span><span id="line-45">import java.io.IOException;</span>
+<span class="source-line-no">046</span><span id="line-46">import java.io.InputStreamReader;</span>
+<span class="source-line-no">047</span><span id="line-47">import java.io.OutputStream;</span>
+<span class="source-line-no">048</span><span id="line-48">import java.io.OutputStreamWriter;</span>
+<span class="source-line-no">049</span><span id="line-49">import java.io.RandomAccessFile;</span>
+<span class="source-line-no">050</span><span id="line-50">import java.nio.MappedByteBuffer;</span>
+<span class="source-line-no">051</span><span id="line-51">import java.nio.channels.FileChannel;</span>
+<span class="source-line-no">052</span><span id="line-52">import java.nio.channels.FileChannel.MapMode;</span>
+<span class="source-line-no">053</span><span id="line-53">import java.nio.charset.Charset;</span>
+<span class="source-line-no">054</span><span id="line-54">import java.nio.charset.StandardCharsets;</span>
+<span class="source-line-no">055</span><span id="line-55">import java.util.ArrayList;</span>
+<span class="source-line-no">056</span><span id="line-56">import java.util.Arrays;</span>
 <span class="source-line-no">057</span><span id="line-57">import java.util.List;</span>
 <span class="source-line-no">058</span><span id="line-58">import org.jspecify.annotations.Nullable;</span>
 <span class="source-line-no">059</span><span id="line-59"></span>
@@ -784,7 +784,7 @@
 <span class="source-line-no">771</span><span id="line-771">    }</span>
 <span class="source-line-no">772</span><span id="line-772">    if (result.equals("/..")) {</span>
 <span class="source-line-no">773</span><span id="line-773">      result = "/";</span>
-<span class="source-line-no">774</span><span id="line-774">    } else if ("".equals(result)) {</span>
+<span class="source-line-no">774</span><span id="line-774">    } else if (result.isEmpty()) {</span>
 <span class="source-line-no">775</span><span id="line-775">      result = ".";</span>
 <span class="source-line-no">776</span><span id="line-776">    }</span>
 <span class="source-line-no">777</span><span id="line-777"></span>
@@ -858,65 +858,62 @@
 <span class="source-line-no">845</span><span id="line-845">  }</span>
 <span class="source-line-no">846</span><span id="line-846"></span>
 <span class="source-line-no">847</span><span id="line-847">  private static final SuccessorsFunction&lt;File&gt; FILE_TREE =</span>
-<span class="source-line-no">848</span><span id="line-848">      new SuccessorsFunction&lt;File&gt;() {</span>
-<span class="source-line-no">849</span><span id="line-849">        @Override</span>
-<span class="source-line-no">850</span><span id="line-850">        public Iterable&lt;File&gt; successors(File file) {</span>
-<span class="source-line-no">851</span><span id="line-851">          // check isDirectory() just because it may be faster than listFiles() on a non-directory</span>
-<span class="source-line-no">852</span><span id="line-852">          if (file.isDirectory()) {</span>
-<span class="source-line-no">853</span><span id="line-853">            File[] files = file.listFiles();</span>
-<span class="source-line-no">854</span><span id="line-854">            if (files != null) {</span>
-<span class="source-line-no">855</span><span id="line-855">              return Collections.unmodifiableList(Arrays.asList(files));</span>
-<span class="source-line-no">856</span><span id="line-856">            }</span>
-<span class="source-line-no">857</span><span id="line-857">          }</span>
-<span class="source-line-no">858</span><span id="line-858"></span>
-<span class="source-line-no">859</span><span id="line-859">          return ImmutableList.of();</span>
-<span class="source-line-no">860</span><span id="line-860">        }</span>
-<span class="source-line-no">861</span><span id="line-861">      };</span>
-<span class="source-line-no">862</span><span id="line-862"></span>
-<span class="source-line-no">863</span><span id="line-863">  /**</span>
-<span class="source-line-no">864</span><span id="line-864">   * Returns a predicate that returns the result of {@link File#isDirectory} on input files.</span>
-<span class="source-line-no">865</span><span id="line-865">   *</span>
-<span class="source-line-no">866</span><span id="line-866">   * @since 15.0</span>
-<span class="source-line-no">867</span><span id="line-867">   */</span>
-<span class="source-line-no">868</span><span id="line-868">  public static Predicate&lt;File&gt; isDirectory() {</span>
-<span class="source-line-no">869</span><span id="line-869">    return FilePredicate.IS_DIRECTORY;</span>
-<span class="source-line-no">870</span><span id="line-870">  }</span>
-<span class="source-line-no">871</span><span id="line-871"></span>
-<span class="source-line-no">872</span><span id="line-872">  /**</span>
-<span class="source-line-no">873</span><span id="line-873">   * Returns a predicate that returns the result of {@link File#isFile} on input files.</span>
-<span class="source-line-no">874</span><span id="line-874">   *</span>
-<span class="source-line-no">875</span><span id="line-875">   * @since 15.0</span>
-<span class="source-line-no">876</span><span id="line-876">   */</span>
-<span class="source-line-no">877</span><span id="line-877">  public static Predicate&lt;File&gt; isFile() {</span>
-<span class="source-line-no">878</span><span id="line-878">    return FilePredicate.IS_FILE;</span>
-<span class="source-line-no">879</span><span id="line-879">  }</span>
-<span class="source-line-no">880</span><span id="line-880"></span>
-<span class="source-line-no">881</span><span id="line-881">  private enum FilePredicate implements Predicate&lt;File&gt; {</span>
-<span class="source-line-no">882</span><span id="line-882">    IS_DIRECTORY {</span>
-<span class="source-line-no">883</span><span id="line-883">      @Override</span>
-<span class="source-line-no">884</span><span id="line-884">      public boolean apply(File file) {</span>
-<span class="source-line-no">885</span><span id="line-885">        return file.isDirectory();</span>
-<span class="source-line-no">886</span><span id="line-886">      }</span>
-<span class="source-line-no">887</span><span id="line-887"></span>
-<span class="source-line-no">888</span><span id="line-888">      @Override</span>
-<span class="source-line-no">889</span><span id="line-889">      public String toString() {</span>
-<span class="source-line-no">890</span><span id="line-890">        return "Files.isDirectory()";</span>
-<span class="source-line-no">891</span><span id="line-891">      }</span>
-<span class="source-line-no">892</span><span id="line-892">    },</span>
-<span class="source-line-no">893</span><span id="line-893"></span>
-<span class="source-line-no">894</span><span id="line-894">    IS_FILE {</span>
-<span class="source-line-no">895</span><span id="line-895">      @Override</span>
-<span class="source-line-no">896</span><span id="line-896">      public boolean apply(File file) {</span>
-<span class="source-line-no">897</span><span id="line-897">        return file.isFile();</span>
-<span class="source-line-no">898</span><span id="line-898">      }</span>
-<span class="source-line-no">899</span><span id="line-899"></span>
-<span class="source-line-no">900</span><span id="line-900">      @Override</span>
-<span class="source-line-no">901</span><span id="line-901">      public String toString() {</span>
-<span class="source-line-no">902</span><span id="line-902">        return "Files.isFile()";</span>
-<span class="source-line-no">903</span><span id="line-903">      }</span>
-<span class="source-line-no">904</span><span id="line-904">    }</span>
-<span class="source-line-no">905</span><span id="line-905">  }</span>
-<span class="source-line-no">906</span><span id="line-906">}</span>
+<span class="source-line-no">848</span><span id="line-848">      file -&gt; {</span>
+<span class="source-line-no">849</span><span id="line-849">        // check isDirectory() just because it may be faster than listFiles() on a non-directory</span>
+<span class="source-line-no">850</span><span id="line-850">        if (file.isDirectory()) {</span>
+<span class="source-line-no">851</span><span id="line-851">          File[] files = file.listFiles();</span>
+<span class="source-line-no">852</span><span id="line-852">          if (files != null) {</span>
+<span class="source-line-no">853</span><span id="line-853">            return unmodifiableList(Arrays.asList(files));</span>
+<span class="source-line-no">854</span><span id="line-854">          }</span>
+<span class="source-line-no">855</span><span id="line-855">        }</span>
+<span class="source-line-no">856</span><span id="line-856"></span>
+<span class="source-line-no">857</span><span id="line-857">        return ImmutableList.of();</span>
+<span class="source-line-no">858</span><span id="line-858">      };</span>
+<span class="source-line-no">859</span><span id="line-859"></span>
+<span class="source-line-no">860</span><span id="line-860">  /**</span>
+<span class="source-line-no">861</span><span id="line-861">   * Returns a predicate that returns the result of {@link File#isDirectory} on input files.</span>
+<span class="source-line-no">862</span><span id="line-862">   *</span>
+<span class="source-line-no">863</span><span id="line-863">   * @since 15.0</span>
+<span class="source-line-no">864</span><span id="line-864">   */</span>
+<span class="source-line-no">865</span><span id="line-865">  public static Predicate&lt;File&gt; isDirectory() {</span>
+<span class="source-line-no">866</span><span id="line-866">    return FilePredicate.IS_DIRECTORY;</span>
+<span class="source-line-no">867</span><span id="line-867">  }</span>
+<span class="source-line-no">868</span><span id="line-868"></span>
+<span class="source-line-no">869</span><span id="line-869">  /**</span>
+<span class="source-line-no">870</span><span id="line-870">   * Returns a predicate that returns the result of {@link File#isFile} on input files.</span>
+<span class="source-line-no">871</span><span id="line-871">   *</span>
+<span class="source-line-no">872</span><span id="line-872">   * @since 15.0</span>
+<span class="source-line-no">873</span><span id="line-873">   */</span>
+<span class="source-line-no">874</span><span id="line-874">  public static Predicate&lt;File&gt; isFile() {</span>
+<span class="source-line-no">875</span><span id="line-875">    return FilePredicate.IS_FILE;</span>
+<span class="source-line-no">876</span><span id="line-876">  }</span>
+<span class="source-line-no">877</span><span id="line-877"></span>
+<span class="source-line-no">878</span><span id="line-878">  private enum FilePredicate implements Predicate&lt;File&gt; {</span>
+<span class="source-line-no">879</span><span id="line-879">    IS_DIRECTORY {</span>
+<span class="source-line-no">880</span><span id="line-880">      @Override</span>
+<span class="source-line-no">881</span><span id="line-881">      public boolean apply(File file) {</span>
+<span class="source-line-no">882</span><span id="line-882">        return file.isDirectory();</span>
+<span class="source-line-no">883</span><span id="line-883">      }</span>
+<span class="source-line-no">884</span><span id="line-884"></span>
+<span class="source-line-no">885</span><span id="line-885">      @Override</span>
+<span class="source-line-no">886</span><span id="line-886">      public String toString() {</span>
+<span class="source-line-no">887</span><span id="line-887">        return "Files.isDirectory()";</span>
+<span class="source-line-no">888</span><span id="line-888">      }</span>
+<span class="source-line-no">889</span><span id="line-889">    },</span>
+<span class="source-line-no">890</span><span id="line-890"></span>
+<span class="source-line-no">891</span><span id="line-891">    IS_FILE {</span>
+<span class="source-line-no">892</span><span id="line-892">      @Override</span>
+<span class="source-line-no">893</span><span id="line-893">      public boolean apply(File file) {</span>
+<span class="source-line-no">894</span><span id="line-894">        return file.isFile();</span>
+<span class="source-line-no">895</span><span id="line-895">      }</span>
+<span class="source-line-no">896</span><span id="line-896"></span>
+<span class="source-line-no">897</span><span id="line-897">      @Override</span>
+<span class="source-line-no">898</span><span id="line-898">      public String toString() {</span>
+<span class="source-line-no">899</span><span id="line-899">        return "Files.isFile()";</span>
+<span class="source-line-no">900</span><span id="line-900">      }</span>
+<span class="source-line-no">901</span><span id="line-901">    }</span>
+<span class="source-line-no">902</span><span id="line-902">  }</span>
+<span class="source-line-no">903</span><span id="line-903">}</span>
 
 
 

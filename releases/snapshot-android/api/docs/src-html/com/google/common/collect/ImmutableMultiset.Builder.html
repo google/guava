@@ -236,7 +236,7 @@
 <span class="source-line-no">223</span><span id="line-223"></span>
 <span class="source-line-no">224</span><span id="line-224">  @Override</span>
 <span class="source-line-no">225</span><span id="line-225">  public UnmodifiableIterator&lt;E&gt; iterator() {</span>
-<span class="source-line-no">226</span><span id="line-226">    final Iterator&lt;Entry&lt;E&gt;&gt; entryIterator = entrySet().iterator();</span>
+<span class="source-line-no">226</span><span id="line-226">    Iterator&lt;Entry&lt;E&gt;&gt; entryIterator = entrySet().iterator();</span>
 <span class="source-line-no">227</span><span id="line-227">    return new UnmodifiableIterator&lt;E&gt;() {</span>
 <span class="source-line-no">228</span><span id="line-228">      int remaining;</span>
 <span class="source-line-no">229</span><span id="line-229">      @Nullable E element;</span>
@@ -425,7 +425,7 @@
 <span class="source-line-no">412</span><span id="line-412">      throw new InvalidObjectException("Use EntrySetSerializedForm");</span>
 <span class="source-line-no">413</span><span id="line-413">    }</span>
 <span class="source-line-no">414</span><span id="line-414"></span>
-<span class="source-line-no">415</span><span id="line-415">    @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">415</span><span id="line-415">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
 <span class="source-line-no">416</span><span id="line-416">  }</span>
 <span class="source-line-no">417</span><span id="line-417"></span>
 <span class="source-line-no">418</span><span id="line-418">  @GwtIncompatible</span>
@@ -687,7 +687,7 @@
 <span class="source-line-no">674</span><span id="line-674">    }</span>
 <span class="source-line-no">675</span><span id="line-675">  }</span>
 <span class="source-line-no">676</span><span id="line-676"></span>
-<span class="source-line-no">677</span><span id="line-677">  private static final long serialVersionUID = 0xdecaf;</span>
+<span class="source-line-no">677</span><span id="line-677">  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xdecaf;</span>
 <span class="source-line-no">678</span><span id="line-678">}</span>
 
 

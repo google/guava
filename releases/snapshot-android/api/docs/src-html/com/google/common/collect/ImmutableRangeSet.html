@@ -456,14 +456,14 @@
 <span class="source-line-no">443</span><span id="line-443">   * Returns a list containing the nonempty intersections of {@code range} with the ranges in this</span>
 <span class="source-line-no">444</span><span id="line-444">   * range set.</span>
 <span class="source-line-no">445</span><span id="line-445">   */</span>
-<span class="source-line-no">446</span><span id="line-446">  private ImmutableList&lt;Range&lt;C&gt;&gt; intersectRanges(final Range&lt;C&gt; range) {</span>
+<span class="source-line-no">446</span><span id="line-446">  private ImmutableList&lt;Range&lt;C&gt;&gt; intersectRanges(Range&lt;C&gt; range) {</span>
 <span class="source-line-no">447</span><span id="line-447">    if (ranges.isEmpty() || range.isEmpty()) {</span>
 <span class="source-line-no">448</span><span id="line-448">      return ImmutableList.of();</span>
 <span class="source-line-no">449</span><span id="line-449">    } else if (range.encloses(span())) {</span>
 <span class="source-line-no">450</span><span id="line-450">      return ranges;</span>
 <span class="source-line-no">451</span><span id="line-451">    }</span>
 <span class="source-line-no">452</span><span id="line-452"></span>
-<span class="source-line-no">453</span><span id="line-453">    final int fromIndex;</span>
+<span class="source-line-no">453</span><span id="line-453">    int fromIndex;</span>
 <span class="source-line-no">454</span><span id="line-454">    if (range.hasLowerBound()) {</span>
 <span class="source-line-no">455</span><span id="line-455">      fromIndex =</span>
 <span class="source-line-no">456</span><span id="line-456">          SortedLists.binarySearch(</span>
@@ -488,7 +488,7 @@
 <span class="source-line-no">475</span><span id="line-475">    } else {</span>
 <span class="source-line-no">476</span><span id="line-476">      toIndex = ranges.size();</span>
 <span class="source-line-no">477</span><span id="line-477">    }</span>
-<span class="source-line-no">478</span><span id="line-478">    final int length = toIndex - fromIndex;</span>
+<span class="source-line-no">478</span><span id="line-478">    int length = toIndex - fromIndex;</span>
 <span class="source-line-no">479</span><span id="line-479">    if (length == 0) {</span>
 <span class="source-line-no">480</span><span id="line-480">      return ImmutableList.of();</span>
 <span class="source-line-no">481</span><span id="line-481">    } else {</span>

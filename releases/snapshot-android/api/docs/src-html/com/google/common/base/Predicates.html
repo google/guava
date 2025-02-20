@@ -223,543 +223,550 @@
 <span class="source-line-no">210</span><span id="line-210">   *</span>
 <span class="source-line-no">211</span><span id="line-211">   * @param target the collection that may contain the function input</span>
 <span class="source-line-no">212</span><span id="line-212">   */</span>
-<span class="source-line-no">213</span><span id="line-213">  public static &lt;T extends @Nullable Object&gt; Predicate&lt;T&gt; in(Collection&lt;? extends T&gt; target) {</span>
-<span class="source-line-no">214</span><span id="line-214">    return new InPredicate&lt;&gt;(target);</span>
-<span class="source-line-no">215</span><span id="line-215">  }</span>
-<span class="source-line-no">216</span><span id="line-216"></span>
-<span class="source-line-no">217</span><span id="line-217">  /**</span>
-<span class="source-line-no">218</span><span id="line-218">   * Returns the composition of a function and a predicate. For every {@code x}, the generated</span>
-<span class="source-line-no">219</span><span id="line-219">   * predicate returns {@code predicate(function(x))}.</span>
-<span class="source-line-no">220</span><span id="line-220">   *</span>
-<span class="source-line-no">221</span><span id="line-221">   * @return the composition of the provided function and predicate</span>
-<span class="source-line-no">222</span><span id="line-222">   */</span>
-<span class="source-line-no">223</span><span id="line-223">  public static &lt;A extends @Nullable Object, B extends @Nullable Object&gt; Predicate&lt;A&gt; compose(</span>
-<span class="source-line-no">224</span><span id="line-224">      Predicate&lt;B&gt; predicate, Function&lt;A, ? extends B&gt; function) {</span>
-<span class="source-line-no">225</span><span id="line-225">    return new CompositionPredicate&lt;&gt;(predicate, function);</span>
-<span class="source-line-no">226</span><span id="line-226">  }</span>
-<span class="source-line-no">227</span><span id="line-227"></span>
-<span class="source-line-no">228</span><span id="line-228">  /**</span>
-<span class="source-line-no">229</span><span id="line-229">   * Returns a predicate that evaluates to {@code true} if the {@code CharSequence} being tested</span>
-<span class="source-line-no">230</span><span id="line-230">   * contains any match for the given regular expression pattern. The test used is equivalent to</span>
-<span class="source-line-no">231</span><span id="line-231">   * {@code Pattern.compile(pattern).matcher(arg).find()}</span>
-<span class="source-line-no">232</span><span id="line-232">   *</span>
-<span class="source-line-no">233</span><span id="line-233">   * @throws IllegalArgumentException if the pattern is invalid</span>
-<span class="source-line-no">234</span><span id="line-234">   * @since 3.0</span>
-<span class="source-line-no">235</span><span id="line-235">   */</span>
-<span class="source-line-no">236</span><span id="line-236">  @GwtIncompatible // Only used by other GWT-incompatible code.</span>
-<span class="source-line-no">237</span><span id="line-237">  public static Predicate&lt;CharSequence&gt; containsPattern(String pattern) {</span>
-<span class="source-line-no">238</span><span id="line-238">    return new ContainsPatternFromStringPredicate(pattern);</span>
-<span class="source-line-no">239</span><span id="line-239">  }</span>
-<span class="source-line-no">240</span><span id="line-240"></span>
-<span class="source-line-no">241</span><span id="line-241">  /**</span>
-<span class="source-line-no">242</span><span id="line-242">   * Returns a predicate that evaluates to {@code true} if the {@code CharSequence} being tested</span>
-<span class="source-line-no">243</span><span id="line-243">   * contains any match for the given regular expression pattern. The test used is equivalent to</span>
-<span class="source-line-no">244</span><span id="line-244">   * {@code pattern.matcher(arg).find()}</span>
-<span class="source-line-no">245</span><span id="line-245">   *</span>
-<span class="source-line-no">246</span><span id="line-246">   * @since 3.0</span>
-<span class="source-line-no">247</span><span id="line-247">   */</span>
-<span class="source-line-no">248</span><span id="line-248">  @GwtIncompatible(value = "java.util.regex.Pattern")</span>
-<span class="source-line-no">249</span><span id="line-249">  public static Predicate&lt;CharSequence&gt; contains(Pattern pattern) {</span>
-<span class="source-line-no">250</span><span id="line-250">    return new ContainsPatternPredicate(new JdkPattern(pattern));</span>
-<span class="source-line-no">251</span><span id="line-251">  }</span>
-<span class="source-line-no">252</span><span id="line-252"></span>
-<span class="source-line-no">253</span><span id="line-253">  // End public API, begin private implementation classes.</span>
-<span class="source-line-no">254</span><span id="line-254"></span>
-<span class="source-line-no">255</span><span id="line-255">  // Package private for GWT serialization.</span>
-<span class="source-line-no">256</span><span id="line-256">  enum ObjectPredicate implements Predicate&lt;@Nullable Object&gt; {</span>
-<span class="source-line-no">257</span><span id="line-257">    /**</span>
-<span class="source-line-no">258</span><span id="line-258">     * @see Predicates#alwaysTrue()</span>
-<span class="source-line-no">259</span><span id="line-259">     */</span>
-<span class="source-line-no">260</span><span id="line-260">    ALWAYS_TRUE {</span>
-<span class="source-line-no">261</span><span id="line-261">      @Override</span>
-<span class="source-line-no">262</span><span id="line-262">      public boolean apply(@Nullable Object o) {</span>
-<span class="source-line-no">263</span><span id="line-263">        return true;</span>
-<span class="source-line-no">264</span><span id="line-264">      }</span>
-<span class="source-line-no">265</span><span id="line-265"></span>
-<span class="source-line-no">266</span><span id="line-266">      @Override</span>
-<span class="source-line-no">267</span><span id="line-267">      public String toString() {</span>
-<span class="source-line-no">268</span><span id="line-268">        return "Predicates.alwaysTrue()";</span>
-<span class="source-line-no">269</span><span id="line-269">      }</span>
-<span class="source-line-no">270</span><span id="line-270">    },</span>
-<span class="source-line-no">271</span><span id="line-271">    /**</span>
-<span class="source-line-no">272</span><span id="line-272">     * @see Predicates#alwaysFalse()</span>
-<span class="source-line-no">273</span><span id="line-273">     */</span>
-<span class="source-line-no">274</span><span id="line-274">    ALWAYS_FALSE {</span>
-<span class="source-line-no">275</span><span id="line-275">      @Override</span>
-<span class="source-line-no">276</span><span id="line-276">      public boolean apply(@Nullable Object o) {</span>
-<span class="source-line-no">277</span><span id="line-277">        return false;</span>
-<span class="source-line-no">278</span><span id="line-278">      }</span>
-<span class="source-line-no">279</span><span id="line-279"></span>
-<span class="source-line-no">280</span><span id="line-280">      @Override</span>
-<span class="source-line-no">281</span><span id="line-281">      public String toString() {</span>
-<span class="source-line-no">282</span><span id="line-282">        return "Predicates.alwaysFalse()";</span>
-<span class="source-line-no">283</span><span id="line-283">      }</span>
-<span class="source-line-no">284</span><span id="line-284">    },</span>
-<span class="source-line-no">285</span><span id="line-285">    /**</span>
-<span class="source-line-no">286</span><span id="line-286">     * @see Predicates#isNull()</span>
-<span class="source-line-no">287</span><span id="line-287">     */</span>
-<span class="source-line-no">288</span><span id="line-288">    IS_NULL {</span>
-<span class="source-line-no">289</span><span id="line-289">      @Override</span>
-<span class="source-line-no">290</span><span id="line-290">      public boolean apply(@Nullable Object o) {</span>
-<span class="source-line-no">291</span><span id="line-291">        return o == null;</span>
-<span class="source-line-no">292</span><span id="line-292">      }</span>
-<span class="source-line-no">293</span><span id="line-293"></span>
-<span class="source-line-no">294</span><span id="line-294">      @Override</span>
-<span class="source-line-no">295</span><span id="line-295">      public String toString() {</span>
-<span class="source-line-no">296</span><span id="line-296">        return "Predicates.isNull()";</span>
-<span class="source-line-no">297</span><span id="line-297">      }</span>
-<span class="source-line-no">298</span><span id="line-298">    },</span>
-<span class="source-line-no">299</span><span id="line-299">    /**</span>
-<span class="source-line-no">300</span><span id="line-300">     * @see Predicates#notNull()</span>
-<span class="source-line-no">301</span><span id="line-301">     */</span>
-<span class="source-line-no">302</span><span id="line-302">    NOT_NULL {</span>
-<span class="source-line-no">303</span><span id="line-303">      @Override</span>
-<span class="source-line-no">304</span><span id="line-304">      public boolean apply(@Nullable Object o) {</span>
-<span class="source-line-no">305</span><span id="line-305">        return o != null;</span>
-<span class="source-line-no">306</span><span id="line-306">      }</span>
-<span class="source-line-no">307</span><span id="line-307"></span>
-<span class="source-line-no">308</span><span id="line-308">      @Override</span>
-<span class="source-line-no">309</span><span id="line-309">      public String toString() {</span>
-<span class="source-line-no">310</span><span id="line-310">        return "Predicates.notNull()";</span>
-<span class="source-line-no">311</span><span id="line-311">      }</span>
-<span class="source-line-no">312</span><span id="line-312">    };</span>
-<span class="source-line-no">313</span><span id="line-313"></span>
-<span class="source-line-no">314</span><span id="line-314">    @SuppressWarnings("unchecked") // safe contravariant cast</span>
-<span class="source-line-no">315</span><span id="line-315">    &lt;T extends @Nullable Object&gt; Predicate&lt;T&gt; withNarrowedType() {</span>
-<span class="source-line-no">316</span><span id="line-316">      return (Predicate&lt;T&gt;) this;</span>
-<span class="source-line-no">317</span><span id="line-317">    }</span>
-<span class="source-line-no">318</span><span id="line-318">  }</span>
-<span class="source-line-no">319</span><span id="line-319"></span>
-<span class="source-line-no">320</span><span id="line-320">  /**</span>
-<span class="source-line-no">321</span><span id="line-321">   * @see Predicates#not(Predicate)</span>
-<span class="source-line-no">322</span><span id="line-322">   */</span>
-<span class="source-line-no">323</span><span id="line-323">  private static class NotPredicate&lt;T extends @Nullable Object&gt;</span>
-<span class="source-line-no">324</span><span id="line-324">      implements Predicate&lt;T&gt;, Serializable {</span>
-<span class="source-line-no">325</span><span id="line-325">    final Predicate&lt;T&gt; predicate;</span>
-<span class="source-line-no">326</span><span id="line-326"></span>
-<span class="source-line-no">327</span><span id="line-327">    NotPredicate(Predicate&lt;T&gt; predicate) {</span>
-<span class="source-line-no">328</span><span id="line-328">      this.predicate = checkNotNull(predicate);</span>
-<span class="source-line-no">329</span><span id="line-329">    }</span>
-<span class="source-line-no">330</span><span id="line-330"></span>
-<span class="source-line-no">331</span><span id="line-331">    @Override</span>
-<span class="source-line-no">332</span><span id="line-332">    public boolean apply(@ParametricNullness T t) {</span>
-<span class="source-line-no">333</span><span id="line-333">      return !predicate.apply(t);</span>
-<span class="source-line-no">334</span><span id="line-334">    }</span>
-<span class="source-line-no">335</span><span id="line-335"></span>
-<span class="source-line-no">336</span><span id="line-336">    @Override</span>
-<span class="source-line-no">337</span><span id="line-337">    public int hashCode() {</span>
-<span class="source-line-no">338</span><span id="line-338">      return ~predicate.hashCode();</span>
-<span class="source-line-no">339</span><span id="line-339">    }</span>
-<span class="source-line-no">340</span><span id="line-340"></span>
-<span class="source-line-no">341</span><span id="line-341">    @Override</span>
-<span class="source-line-no">342</span><span id="line-342">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">343</span><span id="line-343">      if (obj instanceof NotPredicate) {</span>
-<span class="source-line-no">344</span><span id="line-344">        NotPredicate&lt;?&gt; that = (NotPredicate&lt;?&gt;) obj;</span>
-<span class="source-line-no">345</span><span id="line-345">        return predicate.equals(that.predicate);</span>
-<span class="source-line-no">346</span><span id="line-346">      }</span>
-<span class="source-line-no">347</span><span id="line-347">      return false;</span>
-<span class="source-line-no">348</span><span id="line-348">    }</span>
-<span class="source-line-no">349</span><span id="line-349"></span>
-<span class="source-line-no">350</span><span id="line-350">    @Override</span>
-<span class="source-line-no">351</span><span id="line-351">    public String toString() {</span>
-<span class="source-line-no">352</span><span id="line-352">      return "Predicates.not(" + predicate + ")";</span>
-<span class="source-line-no">353</span><span id="line-353">    }</span>
-<span class="source-line-no">354</span><span id="line-354"></span>
-<span class="source-line-no">355</span><span id="line-355">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">356</span><span id="line-356">  }</span>
-<span class="source-line-no">357</span><span id="line-357"></span>
-<span class="source-line-no">358</span><span id="line-358">  /**</span>
-<span class="source-line-no">359</span><span id="line-359">   * @see Predicates#and(Iterable)</span>
-<span class="source-line-no">360</span><span id="line-360">   */</span>
-<span class="source-line-no">361</span><span id="line-361">  private static class AndPredicate&lt;T extends @Nullable Object&gt;</span>
-<span class="source-line-no">362</span><span id="line-362">      implements Predicate&lt;T&gt;, Serializable {</span>
-<span class="source-line-no">363</span><span id="line-363">    private final List&lt;? extends Predicate&lt;? super T&gt;&gt; components;</span>
-<span class="source-line-no">364</span><span id="line-364"></span>
-<span class="source-line-no">365</span><span id="line-365">    private AndPredicate(List&lt;? extends Predicate&lt;? super T&gt;&gt; components) {</span>
-<span class="source-line-no">366</span><span id="line-366">      this.components = components;</span>
-<span class="source-line-no">367</span><span id="line-367">    }</span>
-<span class="source-line-no">368</span><span id="line-368"></span>
-<span class="source-line-no">369</span><span id="line-369">    @Override</span>
-<span class="source-line-no">370</span><span id="line-370">    public boolean apply(@ParametricNullness T t) {</span>
-<span class="source-line-no">371</span><span id="line-371">      // Avoid using the Iterator to avoid generating garbage (issue 820).</span>
-<span class="source-line-no">372</span><span id="line-372">      for (int i = 0; i &lt; components.size(); i++) {</span>
-<span class="source-line-no">373</span><span id="line-373">        if (!components.get(i).apply(t)) {</span>
-<span class="source-line-no">374</span><span id="line-374">          return false;</span>
-<span class="source-line-no">375</span><span id="line-375">        }</span>
-<span class="source-line-no">376</span><span id="line-376">      }</span>
-<span class="source-line-no">377</span><span id="line-377">      return true;</span>
-<span class="source-line-no">378</span><span id="line-378">    }</span>
-<span class="source-line-no">379</span><span id="line-379"></span>
-<span class="source-line-no">380</span><span id="line-380">    @Override</span>
-<span class="source-line-no">381</span><span id="line-381">    public int hashCode() {</span>
-<span class="source-line-no">382</span><span id="line-382">      // add a random number to avoid collisions with OrPredicate</span>
-<span class="source-line-no">383</span><span id="line-383">      return components.hashCode() + 0x12472c2c;</span>
-<span class="source-line-no">384</span><span id="line-384">    }</span>
-<span class="source-line-no">385</span><span id="line-385"></span>
-<span class="source-line-no">386</span><span id="line-386">    @Override</span>
-<span class="source-line-no">387</span><span id="line-387">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">388</span><span id="line-388">      if (obj instanceof AndPredicate) {</span>
-<span class="source-line-no">389</span><span id="line-389">        AndPredicate&lt;?&gt; that = (AndPredicate&lt;?&gt;) obj;</span>
-<span class="source-line-no">390</span><span id="line-390">        return components.equals(that.components);</span>
-<span class="source-line-no">391</span><span id="line-391">      }</span>
-<span class="source-line-no">392</span><span id="line-392">      return false;</span>
-<span class="source-line-no">393</span><span id="line-393">    }</span>
-<span class="source-line-no">394</span><span id="line-394"></span>
-<span class="source-line-no">395</span><span id="line-395">    @Override</span>
-<span class="source-line-no">396</span><span id="line-396">    public String toString() {</span>
-<span class="source-line-no">397</span><span id="line-397">      return toStringHelper("and", components);</span>
-<span class="source-line-no">398</span><span id="line-398">    }</span>
-<span class="source-line-no">399</span><span id="line-399"></span>
-<span class="source-line-no">400</span><span id="line-400">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">401</span><span id="line-401">  }</span>
-<span class="source-line-no">402</span><span id="line-402"></span>
-<span class="source-line-no">403</span><span id="line-403">  /**</span>
-<span class="source-line-no">404</span><span id="line-404">   * @see Predicates#or(Iterable)</span>
-<span class="source-line-no">405</span><span id="line-405">   */</span>
-<span class="source-line-no">406</span><span id="line-406">  private static class OrPredicate&lt;T extends @Nullable Object&gt;</span>
-<span class="source-line-no">407</span><span id="line-407">      implements Predicate&lt;T&gt;, Serializable {</span>
-<span class="source-line-no">408</span><span id="line-408">    private final List&lt;? extends Predicate&lt;? super T&gt;&gt; components;</span>
-<span class="source-line-no">409</span><span id="line-409"></span>
-<span class="source-line-no">410</span><span id="line-410">    private OrPredicate(List&lt;? extends Predicate&lt;? super T&gt;&gt; components) {</span>
-<span class="source-line-no">411</span><span id="line-411">      this.components = components;</span>
-<span class="source-line-no">412</span><span id="line-412">    }</span>
-<span class="source-line-no">413</span><span id="line-413"></span>
-<span class="source-line-no">414</span><span id="line-414">    @Override</span>
-<span class="source-line-no">415</span><span id="line-415">    public boolean apply(@ParametricNullness T t) {</span>
-<span class="source-line-no">416</span><span id="line-416">      // Avoid using the Iterator to avoid generating garbage (issue 820).</span>
-<span class="source-line-no">417</span><span id="line-417">      for (int i = 0; i &lt; components.size(); i++) {</span>
-<span class="source-line-no">418</span><span id="line-418">        if (components.get(i).apply(t)) {</span>
-<span class="source-line-no">419</span><span id="line-419">          return true;</span>
-<span class="source-line-no">420</span><span id="line-420">        }</span>
-<span class="source-line-no">421</span><span id="line-421">      }</span>
-<span class="source-line-no">422</span><span id="line-422">      return false;</span>
-<span class="source-line-no">423</span><span id="line-423">    }</span>
-<span class="source-line-no">424</span><span id="line-424"></span>
-<span class="source-line-no">425</span><span id="line-425">    @Override</span>
-<span class="source-line-no">426</span><span id="line-426">    public int hashCode() {</span>
-<span class="source-line-no">427</span><span id="line-427">      // add a random number to avoid collisions with AndPredicate</span>
-<span class="source-line-no">428</span><span id="line-428">      return components.hashCode() + 0x053c91cf;</span>
-<span class="source-line-no">429</span><span id="line-429">    }</span>
-<span class="source-line-no">430</span><span id="line-430"></span>
-<span class="source-line-no">431</span><span id="line-431">    @Override</span>
-<span class="source-line-no">432</span><span id="line-432">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">433</span><span id="line-433">      if (obj instanceof OrPredicate) {</span>
-<span class="source-line-no">434</span><span id="line-434">        OrPredicate&lt;?&gt; that = (OrPredicate&lt;?&gt;) obj;</span>
-<span class="source-line-no">435</span><span id="line-435">        return components.equals(that.components);</span>
-<span class="source-line-no">436</span><span id="line-436">      }</span>
-<span class="source-line-no">437</span><span id="line-437">      return false;</span>
-<span class="source-line-no">438</span><span id="line-438">    }</span>
-<span class="source-line-no">439</span><span id="line-439"></span>
-<span class="source-line-no">440</span><span id="line-440">    @Override</span>
-<span class="source-line-no">441</span><span id="line-441">    public String toString() {</span>
-<span class="source-line-no">442</span><span id="line-442">      return toStringHelper("or", components);</span>
-<span class="source-line-no">443</span><span id="line-443">    }</span>
-<span class="source-line-no">444</span><span id="line-444"></span>
-<span class="source-line-no">445</span><span id="line-445">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">446</span><span id="line-446">  }</span>
-<span class="source-line-no">447</span><span id="line-447"></span>
-<span class="source-line-no">448</span><span id="line-448">  private static String toStringHelper(String methodName, Iterable&lt;?&gt; components) {</span>
-<span class="source-line-no">449</span><span id="line-449">    StringBuilder builder = new StringBuilder("Predicates.").append(methodName).append('(');</span>
-<span class="source-line-no">450</span><span id="line-450">    boolean first = true;</span>
-<span class="source-line-no">451</span><span id="line-451">    for (Object o : components) {</span>
-<span class="source-line-no">452</span><span id="line-452">      if (!first) {</span>
-<span class="source-line-no">453</span><span id="line-453">        builder.append(',');</span>
-<span class="source-line-no">454</span><span id="line-454">      }</span>
-<span class="source-line-no">455</span><span id="line-455">      builder.append(o);</span>
-<span class="source-line-no">456</span><span id="line-456">      first = false;</span>
-<span class="source-line-no">457</span><span id="line-457">    }</span>
-<span class="source-line-no">458</span><span id="line-458">    return builder.append(')').toString();</span>
-<span class="source-line-no">459</span><span id="line-459">  }</span>
-<span class="source-line-no">460</span><span id="line-460"></span>
-<span class="source-line-no">461</span><span id="line-461">  /**</span>
-<span class="source-line-no">462</span><span id="line-462">   * @see Predicates#equalTo(Object)</span>
-<span class="source-line-no">463</span><span id="line-463">   */</span>
-<span class="source-line-no">464</span><span id="line-464">  private static class IsEqualToPredicate implements Predicate&lt;@Nullable Object&gt;, Serializable {</span>
-<span class="source-line-no">465</span><span id="line-465">    private final Object target;</span>
-<span class="source-line-no">466</span><span id="line-466"></span>
-<span class="source-line-no">467</span><span id="line-467">    private IsEqualToPredicate(Object target) {</span>
-<span class="source-line-no">468</span><span id="line-468">      this.target = target;</span>
-<span class="source-line-no">469</span><span id="line-469">    }</span>
-<span class="source-line-no">470</span><span id="line-470"></span>
-<span class="source-line-no">471</span><span id="line-471">    @Override</span>
-<span class="source-line-no">472</span><span id="line-472">    public boolean apply(@Nullable Object o) {</span>
-<span class="source-line-no">473</span><span id="line-473">      return target.equals(o);</span>
-<span class="source-line-no">474</span><span id="line-474">    }</span>
-<span class="source-line-no">475</span><span id="line-475"></span>
-<span class="source-line-no">476</span><span id="line-476">    @Override</span>
-<span class="source-line-no">477</span><span id="line-477">    public int hashCode() {</span>
-<span class="source-line-no">478</span><span id="line-478">      return target.hashCode();</span>
-<span class="source-line-no">479</span><span id="line-479">    }</span>
-<span class="source-line-no">480</span><span id="line-480"></span>
-<span class="source-line-no">481</span><span id="line-481">    @Override</span>
-<span class="source-line-no">482</span><span id="line-482">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">483</span><span id="line-483">      if (obj instanceof IsEqualToPredicate) {</span>
-<span class="source-line-no">484</span><span id="line-484">        IsEqualToPredicate that = (IsEqualToPredicate) obj;</span>
-<span class="source-line-no">485</span><span id="line-485">        return target.equals(that.target);</span>
-<span class="source-line-no">486</span><span id="line-486">      }</span>
-<span class="source-line-no">487</span><span id="line-487">      return false;</span>
-<span class="source-line-no">488</span><span id="line-488">    }</span>
-<span class="source-line-no">489</span><span id="line-489"></span>
-<span class="source-line-no">490</span><span id="line-490">    @Override</span>
-<span class="source-line-no">491</span><span id="line-491">    public String toString() {</span>
-<span class="source-line-no">492</span><span id="line-492">      return "Predicates.equalTo(" + target + ")";</span>
-<span class="source-line-no">493</span><span id="line-493">    }</span>
-<span class="source-line-no">494</span><span id="line-494"></span>
-<span class="source-line-no">495</span><span id="line-495">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">496</span><span id="line-496"></span>
-<span class="source-line-no">497</span><span id="line-497">    @SuppressWarnings("unchecked") // safe contravariant cast</span>
-<span class="source-line-no">498</span><span id="line-498">    &lt;T extends @Nullable Object&gt; Predicate&lt;T&gt; withNarrowedType() {</span>
-<span class="source-line-no">499</span><span id="line-499">      return (Predicate&lt;T&gt;) this;</span>
-<span class="source-line-no">500</span><span id="line-500">    }</span>
-<span class="source-line-no">501</span><span id="line-501">  }</span>
-<span class="source-line-no">502</span><span id="line-502"></span>
-<span class="source-line-no">503</span><span id="line-503">  /**</span>
-<span class="source-line-no">504</span><span id="line-504">   * @see Predicates#instanceOf(Class)</span>
-<span class="source-line-no">505</span><span id="line-505">   */</span>
-<span class="source-line-no">506</span><span id="line-506">  @GwtIncompatible // Class.isInstance</span>
-<span class="source-line-no">507</span><span id="line-507">  private static class InstanceOfPredicate&lt;T extends @Nullable Object&gt;</span>
-<span class="source-line-no">508</span><span id="line-508">      implements Predicate&lt;T&gt;, Serializable {</span>
-<span class="source-line-no">509</span><span id="line-509">    private final Class&lt;?&gt; clazz;</span>
-<span class="source-line-no">510</span><span id="line-510"></span>
-<span class="source-line-no">511</span><span id="line-511">    private InstanceOfPredicate(Class&lt;?&gt; clazz) {</span>
-<span class="source-line-no">512</span><span id="line-512">      this.clazz = checkNotNull(clazz);</span>
-<span class="source-line-no">513</span><span id="line-513">    }</span>
-<span class="source-line-no">514</span><span id="line-514"></span>
-<span class="source-line-no">515</span><span id="line-515">    @Override</span>
-<span class="source-line-no">516</span><span id="line-516">    public boolean apply(@ParametricNullness T o) {</span>
-<span class="source-line-no">517</span><span id="line-517">      return clazz.isInstance(o);</span>
-<span class="source-line-no">518</span><span id="line-518">    }</span>
-<span class="source-line-no">519</span><span id="line-519"></span>
-<span class="source-line-no">520</span><span id="line-520">    @Override</span>
-<span class="source-line-no">521</span><span id="line-521">    public int hashCode() {</span>
-<span class="source-line-no">522</span><span id="line-522">      return clazz.hashCode();</span>
-<span class="source-line-no">523</span><span id="line-523">    }</span>
-<span class="source-line-no">524</span><span id="line-524"></span>
-<span class="source-line-no">525</span><span id="line-525">    @Override</span>
-<span class="source-line-no">526</span><span id="line-526">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">527</span><span id="line-527">      if (obj instanceof InstanceOfPredicate) {</span>
-<span class="source-line-no">528</span><span id="line-528">        InstanceOfPredicate&lt;?&gt; that = (InstanceOfPredicate&lt;?&gt;) obj;</span>
-<span class="source-line-no">529</span><span id="line-529">        return clazz == that.clazz;</span>
-<span class="source-line-no">530</span><span id="line-530">      }</span>
-<span class="source-line-no">531</span><span id="line-531">      return false;</span>
-<span class="source-line-no">532</span><span id="line-532">    }</span>
-<span class="source-line-no">533</span><span id="line-533"></span>
-<span class="source-line-no">534</span><span id="line-534">    @Override</span>
-<span class="source-line-no">535</span><span id="line-535">    public String toString() {</span>
-<span class="source-line-no">536</span><span id="line-536">      return "Predicates.instanceOf(" + clazz.getName() + ")";</span>
-<span class="source-line-no">537</span><span id="line-537">    }</span>
-<span class="source-line-no">538</span><span id="line-538"></span>
-<span class="source-line-no">539</span><span id="line-539">    @J2ktIncompatible private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">540</span><span id="line-540">  }</span>
-<span class="source-line-no">541</span><span id="line-541"></span>
-<span class="source-line-no">542</span><span id="line-542">  /**</span>
-<span class="source-line-no">543</span><span id="line-543">   * @see Predicates#subtypeOf(Class)</span>
-<span class="source-line-no">544</span><span id="line-544">   */</span>
-<span class="source-line-no">545</span><span id="line-545">  @J2ktIncompatible</span>
-<span class="source-line-no">546</span><span id="line-546">  @GwtIncompatible // Class.isAssignableFrom</span>
-<span class="source-line-no">547</span><span id="line-547">  private static class SubtypeOfPredicate implements Predicate&lt;Class&lt;?&gt;&gt;, Serializable {</span>
-<span class="source-line-no">548</span><span id="line-548">    private final Class&lt;?&gt; clazz;</span>
-<span class="source-line-no">549</span><span id="line-549"></span>
-<span class="source-line-no">550</span><span id="line-550">    private SubtypeOfPredicate(Class&lt;?&gt; clazz) {</span>
-<span class="source-line-no">551</span><span id="line-551">      this.clazz = checkNotNull(clazz);</span>
-<span class="source-line-no">552</span><span id="line-552">    }</span>
-<span class="source-line-no">553</span><span id="line-553"></span>
-<span class="source-line-no">554</span><span id="line-554">    @Override</span>
-<span class="source-line-no">555</span><span id="line-555">    public boolean apply(Class&lt;?&gt; input) {</span>
-<span class="source-line-no">556</span><span id="line-556">      return clazz.isAssignableFrom(input);</span>
-<span class="source-line-no">557</span><span id="line-557">    }</span>
-<span class="source-line-no">558</span><span id="line-558"></span>
-<span class="source-line-no">559</span><span id="line-559">    @Override</span>
-<span class="source-line-no">560</span><span id="line-560">    public int hashCode() {</span>
-<span class="source-line-no">561</span><span id="line-561">      return clazz.hashCode();</span>
-<span class="source-line-no">562</span><span id="line-562">    }</span>
-<span class="source-line-no">563</span><span id="line-563"></span>
-<span class="source-line-no">564</span><span id="line-564">    @Override</span>
-<span class="source-line-no">565</span><span id="line-565">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">566</span><span id="line-566">      if (obj instanceof SubtypeOfPredicate) {</span>
-<span class="source-line-no">567</span><span id="line-567">        SubtypeOfPredicate that = (SubtypeOfPredicate) obj;</span>
-<span class="source-line-no">568</span><span id="line-568">        return clazz == that.clazz;</span>
-<span class="source-line-no">569</span><span id="line-569">      }</span>
-<span class="source-line-no">570</span><span id="line-570">      return false;</span>
-<span class="source-line-no">571</span><span id="line-571">    }</span>
-<span class="source-line-no">572</span><span id="line-572"></span>
-<span class="source-line-no">573</span><span id="line-573">    @Override</span>
-<span class="source-line-no">574</span><span id="line-574">    public String toString() {</span>
-<span class="source-line-no">575</span><span id="line-575">      return "Predicates.subtypeOf(" + clazz.getName() + ")";</span>
-<span class="source-line-no">576</span><span id="line-576">    }</span>
-<span class="source-line-no">577</span><span id="line-577"></span>
-<span class="source-line-no">578</span><span id="line-578">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">579</span><span id="line-579">  }</span>
-<span class="source-line-no">580</span><span id="line-580"></span>
-<span class="source-line-no">581</span><span id="line-581">  /**</span>
-<span class="source-line-no">582</span><span id="line-582">   * @see Predicates#in(Collection)</span>
-<span class="source-line-no">583</span><span id="line-583">   */</span>
-<span class="source-line-no">584</span><span id="line-584">  private static class InPredicate&lt;T extends @Nullable Object&gt;</span>
-<span class="source-line-no">585</span><span id="line-585">      implements Predicate&lt;T&gt;, Serializable {</span>
-<span class="source-line-no">586</span><span id="line-586">    private final Collection&lt;?&gt; target;</span>
-<span class="source-line-no">587</span><span id="line-587"></span>
-<span class="source-line-no">588</span><span id="line-588">    private InPredicate(Collection&lt;?&gt; target) {</span>
-<span class="source-line-no">589</span><span id="line-589">      this.target = checkNotNull(target);</span>
-<span class="source-line-no">590</span><span id="line-590">    }</span>
-<span class="source-line-no">591</span><span id="line-591"></span>
-<span class="source-line-no">592</span><span id="line-592">    @Override</span>
-<span class="source-line-no">593</span><span id="line-593">    public boolean apply(@ParametricNullness T t) {</span>
-<span class="source-line-no">594</span><span id="line-594">      try {</span>
-<span class="source-line-no">595</span><span id="line-595">        return target.contains(t);</span>
-<span class="source-line-no">596</span><span id="line-596">      } catch (NullPointerException | ClassCastException e) {</span>
-<span class="source-line-no">597</span><span id="line-597">        return false;</span>
-<span class="source-line-no">598</span><span id="line-598">      }</span>
-<span class="source-line-no">599</span><span id="line-599">    }</span>
-<span class="source-line-no">600</span><span id="line-600"></span>
-<span class="source-line-no">601</span><span id="line-601">    @Override</span>
-<span class="source-line-no">602</span><span id="line-602">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">603</span><span id="line-603">      if (obj instanceof InPredicate) {</span>
-<span class="source-line-no">604</span><span id="line-604">        InPredicate&lt;?&gt; that = (InPredicate&lt;?&gt;) obj;</span>
-<span class="source-line-no">605</span><span id="line-605">        return target.equals(that.target);</span>
-<span class="source-line-no">606</span><span id="line-606">      }</span>
-<span class="source-line-no">607</span><span id="line-607">      return false;</span>
-<span class="source-line-no">608</span><span id="line-608">    }</span>
-<span class="source-line-no">609</span><span id="line-609"></span>
-<span class="source-line-no">610</span><span id="line-610">    @Override</span>
-<span class="source-line-no">611</span><span id="line-611">    public int hashCode() {</span>
-<span class="source-line-no">612</span><span id="line-612">      return target.hashCode();</span>
-<span class="source-line-no">613</span><span id="line-613">    }</span>
-<span class="source-line-no">614</span><span id="line-614"></span>
-<span class="source-line-no">615</span><span id="line-615">    @Override</span>
-<span class="source-line-no">616</span><span id="line-616">    public String toString() {</span>
-<span class="source-line-no">617</span><span id="line-617">      return "Predicates.in(" + target + ")";</span>
-<span class="source-line-no">618</span><span id="line-618">    }</span>
-<span class="source-line-no">619</span><span id="line-619"></span>
-<span class="source-line-no">620</span><span id="line-620">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">621</span><span id="line-621">  }</span>
-<span class="source-line-no">622</span><span id="line-622"></span>
-<span class="source-line-no">623</span><span id="line-623">  /**</span>
-<span class="source-line-no">624</span><span id="line-624">   * @see Predicates#compose(Predicate, Function)</span>
-<span class="source-line-no">625</span><span id="line-625">   */</span>
-<span class="source-line-no">626</span><span id="line-626">  private static class CompositionPredicate&lt;A extends @Nullable Object, B extends @Nullable Object&gt;</span>
-<span class="source-line-no">627</span><span id="line-627">      implements Predicate&lt;A&gt;, Serializable {</span>
-<span class="source-line-no">628</span><span id="line-628">    final Predicate&lt;B&gt; p;</span>
-<span class="source-line-no">629</span><span id="line-629">    final Function&lt;A, ? extends B&gt; f;</span>
-<span class="source-line-no">630</span><span id="line-630"></span>
-<span class="source-line-no">631</span><span id="line-631">    private CompositionPredicate(Predicate&lt;B&gt; p, Function&lt;A, ? extends B&gt; f) {</span>
-<span class="source-line-no">632</span><span id="line-632">      this.p = checkNotNull(p);</span>
-<span class="source-line-no">633</span><span id="line-633">      this.f = checkNotNull(f);</span>
-<span class="source-line-no">634</span><span id="line-634">    }</span>
-<span class="source-line-no">635</span><span id="line-635"></span>
-<span class="source-line-no">636</span><span id="line-636">    @Override</span>
-<span class="source-line-no">637</span><span id="line-637">    public boolean apply(@ParametricNullness A a) {</span>
-<span class="source-line-no">638</span><span id="line-638">      return p.apply(f.apply(a));</span>
-<span class="source-line-no">639</span><span id="line-639">    }</span>
-<span class="source-line-no">640</span><span id="line-640"></span>
-<span class="source-line-no">641</span><span id="line-641">    @Override</span>
-<span class="source-line-no">642</span><span id="line-642">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">643</span><span id="line-643">      if (obj instanceof CompositionPredicate) {</span>
-<span class="source-line-no">644</span><span id="line-644">        CompositionPredicate&lt;?, ?&gt; that = (CompositionPredicate&lt;?, ?&gt;) obj;</span>
-<span class="source-line-no">645</span><span id="line-645">        return f.equals(that.f) &amp;&amp; p.equals(that.p);</span>
-<span class="source-line-no">646</span><span id="line-646">      }</span>
-<span class="source-line-no">647</span><span id="line-647">      return false;</span>
-<span class="source-line-no">648</span><span id="line-648">    }</span>
-<span class="source-line-no">649</span><span id="line-649"></span>
-<span class="source-line-no">650</span><span id="line-650">    @Override</span>
-<span class="source-line-no">651</span><span id="line-651">    public int hashCode() {</span>
-<span class="source-line-no">652</span><span id="line-652">      return f.hashCode() ^ p.hashCode();</span>
-<span class="source-line-no">653</span><span id="line-653">    }</span>
-<span class="source-line-no">654</span><span id="line-654"></span>
-<span class="source-line-no">655</span><span id="line-655">    @Override</span>
-<span class="source-line-no">656</span><span id="line-656">    public String toString() {</span>
-<span class="source-line-no">657</span><span id="line-657">      // TODO(cpovirk): maybe make this look like the method call does ("Predicates.compose(...)")</span>
-<span class="source-line-no">658</span><span id="line-658">      return p + "(" + f + ")";</span>
-<span class="source-line-no">659</span><span id="line-659">    }</span>
-<span class="source-line-no">660</span><span id="line-660"></span>
-<span class="source-line-no">661</span><span id="line-661">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">662</span><span id="line-662">  }</span>
-<span class="source-line-no">663</span><span id="line-663"></span>
-<span class="source-line-no">664</span><span id="line-664">  /**</span>
-<span class="source-line-no">665</span><span id="line-665">   * @see Predicates#contains(Pattern)</span>
-<span class="source-line-no">666</span><span id="line-666">   */</span>
-<span class="source-line-no">667</span><span id="line-667">  @GwtIncompatible // Only used by other GWT-incompatible code.</span>
-<span class="source-line-no">668</span><span id="line-668">  private static class ContainsPatternPredicate implements Predicate&lt;CharSequence&gt;, Serializable {</span>
-<span class="source-line-no">669</span><span id="line-669">    final CommonPattern pattern;</span>
+<span class="source-line-no">213</span><span id="line-213">  @SuppressWarnings("NoHardKeywords") // We're stuck with the name for compatibility reasons.</span>
+<span class="source-line-no">214</span><span id="line-214">  public static &lt;T extends @Nullable Object&gt; Predicate&lt;T&gt; in(Collection&lt;? extends T&gt; target) {</span>
+<span class="source-line-no">215</span><span id="line-215">    return new InPredicate&lt;&gt;(target);</span>
+<span class="source-line-no">216</span><span id="line-216">  }</span>
+<span class="source-line-no">217</span><span id="line-217"></span>
+<span class="source-line-no">218</span><span id="line-218">  /**</span>
+<span class="source-line-no">219</span><span id="line-219">   * Returns the composition of a function and a predicate. For every {@code x}, the generated</span>
+<span class="source-line-no">220</span><span id="line-220">   * predicate returns {@code predicate(function(x))}.</span>
+<span class="source-line-no">221</span><span id="line-221">   *</span>
+<span class="source-line-no">222</span><span id="line-222">   * @return the composition of the provided function and predicate</span>
+<span class="source-line-no">223</span><span id="line-223">   */</span>
+<span class="source-line-no">224</span><span id="line-224">  public static &lt;A extends @Nullable Object, B extends @Nullable Object&gt; Predicate&lt;A&gt; compose(</span>
+<span class="source-line-no">225</span><span id="line-225">      Predicate&lt;B&gt; predicate, Function&lt;A, ? extends B&gt; function) {</span>
+<span class="source-line-no">226</span><span id="line-226">    return new CompositionPredicate&lt;&gt;(predicate, function);</span>
+<span class="source-line-no">227</span><span id="line-227">  }</span>
+<span class="source-line-no">228</span><span id="line-228"></span>
+<span class="source-line-no">229</span><span id="line-229">  /**</span>
+<span class="source-line-no">230</span><span id="line-230">   * Returns a predicate that evaluates to {@code true} if the {@code CharSequence} being tested</span>
+<span class="source-line-no">231</span><span id="line-231">   * contains any match for the given regular expression pattern. The test used is equivalent to</span>
+<span class="source-line-no">232</span><span id="line-232">   * {@code Pattern.compile(pattern).matcher(arg).find()}</span>
+<span class="source-line-no">233</span><span id="line-233">   *</span>
+<span class="source-line-no">234</span><span id="line-234">   * @throws IllegalArgumentException if the pattern is invalid</span>
+<span class="source-line-no">235</span><span id="line-235">   * @since 3.0</span>
+<span class="source-line-no">236</span><span id="line-236">   */</span>
+<span class="source-line-no">237</span><span id="line-237">  @GwtIncompatible // Only used by other GWT-incompatible code.</span>
+<span class="source-line-no">238</span><span id="line-238">  public static Predicate&lt;CharSequence&gt; containsPattern(String pattern) {</span>
+<span class="source-line-no">239</span><span id="line-239">    return new ContainsPatternFromStringPredicate(pattern);</span>
+<span class="source-line-no">240</span><span id="line-240">  }</span>
+<span class="source-line-no">241</span><span id="line-241"></span>
+<span class="source-line-no">242</span><span id="line-242">  /**</span>
+<span class="source-line-no">243</span><span id="line-243">   * Returns a predicate that evaluates to {@code true} if the {@code CharSequence} being tested</span>
+<span class="source-line-no">244</span><span id="line-244">   * contains any match for the given regular expression pattern. The test used is equivalent to</span>
+<span class="source-line-no">245</span><span id="line-245">   * {@code pattern.matcher(arg).find()}</span>
+<span class="source-line-no">246</span><span id="line-246">   *</span>
+<span class="source-line-no">247</span><span id="line-247">   * @since 3.0</span>
+<span class="source-line-no">248</span><span id="line-248">   */</span>
+<span class="source-line-no">249</span><span id="line-249">  @GwtIncompatible(value = "java.util.regex.Pattern")</span>
+<span class="source-line-no">250</span><span id="line-250">  public static Predicate&lt;CharSequence&gt; contains(Pattern pattern) {</span>
+<span class="source-line-no">251</span><span id="line-251">    return new ContainsPatternPredicate(new JdkPattern(pattern));</span>
+<span class="source-line-no">252</span><span id="line-252">  }</span>
+<span class="source-line-no">253</span><span id="line-253"></span>
+<span class="source-line-no">254</span><span id="line-254">  // End public API, begin private implementation classes.</span>
+<span class="source-line-no">255</span><span id="line-255"></span>
+<span class="source-line-no">256</span><span id="line-256">  // Package private for GWT serialization.</span>
+<span class="source-line-no">257</span><span id="line-257">  enum ObjectPredicate implements Predicate&lt;@Nullable Object&gt; {</span>
+<span class="source-line-no">258</span><span id="line-258">    /**</span>
+<span class="source-line-no">259</span><span id="line-259">     * @see Predicates#alwaysTrue()</span>
+<span class="source-line-no">260</span><span id="line-260">     */</span>
+<span class="source-line-no">261</span><span id="line-261">    ALWAYS_TRUE {</span>
+<span class="source-line-no">262</span><span id="line-262">      @Override</span>
+<span class="source-line-no">263</span><span id="line-263">      public boolean apply(@Nullable Object o) {</span>
+<span class="source-line-no">264</span><span id="line-264">        return true;</span>
+<span class="source-line-no">265</span><span id="line-265">      }</span>
+<span class="source-line-no">266</span><span id="line-266"></span>
+<span class="source-line-no">267</span><span id="line-267">      @Override</span>
+<span class="source-line-no">268</span><span id="line-268">      public String toString() {</span>
+<span class="source-line-no">269</span><span id="line-269">        return "Predicates.alwaysTrue()";</span>
+<span class="source-line-no">270</span><span id="line-270">      }</span>
+<span class="source-line-no">271</span><span id="line-271">    },</span>
+<span class="source-line-no">272</span><span id="line-272">    /**</span>
+<span class="source-line-no">273</span><span id="line-273">     * @see Predicates#alwaysFalse()</span>
+<span class="source-line-no">274</span><span id="line-274">     */</span>
+<span class="source-line-no">275</span><span id="line-275">    ALWAYS_FALSE {</span>
+<span class="source-line-no">276</span><span id="line-276">      @Override</span>
+<span class="source-line-no">277</span><span id="line-277">      public boolean apply(@Nullable Object o) {</span>
+<span class="source-line-no">278</span><span id="line-278">        return false;</span>
+<span class="source-line-no">279</span><span id="line-279">      }</span>
+<span class="source-line-no">280</span><span id="line-280"></span>
+<span class="source-line-no">281</span><span id="line-281">      @Override</span>
+<span class="source-line-no">282</span><span id="line-282">      public String toString() {</span>
+<span class="source-line-no">283</span><span id="line-283">        return "Predicates.alwaysFalse()";</span>
+<span class="source-line-no">284</span><span id="line-284">      }</span>
+<span class="source-line-no">285</span><span id="line-285">    },</span>
+<span class="source-line-no">286</span><span id="line-286">    /**</span>
+<span class="source-line-no">287</span><span id="line-287">     * @see Predicates#isNull()</span>
+<span class="source-line-no">288</span><span id="line-288">     */</span>
+<span class="source-line-no">289</span><span id="line-289">    IS_NULL {</span>
+<span class="source-line-no">290</span><span id="line-290">      @Override</span>
+<span class="source-line-no">291</span><span id="line-291">      public boolean apply(@Nullable Object o) {</span>
+<span class="source-line-no">292</span><span id="line-292">        return o == null;</span>
+<span class="source-line-no">293</span><span id="line-293">      }</span>
+<span class="source-line-no">294</span><span id="line-294"></span>
+<span class="source-line-no">295</span><span id="line-295">      @Override</span>
+<span class="source-line-no">296</span><span id="line-296">      public String toString() {</span>
+<span class="source-line-no">297</span><span id="line-297">        return "Predicates.isNull()";</span>
+<span class="source-line-no">298</span><span id="line-298">      }</span>
+<span class="source-line-no">299</span><span id="line-299">    },</span>
+<span class="source-line-no">300</span><span id="line-300">    /**</span>
+<span class="source-line-no">301</span><span id="line-301">     * @see Predicates#notNull()</span>
+<span class="source-line-no">302</span><span id="line-302">     */</span>
+<span class="source-line-no">303</span><span id="line-303">    NOT_NULL {</span>
+<span class="source-line-no">304</span><span id="line-304">      @Override</span>
+<span class="source-line-no">305</span><span id="line-305">      public boolean apply(@Nullable Object o) {</span>
+<span class="source-line-no">306</span><span id="line-306">        return o != null;</span>
+<span class="source-line-no">307</span><span id="line-307">      }</span>
+<span class="source-line-no">308</span><span id="line-308"></span>
+<span class="source-line-no">309</span><span id="line-309">      @Override</span>
+<span class="source-line-no">310</span><span id="line-310">      public String toString() {</span>
+<span class="source-line-no">311</span><span id="line-311">        return "Predicates.notNull()";</span>
+<span class="source-line-no">312</span><span id="line-312">      }</span>
+<span class="source-line-no">313</span><span id="line-313">    };</span>
+<span class="source-line-no">314</span><span id="line-314"></span>
+<span class="source-line-no">315</span><span id="line-315">    @SuppressWarnings("unchecked") // safe contravariant cast</span>
+<span class="source-line-no">316</span><span id="line-316">    &lt;T extends @Nullable Object&gt; Predicate&lt;T&gt; withNarrowedType() {</span>
+<span class="source-line-no">317</span><span id="line-317">      return (Predicate&lt;T&gt;) this;</span>
+<span class="source-line-no">318</span><span id="line-318">    }</span>
+<span class="source-line-no">319</span><span id="line-319">  }</span>
+<span class="source-line-no">320</span><span id="line-320"></span>
+<span class="source-line-no">321</span><span id="line-321">  /**</span>
+<span class="source-line-no">322</span><span id="line-322">   * @see Predicates#not(Predicate)</span>
+<span class="source-line-no">323</span><span id="line-323">   */</span>
+<span class="source-line-no">324</span><span id="line-324">  private static class NotPredicate&lt;T extends @Nullable Object&gt;</span>
+<span class="source-line-no">325</span><span id="line-325">      implements Predicate&lt;T&gt;, Serializable {</span>
+<span class="source-line-no">326</span><span id="line-326">    final Predicate&lt;T&gt; predicate;</span>
+<span class="source-line-no">327</span><span id="line-327"></span>
+<span class="source-line-no">328</span><span id="line-328">    NotPredicate(Predicate&lt;T&gt; predicate) {</span>
+<span class="source-line-no">329</span><span id="line-329">      this.predicate = checkNotNull(predicate);</span>
+<span class="source-line-no">330</span><span id="line-330">    }</span>
+<span class="source-line-no">331</span><span id="line-331"></span>
+<span class="source-line-no">332</span><span id="line-332">    @Override</span>
+<span class="source-line-no">333</span><span id="line-333">    public boolean apply(@ParametricNullness T t) {</span>
+<span class="source-line-no">334</span><span id="line-334">      return !predicate.apply(t);</span>
+<span class="source-line-no">335</span><span id="line-335">    }</span>
+<span class="source-line-no">336</span><span id="line-336"></span>
+<span class="source-line-no">337</span><span id="line-337">    @Override</span>
+<span class="source-line-no">338</span><span id="line-338">    public int hashCode() {</span>
+<span class="source-line-no">339</span><span id="line-339">      return ~predicate.hashCode();</span>
+<span class="source-line-no">340</span><span id="line-340">    }</span>
+<span class="source-line-no">341</span><span id="line-341"></span>
+<span class="source-line-no">342</span><span id="line-342">    @Override</span>
+<span class="source-line-no">343</span><span id="line-343">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">344</span><span id="line-344">      if (obj instanceof NotPredicate) {</span>
+<span class="source-line-no">345</span><span id="line-345">        NotPredicate&lt;?&gt; that = (NotPredicate&lt;?&gt;) obj;</span>
+<span class="source-line-no">346</span><span id="line-346">        return predicate.equals(that.predicate);</span>
+<span class="source-line-no">347</span><span id="line-347">      }</span>
+<span class="source-line-no">348</span><span id="line-348">      return false;</span>
+<span class="source-line-no">349</span><span id="line-349">    }</span>
+<span class="source-line-no">350</span><span id="line-350"></span>
+<span class="source-line-no">351</span><span id="line-351">    @Override</span>
+<span class="source-line-no">352</span><span id="line-352">    public String toString() {</span>
+<span class="source-line-no">353</span><span id="line-353">      return "Predicates.not(" + predicate + ")";</span>
+<span class="source-line-no">354</span><span id="line-354">    }</span>
+<span class="source-line-no">355</span><span id="line-355"></span>
+<span class="source-line-no">356</span><span id="line-356">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">357</span><span id="line-357">  }</span>
+<span class="source-line-no">358</span><span id="line-358"></span>
+<span class="source-line-no">359</span><span id="line-359">  /**</span>
+<span class="source-line-no">360</span><span id="line-360">   * @see Predicates#and(Iterable)</span>
+<span class="source-line-no">361</span><span id="line-361">   */</span>
+<span class="source-line-no">362</span><span id="line-362">  private static class AndPredicate&lt;T extends @Nullable Object&gt;</span>
+<span class="source-line-no">363</span><span id="line-363">      implements Predicate&lt;T&gt;, Serializable {</span>
+<span class="source-line-no">364</span><span id="line-364">    private final List&lt;? extends Predicate&lt;? super T&gt;&gt; components;</span>
+<span class="source-line-no">365</span><span id="line-365"></span>
+<span class="source-line-no">366</span><span id="line-366">    private AndPredicate(List&lt;? extends Predicate&lt;? super T&gt;&gt; components) {</span>
+<span class="source-line-no">367</span><span id="line-367">      this.components = components;</span>
+<span class="source-line-no">368</span><span id="line-368">    }</span>
+<span class="source-line-no">369</span><span id="line-369"></span>
+<span class="source-line-no">370</span><span id="line-370">    @Override</span>
+<span class="source-line-no">371</span><span id="line-371">    public boolean apply(@ParametricNullness T t) {</span>
+<span class="source-line-no">372</span><span id="line-372">      // Avoid using the Iterator to avoid generating garbage (issue 820).</span>
+<span class="source-line-no">373</span><span id="line-373">      for (int i = 0; i &lt; components.size(); i++) {</span>
+<span class="source-line-no">374</span><span id="line-374">        if (!components.get(i).apply(t)) {</span>
+<span class="source-line-no">375</span><span id="line-375">          return false;</span>
+<span class="source-line-no">376</span><span id="line-376">        }</span>
+<span class="source-line-no">377</span><span id="line-377">      }</span>
+<span class="source-line-no">378</span><span id="line-378">      return true;</span>
+<span class="source-line-no">379</span><span id="line-379">    }</span>
+<span class="source-line-no">380</span><span id="line-380"></span>
+<span class="source-line-no">381</span><span id="line-381">    @Override</span>
+<span class="source-line-no">382</span><span id="line-382">    public int hashCode() {</span>
+<span class="source-line-no">383</span><span id="line-383">      // add a random number to avoid collisions with OrPredicate</span>
+<span class="source-line-no">384</span><span id="line-384">      return components.hashCode() + 0x12472c2c;</span>
+<span class="source-line-no">385</span><span id="line-385">    }</span>
+<span class="source-line-no">386</span><span id="line-386"></span>
+<span class="source-line-no">387</span><span id="line-387">    @Override</span>
+<span class="source-line-no">388</span><span id="line-388">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">389</span><span id="line-389">      if (obj instanceof AndPredicate) {</span>
+<span class="source-line-no">390</span><span id="line-390">        AndPredicate&lt;?&gt; that = (AndPredicate&lt;?&gt;) obj;</span>
+<span class="source-line-no">391</span><span id="line-391">        return components.equals(that.components);</span>
+<span class="source-line-no">392</span><span id="line-392">      }</span>
+<span class="source-line-no">393</span><span id="line-393">      return false;</span>
+<span class="source-line-no">394</span><span id="line-394">    }</span>
+<span class="source-line-no">395</span><span id="line-395"></span>
+<span class="source-line-no">396</span><span id="line-396">    @Override</span>
+<span class="source-line-no">397</span><span id="line-397">    public String toString() {</span>
+<span class="source-line-no">398</span><span id="line-398">      return toStringHelper("and", components);</span>
+<span class="source-line-no">399</span><span id="line-399">    }</span>
+<span class="source-line-no">400</span><span id="line-400"></span>
+<span class="source-line-no">401</span><span id="line-401">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">402</span><span id="line-402">  }</span>
+<span class="source-line-no">403</span><span id="line-403"></span>
+<span class="source-line-no">404</span><span id="line-404">  /**</span>
+<span class="source-line-no">405</span><span id="line-405">   * @see Predicates#or(Iterable)</span>
+<span class="source-line-no">406</span><span id="line-406">   */</span>
+<span class="source-line-no">407</span><span id="line-407">  private static class OrPredicate&lt;T extends @Nullable Object&gt;</span>
+<span class="source-line-no">408</span><span id="line-408">      implements Predicate&lt;T&gt;, Serializable {</span>
+<span class="source-line-no">409</span><span id="line-409">    private final List&lt;? extends Predicate&lt;? super T&gt;&gt; components;</span>
+<span class="source-line-no">410</span><span id="line-410"></span>
+<span class="source-line-no">411</span><span id="line-411">    private OrPredicate(List&lt;? extends Predicate&lt;? super T&gt;&gt; components) {</span>
+<span class="source-line-no">412</span><span id="line-412">      this.components = components;</span>
+<span class="source-line-no">413</span><span id="line-413">    }</span>
+<span class="source-line-no">414</span><span id="line-414"></span>
+<span class="source-line-no">415</span><span id="line-415">    @Override</span>
+<span class="source-line-no">416</span><span id="line-416">    public boolean apply(@ParametricNullness T t) {</span>
+<span class="source-line-no">417</span><span id="line-417">      // Avoid using the Iterator to avoid generating garbage (issue 820).</span>
+<span class="source-line-no">418</span><span id="line-418">      for (int i = 0; i &lt; components.size(); i++) {</span>
+<span class="source-line-no">419</span><span id="line-419">        if (components.get(i).apply(t)) {</span>
+<span class="source-line-no">420</span><span id="line-420">          return true;</span>
+<span class="source-line-no">421</span><span id="line-421">        }</span>
+<span class="source-line-no">422</span><span id="line-422">      }</span>
+<span class="source-line-no">423</span><span id="line-423">      return false;</span>
+<span class="source-line-no">424</span><span id="line-424">    }</span>
+<span class="source-line-no">425</span><span id="line-425"></span>
+<span class="source-line-no">426</span><span id="line-426">    @Override</span>
+<span class="source-line-no">427</span><span id="line-427">    public int hashCode() {</span>
+<span class="source-line-no">428</span><span id="line-428">      // add a random number to avoid collisions with AndPredicate</span>
+<span class="source-line-no">429</span><span id="line-429">      return components.hashCode() + 0x053c91cf;</span>
+<span class="source-line-no">430</span><span id="line-430">    }</span>
+<span class="source-line-no">431</span><span id="line-431"></span>
+<span class="source-line-no">432</span><span id="line-432">    @Override</span>
+<span class="source-line-no">433</span><span id="line-433">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">434</span><span id="line-434">      if (obj instanceof OrPredicate) {</span>
+<span class="source-line-no">435</span><span id="line-435">        OrPredicate&lt;?&gt; that = (OrPredicate&lt;?&gt;) obj;</span>
+<span class="source-line-no">436</span><span id="line-436">        return components.equals(that.components);</span>
+<span class="source-line-no">437</span><span id="line-437">      }</span>
+<span class="source-line-no">438</span><span id="line-438">      return false;</span>
+<span class="source-line-no">439</span><span id="line-439">    }</span>
+<span class="source-line-no">440</span><span id="line-440"></span>
+<span class="source-line-no">441</span><span id="line-441">    @Override</span>
+<span class="source-line-no">442</span><span id="line-442">    public String toString() {</span>
+<span class="source-line-no">443</span><span id="line-443">      return toStringHelper("or", components);</span>
+<span class="source-line-no">444</span><span id="line-444">    }</span>
+<span class="source-line-no">445</span><span id="line-445"></span>
+<span class="source-line-no">446</span><span id="line-446">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">447</span><span id="line-447">  }</span>
+<span class="source-line-no">448</span><span id="line-448"></span>
+<span class="source-line-no">449</span><span id="line-449">  private static String toStringHelper(String methodName, Iterable&lt;?&gt; components) {</span>
+<span class="source-line-no">450</span><span id="line-450">    StringBuilder builder = new StringBuilder("Predicates.").append(methodName).append('(');</span>
+<span class="source-line-no">451</span><span id="line-451">    boolean first = true;</span>
+<span class="source-line-no">452</span><span id="line-452">    for (Object o : components) {</span>
+<span class="source-line-no">453</span><span id="line-453">      if (!first) {</span>
+<span class="source-line-no">454</span><span id="line-454">        builder.append(',');</span>
+<span class="source-line-no">455</span><span id="line-455">      }</span>
+<span class="source-line-no">456</span><span id="line-456">      builder.append(o);</span>
+<span class="source-line-no">457</span><span id="line-457">      first = false;</span>
+<span class="source-line-no">458</span><span id="line-458">    }</span>
+<span class="source-line-no">459</span><span id="line-459">    return builder.append(')').toString();</span>
+<span class="source-line-no">460</span><span id="line-460">  }</span>
+<span class="source-line-no">461</span><span id="line-461"></span>
+<span class="source-line-no">462</span><span id="line-462">  /**</span>
+<span class="source-line-no">463</span><span id="line-463">   * @see Predicates#equalTo(Object)</span>
+<span class="source-line-no">464</span><span id="line-464">   */</span>
+<span class="source-line-no">465</span><span id="line-465">  private static class IsEqualToPredicate implements Predicate&lt;@Nullable Object&gt;, Serializable {</span>
+<span class="source-line-no">466</span><span id="line-466">    private final Object target;</span>
+<span class="source-line-no">467</span><span id="line-467"></span>
+<span class="source-line-no">468</span><span id="line-468">    private IsEqualToPredicate(Object target) {</span>
+<span class="source-line-no">469</span><span id="line-469">      this.target = target;</span>
+<span class="source-line-no">470</span><span id="line-470">    }</span>
+<span class="source-line-no">471</span><span id="line-471"></span>
+<span class="source-line-no">472</span><span id="line-472">    @Override</span>
+<span class="source-line-no">473</span><span id="line-473">    public boolean apply(@Nullable Object o) {</span>
+<span class="source-line-no">474</span><span id="line-474">      return target.equals(o);</span>
+<span class="source-line-no">475</span><span id="line-475">    }</span>
+<span class="source-line-no">476</span><span id="line-476"></span>
+<span class="source-line-no">477</span><span id="line-477">    @Override</span>
+<span class="source-line-no">478</span><span id="line-478">    public int hashCode() {</span>
+<span class="source-line-no">479</span><span id="line-479">      return target.hashCode();</span>
+<span class="source-line-no">480</span><span id="line-480">    }</span>
+<span class="source-line-no">481</span><span id="line-481"></span>
+<span class="source-line-no">482</span><span id="line-482">    @Override</span>
+<span class="source-line-no">483</span><span id="line-483">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">484</span><span id="line-484">      if (obj instanceof IsEqualToPredicate) {</span>
+<span class="source-line-no">485</span><span id="line-485">        IsEqualToPredicate that = (IsEqualToPredicate) obj;</span>
+<span class="source-line-no">486</span><span id="line-486">        return target.equals(that.target);</span>
+<span class="source-line-no">487</span><span id="line-487">      }</span>
+<span class="source-line-no">488</span><span id="line-488">      return false;</span>
+<span class="source-line-no">489</span><span id="line-489">    }</span>
+<span class="source-line-no">490</span><span id="line-490"></span>
+<span class="source-line-no">491</span><span id="line-491">    @Override</span>
+<span class="source-line-no">492</span><span id="line-492">    public String toString() {</span>
+<span class="source-line-no">493</span><span id="line-493">      return "Predicates.equalTo(" + target + ")";</span>
+<span class="source-line-no">494</span><span id="line-494">    }</span>
+<span class="source-line-no">495</span><span id="line-495"></span>
+<span class="source-line-no">496</span><span id="line-496">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">497</span><span id="line-497"></span>
+<span class="source-line-no">498</span><span id="line-498">    @SuppressWarnings("unchecked") // safe contravariant cast</span>
+<span class="source-line-no">499</span><span id="line-499">    &lt;T extends @Nullable Object&gt; Predicate&lt;T&gt; withNarrowedType() {</span>
+<span class="source-line-no">500</span><span id="line-500">      return (Predicate&lt;T&gt;) this;</span>
+<span class="source-line-no">501</span><span id="line-501">    }</span>
+<span class="source-line-no">502</span><span id="line-502">  }</span>
+<span class="source-line-no">503</span><span id="line-503"></span>
+<span class="source-line-no">504</span><span id="line-504">  /**</span>
+<span class="source-line-no">505</span><span id="line-505">   * @see Predicates#instanceOf(Class)</span>
+<span class="source-line-no">506</span><span id="line-506">   */</span>
+<span class="source-line-no">507</span><span id="line-507">  @GwtIncompatible // Class.isInstance</span>
+<span class="source-line-no">508</span><span id="line-508">  private static class InstanceOfPredicate&lt;T extends @Nullable Object&gt;</span>
+<span class="source-line-no">509</span><span id="line-509">      implements Predicate&lt;T&gt;, Serializable {</span>
+<span class="source-line-no">510</span><span id="line-510">    private final Class&lt;?&gt; clazz;</span>
+<span class="source-line-no">511</span><span id="line-511"></span>
+<span class="source-line-no">512</span><span id="line-512">    private InstanceOfPredicate(Class&lt;?&gt; clazz) {</span>
+<span class="source-line-no">513</span><span id="line-513">      this.clazz = checkNotNull(clazz);</span>
+<span class="source-line-no">514</span><span id="line-514">    }</span>
+<span class="source-line-no">515</span><span id="line-515"></span>
+<span class="source-line-no">516</span><span id="line-516">    @Override</span>
+<span class="source-line-no">517</span><span id="line-517">    public boolean apply(@ParametricNullness T o) {</span>
+<span class="source-line-no">518</span><span id="line-518">      return clazz.isInstance(o);</span>
+<span class="source-line-no">519</span><span id="line-519">    }</span>
+<span class="source-line-no">520</span><span id="line-520"></span>
+<span class="source-line-no">521</span><span id="line-521">    @Override</span>
+<span class="source-line-no">522</span><span id="line-522">    public int hashCode() {</span>
+<span class="source-line-no">523</span><span id="line-523">      return clazz.hashCode();</span>
+<span class="source-line-no">524</span><span id="line-524">    }</span>
+<span class="source-line-no">525</span><span id="line-525"></span>
+<span class="source-line-no">526</span><span id="line-526">    @Override</span>
+<span class="source-line-no">527</span><span id="line-527">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">528</span><span id="line-528">      if (obj instanceof InstanceOfPredicate) {</span>
+<span class="source-line-no">529</span><span id="line-529">        InstanceOfPredicate&lt;?&gt; that = (InstanceOfPredicate&lt;?&gt;) obj;</span>
+<span class="source-line-no">530</span><span id="line-530">        return clazz == that.clazz;</span>
+<span class="source-line-no">531</span><span id="line-531">      }</span>
+<span class="source-line-no">532</span><span id="line-532">      return false;</span>
+<span class="source-line-no">533</span><span id="line-533">    }</span>
+<span class="source-line-no">534</span><span id="line-534"></span>
+<span class="source-line-no">535</span><span id="line-535">    @Override</span>
+<span class="source-line-no">536</span><span id="line-536">    public String toString() {</span>
+<span class="source-line-no">537</span><span id="line-537">      return "Predicates.instanceOf(" + clazz.getName() + ")";</span>
+<span class="source-line-no">538</span><span id="line-538">    }</span>
+<span class="source-line-no">539</span><span id="line-539"></span>
+<span class="source-line-no">540</span><span id="line-540">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">541</span><span id="line-541">  }</span>
+<span class="source-line-no">542</span><span id="line-542"></span>
+<span class="source-line-no">543</span><span id="line-543">  /**</span>
+<span class="source-line-no">544</span><span id="line-544">   * @see Predicates#subtypeOf(Class)</span>
+<span class="source-line-no">545</span><span id="line-545">   */</span>
+<span class="source-line-no">546</span><span id="line-546">  @J2ktIncompatible</span>
+<span class="source-line-no">547</span><span id="line-547">  @GwtIncompatible // Class.isAssignableFrom</span>
+<span class="source-line-no">548</span><span id="line-548">  private static class SubtypeOfPredicate implements Predicate&lt;Class&lt;?&gt;&gt;, Serializable {</span>
+<span class="source-line-no">549</span><span id="line-549">    private final Class&lt;?&gt; clazz;</span>
+<span class="source-line-no">550</span><span id="line-550"></span>
+<span class="source-line-no">551</span><span id="line-551">    private SubtypeOfPredicate(Class&lt;?&gt; clazz) {</span>
+<span class="source-line-no">552</span><span id="line-552">      this.clazz = checkNotNull(clazz);</span>
+<span class="source-line-no">553</span><span id="line-553">    }</span>
+<span class="source-line-no">554</span><span id="line-554"></span>
+<span class="source-line-no">555</span><span id="line-555">    @Override</span>
+<span class="source-line-no">556</span><span id="line-556">    public boolean apply(Class&lt;?&gt; input) {</span>
+<span class="source-line-no">557</span><span id="line-557">      return clazz.isAssignableFrom(input);</span>
+<span class="source-line-no">558</span><span id="line-558">    }</span>
+<span class="source-line-no">559</span><span id="line-559"></span>
+<span class="source-line-no">560</span><span id="line-560">    @Override</span>
+<span class="source-line-no">561</span><span id="line-561">    public int hashCode() {</span>
+<span class="source-line-no">562</span><span id="line-562">      return clazz.hashCode();</span>
+<span class="source-line-no">563</span><span id="line-563">    }</span>
+<span class="source-line-no">564</span><span id="line-564"></span>
+<span class="source-line-no">565</span><span id="line-565">    @Override</span>
+<span class="source-line-no">566</span><span id="line-566">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">567</span><span id="line-567">      if (obj instanceof SubtypeOfPredicate) {</span>
+<span class="source-line-no">568</span><span id="line-568">        SubtypeOfPredicate that = (SubtypeOfPredicate) obj;</span>
+<span class="source-line-no">569</span><span id="line-569">        return clazz == that.clazz;</span>
+<span class="source-line-no">570</span><span id="line-570">      }</span>
+<span class="source-line-no">571</span><span id="line-571">      return false;</span>
+<span class="source-line-no">572</span><span id="line-572">    }</span>
+<span class="source-line-no">573</span><span id="line-573"></span>
+<span class="source-line-no">574</span><span id="line-574">    @Override</span>
+<span class="source-line-no">575</span><span id="line-575">    public String toString() {</span>
+<span class="source-line-no">576</span><span id="line-576">      return "Predicates.subtypeOf(" + clazz.getName() + ")";</span>
+<span class="source-line-no">577</span><span id="line-577">    }</span>
+<span class="source-line-no">578</span><span id="line-578"></span>
+<span class="source-line-no">579</span><span id="line-579">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">580</span><span id="line-580">  }</span>
+<span class="source-line-no">581</span><span id="line-581"></span>
+<span class="source-line-no">582</span><span id="line-582">  /**</span>
+<span class="source-line-no">583</span><span id="line-583">   * @see Predicates#in(Collection)</span>
+<span class="source-line-no">584</span><span id="line-584">   */</span>
+<span class="source-line-no">585</span><span id="line-585">  private static class InPredicate&lt;T extends @Nullable Object&gt;</span>
+<span class="source-line-no">586</span><span id="line-586">      implements Predicate&lt;T&gt;, Serializable {</span>
+<span class="source-line-no">587</span><span id="line-587">    private final Collection&lt;?&gt; target;</span>
+<span class="source-line-no">588</span><span id="line-588"></span>
+<span class="source-line-no">589</span><span id="line-589">    private InPredicate(Collection&lt;?&gt; target) {</span>
+<span class="source-line-no">590</span><span id="line-590">      this.target = checkNotNull(target);</span>
+<span class="source-line-no">591</span><span id="line-591">    }</span>
+<span class="source-line-no">592</span><span id="line-592"></span>
+<span class="source-line-no">593</span><span id="line-593">    @Override</span>
+<span class="source-line-no">594</span><span id="line-594">    public boolean apply(@ParametricNullness T t) {</span>
+<span class="source-line-no">595</span><span id="line-595">      try {</span>
+<span class="source-line-no">596</span><span id="line-596">        return target.contains(t);</span>
+<span class="source-line-no">597</span><span id="line-597">      } catch (NullPointerException | ClassCastException e) {</span>
+<span class="source-line-no">598</span><span id="line-598">        return false;</span>
+<span class="source-line-no">599</span><span id="line-599">      }</span>
+<span class="source-line-no">600</span><span id="line-600">    }</span>
+<span class="source-line-no">601</span><span id="line-601"></span>
+<span class="source-line-no">602</span><span id="line-602">    @Override</span>
+<span class="source-line-no">603</span><span id="line-603">    /*</span>
+<span class="source-line-no">604</span><span id="line-604">     * We should probably not have implemented equals() at all, but given that we did, we can't</span>
+<span class="source-line-no">605</span><span id="line-605">     * provide a better implementation than the input Collection, at least without dramatic changes</span>
+<span class="source-line-no">606</span><span id="line-606">     * like copying it to a new Set—which might then test for element equality differently.</span>
+<span class="source-line-no">607</span><span id="line-607">     */</span>
+<span class="source-line-no">608</span><span id="line-608">    @SuppressWarnings("UndefinedEquals")</span>
+<span class="source-line-no">609</span><span id="line-609">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">610</span><span id="line-610">      if (obj instanceof InPredicate) {</span>
+<span class="source-line-no">611</span><span id="line-611">        InPredicate&lt;?&gt; that = (InPredicate&lt;?&gt;) obj;</span>
+<span class="source-line-no">612</span><span id="line-612">        return target.equals(that.target);</span>
+<span class="source-line-no">613</span><span id="line-613">      }</span>
+<span class="source-line-no">614</span><span id="line-614">      return false;</span>
+<span class="source-line-no">615</span><span id="line-615">    }</span>
+<span class="source-line-no">616</span><span id="line-616"></span>
+<span class="source-line-no">617</span><span id="line-617">    @Override</span>
+<span class="source-line-no">618</span><span id="line-618">    public int hashCode() {</span>
+<span class="source-line-no">619</span><span id="line-619">      return target.hashCode();</span>
+<span class="source-line-no">620</span><span id="line-620">    }</span>
+<span class="source-line-no">621</span><span id="line-621"></span>
+<span class="source-line-no">622</span><span id="line-622">    @Override</span>
+<span class="source-line-no">623</span><span id="line-623">    public String toString() {</span>
+<span class="source-line-no">624</span><span id="line-624">      return "Predicates.in(" + target + ")";</span>
+<span class="source-line-no">625</span><span id="line-625">    }</span>
+<span class="source-line-no">626</span><span id="line-626"></span>
+<span class="source-line-no">627</span><span id="line-627">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">628</span><span id="line-628">  }</span>
+<span class="source-line-no">629</span><span id="line-629"></span>
+<span class="source-line-no">630</span><span id="line-630">  /**</span>
+<span class="source-line-no">631</span><span id="line-631">   * @see Predicates#compose(Predicate, Function)</span>
+<span class="source-line-no">632</span><span id="line-632">   */</span>
+<span class="source-line-no">633</span><span id="line-633">  private static class CompositionPredicate&lt;A extends @Nullable Object, B extends @Nullable Object&gt;</span>
+<span class="source-line-no">634</span><span id="line-634">      implements Predicate&lt;A&gt;, Serializable {</span>
+<span class="source-line-no">635</span><span id="line-635">    final Predicate&lt;B&gt; p;</span>
+<span class="source-line-no">636</span><span id="line-636">    final Function&lt;A, ? extends B&gt; f;</span>
+<span class="source-line-no">637</span><span id="line-637"></span>
+<span class="source-line-no">638</span><span id="line-638">    private CompositionPredicate(Predicate&lt;B&gt; p, Function&lt;A, ? extends B&gt; f) {</span>
+<span class="source-line-no">639</span><span id="line-639">      this.p = checkNotNull(p);</span>
+<span class="source-line-no">640</span><span id="line-640">      this.f = checkNotNull(f);</span>
+<span class="source-line-no">641</span><span id="line-641">    }</span>
+<span class="source-line-no">642</span><span id="line-642"></span>
+<span class="source-line-no">643</span><span id="line-643">    @Override</span>
+<span class="source-line-no">644</span><span id="line-644">    public boolean apply(@ParametricNullness A a) {</span>
+<span class="source-line-no">645</span><span id="line-645">      return p.apply(f.apply(a));</span>
+<span class="source-line-no">646</span><span id="line-646">    }</span>
+<span class="source-line-no">647</span><span id="line-647"></span>
+<span class="source-line-no">648</span><span id="line-648">    @Override</span>
+<span class="source-line-no">649</span><span id="line-649">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">650</span><span id="line-650">      if (obj instanceof CompositionPredicate) {</span>
+<span class="source-line-no">651</span><span id="line-651">        CompositionPredicate&lt;?, ?&gt; that = (CompositionPredicate&lt;?, ?&gt;) obj;</span>
+<span class="source-line-no">652</span><span id="line-652">        return f.equals(that.f) &amp;&amp; p.equals(that.p);</span>
+<span class="source-line-no">653</span><span id="line-653">      }</span>
+<span class="source-line-no">654</span><span id="line-654">      return false;</span>
+<span class="source-line-no">655</span><span id="line-655">    }</span>
+<span class="source-line-no">656</span><span id="line-656"></span>
+<span class="source-line-no">657</span><span id="line-657">    @Override</span>
+<span class="source-line-no">658</span><span id="line-658">    public int hashCode() {</span>
+<span class="source-line-no">659</span><span id="line-659">      return f.hashCode() ^ p.hashCode();</span>
+<span class="source-line-no">660</span><span id="line-660">    }</span>
+<span class="source-line-no">661</span><span id="line-661"></span>
+<span class="source-line-no">662</span><span id="line-662">    @Override</span>
+<span class="source-line-no">663</span><span id="line-663">    public String toString() {</span>
+<span class="source-line-no">664</span><span id="line-664">      // TODO(cpovirk): maybe make this look like the method call does ("Predicates.compose(...)")</span>
+<span class="source-line-no">665</span><span id="line-665">      return p + "(" + f + ")";</span>
+<span class="source-line-no">666</span><span id="line-666">    }</span>
+<span class="source-line-no">667</span><span id="line-667"></span>
+<span class="source-line-no">668</span><span id="line-668">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">669</span><span id="line-669">  }</span>
 <span class="source-line-no">670</span><span id="line-670"></span>
-<span class="source-line-no">671</span><span id="line-671">    ContainsPatternPredicate(CommonPattern pattern) {</span>
-<span class="source-line-no">672</span><span id="line-672">      this.pattern = checkNotNull(pattern);</span>
-<span class="source-line-no">673</span><span id="line-673">    }</span>
-<span class="source-line-no">674</span><span id="line-674"></span>
-<span class="source-line-no">675</span><span id="line-675">    @Override</span>
-<span class="source-line-no">676</span><span id="line-676">    public boolean apply(CharSequence t) {</span>
-<span class="source-line-no">677</span><span id="line-677">      return pattern.matcher(t).find();</span>
-<span class="source-line-no">678</span><span id="line-678">    }</span>
-<span class="source-line-no">679</span><span id="line-679"></span>
-<span class="source-line-no">680</span><span id="line-680">    @Override</span>
-<span class="source-line-no">681</span><span id="line-681">    public int hashCode() {</span>
-<span class="source-line-no">682</span><span id="line-682">      // Pattern uses Object.hashCode, so we have to reach</span>
-<span class="source-line-no">683</span><span id="line-683">      // inside to build a hashCode consistent with equals.</span>
-<span class="source-line-no">684</span><span id="line-684"></span>
-<span class="source-line-no">685</span><span id="line-685">      return Objects.hashCode(pattern.pattern(), pattern.flags());</span>
-<span class="source-line-no">686</span><span id="line-686">    }</span>
-<span class="source-line-no">687</span><span id="line-687"></span>
-<span class="source-line-no">688</span><span id="line-688">    @Override</span>
-<span class="source-line-no">689</span><span id="line-689">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">690</span><span id="line-690">      if (obj instanceof ContainsPatternPredicate) {</span>
-<span class="source-line-no">691</span><span id="line-691">        ContainsPatternPredicate that = (ContainsPatternPredicate) obj;</span>
-<span class="source-line-no">692</span><span id="line-692"></span>
-<span class="source-line-no">693</span><span id="line-693">        // Pattern uses Object (identity) equality, so we have to reach</span>
-<span class="source-line-no">694</span><span id="line-694">        // inside to compare individual fields.</span>
-<span class="source-line-no">695</span><span id="line-695">        return Objects.equal(pattern.pattern(), that.pattern.pattern())</span>
-<span class="source-line-no">696</span><span id="line-696">            &amp;&amp; pattern.flags() == that.pattern.flags();</span>
-<span class="source-line-no">697</span><span id="line-697">      }</span>
-<span class="source-line-no">698</span><span id="line-698">      return false;</span>
-<span class="source-line-no">699</span><span id="line-699">    }</span>
-<span class="source-line-no">700</span><span id="line-700"></span>
-<span class="source-line-no">701</span><span id="line-701">    @Override</span>
-<span class="source-line-no">702</span><span id="line-702">    public String toString() {</span>
-<span class="source-line-no">703</span><span id="line-703">      String patternString =</span>
-<span class="source-line-no">704</span><span id="line-704">          MoreObjects.toStringHelper(pattern)</span>
-<span class="source-line-no">705</span><span id="line-705">              .add("pattern", pattern.pattern())</span>
-<span class="source-line-no">706</span><span id="line-706">              .add("pattern.flags", pattern.flags())</span>
-<span class="source-line-no">707</span><span id="line-707">              .toString();</span>
-<span class="source-line-no">708</span><span id="line-708">      return "Predicates.contains(" + patternString + ")";</span>
-<span class="source-line-no">709</span><span id="line-709">    }</span>
-<span class="source-line-no">710</span><span id="line-710"></span>
-<span class="source-line-no">711</span><span id="line-711">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">712</span><span id="line-712">  }</span>
-<span class="source-line-no">713</span><span id="line-713"></span>
-<span class="source-line-no">714</span><span id="line-714">  /**</span>
-<span class="source-line-no">715</span><span id="line-715">   * @see Predicates#containsPattern(String)</span>
-<span class="source-line-no">716</span><span id="line-716">   */</span>
-<span class="source-line-no">717</span><span id="line-717">  @GwtIncompatible // Only used by other GWT-incompatible code.</span>
-<span class="source-line-no">718</span><span id="line-718">  private static class ContainsPatternFromStringPredicate extends ContainsPatternPredicate {</span>
-<span class="source-line-no">719</span><span id="line-719"></span>
-<span class="source-line-no">720</span><span id="line-720">    ContainsPatternFromStringPredicate(String string) {</span>
-<span class="source-line-no">721</span><span id="line-721">      super(Platform.compilePattern(string));</span>
-<span class="source-line-no">722</span><span id="line-722">    }</span>
-<span class="source-line-no">723</span><span id="line-723"></span>
-<span class="source-line-no">724</span><span id="line-724">    @Override</span>
-<span class="source-line-no">725</span><span id="line-725">    public String toString() {</span>
-<span class="source-line-no">726</span><span id="line-726">      return "Predicates.containsPattern(" + pattern.pattern() + ")";</span>
-<span class="source-line-no">727</span><span id="line-727">    }</span>
-<span class="source-line-no">728</span><span id="line-728"></span>
-<span class="source-line-no">729</span><span id="line-729">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">730</span><span id="line-730">  }</span>
-<span class="source-line-no">731</span><span id="line-731"></span>
-<span class="source-line-no">732</span><span id="line-732">  private static &lt;T extends @Nullable Object&gt; List&lt;Predicate&lt;? super T&gt;&gt; asList(</span>
-<span class="source-line-no">733</span><span id="line-733">      Predicate&lt;? super T&gt; first, Predicate&lt;? super T&gt; second) {</span>
-<span class="source-line-no">734</span><span id="line-734">    // TODO(kevinb): understand why we still get a warning despite @SafeVarargs!</span>
-<span class="source-line-no">735</span><span id="line-735">    return Arrays.&lt;Predicate&lt;? super T&gt;&gt;asList(first, second);</span>
-<span class="source-line-no">736</span><span id="line-736">  }</span>
-<span class="source-line-no">737</span><span id="line-737"></span>
-<span class="source-line-no">738</span><span id="line-738">  private static &lt;T&gt; List&lt;T&gt; defensiveCopy(T... array) {</span>
-<span class="source-line-no">739</span><span id="line-739">    return defensiveCopy(Arrays.asList(array));</span>
-<span class="source-line-no">740</span><span id="line-740">  }</span>
-<span class="source-line-no">741</span><span id="line-741"></span>
-<span class="source-line-no">742</span><span id="line-742">  static &lt;T&gt; List&lt;T&gt; defensiveCopy(Iterable&lt;T&gt; iterable) {</span>
-<span class="source-line-no">743</span><span id="line-743">    ArrayList&lt;T&gt; list = new ArrayList&lt;&gt;();</span>
-<span class="source-line-no">744</span><span id="line-744">    for (T element : iterable) {</span>
-<span class="source-line-no">745</span><span id="line-745">      list.add(checkNotNull(element));</span>
-<span class="source-line-no">746</span><span id="line-746">    }</span>
-<span class="source-line-no">747</span><span id="line-747">    return list;</span>
-<span class="source-line-no">748</span><span id="line-748">  }</span>
-<span class="source-line-no">749</span><span id="line-749">}</span>
+<span class="source-line-no">671</span><span id="line-671">  /**</span>
+<span class="source-line-no">672</span><span id="line-672">   * @see Predicates#contains(Pattern)</span>
+<span class="source-line-no">673</span><span id="line-673">   */</span>
+<span class="source-line-no">674</span><span id="line-674">  @GwtIncompatible // Only used by other GWT-incompatible code.</span>
+<span class="source-line-no">675</span><span id="line-675">  private static class ContainsPatternPredicate implements Predicate&lt;CharSequence&gt;, Serializable {</span>
+<span class="source-line-no">676</span><span id="line-676">    final CommonPattern pattern;</span>
+<span class="source-line-no">677</span><span id="line-677"></span>
+<span class="source-line-no">678</span><span id="line-678">    ContainsPatternPredicate(CommonPattern pattern) {</span>
+<span class="source-line-no">679</span><span id="line-679">      this.pattern = checkNotNull(pattern);</span>
+<span class="source-line-no">680</span><span id="line-680">    }</span>
+<span class="source-line-no">681</span><span id="line-681"></span>
+<span class="source-line-no">682</span><span id="line-682">    @Override</span>
+<span class="source-line-no">683</span><span id="line-683">    public boolean apply(CharSequence t) {</span>
+<span class="source-line-no">684</span><span id="line-684">      return pattern.matcher(t).find();</span>
+<span class="source-line-no">685</span><span id="line-685">    }</span>
+<span class="source-line-no">686</span><span id="line-686"></span>
+<span class="source-line-no">687</span><span id="line-687">    @Override</span>
+<span class="source-line-no">688</span><span id="line-688">    public int hashCode() {</span>
+<span class="source-line-no">689</span><span id="line-689">      // Pattern uses Object.hashCode, so we have to reach</span>
+<span class="source-line-no">690</span><span id="line-690">      // inside to build a hashCode consistent with equals.</span>
+<span class="source-line-no">691</span><span id="line-691"></span>
+<span class="source-line-no">692</span><span id="line-692">      return Objects.hashCode(pattern.pattern(), pattern.flags());</span>
+<span class="source-line-no">693</span><span id="line-693">    }</span>
+<span class="source-line-no">694</span><span id="line-694"></span>
+<span class="source-line-no">695</span><span id="line-695">    @Override</span>
+<span class="source-line-no">696</span><span id="line-696">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">697</span><span id="line-697">      if (obj instanceof ContainsPatternPredicate) {</span>
+<span class="source-line-no">698</span><span id="line-698">        ContainsPatternPredicate that = (ContainsPatternPredicate) obj;</span>
+<span class="source-line-no">699</span><span id="line-699"></span>
+<span class="source-line-no">700</span><span id="line-700">        // Pattern uses Object (identity) equality, so we have to reach</span>
+<span class="source-line-no">701</span><span id="line-701">        // inside to compare individual fields.</span>
+<span class="source-line-no">702</span><span id="line-702">        return Objects.equal(pattern.pattern(), that.pattern.pattern())</span>
+<span class="source-line-no">703</span><span id="line-703">            &amp;&amp; pattern.flags() == that.pattern.flags();</span>
+<span class="source-line-no">704</span><span id="line-704">      }</span>
+<span class="source-line-no">705</span><span id="line-705">      return false;</span>
+<span class="source-line-no">706</span><span id="line-706">    }</span>
+<span class="source-line-no">707</span><span id="line-707"></span>
+<span class="source-line-no">708</span><span id="line-708">    @Override</span>
+<span class="source-line-no">709</span><span id="line-709">    public String toString() {</span>
+<span class="source-line-no">710</span><span id="line-710">      String patternString =</span>
+<span class="source-line-no">711</span><span id="line-711">          MoreObjects.toStringHelper(pattern)</span>
+<span class="source-line-no">712</span><span id="line-712">              .add("pattern", pattern.pattern())</span>
+<span class="source-line-no">713</span><span id="line-713">              .add("pattern.flags", pattern.flags())</span>
+<span class="source-line-no">714</span><span id="line-714">              .toString();</span>
+<span class="source-line-no">715</span><span id="line-715">      return "Predicates.contains(" + patternString + ")";</span>
+<span class="source-line-no">716</span><span id="line-716">    }</span>
+<span class="source-line-no">717</span><span id="line-717"></span>
+<span class="source-line-no">718</span><span id="line-718">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">719</span><span id="line-719">  }</span>
+<span class="source-line-no">720</span><span id="line-720"></span>
+<span class="source-line-no">721</span><span id="line-721">  /**</span>
+<span class="source-line-no">722</span><span id="line-722">   * @see Predicates#containsPattern(String)</span>
+<span class="source-line-no">723</span><span id="line-723">   */</span>
+<span class="source-line-no">724</span><span id="line-724">  @GwtIncompatible // Only used by other GWT-incompatible code.</span>
+<span class="source-line-no">725</span><span id="line-725">  private static class ContainsPatternFromStringPredicate extends ContainsPatternPredicate {</span>
+<span class="source-line-no">726</span><span id="line-726"></span>
+<span class="source-line-no">727</span><span id="line-727">    ContainsPatternFromStringPredicate(String string) {</span>
+<span class="source-line-no">728</span><span id="line-728">      super(Platform.compilePattern(string));</span>
+<span class="source-line-no">729</span><span id="line-729">    }</span>
+<span class="source-line-no">730</span><span id="line-730"></span>
+<span class="source-line-no">731</span><span id="line-731">    @Override</span>
+<span class="source-line-no">732</span><span id="line-732">    public String toString() {</span>
+<span class="source-line-no">733</span><span id="line-733">      return "Predicates.containsPattern(" + pattern.pattern() + ")";</span>
+<span class="source-line-no">734</span><span id="line-734">    }</span>
+<span class="source-line-no">735</span><span id="line-735"></span>
+<span class="source-line-no">736</span><span id="line-736">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">737</span><span id="line-737">  }</span>
+<span class="source-line-no">738</span><span id="line-738"></span>
+<span class="source-line-no">739</span><span id="line-739">  private static &lt;T extends @Nullable Object&gt; List&lt;Predicate&lt;? super T&gt;&gt; asList(</span>
+<span class="source-line-no">740</span><span id="line-740">      Predicate&lt;? super T&gt; first, Predicate&lt;? super T&gt; second) {</span>
+<span class="source-line-no">741</span><span id="line-741">    // TODO(kevinb): understand why we still get a warning despite @SafeVarargs!</span>
+<span class="source-line-no">742</span><span id="line-742">    return Arrays.&lt;Predicate&lt;? super T&gt;&gt;asList(first, second);</span>
+<span class="source-line-no">743</span><span id="line-743">  }</span>
+<span class="source-line-no">744</span><span id="line-744"></span>
+<span class="source-line-no">745</span><span id="line-745">  private static &lt;T&gt; List&lt;T&gt; defensiveCopy(T... array) {</span>
+<span class="source-line-no">746</span><span id="line-746">    return defensiveCopy(Arrays.asList(array));</span>
+<span class="source-line-no">747</span><span id="line-747">  }</span>
+<span class="source-line-no">748</span><span id="line-748"></span>
+<span class="source-line-no">749</span><span id="line-749">  static &lt;T&gt; List&lt;T&gt; defensiveCopy(Iterable&lt;T&gt; iterable) {</span>
+<span class="source-line-no">750</span><span id="line-750">    ArrayList&lt;T&gt; list = new ArrayList&lt;&gt;();</span>
+<span class="source-line-no">751</span><span id="line-751">    for (T element : iterable) {</span>
+<span class="source-line-no">752</span><span id="line-752">      list.add(checkNotNull(element));</span>
+<span class="source-line-no">753</span><span id="line-753">    }</span>
+<span class="source-line-no">754</span><span id="line-754">    return list;</span>
+<span class="source-line-no">755</span><span id="line-755">  }</span>
+<span class="source-line-no">756</span><span id="line-756">}</span>
 
 
 

@@ -112,7 +112,7 @@
 <span class="source-line-no">099</span><span id="line-99">  private final AtomicReference&lt;ListenableFuture&lt;@Nullable Void&gt;&gt; ref =</span>
 <span class="source-line-no">100</span><span id="line-100">      new AtomicReference&lt;&gt;(immediateVoidFuture());</span>
 <span class="source-line-no">101</span><span id="line-101"></span>
-<span class="source-line-no">102</span><span id="line-102">  private @LazyInit ThreadConfinedTaskQueue latestTaskQueue = new ThreadConfinedTaskQueue();</span>
+<span class="source-line-no">102</span><span id="line-102">  @LazyInit private ThreadConfinedTaskQueue latestTaskQueue = new ThreadConfinedTaskQueue();</span>
 <span class="source-line-no">103</span><span id="line-103"></span>
 <span class="source-line-no">104</span><span id="line-104">  /**</span>
 <span class="source-line-no">105</span><span id="line-105">   * This object is unsafely published, but avoids problematic races by relying exclusively on the</span>

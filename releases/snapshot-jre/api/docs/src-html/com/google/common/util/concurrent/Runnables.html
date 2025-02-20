@@ -36,20 +36,22 @@
 <span class="source-line-no">023</span><span id="line-23"> */</span>
 <span class="source-line-no">024</span><span id="line-24">@GwtCompatible</span>
 <span class="source-line-no">025</span><span id="line-25">public final class Runnables {</span>
-<span class="source-line-no">026</span><span id="line-26"></span>
-<span class="source-line-no">027</span><span id="line-27">  private static final Runnable EMPTY_RUNNABLE =</span>
-<span class="source-line-no">028</span><span id="line-28">      new Runnable() {</span>
-<span class="source-line-no">029</span><span id="line-29">        @Override</span>
-<span class="source-line-no">030</span><span id="line-30">        public void run() {}</span>
-<span class="source-line-no">031</span><span id="line-31">      };</span>
-<span class="source-line-no">032</span><span id="line-32"></span>
-<span class="source-line-no">033</span><span id="line-33">  /** Returns a {@link Runnable} instance that does nothing when run. */</span>
-<span class="source-line-no">034</span><span id="line-34">  public static Runnable doNothing() {</span>
-<span class="source-line-no">035</span><span id="line-35">    return EMPTY_RUNNABLE;</span>
-<span class="source-line-no">036</span><span id="line-36">  }</span>
-<span class="source-line-no">037</span><span id="line-37"></span>
-<span class="source-line-no">038</span><span id="line-38">  private Runnables() {}</span>
-<span class="source-line-no">039</span><span id="line-39">}</span>
+<span class="source-line-no">026</span><span id="line-26">  /*</span>
+<span class="source-line-no">027</span><span id="line-27">   * If we inline this, it's not longer a singleton under Android (at least under the Lollipop</span>
+<span class="source-line-no">028</span><span id="line-28">   * version that we're testing under) or J2CL.</span>
+<span class="source-line-no">029</span><span id="line-29">   *</span>
+<span class="source-line-no">030</span><span id="line-30">   * That's not necessarily a real-world problem, but it does break our tests.</span>
+<span class="source-line-no">031</span><span id="line-31">   */</span>
+<span class="source-line-no">032</span><span id="line-32">  @SuppressWarnings({"InlineLambdaConstant", "UnnecessaryLambda"})</span>
+<span class="source-line-no">033</span><span id="line-33">  private static final Runnable EMPTY_RUNNABLE = () -&gt; {};</span>
+<span class="source-line-no">034</span><span id="line-34"></span>
+<span class="source-line-no">035</span><span id="line-35">  /** Returns a {@link Runnable} instance that does nothing when run. */</span>
+<span class="source-line-no">036</span><span id="line-36">  public static Runnable doNothing() {</span>
+<span class="source-line-no">037</span><span id="line-37">    return EMPTY_RUNNABLE;</span>
+<span class="source-line-no">038</span><span id="line-38">  }</span>
+<span class="source-line-no">039</span><span id="line-39"></span>
+<span class="source-line-no">040</span><span id="line-40">  private Runnables() {}</span>
+<span class="source-line-no">041</span><span id="line-41">}</span>
 
 
 

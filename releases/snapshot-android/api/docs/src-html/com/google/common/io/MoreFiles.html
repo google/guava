@@ -337,7 +337,7 @@
 <span class="source-line-no">324</span><span id="line-324">   * LinkOption...)} on input paths with the given link options.</span>
 <span class="source-line-no">325</span><span id="line-325">   */</span>
 <span class="source-line-no">326</span><span id="line-326">  public static Predicate&lt;Path&gt; isDirectory(LinkOption... options) {</span>
-<span class="source-line-no">327</span><span id="line-327">    final LinkOption[] optionsCopy = options.clone();</span>
+<span class="source-line-no">327</span><span id="line-327">    LinkOption[] optionsCopy = options.clone();</span>
 <span class="source-line-no">328</span><span id="line-328">    return new Predicate&lt;Path&gt;() {</span>
 <span class="source-line-no">329</span><span id="line-329">      @Override</span>
 <span class="source-line-no">330</span><span id="line-330">      public boolean apply(Path input) {</span>
@@ -364,7 +364,7 @@
 <span class="source-line-no">351</span><span id="line-351">   * LinkOption...)} on input paths with the given link options.</span>
 <span class="source-line-no">352</span><span id="line-352">   */</span>
 <span class="source-line-no">353</span><span id="line-353">  public static Predicate&lt;Path&gt; isRegularFile(LinkOption... options) {</span>
-<span class="source-line-no">354</span><span id="line-354">    final LinkOption[] optionsCopy = options.clone();</span>
+<span class="source-line-no">354</span><span id="line-354">    LinkOption[] optionsCopy = options.clone();</span>
 <span class="source-line-no">355</span><span id="line-355">    return new Predicate&lt;Path&gt;() {</span>
 <span class="source-line-no">356</span><span id="line-356">      @Override</span>
 <span class="source-line-no">357</span><span id="line-357">      public boolean apply(Path input) {</span>

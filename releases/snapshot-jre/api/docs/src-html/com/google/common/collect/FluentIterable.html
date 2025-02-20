@@ -149,7 +149,7 @@
 <span class="source-line-no">136</span><span id="line-136">   * &lt;p&gt;&lt;b&gt;{@code Stream} equivalent:&lt;/b&gt; {@link Collection#stream} if {@code iterable} is a {@link</span>
 <span class="source-line-no">137</span><span id="line-137">   * Collection}; {@link Streams#stream(Iterable)} otherwise.</span>
 <span class="source-line-no">138</span><span id="line-138">   */</span>
-<span class="source-line-no">139</span><span id="line-139">  public static &lt;E extends @Nullable Object&gt; FluentIterable&lt;E&gt; from(final Iterable&lt;E&gt; iterable) {</span>
+<span class="source-line-no">139</span><span id="line-139">  public static &lt;E extends @Nullable Object&gt; FluentIterable&lt;E&gt; from(Iterable&lt;E&gt; iterable) {</span>
 <span class="source-line-no">140</span><span id="line-140">    return (iterable instanceof FluentIterable)</span>
 <span class="source-line-no">141</span><span id="line-141">        ? (FluentIterable&lt;E&gt;) iterable</span>
 <span class="source-line-no">142</span><span id="line-142">        : new FluentIterable&lt;E&gt;(iterable) {</span>
@@ -283,7 +283,7 @@
 <span class="source-line-no">270</span><span id="line-270">   * @since 20.0</span>
 <span class="source-line-no">271</span><span id="line-271">   */</span>
 <span class="source-line-no">272</span><span id="line-272">  public static &lt;T extends @Nullable Object&gt; FluentIterable&lt;T&gt; concat(</span>
-<span class="source-line-no">273</span><span id="line-273">      final Iterable&lt;? extends Iterable&lt;? extends T&gt;&gt; inputs) {</span>
+<span class="source-line-no">273</span><span id="line-273">      Iterable&lt;? extends Iterable&lt;? extends T&gt;&gt; inputs) {</span>
 <span class="source-line-no">274</span><span id="line-274">    checkNotNull(inputs);</span>
 <span class="source-line-no">275</span><span id="line-275">    return new FluentIterable&lt;T&gt;() {</span>
 <span class="source-line-no">276</span><span id="line-276">      @Override</span>
@@ -295,7 +295,7 @@
 <span class="source-line-no">282</span><span id="line-282"></span>
 <span class="source-line-no">283</span><span id="line-283">  /** Concatenates a varargs array of iterables without making a defensive copy of the array. */</span>
 <span class="source-line-no">284</span><span id="line-284">  private static &lt;T extends @Nullable Object&gt; FluentIterable&lt;T&gt; concatNoDefensiveCopy(</span>
-<span class="source-line-no">285</span><span id="line-285">      final Iterable&lt;? extends T&gt;... inputs) {</span>
+<span class="source-line-no">285</span><span id="line-285">      Iterable&lt;? extends T&gt;... inputs) {</span>
 <span class="source-line-no">286</span><span id="line-286">    for (Iterable&lt;? extends T&gt; input : inputs) {</span>
 <span class="source-line-no">287</span><span id="line-287">      checkNotNull(input);</span>
 <span class="source-line-no">288</span><span id="line-288">    }</span>

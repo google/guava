@@ -106,53 +106,54 @@
 <span class="source-line-no">093</span><span id="line-93">   * &lt;p&gt;This escaper does not treat surrogate pairs specially and does not perform Unicode</span>
 <span class="source-line-no">094</span><span id="line-94">   * validation on its input.</span>
 <span class="source-line-no">095</span><span id="line-95">   */</span>
-<span class="source-line-no">096</span><span id="line-96">  public static Escaper xmlAttributeEscaper() {</span>
-<span class="source-line-no">097</span><span id="line-97">    return XML_ATTRIBUTE_ESCAPER;</span>
-<span class="source-line-no">098</span><span id="line-98">  }</span>
-<span class="source-line-no">099</span><span id="line-99"></span>
-<span class="source-line-no">100</span><span id="line-100">  private static final Escaper XML_ESCAPER;</span>
-<span class="source-line-no">101</span><span id="line-101">  private static final Escaper XML_CONTENT_ESCAPER;</span>
-<span class="source-line-no">102</span><span id="line-102">  private static final Escaper XML_ATTRIBUTE_ESCAPER;</span>
-<span class="source-line-no">103</span><span id="line-103"></span>
-<span class="source-line-no">104</span><span id="line-104">  static {</span>
-<span class="source-line-no">105</span><span id="line-105">    Escapers.Builder builder = Escapers.builder();</span>
-<span class="source-line-no">106</span><span id="line-106">    // The char values \uFFFE and \uFFFF are explicitly not allowed in XML</span>
-<span class="source-line-no">107</span><span id="line-107">    // (Unicode code points above \uFFFF are represented via surrogate pairs</span>
-<span class="source-line-no">108</span><span id="line-108">    // which means they are treated as pairs of safe characters).</span>
-<span class="source-line-no">109</span><span id="line-109">    builder.setSafeRange(Character.MIN_VALUE, '\uFFFD');</span>
-<span class="source-line-no">110</span><span id="line-110">    // Unsafe characters are replaced with the Unicode replacement character.</span>
-<span class="source-line-no">111</span><span id="line-111">    builder.setUnsafeReplacement("\uFFFD");</span>
-<span class="source-line-no">112</span><span id="line-112"></span>
-<span class="source-line-no">113</span><span id="line-113">    /*</span>
-<span class="source-line-no">114</span><span id="line-114">     * Except for \n, \t, and \r, all ASCII control characters are replaced with the Unicode</span>
-<span class="source-line-no">115</span><span id="line-115">     * replacement character.</span>
-<span class="source-line-no">116</span><span id="line-116">     *</span>
-<span class="source-line-no">117</span><span id="line-117">     * Implementation note: An alternative to the following would be to make a map that simply</span>
-<span class="source-line-no">118</span><span id="line-118">     * replaces the allowed ASCII whitespace characters with themselves and to set the minimum safe</span>
-<span class="source-line-no">119</span><span id="line-119">     * character to 0x20. However this would slow down the escaping of simple strings that contain</span>
-<span class="source-line-no">120</span><span id="line-120">     * \t, \n, or \r.</span>
-<span class="source-line-no">121</span><span id="line-121">     */</span>
-<span class="source-line-no">122</span><span id="line-122">    for (char c = MIN_ASCII_CONTROL_CHAR; c &lt;= MAX_ASCII_CONTROL_CHAR; c++) {</span>
-<span class="source-line-no">123</span><span id="line-123">      if (c != '\t' &amp;&amp; c != '\n' &amp;&amp; c != '\r') {</span>
-<span class="source-line-no">124</span><span id="line-124">        builder.addEscape(c, "\uFFFD");</span>
-<span class="source-line-no">125</span><span id="line-125">      }</span>
-<span class="source-line-no">126</span><span id="line-126">    }</span>
-<span class="source-line-no">127</span><span id="line-127"></span>
-<span class="source-line-no">128</span><span id="line-128">    // Build the content escaper first and then add quote escaping for the</span>
-<span class="source-line-no">129</span><span id="line-129">    // general escaper.</span>
-<span class="source-line-no">130</span><span id="line-130">    builder.addEscape('&amp;', "&amp;amp;");</span>
-<span class="source-line-no">131</span><span id="line-131">    builder.addEscape('&lt;', "&amp;lt;");</span>
-<span class="source-line-no">132</span><span id="line-132">    builder.addEscape('&gt;', "&amp;gt;");</span>
-<span class="source-line-no">133</span><span id="line-133">    XML_CONTENT_ESCAPER = builder.build();</span>
-<span class="source-line-no">134</span><span id="line-134">    builder.addEscape('\'', "&amp;apos;");</span>
-<span class="source-line-no">135</span><span id="line-135">    builder.addEscape('"', "&amp;quot;");</span>
-<span class="source-line-no">136</span><span id="line-136">    XML_ESCAPER = builder.build();</span>
-<span class="source-line-no">137</span><span id="line-137">    builder.addEscape('\t', "&amp;#x9;");</span>
-<span class="source-line-no">138</span><span id="line-138">    builder.addEscape('\n', "&amp;#xA;");</span>
-<span class="source-line-no">139</span><span id="line-139">    builder.addEscape('\r', "&amp;#xD;");</span>
-<span class="source-line-no">140</span><span id="line-140">    XML_ATTRIBUTE_ESCAPER = builder.build();</span>
-<span class="source-line-no">141</span><span id="line-141">  }</span>
-<span class="source-line-no">142</span><span id="line-142">}</span>
+<span class="source-line-no">096</span><span id="line-96">  @SuppressWarnings("EscapedEntity") // We do mean for the user to see &amp;#x9;" etc.</span>
+<span class="source-line-no">097</span><span id="line-97">  public static Escaper xmlAttributeEscaper() {</span>
+<span class="source-line-no">098</span><span id="line-98">    return XML_ATTRIBUTE_ESCAPER;</span>
+<span class="source-line-no">099</span><span id="line-99">  }</span>
+<span class="source-line-no">100</span><span id="line-100"></span>
+<span class="source-line-no">101</span><span id="line-101">  private static final Escaper XML_ESCAPER;</span>
+<span class="source-line-no">102</span><span id="line-102">  private static final Escaper XML_CONTENT_ESCAPER;</span>
+<span class="source-line-no">103</span><span id="line-103">  private static final Escaper XML_ATTRIBUTE_ESCAPER;</span>
+<span class="source-line-no">104</span><span id="line-104"></span>
+<span class="source-line-no">105</span><span id="line-105">  static {</span>
+<span class="source-line-no">106</span><span id="line-106">    Escapers.Builder builder = Escapers.builder();</span>
+<span class="source-line-no">107</span><span id="line-107">    // The char values \uFFFE and \uFFFF are explicitly not allowed in XML</span>
+<span class="source-line-no">108</span><span id="line-108">    // (Unicode code points above \uFFFF are represented via surrogate pairs</span>
+<span class="source-line-no">109</span><span id="line-109">    // which means they are treated as pairs of safe characters).</span>
+<span class="source-line-no">110</span><span id="line-110">    builder.setSafeRange(Character.MIN_VALUE, '\uFFFD');</span>
+<span class="source-line-no">111</span><span id="line-111">    // Unsafe characters are replaced with the Unicode replacement character.</span>
+<span class="source-line-no">112</span><span id="line-112">    builder.setUnsafeReplacement("\uFFFD");</span>
+<span class="source-line-no">113</span><span id="line-113"></span>
+<span class="source-line-no">114</span><span id="line-114">    /*</span>
+<span class="source-line-no">115</span><span id="line-115">     * Except for \n, \t, and \r, all ASCII control characters are replaced with the Unicode</span>
+<span class="source-line-no">116</span><span id="line-116">     * replacement character.</span>
+<span class="source-line-no">117</span><span id="line-117">     *</span>
+<span class="source-line-no">118</span><span id="line-118">     * Implementation note: An alternative to the following would be to make a map that simply</span>
+<span class="source-line-no">119</span><span id="line-119">     * replaces the allowed ASCII whitespace characters with themselves and to set the minimum safe</span>
+<span class="source-line-no">120</span><span id="line-120">     * character to 0x20. However this would slow down the escaping of simple strings that contain</span>
+<span class="source-line-no">121</span><span id="line-121">     * \t, \n, or \r.</span>
+<span class="source-line-no">122</span><span id="line-122">     */</span>
+<span class="source-line-no">123</span><span id="line-123">    for (char c = MIN_ASCII_CONTROL_CHAR; c &lt;= MAX_ASCII_CONTROL_CHAR; c++) {</span>
+<span class="source-line-no">124</span><span id="line-124">      if (c != '\t' &amp;&amp; c != '\n' &amp;&amp; c != '\r') {</span>
+<span class="source-line-no">125</span><span id="line-125">        builder.addEscape(c, "\uFFFD");</span>
+<span class="source-line-no">126</span><span id="line-126">      }</span>
+<span class="source-line-no">127</span><span id="line-127">    }</span>
+<span class="source-line-no">128</span><span id="line-128"></span>
+<span class="source-line-no">129</span><span id="line-129">    // Build the content escaper first and then add quote escaping for the</span>
+<span class="source-line-no">130</span><span id="line-130">    // general escaper.</span>
+<span class="source-line-no">131</span><span id="line-131">    builder.addEscape('&amp;', "&amp;amp;");</span>
+<span class="source-line-no">132</span><span id="line-132">    builder.addEscape('&lt;', "&amp;lt;");</span>
+<span class="source-line-no">133</span><span id="line-133">    builder.addEscape('&gt;', "&amp;gt;");</span>
+<span class="source-line-no">134</span><span id="line-134">    XML_CONTENT_ESCAPER = builder.build();</span>
+<span class="source-line-no">135</span><span id="line-135">    builder.addEscape('\'', "&amp;apos;");</span>
+<span class="source-line-no">136</span><span id="line-136">    builder.addEscape('"', "&amp;quot;");</span>
+<span class="source-line-no">137</span><span id="line-137">    XML_ESCAPER = builder.build();</span>
+<span class="source-line-no">138</span><span id="line-138">    builder.addEscape('\t', "&amp;#x9;");</span>
+<span class="source-line-no">139</span><span id="line-139">    builder.addEscape('\n', "&amp;#xA;");</span>
+<span class="source-line-no">140</span><span id="line-140">    builder.addEscape('\r', "&amp;#xD;");</span>
+<span class="source-line-no">141</span><span id="line-141">    XML_ATTRIBUTE_ESCAPER = builder.build();</span>
+<span class="source-line-no">142</span><span id="line-142">  }</span>
+<span class="source-line-no">143</span><span id="line-143">}</span>
 
 
 

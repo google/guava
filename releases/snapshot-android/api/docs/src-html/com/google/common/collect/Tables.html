@@ -32,725 +32,694 @@
 <span class="source-line-no">019</span><span id="line-19">import static com.google.common.base.Preconditions.checkArgument;</span>
 <span class="source-line-no">020</span><span id="line-20">import static com.google.common.base.Preconditions.checkNotNull;</span>
 <span class="source-line-no">021</span><span id="line-21">import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;</span>
-<span class="source-line-no">022</span><span id="line-22"></span>
-<span class="source-line-no">023</span><span id="line-23">import com.google.common.annotations.GwtCompatible;</span>
-<span class="source-line-no">024</span><span id="line-24">import com.google.common.annotations.J2ktIncompatible;</span>
-<span class="source-line-no">025</span><span id="line-25">import com.google.common.base.Function;</span>
-<span class="source-line-no">026</span><span id="line-26">import com.google.common.base.Objects;</span>
-<span class="source-line-no">027</span><span id="line-27">import com.google.common.base.Supplier;</span>
-<span class="source-line-no">028</span><span id="line-28">import com.google.common.collect.Table.Cell;</span>
-<span class="source-line-no">029</span><span id="line-29">import java.io.Serializable;</span>
-<span class="source-line-no">030</span><span id="line-30">import java.util.Collection;</span>
-<span class="source-line-no">031</span><span id="line-31">import java.util.Collections;</span>
-<span class="source-line-no">032</span><span id="line-32">import java.util.Iterator;</span>
-<span class="source-line-no">033</span><span id="line-33">import java.util.Map;</span>
-<span class="source-line-no">034</span><span id="line-34">import java.util.Set;</span>
-<span class="source-line-no">035</span><span id="line-35">import java.util.SortedMap;</span>
-<span class="source-line-no">036</span><span id="line-36">import java.util.SortedSet;</span>
-<span class="source-line-no">037</span><span id="line-37">import java.util.function.BinaryOperator;</span>
-<span class="source-line-no">038</span><span id="line-38">import java.util.stream.Collector;</span>
-<span class="source-line-no">039</span><span id="line-39">import org.jspecify.annotations.Nullable;</span>
-<span class="source-line-no">040</span><span id="line-40"></span>
-<span class="source-line-no">041</span><span id="line-41">/**</span>
-<span class="source-line-no">042</span><span id="line-42"> * Provides static methods that involve a {@code Table}.</span>
-<span class="source-line-no">043</span><span id="line-43"> *</span>
-<span class="source-line-no">044</span><span id="line-44"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</span>
-<span class="source-line-no">045</span><span id="line-45"> * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables"&gt;{@code Tables}&lt;/a&gt;.</span>
+<span class="source-line-no">022</span><span id="line-22">import static java.util.Collections.unmodifiableMap;</span>
+<span class="source-line-no">023</span><span id="line-23">import static java.util.Collections.unmodifiableSortedMap;</span>
+<span class="source-line-no">024</span><span id="line-24"></span>
+<span class="source-line-no">025</span><span id="line-25">import com.google.common.annotations.GwtCompatible;</span>
+<span class="source-line-no">026</span><span id="line-26">import com.google.common.annotations.GwtIncompatible;</span>
+<span class="source-line-no">027</span><span id="line-27">import com.google.common.annotations.J2ktIncompatible;</span>
+<span class="source-line-no">028</span><span id="line-28">import com.google.common.base.Function;</span>
+<span class="source-line-no">029</span><span id="line-29">import com.google.common.base.Objects;</span>
+<span class="source-line-no">030</span><span id="line-30">import com.google.common.base.Supplier;</span>
+<span class="source-line-no">031</span><span id="line-31">import com.google.common.collect.Table.Cell;</span>
+<span class="source-line-no">032</span><span id="line-32">import java.io.Serializable;</span>
+<span class="source-line-no">033</span><span id="line-33">import java.util.Collection;</span>
+<span class="source-line-no">034</span><span id="line-34">import java.util.Collections;</span>
+<span class="source-line-no">035</span><span id="line-35">import java.util.Iterator;</span>
+<span class="source-line-no">036</span><span id="line-36">import java.util.Map;</span>
+<span class="source-line-no">037</span><span id="line-37">import java.util.Set;</span>
+<span class="source-line-no">038</span><span id="line-38">import java.util.SortedMap;</span>
+<span class="source-line-no">039</span><span id="line-39">import java.util.SortedSet;</span>
+<span class="source-line-no">040</span><span id="line-40">import java.util.function.BinaryOperator;</span>
+<span class="source-line-no">041</span><span id="line-41">import java.util.stream.Collector;</span>
+<span class="source-line-no">042</span><span id="line-42">import org.jspecify.annotations.Nullable;</span>
+<span class="source-line-no">043</span><span id="line-43"></span>
+<span class="source-line-no">044</span><span id="line-44">/**</span>
+<span class="source-line-no">045</span><span id="line-45"> * Provides static methods that involve a {@code Table}.</span>
 <span class="source-line-no">046</span><span id="line-46"> *</span>
-<span class="source-line-no">047</span><span id="line-47"> * @author Jared Levy</span>
-<span class="source-line-no">048</span><span id="line-48"> * @author Louis Wasserman</span>
-<span class="source-line-no">049</span><span id="line-49"> * @since 7.0</span>
-<span class="source-line-no">050</span><span id="line-50"> */</span>
-<span class="source-line-no">051</span><span id="line-51">@GwtCompatible</span>
-<span class="source-line-no">052</span><span id="line-52">public final class Tables {</span>
-<span class="source-line-no">053</span><span id="line-53">  private Tables() {}</span>
-<span class="source-line-no">054</span><span id="line-54"></span>
-<span class="source-line-no">055</span><span id="line-55">  /**</span>
-<span class="source-line-no">056</span><span id="line-56">   * Returns a {@link Collector} that accumulates elements into a {@code Table} created using the</span>
-<span class="source-line-no">057</span><span id="line-57">   * specified supplier, whose cells are generated by applying the provided mapping functions to the</span>
-<span class="source-line-no">058</span><span id="line-58">   * input elements. Cells are inserted into the generated {@code Table} in encounter order.</span>
-<span class="source-line-no">059</span><span id="line-59">   *</span>
-<span class="source-line-no">060</span><span id="line-60">   * &lt;p&gt;If multiple input elements map to the same row and column, an {@code IllegalStateException}</span>
-<span class="source-line-no">061</span><span id="line-61">   * is thrown when the collection operation is performed.</span>
+<span class="source-line-no">047</span><span id="line-47"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</span>
+<span class="source-line-no">048</span><span id="line-48"> * "https://github.com/google/guava/wiki/CollectionUtilitiesExplained#tables"&gt;{@code Tables}&lt;/a&gt;.</span>
+<span class="source-line-no">049</span><span id="line-49"> *</span>
+<span class="source-line-no">050</span><span id="line-50"> * @author Jared Levy</span>
+<span class="source-line-no">051</span><span id="line-51"> * @author Louis Wasserman</span>
+<span class="source-line-no">052</span><span id="line-52"> * @since 7.0</span>
+<span class="source-line-no">053</span><span id="line-53"> */</span>
+<span class="source-line-no">054</span><span id="line-54">@GwtCompatible</span>
+<span class="source-line-no">055</span><span id="line-55">public final class Tables {</span>
+<span class="source-line-no">056</span><span id="line-56">  private Tables() {}</span>
+<span class="source-line-no">057</span><span id="line-57"></span>
+<span class="source-line-no">058</span><span id="line-58">  /**</span>
+<span class="source-line-no">059</span><span id="line-59">   * Returns a {@link Collector} that accumulates elements into a {@code Table} created using the</span>
+<span class="source-line-no">060</span><span id="line-60">   * specified supplier, whose cells are generated by applying the provided mapping functions to the</span>
+<span class="source-line-no">061</span><span id="line-61">   * input elements. Cells are inserted into the generated {@code Table} in encounter order.</span>
 <span class="source-line-no">062</span><span id="line-62">   *</span>
-<span class="source-line-no">063</span><span id="line-63">   * &lt;p&gt;To collect to an {@link ImmutableTable}, use {@link ImmutableTable#toImmutableTable}.</span>
-<span class="source-line-no">064</span><span id="line-64">   *</span>
-<span class="source-line-no">065</span><span id="line-65">   * @since 33.2.0 (available since 21.0 in guava-jre)</span>
-<span class="source-line-no">066</span><span id="line-66">   */</span>
-<span class="source-line-no">067</span><span id="line-67">  @SuppressWarnings("Java7ApiChecker")</span>
-<span class="source-line-no">068</span><span id="line-68">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</span>
-<span class="source-line-no">069</span><span id="line-69">  public static &lt;</span>
-<span class="source-line-no">070</span><span id="line-70">          T extends @Nullable Object,</span>
-<span class="source-line-no">071</span><span id="line-71">          R extends @Nullable Object,</span>
-<span class="source-line-no">072</span><span id="line-72">          C extends @Nullable Object,</span>
-<span class="source-line-no">073</span><span id="line-73">          V,</span>
-<span class="source-line-no">074</span><span id="line-74">          I extends Table&lt;R, C, V&gt;&gt;</span>
-<span class="source-line-no">075</span><span id="line-75">      Collector&lt;T, ?, I&gt; toTable(</span>
-<span class="source-line-no">076</span><span id="line-76">          java.util.function.Function&lt;? super T, ? extends R&gt; rowFunction,</span>
-<span class="source-line-no">077</span><span id="line-77">          java.util.function.Function&lt;? super T, ? extends C&gt; columnFunction,</span>
-<span class="source-line-no">078</span><span id="line-78">          java.util.function.Function&lt;? super T, ? extends V&gt; valueFunction,</span>
-<span class="source-line-no">079</span><span id="line-79">          java.util.function.Supplier&lt;I&gt; tableSupplier) {</span>
-<span class="source-line-no">080</span><span id="line-80">    return TableCollectors.&lt;T, R, C, V, I&gt;toTable(</span>
-<span class="source-line-no">081</span><span id="line-81">        rowFunction, columnFunction, valueFunction, tableSupplier);</span>
-<span class="source-line-no">082</span><span id="line-82">  }</span>
-<span class="source-line-no">083</span><span id="line-83"></span>
-<span class="source-line-no">084</span><span id="line-84">  /**</span>
-<span class="source-line-no">085</span><span id="line-85">   * Returns a {@link Collector} that accumulates elements into a {@code Table} created using the</span>
-<span class="source-line-no">086</span><span id="line-86">   * specified supplier, whose cells are generated by applying the provided mapping functions to the</span>
-<span class="source-line-no">087</span><span id="line-87">   * input elements. Cells are inserted into the generated {@code Table} in encounter order.</span>
-<span class="source-line-no">088</span><span id="line-88">   *</span>
-<span class="source-line-no">089</span><span id="line-89">   * &lt;p&gt;If multiple input elements map to the same row and column, the specified merging function is</span>
-<span class="source-line-no">090</span><span id="line-90">   * used to combine the values. Like {@link</span>
-<span class="source-line-no">091</span><span id="line-91">   * java.util.stream.Collectors#toMap(java.util.function.Function, java.util.function.Function,</span>
-<span class="source-line-no">092</span><span id="line-92">   * BinaryOperator, java.util.function.Supplier)}, this Collector throws a {@code</span>
-<span class="source-line-no">093</span><span id="line-93">   * NullPointerException} on null values returned from {@code valueFunction}, and treats nulls</span>
-<span class="source-line-no">094</span><span id="line-94">   * returned from {@code mergeFunction} as removals of that row/column pair.</span>
-<span class="source-line-no">095</span><span id="line-95">   *</span>
-<span class="source-line-no">096</span><span id="line-96">   * @since 33.2.0 (available since 21.0 in guava-jre)</span>
-<span class="source-line-no">097</span><span id="line-97">   */</span>
-<span class="source-line-no">098</span><span id="line-98">  @SuppressWarnings("Java7ApiChecker")</span>
-<span class="source-line-no">099</span><span id="line-99">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</span>
-<span class="source-line-no">100</span><span id="line-100">  public static &lt;</span>
-<span class="source-line-no">101</span><span id="line-101">          T extends @Nullable Object,</span>
-<span class="source-line-no">102</span><span id="line-102">          R extends @Nullable Object,</span>
-<span class="source-line-no">103</span><span id="line-103">          C extends @Nullable Object,</span>
-<span class="source-line-no">104</span><span id="line-104">          V,</span>
-<span class="source-line-no">105</span><span id="line-105">          I extends Table&lt;R, C, V&gt;&gt;</span>
-<span class="source-line-no">106</span><span id="line-106">      Collector&lt;T, ?, I&gt; toTable(</span>
-<span class="source-line-no">107</span><span id="line-107">          java.util.function.Function&lt;? super T, ? extends R&gt; rowFunction,</span>
-<span class="source-line-no">108</span><span id="line-108">          java.util.function.Function&lt;? super T, ? extends C&gt; columnFunction,</span>
-<span class="source-line-no">109</span><span id="line-109">          java.util.function.Function&lt;? super T, ? extends V&gt; valueFunction,</span>
-<span class="source-line-no">110</span><span id="line-110">          BinaryOperator&lt;V&gt; mergeFunction,</span>
-<span class="source-line-no">111</span><span id="line-111">          java.util.function.Supplier&lt;I&gt; tableSupplier) {</span>
-<span class="source-line-no">112</span><span id="line-112">    return TableCollectors.&lt;T, R, C, V, I&gt;toTable(</span>
-<span class="source-line-no">113</span><span id="line-113">        rowFunction, columnFunction, valueFunction, mergeFunction, tableSupplier);</span>
-<span class="source-line-no">114</span><span id="line-114">  }</span>
-<span class="source-line-no">115</span><span id="line-115"></span>
-<span class="source-line-no">116</span><span id="line-116">  /**</span>
-<span class="source-line-no">117</span><span id="line-117">   * Returns an immutable cell with the specified row key, column key, and value.</span>
-<span class="source-line-no">118</span><span id="line-118">   *</span>
-<span class="source-line-no">119</span><span id="line-119">   * &lt;p&gt;The returned cell is serializable.</span>
-<span class="source-line-no">120</span><span id="line-120">   *</span>
-<span class="source-line-no">121</span><span id="line-121">   * @param rowKey the row key to be associated with the returned cell</span>
-<span class="source-line-no">122</span><span id="line-122">   * @param columnKey the column key to be associated with the returned cell</span>
-<span class="source-line-no">123</span><span id="line-123">   * @param value the value to be associated with the returned cell</span>
-<span class="source-line-no">124</span><span id="line-124">   */</span>
-<span class="source-line-no">125</span><span id="line-125">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">126</span><span id="line-126">      Cell&lt;R, C, V&gt; immutableCell(</span>
-<span class="source-line-no">127</span><span id="line-127">          @ParametricNullness R rowKey,</span>
-<span class="source-line-no">128</span><span id="line-128">          @ParametricNullness C columnKey,</span>
-<span class="source-line-no">129</span><span id="line-129">          @ParametricNullness V value) {</span>
-<span class="source-line-no">130</span><span id="line-130">    return new ImmutableCell&lt;&gt;(rowKey, columnKey, value);</span>
-<span class="source-line-no">131</span><span id="line-131">  }</span>
-<span class="source-line-no">132</span><span id="line-132"></span>
-<span class="source-line-no">133</span><span id="line-133">  static final class ImmutableCell&lt;</span>
-<span class="source-line-no">134</span><span id="line-134">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">135</span><span id="line-135">      extends AbstractCell&lt;R, C, V&gt; implements Serializable {</span>
-<span class="source-line-no">136</span><span id="line-136">    @ParametricNullness private final R rowKey;</span>
-<span class="source-line-no">137</span><span id="line-137">    @ParametricNullness private final C columnKey;</span>
-<span class="source-line-no">138</span><span id="line-138">    @ParametricNullness private final V value;</span>
-<span class="source-line-no">139</span><span id="line-139"></span>
-<span class="source-line-no">140</span><span id="line-140">    ImmutableCell(</span>
-<span class="source-line-no">141</span><span id="line-141">        @ParametricNullness R rowKey,</span>
-<span class="source-line-no">142</span><span id="line-142">        @ParametricNullness C columnKey,</span>
-<span class="source-line-no">143</span><span id="line-143">        @ParametricNullness V value) {</span>
-<span class="source-line-no">144</span><span id="line-144">      this.rowKey = rowKey;</span>
-<span class="source-line-no">145</span><span id="line-145">      this.columnKey = columnKey;</span>
-<span class="source-line-no">146</span><span id="line-146">      this.value = value;</span>
-<span class="source-line-no">147</span><span id="line-147">    }</span>
-<span class="source-line-no">148</span><span id="line-148"></span>
-<span class="source-line-no">149</span><span id="line-149">    @Override</span>
-<span class="source-line-no">150</span><span id="line-150">    @ParametricNullness</span>
-<span class="source-line-no">151</span><span id="line-151">    public R getRowKey() {</span>
-<span class="source-line-no">152</span><span id="line-152">      return rowKey;</span>
-<span class="source-line-no">153</span><span id="line-153">    }</span>
-<span class="source-line-no">154</span><span id="line-154"></span>
-<span class="source-line-no">155</span><span id="line-155">    @Override</span>
-<span class="source-line-no">156</span><span id="line-156">    @ParametricNullness</span>
-<span class="source-line-no">157</span><span id="line-157">    public C getColumnKey() {</span>
-<span class="source-line-no">158</span><span id="line-158">      return columnKey;</span>
-<span class="source-line-no">159</span><span id="line-159">    }</span>
-<span class="source-line-no">160</span><span id="line-160"></span>
-<span class="source-line-no">161</span><span id="line-161">    @Override</span>
-<span class="source-line-no">162</span><span id="line-162">    @ParametricNullness</span>
-<span class="source-line-no">163</span><span id="line-163">    public V getValue() {</span>
-<span class="source-line-no">164</span><span id="line-164">      return value;</span>
-<span class="source-line-no">165</span><span id="line-165">    }</span>
-<span class="source-line-no">166</span><span id="line-166"></span>
-<span class="source-line-no">167</span><span id="line-167">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">168</span><span id="line-168">  }</span>
+<span class="source-line-no">063</span><span id="line-63">   * &lt;p&gt;If multiple input elements map to the same row and column, an {@code IllegalStateException}</span>
+<span class="source-line-no">064</span><span id="line-64">   * is thrown when the collection operation is performed.</span>
+<span class="source-line-no">065</span><span id="line-65">   *</span>
+<span class="source-line-no">066</span><span id="line-66">   * &lt;p&gt;To collect to an {@link ImmutableTable}, use {@link ImmutableTable#toImmutableTable}.</span>
+<span class="source-line-no">067</span><span id="line-67">   *</span>
+<span class="source-line-no">068</span><span id="line-68">   * @since 33.2.0 (available since 21.0 in guava-jre)</span>
+<span class="source-line-no">069</span><span id="line-69">   */</span>
+<span class="source-line-no">070</span><span id="line-70">  @SuppressWarnings("Java7ApiChecker")</span>
+<span class="source-line-no">071</span><span id="line-71">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</span>
+<span class="source-line-no">072</span><span id="line-72">  public static &lt;</span>
+<span class="source-line-no">073</span><span id="line-73">          T extends @Nullable Object,</span>
+<span class="source-line-no">074</span><span id="line-74">          R extends @Nullable Object,</span>
+<span class="source-line-no">075</span><span id="line-75">          C extends @Nullable Object,</span>
+<span class="source-line-no">076</span><span id="line-76">          V,</span>
+<span class="source-line-no">077</span><span id="line-77">          I extends Table&lt;R, C, V&gt;&gt;</span>
+<span class="source-line-no">078</span><span id="line-78">      Collector&lt;T, ?, I&gt; toTable(</span>
+<span class="source-line-no">079</span><span id="line-79">          java.util.function.Function&lt;? super T, ? extends R&gt; rowFunction,</span>
+<span class="source-line-no">080</span><span id="line-80">          java.util.function.Function&lt;? super T, ? extends C&gt; columnFunction,</span>
+<span class="source-line-no">081</span><span id="line-81">          java.util.function.Function&lt;? super T, ? extends V&gt; valueFunction,</span>
+<span class="source-line-no">082</span><span id="line-82">          java.util.function.Supplier&lt;I&gt; tableSupplier) {</span>
+<span class="source-line-no">083</span><span id="line-83">    return TableCollectors.&lt;T, R, C, V, I&gt;toTable(</span>
+<span class="source-line-no">084</span><span id="line-84">        rowFunction, columnFunction, valueFunction, tableSupplier);</span>
+<span class="source-line-no">085</span><span id="line-85">  }</span>
+<span class="source-line-no">086</span><span id="line-86"></span>
+<span class="source-line-no">087</span><span id="line-87">  /**</span>
+<span class="source-line-no">088</span><span id="line-88">   * Returns a {@link Collector} that accumulates elements into a {@code Table} created using the</span>
+<span class="source-line-no">089</span><span id="line-89">   * specified supplier, whose cells are generated by applying the provided mapping functions to the</span>
+<span class="source-line-no">090</span><span id="line-90">   * input elements. Cells are inserted into the generated {@code Table} in encounter order.</span>
+<span class="source-line-no">091</span><span id="line-91">   *</span>
+<span class="source-line-no">092</span><span id="line-92">   * &lt;p&gt;If multiple input elements map to the same row and column, the specified merging function is</span>
+<span class="source-line-no">093</span><span id="line-93">   * used to combine the values. Like {@link</span>
+<span class="source-line-no">094</span><span id="line-94">   * java.util.stream.Collectors#toMap(java.util.function.Function, java.util.function.Function,</span>
+<span class="source-line-no">095</span><span id="line-95">   * BinaryOperator, java.util.function.Supplier)}, this Collector throws a {@code</span>
+<span class="source-line-no">096</span><span id="line-96">   * NullPointerException} on null values returned from {@code valueFunction}, and treats nulls</span>
+<span class="source-line-no">097</span><span id="line-97">   * returned from {@code mergeFunction} as removals of that row/column pair.</span>
+<span class="source-line-no">098</span><span id="line-98">   *</span>
+<span class="source-line-no">099</span><span id="line-99">   * @since 33.2.0 (available since 21.0 in guava-jre)</span>
+<span class="source-line-no">100</span><span id="line-100">   */</span>
+<span class="source-line-no">101</span><span id="line-101">  @SuppressWarnings("Java7ApiChecker")</span>
+<span class="source-line-no">102</span><span id="line-102">  @IgnoreJRERequirement // Users will use this only if they're already using streams.</span>
+<span class="source-line-no">103</span><span id="line-103">  public static &lt;</span>
+<span class="source-line-no">104</span><span id="line-104">          T extends @Nullable Object,</span>
+<span class="source-line-no">105</span><span id="line-105">          R extends @Nullable Object,</span>
+<span class="source-line-no">106</span><span id="line-106">          C extends @Nullable Object,</span>
+<span class="source-line-no">107</span><span id="line-107">          V,</span>
+<span class="source-line-no">108</span><span id="line-108">          I extends Table&lt;R, C, V&gt;&gt;</span>
+<span class="source-line-no">109</span><span id="line-109">      Collector&lt;T, ?, I&gt; toTable(</span>
+<span class="source-line-no">110</span><span id="line-110">          java.util.function.Function&lt;? super T, ? extends R&gt; rowFunction,</span>
+<span class="source-line-no">111</span><span id="line-111">          java.util.function.Function&lt;? super T, ? extends C&gt; columnFunction,</span>
+<span class="source-line-no">112</span><span id="line-112">          java.util.function.Function&lt;? super T, ? extends V&gt; valueFunction,</span>
+<span class="source-line-no">113</span><span id="line-113">          BinaryOperator&lt;V&gt; mergeFunction,</span>
+<span class="source-line-no">114</span><span id="line-114">          java.util.function.Supplier&lt;I&gt; tableSupplier) {</span>
+<span class="source-line-no">115</span><span id="line-115">    return TableCollectors.&lt;T, R, C, V, I&gt;toTable(</span>
+<span class="source-line-no">116</span><span id="line-116">        rowFunction, columnFunction, valueFunction, mergeFunction, tableSupplier);</span>
+<span class="source-line-no">117</span><span id="line-117">  }</span>
+<span class="source-line-no">118</span><span id="line-118"></span>
+<span class="source-line-no">119</span><span id="line-119">  /**</span>
+<span class="source-line-no">120</span><span id="line-120">   * Returns an immutable cell with the specified row key, column key, and value.</span>
+<span class="source-line-no">121</span><span id="line-121">   *</span>
+<span class="source-line-no">122</span><span id="line-122">   * &lt;p&gt;The returned cell is serializable.</span>
+<span class="source-line-no">123</span><span id="line-123">   *</span>
+<span class="source-line-no">124</span><span id="line-124">   * @param rowKey the row key to be associated with the returned cell</span>
+<span class="source-line-no">125</span><span id="line-125">   * @param columnKey the column key to be associated with the returned cell</span>
+<span class="source-line-no">126</span><span id="line-126">   * @param value the value to be associated with the returned cell</span>
+<span class="source-line-no">127</span><span id="line-127">   */</span>
+<span class="source-line-no">128</span><span id="line-128">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">129</span><span id="line-129">      Cell&lt;R, C, V&gt; immutableCell(</span>
+<span class="source-line-no">130</span><span id="line-130">          @ParametricNullness R rowKey,</span>
+<span class="source-line-no">131</span><span id="line-131">          @ParametricNullness C columnKey,</span>
+<span class="source-line-no">132</span><span id="line-132">          @ParametricNullness V value) {</span>
+<span class="source-line-no">133</span><span id="line-133">    return new ImmutableCell&lt;&gt;(rowKey, columnKey, value);</span>
+<span class="source-line-no">134</span><span id="line-134">  }</span>
+<span class="source-line-no">135</span><span id="line-135"></span>
+<span class="source-line-no">136</span><span id="line-136">  static final class ImmutableCell&lt;</span>
+<span class="source-line-no">137</span><span id="line-137">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">138</span><span id="line-138">      extends AbstractCell&lt;R, C, V&gt; implements Serializable {</span>
+<span class="source-line-no">139</span><span id="line-139">    @ParametricNullness private final R rowKey;</span>
+<span class="source-line-no">140</span><span id="line-140">    @ParametricNullness private final C columnKey;</span>
+<span class="source-line-no">141</span><span id="line-141">    @ParametricNullness private final V value;</span>
+<span class="source-line-no">142</span><span id="line-142"></span>
+<span class="source-line-no">143</span><span id="line-143">    ImmutableCell(</span>
+<span class="source-line-no">144</span><span id="line-144">        @ParametricNullness R rowKey,</span>
+<span class="source-line-no">145</span><span id="line-145">        @ParametricNullness C columnKey,</span>
+<span class="source-line-no">146</span><span id="line-146">        @ParametricNullness V value) {</span>
+<span class="source-line-no">147</span><span id="line-147">      this.rowKey = rowKey;</span>
+<span class="source-line-no">148</span><span id="line-148">      this.columnKey = columnKey;</span>
+<span class="source-line-no">149</span><span id="line-149">      this.value = value;</span>
+<span class="source-line-no">150</span><span id="line-150">    }</span>
+<span class="source-line-no">151</span><span id="line-151"></span>
+<span class="source-line-no">152</span><span id="line-152">    @Override</span>
+<span class="source-line-no">153</span><span id="line-153">    @ParametricNullness</span>
+<span class="source-line-no">154</span><span id="line-154">    public R getRowKey() {</span>
+<span class="source-line-no">155</span><span id="line-155">      return rowKey;</span>
+<span class="source-line-no">156</span><span id="line-156">    }</span>
+<span class="source-line-no">157</span><span id="line-157"></span>
+<span class="source-line-no">158</span><span id="line-158">    @Override</span>
+<span class="source-line-no">159</span><span id="line-159">    @ParametricNullness</span>
+<span class="source-line-no">160</span><span id="line-160">    public C getColumnKey() {</span>
+<span class="source-line-no">161</span><span id="line-161">      return columnKey;</span>
+<span class="source-line-no">162</span><span id="line-162">    }</span>
+<span class="source-line-no">163</span><span id="line-163"></span>
+<span class="source-line-no">164</span><span id="line-164">    @Override</span>
+<span class="source-line-no">165</span><span id="line-165">    @ParametricNullness</span>
+<span class="source-line-no">166</span><span id="line-166">    public V getValue() {</span>
+<span class="source-line-no">167</span><span id="line-167">      return value;</span>
+<span class="source-line-no">168</span><span id="line-168">    }</span>
 <span class="source-line-no">169</span><span id="line-169"></span>
-<span class="source-line-no">170</span><span id="line-170">  abstract static class AbstractCell&lt;</span>
-<span class="source-line-no">171</span><span id="line-171">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">172</span><span id="line-172">      implements Cell&lt;R, C, V&gt; {</span>
-<span class="source-line-no">173</span><span id="line-173">    // needed for serialization</span>
-<span class="source-line-no">174</span><span id="line-174">    AbstractCell() {}</span>
-<span class="source-line-no">175</span><span id="line-175"></span>
-<span class="source-line-no">176</span><span id="line-176">    @Override</span>
-<span class="source-line-no">177</span><span id="line-177">    public boolean equals(@Nullable Object obj) {</span>
-<span class="source-line-no">178</span><span id="line-178">      if (obj == this) {</span>
-<span class="source-line-no">179</span><span id="line-179">        return true;</span>
-<span class="source-line-no">180</span><span id="line-180">      }</span>
-<span class="source-line-no">181</span><span id="line-181">      if (obj instanceof Cell) {</span>
-<span class="source-line-no">182</span><span id="line-182">        Cell&lt;?, ?, ?&gt; other = (Cell&lt;?, ?, ?&gt;) obj;</span>
-<span class="source-line-no">183</span><span id="line-183">        return Objects.equal(getRowKey(), other.getRowKey())</span>
-<span class="source-line-no">184</span><span id="line-184">            &amp;&amp; Objects.equal(getColumnKey(), other.getColumnKey())</span>
-<span class="source-line-no">185</span><span id="line-185">            &amp;&amp; Objects.equal(getValue(), other.getValue());</span>
-<span class="source-line-no">186</span><span id="line-186">      }</span>
-<span class="source-line-no">187</span><span id="line-187">      return false;</span>
-<span class="source-line-no">188</span><span id="line-188">    }</span>
-<span class="source-line-no">189</span><span id="line-189"></span>
-<span class="source-line-no">190</span><span id="line-190">    @Override</span>
-<span class="source-line-no">191</span><span id="line-191">    public int hashCode() {</span>
-<span class="source-line-no">192</span><span id="line-192">      return Objects.hashCode(getRowKey(), getColumnKey(), getValue());</span>
-<span class="source-line-no">193</span><span id="line-193">    }</span>
-<span class="source-line-no">194</span><span id="line-194"></span>
-<span class="source-line-no">195</span><span id="line-195">    @Override</span>
-<span class="source-line-no">196</span><span id="line-196">    public String toString() {</span>
-<span class="source-line-no">197</span><span id="line-197">      return "(" + getRowKey() + "," + getColumnKey() + ")=" + getValue();</span>
-<span class="source-line-no">198</span><span id="line-198">    }</span>
-<span class="source-line-no">199</span><span id="line-199">  }</span>
-<span class="source-line-no">200</span><span id="line-200"></span>
-<span class="source-line-no">201</span><span id="line-201">  /**</span>
-<span class="source-line-no">202</span><span id="line-202">   * Creates a transposed view of a given table that flips its row and column keys. In other words,</span>
-<span class="source-line-no">203</span><span id="line-203">   * calling {@code get(columnKey, rowKey)} on the generated table always returns the same value as</span>
-<span class="source-line-no">204</span><span id="line-204">   * calling {@code get(rowKey, columnKey)} on the original table. Updating the original table</span>
-<span class="source-line-no">205</span><span id="line-205">   * changes the contents of the transposed table and vice versa.</span>
-<span class="source-line-no">206</span><span id="line-206">   *</span>
-<span class="source-line-no">207</span><span id="line-207">   * &lt;p&gt;The returned table supports update operations as long as the input table supports the</span>
-<span class="source-line-no">208</span><span id="line-208">   * analogous operation with swapped rows and columns. For example, in a {@link HashBasedTable}</span>
-<span class="source-line-no">209</span><span id="line-209">   * instance, {@code rowKeySet().iterator()} supports {@code remove()} but {@code</span>
-<span class="source-line-no">210</span><span id="line-210">   * columnKeySet().iterator()} doesn't. With a transposed {@link HashBasedTable}, it's the other</span>
-<span class="source-line-no">211</span><span id="line-211">   * way around.</span>
-<span class="source-line-no">212</span><span id="line-212">   */</span>
-<span class="source-line-no">213</span><span id="line-213">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">214</span><span id="line-214">      Table&lt;C, R, V&gt; transpose(Table&lt;R, C, V&gt; table) {</span>
-<span class="source-line-no">215</span><span id="line-215">    return (table instanceof TransposeTable)</span>
-<span class="source-line-no">216</span><span id="line-216">        ? ((TransposeTable&lt;R, C, V&gt;) table).original</span>
-<span class="source-line-no">217</span><span id="line-217">        : new TransposeTable&lt;C, R, V&gt;(table);</span>
-<span class="source-line-no">218</span><span id="line-218">  }</span>
-<span class="source-line-no">219</span><span id="line-219"></span>
-<span class="source-line-no">220</span><span id="line-220">  private static class TransposeTable&lt;</span>
-<span class="source-line-no">221</span><span id="line-221">          C extends @Nullable Object, R extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">222</span><span id="line-222">      extends AbstractTable&lt;C, R, V&gt; {</span>
-<span class="source-line-no">223</span><span id="line-223">    final Table&lt;R, C, V&gt; original;</span>
-<span class="source-line-no">224</span><span id="line-224"></span>
-<span class="source-line-no">225</span><span id="line-225">    TransposeTable(Table&lt;R, C, V&gt; original) {</span>
-<span class="source-line-no">226</span><span id="line-226">      this.original = checkNotNull(original);</span>
-<span class="source-line-no">227</span><span id="line-227">    }</span>
-<span class="source-line-no">228</span><span id="line-228"></span>
-<span class="source-line-no">229</span><span id="line-229">    @Override</span>
-<span class="source-line-no">230</span><span id="line-230">    public void clear() {</span>
-<span class="source-line-no">231</span><span id="line-231">      original.clear();</span>
-<span class="source-line-no">232</span><span id="line-232">    }</span>
-<span class="source-line-no">233</span><span id="line-233"></span>
-<span class="source-line-no">234</span><span id="line-234">    @Override</span>
-<span class="source-line-no">235</span><span id="line-235">    public Map&lt;C, V&gt; column(@ParametricNullness R columnKey) {</span>
-<span class="source-line-no">236</span><span id="line-236">      return original.row(columnKey);</span>
-<span class="source-line-no">237</span><span id="line-237">    }</span>
-<span class="source-line-no">238</span><span id="line-238"></span>
-<span class="source-line-no">239</span><span id="line-239">    @Override</span>
-<span class="source-line-no">240</span><span id="line-240">    public Set&lt;R&gt; columnKeySet() {</span>
-<span class="source-line-no">241</span><span id="line-241">      return original.rowKeySet();</span>
-<span class="source-line-no">242</span><span id="line-242">    }</span>
-<span class="source-line-no">243</span><span id="line-243"></span>
-<span class="source-line-no">244</span><span id="line-244">    @Override</span>
-<span class="source-line-no">245</span><span id="line-245">    public Map&lt;R, Map&lt;C, V&gt;&gt; columnMap() {</span>
-<span class="source-line-no">246</span><span id="line-246">      return original.rowMap();</span>
-<span class="source-line-no">247</span><span id="line-247">    }</span>
-<span class="source-line-no">248</span><span id="line-248"></span>
-<span class="source-line-no">249</span><span id="line-249">    @Override</span>
-<span class="source-line-no">250</span><span id="line-250">    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
-<span class="source-line-no">251</span><span id="line-251">      return original.contains(columnKey, rowKey);</span>
-<span class="source-line-no">252</span><span id="line-252">    }</span>
-<span class="source-line-no">253</span><span id="line-253"></span>
-<span class="source-line-no">254</span><span id="line-254">    @Override</span>
-<span class="source-line-no">255</span><span id="line-255">    public boolean containsColumn(@Nullable Object columnKey) {</span>
-<span class="source-line-no">256</span><span id="line-256">      return original.containsRow(columnKey);</span>
-<span class="source-line-no">257</span><span id="line-257">    }</span>
-<span class="source-line-no">258</span><span id="line-258"></span>
-<span class="source-line-no">259</span><span id="line-259">    @Override</span>
-<span class="source-line-no">260</span><span id="line-260">    public boolean containsRow(@Nullable Object rowKey) {</span>
-<span class="source-line-no">261</span><span id="line-261">      return original.containsColumn(rowKey);</span>
-<span class="source-line-no">262</span><span id="line-262">    }</span>
-<span class="source-line-no">263</span><span id="line-263"></span>
-<span class="source-line-no">264</span><span id="line-264">    @Override</span>
-<span class="source-line-no">265</span><span id="line-265">    public boolean containsValue(@Nullable Object value) {</span>
-<span class="source-line-no">266</span><span id="line-266">      return original.containsValue(value);</span>
-<span class="source-line-no">267</span><span id="line-267">    }</span>
-<span class="source-line-no">268</span><span id="line-268"></span>
-<span class="source-line-no">269</span><span id="line-269">    @Override</span>
-<span class="source-line-no">270</span><span id="line-270">    public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
-<span class="source-line-no">271</span><span id="line-271">      return original.get(columnKey, rowKey);</span>
-<span class="source-line-no">272</span><span id="line-272">    }</span>
-<span class="source-line-no">273</span><span id="line-273"></span>
-<span class="source-line-no">274</span><span id="line-274">    @Override</span>
-<span class="source-line-no">275</span><span id="line-275">    public @Nullable V put(</span>
-<span class="source-line-no">276</span><span id="line-276">        @ParametricNullness C rowKey,</span>
-<span class="source-line-no">277</span><span id="line-277">        @ParametricNullness R columnKey,</span>
-<span class="source-line-no">278</span><span id="line-278">        @ParametricNullness V value) {</span>
-<span class="source-line-no">279</span><span id="line-279">      return original.put(columnKey, rowKey, value);</span>
-<span class="source-line-no">280</span><span id="line-280">    }</span>
-<span class="source-line-no">281</span><span id="line-281"></span>
-<span class="source-line-no">282</span><span id="line-282">    @Override</span>
-<span class="source-line-no">283</span><span id="line-283">    public void putAll(Table&lt;? extends C, ? extends R, ? extends V&gt; table) {</span>
-<span class="source-line-no">284</span><span id="line-284">      original.putAll(transpose(table));</span>
-<span class="source-line-no">285</span><span id="line-285">    }</span>
-<span class="source-line-no">286</span><span id="line-286"></span>
-<span class="source-line-no">287</span><span id="line-287">    @Override</span>
-<span class="source-line-no">288</span><span id="line-288">    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
-<span class="source-line-no">289</span><span id="line-289">      return original.remove(columnKey, rowKey);</span>
-<span class="source-line-no">290</span><span id="line-290">    }</span>
-<span class="source-line-no">291</span><span id="line-291"></span>
-<span class="source-line-no">292</span><span id="line-292">    @Override</span>
-<span class="source-line-no">293</span><span id="line-293">    public Map&lt;R, V&gt; row(@ParametricNullness C rowKey) {</span>
-<span class="source-line-no">294</span><span id="line-294">      return original.column(rowKey);</span>
-<span class="source-line-no">295</span><span id="line-295">    }</span>
-<span class="source-line-no">296</span><span id="line-296"></span>
-<span class="source-line-no">297</span><span id="line-297">    @Override</span>
-<span class="source-line-no">298</span><span id="line-298">    public Set&lt;C&gt; rowKeySet() {</span>
-<span class="source-line-no">299</span><span id="line-299">      return original.columnKeySet();</span>
-<span class="source-line-no">300</span><span id="line-300">    }</span>
-<span class="source-line-no">301</span><span id="line-301"></span>
-<span class="source-line-no">302</span><span id="line-302">    @Override</span>
-<span class="source-line-no">303</span><span id="line-303">    public Map&lt;C, Map&lt;R, V&gt;&gt; rowMap() {</span>
-<span class="source-line-no">304</span><span id="line-304">      return original.columnMap();</span>
-<span class="source-line-no">305</span><span id="line-305">    }</span>
-<span class="source-line-no">306</span><span id="line-306"></span>
-<span class="source-line-no">307</span><span id="line-307">    @Override</span>
-<span class="source-line-no">308</span><span id="line-308">    public int size() {</span>
-<span class="source-line-no">309</span><span id="line-309">      return original.size();</span>
-<span class="source-line-no">310</span><span id="line-310">    }</span>
-<span class="source-line-no">311</span><span id="line-311"></span>
-<span class="source-line-no">312</span><span id="line-312">    @Override</span>
-<span class="source-line-no">313</span><span id="line-313">    public Collection&lt;V&gt; values() {</span>
-<span class="source-line-no">314</span><span id="line-314">      return original.values();</span>
-<span class="source-line-no">315</span><span id="line-315">    }</span>
-<span class="source-line-no">316</span><span id="line-316"></span>
-<span class="source-line-no">317</span><span id="line-317">    @Override</span>
-<span class="source-line-no">318</span><span id="line-318">    Iterator&lt;Cell&lt;C, R, V&gt;&gt; cellIterator() {</span>
-<span class="source-line-no">319</span><span id="line-319">      return Iterators.transform(original.cellSet().iterator(), Tables::transposeCell);</span>
-<span class="source-line-no">320</span><span id="line-320">    }</span>
-<span class="source-line-no">321</span><span id="line-321">  }</span>
-<span class="source-line-no">322</span><span id="line-322"></span>
-<span class="source-line-no">323</span><span id="line-323">  private static &lt;</span>
-<span class="source-line-no">324</span><span id="line-324">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">325</span><span id="line-325">      Cell&lt;C, R, V&gt; transposeCell(Cell&lt;R, C, V&gt; cell) {</span>
-<span class="source-line-no">326</span><span id="line-326">    return immutableCell(cell.getColumnKey(), cell.getRowKey(), cell.getValue());</span>
-<span class="source-line-no">327</span><span id="line-327">  }</span>
-<span class="source-line-no">328</span><span id="line-328"></span>
-<span class="source-line-no">329</span><span id="line-329">  /**</span>
-<span class="source-line-no">330</span><span id="line-330">   * Creates a table that uses the specified backing map and factory. It can generate a table based</span>
-<span class="source-line-no">331</span><span id="line-331">   * on arbitrary {@link Map} classes.</span>
-<span class="source-line-no">332</span><span id="line-332">   *</span>
-<span class="source-line-no">333</span><span id="line-333">   * &lt;p&gt;The {@code factory}-generated and {@code backingMap} classes determine the table iteration</span>
-<span class="source-line-no">334</span><span id="line-334">   * order. However, the table's {@code row()} method returns instances of a different class than</span>
-<span class="source-line-no">335</span><span id="line-335">   * {@code factory.get()} does.</span>
-<span class="source-line-no">336</span><span id="line-336">   *</span>
-<span class="source-line-no">337</span><span id="line-337">   * &lt;p&gt;Call this method only when the simpler factory methods in classes like {@link</span>
-<span class="source-line-no">338</span><span id="line-338">   * HashBasedTable} and {@link TreeBasedTable} won't suffice.</span>
+<span class="source-line-no">170</span><span id="line-170">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">171</span><span id="line-171">  }</span>
+<span class="source-line-no">172</span><span id="line-172"></span>
+<span class="source-line-no">173</span><span id="line-173">  abstract static class AbstractCell&lt;</span>
+<span class="source-line-no">174</span><span id="line-174">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">175</span><span id="line-175">      implements Cell&lt;R, C, V&gt; {</span>
+<span class="source-line-no">176</span><span id="line-176">    // needed for serialization</span>
+<span class="source-line-no">177</span><span id="line-177">    AbstractCell() {}</span>
+<span class="source-line-no">178</span><span id="line-178"></span>
+<span class="source-line-no">179</span><span id="line-179">    @Override</span>
+<span class="source-line-no">180</span><span id="line-180">    public boolean equals(@Nullable Object obj) {</span>
+<span class="source-line-no">181</span><span id="line-181">      if (obj == this) {</span>
+<span class="source-line-no">182</span><span id="line-182">        return true;</span>
+<span class="source-line-no">183</span><span id="line-183">      }</span>
+<span class="source-line-no">184</span><span id="line-184">      if (obj instanceof Cell) {</span>
+<span class="source-line-no">185</span><span id="line-185">        Cell&lt;?, ?, ?&gt; other = (Cell&lt;?, ?, ?&gt;) obj;</span>
+<span class="source-line-no">186</span><span id="line-186">        return Objects.equal(getRowKey(), other.getRowKey())</span>
+<span class="source-line-no">187</span><span id="line-187">            &amp;&amp; Objects.equal(getColumnKey(), other.getColumnKey())</span>
+<span class="source-line-no">188</span><span id="line-188">            &amp;&amp; Objects.equal(getValue(), other.getValue());</span>
+<span class="source-line-no">189</span><span id="line-189">      }</span>
+<span class="source-line-no">190</span><span id="line-190">      return false;</span>
+<span class="source-line-no">191</span><span id="line-191">    }</span>
+<span class="source-line-no">192</span><span id="line-192"></span>
+<span class="source-line-no">193</span><span id="line-193">    @Override</span>
+<span class="source-line-no">194</span><span id="line-194">    public int hashCode() {</span>
+<span class="source-line-no">195</span><span id="line-195">      return Objects.hashCode(getRowKey(), getColumnKey(), getValue());</span>
+<span class="source-line-no">196</span><span id="line-196">    }</span>
+<span class="source-line-no">197</span><span id="line-197"></span>
+<span class="source-line-no">198</span><span id="line-198">    @Override</span>
+<span class="source-line-no">199</span><span id="line-199">    public String toString() {</span>
+<span class="source-line-no">200</span><span id="line-200">      return "(" + getRowKey() + "," + getColumnKey() + ")=" + getValue();</span>
+<span class="source-line-no">201</span><span id="line-201">    }</span>
+<span class="source-line-no">202</span><span id="line-202">  }</span>
+<span class="source-line-no">203</span><span id="line-203"></span>
+<span class="source-line-no">204</span><span id="line-204">  /**</span>
+<span class="source-line-no">205</span><span id="line-205">   * Creates a transposed view of a given table that flips its row and column keys. In other words,</span>
+<span class="source-line-no">206</span><span id="line-206">   * calling {@code get(columnKey, rowKey)} on the generated table always returns the same value as</span>
+<span class="source-line-no">207</span><span id="line-207">   * calling {@code get(rowKey, columnKey)} on the original table. Updating the original table</span>
+<span class="source-line-no">208</span><span id="line-208">   * changes the contents of the transposed table and vice versa.</span>
+<span class="source-line-no">209</span><span id="line-209">   *</span>
+<span class="source-line-no">210</span><span id="line-210">   * &lt;p&gt;The returned table supports update operations as long as the input table supports the</span>
+<span class="source-line-no">211</span><span id="line-211">   * analogous operation with swapped rows and columns. For example, in a {@link HashBasedTable}</span>
+<span class="source-line-no">212</span><span id="line-212">   * instance, {@code rowKeySet().iterator()} supports {@code remove()} but {@code</span>
+<span class="source-line-no">213</span><span id="line-213">   * columnKeySet().iterator()} doesn't. With a transposed {@link HashBasedTable}, it's the other</span>
+<span class="source-line-no">214</span><span id="line-214">   * way around.</span>
+<span class="source-line-no">215</span><span id="line-215">   */</span>
+<span class="source-line-no">216</span><span id="line-216">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">217</span><span id="line-217">      Table&lt;C, R, V&gt; transpose(Table&lt;R, C, V&gt; table) {</span>
+<span class="source-line-no">218</span><span id="line-218">    return (table instanceof TransposeTable)</span>
+<span class="source-line-no">219</span><span id="line-219">        ? ((TransposeTable&lt;R, C, V&gt;) table).original</span>
+<span class="source-line-no">220</span><span id="line-220">        : new TransposeTable&lt;C, R, V&gt;(table);</span>
+<span class="source-line-no">221</span><span id="line-221">  }</span>
+<span class="source-line-no">222</span><span id="line-222"></span>
+<span class="source-line-no">223</span><span id="line-223">  private static class TransposeTable&lt;</span>
+<span class="source-line-no">224</span><span id="line-224">          C extends @Nullable Object, R extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">225</span><span id="line-225">      extends AbstractTable&lt;C, R, V&gt; {</span>
+<span class="source-line-no">226</span><span id="line-226">    final Table&lt;R, C, V&gt; original;</span>
+<span class="source-line-no">227</span><span id="line-227"></span>
+<span class="source-line-no">228</span><span id="line-228">    TransposeTable(Table&lt;R, C, V&gt; original) {</span>
+<span class="source-line-no">229</span><span id="line-229">      this.original = checkNotNull(original);</span>
+<span class="source-line-no">230</span><span id="line-230">    }</span>
+<span class="source-line-no">231</span><span id="line-231"></span>
+<span class="source-line-no">232</span><span id="line-232">    @Override</span>
+<span class="source-line-no">233</span><span id="line-233">    public void clear() {</span>
+<span class="source-line-no">234</span><span id="line-234">      original.clear();</span>
+<span class="source-line-no">235</span><span id="line-235">    }</span>
+<span class="source-line-no">236</span><span id="line-236"></span>
+<span class="source-line-no">237</span><span id="line-237">    @Override</span>
+<span class="source-line-no">238</span><span id="line-238">    public Map&lt;C, V&gt; column(@ParametricNullness R columnKey) {</span>
+<span class="source-line-no">239</span><span id="line-239">      return original.row(columnKey);</span>
+<span class="source-line-no">240</span><span id="line-240">    }</span>
+<span class="source-line-no">241</span><span id="line-241"></span>
+<span class="source-line-no">242</span><span id="line-242">    @Override</span>
+<span class="source-line-no">243</span><span id="line-243">    public Set&lt;R&gt; columnKeySet() {</span>
+<span class="source-line-no">244</span><span id="line-244">      return original.rowKeySet();</span>
+<span class="source-line-no">245</span><span id="line-245">    }</span>
+<span class="source-line-no">246</span><span id="line-246"></span>
+<span class="source-line-no">247</span><span id="line-247">    @Override</span>
+<span class="source-line-no">248</span><span id="line-248">    public Map&lt;R, Map&lt;C, V&gt;&gt; columnMap() {</span>
+<span class="source-line-no">249</span><span id="line-249">      return original.rowMap();</span>
+<span class="source-line-no">250</span><span id="line-250">    }</span>
+<span class="source-line-no">251</span><span id="line-251"></span>
+<span class="source-line-no">252</span><span id="line-252">    @Override</span>
+<span class="source-line-no">253</span><span id="line-253">    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
+<span class="source-line-no">254</span><span id="line-254">      return original.contains(columnKey, rowKey);</span>
+<span class="source-line-no">255</span><span id="line-255">    }</span>
+<span class="source-line-no">256</span><span id="line-256"></span>
+<span class="source-line-no">257</span><span id="line-257">    @Override</span>
+<span class="source-line-no">258</span><span id="line-258">    public boolean containsColumn(@Nullable Object columnKey) {</span>
+<span class="source-line-no">259</span><span id="line-259">      return original.containsRow(columnKey);</span>
+<span class="source-line-no">260</span><span id="line-260">    }</span>
+<span class="source-line-no">261</span><span id="line-261"></span>
+<span class="source-line-no">262</span><span id="line-262">    @Override</span>
+<span class="source-line-no">263</span><span id="line-263">    public boolean containsRow(@Nullable Object rowKey) {</span>
+<span class="source-line-no">264</span><span id="line-264">      return original.containsColumn(rowKey);</span>
+<span class="source-line-no">265</span><span id="line-265">    }</span>
+<span class="source-line-no">266</span><span id="line-266"></span>
+<span class="source-line-no">267</span><span id="line-267">    @Override</span>
+<span class="source-line-no">268</span><span id="line-268">    public boolean containsValue(@Nullable Object value) {</span>
+<span class="source-line-no">269</span><span id="line-269">      return original.containsValue(value);</span>
+<span class="source-line-no">270</span><span id="line-270">    }</span>
+<span class="source-line-no">271</span><span id="line-271"></span>
+<span class="source-line-no">272</span><span id="line-272">    @Override</span>
+<span class="source-line-no">273</span><span id="line-273">    public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
+<span class="source-line-no">274</span><span id="line-274">      return original.get(columnKey, rowKey);</span>
+<span class="source-line-no">275</span><span id="line-275">    }</span>
+<span class="source-line-no">276</span><span id="line-276"></span>
+<span class="source-line-no">277</span><span id="line-277">    @Override</span>
+<span class="source-line-no">278</span><span id="line-278">    public @Nullable V put(</span>
+<span class="source-line-no">279</span><span id="line-279">        @ParametricNullness C rowKey,</span>
+<span class="source-line-no">280</span><span id="line-280">        @ParametricNullness R columnKey,</span>
+<span class="source-line-no">281</span><span id="line-281">        @ParametricNullness V value) {</span>
+<span class="source-line-no">282</span><span id="line-282">      return original.put(columnKey, rowKey, value);</span>
+<span class="source-line-no">283</span><span id="line-283">    }</span>
+<span class="source-line-no">284</span><span id="line-284"></span>
+<span class="source-line-no">285</span><span id="line-285">    @Override</span>
+<span class="source-line-no">286</span><span id="line-286">    public void putAll(Table&lt;? extends C, ? extends R, ? extends V&gt; table) {</span>
+<span class="source-line-no">287</span><span id="line-287">      original.putAll(transpose(table));</span>
+<span class="source-line-no">288</span><span id="line-288">    }</span>
+<span class="source-line-no">289</span><span id="line-289"></span>
+<span class="source-line-no">290</span><span id="line-290">    @Override</span>
+<span class="source-line-no">291</span><span id="line-291">    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
+<span class="source-line-no">292</span><span id="line-292">      return original.remove(columnKey, rowKey);</span>
+<span class="source-line-no">293</span><span id="line-293">    }</span>
+<span class="source-line-no">294</span><span id="line-294"></span>
+<span class="source-line-no">295</span><span id="line-295">    @Override</span>
+<span class="source-line-no">296</span><span id="line-296">    public Map&lt;R, V&gt; row(@ParametricNullness C rowKey) {</span>
+<span class="source-line-no">297</span><span id="line-297">      return original.column(rowKey);</span>
+<span class="source-line-no">298</span><span id="line-298">    }</span>
+<span class="source-line-no">299</span><span id="line-299"></span>
+<span class="source-line-no">300</span><span id="line-300">    @Override</span>
+<span class="source-line-no">301</span><span id="line-301">    public Set&lt;C&gt; rowKeySet() {</span>
+<span class="source-line-no">302</span><span id="line-302">      return original.columnKeySet();</span>
+<span class="source-line-no">303</span><span id="line-303">    }</span>
+<span class="source-line-no">304</span><span id="line-304"></span>
+<span class="source-line-no">305</span><span id="line-305">    @Override</span>
+<span class="source-line-no">306</span><span id="line-306">    public Map&lt;C, Map&lt;R, V&gt;&gt; rowMap() {</span>
+<span class="source-line-no">307</span><span id="line-307">      return original.columnMap();</span>
+<span class="source-line-no">308</span><span id="line-308">    }</span>
+<span class="source-line-no">309</span><span id="line-309"></span>
+<span class="source-line-no">310</span><span id="line-310">    @Override</span>
+<span class="source-line-no">311</span><span id="line-311">    public int size() {</span>
+<span class="source-line-no">312</span><span id="line-312">      return original.size();</span>
+<span class="source-line-no">313</span><span id="line-313">    }</span>
+<span class="source-line-no">314</span><span id="line-314"></span>
+<span class="source-line-no">315</span><span id="line-315">    @Override</span>
+<span class="source-line-no">316</span><span id="line-316">    public Collection&lt;V&gt; values() {</span>
+<span class="source-line-no">317</span><span id="line-317">      return original.values();</span>
+<span class="source-line-no">318</span><span id="line-318">    }</span>
+<span class="source-line-no">319</span><span id="line-319"></span>
+<span class="source-line-no">320</span><span id="line-320">    @Override</span>
+<span class="source-line-no">321</span><span id="line-321">    Iterator&lt;Cell&lt;C, R, V&gt;&gt; cellIterator() {</span>
+<span class="source-line-no">322</span><span id="line-322">      return Iterators.transform(original.cellSet().iterator(), Tables::transposeCell);</span>
+<span class="source-line-no">323</span><span id="line-323">    }</span>
+<span class="source-line-no">324</span><span id="line-324">  }</span>
+<span class="source-line-no">325</span><span id="line-325"></span>
+<span class="source-line-no">326</span><span id="line-326">  private static &lt;</span>
+<span class="source-line-no">327</span><span id="line-327">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">328</span><span id="line-328">      Cell&lt;C, R, V&gt; transposeCell(Cell&lt;R, C, V&gt; cell) {</span>
+<span class="source-line-no">329</span><span id="line-329">    return immutableCell(cell.getColumnKey(), cell.getRowKey(), cell.getValue());</span>
+<span class="source-line-no">330</span><span id="line-330">  }</span>
+<span class="source-line-no">331</span><span id="line-331"></span>
+<span class="source-line-no">332</span><span id="line-332">  /**</span>
+<span class="source-line-no">333</span><span id="line-333">   * Creates a table that uses the specified backing map and factory. It can generate a table based</span>
+<span class="source-line-no">334</span><span id="line-334">   * on arbitrary {@link Map} classes.</span>
+<span class="source-line-no">335</span><span id="line-335">   *</span>
+<span class="source-line-no">336</span><span id="line-336">   * &lt;p&gt;The {@code factory}-generated and {@code backingMap} classes determine the table iteration</span>
+<span class="source-line-no">337</span><span id="line-337">   * order. However, the table's {@code row()} method returns instances of a different class than</span>
+<span class="source-line-no">338</span><span id="line-338">   * {@code factory.get()} does.</span>
 <span class="source-line-no">339</span><span id="line-339">   *</span>
-<span class="source-line-no">340</span><span id="line-340">   * &lt;p&gt;The views returned by the {@code Table} methods {@link Table#column}, {@link</span>
-<span class="source-line-no">341</span><span id="line-341">   * Table#columnKeySet}, and {@link Table#columnMap} have iterators that don't support {@code</span>
-<span class="source-line-no">342</span><span id="line-342">   * remove()}. Otherwise, all optional operations are supported. Null row keys, columns keys, and</span>
-<span class="source-line-no">343</span><span id="line-343">   * values are not supported.</span>
-<span class="source-line-no">344</span><span id="line-344">   *</span>
-<span class="source-line-no">345</span><span id="line-345">   * &lt;p&gt;Lookups by row key are often faster than lookups by column key, because the data is stored</span>
-<span class="source-line-no">346</span><span id="line-346">   * in a {@code Map&lt;R, Map&lt;C, V&gt;&gt;}. A method call like {@code column(columnKey).get(rowKey)} still</span>
-<span class="source-line-no">347</span><span id="line-347">   * runs quickly, since the row key is provided. However, {@code column(columnKey).size()} takes</span>
-<span class="source-line-no">348</span><span id="line-348">   * longer, since an iteration across all row keys occurs.</span>
-<span class="source-line-no">349</span><span id="line-349">   *</span>
-<span class="source-line-no">350</span><span id="line-350">   * &lt;p&gt;Note that this implementation is not synchronized. If multiple threads access this table</span>
-<span class="source-line-no">351</span><span id="line-351">   * concurrently and one of the threads modifies the table, it must be synchronized externally.</span>
+<span class="source-line-no">340</span><span id="line-340">   * &lt;p&gt;Call this method only when the simpler factory methods in classes like {@link</span>
+<span class="source-line-no">341</span><span id="line-341">   * HashBasedTable} and {@link TreeBasedTable} won't suffice.</span>
+<span class="source-line-no">342</span><span id="line-342">   *</span>
+<span class="source-line-no">343</span><span id="line-343">   * &lt;p&gt;The views returned by the {@code Table} methods {@link Table#column}, {@link</span>
+<span class="source-line-no">344</span><span id="line-344">   * Table#columnKeySet}, and {@link Table#columnMap} have iterators that don't support {@code</span>
+<span class="source-line-no">345</span><span id="line-345">   * remove()}. Otherwise, all optional operations are supported. Null row keys, columns keys, and</span>
+<span class="source-line-no">346</span><span id="line-346">   * values are not supported.</span>
+<span class="source-line-no">347</span><span id="line-347">   *</span>
+<span class="source-line-no">348</span><span id="line-348">   * &lt;p&gt;Lookups by row key are often faster than lookups by column key, because the data is stored</span>
+<span class="source-line-no">349</span><span id="line-349">   * in a {@code Map&lt;R, Map&lt;C, V&gt;&gt;}. A method call like {@code column(columnKey).get(rowKey)} still</span>
+<span class="source-line-no">350</span><span id="line-350">   * runs quickly, since the row key is provided. However, {@code column(columnKey).size()} takes</span>
+<span class="source-line-no">351</span><span id="line-351">   * longer, since an iteration across all row keys occurs.</span>
 <span class="source-line-no">352</span><span id="line-352">   *</span>
-<span class="source-line-no">353</span><span id="line-353">   * &lt;p&gt;The table is serializable if {@code backingMap}, {@code factory}, the maps generated by</span>
-<span class="source-line-no">354</span><span id="line-354">   * {@code factory}, and the table contents are all serializable.</span>
+<span class="source-line-no">353</span><span id="line-353">   * &lt;p&gt;Note that this implementation is not synchronized. If multiple threads access this table</span>
+<span class="source-line-no">354</span><span id="line-354">   * concurrently and one of the threads modifies the table, it must be synchronized externally.</span>
 <span class="source-line-no">355</span><span id="line-355">   *</span>
-<span class="source-line-no">356</span><span id="line-356">   * &lt;p&gt;Note: the table assumes complete ownership over of {@code backingMap} and the maps returned</span>
-<span class="source-line-no">357</span><span id="line-357">   * by {@code factory}. Those objects should not be manually updated and they should not use soft,</span>
-<span class="source-line-no">358</span><span id="line-358">   * weak, or phantom references.</span>
-<span class="source-line-no">359</span><span id="line-359">   *</span>
-<span class="source-line-no">360</span><span id="line-360">   * @param backingMap place to store the mapping from each row key to its corresponding column key</span>
-<span class="source-line-no">361</span><span id="line-361">   *     / value map</span>
-<span class="source-line-no">362</span><span id="line-362">   * @param factory supplier of new, empty maps that will each hold all column key / value mappings</span>
-<span class="source-line-no">363</span><span id="line-363">   *     for a given row key</span>
-<span class="source-line-no">364</span><span id="line-364">   * @throws IllegalArgumentException if {@code backingMap} is not empty</span>
-<span class="source-line-no">365</span><span id="line-365">   * @since 10.0</span>
-<span class="source-line-no">366</span><span id="line-366">   */</span>
-<span class="source-line-no">367</span><span id="line-367">  public static &lt;R, C, V&gt; Table&lt;R, C, V&gt; newCustomTable(</span>
-<span class="source-line-no">368</span><span id="line-368">      Map&lt;R, Map&lt;C, V&gt;&gt; backingMap, Supplier&lt;? extends Map&lt;C, V&gt;&gt; factory) {</span>
-<span class="source-line-no">369</span><span id="line-369">    checkArgument(backingMap.isEmpty());</span>
-<span class="source-line-no">370</span><span id="line-370">    checkNotNull(factory);</span>
-<span class="source-line-no">371</span><span id="line-371">    // TODO(jlevy): Wrap factory to validate that the supplied maps are empty?</span>
-<span class="source-line-no">372</span><span id="line-372">    return new StandardTable&lt;&gt;(backingMap, factory);</span>
-<span class="source-line-no">373</span><span id="line-373">  }</span>
-<span class="source-line-no">374</span><span id="line-374"></span>
-<span class="source-line-no">375</span><span id="line-375">  /**</span>
-<span class="source-line-no">376</span><span id="line-376">   * Returns a view of a table where each value is transformed by a function. All other properties</span>
-<span class="source-line-no">377</span><span id="line-377">   * of the table, such as iteration order, are left intact.</span>
-<span class="source-line-no">378</span><span id="line-378">   *</span>
-<span class="source-line-no">379</span><span id="line-379">   * &lt;p&gt;Changes in the underlying table are reflected in this view. Conversely, this view supports</span>
-<span class="source-line-no">380</span><span id="line-380">   * removal operations, and these are reflected in the underlying table.</span>
+<span class="source-line-no">356</span><span id="line-356">   * &lt;p&gt;The table is serializable if {@code backingMap}, {@code factory}, the maps generated by</span>
+<span class="source-line-no">357</span><span id="line-357">   * {@code factory}, and the table contents are all serializable.</span>
+<span class="source-line-no">358</span><span id="line-358">   *</span>
+<span class="source-line-no">359</span><span id="line-359">   * &lt;p&gt;Note: the table assumes complete ownership over of {@code backingMap} and the maps returned</span>
+<span class="source-line-no">360</span><span id="line-360">   * by {@code factory}. Those objects should not be manually updated and they should not use soft,</span>
+<span class="source-line-no">361</span><span id="line-361">   * weak, or phantom references.</span>
+<span class="source-line-no">362</span><span id="line-362">   *</span>
+<span class="source-line-no">363</span><span id="line-363">   * @param backingMap place to store the mapping from each row key to its corresponding column key</span>
+<span class="source-line-no">364</span><span id="line-364">   *     / value map</span>
+<span class="source-line-no">365</span><span id="line-365">   * @param factory supplier of new, empty maps that will each hold all column key / value mappings</span>
+<span class="source-line-no">366</span><span id="line-366">   *     for a given row key</span>
+<span class="source-line-no">367</span><span id="line-367">   * @throws IllegalArgumentException if {@code backingMap} is not empty</span>
+<span class="source-line-no">368</span><span id="line-368">   * @since 10.0</span>
+<span class="source-line-no">369</span><span id="line-369">   */</span>
+<span class="source-line-no">370</span><span id="line-370">  public static &lt;R, C, V&gt; Table&lt;R, C, V&gt; newCustomTable(</span>
+<span class="source-line-no">371</span><span id="line-371">      Map&lt;R, Map&lt;C, V&gt;&gt; backingMap, Supplier&lt;? extends Map&lt;C, V&gt;&gt; factory) {</span>
+<span class="source-line-no">372</span><span id="line-372">    checkArgument(backingMap.isEmpty());</span>
+<span class="source-line-no">373</span><span id="line-373">    checkNotNull(factory);</span>
+<span class="source-line-no">374</span><span id="line-374">    // TODO(jlevy): Wrap factory to validate that the supplied maps are empty?</span>
+<span class="source-line-no">375</span><span id="line-375">    return new StandardTable&lt;&gt;(backingMap, factory);</span>
+<span class="source-line-no">376</span><span id="line-376">  }</span>
+<span class="source-line-no">377</span><span id="line-377"></span>
+<span class="source-line-no">378</span><span id="line-378">  /**</span>
+<span class="source-line-no">379</span><span id="line-379">   * Returns a view of a table where each value is transformed by a function. All other properties</span>
+<span class="source-line-no">380</span><span id="line-380">   * of the table, such as iteration order, are left intact.</span>
 <span class="source-line-no">381</span><span id="line-381">   *</span>
-<span class="source-line-no">382</span><span id="line-382">   * &lt;p&gt;It's acceptable for the underlying table to contain null keys, and even null values provided</span>
-<span class="source-line-no">383</span><span id="line-383">   * that the function is capable of accepting null input. The transformed table might contain null</span>
-<span class="source-line-no">384</span><span id="line-384">   * values, if the function sometimes gives a null result.</span>
-<span class="source-line-no">385</span><span id="line-385">   *</span>
-<span class="source-line-no">386</span><span id="line-386">   * &lt;p&gt;The returned table is not thread-safe or serializable, even if the underlying table is.</span>
-<span class="source-line-no">387</span><span id="line-387">   *</span>
-<span class="source-line-no">388</span><span id="line-388">   * &lt;p&gt;The function is applied lazily, invoked when needed. This is necessary for the returned</span>
-<span class="source-line-no">389</span><span id="line-389">   * table to be a view, but it means that the function will be applied many times for bulk</span>
-<span class="source-line-no">390</span><span id="line-390">   * operations like {@link Table#containsValue} and {@code Table.toString()}. For this to perform</span>
-<span class="source-line-no">391</span><span id="line-391">   * well, {@code function} should be fast. To avoid lazy evaluation when the returned table doesn't</span>
-<span class="source-line-no">392</span><span id="line-392">   * need to be a view, copy the returned table into a new table of your choosing.</span>
-<span class="source-line-no">393</span><span id="line-393">   *</span>
-<span class="source-line-no">394</span><span id="line-394">   * @since 10.0</span>
-<span class="source-line-no">395</span><span id="line-395">   */</span>
-<span class="source-line-no">396</span><span id="line-396">  public static &lt;</span>
-<span class="source-line-no">397</span><span id="line-397">          R extends @Nullable Object,</span>
-<span class="source-line-no">398</span><span id="line-398">          C extends @Nullable Object,</span>
-<span class="source-line-no">399</span><span id="line-399">          V1 extends @Nullable Object,</span>
-<span class="source-line-no">400</span><span id="line-400">          V2 extends @Nullable Object&gt;</span>
-<span class="source-line-no">401</span><span id="line-401">      Table&lt;R, C, V2&gt; transformValues(</span>
-<span class="source-line-no">402</span><span id="line-402">          Table&lt;R, C, V1&gt; fromTable, Function&lt;? super V1, V2&gt; function) {</span>
-<span class="source-line-no">403</span><span id="line-403">    return new TransformedTable&lt;&gt;(fromTable, function);</span>
-<span class="source-line-no">404</span><span id="line-404">  }</span>
-<span class="source-line-no">405</span><span id="line-405"></span>
-<span class="source-line-no">406</span><span id="line-406">  private static class TransformedTable&lt;</span>
-<span class="source-line-no">407</span><span id="line-407">          R extends @Nullable Object,</span>
-<span class="source-line-no">408</span><span id="line-408">          C extends @Nullable Object,</span>
-<span class="source-line-no">409</span><span id="line-409">          V1 extends @Nullable Object,</span>
-<span class="source-line-no">410</span><span id="line-410">          V2 extends @Nullable Object&gt;</span>
-<span class="source-line-no">411</span><span id="line-411">      extends AbstractTable&lt;R, C, V2&gt; {</span>
-<span class="source-line-no">412</span><span id="line-412">    final Table&lt;R, C, V1&gt; fromTable;</span>
-<span class="source-line-no">413</span><span id="line-413">    final Function&lt;? super V1, V2&gt; function;</span>
-<span class="source-line-no">414</span><span id="line-414"></span>
-<span class="source-line-no">415</span><span id="line-415">    TransformedTable(Table&lt;R, C, V1&gt; fromTable, Function&lt;? super V1, V2&gt; function) {</span>
-<span class="source-line-no">416</span><span id="line-416">      this.fromTable = checkNotNull(fromTable);</span>
-<span class="source-line-no">417</span><span id="line-417">      this.function = checkNotNull(function);</span>
-<span class="source-line-no">418</span><span id="line-418">    }</span>
-<span class="source-line-no">419</span><span id="line-419"></span>
-<span class="source-line-no">420</span><span id="line-420">    @Override</span>
-<span class="source-line-no">421</span><span id="line-421">    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
-<span class="source-line-no">422</span><span id="line-422">      return fromTable.contains(rowKey, columnKey);</span>
-<span class="source-line-no">423</span><span id="line-423">    }</span>
-<span class="source-line-no">424</span><span id="line-424"></span>
-<span class="source-line-no">425</span><span id="line-425">    @Override</span>
-<span class="source-line-no">426</span><span id="line-426">    public @Nullable V2 get(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
-<span class="source-line-no">427</span><span id="line-427">      // The function is passed a null input only when the table contains a null</span>
-<span class="source-line-no">428</span><span id="line-428">      // value.</span>
-<span class="source-line-no">429</span><span id="line-429">      // The cast is safe because of the contains() check.</span>
-<span class="source-line-no">430</span><span id="line-430">      return contains(rowKey, columnKey)</span>
-<span class="source-line-no">431</span><span id="line-431">          ? function.apply(uncheckedCastNullableTToT(fromTable.get(rowKey, columnKey)))</span>
-<span class="source-line-no">432</span><span id="line-432">          : null;</span>
-<span class="source-line-no">433</span><span id="line-433">    }</span>
-<span class="source-line-no">434</span><span id="line-434"></span>
-<span class="source-line-no">435</span><span id="line-435">    @Override</span>
-<span class="source-line-no">436</span><span id="line-436">    public int size() {</span>
-<span class="source-line-no">437</span><span id="line-437">      return fromTable.size();</span>
-<span class="source-line-no">438</span><span id="line-438">    }</span>
-<span class="source-line-no">439</span><span id="line-439"></span>
-<span class="source-line-no">440</span><span id="line-440">    @Override</span>
-<span class="source-line-no">441</span><span id="line-441">    public void clear() {</span>
-<span class="source-line-no">442</span><span id="line-442">      fromTable.clear();</span>
-<span class="source-line-no">443</span><span id="line-443">    }</span>
-<span class="source-line-no">444</span><span id="line-444"></span>
-<span class="source-line-no">445</span><span id="line-445">    @Override</span>
-<span class="source-line-no">446</span><span id="line-446">    public @Nullable V2 put(</span>
-<span class="source-line-no">447</span><span id="line-447">        @ParametricNullness R rowKey,</span>
-<span class="source-line-no">448</span><span id="line-448">        @ParametricNullness C columnKey,</span>
-<span class="source-line-no">449</span><span id="line-449">        @ParametricNullness V2 value) {</span>
-<span class="source-line-no">450</span><span id="line-450">      throw new UnsupportedOperationException();</span>
-<span class="source-line-no">451</span><span id="line-451">    }</span>
-<span class="source-line-no">452</span><span id="line-452"></span>
-<span class="source-line-no">453</span><span id="line-453">    @Override</span>
-<span class="source-line-no">454</span><span id="line-454">    public void putAll(Table&lt;? extends R, ? extends C, ? extends V2&gt; table) {</span>
-<span class="source-line-no">455</span><span id="line-455">      throw new UnsupportedOperationException();</span>
-<span class="source-line-no">456</span><span id="line-456">    }</span>
-<span class="source-line-no">457</span><span id="line-457"></span>
-<span class="source-line-no">458</span><span id="line-458">    @Override</span>
-<span class="source-line-no">459</span><span id="line-459">    public @Nullable V2 remove(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
-<span class="source-line-no">460</span><span id="line-460">      return contains(rowKey, columnKey)</span>
-<span class="source-line-no">461</span><span id="line-461">          // The cast is safe because of the contains() check.</span>
-<span class="source-line-no">462</span><span id="line-462">          ? function.apply(uncheckedCastNullableTToT(fromTable.remove(rowKey, columnKey)))</span>
-<span class="source-line-no">463</span><span id="line-463">          : null;</span>
-<span class="source-line-no">464</span><span id="line-464">    }</span>
-<span class="source-line-no">465</span><span id="line-465"></span>
-<span class="source-line-no">466</span><span id="line-466">    @Override</span>
-<span class="source-line-no">467</span><span id="line-467">    public Map&lt;C, V2&gt; row(@ParametricNullness R rowKey) {</span>
-<span class="source-line-no">468</span><span id="line-468">      return Maps.transformValues(fromTable.row(rowKey), function);</span>
-<span class="source-line-no">469</span><span id="line-469">    }</span>
-<span class="source-line-no">470</span><span id="line-470"></span>
-<span class="source-line-no">471</span><span id="line-471">    @Override</span>
-<span class="source-line-no">472</span><span id="line-472">    public Map&lt;R, V2&gt; column(@ParametricNullness C columnKey) {</span>
-<span class="source-line-no">473</span><span id="line-473">      return Maps.transformValues(fromTable.column(columnKey), function);</span>
-<span class="source-line-no">474</span><span id="line-474">    }</span>
-<span class="source-line-no">475</span><span id="line-475"></span>
-<span class="source-line-no">476</span><span id="line-476">    Function&lt;Cell&lt;R, C, V1&gt;, Cell&lt;R, C, V2&gt;&gt; cellFunction() {</span>
-<span class="source-line-no">477</span><span id="line-477">      return new Function&lt;Cell&lt;R, C, V1&gt;, Cell&lt;R, C, V2&gt;&gt;() {</span>
-<span class="source-line-no">478</span><span id="line-478">        @Override</span>
-<span class="source-line-no">479</span><span id="line-479">        public Cell&lt;R, C, V2&gt; apply(Cell&lt;R, C, V1&gt; cell) {</span>
-<span class="source-line-no">480</span><span id="line-480">          return immutableCell(</span>
-<span class="source-line-no">481</span><span id="line-481">              cell.getRowKey(), cell.getColumnKey(), function.apply(cell.getValue()));</span>
-<span class="source-line-no">482</span><span id="line-482">        }</span>
-<span class="source-line-no">483</span><span id="line-483">      };</span>
-<span class="source-line-no">484</span><span id="line-484">    }</span>
-<span class="source-line-no">485</span><span id="line-485"></span>
-<span class="source-line-no">486</span><span id="line-486">    @Override</span>
-<span class="source-line-no">487</span><span id="line-487">    Iterator&lt;Cell&lt;R, C, V2&gt;&gt; cellIterator() {</span>
-<span class="source-line-no">488</span><span id="line-488">      return Iterators.transform(fromTable.cellSet().iterator(), cellFunction());</span>
-<span class="source-line-no">489</span><span id="line-489">    }</span>
-<span class="source-line-no">490</span><span id="line-490"></span>
-<span class="source-line-no">491</span><span id="line-491">    @Override</span>
-<span class="source-line-no">492</span><span id="line-492">    public Set&lt;R&gt; rowKeySet() {</span>
-<span class="source-line-no">493</span><span id="line-493">      return fromTable.rowKeySet();</span>
-<span class="source-line-no">494</span><span id="line-494">    }</span>
-<span class="source-line-no">495</span><span id="line-495"></span>
-<span class="source-line-no">496</span><span id="line-496">    @Override</span>
-<span class="source-line-no">497</span><span id="line-497">    public Set&lt;C&gt; columnKeySet() {</span>
-<span class="source-line-no">498</span><span id="line-498">      return fromTable.columnKeySet();</span>
-<span class="source-line-no">499</span><span id="line-499">    }</span>
-<span class="source-line-no">500</span><span id="line-500"></span>
-<span class="source-line-no">501</span><span id="line-501">    @Override</span>
-<span class="source-line-no">502</span><span id="line-502">    Collection&lt;V2&gt; createValues() {</span>
-<span class="source-line-no">503</span><span id="line-503">      return Collections2.transform(fromTable.values(), function);</span>
-<span class="source-line-no">504</span><span id="line-504">    }</span>
-<span class="source-line-no">505</span><span id="line-505"></span>
-<span class="source-line-no">506</span><span id="line-506">    @Override</span>
-<span class="source-line-no">507</span><span id="line-507">    public Map&lt;R, Map&lt;C, V2&gt;&gt; rowMap() {</span>
-<span class="source-line-no">508</span><span id="line-508">      Function&lt;Map&lt;C, V1&gt;, Map&lt;C, V2&gt;&gt; rowFunction =</span>
-<span class="source-line-no">509</span><span id="line-509">          new Function&lt;Map&lt;C, V1&gt;, Map&lt;C, V2&gt;&gt;() {</span>
-<span class="source-line-no">510</span><span id="line-510">            @Override</span>
-<span class="source-line-no">511</span><span id="line-511">            public Map&lt;C, V2&gt; apply(Map&lt;C, V1&gt; row) {</span>
-<span class="source-line-no">512</span><span id="line-512">              return Maps.transformValues(row, function);</span>
-<span class="source-line-no">513</span><span id="line-513">            }</span>
-<span class="source-line-no">514</span><span id="line-514">          };</span>
-<span class="source-line-no">515</span><span id="line-515">      return Maps.transformValues(fromTable.rowMap(), rowFunction);</span>
-<span class="source-line-no">516</span><span id="line-516">    }</span>
-<span class="source-line-no">517</span><span id="line-517"></span>
-<span class="source-line-no">518</span><span id="line-518">    @Override</span>
-<span class="source-line-no">519</span><span id="line-519">    public Map&lt;C, Map&lt;R, V2&gt;&gt; columnMap() {</span>
-<span class="source-line-no">520</span><span id="line-520">      Function&lt;Map&lt;R, V1&gt;, Map&lt;R, V2&gt;&gt; columnFunction =</span>
-<span class="source-line-no">521</span><span id="line-521">          new Function&lt;Map&lt;R, V1&gt;, Map&lt;R, V2&gt;&gt;() {</span>
-<span class="source-line-no">522</span><span id="line-522">            @Override</span>
-<span class="source-line-no">523</span><span id="line-523">            public Map&lt;R, V2&gt; apply(Map&lt;R, V1&gt; column) {</span>
-<span class="source-line-no">524</span><span id="line-524">              return Maps.transformValues(column, function);</span>
-<span class="source-line-no">525</span><span id="line-525">            }</span>
-<span class="source-line-no">526</span><span id="line-526">          };</span>
-<span class="source-line-no">527</span><span id="line-527">      return Maps.transformValues(fromTable.columnMap(), columnFunction);</span>
-<span class="source-line-no">528</span><span id="line-528">    }</span>
-<span class="source-line-no">529</span><span id="line-529">  }</span>
-<span class="source-line-no">530</span><span id="line-530"></span>
-<span class="source-line-no">531</span><span id="line-531">  /**</span>
-<span class="source-line-no">532</span><span id="line-532">   * Returns an unmodifiable view of the specified table. This method allows modules to provide</span>
-<span class="source-line-no">533</span><span id="line-533">   * users with "read-only" access to internal tables. Query operations on the returned table "read</span>
-<span class="source-line-no">534</span><span id="line-534">   * through" to the specified table, and attempts to modify the returned table, whether direct or</span>
-<span class="source-line-no">535</span><span id="line-535">   * via its collection views, result in an {@code UnsupportedOperationException}.</span>
-<span class="source-line-no">536</span><span id="line-536">   *</span>
-<span class="source-line-no">537</span><span id="line-537">   * &lt;p&gt;The returned table will be serializable if the specified table is serializable.</span>
-<span class="source-line-no">538</span><span id="line-538">   *</span>
-<span class="source-line-no">539</span><span id="line-539">   * &lt;p&gt;Consider using an {@link ImmutableTable}, which is guaranteed never to change.</span>
-<span class="source-line-no">540</span><span id="line-540">   *</span>
-<span class="source-line-no">541</span><span id="line-541">   * @since 11.0</span>
-<span class="source-line-no">542</span><span id="line-542">   */</span>
-<span class="source-line-no">543</span><span id="line-543">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">544</span><span id="line-544">      Table&lt;R, C, V&gt; unmodifiableTable(Table&lt;? extends R, ? extends C, ? extends V&gt; table) {</span>
-<span class="source-line-no">545</span><span id="line-545">    return new UnmodifiableTable&lt;&gt;(table);</span>
-<span class="source-line-no">546</span><span id="line-546">  }</span>
+<span class="source-line-no">382</span><span id="line-382">   * &lt;p&gt;Changes in the underlying table are reflected in this view. Conversely, this view supports</span>
+<span class="source-line-no">383</span><span id="line-383">   * removal operations, and these are reflected in the underlying table.</span>
+<span class="source-line-no">384</span><span id="line-384">   *</span>
+<span class="source-line-no">385</span><span id="line-385">   * &lt;p&gt;It's acceptable for the underlying table to contain null keys, and even null values provided</span>
+<span class="source-line-no">386</span><span id="line-386">   * that the function is capable of accepting null input. The transformed table might contain null</span>
+<span class="source-line-no">387</span><span id="line-387">   * values, if the function sometimes gives a null result.</span>
+<span class="source-line-no">388</span><span id="line-388">   *</span>
+<span class="source-line-no">389</span><span id="line-389">   * &lt;p&gt;The returned table is not thread-safe or serializable, even if the underlying table is.</span>
+<span class="source-line-no">390</span><span id="line-390">   *</span>
+<span class="source-line-no">391</span><span id="line-391">   * &lt;p&gt;The function is applied lazily, invoked when needed. This is necessary for the returned</span>
+<span class="source-line-no">392</span><span id="line-392">   * table to be a view, but it means that the function will be applied many times for bulk</span>
+<span class="source-line-no">393</span><span id="line-393">   * operations like {@link Table#containsValue} and {@code Table.toString()}. For this to perform</span>
+<span class="source-line-no">394</span><span id="line-394">   * well, {@code function} should be fast. To avoid lazy evaluation when the returned table doesn't</span>
+<span class="source-line-no">395</span><span id="line-395">   * need to be a view, copy the returned table into a new table of your choosing.</span>
+<span class="source-line-no">396</span><span id="line-396">   *</span>
+<span class="source-line-no">397</span><span id="line-397">   * @since 10.0</span>
+<span class="source-line-no">398</span><span id="line-398">   */</span>
+<span class="source-line-no">399</span><span id="line-399">  public static &lt;</span>
+<span class="source-line-no">400</span><span id="line-400">          R extends @Nullable Object,</span>
+<span class="source-line-no">401</span><span id="line-401">          C extends @Nullable Object,</span>
+<span class="source-line-no">402</span><span id="line-402">          V1 extends @Nullable Object,</span>
+<span class="source-line-no">403</span><span id="line-403">          V2 extends @Nullable Object&gt;</span>
+<span class="source-line-no">404</span><span id="line-404">      Table&lt;R, C, V2&gt; transformValues(</span>
+<span class="source-line-no">405</span><span id="line-405">          Table&lt;R, C, V1&gt; fromTable, Function&lt;? super V1, V2&gt; function) {</span>
+<span class="source-line-no">406</span><span id="line-406">    return new TransformedTable&lt;&gt;(fromTable, function);</span>
+<span class="source-line-no">407</span><span id="line-407">  }</span>
+<span class="source-line-no">408</span><span id="line-408"></span>
+<span class="source-line-no">409</span><span id="line-409">  private static class TransformedTable&lt;</span>
+<span class="source-line-no">410</span><span id="line-410">          R extends @Nullable Object,</span>
+<span class="source-line-no">411</span><span id="line-411">          C extends @Nullable Object,</span>
+<span class="source-line-no">412</span><span id="line-412">          V1 extends @Nullable Object,</span>
+<span class="source-line-no">413</span><span id="line-413">          V2 extends @Nullable Object&gt;</span>
+<span class="source-line-no">414</span><span id="line-414">      extends AbstractTable&lt;R, C, V2&gt; {</span>
+<span class="source-line-no">415</span><span id="line-415">    final Table&lt;R, C, V1&gt; fromTable;</span>
+<span class="source-line-no">416</span><span id="line-416">    final Function&lt;? super V1, V2&gt; function;</span>
+<span class="source-line-no">417</span><span id="line-417"></span>
+<span class="source-line-no">418</span><span id="line-418">    TransformedTable(Table&lt;R, C, V1&gt; fromTable, Function&lt;? super V1, V2&gt; function) {</span>
+<span class="source-line-no">419</span><span id="line-419">      this.fromTable = checkNotNull(fromTable);</span>
+<span class="source-line-no">420</span><span id="line-420">      this.function = checkNotNull(function);</span>
+<span class="source-line-no">421</span><span id="line-421">    }</span>
+<span class="source-line-no">422</span><span id="line-422"></span>
+<span class="source-line-no">423</span><span id="line-423">    @Override</span>
+<span class="source-line-no">424</span><span id="line-424">    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
+<span class="source-line-no">425</span><span id="line-425">      return fromTable.contains(rowKey, columnKey);</span>
+<span class="source-line-no">426</span><span id="line-426">    }</span>
+<span class="source-line-no">427</span><span id="line-427"></span>
+<span class="source-line-no">428</span><span id="line-428">    @Override</span>
+<span class="source-line-no">429</span><span id="line-429">    public @Nullable V2 get(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
+<span class="source-line-no">430</span><span id="line-430">      // The function is passed a null input only when the table contains a null</span>
+<span class="source-line-no">431</span><span id="line-431">      // value.</span>
+<span class="source-line-no">432</span><span id="line-432">      // The cast is safe because of the contains() check.</span>
+<span class="source-line-no">433</span><span id="line-433">      return contains(rowKey, columnKey)</span>
+<span class="source-line-no">434</span><span id="line-434">          ? function.apply(uncheckedCastNullableTToT(fromTable.get(rowKey, columnKey)))</span>
+<span class="source-line-no">435</span><span id="line-435">          : null;</span>
+<span class="source-line-no">436</span><span id="line-436">    }</span>
+<span class="source-line-no">437</span><span id="line-437"></span>
+<span class="source-line-no">438</span><span id="line-438">    @Override</span>
+<span class="source-line-no">439</span><span id="line-439">    public int size() {</span>
+<span class="source-line-no">440</span><span id="line-440">      return fromTable.size();</span>
+<span class="source-line-no">441</span><span id="line-441">    }</span>
+<span class="source-line-no">442</span><span id="line-442"></span>
+<span class="source-line-no">443</span><span id="line-443">    @Override</span>
+<span class="source-line-no">444</span><span id="line-444">    public void clear() {</span>
+<span class="source-line-no">445</span><span id="line-445">      fromTable.clear();</span>
+<span class="source-line-no">446</span><span id="line-446">    }</span>
+<span class="source-line-no">447</span><span id="line-447"></span>
+<span class="source-line-no">448</span><span id="line-448">    @Override</span>
+<span class="source-line-no">449</span><span id="line-449">    public @Nullable V2 put(</span>
+<span class="source-line-no">450</span><span id="line-450">        @ParametricNullness R rowKey,</span>
+<span class="source-line-no">451</span><span id="line-451">        @ParametricNullness C columnKey,</span>
+<span class="source-line-no">452</span><span id="line-452">        @ParametricNullness V2 value) {</span>
+<span class="source-line-no">453</span><span id="line-453">      throw new UnsupportedOperationException();</span>
+<span class="source-line-no">454</span><span id="line-454">    }</span>
+<span class="source-line-no">455</span><span id="line-455"></span>
+<span class="source-line-no">456</span><span id="line-456">    @Override</span>
+<span class="source-line-no">457</span><span id="line-457">    public void putAll(Table&lt;? extends R, ? extends C, ? extends V2&gt; table) {</span>
+<span class="source-line-no">458</span><span id="line-458">      throw new UnsupportedOperationException();</span>
+<span class="source-line-no">459</span><span id="line-459">    }</span>
+<span class="source-line-no">460</span><span id="line-460"></span>
+<span class="source-line-no">461</span><span id="line-461">    @Override</span>
+<span class="source-line-no">462</span><span id="line-462">    public @Nullable V2 remove(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
+<span class="source-line-no">463</span><span id="line-463">      return contains(rowKey, columnKey)</span>
+<span class="source-line-no">464</span><span id="line-464">          // The cast is safe because of the contains() check.</span>
+<span class="source-line-no">465</span><span id="line-465">          ? function.apply(uncheckedCastNullableTToT(fromTable.remove(rowKey, columnKey)))</span>
+<span class="source-line-no">466</span><span id="line-466">          : null;</span>
+<span class="source-line-no">467</span><span id="line-467">    }</span>
+<span class="source-line-no">468</span><span id="line-468"></span>
+<span class="source-line-no">469</span><span id="line-469">    @Override</span>
+<span class="source-line-no">470</span><span id="line-470">    public Map&lt;C, V2&gt; row(@ParametricNullness R rowKey) {</span>
+<span class="source-line-no">471</span><span id="line-471">      return Maps.transformValues(fromTable.row(rowKey), function);</span>
+<span class="source-line-no">472</span><span id="line-472">    }</span>
+<span class="source-line-no">473</span><span id="line-473"></span>
+<span class="source-line-no">474</span><span id="line-474">    @Override</span>
+<span class="source-line-no">475</span><span id="line-475">    public Map&lt;R, V2&gt; column(@ParametricNullness C columnKey) {</span>
+<span class="source-line-no">476</span><span id="line-476">      return Maps.transformValues(fromTable.column(columnKey), function);</span>
+<span class="source-line-no">477</span><span id="line-477">    }</span>
+<span class="source-line-no">478</span><span id="line-478"></span>
+<span class="source-line-no">479</span><span id="line-479">    Function&lt;Cell&lt;R, C, V1&gt;, Cell&lt;R, C, V2&gt;&gt; cellFunction() {</span>
+<span class="source-line-no">480</span><span id="line-480">      return cell -&gt;</span>
+<span class="source-line-no">481</span><span id="line-481">          immutableCell(cell.getRowKey(), cell.getColumnKey(), function.apply(cell.getValue()));</span>
+<span class="source-line-no">482</span><span id="line-482">    }</span>
+<span class="source-line-no">483</span><span id="line-483"></span>
+<span class="source-line-no">484</span><span id="line-484">    @Override</span>
+<span class="source-line-no">485</span><span id="line-485">    Iterator&lt;Cell&lt;R, C, V2&gt;&gt; cellIterator() {</span>
+<span class="source-line-no">486</span><span id="line-486">      return Iterators.transform(fromTable.cellSet().iterator(), cellFunction());</span>
+<span class="source-line-no">487</span><span id="line-487">    }</span>
+<span class="source-line-no">488</span><span id="line-488"></span>
+<span class="source-line-no">489</span><span id="line-489">    @Override</span>
+<span class="source-line-no">490</span><span id="line-490">    public Set&lt;R&gt; rowKeySet() {</span>
+<span class="source-line-no">491</span><span id="line-491">      return fromTable.rowKeySet();</span>
+<span class="source-line-no">492</span><span id="line-492">    }</span>
+<span class="source-line-no">493</span><span id="line-493"></span>
+<span class="source-line-no">494</span><span id="line-494">    @Override</span>
+<span class="source-line-no">495</span><span id="line-495">    public Set&lt;C&gt; columnKeySet() {</span>
+<span class="source-line-no">496</span><span id="line-496">      return fromTable.columnKeySet();</span>
+<span class="source-line-no">497</span><span id="line-497">    }</span>
+<span class="source-line-no">498</span><span id="line-498"></span>
+<span class="source-line-no">499</span><span id="line-499">    @Override</span>
+<span class="source-line-no">500</span><span id="line-500">    Collection&lt;V2&gt; createValues() {</span>
+<span class="source-line-no">501</span><span id="line-501">      return Collections2.transform(fromTable.values(), function);</span>
+<span class="source-line-no">502</span><span id="line-502">    }</span>
+<span class="source-line-no">503</span><span id="line-503"></span>
+<span class="source-line-no">504</span><span id="line-504">    @Override</span>
+<span class="source-line-no">505</span><span id="line-505">    public Map&lt;R, Map&lt;C, V2&gt;&gt; rowMap() {</span>
+<span class="source-line-no">506</span><span id="line-506">      return Maps.transformValues(fromTable.rowMap(), row -&gt; Maps.transformValues(row, function));</span>
+<span class="source-line-no">507</span><span id="line-507">    }</span>
+<span class="source-line-no">508</span><span id="line-508"></span>
+<span class="source-line-no">509</span><span id="line-509">    @Override</span>
+<span class="source-line-no">510</span><span id="line-510">    public Map&lt;C, Map&lt;R, V2&gt;&gt; columnMap() {</span>
+<span class="source-line-no">511</span><span id="line-511">      return Maps.transformValues(</span>
+<span class="source-line-no">512</span><span id="line-512">          fromTable.columnMap(), column -&gt; Maps.transformValues(column, function));</span>
+<span class="source-line-no">513</span><span id="line-513">    }</span>
+<span class="source-line-no">514</span><span id="line-514">  }</span>
+<span class="source-line-no">515</span><span id="line-515"></span>
+<span class="source-line-no">516</span><span id="line-516">  /**</span>
+<span class="source-line-no">517</span><span id="line-517">   * Returns an unmodifiable view of the specified table. This method allows modules to provide</span>
+<span class="source-line-no">518</span><span id="line-518">   * users with "read-only" access to internal tables. Query operations on the returned table "read</span>
+<span class="source-line-no">519</span><span id="line-519">   * through" to the specified table, and attempts to modify the returned table, whether direct or</span>
+<span class="source-line-no">520</span><span id="line-520">   * via its collection views, result in an {@code UnsupportedOperationException}.</span>
+<span class="source-line-no">521</span><span id="line-521">   *</span>
+<span class="source-line-no">522</span><span id="line-522">   * &lt;p&gt;The returned table will be serializable if the specified table is serializable.</span>
+<span class="source-line-no">523</span><span id="line-523">   *</span>
+<span class="source-line-no">524</span><span id="line-524">   * &lt;p&gt;Consider using an {@link ImmutableTable}, which is guaranteed never to change.</span>
+<span class="source-line-no">525</span><span id="line-525">   *</span>
+<span class="source-line-no">526</span><span id="line-526">   * @since 11.0</span>
+<span class="source-line-no">527</span><span id="line-527">   */</span>
+<span class="source-line-no">528</span><span id="line-528">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">529</span><span id="line-529">      Table&lt;R, C, V&gt; unmodifiableTable(Table&lt;? extends R, ? extends C, ? extends V&gt; table) {</span>
+<span class="source-line-no">530</span><span id="line-530">    return new UnmodifiableTable&lt;&gt;(table);</span>
+<span class="source-line-no">531</span><span id="line-531">  }</span>
+<span class="source-line-no">532</span><span id="line-532"></span>
+<span class="source-line-no">533</span><span id="line-533">  private static class UnmodifiableTable&lt;</span>
+<span class="source-line-no">534</span><span id="line-534">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">535</span><span id="line-535">      extends ForwardingTable&lt;R, C, V&gt; implements Serializable {</span>
+<span class="source-line-no">536</span><span id="line-536">    final Table&lt;? extends R, ? extends C, ? extends V&gt; delegate;</span>
+<span class="source-line-no">537</span><span id="line-537"></span>
+<span class="source-line-no">538</span><span id="line-538">    UnmodifiableTable(Table&lt;? extends R, ? extends C, ? extends V&gt; delegate) {</span>
+<span class="source-line-no">539</span><span id="line-539">      this.delegate = checkNotNull(delegate);</span>
+<span class="source-line-no">540</span><span id="line-540">    }</span>
+<span class="source-line-no">541</span><span id="line-541"></span>
+<span class="source-line-no">542</span><span id="line-542">    @SuppressWarnings("unchecked") // safe, covariant cast</span>
+<span class="source-line-no">543</span><span id="line-543">    @Override</span>
+<span class="source-line-no">544</span><span id="line-544">    protected Table&lt;R, C, V&gt; delegate() {</span>
+<span class="source-line-no">545</span><span id="line-545">      return (Table&lt;R, C, V&gt;) delegate;</span>
+<span class="source-line-no">546</span><span id="line-546">    }</span>
 <span class="source-line-no">547</span><span id="line-547"></span>
-<span class="source-line-no">548</span><span id="line-548">  private static class UnmodifiableTable&lt;</span>
-<span class="source-line-no">549</span><span id="line-549">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">550</span><span id="line-550">      extends ForwardingTable&lt;R, C, V&gt; implements Serializable {</span>
-<span class="source-line-no">551</span><span id="line-551">    final Table&lt;? extends R, ? extends C, ? extends V&gt; delegate;</span>
+<span class="source-line-no">548</span><span id="line-548">    @Override</span>
+<span class="source-line-no">549</span><span id="line-549">    public Set&lt;Cell&lt;R, C, V&gt;&gt; cellSet() {</span>
+<span class="source-line-no">550</span><span id="line-550">      return Collections.unmodifiableSet(super.cellSet());</span>
+<span class="source-line-no">551</span><span id="line-551">    }</span>
 <span class="source-line-no">552</span><span id="line-552"></span>
-<span class="source-line-no">553</span><span id="line-553">    UnmodifiableTable(Table&lt;? extends R, ? extends C, ? extends V&gt; delegate) {</span>
-<span class="source-line-no">554</span><span id="line-554">      this.delegate = checkNotNull(delegate);</span>
-<span class="source-line-no">555</span><span id="line-555">    }</span>
-<span class="source-line-no">556</span><span id="line-556"></span>
-<span class="source-line-no">557</span><span id="line-557">    @SuppressWarnings("unchecked") // safe, covariant cast</span>
+<span class="source-line-no">553</span><span id="line-553">    @Override</span>
+<span class="source-line-no">554</span><span id="line-554">    public void clear() {</span>
+<span class="source-line-no">555</span><span id="line-555">      throw new UnsupportedOperationException();</span>
+<span class="source-line-no">556</span><span id="line-556">    }</span>
+<span class="source-line-no">557</span><span id="line-557"></span>
 <span class="source-line-no">558</span><span id="line-558">    @Override</span>
-<span class="source-line-no">559</span><span id="line-559">    protected Table&lt;R, C, V&gt; delegate() {</span>
-<span class="source-line-no">560</span><span id="line-560">      return (Table&lt;R, C, V&gt;) delegate;</span>
+<span class="source-line-no">559</span><span id="line-559">    public Map&lt;R, V&gt; column(@ParametricNullness C columnKey) {</span>
+<span class="source-line-no">560</span><span id="line-560">      return Collections.unmodifiableMap(super.column(columnKey));</span>
 <span class="source-line-no">561</span><span id="line-561">    }</span>
 <span class="source-line-no">562</span><span id="line-562"></span>
 <span class="source-line-no">563</span><span id="line-563">    @Override</span>
-<span class="source-line-no">564</span><span id="line-564">    public Set&lt;Cell&lt;R, C, V&gt;&gt; cellSet() {</span>
-<span class="source-line-no">565</span><span id="line-565">      return Collections.unmodifiableSet(super.cellSet());</span>
+<span class="source-line-no">564</span><span id="line-564">    public Set&lt;C&gt; columnKeySet() {</span>
+<span class="source-line-no">565</span><span id="line-565">      return Collections.unmodifiableSet(super.columnKeySet());</span>
 <span class="source-line-no">566</span><span id="line-566">    }</span>
 <span class="source-line-no">567</span><span id="line-567"></span>
 <span class="source-line-no">568</span><span id="line-568">    @Override</span>
-<span class="source-line-no">569</span><span id="line-569">    public void clear() {</span>
-<span class="source-line-no">570</span><span id="line-570">      throw new UnsupportedOperationException();</span>
+<span class="source-line-no">569</span><span id="line-569">    public Map&lt;C, Map&lt;R, V&gt;&gt; columnMap() {</span>
+<span class="source-line-no">570</span><span id="line-570">      return unmodifiableMap(Maps.transformValues(super.columnMap(), Collections::unmodifiableMap));</span>
 <span class="source-line-no">571</span><span id="line-571">    }</span>
 <span class="source-line-no">572</span><span id="line-572"></span>
 <span class="source-line-no">573</span><span id="line-573">    @Override</span>
-<span class="source-line-no">574</span><span id="line-574">    public Map&lt;R, V&gt; column(@ParametricNullness C columnKey) {</span>
-<span class="source-line-no">575</span><span id="line-575">      return Collections.unmodifiableMap(super.column(columnKey));</span>
-<span class="source-line-no">576</span><span id="line-576">    }</span>
-<span class="source-line-no">577</span><span id="line-577"></span>
-<span class="source-line-no">578</span><span id="line-578">    @Override</span>
-<span class="source-line-no">579</span><span id="line-579">    public Set&lt;C&gt; columnKeySet() {</span>
-<span class="source-line-no">580</span><span id="line-580">      return Collections.unmodifiableSet(super.columnKeySet());</span>
-<span class="source-line-no">581</span><span id="line-581">    }</span>
-<span class="source-line-no">582</span><span id="line-582"></span>
-<span class="source-line-no">583</span><span id="line-583">    @Override</span>
-<span class="source-line-no">584</span><span id="line-584">    public Map&lt;C, Map&lt;R, V&gt;&gt; columnMap() {</span>
-<span class="source-line-no">585</span><span id="line-585">      Function&lt;Map&lt;R, V&gt;, Map&lt;R, V&gt;&gt; wrapper = unmodifiableWrapper();</span>
-<span class="source-line-no">586</span><span id="line-586">      return Collections.unmodifiableMap(Maps.transformValues(super.columnMap(), wrapper));</span>
-<span class="source-line-no">587</span><span id="line-587">    }</span>
-<span class="source-line-no">588</span><span id="line-588"></span>
-<span class="source-line-no">589</span><span id="line-589">    @Override</span>
-<span class="source-line-no">590</span><span id="line-590">    public @Nullable V put(</span>
-<span class="source-line-no">591</span><span id="line-591">        @ParametricNullness R rowKey,</span>
-<span class="source-line-no">592</span><span id="line-592">        @ParametricNullness C columnKey,</span>
-<span class="source-line-no">593</span><span id="line-593">        @ParametricNullness V value) {</span>
-<span class="source-line-no">594</span><span id="line-594">      throw new UnsupportedOperationException();</span>
-<span class="source-line-no">595</span><span id="line-595">    }</span>
-<span class="source-line-no">596</span><span id="line-596"></span>
-<span class="source-line-no">597</span><span id="line-597">    @Override</span>
-<span class="source-line-no">598</span><span id="line-598">    public void putAll(Table&lt;? extends R, ? extends C, ? extends V&gt; table) {</span>
-<span class="source-line-no">599</span><span id="line-599">      throw new UnsupportedOperationException();</span>
-<span class="source-line-no">600</span><span id="line-600">    }</span>
-<span class="source-line-no">601</span><span id="line-601"></span>
-<span class="source-line-no">602</span><span id="line-602">    @Override</span>
-<span class="source-line-no">603</span><span id="line-603">    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
-<span class="source-line-no">604</span><span id="line-604">      throw new UnsupportedOperationException();</span>
-<span class="source-line-no">605</span><span id="line-605">    }</span>
-<span class="source-line-no">606</span><span id="line-606"></span>
-<span class="source-line-no">607</span><span id="line-607">    @Override</span>
-<span class="source-line-no">608</span><span id="line-608">    public Map&lt;C, V&gt; row(@ParametricNullness R rowKey) {</span>
-<span class="source-line-no">609</span><span id="line-609">      return Collections.unmodifiableMap(super.row(rowKey));</span>
-<span class="source-line-no">610</span><span id="line-610">    }</span>
-<span class="source-line-no">611</span><span id="line-611"></span>
-<span class="source-line-no">612</span><span id="line-612">    @Override</span>
-<span class="source-line-no">613</span><span id="line-613">    public Set&lt;R&gt; rowKeySet() {</span>
-<span class="source-line-no">614</span><span id="line-614">      return Collections.unmodifiableSet(super.rowKeySet());</span>
-<span class="source-line-no">615</span><span id="line-615">    }</span>
-<span class="source-line-no">616</span><span id="line-616"></span>
-<span class="source-line-no">617</span><span id="line-617">    @Override</span>
-<span class="source-line-no">618</span><span id="line-618">    public Map&lt;R, Map&lt;C, V&gt;&gt; rowMap() {</span>
-<span class="source-line-no">619</span><span id="line-619">      Function&lt;Map&lt;C, V&gt;, Map&lt;C, V&gt;&gt; wrapper = unmodifiableWrapper();</span>
-<span class="source-line-no">620</span><span id="line-620">      return Collections.unmodifiableMap(Maps.transformValues(super.rowMap(), wrapper));</span>
-<span class="source-line-no">621</span><span id="line-621">    }</span>
-<span class="source-line-no">622</span><span id="line-622"></span>
-<span class="source-line-no">623</span><span id="line-623">    @Override</span>
-<span class="source-line-no">624</span><span id="line-624">    public Collection&lt;V&gt; values() {</span>
-<span class="source-line-no">625</span><span id="line-625">      return Collections.unmodifiableCollection(super.values());</span>
-<span class="source-line-no">626</span><span id="line-626">    }</span>
-<span class="source-line-no">627</span><span id="line-627"></span>
-<span class="source-line-no">628</span><span id="line-628">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">629</span><span id="line-629">  }</span>
-<span class="source-line-no">630</span><span id="line-630"></span>
-<span class="source-line-no">631</span><span id="line-631">  /**</span>
-<span class="source-line-no">632</span><span id="line-632">   * Returns an unmodifiable view of the specified row-sorted table. This method allows modules to</span>
-<span class="source-line-no">633</span><span id="line-633">   * provide users with "read-only" access to internal tables. Query operations on the returned</span>
-<span class="source-line-no">634</span><span id="line-634">   * table "read through" to the specified table, and attempts to modify the returned table, whether</span>
-<span class="source-line-no">635</span><span id="line-635">   * direct or via its collection views, result in an {@code UnsupportedOperationException}.</span>
-<span class="source-line-no">636</span><span id="line-636">   *</span>
-<span class="source-line-no">637</span><span id="line-637">   * &lt;p&gt;The returned table will be serializable if the specified table is serializable.</span>
-<span class="source-line-no">638</span><span id="line-638">   *</span>
-<span class="source-line-no">639</span><span id="line-639">   * @param table the row-sorted table for which an unmodifiable view is to be returned</span>
-<span class="source-line-no">640</span><span id="line-640">   * @return an unmodifiable view of the specified table</span>
-<span class="source-line-no">641</span><span id="line-641">   * @since 11.0</span>
-<span class="source-line-no">642</span><span id="line-642">   */</span>
-<span class="source-line-no">643</span><span id="line-643">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">644</span><span id="line-644">      RowSortedTable&lt;R, C, V&gt; unmodifiableRowSortedTable(</span>
-<span class="source-line-no">645</span><span id="line-645">          RowSortedTable&lt;R, ? extends C, ? extends V&gt; table) {</span>
-<span class="source-line-no">646</span><span id="line-646">    /*</span>
-<span class="source-line-no">647</span><span id="line-647">     * It's not ? extends R, because it's technically not covariant in R. Specifically,</span>
-<span class="source-line-no">648</span><span id="line-648">     * table.rowMap().comparator() could return a comparator that only works for the ? extends R.</span>
-<span class="source-line-no">649</span><span id="line-649">     * Collections.unmodifiableSortedMap makes the same distinction.</span>
-<span class="source-line-no">650</span><span id="line-650">     */</span>
-<span class="source-line-no">651</span><span id="line-651">    return new UnmodifiableRowSortedMap&lt;&gt;(table);</span>
-<span class="source-line-no">652</span><span id="line-652">  }</span>
-<span class="source-line-no">653</span><span id="line-653"></span>
-<span class="source-line-no">654</span><span id="line-654">  private static final class UnmodifiableRowSortedMap&lt;</span>
-<span class="source-line-no">655</span><span id="line-655">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">656</span><span id="line-656">      extends UnmodifiableTable&lt;R, C, V&gt; implements RowSortedTable&lt;R, C, V&gt; {</span>
-<span class="source-line-no">657</span><span id="line-657"></span>
-<span class="source-line-no">658</span><span id="line-658">    public UnmodifiableRowSortedMap(RowSortedTable&lt;R, ? extends C, ? extends V&gt; delegate) {</span>
-<span class="source-line-no">659</span><span id="line-659">      super(delegate);</span>
-<span class="source-line-no">660</span><span id="line-660">    }</span>
-<span class="source-line-no">661</span><span id="line-661"></span>
-<span class="source-line-no">662</span><span id="line-662">    @Override</span>
-<span class="source-line-no">663</span><span id="line-663">    protected RowSortedTable&lt;R, C, V&gt; delegate() {</span>
-<span class="source-line-no">664</span><span id="line-664">      return (RowSortedTable&lt;R, C, V&gt;) super.delegate();</span>
-<span class="source-line-no">665</span><span id="line-665">    }</span>
-<span class="source-line-no">666</span><span id="line-666"></span>
-<span class="source-line-no">667</span><span id="line-667">    @Override</span>
-<span class="source-line-no">668</span><span id="line-668">    public SortedMap&lt;R, Map&lt;C, V&gt;&gt; rowMap() {</span>
-<span class="source-line-no">669</span><span id="line-669">      Function&lt;Map&lt;C, V&gt;, Map&lt;C, V&gt;&gt; wrapper = unmodifiableWrapper();</span>
-<span class="source-line-no">670</span><span id="line-670">      return Collections.unmodifiableSortedMap(Maps.transformValues(delegate().rowMap(), wrapper));</span>
-<span class="source-line-no">671</span><span id="line-671">    }</span>
-<span class="source-line-no">672</span><span id="line-672"></span>
-<span class="source-line-no">673</span><span id="line-673">    @Override</span>
-<span class="source-line-no">674</span><span id="line-674">    public SortedSet&lt;R&gt; rowKeySet() {</span>
-<span class="source-line-no">675</span><span id="line-675">      return Collections.unmodifiableSortedSet(delegate().rowKeySet());</span>
-<span class="source-line-no">676</span><span id="line-676">    }</span>
-<span class="source-line-no">677</span><span id="line-677"></span>
-<span class="source-line-no">678</span><span id="line-678">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">679</span><span id="line-679">  }</span>
-<span class="source-line-no">680</span><span id="line-680"></span>
-<span class="source-line-no">681</span><span id="line-681">  @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">682</span><span id="line-682">  private static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">683</span><span id="line-683">      Function&lt;Map&lt;K, V&gt;, Map&lt;K, V&gt;&gt; unmodifiableWrapper() {</span>
-<span class="source-line-no">684</span><span id="line-684">    return (Function) UNMODIFIABLE_WRAPPER;</span>
-<span class="source-line-no">685</span><span id="line-685">  }</span>
-<span class="source-line-no">686</span><span id="line-686"></span>
-<span class="source-line-no">687</span><span id="line-687">  private static final Function&lt;? extends Map&lt;?, ?&gt;, ? extends Map&lt;?, ?&gt;&gt; UNMODIFIABLE_WRAPPER =</span>
-<span class="source-line-no">688</span><span id="line-688">      new Function&lt;Map&lt;Object, Object&gt;, Map&lt;Object, Object&gt;&gt;() {</span>
-<span class="source-line-no">689</span><span id="line-689">        @Override</span>
-<span class="source-line-no">690</span><span id="line-690">        public Map&lt;Object, Object&gt; apply(Map&lt;Object, Object&gt; input) {</span>
-<span class="source-line-no">691</span><span id="line-691">          return Collections.unmodifiableMap(input);</span>
-<span class="source-line-no">692</span><span id="line-692">        }</span>
-<span class="source-line-no">693</span><span id="line-693">      };</span>
-<span class="source-line-no">694</span><span id="line-694"></span>
-<span class="source-line-no">695</span><span id="line-695">  /**</span>
-<span class="source-line-no">696</span><span id="line-696">   * Returns a synchronized (thread-safe) table backed by the specified table. In order to guarantee</span>
-<span class="source-line-no">697</span><span id="line-697">   * serial access, it is critical that &lt;b&gt;all&lt;/b&gt; access to the backing table is accomplished</span>
-<span class="source-line-no">698</span><span id="line-698">   * through the returned table.</span>
-<span class="source-line-no">699</span><span id="line-699">   *</span>
-<span class="source-line-no">700</span><span id="line-700">   * &lt;p&gt;It is imperative that the user manually synchronize on the returned table when accessing any</span>
-<span class="source-line-no">701</span><span id="line-701">   * of its collection views:</span>
-<span class="source-line-no">702</span><span id="line-702">   *</span>
-<span class="source-line-no">703</span><span id="line-703">   * &lt;pre&gt;{@code</span>
-<span class="source-line-no">704</span><span id="line-704">   * Table&lt;R, C, V&gt; table = Tables.synchronizedTable(HashBasedTable.&lt;R, C, V&gt;create());</span>
-<span class="source-line-no">705</span><span id="line-705">   * ...</span>
-<span class="source-line-no">706</span><span id="line-706">   * Map&lt;C, V&gt; row = table.row(rowKey);  // Needn't be in synchronized block</span>
-<span class="source-line-no">707</span><span id="line-707">   * ...</span>
-<span class="source-line-no">708</span><span id="line-708">   * synchronized (table) {  // Synchronizing on table, not row!</span>
-<span class="source-line-no">709</span><span id="line-709">   *   Iterator&lt;Entry&lt;C, V&gt;&gt; i = row.entrySet().iterator(); // Must be in synchronized block</span>
-<span class="source-line-no">710</span><span id="line-710">   *   while (i.hasNext()) {</span>
-<span class="source-line-no">711</span><span id="line-711">   *     foo(i.next());</span>
-<span class="source-line-no">712</span><span id="line-712">   *   }</span>
-<span class="source-line-no">713</span><span id="line-713">   * }</span>
-<span class="source-line-no">714</span><span id="line-714">   * }&lt;/pre&gt;</span>
-<span class="source-line-no">715</span><span id="line-715">   *</span>
-<span class="source-line-no">716</span><span id="line-716">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</span>
-<span class="source-line-no">717</span><span id="line-717">   *</span>
-<span class="source-line-no">718</span><span id="line-718">   * &lt;p&gt;The returned table will be serializable if the specified table is serializable.</span>
-<span class="source-line-no">719</span><span id="line-719">   *</span>
-<span class="source-line-no">720</span><span id="line-720">   * @param table the table to be wrapped in a synchronized view</span>
-<span class="source-line-no">721</span><span id="line-721">   * @return a synchronized view of the specified table</span>
-<span class="source-line-no">722</span><span id="line-722">   * @since 22.0</span>
-<span class="source-line-no">723</span><span id="line-723">   */</span>
-<span class="source-line-no">724</span><span id="line-724">  @J2ktIncompatible // Synchronized</span>
-<span class="source-line-no">725</span><span id="line-725">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">726</span><span id="line-726">      Table&lt;R, C, V&gt; synchronizedTable(Table&lt;R, C, V&gt; table) {</span>
-<span class="source-line-no">727</span><span id="line-727">    return Synchronized.table(table, null);</span>
-<span class="source-line-no">728</span><span id="line-728">  }</span>
-<span class="source-line-no">729</span><span id="line-729"></span>
-<span class="source-line-no">730</span><span id="line-730">  static boolean equalsImpl(Table&lt;?, ?, ?&gt; table, @Nullable Object obj) {</span>
-<span class="source-line-no">731</span><span id="line-731">    if (obj == table) {</span>
-<span class="source-line-no">732</span><span id="line-732">      return true;</span>
-<span class="source-line-no">733</span><span id="line-733">    } else if (obj instanceof Table) {</span>
-<span class="source-line-no">734</span><span id="line-734">      Table&lt;?, ?, ?&gt; that = (Table&lt;?, ?, ?&gt;) obj;</span>
-<span class="source-line-no">735</span><span id="line-735">      return table.cellSet().equals(that.cellSet());</span>
-<span class="source-line-no">736</span><span id="line-736">    } else {</span>
-<span class="source-line-no">737</span><span id="line-737">      return false;</span>
-<span class="source-line-no">738</span><span id="line-738">    }</span>
-<span class="source-line-no">739</span><span id="line-739">  }</span>
-<span class="source-line-no">740</span><span id="line-740">}</span>
+<span class="source-line-no">574</span><span id="line-574">    public @Nullable V put(</span>
+<span class="source-line-no">575</span><span id="line-575">        @ParametricNullness R rowKey,</span>
+<span class="source-line-no">576</span><span id="line-576">        @ParametricNullness C columnKey,</span>
+<span class="source-line-no">577</span><span id="line-577">        @ParametricNullness V value) {</span>
+<span class="source-line-no">578</span><span id="line-578">      throw new UnsupportedOperationException();</span>
+<span class="source-line-no">579</span><span id="line-579">    }</span>
+<span class="source-line-no">580</span><span id="line-580"></span>
+<span class="source-line-no">581</span><span id="line-581">    @Override</span>
+<span class="source-line-no">582</span><span id="line-582">    public void putAll(Table&lt;? extends R, ? extends C, ? extends V&gt; table) {</span>
+<span class="source-line-no">583</span><span id="line-583">      throw new UnsupportedOperationException();</span>
+<span class="source-line-no">584</span><span id="line-584">    }</span>
+<span class="source-line-no">585</span><span id="line-585"></span>
+<span class="source-line-no">586</span><span id="line-586">    @Override</span>
+<span class="source-line-no">587</span><span id="line-587">    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {</span>
+<span class="source-line-no">588</span><span id="line-588">      throw new UnsupportedOperationException();</span>
+<span class="source-line-no">589</span><span id="line-589">    }</span>
+<span class="source-line-no">590</span><span id="line-590"></span>
+<span class="source-line-no">591</span><span id="line-591">    @Override</span>
+<span class="source-line-no">592</span><span id="line-592">    public Map&lt;C, V&gt; row(@ParametricNullness R rowKey) {</span>
+<span class="source-line-no">593</span><span id="line-593">      return Collections.unmodifiableMap(super.row(rowKey));</span>
+<span class="source-line-no">594</span><span id="line-594">    }</span>
+<span class="source-line-no">595</span><span id="line-595"></span>
+<span class="source-line-no">596</span><span id="line-596">    @Override</span>
+<span class="source-line-no">597</span><span id="line-597">    public Set&lt;R&gt; rowKeySet() {</span>
+<span class="source-line-no">598</span><span id="line-598">      return Collections.unmodifiableSet(super.rowKeySet());</span>
+<span class="source-line-no">599</span><span id="line-599">    }</span>
+<span class="source-line-no">600</span><span id="line-600"></span>
+<span class="source-line-no">601</span><span id="line-601">    @Override</span>
+<span class="source-line-no">602</span><span id="line-602">    public Map&lt;R, Map&lt;C, V&gt;&gt; rowMap() {</span>
+<span class="source-line-no">603</span><span id="line-603">      return unmodifiableMap(Maps.transformValues(super.rowMap(), Collections::unmodifiableMap));</span>
+<span class="source-line-no">604</span><span id="line-604">    }</span>
+<span class="source-line-no">605</span><span id="line-605"></span>
+<span class="source-line-no">606</span><span id="line-606">    @Override</span>
+<span class="source-line-no">607</span><span id="line-607">    public Collection&lt;V&gt; values() {</span>
+<span class="source-line-no">608</span><span id="line-608">      return Collections.unmodifiableCollection(super.values());</span>
+<span class="source-line-no">609</span><span id="line-609">    }</span>
+<span class="source-line-no">610</span><span id="line-610"></span>
+<span class="source-line-no">611</span><span id="line-611">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">612</span><span id="line-612">  }</span>
+<span class="source-line-no">613</span><span id="line-613"></span>
+<span class="source-line-no">614</span><span id="line-614">  /**</span>
+<span class="source-line-no">615</span><span id="line-615">   * Returns an unmodifiable view of the specified row-sorted table. This method allows modules to</span>
+<span class="source-line-no">616</span><span id="line-616">   * provide users with "read-only" access to internal tables. Query operations on the returned</span>
+<span class="source-line-no">617</span><span id="line-617">   * table "read through" to the specified table, and attempts to modify the returned table, whether</span>
+<span class="source-line-no">618</span><span id="line-618">   * direct or via its collection views, result in an {@code UnsupportedOperationException}.</span>
+<span class="source-line-no">619</span><span id="line-619">   *</span>
+<span class="source-line-no">620</span><span id="line-620">   * &lt;p&gt;The returned table will be serializable if the specified table is serializable.</span>
+<span class="source-line-no">621</span><span id="line-621">   *</span>
+<span class="source-line-no">622</span><span id="line-622">   * @param table the row-sorted table for which an unmodifiable view is to be returned</span>
+<span class="source-line-no">623</span><span id="line-623">   * @return an unmodifiable view of the specified table</span>
+<span class="source-line-no">624</span><span id="line-624">   * @since 11.0</span>
+<span class="source-line-no">625</span><span id="line-625">   */</span>
+<span class="source-line-no">626</span><span id="line-626">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">627</span><span id="line-627">      RowSortedTable&lt;R, C, V&gt; unmodifiableRowSortedTable(</span>
+<span class="source-line-no">628</span><span id="line-628">          RowSortedTable&lt;R, ? extends C, ? extends V&gt; table) {</span>
+<span class="source-line-no">629</span><span id="line-629">    /*</span>
+<span class="source-line-no">630</span><span id="line-630">     * It's not ? extends R, because it's technically not covariant in R. Specifically,</span>
+<span class="source-line-no">631</span><span id="line-631">     * table.rowMap().comparator() could return a comparator that only works for the ? extends R.</span>
+<span class="source-line-no">632</span><span id="line-632">     * Collections.unmodifiableSortedMap makes the same distinction.</span>
+<span class="source-line-no">633</span><span id="line-633">     */</span>
+<span class="source-line-no">634</span><span id="line-634">    return new UnmodifiableRowSortedMap&lt;&gt;(table);</span>
+<span class="source-line-no">635</span><span id="line-635">  }</span>
+<span class="source-line-no">636</span><span id="line-636"></span>
+<span class="source-line-no">637</span><span id="line-637">  private static final class UnmodifiableRowSortedMap&lt;</span>
+<span class="source-line-no">638</span><span id="line-638">          R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">639</span><span id="line-639">      extends UnmodifiableTable&lt;R, C, V&gt; implements RowSortedTable&lt;R, C, V&gt; {</span>
+<span class="source-line-no">640</span><span id="line-640"></span>
+<span class="source-line-no">641</span><span id="line-641">    public UnmodifiableRowSortedMap(RowSortedTable&lt;R, ? extends C, ? extends V&gt; delegate) {</span>
+<span class="source-line-no">642</span><span id="line-642">      super(delegate);</span>
+<span class="source-line-no">643</span><span id="line-643">    }</span>
+<span class="source-line-no">644</span><span id="line-644"></span>
+<span class="source-line-no">645</span><span id="line-645">    @Override</span>
+<span class="source-line-no">646</span><span id="line-646">    protected RowSortedTable&lt;R, C, V&gt; delegate() {</span>
+<span class="source-line-no">647</span><span id="line-647">      return (RowSortedTable&lt;R, C, V&gt;) super.delegate();</span>
+<span class="source-line-no">648</span><span id="line-648">    }</span>
+<span class="source-line-no">649</span><span id="line-649"></span>
+<span class="source-line-no">650</span><span id="line-650">    @Override</span>
+<span class="source-line-no">651</span><span id="line-651">    public SortedMap&lt;R, Map&lt;C, V&gt;&gt; rowMap() {</span>
+<span class="source-line-no">652</span><span id="line-652">      return unmodifiableSortedMap(</span>
+<span class="source-line-no">653</span><span id="line-653">          Maps.transformValues(delegate().rowMap(), Collections::unmodifiableMap));</span>
+<span class="source-line-no">654</span><span id="line-654">    }</span>
+<span class="source-line-no">655</span><span id="line-655"></span>
+<span class="source-line-no">656</span><span id="line-656">    @Override</span>
+<span class="source-line-no">657</span><span id="line-657">    public SortedSet&lt;R&gt; rowKeySet() {</span>
+<span class="source-line-no">658</span><span id="line-658">      return Collections.unmodifiableSortedSet(delegate().rowKeySet());</span>
+<span class="source-line-no">659</span><span id="line-659">    }</span>
+<span class="source-line-no">660</span><span id="line-660"></span>
+<span class="source-line-no">661</span><span id="line-661">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">662</span><span id="line-662">  }</span>
+<span class="source-line-no">663</span><span id="line-663"></span>
+<span class="source-line-no">664</span><span id="line-664">  /**</span>
+<span class="source-line-no">665</span><span id="line-665">   * Returns a synchronized (thread-safe) table backed by the specified table. In order to guarantee</span>
+<span class="source-line-no">666</span><span id="line-666">   * serial access, it is critical that &lt;b&gt;all&lt;/b&gt; access to the backing table is accomplished</span>
+<span class="source-line-no">667</span><span id="line-667">   * through the returned table.</span>
+<span class="source-line-no">668</span><span id="line-668">   *</span>
+<span class="source-line-no">669</span><span id="line-669">   * &lt;p&gt;It is imperative that the user manually synchronize on the returned table when accessing any</span>
+<span class="source-line-no">670</span><span id="line-670">   * of its collection views:</span>
+<span class="source-line-no">671</span><span id="line-671">   *</span>
+<span class="source-line-no">672</span><span id="line-672">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">673</span><span id="line-673">   * Table&lt;R, C, V&gt; table = Tables.synchronizedTable(HashBasedTable.&lt;R, C, V&gt;create());</span>
+<span class="source-line-no">674</span><span id="line-674">   * ...</span>
+<span class="source-line-no">675</span><span id="line-675">   * Map&lt;C, V&gt; row = table.row(rowKey);  // Needn't be in synchronized block</span>
+<span class="source-line-no">676</span><span id="line-676">   * ...</span>
+<span class="source-line-no">677</span><span id="line-677">   * synchronized (table) {  // Synchronizing on table, not row!</span>
+<span class="source-line-no">678</span><span id="line-678">   *   Iterator&lt;Entry&lt;C, V&gt;&gt; i = row.entrySet().iterator(); // Must be in synchronized block</span>
+<span class="source-line-no">679</span><span id="line-679">   *   while (i.hasNext()) {</span>
+<span class="source-line-no">680</span><span id="line-680">   *     foo(i.next());</span>
+<span class="source-line-no">681</span><span id="line-681">   *   }</span>
+<span class="source-line-no">682</span><span id="line-682">   * }</span>
+<span class="source-line-no">683</span><span id="line-683">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">684</span><span id="line-684">   *</span>
+<span class="source-line-no">685</span><span id="line-685">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</span>
+<span class="source-line-no">686</span><span id="line-686">   *</span>
+<span class="source-line-no">687</span><span id="line-687">   * &lt;p&gt;The returned table will be serializable if the specified table is serializable.</span>
+<span class="source-line-no">688</span><span id="line-688">   *</span>
+<span class="source-line-no">689</span><span id="line-689">   * @param table the table to be wrapped in a synchronized view</span>
+<span class="source-line-no">690</span><span id="line-690">   * @return a synchronized view of the specified table</span>
+<span class="source-line-no">691</span><span id="line-691">   * @since 22.0</span>
+<span class="source-line-no">692</span><span id="line-692">   */</span>
+<span class="source-line-no">693</span><span id="line-693">  @J2ktIncompatible // Synchronized</span>
+<span class="source-line-no">694</span><span id="line-694">  public static &lt;R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">695</span><span id="line-695">      Table&lt;R, C, V&gt; synchronizedTable(Table&lt;R, C, V&gt; table) {</span>
+<span class="source-line-no">696</span><span id="line-696">    return Synchronized.table(table, null);</span>
+<span class="source-line-no">697</span><span id="line-697">  }</span>
+<span class="source-line-no">698</span><span id="line-698"></span>
+<span class="source-line-no">699</span><span id="line-699">  static boolean equalsImpl(Table&lt;?, ?, ?&gt; table, @Nullable Object obj) {</span>
+<span class="source-line-no">700</span><span id="line-700">    if (obj == table) {</span>
+<span class="source-line-no">701</span><span id="line-701">      return true;</span>
+<span class="source-line-no">702</span><span id="line-702">    } else if (obj instanceof Table) {</span>
+<span class="source-line-no">703</span><span id="line-703">      Table&lt;?, ?, ?&gt; that = (Table&lt;?, ?, ?&gt;) obj;</span>
+<span class="source-line-no">704</span><span id="line-704">      return table.cellSet().equals(that.cellSet());</span>
+<span class="source-line-no">705</span><span id="line-705">    } else {</span>
+<span class="source-line-no">706</span><span id="line-706">      return false;</span>
+<span class="source-line-no">707</span><span id="line-707">    }</span>
+<span class="source-line-no">708</span><span id="line-708">  }</span>
+<span class="source-line-no">709</span><span id="line-709">}</span>
 
 
 

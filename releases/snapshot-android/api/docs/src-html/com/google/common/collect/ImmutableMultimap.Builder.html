@@ -668,7 +668,7 @@
 <span class="source-line-no">655</span><span id="line-655">      return super.writeReplace();</span>
 <span class="source-line-no">656</span><span id="line-656">    }</span>
 <span class="source-line-no">657</span><span id="line-657"></span>
-<span class="source-line-no">658</span><span id="line-658">    private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">658</span><span id="line-658">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
 <span class="source-line-no">659</span><span id="line-659">  }</span>
 <span class="source-line-no">660</span><span id="line-660"></span>
 <span class="source-line-no">661</span><span id="line-661">  @Override</span>
@@ -858,13 +858,11 @@
 <span class="source-line-no">845</span><span id="line-845">      return super.writeReplace();</span>
 <span class="source-line-no">846</span><span id="line-846">    }</span>
 <span class="source-line-no">847</span><span id="line-847"></span>
-<span class="source-line-no">848</span><span id="line-848">    @J2ktIncompatible // serialization</span>
-<span class="source-line-no">849</span><span id="line-849">    private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">850</span><span id="line-850">  }</span>
-<span class="source-line-no">851</span><span id="line-851"></span>
-<span class="source-line-no">852</span><span id="line-852">  @J2ktIncompatible // serialization</span>
-<span class="source-line-no">853</span><span id="line-853">  private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">854</span><span id="line-854">}</span>
+<span class="source-line-no">848</span><span id="line-848">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">849</span><span id="line-849">  }</span>
+<span class="source-line-no">850</span><span id="line-850"></span>
+<span class="source-line-no">851</span><span id="line-851">  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">852</span><span id="line-852">}</span>
 
 
 

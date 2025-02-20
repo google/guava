@@ -92,7 +92,7 @@
 <span class="source-line-no">079</span><span id="line-79">  @Override</span>
 <span class="source-line-no">080</span><span id="line-80">  public int readUnsignedByte() throws IOException {</span>
 <span class="source-line-no">081</span><span id="line-81">    int b1 = in.read();</span>
-<span class="source-line-no">082</span><span id="line-82">    if (0 &gt; b1) {</span>
+<span class="source-line-no">082</span><span id="line-82">    if (b1 &lt; 0) {</span>
 <span class="source-line-no">083</span><span id="line-83">      throw new EOFException();</span>
 <span class="source-line-no">084</span><span id="line-84">    }</span>
 <span class="source-line-no">085</span><span id="line-85"></span>
@@ -243,7 +243,7 @@
 <span class="source-line-no">230</span><span id="line-230">  private byte readAndCheckByte() throws IOException, EOFException {</span>
 <span class="source-line-no">231</span><span id="line-231">    int b1 = in.read();</span>
 <span class="source-line-no">232</span><span id="line-232"></span>
-<span class="source-line-no">233</span><span id="line-233">    if (-1 == b1) {</span>
+<span class="source-line-no">233</span><span id="line-233">    if (b1 == -1) {</span>
 <span class="source-line-no">234</span><span id="line-234">      throw new EOFException();</span>
 <span class="source-line-no">235</span><span id="line-235">    }</span>
 <span class="source-line-no">236</span><span id="line-236"></span>

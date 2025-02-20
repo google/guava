@@ -98,7 +98,7 @@
 <span class="source-line-no">085</span><span id="line-85">   * Wraps the {@code setValue} implementation of an {@code Entry} to enforce the class constraint.</span>
 <span class="source-line-no">086</span><span id="line-86">   */</span>
 <span class="source-line-no">087</span><span id="line-87">  private static &lt;B extends @Nullable Object&gt; Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt; checkedEntry(</span>
-<span class="source-line-no">088</span><span id="line-88">      final Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt; entry) {</span>
+<span class="source-line-no">088</span><span id="line-88">      Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt; entry) {</span>
 <span class="source-line-no">089</span><span id="line-89">    return new ForwardingMapEntry&lt;Class&lt;? extends @NonNull B&gt;, B&gt;() {</span>
 <span class="source-line-no">090</span><span id="line-90">      @Override</span>
 <span class="source-line-no">091</span><span id="line-91">      protected Entry&lt;Class&lt;? extends @NonNull B&gt;, B&gt; delegate() {</span>

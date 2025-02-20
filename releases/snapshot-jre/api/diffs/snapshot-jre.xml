@@ -5,7 +5,7 @@
 <api
   xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
   xsi:noNamespaceSchemaLocation='api.xsd'
-  name="Guava HEAD-jre-SNAPSHOT"
+  name="Guava 999.0.0-HEAD-jre-SNAPSHOT"
   jdversion="1.1.1">
 
 <package name="com.google.common.annotations">
@@ -9114,7 +9114,7 @@
  requestCount}, or {@code 0.0} when {@code requestCount == 0}. Note that {@code hitRate +
  missRate =~ 1.0}. Cache misses include all requests which weren't cache hits, including
  requests which resulted in either successful or failed loading attempts, and requests which
- waited for other threads to finish loading. It is thus the case that {@code missCount &gt;=
+ waited for other threads to finish loading. It is thus the case that {@code missCount >=
  loadSuccessCount + loadExceptionCount}. Multiple concurrent misses for the same key will result
  in a single load operation.]]>
       </doc>
@@ -17245,7 +17245,7 @@
     <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Use {@link ImmutableBiMap#toImmutableBiMap}.">
+      deprecated="Use {@link ImmutableBiMap#toImmutableBiMap(Function, Function)}.">
       <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
       <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
       <doc>
@@ -17253,13 +17253,13 @@
  ImmutableMap#toImmutableMap(Function, Function)} from consumers of {@code ImmutableBiMap}.
 
  @throws UnsupportedOperationException always
- @deprecated Use {@link ImmutableBiMap#toImmutableBiMap}.]]>
+ @deprecated Use {@link ImmutableBiMap#toImmutableBiMap(Function, Function)}.]]>
       </doc>
     </method>
     <method name="toImmutableMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableMap&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="deprecated, no comment">
+      deprecated="Merging values does not make sense for a {@code BiMap}.">
       <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
       <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
       <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
@@ -17269,7 +17269,7 @@
  {@code ImmutableBiMap}.
 
  @throws UnsupportedOperationException always
- @deprecated]]>
+ @deprecated Merging values does not make sense for a {@code BiMap}.]]>
       </doc>
     </method>
     <doc>
@@ -30391,7 +30391,13 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Uses a {@link LinkedList} to store value collections.]]>
+      <![CDATA[Uses a {@link LinkedList} to store value collections.
+
+ <p><b>Performance note:</b> {@link ArrayList} and {@link java.util.ArrayDeque} consistently
+ outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
+ spent a lot of time benchmarking your specific needs, use one of those instead. (However, we
+ do not currently offer a {@link Multimap} implementation based on {@link
+ java.util.ArrayDeque}.)]]>
       </doc>
     </method>
     <method name="hashSetValues" return="com.google.common.collect.MultimapBuilder.SetMultimapBuilder&lt;K0, java.lang.Object&gt;"
@@ -37534,16 +37540,6 @@
  @since 10.0 (<a href="https://github.com/google/guava/wiki/Compatibility" >mostly
      source-compatible</a> since 7.0)]]>
       </doc>
-    </method>
-    <method name="rowKeySet" return="java.util.SortedSet&lt;R&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
-    <method name="rowMap" return="java.util.SortedMap&lt;R, java.util.Map&lt;C, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
     </method>
     <doc>
     <![CDATA[Implementation of {@code Table} whose row keys and column keys are ordered by their natural
@@ -56083,14 +56079,6 @@
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
     </field>
-    <field name="AVIF" type="com.google.common.net.MediaType"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[<a href="https://en.wikipedia.org/wiki/AVIF">AVIF image format</a>.]]>
-      </doc>
-    </field>
     <field name="WEBP" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -73469,6 +73457,9 @@
  <p>If, at any step of the process, the calling thread is interrupted, the method calls {@link
  ExecutorService#shutdownNow()} and returns.
 
+ <p>For a version of this method that waits <i>indefinitely</i>, use {@link
+ ExecutorService#close}.
+
  @param service the {@code ExecutorService} to shut down
  @param timeout the maximum time to wait for the {@code ExecutorService} to terminate
  @return {@code true} if the {@code ExecutorService} was terminated successfully, {@code false}
@@ -73499,6 +73490,9 @@
 
  <p>If, at any step of the process, the calling thread is interrupted, the method calls {@link
  ExecutorService#shutdownNow()} and returns.
+
+ <p>For a version of this method that waits <i>indefinitely</i>, use {@link
+ ExecutorService#close}.
 
  @param service the {@code ExecutorService} to shut down
  @param timeout the maximum time to wait for the {@code ExecutorService} to terminate

@@ -389,7 +389,7 @@
 <span class="source-line-no">376</span><span id="line-376">  /** Returns a -1 if unable to parse */</span>
 <span class="source-line-no">377</span><span id="line-377">  private static int tryParseDecimal(String string, int start, int end) {</span>
 <span class="source-line-no">378</span><span id="line-378">    int decimal = 0;</span>
-<span class="source-line-no">379</span><span id="line-379">    final int max = Integer.MAX_VALUE / 10; // for int overflow detection</span>
+<span class="source-line-no">379</span><span id="line-379">    int max = Integer.MAX_VALUE / 10; // for int overflow detection</span>
 <span class="source-line-no">380</span><span id="line-380">    for (int i = start; i &lt; end; i++) {</span>
 <span class="source-line-no">381</span><span id="line-381">      if (decimal &gt; max) {</span>
 <span class="source-line-no">382</span><span id="line-382">        return -1;</span>

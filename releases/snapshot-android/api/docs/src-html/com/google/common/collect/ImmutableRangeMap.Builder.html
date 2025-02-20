@@ -321,7 +321,7 @@
 <span class="source-line-no">308</span><span id="line-308">  }</span>
 <span class="source-line-no">309</span><span id="line-309"></span>
 <span class="source-line-no">310</span><span id="line-310">  @Override</span>
-<span class="source-line-no">311</span><span id="line-311">  public ImmutableRangeMap&lt;K, V&gt; subRangeMap(final Range&lt;K&gt; range) {</span>
+<span class="source-line-no">311</span><span id="line-311">  public ImmutableRangeMap&lt;K, V&gt; subRangeMap(Range&lt;K&gt; range) {</span>
 <span class="source-line-no">312</span><span id="line-312">    if (checkNotNull(range).isEmpty()) {</span>
 <span class="source-line-no">313</span><span id="line-313">      return ImmutableRangeMap.of();</span>
 <span class="source-line-no">314</span><span id="line-314">    } else if (ranges.isEmpty() || range.encloses(span())) {</span>
@@ -344,8 +344,8 @@
 <span class="source-line-no">331</span><span id="line-331">    if (lowerIndex &gt;= upperIndex) {</span>
 <span class="source-line-no">332</span><span id="line-332">      return ImmutableRangeMap.of();</span>
 <span class="source-line-no">333</span><span id="line-333">    }</span>
-<span class="source-line-no">334</span><span id="line-334">    final int off = lowerIndex;</span>
-<span class="source-line-no">335</span><span id="line-335">    final int len = upperIndex - lowerIndex;</span>
+<span class="source-line-no">334</span><span id="line-334">    int off = lowerIndex;</span>
+<span class="source-line-no">335</span><span id="line-335">    int len = upperIndex - lowerIndex;</span>
 <span class="source-line-no">336</span><span id="line-336">    ImmutableList&lt;Range&lt;K&gt;&gt; subRanges =</span>
 <span class="source-line-no">337</span><span id="line-337">        new ImmutableList&lt;Range&lt;K&gt;&gt;() {</span>
 <span class="source-line-no">338</span><span id="line-338">          @Override</span>
@@ -376,7 +376,7 @@
 <span class="source-line-no">363</span><span id="line-363">            return super.writeReplace();</span>
 <span class="source-line-no">364</span><span id="line-364">          }</span>
 <span class="source-line-no">365</span><span id="line-365">        };</span>
-<span class="source-line-no">366</span><span id="line-366">    final ImmutableRangeMap&lt;K, V&gt; outer = this;</span>
+<span class="source-line-no">366</span><span id="line-366">    ImmutableRangeMap&lt;K, V&gt; outer = this;</span>
 <span class="source-line-no">367</span><span id="line-367">    return new ImmutableRangeMap&lt;K, V&gt;(subRanges, values.subList(lowerIndex, upperIndex)) {</span>
 <span class="source-line-no">368</span><span id="line-368">      @Override</span>
 <span class="source-line-no">369</span><span id="line-369">      public ImmutableRangeMap&lt;K, V&gt; subRangeMap(Range&lt;K&gt; subRange) {</span>
@@ -444,7 +444,7 @@
 <span class="source-line-no">431</span><span id="line-431">      return builder.build();</span>
 <span class="source-line-no">432</span><span id="line-432">    }</span>
 <span class="source-line-no">433</span><span id="line-433"></span>
-<span class="source-line-no">434</span><span id="line-434">    private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">434</span><span id="line-434">    @J2ktIncompatible private static final long serialVersionUID = 0;</span>
 <span class="source-line-no">435</span><span id="line-435">  }</span>
 <span class="source-line-no">436</span><span id="line-436"></span>
 <span class="source-line-no">437</span><span id="line-437">  Object writeReplace() {</span>
@@ -456,7 +456,7 @@
 <span class="source-line-no">443</span><span id="line-443">    throw new InvalidObjectException("Use SerializedForm");</span>
 <span class="source-line-no">444</span><span id="line-444">  }</span>
 <span class="source-line-no">445</span><span id="line-445"></span>
-<span class="source-line-no">446</span><span id="line-446">  private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">446</span><span id="line-446">  @J2ktIncompatible private static final long serialVersionUID = 0;</span>
 <span class="source-line-no">447</span><span id="line-447">}</span>
 
 

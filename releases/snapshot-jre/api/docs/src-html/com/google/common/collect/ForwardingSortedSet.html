@@ -66,106 +66,111 @@
 <span class="source-line-no">053</span><span id="line-53"> * @since 2.0</span>
 <span class="source-line-no">054</span><span id="line-54"> */</span>
 <span class="source-line-no">055</span><span id="line-55">@GwtCompatible</span>
-<span class="source-line-no">056</span><span id="line-56">public abstract class ForwardingSortedSet&lt;E extends @Nullable Object&gt; extends ForwardingSet&lt;E&gt;</span>
-<span class="source-line-no">057</span><span id="line-57">    implements SortedSet&lt;E&gt; {</span>
-<span class="source-line-no">058</span><span id="line-58"></span>
-<span class="source-line-no">059</span><span id="line-59">  /** Constructor for use by subclasses. */</span>
-<span class="source-line-no">060</span><span id="line-60">  protected ForwardingSortedSet() {}</span>
-<span class="source-line-no">061</span><span id="line-61"></span>
-<span class="source-line-no">062</span><span id="line-62">  @Override</span>
-<span class="source-line-no">063</span><span id="line-63">  protected abstract SortedSet&lt;E&gt; delegate();</span>
-<span class="source-line-no">064</span><span id="line-64"></span>
-<span class="source-line-no">065</span><span id="line-65">  @Override</span>
-<span class="source-line-no">066</span><span id="line-66">  public @Nullable Comparator&lt;? super E&gt; comparator() {</span>
-<span class="source-line-no">067</span><span id="line-67">    return delegate().comparator();</span>
-<span class="source-line-no">068</span><span id="line-68">  }</span>
+<span class="source-line-no">056</span><span id="line-56">/*</span>
+<span class="source-line-no">057</span><span id="line-57"> * We provide and encourage use of ForwardingNavigableSet over this class, but we still provide this</span>
+<span class="source-line-no">058</span><span id="line-58"> * one to preserve compatibility.</span>
+<span class="source-line-no">059</span><span id="line-59"> */</span>
+<span class="source-line-no">060</span><span id="line-60">@SuppressWarnings("JdkObsolete")</span>
+<span class="source-line-no">061</span><span id="line-61">public abstract class ForwardingSortedSet&lt;E extends @Nullable Object&gt; extends ForwardingSet&lt;E&gt;</span>
+<span class="source-line-no">062</span><span id="line-62">    implements SortedSet&lt;E&gt; {</span>
+<span class="source-line-no">063</span><span id="line-63"></span>
+<span class="source-line-no">064</span><span id="line-64">  /** Constructor for use by subclasses. */</span>
+<span class="source-line-no">065</span><span id="line-65">  protected ForwardingSortedSet() {}</span>
+<span class="source-line-no">066</span><span id="line-66"></span>
+<span class="source-line-no">067</span><span id="line-67">  @Override</span>
+<span class="source-line-no">068</span><span id="line-68">  protected abstract SortedSet&lt;E&gt; delegate();</span>
 <span class="source-line-no">069</span><span id="line-69"></span>
 <span class="source-line-no">070</span><span id="line-70">  @Override</span>
-<span class="source-line-no">071</span><span id="line-71">  @ParametricNullness</span>
-<span class="source-line-no">072</span><span id="line-72">  public E first() {</span>
-<span class="source-line-no">073</span><span id="line-73">    return delegate().first();</span>
-<span class="source-line-no">074</span><span id="line-74">  }</span>
-<span class="source-line-no">075</span><span id="line-75"></span>
-<span class="source-line-no">076</span><span id="line-76">  @Override</span>
-<span class="source-line-no">077</span><span id="line-77">  public SortedSet&lt;E&gt; headSet(@ParametricNullness E toElement) {</span>
-<span class="source-line-no">078</span><span id="line-78">    return delegate().headSet(toElement);</span>
+<span class="source-line-no">071</span><span id="line-71">  public @Nullable Comparator&lt;? super E&gt; comparator() {</span>
+<span class="source-line-no">072</span><span id="line-72">    return delegate().comparator();</span>
+<span class="source-line-no">073</span><span id="line-73">  }</span>
+<span class="source-line-no">074</span><span id="line-74"></span>
+<span class="source-line-no">075</span><span id="line-75">  @Override</span>
+<span class="source-line-no">076</span><span id="line-76">  @ParametricNullness</span>
+<span class="source-line-no">077</span><span id="line-77">  public E first() {</span>
+<span class="source-line-no">078</span><span id="line-78">    return delegate().first();</span>
 <span class="source-line-no">079</span><span id="line-79">  }</span>
 <span class="source-line-no">080</span><span id="line-80"></span>
 <span class="source-line-no">081</span><span id="line-81">  @Override</span>
-<span class="source-line-no">082</span><span id="line-82">  @ParametricNullness</span>
-<span class="source-line-no">083</span><span id="line-83">  public E last() {</span>
-<span class="source-line-no">084</span><span id="line-84">    return delegate().last();</span>
-<span class="source-line-no">085</span><span id="line-85">  }</span>
-<span class="source-line-no">086</span><span id="line-86"></span>
-<span class="source-line-no">087</span><span id="line-87">  @Override</span>
-<span class="source-line-no">088</span><span id="line-88">  public SortedSet&lt;E&gt; subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {</span>
-<span class="source-line-no">089</span><span id="line-89">    return delegate().subSet(fromElement, toElement);</span>
+<span class="source-line-no">082</span><span id="line-82">  public SortedSet&lt;E&gt; headSet(@ParametricNullness E toElement) {</span>
+<span class="source-line-no">083</span><span id="line-83">    return delegate().headSet(toElement);</span>
+<span class="source-line-no">084</span><span id="line-84">  }</span>
+<span class="source-line-no">085</span><span id="line-85"></span>
+<span class="source-line-no">086</span><span id="line-86">  @Override</span>
+<span class="source-line-no">087</span><span id="line-87">  @ParametricNullness</span>
+<span class="source-line-no">088</span><span id="line-88">  public E last() {</span>
+<span class="source-line-no">089</span><span id="line-89">    return delegate().last();</span>
 <span class="source-line-no">090</span><span id="line-90">  }</span>
 <span class="source-line-no">091</span><span id="line-91"></span>
 <span class="source-line-no">092</span><span id="line-92">  @Override</span>
-<span class="source-line-no">093</span><span id="line-93">  public SortedSet&lt;E&gt; tailSet(@ParametricNullness E fromElement) {</span>
-<span class="source-line-no">094</span><span id="line-94">    return delegate().tailSet(fromElement);</span>
+<span class="source-line-no">093</span><span id="line-93">  public SortedSet&lt;E&gt; subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {</span>
+<span class="source-line-no">094</span><span id="line-94">    return delegate().subSet(fromElement, toElement);</span>
 <span class="source-line-no">095</span><span id="line-95">  }</span>
 <span class="source-line-no">096</span><span id="line-96"></span>
-<span class="source-line-no">097</span><span id="line-97">  /**</span>
-<span class="source-line-no">098</span><span id="line-98">   * A sensible definition of {@link #contains} in terms of the {@code first()} method of {@link</span>
-<span class="source-line-no">099</span><span id="line-99">   * #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #contains} to</span>
-<span class="source-line-no">100</span><span id="line-100">   * forward to this implementation.</span>
-<span class="source-line-no">101</span><span id="line-101">   *</span>
-<span class="source-line-no">102</span><span id="line-102">   * @since 7.0</span>
-<span class="source-line-no">103</span><span id="line-103">   */</span>
-<span class="source-line-no">104</span><span id="line-104">  @Override</span>
-<span class="source-line-no">105</span><span id="line-105">  protected boolean standardContains(@Nullable Object object) {</span>
-<span class="source-line-no">106</span><span id="line-106">    try {</span>
-<span class="source-line-no">107</span><span id="line-107">      // any ClassCastExceptions and NullPointerExceptions are caught</span>
-<span class="source-line-no">108</span><span id="line-108">      @SuppressWarnings({"unchecked", "nullness"})</span>
-<span class="source-line-no">109</span><span id="line-109">      SortedSet&lt;@Nullable Object&gt; self = (SortedSet&lt;@Nullable Object&gt;) this;</span>
-<span class="source-line-no">110</span><span id="line-110">      Object ceiling = self.tailSet(object).first();</span>
-<span class="source-line-no">111</span><span id="line-111">      return unsafeCompare(comparator(), ceiling, object) == 0;</span>
-<span class="source-line-no">112</span><span id="line-112">    } catch (ClassCastException | NoSuchElementException | NullPointerException e) {</span>
-<span class="source-line-no">113</span><span id="line-113">      return false;</span>
-<span class="source-line-no">114</span><span id="line-114">    }</span>
-<span class="source-line-no">115</span><span id="line-115">  }</span>
-<span class="source-line-no">116</span><span id="line-116"></span>
-<span class="source-line-no">117</span><span id="line-117">  /**</span>
-<span class="source-line-no">118</span><span id="line-118">   * A sensible definition of {@link #remove} in terms of the {@code iterator()} method of {@link</span>
-<span class="source-line-no">119</span><span id="line-119">   * #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #remove} to</span>
-<span class="source-line-no">120</span><span id="line-120">   * forward to this implementation.</span>
-<span class="source-line-no">121</span><span id="line-121">   *</span>
-<span class="source-line-no">122</span><span id="line-122">   * @since 7.0</span>
-<span class="source-line-no">123</span><span id="line-123">   */</span>
-<span class="source-line-no">124</span><span id="line-124">  @Override</span>
-<span class="source-line-no">125</span><span id="line-125">  protected boolean standardRemove(@Nullable Object object) {</span>
-<span class="source-line-no">126</span><span id="line-126">    try {</span>
-<span class="source-line-no">127</span><span id="line-127">      // any ClassCastExceptions and NullPointerExceptions are caught</span>
-<span class="source-line-no">128</span><span id="line-128">      @SuppressWarnings({"unchecked", "nullness"})</span>
-<span class="source-line-no">129</span><span id="line-129">      SortedSet&lt;@Nullable Object&gt; self = (SortedSet&lt;@Nullable Object&gt;) this;</span>
-<span class="source-line-no">130</span><span id="line-130">      Iterator&lt;?&gt; iterator = self.tailSet(object).iterator();</span>
-<span class="source-line-no">131</span><span id="line-131">      if (iterator.hasNext()) {</span>
-<span class="source-line-no">132</span><span id="line-132">        Object ceiling = iterator.next();</span>
-<span class="source-line-no">133</span><span id="line-133">        if (unsafeCompare(comparator(), ceiling, object) == 0) {</span>
-<span class="source-line-no">134</span><span id="line-134">          iterator.remove();</span>
-<span class="source-line-no">135</span><span id="line-135">          return true;</span>
-<span class="source-line-no">136</span><span id="line-136">        }</span>
-<span class="source-line-no">137</span><span id="line-137">      }</span>
-<span class="source-line-no">138</span><span id="line-138">    } catch (ClassCastException | NullPointerException e) {</span>
-<span class="source-line-no">139</span><span id="line-139">      return false;</span>
-<span class="source-line-no">140</span><span id="line-140">    }</span>
-<span class="source-line-no">141</span><span id="line-141">    return false;</span>
-<span class="source-line-no">142</span><span id="line-142">  }</span>
-<span class="source-line-no">143</span><span id="line-143"></span>
-<span class="source-line-no">144</span><span id="line-144">  /**</span>
-<span class="source-line-no">145</span><span id="line-145">   * A sensible default implementation of {@link #subSet(Object, Object)} in terms of {@link</span>
-<span class="source-line-no">146</span><span id="line-146">   * #headSet(Object)} and {@link #tailSet(Object)}. In some situations, you may wish to override</span>
-<span class="source-line-no">147</span><span id="line-147">   * {@link #subSet(Object, Object)} to forward to this implementation.</span>
-<span class="source-line-no">148</span><span id="line-148">   *</span>
-<span class="source-line-no">149</span><span id="line-149">   * @since 7.0</span>
-<span class="source-line-no">150</span><span id="line-150">   */</span>
-<span class="source-line-no">151</span><span id="line-151">  protected SortedSet&lt;E&gt; standardSubSet(</span>
-<span class="source-line-no">152</span><span id="line-152">      @ParametricNullness E fromElement, @ParametricNullness E toElement) {</span>
-<span class="source-line-no">153</span><span id="line-153">    return tailSet(fromElement).headSet(toElement);</span>
-<span class="source-line-no">154</span><span id="line-154">  }</span>
-<span class="source-line-no">155</span><span id="line-155">}</span>
+<span class="source-line-no">097</span><span id="line-97">  @Override</span>
+<span class="source-line-no">098</span><span id="line-98">  public SortedSet&lt;E&gt; tailSet(@ParametricNullness E fromElement) {</span>
+<span class="source-line-no">099</span><span id="line-99">    return delegate().tailSet(fromElement);</span>
+<span class="source-line-no">100</span><span id="line-100">  }</span>
+<span class="source-line-no">101</span><span id="line-101"></span>
+<span class="source-line-no">102</span><span id="line-102">  /**</span>
+<span class="source-line-no">103</span><span id="line-103">   * A sensible definition of {@link #contains} in terms of the {@code first()} method of {@link</span>
+<span class="source-line-no">104</span><span id="line-104">   * #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #contains} to</span>
+<span class="source-line-no">105</span><span id="line-105">   * forward to this implementation.</span>
+<span class="source-line-no">106</span><span id="line-106">   *</span>
+<span class="source-line-no">107</span><span id="line-107">   * @since 7.0</span>
+<span class="source-line-no">108</span><span id="line-108">   */</span>
+<span class="source-line-no">109</span><span id="line-109">  @Override</span>
+<span class="source-line-no">110</span><span id="line-110">  protected boolean standardContains(@Nullable Object object) {</span>
+<span class="source-line-no">111</span><span id="line-111">    try {</span>
+<span class="source-line-no">112</span><span id="line-112">      // any ClassCastExceptions and NullPointerExceptions are caught</span>
+<span class="source-line-no">113</span><span id="line-113">      @SuppressWarnings({"unchecked", "nullness"})</span>
+<span class="source-line-no">114</span><span id="line-114">      SortedSet&lt;@Nullable Object&gt; self = (SortedSet&lt;@Nullable Object&gt;) this;</span>
+<span class="source-line-no">115</span><span id="line-115">      Object ceiling = self.tailSet(object).first();</span>
+<span class="source-line-no">116</span><span id="line-116">      return unsafeCompare(comparator(), ceiling, object) == 0;</span>
+<span class="source-line-no">117</span><span id="line-117">    } catch (ClassCastException | NoSuchElementException | NullPointerException e) {</span>
+<span class="source-line-no">118</span><span id="line-118">      return false;</span>
+<span class="source-line-no">119</span><span id="line-119">    }</span>
+<span class="source-line-no">120</span><span id="line-120">  }</span>
+<span class="source-line-no">121</span><span id="line-121"></span>
+<span class="source-line-no">122</span><span id="line-122">  /**</span>
+<span class="source-line-no">123</span><span id="line-123">   * A sensible definition of {@link #remove} in terms of the {@code iterator()} method of {@link</span>
+<span class="source-line-no">124</span><span id="line-124">   * #tailSet}. If you override {@link #tailSet}, you may wish to override {@link #remove} to</span>
+<span class="source-line-no">125</span><span id="line-125">   * forward to this implementation.</span>
+<span class="source-line-no">126</span><span id="line-126">   *</span>
+<span class="source-line-no">127</span><span id="line-127">   * @since 7.0</span>
+<span class="source-line-no">128</span><span id="line-128">   */</span>
+<span class="source-line-no">129</span><span id="line-129">  @Override</span>
+<span class="source-line-no">130</span><span id="line-130">  protected boolean standardRemove(@Nullable Object object) {</span>
+<span class="source-line-no">131</span><span id="line-131">    try {</span>
+<span class="source-line-no">132</span><span id="line-132">      // any ClassCastExceptions and NullPointerExceptions are caught</span>
+<span class="source-line-no">133</span><span id="line-133">      @SuppressWarnings({"unchecked", "nullness"})</span>
+<span class="source-line-no">134</span><span id="line-134">      SortedSet&lt;@Nullable Object&gt; self = (SortedSet&lt;@Nullable Object&gt;) this;</span>
+<span class="source-line-no">135</span><span id="line-135">      Iterator&lt;?&gt; iterator = self.tailSet(object).iterator();</span>
+<span class="source-line-no">136</span><span id="line-136">      if (iterator.hasNext()) {</span>
+<span class="source-line-no">137</span><span id="line-137">        Object ceiling = iterator.next();</span>
+<span class="source-line-no">138</span><span id="line-138">        if (unsafeCompare(comparator(), ceiling, object) == 0) {</span>
+<span class="source-line-no">139</span><span id="line-139">          iterator.remove();</span>
+<span class="source-line-no">140</span><span id="line-140">          return true;</span>
+<span class="source-line-no">141</span><span id="line-141">        }</span>
+<span class="source-line-no">142</span><span id="line-142">      }</span>
+<span class="source-line-no">143</span><span id="line-143">    } catch (ClassCastException | NullPointerException e) {</span>
+<span class="source-line-no">144</span><span id="line-144">      return false;</span>
+<span class="source-line-no">145</span><span id="line-145">    }</span>
+<span class="source-line-no">146</span><span id="line-146">    return false;</span>
+<span class="source-line-no">147</span><span id="line-147">  }</span>
+<span class="source-line-no">148</span><span id="line-148"></span>
+<span class="source-line-no">149</span><span id="line-149">  /**</span>
+<span class="source-line-no">150</span><span id="line-150">   * A sensible default implementation of {@link #subSet(Object, Object)} in terms of {@link</span>
+<span class="source-line-no">151</span><span id="line-151">   * #headSet(Object)} and {@link #tailSet(Object)}. In some situations, you may wish to override</span>
+<span class="source-line-no">152</span><span id="line-152">   * {@link #subSet(Object, Object)} to forward to this implementation.</span>
+<span class="source-line-no">153</span><span id="line-153">   *</span>
+<span class="source-line-no">154</span><span id="line-154">   * @since 7.0</span>
+<span class="source-line-no">155</span><span id="line-155">   */</span>
+<span class="source-line-no">156</span><span id="line-156">  protected SortedSet&lt;E&gt; standardSubSet(</span>
+<span class="source-line-no">157</span><span id="line-157">      @ParametricNullness E fromElement, @ParametricNullness E toElement) {</span>
+<span class="source-line-no">158</span><span id="line-158">    return tailSet(fromElement).headSet(toElement);</span>
+<span class="source-line-no">159</span><span id="line-159">  }</span>
+<span class="source-line-no">160</span><span id="line-160">}</span>
 
 
 

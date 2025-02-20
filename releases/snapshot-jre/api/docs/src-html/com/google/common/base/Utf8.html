@@ -177,7 +177,7 @@
 <span class="source-line-no">164</span><span id="line-164">            // Overlong? 5 most significant bits must not all be zero.</span>
 <span class="source-line-no">165</span><span id="line-165">            || (byte1 == (byte) 0xE0 &amp;&amp; byte2 &lt; (byte) 0xA0)</span>
 <span class="source-line-no">166</span><span id="line-166">            // Check for illegal surrogate codepoints.</span>
-<span class="source-line-no">167</span><span id="line-167">            || (byte1 == (byte) 0xED &amp;&amp; (byte) 0xA0 &lt;= byte2)</span>
+<span class="source-line-no">167</span><span id="line-167">            || (byte1 == (byte) 0xED &amp;&amp; byte2 &gt;= (byte) 0xA0)</span>
 <span class="source-line-no">168</span><span id="line-168">            // Third byte trailing-byte test.</span>
 <span class="source-line-no">169</span><span id="line-169">            || bytes[index++] &gt; (byte) 0xBF) {</span>
 <span class="source-line-no">170</span><span id="line-170">          return false;</span>
