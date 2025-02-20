@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>1.0-HEAD-android-SNAPSHOT</version>
+  <version>999.0.0-HEAD-android-SNAPSHOT</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <description>Parent for guava artifacts</description>
@@ -42,7 +42,7 @@
     <module.status>integration</module.status>
     <variant.jvmEnvironment>android</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>android</variant.jvmEnvironmentVariantName>
-    <otherVariant.version>1.0-HEAD-jre-SNAPSHOT</otherVariant.version>
+    <otherVariant.version>999.0.0-HEAD-jre-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmEnvironment>standard-jvm</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>jre</otherVariant.jvmEnvironmentVariantName>
   </properties>
