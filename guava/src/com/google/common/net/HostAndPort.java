@@ -17,13 +17,13 @@ package com.google.common.net;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Strings.isNullOrEmpty;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.CharMatcher;
 import com.google.common.base.Objects;
-import com.google.common.base.Strings;
+import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
@@ -188,19 +188,12 @@ public final class HostAndPort implements Serializable {
       }
     }
 
-    int port = NO_PORT;
-    if (!Strings.isNullOrEmpty(portString)) {
-      // Try to parse the whole port string as a number.
-      // Java accepts leading plus signs. We don't want to.
-      checkArgument(
-          !portString.startsWith("+") && CharMatcher.ascii().matchesAllOf(portString),
-          "Unparseable port number: %s",
-          hostPortString);
-      try {
-        port = Integer.parseInt(portString);
-      } catch (NumberFormatException e) {
-        throw new IllegalArgumentException("Unparseable port number: " + hostPortString);
-      }
+    Integer port;
+    if (isNullOrEmpty(portString)) {
+      port = NO_PORT;
+    } else {
+      port = Ints.tryParse(portString);
+      checkArgument(port != null, "Unparseable port number: %s", hostPortString);
       checkArgument(isValidPort(port), "Port number out of range: %s", hostPortString);
     }
 

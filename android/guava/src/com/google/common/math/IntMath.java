@@ -225,11 +225,11 @@ public final class IntMath {
         return (k == 0) ? 1 : 0;
       case 1:
         return 1;
-      case (-1):
+      case -1:
         return ((k & 1) == 0) ? 1 : -1;
       case 2:
         return (k < Integer.SIZE) ? (1 << k) : 0;
-      case (-2):
+      case -2:
         if (k < Integer.SIZE) {
           return ((k & 1) == 0) ? (1 << k) : -(1 << k);
         } else {
@@ -490,12 +490,12 @@ public final class IntMath {
         return (k == 0) ? 1 : 0;
       case 1:
         return 1;
-      case (-1):
+      case -1:
         return ((k & 1) == 0) ? 1 : -1;
       case 2:
         checkNoOverflow(k < Integer.SIZE - 1, "checkedPow", b, k);
         return 1 << k;
-      case (-2):
+      case -2:
         checkNoOverflow(k < Integer.SIZE, "checkedPow", b, k);
         return ((k & 1) == 0) ? 1 << k : -1 << k;
       default:
@@ -566,14 +566,14 @@ public final class IntMath {
         return (k == 0) ? 1 : 0;
       case 1:
         return 1;
-      case (-1):
+      case -1:
         return ((k & 1) == 0) ? 1 : -1;
       case 2:
         if (k >= Integer.SIZE - 1) {
           return Integer.MAX_VALUE;
         }
         return 1 << k;
-      case (-2):
+      case -2:
         if (k >= Integer.SIZE) {
           return Integer.MAX_VALUE + (k & 1);
         }
@@ -667,7 +667,7 @@ public final class IntMath {
 
   // binomial(biggestBinomials[k], k) fits in an int, but not binomial(biggestBinomials[k]+1,k).
   @VisibleForTesting
-  static int[] biggestBinomials = {
+  static final int[] biggestBinomials = {
     Integer.MAX_VALUE,
     Integer.MAX_VALUE,
     65536,

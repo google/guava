@@ -150,7 +150,7 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
   }
 
   private void setSuccessor(int entry, int succ) {
-    long succMask = (~0L) >>> 32;
+    long succMask = ~0L >>> 32;
     setLink(entry, (link(entry) & ~succMask) | ((succ + 1) & succMask));
   }
 

@@ -267,11 +267,11 @@ public final class LongMath {
           return (k == 0) ? 1 : 0;
         case 1:
           return 1;
-        case (-1):
+        case -1:
           return ((k & 1) == 0) ? 1 : -1;
         case 2:
           return (k < Long.SIZE) ? 1L << k : 0;
-        case (-2):
+        case -2:
           if (k < Long.SIZE) {
             return ((k & 1) == 0) ? 1L << k : -(1L << k);
           } else {
@@ -605,12 +605,12 @@ public final class LongMath {
           return (k == 0) ? 1 : 0;
         case 1:
           return 1;
-        case (-1):
+        case -1:
           return ((k & 1) == 0) ? 1 : -1;
         case 2:
           checkNoOverflow(k < Long.SIZE - 1, "checkedPow", b, k);
           return 1L << k;
-        case (-2):
+        case -2:
           checkNoOverflow(k < Long.SIZE, "checkedPow", b, k);
           return ((k & 1) == 0) ? (1L << k) : (-1L << k);
         default:
@@ -723,14 +723,14 @@ public final class LongMath {
           return (k == 0) ? 1 : 0;
         case 1:
           return 1;
-        case (-1):
+        case -1:
           return ((k & 1) == 0) ? 1 : -1;
         case 2:
           if (k >= Long.SIZE - 1) {
             return Long.MAX_VALUE;
           }
           return 1L << k;
-        case (-2):
+        case -2:
           if (k >= Long.SIZE) {
             return Long.MAX_VALUE + (k & 1);
           }
