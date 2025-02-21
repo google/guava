@@ -1,7 +1,15 @@
 # Futures.getChecked, in both of its variants, is incompatible with proguard.
 
-# Used by AtomicReferenceFieldUpdater and sun.misc.Unsafe
+# Used by AtomicReferenceFieldUpdater, sun.misc.Unsafe, and VarHandle.
+# We could be more precise about which classes these are defined in, but that feels error-prone.
 -keepclassmembers class com.google.common.util.concurrent.AbstractFuture** {
+  *** waiters;
+  *** value;
+  *** listeners;
+  *** thread;
+  *** next;
+}
+-keepclassmembers class com.google.common.util.concurrent.AbstractFutureState** {
   *** waiters;
   *** value;
   *** listeners;
@@ -21,6 +29,9 @@
 # fields. It's safe to allow obfuscation, since the by-name references are
 # already preserved in the -keep statement above.
 -keep,allowshrinking,allowobfuscation class com.google.common.util.concurrent.AbstractFuture** {
+  <fields>;
+}
+-keep,allowshrinking,allowobfuscation class com.google.common.util.concurrent.AbstractFutureState** {
   <fields>;
 }
 

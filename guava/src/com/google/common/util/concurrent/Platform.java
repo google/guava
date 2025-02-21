@@ -18,6 +18,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Thread.currentThread;
 
 import com.google.common.annotations.GwtCompatible;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import org.jspecify.annotations.Nullable;
 
 /** Methods factored out so that they can be emulated differently in GWT. */
@@ -44,6 +47,16 @@ final class Platform {
     if (t instanceof Error && !(t instanceof StackOverflowError)) {
       throw (Error) t;
     }
+  }
+
+  static <V extends @Nullable Object> V get(AbstractFuture<V> future)
+      throws InterruptedException, ExecutionException {
+    return future.blockingGet();
+  }
+
+  static <V extends @Nullable Object> V get(AbstractFuture<V> future, long timeout, TimeUnit unit)
+      throws InterruptedException, ExecutionException, TimeoutException {
+    return future.blockingGet(timeout, unit);
   }
 
   private Platform() {}

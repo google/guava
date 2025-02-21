@@ -133,8 +133,8 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
   private void checkHelperVersion(ClassLoader classLoader, String expectedHelperClassName)
       throws Exception {
     // Make sure we are actually running with the expected helper implementation
-    Class<?> abstractFutureClass = classLoader.loadClass(AbstractFuture.class.getName());
-    Field helperField = abstractFutureClass.getDeclaredField("ATOMIC_HELPER");
+    Class<?> abstractFutureStateClass = classLoader.loadClass(AbstractFutureState.class.getName());
+    Field helperField = abstractFutureStateClass.getDeclaredField("ATOMIC_HELPER");
     helperField.setAccessible(true);
     assertEquals(expectedHelperClassName, helperField.get(null).getClass().getSimpleName());
   }

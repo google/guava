@@ -19,6 +19,8 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Arrays.stream;
+import static java.util.Objects.requireNonNull;
+import static java.util.stream.Stream.concat;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -108,7 +110,9 @@ public final class NullPointerTester {
      * versions of Java, and apparently Unsafe can cause SIGSEGV instead of NPE—almost as if it's
      * not safe.
      */
-    stream(AbstractFuture.class.getDeclaredMethods())
+    concat(
+            stream(AbstractFuture.class.getDeclaredMethods()),
+            stream(requireNonNull(AbstractFuture.class.getSuperclass()).getDeclaredMethods()))
         .filter(
             m ->
                 m.getName().equals("getDoneValue")
