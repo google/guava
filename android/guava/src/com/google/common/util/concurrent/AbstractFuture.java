@@ -65,7 +65,7 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 /*
  * TODO(cpovirk): Do we still need @ReflectionSupport on *this* class now that the fields live in
- * the superclass? Note that Listener (which we also reflect on) still leaves here.
+ * the superclass? Note that Listener (which we also reflect on) still lives here.
  */
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 public abstract class AbstractFuture<V extends @Nullable Object> extends AbstractFutureState<V> {
@@ -126,7 +126,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
     }
   }
 
-  /** Listeners also form a stack through the {@link #listeners} field. */
+  /** Listeners form a Treiber stack through the {@link #listeners} field. */
   static final class Listener {
     static final Listener TOMBSTONE = new Listener();
     // null only for TOMBSTONE
@@ -362,13 +362,13 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
             // care if we are successful or not.
             ListenableFuture<?> futureToPropagateTo = ((DelegatingToFuture) localValue).future;
             if (futureToPropagateTo instanceof Trusted) {
-              // If the future is a TrustedFuture then we specifically avoid calling cancel()
+              // If the future is a Trusted instance then we specifically avoid calling cancel()
               // this has 2 benefits
               // 1. for long chains of futures strung together with setFuture we consume less stack
               // 2. we avoid allocating Cancellation objects at every level of the cancellation
               //    chain
-              // We can only do this for TrustedFuture, because TrustedFuture.cancel is final and
-              // does nothing but delegate to this method.
+              // We can only do this for Trusted, because Trusted implementations of cancel do
+              // nothing but delegate to this method and do not permit user overrides.
               AbstractFuture<?> trusted = (AbstractFuture<?>) futureToPropagateTo;
               localValue = trusted.value();
               if (localValue == null | localValue instanceof DelegatingToFuture) {
@@ -376,7 +376,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
                 continue; // loop back up and try to complete the new future
               }
             } else {
-              // not a TrustedFuture, call cancel directly.
+              // not a Trusted instance, call cancel directly.
               futureToPropagateTo.cancel(mayInterruptIfRunning);
             }
           }
@@ -597,10 +597,10 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
    */
   private static Object getFutureValue(ListenableFuture<?> future) {
     if (future instanceof Trusted) {
-      // Break encapsulation for TrustedFuture instances since we know that subclasses cannot
-      // override .get() (since it is final) and therefore this is equivalent to calling .get()
-      // and unpacking the exceptions like we do below (just much faster because it is a single
-      // field read instead of a read, several branches and possibly creating exceptions).
+      // Break encapsulation for Trusted instances since we know that subclasses cannot override
+      // .get() and therefore this is equivalent to calling .get() and unpacking the exceptions like
+      // we do below (just much faster because it is a single field read instead of a read, several
+      // branches and possibly creating exceptions).
       Object v = ((AbstractFuture<?>) future).value();
       if (v instanceof Cancellation) {
         // If the other future was interrupted, clear the interrupted bit while preserving the cause
