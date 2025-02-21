@@ -280,11 +280,11 @@
 <span class="source-line-no">267</span><span id="line-267">          return (k == 0) ? 1 : 0;</span>
 <span class="source-line-no">268</span><span id="line-268">        case 1:</span>
 <span class="source-line-no">269</span><span id="line-269">          return 1;</span>
-<span class="source-line-no">270</span><span id="line-270">        case (-1):</span>
+<span class="source-line-no">270</span><span id="line-270">        case -1:</span>
 <span class="source-line-no">271</span><span id="line-271">          return ((k &amp; 1) == 0) ? 1 : -1;</span>
 <span class="source-line-no">272</span><span id="line-272">        case 2:</span>
 <span class="source-line-no">273</span><span id="line-273">          return (k &lt; Long.SIZE) ? 1L &lt;&lt; k : 0;</span>
-<span class="source-line-no">274</span><span id="line-274">        case (-2):</span>
+<span class="source-line-no">274</span><span id="line-274">        case -2:</span>
 <span class="source-line-no">275</span><span id="line-275">          if (k &lt; Long.SIZE) {</span>
 <span class="source-line-no">276</span><span id="line-276">            return ((k &amp; 1) == 0) ? 1L &lt;&lt; k : -(1L &lt;&lt; k);</span>
 <span class="source-line-no">277</span><span id="line-277">          } else {</span>
@@ -618,12 +618,12 @@
 <span class="source-line-no">605</span><span id="line-605">          return (k == 0) ? 1 : 0;</span>
 <span class="source-line-no">606</span><span id="line-606">        case 1:</span>
 <span class="source-line-no">607</span><span id="line-607">          return 1;</span>
-<span class="source-line-no">608</span><span id="line-608">        case (-1):</span>
+<span class="source-line-no">608</span><span id="line-608">        case -1:</span>
 <span class="source-line-no">609</span><span id="line-609">          return ((k &amp; 1) == 0) ? 1 : -1;</span>
 <span class="source-line-no">610</span><span id="line-610">        case 2:</span>
 <span class="source-line-no">611</span><span id="line-611">          checkNoOverflow(k &lt; Long.SIZE - 1, "checkedPow", b, k);</span>
 <span class="source-line-no">612</span><span id="line-612">          return 1L &lt;&lt; k;</span>
-<span class="source-line-no">613</span><span id="line-613">        case (-2):</span>
+<span class="source-line-no">613</span><span id="line-613">        case -2:</span>
 <span class="source-line-no">614</span><span id="line-614">          checkNoOverflow(k &lt; Long.SIZE, "checkedPow", b, k);</span>
 <span class="source-line-no">615</span><span id="line-615">          return ((k &amp; 1) == 0) ? (1L &lt;&lt; k) : (-1L &lt;&lt; k);</span>
 <span class="source-line-no">616</span><span id="line-616">        default:</span>
@@ -736,14 +736,14 @@
 <span class="source-line-no">723</span><span id="line-723">          return (k == 0) ? 1 : 0;</span>
 <span class="source-line-no">724</span><span id="line-724">        case 1:</span>
 <span class="source-line-no">725</span><span id="line-725">          return 1;</span>
-<span class="source-line-no">726</span><span id="line-726">        case (-1):</span>
+<span class="source-line-no">726</span><span id="line-726">        case -1:</span>
 <span class="source-line-no">727</span><span id="line-727">          return ((k &amp; 1) == 0) ? 1 : -1;</span>
 <span class="source-line-no">728</span><span id="line-728">        case 2:</span>
 <span class="source-line-no">729</span><span id="line-729">          if (k &gt;= Long.SIZE - 1) {</span>
 <span class="source-line-no">730</span><span id="line-730">            return Long.MAX_VALUE;</span>
 <span class="source-line-no">731</span><span id="line-731">          }</span>
 <span class="source-line-no">732</span><span id="line-732">          return 1L &lt;&lt; k;</span>
-<span class="source-line-no">733</span><span id="line-733">        case (-2):</span>
+<span class="source-line-no">733</span><span id="line-733">        case -2:</span>
 <span class="source-line-no">734</span><span id="line-734">          if (k &gt;= Long.SIZE) {</span>
 <span class="source-line-no">735</span><span id="line-735">            return Long.MAX_VALUE + (k &amp; 1);</span>
 <span class="source-line-no">736</span><span id="line-736">          }</span>

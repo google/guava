@@ -238,11 +238,11 @@
 <span class="source-line-no">225</span><span id="line-225">        return (k == 0) ? 1 : 0;</span>
 <span class="source-line-no">226</span><span id="line-226">      case 1:</span>
 <span class="source-line-no">227</span><span id="line-227">        return 1;</span>
-<span class="source-line-no">228</span><span id="line-228">      case (-1):</span>
+<span class="source-line-no">228</span><span id="line-228">      case -1:</span>
 <span class="source-line-no">229</span><span id="line-229">        return ((k &amp; 1) == 0) ? 1 : -1;</span>
 <span class="source-line-no">230</span><span id="line-230">      case 2:</span>
 <span class="source-line-no">231</span><span id="line-231">        return (k &lt; Integer.SIZE) ? (1 &lt;&lt; k) : 0;</span>
-<span class="source-line-no">232</span><span id="line-232">      case (-2):</span>
+<span class="source-line-no">232</span><span id="line-232">      case -2:</span>
 <span class="source-line-no">233</span><span id="line-233">        if (k &lt; Integer.SIZE) {</span>
 <span class="source-line-no">234</span><span id="line-234">          return ((k &amp; 1) == 0) ? (1 &lt;&lt; k) : -(1 &lt;&lt; k);</span>
 <span class="source-line-no">235</span><span id="line-235">        } else {</span>
@@ -503,12 +503,12 @@
 <span class="source-line-no">490</span><span id="line-490">        return (k == 0) ? 1 : 0;</span>
 <span class="source-line-no">491</span><span id="line-491">      case 1:</span>
 <span class="source-line-no">492</span><span id="line-492">        return 1;</span>
-<span class="source-line-no">493</span><span id="line-493">      case (-1):</span>
+<span class="source-line-no">493</span><span id="line-493">      case -1:</span>
 <span class="source-line-no">494</span><span id="line-494">        return ((k &amp; 1) == 0) ? 1 : -1;</span>
 <span class="source-line-no">495</span><span id="line-495">      case 2:</span>
 <span class="source-line-no">496</span><span id="line-496">        checkNoOverflow(k &lt; Integer.SIZE - 1, "checkedPow", b, k);</span>
 <span class="source-line-no">497</span><span id="line-497">        return 1 &lt;&lt; k;</span>
-<span class="source-line-no">498</span><span id="line-498">      case (-2):</span>
+<span class="source-line-no">498</span><span id="line-498">      case -2:</span>
 <span class="source-line-no">499</span><span id="line-499">        checkNoOverflow(k &lt; Integer.SIZE, "checkedPow", b, k);</span>
 <span class="source-line-no">500</span><span id="line-500">        return ((k &amp; 1) == 0) ? 1 &lt;&lt; k : -1 &lt;&lt; k;</span>
 <span class="source-line-no">501</span><span id="line-501">      default:</span>
@@ -579,14 +579,14 @@
 <span class="source-line-no">566</span><span id="line-566">        return (k == 0) ? 1 : 0;</span>
 <span class="source-line-no">567</span><span id="line-567">      case 1:</span>
 <span class="source-line-no">568</span><span id="line-568">        return 1;</span>
-<span class="source-line-no">569</span><span id="line-569">      case (-1):</span>
+<span class="source-line-no">569</span><span id="line-569">      case -1:</span>
 <span class="source-line-no">570</span><span id="line-570">        return ((k &amp; 1) == 0) ? 1 : -1;</span>
 <span class="source-line-no">571</span><span id="line-571">      case 2:</span>
 <span class="source-line-no">572</span><span id="line-572">        if (k &gt;= Integer.SIZE - 1) {</span>
 <span class="source-line-no">573</span><span id="line-573">          return Integer.MAX_VALUE;</span>
 <span class="source-line-no">574</span><span id="line-574">        }</span>
 <span class="source-line-no">575</span><span id="line-575">        return 1 &lt;&lt; k;</span>
-<span class="source-line-no">576</span><span id="line-576">      case (-2):</span>
+<span class="source-line-no">576</span><span id="line-576">      case -2:</span>
 <span class="source-line-no">577</span><span id="line-577">        if (k &gt;= Integer.SIZE) {</span>
 <span class="source-line-no">578</span><span id="line-578">          return Integer.MAX_VALUE + (k &amp; 1);</span>
 <span class="source-line-no">579</span><span id="line-579">        }</span>
@@ -680,7 +680,7 @@
 <span class="source-line-no">667</span><span id="line-667"></span>
 <span class="source-line-no">668</span><span id="line-668">  // binomial(biggestBinomials[k], k) fits in an int, but not binomial(biggestBinomials[k]+1,k).</span>
 <span class="source-line-no">669</span><span id="line-669">  @VisibleForTesting</span>
-<span class="source-line-no">670</span><span id="line-670">  static int[] biggestBinomials = {</span>
+<span class="source-line-no">670</span><span id="line-670">  static final int[] biggestBinomials = {</span>
 <span class="source-line-no">671</span><span id="line-671">    Integer.MAX_VALUE,</span>
 <span class="source-line-no">672</span><span id="line-672">    Integer.MAX_VALUE,</span>
 <span class="source-line-no">673</span><span id="line-673">    65536,</span>

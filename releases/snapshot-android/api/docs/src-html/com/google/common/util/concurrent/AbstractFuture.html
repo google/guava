@@ -78,7 +78,7 @@
 <span class="source-line-no">065</span><span id="line-65">@GwtCompatible</span>
 <span class="source-line-no">066</span><span id="line-66">/*</span>
 <span class="source-line-no">067</span><span id="line-67"> * TODO(cpovirk): Do we still need @ReflectionSupport on *this* class now that the fields live in</span>
-<span class="source-line-no">068</span><span id="line-68"> * the superclass? Note that Listener (which we also reflect on) still leaves here.</span>
+<span class="source-line-no">068</span><span id="line-68"> * the superclass? Note that Listener (which we also reflect on) still lives here.</span>
 <span class="source-line-no">069</span><span id="line-69"> */</span>
 <span class="source-line-no">070</span><span id="line-70">@ReflectionSupport(value = ReflectionSupport.Level.FULL)</span>
 <span class="source-line-no">071</span><span id="line-71">public abstract class AbstractFuture&lt;V extends @Nullable Object&gt; extends AbstractFutureState&lt;V&gt; {</span>
@@ -139,7 +139,7 @@
 <span class="source-line-no">126</span><span id="line-126">    }</span>
 <span class="source-line-no">127</span><span id="line-127">  }</span>
 <span class="source-line-no">128</span><span id="line-128"></span>
-<span class="source-line-no">129</span><span id="line-129">  /** Listeners also form a stack through the {@link #listeners} field. */</span>
+<span class="source-line-no">129</span><span id="line-129">  /** Listeners form a Treiber stack through the {@link #listeners} field. */</span>
 <span class="source-line-no">130</span><span id="line-130">  static final class Listener {</span>
 <span class="source-line-no">131</span><span id="line-131">    static final Listener TOMBSTONE = new Listener();</span>
 <span class="source-line-no">132</span><span id="line-132">    // null only for TOMBSTONE</span>
@@ -375,13 +375,13 @@
 <span class="source-line-no">362</span><span id="line-362">            // care if we are successful or not.</span>
 <span class="source-line-no">363</span><span id="line-363">            ListenableFuture&lt;?&gt; futureToPropagateTo = ((DelegatingToFuture) localValue).future;</span>
 <span class="source-line-no">364</span><span id="line-364">            if (futureToPropagateTo instanceof Trusted) {</span>
-<span class="source-line-no">365</span><span id="line-365">              // If the future is a TrustedFuture then we specifically avoid calling cancel()</span>
+<span class="source-line-no">365</span><span id="line-365">              // If the future is a Trusted instance then we specifically avoid calling cancel()</span>
 <span class="source-line-no">366</span><span id="line-366">              // this has 2 benefits</span>
 <span class="source-line-no">367</span><span id="line-367">              // 1. for long chains of futures strung together with setFuture we consume less stack</span>
 <span class="source-line-no">368</span><span id="line-368">              // 2. we avoid allocating Cancellation objects at every level of the cancellation</span>
 <span class="source-line-no">369</span><span id="line-369">              //    chain</span>
-<span class="source-line-no">370</span><span id="line-370">              // We can only do this for TrustedFuture, because TrustedFuture.cancel is final and</span>
-<span class="source-line-no">371</span><span id="line-371">              // does nothing but delegate to this method.</span>
+<span class="source-line-no">370</span><span id="line-370">              // We can only do this for Trusted, because Trusted implementations of cancel do</span>
+<span class="source-line-no">371</span><span id="line-371">              // nothing but delegate to this method and do not permit user overrides.</span>
 <span class="source-line-no">372</span><span id="line-372">              AbstractFuture&lt;?&gt; trusted = (AbstractFuture&lt;?&gt;) futureToPropagateTo;</span>
 <span class="source-line-no">373</span><span id="line-373">              localValue = trusted.value();</span>
 <span class="source-line-no">374</span><span id="line-374">              if (localValue == null | localValue instanceof DelegatingToFuture) {</span>
@@ -389,7 +389,7 @@
 <span class="source-line-no">376</span><span id="line-376">                continue; // loop back up and try to complete the new future</span>
 <span class="source-line-no">377</span><span id="line-377">              }</span>
 <span class="source-line-no">378</span><span id="line-378">            } else {</span>
-<span class="source-line-no">379</span><span id="line-379">              // not a TrustedFuture, call cancel directly.</span>
+<span class="source-line-no">379</span><span id="line-379">              // not a Trusted instance, call cancel directly.</span>
 <span class="source-line-no">380</span><span id="line-380">              futureToPropagateTo.cancel(mayInterruptIfRunning);</span>
 <span class="source-line-no">381</span><span id="line-381">            }</span>
 <span class="source-line-no">382</span><span id="line-382">          }</span>
@@ -610,10 +610,10 @@
 <span class="source-line-no">597</span><span id="line-597">   */</span>
 <span class="source-line-no">598</span><span id="line-598">  private static Object getFutureValue(ListenableFuture&lt;?&gt; future) {</span>
 <span class="source-line-no">599</span><span id="line-599">    if (future instanceof Trusted) {</span>
-<span class="source-line-no">600</span><span id="line-600">      // Break encapsulation for TrustedFuture instances since we know that subclasses cannot</span>
-<span class="source-line-no">601</span><span id="line-601">      // override .get() (since it is final) and therefore this is equivalent to calling .get()</span>
-<span class="source-line-no">602</span><span id="line-602">      // and unpacking the exceptions like we do below (just much faster because it is a single</span>
-<span class="source-line-no">603</span><span id="line-603">      // field read instead of a read, several branches and possibly creating exceptions).</span>
+<span class="source-line-no">600</span><span id="line-600">      // Break encapsulation for Trusted instances since we know that subclasses cannot override</span>
+<span class="source-line-no">601</span><span id="line-601">      // .get() and therefore this is equivalent to calling .get() and unpacking the exceptions like</span>
+<span class="source-line-no">602</span><span id="line-602">      // we do below (just much faster because it is a single field read instead of a read, several</span>
+<span class="source-line-no">603</span><span id="line-603">      // branches and possibly creating exceptions).</span>
 <span class="source-line-no">604</span><span id="line-604">      Object v = ((AbstractFuture&lt;?&gt;) future).value();</span>
 <span class="source-line-no">605</span><span id="line-605">      if (v instanceof Cancellation) {</span>
 <span class="source-line-no">606</span><span id="line-606">        // If the other future was interrupted, clear the interrupted bit while preserving the cause</span>
