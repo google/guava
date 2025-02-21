@@ -28,5 +28,14 @@ final class Platform {
 
   static void restoreInterruptIfIsInterruptedException(Throwable t) {}
 
+  static void interruptCurrentThread() {}
+
+  static void rethrowIfErrorOtherThanStackOverflow(Throwable t) {
+    if (t instanceof Error) {
+      // There is no StackOverflowError under GWT/J2CL.
+      throw (Error) t;
+    }
+  }
+
   private Platform() {}
 }

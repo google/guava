@@ -35,5 +35,16 @@ final class Platform {
     }
   }
 
+  static void interruptCurrentThread() {
+    Thread.currentThread().interrupt();
+  }
+
+  static void rethrowIfErrorOtherThanStackOverflow(Throwable t) {
+    checkNotNull(t);
+    if (t instanceof Error && !(t instanceof StackOverflowError)) {
+      throw (Error) t;
+    }
+  }
+
   private Platform() {}
 }
