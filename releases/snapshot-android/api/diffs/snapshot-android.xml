@@ -65048,11 +65048,10 @@
   </class>
   <!-- end class com.google.common.util.concurrent.AbstractExecutionThreadService -->
   <!-- start class com.google.common.util.concurrent.AbstractFuture -->
-  <class name="AbstractFuture" extends="com.google.common.util.concurrent.internal.InternalFutureFailureAccess"
+  <class name="AbstractFuture" extends="com.google.common.util.concurrent.AbstractFutureState&lt;V&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
     <constructor name="AbstractFuture"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">

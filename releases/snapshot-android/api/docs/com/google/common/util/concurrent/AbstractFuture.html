@@ -112,11 +112,10 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a></code>, <code><a href="SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="annotations"><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
+<div class="type-signature"><span class="annotations"><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 <a href="https://javadoc.io/doc/com.google.j2objc/j2objc-annotations/latest/com/google/j2objc/annotations/ReflectionSupport.html" title="class or interface in com.google.j2objc.annotations" class="external-link">@ReflectionSupport</a>(<a href="https://javadoc.io/doc/com.google.j2objc/j2objc-annotations/latest/com/google/j2objc/annotations/ReflectionSupport.Level.html#FULL" title="class or interface in com.google.j2objc.annotations" class="external-link">FULL</a>)
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-75">AbstractFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="extends-implements">extends com.google.common.util.concurrent.internal.InternalFutureFailureAccess
-implements <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;V&gt;</span></div>
+</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-64">AbstractFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="extends-implements">extends com.google.common.util.concurrent.internal.InternalFutureFailureAccess</span></div>
 <div class="block">An abstract implementation of <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>, intended for advanced users only. More
  common ways to create a <code>ListenableFuture</code> include instantiating a <a href="SettableFuture.html" title="class in com.google.common.util.concurrent"><code>SettableFuture</code></a>,
  submitting a task to a <a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent"><code>ListeningExecutorService</code></a>, and deriving a <code>Future</code> from an
@@ -268,7 +267,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <section class="detail" id="&lt;init&gt;()">
 <h3>AbstractFuture</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-266">AbstractFuture</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-223">AbstractFuture</a></span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -286,7 +285,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <h3>get</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-300">get</a></span><wbr><span class="parameters">(long&nbsp;timeout,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-233">get</a></span><wbr><span class="parameters">(long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a>,
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeoutException.html" title="class or interface in java.util.concurrent" class="external-link">TimeoutException</a>,
@@ -295,10 +294,6 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 
  <p>The default <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a> implementation throws <code>InterruptedException</code> if the
  current thread is interrupted during the call, even if the value is already available.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#get(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent" class="external-link">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
-</dl>
 </div>
 </section>
 </li>
@@ -307,17 +302,13 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <h3>get</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-417">get</a></span>()
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-249">get</a></span>()
       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a>,
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
 <div class="block">
 
  <p>The default <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent"><code>AbstractFuture</code></a> implementation throws <code>InterruptedException</code> if the
  current thread is interrupted during the call, even if the value is already available.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#get()" title="class or interface in java.util.concurrent" class="external-link">get</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
-</dl>
 </div>
 </section>
 </li>
@@ -325,11 +316,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <section class="detail" id="isDone()">
 <h3>isDone</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-684">isDone</a></span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isDone()" title="class or interface in java.util.concurrent" class="external-link">isDone</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-301">isDone</a></span>()</div>
 </div>
 </section>
 </li>
@@ -337,11 +324,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <section class="detail" id="isCancelled()">
 <h3>isCancelled</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-690">isCancelled</a></span>()</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isCancelled()" title="class or interface in java.util.concurrent" class="external-link">isCancelled</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
-</dl>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-307">isCancelled</a></span>()</div>
 </div>
 </section>
 </li>
@@ -350,7 +333,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <h3>cancel</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-712">cancel</a></span><wbr><span class="parameters">(boolean&nbsp;mayInterruptIfRunning)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-329">cancel</a></span><wbr><span class="parameters">(boolean&nbsp;mayInterruptIfRunning)</span></div>
 <div class="block">
 
  <p>If a cancellation attempt succeeds on a <code>Future</code> that had previously been <a href="#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>, then the cancellation will also be propagated to the delegate
@@ -363,10 +346,6 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 
  <p>Beware of completing a future while holding a lock. Its listeners may do slow work or
  acquire other locks, risking deadlocks.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#cancel(boolean)" title="class or interface in java.util.concurrent" class="external-link">cancel</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
-</dl>
 </div>
 </section>
 </li>
@@ -374,7 +353,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <section class="detail" id="interruptTask()">
 <h3>interruptTask</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-793">interruptTask</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-410">interruptTask</a></span>()</div>
 <div class="block">Subclasses can override this method to implement interruption of the future's computation. The
  method is invoked automatically by a successful call to <a href="#cancel(boolean)"><code>cancel(true)</code></a>.
 
@@ -393,7 +372,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <section class="detail" id="wasInterrupted()">
 <h3>wasInterrupted</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-801">wasInterrupted</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-418">wasInterrupted</a></span>()</div>
 <div class="block">Returns true if this future was cancelled with <code>mayInterruptIfRunning</code> set to <code>
  true</code>.</div>
 <dl class="notes">
@@ -407,7 +386,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <section class="detail" id="addListener(java.lang.Runnable,java.util.concurrent.Executor)">
 <h3>addListener</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-811">addListener</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;listener,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-428">addListener</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Runnable.html" title="class or interface in java.lang" class="external-link">Runnable</a>&nbsp;listener,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Registers a listener to be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="external-link">run</a> on the given executor.
  The listener will run when the <code>Future</code>'s computation is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isDone()" title="class or interface in java.util.concurrent" class="external-link">complete</a> or, if the computation is already complete, immediately.
@@ -433,8 +412,6 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
  <p>Guava implementations of <code>ListenableFuture</code> promptly release references to listeners
  after executing them.</div>
 <dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="ListenableFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)">addListener</a></code>&nbsp;in interface&nbsp;<code><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 <dt>Parameters:</dt>
 <dd><code>listener</code> - the listener to run when the computation is complete</dd>
 <dd><code>executor</code> - the executor to run the listener in</dd>
@@ -449,7 +426,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <h3 id="set(java.lang.Object)">set</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-857">set</a></span><wbr><span class="parameters">(<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;value)</span></div>
+</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-474">set</a></span><wbr><span class="parameters">(<a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&nbsp;value)</span></div>
 <div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
  set (including <a href="#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this method returns,
  the <code>Future</code> is guaranteed to be <a href="#isDone()">done</a> <b>only if</b> the call was
@@ -474,7 +451,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <h3>setException</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-882">setException</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;throwable)</span></div>
+</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-499">setException</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;throwable)</span></div>
 <div class="block">Sets the failed result of this <code>Future</code> unless this <code>Future</code> has already been
  cancelled or set (including <a href="#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this
  method returns, the <code>Future</code> is guaranteed to be <a href="#isDone()">done</a> <b>only if</b>
@@ -499,7 +476,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <h3>setFuture</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-921">setFuture</a></span><wbr><span class="parameters">(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&gt;&nbsp;future)</span></div>
+</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-538">setFuture</a></span><wbr><span class="parameters">(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="AbstractFuture.html" title="type parameter in AbstractFuture">V</a>&gt;&nbsp;future)</span></div>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
  supplied <code>Future</code> is done, unless this <code>Future</code> has already been cancelled or set
  (including "set asynchronously," defined below).
@@ -539,7 +516,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <h3>afterDone</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@ForOverride</a>
-</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-1155">afterDone</a></span>()</div>
+</span><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-772">afterDone</a></span>()</div>
 <div class="block">Callback method that is called exactly once after the future is completed.
 
  <p>If <a href="#interruptTask()"><code>interruptTask()</code></a> is also run during completion, <a href="#afterDone()"><code>afterDone()</code></a> runs after it.
@@ -558,7 +535,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <section class="detail" id="tryInternalFastPathGetFailure()">
 <h3>tryInternalFastPathGetFailure</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-1179">tryInternalFastPathGetFailure</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-796">tryInternalFastPathGetFailure</a></span>()</div>
 <div class="block">Usually returns <code>null</code> but, if this <code>Future</code> has failed, may <i>optionally</i>
  return the cause of the failure. "Failure" means specifically "completed with an exception"; it
  does not include "was cancelled." To be explicit: If this method returns a non-null value,
@@ -587,7 +564,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-1229">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-846">toString</a></span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
@@ -599,7 +576,7 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 <section class="detail" id="pendingToString()">
 <h3>pendingToString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-1255">pendingToString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AbstractFuture.html#line-872">pendingToString</a></span>()</div>
 <div class="block">Provide a human-readable explanation of why this future has not yet completed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
