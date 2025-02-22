@@ -43,9 +43,23 @@ public class RegularImmutableTableTest extends AbstractImmutableTableTest {
   private static final DenseImmutableTable<Character, Integer, String> DENSE =
       new DenseImmutableTable<>(CELLS.asList(), ROW_SPACE, COLUMN_SPACE);
 
+  private static final ImmutableSet<Character> ROW_SORTED_SPACE = ImmutableSortedSet.of('a', 'b');
+
+  private static final ImmutableSet<Integer> COLUMN_SORTED_SPACE = ImmutableSortedSet.of(1, 2);
+
+  private static final SparseImmutableTable<Character, Integer, String> SPARSE_SORTED =
+      new SparseImmutableTable<>(CELLS.asList(), ROW_SORTED_SPACE, COLUMN_SORTED_SPACE);
+
+  private static final DenseImmutableTable<Character, Integer, String> DENSE_SORTED =
+      new DenseImmutableTable<>(CELLS.asList(), ROW_SORTED_SPACE, COLUMN_SORTED_SPACE);
+
   @Override
   Iterable<ImmutableTable<Character, Integer, String>> getTestInstances() {
     return ImmutableList.<ImmutableTable<Character, Integer, String>>of(SPARSE, DENSE);
+  }
+
+  Iterable<ImmutableTable<Character, Integer, String>> getTestInstancesSortedmap() {
+    return ImmutableList.<ImmutableTable<Character, Integer, String>>of(SPARSE_SORTED, DENSE_SORTED);
   }
 
   public void testCellSet() {
@@ -170,6 +184,18 @@ public class RegularImmutableTableTest extends AbstractImmutableTableTest {
       assertEquals(
           ImmutableMap.of('a', ImmutableMap.of(1, "foo", 2, "baz"), 'b', ImmutableMap.of(1, "bar")),
           testInstance.rowMap());
+    }
+  }
+
+  public void testRowMapUniqueObjectForRegularImmutableMap() {
+    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstances()) {
+      assertSame(testInstance.rowMap(), testInstance.rowMap());
+    }
+  }
+
+  public void testRowMapUniqueObjectForSortedMap() {
+    for (ImmutableTable<Character, Integer, String> testInstance : getTestInstancesSortedmap()) {
+      assertSame(testInstance.rowMap(), testInstance.rowMap());
     }
   }
 }
