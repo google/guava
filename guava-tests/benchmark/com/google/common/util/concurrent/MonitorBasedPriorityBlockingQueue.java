@@ -57,7 +57,7 @@ import org.jspecify.annotations.Nullable;
  * <pre>
  * class FIFOEntry&lt;E extends Comparable&lt;? super E&gt;&gt;
  *     implements Comparable&lt;FIFOEntry&lt;E&gt;&gt; {
- *   final static AtomicLong seq = new AtomicLong();
+ *   static final AtomicLong seq = new AtomicLong();
  *   final long seqNum;
  *   final E entry;
  *   public FIFOEntry(E entry) {
