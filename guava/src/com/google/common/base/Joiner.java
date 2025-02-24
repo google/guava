@@ -305,7 +305,7 @@ public class Joiner {
     return new Joiner(this) {
       @Override
       @SuppressWarnings("JoinIterableIterator") // suggests infinite recursion
-      public String join(Iterable<? extends @Nullable Object> parts) {
+      public String join(Iterable<?> parts) {
         return join(parts.iterator());
       }
 
