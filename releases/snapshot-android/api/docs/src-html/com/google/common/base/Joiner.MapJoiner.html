@@ -278,7 +278,7 @@
 <span class="source-line-no">265</span><span id="line-265">    return new Joiner(this) {</span>
 <span class="source-line-no">266</span><span id="line-266">      @Override</span>
 <span class="source-line-no">267</span><span id="line-267">      @SuppressWarnings("JoinIterableIterator") // suggests infinite recursion</span>
-<span class="source-line-no">268</span><span id="line-268">      public String join(Iterable&lt;? extends @Nullable Object&gt; parts) {</span>
+<span class="source-line-no">268</span><span id="line-268">      public String join(Iterable&lt;?&gt; parts) {</span>
 <span class="source-line-no">269</span><span id="line-269">        return join(parts.iterator());</span>
 <span class="source-line-no">270</span><span id="line-270">      }</span>
 <span class="source-line-no">271</span><span id="line-271"></span>

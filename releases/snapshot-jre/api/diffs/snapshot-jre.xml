@@ -25141,7 +25141,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="iterable" type="java.lang.Iterable&lt;? extends java.lang.Object&gt;"/>
+      <param name="iterable" type="java.lang.Iterable&lt;?&gt;"/>
       <param name="element" type="Object"/>
       <doc>
       <![CDATA[Returns {@code true} if {@code iterable} contains any element {@code o} for which {@code
