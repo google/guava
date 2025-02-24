@@ -370,7 +370,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     ATOMIC_HELPER = helper;
 
     // Prevent rare disastrous classloading in first call to LockSupport.park.
-    // See: https://bugs.openjdk.java.net/browse/JDK-8074773
+    // See: https://bugs.openjdk.org/browse/JDK-8074773
     @SuppressWarnings("unused")
     Class<?> ensureLoaded = LockSupport.class;
 

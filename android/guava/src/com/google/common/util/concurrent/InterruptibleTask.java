@@ -36,7 +36,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
     extends AtomicReference<@Nullable Runnable> implements Runnable {
   static {
     // Prevent rare disastrous classloading in first call to LockSupport.park.
-    // See: https://bugs.openjdk.java.net/browse/JDK-8074773
+    // See: https://bugs.openjdk.org/browse/JDK-8074773
     @SuppressWarnings("unused")
     Class<?> ensureLoaded = LockSupport.class;
   }
@@ -203,7 +203,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
       if (compareAndSet(currentRunner, blocker)) {
         // Thread.interrupt can throw arbitrary exceptions due to the nio InterruptibleChannel API
         // This will make sure that tasks don't get stuck busy waiting.
-        // Some of this is fixed in jdk11 (see https://bugs.openjdk.java.net/browse/JDK-8198692) but
+        // Some of this is fixed in jdk11 (see https://bugs.openjdk.org/browse/JDK-8198692) but
         // not all.  See the test cases for examples on how this can happen.
         try {
           ((Thread) currentRunner).interrupt();
