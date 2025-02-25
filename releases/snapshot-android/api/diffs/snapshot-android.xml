@@ -18462,8 +18462,8 @@
  ("constant lists"). Example:
 
  <pre>{@code
- public static final ImmutableList<Color> GOOGLE_COLORS
-     = new ImmutableList.Builder<Color>()
+ public static final ImmutableList<Color> GOOGLE_COLORS =
+     new ImmutableList.Builder<Color>()
          .addAll(WEBSAFE_COLORS)
          .add(new Color(0, 191, 255))
          .build();
@@ -28401,12 +28401,7 @@
 
  <pre>{@code
  Map<String, Integer> map = ImmutableMap.of("a", 4, "b", 9);
- Function<Integer, Double> sqrt =
-     new Function<Integer, Double>() {
-       public Double apply(Integer in) {
-         return Math.sqrt((int) in);
-       }
-     };
+ Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
  Map<String, Double> transformed = Maps.transformValues(map, sqrt);
  System.out.println(transformed);
  }</pre>
@@ -28441,12 +28436,7 @@
 
  <pre>{@code
  SortedMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
- Function<Integer, Double> sqrt =
-     new Function<Integer, Double>() {
-       public Double apply(Integer in) {
-         return Math.sqrt((int) in);
-       }
-     };
+ Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
  SortedMap<String, Double> transformed =
       Maps.transformValues(map, sqrt);
  System.out.println(transformed);
@@ -28486,12 +28476,7 @@
  NavigableMap<String, Integer> map = Maps.newTreeMap();
  map.put("a", 4);
  map.put("b", 9);
- Function<Integer, Double> sqrt =
-     new Function<Integer, Double>() {
-       public Double apply(Integer in) {
-         return Math.sqrt((int) in);
-       }
-     };
+ Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
  NavigableMap<String, Double> transformed =
       Maps.transformNavigableValues(map, sqrt);
  System.out.println(transformed);
@@ -30881,14 +30866,9 @@
  code:
 
  <pre>{@code
- ListMultimap<String, Integer> multimap
-      = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
- Function<Integer, Double> sqrt =
-     new Function<Integer, Double>() {
-       public Double apply(Integer in) {
-         return Math.sqrt((int) in);
-       }
-     };
+ ListMultimap<String, Integer> multimap =
+      ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
+ Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
  ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
      sqrt);
  System.out.println(transformed);

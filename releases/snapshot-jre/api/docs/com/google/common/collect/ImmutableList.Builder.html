@@ -104,8 +104,8 @@ loadScripts(document, 'script');</script>
  ("constant lists"). Example:
 
  <pre><code>
- public static final ImmutableList&lt;Color&gt; GOOGLE_COLORS
-     = new ImmutableList.Builder&lt;Color&gt;()
+ public static final ImmutableList&lt;Color&gt; GOOGLE_COLORS =
+     new ImmutableList.Builder&lt;Color&gt;()
          .addAll(WEBSAFE_COLORS)
          .add(new Color(0, 191, 255))
          .build();

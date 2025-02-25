@@ -1338,7 +1338,7 @@
 <span class="source-line-no">1325</span><span id="line-1325">      Multimap&lt;K, V2&gt; transformValues(</span>
 <span class="source-line-no">1326</span><span id="line-1326">          Multimap&lt;K, V1&gt; fromMultimap, Function&lt;? super V1, V2&gt; function) {</span>
 <span class="source-line-no">1327</span><span id="line-1327">    checkNotNull(function);</span>
-<span class="source-line-no">1328</span><span id="line-1328">    EntryTransformer&lt;K, V1, V2&gt; transformer = Maps.asEntryTransformer(function);</span>
+<span class="source-line-no">1328</span><span id="line-1328">    EntryTransformer&lt;K, V1, V2&gt; transformer = (key, value) -&gt; function.apply(value);</span>
 <span class="source-line-no">1329</span><span id="line-1329">    return transformEntries(fromMultimap, transformer);</span>
 <span class="source-line-no">1330</span><span id="line-1330">  }</span>
 <span class="source-line-no">1331</span><span id="line-1331"></span>
@@ -1348,906 +1348,902 @@
 <span class="source-line-no">1335</span><span id="line-1335">   * code:</span>
 <span class="source-line-no">1336</span><span id="line-1336">   *</span>
 <span class="source-line-no">1337</span><span id="line-1337">   * &lt;pre&gt;{@code</span>
-<span class="source-line-no">1338</span><span id="line-1338">   * ListMultimap&lt;String, Integer&gt; multimap</span>
-<span class="source-line-no">1339</span><span id="line-1339">   *      = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);</span>
-<span class="source-line-no">1340</span><span id="line-1340">   * Function&lt;Integer, Double&gt; sqrt =</span>
-<span class="source-line-no">1341</span><span id="line-1341">   *     new Function&lt;Integer, Double&gt;() {</span>
-<span class="source-line-no">1342</span><span id="line-1342">   *       public Double apply(Integer in) {</span>
-<span class="source-line-no">1343</span><span id="line-1343">   *         return Math.sqrt((int) in);</span>
-<span class="source-line-no">1344</span><span id="line-1344">   *       }</span>
-<span class="source-line-no">1345</span><span id="line-1345">   *     };</span>
-<span class="source-line-no">1346</span><span id="line-1346">   * ListMultimap&lt;String, Double&gt; transformed = Multimaps.transformValues(map,</span>
-<span class="source-line-no">1347</span><span id="line-1347">   *     sqrt);</span>
-<span class="source-line-no">1348</span><span id="line-1348">   * System.out.println(transformed);</span>
-<span class="source-line-no">1349</span><span id="line-1349">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1338</span><span id="line-1338">   * ListMultimap&lt;String, Integer&gt; multimap =</span>
+<span class="source-line-no">1339</span><span id="line-1339">   *      ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);</span>
+<span class="source-line-no">1340</span><span id="line-1340">   * Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);</span>
+<span class="source-line-no">1341</span><span id="line-1341">   * ListMultimap&lt;String, Double&gt; transformed = Multimaps.transformValues(map,</span>
+<span class="source-line-no">1342</span><span id="line-1342">   *     sqrt);</span>
+<span class="source-line-no">1343</span><span id="line-1343">   * System.out.println(transformed);</span>
+<span class="source-line-no">1344</span><span id="line-1344">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1345</span><span id="line-1345">   *</span>
+<span class="source-line-no">1346</span><span id="line-1346">   * ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.</span>
+<span class="source-line-no">1347</span><span id="line-1347">   *</span>
+<span class="source-line-no">1348</span><span id="line-1348">   * &lt;p&gt;Changes in the underlying multimap are reflected in this view. Conversely, this view</span>
+<span class="source-line-no">1349</span><span id="line-1349">   * supports removal operations, and these are reflected in the underlying multimap.</span>
 <span class="source-line-no">1350</span><span id="line-1350">   *</span>
-<span class="source-line-no">1351</span><span id="line-1351">   * ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.</span>
-<span class="source-line-no">1352</span><span id="line-1352">   *</span>
-<span class="source-line-no">1353</span><span id="line-1353">   * &lt;p&gt;Changes in the underlying multimap are reflected in this view. Conversely, this view</span>
-<span class="source-line-no">1354</span><span id="line-1354">   * supports removal operations, and these are reflected in the underlying multimap.</span>
-<span class="source-line-no">1355</span><span id="line-1355">   *</span>
-<span class="source-line-no">1356</span><span id="line-1356">   * &lt;p&gt;It's acceptable for the underlying multimap to contain null keys, and even null values</span>
-<span class="source-line-no">1357</span><span id="line-1357">   * provided that the function is capable of accepting null input. The transformed multimap might</span>
-<span class="source-line-no">1358</span><span id="line-1358">   * contain null values, if the function sometimes gives a null result.</span>
-<span class="source-line-no">1359</span><span id="line-1359">   *</span>
-<span class="source-line-no">1360</span><span id="line-1360">   * &lt;p&gt;The returned multimap is not thread-safe or serializable, even if the underlying multimap</span>
-<span class="source-line-no">1361</span><span id="line-1361">   * is.</span>
-<span class="source-line-no">1362</span><span id="line-1362">   *</span>
-<span class="source-line-no">1363</span><span id="line-1363">   * &lt;p&gt;The function is applied lazily, invoked when needed. This is necessary for the returned</span>
-<span class="source-line-no">1364</span><span id="line-1364">   * multimap to be a view, but it means that the function will be applied many times for bulk</span>
-<span class="source-line-no">1365</span><span id="line-1365">   * operations like {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to</span>
-<span class="source-line-no">1366</span><span id="line-1366">   * perform well, {@code function} should be fast. To avoid lazy evaluation when the returned</span>
-<span class="source-line-no">1367</span><span id="line-1367">   * multimap doesn't need to be a view, copy the returned multimap into a new multimap of your</span>
-<span class="source-line-no">1368</span><span id="line-1368">   * choosing.</span>
-<span class="source-line-no">1369</span><span id="line-1369">   *</span>
-<span class="source-line-no">1370</span><span id="line-1370">   * @since 7.0</span>
-<span class="source-line-no">1371</span><span id="line-1371">   */</span>
-<span class="source-line-no">1372</span><span id="line-1372">  public static &lt;</span>
-<span class="source-line-no">1373</span><span id="line-1373">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
-<span class="source-line-no">1374</span><span id="line-1374">      ListMultimap&lt;K, V2&gt; transformValues(</span>
-<span class="source-line-no">1375</span><span id="line-1375">          ListMultimap&lt;K, V1&gt; fromMultimap, Function&lt;? super V1, V2&gt; function) {</span>
-<span class="source-line-no">1376</span><span id="line-1376">    checkNotNull(function);</span>
-<span class="source-line-no">1377</span><span id="line-1377">    EntryTransformer&lt;K, V1, V2&gt; transformer = Maps.asEntryTransformer(function);</span>
-<span class="source-line-no">1378</span><span id="line-1378">    return transformEntries(fromMultimap, transformer);</span>
-<span class="source-line-no">1379</span><span id="line-1379">  }</span>
-<span class="source-line-no">1380</span><span id="line-1380"></span>
-<span class="source-line-no">1381</span><span id="line-1381">  /**</span>
-<span class="source-line-no">1382</span><span id="line-1382">   * Returns a view of a multimap whose values are derived from the original multimap's entries. In</span>
-<span class="source-line-no">1383</span><span id="line-1383">   * contrast to {@link #transformValues}, this method's entry-transformation logic may depend on</span>
-<span class="source-line-no">1384</span><span id="line-1384">   * the key as well as the value.</span>
-<span class="source-line-no">1385</span><span id="line-1385">   *</span>
-<span class="source-line-no">1386</span><span id="line-1386">   * &lt;p&gt;All other properties of the transformed multimap, such as iteration order, are left intact.</span>
-<span class="source-line-no">1387</span><span id="line-1387">   * For example, the code:</span>
-<span class="source-line-no">1388</span><span id="line-1388">   *</span>
-<span class="source-line-no">1389</span><span id="line-1389">   * &lt;pre&gt;{@code</span>
-<span class="source-line-no">1390</span><span id="line-1390">   * SetMultimap&lt;String, Integer&gt; multimap =</span>
-<span class="source-line-no">1391</span><span id="line-1391">   *     ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);</span>
-<span class="source-line-no">1392</span><span id="line-1392">   * EntryTransformer&lt;String, Integer, String&gt; transformer =</span>
-<span class="source-line-no">1393</span><span id="line-1393">   *     new EntryTransformer&lt;String, Integer, String&gt;() {</span>
-<span class="source-line-no">1394</span><span id="line-1394">   *       public String transformEntry(String key, Integer value) {</span>
-<span class="source-line-no">1395</span><span id="line-1395">   *          return (value &gt;= 0) ? key : "no" + key;</span>
-<span class="source-line-no">1396</span><span id="line-1396">   *       }</span>
-<span class="source-line-no">1397</span><span id="line-1397">   *     };</span>
-<span class="source-line-no">1398</span><span id="line-1398">   * Multimap&lt;String, String&gt; transformed =</span>
-<span class="source-line-no">1399</span><span id="line-1399">   *     Multimaps.transformEntries(multimap, transformer);</span>
-<span class="source-line-no">1400</span><span id="line-1400">   * System.out.println(transformed);</span>
-<span class="source-line-no">1401</span><span id="line-1401">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1351</span><span id="line-1351">   * &lt;p&gt;It's acceptable for the underlying multimap to contain null keys, and even null values</span>
+<span class="source-line-no">1352</span><span id="line-1352">   * provided that the function is capable of accepting null input. The transformed multimap might</span>
+<span class="source-line-no">1353</span><span id="line-1353">   * contain null values, if the function sometimes gives a null result.</span>
+<span class="source-line-no">1354</span><span id="line-1354">   *</span>
+<span class="source-line-no">1355</span><span id="line-1355">   * &lt;p&gt;The returned multimap is not thread-safe or serializable, even if the underlying multimap</span>
+<span class="source-line-no">1356</span><span id="line-1356">   * is.</span>
+<span class="source-line-no">1357</span><span id="line-1357">   *</span>
+<span class="source-line-no">1358</span><span id="line-1358">   * &lt;p&gt;The function is applied lazily, invoked when needed. This is necessary for the returned</span>
+<span class="source-line-no">1359</span><span id="line-1359">   * multimap to be a view, but it means that the function will be applied many times for bulk</span>
+<span class="source-line-no">1360</span><span id="line-1360">   * operations like {@link Multimap#containsValue} and {@code Multimap.toString()}. For this to</span>
+<span class="source-line-no">1361</span><span id="line-1361">   * perform well, {@code function} should be fast. To avoid lazy evaluation when the returned</span>
+<span class="source-line-no">1362</span><span id="line-1362">   * multimap doesn't need to be a view, copy the returned multimap into a new multimap of your</span>
+<span class="source-line-no">1363</span><span id="line-1363">   * choosing.</span>
+<span class="source-line-no">1364</span><span id="line-1364">   *</span>
+<span class="source-line-no">1365</span><span id="line-1365">   * @since 7.0</span>
+<span class="source-line-no">1366</span><span id="line-1366">   */</span>
+<span class="source-line-no">1367</span><span id="line-1367">  public static &lt;</span>
+<span class="source-line-no">1368</span><span id="line-1368">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
+<span class="source-line-no">1369</span><span id="line-1369">      ListMultimap&lt;K, V2&gt; transformValues(</span>
+<span class="source-line-no">1370</span><span id="line-1370">          ListMultimap&lt;K, V1&gt; fromMultimap, Function&lt;? super V1, V2&gt; function) {</span>
+<span class="source-line-no">1371</span><span id="line-1371">    checkNotNull(function);</span>
+<span class="source-line-no">1372</span><span id="line-1372">    EntryTransformer&lt;K, V1, V2&gt; transformer = (key, value) -&gt; function.apply(value);</span>
+<span class="source-line-no">1373</span><span id="line-1373">    return transformEntries(fromMultimap, transformer);</span>
+<span class="source-line-no">1374</span><span id="line-1374">  }</span>
+<span class="source-line-no">1375</span><span id="line-1375"></span>
+<span class="source-line-no">1376</span><span id="line-1376">  /**</span>
+<span class="source-line-no">1377</span><span id="line-1377">   * Returns a view of a multimap whose values are derived from the original multimap's entries. In</span>
+<span class="source-line-no">1378</span><span id="line-1378">   * contrast to {@link #transformValues}, this method's entry-transformation logic may depend on</span>
+<span class="source-line-no">1379</span><span id="line-1379">   * the key as well as the value.</span>
+<span class="source-line-no">1380</span><span id="line-1380">   *</span>
+<span class="source-line-no">1381</span><span id="line-1381">   * &lt;p&gt;All other properties of the transformed multimap, such as iteration order, are left intact.</span>
+<span class="source-line-no">1382</span><span id="line-1382">   * For example, the code:</span>
+<span class="source-line-no">1383</span><span id="line-1383">   *</span>
+<span class="source-line-no">1384</span><span id="line-1384">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1385</span><span id="line-1385">   * SetMultimap&lt;String, Integer&gt; multimap =</span>
+<span class="source-line-no">1386</span><span id="line-1386">   *     ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);</span>
+<span class="source-line-no">1387</span><span id="line-1387">   * EntryTransformer&lt;String, Integer, String&gt; transformer =</span>
+<span class="source-line-no">1388</span><span id="line-1388">   *     new EntryTransformer&lt;String, Integer, String&gt;() {</span>
+<span class="source-line-no">1389</span><span id="line-1389">   *       public String transformEntry(String key, Integer value) {</span>
+<span class="source-line-no">1390</span><span id="line-1390">   *          return (value &gt;= 0) ? key : "no" + key;</span>
+<span class="source-line-no">1391</span><span id="line-1391">   *       }</span>
+<span class="source-line-no">1392</span><span id="line-1392">   *     };</span>
+<span class="source-line-no">1393</span><span id="line-1393">   * Multimap&lt;String, String&gt; transformed =</span>
+<span class="source-line-no">1394</span><span id="line-1394">   *     Multimaps.transformEntries(multimap, transformer);</span>
+<span class="source-line-no">1395</span><span id="line-1395">   * System.out.println(transformed);</span>
+<span class="source-line-no">1396</span><span id="line-1396">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1397</span><span id="line-1397">   *</span>
+<span class="source-line-no">1398</span><span id="line-1398">   * ... prints {@code {a=[a, a], b=[nob]}}.</span>
+<span class="source-line-no">1399</span><span id="line-1399">   *</span>
+<span class="source-line-no">1400</span><span id="line-1400">   * &lt;p&gt;Changes in the underlying multimap are reflected in this view. Conversely, this view</span>
+<span class="source-line-no">1401</span><span id="line-1401">   * supports removal operations, and these are reflected in the underlying multimap.</span>
 <span class="source-line-no">1402</span><span id="line-1402">   *</span>
-<span class="source-line-no">1403</span><span id="line-1403">   * ... prints {@code {a=[a, a], b=[nob]}}.</span>
-<span class="source-line-no">1404</span><span id="line-1404">   *</span>
-<span class="source-line-no">1405</span><span id="line-1405">   * &lt;p&gt;Changes in the underlying multimap are reflected in this view. Conversely, this view</span>
-<span class="source-line-no">1406</span><span id="line-1406">   * supports removal operations, and these are reflected in the underlying multimap.</span>
-<span class="source-line-no">1407</span><span id="line-1407">   *</span>
-<span class="source-line-no">1408</span><span id="line-1408">   * &lt;p&gt;It's acceptable for the underlying multimap to contain null keys and null values provided</span>
-<span class="source-line-no">1409</span><span id="line-1409">   * that the transformer is capable of accepting null inputs. The transformed multimap might</span>
-<span class="source-line-no">1410</span><span id="line-1410">   * contain null values if the transformer sometimes gives a null result.</span>
-<span class="source-line-no">1411</span><span id="line-1411">   *</span>
-<span class="source-line-no">1412</span><span id="line-1412">   * &lt;p&gt;The returned multimap is not thread-safe or serializable, even if the underlying multimap</span>
-<span class="source-line-no">1413</span><span id="line-1413">   * is. The {@code equals} and {@code hashCode} methods of the returned multimap are meaningless,</span>
-<span class="source-line-no">1414</span><span id="line-1414">   * since there is not a definition of {@code equals} or {@code hashCode} for general collections,</span>
-<span class="source-line-no">1415</span><span id="line-1415">   * and {@code get()} will return a general {@code Collection} as opposed to a {@code List} or a</span>
-<span class="source-line-no">1416</span><span id="line-1416">   * {@code Set}.</span>
-<span class="source-line-no">1417</span><span id="line-1417">   *</span>
-<span class="source-line-no">1418</span><span id="line-1418">   * &lt;p&gt;The transformer is applied lazily, invoked when needed. This is necessary for the returned</span>
-<span class="source-line-no">1419</span><span id="line-1419">   * multimap to be a view, but it means that the transformer will be applied many times for bulk</span>
-<span class="source-line-no">1420</span><span id="line-1420">   * operations like {@link Multimap#containsValue} and {@link Object#toString}. For this to perform</span>
-<span class="source-line-no">1421</span><span id="line-1421">   * well, {@code transformer} should be fast. To avoid lazy evaluation when the returned multimap</span>
-<span class="source-line-no">1422</span><span id="line-1422">   * doesn't need to be a view, copy the returned multimap into a new multimap of your choosing.</span>
-<span class="source-line-no">1423</span><span id="line-1423">   *</span>
-<span class="source-line-no">1424</span><span id="line-1424">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method assumes that for any instance {@code k} of {@code</span>
-<span class="source-line-no">1425</span><span id="line-1425">   * EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies that {@code k2} is also of</span>
-<span class="source-line-no">1426</span><span id="line-1426">   * type {@code K}. Using an {@code EntryTransformer} key type for which this may not hold, such as</span>
-<span class="source-line-no">1427</span><span id="line-1427">   * {@code ArrayList}, may risk a {@code ClassCastException} when calling methods on the</span>
-<span class="source-line-no">1428</span><span id="line-1428">   * transformed multimap.</span>
-<span class="source-line-no">1429</span><span id="line-1429">   *</span>
-<span class="source-line-no">1430</span><span id="line-1430">   * @since 7.0</span>
-<span class="source-line-no">1431</span><span id="line-1431">   */</span>
-<span class="source-line-no">1432</span><span id="line-1432">  public static &lt;</span>
-<span class="source-line-no">1433</span><span id="line-1433">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
-<span class="source-line-no">1434</span><span id="line-1434">      Multimap&lt;K, V2&gt; transformEntries(</span>
-<span class="source-line-no">1435</span><span id="line-1435">          Multimap&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {</span>
-<span class="source-line-no">1436</span><span id="line-1436">    return new TransformedEntriesMultimap&lt;&gt;(fromMap, transformer);</span>
-<span class="source-line-no">1437</span><span id="line-1437">  }</span>
-<span class="source-line-no">1438</span><span id="line-1438"></span>
-<span class="source-line-no">1439</span><span id="line-1439">  /**</span>
-<span class="source-line-no">1440</span><span id="line-1440">   * Returns a view of a {@code ListMultimap} whose values are derived from the original multimap's</span>
-<span class="source-line-no">1441</span><span id="line-1441">   * entries. In contrast to {@link #transformValues(ListMultimap, Function)}, this method's</span>
-<span class="source-line-no">1442</span><span id="line-1442">   * entry-transformation logic may depend on the key as well as the value.</span>
-<span class="source-line-no">1443</span><span id="line-1443">   *</span>
-<span class="source-line-no">1444</span><span id="line-1444">   * &lt;p&gt;All other properties of the transformed multimap, such as iteration order, are left intact.</span>
-<span class="source-line-no">1445</span><span id="line-1445">   * For example, the code:</span>
-<span class="source-line-no">1446</span><span id="line-1446">   *</span>
-<span class="source-line-no">1447</span><span id="line-1447">   * &lt;pre&gt;{@code</span>
-<span class="source-line-no">1448</span><span id="line-1448">   * Multimap&lt;String, Integer&gt; multimap =</span>
-<span class="source-line-no">1449</span><span id="line-1449">   *     ImmutableMultimap.of("a", 1, "a", 4, "b", 6);</span>
-<span class="source-line-no">1450</span><span id="line-1450">   * EntryTransformer&lt;String, Integer, String&gt; transformer =</span>
-<span class="source-line-no">1451</span><span id="line-1451">   *     new EntryTransformer&lt;String, Integer, String&gt;() {</span>
-<span class="source-line-no">1452</span><span id="line-1452">   *       public String transformEntry(String key, Integer value) {</span>
-<span class="source-line-no">1453</span><span id="line-1453">   *         return key + value;</span>
-<span class="source-line-no">1454</span><span id="line-1454">   *       }</span>
-<span class="source-line-no">1455</span><span id="line-1455">   *     };</span>
-<span class="source-line-no">1456</span><span id="line-1456">   * Multimap&lt;String, String&gt; transformed =</span>
-<span class="source-line-no">1457</span><span id="line-1457">   *     Multimaps.transformEntries(multimap, transformer);</span>
-<span class="source-line-no">1458</span><span id="line-1458">   * System.out.println(transformed);</span>
-<span class="source-line-no">1459</span><span id="line-1459">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1403</span><span id="line-1403">   * &lt;p&gt;It's acceptable for the underlying multimap to contain null keys and null values provided</span>
+<span class="source-line-no">1404</span><span id="line-1404">   * that the transformer is capable of accepting null inputs. The transformed multimap might</span>
+<span class="source-line-no">1405</span><span id="line-1405">   * contain null values if the transformer sometimes gives a null result.</span>
+<span class="source-line-no">1406</span><span id="line-1406">   *</span>
+<span class="source-line-no">1407</span><span id="line-1407">   * &lt;p&gt;The returned multimap is not thread-safe or serializable, even if the underlying multimap</span>
+<span class="source-line-no">1408</span><span id="line-1408">   * is. The {@code equals} and {@code hashCode} methods of the returned multimap are meaningless,</span>
+<span class="source-line-no">1409</span><span id="line-1409">   * since there is not a definition of {@code equals} or {@code hashCode} for general collections,</span>
+<span class="source-line-no">1410</span><span id="line-1410">   * and {@code get()} will return a general {@code Collection} as opposed to a {@code List} or a</span>
+<span class="source-line-no">1411</span><span id="line-1411">   * {@code Set}.</span>
+<span class="source-line-no">1412</span><span id="line-1412">   *</span>
+<span class="source-line-no">1413</span><span id="line-1413">   * &lt;p&gt;The transformer is applied lazily, invoked when needed. This is necessary for the returned</span>
+<span class="source-line-no">1414</span><span id="line-1414">   * multimap to be a view, but it means that the transformer will be applied many times for bulk</span>
+<span class="source-line-no">1415</span><span id="line-1415">   * operations like {@link Multimap#containsValue} and {@link Object#toString}. For this to perform</span>
+<span class="source-line-no">1416</span><span id="line-1416">   * well, {@code transformer} should be fast. To avoid lazy evaluation when the returned multimap</span>
+<span class="source-line-no">1417</span><span id="line-1417">   * doesn't need to be a view, copy the returned multimap into a new multimap of your choosing.</span>
+<span class="source-line-no">1418</span><span id="line-1418">   *</span>
+<span class="source-line-no">1419</span><span id="line-1419">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method assumes that for any instance {@code k} of {@code</span>
+<span class="source-line-no">1420</span><span id="line-1420">   * EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies that {@code k2} is also of</span>
+<span class="source-line-no">1421</span><span id="line-1421">   * type {@code K}. Using an {@code EntryTransformer} key type for which this may not hold, such as</span>
+<span class="source-line-no">1422</span><span id="line-1422">   * {@code ArrayList}, may risk a {@code ClassCastException} when calling methods on the</span>
+<span class="source-line-no">1423</span><span id="line-1423">   * transformed multimap.</span>
+<span class="source-line-no">1424</span><span id="line-1424">   *</span>
+<span class="source-line-no">1425</span><span id="line-1425">   * @since 7.0</span>
+<span class="source-line-no">1426</span><span id="line-1426">   */</span>
+<span class="source-line-no">1427</span><span id="line-1427">  public static &lt;</span>
+<span class="source-line-no">1428</span><span id="line-1428">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
+<span class="source-line-no">1429</span><span id="line-1429">      Multimap&lt;K, V2&gt; transformEntries(</span>
+<span class="source-line-no">1430</span><span id="line-1430">          Multimap&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {</span>
+<span class="source-line-no">1431</span><span id="line-1431">    return new TransformedEntriesMultimap&lt;&gt;(fromMap, transformer);</span>
+<span class="source-line-no">1432</span><span id="line-1432">  }</span>
+<span class="source-line-no">1433</span><span id="line-1433"></span>
+<span class="source-line-no">1434</span><span id="line-1434">  /**</span>
+<span class="source-line-no">1435</span><span id="line-1435">   * Returns a view of a {@code ListMultimap} whose values are derived from the original multimap's</span>
+<span class="source-line-no">1436</span><span id="line-1436">   * entries. In contrast to {@link #transformValues(ListMultimap, Function)}, this method's</span>
+<span class="source-line-no">1437</span><span id="line-1437">   * entry-transformation logic may depend on the key as well as the value.</span>
+<span class="source-line-no">1438</span><span id="line-1438">   *</span>
+<span class="source-line-no">1439</span><span id="line-1439">   * &lt;p&gt;All other properties of the transformed multimap, such as iteration order, are left intact.</span>
+<span class="source-line-no">1440</span><span id="line-1440">   * For example, the code:</span>
+<span class="source-line-no">1441</span><span id="line-1441">   *</span>
+<span class="source-line-no">1442</span><span id="line-1442">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1443</span><span id="line-1443">   * Multimap&lt;String, Integer&gt; multimap =</span>
+<span class="source-line-no">1444</span><span id="line-1444">   *     ImmutableMultimap.of("a", 1, "a", 4, "b", 6);</span>
+<span class="source-line-no">1445</span><span id="line-1445">   * EntryTransformer&lt;String, Integer, String&gt; transformer =</span>
+<span class="source-line-no">1446</span><span id="line-1446">   *     new EntryTransformer&lt;String, Integer, String&gt;() {</span>
+<span class="source-line-no">1447</span><span id="line-1447">   *       public String transformEntry(String key, Integer value) {</span>
+<span class="source-line-no">1448</span><span id="line-1448">   *         return key + value;</span>
+<span class="source-line-no">1449</span><span id="line-1449">   *       }</span>
+<span class="source-line-no">1450</span><span id="line-1450">   *     };</span>
+<span class="source-line-no">1451</span><span id="line-1451">   * Multimap&lt;String, String&gt; transformed =</span>
+<span class="source-line-no">1452</span><span id="line-1452">   *     Multimaps.transformEntries(multimap, transformer);</span>
+<span class="source-line-no">1453</span><span id="line-1453">   * System.out.println(transformed);</span>
+<span class="source-line-no">1454</span><span id="line-1454">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1455</span><span id="line-1455">   *</span>
+<span class="source-line-no">1456</span><span id="line-1456">   * ... prints {@code {"a"=["a1", "a4"], "b"=["b6"]}}.</span>
+<span class="source-line-no">1457</span><span id="line-1457">   *</span>
+<span class="source-line-no">1458</span><span id="line-1458">   * &lt;p&gt;Changes in the underlying multimap are reflected in this view. Conversely, this view</span>
+<span class="source-line-no">1459</span><span id="line-1459">   * supports removal operations, and these are reflected in the underlying multimap.</span>
 <span class="source-line-no">1460</span><span id="line-1460">   *</span>
-<span class="source-line-no">1461</span><span id="line-1461">   * ... prints {@code {"a"=["a1", "a4"], "b"=["b6"]}}.</span>
-<span class="source-line-no">1462</span><span id="line-1462">   *</span>
-<span class="source-line-no">1463</span><span id="line-1463">   * &lt;p&gt;Changes in the underlying multimap are reflected in this view. Conversely, this view</span>
-<span class="source-line-no">1464</span><span id="line-1464">   * supports removal operations, and these are reflected in the underlying multimap.</span>
-<span class="source-line-no">1465</span><span id="line-1465">   *</span>
-<span class="source-line-no">1466</span><span id="line-1466">   * &lt;p&gt;It's acceptable for the underlying multimap to contain null keys and null values provided</span>
-<span class="source-line-no">1467</span><span id="line-1467">   * that the transformer is capable of accepting null inputs. The transformed multimap might</span>
-<span class="source-line-no">1468</span><span id="line-1468">   * contain null values if the transformer sometimes gives a null result.</span>
-<span class="source-line-no">1469</span><span id="line-1469">   *</span>
-<span class="source-line-no">1470</span><span id="line-1470">   * &lt;p&gt;The returned multimap is not thread-safe or serializable, even if the underlying multimap</span>
-<span class="source-line-no">1471</span><span id="line-1471">   * is.</span>
-<span class="source-line-no">1472</span><span id="line-1472">   *</span>
-<span class="source-line-no">1473</span><span id="line-1473">   * &lt;p&gt;The transformer is applied lazily, invoked when needed. This is necessary for the returned</span>
-<span class="source-line-no">1474</span><span id="line-1474">   * multimap to be a view, but it means that the transformer will be applied many times for bulk</span>
-<span class="source-line-no">1475</span><span id="line-1475">   * operations like {@link Multimap#containsValue} and {@link Object#toString}. For this to perform</span>
-<span class="source-line-no">1476</span><span id="line-1476">   * well, {@code transformer} should be fast. To avoid lazy evaluation when the returned multimap</span>
-<span class="source-line-no">1477</span><span id="line-1477">   * doesn't need to be a view, copy the returned multimap into a new multimap of your choosing.</span>
-<span class="source-line-no">1478</span><span id="line-1478">   *</span>
-<span class="source-line-no">1479</span><span id="line-1479">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method assumes that for any instance {@code k} of {@code</span>
-<span class="source-line-no">1480</span><span id="line-1480">   * EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies that {@code k2} is also of</span>
-<span class="source-line-no">1481</span><span id="line-1481">   * type {@code K}. Using an {@code EntryTransformer} key type for which this may not hold, such as</span>
-<span class="source-line-no">1482</span><span id="line-1482">   * {@code ArrayList}, may risk a {@code ClassCastException} when calling methods on the</span>
-<span class="source-line-no">1483</span><span id="line-1483">   * transformed multimap.</span>
-<span class="source-line-no">1484</span><span id="line-1484">   *</span>
-<span class="source-line-no">1485</span><span id="line-1485">   * @since 7.0</span>
-<span class="source-line-no">1486</span><span id="line-1486">   */</span>
-<span class="source-line-no">1487</span><span id="line-1487">  public static &lt;</span>
-<span class="source-line-no">1488</span><span id="line-1488">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
-<span class="source-line-no">1489</span><span id="line-1489">      ListMultimap&lt;K, V2&gt; transformEntries(</span>
-<span class="source-line-no">1490</span><span id="line-1490">          ListMultimap&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {</span>
-<span class="source-line-no">1491</span><span id="line-1491">    return new TransformedEntriesListMultimap&lt;&gt;(fromMap, transformer);</span>
-<span class="source-line-no">1492</span><span id="line-1492">  }</span>
-<span class="source-line-no">1493</span><span id="line-1493"></span>
-<span class="source-line-no">1494</span><span id="line-1494">  private static class TransformedEntriesMultimap&lt;</span>
-<span class="source-line-no">1495</span><span id="line-1495">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
-<span class="source-line-no">1496</span><span id="line-1496">      extends AbstractMultimap&lt;K, V2&gt; {</span>
-<span class="source-line-no">1497</span><span id="line-1497">    final Multimap&lt;K, V1&gt; fromMultimap;</span>
-<span class="source-line-no">1498</span><span id="line-1498">    final EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer;</span>
-<span class="source-line-no">1499</span><span id="line-1499"></span>
-<span class="source-line-no">1500</span><span id="line-1500">    TransformedEntriesMultimap(</span>
-<span class="source-line-no">1501</span><span id="line-1501">        Multimap&lt;K, V1&gt; fromMultimap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {</span>
-<span class="source-line-no">1502</span><span id="line-1502">      this.fromMultimap = checkNotNull(fromMultimap);</span>
-<span class="source-line-no">1503</span><span id="line-1503">      this.transformer = checkNotNull(transformer);</span>
-<span class="source-line-no">1504</span><span id="line-1504">    }</span>
-<span class="source-line-no">1505</span><span id="line-1505"></span>
-<span class="source-line-no">1506</span><span id="line-1506">    Collection&lt;V2&gt; transform(@ParametricNullness K key, Collection&lt;V1&gt; values) {</span>
-<span class="source-line-no">1507</span><span id="line-1507">      Function&lt;? super V1, V2&gt; function = Maps.asValueToValueFunction(transformer, key);</span>
-<span class="source-line-no">1508</span><span id="line-1508">      if (values instanceof List) {</span>
-<span class="source-line-no">1509</span><span id="line-1509">        return Lists.transform((List&lt;V1&gt;) values, function);</span>
-<span class="source-line-no">1510</span><span id="line-1510">      } else {</span>
-<span class="source-line-no">1511</span><span id="line-1511">        return Collections2.transform(values, function);</span>
-<span class="source-line-no">1512</span><span id="line-1512">      }</span>
+<span class="source-line-no">1461</span><span id="line-1461">   * &lt;p&gt;It's acceptable for the underlying multimap to contain null keys and null values provided</span>
+<span class="source-line-no">1462</span><span id="line-1462">   * that the transformer is capable of accepting null inputs. The transformed multimap might</span>
+<span class="source-line-no">1463</span><span id="line-1463">   * contain null values if the transformer sometimes gives a null result.</span>
+<span class="source-line-no">1464</span><span id="line-1464">   *</span>
+<span class="source-line-no">1465</span><span id="line-1465">   * &lt;p&gt;The returned multimap is not thread-safe or serializable, even if the underlying multimap</span>
+<span class="source-line-no">1466</span><span id="line-1466">   * is.</span>
+<span class="source-line-no">1467</span><span id="line-1467">   *</span>
+<span class="source-line-no">1468</span><span id="line-1468">   * &lt;p&gt;The transformer is applied lazily, invoked when needed. This is necessary for the returned</span>
+<span class="source-line-no">1469</span><span id="line-1469">   * multimap to be a view, but it means that the transformer will be applied many times for bulk</span>
+<span class="source-line-no">1470</span><span id="line-1470">   * operations like {@link Multimap#containsValue} and {@link Object#toString}. For this to perform</span>
+<span class="source-line-no">1471</span><span id="line-1471">   * well, {@code transformer} should be fast. To avoid lazy evaluation when the returned multimap</span>
+<span class="source-line-no">1472</span><span id="line-1472">   * doesn't need to be a view, copy the returned multimap into a new multimap of your choosing.</span>
+<span class="source-line-no">1473</span><span id="line-1473">   *</span>
+<span class="source-line-no">1474</span><span id="line-1474">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; This method assumes that for any instance {@code k} of {@code</span>
+<span class="source-line-no">1475</span><span id="line-1475">   * EntryTransformer} key type {@code K}, {@code k.equals(k2)} implies that {@code k2} is also of</span>
+<span class="source-line-no">1476</span><span id="line-1476">   * type {@code K}. Using an {@code EntryTransformer} key type for which this may not hold, such as</span>
+<span class="source-line-no">1477</span><span id="line-1477">   * {@code ArrayList}, may risk a {@code ClassCastException} when calling methods on the</span>
+<span class="source-line-no">1478</span><span id="line-1478">   * transformed multimap.</span>
+<span class="source-line-no">1479</span><span id="line-1479">   *</span>
+<span class="source-line-no">1480</span><span id="line-1480">   * @since 7.0</span>
+<span class="source-line-no">1481</span><span id="line-1481">   */</span>
+<span class="source-line-no">1482</span><span id="line-1482">  public static &lt;</span>
+<span class="source-line-no">1483</span><span id="line-1483">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
+<span class="source-line-no">1484</span><span id="line-1484">      ListMultimap&lt;K, V2&gt; transformEntries(</span>
+<span class="source-line-no">1485</span><span id="line-1485">          ListMultimap&lt;K, V1&gt; fromMap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {</span>
+<span class="source-line-no">1486</span><span id="line-1486">    return new TransformedEntriesListMultimap&lt;&gt;(fromMap, transformer);</span>
+<span class="source-line-no">1487</span><span id="line-1487">  }</span>
+<span class="source-line-no">1488</span><span id="line-1488"></span>
+<span class="source-line-no">1489</span><span id="line-1489">  private static class TransformedEntriesMultimap&lt;</span>
+<span class="source-line-no">1490</span><span id="line-1490">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
+<span class="source-line-no">1491</span><span id="line-1491">      extends AbstractMultimap&lt;K, V2&gt; {</span>
+<span class="source-line-no">1492</span><span id="line-1492">    final Multimap&lt;K, V1&gt; fromMultimap;</span>
+<span class="source-line-no">1493</span><span id="line-1493">    final EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer;</span>
+<span class="source-line-no">1494</span><span id="line-1494"></span>
+<span class="source-line-no">1495</span><span id="line-1495">    TransformedEntriesMultimap(</span>
+<span class="source-line-no">1496</span><span id="line-1496">        Multimap&lt;K, V1&gt; fromMultimap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {</span>
+<span class="source-line-no">1497</span><span id="line-1497">      this.fromMultimap = checkNotNull(fromMultimap);</span>
+<span class="source-line-no">1498</span><span id="line-1498">      this.transformer = checkNotNull(transformer);</span>
+<span class="source-line-no">1499</span><span id="line-1499">    }</span>
+<span class="source-line-no">1500</span><span id="line-1500"></span>
+<span class="source-line-no">1501</span><span id="line-1501">    Collection&lt;V2&gt; transform(@ParametricNullness K key, Collection&lt;V1&gt; values) {</span>
+<span class="source-line-no">1502</span><span id="line-1502">      Function&lt;? super V1, V2&gt; function = v1 -&gt; transformer.transformEntry(key, v1);</span>
+<span class="source-line-no">1503</span><span id="line-1503">      if (values instanceof List) {</span>
+<span class="source-line-no">1504</span><span id="line-1504">        return Lists.transform((List&lt;V1&gt;) values, function);</span>
+<span class="source-line-no">1505</span><span id="line-1505">      } else {</span>
+<span class="source-line-no">1506</span><span id="line-1506">        return Collections2.transform(values, function);</span>
+<span class="source-line-no">1507</span><span id="line-1507">      }</span>
+<span class="source-line-no">1508</span><span id="line-1508">    }</span>
+<span class="source-line-no">1509</span><span id="line-1509"></span>
+<span class="source-line-no">1510</span><span id="line-1510">    @Override</span>
+<span class="source-line-no">1511</span><span id="line-1511">    Map&lt;K, Collection&lt;V2&gt;&gt; createAsMap() {</span>
+<span class="source-line-no">1512</span><span id="line-1512">      return Maps.transformEntries(fromMultimap.asMap(), this::transform);</span>
 <span class="source-line-no">1513</span><span id="line-1513">    }</span>
 <span class="source-line-no">1514</span><span id="line-1514"></span>
 <span class="source-line-no">1515</span><span id="line-1515">    @Override</span>
-<span class="source-line-no">1516</span><span id="line-1516">    Map&lt;K, Collection&lt;V2&gt;&gt; createAsMap() {</span>
-<span class="source-line-no">1517</span><span id="line-1517">      return Maps.transformEntries(fromMultimap.asMap(), this::transform);</span>
+<span class="source-line-no">1516</span><span id="line-1516">    public void clear() {</span>
+<span class="source-line-no">1517</span><span id="line-1517">      fromMultimap.clear();</span>
 <span class="source-line-no">1518</span><span id="line-1518">    }</span>
 <span class="source-line-no">1519</span><span id="line-1519"></span>
 <span class="source-line-no">1520</span><span id="line-1520">    @Override</span>
-<span class="source-line-no">1521</span><span id="line-1521">    public void clear() {</span>
-<span class="source-line-no">1522</span><span id="line-1522">      fromMultimap.clear();</span>
+<span class="source-line-no">1521</span><span id="line-1521">    public boolean containsKey(@Nullable Object key) {</span>
+<span class="source-line-no">1522</span><span id="line-1522">      return fromMultimap.containsKey(key);</span>
 <span class="source-line-no">1523</span><span id="line-1523">    }</span>
 <span class="source-line-no">1524</span><span id="line-1524"></span>
 <span class="source-line-no">1525</span><span id="line-1525">    @Override</span>
-<span class="source-line-no">1526</span><span id="line-1526">    public boolean containsKey(@Nullable Object key) {</span>
-<span class="source-line-no">1527</span><span id="line-1527">      return fromMultimap.containsKey(key);</span>
+<span class="source-line-no">1526</span><span id="line-1526">    Collection&lt;Entry&lt;K, V2&gt;&gt; createEntries() {</span>
+<span class="source-line-no">1527</span><span id="line-1527">      return new Entries();</span>
 <span class="source-line-no">1528</span><span id="line-1528">    }</span>
 <span class="source-line-no">1529</span><span id="line-1529"></span>
 <span class="source-line-no">1530</span><span id="line-1530">    @Override</span>
-<span class="source-line-no">1531</span><span id="line-1531">    Collection&lt;Entry&lt;K, V2&gt;&gt; createEntries() {</span>
-<span class="source-line-no">1532</span><span id="line-1532">      return new Entries();</span>
-<span class="source-line-no">1533</span><span id="line-1533">    }</span>
-<span class="source-line-no">1534</span><span id="line-1534"></span>
-<span class="source-line-no">1535</span><span id="line-1535">    @Override</span>
-<span class="source-line-no">1536</span><span id="line-1536">    Iterator&lt;Entry&lt;K, V2&gt;&gt; entryIterator() {</span>
-<span class="source-line-no">1537</span><span id="line-1537">      return Iterators.transform(</span>
-<span class="source-line-no">1538</span><span id="line-1538">          fromMultimap.entries().iterator(), Maps.&lt;K, V1, V2&gt;asEntryToEntryFunction(transformer));</span>
+<span class="source-line-no">1531</span><span id="line-1531">    Iterator&lt;Entry&lt;K, V2&gt;&gt; entryIterator() {</span>
+<span class="source-line-no">1532</span><span id="line-1532">      return Iterators.transform(</span>
+<span class="source-line-no">1533</span><span id="line-1533">          fromMultimap.entries().iterator(), Maps.&lt;K, V1, V2&gt;asEntryToEntryFunction(transformer));</span>
+<span class="source-line-no">1534</span><span id="line-1534">    }</span>
+<span class="source-line-no">1535</span><span id="line-1535"></span>
+<span class="source-line-no">1536</span><span id="line-1536">    @Override</span>
+<span class="source-line-no">1537</span><span id="line-1537">    public Collection&lt;V2&gt; get(@ParametricNullness K key) {</span>
+<span class="source-line-no">1538</span><span id="line-1538">      return transform(key, fromMultimap.get(key));</span>
 <span class="source-line-no">1539</span><span id="line-1539">    }</span>
 <span class="source-line-no">1540</span><span id="line-1540"></span>
 <span class="source-line-no">1541</span><span id="line-1541">    @Override</span>
-<span class="source-line-no">1542</span><span id="line-1542">    public Collection&lt;V2&gt; get(@ParametricNullness K key) {</span>
-<span class="source-line-no">1543</span><span id="line-1543">      return transform(key, fromMultimap.get(key));</span>
+<span class="source-line-no">1542</span><span id="line-1542">    public boolean isEmpty() {</span>
+<span class="source-line-no">1543</span><span id="line-1543">      return fromMultimap.isEmpty();</span>
 <span class="source-line-no">1544</span><span id="line-1544">    }</span>
 <span class="source-line-no">1545</span><span id="line-1545"></span>
 <span class="source-line-no">1546</span><span id="line-1546">    @Override</span>
-<span class="source-line-no">1547</span><span id="line-1547">    public boolean isEmpty() {</span>
-<span class="source-line-no">1548</span><span id="line-1548">      return fromMultimap.isEmpty();</span>
+<span class="source-line-no">1547</span><span id="line-1547">    Set&lt;K&gt; createKeySet() {</span>
+<span class="source-line-no">1548</span><span id="line-1548">      return fromMultimap.keySet();</span>
 <span class="source-line-no">1549</span><span id="line-1549">    }</span>
 <span class="source-line-no">1550</span><span id="line-1550"></span>
 <span class="source-line-no">1551</span><span id="line-1551">    @Override</span>
-<span class="source-line-no">1552</span><span id="line-1552">    Set&lt;K&gt; createKeySet() {</span>
-<span class="source-line-no">1553</span><span id="line-1553">      return fromMultimap.keySet();</span>
+<span class="source-line-no">1552</span><span id="line-1552">    Multiset&lt;K&gt; createKeys() {</span>
+<span class="source-line-no">1553</span><span id="line-1553">      return fromMultimap.keys();</span>
 <span class="source-line-no">1554</span><span id="line-1554">    }</span>
 <span class="source-line-no">1555</span><span id="line-1555"></span>
 <span class="source-line-no">1556</span><span id="line-1556">    @Override</span>
-<span class="source-line-no">1557</span><span id="line-1557">    Multiset&lt;K&gt; createKeys() {</span>
-<span class="source-line-no">1558</span><span id="line-1558">      return fromMultimap.keys();</span>
+<span class="source-line-no">1557</span><span id="line-1557">    public boolean put(@ParametricNullness K key, @ParametricNullness V2 value) {</span>
+<span class="source-line-no">1558</span><span id="line-1558">      throw new UnsupportedOperationException();</span>
 <span class="source-line-no">1559</span><span id="line-1559">    }</span>
 <span class="source-line-no">1560</span><span id="line-1560"></span>
 <span class="source-line-no">1561</span><span id="line-1561">    @Override</span>
-<span class="source-line-no">1562</span><span id="line-1562">    public boolean put(@ParametricNullness K key, @ParametricNullness V2 value) {</span>
+<span class="source-line-no">1562</span><span id="line-1562">    public boolean putAll(@ParametricNullness K key, Iterable&lt;? extends V2&gt; values) {</span>
 <span class="source-line-no">1563</span><span id="line-1563">      throw new UnsupportedOperationException();</span>
 <span class="source-line-no">1564</span><span id="line-1564">    }</span>
 <span class="source-line-no">1565</span><span id="line-1565"></span>
 <span class="source-line-no">1566</span><span id="line-1566">    @Override</span>
-<span class="source-line-no">1567</span><span id="line-1567">    public boolean putAll(@ParametricNullness K key, Iterable&lt;? extends V2&gt; values) {</span>
+<span class="source-line-no">1567</span><span id="line-1567">    public boolean putAll(Multimap&lt;? extends K, ? extends V2&gt; multimap) {</span>
 <span class="source-line-no">1568</span><span id="line-1568">      throw new UnsupportedOperationException();</span>
 <span class="source-line-no">1569</span><span id="line-1569">    }</span>
 <span class="source-line-no">1570</span><span id="line-1570"></span>
-<span class="source-line-no">1571</span><span id="line-1571">    @Override</span>
-<span class="source-line-no">1572</span><span id="line-1572">    public boolean putAll(Multimap&lt;? extends K, ? extends V2&gt; multimap) {</span>
-<span class="source-line-no">1573</span><span id="line-1573">      throw new UnsupportedOperationException();</span>
-<span class="source-line-no">1574</span><span id="line-1574">    }</span>
-<span class="source-line-no">1575</span><span id="line-1575"></span>
-<span class="source-line-no">1576</span><span id="line-1576">    @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">1577</span><span id="line-1577">    @Override</span>
-<span class="source-line-no">1578</span><span id="line-1578">    public boolean remove(@Nullable Object key, @Nullable Object value) {</span>
-<span class="source-line-no">1579</span><span id="line-1579">      return get((K) key).remove(value);</span>
-<span class="source-line-no">1580</span><span id="line-1580">    }</span>
-<span class="source-line-no">1581</span><span id="line-1581"></span>
-<span class="source-line-no">1582</span><span id="line-1582">    @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">1571</span><span id="line-1571">    @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">1572</span><span id="line-1572">    @Override</span>
+<span class="source-line-no">1573</span><span id="line-1573">    public boolean remove(@Nullable Object key, @Nullable Object value) {</span>
+<span class="source-line-no">1574</span><span id="line-1574">      return get((K) key).remove(value);</span>
+<span class="source-line-no">1575</span><span id="line-1575">    }</span>
+<span class="source-line-no">1576</span><span id="line-1576"></span>
+<span class="source-line-no">1577</span><span id="line-1577">    @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">1578</span><span id="line-1578">    @Override</span>
+<span class="source-line-no">1579</span><span id="line-1579">    public Collection&lt;V2&gt; removeAll(@Nullable Object key) {</span>
+<span class="source-line-no">1580</span><span id="line-1580">      return transform((K) key, fromMultimap.removeAll(key));</span>
+<span class="source-line-no">1581</span><span id="line-1581">    }</span>
+<span class="source-line-no">1582</span><span id="line-1582"></span>
 <span class="source-line-no">1583</span><span id="line-1583">    @Override</span>
-<span class="source-line-no">1584</span><span id="line-1584">    public Collection&lt;V2&gt; removeAll(@Nullable Object key) {</span>
-<span class="source-line-no">1585</span><span id="line-1585">      return transform((K) key, fromMultimap.removeAll(key));</span>
+<span class="source-line-no">1584</span><span id="line-1584">    public Collection&lt;V2&gt; replaceValues(@ParametricNullness K key, Iterable&lt;? extends V2&gt; values) {</span>
+<span class="source-line-no">1585</span><span id="line-1585">      throw new UnsupportedOperationException();</span>
 <span class="source-line-no">1586</span><span id="line-1586">    }</span>
 <span class="source-line-no">1587</span><span id="line-1587"></span>
 <span class="source-line-no">1588</span><span id="line-1588">    @Override</span>
-<span class="source-line-no">1589</span><span id="line-1589">    public Collection&lt;V2&gt; replaceValues(@ParametricNullness K key, Iterable&lt;? extends V2&gt; values) {</span>
-<span class="source-line-no">1590</span><span id="line-1590">      throw new UnsupportedOperationException();</span>
+<span class="source-line-no">1589</span><span id="line-1589">    public int size() {</span>
+<span class="source-line-no">1590</span><span id="line-1590">      return fromMultimap.size();</span>
 <span class="source-line-no">1591</span><span id="line-1591">    }</span>
 <span class="source-line-no">1592</span><span id="line-1592"></span>
 <span class="source-line-no">1593</span><span id="line-1593">    @Override</span>
-<span class="source-line-no">1594</span><span id="line-1594">    public int size() {</span>
-<span class="source-line-no">1595</span><span id="line-1595">      return fromMultimap.size();</span>
-<span class="source-line-no">1596</span><span id="line-1596">    }</span>
-<span class="source-line-no">1597</span><span id="line-1597"></span>
-<span class="source-line-no">1598</span><span id="line-1598">    @Override</span>
-<span class="source-line-no">1599</span><span id="line-1599">    Collection&lt;V2&gt; createValues() {</span>
-<span class="source-line-no">1600</span><span id="line-1600">      return Collections2.transform(</span>
-<span class="source-line-no">1601</span><span id="line-1601">          fromMultimap.entries(), Maps.&lt;K, V1, V2&gt;asEntryToValueFunction(transformer));</span>
-<span class="source-line-no">1602</span><span id="line-1602">    }</span>
-<span class="source-line-no">1603</span><span id="line-1603">  }</span>
+<span class="source-line-no">1594</span><span id="line-1594">    Collection&lt;V2&gt; createValues() {</span>
+<span class="source-line-no">1595</span><span id="line-1595">      return Collections2.transform(</span>
+<span class="source-line-no">1596</span><span id="line-1596">          fromMultimap.entries(),</span>
+<span class="source-line-no">1597</span><span id="line-1597">          entry -&gt; transformer.transformEntry(entry.getKey(), entry.getValue()));</span>
+<span class="source-line-no">1598</span><span id="line-1598">    }</span>
+<span class="source-line-no">1599</span><span id="line-1599">  }</span>
+<span class="source-line-no">1600</span><span id="line-1600"></span>
+<span class="source-line-no">1601</span><span id="line-1601">  private static final class TransformedEntriesListMultimap&lt;</span>
+<span class="source-line-no">1602</span><span id="line-1602">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
+<span class="source-line-no">1603</span><span id="line-1603">      extends TransformedEntriesMultimap&lt;K, V1, V2&gt; implements ListMultimap&lt;K, V2&gt; {</span>
 <span class="source-line-no">1604</span><span id="line-1604"></span>
-<span class="source-line-no">1605</span><span id="line-1605">  private static final class TransformedEntriesListMultimap&lt;</span>
-<span class="source-line-no">1606</span><span id="line-1606">          K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object&gt;</span>
-<span class="source-line-no">1607</span><span id="line-1607">      extends TransformedEntriesMultimap&lt;K, V1, V2&gt; implements ListMultimap&lt;K, V2&gt; {</span>
-<span class="source-line-no">1608</span><span id="line-1608"></span>
-<span class="source-line-no">1609</span><span id="line-1609">    TransformedEntriesListMultimap(</span>
-<span class="source-line-no">1610</span><span id="line-1610">        ListMultimap&lt;K, V1&gt; fromMultimap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {</span>
-<span class="source-line-no">1611</span><span id="line-1611">      super(fromMultimap, transformer);</span>
-<span class="source-line-no">1612</span><span id="line-1612">    }</span>
-<span class="source-line-no">1613</span><span id="line-1613"></span>
-<span class="source-line-no">1614</span><span id="line-1614">    @Override</span>
-<span class="source-line-no">1615</span><span id="line-1615">    List&lt;V2&gt; transform(@ParametricNullness K key, Collection&lt;V1&gt; values) {</span>
-<span class="source-line-no">1616</span><span id="line-1616">      return Lists.transform((List&lt;V1&gt;) values, Maps.asValueToValueFunction(transformer, key));</span>
-<span class="source-line-no">1617</span><span id="line-1617">    }</span>
-<span class="source-line-no">1618</span><span id="line-1618"></span>
-<span class="source-line-no">1619</span><span id="line-1619">    @Override</span>
-<span class="source-line-no">1620</span><span id="line-1620">    public List&lt;V2&gt; get(@ParametricNullness K key) {</span>
-<span class="source-line-no">1621</span><span id="line-1621">      return transform(key, fromMultimap.get(key));</span>
-<span class="source-line-no">1622</span><span id="line-1622">    }</span>
-<span class="source-line-no">1623</span><span id="line-1623"></span>
-<span class="source-line-no">1624</span><span id="line-1624">    @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">1625</span><span id="line-1625">    @Override</span>
-<span class="source-line-no">1626</span><span id="line-1626">    public List&lt;V2&gt; removeAll(@Nullable Object key) {</span>
-<span class="source-line-no">1627</span><span id="line-1627">      return transform((K) key, fromMultimap.removeAll(key));</span>
-<span class="source-line-no">1628</span><span id="line-1628">    }</span>
-<span class="source-line-no">1629</span><span id="line-1629"></span>
-<span class="source-line-no">1630</span><span id="line-1630">    @Override</span>
-<span class="source-line-no">1631</span><span id="line-1631">    public List&lt;V2&gt; replaceValues(@ParametricNullness K key, Iterable&lt;? extends V2&gt; values) {</span>
-<span class="source-line-no">1632</span><span id="line-1632">      throw new UnsupportedOperationException();</span>
-<span class="source-line-no">1633</span><span id="line-1633">    }</span>
-<span class="source-line-no">1634</span><span id="line-1634">  }</span>
-<span class="source-line-no">1635</span><span id="line-1635"></span>
-<span class="source-line-no">1636</span><span id="line-1636">  /**</span>
-<span class="source-line-no">1637</span><span id="line-1637">   * Creates an index {@code ImmutableListMultimap} that contains the results of applying a</span>
-<span class="source-line-no">1638</span><span id="line-1638">   * specified function to each item in an {@code Iterable} of values. Each value will be stored as</span>
-<span class="source-line-no">1639</span><span id="line-1639">   * a value in the resulting multimap, yielding a multimap with the same size as the input</span>
-<span class="source-line-no">1640</span><span id="line-1640">   * iterable. The key used to store that value in the multimap will be the result of calling the</span>
-<span class="source-line-no">1641</span><span id="line-1641">   * function on that value. The resulting multimap is created as an immutable snapshot. In the</span>
-<span class="source-line-no">1642</span><span id="line-1642">   * returned multimap, keys appear in the order they are first encountered, and the values</span>
-<span class="source-line-no">1643</span><span id="line-1643">   * corresponding to each key appear in the same order as they are encountered.</span>
-<span class="source-line-no">1644</span><span id="line-1644">   *</span>
-<span class="source-line-no">1645</span><span id="line-1645">   * &lt;p&gt;For example,</span>
-<span class="source-line-no">1646</span><span id="line-1646">   *</span>
-<span class="source-line-no">1647</span><span id="line-1647">   * &lt;pre&gt;{@code</span>
-<span class="source-line-no">1648</span><span id="line-1648">   * List&lt;String&gt; badGuys =</span>
-<span class="source-line-no">1649</span><span id="line-1649">   *     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");</span>
-<span class="source-line-no">1650</span><span id="line-1650">   * Function&lt;String, Integer&gt; stringLengthFunction = ...;</span>
-<span class="source-line-no">1651</span><span id="line-1651">   * Multimap&lt;Integer, String&gt; index =</span>
-<span class="source-line-no">1652</span><span id="line-1652">   *     Multimaps.index(badGuys, stringLengthFunction);</span>
-<span class="source-line-no">1653</span><span id="line-1653">   * System.out.println(index);</span>
-<span class="source-line-no">1654</span><span id="line-1654">   * }&lt;/pre&gt;</span>
-<span class="source-line-no">1655</span><span id="line-1655">   *</span>
-<span class="source-line-no">1656</span><span id="line-1656">   * &lt;p&gt;prints</span>
+<span class="source-line-no">1605</span><span id="line-1605">    TransformedEntriesListMultimap(</span>
+<span class="source-line-no">1606</span><span id="line-1606">        ListMultimap&lt;K, V1&gt; fromMultimap, EntryTransformer&lt;? super K, ? super V1, V2&gt; transformer) {</span>
+<span class="source-line-no">1607</span><span id="line-1607">      super(fromMultimap, transformer);</span>
+<span class="source-line-no">1608</span><span id="line-1608">    }</span>
+<span class="source-line-no">1609</span><span id="line-1609"></span>
+<span class="source-line-no">1610</span><span id="line-1610">    @Override</span>
+<span class="source-line-no">1611</span><span id="line-1611">    List&lt;V2&gt; transform(@ParametricNullness K key, Collection&lt;V1&gt; values) {</span>
+<span class="source-line-no">1612</span><span id="line-1612">      return Lists.transform((List&lt;V1&gt;) values, v1 -&gt; transformer.transformEntry(key, v1));</span>
+<span class="source-line-no">1613</span><span id="line-1613">    }</span>
+<span class="source-line-no">1614</span><span id="line-1614"></span>
+<span class="source-line-no">1615</span><span id="line-1615">    @Override</span>
+<span class="source-line-no">1616</span><span id="line-1616">    public List&lt;V2&gt; get(@ParametricNullness K key) {</span>
+<span class="source-line-no">1617</span><span id="line-1617">      return transform(key, fromMultimap.get(key));</span>
+<span class="source-line-no">1618</span><span id="line-1618">    }</span>
+<span class="source-line-no">1619</span><span id="line-1619"></span>
+<span class="source-line-no">1620</span><span id="line-1620">    @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">1621</span><span id="line-1621">    @Override</span>
+<span class="source-line-no">1622</span><span id="line-1622">    public List&lt;V2&gt; removeAll(@Nullable Object key) {</span>
+<span class="source-line-no">1623</span><span id="line-1623">      return transform((K) key, fromMultimap.removeAll(key));</span>
+<span class="source-line-no">1624</span><span id="line-1624">    }</span>
+<span class="source-line-no">1625</span><span id="line-1625"></span>
+<span class="source-line-no">1626</span><span id="line-1626">    @Override</span>
+<span class="source-line-no">1627</span><span id="line-1627">    public List&lt;V2&gt; replaceValues(@ParametricNullness K key, Iterable&lt;? extends V2&gt; values) {</span>
+<span class="source-line-no">1628</span><span id="line-1628">      throw new UnsupportedOperationException();</span>
+<span class="source-line-no">1629</span><span id="line-1629">    }</span>
+<span class="source-line-no">1630</span><span id="line-1630">  }</span>
+<span class="source-line-no">1631</span><span id="line-1631"></span>
+<span class="source-line-no">1632</span><span id="line-1632">  /**</span>
+<span class="source-line-no">1633</span><span id="line-1633">   * Creates an index {@code ImmutableListMultimap} that contains the results of applying a</span>
+<span class="source-line-no">1634</span><span id="line-1634">   * specified function to each item in an {@code Iterable} of values. Each value will be stored as</span>
+<span class="source-line-no">1635</span><span id="line-1635">   * a value in the resulting multimap, yielding a multimap with the same size as the input</span>
+<span class="source-line-no">1636</span><span id="line-1636">   * iterable. The key used to store that value in the multimap will be the result of calling the</span>
+<span class="source-line-no">1637</span><span id="line-1637">   * function on that value. The resulting multimap is created as an immutable snapshot. In the</span>
+<span class="source-line-no">1638</span><span id="line-1638">   * returned multimap, keys appear in the order they are first encountered, and the values</span>
+<span class="source-line-no">1639</span><span id="line-1639">   * corresponding to each key appear in the same order as they are encountered.</span>
+<span class="source-line-no">1640</span><span id="line-1640">   *</span>
+<span class="source-line-no">1641</span><span id="line-1641">   * &lt;p&gt;For example,</span>
+<span class="source-line-no">1642</span><span id="line-1642">   *</span>
+<span class="source-line-no">1643</span><span id="line-1643">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1644</span><span id="line-1644">   * List&lt;String&gt; badGuys =</span>
+<span class="source-line-no">1645</span><span id="line-1645">   *     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");</span>
+<span class="source-line-no">1646</span><span id="line-1646">   * Function&lt;String, Integer&gt; stringLengthFunction = ...;</span>
+<span class="source-line-no">1647</span><span id="line-1647">   * Multimap&lt;Integer, String&gt; index =</span>
+<span class="source-line-no">1648</span><span id="line-1648">   *     Multimaps.index(badGuys, stringLengthFunction);</span>
+<span class="source-line-no">1649</span><span id="line-1649">   * System.out.println(index);</span>
+<span class="source-line-no">1650</span><span id="line-1650">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1651</span><span id="line-1651">   *</span>
+<span class="source-line-no">1652</span><span id="line-1652">   * &lt;p&gt;prints</span>
+<span class="source-line-no">1653</span><span id="line-1653">   *</span>
+<span class="source-line-no">1654</span><span id="line-1654">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1655</span><span id="line-1655">   * {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}</span>
+<span class="source-line-no">1656</span><span id="line-1656">   * }&lt;/pre&gt;</span>
 <span class="source-line-no">1657</span><span id="line-1657">   *</span>
-<span class="source-line-no">1658</span><span id="line-1658">   * &lt;pre&gt;{@code</span>
-<span class="source-line-no">1659</span><span id="line-1659">   * {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}</span>
-<span class="source-line-no">1660</span><span id="line-1660">   * }&lt;/pre&gt;</span>
-<span class="source-line-no">1661</span><span id="line-1661">   *</span>
-<span class="source-line-no">1662</span><span id="line-1662">   * &lt;p&gt;The returned multimap is serializable if its keys and values are all serializable.</span>
-<span class="source-line-no">1663</span><span id="line-1663">   *</span>
-<span class="source-line-no">1664</span><span id="line-1664">   * @param values the values to use when constructing the {@code ImmutableListMultimap}</span>
-<span class="source-line-no">1665</span><span id="line-1665">   * @param keyFunction the function used to produce the key for each value</span>
-<span class="source-line-no">1666</span><span id="line-1666">   * @return {@code ImmutableListMultimap} mapping the result of evaluating the function {@code</span>
-<span class="source-line-no">1667</span><span id="line-1667">   *     keyFunction} on each value in the input collection to that value</span>
-<span class="source-line-no">1668</span><span id="line-1668">   * @throws NullPointerException if any element of {@code values} is {@code null}, or if {@code</span>
-<span class="source-line-no">1669</span><span id="line-1669">   *     keyFunction} produces {@code null} for any key</span>
-<span class="source-line-no">1670</span><span id="line-1670">   */</span>
-<span class="source-line-no">1671</span><span id="line-1671">  public static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; index(</span>
-<span class="source-line-no">1672</span><span id="line-1672">      Iterable&lt;V&gt; values, Function&lt;? super V, K&gt; keyFunction) {</span>
-<span class="source-line-no">1673</span><span id="line-1673">    return index(values.iterator(), keyFunction);</span>
-<span class="source-line-no">1674</span><span id="line-1674">  }</span>
-<span class="source-line-no">1675</span><span id="line-1675"></span>
-<span class="source-line-no">1676</span><span id="line-1676">  /**</span>
-<span class="source-line-no">1677</span><span id="line-1677">   * Creates an index {@code ImmutableListMultimap} that contains the results of applying a</span>
-<span class="source-line-no">1678</span><span id="line-1678">   * specified function to each item in an {@code Iterator} of values. Each value will be stored as</span>
-<span class="source-line-no">1679</span><span id="line-1679">   * a value in the resulting multimap, yielding a multimap with the same size as the input</span>
-<span class="source-line-no">1680</span><span id="line-1680">   * iterator. The key used to store that value in the multimap will be the result of calling the</span>
-<span class="source-line-no">1681</span><span id="line-1681">   * function on that value. The resulting multimap is created as an immutable snapshot. In the</span>
-<span class="source-line-no">1682</span><span id="line-1682">   * returned multimap, keys appear in the order they are first encountered, and the values</span>
-<span class="source-line-no">1683</span><span id="line-1683">   * corresponding to each key appear in the same order as they are encountered.</span>
-<span class="source-line-no">1684</span><span id="line-1684">   *</span>
-<span class="source-line-no">1685</span><span id="line-1685">   * &lt;p&gt;For example,</span>
-<span class="source-line-no">1686</span><span id="line-1686">   *</span>
-<span class="source-line-no">1687</span><span id="line-1687">   * &lt;pre&gt;{@code</span>
-<span class="source-line-no">1688</span><span id="line-1688">   * List&lt;String&gt; badGuys =</span>
-<span class="source-line-no">1689</span><span id="line-1689">   *     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");</span>
-<span class="source-line-no">1690</span><span id="line-1690">   * Function&lt;String, Integer&gt; stringLengthFunction = ...;</span>
-<span class="source-line-no">1691</span><span id="line-1691">   * Multimap&lt;Integer, String&gt; index =</span>
-<span class="source-line-no">1692</span><span id="line-1692">   *     Multimaps.index(badGuys.iterator(), stringLengthFunction);</span>
-<span class="source-line-no">1693</span><span id="line-1693">   * System.out.println(index);</span>
-<span class="source-line-no">1694</span><span id="line-1694">   * }&lt;/pre&gt;</span>
-<span class="source-line-no">1695</span><span id="line-1695">   *</span>
-<span class="source-line-no">1696</span><span id="line-1696">   * &lt;p&gt;prints</span>
+<span class="source-line-no">1658</span><span id="line-1658">   * &lt;p&gt;The returned multimap is serializable if its keys and values are all serializable.</span>
+<span class="source-line-no">1659</span><span id="line-1659">   *</span>
+<span class="source-line-no">1660</span><span id="line-1660">   * @param values the values to use when constructing the {@code ImmutableListMultimap}</span>
+<span class="source-line-no">1661</span><span id="line-1661">   * @param keyFunction the function used to produce the key for each value</span>
+<span class="source-line-no">1662</span><span id="line-1662">   * @return {@code ImmutableListMultimap} mapping the result of evaluating the function {@code</span>
+<span class="source-line-no">1663</span><span id="line-1663">   *     keyFunction} on each value in the input collection to that value</span>
+<span class="source-line-no">1664</span><span id="line-1664">   * @throws NullPointerException if any element of {@code values} is {@code null}, or if {@code</span>
+<span class="source-line-no">1665</span><span id="line-1665">   *     keyFunction} produces {@code null} for any key</span>
+<span class="source-line-no">1666</span><span id="line-1666">   */</span>
+<span class="source-line-no">1667</span><span id="line-1667">  public static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; index(</span>
+<span class="source-line-no">1668</span><span id="line-1668">      Iterable&lt;V&gt; values, Function&lt;? super V, K&gt; keyFunction) {</span>
+<span class="source-line-no">1669</span><span id="line-1669">    return index(values.iterator(), keyFunction);</span>
+<span class="source-line-no">1670</span><span id="line-1670">  }</span>
+<span class="source-line-no">1671</span><span id="line-1671"></span>
+<span class="source-line-no">1672</span><span id="line-1672">  /**</span>
+<span class="source-line-no">1673</span><span id="line-1673">   * Creates an index {@code ImmutableListMultimap} that contains the results of applying a</span>
+<span class="source-line-no">1674</span><span id="line-1674">   * specified function to each item in an {@code Iterator} of values. Each value will be stored as</span>
+<span class="source-line-no">1675</span><span id="line-1675">   * a value in the resulting multimap, yielding a multimap with the same size as the input</span>
+<span class="source-line-no">1676</span><span id="line-1676">   * iterator. The key used to store that value in the multimap will be the result of calling the</span>
+<span class="source-line-no">1677</span><span id="line-1677">   * function on that value. The resulting multimap is created as an immutable snapshot. In the</span>
+<span class="source-line-no">1678</span><span id="line-1678">   * returned multimap, keys appear in the order they are first encountered, and the values</span>
+<span class="source-line-no">1679</span><span id="line-1679">   * corresponding to each key appear in the same order as they are encountered.</span>
+<span class="source-line-no">1680</span><span id="line-1680">   *</span>
+<span class="source-line-no">1681</span><span id="line-1681">   * &lt;p&gt;For example,</span>
+<span class="source-line-no">1682</span><span id="line-1682">   *</span>
+<span class="source-line-no">1683</span><span id="line-1683">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1684</span><span id="line-1684">   * List&lt;String&gt; badGuys =</span>
+<span class="source-line-no">1685</span><span id="line-1685">   *     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");</span>
+<span class="source-line-no">1686</span><span id="line-1686">   * Function&lt;String, Integer&gt; stringLengthFunction = ...;</span>
+<span class="source-line-no">1687</span><span id="line-1687">   * Multimap&lt;Integer, String&gt; index =</span>
+<span class="source-line-no">1688</span><span id="line-1688">   *     Multimaps.index(badGuys.iterator(), stringLengthFunction);</span>
+<span class="source-line-no">1689</span><span id="line-1689">   * System.out.println(index);</span>
+<span class="source-line-no">1690</span><span id="line-1690">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1691</span><span id="line-1691">   *</span>
+<span class="source-line-no">1692</span><span id="line-1692">   * &lt;p&gt;prints</span>
+<span class="source-line-no">1693</span><span id="line-1693">   *</span>
+<span class="source-line-no">1694</span><span id="line-1694">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1695</span><span id="line-1695">   * {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}</span>
+<span class="source-line-no">1696</span><span id="line-1696">   * }&lt;/pre&gt;</span>
 <span class="source-line-no">1697</span><span id="line-1697">   *</span>
-<span class="source-line-no">1698</span><span id="line-1698">   * &lt;pre&gt;{@code</span>
-<span class="source-line-no">1699</span><span id="line-1699">   * {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}</span>
-<span class="source-line-no">1700</span><span id="line-1700">   * }&lt;/pre&gt;</span>
-<span class="source-line-no">1701</span><span id="line-1701">   *</span>
-<span class="source-line-no">1702</span><span id="line-1702">   * &lt;p&gt;The returned multimap is serializable if its keys and values are all serializable.</span>
-<span class="source-line-no">1703</span><span id="line-1703">   *</span>
-<span class="source-line-no">1704</span><span id="line-1704">   * @param values the values to use when constructing the {@code ImmutableListMultimap}</span>
-<span class="source-line-no">1705</span><span id="line-1705">   * @param keyFunction the function used to produce the key for each value</span>
-<span class="source-line-no">1706</span><span id="line-1706">   * @return {@code ImmutableListMultimap} mapping the result of evaluating the function {@code</span>
-<span class="source-line-no">1707</span><span id="line-1707">   *     keyFunction} on each value in the input collection to that value</span>
-<span class="source-line-no">1708</span><span id="line-1708">   * @throws NullPointerException if any element of {@code values} is {@code null}, or if {@code</span>
-<span class="source-line-no">1709</span><span id="line-1709">   *     keyFunction} produces {@code null} for any key</span>
-<span class="source-line-no">1710</span><span id="line-1710">   * @since 10.0</span>
-<span class="source-line-no">1711</span><span id="line-1711">   */</span>
-<span class="source-line-no">1712</span><span id="line-1712">  public static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; index(</span>
-<span class="source-line-no">1713</span><span id="line-1713">      Iterator&lt;V&gt; values, Function&lt;? super V, K&gt; keyFunction) {</span>
-<span class="source-line-no">1714</span><span id="line-1714">    checkNotNull(keyFunction);</span>
-<span class="source-line-no">1715</span><span id="line-1715">    ImmutableListMultimap.Builder&lt;K, V&gt; builder = ImmutableListMultimap.builder();</span>
-<span class="source-line-no">1716</span><span id="line-1716">    while (values.hasNext()) {</span>
-<span class="source-line-no">1717</span><span id="line-1717">      V value = values.next();</span>
-<span class="source-line-no">1718</span><span id="line-1718">      checkNotNull(value, values);</span>
-<span class="source-line-no">1719</span><span id="line-1719">      builder.put(keyFunction.apply(value), value);</span>
-<span class="source-line-no">1720</span><span id="line-1720">    }</span>
-<span class="source-line-no">1721</span><span id="line-1721">    return builder.build();</span>
-<span class="source-line-no">1722</span><span id="line-1722">  }</span>
+<span class="source-line-no">1698</span><span id="line-1698">   * &lt;p&gt;The returned multimap is serializable if its keys and values are all serializable.</span>
+<span class="source-line-no">1699</span><span id="line-1699">   *</span>
+<span class="source-line-no">1700</span><span id="line-1700">   * @param values the values to use when constructing the {@code ImmutableListMultimap}</span>
+<span class="source-line-no">1701</span><span id="line-1701">   * @param keyFunction the function used to produce the key for each value</span>
+<span class="source-line-no">1702</span><span id="line-1702">   * @return {@code ImmutableListMultimap} mapping the result of evaluating the function {@code</span>
+<span class="source-line-no">1703</span><span id="line-1703">   *     keyFunction} on each value in the input collection to that value</span>
+<span class="source-line-no">1704</span><span id="line-1704">   * @throws NullPointerException if any element of {@code values} is {@code null}, or if {@code</span>
+<span class="source-line-no">1705</span><span id="line-1705">   *     keyFunction} produces {@code null} for any key</span>
+<span class="source-line-no">1706</span><span id="line-1706">   * @since 10.0</span>
+<span class="source-line-no">1707</span><span id="line-1707">   */</span>
+<span class="source-line-no">1708</span><span id="line-1708">  public static &lt;K, V&gt; ImmutableListMultimap&lt;K, V&gt; index(</span>
+<span class="source-line-no">1709</span><span id="line-1709">      Iterator&lt;V&gt; values, Function&lt;? super V, K&gt; keyFunction) {</span>
+<span class="source-line-no">1710</span><span id="line-1710">    checkNotNull(keyFunction);</span>
+<span class="source-line-no">1711</span><span id="line-1711">    ImmutableListMultimap.Builder&lt;K, V&gt; builder = ImmutableListMultimap.builder();</span>
+<span class="source-line-no">1712</span><span id="line-1712">    while (values.hasNext()) {</span>
+<span class="source-line-no">1713</span><span id="line-1713">      V value = values.next();</span>
+<span class="source-line-no">1714</span><span id="line-1714">      checkNotNull(value, values);</span>
+<span class="source-line-no">1715</span><span id="line-1715">      builder.put(keyFunction.apply(value), value);</span>
+<span class="source-line-no">1716</span><span id="line-1716">    }</span>
+<span class="source-line-no">1717</span><span id="line-1717">    return builder.build();</span>
+<span class="source-line-no">1718</span><span id="line-1718">  }</span>
+<span class="source-line-no">1719</span><span id="line-1719"></span>
+<span class="source-line-no">1720</span><span id="line-1720">  static class Keys&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">1721</span><span id="line-1721">      extends AbstractMultiset&lt;K&gt; {</span>
+<span class="source-line-no">1722</span><span id="line-1722">    @Weak final Multimap&lt;K, V&gt; multimap;</span>
 <span class="source-line-no">1723</span><span id="line-1723"></span>
-<span class="source-line-no">1724</span><span id="line-1724">  static class Keys&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">1725</span><span id="line-1725">      extends AbstractMultiset&lt;K&gt; {</span>
-<span class="source-line-no">1726</span><span id="line-1726">    @Weak final Multimap&lt;K, V&gt; multimap;</span>
+<span class="source-line-no">1724</span><span id="line-1724">    Keys(Multimap&lt;K, V&gt; multimap) {</span>
+<span class="source-line-no">1725</span><span id="line-1725">      this.multimap = multimap;</span>
+<span class="source-line-no">1726</span><span id="line-1726">    }</span>
 <span class="source-line-no">1727</span><span id="line-1727"></span>
-<span class="source-line-no">1728</span><span id="line-1728">    Keys(Multimap&lt;K, V&gt; multimap) {</span>
-<span class="source-line-no">1729</span><span id="line-1729">      this.multimap = multimap;</span>
-<span class="source-line-no">1730</span><span id="line-1730">    }</span>
-<span class="source-line-no">1731</span><span id="line-1731"></span>
-<span class="source-line-no">1732</span><span id="line-1732">    @Override</span>
-<span class="source-line-no">1733</span><span id="line-1733">    Iterator&lt;Multiset.Entry&lt;K&gt;&gt; entryIterator() {</span>
-<span class="source-line-no">1734</span><span id="line-1734">      return new TransformedIterator&lt;Map.Entry&lt;K, Collection&lt;V&gt;&gt;, Multiset.Entry&lt;K&gt;&gt;(</span>
-<span class="source-line-no">1735</span><span id="line-1735">          multimap.asMap().entrySet().iterator()) {</span>
-<span class="source-line-no">1736</span><span id="line-1736">        @Override</span>
-<span class="source-line-no">1737</span><span id="line-1737">        Multiset.Entry&lt;K&gt; transform(Map.Entry&lt;K, Collection&lt;V&gt;&gt; backingEntry) {</span>
-<span class="source-line-no">1738</span><span id="line-1738">          return new Multisets.AbstractEntry&lt;K&gt;() {</span>
-<span class="source-line-no">1739</span><span id="line-1739">            @Override</span>
-<span class="source-line-no">1740</span><span id="line-1740">            @ParametricNullness</span>
-<span class="source-line-no">1741</span><span id="line-1741">            public K getElement() {</span>
-<span class="source-line-no">1742</span><span id="line-1742">              return backingEntry.getKey();</span>
-<span class="source-line-no">1743</span><span id="line-1743">            }</span>
-<span class="source-line-no">1744</span><span id="line-1744"></span>
-<span class="source-line-no">1745</span><span id="line-1745">            @Override</span>
-<span class="source-line-no">1746</span><span id="line-1746">            public int getCount() {</span>
-<span class="source-line-no">1747</span><span id="line-1747">              return backingEntry.getValue().size();</span>
-<span class="source-line-no">1748</span><span id="line-1748">            }</span>
-<span class="source-line-no">1749</span><span id="line-1749">          };</span>
-<span class="source-line-no">1750</span><span id="line-1750">        }</span>
-<span class="source-line-no">1751</span><span id="line-1751">      };</span>
-<span class="source-line-no">1752</span><span id="line-1752">    }</span>
-<span class="source-line-no">1753</span><span id="line-1753"></span>
-<span class="source-line-no">1754</span><span id="line-1754">    @Override</span>
-<span class="source-line-no">1755</span><span id="line-1755">    int distinctElements() {</span>
-<span class="source-line-no">1756</span><span id="line-1756">      return multimap.asMap().size();</span>
-<span class="source-line-no">1757</span><span id="line-1757">    }</span>
-<span class="source-line-no">1758</span><span id="line-1758"></span>
-<span class="source-line-no">1759</span><span id="line-1759">    @Override</span>
-<span class="source-line-no">1760</span><span id="line-1760">    public int size() {</span>
-<span class="source-line-no">1761</span><span id="line-1761">      return multimap.size();</span>
-<span class="source-line-no">1762</span><span id="line-1762">    }</span>
-<span class="source-line-no">1763</span><span id="line-1763"></span>
-<span class="source-line-no">1764</span><span id="line-1764">    @Override</span>
-<span class="source-line-no">1765</span><span id="line-1765">    public boolean contains(@Nullable Object element) {</span>
-<span class="source-line-no">1766</span><span id="line-1766">      return multimap.containsKey(element);</span>
-<span class="source-line-no">1767</span><span id="line-1767">    }</span>
-<span class="source-line-no">1768</span><span id="line-1768"></span>
-<span class="source-line-no">1769</span><span id="line-1769">    @Override</span>
-<span class="source-line-no">1770</span><span id="line-1770">    public Iterator&lt;K&gt; iterator() {</span>
-<span class="source-line-no">1771</span><span id="line-1771">      return Maps.keyIterator(multimap.entries().iterator());</span>
-<span class="source-line-no">1772</span><span id="line-1772">    }</span>
-<span class="source-line-no">1773</span><span id="line-1773"></span>
-<span class="source-line-no">1774</span><span id="line-1774">    @Override</span>
-<span class="source-line-no">1775</span><span id="line-1775">    public int count(@Nullable Object element) {</span>
-<span class="source-line-no">1776</span><span id="line-1776">      Collection&lt;V&gt; values = Maps.safeGet(multimap.asMap(), element);</span>
-<span class="source-line-no">1777</span><span id="line-1777">      return (values == null) ? 0 : values.size();</span>
-<span class="source-line-no">1778</span><span id="line-1778">    }</span>
-<span class="source-line-no">1779</span><span id="line-1779"></span>
-<span class="source-line-no">1780</span><span id="line-1780">    @Override</span>
-<span class="source-line-no">1781</span><span id="line-1781">    public int remove(@Nullable Object element, int occurrences) {</span>
-<span class="source-line-no">1782</span><span id="line-1782">      checkNonnegative(occurrences, "occurrences");</span>
-<span class="source-line-no">1783</span><span id="line-1783">      if (occurrences == 0) {</span>
-<span class="source-line-no">1784</span><span id="line-1784">        return count(element);</span>
-<span class="source-line-no">1785</span><span id="line-1785">      }</span>
-<span class="source-line-no">1786</span><span id="line-1786"></span>
-<span class="source-line-no">1787</span><span id="line-1787">      Collection&lt;V&gt; values = Maps.safeGet(multimap.asMap(), element);</span>
+<span class="source-line-no">1728</span><span id="line-1728">    @Override</span>
+<span class="source-line-no">1729</span><span id="line-1729">    Iterator&lt;Multiset.Entry&lt;K&gt;&gt; entryIterator() {</span>
+<span class="source-line-no">1730</span><span id="line-1730">      return new TransformedIterator&lt;Map.Entry&lt;K, Collection&lt;V&gt;&gt;, Multiset.Entry&lt;K&gt;&gt;(</span>
+<span class="source-line-no">1731</span><span id="line-1731">          multimap.asMap().entrySet().iterator()) {</span>
+<span class="source-line-no">1732</span><span id="line-1732">        @Override</span>
+<span class="source-line-no">1733</span><span id="line-1733">        Multiset.Entry&lt;K&gt; transform(Map.Entry&lt;K, Collection&lt;V&gt;&gt; backingEntry) {</span>
+<span class="source-line-no">1734</span><span id="line-1734">          return new Multisets.AbstractEntry&lt;K&gt;() {</span>
+<span class="source-line-no">1735</span><span id="line-1735">            @Override</span>
+<span class="source-line-no">1736</span><span id="line-1736">            @ParametricNullness</span>
+<span class="source-line-no">1737</span><span id="line-1737">            public K getElement() {</span>
+<span class="source-line-no">1738</span><span id="line-1738">              return backingEntry.getKey();</span>
+<span class="source-line-no">1739</span><span id="line-1739">            }</span>
+<span class="source-line-no">1740</span><span id="line-1740"></span>
+<span class="source-line-no">1741</span><span id="line-1741">            @Override</span>
+<span class="source-line-no">1742</span><span id="line-1742">            public int getCount() {</span>
+<span class="source-line-no">1743</span><span id="line-1743">              return backingEntry.getValue().size();</span>
+<span class="source-line-no">1744</span><span id="line-1744">            }</span>
+<span class="source-line-no">1745</span><span id="line-1745">          };</span>
+<span class="source-line-no">1746</span><span id="line-1746">        }</span>
+<span class="source-line-no">1747</span><span id="line-1747">      };</span>
+<span class="source-line-no">1748</span><span id="line-1748">    }</span>
+<span class="source-line-no">1749</span><span id="line-1749"></span>
+<span class="source-line-no">1750</span><span id="line-1750">    @Override</span>
+<span class="source-line-no">1751</span><span id="line-1751">    int distinctElements() {</span>
+<span class="source-line-no">1752</span><span id="line-1752">      return multimap.asMap().size();</span>
+<span class="source-line-no">1753</span><span id="line-1753">    }</span>
+<span class="source-line-no">1754</span><span id="line-1754"></span>
+<span class="source-line-no">1755</span><span id="line-1755">    @Override</span>
+<span class="source-line-no">1756</span><span id="line-1756">    public int size() {</span>
+<span class="source-line-no">1757</span><span id="line-1757">      return multimap.size();</span>
+<span class="source-line-no">1758</span><span id="line-1758">    }</span>
+<span class="source-line-no">1759</span><span id="line-1759"></span>
+<span class="source-line-no">1760</span><span id="line-1760">    @Override</span>
+<span class="source-line-no">1761</span><span id="line-1761">    public boolean contains(@Nullable Object element) {</span>
+<span class="source-line-no">1762</span><span id="line-1762">      return multimap.containsKey(element);</span>
+<span class="source-line-no">1763</span><span id="line-1763">    }</span>
+<span class="source-line-no">1764</span><span id="line-1764"></span>
+<span class="source-line-no">1765</span><span id="line-1765">    @Override</span>
+<span class="source-line-no">1766</span><span id="line-1766">    public Iterator&lt;K&gt; iterator() {</span>
+<span class="source-line-no">1767</span><span id="line-1767">      return Maps.keyIterator(multimap.entries().iterator());</span>
+<span class="source-line-no">1768</span><span id="line-1768">    }</span>
+<span class="source-line-no">1769</span><span id="line-1769"></span>
+<span class="source-line-no">1770</span><span id="line-1770">    @Override</span>
+<span class="source-line-no">1771</span><span id="line-1771">    public int count(@Nullable Object element) {</span>
+<span class="source-line-no">1772</span><span id="line-1772">      Collection&lt;V&gt; values = Maps.safeGet(multimap.asMap(), element);</span>
+<span class="source-line-no">1773</span><span id="line-1773">      return (values == null) ? 0 : values.size();</span>
+<span class="source-line-no">1774</span><span id="line-1774">    }</span>
+<span class="source-line-no">1775</span><span id="line-1775"></span>
+<span class="source-line-no">1776</span><span id="line-1776">    @Override</span>
+<span class="source-line-no">1777</span><span id="line-1777">    public int remove(@Nullable Object element, int occurrences) {</span>
+<span class="source-line-no">1778</span><span id="line-1778">      checkNonnegative(occurrences, "occurrences");</span>
+<span class="source-line-no">1779</span><span id="line-1779">      if (occurrences == 0) {</span>
+<span class="source-line-no">1780</span><span id="line-1780">        return count(element);</span>
+<span class="source-line-no">1781</span><span id="line-1781">      }</span>
+<span class="source-line-no">1782</span><span id="line-1782"></span>
+<span class="source-line-no">1783</span><span id="line-1783">      Collection&lt;V&gt; values = Maps.safeGet(multimap.asMap(), element);</span>
+<span class="source-line-no">1784</span><span id="line-1784"></span>
+<span class="source-line-no">1785</span><span id="line-1785">      if (values == null) {</span>
+<span class="source-line-no">1786</span><span id="line-1786">        return 0;</span>
+<span class="source-line-no">1787</span><span id="line-1787">      }</span>
 <span class="source-line-no">1788</span><span id="line-1788"></span>
-<span class="source-line-no">1789</span><span id="line-1789">      if (values == null) {</span>
-<span class="source-line-no">1790</span><span id="line-1790">        return 0;</span>
-<span class="source-line-no">1791</span><span id="line-1791">      }</span>
-<span class="source-line-no">1792</span><span id="line-1792"></span>
-<span class="source-line-no">1793</span><span id="line-1793">      int oldCount = values.size();</span>
-<span class="source-line-no">1794</span><span id="line-1794">      if (occurrences &gt;= oldCount) {</span>
-<span class="source-line-no">1795</span><span id="line-1795">        values.clear();</span>
-<span class="source-line-no">1796</span><span id="line-1796">      } else {</span>
-<span class="source-line-no">1797</span><span id="line-1797">        Iterator&lt;V&gt; iterator = values.iterator();</span>
-<span class="source-line-no">1798</span><span id="line-1798">        for (int i = 0; i &lt; occurrences; i++) {</span>
-<span class="source-line-no">1799</span><span id="line-1799">          iterator.next();</span>
-<span class="source-line-no">1800</span><span id="line-1800">          iterator.remove();</span>
-<span class="source-line-no">1801</span><span id="line-1801">        }</span>
-<span class="source-line-no">1802</span><span id="line-1802">      }</span>
-<span class="source-line-no">1803</span><span id="line-1803">      return oldCount;</span>
-<span class="source-line-no">1804</span><span id="line-1804">    }</span>
-<span class="source-line-no">1805</span><span id="line-1805"></span>
-<span class="source-line-no">1806</span><span id="line-1806">    @Override</span>
-<span class="source-line-no">1807</span><span id="line-1807">    public void clear() {</span>
-<span class="source-line-no">1808</span><span id="line-1808">      multimap.clear();</span>
-<span class="source-line-no">1809</span><span id="line-1809">    }</span>
-<span class="source-line-no">1810</span><span id="line-1810"></span>
-<span class="source-line-no">1811</span><span id="line-1811">    @Override</span>
-<span class="source-line-no">1812</span><span id="line-1812">    public Set&lt;K&gt; elementSet() {</span>
-<span class="source-line-no">1813</span><span id="line-1813">      return multimap.keySet();</span>
-<span class="source-line-no">1814</span><span id="line-1814">    }</span>
-<span class="source-line-no">1815</span><span id="line-1815"></span>
-<span class="source-line-no">1816</span><span id="line-1816">    @Override</span>
-<span class="source-line-no">1817</span><span id="line-1817">    Iterator&lt;K&gt; elementIterator() {</span>
-<span class="source-line-no">1818</span><span id="line-1818">      throw new AssertionError("should never be called");</span>
-<span class="source-line-no">1819</span><span id="line-1819">    }</span>
-<span class="source-line-no">1820</span><span id="line-1820">  }</span>
-<span class="source-line-no">1821</span><span id="line-1821"></span>
-<span class="source-line-no">1822</span><span id="line-1822">  /** A skeleton implementation of {@link Multimap#entries()}. */</span>
-<span class="source-line-no">1823</span><span id="line-1823">  abstract static class Entries&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">1824</span><span id="line-1824">      extends AbstractCollection&lt;Map.Entry&lt;K, V&gt;&gt; {</span>
-<span class="source-line-no">1825</span><span id="line-1825">    abstract Multimap&lt;K, V&gt; multimap();</span>
-<span class="source-line-no">1826</span><span id="line-1826"></span>
-<span class="source-line-no">1827</span><span id="line-1827">    @Override</span>
-<span class="source-line-no">1828</span><span id="line-1828">    public int size() {</span>
-<span class="source-line-no">1829</span><span id="line-1829">      return multimap().size();</span>
-<span class="source-line-no">1830</span><span id="line-1830">    }</span>
-<span class="source-line-no">1831</span><span id="line-1831"></span>
-<span class="source-line-no">1832</span><span id="line-1832">    @Override</span>
-<span class="source-line-no">1833</span><span id="line-1833">    public boolean contains(@Nullable Object o) {</span>
-<span class="source-line-no">1834</span><span id="line-1834">      if (o instanceof Map.Entry) {</span>
-<span class="source-line-no">1835</span><span id="line-1835">        Map.Entry&lt;?, ?&gt; entry = (Map.Entry&lt;?, ?&gt;) o;</span>
-<span class="source-line-no">1836</span><span id="line-1836">        return multimap().containsEntry(entry.getKey(), entry.getValue());</span>
-<span class="source-line-no">1837</span><span id="line-1837">      }</span>
-<span class="source-line-no">1838</span><span id="line-1838">      return false;</span>
-<span class="source-line-no">1839</span><span id="line-1839">    }</span>
-<span class="source-line-no">1840</span><span id="line-1840"></span>
-<span class="source-line-no">1841</span><span id="line-1841">    @Override</span>
-<span class="source-line-no">1842</span><span id="line-1842">    public boolean remove(@Nullable Object o) {</span>
-<span class="source-line-no">1843</span><span id="line-1843">      if (o instanceof Map.Entry) {</span>
-<span class="source-line-no">1844</span><span id="line-1844">        Map.Entry&lt;?, ?&gt; entry = (Map.Entry&lt;?, ?&gt;) o;</span>
-<span class="source-line-no">1845</span><span id="line-1845">        return multimap().remove(entry.getKey(), entry.getValue());</span>
-<span class="source-line-no">1846</span><span id="line-1846">      }</span>
-<span class="source-line-no">1847</span><span id="line-1847">      return false;</span>
-<span class="source-line-no">1848</span><span id="line-1848">    }</span>
-<span class="source-line-no">1849</span><span id="line-1849"></span>
-<span class="source-line-no">1850</span><span id="line-1850">    @Override</span>
-<span class="source-line-no">1851</span><span id="line-1851">    public void clear() {</span>
-<span class="source-line-no">1852</span><span id="line-1852">      multimap().clear();</span>
-<span class="source-line-no">1853</span><span id="line-1853">    }</span>
-<span class="source-line-no">1854</span><span id="line-1854">  }</span>
-<span class="source-line-no">1855</span><span id="line-1855"></span>
-<span class="source-line-no">1856</span><span id="line-1856">  /** A skeleton implementation of {@link Multimap#asMap()}. */</span>
-<span class="source-line-no">1857</span><span id="line-1857">  static final class AsMap&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">1858</span><span id="line-1858">      extends Maps.ViewCachingAbstractMap&lt;K, Collection&lt;V&gt;&gt; {</span>
-<span class="source-line-no">1859</span><span id="line-1859">    @Weak private final Multimap&lt;K, V&gt; multimap;</span>
+<span class="source-line-no">1789</span><span id="line-1789">      int oldCount = values.size();</span>
+<span class="source-line-no">1790</span><span id="line-1790">      if (occurrences &gt;= oldCount) {</span>
+<span class="source-line-no">1791</span><span id="line-1791">        values.clear();</span>
+<span class="source-line-no">1792</span><span id="line-1792">      } else {</span>
+<span class="source-line-no">1793</span><span id="line-1793">        Iterator&lt;V&gt; iterator = values.iterator();</span>
+<span class="source-line-no">1794</span><span id="line-1794">        for (int i = 0; i &lt; occurrences; i++) {</span>
+<span class="source-line-no">1795</span><span id="line-1795">          iterator.next();</span>
+<span class="source-line-no">1796</span><span id="line-1796">          iterator.remove();</span>
+<span class="source-line-no">1797</span><span id="line-1797">        }</span>
+<span class="source-line-no">1798</span><span id="line-1798">      }</span>
+<span class="source-line-no">1799</span><span id="line-1799">      return oldCount;</span>
+<span class="source-line-no">1800</span><span id="line-1800">    }</span>
+<span class="source-line-no">1801</span><span id="line-1801"></span>
+<span class="source-line-no">1802</span><span id="line-1802">    @Override</span>
+<span class="source-line-no">1803</span><span id="line-1803">    public void clear() {</span>
+<span class="source-line-no">1804</span><span id="line-1804">      multimap.clear();</span>
+<span class="source-line-no">1805</span><span id="line-1805">    }</span>
+<span class="source-line-no">1806</span><span id="line-1806"></span>
+<span class="source-line-no">1807</span><span id="line-1807">    @Override</span>
+<span class="source-line-no">1808</span><span id="line-1808">    public Set&lt;K&gt; elementSet() {</span>
+<span class="source-line-no">1809</span><span id="line-1809">      return multimap.keySet();</span>
+<span class="source-line-no">1810</span><span id="line-1810">    }</span>
+<span class="source-line-no">1811</span><span id="line-1811"></span>
+<span class="source-line-no">1812</span><span id="line-1812">    @Override</span>
+<span class="source-line-no">1813</span><span id="line-1813">    Iterator&lt;K&gt; elementIterator() {</span>
+<span class="source-line-no">1814</span><span id="line-1814">      throw new AssertionError("should never be called");</span>
+<span class="source-line-no">1815</span><span id="line-1815">    }</span>
+<span class="source-line-no">1816</span><span id="line-1816">  }</span>
+<span class="source-line-no">1817</span><span id="line-1817"></span>
+<span class="source-line-no">1818</span><span id="line-1818">  /** A skeleton implementation of {@link Multimap#entries()}. */</span>
+<span class="source-line-no">1819</span><span id="line-1819">  abstract static class Entries&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">1820</span><span id="line-1820">      extends AbstractCollection&lt;Map.Entry&lt;K, V&gt;&gt; {</span>
+<span class="source-line-no">1821</span><span id="line-1821">    abstract Multimap&lt;K, V&gt; multimap();</span>
+<span class="source-line-no">1822</span><span id="line-1822"></span>
+<span class="source-line-no">1823</span><span id="line-1823">    @Override</span>
+<span class="source-line-no">1824</span><span id="line-1824">    public int size() {</span>
+<span class="source-line-no">1825</span><span id="line-1825">      return multimap().size();</span>
+<span class="source-line-no">1826</span><span id="line-1826">    }</span>
+<span class="source-line-no">1827</span><span id="line-1827"></span>
+<span class="source-line-no">1828</span><span id="line-1828">    @Override</span>
+<span class="source-line-no">1829</span><span id="line-1829">    public boolean contains(@Nullable Object o) {</span>
+<span class="source-line-no">1830</span><span id="line-1830">      if (o instanceof Map.Entry) {</span>
+<span class="source-line-no">1831</span><span id="line-1831">        Map.Entry&lt;?, ?&gt; entry = (Map.Entry&lt;?, ?&gt;) o;</span>
+<span class="source-line-no">1832</span><span id="line-1832">        return multimap().containsEntry(entry.getKey(), entry.getValue());</span>
+<span class="source-line-no">1833</span><span id="line-1833">      }</span>
+<span class="source-line-no">1834</span><span id="line-1834">      return false;</span>
+<span class="source-line-no">1835</span><span id="line-1835">    }</span>
+<span class="source-line-no">1836</span><span id="line-1836"></span>
+<span class="source-line-no">1837</span><span id="line-1837">    @Override</span>
+<span class="source-line-no">1838</span><span id="line-1838">    public boolean remove(@Nullable Object o) {</span>
+<span class="source-line-no">1839</span><span id="line-1839">      if (o instanceof Map.Entry) {</span>
+<span class="source-line-no">1840</span><span id="line-1840">        Map.Entry&lt;?, ?&gt; entry = (Map.Entry&lt;?, ?&gt;) o;</span>
+<span class="source-line-no">1841</span><span id="line-1841">        return multimap().remove(entry.getKey(), entry.getValue());</span>
+<span class="source-line-no">1842</span><span id="line-1842">      }</span>
+<span class="source-line-no">1843</span><span id="line-1843">      return false;</span>
+<span class="source-line-no">1844</span><span id="line-1844">    }</span>
+<span class="source-line-no">1845</span><span id="line-1845"></span>
+<span class="source-line-no">1846</span><span id="line-1846">    @Override</span>
+<span class="source-line-no">1847</span><span id="line-1847">    public void clear() {</span>
+<span class="source-line-no">1848</span><span id="line-1848">      multimap().clear();</span>
+<span class="source-line-no">1849</span><span id="line-1849">    }</span>
+<span class="source-line-no">1850</span><span id="line-1850">  }</span>
+<span class="source-line-no">1851</span><span id="line-1851"></span>
+<span class="source-line-no">1852</span><span id="line-1852">  /** A skeleton implementation of {@link Multimap#asMap()}. */</span>
+<span class="source-line-no">1853</span><span id="line-1853">  static final class AsMap&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">1854</span><span id="line-1854">      extends Maps.ViewCachingAbstractMap&lt;K, Collection&lt;V&gt;&gt; {</span>
+<span class="source-line-no">1855</span><span id="line-1855">    @Weak private final Multimap&lt;K, V&gt; multimap;</span>
+<span class="source-line-no">1856</span><span id="line-1856"></span>
+<span class="source-line-no">1857</span><span id="line-1857">    AsMap(Multimap&lt;K, V&gt; multimap) {</span>
+<span class="source-line-no">1858</span><span id="line-1858">      this.multimap = checkNotNull(multimap);</span>
+<span class="source-line-no">1859</span><span id="line-1859">    }</span>
 <span class="source-line-no">1860</span><span id="line-1860"></span>
-<span class="source-line-no">1861</span><span id="line-1861">    AsMap(Multimap&lt;K, V&gt; multimap) {</span>
-<span class="source-line-no">1862</span><span id="line-1862">      this.multimap = checkNotNull(multimap);</span>
-<span class="source-line-no">1863</span><span id="line-1863">    }</span>
-<span class="source-line-no">1864</span><span id="line-1864"></span>
-<span class="source-line-no">1865</span><span id="line-1865">    @Override</span>
-<span class="source-line-no">1866</span><span id="line-1866">    public int size() {</span>
-<span class="source-line-no">1867</span><span id="line-1867">      return multimap.keySet().size();</span>
-<span class="source-line-no">1868</span><span id="line-1868">    }</span>
-<span class="source-line-no">1869</span><span id="line-1869"></span>
-<span class="source-line-no">1870</span><span id="line-1870">    @Override</span>
-<span class="source-line-no">1871</span><span id="line-1871">    protected Set&lt;Entry&lt;K, Collection&lt;V&gt;&gt;&gt; createEntrySet() {</span>
-<span class="source-line-no">1872</span><span id="line-1872">      return new EntrySet();</span>
+<span class="source-line-no">1861</span><span id="line-1861">    @Override</span>
+<span class="source-line-no">1862</span><span id="line-1862">    public int size() {</span>
+<span class="source-line-no">1863</span><span id="line-1863">      return multimap.keySet().size();</span>
+<span class="source-line-no">1864</span><span id="line-1864">    }</span>
+<span class="source-line-no">1865</span><span id="line-1865"></span>
+<span class="source-line-no">1866</span><span id="line-1866">    @Override</span>
+<span class="source-line-no">1867</span><span id="line-1867">    protected Set&lt;Entry&lt;K, Collection&lt;V&gt;&gt;&gt; createEntrySet() {</span>
+<span class="source-line-no">1868</span><span id="line-1868">      return new EntrySet();</span>
+<span class="source-line-no">1869</span><span id="line-1869">    }</span>
+<span class="source-line-no">1870</span><span id="line-1870"></span>
+<span class="source-line-no">1871</span><span id="line-1871">    void removeValuesForKey(@Nullable Object key) {</span>
+<span class="source-line-no">1872</span><span id="line-1872">      multimap.keySet().remove(key);</span>
 <span class="source-line-no">1873</span><span id="line-1873">    }</span>
 <span class="source-line-no">1874</span><span id="line-1874"></span>
-<span class="source-line-no">1875</span><span id="line-1875">    void removeValuesForKey(@Nullable Object key) {</span>
-<span class="source-line-no">1876</span><span id="line-1876">      multimap.keySet().remove(key);</span>
-<span class="source-line-no">1877</span><span id="line-1877">    }</span>
-<span class="source-line-no">1878</span><span id="line-1878"></span>
-<span class="source-line-no">1879</span><span id="line-1879">    @WeakOuter</span>
-<span class="source-line-no">1880</span><span id="line-1880">    class EntrySet extends Maps.EntrySet&lt;K, Collection&lt;V&gt;&gt; {</span>
-<span class="source-line-no">1881</span><span id="line-1881">      @Override</span>
-<span class="source-line-no">1882</span><span id="line-1882">      Map&lt;K, Collection&lt;V&gt;&gt; map() {</span>
-<span class="source-line-no">1883</span><span id="line-1883">        return AsMap.this;</span>
-<span class="source-line-no">1884</span><span id="line-1884">      }</span>
-<span class="source-line-no">1885</span><span id="line-1885"></span>
-<span class="source-line-no">1886</span><span id="line-1886">      @Override</span>
-<span class="source-line-no">1887</span><span id="line-1887">      public Iterator&lt;Entry&lt;K, Collection&lt;V&gt;&gt;&gt; iterator() {</span>
-<span class="source-line-no">1888</span><span id="line-1888">        return Maps.asMapEntryIterator(multimap.keySet(), multimap::get);</span>
-<span class="source-line-no">1889</span><span id="line-1889">      }</span>
-<span class="source-line-no">1890</span><span id="line-1890"></span>
-<span class="source-line-no">1891</span><span id="line-1891">      @Override</span>
-<span class="source-line-no">1892</span><span id="line-1892">      public boolean remove(@Nullable Object o) {</span>
-<span class="source-line-no">1893</span><span id="line-1893">        if (!contains(o)) {</span>
-<span class="source-line-no">1894</span><span id="line-1894">          return false;</span>
-<span class="source-line-no">1895</span><span id="line-1895">        }</span>
-<span class="source-line-no">1896</span><span id="line-1896">        // requireNonNull is safe because of the contains check.</span>
-<span class="source-line-no">1897</span><span id="line-1897">        Map.Entry&lt;?, ?&gt; entry = requireNonNull((Map.Entry&lt;?, ?&gt;) o);</span>
-<span class="source-line-no">1898</span><span id="line-1898">        removeValuesForKey(entry.getKey());</span>
-<span class="source-line-no">1899</span><span id="line-1899">        return true;</span>
-<span class="source-line-no">1900</span><span id="line-1900">      }</span>
-<span class="source-line-no">1901</span><span id="line-1901">    }</span>
-<span class="source-line-no">1902</span><span id="line-1902"></span>
-<span class="source-line-no">1903</span><span id="line-1903">    @SuppressWarnings("unchecked")</span>
-<span class="source-line-no">1904</span><span id="line-1904">    @Override</span>
-<span class="source-line-no">1905</span><span id="line-1905">    public @Nullable Collection&lt;V&gt; get(@Nullable Object key) {</span>
-<span class="source-line-no">1906</span><span id="line-1906">      return containsKey(key) ? multimap.get((K) key) : null;</span>
-<span class="source-line-no">1907</span><span id="line-1907">    }</span>
-<span class="source-line-no">1908</span><span id="line-1908"></span>
-<span class="source-line-no">1909</span><span id="line-1909">    @Override</span>
-<span class="source-line-no">1910</span><span id="line-1910">    public @Nullable Collection&lt;V&gt; remove(@Nullable Object key) {</span>
-<span class="source-line-no">1911</span><span id="line-1911">      return containsKey(key) ? multimap.removeAll(key) : null;</span>
-<span class="source-line-no">1912</span><span id="line-1912">    }</span>
-<span class="source-line-no">1913</span><span id="line-1913"></span>
-<span class="source-line-no">1914</span><span id="line-1914">    @Override</span>
-<span class="source-line-no">1915</span><span id="line-1915">    public Set&lt;K&gt; keySet() {</span>
-<span class="source-line-no">1916</span><span id="line-1916">      return multimap.keySet();</span>
-<span class="source-line-no">1917</span><span id="line-1917">    }</span>
-<span class="source-line-no">1918</span><span id="line-1918"></span>
-<span class="source-line-no">1919</span><span id="line-1919">    @Override</span>
-<span class="source-line-no">1920</span><span id="line-1920">    public boolean isEmpty() {</span>
-<span class="source-line-no">1921</span><span id="line-1921">      return multimap.isEmpty();</span>
-<span class="source-line-no">1922</span><span id="line-1922">    }</span>
-<span class="source-line-no">1923</span><span id="line-1923"></span>
-<span class="source-line-no">1924</span><span id="line-1924">    @Override</span>
-<span class="source-line-no">1925</span><span id="line-1925">    public boolean containsKey(@Nullable Object key) {</span>
-<span class="source-line-no">1926</span><span id="line-1926">      return multimap.containsKey(key);</span>
-<span class="source-line-no">1927</span><span id="line-1927">    }</span>
-<span class="source-line-no">1928</span><span id="line-1928"></span>
-<span class="source-line-no">1929</span><span id="line-1929">    @Override</span>
-<span class="source-line-no">1930</span><span id="line-1930">    public void clear() {</span>
-<span class="source-line-no">1931</span><span id="line-1931">      multimap.clear();</span>
-<span class="source-line-no">1932</span><span id="line-1932">    }</span>
-<span class="source-line-no">1933</span><span id="line-1933">  }</span>
-<span class="source-line-no">1934</span><span id="line-1934"></span>
-<span class="source-line-no">1935</span><span id="line-1935">  /**</span>
-<span class="source-line-no">1936</span><span id="line-1936">   * Returns a multimap containing the mappings in {@code unfiltered} whose keys satisfy a</span>
-<span class="source-line-no">1937</span><span id="line-1937">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
-<span class="source-line-no">1938</span><span id="line-1938">   * the other.</span>
-<span class="source-line-no">1939</span><span id="line-1939">   *</span>
-<span class="source-line-no">1940</span><span id="line-1940">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
-<span class="source-line-no">1941</span><span id="line-1941">   * other methods are supported by the multimap and its views. When adding a key that doesn't</span>
-<span class="source-line-no">1942</span><span id="line-1942">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
-<span class="source-line-no">1943</span><span id="line-1943">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">1875</span><span id="line-1875">    @WeakOuter</span>
+<span class="source-line-no">1876</span><span id="line-1876">    class EntrySet extends Maps.EntrySet&lt;K, Collection&lt;V&gt;&gt; {</span>
+<span class="source-line-no">1877</span><span id="line-1877">      @Override</span>
+<span class="source-line-no">1878</span><span id="line-1878">      Map&lt;K, Collection&lt;V&gt;&gt; map() {</span>
+<span class="source-line-no">1879</span><span id="line-1879">        return AsMap.this;</span>
+<span class="source-line-no">1880</span><span id="line-1880">      }</span>
+<span class="source-line-no">1881</span><span id="line-1881"></span>
+<span class="source-line-no">1882</span><span id="line-1882">      @Override</span>
+<span class="source-line-no">1883</span><span id="line-1883">      public Iterator&lt;Entry&lt;K, Collection&lt;V&gt;&gt;&gt; iterator() {</span>
+<span class="source-line-no">1884</span><span id="line-1884">        return Maps.asMapEntryIterator(multimap.keySet(), multimap::get);</span>
+<span class="source-line-no">1885</span><span id="line-1885">      }</span>
+<span class="source-line-no">1886</span><span id="line-1886"></span>
+<span class="source-line-no">1887</span><span id="line-1887">      @Override</span>
+<span class="source-line-no">1888</span><span id="line-1888">      public boolean remove(@Nullable Object o) {</span>
+<span class="source-line-no">1889</span><span id="line-1889">        if (!contains(o)) {</span>
+<span class="source-line-no">1890</span><span id="line-1890">          return false;</span>
+<span class="source-line-no">1891</span><span id="line-1891">        }</span>
+<span class="source-line-no">1892</span><span id="line-1892">        // requireNonNull is safe because of the contains check.</span>
+<span class="source-line-no">1893</span><span id="line-1893">        Map.Entry&lt;?, ?&gt; entry = requireNonNull((Map.Entry&lt;?, ?&gt;) o);</span>
+<span class="source-line-no">1894</span><span id="line-1894">        removeValuesForKey(entry.getKey());</span>
+<span class="source-line-no">1895</span><span id="line-1895">        return true;</span>
+<span class="source-line-no">1896</span><span id="line-1896">      }</span>
+<span class="source-line-no">1897</span><span id="line-1897">    }</span>
+<span class="source-line-no">1898</span><span id="line-1898"></span>
+<span class="source-line-no">1899</span><span id="line-1899">    @SuppressWarnings("unchecked")</span>
+<span class="source-line-no">1900</span><span id="line-1900">    @Override</span>
+<span class="source-line-no">1901</span><span id="line-1901">    public @Nullable Collection&lt;V&gt; get(@Nullable Object key) {</span>
+<span class="source-line-no">1902</span><span id="line-1902">      return containsKey(key) ? multimap.get((K) key) : null;</span>
+<span class="source-line-no">1903</span><span id="line-1903">    }</span>
+<span class="source-line-no">1904</span><span id="line-1904"></span>
+<span class="source-line-no">1905</span><span id="line-1905">    @Override</span>
+<span class="source-line-no">1906</span><span id="line-1906">    public @Nullable Collection&lt;V&gt; remove(@Nullable Object key) {</span>
+<span class="source-line-no">1907</span><span id="line-1907">      return containsKey(key) ? multimap.removeAll(key) : null;</span>
+<span class="source-line-no">1908</span><span id="line-1908">    }</span>
+<span class="source-line-no">1909</span><span id="line-1909"></span>
+<span class="source-line-no">1910</span><span id="line-1910">    @Override</span>
+<span class="source-line-no">1911</span><span id="line-1911">    public Set&lt;K&gt; keySet() {</span>
+<span class="source-line-no">1912</span><span id="line-1912">      return multimap.keySet();</span>
+<span class="source-line-no">1913</span><span id="line-1913">    }</span>
+<span class="source-line-no">1914</span><span id="line-1914"></span>
+<span class="source-line-no">1915</span><span id="line-1915">    @Override</span>
+<span class="source-line-no">1916</span><span id="line-1916">    public boolean isEmpty() {</span>
+<span class="source-line-no">1917</span><span id="line-1917">      return multimap.isEmpty();</span>
+<span class="source-line-no">1918</span><span id="line-1918">    }</span>
+<span class="source-line-no">1919</span><span id="line-1919"></span>
+<span class="source-line-no">1920</span><span id="line-1920">    @Override</span>
+<span class="source-line-no">1921</span><span id="line-1921">    public boolean containsKey(@Nullable Object key) {</span>
+<span class="source-line-no">1922</span><span id="line-1922">      return multimap.containsKey(key);</span>
+<span class="source-line-no">1923</span><span id="line-1923">    }</span>
+<span class="source-line-no">1924</span><span id="line-1924"></span>
+<span class="source-line-no">1925</span><span id="line-1925">    @Override</span>
+<span class="source-line-no">1926</span><span id="line-1926">    public void clear() {</span>
+<span class="source-line-no">1927</span><span id="line-1927">      multimap.clear();</span>
+<span class="source-line-no">1928</span><span id="line-1928">    }</span>
+<span class="source-line-no">1929</span><span id="line-1929">  }</span>
+<span class="source-line-no">1930</span><span id="line-1930"></span>
+<span class="source-line-no">1931</span><span id="line-1931">  /**</span>
+<span class="source-line-no">1932</span><span id="line-1932">   * Returns a multimap containing the mappings in {@code unfiltered} whose keys satisfy a</span>
+<span class="source-line-no">1933</span><span id="line-1933">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
+<span class="source-line-no">1934</span><span id="line-1934">   * the other.</span>
+<span class="source-line-no">1935</span><span id="line-1935">   *</span>
+<span class="source-line-no">1936</span><span id="line-1936">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
+<span class="source-line-no">1937</span><span id="line-1937">   * other methods are supported by the multimap and its views. When adding a key that doesn't</span>
+<span class="source-line-no">1938</span><span id="line-1938">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
+<span class="source-line-no">1939</span><span id="line-1939">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">1940</span><span id="line-1940">   *</span>
+<span class="source-line-no">1941</span><span id="line-1941">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
+<span class="source-line-no">1942</span><span id="line-1942">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
+<span class="source-line-no">1943</span><span id="line-1943">   * underlying multimap.</span>
 <span class="source-line-no">1944</span><span id="line-1944">   *</span>
-<span class="source-line-no">1945</span><span id="line-1945">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
-<span class="source-line-no">1946</span><span id="line-1946">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
-<span class="source-line-no">1947</span><span id="line-1947">   * underlying multimap.</span>
-<span class="source-line-no">1948</span><span id="line-1948">   *</span>
-<span class="source-line-no">1949</span><span id="line-1949">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
-<span class="source-line-no">1950</span><span id="line-1950">   *</span>
-<span class="source-line-no">1951</span><span id="line-1951">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
-<span class="source-line-no">1952</span><span id="line-1952">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
-<span class="source-line-no">1953</span><span id="line-1953">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
-<span class="source-line-no">1954</span><span id="line-1954">   * copy.</span>
+<span class="source-line-no">1945</span><span id="line-1945">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
+<span class="source-line-no">1946</span><span id="line-1946">   *</span>
+<span class="source-line-no">1947</span><span id="line-1947">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
+<span class="source-line-no">1948</span><span id="line-1948">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
+<span class="source-line-no">1949</span><span id="line-1949">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
+<span class="source-line-no">1950</span><span id="line-1950">   * copy.</span>
+<span class="source-line-no">1951</span><span id="line-1951">   *</span>
+<span class="source-line-no">1952</span><span id="line-1952">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code keyPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at</span>
+<span class="source-line-no">1953</span><span id="line-1953">   * {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
+<span class="source-line-no">1954</span><span id="line-1954">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
 <span class="source-line-no">1955</span><span id="line-1955">   *</span>
-<span class="source-line-no">1956</span><span id="line-1956">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code keyPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at</span>
-<span class="source-line-no">1957</span><span id="line-1957">   * {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
-<span class="source-line-no">1958</span><span id="line-1958">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
-<span class="source-line-no">1959</span><span id="line-1959">   *</span>
-<span class="source-line-no">1960</span><span id="line-1960">   * @since 11.0</span>
-<span class="source-line-no">1961</span><span id="line-1961">   */</span>
-<span class="source-line-no">1962</span><span id="line-1962">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt; Multimap&lt;K, V&gt; filterKeys(</span>
-<span class="source-line-no">1963</span><span id="line-1963">      Multimap&lt;K, V&gt; unfiltered, Predicate&lt;? super K&gt; keyPredicate) {</span>
-<span class="source-line-no">1964</span><span id="line-1964">    if (unfiltered instanceof SetMultimap) {</span>
-<span class="source-line-no">1965</span><span id="line-1965">      return filterKeys((SetMultimap&lt;K, V&gt;) unfiltered, keyPredicate);</span>
-<span class="source-line-no">1966</span><span id="line-1966">    } else if (unfiltered instanceof ListMultimap) {</span>
-<span class="source-line-no">1967</span><span id="line-1967">      return filterKeys((ListMultimap&lt;K, V&gt;) unfiltered, keyPredicate);</span>
-<span class="source-line-no">1968</span><span id="line-1968">    } else if (unfiltered instanceof FilteredKeyMultimap) {</span>
-<span class="source-line-no">1969</span><span id="line-1969">      FilteredKeyMultimap&lt;K, V&gt; prev = (FilteredKeyMultimap&lt;K, V&gt;) unfiltered;</span>
-<span class="source-line-no">1970</span><span id="line-1970">      return new FilteredKeyMultimap&lt;&gt;(</span>
-<span class="source-line-no">1971</span><span id="line-1971">          prev.unfiltered, Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));</span>
-<span class="source-line-no">1972</span><span id="line-1972">    } else if (unfiltered instanceof FilteredMultimap) {</span>
-<span class="source-line-no">1973</span><span id="line-1973">      FilteredMultimap&lt;K, V&gt; prev = (FilteredMultimap&lt;K, V&gt;) unfiltered;</span>
-<span class="source-line-no">1974</span><span id="line-1974">      return filterFiltered(prev, Maps.&lt;K&gt;keyPredicateOnEntries(keyPredicate));</span>
-<span class="source-line-no">1975</span><span id="line-1975">    } else {</span>
-<span class="source-line-no">1976</span><span id="line-1976">      return new FilteredKeyMultimap&lt;&gt;(unfiltered, keyPredicate);</span>
-<span class="source-line-no">1977</span><span id="line-1977">    }</span>
-<span class="source-line-no">1978</span><span id="line-1978">  }</span>
-<span class="source-line-no">1979</span><span id="line-1979"></span>
-<span class="source-line-no">1980</span><span id="line-1980">  /**</span>
-<span class="source-line-no">1981</span><span id="line-1981">   * Returns a multimap containing the mappings in {@code unfiltered} whose keys satisfy a</span>
-<span class="source-line-no">1982</span><span id="line-1982">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
-<span class="source-line-no">1983</span><span id="line-1983">   * the other.</span>
-<span class="source-line-no">1984</span><span id="line-1984">   *</span>
-<span class="source-line-no">1985</span><span id="line-1985">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
-<span class="source-line-no">1986</span><span id="line-1986">   * other methods are supported by the multimap and its views. When adding a key that doesn't</span>
-<span class="source-line-no">1987</span><span id="line-1987">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
-<span class="source-line-no">1988</span><span id="line-1988">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">1956</span><span id="line-1956">   * @since 11.0</span>
+<span class="source-line-no">1957</span><span id="line-1957">   */</span>
+<span class="source-line-no">1958</span><span id="line-1958">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt; Multimap&lt;K, V&gt; filterKeys(</span>
+<span class="source-line-no">1959</span><span id="line-1959">      Multimap&lt;K, V&gt; unfiltered, Predicate&lt;? super K&gt; keyPredicate) {</span>
+<span class="source-line-no">1960</span><span id="line-1960">    if (unfiltered instanceof SetMultimap) {</span>
+<span class="source-line-no">1961</span><span id="line-1961">      return filterKeys((SetMultimap&lt;K, V&gt;) unfiltered, keyPredicate);</span>
+<span class="source-line-no">1962</span><span id="line-1962">    } else if (unfiltered instanceof ListMultimap) {</span>
+<span class="source-line-no">1963</span><span id="line-1963">      return filterKeys((ListMultimap&lt;K, V&gt;) unfiltered, keyPredicate);</span>
+<span class="source-line-no">1964</span><span id="line-1964">    } else if (unfiltered instanceof FilteredKeyMultimap) {</span>
+<span class="source-line-no">1965</span><span id="line-1965">      FilteredKeyMultimap&lt;K, V&gt; prev = (FilteredKeyMultimap&lt;K, V&gt;) unfiltered;</span>
+<span class="source-line-no">1966</span><span id="line-1966">      return new FilteredKeyMultimap&lt;&gt;(</span>
+<span class="source-line-no">1967</span><span id="line-1967">          prev.unfiltered, Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));</span>
+<span class="source-line-no">1968</span><span id="line-1968">    } else if (unfiltered instanceof FilteredMultimap) {</span>
+<span class="source-line-no">1969</span><span id="line-1969">      FilteredMultimap&lt;K, V&gt; prev = (FilteredMultimap&lt;K, V&gt;) unfiltered;</span>
+<span class="source-line-no">1970</span><span id="line-1970">      return filterFiltered(prev, Maps.&lt;K&gt;keyPredicateOnEntries(keyPredicate));</span>
+<span class="source-line-no">1971</span><span id="line-1971">    } else {</span>
+<span class="source-line-no">1972</span><span id="line-1972">      return new FilteredKeyMultimap&lt;&gt;(unfiltered, keyPredicate);</span>
+<span class="source-line-no">1973</span><span id="line-1973">    }</span>
+<span class="source-line-no">1974</span><span id="line-1974">  }</span>
+<span class="source-line-no">1975</span><span id="line-1975"></span>
+<span class="source-line-no">1976</span><span id="line-1976">  /**</span>
+<span class="source-line-no">1977</span><span id="line-1977">   * Returns a multimap containing the mappings in {@code unfiltered} whose keys satisfy a</span>
+<span class="source-line-no">1978</span><span id="line-1978">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
+<span class="source-line-no">1979</span><span id="line-1979">   * the other.</span>
+<span class="source-line-no">1980</span><span id="line-1980">   *</span>
+<span class="source-line-no">1981</span><span id="line-1981">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
+<span class="source-line-no">1982</span><span id="line-1982">   * other methods are supported by the multimap and its views. When adding a key that doesn't</span>
+<span class="source-line-no">1983</span><span id="line-1983">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
+<span class="source-line-no">1984</span><span id="line-1984">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">1985</span><span id="line-1985">   *</span>
+<span class="source-line-no">1986</span><span id="line-1986">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
+<span class="source-line-no">1987</span><span id="line-1987">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
+<span class="source-line-no">1988</span><span id="line-1988">   * underlying multimap.</span>
 <span class="source-line-no">1989</span><span id="line-1989">   *</span>
-<span class="source-line-no">1990</span><span id="line-1990">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
-<span class="source-line-no">1991</span><span id="line-1991">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
-<span class="source-line-no">1992</span><span id="line-1992">   * underlying multimap.</span>
-<span class="source-line-no">1993</span><span id="line-1993">   *</span>
-<span class="source-line-no">1994</span><span id="line-1994">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
-<span class="source-line-no">1995</span><span id="line-1995">   *</span>
-<span class="source-line-no">1996</span><span id="line-1996">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
-<span class="source-line-no">1997</span><span id="line-1997">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
-<span class="source-line-no">1998</span><span id="line-1998">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
-<span class="source-line-no">1999</span><span id="line-1999">   * copy.</span>
+<span class="source-line-no">1990</span><span id="line-1990">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
+<span class="source-line-no">1991</span><span id="line-1991">   *</span>
+<span class="source-line-no">1992</span><span id="line-1992">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
+<span class="source-line-no">1993</span><span id="line-1993">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
+<span class="source-line-no">1994</span><span id="line-1994">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
+<span class="source-line-no">1995</span><span id="line-1995">   * copy.</span>
+<span class="source-line-no">1996</span><span id="line-1996">   *</span>
+<span class="source-line-no">1997</span><span id="line-1997">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code keyPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at</span>
+<span class="source-line-no">1998</span><span id="line-1998">   * {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
+<span class="source-line-no">1999</span><span id="line-1999">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
 <span class="source-line-no">2000</span><span id="line-2000">   *</span>
-<span class="source-line-no">2001</span><span id="line-2001">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code keyPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at</span>
-<span class="source-line-no">2002</span><span id="line-2002">   * {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
-<span class="source-line-no">2003</span><span id="line-2003">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
-<span class="source-line-no">2004</span><span id="line-2004">   *</span>
-<span class="source-line-no">2005</span><span id="line-2005">   * @since 14.0</span>
-<span class="source-line-no">2006</span><span id="line-2006">   */</span>
-<span class="source-line-no">2007</span><span id="line-2007">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">2008</span><span id="line-2008">      SetMultimap&lt;K, V&gt; filterKeys(</span>
-<span class="source-line-no">2009</span><span id="line-2009">          SetMultimap&lt;K, V&gt; unfiltered, Predicate&lt;? super K&gt; keyPredicate) {</span>
-<span class="source-line-no">2010</span><span id="line-2010">    if (unfiltered instanceof FilteredKeySetMultimap) {</span>
-<span class="source-line-no">2011</span><span id="line-2011">      FilteredKeySetMultimap&lt;K, V&gt; prev = (FilteredKeySetMultimap&lt;K, V&gt;) unfiltered;</span>
-<span class="source-line-no">2012</span><span id="line-2012">      return new FilteredKeySetMultimap&lt;&gt;(</span>
-<span class="source-line-no">2013</span><span id="line-2013">          prev.unfiltered(), Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));</span>
-<span class="source-line-no">2014</span><span id="line-2014">    } else if (unfiltered instanceof FilteredSetMultimap) {</span>
-<span class="source-line-no">2015</span><span id="line-2015">      FilteredSetMultimap&lt;K, V&gt; prev = (FilteredSetMultimap&lt;K, V&gt;) unfiltered;</span>
-<span class="source-line-no">2016</span><span id="line-2016">      return filterFiltered(prev, Maps.&lt;K&gt;keyPredicateOnEntries(keyPredicate));</span>
-<span class="source-line-no">2017</span><span id="line-2017">    } else {</span>
-<span class="source-line-no">2018</span><span id="line-2018">      return new FilteredKeySetMultimap&lt;&gt;(unfiltered, keyPredicate);</span>
-<span class="source-line-no">2019</span><span id="line-2019">    }</span>
-<span class="source-line-no">2020</span><span id="line-2020">  }</span>
-<span class="source-line-no">2021</span><span id="line-2021"></span>
-<span class="source-line-no">2022</span><span id="line-2022">  /**</span>
-<span class="source-line-no">2023</span><span id="line-2023">   * Returns a multimap containing the mappings in {@code unfiltered} whose keys satisfy a</span>
-<span class="source-line-no">2024</span><span id="line-2024">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
-<span class="source-line-no">2025</span><span id="line-2025">   * the other.</span>
-<span class="source-line-no">2026</span><span id="line-2026">   *</span>
-<span class="source-line-no">2027</span><span id="line-2027">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
-<span class="source-line-no">2028</span><span id="line-2028">   * other methods are supported by the multimap and its views. When adding a key that doesn't</span>
-<span class="source-line-no">2029</span><span id="line-2029">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
-<span class="source-line-no">2030</span><span id="line-2030">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2001</span><span id="line-2001">   * @since 14.0</span>
+<span class="source-line-no">2002</span><span id="line-2002">   */</span>
+<span class="source-line-no">2003</span><span id="line-2003">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">2004</span><span id="line-2004">      SetMultimap&lt;K, V&gt; filterKeys(</span>
+<span class="source-line-no">2005</span><span id="line-2005">          SetMultimap&lt;K, V&gt; unfiltered, Predicate&lt;? super K&gt; keyPredicate) {</span>
+<span class="source-line-no">2006</span><span id="line-2006">    if (unfiltered instanceof FilteredKeySetMultimap) {</span>
+<span class="source-line-no">2007</span><span id="line-2007">      FilteredKeySetMultimap&lt;K, V&gt; prev = (FilteredKeySetMultimap&lt;K, V&gt;) unfiltered;</span>
+<span class="source-line-no">2008</span><span id="line-2008">      return new FilteredKeySetMultimap&lt;&gt;(</span>
+<span class="source-line-no">2009</span><span id="line-2009">          prev.unfiltered(), Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));</span>
+<span class="source-line-no">2010</span><span id="line-2010">    } else if (unfiltered instanceof FilteredSetMultimap) {</span>
+<span class="source-line-no">2011</span><span id="line-2011">      FilteredSetMultimap&lt;K, V&gt; prev = (FilteredSetMultimap&lt;K, V&gt;) unfiltered;</span>
+<span class="source-line-no">2012</span><span id="line-2012">      return filterFiltered(prev, Maps.&lt;K&gt;keyPredicateOnEntries(keyPredicate));</span>
+<span class="source-line-no">2013</span><span id="line-2013">    } else {</span>
+<span class="source-line-no">2014</span><span id="line-2014">      return new FilteredKeySetMultimap&lt;&gt;(unfiltered, keyPredicate);</span>
+<span class="source-line-no">2015</span><span id="line-2015">    }</span>
+<span class="source-line-no">2016</span><span id="line-2016">  }</span>
+<span class="source-line-no">2017</span><span id="line-2017"></span>
+<span class="source-line-no">2018</span><span id="line-2018">  /**</span>
+<span class="source-line-no">2019</span><span id="line-2019">   * Returns a multimap containing the mappings in {@code unfiltered} whose keys satisfy a</span>
+<span class="source-line-no">2020</span><span id="line-2020">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
+<span class="source-line-no">2021</span><span id="line-2021">   * the other.</span>
+<span class="source-line-no">2022</span><span id="line-2022">   *</span>
+<span class="source-line-no">2023</span><span id="line-2023">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
+<span class="source-line-no">2024</span><span id="line-2024">   * other methods are supported by the multimap and its views. When adding a key that doesn't</span>
+<span class="source-line-no">2025</span><span id="line-2025">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
+<span class="source-line-no">2026</span><span id="line-2026">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2027</span><span id="line-2027">   *</span>
+<span class="source-line-no">2028</span><span id="line-2028">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
+<span class="source-line-no">2029</span><span id="line-2029">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
+<span class="source-line-no">2030</span><span id="line-2030">   * underlying multimap.</span>
 <span class="source-line-no">2031</span><span id="line-2031">   *</span>
-<span class="source-line-no">2032</span><span id="line-2032">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
-<span class="source-line-no">2033</span><span id="line-2033">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
-<span class="source-line-no">2034</span><span id="line-2034">   * underlying multimap.</span>
-<span class="source-line-no">2035</span><span id="line-2035">   *</span>
-<span class="source-line-no">2036</span><span id="line-2036">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
-<span class="source-line-no">2037</span><span id="line-2037">   *</span>
-<span class="source-line-no">2038</span><span id="line-2038">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
-<span class="source-line-no">2039</span><span id="line-2039">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
-<span class="source-line-no">2040</span><span id="line-2040">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
-<span class="source-line-no">2041</span><span id="line-2041">   * copy.</span>
+<span class="source-line-no">2032</span><span id="line-2032">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
+<span class="source-line-no">2033</span><span id="line-2033">   *</span>
+<span class="source-line-no">2034</span><span id="line-2034">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
+<span class="source-line-no">2035</span><span id="line-2035">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
+<span class="source-line-no">2036</span><span id="line-2036">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
+<span class="source-line-no">2037</span><span id="line-2037">   * copy.</span>
+<span class="source-line-no">2038</span><span id="line-2038">   *</span>
+<span class="source-line-no">2039</span><span id="line-2039">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code keyPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at</span>
+<span class="source-line-no">2040</span><span id="line-2040">   * {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
+<span class="source-line-no">2041</span><span id="line-2041">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
 <span class="source-line-no">2042</span><span id="line-2042">   *</span>
-<span class="source-line-no">2043</span><span id="line-2043">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code keyPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented at</span>
-<span class="source-line-no">2044</span><span id="line-2044">   * {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
-<span class="source-line-no">2045</span><span id="line-2045">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
-<span class="source-line-no">2046</span><span id="line-2046">   *</span>
-<span class="source-line-no">2047</span><span id="line-2047">   * @since 14.0</span>
-<span class="source-line-no">2048</span><span id="line-2048">   */</span>
-<span class="source-line-no">2049</span><span id="line-2049">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">2050</span><span id="line-2050">      ListMultimap&lt;K, V&gt; filterKeys(</span>
-<span class="source-line-no">2051</span><span id="line-2051">          ListMultimap&lt;K, V&gt; unfiltered, Predicate&lt;? super K&gt; keyPredicate) {</span>
-<span class="source-line-no">2052</span><span id="line-2052">    if (unfiltered instanceof FilteredKeyListMultimap) {</span>
-<span class="source-line-no">2053</span><span id="line-2053">      FilteredKeyListMultimap&lt;K, V&gt; prev = (FilteredKeyListMultimap&lt;K, V&gt;) unfiltered;</span>
-<span class="source-line-no">2054</span><span id="line-2054">      return new FilteredKeyListMultimap&lt;&gt;(</span>
-<span class="source-line-no">2055</span><span id="line-2055">          prev.unfiltered(), Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));</span>
-<span class="source-line-no">2056</span><span id="line-2056">    } else {</span>
-<span class="source-line-no">2057</span><span id="line-2057">      return new FilteredKeyListMultimap&lt;&gt;(unfiltered, keyPredicate);</span>
-<span class="source-line-no">2058</span><span id="line-2058">    }</span>
-<span class="source-line-no">2059</span><span id="line-2059">  }</span>
-<span class="source-line-no">2060</span><span id="line-2060"></span>
-<span class="source-line-no">2061</span><span id="line-2061">  /**</span>
-<span class="source-line-no">2062</span><span id="line-2062">   * Returns a multimap containing the mappings in {@code unfiltered} whose values satisfy a</span>
-<span class="source-line-no">2063</span><span id="line-2063">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
-<span class="source-line-no">2064</span><span id="line-2064">   * the other.</span>
-<span class="source-line-no">2065</span><span id="line-2065">   *</span>
-<span class="source-line-no">2066</span><span id="line-2066">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
-<span class="source-line-no">2067</span><span id="line-2067">   * other methods are supported by the multimap and its views. When adding a value that doesn't</span>
-<span class="source-line-no">2068</span><span id="line-2068">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
-<span class="source-line-no">2069</span><span id="line-2069">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2043</span><span id="line-2043">   * @since 14.0</span>
+<span class="source-line-no">2044</span><span id="line-2044">   */</span>
+<span class="source-line-no">2045</span><span id="line-2045">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">2046</span><span id="line-2046">      ListMultimap&lt;K, V&gt; filterKeys(</span>
+<span class="source-line-no">2047</span><span id="line-2047">          ListMultimap&lt;K, V&gt; unfiltered, Predicate&lt;? super K&gt; keyPredicate) {</span>
+<span class="source-line-no">2048</span><span id="line-2048">    if (unfiltered instanceof FilteredKeyListMultimap) {</span>
+<span class="source-line-no">2049</span><span id="line-2049">      FilteredKeyListMultimap&lt;K, V&gt; prev = (FilteredKeyListMultimap&lt;K, V&gt;) unfiltered;</span>
+<span class="source-line-no">2050</span><span id="line-2050">      return new FilteredKeyListMultimap&lt;&gt;(</span>
+<span class="source-line-no">2051</span><span id="line-2051">          prev.unfiltered(), Predicates.&lt;K&gt;and(prev.keyPredicate, keyPredicate));</span>
+<span class="source-line-no">2052</span><span id="line-2052">    } else {</span>
+<span class="source-line-no">2053</span><span id="line-2053">      return new FilteredKeyListMultimap&lt;&gt;(unfiltered, keyPredicate);</span>
+<span class="source-line-no">2054</span><span id="line-2054">    }</span>
+<span class="source-line-no">2055</span><span id="line-2055">  }</span>
+<span class="source-line-no">2056</span><span id="line-2056"></span>
+<span class="source-line-no">2057</span><span id="line-2057">  /**</span>
+<span class="source-line-no">2058</span><span id="line-2058">   * Returns a multimap containing the mappings in {@code unfiltered} whose values satisfy a</span>
+<span class="source-line-no">2059</span><span id="line-2059">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
+<span class="source-line-no">2060</span><span id="line-2060">   * the other.</span>
+<span class="source-line-no">2061</span><span id="line-2061">   *</span>
+<span class="source-line-no">2062</span><span id="line-2062">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
+<span class="source-line-no">2063</span><span id="line-2063">   * other methods are supported by the multimap and its views. When adding a value that doesn't</span>
+<span class="source-line-no">2064</span><span id="line-2064">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
+<span class="source-line-no">2065</span><span id="line-2065">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2066</span><span id="line-2066">   *</span>
+<span class="source-line-no">2067</span><span id="line-2067">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
+<span class="source-line-no">2068</span><span id="line-2068">   * multimap or its views, only mappings whose value satisfy the filter will be removed from the</span>
+<span class="source-line-no">2069</span><span id="line-2069">   * underlying multimap.</span>
 <span class="source-line-no">2070</span><span id="line-2070">   *</span>
-<span class="source-line-no">2071</span><span id="line-2071">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
-<span class="source-line-no">2072</span><span id="line-2072">   * multimap or its views, only mappings whose value satisfy the filter will be removed from the</span>
-<span class="source-line-no">2073</span><span id="line-2073">   * underlying multimap.</span>
-<span class="source-line-no">2074</span><span id="line-2074">   *</span>
-<span class="source-line-no">2075</span><span id="line-2075">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
-<span class="source-line-no">2076</span><span id="line-2076">   *</span>
-<span class="source-line-no">2077</span><span id="line-2077">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
-<span class="source-line-no">2078</span><span id="line-2078">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
-<span class="source-line-no">2079</span><span id="line-2079">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
-<span class="source-line-no">2080</span><span id="line-2080">   * copy.</span>
+<span class="source-line-no">2071</span><span id="line-2071">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
+<span class="source-line-no">2072</span><span id="line-2072">   *</span>
+<span class="source-line-no">2073</span><span id="line-2073">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
+<span class="source-line-no">2074</span><span id="line-2074">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
+<span class="source-line-no">2075</span><span id="line-2075">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
+<span class="source-line-no">2076</span><span id="line-2076">   * copy.</span>
+<span class="source-line-no">2077</span><span id="line-2077">   *</span>
+<span class="source-line-no">2078</span><span id="line-2078">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code valuePredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented</span>
+<span class="source-line-no">2079</span><span id="line-2079">   * at {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
+<span class="source-line-no">2080</span><span id="line-2080">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
 <span class="source-line-no">2081</span><span id="line-2081">   *</span>
-<span class="source-line-no">2082</span><span id="line-2082">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code valuePredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented</span>
-<span class="source-line-no">2083</span><span id="line-2083">   * at {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
-<span class="source-line-no">2084</span><span id="line-2084">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
-<span class="source-line-no">2085</span><span id="line-2085">   *</span>
-<span class="source-line-no">2086</span><span id="line-2086">   * @since 11.0</span>
-<span class="source-line-no">2087</span><span id="line-2087">   */</span>
-<span class="source-line-no">2088</span><span id="line-2088">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">2089</span><span id="line-2089">      Multimap&lt;K, V&gt; filterValues(Multimap&lt;K, V&gt; unfiltered, Predicate&lt;? super V&gt; valuePredicate) {</span>
-<span class="source-line-no">2090</span><span id="line-2090">    return filterEntries(unfiltered, Maps.&lt;V&gt;valuePredicateOnEntries(valuePredicate));</span>
-<span class="source-line-no">2091</span><span id="line-2091">  }</span>
-<span class="source-line-no">2092</span><span id="line-2092"></span>
-<span class="source-line-no">2093</span><span id="line-2093">  /**</span>
-<span class="source-line-no">2094</span><span id="line-2094">   * Returns a multimap containing the mappings in {@code unfiltered} whose values satisfy a</span>
-<span class="source-line-no">2095</span><span id="line-2095">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
-<span class="source-line-no">2096</span><span id="line-2096">   * the other.</span>
-<span class="source-line-no">2097</span><span id="line-2097">   *</span>
-<span class="source-line-no">2098</span><span id="line-2098">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
-<span class="source-line-no">2099</span><span id="line-2099">   * other methods are supported by the multimap and its views. When adding a value that doesn't</span>
-<span class="source-line-no">2100</span><span id="line-2100">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
-<span class="source-line-no">2101</span><span id="line-2101">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2082</span><span id="line-2082">   * @since 11.0</span>
+<span class="source-line-no">2083</span><span id="line-2083">   */</span>
+<span class="source-line-no">2084</span><span id="line-2084">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">2085</span><span id="line-2085">      Multimap&lt;K, V&gt; filterValues(Multimap&lt;K, V&gt; unfiltered, Predicate&lt;? super V&gt; valuePredicate) {</span>
+<span class="source-line-no">2086</span><span id="line-2086">    return filterEntries(unfiltered, Maps.&lt;V&gt;valuePredicateOnEntries(valuePredicate));</span>
+<span class="source-line-no">2087</span><span id="line-2087">  }</span>
+<span class="source-line-no">2088</span><span id="line-2088"></span>
+<span class="source-line-no">2089</span><span id="line-2089">  /**</span>
+<span class="source-line-no">2090</span><span id="line-2090">   * Returns a multimap containing the mappings in {@code unfiltered} whose values satisfy a</span>
+<span class="source-line-no">2091</span><span id="line-2091">   * predicate. The returned multimap is a live view of {@code unfiltered}; changes to one affect</span>
+<span class="source-line-no">2092</span><span id="line-2092">   * the other.</span>
+<span class="source-line-no">2093</span><span id="line-2093">   *</span>
+<span class="source-line-no">2094</span><span id="line-2094">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
+<span class="source-line-no">2095</span><span id="line-2095">   * other methods are supported by the multimap and its views. When adding a value that doesn't</span>
+<span class="source-line-no">2096</span><span id="line-2096">   * satisfy the predicate, the multimap's {@code put()}, {@code putAll()}, and {@code</span>
+<span class="source-line-no">2097</span><span id="line-2097">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2098</span><span id="line-2098">   *</span>
+<span class="source-line-no">2099</span><span id="line-2099">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
+<span class="source-line-no">2100</span><span id="line-2100">   * multimap or its views, only mappings whose value satisfy the filter will be removed from the</span>
+<span class="source-line-no">2101</span><span id="line-2101">   * underlying multimap.</span>
 <span class="source-line-no">2102</span><span id="line-2102">   *</span>
-<span class="source-line-no">2103</span><span id="line-2103">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
-<span class="source-line-no">2104</span><span id="line-2104">   * multimap or its views, only mappings whose value satisfy the filter will be removed from the</span>
-<span class="source-line-no">2105</span><span id="line-2105">   * underlying multimap.</span>
-<span class="source-line-no">2106</span><span id="line-2106">   *</span>
-<span class="source-line-no">2107</span><span id="line-2107">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
-<span class="source-line-no">2108</span><span id="line-2108">   *</span>
-<span class="source-line-no">2109</span><span id="line-2109">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
-<span class="source-line-no">2110</span><span id="line-2110">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
-<span class="source-line-no">2111</span><span id="line-2111">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
-<span class="source-line-no">2112</span><span id="line-2112">   * copy.</span>
+<span class="source-line-no">2103</span><span id="line-2103">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
+<span class="source-line-no">2104</span><span id="line-2104">   *</span>
+<span class="source-line-no">2105</span><span id="line-2105">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
+<span class="source-line-no">2106</span><span id="line-2106">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
+<span class="source-line-no">2107</span><span id="line-2107">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
+<span class="source-line-no">2108</span><span id="line-2108">   * copy.</span>
+<span class="source-line-no">2109</span><span id="line-2109">   *</span>
+<span class="source-line-no">2110</span><span id="line-2110">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code valuePredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented</span>
+<span class="source-line-no">2111</span><span id="line-2111">   * at {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
+<span class="source-line-no">2112</span><span id="line-2112">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
 <span class="source-line-no">2113</span><span id="line-2113">   *</span>
-<span class="source-line-no">2114</span><span id="line-2114">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code valuePredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented</span>
-<span class="source-line-no">2115</span><span id="line-2115">   * at {@link Predicate#apply}. Do not provide a predicate such as {@code</span>
-<span class="source-line-no">2116</span><span id="line-2116">   * Predicates.instanceOf(ArrayList.class)}, which is inconsistent with equals.</span>
-<span class="source-line-no">2117</span><span id="line-2117">   *</span>
-<span class="source-line-no">2118</span><span id="line-2118">   * @since 14.0</span>
-<span class="source-line-no">2119</span><span id="line-2119">   */</span>
-<span class="source-line-no">2120</span><span id="line-2120">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">2121</span><span id="line-2121">      SetMultimap&lt;K, V&gt; filterValues(</span>
-<span class="source-line-no">2122</span><span id="line-2122">          SetMultimap&lt;K, V&gt; unfiltered, Predicate&lt;? super V&gt; valuePredicate) {</span>
-<span class="source-line-no">2123</span><span id="line-2123">    return filterEntries(unfiltered, Maps.&lt;V&gt;valuePredicateOnEntries(valuePredicate));</span>
-<span class="source-line-no">2124</span><span id="line-2124">  }</span>
-<span class="source-line-no">2125</span><span id="line-2125"></span>
-<span class="source-line-no">2126</span><span id="line-2126">  /**</span>
-<span class="source-line-no">2127</span><span id="line-2127">   * Returns a multimap containing the mappings in {@code unfiltered} that satisfy a predicate. The</span>
-<span class="source-line-no">2128</span><span id="line-2128">   * returned multimap is a live view of {@code unfiltered}; changes to one affect the other.</span>
-<span class="source-line-no">2129</span><span id="line-2129">   *</span>
-<span class="source-line-no">2130</span><span id="line-2130">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
-<span class="source-line-no">2131</span><span id="line-2131">   * other methods are supported by the multimap and its views. When adding a key/value pair that</span>
-<span class="source-line-no">2132</span><span id="line-2132">   * doesn't satisfy the predicate, multimap's {@code put()}, {@code putAll()}, and {@code</span>
-<span class="source-line-no">2133</span><span id="line-2133">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2114</span><span id="line-2114">   * @since 14.0</span>
+<span class="source-line-no">2115</span><span id="line-2115">   */</span>
+<span class="source-line-no">2116</span><span id="line-2116">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">2117</span><span id="line-2117">      SetMultimap&lt;K, V&gt; filterValues(</span>
+<span class="source-line-no">2118</span><span id="line-2118">          SetMultimap&lt;K, V&gt; unfiltered, Predicate&lt;? super V&gt; valuePredicate) {</span>
+<span class="source-line-no">2119</span><span id="line-2119">    return filterEntries(unfiltered, Maps.&lt;V&gt;valuePredicateOnEntries(valuePredicate));</span>
+<span class="source-line-no">2120</span><span id="line-2120">  }</span>
+<span class="source-line-no">2121</span><span id="line-2121"></span>
+<span class="source-line-no">2122</span><span id="line-2122">  /**</span>
+<span class="source-line-no">2123</span><span id="line-2123">   * Returns a multimap containing the mappings in {@code unfiltered} that satisfy a predicate. The</span>
+<span class="source-line-no">2124</span><span id="line-2124">   * returned multimap is a live view of {@code unfiltered}; changes to one affect the other.</span>
+<span class="source-line-no">2125</span><span id="line-2125">   *</span>
+<span class="source-line-no">2126</span><span id="line-2126">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
+<span class="source-line-no">2127</span><span id="line-2127">   * other methods are supported by the multimap and its views. When adding a key/value pair that</span>
+<span class="source-line-no">2128</span><span id="line-2128">   * doesn't satisfy the predicate, multimap's {@code put()}, {@code putAll()}, and {@code</span>
+<span class="source-line-no">2129</span><span id="line-2129">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2130</span><span id="line-2130">   *</span>
+<span class="source-line-no">2131</span><span id="line-2131">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
+<span class="source-line-no">2132</span><span id="line-2132">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
+<span class="source-line-no">2133</span><span id="line-2133">   * underlying multimap.</span>
 <span class="source-line-no">2134</span><span id="line-2134">   *</span>
-<span class="source-line-no">2135</span><span id="line-2135">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
-<span class="source-line-no">2136</span><span id="line-2136">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
-<span class="source-line-no">2137</span><span id="line-2137">   * underlying multimap.</span>
-<span class="source-line-no">2138</span><span id="line-2138">   *</span>
-<span class="source-line-no">2139</span><span id="line-2139">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
-<span class="source-line-no">2140</span><span id="line-2140">   *</span>
-<span class="source-line-no">2141</span><span id="line-2141">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
-<span class="source-line-no">2142</span><span id="line-2142">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
-<span class="source-line-no">2143</span><span id="line-2143">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
-<span class="source-line-no">2144</span><span id="line-2144">   * copy.</span>
-<span class="source-line-no">2145</span><span id="line-2145">   *</span>
-<span class="source-line-no">2146</span><span id="line-2146">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code entryPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented</span>
-<span class="source-line-no">2147</span><span id="line-2147">   * at {@link Predicate#apply}.</span>
-<span class="source-line-no">2148</span><span id="line-2148">   *</span>
-<span class="source-line-no">2149</span><span id="line-2149">   * @since 11.0</span>
-<span class="source-line-no">2150</span><span id="line-2150">   */</span>
-<span class="source-line-no">2151</span><span id="line-2151">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">2152</span><span id="line-2152">      Multimap&lt;K, V&gt; filterEntries(</span>
-<span class="source-line-no">2153</span><span id="line-2153">          Multimap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {</span>
-<span class="source-line-no">2154</span><span id="line-2154">    checkNotNull(entryPredicate);</span>
-<span class="source-line-no">2155</span><span id="line-2155">    if (unfiltered instanceof SetMultimap) {</span>
-<span class="source-line-no">2156</span><span id="line-2156">      return filterEntries((SetMultimap&lt;K, V&gt;) unfiltered, entryPredicate);</span>
-<span class="source-line-no">2157</span><span id="line-2157">    }</span>
-<span class="source-line-no">2158</span><span id="line-2158">    return (unfiltered instanceof FilteredMultimap)</span>
-<span class="source-line-no">2159</span><span id="line-2159">        ? filterFiltered((FilteredMultimap&lt;K, V&gt;) unfiltered, entryPredicate)</span>
-<span class="source-line-no">2160</span><span id="line-2160">        : new FilteredEntryMultimap&lt;K, V&gt;(checkNotNull(unfiltered), entryPredicate);</span>
-<span class="source-line-no">2161</span><span id="line-2161">  }</span>
-<span class="source-line-no">2162</span><span id="line-2162"></span>
-<span class="source-line-no">2163</span><span id="line-2163">  /**</span>
-<span class="source-line-no">2164</span><span id="line-2164">   * Returns a multimap containing the mappings in {@code unfiltered} that satisfy a predicate. The</span>
-<span class="source-line-no">2165</span><span id="line-2165">   * returned multimap is a live view of {@code unfiltered}; changes to one affect the other.</span>
-<span class="source-line-no">2166</span><span id="line-2166">   *</span>
-<span class="source-line-no">2167</span><span id="line-2167">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
-<span class="source-line-no">2168</span><span id="line-2168">   * other methods are supported by the multimap and its views. When adding a key/value pair that</span>
-<span class="source-line-no">2169</span><span id="line-2169">   * doesn't satisfy the predicate, multimap's {@code put()}, {@code putAll()}, and {@code</span>
-<span class="source-line-no">2170</span><span id="line-2170">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2135</span><span id="line-2135">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
+<span class="source-line-no">2136</span><span id="line-2136">   *</span>
+<span class="source-line-no">2137</span><span id="line-2137">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
+<span class="source-line-no">2138</span><span id="line-2138">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
+<span class="source-line-no">2139</span><span id="line-2139">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
+<span class="source-line-no">2140</span><span id="line-2140">   * copy.</span>
+<span class="source-line-no">2141</span><span id="line-2141">   *</span>
+<span class="source-line-no">2142</span><span id="line-2142">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code entryPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented</span>
+<span class="source-line-no">2143</span><span id="line-2143">   * at {@link Predicate#apply}.</span>
+<span class="source-line-no">2144</span><span id="line-2144">   *</span>
+<span class="source-line-no">2145</span><span id="line-2145">   * @since 11.0</span>
+<span class="source-line-no">2146</span><span id="line-2146">   */</span>
+<span class="source-line-no">2147</span><span id="line-2147">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">2148</span><span id="line-2148">      Multimap&lt;K, V&gt; filterEntries(</span>
+<span class="source-line-no">2149</span><span id="line-2149">          Multimap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {</span>
+<span class="source-line-no">2150</span><span id="line-2150">    checkNotNull(entryPredicate);</span>
+<span class="source-line-no">2151</span><span id="line-2151">    if (unfiltered instanceof SetMultimap) {</span>
+<span class="source-line-no">2152</span><span id="line-2152">      return filterEntries((SetMultimap&lt;K, V&gt;) unfiltered, entryPredicate);</span>
+<span class="source-line-no">2153</span><span id="line-2153">    }</span>
+<span class="source-line-no">2154</span><span id="line-2154">    return (unfiltered instanceof FilteredMultimap)</span>
+<span class="source-line-no">2155</span><span id="line-2155">        ? filterFiltered((FilteredMultimap&lt;K, V&gt;) unfiltered, entryPredicate)</span>
+<span class="source-line-no">2156</span><span id="line-2156">        : new FilteredEntryMultimap&lt;K, V&gt;(checkNotNull(unfiltered), entryPredicate);</span>
+<span class="source-line-no">2157</span><span id="line-2157">  }</span>
+<span class="source-line-no">2158</span><span id="line-2158"></span>
+<span class="source-line-no">2159</span><span id="line-2159">  /**</span>
+<span class="source-line-no">2160</span><span id="line-2160">   * Returns a multimap containing the mappings in {@code unfiltered} that satisfy a predicate. The</span>
+<span class="source-line-no">2161</span><span id="line-2161">   * returned multimap is a live view of {@code unfiltered}; changes to one affect the other.</span>
+<span class="source-line-no">2162</span><span id="line-2162">   *</span>
+<span class="source-line-no">2163</span><span id="line-2163">   * &lt;p&gt;The resulting multimap's views have iterators that don't support {@code remove()}, but all</span>
+<span class="source-line-no">2164</span><span id="line-2164">   * other methods are supported by the multimap and its views. When adding a key/value pair that</span>
+<span class="source-line-no">2165</span><span id="line-2165">   * doesn't satisfy the predicate, multimap's {@code put()}, {@code putAll()}, and {@code</span>
+<span class="source-line-no">2166</span><span id="line-2166">   * replaceValues()} methods throw an {@link IllegalArgumentException}.</span>
+<span class="source-line-no">2167</span><span id="line-2167">   *</span>
+<span class="source-line-no">2168</span><span id="line-2168">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
+<span class="source-line-no">2169</span><span id="line-2169">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
+<span class="source-line-no">2170</span><span id="line-2170">   * underlying multimap.</span>
 <span class="source-line-no">2171</span><span id="line-2171">   *</span>
-<span class="source-line-no">2172</span><span id="line-2172">   * &lt;p&gt;When methods such as {@code removeAll()} and {@code clear()} are called on the filtered</span>
-<span class="source-line-no">2173</span><span id="line-2173">   * multimap or its views, only mappings whose keys satisfy the filter will be removed from the</span>
-<span class="source-line-no">2174</span><span id="line-2174">   * underlying multimap.</span>
-<span class="source-line-no">2175</span><span id="line-2175">   *</span>
-<span class="source-line-no">2176</span><span id="line-2176">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
-<span class="source-line-no">2177</span><span id="line-2177">   *</span>
-<span class="source-line-no">2178</span><span id="line-2178">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
-<span class="source-line-no">2179</span><span id="line-2179">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
-<span class="source-line-no">2180</span><span id="line-2180">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
-<span class="source-line-no">2181</span><span id="line-2181">   * copy.</span>
-<span class="source-line-no">2182</span><span id="line-2182">   *</span>
-<span class="source-line-no">2183</span><span id="line-2183">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code entryPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented</span>
-<span class="source-line-no">2184</span><span id="line-2184">   * at {@link Predicate#apply}.</span>
-<span class="source-line-no">2185</span><span id="line-2185">   *</span>
-<span class="source-line-no">2186</span><span id="line-2186">   * @since 14.0</span>
-<span class="source-line-no">2187</span><span id="line-2187">   */</span>
-<span class="source-line-no">2188</span><span id="line-2188">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">2189</span><span id="line-2189">      SetMultimap&lt;K, V&gt; filterEntries(</span>
-<span class="source-line-no">2190</span><span id="line-2190">          SetMultimap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {</span>
-<span class="source-line-no">2191</span><span id="line-2191">    checkNotNull(entryPredicate);</span>
-<span class="source-line-no">2192</span><span id="line-2192">    return (unfiltered instanceof FilteredSetMultimap)</span>
-<span class="source-line-no">2193</span><span id="line-2193">        ? filterFiltered((FilteredSetMultimap&lt;K, V&gt;) unfiltered, entryPredicate)</span>
-<span class="source-line-no">2194</span><span id="line-2194">        : new FilteredEntrySetMultimap&lt;K, V&gt;(checkNotNull(unfiltered), entryPredicate);</span>
-<span class="source-line-no">2195</span><span id="line-2195">  }</span>
-<span class="source-line-no">2196</span><span id="line-2196"></span>
-<span class="source-line-no">2197</span><span id="line-2197">  /**</span>
-<span class="source-line-no">2198</span><span id="line-2198">   * Support removal operations when filtering a filtered multimap. Since a filtered multimap has</span>
-<span class="source-line-no">2199</span><span id="line-2199">   * iterators that don't support remove, passing one to the FilteredEntryMultimap constructor would</span>
-<span class="source-line-no">2200</span><span id="line-2200">   * lead to a multimap whose removal operations would fail. This method combines the predicates to</span>
-<span class="source-line-no">2201</span><span id="line-2201">   * avoid that problem.</span>
-<span class="source-line-no">2202</span><span id="line-2202">   */</span>
-<span class="source-line-no">2203</span><span id="line-2203">  private static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">2204</span><span id="line-2204">      Multimap&lt;K, V&gt; filterFiltered(</span>
-<span class="source-line-no">2205</span><span id="line-2205">          FilteredMultimap&lt;K, V&gt; multimap, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {</span>
-<span class="source-line-no">2206</span><span id="line-2206">    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =</span>
-<span class="source-line-no">2207</span><span id="line-2207">        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(multimap.entryPredicate(), entryPredicate);</span>
-<span class="source-line-no">2208</span><span id="line-2208">    return new FilteredEntryMultimap&lt;&gt;(multimap.unfiltered(), predicate);</span>
-<span class="source-line-no">2209</span><span id="line-2209">  }</span>
-<span class="source-line-no">2210</span><span id="line-2210"></span>
-<span class="source-line-no">2211</span><span id="line-2211">  /**</span>
-<span class="source-line-no">2212</span><span id="line-2212">   * Support removal operations when filtering a filtered multimap. Since a filtered multimap has</span>
-<span class="source-line-no">2213</span><span id="line-2213">   * iterators that don't support remove, passing one to the FilteredEntryMultimap constructor would</span>
-<span class="source-line-no">2214</span><span id="line-2214">   * lead to a multimap whose removal operations would fail. This method combines the predicates to</span>
-<span class="source-line-no">2215</span><span id="line-2215">   * avoid that problem.</span>
-<span class="source-line-no">2216</span><span id="line-2216">   */</span>
-<span class="source-line-no">2217</span><span id="line-2217">  private static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
-<span class="source-line-no">2218</span><span id="line-2218">      SetMultimap&lt;K, V&gt; filterFiltered(</span>
-<span class="source-line-no">2219</span><span id="line-2219">          FilteredSetMultimap&lt;K, V&gt; multimap, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {</span>
-<span class="source-line-no">2220</span><span id="line-2220">    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =</span>
-<span class="source-line-no">2221</span><span id="line-2221">        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(multimap.entryPredicate(), entryPredicate);</span>
-<span class="source-line-no">2222</span><span id="line-2222">    return new FilteredEntrySetMultimap&lt;&gt;(multimap.unfiltered(), predicate);</span>
-<span class="source-line-no">2223</span><span id="line-2223">  }</span>
-<span class="source-line-no">2224</span><span id="line-2224"></span>
-<span class="source-line-no">2225</span><span id="line-2225">  static boolean equalsImpl(Multimap&lt;?, ?&gt; multimap, @Nullable Object object) {</span>
-<span class="source-line-no">2226</span><span id="line-2226">    if (object == multimap) {</span>
-<span class="source-line-no">2227</span><span id="line-2227">      return true;</span>
+<span class="source-line-no">2172</span><span id="line-2172">   * &lt;p&gt;The returned multimap isn't threadsafe or serializable, even if {@code unfiltered} is.</span>
+<span class="source-line-no">2173</span><span id="line-2173">   *</span>
+<span class="source-line-no">2174</span><span id="line-2174">   * &lt;p&gt;Many of the filtered multimap's methods, such as {@code size()}, iterate across every</span>
+<span class="source-line-no">2175</span><span id="line-2175">   * key/value mapping in the underlying multimap and determine which satisfy the filter. When a</span>
+<span class="source-line-no">2176</span><span id="line-2176">   * live view is &lt;i&gt;not&lt;/i&gt; needed, it may be faster to copy the filtered multimap and use the</span>
+<span class="source-line-no">2177</span><span id="line-2177">   * copy.</span>
+<span class="source-line-no">2178</span><span id="line-2178">   *</span>
+<span class="source-line-no">2179</span><span id="line-2179">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; {@code entryPredicate} must be &lt;i&gt;consistent with equals&lt;/i&gt;, as documented</span>
+<span class="source-line-no">2180</span><span id="line-2180">   * at {@link Predicate#apply}.</span>
+<span class="source-line-no">2181</span><span id="line-2181">   *</span>
+<span class="source-line-no">2182</span><span id="line-2182">   * @since 14.0</span>
+<span class="source-line-no">2183</span><span id="line-2183">   */</span>
+<span class="source-line-no">2184</span><span id="line-2184">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">2185</span><span id="line-2185">      SetMultimap&lt;K, V&gt; filterEntries(</span>
+<span class="source-line-no">2186</span><span id="line-2186">          SetMultimap&lt;K, V&gt; unfiltered, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {</span>
+<span class="source-line-no">2187</span><span id="line-2187">    checkNotNull(entryPredicate);</span>
+<span class="source-line-no">2188</span><span id="line-2188">    return (unfiltered instanceof FilteredSetMultimap)</span>
+<span class="source-line-no">2189</span><span id="line-2189">        ? filterFiltered((FilteredSetMultimap&lt;K, V&gt;) unfiltered, entryPredicate)</span>
+<span class="source-line-no">2190</span><span id="line-2190">        : new FilteredEntrySetMultimap&lt;K, V&gt;(checkNotNull(unfiltered), entryPredicate);</span>
+<span class="source-line-no">2191</span><span id="line-2191">  }</span>
+<span class="source-line-no">2192</span><span id="line-2192"></span>
+<span class="source-line-no">2193</span><span id="line-2193">  /**</span>
+<span class="source-line-no">2194</span><span id="line-2194">   * Support removal operations when filtering a filtered multimap. Since a filtered multimap has</span>
+<span class="source-line-no">2195</span><span id="line-2195">   * iterators that don't support remove, passing one to the FilteredEntryMultimap constructor would</span>
+<span class="source-line-no">2196</span><span id="line-2196">   * lead to a multimap whose removal operations would fail. This method combines the predicates to</span>
+<span class="source-line-no">2197</span><span id="line-2197">   * avoid that problem.</span>
+<span class="source-line-no">2198</span><span id="line-2198">   */</span>
+<span class="source-line-no">2199</span><span id="line-2199">  private static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">2200</span><span id="line-2200">      Multimap&lt;K, V&gt; filterFiltered(</span>
+<span class="source-line-no">2201</span><span id="line-2201">          FilteredMultimap&lt;K, V&gt; multimap, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {</span>
+<span class="source-line-no">2202</span><span id="line-2202">    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =</span>
+<span class="source-line-no">2203</span><span id="line-2203">        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(multimap.entryPredicate(), entryPredicate);</span>
+<span class="source-line-no">2204</span><span id="line-2204">    return new FilteredEntryMultimap&lt;&gt;(multimap.unfiltered(), predicate);</span>
+<span class="source-line-no">2205</span><span id="line-2205">  }</span>
+<span class="source-line-no">2206</span><span id="line-2206"></span>
+<span class="source-line-no">2207</span><span id="line-2207">  /**</span>
+<span class="source-line-no">2208</span><span id="line-2208">   * Support removal operations when filtering a filtered multimap. Since a filtered multimap has</span>
+<span class="source-line-no">2209</span><span id="line-2209">   * iterators that don't support remove, passing one to the FilteredEntryMultimap constructor would</span>
+<span class="source-line-no">2210</span><span id="line-2210">   * lead to a multimap whose removal operations would fail. This method combines the predicates to</span>
+<span class="source-line-no">2211</span><span id="line-2211">   * avoid that problem.</span>
+<span class="source-line-no">2212</span><span id="line-2212">   */</span>
+<span class="source-line-no">2213</span><span id="line-2213">  private static &lt;K extends @Nullable Object, V extends @Nullable Object&gt;</span>
+<span class="source-line-no">2214</span><span id="line-2214">      SetMultimap&lt;K, V&gt; filterFiltered(</span>
+<span class="source-line-no">2215</span><span id="line-2215">          FilteredSetMultimap&lt;K, V&gt; multimap, Predicate&lt;? super Entry&lt;K, V&gt;&gt; entryPredicate) {</span>
+<span class="source-line-no">2216</span><span id="line-2216">    Predicate&lt;Entry&lt;K, V&gt;&gt; predicate =</span>
+<span class="source-line-no">2217</span><span id="line-2217">        Predicates.&lt;Entry&lt;K, V&gt;&gt;and(multimap.entryPredicate(), entryPredicate);</span>
+<span class="source-line-no">2218</span><span id="line-2218">    return new FilteredEntrySetMultimap&lt;&gt;(multimap.unfiltered(), predicate);</span>
+<span class="source-line-no">2219</span><span id="line-2219">  }</span>
+<span class="source-line-no">2220</span><span id="line-2220"></span>
+<span class="source-line-no">2221</span><span id="line-2221">  static boolean equalsImpl(Multimap&lt;?, ?&gt; multimap, @Nullable Object object) {</span>
+<span class="source-line-no">2222</span><span id="line-2222">    if (object == multimap) {</span>
+<span class="source-line-no">2223</span><span id="line-2223">      return true;</span>
+<span class="source-line-no">2224</span><span id="line-2224">    }</span>
+<span class="source-line-no">2225</span><span id="line-2225">    if (object instanceof Multimap) {</span>
+<span class="source-line-no">2226</span><span id="line-2226">      Multimap&lt;?, ?&gt; that = (Multimap&lt;?, ?&gt;) object;</span>
+<span class="source-line-no">2227</span><span id="line-2227">      return multimap.asMap().equals(that.asMap());</span>
 <span class="source-line-no">2228</span><span id="line-2228">    }</span>
-<span class="source-line-no">2229</span><span id="line-2229">    if (object instanceof Multimap) {</span>
-<span class="source-line-no">2230</span><span id="line-2230">      Multimap&lt;?, ?&gt; that = (Multimap&lt;?, ?&gt;) object;</span>
-<span class="source-line-no">2231</span><span id="line-2231">      return multimap.asMap().equals(that.asMap());</span>
-<span class="source-line-no">2232</span><span id="line-2232">    }</span>
-<span class="source-line-no">2233</span><span id="line-2233">    return false;</span>
-<span class="source-line-no">2234</span><span id="line-2234">  }</span>
-<span class="source-line-no">2235</span><span id="line-2235"></span>
-<span class="source-line-no">2236</span><span id="line-2236">  // TODO(jlevy): Create methods that filter a SortedSetMultimap.</span>
-<span class="source-line-no">2237</span><span id="line-2237">}</span>
+<span class="source-line-no">2229</span><span id="line-2229">    return false;</span>
+<span class="source-line-no">2230</span><span id="line-2230">  }</span>
+<span class="source-line-no">2231</span><span id="line-2231"></span>
+<span class="source-line-no">2232</span><span id="line-2232">  // TODO(jlevy): Create methods that filter a SortedSetMultimap.</span>
+<span class="source-line-no">2233</span><span id="line-2233">}</span>
 
 
 
