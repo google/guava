@@ -749,8 +749,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * ("constant lists"). Example:
    *
    * <pre>{@code
-   * public static final ImmutableList<Color> GOOGLE_COLORS
-   *     = new ImmutableList.Builder<Color>()
+   * public static final ImmutableList<Color> GOOGLE_COLORS =
+   *     new ImmutableList.Builder<Color>()
    *         .addAll(WEBSAFE_COLORS)
    *         .add(new Color(0, 191, 255))
    *         .build();

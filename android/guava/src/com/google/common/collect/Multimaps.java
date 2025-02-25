@@ -1325,7 +1325,7 @@ public final class Multimaps {
       Multimap<K, V2> transformValues(
           Multimap<K, V1> fromMultimap, Function<? super V1, V2> function) {
     checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer = Maps.asEntryTransformer(function);
+    EntryTransformer<K, V1, V2> transformer = (key, value) -> function.apply(value);
     return transformEntries(fromMultimap, transformer);
   }
 
@@ -1335,14 +1335,9 @@ public final class Multimaps {
    * code:
    *
    * <pre>{@code
-   * ListMultimap<String, Integer> multimap
-   *      = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
-   * Function<Integer, Double> sqrt =
-   *     new Function<Integer, Double>() {
-   *       public Double apply(Integer in) {
-   *         return Math.sqrt((int) in);
-   *       }
-   *     };
+   * ListMultimap<String, Integer> multimap =
+   *      ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
    * ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
    *     sqrt);
    * System.out.println(transformed);
@@ -1374,7 +1369,7 @@ public final class Multimaps {
       ListMultimap<K, V2> transformValues(
           ListMultimap<K, V1> fromMultimap, Function<? super V1, V2> function) {
     checkNotNull(function);
-    EntryTransformer<K, V1, V2> transformer = Maps.asEntryTransformer(function);
+    EntryTransformer<K, V1, V2> transformer = (key, value) -> function.apply(value);
     return transformEntries(fromMultimap, transformer);
   }
 
@@ -1504,7 +1499,7 @@ public final class Multimaps {
     }
 
     Collection<V2> transform(@ParametricNullness K key, Collection<V1> values) {
-      Function<? super V1, V2> function = Maps.asValueToValueFunction(transformer, key);
+      Function<? super V1, V2> function = v1 -> transformer.transformEntry(key, v1);
       if (values instanceof List) {
         return Lists.transform((List<V1>) values, function);
       } else {
@@ -1598,7 +1593,8 @@ public final class Multimaps {
     @Override
     Collection<V2> createValues() {
       return Collections2.transform(
-          fromMultimap.entries(), Maps.<K, V1, V2>asEntryToValueFunction(transformer));
+          fromMultimap.entries(),
+          entry -> transformer.transformEntry(entry.getKey(), entry.getValue()));
     }
   }
 
@@ -1613,7 +1609,7 @@ public final class Multimaps {
 
     @Override
     List<V2> transform(@ParametricNullness K key, Collection<V1> values) {
-      return Lists.transform((List<V1>) values, Maps.asValueToValueFunction(transformer, key));
+      return Lists.transform((List<V1>) values, v1 -> transformer.transformEntry(key, v1));
     }
 
     @Override

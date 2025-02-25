@@ -1800,12 +1800,7 @@ public final class Maps {
    *
    * <pre>{@code
    * Map<String, Integer> map = ImmutableMap.of("a", 4, "b", 9);
-   * Function<Integer, Double> sqrt =
-   *     new Function<Integer, Double>() {
-   *       public Double apply(Integer in) {
-   *         return Math.sqrt((int) in);
-   *       }
-   *     };
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
    * Map<String, Double> transformed = Maps.transformValues(map, sqrt);
    * System.out.println(transformed);
    * }</pre>
@@ -1830,7 +1825,8 @@ public final class Maps {
   public static <
           K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       Map<K, V2> transformValues(Map<K, V1> fromMap, Function<? super V1, V2> function) {
-    return transformEntries(fromMap, asEntryTransformer(function));
+    checkNotNull(function);
+    return transformEntries(fromMap, (key, value) -> function.apply(value));
   }
 
   /**
@@ -1839,12 +1835,7 @@ public final class Maps {
    *
    * <pre>{@code
    * SortedMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
-   * Function<Integer, Double> sqrt =
-   *     new Function<Integer, Double>() {
-   *       public Double apply(Integer in) {
-   *         return Math.sqrt((int) in);
-   *       }
-   *     };
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
    * SortedMap<String, Double> transformed =
    *      Maps.transformValues(map, sqrt);
    * System.out.println(transformed);
@@ -1873,7 +1864,8 @@ public final class Maps {
           K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       SortedMap<K, V2> transformValues(
           SortedMap<K, V1> fromMap, Function<? super V1, V2> function) {
-    return transformEntries(fromMap, asEntryTransformer(function));
+    checkNotNull(function);
+    return transformEntries(fromMap, (key, value) -> function.apply(value));
   }
 
   /**
@@ -1884,12 +1876,7 @@ public final class Maps {
    * NavigableMap<String, Integer> map = Maps.newTreeMap();
    * map.put("a", 4);
    * map.put("b", 9);
-   * Function<Integer, Double> sqrt =
-   *     new Function<Integer, Double>() {
-   *       public Double apply(Integer in) {
-   *         return Math.sqrt((int) in);
-   *       }
-   *     };
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
    * NavigableMap<String, Double> transformed =
    *      Maps.transformNavigableValues(map, sqrt);
    * System.out.println(transformed);
@@ -1919,7 +1906,8 @@ public final class Maps {
           K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       NavigableMap<K, V2> transformValues(
           NavigableMap<K, V1> fromMap, Function<? super V1, V2> function) {
-    return transformEntries(fromMap, asEntryTransformer(function));
+    checkNotNull(function);
+    return transformEntries(fromMap, (key, value) -> function.apply(value));
   }
 
   /**
@@ -2114,28 +2102,6 @@ public final class Maps {
      */
     @ParametricNullness
     V2 transformEntry(@ParametricNullness K key, @ParametricNullness V1 value);
-  }
-
-  /** Views a function as an entry transformer that ignores the entry key. */
-  static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
-      EntryTransformer<K, V1, V2> asEntryTransformer(Function<? super V1, V2> function) {
-    checkNotNull(function);
-    return (key, value) -> function.apply(value);
-  }
-
-  static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
-      Function<V1, V2> asValueToValueFunction(
-          EntryTransformer<? super K, V1, V2> transformer, @ParametricNullness K key) {
-    checkNotNull(transformer);
-    return v1 -> transformer.transformEntry(key, v1);
-  }
-
-  /** Views an entry transformer as a function from {@code Entry} to values. */
-  static <K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
-      Function<Entry<K, V1>, V2> asEntryToValueFunction(
-          EntryTransformer<? super K, ? super V1, V2> transformer) {
-    checkNotNull(transformer);
-    return entry -> transformer.transformEntry(entry.getKey(), entry.getValue());
   }
 
   /** Returns a view of an entry transformed by the specified transformer. */
