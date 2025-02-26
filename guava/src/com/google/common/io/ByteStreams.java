@@ -687,6 +687,11 @@ public final class ByteStreams {
   /**
    * Returns an {@link OutputStream} that simply discards written bytes.
    *
+   * <p><b>Java 11+ users:</b> use {@link OutputStream#nullOutputStream()} instead. Note that the
+   * {@link ByteStreams} method returns a singleton stream whose {@code close} method has no effect,
+   * while the {@link OutputStream} method returns a new instance whose {@code write} methods throw
+   * if called on a closed stream.
+   *
    * @since 14.0 (since 1.0 as com.google.common.io.NullOutputStream)
    */
   public static OutputStream nullOutputStream() {
