@@ -700,267 +700,272 @@
 <span class="source-line-no">687</span><span id="line-687">  /**</span>
 <span class="source-line-no">688</span><span id="line-688">   * Returns an {@link OutputStream} that simply discards written bytes.</span>
 <span class="source-line-no">689</span><span id="line-689">   *</span>
-<span class="source-line-no">690</span><span id="line-690">   * @since 14.0 (since 1.0 as com.google.common.io.NullOutputStream)</span>
-<span class="source-line-no">691</span><span id="line-691">   */</span>
-<span class="source-line-no">692</span><span id="line-692">  public static OutputStream nullOutputStream() {</span>
-<span class="source-line-no">693</span><span id="line-693">    return NULL_OUTPUT_STREAM;</span>
-<span class="source-line-no">694</span><span id="line-694">  }</span>
-<span class="source-line-no">695</span><span id="line-695"></span>
-<span class="source-line-no">696</span><span id="line-696">  /**</span>
-<span class="source-line-no">697</span><span id="line-697">   * Wraps a {@link InputStream}, limiting the number of bytes which can be read.</span>
-<span class="source-line-no">698</span><span id="line-698">   *</span>
-<span class="source-line-no">699</span><span id="line-699">   * @param in the input stream to be wrapped</span>
-<span class="source-line-no">700</span><span id="line-700">   * @param limit the maximum number of bytes to be read</span>
-<span class="source-line-no">701</span><span id="line-701">   * @return a length-limited {@link InputStream}</span>
-<span class="source-line-no">702</span><span id="line-702">   * @since 14.0 (since 1.0 as com.google.common.io.LimitInputStream)</span>
-<span class="source-line-no">703</span><span id="line-703">   */</span>
-<span class="source-line-no">704</span><span id="line-704">  @J2ktIncompatible</span>
-<span class="source-line-no">705</span><span id="line-705">  public static InputStream limit(InputStream in, long limit) {</span>
-<span class="source-line-no">706</span><span id="line-706">    return new LimitedInputStream(in, limit);</span>
-<span class="source-line-no">707</span><span id="line-707">  }</span>
-<span class="source-line-no">708</span><span id="line-708"></span>
+<span class="source-line-no">690</span><span id="line-690">   * &lt;p&gt;&lt;b&gt;Java 11+ users:&lt;/b&gt; use {@link OutputStream#nullOutputStream()} instead. Note that the</span>
+<span class="source-line-no">691</span><span id="line-691">   * {@link ByteStreams} method returns a singleton stream whose {@code close} method has no effect,</span>
+<span class="source-line-no">692</span><span id="line-692">   * while the {@link OutputStream} method returns a new instance whose {@code write} methods throw</span>
+<span class="source-line-no">693</span><span id="line-693">   * if called on a closed stream.</span>
+<span class="source-line-no">694</span><span id="line-694">   *</span>
+<span class="source-line-no">695</span><span id="line-695">   * @since 14.0 (since 1.0 as com.google.common.io.NullOutputStream)</span>
+<span class="source-line-no">696</span><span id="line-696">   */</span>
+<span class="source-line-no">697</span><span id="line-697">  public static OutputStream nullOutputStream() {</span>
+<span class="source-line-no">698</span><span id="line-698">    return NULL_OUTPUT_STREAM;</span>
+<span class="source-line-no">699</span><span id="line-699">  }</span>
+<span class="source-line-no">700</span><span id="line-700"></span>
+<span class="source-line-no">701</span><span id="line-701">  /**</span>
+<span class="source-line-no">702</span><span id="line-702">   * Wraps a {@link InputStream}, limiting the number of bytes which can be read.</span>
+<span class="source-line-no">703</span><span id="line-703">   *</span>
+<span class="source-line-no">704</span><span id="line-704">   * @param in the input stream to be wrapped</span>
+<span class="source-line-no">705</span><span id="line-705">   * @param limit the maximum number of bytes to be read</span>
+<span class="source-line-no">706</span><span id="line-706">   * @return a length-limited {@link InputStream}</span>
+<span class="source-line-no">707</span><span id="line-707">   * @since 14.0 (since 1.0 as com.google.common.io.LimitInputStream)</span>
+<span class="source-line-no">708</span><span id="line-708">   */</span>
 <span class="source-line-no">709</span><span id="line-709">  @J2ktIncompatible</span>
-<span class="source-line-no">710</span><span id="line-710">  private static final class LimitedInputStream extends FilterInputStream {</span>
-<span class="source-line-no">711</span><span id="line-711"></span>
-<span class="source-line-no">712</span><span id="line-712">    private long left;</span>
-<span class="source-line-no">713</span><span id="line-713">    private long mark = -1;</span>
-<span class="source-line-no">714</span><span id="line-714"></span>
-<span class="source-line-no">715</span><span id="line-715">    LimitedInputStream(InputStream in, long limit) {</span>
-<span class="source-line-no">716</span><span id="line-716">      super(in);</span>
-<span class="source-line-no">717</span><span id="line-717">      checkNotNull(in);</span>
-<span class="source-line-no">718</span><span id="line-718">      checkArgument(limit &gt;= 0, "limit must be non-negative");</span>
-<span class="source-line-no">719</span><span id="line-719">      left = limit;</span>
-<span class="source-line-no">720</span><span id="line-720">    }</span>
-<span class="source-line-no">721</span><span id="line-721"></span>
-<span class="source-line-no">722</span><span id="line-722">    @Override</span>
-<span class="source-line-no">723</span><span id="line-723">    public int available() throws IOException {</span>
-<span class="source-line-no">724</span><span id="line-724">      return (int) min(in.available(), left);</span>
+<span class="source-line-no">710</span><span id="line-710">  public static InputStream limit(InputStream in, long limit) {</span>
+<span class="source-line-no">711</span><span id="line-711">    return new LimitedInputStream(in, limit);</span>
+<span class="source-line-no">712</span><span id="line-712">  }</span>
+<span class="source-line-no">713</span><span id="line-713"></span>
+<span class="source-line-no">714</span><span id="line-714">  @J2ktIncompatible</span>
+<span class="source-line-no">715</span><span id="line-715">  private static final class LimitedInputStream extends FilterInputStream {</span>
+<span class="source-line-no">716</span><span id="line-716"></span>
+<span class="source-line-no">717</span><span id="line-717">    private long left;</span>
+<span class="source-line-no">718</span><span id="line-718">    private long mark = -1;</span>
+<span class="source-line-no">719</span><span id="line-719"></span>
+<span class="source-line-no">720</span><span id="line-720">    LimitedInputStream(InputStream in, long limit) {</span>
+<span class="source-line-no">721</span><span id="line-721">      super(in);</span>
+<span class="source-line-no">722</span><span id="line-722">      checkNotNull(in);</span>
+<span class="source-line-no">723</span><span id="line-723">      checkArgument(limit &gt;= 0, "limit must be non-negative");</span>
+<span class="source-line-no">724</span><span id="line-724">      left = limit;</span>
 <span class="source-line-no">725</span><span id="line-725">    }</span>
 <span class="source-line-no">726</span><span id="line-726"></span>
-<span class="source-line-no">727</span><span id="line-727">    // it's okay to mark even if mark isn't supported, as reset won't work</span>
-<span class="source-line-no">728</span><span id="line-728">    @Override</span>
-<span class="source-line-no">729</span><span id="line-729">    public synchronized void mark(int readLimit) {</span>
-<span class="source-line-no">730</span><span id="line-730">      in.mark(readLimit);</span>
-<span class="source-line-no">731</span><span id="line-731">      mark = left;</span>
-<span class="source-line-no">732</span><span id="line-732">    }</span>
-<span class="source-line-no">733</span><span id="line-733"></span>
-<span class="source-line-no">734</span><span id="line-734">    @Override</span>
-<span class="source-line-no">735</span><span id="line-735">    public int read() throws IOException {</span>
-<span class="source-line-no">736</span><span id="line-736">      if (left == 0) {</span>
-<span class="source-line-no">737</span><span id="line-737">        return -1;</span>
-<span class="source-line-no">738</span><span id="line-738">      }</span>
-<span class="source-line-no">739</span><span id="line-739"></span>
-<span class="source-line-no">740</span><span id="line-740">      int result = in.read();</span>
-<span class="source-line-no">741</span><span id="line-741">      if (result != -1) {</span>
-<span class="source-line-no">742</span><span id="line-742">        --left;</span>
+<span class="source-line-no">727</span><span id="line-727">    @Override</span>
+<span class="source-line-no">728</span><span id="line-728">    public int available() throws IOException {</span>
+<span class="source-line-no">729</span><span id="line-729">      return (int) min(in.available(), left);</span>
+<span class="source-line-no">730</span><span id="line-730">    }</span>
+<span class="source-line-no">731</span><span id="line-731"></span>
+<span class="source-line-no">732</span><span id="line-732">    // it's okay to mark even if mark isn't supported, as reset won't work</span>
+<span class="source-line-no">733</span><span id="line-733">    @Override</span>
+<span class="source-line-no">734</span><span id="line-734">    public synchronized void mark(int readLimit) {</span>
+<span class="source-line-no">735</span><span id="line-735">      in.mark(readLimit);</span>
+<span class="source-line-no">736</span><span id="line-736">      mark = left;</span>
+<span class="source-line-no">737</span><span id="line-737">    }</span>
+<span class="source-line-no">738</span><span id="line-738"></span>
+<span class="source-line-no">739</span><span id="line-739">    @Override</span>
+<span class="source-line-no">740</span><span id="line-740">    public int read() throws IOException {</span>
+<span class="source-line-no">741</span><span id="line-741">      if (left == 0) {</span>
+<span class="source-line-no">742</span><span id="line-742">        return -1;</span>
 <span class="source-line-no">743</span><span id="line-743">      }</span>
-<span class="source-line-no">744</span><span id="line-744">      return result;</span>
-<span class="source-line-no">745</span><span id="line-745">    }</span>
-<span class="source-line-no">746</span><span id="line-746"></span>
-<span class="source-line-no">747</span><span id="line-747">    @Override</span>
-<span class="source-line-no">748</span><span id="line-748">    public int read(byte[] b, int off, int len) throws IOException {</span>
-<span class="source-line-no">749</span><span id="line-749">      if (left == 0) {</span>
-<span class="source-line-no">750</span><span id="line-750">        return -1;</span>
-<span class="source-line-no">751</span><span id="line-751">      }</span>
-<span class="source-line-no">752</span><span id="line-752"></span>
-<span class="source-line-no">753</span><span id="line-753">      len = (int) min(len, left);</span>
-<span class="source-line-no">754</span><span id="line-754">      int result = in.read(b, off, len);</span>
-<span class="source-line-no">755</span><span id="line-755">      if (result != -1) {</span>
-<span class="source-line-no">756</span><span id="line-756">        left -= result;</span>
-<span class="source-line-no">757</span><span id="line-757">      }</span>
-<span class="source-line-no">758</span><span id="line-758">      return result;</span>
-<span class="source-line-no">759</span><span id="line-759">    }</span>
-<span class="source-line-no">760</span><span id="line-760"></span>
-<span class="source-line-no">761</span><span id="line-761">    @Override</span>
-<span class="source-line-no">762</span><span id="line-762">    public synchronized void reset() throws IOException {</span>
-<span class="source-line-no">763</span><span id="line-763">      if (!in.markSupported()) {</span>
-<span class="source-line-no">764</span><span id="line-764">        throw new IOException("Mark not supported");</span>
-<span class="source-line-no">765</span><span id="line-765">      }</span>
-<span class="source-line-no">766</span><span id="line-766">      if (mark == -1) {</span>
-<span class="source-line-no">767</span><span id="line-767">        throw new IOException("Mark not set");</span>
-<span class="source-line-no">768</span><span id="line-768">      }</span>
-<span class="source-line-no">769</span><span id="line-769"></span>
-<span class="source-line-no">770</span><span id="line-770">      in.reset();</span>
-<span class="source-line-no">771</span><span id="line-771">      left = mark;</span>
-<span class="source-line-no">772</span><span id="line-772">    }</span>
-<span class="source-line-no">773</span><span id="line-773"></span>
-<span class="source-line-no">774</span><span id="line-774">    @Override</span>
-<span class="source-line-no">775</span><span id="line-775">    public long skip(long n) throws IOException {</span>
-<span class="source-line-no">776</span><span id="line-776">      n = min(n, left);</span>
-<span class="source-line-no">777</span><span id="line-777">      long skipped = in.skip(n);</span>
-<span class="source-line-no">778</span><span id="line-778">      left -= skipped;</span>
-<span class="source-line-no">779</span><span id="line-779">      return skipped;</span>
-<span class="source-line-no">780</span><span id="line-780">    }</span>
-<span class="source-line-no">781</span><span id="line-781">  }</span>
-<span class="source-line-no">782</span><span id="line-782"></span>
-<span class="source-line-no">783</span><span id="line-783">  /**</span>
-<span class="source-line-no">784</span><span id="line-784">   * Attempts to read enough bytes from the stream to fill the given byte array, with the same</span>
-<span class="source-line-no">785</span><span id="line-785">   * behavior as {@link DataInput#readFully(byte[])}. Does not close the stream.</span>
-<span class="source-line-no">786</span><span id="line-786">   *</span>
-<span class="source-line-no">787</span><span id="line-787">   * @param in the input stream to read from.</span>
-<span class="source-line-no">788</span><span id="line-788">   * @param b the buffer into which the data is read.</span>
-<span class="source-line-no">789</span><span id="line-789">   * @throws EOFException if this stream reaches the end before reading all the bytes.</span>
-<span class="source-line-no">790</span><span id="line-790">   * @throws IOException if an I/O error occurs.</span>
-<span class="source-line-no">791</span><span id="line-791">   */</span>
-<span class="source-line-no">792</span><span id="line-792">  public static void readFully(InputStream in, byte[] b) throws IOException {</span>
-<span class="source-line-no">793</span><span id="line-793">    readFully(in, b, 0, b.length);</span>
-<span class="source-line-no">794</span><span id="line-794">  }</span>
-<span class="source-line-no">795</span><span id="line-795"></span>
-<span class="source-line-no">796</span><span id="line-796">  /**</span>
-<span class="source-line-no">797</span><span id="line-797">   * Attempts to read {@code len} bytes from the stream into the given array starting at {@code</span>
-<span class="source-line-no">798</span><span id="line-798">   * off}, with the same behavior as {@link DataInput#readFully(byte[], int, int)}. Does not close</span>
-<span class="source-line-no">799</span><span id="line-799">   * the stream.</span>
-<span class="source-line-no">800</span><span id="line-800">   *</span>
-<span class="source-line-no">801</span><span id="line-801">   * @param in the input stream to read from.</span>
-<span class="source-line-no">802</span><span id="line-802">   * @param b the buffer into which the data is read.</span>
-<span class="source-line-no">803</span><span id="line-803">   * @param off an int specifying the offset into the data.</span>
-<span class="source-line-no">804</span><span id="line-804">   * @param len an int specifying the number of bytes to read.</span>
-<span class="source-line-no">805</span><span id="line-805">   * @throws EOFException if this stream reaches the end before reading all the bytes.</span>
-<span class="source-line-no">806</span><span id="line-806">   * @throws IOException if an I/O error occurs.</span>
-<span class="source-line-no">807</span><span id="line-807">   */</span>
-<span class="source-line-no">808</span><span id="line-808">  public static void readFully(InputStream in, byte[] b, int off, int len) throws IOException {</span>
-<span class="source-line-no">809</span><span id="line-809">    int read = read(in, b, off, len);</span>
-<span class="source-line-no">810</span><span id="line-810">    if (read != len) {</span>
-<span class="source-line-no">811</span><span id="line-811">      throw new EOFException(</span>
-<span class="source-line-no">812</span><span id="line-812">          "reached end of stream after reading " + read + " bytes; " + len + " bytes expected");</span>
-<span class="source-line-no">813</span><span id="line-813">    }</span>
-<span class="source-line-no">814</span><span id="line-814">  }</span>
-<span class="source-line-no">815</span><span id="line-815"></span>
-<span class="source-line-no">816</span><span id="line-816">  /**</span>
-<span class="source-line-no">817</span><span id="line-817">   * Discards {@code n} bytes of data from the input stream. This method will block until the full</span>
-<span class="source-line-no">818</span><span id="line-818">   * amount has been skipped. Does not close the stream.</span>
-<span class="source-line-no">819</span><span id="line-819">   *</span>
-<span class="source-line-no">820</span><span id="line-820">   * @param in the input stream to read from</span>
-<span class="source-line-no">821</span><span id="line-821">   * @param n the number of bytes to skip</span>
-<span class="source-line-no">822</span><span id="line-822">   * @throws EOFException if this stream reaches the end before skipping all the bytes</span>
-<span class="source-line-no">823</span><span id="line-823">   * @throws IOException if an I/O error occurs, or the stream does not support skipping</span>
-<span class="source-line-no">824</span><span id="line-824">   */</span>
-<span class="source-line-no">825</span><span id="line-825">  public static void skipFully(InputStream in, long n) throws IOException {</span>
-<span class="source-line-no">826</span><span id="line-826">    long skipped = skipUpTo(in, n);</span>
-<span class="source-line-no">827</span><span id="line-827">    if (skipped &lt; n) {</span>
-<span class="source-line-no">828</span><span id="line-828">      throw new EOFException(</span>
-<span class="source-line-no">829</span><span id="line-829">          "reached end of stream after skipping " + skipped + " bytes; " + n + " bytes expected");</span>
-<span class="source-line-no">830</span><span id="line-830">    }</span>
-<span class="source-line-no">831</span><span id="line-831">  }</span>
-<span class="source-line-no">832</span><span id="line-832"></span>
-<span class="source-line-no">833</span><span id="line-833">  /**</span>
-<span class="source-line-no">834</span><span id="line-834">   * Discards up to {@code n} bytes of data from the input stream. This method will block until</span>
-<span class="source-line-no">835</span><span id="line-835">   * either the full amount has been skipped or until the end of the stream is reached, whichever</span>
-<span class="source-line-no">836</span><span id="line-836">   * happens first. Returns the total number of bytes skipped.</span>
-<span class="source-line-no">837</span><span id="line-837">   */</span>
-<span class="source-line-no">838</span><span id="line-838">  static long skipUpTo(InputStream in, long n) throws IOException {</span>
-<span class="source-line-no">839</span><span id="line-839">    long totalSkipped = 0;</span>
-<span class="source-line-no">840</span><span id="line-840">    // A buffer is allocated if skipSafely does not skip any bytes.</span>
-<span class="source-line-no">841</span><span id="line-841">    byte[] buf = null;</span>
-<span class="source-line-no">842</span><span id="line-842"></span>
-<span class="source-line-no">843</span><span id="line-843">    while (totalSkipped &lt; n) {</span>
-<span class="source-line-no">844</span><span id="line-844">      long remaining = n - totalSkipped;</span>
-<span class="source-line-no">845</span><span id="line-845">      long skipped = skipSafely(in, remaining);</span>
-<span class="source-line-no">846</span><span id="line-846"></span>
-<span class="source-line-no">847</span><span id="line-847">      if (skipped == 0) {</span>
-<span class="source-line-no">848</span><span id="line-848">        // Do a buffered read since skipSafely could return 0 repeatedly, for example if</span>
-<span class="source-line-no">849</span><span id="line-849">        // in.available() always returns 0 (the default).</span>
-<span class="source-line-no">850</span><span id="line-850">        int skip = (int) min(remaining, BUFFER_SIZE);</span>
-<span class="source-line-no">851</span><span id="line-851">        if (buf == null) {</span>
-<span class="source-line-no">852</span><span id="line-852">          // Allocate a buffer bounded by the maximum size that can be requested, for</span>
-<span class="source-line-no">853</span><span id="line-853">          // example an array of BUFFER_SIZE is unnecessary when the value of remaining</span>
-<span class="source-line-no">854</span><span id="line-854">          // is smaller.</span>
-<span class="source-line-no">855</span><span id="line-855">          buf = new byte[skip];</span>
-<span class="source-line-no">856</span><span id="line-856">        }</span>
-<span class="source-line-no">857</span><span id="line-857">        if ((skipped = in.read(buf, 0, skip)) == -1) {</span>
-<span class="source-line-no">858</span><span id="line-858">          // Reached EOF</span>
-<span class="source-line-no">859</span><span id="line-859">          break;</span>
-<span class="source-line-no">860</span><span id="line-860">        }</span>
-<span class="source-line-no">861</span><span id="line-861">      }</span>
-<span class="source-line-no">862</span><span id="line-862"></span>
-<span class="source-line-no">863</span><span id="line-863">      totalSkipped += skipped;</span>
-<span class="source-line-no">864</span><span id="line-864">    }</span>
-<span class="source-line-no">865</span><span id="line-865"></span>
-<span class="source-line-no">866</span><span id="line-866">    return totalSkipped;</span>
-<span class="source-line-no">867</span><span id="line-867">  }</span>
-<span class="source-line-no">868</span><span id="line-868"></span>
-<span class="source-line-no">869</span><span id="line-869">  /**</span>
-<span class="source-line-no">870</span><span id="line-870">   * Attempts to skip up to {@code n} bytes from the given input stream, but not more than {@code</span>
-<span class="source-line-no">871</span><span id="line-871">   * in.available()} bytes. This prevents {@code FileInputStream} from skipping more bytes than</span>
-<span class="source-line-no">872</span><span id="line-872">   * actually remain in the file, something that it {@linkplain java.io.FileInputStream#skip(long)</span>
-<span class="source-line-no">873</span><span id="line-873">   * specifies} it can do in its Javadoc despite the fact that it is violating the contract of</span>
-<span class="source-line-no">874</span><span id="line-874">   * {@code InputStream.skip()}.</span>
-<span class="source-line-no">875</span><span id="line-875">   */</span>
-<span class="source-line-no">876</span><span id="line-876">  private static long skipSafely(InputStream in, long n) throws IOException {</span>
-<span class="source-line-no">877</span><span id="line-877">    int available = in.available();</span>
-<span class="source-line-no">878</span><span id="line-878">    return available == 0 ? 0 : in.skip(min(available, n));</span>
-<span class="source-line-no">879</span><span id="line-879">  }</span>
-<span class="source-line-no">880</span><span id="line-880"></span>
-<span class="source-line-no">881</span><span id="line-881">  /**</span>
-<span class="source-line-no">882</span><span id="line-882">   * Process the bytes of the given input stream using the given processor.</span>
-<span class="source-line-no">883</span><span id="line-883">   *</span>
-<span class="source-line-no">884</span><span id="line-884">   * @param input the input stream to process</span>
-<span class="source-line-no">885</span><span id="line-885">   * @param processor the object to which to pass the bytes of the stream</span>
-<span class="source-line-no">886</span><span id="line-886">   * @return the result of the byte processor</span>
-<span class="source-line-no">887</span><span id="line-887">   * @throws IOException if an I/O error occurs</span>
-<span class="source-line-no">888</span><span id="line-888">   * @since 14.0</span>
-<span class="source-line-no">889</span><span id="line-889">   */</span>
-<span class="source-line-no">890</span><span id="line-890">  @CanIgnoreReturnValue // some processors won't return a useful result</span>
-<span class="source-line-no">891</span><span id="line-891">  @ParametricNullness</span>
-<span class="source-line-no">892</span><span id="line-892">  @J2ktIncompatible</span>
-<span class="source-line-no">893</span><span id="line-893">  public static &lt;T extends @Nullable Object&gt; T readBytes(</span>
-<span class="source-line-no">894</span><span id="line-894">      InputStream input, ByteProcessor&lt;T&gt; processor) throws IOException {</span>
-<span class="source-line-no">895</span><span id="line-895">    checkNotNull(input);</span>
-<span class="source-line-no">896</span><span id="line-896">    checkNotNull(processor);</span>
-<span class="source-line-no">897</span><span id="line-897"></span>
-<span class="source-line-no">898</span><span id="line-898">    byte[] buf = createBuffer();</span>
-<span class="source-line-no">899</span><span id="line-899">    int read;</span>
-<span class="source-line-no">900</span><span id="line-900">    do {</span>
-<span class="source-line-no">901</span><span id="line-901">      read = input.read(buf);</span>
-<span class="source-line-no">902</span><span id="line-902">    } while (read != -1 &amp;&amp; processor.processBytes(buf, 0, read));</span>
-<span class="source-line-no">903</span><span id="line-903">    return processor.getResult();</span>
-<span class="source-line-no">904</span><span id="line-904">  }</span>
-<span class="source-line-no">905</span><span id="line-905"></span>
-<span class="source-line-no">906</span><span id="line-906">  /**</span>
-<span class="source-line-no">907</span><span id="line-907">   * Reads some bytes from an input stream and stores them into the buffer array {@code b}. This</span>
-<span class="source-line-no">908</span><span id="line-908">   * method blocks until {@code len} bytes of input data have been read into the array, or end of</span>
-<span class="source-line-no">909</span><span id="line-909">   * file is detected. The number of bytes read is returned, possibly zero. Does not close the</span>
-<span class="source-line-no">910</span><span id="line-910">   * stream.</span>
-<span class="source-line-no">911</span><span id="line-911">   *</span>
-<span class="source-line-no">912</span><span id="line-912">   * &lt;p&gt;A caller can detect EOF if the number of bytes read is less than {@code len}. All subsequent</span>
-<span class="source-line-no">913</span><span id="line-913">   * calls on the same stream will return zero.</span>
-<span class="source-line-no">914</span><span id="line-914">   *</span>
-<span class="source-line-no">915</span><span id="line-915">   * &lt;p&gt;If {@code b} is null, a {@code NullPointerException} is thrown. If {@code off} is negative,</span>
-<span class="source-line-no">916</span><span id="line-916">   * or {@code len} is negative, or {@code off+len} is greater than the length of the array {@code</span>
-<span class="source-line-no">917</span><span id="line-917">   * b}, then an {@code IndexOutOfBoundsException} is thrown. If {@code len} is zero, then no bytes</span>
-<span class="source-line-no">918</span><span id="line-918">   * are read. Otherwise, the first byte read is stored into element {@code b[off]}, the next one</span>
-<span class="source-line-no">919</span><span id="line-919">   * into {@code b[off+1]}, and so on. The number of bytes read is, at most, equal to {@code len}.</span>
-<span class="source-line-no">920</span><span id="line-920">   *</span>
-<span class="source-line-no">921</span><span id="line-921">   * @param in the input stream to read from</span>
-<span class="source-line-no">922</span><span id="line-922">   * @param b the buffer into which the data is read</span>
-<span class="source-line-no">923</span><span id="line-923">   * @param off an int specifying the offset into the data</span>
-<span class="source-line-no">924</span><span id="line-924">   * @param len an int specifying the number of bytes to read</span>
-<span class="source-line-no">925</span><span id="line-925">   * @return the number of bytes read</span>
-<span class="source-line-no">926</span><span id="line-926">   * @throws IOException if an I/O error occurs</span>
-<span class="source-line-no">927</span><span id="line-927">   * @throws IndexOutOfBoundsException if {@code off} is negative, if {@code len} is negative, or if</span>
-<span class="source-line-no">928</span><span id="line-928">   *     {@code off + len} is greater than {@code b.length}</span>
-<span class="source-line-no">929</span><span id="line-929">   */</span>
-<span class="source-line-no">930</span><span id="line-930">  @CanIgnoreReturnValue</span>
-<span class="source-line-no">931</span><span id="line-931">  // Sometimes you don't care how many bytes you actually read, I guess.</span>
-<span class="source-line-no">932</span><span id="line-932">  // (You know that it's either going to read len bytes or stop at EOF.)</span>
-<span class="source-line-no">933</span><span id="line-933">  public static int read(InputStream in, byte[] b, int off, int len) throws IOException {</span>
-<span class="source-line-no">934</span><span id="line-934">    checkNotNull(in);</span>
-<span class="source-line-no">935</span><span id="line-935">    checkNotNull(b);</span>
-<span class="source-line-no">936</span><span id="line-936">    if (len &lt; 0) {</span>
-<span class="source-line-no">937</span><span id="line-937">      throw new IndexOutOfBoundsException(String.format("len (%s) cannot be negative", len));</span>
-<span class="source-line-no">938</span><span id="line-938">    }</span>
-<span class="source-line-no">939</span><span id="line-939">    checkPositionIndexes(off, off + len, b.length);</span>
-<span class="source-line-no">940</span><span id="line-940">    int total = 0;</span>
-<span class="source-line-no">941</span><span id="line-941">    while (total &lt; len) {</span>
-<span class="source-line-no">942</span><span id="line-942">      int result = in.read(b, off + total, len - total);</span>
-<span class="source-line-no">943</span><span id="line-943">      if (result == -1) {</span>
-<span class="source-line-no">944</span><span id="line-944">        break;</span>
-<span class="source-line-no">945</span><span id="line-945">      }</span>
-<span class="source-line-no">946</span><span id="line-946">      total += result;</span>
-<span class="source-line-no">947</span><span id="line-947">    }</span>
-<span class="source-line-no">948</span><span id="line-948">    return total;</span>
-<span class="source-line-no">949</span><span id="line-949">  }</span>
-<span class="source-line-no">950</span><span id="line-950">}</span>
+<span class="source-line-no">744</span><span id="line-744"></span>
+<span class="source-line-no">745</span><span id="line-745">      int result = in.read();</span>
+<span class="source-line-no">746</span><span id="line-746">      if (result != -1) {</span>
+<span class="source-line-no">747</span><span id="line-747">        --left;</span>
+<span class="source-line-no">748</span><span id="line-748">      }</span>
+<span class="source-line-no">749</span><span id="line-749">      return result;</span>
+<span class="source-line-no">750</span><span id="line-750">    }</span>
+<span class="source-line-no">751</span><span id="line-751"></span>
+<span class="source-line-no">752</span><span id="line-752">    @Override</span>
+<span class="source-line-no">753</span><span id="line-753">    public int read(byte[] b, int off, int len) throws IOException {</span>
+<span class="source-line-no">754</span><span id="line-754">      if (left == 0) {</span>
+<span class="source-line-no">755</span><span id="line-755">        return -1;</span>
+<span class="source-line-no">756</span><span id="line-756">      }</span>
+<span class="source-line-no">757</span><span id="line-757"></span>
+<span class="source-line-no">758</span><span id="line-758">      len = (int) min(len, left);</span>
+<span class="source-line-no">759</span><span id="line-759">      int result = in.read(b, off, len);</span>
+<span class="source-line-no">760</span><span id="line-760">      if (result != -1) {</span>
+<span class="source-line-no">761</span><span id="line-761">        left -= result;</span>
+<span class="source-line-no">762</span><span id="line-762">      }</span>
+<span class="source-line-no">763</span><span id="line-763">      return result;</span>
+<span class="source-line-no">764</span><span id="line-764">    }</span>
+<span class="source-line-no">765</span><span id="line-765"></span>
+<span class="source-line-no">766</span><span id="line-766">    @Override</span>
+<span class="source-line-no">767</span><span id="line-767">    public synchronized void reset() throws IOException {</span>
+<span class="source-line-no">768</span><span id="line-768">      if (!in.markSupported()) {</span>
+<span class="source-line-no">769</span><span id="line-769">        throw new IOException("Mark not supported");</span>
+<span class="source-line-no">770</span><span id="line-770">      }</span>
+<span class="source-line-no">771</span><span id="line-771">      if (mark == -1) {</span>
+<span class="source-line-no">772</span><span id="line-772">        throw new IOException("Mark not set");</span>
+<span class="source-line-no">773</span><span id="line-773">      }</span>
+<span class="source-line-no">774</span><span id="line-774"></span>
+<span class="source-line-no">775</span><span id="line-775">      in.reset();</span>
+<span class="source-line-no">776</span><span id="line-776">      left = mark;</span>
+<span class="source-line-no">777</span><span id="line-777">    }</span>
+<span class="source-line-no">778</span><span id="line-778"></span>
+<span class="source-line-no">779</span><span id="line-779">    @Override</span>
+<span class="source-line-no">780</span><span id="line-780">    public long skip(long n) throws IOException {</span>
+<span class="source-line-no">781</span><span id="line-781">      n = min(n, left);</span>
+<span class="source-line-no">782</span><span id="line-782">      long skipped = in.skip(n);</span>
+<span class="source-line-no">783</span><span id="line-783">      left -= skipped;</span>
+<span class="source-line-no">784</span><span id="line-784">      return skipped;</span>
+<span class="source-line-no">785</span><span id="line-785">    }</span>
+<span class="source-line-no">786</span><span id="line-786">  }</span>
+<span class="source-line-no">787</span><span id="line-787"></span>
+<span class="source-line-no">788</span><span id="line-788">  /**</span>
+<span class="source-line-no">789</span><span id="line-789">   * Attempts to read enough bytes from the stream to fill the given byte array, with the same</span>
+<span class="source-line-no">790</span><span id="line-790">   * behavior as {@link DataInput#readFully(byte[])}. Does not close the stream.</span>
+<span class="source-line-no">791</span><span id="line-791">   *</span>
+<span class="source-line-no">792</span><span id="line-792">   * @param in the input stream to read from.</span>
+<span class="source-line-no">793</span><span id="line-793">   * @param b the buffer into which the data is read.</span>
+<span class="source-line-no">794</span><span id="line-794">   * @throws EOFException if this stream reaches the end before reading all the bytes.</span>
+<span class="source-line-no">795</span><span id="line-795">   * @throws IOException if an I/O error occurs.</span>
+<span class="source-line-no">796</span><span id="line-796">   */</span>
+<span class="source-line-no">797</span><span id="line-797">  public static void readFully(InputStream in, byte[] b) throws IOException {</span>
+<span class="source-line-no">798</span><span id="line-798">    readFully(in, b, 0, b.length);</span>
+<span class="source-line-no">799</span><span id="line-799">  }</span>
+<span class="source-line-no">800</span><span id="line-800"></span>
+<span class="source-line-no">801</span><span id="line-801">  /**</span>
+<span class="source-line-no">802</span><span id="line-802">   * Attempts to read {@code len} bytes from the stream into the given array starting at {@code</span>
+<span class="source-line-no">803</span><span id="line-803">   * off}, with the same behavior as {@link DataInput#readFully(byte[], int, int)}. Does not close</span>
+<span class="source-line-no">804</span><span id="line-804">   * the stream.</span>
+<span class="source-line-no">805</span><span id="line-805">   *</span>
+<span class="source-line-no">806</span><span id="line-806">   * @param in the input stream to read from.</span>
+<span class="source-line-no">807</span><span id="line-807">   * @param b the buffer into which the data is read.</span>
+<span class="source-line-no">808</span><span id="line-808">   * @param off an int specifying the offset into the data.</span>
+<span class="source-line-no">809</span><span id="line-809">   * @param len an int specifying the number of bytes to read.</span>
+<span class="source-line-no">810</span><span id="line-810">   * @throws EOFException if this stream reaches the end before reading all the bytes.</span>
+<span class="source-line-no">811</span><span id="line-811">   * @throws IOException if an I/O error occurs.</span>
+<span class="source-line-no">812</span><span id="line-812">   */</span>
+<span class="source-line-no">813</span><span id="line-813">  public static void readFully(InputStream in, byte[] b, int off, int len) throws IOException {</span>
+<span class="source-line-no">814</span><span id="line-814">    int read = read(in, b, off, len);</span>
+<span class="source-line-no">815</span><span id="line-815">    if (read != len) {</span>
+<span class="source-line-no">816</span><span id="line-816">      throw new EOFException(</span>
+<span class="source-line-no">817</span><span id="line-817">          "reached end of stream after reading " + read + " bytes; " + len + " bytes expected");</span>
+<span class="source-line-no">818</span><span id="line-818">    }</span>
+<span class="source-line-no">819</span><span id="line-819">  }</span>
+<span class="source-line-no">820</span><span id="line-820"></span>
+<span class="source-line-no">821</span><span id="line-821">  /**</span>
+<span class="source-line-no">822</span><span id="line-822">   * Discards {@code n} bytes of data from the input stream. This method will block until the full</span>
+<span class="source-line-no">823</span><span id="line-823">   * amount has been skipped. Does not close the stream.</span>
+<span class="source-line-no">824</span><span id="line-824">   *</span>
+<span class="source-line-no">825</span><span id="line-825">   * @param in the input stream to read from</span>
+<span class="source-line-no">826</span><span id="line-826">   * @param n the number of bytes to skip</span>
+<span class="source-line-no">827</span><span id="line-827">   * @throws EOFException if this stream reaches the end before skipping all the bytes</span>
+<span class="source-line-no">828</span><span id="line-828">   * @throws IOException if an I/O error occurs, or the stream does not support skipping</span>
+<span class="source-line-no">829</span><span id="line-829">   */</span>
+<span class="source-line-no">830</span><span id="line-830">  public static void skipFully(InputStream in, long n) throws IOException {</span>
+<span class="source-line-no">831</span><span id="line-831">    long skipped = skipUpTo(in, n);</span>
+<span class="source-line-no">832</span><span id="line-832">    if (skipped &lt; n) {</span>
+<span class="source-line-no">833</span><span id="line-833">      throw new EOFException(</span>
+<span class="source-line-no">834</span><span id="line-834">          "reached end of stream after skipping " + skipped + " bytes; " + n + " bytes expected");</span>
+<span class="source-line-no">835</span><span id="line-835">    }</span>
+<span class="source-line-no">836</span><span id="line-836">  }</span>
+<span class="source-line-no">837</span><span id="line-837"></span>
+<span class="source-line-no">838</span><span id="line-838">  /**</span>
+<span class="source-line-no">839</span><span id="line-839">   * Discards up to {@code n} bytes of data from the input stream. This method will block until</span>
+<span class="source-line-no">840</span><span id="line-840">   * either the full amount has been skipped or until the end of the stream is reached, whichever</span>
+<span class="source-line-no">841</span><span id="line-841">   * happens first. Returns the total number of bytes skipped.</span>
+<span class="source-line-no">842</span><span id="line-842">   */</span>
+<span class="source-line-no">843</span><span id="line-843">  static long skipUpTo(InputStream in, long n) throws IOException {</span>
+<span class="source-line-no">844</span><span id="line-844">    long totalSkipped = 0;</span>
+<span class="source-line-no">845</span><span id="line-845">    // A buffer is allocated if skipSafely does not skip any bytes.</span>
+<span class="source-line-no">846</span><span id="line-846">    byte[] buf = null;</span>
+<span class="source-line-no">847</span><span id="line-847"></span>
+<span class="source-line-no">848</span><span id="line-848">    while (totalSkipped &lt; n) {</span>
+<span class="source-line-no">849</span><span id="line-849">      long remaining = n - totalSkipped;</span>
+<span class="source-line-no">850</span><span id="line-850">      long skipped = skipSafely(in, remaining);</span>
+<span class="source-line-no">851</span><span id="line-851"></span>
+<span class="source-line-no">852</span><span id="line-852">      if (skipped == 0) {</span>
+<span class="source-line-no">853</span><span id="line-853">        // Do a buffered read since skipSafely could return 0 repeatedly, for example if</span>
+<span class="source-line-no">854</span><span id="line-854">        // in.available() always returns 0 (the default).</span>
+<span class="source-line-no">855</span><span id="line-855">        int skip = (int) min(remaining, BUFFER_SIZE);</span>
+<span class="source-line-no">856</span><span id="line-856">        if (buf == null) {</span>
+<span class="source-line-no">857</span><span id="line-857">          // Allocate a buffer bounded by the maximum size that can be requested, for</span>
+<span class="source-line-no">858</span><span id="line-858">          // example an array of BUFFER_SIZE is unnecessary when the value of remaining</span>
+<span class="source-line-no">859</span><span id="line-859">          // is smaller.</span>
+<span class="source-line-no">860</span><span id="line-860">          buf = new byte[skip];</span>
+<span class="source-line-no">861</span><span id="line-861">        }</span>
+<span class="source-line-no">862</span><span id="line-862">        if ((skipped = in.read(buf, 0, skip)) == -1) {</span>
+<span class="source-line-no">863</span><span id="line-863">          // Reached EOF</span>
+<span class="source-line-no">864</span><span id="line-864">          break;</span>
+<span class="source-line-no">865</span><span id="line-865">        }</span>
+<span class="source-line-no">866</span><span id="line-866">      }</span>
+<span class="source-line-no">867</span><span id="line-867"></span>
+<span class="source-line-no">868</span><span id="line-868">      totalSkipped += skipped;</span>
+<span class="source-line-no">869</span><span id="line-869">    }</span>
+<span class="source-line-no">870</span><span id="line-870"></span>
+<span class="source-line-no">871</span><span id="line-871">    return totalSkipped;</span>
+<span class="source-line-no">872</span><span id="line-872">  }</span>
+<span class="source-line-no">873</span><span id="line-873"></span>
+<span class="source-line-no">874</span><span id="line-874">  /**</span>
+<span class="source-line-no">875</span><span id="line-875">   * Attempts to skip up to {@code n} bytes from the given input stream, but not more than {@code</span>
+<span class="source-line-no">876</span><span id="line-876">   * in.available()} bytes. This prevents {@code FileInputStream} from skipping more bytes than</span>
+<span class="source-line-no">877</span><span id="line-877">   * actually remain in the file, something that it {@linkplain java.io.FileInputStream#skip(long)</span>
+<span class="source-line-no">878</span><span id="line-878">   * specifies} it can do in its Javadoc despite the fact that it is violating the contract of</span>
+<span class="source-line-no">879</span><span id="line-879">   * {@code InputStream.skip()}.</span>
+<span class="source-line-no">880</span><span id="line-880">   */</span>
+<span class="source-line-no">881</span><span id="line-881">  private static long skipSafely(InputStream in, long n) throws IOException {</span>
+<span class="source-line-no">882</span><span id="line-882">    int available = in.available();</span>
+<span class="source-line-no">883</span><span id="line-883">    return available == 0 ? 0 : in.skip(min(available, n));</span>
+<span class="source-line-no">884</span><span id="line-884">  }</span>
+<span class="source-line-no">885</span><span id="line-885"></span>
+<span class="source-line-no">886</span><span id="line-886">  /**</span>
+<span class="source-line-no">887</span><span id="line-887">   * Process the bytes of the given input stream using the given processor.</span>
+<span class="source-line-no">888</span><span id="line-888">   *</span>
+<span class="source-line-no">889</span><span id="line-889">   * @param input the input stream to process</span>
+<span class="source-line-no">890</span><span id="line-890">   * @param processor the object to which to pass the bytes of the stream</span>
+<span class="source-line-no">891</span><span id="line-891">   * @return the result of the byte processor</span>
+<span class="source-line-no">892</span><span id="line-892">   * @throws IOException if an I/O error occurs</span>
+<span class="source-line-no">893</span><span id="line-893">   * @since 14.0</span>
+<span class="source-line-no">894</span><span id="line-894">   */</span>
+<span class="source-line-no">895</span><span id="line-895">  @CanIgnoreReturnValue // some processors won't return a useful result</span>
+<span class="source-line-no">896</span><span id="line-896">  @ParametricNullness</span>
+<span class="source-line-no">897</span><span id="line-897">  @J2ktIncompatible</span>
+<span class="source-line-no">898</span><span id="line-898">  public static &lt;T extends @Nullable Object&gt; T readBytes(</span>
+<span class="source-line-no">899</span><span id="line-899">      InputStream input, ByteProcessor&lt;T&gt; processor) throws IOException {</span>
+<span class="source-line-no">900</span><span id="line-900">    checkNotNull(input);</span>
+<span class="source-line-no">901</span><span id="line-901">    checkNotNull(processor);</span>
+<span class="source-line-no">902</span><span id="line-902"></span>
+<span class="source-line-no">903</span><span id="line-903">    byte[] buf = createBuffer();</span>
+<span class="source-line-no">904</span><span id="line-904">    int read;</span>
+<span class="source-line-no">905</span><span id="line-905">    do {</span>
+<span class="source-line-no">906</span><span id="line-906">      read = input.read(buf);</span>
+<span class="source-line-no">907</span><span id="line-907">    } while (read != -1 &amp;&amp; processor.processBytes(buf, 0, read));</span>
+<span class="source-line-no">908</span><span id="line-908">    return processor.getResult();</span>
+<span class="source-line-no">909</span><span id="line-909">  }</span>
+<span class="source-line-no">910</span><span id="line-910"></span>
+<span class="source-line-no">911</span><span id="line-911">  /**</span>
+<span class="source-line-no">912</span><span id="line-912">   * Reads some bytes from an input stream and stores them into the buffer array {@code b}. This</span>
+<span class="source-line-no">913</span><span id="line-913">   * method blocks until {@code len} bytes of input data have been read into the array, or end of</span>
+<span class="source-line-no">914</span><span id="line-914">   * file is detected. The number of bytes read is returned, possibly zero. Does not close the</span>
+<span class="source-line-no">915</span><span id="line-915">   * stream.</span>
+<span class="source-line-no">916</span><span id="line-916">   *</span>
+<span class="source-line-no">917</span><span id="line-917">   * &lt;p&gt;A caller can detect EOF if the number of bytes read is less than {@code len}. All subsequent</span>
+<span class="source-line-no">918</span><span id="line-918">   * calls on the same stream will return zero.</span>
+<span class="source-line-no">919</span><span id="line-919">   *</span>
+<span class="source-line-no">920</span><span id="line-920">   * &lt;p&gt;If {@code b} is null, a {@code NullPointerException} is thrown. If {@code off} is negative,</span>
+<span class="source-line-no">921</span><span id="line-921">   * or {@code len} is negative, or {@code off+len} is greater than the length of the array {@code</span>
+<span class="source-line-no">922</span><span id="line-922">   * b}, then an {@code IndexOutOfBoundsException} is thrown. If {@code len} is zero, then no bytes</span>
+<span class="source-line-no">923</span><span id="line-923">   * are read. Otherwise, the first byte read is stored into element {@code b[off]}, the next one</span>
+<span class="source-line-no">924</span><span id="line-924">   * into {@code b[off+1]}, and so on. The number of bytes read is, at most, equal to {@code len}.</span>
+<span class="source-line-no">925</span><span id="line-925">   *</span>
+<span class="source-line-no">926</span><span id="line-926">   * @param in the input stream to read from</span>
+<span class="source-line-no">927</span><span id="line-927">   * @param b the buffer into which the data is read</span>
+<span class="source-line-no">928</span><span id="line-928">   * @param off an int specifying the offset into the data</span>
+<span class="source-line-no">929</span><span id="line-929">   * @param len an int specifying the number of bytes to read</span>
+<span class="source-line-no">930</span><span id="line-930">   * @return the number of bytes read</span>
+<span class="source-line-no">931</span><span id="line-931">   * @throws IOException if an I/O error occurs</span>
+<span class="source-line-no">932</span><span id="line-932">   * @throws IndexOutOfBoundsException if {@code off} is negative, if {@code len} is negative, or if</span>
+<span class="source-line-no">933</span><span id="line-933">   *     {@code off + len} is greater than {@code b.length}</span>
+<span class="source-line-no">934</span><span id="line-934">   */</span>
+<span class="source-line-no">935</span><span id="line-935">  @CanIgnoreReturnValue</span>
+<span class="source-line-no">936</span><span id="line-936">  // Sometimes you don't care how many bytes you actually read, I guess.</span>
+<span class="source-line-no">937</span><span id="line-937">  // (You know that it's either going to read len bytes or stop at EOF.)</span>
+<span class="source-line-no">938</span><span id="line-938">  public static int read(InputStream in, byte[] b, int off, int len) throws IOException {</span>
+<span class="source-line-no">939</span><span id="line-939">    checkNotNull(in);</span>
+<span class="source-line-no">940</span><span id="line-940">    checkNotNull(b);</span>
+<span class="source-line-no">941</span><span id="line-941">    if (len &lt; 0) {</span>
+<span class="source-line-no">942</span><span id="line-942">      throw new IndexOutOfBoundsException(String.format("len (%s) cannot be negative", len));</span>
+<span class="source-line-no">943</span><span id="line-943">    }</span>
+<span class="source-line-no">944</span><span id="line-944">    checkPositionIndexes(off, off + len, b.length);</span>
+<span class="source-line-no">945</span><span id="line-945">    int total = 0;</span>
+<span class="source-line-no">946</span><span id="line-946">    while (total &lt; len) {</span>
+<span class="source-line-no">947</span><span id="line-947">      int result = in.read(b, off + total, len - total);</span>
+<span class="source-line-no">948</span><span id="line-948">      if (result == -1) {</span>
+<span class="source-line-no">949</span><span id="line-949">        break;</span>
+<span class="source-line-no">950</span><span id="line-950">      }</span>
+<span class="source-line-no">951</span><span id="line-951">      total += result;</span>
+<span class="source-line-no">952</span><span id="line-952">    }</span>
+<span class="source-line-no">953</span><span id="line-953">    return total;</span>
+<span class="source-line-no">954</span><span id="line-954">  }</span>
+<span class="source-line-no">955</span><span id="line-955">}</span>
 
 
 
