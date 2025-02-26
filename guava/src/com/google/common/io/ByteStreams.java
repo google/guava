@@ -52,7 +52,6 @@ import org.jspecify.annotations.Nullable;
  * @author Colin Decker
  * @since 1.0
  */
-@J2ktIncompatible
 @GwtIncompatible
 public final class ByteStreams {
 
@@ -132,6 +131,7 @@ public final class ByteStreams {
    * @return the number of bytes copied
    * @throws IOException if an I/O error occurs
    */
+  @J2ktIncompatible
   @CanIgnoreReturnValue
   public static long copy(ReadableByteChannel from, WritableByteChannel to) throws IOException {
     checkNotNull(from);
@@ -301,6 +301,7 @@ public final class ByteStreams {
    * Returns a new {@link ByteArrayDataInput} instance to read from the {@code bytes} array from the
    * beginning.
    */
+  @J2ktIncompatible
   public static ByteArrayDataInput newDataInput(byte[] bytes) {
     return newDataInput(new ByteArrayInputStream(bytes));
   }
@@ -312,6 +313,7 @@ public final class ByteStreams {
    * @throws IndexOutOfBoundsException if {@code start} is negative or greater than the length of
    *     the array
    */
+  @J2ktIncompatible
   public static ByteArrayDataInput newDataInput(byte[] bytes, int start) {
     checkPositionIndex(start, bytes.length);
     return newDataInput(new ByteArrayInputStream(bytes, start, bytes.length - start));
@@ -324,10 +326,12 @@ public final class ByteStreams {
    *
    * @since 17.0
    */
+  @J2ktIncompatible
   public static ByteArrayDataInput newDataInput(ByteArrayInputStream byteArrayInputStream) {
     return new ByteArrayDataInputStream(checkNotNull(byteArrayInputStream));
   }
 
+  @J2ktIncompatible
   private static class ByteArrayDataInputStream implements ByteArrayDataInput {
     final DataInput input;
 
@@ -474,6 +478,7 @@ public final class ByteStreams {
   }
 
   /** Returns a new {@link ByteArrayDataOutput} instance with a default size. */
+  @J2ktIncompatible
   public static ByteArrayDataOutput newDataOutput() {
     return newDataOutput(new ByteArrayOutputStream());
   }
@@ -484,6 +489,7 @@ public final class ByteStreams {
    *
    * @throws IllegalArgumentException if {@code size} is negative
    */
+  @J2ktIncompatible
   public static ByteArrayDataOutput newDataOutput(int size) {
     // When called at high frequency, boxing size generates too much garbage,
     // so avoid doing that if we can.
@@ -505,10 +511,12 @@ public final class ByteStreams {
    *
    * @since 17.0
    */
+  @J2ktIncompatible
   public static ByteArrayDataOutput newDataOutput(ByteArrayOutputStream byteArrayOutputStream) {
     return new ByteArrayDataOutputStream(checkNotNull(byteArrayOutputStream));
   }
 
+  @J2ktIncompatible
   private static class ByteArrayDataOutputStream implements ByteArrayDataOutput {
 
     final DataOutput output;
@@ -693,10 +701,12 @@ public final class ByteStreams {
    * @return a length-limited {@link InputStream}
    * @since 14.0 (since 1.0 as com.google.common.io.LimitInputStream)
    */
+  @J2ktIncompatible
   public static InputStream limit(InputStream in, long limit) {
     return new LimitedInputStream(in, limit);
   }
 
+  @J2ktIncompatible
   private static final class LimitedInputStream extends FilterInputStream {
 
     private long left;
@@ -879,6 +889,7 @@ public final class ByteStreams {
    */
   @CanIgnoreReturnValue // some processors won't return a useful result
   @ParametricNullness
+  @J2ktIncompatible
   public static <T extends @Nullable Object> T readBytes(
       InputStream input, ByteProcessor<T> processor) throws IOException {
     checkNotNull(input);
