@@ -269,6 +269,11 @@ public final class CharStreams {
   /**
    * Returns a {@link Writer} that simply discards written chars.
    *
+   * <p><b>Java 11+ users:</b> use {@link Writer#nullWriter()} instead. Note that the {@link
+   * CharStreams} method returns a singleton writer whose {@code close} method has no effect, while
+   * the {@link Writer#nullWriter()} method returns a new instance whose methods throw after the
+   * instance is {@link Writer#close() closed}.
+   *
    * @since 15.0
    */
   public static Writer nullWriter() {
