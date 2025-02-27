@@ -46,13 +46,13 @@ final class Platform {
 
   static <V extends @Nullable Object> V get(AbstractFuture<V> future)
       throws InterruptedException, ExecutionException {
-    return future.getFromAlreadyDoneFuture();
+    return future.getFromAlreadyDoneTrustedFuture();
   }
 
   static <V extends @Nullable Object> V get(AbstractFuture<V> future, long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     checkNotNull(unit);
-    return future.getFromAlreadyDoneFuture();
+    return future.getFromAlreadyDoneTrustedFuture();
   }
 
   private Platform() {}

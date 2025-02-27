@@ -253,9 +253,22 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
     return Platform.get(this);
   }
 
+  /**
+   * Returns the result of this future or throws in case of failure, just like {@link #get()} except
+   * that this method <i>also</i> throws if this future is not done.
+   *
+   * <p>This method computes its result based on the internal state of {@link AbstractFuture}, so it
+   * does not necessarily return the same result as {@link #get()} if {@link #get()} has been
+   * overridden. Thus, it should be called only on instances of {@link Trusted} or from within
+   * {@link #get()} itself.
+   */
   @ParametricNullness
   @SuppressWarnings("nullness") // TODO(b/147136275): Remove once our checker understands & and |.
-  final V getFromAlreadyDoneFuture() throws ExecutionException {
+  /*
+   * TODO: b/112550045 - Use this from Futures.getDone when applicable? Note the small difference in
+   * failure message between the two at present.
+   */
+  final V getFromAlreadyDoneTrustedFuture() throws ExecutionException {
     @RetainedLocalRef Object localValue = value();
     if (localValue == null | localValue instanceof DelegatingToFuture) {
       throw new IllegalStateException("Cannot get() on a pending future.");
