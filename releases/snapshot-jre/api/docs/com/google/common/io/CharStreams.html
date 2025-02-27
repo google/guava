@@ -303,8 +303,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="nullWriter()">
 <h3>nullWriter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/CharStreams.html#line-274">nullWriter</a></span>()</div>
-<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link"><code>Writer</code></a> that simply discards written chars.</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/CharStreams.html#line-279">nullWriter</a></span>()</div>
+<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link"><code>Writer</code></a> that simply discards written chars.
+
+ <p><b>Java 11+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Writer.html#nullWriter()" title="class or interface in java.io" class="external-link"><code>Writer.nullWriter()</code></a> instead. Note that the <a href="CharStreams.html" title="class in com.google.common.io"><code>CharStreams</code></a> method returns a singleton writer whose <code>close</code> method has no effect, while
+ the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Writer.html#nullWriter()" title="class or interface in java.io" class="external-link"><code>Writer.nullWriter()</code></a> method returns a new instance whose methods throw after the
+ instance is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Writer.html#close()" title="class or interface in java.io" class="external-link"><code>closed</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>15.0</dd>
@@ -316,7 +320,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="asWriter(java.lang.Appendable)">
 <h3>asWriter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/CharStreams.html#line-341">asWriter</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Appendable.html" title="class or interface in java.lang" class="external-link">Appendable</a>&nbsp;target)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Writer.html" title="class or interface in java.io" class="external-link">Writer</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/CharStreams.html#line-346">asWriter</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Appendable.html" title="class or interface in java.lang" class="external-link">Appendable</a>&nbsp;target)</span></div>
 <div class="block">Returns a Writer that sends all output to the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Appendable.html" title="class or interface in java.lang" class="external-link"><code>Appendable</code></a> target. Closing the
  writer will close the target if it is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Closeable.html" title="class or interface in java.io" class="external-link"><code>Closeable</code></a>, and flushing the writer will flush the
  target if it is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Flushable.html" title="class or interface in java.io" class="external-link"><code>Flushable</code></a>.</div>
