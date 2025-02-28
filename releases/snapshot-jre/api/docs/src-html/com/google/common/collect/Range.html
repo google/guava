@@ -436,303 +436,315 @@
 <span class="source-line-no">423</span><span id="line-423">  }</span>
 <span class="source-line-no">424</span><span id="line-424"></span>
 <span class="source-line-no">425</span><span id="line-425">  /**</span>
-<span class="source-line-no">426</span><span id="line-426">   * Returns {@code true} if every element in {@code values} is {@linkplain #contains contained} in</span>
-<span class="source-line-no">427</span><span id="line-427">   * this range.</span>
-<span class="source-line-no">428</span><span id="line-428">   */</span>
-<span class="source-line-no">429</span><span id="line-429">  public boolean containsAll(Iterable&lt;? extends C&gt; values) {</span>
-<span class="source-line-no">430</span><span id="line-430">    if (Iterables.isEmpty(values)) {</span>
-<span class="source-line-no">431</span><span id="line-431">      return true;</span>
-<span class="source-line-no">432</span><span id="line-432">    }</span>
-<span class="source-line-no">433</span><span id="line-433"></span>
-<span class="source-line-no">434</span><span id="line-434">    // this optimizes testing equality of two range-backed sets</span>
-<span class="source-line-no">435</span><span id="line-435">    if (values instanceof SortedSet) {</span>
-<span class="source-line-no">436</span><span id="line-436">      SortedSet&lt;? extends C&gt; set = (SortedSet&lt;? extends C&gt;) values;</span>
-<span class="source-line-no">437</span><span id="line-437">      Comparator&lt;?&gt; comparator = set.comparator();</span>
-<span class="source-line-no">438</span><span id="line-438">      if (Ordering.natural().equals(comparator) || comparator == null) {</span>
-<span class="source-line-no">439</span><span id="line-439">        return contains(set.first()) &amp;&amp; contains(set.last());</span>
-<span class="source-line-no">440</span><span id="line-440">      }</span>
-<span class="source-line-no">441</span><span id="line-441">    }</span>
-<span class="source-line-no">442</span><span id="line-442"></span>
-<span class="source-line-no">443</span><span id="line-443">    for (C value : values) {</span>
-<span class="source-line-no">444</span><span id="line-444">      if (!contains(value)) {</span>
-<span class="source-line-no">445</span><span id="line-445">        return false;</span>
-<span class="source-line-no">446</span><span id="line-446">      }</span>
-<span class="source-line-no">447</span><span id="line-447">    }</span>
-<span class="source-line-no">448</span><span id="line-448">    return true;</span>
-<span class="source-line-no">449</span><span id="line-449">  }</span>
-<span class="source-line-no">450</span><span id="line-450"></span>
-<span class="source-line-no">451</span><span id="line-451">  /**</span>
-<span class="source-line-no">452</span><span id="line-452">   * Returns {@code true} if the bounds of {@code other} do not extend outside the bounds of this</span>
-<span class="source-line-no">453</span><span id="line-453">   * range. Examples:</span>
-<span class="source-line-no">454</span><span id="line-454">   *</span>
-<span class="source-line-no">455</span><span id="line-455">   * &lt;ul&gt;</span>
-<span class="source-line-no">456</span><span id="line-456">   *   &lt;li&gt;{@code [3..6]} encloses {@code [4..5]}</span>
-<span class="source-line-no">457</span><span id="line-457">   *   &lt;li&gt;{@code (3..6)} encloses {@code (3..6)}</span>
-<span class="source-line-no">458</span><span id="line-458">   *   &lt;li&gt;{@code [3..6]} encloses {@code [4..4)} (even though the latter is empty)</span>
-<span class="source-line-no">459</span><span id="line-459">   *   &lt;li&gt;{@code (3..6]} does not enclose {@code [3..6]}</span>
-<span class="source-line-no">460</span><span id="line-460">   *   &lt;li&gt;{@code [4..5]} does not enclose {@code (3..6)} (even though it contains every value</span>
-<span class="source-line-no">461</span><span id="line-461">   *       contained by the latter range)</span>
-<span class="source-line-no">462</span><span id="line-462">   *   &lt;li&gt;{@code [3..6]} does not enclose {@code (1..1]} (even though it contains every value</span>
-<span class="source-line-no">463</span><span id="line-463">   *       contained by the latter range)</span>
-<span class="source-line-no">464</span><span id="line-464">   * &lt;/ul&gt;</span>
-<span class="source-line-no">465</span><span id="line-465">   *</span>
-<span class="source-line-no">466</span><span id="line-466">   * &lt;p&gt;Note that if {@code a.encloses(b)}, then {@code b.contains(v)} implies {@code</span>
-<span class="source-line-no">467</span><span id="line-467">   * a.contains(v)}, but as the last two examples illustrate, the converse is not always true.</span>
-<span class="source-line-no">468</span><span id="line-468">   *</span>
-<span class="source-line-no">469</span><span id="line-469">   * &lt;p&gt;Being reflexive, antisymmetric and transitive, the {@code encloses} relation defines a</span>
-<span class="source-line-no">470</span><span id="line-470">   * &lt;i&gt;partial order&lt;/i&gt; over ranges. There exists a unique {@linkplain Range#all maximal} range</span>
-<span class="source-line-no">471</span><span id="line-471">   * according to this relation, and also numerous {@linkplain #isEmpty minimal} ranges. Enclosure</span>
-<span class="source-line-no">472</span><span id="line-472">   * also implies {@linkplain #isConnected connectedness}.</span>
-<span class="source-line-no">473</span><span id="line-473">   */</span>
-<span class="source-line-no">474</span><span id="line-474">  public boolean encloses(Range&lt;C&gt; other) {</span>
-<span class="source-line-no">475</span><span id="line-475">    return lowerBound.compareTo(other.lowerBound) &lt;= 0</span>
-<span class="source-line-no">476</span><span id="line-476">        &amp;&amp; upperBound.compareTo(other.upperBound) &gt;= 0;</span>
-<span class="source-line-no">477</span><span id="line-477">  }</span>
-<span class="source-line-no">478</span><span id="line-478"></span>
-<span class="source-line-no">479</span><span id="line-479">  /**</span>
-<span class="source-line-no">480</span><span id="line-480">   * Returns {@code true} if there exists a (possibly empty) range which is {@linkplain #encloses</span>
-<span class="source-line-no">481</span><span id="line-481">   * enclosed} by both this range and {@code other}.</span>
-<span class="source-line-no">482</span><span id="line-482">   *</span>
-<span class="source-line-no">483</span><span id="line-483">   * &lt;p&gt;For example,</span>
-<span class="source-line-no">484</span><span id="line-484">   *</span>
-<span class="source-line-no">485</span><span id="line-485">   * &lt;ul&gt;</span>
-<span class="source-line-no">486</span><span id="line-486">   *   &lt;li&gt;{@code [2, 4)} and {@code [5, 7)} are not connected</span>
-<span class="source-line-no">487</span><span id="line-487">   *   &lt;li&gt;{@code [2, 4)} and {@code [3, 5)} are connected, because both enclose {@code [3, 4)}</span>
-<span class="source-line-no">488</span><span id="line-488">   *   &lt;li&gt;{@code [2, 4)} and {@code [4, 6)} are connected, because both enclose the empty range</span>
-<span class="source-line-no">489</span><span id="line-489">   *       {@code [4, 4)}</span>
-<span class="source-line-no">490</span><span id="line-490">   * &lt;/ul&gt;</span>
-<span class="source-line-no">491</span><span id="line-491">   *</span>
-<span class="source-line-no">492</span><span id="line-492">   * &lt;p&gt;Note that this range and {@code other} have a well-defined {@linkplain #span union} and</span>
-<span class="source-line-no">493</span><span id="line-493">   * {@linkplain #intersection intersection} (as a single, possibly-empty range) if and only if this</span>
-<span class="source-line-no">494</span><span id="line-494">   * method returns {@code true}.</span>
-<span class="source-line-no">495</span><span id="line-495">   *</span>
-<span class="source-line-no">496</span><span id="line-496">   * &lt;p&gt;The connectedness relation is both reflexive and symmetric, but does not form an {@linkplain</span>
-<span class="source-line-no">497</span><span id="line-497">   * Equivalence equivalence relation} as it is not transitive.</span>
-<span class="source-line-no">498</span><span id="line-498">   *</span>
-<span class="source-line-no">499</span><span id="line-499">   * &lt;p&gt;Note that certain discrete ranges are not considered connected, even though there are no</span>
-<span class="source-line-no">500</span><span id="line-500">   * elements "between them." For example, {@code [3, 5]} is not considered connected to {@code [6,</span>
-<span class="source-line-no">501</span><span id="line-501">   * 10]}. In these cases, it may be desirable for both input ranges to be preprocessed with {@link</span>
-<span class="source-line-no">502</span><span id="line-502">   * #canonical(DiscreteDomain)} before testing for connectedness.</span>
-<span class="source-line-no">503</span><span id="line-503">   */</span>
-<span class="source-line-no">504</span><span id="line-504">  public boolean isConnected(Range&lt;C&gt; other) {</span>
-<span class="source-line-no">505</span><span id="line-505">    return lowerBound.compareTo(other.upperBound) &lt;= 0</span>
-<span class="source-line-no">506</span><span id="line-506">        &amp;&amp; other.lowerBound.compareTo(upperBound) &lt;= 0;</span>
-<span class="source-line-no">507</span><span id="line-507">  }</span>
-<span class="source-line-no">508</span><span id="line-508"></span>
-<span class="source-line-no">509</span><span id="line-509">  /**</span>
-<span class="source-line-no">510</span><span id="line-510">   * Returns the maximal range {@linkplain #encloses enclosed} by both this range and {@code</span>
-<span class="source-line-no">511</span><span id="line-511">   * connectedRange}, if such a range exists.</span>
-<span class="source-line-no">512</span><span id="line-512">   *</span>
-<span class="source-line-no">513</span><span id="line-513">   * &lt;p&gt;For example, the intersection of {@code [1..5]} and {@code (3..7)} is {@code (3..5]}. The</span>
-<span class="source-line-no">514</span><span id="line-514">   * resulting range may be empty; for example, {@code [1..5)} intersected with {@code [5..7)}</span>
-<span class="source-line-no">515</span><span id="line-515">   * yields the empty range {@code [5..5)}.</span>
-<span class="source-line-no">516</span><span id="line-516">   *</span>
-<span class="source-line-no">517</span><span id="line-517">   * &lt;p&gt;The intersection exists if and only if the two ranges are {@linkplain #isConnected</span>
-<span class="source-line-no">518</span><span id="line-518">   * connected}.</span>
-<span class="source-line-no">519</span><span id="line-519">   *</span>
-<span class="source-line-no">520</span><span id="line-520">   * &lt;p&gt;The intersection operation is commutative, associative and idempotent, and its identity</span>
-<span class="source-line-no">521</span><span id="line-521">   * element is {@link Range#all}).</span>
-<span class="source-line-no">522</span><span id="line-522">   *</span>
-<span class="source-line-no">523</span><span id="line-523">   * @throws IllegalArgumentException if {@code isConnected(connectedRange)} is {@code false}</span>
-<span class="source-line-no">524</span><span id="line-524">   */</span>
-<span class="source-line-no">525</span><span id="line-525">  public Range&lt;C&gt; intersection(Range&lt;C&gt; connectedRange) {</span>
-<span class="source-line-no">526</span><span id="line-526">    int lowerCmp = lowerBound.compareTo(connectedRange.lowerBound);</span>
-<span class="source-line-no">527</span><span id="line-527">    int upperCmp = upperBound.compareTo(connectedRange.upperBound);</span>
-<span class="source-line-no">528</span><span id="line-528">    if (lowerCmp &gt;= 0 &amp;&amp; upperCmp &lt;= 0) {</span>
-<span class="source-line-no">529</span><span id="line-529">      return this;</span>
-<span class="source-line-no">530</span><span id="line-530">    } else if (lowerCmp &lt;= 0 &amp;&amp; upperCmp &gt;= 0) {</span>
-<span class="source-line-no">531</span><span id="line-531">      return connectedRange;</span>
-<span class="source-line-no">532</span><span id="line-532">    } else {</span>
-<span class="source-line-no">533</span><span id="line-533">      Cut&lt;C&gt; newLower = (lowerCmp &gt;= 0) ? lowerBound : connectedRange.lowerBound;</span>
-<span class="source-line-no">534</span><span id="line-534">      Cut&lt;C&gt; newUpper = (upperCmp &lt;= 0) ? upperBound : connectedRange.upperBound;</span>
-<span class="source-line-no">535</span><span id="line-535"></span>
-<span class="source-line-no">536</span><span id="line-536">      // create() would catch this, but give a confusing error message</span>
-<span class="source-line-no">537</span><span id="line-537">      checkArgument(</span>
-<span class="source-line-no">538</span><span id="line-538">          newLower.compareTo(newUpper) &lt;= 0,</span>
-<span class="source-line-no">539</span><span id="line-539">          "intersection is undefined for disconnected ranges %s and %s",</span>
-<span class="source-line-no">540</span><span id="line-540">          this,</span>
-<span class="source-line-no">541</span><span id="line-541">          connectedRange);</span>
-<span class="source-line-no">542</span><span id="line-542"></span>
-<span class="source-line-no">543</span><span id="line-543">      // TODO(kevinb): all the precondition checks in the constructor are redundant...</span>
-<span class="source-line-no">544</span><span id="line-544">      return create(newLower, newUpper);</span>
-<span class="source-line-no">545</span><span id="line-545">    }</span>
-<span class="source-line-no">546</span><span id="line-546">  }</span>
+<span class="source-line-no">426</span><span id="line-426">   * @deprecated Provided only to satisfy the {@link java.util.function.Predicate} interface; use</span>
+<span class="source-line-no">427</span><span id="line-427">   *     {@link #contains} instead.</span>
+<span class="source-line-no">428</span><span id="line-428">   * @since 21.0</span>
+<span class="source-line-no">429</span><span id="line-429">   */</span>
+<span class="source-line-no">430</span><span id="line-430">  @InlineMe(replacement = "this.contains(input)")</span>
+<span class="source-line-no">431</span><span id="line-431">  @Deprecated</span>
+<span class="source-line-no">432</span><span id="line-432">  @Override</span>
+<span class="source-line-no">433</span><span id="line-433">  public boolean test(C input) {</span>
+<span class="source-line-no">434</span><span id="line-434">    return contains(input);</span>
+<span class="source-line-no">435</span><span id="line-435">  }</span>
+<span class="source-line-no">436</span><span id="line-436"></span>
+<span class="source-line-no">437</span><span id="line-437">  /**</span>
+<span class="source-line-no">438</span><span id="line-438">   * Returns {@code true} if every element in {@code values} is {@linkplain #contains contained} in</span>
+<span class="source-line-no">439</span><span id="line-439">   * this range.</span>
+<span class="source-line-no">440</span><span id="line-440">   */</span>
+<span class="source-line-no">441</span><span id="line-441">  public boolean containsAll(Iterable&lt;? extends C&gt; values) {</span>
+<span class="source-line-no">442</span><span id="line-442">    if (Iterables.isEmpty(values)) {</span>
+<span class="source-line-no">443</span><span id="line-443">      return true;</span>
+<span class="source-line-no">444</span><span id="line-444">    }</span>
+<span class="source-line-no">445</span><span id="line-445"></span>
+<span class="source-line-no">446</span><span id="line-446">    // this optimizes testing equality of two range-backed sets</span>
+<span class="source-line-no">447</span><span id="line-447">    if (values instanceof SortedSet) {</span>
+<span class="source-line-no">448</span><span id="line-448">      SortedSet&lt;? extends C&gt; set = (SortedSet&lt;? extends C&gt;) values;</span>
+<span class="source-line-no">449</span><span id="line-449">      Comparator&lt;?&gt; comparator = set.comparator();</span>
+<span class="source-line-no">450</span><span id="line-450">      if (Ordering.natural().equals(comparator) || comparator == null) {</span>
+<span class="source-line-no">451</span><span id="line-451">        return contains(set.first()) &amp;&amp; contains(set.last());</span>
+<span class="source-line-no">452</span><span id="line-452">      }</span>
+<span class="source-line-no">453</span><span id="line-453">    }</span>
+<span class="source-line-no">454</span><span id="line-454"></span>
+<span class="source-line-no">455</span><span id="line-455">    for (C value : values) {</span>
+<span class="source-line-no">456</span><span id="line-456">      if (!contains(value)) {</span>
+<span class="source-line-no">457</span><span id="line-457">        return false;</span>
+<span class="source-line-no">458</span><span id="line-458">      }</span>
+<span class="source-line-no">459</span><span id="line-459">    }</span>
+<span class="source-line-no">460</span><span id="line-460">    return true;</span>
+<span class="source-line-no">461</span><span id="line-461">  }</span>
+<span class="source-line-no">462</span><span id="line-462"></span>
+<span class="source-line-no">463</span><span id="line-463">  /**</span>
+<span class="source-line-no">464</span><span id="line-464">   * Returns {@code true} if the bounds of {@code other} do not extend outside the bounds of this</span>
+<span class="source-line-no">465</span><span id="line-465">   * range. Examples:</span>
+<span class="source-line-no">466</span><span id="line-466">   *</span>
+<span class="source-line-no">467</span><span id="line-467">   * &lt;ul&gt;</span>
+<span class="source-line-no">468</span><span id="line-468">   *   &lt;li&gt;{@code [3..6]} encloses {@code [4..5]}</span>
+<span class="source-line-no">469</span><span id="line-469">   *   &lt;li&gt;{@code (3..6)} encloses {@code (3..6)}</span>
+<span class="source-line-no">470</span><span id="line-470">   *   &lt;li&gt;{@code [3..6]} encloses {@code [4..4)} (even though the latter is empty)</span>
+<span class="source-line-no">471</span><span id="line-471">   *   &lt;li&gt;{@code (3..6]} does not enclose {@code [3..6]}</span>
+<span class="source-line-no">472</span><span id="line-472">   *   &lt;li&gt;{@code [4..5]} does not enclose {@code (3..6)} (even though it contains every value</span>
+<span class="source-line-no">473</span><span id="line-473">   *       contained by the latter range)</span>
+<span class="source-line-no">474</span><span id="line-474">   *   &lt;li&gt;{@code [3..6]} does not enclose {@code (1..1]} (even though it contains every value</span>
+<span class="source-line-no">475</span><span id="line-475">   *       contained by the latter range)</span>
+<span class="source-line-no">476</span><span id="line-476">   * &lt;/ul&gt;</span>
+<span class="source-line-no">477</span><span id="line-477">   *</span>
+<span class="source-line-no">478</span><span id="line-478">   * &lt;p&gt;Note that if {@code a.encloses(b)}, then {@code b.contains(v)} implies {@code</span>
+<span class="source-line-no">479</span><span id="line-479">   * a.contains(v)}, but as the last two examples illustrate, the converse is not always true.</span>
+<span class="source-line-no">480</span><span id="line-480">   *</span>
+<span class="source-line-no">481</span><span id="line-481">   * &lt;p&gt;Being reflexive, antisymmetric and transitive, the {@code encloses} relation defines a</span>
+<span class="source-line-no">482</span><span id="line-482">   * &lt;i&gt;partial order&lt;/i&gt; over ranges. There exists a unique {@linkplain Range#all maximal} range</span>
+<span class="source-line-no">483</span><span id="line-483">   * according to this relation, and also numerous {@linkplain #isEmpty minimal} ranges. Enclosure</span>
+<span class="source-line-no">484</span><span id="line-484">   * also implies {@linkplain #isConnected connectedness}.</span>
+<span class="source-line-no">485</span><span id="line-485">   */</span>
+<span class="source-line-no">486</span><span id="line-486">  public boolean encloses(Range&lt;C&gt; other) {</span>
+<span class="source-line-no">487</span><span id="line-487">    return lowerBound.compareTo(other.lowerBound) &lt;= 0</span>
+<span class="source-line-no">488</span><span id="line-488">        &amp;&amp; upperBound.compareTo(other.upperBound) &gt;= 0;</span>
+<span class="source-line-no">489</span><span id="line-489">  }</span>
+<span class="source-line-no">490</span><span id="line-490"></span>
+<span class="source-line-no">491</span><span id="line-491">  /**</span>
+<span class="source-line-no">492</span><span id="line-492">   * Returns {@code true} if there exists a (possibly empty) range which is {@linkplain #encloses</span>
+<span class="source-line-no">493</span><span id="line-493">   * enclosed} by both this range and {@code other}.</span>
+<span class="source-line-no">494</span><span id="line-494">   *</span>
+<span class="source-line-no">495</span><span id="line-495">   * &lt;p&gt;For example,</span>
+<span class="source-line-no">496</span><span id="line-496">   *</span>
+<span class="source-line-no">497</span><span id="line-497">   * &lt;ul&gt;</span>
+<span class="source-line-no">498</span><span id="line-498">   *   &lt;li&gt;{@code [2, 4)} and {@code [5, 7)} are not connected</span>
+<span class="source-line-no">499</span><span id="line-499">   *   &lt;li&gt;{@code [2, 4)} and {@code [3, 5)} are connected, because both enclose {@code [3, 4)}</span>
+<span class="source-line-no">500</span><span id="line-500">   *   &lt;li&gt;{@code [2, 4)} and {@code [4, 6)} are connected, because both enclose the empty range</span>
+<span class="source-line-no">501</span><span id="line-501">   *       {@code [4, 4)}</span>
+<span class="source-line-no">502</span><span id="line-502">   * &lt;/ul&gt;</span>
+<span class="source-line-no">503</span><span id="line-503">   *</span>
+<span class="source-line-no">504</span><span id="line-504">   * &lt;p&gt;Note that this range and {@code other} have a well-defined {@linkplain #span union} and</span>
+<span class="source-line-no">505</span><span id="line-505">   * {@linkplain #intersection intersection} (as a single, possibly-empty range) if and only if this</span>
+<span class="source-line-no">506</span><span id="line-506">   * method returns {@code true}.</span>
+<span class="source-line-no">507</span><span id="line-507">   *</span>
+<span class="source-line-no">508</span><span id="line-508">   * &lt;p&gt;The connectedness relation is both reflexive and symmetric, but does not form an {@linkplain</span>
+<span class="source-line-no">509</span><span id="line-509">   * Equivalence equivalence relation} as it is not transitive.</span>
+<span class="source-line-no">510</span><span id="line-510">   *</span>
+<span class="source-line-no">511</span><span id="line-511">   * &lt;p&gt;Note that certain discrete ranges are not considered connected, even though there are no</span>
+<span class="source-line-no">512</span><span id="line-512">   * elements "between them." For example, {@code [3, 5]} is not considered connected to {@code [6,</span>
+<span class="source-line-no">513</span><span id="line-513">   * 10]}. In these cases, it may be desirable for both input ranges to be preprocessed with {@link</span>
+<span class="source-line-no">514</span><span id="line-514">   * #canonical(DiscreteDomain)} before testing for connectedness.</span>
+<span class="source-line-no">515</span><span id="line-515">   */</span>
+<span class="source-line-no">516</span><span id="line-516">  public boolean isConnected(Range&lt;C&gt; other) {</span>
+<span class="source-line-no">517</span><span id="line-517">    return lowerBound.compareTo(other.upperBound) &lt;= 0</span>
+<span class="source-line-no">518</span><span id="line-518">        &amp;&amp; other.lowerBound.compareTo(upperBound) &lt;= 0;</span>
+<span class="source-line-no">519</span><span id="line-519">  }</span>
+<span class="source-line-no">520</span><span id="line-520"></span>
+<span class="source-line-no">521</span><span id="line-521">  /**</span>
+<span class="source-line-no">522</span><span id="line-522">   * Returns the maximal range {@linkplain #encloses enclosed} by both this range and {@code</span>
+<span class="source-line-no">523</span><span id="line-523">   * connectedRange}, if such a range exists.</span>
+<span class="source-line-no">524</span><span id="line-524">   *</span>
+<span class="source-line-no">525</span><span id="line-525">   * &lt;p&gt;For example, the intersection of {@code [1..5]} and {@code (3..7)} is {@code (3..5]}. The</span>
+<span class="source-line-no">526</span><span id="line-526">   * resulting range may be empty; for example, {@code [1..5)} intersected with {@code [5..7)}</span>
+<span class="source-line-no">527</span><span id="line-527">   * yields the empty range {@code [5..5)}.</span>
+<span class="source-line-no">528</span><span id="line-528">   *</span>
+<span class="source-line-no">529</span><span id="line-529">   * &lt;p&gt;The intersection exists if and only if the two ranges are {@linkplain #isConnected</span>
+<span class="source-line-no">530</span><span id="line-530">   * connected}.</span>
+<span class="source-line-no">531</span><span id="line-531">   *</span>
+<span class="source-line-no">532</span><span id="line-532">   * &lt;p&gt;The intersection operation is commutative, associative and idempotent, and its identity</span>
+<span class="source-line-no">533</span><span id="line-533">   * element is {@link Range#all}).</span>
+<span class="source-line-no">534</span><span id="line-534">   *</span>
+<span class="source-line-no">535</span><span id="line-535">   * @throws IllegalArgumentException if {@code isConnected(connectedRange)} is {@code false}</span>
+<span class="source-line-no">536</span><span id="line-536">   */</span>
+<span class="source-line-no">537</span><span id="line-537">  public Range&lt;C&gt; intersection(Range&lt;C&gt; connectedRange) {</span>
+<span class="source-line-no">538</span><span id="line-538">    int lowerCmp = lowerBound.compareTo(connectedRange.lowerBound);</span>
+<span class="source-line-no">539</span><span id="line-539">    int upperCmp = upperBound.compareTo(connectedRange.upperBound);</span>
+<span class="source-line-no">540</span><span id="line-540">    if (lowerCmp &gt;= 0 &amp;&amp; upperCmp &lt;= 0) {</span>
+<span class="source-line-no">541</span><span id="line-541">      return this;</span>
+<span class="source-line-no">542</span><span id="line-542">    } else if (lowerCmp &lt;= 0 &amp;&amp; upperCmp &gt;= 0) {</span>
+<span class="source-line-no">543</span><span id="line-543">      return connectedRange;</span>
+<span class="source-line-no">544</span><span id="line-544">    } else {</span>
+<span class="source-line-no">545</span><span id="line-545">      Cut&lt;C&gt; newLower = (lowerCmp &gt;= 0) ? lowerBound : connectedRange.lowerBound;</span>
+<span class="source-line-no">546</span><span id="line-546">      Cut&lt;C&gt; newUpper = (upperCmp &lt;= 0) ? upperBound : connectedRange.upperBound;</span>
 <span class="source-line-no">547</span><span id="line-547"></span>
-<span class="source-line-no">548</span><span id="line-548">  /**</span>
-<span class="source-line-no">549</span><span id="line-549">   * Returns the maximal range lying between this range and {@code otherRange}, if such a range</span>
-<span class="source-line-no">550</span><span id="line-550">   * exists. The resulting range may be empty if the two ranges are adjacent but non-overlapping.</span>
-<span class="source-line-no">551</span><span id="line-551">   *</span>
-<span class="source-line-no">552</span><span id="line-552">   * &lt;p&gt;For example, the gap of {@code [1..5]} and {@code (7..10)} is {@code (5..7]}. The resulting</span>
-<span class="source-line-no">553</span><span id="line-553">   * range may be empty; for example, the gap between {@code [1..5)} {@code [5..7)} yields the empty</span>
-<span class="source-line-no">554</span><span id="line-554">   * range {@code [5..5)}.</span>
-<span class="source-line-no">555</span><span id="line-555">   *</span>
-<span class="source-line-no">556</span><span id="line-556">   * &lt;p&gt;The gap exists if and only if the two ranges are either disconnected or immediately adjacent</span>
-<span class="source-line-no">557</span><span id="line-557">   * (any intersection must be an empty range).</span>
-<span class="source-line-no">558</span><span id="line-558">   *</span>
-<span class="source-line-no">559</span><span id="line-559">   * &lt;p&gt;The gap operation is commutative.</span>
-<span class="source-line-no">560</span><span id="line-560">   *</span>
-<span class="source-line-no">561</span><span id="line-561">   * @throws IllegalArgumentException if this range and {@code otherRange} have a nonempty</span>
-<span class="source-line-no">562</span><span id="line-562">   *     intersection</span>
-<span class="source-line-no">563</span><span id="line-563">   * @since 27.0</span>
-<span class="source-line-no">564</span><span id="line-564">   */</span>
-<span class="source-line-no">565</span><span id="line-565">  public Range&lt;C&gt; gap(Range&lt;C&gt; otherRange) {</span>
-<span class="source-line-no">566</span><span id="line-566">    /*</span>
-<span class="source-line-no">567</span><span id="line-567">     * For an explanation of the basic principle behind this check, see</span>
-<span class="source-line-no">568</span><span id="line-568">     * https://stackoverflow.com/a/35754308/28465</span>
-<span class="source-line-no">569</span><span id="line-569">     *</span>
-<span class="source-line-no">570</span><span id="line-570">     * In that explanation's notation, our `overlap` check would be `x1 &lt; y2 &amp;&amp; y1 &lt; x2`. We've</span>
-<span class="source-line-no">571</span><span id="line-571">     * flipped one part of the check so that we're using "less than" in both cases (rather than a</span>
-<span class="source-line-no">572</span><span id="line-572">     * mix of "less than" and "greater than"). We've also switched to "strictly less than" rather</span>
-<span class="source-line-no">573</span><span id="line-573">     * than "less than or equal to" because of *handwave* the difference between "endpoints of</span>
-<span class="source-line-no">574</span><span id="line-574">     * inclusive ranges" and "Cuts."</span>
-<span class="source-line-no">575</span><span id="line-575">     */</span>
-<span class="source-line-no">576</span><span id="line-576">    if (lowerBound.compareTo(otherRange.upperBound) &lt; 0</span>
-<span class="source-line-no">577</span><span id="line-577">        &amp;&amp; otherRange.lowerBound.compareTo(upperBound) &lt; 0) {</span>
-<span class="source-line-no">578</span><span id="line-578">      throw new IllegalArgumentException(</span>
-<span class="source-line-no">579</span><span id="line-579">          "Ranges have a nonempty intersection: " + this + ", " + otherRange);</span>
-<span class="source-line-no">580</span><span id="line-580">    }</span>
-<span class="source-line-no">581</span><span id="line-581"></span>
-<span class="source-line-no">582</span><span id="line-582">    boolean isThisFirst = this.lowerBound.compareTo(otherRange.lowerBound) &lt; 0;</span>
-<span class="source-line-no">583</span><span id="line-583">    Range&lt;C&gt; firstRange = isThisFirst ? this : otherRange;</span>
-<span class="source-line-no">584</span><span id="line-584">    Range&lt;C&gt; secondRange = isThisFirst ? otherRange : this;</span>
-<span class="source-line-no">585</span><span id="line-585">    return create(firstRange.upperBound, secondRange.lowerBound);</span>
-<span class="source-line-no">586</span><span id="line-586">  }</span>
-<span class="source-line-no">587</span><span id="line-587"></span>
-<span class="source-line-no">588</span><span id="line-588">  /**</span>
-<span class="source-line-no">589</span><span id="line-589">   * Returns the minimal range that {@linkplain #encloses encloses} both this range and {@code</span>
-<span class="source-line-no">590</span><span id="line-590">   * other}. For example, the span of {@code [1..3]} and {@code (5..7)} is {@code [1..7)}.</span>
-<span class="source-line-no">591</span><span id="line-591">   *</span>
-<span class="source-line-no">592</span><span id="line-592">   * &lt;p&gt;&lt;i&gt;If&lt;/i&gt; the input ranges are {@linkplain #isConnected connected}, the returned range can</span>
-<span class="source-line-no">593</span><span id="line-593">   * also be called their &lt;i&gt;union&lt;/i&gt;. If they are not, note that the span might contain values</span>
-<span class="source-line-no">594</span><span id="line-594">   * that are not contained in either input range.</span>
-<span class="source-line-no">595</span><span id="line-595">   *</span>
-<span class="source-line-no">596</span><span id="line-596">   * &lt;p&gt;Like {@link #intersection(Range) intersection}, this operation is commutative, associative</span>
-<span class="source-line-no">597</span><span id="line-597">   * and idempotent. Unlike it, it is always well-defined for any two input ranges.</span>
-<span class="source-line-no">598</span><span id="line-598">   */</span>
-<span class="source-line-no">599</span><span id="line-599">  public Range&lt;C&gt; span(Range&lt;C&gt; other) {</span>
-<span class="source-line-no">600</span><span id="line-600">    int lowerCmp = lowerBound.compareTo(other.lowerBound);</span>
-<span class="source-line-no">601</span><span id="line-601">    int upperCmp = upperBound.compareTo(other.upperBound);</span>
-<span class="source-line-no">602</span><span id="line-602">    if (lowerCmp &lt;= 0 &amp;&amp; upperCmp &gt;= 0) {</span>
-<span class="source-line-no">603</span><span id="line-603">      return this;</span>
-<span class="source-line-no">604</span><span id="line-604">    } else if (lowerCmp &gt;= 0 &amp;&amp; upperCmp &lt;= 0) {</span>
-<span class="source-line-no">605</span><span id="line-605">      return other;</span>
-<span class="source-line-no">606</span><span id="line-606">    } else {</span>
-<span class="source-line-no">607</span><span id="line-607">      Cut&lt;C&gt; newLower = (lowerCmp &lt;= 0) ? lowerBound : other.lowerBound;</span>
-<span class="source-line-no">608</span><span id="line-608">      Cut&lt;C&gt; newUpper = (upperCmp &gt;= 0) ? upperBound : other.upperBound;</span>
-<span class="source-line-no">609</span><span id="line-609">      return create(newLower, newUpper);</span>
-<span class="source-line-no">610</span><span id="line-610">    }</span>
-<span class="source-line-no">611</span><span id="line-611">  }</span>
-<span class="source-line-no">612</span><span id="line-612"></span>
-<span class="source-line-no">613</span><span id="line-613">  /**</span>
-<span class="source-line-no">614</span><span id="line-614">   * Returns the canonical form of this range in the given domain. The canonical form has the</span>
-<span class="source-line-no">615</span><span id="line-615">   * following properties:</span>
-<span class="source-line-no">616</span><span id="line-616">   *</span>
-<span class="source-line-no">617</span><span id="line-617">   * &lt;ul&gt;</span>
-<span class="source-line-no">618</span><span id="line-618">   *   &lt;li&gt;equivalence: {@code a.canonical().contains(v) == a.contains(v)} for all {@code v} (in</span>
-<span class="source-line-no">619</span><span id="line-619">   *       other words, {@code ContiguousSet.create(a.canonical(domain), domain).equals(</span>
-<span class="source-line-no">620</span><span id="line-620">   *       ContiguousSet.create(a, domain))}</span>
-<span class="source-line-no">621</span><span id="line-621">   *   &lt;li&gt;uniqueness: unless {@code a.isEmpty()}, {@code ContiguousSet.create(a,</span>
-<span class="source-line-no">622</span><span id="line-622">   *       domain).equals(ContiguousSet.create(b, domain))} implies {@code</span>
-<span class="source-line-no">623</span><span id="line-623">   *       a.canonical(domain).equals(b.canonical(domain))}</span>
-<span class="source-line-no">624</span><span id="line-624">   *   &lt;li&gt;idempotence: {@code a.canonical(domain).canonical(domain).equals(a.canonical(domain))}</span>
-<span class="source-line-no">625</span><span id="line-625">   * &lt;/ul&gt;</span>
-<span class="source-line-no">626</span><span id="line-626">   *</span>
-<span class="source-line-no">627</span><span id="line-627">   * &lt;p&gt;Furthermore, this method guarantees that the range returned will be one of the following</span>
-<span class="source-line-no">628</span><span id="line-628">   * canonical forms:</span>
-<span class="source-line-no">629</span><span id="line-629">   *</span>
-<span class="source-line-no">630</span><span id="line-630">   * &lt;ul&gt;</span>
-<span class="source-line-no">631</span><span id="line-631">   *   &lt;li&gt;[start..end)</span>
-<span class="source-line-no">632</span><span id="line-632">   *   &lt;li&gt;[start..+∞)</span>
-<span class="source-line-no">633</span><span id="line-633">   *   &lt;li&gt;(-∞..end) (only if type {@code C} is unbounded below)</span>
-<span class="source-line-no">634</span><span id="line-634">   *   &lt;li&gt;(-∞..+∞) (only if type {@code C} is unbounded below)</span>
-<span class="source-line-no">635</span><span id="line-635">   * &lt;/ul&gt;</span>
-<span class="source-line-no">636</span><span id="line-636">   */</span>
-<span class="source-line-no">637</span><span id="line-637">  public Range&lt;C&gt; canonical(DiscreteDomain&lt;C&gt; domain) {</span>
-<span class="source-line-no">638</span><span id="line-638">    checkNotNull(domain);</span>
-<span class="source-line-no">639</span><span id="line-639">    Cut&lt;C&gt; lower = lowerBound.canonical(domain);</span>
-<span class="source-line-no">640</span><span id="line-640">    Cut&lt;C&gt; upper = upperBound.canonical(domain);</span>
-<span class="source-line-no">641</span><span id="line-641">    return (lower == lowerBound &amp;&amp; upper == upperBound) ? this : create(lower, upper);</span>
-<span class="source-line-no">642</span><span id="line-642">  }</span>
-<span class="source-line-no">643</span><span id="line-643"></span>
-<span class="source-line-no">644</span><span id="line-644">  /**</span>
-<span class="source-line-no">645</span><span id="line-645">   * Returns {@code true} if {@code object} is a range having the same endpoints and bound types as</span>
-<span class="source-line-no">646</span><span id="line-646">   * this range. Note that discrete ranges such as {@code (1..4)} and {@code [2..3]} are &lt;b&gt;not&lt;/b&gt;</span>
-<span class="source-line-no">647</span><span id="line-647">   * equal to one another, despite the fact that they each contain precisely the same set of values.</span>
-<span class="source-line-no">648</span><span id="line-648">   * Similarly, empty ranges are not equal unless they have exactly the same representation, so</span>
-<span class="source-line-no">649</span><span id="line-649">   * {@code [3..3)}, {@code (3..3]}, {@code (4..4]} are all unequal.</span>
-<span class="source-line-no">650</span><span id="line-650">   */</span>
-<span class="source-line-no">651</span><span id="line-651">  @Override</span>
-<span class="source-line-no">652</span><span id="line-652">  public boolean equals(@Nullable Object object) {</span>
-<span class="source-line-no">653</span><span id="line-653">    if (object instanceof Range) {</span>
-<span class="source-line-no">654</span><span id="line-654">      Range&lt;?&gt; other = (Range&lt;?&gt;) object;</span>
-<span class="source-line-no">655</span><span id="line-655">      return lowerBound.equals(other.lowerBound) &amp;&amp; upperBound.equals(other.upperBound);</span>
-<span class="source-line-no">656</span><span id="line-656">    }</span>
-<span class="source-line-no">657</span><span id="line-657">    return false;</span>
-<span class="source-line-no">658</span><span id="line-658">  }</span>
-<span class="source-line-no">659</span><span id="line-659"></span>
-<span class="source-line-no">660</span><span id="line-660">  /** Returns a hash code for this range. */</span>
-<span class="source-line-no">661</span><span id="line-661">  @Override</span>
-<span class="source-line-no">662</span><span id="line-662">  public int hashCode() {</span>
-<span class="source-line-no">663</span><span id="line-663">    return lowerBound.hashCode() * 31 + upperBound.hashCode();</span>
-<span class="source-line-no">664</span><span id="line-664">  }</span>
-<span class="source-line-no">665</span><span id="line-665"></span>
-<span class="source-line-no">666</span><span id="line-666">  /**</span>
-<span class="source-line-no">667</span><span id="line-667">   * Returns a string representation of this range, such as {@code "[3..5)"} (other examples are</span>
-<span class="source-line-no">668</span><span id="line-668">   * listed in the class documentation).</span>
-<span class="source-line-no">669</span><span id="line-669">   */</span>
-<span class="source-line-no">670</span><span id="line-670">  @Override</span>
-<span class="source-line-no">671</span><span id="line-671">  public String toString() {</span>
-<span class="source-line-no">672</span><span id="line-672">    return toString(lowerBound, upperBound);</span>
-<span class="source-line-no">673</span><span id="line-673">  }</span>
-<span class="source-line-no">674</span><span id="line-674"></span>
-<span class="source-line-no">675</span><span id="line-675">  private static String toString(Cut&lt;?&gt; lowerBound, Cut&lt;?&gt; upperBound) {</span>
-<span class="source-line-no">676</span><span id="line-676">    StringBuilder sb = new StringBuilder(16);</span>
-<span class="source-line-no">677</span><span id="line-677">    lowerBound.describeAsLowerBound(sb);</span>
-<span class="source-line-no">678</span><span id="line-678">    sb.append("..");</span>
-<span class="source-line-no">679</span><span id="line-679">    upperBound.describeAsUpperBound(sb);</span>
-<span class="source-line-no">680</span><span id="line-680">    return sb.toString();</span>
-<span class="source-line-no">681</span><span id="line-681">  }</span>
-<span class="source-line-no">682</span><span id="line-682"></span>
-<span class="source-line-no">683</span><span id="line-683">  // We declare accessors so that we can use method references like `Range::lowerBound`.</span>
-<span class="source-line-no">684</span><span id="line-684"></span>
-<span class="source-line-no">685</span><span id="line-685">  Cut&lt;C&gt; lowerBound() {</span>
-<span class="source-line-no">686</span><span id="line-686">    return lowerBound;</span>
-<span class="source-line-no">687</span><span id="line-687">  }</span>
-<span class="source-line-no">688</span><span id="line-688"></span>
-<span class="source-line-no">689</span><span id="line-689">  Cut&lt;C&gt; upperBound() {</span>
-<span class="source-line-no">690</span><span id="line-690">    return upperBound;</span>
-<span class="source-line-no">691</span><span id="line-691">  }</span>
-<span class="source-line-no">692</span><span id="line-692"></span>
-<span class="source-line-no">693</span><span id="line-693">  Object readResolve() {</span>
-<span class="source-line-no">694</span><span id="line-694">    if (this.equals(ALL)) {</span>
-<span class="source-line-no">695</span><span id="line-695">      return all();</span>
-<span class="source-line-no">696</span><span id="line-696">    } else {</span>
-<span class="source-line-no">697</span><span id="line-697">      return this;</span>
-<span class="source-line-no">698</span><span id="line-698">    }</span>
+<span class="source-line-no">548</span><span id="line-548">      // create() would catch this, but give a confusing error message</span>
+<span class="source-line-no">549</span><span id="line-549">      checkArgument(</span>
+<span class="source-line-no">550</span><span id="line-550">          newLower.compareTo(newUpper) &lt;= 0,</span>
+<span class="source-line-no">551</span><span id="line-551">          "intersection is undefined for disconnected ranges %s and %s",</span>
+<span class="source-line-no">552</span><span id="line-552">          this,</span>
+<span class="source-line-no">553</span><span id="line-553">          connectedRange);</span>
+<span class="source-line-no">554</span><span id="line-554"></span>
+<span class="source-line-no">555</span><span id="line-555">      // TODO(kevinb): all the precondition checks in the constructor are redundant...</span>
+<span class="source-line-no">556</span><span id="line-556">      return create(newLower, newUpper);</span>
+<span class="source-line-no">557</span><span id="line-557">    }</span>
+<span class="source-line-no">558</span><span id="line-558">  }</span>
+<span class="source-line-no">559</span><span id="line-559"></span>
+<span class="source-line-no">560</span><span id="line-560">  /**</span>
+<span class="source-line-no">561</span><span id="line-561">   * Returns the maximal range lying between this range and {@code otherRange}, if such a range</span>
+<span class="source-line-no">562</span><span id="line-562">   * exists. The resulting range may be empty if the two ranges are adjacent but non-overlapping.</span>
+<span class="source-line-no">563</span><span id="line-563">   *</span>
+<span class="source-line-no">564</span><span id="line-564">   * &lt;p&gt;For example, the gap of {@code [1..5]} and {@code (7..10)} is {@code (5..7]}. The resulting</span>
+<span class="source-line-no">565</span><span id="line-565">   * range may be empty; for example, the gap between {@code [1..5)} {@code [5..7)} yields the empty</span>
+<span class="source-line-no">566</span><span id="line-566">   * range {@code [5..5)}.</span>
+<span class="source-line-no">567</span><span id="line-567">   *</span>
+<span class="source-line-no">568</span><span id="line-568">   * &lt;p&gt;The gap exists if and only if the two ranges are either disconnected or immediately adjacent</span>
+<span class="source-line-no">569</span><span id="line-569">   * (any intersection must be an empty range).</span>
+<span class="source-line-no">570</span><span id="line-570">   *</span>
+<span class="source-line-no">571</span><span id="line-571">   * &lt;p&gt;The gap operation is commutative.</span>
+<span class="source-line-no">572</span><span id="line-572">   *</span>
+<span class="source-line-no">573</span><span id="line-573">   * @throws IllegalArgumentException if this range and {@code otherRange} have a nonempty</span>
+<span class="source-line-no">574</span><span id="line-574">   *     intersection</span>
+<span class="source-line-no">575</span><span id="line-575">   * @since 27.0</span>
+<span class="source-line-no">576</span><span id="line-576">   */</span>
+<span class="source-line-no">577</span><span id="line-577">  public Range&lt;C&gt; gap(Range&lt;C&gt; otherRange) {</span>
+<span class="source-line-no">578</span><span id="line-578">    /*</span>
+<span class="source-line-no">579</span><span id="line-579">     * For an explanation of the basic principle behind this check, see</span>
+<span class="source-line-no">580</span><span id="line-580">     * https://stackoverflow.com/a/35754308/28465</span>
+<span class="source-line-no">581</span><span id="line-581">     *</span>
+<span class="source-line-no">582</span><span id="line-582">     * In that explanation's notation, our `overlap` check would be `x1 &lt; y2 &amp;&amp; y1 &lt; x2`. We've</span>
+<span class="source-line-no">583</span><span id="line-583">     * flipped one part of the check so that we're using "less than" in both cases (rather than a</span>
+<span class="source-line-no">584</span><span id="line-584">     * mix of "less than" and "greater than"). We've also switched to "strictly less than" rather</span>
+<span class="source-line-no">585</span><span id="line-585">     * than "less than or equal to" because of *handwave* the difference between "endpoints of</span>
+<span class="source-line-no">586</span><span id="line-586">     * inclusive ranges" and "Cuts."</span>
+<span class="source-line-no">587</span><span id="line-587">     */</span>
+<span class="source-line-no">588</span><span id="line-588">    if (lowerBound.compareTo(otherRange.upperBound) &lt; 0</span>
+<span class="source-line-no">589</span><span id="line-589">        &amp;&amp; otherRange.lowerBound.compareTo(upperBound) &lt; 0) {</span>
+<span class="source-line-no">590</span><span id="line-590">      throw new IllegalArgumentException(</span>
+<span class="source-line-no">591</span><span id="line-591">          "Ranges have a nonempty intersection: " + this + ", " + otherRange);</span>
+<span class="source-line-no">592</span><span id="line-592">    }</span>
+<span class="source-line-no">593</span><span id="line-593"></span>
+<span class="source-line-no">594</span><span id="line-594">    boolean isThisFirst = this.lowerBound.compareTo(otherRange.lowerBound) &lt; 0;</span>
+<span class="source-line-no">595</span><span id="line-595">    Range&lt;C&gt; firstRange = isThisFirst ? this : otherRange;</span>
+<span class="source-line-no">596</span><span id="line-596">    Range&lt;C&gt; secondRange = isThisFirst ? otherRange : this;</span>
+<span class="source-line-no">597</span><span id="line-597">    return create(firstRange.upperBound, secondRange.lowerBound);</span>
+<span class="source-line-no">598</span><span id="line-598">  }</span>
+<span class="source-line-no">599</span><span id="line-599"></span>
+<span class="source-line-no">600</span><span id="line-600">  /**</span>
+<span class="source-line-no">601</span><span id="line-601">   * Returns the minimal range that {@linkplain #encloses encloses} both this range and {@code</span>
+<span class="source-line-no">602</span><span id="line-602">   * other}. For example, the span of {@code [1..3]} and {@code (5..7)} is {@code [1..7)}.</span>
+<span class="source-line-no">603</span><span id="line-603">   *</span>
+<span class="source-line-no">604</span><span id="line-604">   * &lt;p&gt;&lt;i&gt;If&lt;/i&gt; the input ranges are {@linkplain #isConnected connected}, the returned range can</span>
+<span class="source-line-no">605</span><span id="line-605">   * also be called their &lt;i&gt;union&lt;/i&gt;. If they are not, note that the span might contain values</span>
+<span class="source-line-no">606</span><span id="line-606">   * that are not contained in either input range.</span>
+<span class="source-line-no">607</span><span id="line-607">   *</span>
+<span class="source-line-no">608</span><span id="line-608">   * &lt;p&gt;Like {@link #intersection(Range) intersection}, this operation is commutative, associative</span>
+<span class="source-line-no">609</span><span id="line-609">   * and idempotent. Unlike it, it is always well-defined for any two input ranges.</span>
+<span class="source-line-no">610</span><span id="line-610">   */</span>
+<span class="source-line-no">611</span><span id="line-611">  public Range&lt;C&gt; span(Range&lt;C&gt; other) {</span>
+<span class="source-line-no">612</span><span id="line-612">    int lowerCmp = lowerBound.compareTo(other.lowerBound);</span>
+<span class="source-line-no">613</span><span id="line-613">    int upperCmp = upperBound.compareTo(other.upperBound);</span>
+<span class="source-line-no">614</span><span id="line-614">    if (lowerCmp &lt;= 0 &amp;&amp; upperCmp &gt;= 0) {</span>
+<span class="source-line-no">615</span><span id="line-615">      return this;</span>
+<span class="source-line-no">616</span><span id="line-616">    } else if (lowerCmp &gt;= 0 &amp;&amp; upperCmp &lt;= 0) {</span>
+<span class="source-line-no">617</span><span id="line-617">      return other;</span>
+<span class="source-line-no">618</span><span id="line-618">    } else {</span>
+<span class="source-line-no">619</span><span id="line-619">      Cut&lt;C&gt; newLower = (lowerCmp &lt;= 0) ? lowerBound : other.lowerBound;</span>
+<span class="source-line-no">620</span><span id="line-620">      Cut&lt;C&gt; newUpper = (upperCmp &gt;= 0) ? upperBound : other.upperBound;</span>
+<span class="source-line-no">621</span><span id="line-621">      return create(newLower, newUpper);</span>
+<span class="source-line-no">622</span><span id="line-622">    }</span>
+<span class="source-line-no">623</span><span id="line-623">  }</span>
+<span class="source-line-no">624</span><span id="line-624"></span>
+<span class="source-line-no">625</span><span id="line-625">  /**</span>
+<span class="source-line-no">626</span><span id="line-626">   * Returns the canonical form of this range in the given domain. The canonical form has the</span>
+<span class="source-line-no">627</span><span id="line-627">   * following properties:</span>
+<span class="source-line-no">628</span><span id="line-628">   *</span>
+<span class="source-line-no">629</span><span id="line-629">   * &lt;ul&gt;</span>
+<span class="source-line-no">630</span><span id="line-630">   *   &lt;li&gt;equivalence: {@code a.canonical().contains(v) == a.contains(v)} for all {@code v} (in</span>
+<span class="source-line-no">631</span><span id="line-631">   *       other words, {@code ContiguousSet.create(a.canonical(domain), domain).equals(</span>
+<span class="source-line-no">632</span><span id="line-632">   *       ContiguousSet.create(a, domain))}</span>
+<span class="source-line-no">633</span><span id="line-633">   *   &lt;li&gt;uniqueness: unless {@code a.isEmpty()}, {@code ContiguousSet.create(a,</span>
+<span class="source-line-no">634</span><span id="line-634">   *       domain).equals(ContiguousSet.create(b, domain))} implies {@code</span>
+<span class="source-line-no">635</span><span id="line-635">   *       a.canonical(domain).equals(b.canonical(domain))}</span>
+<span class="source-line-no">636</span><span id="line-636">   *   &lt;li&gt;idempotence: {@code a.canonical(domain).canonical(domain).equals(a.canonical(domain))}</span>
+<span class="source-line-no">637</span><span id="line-637">   * &lt;/ul&gt;</span>
+<span class="source-line-no">638</span><span id="line-638">   *</span>
+<span class="source-line-no">639</span><span id="line-639">   * &lt;p&gt;Furthermore, this method guarantees that the range returned will be one of the following</span>
+<span class="source-line-no">640</span><span id="line-640">   * canonical forms:</span>
+<span class="source-line-no">641</span><span id="line-641">   *</span>
+<span class="source-line-no">642</span><span id="line-642">   * &lt;ul&gt;</span>
+<span class="source-line-no">643</span><span id="line-643">   *   &lt;li&gt;[start..end)</span>
+<span class="source-line-no">644</span><span id="line-644">   *   &lt;li&gt;[start..+∞)</span>
+<span class="source-line-no">645</span><span id="line-645">   *   &lt;li&gt;(-∞..end) (only if type {@code C} is unbounded below)</span>
+<span class="source-line-no">646</span><span id="line-646">   *   &lt;li&gt;(-∞..+∞) (only if type {@code C} is unbounded below)</span>
+<span class="source-line-no">647</span><span id="line-647">   * &lt;/ul&gt;</span>
+<span class="source-line-no">648</span><span id="line-648">   */</span>
+<span class="source-line-no">649</span><span id="line-649">  public Range&lt;C&gt; canonical(DiscreteDomain&lt;C&gt; domain) {</span>
+<span class="source-line-no">650</span><span id="line-650">    checkNotNull(domain);</span>
+<span class="source-line-no">651</span><span id="line-651">    Cut&lt;C&gt; lower = lowerBound.canonical(domain);</span>
+<span class="source-line-no">652</span><span id="line-652">    Cut&lt;C&gt; upper = upperBound.canonical(domain);</span>
+<span class="source-line-no">653</span><span id="line-653">    return (lower == lowerBound &amp;&amp; upper == upperBound) ? this : create(lower, upper);</span>
+<span class="source-line-no">654</span><span id="line-654">  }</span>
+<span class="source-line-no">655</span><span id="line-655"></span>
+<span class="source-line-no">656</span><span id="line-656">  /**</span>
+<span class="source-line-no">657</span><span id="line-657">   * Returns {@code true} if {@code object} is a range having the same endpoints and bound types as</span>
+<span class="source-line-no">658</span><span id="line-658">   * this range. Note that discrete ranges such as {@code (1..4)} and {@code [2..3]} are &lt;b&gt;not&lt;/b&gt;</span>
+<span class="source-line-no">659</span><span id="line-659">   * equal to one another, despite the fact that they each contain precisely the same set of values.</span>
+<span class="source-line-no">660</span><span id="line-660">   * Similarly, empty ranges are not equal unless they have exactly the same representation, so</span>
+<span class="source-line-no">661</span><span id="line-661">   * {@code [3..3)}, {@code (3..3]}, {@code (4..4]} are all unequal.</span>
+<span class="source-line-no">662</span><span id="line-662">   */</span>
+<span class="source-line-no">663</span><span id="line-663">  @Override</span>
+<span class="source-line-no">664</span><span id="line-664">  public boolean equals(@Nullable Object object) {</span>
+<span class="source-line-no">665</span><span id="line-665">    if (object instanceof Range) {</span>
+<span class="source-line-no">666</span><span id="line-666">      Range&lt;?&gt; other = (Range&lt;?&gt;) object;</span>
+<span class="source-line-no">667</span><span id="line-667">      return lowerBound.equals(other.lowerBound) &amp;&amp; upperBound.equals(other.upperBound);</span>
+<span class="source-line-no">668</span><span id="line-668">    }</span>
+<span class="source-line-no">669</span><span id="line-669">    return false;</span>
+<span class="source-line-no">670</span><span id="line-670">  }</span>
+<span class="source-line-no">671</span><span id="line-671"></span>
+<span class="source-line-no">672</span><span id="line-672">  /** Returns a hash code for this range. */</span>
+<span class="source-line-no">673</span><span id="line-673">  @Override</span>
+<span class="source-line-no">674</span><span id="line-674">  public int hashCode() {</span>
+<span class="source-line-no">675</span><span id="line-675">    return lowerBound.hashCode() * 31 + upperBound.hashCode();</span>
+<span class="source-line-no">676</span><span id="line-676">  }</span>
+<span class="source-line-no">677</span><span id="line-677"></span>
+<span class="source-line-no">678</span><span id="line-678">  /**</span>
+<span class="source-line-no">679</span><span id="line-679">   * Returns a string representation of this range, such as {@code "[3..5)"} (other examples are</span>
+<span class="source-line-no">680</span><span id="line-680">   * listed in the class documentation).</span>
+<span class="source-line-no">681</span><span id="line-681">   */</span>
+<span class="source-line-no">682</span><span id="line-682">  @Override</span>
+<span class="source-line-no">683</span><span id="line-683">  public String toString() {</span>
+<span class="source-line-no">684</span><span id="line-684">    return toString(lowerBound, upperBound);</span>
+<span class="source-line-no">685</span><span id="line-685">  }</span>
+<span class="source-line-no">686</span><span id="line-686"></span>
+<span class="source-line-no">687</span><span id="line-687">  private static String toString(Cut&lt;?&gt; lowerBound, Cut&lt;?&gt; upperBound) {</span>
+<span class="source-line-no">688</span><span id="line-688">    StringBuilder sb = new StringBuilder(16);</span>
+<span class="source-line-no">689</span><span id="line-689">    lowerBound.describeAsLowerBound(sb);</span>
+<span class="source-line-no">690</span><span id="line-690">    sb.append("..");</span>
+<span class="source-line-no">691</span><span id="line-691">    upperBound.describeAsUpperBound(sb);</span>
+<span class="source-line-no">692</span><span id="line-692">    return sb.toString();</span>
+<span class="source-line-no">693</span><span id="line-693">  }</span>
+<span class="source-line-no">694</span><span id="line-694"></span>
+<span class="source-line-no">695</span><span id="line-695">  // We declare accessors so that we can use method references like `Range::lowerBound`.</span>
+<span class="source-line-no">696</span><span id="line-696"></span>
+<span class="source-line-no">697</span><span id="line-697">  Cut&lt;C&gt; lowerBound() {</span>
+<span class="source-line-no">698</span><span id="line-698">    return lowerBound;</span>
 <span class="source-line-no">699</span><span id="line-699">  }</span>
 <span class="source-line-no">700</span><span id="line-700"></span>
-<span class="source-line-no">701</span><span id="line-701">  @SuppressWarnings("unchecked") // this method may throw CCE</span>
-<span class="source-line-no">702</span><span id="line-702">  static int compareOrThrow(Comparable left, Comparable right) {</span>
-<span class="source-line-no">703</span><span id="line-703">    return left.compareTo(right);</span>
-<span class="source-line-no">704</span><span id="line-704">  }</span>
-<span class="source-line-no">705</span><span id="line-705"></span>
-<span class="source-line-no">706</span><span id="line-706">  /** Needed to serialize sorted collections of Ranges. */</span>
-<span class="source-line-no">707</span><span id="line-707">  private static class RangeLexOrdering extends Ordering&lt;Range&lt;?&gt;&gt; implements Serializable {</span>
-<span class="source-line-no">708</span><span id="line-708">    static final Ordering&lt;?&gt; INSTANCE = new RangeLexOrdering();</span>
-<span class="source-line-no">709</span><span id="line-709"></span>
-<span class="source-line-no">710</span><span id="line-710">    @Override</span>
-<span class="source-line-no">711</span><span id="line-711">    public int compare(Range&lt;?&gt; left, Range&lt;?&gt; right) {</span>
-<span class="source-line-no">712</span><span id="line-712">      return ComparisonChain.start()</span>
-<span class="source-line-no">713</span><span id="line-713">          .compare(left.lowerBound, right.lowerBound)</span>
-<span class="source-line-no">714</span><span id="line-714">          .compare(left.upperBound, right.upperBound)</span>
-<span class="source-line-no">715</span><span id="line-715">          .result();</span>
-<span class="source-line-no">716</span><span id="line-716">    }</span>
+<span class="source-line-no">701</span><span id="line-701">  Cut&lt;C&gt; upperBound() {</span>
+<span class="source-line-no">702</span><span id="line-702">    return upperBound;</span>
+<span class="source-line-no">703</span><span id="line-703">  }</span>
+<span class="source-line-no">704</span><span id="line-704"></span>
+<span class="source-line-no">705</span><span id="line-705">  Object readResolve() {</span>
+<span class="source-line-no">706</span><span id="line-706">    if (this.equals(ALL)) {</span>
+<span class="source-line-no">707</span><span id="line-707">      return all();</span>
+<span class="source-line-no">708</span><span id="line-708">    } else {</span>
+<span class="source-line-no">709</span><span id="line-709">      return this;</span>
+<span class="source-line-no">710</span><span id="line-710">    }</span>
+<span class="source-line-no">711</span><span id="line-711">  }</span>
+<span class="source-line-no">712</span><span id="line-712"></span>
+<span class="source-line-no">713</span><span id="line-713">  @SuppressWarnings("unchecked") // this method may throw CCE</span>
+<span class="source-line-no">714</span><span id="line-714">  static int compareOrThrow(Comparable left, Comparable right) {</span>
+<span class="source-line-no">715</span><span id="line-715">    return left.compareTo(right);</span>
+<span class="source-line-no">716</span><span id="line-716">  }</span>
 <span class="source-line-no">717</span><span id="line-717"></span>
-<span class="source-line-no">718</span><span id="line-718">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">719</span><span id="line-719">  }</span>
-<span class="source-line-no">720</span><span id="line-720"></span>
-<span class="source-line-no">721</span><span id="line-721">  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
-<span class="source-line-no">722</span><span id="line-722">}</span>
+<span class="source-line-no">718</span><span id="line-718">  /** Needed to serialize sorted collections of Ranges. */</span>
+<span class="source-line-no">719</span><span id="line-719">  private static class RangeLexOrdering extends Ordering&lt;Range&lt;?&gt;&gt; implements Serializable {</span>
+<span class="source-line-no">720</span><span id="line-720">    static final Ordering&lt;?&gt; INSTANCE = new RangeLexOrdering();</span>
+<span class="source-line-no">721</span><span id="line-721"></span>
+<span class="source-line-no">722</span><span id="line-722">    @Override</span>
+<span class="source-line-no">723</span><span id="line-723">    public int compare(Range&lt;?&gt; left, Range&lt;?&gt; right) {</span>
+<span class="source-line-no">724</span><span id="line-724">      return ComparisonChain.start()</span>
+<span class="source-line-no">725</span><span id="line-725">          .compare(left.lowerBound, right.lowerBound)</span>
+<span class="source-line-no">726</span><span id="line-726">          .compare(left.upperBound, right.upperBound)</span>
+<span class="source-line-no">727</span><span id="line-727">          .result();</span>
+<span class="source-line-no">728</span><span id="line-728">    }</span>
+<span class="source-line-no">729</span><span id="line-729"></span>
+<span class="source-line-no">730</span><span id="line-730">    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">731</span><span id="line-731">  }</span>
+<span class="source-line-no">732</span><span id="line-732"></span>
+<span class="source-line-no">733</span><span id="line-733">  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;</span>
+<span class="source-line-no">734</span><span id="line-734">}</span>
 
 
 

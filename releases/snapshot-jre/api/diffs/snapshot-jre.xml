@@ -1449,6 +1449,18 @@
      instead.]]>
       </doc>
     </method>
+    <method name="test" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Provided only to satisfy the {@link java.util.function.Predicate} interface; use
+     {@link #matches} instead.">
+      <param name="character" type="java.lang.Character"/>
+      <doc>
+      <![CDATA[@deprecated Provided only to satisfy the {@link java.util.function.Predicate} interface; use
+     {@link #matches} instead.
+ @since 21.0]]>
+      </doc>
+    </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -34013,6 +34025,18 @@
      instead.]]>
       </doc>
     </method>
+    <method name="test" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Provided only to satisfy the {@link java.util.function.Predicate} interface; use
+     {@link #contains} instead.">
+      <param name="input" type="C extends java.lang.Comparable"/>
+      <doc>
+      <![CDATA[@deprecated Provided only to satisfy the {@link java.util.function.Predicate} interface; use
+     {@link #contains} instead.
+ @since 21.0]]>
+      </doc>
+    </method>
     <method name="containsAll" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -43503,6 +43527,18 @@
       <doc>
       <![CDATA[@deprecated Provided only to satisfy the {@link Predicate} interface; use {@link #mightContain}
      instead.]]>
+      </doc>
+    </method>
+    <method name="test" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="Provided only to satisfy the {@link java.util.function.Predicate} interface; use
+     {@link #mightContain} instead.">
+      <param name="input" type="T extends java.lang.Object"/>
+      <doc>
+      <![CDATA[@deprecated Provided only to satisfy the {@link java.util.function.Predicate} interface; use
+     {@link #mightContain} instead.
+ @since 21.0]]>
       </doc>
     </method>
     <method name="put" return="boolean"
