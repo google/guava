@@ -423,6 +423,18 @@ public final class Range<C extends Comparable> extends RangeGwtSerializationDepe
   }
 
   /**
+   * @deprecated Provided only to satisfy the {@link java.util.function.Predicate} interface; use
+   *     {@link #contains} instead.
+   * @since 21.0
+   */
+  @InlineMe(replacement = "this.contains(input)")
+  @Deprecated
+  @Override
+  public boolean test(C input) {
+    return contains(input);
+  }
+
+  /**
    * Returns {@code true} if every element in {@code values} is {@linkplain #contains contained} in
    * this range.
    */

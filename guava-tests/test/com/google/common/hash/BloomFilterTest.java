@@ -308,11 +308,13 @@ public class BloomFilterTest extends TestCase {
   private static void checkSanity(BloomFilter<Object> bf) {
     assertFalse(bf.mightContain(new Object()));
     assertFalse(bf.apply(new Object()));
+    assertFalse(bf.test(new Object()));
     for (int i = 0; i < 100; i++) {
       Object o = new Object();
       bf.put(o);
       assertTrue(bf.mightContain(o));
       assertTrue(bf.apply(o));
+      assertTrue(bf.test(o));
     }
   }
 

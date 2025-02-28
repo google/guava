@@ -910,14 +910,27 @@ public abstract class CharMatcher implements Predicate<Character> {
   @InlineMe(replacement = "this.matches(character)")
   @Deprecated
   @Override
-  /*
-   * We can't compatibly make this `final` now (even after devising a way for `ForPredicate`, which
-   * currently overrides it, to keep the null check that it inserts).
-   */
+  // We can't compatibly make this `final` now.
   @InlineMeValidationDisabled(
       "While apply() is not final, the inlining is still safe because all known overrides of"
           + " apply() call matches().")
   public boolean apply(Character character) {
+    return matches(character);
+  }
+
+  /**
+   * @deprecated Provided only to satisfy the {@link java.util.function.Predicate} interface; use
+   *     {@link #matches} instead.
+   * @since 21.0
+   */
+  @InlineMe(replacement = "this.matches(character)")
+  @Deprecated
+  @Override
+  // We can't compatibly make this `final` now.
+  @InlineMeValidationDisabled(
+      "While test() is not final, the inlining is still safe because all known overrides of test()"
+          + " call matches().")
+  public boolean test(Character character) {
     return matches(character);
   }
 
@@ -1813,12 +1826,6 @@ public abstract class CharMatcher implements Predicate<Character> {
     @Override
     public boolean matches(char c) {
       return predicate.apply(c);
-    }
-
-    @Deprecated
-    @Override
-    public boolean apply(Character character) {
-      return predicate.apply(checkNotNull(character));
     }
 
     @Override

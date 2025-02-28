@@ -168,6 +168,18 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   }
 
   /**
+   * @deprecated Provided only to satisfy the {@link java.util.function.Predicate} interface; use
+   *     {@link #mightContain} instead.
+   * @since 21.0
+   */
+  @InlineMe(replacement = "this.mightContain(input)")
+  @Deprecated
+  @Override
+  public boolean test(@ParametricNullness T input) {
+    return mightContain(input);
+  }
+
+  /**
    * Puts an element into this {@code BloomFilter}. Ensures that subsequent invocations of {@link
    * #mightContain(Object)} with the same element will always return {@code true}.
    *

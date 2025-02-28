@@ -362,7 +362,7 @@ public class CharMatcherTest extends TestCase {
     reallyTestMatchThenNoMatch(matcher.precomputed().negate(), s);
   }
 
-  // intentionally testing apply() method
+  // intentionally testing apply() and test() methods
   @SuppressWarnings({
     "deprecation",
     "InlineMeInliner",
@@ -370,6 +370,7 @@ public class CharMatcherTest extends TestCase {
   private void reallyTestOneCharMatch(CharMatcher matcher, String s) {
     assertTrue(matcher.matches(s.charAt(0)));
     assertTrue(matcher.apply(s.charAt(0)));
+    assertTrue(matcher.test(s.charAt(0)));
     assertEquals(0, matcher.indexIn(s));
     assertEquals(0, matcher.indexIn(s, 0));
     assertEquals(-1, matcher.indexIn(s, 1));
@@ -384,7 +385,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(1, matcher.countIn(s));
   }
 
-  // intentionally testing apply() method
+  // intentionally testing apply() and test() methods
   @SuppressWarnings({
     "deprecation",
     "InlineMeInliner",
@@ -392,6 +393,7 @@ public class CharMatcherTest extends TestCase {
   private void reallyTestOneCharNoMatch(CharMatcher matcher, String s) {
     assertFalse(matcher.matches(s.charAt(0)));
     assertFalse(matcher.apply(s.charAt(0)));
+    assertFalse(matcher.test(s.charAt(0)));
     assertEquals(-1, matcher.indexIn(s));
     assertEquals(-1, matcher.indexIn(s, 0));
     assertEquals(-1, matcher.indexIn(s, 1));

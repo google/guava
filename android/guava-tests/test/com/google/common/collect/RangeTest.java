@@ -27,7 +27,6 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Predicate;
 import com.google.common.testing.EqualsTester;
 import java.util.Collections;
 import java.util.List;
@@ -537,8 +536,10 @@ public class RangeTest extends TestCase {
     assertEquals(Range.atLeast(4), range.span(Range.atLeast(10)));
   }
 
-  public void testApply() {
-    Predicate<Integer> predicate = Range.closed(2, 3);
+  @SuppressWarnings({"InlineMeInliner", "deprecation"}) // intentional test of depecated method
+  public void testPredicateMethods() {
+    Range<Integer> predicate = Range.closed(2, 3);
+
     assertFalse(predicate.apply(1));
     assertTrue(predicate.apply(2));
     assertTrue(predicate.apply(3));
