@@ -10,7 +10,7 @@
   <artifactId>guava-bom</artifactId>
   <version>999.0.0-HEAD-android-SNAPSHOT</version>
   <packaging>pom</packaging>
-  
+
   <parent>
     <groupId>org.sonatype.oss</groupId>
     <artifactId>oss-parent</artifactId>
