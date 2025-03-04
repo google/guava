@@ -724,7 +724,7 @@
 <span class="source-line-no">711</span><span id="line-711">    // Declare a "true" local variable so that the Checker Framework will infer nullness.</span>
 <span class="source-line-no">712</span><span id="line-712">    AbstractFuture&lt;?&gt; future = param;</span>
 <span class="source-line-no">713</span><span id="line-713"></span>
-<span class="source-line-no">714</span><span id="line-714">    Listener next = null;</span>
+<span class="source-line-no">714</span><span id="line-714">    @RetainedLocalRef Listener next = null;</span>
 <span class="source-line-no">715</span><span id="line-715">    outer:</span>
 <span class="source-line-no">716</span><span id="line-716">    while (true) {</span>
 <span class="source-line-no">717</span><span id="line-717">      future.releaseWaiters();</span>
