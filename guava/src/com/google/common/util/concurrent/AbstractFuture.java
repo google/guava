@@ -711,7 +711,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
     // Declare a "true" local variable so that the Checker Framework will infer nullness.
     AbstractFuture<?> future = param;
 
-    Listener next = null;
+    @RetainedLocalRef Listener next = null;
     outer:
     while (true) {
       future.releaseWaiters();
