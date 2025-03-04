@@ -813,6 +813,11 @@ public final class Iterables {
    *
    * <p><b>{@code Stream} equivalent:</b> {@code stream.findFirst().orElse(defaultValue)}
    *
+   * <p><b>Java 21+ users:</b> if {code iterable} is a {@code SequencedCollection} (e.g., any list),
+   * consider using {@code collection.getFirst()} instead. Note that if the collection is empty,
+   * {@code getFirst()} throws a {@code NoSuchElementException}, while this method returns the
+   * default value.
+   *
    * @param defaultValue the default value to return if the iterable is empty
    * @return the first element of {@code iterable} or the default value
    * @since 7.0
@@ -828,6 +833,9 @@ public final class Iterables {
    * RandomAccess} support, then this operation is guaranteed to be {@code O(1)}.
    *
    * <p><b>{@code Stream} equivalent:</b> {@link Streams#findLast Streams.findLast(stream).get()}
+   *
+   * <p><b>Java 21+ users:</b> if {code iterable} is a {@code SequencedCollection} (e.g., any list),
+   * consider using {@code collection.getLast()} instead.
    *
    * @return the last element of {@code iterable}
    * @throws NoSuchElementException if the iterable is empty
@@ -852,6 +860,11 @@ public final class Iterables {
    * guaranteed to be {@code O(1)}.
    *
    * <p><b>{@code Stream} equivalent:</b> {@code Streams.findLast(stream).orElse(defaultValue)}
+   *
+   * <p><b>Java 21+ users:</b> if {code iterable} is a {@code SequencedCollection} (e.g., any list),
+   * consider using {@code collection.getLast()} instead. Note that if the collection is empty,
+   * {@code getLast()} throws a {@code NoSuchElementException}, while this method returns the
+   * default value.
    *
    * @param defaultValue the value to return if {@code iterable} is empty
    * @return the last element of {@code iterable} or the default value
