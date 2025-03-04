@@ -1109,7 +1109,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <section class="detail" id="getFirst(java.lang.Iterable,T)">
 <h3 id="getFirst(java.lang.Iterable,java.lang.Object)">getFirst</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-830">getFirst</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-835">getFirst</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
  T&nbsp;defaultValue)</span></div>
 <div class="block">Returns the first element in <code>iterable</code> or <code>defaultValue</code> if the iterable is empty.
  The <a href="Iterators.html" title="class in com.google.common.collect"><code>Iterators</code></a> analog to this method is <a href="Iterators.html#getNext(java.util.Iterator,T)"><code>Iterators.getNext(java.util.Iterator&lt;? extends T&gt;, T)</code></a>.
@@ -1119,7 +1119,12 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 
  <p>To get the only element in a single-element <code>Iterable</code>, consider using <a href="#getOnlyElement(java.lang.Iterable)"><code>getOnlyElement(Iterable)</code></a> or <a href="#getOnlyElement(java.lang.Iterable,T)"><code>getOnlyElement(Iterable, Object)</code></a> instead.
 
- <p><b><code>Stream</code> equivalent:</b> <code>stream.findFirst().orElse(defaultValue)</code></div>
+ <p><b><code>Stream</code> equivalent:</b> <code>stream.findFirst().orElse(defaultValue)</code>
+
+ <p><b>Java 21+ users:</b> if {code iterable} is a <code>SequencedCollection</code> (e.g., any list),
+ consider using <code>collection.getFirst()</code> instead. Note that if the collection is empty,
+ <code>getFirst()</code> throws a <code>NoSuchElementException</code>, while this method returns the
+ default value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>defaultValue</code> - the default value to return if the iterable is empty</dd>
@@ -1135,10 +1140,13 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <section class="detail" id="getLast(java.lang.Iterable)">
 <h3>getLast</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-845">getLast</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-853">getLast</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable)</span></div>
 <div class="block">Returns the last element of <code>iterable</code>. If <code>iterable</code> is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/RandomAccess.html" title="class or interface in java.util" class="external-link"><code>RandomAccess</code></a> support, then this operation is guaranteed to be <code>O(1)</code>.
 
- <p><b><code>Stream</code> equivalent:</b> <a href="Streams.html#findLast(java.util.stream.Stream)"><code>Streams.findLast(stream).get()</code></a></div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="Streams.html#findLast(java.util.stream.Stream)"><code>Streams.findLast(stream).get()</code></a>
+
+ <p><b>Java 21+ users:</b> if {code iterable} is a <code>SequencedCollection</code> (e.g., any list),
+ consider using <code>collection.getLast()</code> instead.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the last element of <code>iterable</code></dd>
@@ -1152,13 +1160,18 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <section class="detail" id="getLast(java.lang.Iterable,T)">
 <h3 id="getLast(java.lang.Iterable,java.lang.Object)">getLast</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-870">getLast</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-883">getLast</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;iterable,
  T&nbsp;defaultValue)</span></div>
 <div class="block">Returns the last element of <code>iterable</code> or <code>defaultValue</code> if the iterable is empty.
  If <code>iterable</code> is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/RandomAccess.html" title="class or interface in java.util" class="external-link"><code>RandomAccess</code></a> support, then this operation is
  guaranteed to be <code>O(1)</code>.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Streams.findLast(stream).orElse(defaultValue)</code></div>
+ <p><b><code>Stream</code> equivalent:</b> <code>Streams.findLast(stream).orElse(defaultValue)</code>
+
+ <p><b>Java 21+ users:</b> if {code iterable} is a <code>SequencedCollection</code> (e.g., any list),
+ consider using <code>collection.getLast()</code> instead. Note that if the collection is empty,
+ <code>getLast()</code> throws a <code>NoSuchElementException</code>, while this method returns the
+ default value.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>defaultValue</code> - the value to return if <code>iterable</code> is empty</dd>
@@ -1175,7 +1188,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3>skip</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-909">skip</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-922">skip</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable,
  int&nbsp;numberToSkip)</span></div>
 <div class="block">Returns a view of <code>iterable</code> that skips its first <code>numberToSkip</code> elements. If
  <code>iterable</code> contains fewer than <code>numberToSkip</code> elements, the returned iterable skips
@@ -1203,7 +1216,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3>limit</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-970">limit</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable,
+<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-983">limit</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable,
  int&nbsp;limitSize)</span></div>
 <div class="block">Returns a view of <code>iterable</code> containing its first <code>limitSize</code> elements. If <code>
  iterable</code> contains fewer than <code>limitSize</code> elements, the returned view contains all of its
@@ -1228,7 +1241,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3>consumingIterable</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-1001">consumingIterable</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable)</span></div>
+<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-1014">consumingIterable</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;iterable)</span></div>
 <div class="block">Returns a view of the supplied iterable that wraps each generated <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link"><code>Iterator</code></a> through
  <a href="Iterators.html#consumingIterator(java.util.Iterator)"><code>Iterators.consumingIterator(Iterator)</code></a>.
 
@@ -1260,7 +1273,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <section class="detail" id="isEmpty(java.lang.Iterable)">
 <h3>isEmpty</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-1032">isEmpty</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;?&gt;&nbsp;iterable)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-1045">isEmpty</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;?&gt;&nbsp;iterable)</span></div>
 <div class="block">Determines if the given iterable contains no elements.
 
  <p>There is no precise <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link"><code>Iterator</code></a> equivalent to this method, since one can only ask an
@@ -1279,7 +1292,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3>mergeSorted</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-1051">mergeSorted</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;iterables,
+<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Iterables.html#line-1064">mergeSorted</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;iterables,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super T&gt;&nbsp;comparator)</span></div>
 <div class="block">Returns an iterable over the merged contents of all given <code>iterables</code>. Equivalent entries
  will not be de-duplicated.
