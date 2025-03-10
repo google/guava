@@ -967,6 +967,23 @@ public final class Sets {
       }
 
       @Override
+      public boolean equals(Object o) {
+        if (o == this)
+          return true;
+
+        if (!(o instanceof Set))
+          return false;
+        Collection<?> c = (Collection<?>) o;
+        try {
+          return containsAll(c) && c.containsAll(this);
+        } catch (ClassCastException unused)   {
+          return false;
+        } catch (NullPointerException unused) {
+          return false;
+        }
+      }
+
+      @Override
       public int size() {
         int size = 0;
         for (E e : set1) {
