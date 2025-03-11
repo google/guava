@@ -73,3 +73,7 @@ MISSING @SINCE TAG: com.google.common.base.Verify Method verify(boolean, java.la
 OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, char, Object)
 OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, int, Object)
 OK: com.google.common.base.Verify Method verify(boolean, java.lang.String, long, Object)
+MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field ACCEPT_SIGNATURE
+MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field IDENTITY_DIGEST
+MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field SIGNATURE
+MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field SIGNATURE_INPUT
