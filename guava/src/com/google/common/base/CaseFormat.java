@@ -50,6 +50,30 @@ public enum CaseFormat {
       if (format == UPPER_UNDERSCORE) {
         return Ascii.toUpperCase(s.replace('-', '_'));
       }
+      if (format == UPPER_HYPHEN) {
+        return Ascii.toUpperCase(s);
+      }
+      return super.convert(format, s);
+    }
+  },
+  /** Hyphenated variable naming convention, e.g., "UPPER_HYPHEN". */
+  UPPER_HYPHEN(CharMatcher.is('-'), "-") {
+    @Override
+    String normalizeWord(String word) {
+      return Ascii.toUpperCase(word);
+    }
+
+    @Override
+    String convert(CaseFormat format, String s) {
+      if (format == UPPER_UNDERSCORE) {
+        return s.replace('-', '_');
+      }
+      if (format == LOWER_UNDERSCORE) {
+        return Ascii.toUpperCase(s.replace('_', '-'));
+      }
+      if (format == LOWER_HYPHEN) {
+        return Ascii.toLowerCase(s);
+      }
       return super.convert(format, s);
     }
   },
@@ -69,7 +93,11 @@ public enum CaseFormat {
       if (format == UPPER_UNDERSCORE) {
         return Ascii.toUpperCase(s);
       }
+      if (format == UPPER_HYPHEN) {
+        return Ascii.toUpperCase(s.replace("_", "-"));
+      }
       return super.convert(format, s);
+
     }
   },
 
@@ -108,6 +136,9 @@ public enum CaseFormat {
       }
       if (format == LOWER_UNDERSCORE) {
         return Ascii.toLowerCase(s);
+      }
+      if (format == UPPER_HYPHEN) {
+        return s.replace("_", "-");
       }
       return super.convert(format, s);
     }
