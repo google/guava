@@ -305,11 +305,6 @@ public abstract class Striped<L> {
       super(readWriteLock);
       this.strongReference = readWriteLock;
     }
-
-    @Override
-    public Condition newCondition() {
-      return new WeakSafeCondition(super.newCondition(), strongReference);
-    }
   }
 
   /** WriteLock object that ensures a strong reference is retained to a specified object. */
