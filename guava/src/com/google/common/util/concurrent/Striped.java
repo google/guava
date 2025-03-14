@@ -284,44 +284,42 @@ public abstract class Striped<L> {
    * Otherwise, a reference to just the read lock or just the write lock would not suffice to ensure
    * the {@code ReadWriteLock} is retained.
    */
-  private static final class WeakSafeReadWriteLock implements ReadWriteLock {
-    private final ReadWriteLock delegate;
-
-    WeakSafeReadWriteLock() {
-      this.delegate = new ReentrantReadWriteLock();
+  private static final class WeakSafeReadWriteLock extends ReentrantReadWriteLock {
+    @Override
+    public ReadLock readLock() {
+      return new WeakSafeReadLock(this);
     }
 
     @Override
-    public Lock readLock() {
-      return new WeakSafeLock(delegate.readLock(), this);
-    }
-
-    @Override
-    public Lock writeLock() {
-      return new WeakSafeLock(delegate.writeLock(), this);
+    public WriteLock writeLock() {
+      return new WeakSafeWriteLock(this);
     }
   }
 
-  /** Lock object that ensures a strong reference is retained to a specified object. */
-  private static final class WeakSafeLock extends ForwardingLock {
-    private final Lock delegate;
-
+  /** ReadLock object that ensures a strong reference is retained to a specified object. */
+  private static final class WeakSafeReadLock extends ReentrantReadWriteLock.ReadLock {
     @SuppressWarnings("unused")
     private final WeakSafeReadWriteLock strongReference;
 
-    WeakSafeLock(Lock delegate, WeakSafeReadWriteLock strongReference) {
-      this.delegate = delegate;
-      this.strongReference = strongReference;
+    WeakSafeReadLock(WeakSafeReadWriteLock readWriteLock) {
+      super(readWriteLock);
+      this.strongReference = readWriteLock;
     }
+  }
 
-    @Override
-    Lock delegate() {
-      return delegate;
+  /** WriteLock object that ensures a strong reference is retained to a specified object. */
+  private static final class WeakSafeWriteLock extends ReentrantReadWriteLock.WriteLock {
+    @SuppressWarnings("unused")
+    private final WeakSafeReadWriteLock strongReference;
+
+    WeakSafeWriteLock(WeakSafeReadWriteLock readWriteLock) {
+      super(readWriteLock);
+      this.strongReference = readWriteLock;
     }
 
     @Override
     public Condition newCondition() {
-      return new WeakSafeCondition(delegate.newCondition(), strongReference);
+      return new WeakSafeCondition(super.newCondition(), strongReference);
     }
   }
 
