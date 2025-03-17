@@ -113,21 +113,24 @@ loadScripts(document, 'script');</script>
  <p>Another example is an iterator that skips over null elements in a backing iterator. This could
  be implemented as:
 
- <pre><code>
- public static Iterator&lt;String&gt; skipNulls(final Iterator&lt;String&gt; in) {
-   return new AbstractIterator&lt;String&gt;() {
-     protected String computeNext() {
-       while (in.hasNext()) {
-         String s = in.next();
-         if (s != null) {
-           return s;
-         }
-       }
-       return endOfData();
-     }
-   };
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.AbstractIterator1"><code>public static Iterator&lt;String&gt; skipNulls(final Iterator&lt;String&gt; in) {
+  return new AbstractIterator&lt;String&gt;() {
+    protected String computeNext() {
+      while (in.hasNext()) {
+        String s = in.next();
+        if (s != null) {
+          return s;
+        }
+      }
+      return endOfData();
+    }
+  };
+}
+</code></pre>
+</div>
+
 
  <p>This class supports iterators that include null elements.</div>
 <dl class="notes">

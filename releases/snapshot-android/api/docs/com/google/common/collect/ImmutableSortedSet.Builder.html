@@ -105,13 +105,16 @@ loadScripts(document, 'script');</script>
 <div class="block">A builder for creating immutable sorted set instances, especially <code>public static final</code>
  sets ("constant sets"), with a given comparator. Example:
 
- <pre><code>
- public static final ImmutableSortedSet&lt;Number&gt; LUCKY_NUMBERS =
-     new ImmutableSortedSet.Builder&lt;Number&gt;(ODDS_FIRST_COMPARATOR)
-         .addAll(SINGLE_DIGIT_PRIMES)
-         .add(42)
-         .build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ImmutableSortedSet.Builder1"><code>public static final ImmutableSortedSet&lt;Number&gt; LUCKY_NUMBERS =
+    new ImmutableSortedSet.Builder&lt;Number&gt;(ODDS_FIRST_COMPARATOR)
+        .addAll(SINGLE_DIGIT_PRIMES)
+        .add(42)
+        .build();
+</code></pre>
+</div>
+
 
  <p>Builder instances can be reused; it is safe to call <a href="#build()"><code>build()</code></a> multiple times to build
  multiple sets in series. Each set is a superset of the set created before it.</div>

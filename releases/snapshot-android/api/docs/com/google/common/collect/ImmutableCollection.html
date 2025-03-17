@@ -206,19 +206,22 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 
  <h4 id="example-usage-heading">Example usage</h4>
 
- <pre><code>
- class Foo {
-   private static final ImmutableSet&lt;String&gt; RESERVED_CODES =
-       ImmutableSet.of("AZ", "CQ", "ZX");
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ImmutableCollection1"><code>class Foo {
+  private static final ImmutableSet&lt;String&gt; RESERVED_CODES =
+      ImmutableSet.of("AZ", "CQ", "ZX");
 
-   private final ImmutableSet&lt;String&gt; codes;
+  private final ImmutableSet&lt;String&gt; codes;
 
-   public Foo(Iterable&lt;String&gt; codes) {
-     this.codes = ImmutableSet.copyOf(codes);
-     checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));
-   }
- }
- </code></pre>
+  public Foo(Iterable&lt;String&gt; codes) {
+    this.codes = ImmutableSet.copyOf(codes);
+    checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));
+  }
+}
+</code></pre>
+</div>
+
 
  <h3 id="see-also-heading">See also</h3>
 

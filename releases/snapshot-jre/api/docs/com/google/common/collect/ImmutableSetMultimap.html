@@ -371,20 +371,23 @@ V&gt;</span>
 
  <p>Example:
 
- <pre><code>
- static final Multimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP =
-     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-         .collect(toImmutableSetMultimap(str -&gt; str.charAt(0), str -&gt; str.substring(1)));
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-toImmutableSetMultimap(java.util.function.Function,java.util.function.Function)1"><code>static final Multimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP =
+    Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+        .collect(toImmutableSetMultimap(str -&gt; str.charAt(0), str -&gt; str.substring(1)));
 
- // is equivalent to
+// is equivalent to
 
- static final Multimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP =
-     new ImmutableSetMultimap.Builder&lt;Character, String&gt;()
-         .put('b', "anana")
-         .putAll('a', "pple", "sparagus")
-         .putAll('c', "arrot", "herry")
-         .build();
- </code></pre></div>
+static final Multimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP =
+    new ImmutableSetMultimap.Builder&lt;Character, String&gt;()
+        .put('b', "anana")
+        .putAll('a', "pple", "sparagus")
+        .putAll('c', "arrot", "herry")
+        .build();
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>21.0</dd>
@@ -399,7 +402,7 @@ V&gt;</span>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>
 K,<wbr>
 V&gt;</span>
-<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a>&lt;T,<wbr>?,<wbr><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-140">flatteningToImmutableSetMultimap</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;? super T,<wbr>? extends K&gt;&nbsp;keyFunction,
+<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a>&lt;T,<wbr>?,<wbr><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-141">flatteningToImmutableSetMultimap</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;? super T,<wbr>? extends K&gt;&nbsp;keyFunction,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;? super T,<wbr>? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html" title="class or interface in java.util.stream" class="external-link">Stream</a>&lt;? extends V&gt;&gt;&nbsp;valuesFunction)</span></div>
 <div class="block">Returns a <code>Collector</code> accumulating entries into an <code>ImmutableSetMultimap</code>. Each
  input element is mapped to a key and a stream of values, each of which are put into the
@@ -408,35 +411,39 @@ V&gt;</span>
 
  <p>Example:
 
- <pre><code>
- static final ImmutableSetMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =
-     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-         .collect(
-             flatteningToImmutableSetMultimap(
-                  str -&gt; str.charAt(0),
-                  str -&gt; str.substring(1).chars().mapToObj(c -&gt; (char) c));
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-flatteningToImmutableSetMultimap(java.util.function.Function,java.util.function.Function)1"><code>static final ImmutableSetMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =
+    Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+        .collect(
+            flatteningToImmutableSetMultimap(
+                 str -&gt; str.charAt(0),
+                 str -&gt; str.substring(1).chars().mapToObj(c -&gt; (char) c));
 
- // is equivalent to
+// is equivalent to
 
- static final ImmutableSetMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =
-     ImmutableSetMultimap.&lt;Character, Character&gt;builder()
-         .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
-         .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
-         .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
-         .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
-         .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
-         .build();
+static final ImmutableSetMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =
+    ImmutableSetMultimap.&lt;Character, Character&gt;builder()
+        .putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'))
+        .putAll('a', Arrays.asList('p', 'p', 'l', 'e'))
+        .putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'))
+        .putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'))
+        .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
+        .build();
 
- // after deduplication, the resulting multimap is equivalent to
+// after deduplication, the resulting multimap is equivalent to
 
- static final ImmutableSetMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =
-     ImmutableSetMultimap.&lt;Character, Character&gt;builder()
-         .putAll('b', Arrays.asList('a', 'n'))
-         .putAll('a', Arrays.asList('p', 'l', 'e', 's', 'a', 'r', 'g', 'u'))
-         .putAll('c', Arrays.asList('a', 'r', 'o', 't', 'h', 'e', 'y'))
-         .build();
- </code>
- }</pre></div>
+static final ImmutableSetMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =
+    ImmutableSetMultimap.&lt;Character, Character&gt;builder()
+        .putAll('b', Arrays.asList('a', 'n'))
+        .putAll('a', Arrays.asList('p', 'l', 'e', 's', 'a', 'r', 'g', 'u'))
+        .putAll('c', Arrays.asList('a', 'r', 'o', 't', 'h', 'e', 'y'))
+        .build();
+</code></pre>
+</div>
+
+
+ }</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>21.0</dd>
@@ -449,7 +456,7 @@ V&gt;</span>
 <h3>of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-153">of</a></span>()</div>
+V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-154">of</a></span>()</div>
 <div class="block">Returns the empty multimap.
 
  <p><b>Performance note:</b> the instance returned is a singleton.</div>
@@ -461,7 +468,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <h3 id="of(java.lang.Object,java.lang.Object)">of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-159">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
+V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-160">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
  V&nbsp;v1)</span></div>
 <div class="block">Returns an immutable multimap containing a single entry.</div>
 </div>
@@ -472,7 +479,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <h3 id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-169">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
+V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-170">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
  V&nbsp;v1,
  K&nbsp;k2,
  V&nbsp;v2)</span></div>
@@ -486,7 +493,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <h3 id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-180">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
+V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-181">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
  V&nbsp;v1,
  K&nbsp;k2,
  V&nbsp;v2,
@@ -502,7 +509,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <h3 id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-192">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
+V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-193">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
  V&nbsp;v1,
  K&nbsp;k2,
  V&nbsp;v2,
@@ -520,7 +527,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <h3 id="of(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object)">of</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-206">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
+V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-207">of</a></span><wbr><span class="parameters">(K&nbsp;k1,
  V&nbsp;v1,
  K&nbsp;k2,
  V&nbsp;v2,
@@ -541,7 +548,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
 V&gt;</span>
-<span class="return-type"><a href="ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-220">builder</a></span>()</div>
+<span class="return-type"><a href="ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-221">builder</a></span>()</div>
 <div class="block">Returns a new <a href="ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect"><code>ImmutableSetMultimap.Builder</code></a>.</div>
 </div>
 </section>
@@ -552,7 +559,7 @@ V&gt;</span>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
 V&gt;</span>
-<span class="return-type"><a href="ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-232">builderWithExpectedKeys</a></span><wbr><span class="parameters">(int&nbsp;expectedKeys)</span></div>
+<span class="return-type"><a href="ImmutableSetMultimap.Builder.html" title="class in com.google.common.collect">ImmutableSetMultimap.Builder</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-233">builderWithExpectedKeys</a></span><wbr><span class="parameters">(int&nbsp;expectedKeys)</span></div>
 <div class="block">Returns a new builder with a hint for how many distinct keys are expected to be added. The
  generated builder is equivalent to that returned by <a href="#builder()"><code>builder()</code></a>, but may perform better if
  <code>expectedKeys</code> is a good estimate.</div>
@@ -570,7 +577,7 @@ V&gt;</span>
 <h3>copyOf</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-418">copyOf</a></span><wbr><span class="parameters">(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,<wbr>? extends V&gt;&nbsp;multimap)</span></div>
+V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-419">copyOf</a></span><wbr><span class="parameters">(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends K,<wbr>? extends V&gt;&nbsp;multimap)</span></div>
 <div class="block">Returns an immutable set multimap containing the same mappings as <code>multimap</code>. The
  generated multimap's key and value orderings correspond to the iteration ordering of the <code>
  multimap.asMap()</code> view. Repeated occurrences of an entry in the multimap after the first are
@@ -591,7 +598,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <h3>copyOf</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-451">copyOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;? extends K,<wbr>? extends V&gt;&gt;&nbsp;entries)</span></div>
+V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-452">copyOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;? extends K,<wbr>? extends V&gt;&gt;&nbsp;entries)</span></div>
 <div class="block">Returns an immutable multimap containing the specified entries. The returned multimap iterates
  over keys in the order they were first encountered in the input, and the values for each key
  are iterated in the order they were encountered. If two values for the same key are <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equal</a>, the first value encountered is used.</div>
@@ -608,7 +615,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <section class="detail" id="get(K)">
 <h3 id="get(java.lang.Object)">get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-527">get</a></span><wbr><span class="parameters">(<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-528">get</a></span><wbr><span class="parameters">(<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&nbsp;key)</span></div>
 <div class="block">Returns an immutable set of the values for the given key. If no mappings in the multimap have
  the provided key, an empty immutable set is returned. The values are in the same order as the
  parameters used to build this multimap.</div>
@@ -627,7 +634,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <section class="detail" id="inverse()">
 <h3>inverse</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>,<wbr><a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-543">inverse</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>,<wbr><a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-544">inverse</a></span>()</div>
 <div class="block">Returns an immutable multimap which is the inverse of this one. For every key-value mapping in
  the original, the result will have a mapping with key and value reversed.
 
@@ -647,7 +654,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-565">removeAll</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-566">removeAll</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Unsupported operation.</div>
 </div>
@@ -674,7 +681,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-579">replaceValues</a></span><wbr><span class="parameters">(<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&nbsp;key,
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-580">replaceValues</a></span><wbr><span class="parameters">(<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>&nbsp;key,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&nbsp;values)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Unsupported operation.</div>
@@ -701,7 +708,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableSetMultimap.html" 
 <section class="detail" id="entries()">
 <h3>entries</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>,<wbr><a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-593">entries</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">K</a>,<wbr><a href="ImmutableSetMultimap.html" title="type parameter in ImmutableSetMultimap">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableSetMultimap.html#line-594">entries</a></span>()</div>
 <div class="block">Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses
  the values for the first key, the values for the second key, and so on.</div>
 <dl class="notes">

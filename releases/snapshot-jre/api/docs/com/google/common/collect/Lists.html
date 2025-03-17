@@ -528,11 +528,14 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the lists. For example:
 
- <pre><code>
- Lists.cartesianProduct(ImmutableList.of(
-     ImmutableList.of(1, 2),
-     ImmutableList.of("A", "B", "C")))
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-cartesianProduct(java.util.List)1"><code>Lists.cartesianProduct(ImmutableList.of(
+    ImmutableList.of(1, 2),
+    ImmutableList.of("A", "B", "C")))
+</code></pre>
+</div>
+
 
  <p>returns a list containing six lists in the following order:
 
@@ -548,15 +551,18 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
  products that you would get from nesting for loops:
 
- <pre><code>
- for (B b0 : lists.get(0)) {
-   for (B b1 : lists.get(1)) {
-     ...
-     ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
-     // operate on tuple
-   }
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-cartesianProduct(java.util.List)2"><code>for (B b0 : lists.get(0)) {
+  for (B b1 : lists.get(1)) {
+    ...
+    ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
+    // operate on tuple
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Note that if any input list is empty, the Cartesian product will also be empty. If no lists
  at all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -595,11 +601,14 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the lists. For example:
 
- <pre><code>
- Lists.cartesianProduct(ImmutableList.of(
-     ImmutableList.of(1, 2),
-     ImmutableList.of("A", "B", "C")))
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-cartesianProduct(java.util.List...)1"><code>Lists.cartesianProduct(ImmutableList.of(
+    ImmutableList.of(1, 2),
+    ImmutableList.of("A", "B", "C")))
+</code></pre>
+</div>
+
 
  <p>returns a list containing six lists in the following order:
 
@@ -615,15 +624,18 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
  products that you would get from nesting for loops:
 
- <pre><code>
- for (B b0 : lists.get(0)) {
-   for (B b1 : lists.get(1)) {
-     ...
-     ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
-     // operate on tuple
-   }
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-cartesianProduct(java.util.List...)2"><code>for (B b0 : lists.get(0)) {
+  for (B b1 : lists.get(1)) {
+    ...
+    ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
+    // operate on tuple
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Note that if any input list is empty, the Cartesian product will also be empty. If no lists
  at all are provided (an empty list), the resulting Cartesian product has one element, an empty

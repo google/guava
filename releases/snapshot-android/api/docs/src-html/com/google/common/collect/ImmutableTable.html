@@ -180,14 +180,14 @@
 <span class="source-line-no">167</span><span id="line-167">   * A builder for creating immutable table instances, especially {@code public static final} tables</span>
 <span class="source-line-no">168</span><span id="line-168">   * ("constant tables"). Example:</span>
 <span class="source-line-no">169</span><span id="line-169">   *</span>
-<span class="source-line-no">170</span><span id="line-170">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">170</span><span id="line-170">   * {@snippet :</span>
 <span class="source-line-no">171</span><span id="line-171">   * static final ImmutableTable&lt;Integer, Character, String&gt; SPREADSHEET =</span>
 <span class="source-line-no">172</span><span id="line-172">   *     new ImmutableTable.Builder&lt;Integer, Character, String&gt;()</span>
 <span class="source-line-no">173</span><span id="line-173">   *         .put(1, 'A', "foo")</span>
 <span class="source-line-no">174</span><span id="line-174">   *         .put(1, 'B', "bar")</span>
 <span class="source-line-no">175</span><span id="line-175">   *         .put(2, 'A', "baz")</span>
 <span class="source-line-no">176</span><span id="line-176">   *         .buildOrThrow();</span>
-<span class="source-line-no">177</span><span id="line-177">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">177</span><span id="line-177">   * }</span>
 <span class="source-line-no">178</span><span id="line-178">   *</span>
 <span class="source-line-no">179</span><span id="line-179">   * &lt;p&gt;By default, the order in which cells are added to the builder determines the iteration</span>
 <span class="source-line-no">180</span><span id="line-180">   * ordering of all views in the returned table, with {@link #putAll} following the {@link</span>

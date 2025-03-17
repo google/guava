@@ -170,31 +170,40 @@ loadScripts(document, 'script');</script>
  of a specified type, which helps the method in which the exception was thrown communicate that
  its caller has made a mistake. This allows constructs such as
 
- <pre><code>
- public static double sqrt(double value) {
-   if (value &lt; 0) {
-     throw new IllegalArgumentException("input is negative: " + value);
-   }
-   // calculate square root
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Preconditions1"><code>public static double sqrt(double value) {
+  if (value &lt; 0) {
+    throw new IllegalArgumentException("input is negative: " + value);
+  }
+  // calculate square root
+}
+</code></pre>
+</div>
+
 
  <p>to be replaced with the more compact
 
- <pre><code>
- public static double sqrt(double value) {
-   checkArgument(value &gt;= 0, "input is negative: %s", value);
-   // calculate square root
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Preconditions2"><code>public static double sqrt(double value) {
+  checkArgument(value &gt;= 0, "input is negative: %s", value);
+  // calculate square root
+}
+</code></pre>
+</div>
+
 
  <p>so that a hypothetical bad caller of this method, such as:
 
- <pre><code>
- void exampleBadCaller() {
-   double d = sqrt(-1.0);
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Preconditions3"><code>void exampleBadCaller() {
+  double d = sqrt(-1.0);
+}
+</code></pre>
+</div>
+
 
  <p>would be flagged as having called <code>sqrt()</code> with an illegal argument.
 

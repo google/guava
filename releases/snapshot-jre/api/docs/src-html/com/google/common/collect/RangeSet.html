@@ -40,14 +40,14 @@
 <span class="source-line-no">027</span><span id="line-27"> * &lt;p&gt;Implementations that choose to support the {@link #add(Range)} operation are required to</span>
 <span class="source-line-no">028</span><span id="line-28"> * ignore empty ranges and coalesce connected ranges. For example:</span>
 <span class="source-line-no">029</span><span id="line-29"> *</span>
-<span class="source-line-no">030</span><span id="line-30"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">030</span><span id="line-30"> * {@snippet :</span>
 <span class="source-line-no">031</span><span id="line-31"> * RangeSet&lt;Integer&gt; rangeSet = TreeRangeSet.create();</span>
 <span class="source-line-no">032</span><span id="line-32"> * rangeSet.add(Range.closed(1, 10)); // {[1, 10]}</span>
 <span class="source-line-no">033</span><span id="line-33"> * rangeSet.add(Range.closedOpen(11, 15)); // disconnected range; {[1, 10], [11, 15)}</span>
 <span class="source-line-no">034</span><span id="line-34"> * rangeSet.add(Range.closedOpen(15, 20)); // connected range; {[1, 10], [11, 20)}</span>
 <span class="source-line-no">035</span><span id="line-35"> * rangeSet.add(Range.openClosed(0, 0)); // empty range; {[1, 10], [11, 20)}</span>
 <span class="source-line-no">036</span><span id="line-36"> * rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 20)}</span>
-<span class="source-line-no">037</span><span id="line-37"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">037</span><span id="line-37"> * }</span>
 <span class="source-line-no">038</span><span id="line-38"> *</span>
 <span class="source-line-no">039</span><span id="line-39"> * &lt;p&gt;Note that the behavior of {@link Range#isEmpty()} and {@link Range#isConnected(Range)} may not</span>
 <span class="source-line-no">040</span><span id="line-40"> * be as expected on discrete ranges. See the Javadoc of those methods for details.</span>

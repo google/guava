@@ -116,23 +116,26 @@ loadScripts(document, 'script');</script>
 
  <p>Examples of use:
 
- <pre><code>
- // Building a mutable graph
- MutableGraph&lt;String&gt; graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
- graph.putEdge("bread", "bread");
- graph.putEdge("chocolate", "peanut butter");
- graph.putEdge("peanut butter", "jelly");
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.GraphBuilder1"><code>// Building a mutable graph
+MutableGraph&lt;String&gt; graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
+graph.putEdge("bread", "bread");
+graph.putEdge("chocolate", "peanut butter");
+graph.putEdge("peanut butter", "jelly");
 
- // Building an immutable graph
- ImmutableGraph&lt;String&gt; immutableGraph =
-     GraphBuilder.undirected()
-         .allowsSelfLoops(true)
-         .&lt;String&gt;immutable()
-         .putEdge("bread", "bread")
-         .putEdge("chocolate", "peanut butter")
-         .putEdge("peanut butter", "jelly")
-         .build();
- </code></pre></div>
+// Building an immutable graph
+ImmutableGraph&lt;String&gt; immutableGraph =
+    GraphBuilder.undirected()
+        .allowsSelfLoops(true)
+        .&lt;String&gt;immutable()
+        .putEdge("bread", "bread")
+        .putEdge("chocolate", "peanut butter")
+        .putEdge("peanut butter", "jelly")
+        .build();
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>

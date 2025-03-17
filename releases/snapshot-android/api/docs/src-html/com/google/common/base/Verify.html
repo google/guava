@@ -39,13 +39,13 @@
 <span class="source-line-no">026</span><span id="line-26"> * except that they are always enabled. These methods should be used instead of Java assertions</span>
 <span class="source-line-no">027</span><span id="line-27"> * whenever there is a chance the check may fail "in real life". Example:</span>
 <span class="source-line-no">028</span><span id="line-28"> *</span>
-<span class="source-line-no">029</span><span id="line-29"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">029</span><span id="line-29"> * {@snippet :</span>
 <span class="source-line-no">030</span><span id="line-30"> * Bill bill = remoteService.getLastUnpaidBill();</span>
 <span class="source-line-no">031</span><span id="line-31"> *</span>
 <span class="source-line-no">032</span><span id="line-32"> * // In case bug 12345 happens again we'd rather just die</span>
 <span class="source-line-no">033</span><span id="line-33"> * Verify.verify(bill.status() == Status.UNPAID,</span>
 <span class="source-line-no">034</span><span id="line-34"> *     "Unexpected bill status: %s", bill.status());</span>
-<span class="source-line-no">035</span><span id="line-35"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">035</span><span id="line-35"> * }</span>
 <span class="source-line-no">036</span><span id="line-36"> *</span>
 <span class="source-line-no">037</span><span id="line-37"> * &lt;h3&gt;Comparison to alternatives&lt;/h3&gt;</span>
 <span class="source-line-no">038</span><span id="line-38"> *</span>
@@ -76,12 +76,12 @@
 <span class="source-line-no">063</span><span id="line-63"> * the message ends up unneeded. Performance-sensitive verification checks should continue to use</span>
 <span class="source-line-no">064</span><span id="line-64"> * usual form:</span>
 <span class="source-line-no">065</span><span id="line-65"> *</span>
-<span class="source-line-no">066</span><span id="line-66"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">066</span><span id="line-66"> * {@snippet :</span>
 <span class="source-line-no">067</span><span id="line-67"> * Bill bill = remoteService.getLastUnpaidBill();</span>
 <span class="source-line-no">068</span><span id="line-68"> * if (bill.status() != Status.UNPAID) {</span>
 <span class="source-line-no">069</span><span id="line-69"> *   throw new VerifyException("Unexpected bill status: " + bill.status());</span>
 <span class="source-line-no">070</span><span id="line-70"> * }</span>
-<span class="source-line-no">071</span><span id="line-71"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">071</span><span id="line-71"> * }</span>
 <span class="source-line-no">072</span><span id="line-72"> *</span>
 <span class="source-line-no">073</span><span id="line-73"> * &lt;h3&gt;Only {@code %s} is supported&lt;/h3&gt;</span>
 <span class="source-line-no">074</span><span id="line-74"> *</span>

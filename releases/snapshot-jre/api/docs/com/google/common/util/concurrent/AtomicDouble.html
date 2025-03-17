@@ -123,13 +123,16 @@ loadScripts(document, 'script');</script>
  <a href="#compareAndSet(double,double)"><code>compareAndSet(double, double)</code></a> by comparing their bitwise representation using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#doubleToRawLongBits(double)" title="class or interface in java.lang" class="external-link"><code>Double.doubleToRawLongBits(double)</code></a>, which differs from both the primitive double <code>==</code> operator and
  from <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Double.equals(java.lang.Object)</code></a>, as if implemented by:
 
- <pre><code>
- static boolean bitEquals(double x, double y) {
-   long xBits = Double.doubleToRawLongBits(x);
-   long yBits = Double.doubleToRawLongBits(y);
-   return xBits == yBits;
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.AtomicDouble1"><code>static boolean bitEquals(double x, double y) {
+  long xBits = Double.doubleToRawLongBits(x);
+  long yBits = Double.doubleToRawLongBits(y);
+  return xBits == yBits;
+}
+</code></pre>
+</div>
+
 
  <p>It is possible to write a more scalable updater, at the cost of giving up strict atomicity.
  See for example <a href="http://gee.cs.oswego.edu/dl/jsr166/dist/docs/java.base/java/util/concurrent/atomic/DoubleAdder.html">

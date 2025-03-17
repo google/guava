@@ -108,87 +108,93 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  its <code>close</code> method. You <em>could</em> use a finalizer to accomplish this, but that has a
  number of well-known problems. Here is how you might use this class instead:
 
- <pre><code>
- public class MyServer implements Closeable {
-   private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
-   // You might also share this between several objects.
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.FinalizableReferenceQueue1"><code>public class MyServer implements Closeable {
+  private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
+  // You might also share this between several objects.
 
-   private static final Set&lt;Reference&lt;?&gt;&gt; references = Sets.newConcurrentHashSet();
-   // This ensures that the FinalizablePhantomReference itself is not garbage-collected.
+  private static final Set&lt;Reference&lt;?&gt;&gt; references = Sets.newConcurrentHashSet();
+  // This ensures that the FinalizablePhantomReference itself is not garbage-collected.
 
-   private final ServerSocket serverSocket;
+  private final ServerSocket serverSocket;
 
-   private MyServer(...) {
-     ...
-     this.serverSocket = new ServerSocket(...);
-     ...
-   }
+  private MyServer(...) {
+    ...
+    this.serverSocket = new ServerSocket(...);
+    ...
+  }
 
-   public static MyServer create(...) {
-     MyServer myServer = new MyServer(...);
-     ServerSocket serverSocket = myServer.serverSocket;
-     Reference&lt;?&gt; reference = new FinalizablePhantomReference&lt;MyServer&gt;(myServer, frq) {
-       @Override
-       public void finalizeReferent() {
-         references.remove(this):
-         if (!serverSocket.isClosed()) {
-           ...log a message about how nobody called close()...
-           try {
-             serverSocket.close();
-           } catch (IOException e) {
-             ...
-           }
-         }
-       }
-     };
-     references.add(reference);
-     return myServer;
-   }
+  public static MyServer create(...) {
+    MyServer myServer = new MyServer(...);
+    ServerSocket serverSocket = myServer.serverSocket;
+    Reference&lt;?&gt; reference = new FinalizablePhantomReference&lt;MyServer&gt;(myServer, frq) {
+      @Override
+      public void finalizeReferent() {
+        references.remove(this):
+        if (!serverSocket.isClosed()) {
+          ...log a message about how nobody called close()...
+          try {
+            serverSocket.close();
+          } catch (IOException e) {
+            ...
+          }
+        }
+      }
+    };
+    references.add(reference);
+    return myServer;
+  }
 
-   @Override
-   public void close() throws IOException {
-     serverSocket.close();
-   }
- }
- </code></pre>
+  @Override
+  public void close() throws IOException {
+    serverSocket.close();
+  }
+}
+</code></pre>
+</div>
+
 
  <p id="cleaner">Here is how you might achieve the same thing using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ref/Cleaner.html" title="class or interface in java.lang.ref" class="external-link"><code>Cleaner</code></a>, if you are using a Java version where that is available:
 
- <pre><code>
- public class MyServer implements Closeable {
-   private static final Cleaner cleaner = Cleaner.create();
-   // You might also share this between several objects.
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.FinalizableReferenceQueue2"><code>public class MyServer implements Closeable {
+  private static final Cleaner cleaner = Cleaner.create();
+  // You might also share this between several objects.
 
-   private final ServerSocket serverSocket;
-   private final Cleaner.Cleanable cleanable;
+  private final ServerSocket serverSocket;
+  private final Cleaner.Cleanable cleanable;
 
-   public MyServer(...) {
-     ...
-     this.serverSocket = new ServerSocket(...);
-     this.cleanable = cleaner.register(this, closeServerSocketRunnable(serverSocket));
-     ...
-   }
+  public MyServer(...) {
+    ...
+    this.serverSocket = new ServerSocket(...);
+    this.cleanable = cleaner.register(this, closeServerSocketRunnable(serverSocket));
+    ...
+  }
 
-   private static Runnable closeServerSocketRunnable(ServerSocket serverSocket) {
-     return () -&gt; {
-       if (!serverSocket.isClosed()) {
-         ...log a message about how nobody called close()...
-         try {
-           serverSocket.close();
-         } catch (IOException e) {
-           ...
-         }
-       }
-     };
-   }
+  private static Runnable closeServerSocketRunnable(ServerSocket serverSocket) {
+    return () -&gt; {
+      if (!serverSocket.isClosed()) {
+        ...log a message about how nobody called close()...
+        try {
+          serverSocket.close();
+        } catch (IOException e) {
+          ...
+        }
+      }
+    };
+  }
 
-   @Override
-   public void close() throws IOException {
-     serverSocket.close();
-     cleanable.clean();
-   }
- }
- </code></pre>
+  @Override
+  public void close() throws IOException {
+    serverSocket.close();
+    cleanable.clean();
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Some care is needed when using <code>Cleaner</code> to ensure that the callback passed to <code>
  register</code> does not have a reference to the object (in this case, <code>MyServer</code>) that may be

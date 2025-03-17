@@ -182,26 +182,32 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  transforms it by invoking <code>toString()</code> on each element, and returns the first 10 elements
  as a <code>List</code>:
 
- <pre><code>
- ImmutableList&lt;String&gt; results =
-     FluentIterable.from(database.getClientList())
-         .filter(Client::isActiveInLastMonth)
-         .transform(Object::toString)
-         .limit(10)
-         .toList();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.FluentIterable1"><code>ImmutableList&lt;String&gt; results =
+    FluentIterable.from(database.getClientList())
+        .filter(Client::isActiveInLastMonth)
+        .transform(Object::toString)
+        .limit(10)
+        .toList();
+</code></pre>
+</div>
+
 
  The approximate stream equivalent is:
 
- <pre><code>
- List&lt;String&gt; results =
-     database.getClientList()
-         .stream()
-         .filter(Client::isActiveInLastMonth)
-         .map(Object::toString)
-         .limit(10)
-         .collect(Collectors.toList());
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.FluentIterable2"><code>List&lt;String&gt; results =
+    database.getClientList()
+        .stream()
+        .filter(Client::isActiveInLastMonth)
+        .map(Object::toString)
+        .limit(10)
+        .collect(Collectors.toList());
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>12.0</dd>
@@ -831,11 +837,14 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  This does perform a little more work than necessary, so another option is to insert an
  unchecked cast at some later point:
 
- <pre>
- <code>@SuppressWarnings("unchecked") // safe because of ::isInstance check
- ImmutableList&lt;NewType&gt; result =
-     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());</code>
- </pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-filter(java.lang.Class)1"><code>@SuppressWarnings("unchecked") // safe because of ::isInstance check
+ImmutableList&lt;NewType&gt; result =
+    (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());
+</code></pre>
+</div>
+</div>
 </div>
 </section>
 </li>
@@ -1172,14 +1181,17 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  map whose key is the result of applying <code>keyFunction</code> to that value. These entries appear
  in the same order as they appeared in this fluent iterable. Example usage:
 
- <pre><code>
- Color red = new Color("red", 255, 0, 0);
- ...
- FluentIterable&lt;Color&gt; allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-uniqueIndex(com.google.common.base.Function)1"><code>Color red = new Color("red", 255, 0, 0);
+...
+FluentIterable&lt;Color&gt; allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));
 
- Map&lt;String, Color&gt; colorForName = allColors.uniqueIndex(toStringFunction());
- assertThat(colorForName).containsEntry("red", red);
- </code></pre>
+Map&lt;String, Color&gt; colorForName = allColors.uniqueIndex(toStringFunction());
+assertThat(colorForName).containsEntry("red", red);
+</code></pre>
+</div>
+
 
  <p>If your index may associate multiple values with each key, use <a href="#index(com.google.common.base.Function)"><code>index</code></a>.
 

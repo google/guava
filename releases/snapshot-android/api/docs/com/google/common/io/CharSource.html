@@ -387,13 +387,16 @@ loadScripts(document, 'script');</script>
 
  <p>The caller is responsible for ensuring that the returned stream is closed. For example:
 
- <pre><code>
- try (Stream&lt;String&gt; lines = source.lines()) {
-   lines.map(...)
-      .filter(...)
-      .forEach(...);
- }
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-lines()1"><code>try (Stream&lt;String&gt; lines = source.lines()) {
+  lines.map(...)
+     .filter(...)
+     .forEach(...);
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - if an I/O error occurs while opening the stream</dd>

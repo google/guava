@@ -158,14 +158,14 @@
 <span class="source-line-no">145</span><span id="line-145">   * A builder for creating immutable multimap instances, especially {@code public static final}</span>
 <span class="source-line-no">146</span><span id="line-146">   * multimaps ("constant multimaps"). Example:</span>
 <span class="source-line-no">147</span><span id="line-147">   *</span>
-<span class="source-line-no">148</span><span id="line-148">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">148</span><span id="line-148">   * {@snippet :</span>
 <span class="source-line-no">149</span><span id="line-149">   * static final Multimap&lt;String, Integer&gt; STRING_TO_INTEGER_MULTIMAP =</span>
 <span class="source-line-no">150</span><span id="line-150">   *     new ImmutableMultimap.Builder&lt;String, Integer&gt;()</span>
 <span class="source-line-no">151</span><span id="line-151">   *         .put("one", 1)</span>
 <span class="source-line-no">152</span><span id="line-152">   *         .putAll("several", 1, 2, 3)</span>
 <span class="source-line-no">153</span><span id="line-153">   *         .putAll("many", 1, 2, 3, 4, 5)</span>
 <span class="source-line-no">154</span><span id="line-154">   *         .build();</span>
-<span class="source-line-no">155</span><span id="line-155">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">155</span><span id="line-155">   * }</span>
 <span class="source-line-no">156</span><span id="line-156">   *</span>
 <span class="source-line-no">157</span><span id="line-157">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</span>
 <span class="source-line-no">158</span><span id="line-158">   * multiple multimaps in series. Each multimap contains the key-value mappings in the previously</span>

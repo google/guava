@@ -53,12 +53,12 @@
 <span class="source-line-no">040</span><span id="line-40"> * An immutable builder for {@link Multimap} instances, letting you independently select the desired</span>
 <span class="source-line-no">041</span><span id="line-41"> * behaviors (for example, ordering) of the backing map and value-collections. Example:</span>
 <span class="source-line-no">042</span><span id="line-42"> *</span>
-<span class="source-line-no">043</span><span id="line-43"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">043</span><span id="line-43"> * {@snippet :</span>
 <span class="source-line-no">044</span><span id="line-44"> * ListMultimap&lt;UserId, ErrorResponse&gt; errorsByUser =</span>
 <span class="source-line-no">045</span><span id="line-45"> *     MultimapBuilder.linkedHashKeys().arrayListValues().build();</span>
 <span class="source-line-no">046</span><span id="line-46"> * SortedSetMultimap&lt;String, Method&gt; methodsForName =</span>
 <span class="source-line-no">047</span><span id="line-47"> *     MultimapBuilder.treeKeys().treeSetValues(this::compareMethods).build();</span>
-<span class="source-line-no">048</span><span id="line-48"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">048</span><span id="line-48"> * }</span>
 <span class="source-line-no">049</span><span id="line-49"> *</span>
 <span class="source-line-no">050</span><span id="line-50"> * &lt;p&gt;{@code MultimapBuilder} instances are immutable. Invoking a configuration method has no effect</span>
 <span class="source-line-no">051</span><span id="line-51"> * on the receiving instance; you must store and use the new builder instance it returns instead.</span>

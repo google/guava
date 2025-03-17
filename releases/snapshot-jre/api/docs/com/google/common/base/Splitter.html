@@ -107,9 +107,12 @@ loadScripts(document, 'script');</script>
 
  <p>For example, this expression:
 
- <pre><code>
- Splitter.on(',').split("foo,bar,qux")
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Splitter1"><code>Splitter.on(',').split("foo,bar,qux")
+</code></pre>
+</div>
+
 
  ... produces an <code>Iterable</code> containing <code>"foo"</code>, <code>"bar"</code> and <code>"qux"</code>, in
  that order.
@@ -117,19 +120,25 @@ loadScripts(document, 'script');</script>
  <p>By default, <code>Splitter</code>'s behavior is simplistic and unassuming. The following
  expression:
 
- <pre><code>
- Splitter.on(',').split(" foo,,,  bar ,")
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Splitter2"><code>Splitter.on(',').split(" foo,,,  bar ,")
+</code></pre>
+</div>
+
 
  ... yields the substrings <code>[" foo", "", "", " bar ", ""]</code>. If this is not the desired
  behavior, use configuration methods to obtain a <i>new</i> splitter instance with modified
  behavior:
 
- <pre><code>
- private static final Splitter MY_SPLITTER = Splitter.on(',')
-     .trimResults()
-     .omitEmptyStrings();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Splitter3"><code>private static final Splitter MY_SPLITTER = Splitter.on(',')
+    .trimResults()
+    .omitEmptyStrings();
+</code></pre>
+</div>
+
 
  <p>Now <code>MY_SPLITTER.split("foo,,, bar ,")</code> returns just <code>["foo", "bar"]</code>. Note that
  the order in which these configuration methods are called is never significant.
@@ -138,12 +147,15 @@ loadScripts(document, 'script');</script>
  effect on the receiving instance; you must store and use the new splitter instance it returns
  instead.
 
- <pre><code>
- // Do NOT do this
- Splitter splitter = Splitter.on('/');
- splitter.trimResults(); // does nothing!
- return splitter.split("wrong / wrong / wrong");
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Splitter4"><code>// Do NOT do this
+Splitter splitter = Splitter.on('/');
+splitter.trimResults(); // does nothing!
+return splitter.split("wrong / wrong / wrong");
+</code></pre>
+</div>
+
 
  <p>For separator-based splitters that do not use <code>omitEmptyStrings</code>, an input string
  containing <code>n</code> occurrences of the separator naturally yields an iterable of size <code>n +
@@ -606,13 +618,16 @@ loadScripts(document, 'script');</script>
 
  <p>Example:
 
- <pre><code>
- String toSplit = " x -&gt; y, z-&gt; a ";
- Splitter outerSplitter = Splitter.on(',').trimResults();
- MapSplitter mapSplitter = outerSplitter.withKeyValueSeparator(Splitter.on("-&gt;"));
- Map&lt;String, String&gt; result = mapSplitter.split(toSplit);
- assertThat(result).isEqualTo(ImmutableMap.of("x ", " y", "z", " a"));
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-withKeyValueSeparator(com.google.common.base.Splitter)1"><code>String toSplit = " x -&gt; y, z-&gt; a ";
+Splitter outerSplitter = Splitter.on(',').trimResults();
+MapSplitter mapSplitter = outerSplitter.withKeyValueSeparator(Splitter.on("-&gt;"));
+Map&lt;String, String&gt; result = mapSplitter.split(toSplit);
+assertThat(result).isEqualTo(ImmutableMap.of("x ", " y", "z", " a"));
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>

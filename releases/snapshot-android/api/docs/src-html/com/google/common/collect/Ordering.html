@@ -110,13 +110,13 @@
 <span class="source-line-no">097</span><span id="line-97"> *</span>
 <span class="source-line-no">098</span><span id="line-98"> * &lt;p&gt;Complex chained orderings like the following example can be challenging to understand.</span>
 <span class="source-line-no">099</span><span id="line-99"> *</span>
-<span class="source-line-no">100</span><span id="line-100"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">100</span><span id="line-100"> * {@snippet :</span>
 <span class="source-line-no">101</span><span id="line-101"> * Ordering&lt;Foo&gt; ordering =</span>
 <span class="source-line-no">102</span><span id="line-102"> *     Ordering.natural()</span>
 <span class="source-line-no">103</span><span id="line-103"> *         .nullsFirst()</span>
 <span class="source-line-no">104</span><span id="line-104"> *         .onResultOf(getBarFunction)</span>
 <span class="source-line-no">105</span><span id="line-105"> *         .nullsLast();</span>
-<span class="source-line-no">106</span><span id="line-106"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">106</span><span id="line-106"> * }</span>
 <span class="source-line-no">107</span><span id="line-107"> *</span>
 <span class="source-line-no">108</span><span id="line-108"> * Note that each chaining method returns a new ordering instance which is backed by the previous</span>
 <span class="source-line-no">109</span><span id="line-109"> * instance, but has the chance to act on values &lt;i&gt;before&lt;/i&gt; handing off to that backing instance.</span>
@@ -285,10 +285,10 @@
 <span class="source-line-no">272</span><span id="line-272">   *</span>
 <span class="source-line-no">273</span><span id="line-273">   * &lt;p&gt;Example:</span>
 <span class="source-line-no">274</span><span id="line-274">   *</span>
-<span class="source-line-no">275</span><span id="line-275">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">275</span><span id="line-275">   * {@snippet :</span>
 <span class="source-line-no">276</span><span id="line-276">   * Ordering.allEqual().nullsLast().sortedCopy(</span>
 <span class="source-line-no">277</span><span id="line-277">   *     asList(t, null, e, s, null, t, null))</span>
-<span class="source-line-no">278</span><span id="line-278">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">278</span><span id="line-278">   * }</span>
 <span class="source-line-no">279</span><span id="line-279">   *</span>
 <span class="source-line-no">280</span><span id="line-280">   * &lt;p&gt;Assuming {@code t}, {@code e} and {@code s} are non-null, this returns {@code [t, e, s, t,</span>
 <span class="source-line-no">281</span><span id="line-281">   * null, null, null]} regardless of the true comparison order of those three values (which might</span>
@@ -471,10 +471,10 @@
 <span class="source-line-no">458</span><span id="line-458">   * then comparing those results using {@code this}. For example, to compare objects by their</span>
 <span class="source-line-no">459</span><span id="line-459">   * string forms, in a case-insensitive manner, use:</span>
 <span class="source-line-no">460</span><span id="line-460">   *</span>
-<span class="source-line-no">461</span><span id="line-461">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">461</span><span id="line-461">   * {@snippet :</span>
 <span class="source-line-no">462</span><span id="line-462">   * Ordering.from(String.CASE_INSENSITIVE_ORDER)</span>
 <span class="source-line-no">463</span><span id="line-463">   *     .onResultOf(Functions.toStringFunction())</span>
-<span class="source-line-no">464</span><span id="line-464">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">464</span><span id="line-464">   * }</span>
 <span class="source-line-no">465</span><span id="line-465">   *</span>
 <span class="source-line-no">466</span><span id="line-466">   * &lt;p&gt;&lt;b&gt;Java 8+ users:&lt;/b&gt; Use {@code Comparator.comparing(function, thisComparator)} instead</span>
 <span class="source-line-no">467</span><span id="line-467">   * (you can omit the comparator if it is the natural order).</span>

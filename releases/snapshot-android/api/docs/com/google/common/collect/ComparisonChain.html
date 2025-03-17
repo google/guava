@@ -92,19 +92,22 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-57">ComparisonChain</a></span>
+</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-88">ComparisonChain</a></span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A utility for performing a chained comparison statement. For example:
 
- <pre><code>
- public int compareTo(Foo that) {
-   return ComparisonChain.start()
-       .compare(this.aString, that.aString)
-       .compare(this.anInt, that.anInt)
-       .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
-       .result();
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ComparisonChain1"><code>public int compareTo(Foo that) {
+  return ComparisonChain.start()
+      .compare(this.aString, that.aString)
+      .compare(this.anInt, that.anInt)
+      .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
+      .result();
+}
+</code></pre>
+</div>
+
 
  <p>The value of this expression will have the same sign as the <i>first nonzero</i> comparison
  result in the chain, or will be zero if every comparison result was zero.
@@ -119,7 +122,40 @@ loadScripts(document, 'script');</script>
  the presence of expensive <code>compareTo</code> and <code>compare</code> implementations.
 
  <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto"><code>
- ComparisonChain</code></a>.</div>
+ ComparisonChain</code></a>.
+
+ <h4 id="java8">Java 8+ equivalents</h4>
+
+ If you are using Java version 8 or greater, you should generally use the static methods in <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a> instead of <code>ComparisonChain</code>. The example above can be implemented like this:
+
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ComparisonChain2"><code>import static java.util.Comparator.comparing;
+import static java.util.Comparator.nullsLast;
+import static java.util.Comparator.naturalOrder;
+
+...
+  private static final Comparator&lt;Foo&gt; COMPARATOR =
+      comparing((Foo foo) -&gt; foo.aString)
+          .thenComparing(foo -&gt; foo.anInt)
+          .thenComparing(foo -&gt; foo.anEnum, nullsLast(naturalOrder()));
+
+  @Override
+  public int compareTo(Foo that) {
+    return COMPARATOR.compare(this, that);
+  }
+</code></pre>
+</div>
+
+
+ <p>With method references it is more succinct: <code>comparing(Foo::aString)</code> for example.
+
+ <p>Using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a> avoids certain types of bugs, for example when you meant to write
+ <code>.compare(a.foo, b.foo)</code> but you actually wrote <code>.compare(a.foo, a.foo)</code> or <code>
+ .compare(a.foo, b.bar)</code>. <code>ComparisonChain</code> also has a potential performance problem that
+ <code>Comparator</code> doesn't: it evaluates all the parameters of all the <code>.compare</code> calls,
+ even when the result of the comparison is already known from previous <code>.compare</code> calls.
+ That can be expensive.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>2.0</dd>
@@ -239,7 +275,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="start()">
 <h3>start</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-62">start</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-93">start</a></span>()</div>
 <div class="block">Begins a new chained comparison statement. See example in the class documentation.</div>
 </div>
 </section>
@@ -248,7 +284,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="compare(java.lang.Comparable,java.lang.Comparable)">
 <h3>compare</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-194">compare</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;left,
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-225">compare</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;left,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&nbsp;right)</span></div>
 <div class="block">Compares two comparable objects as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html#compareTo(T)" title="class or interface in java.lang" class="external-link"><code>Comparable.compareTo(T)</code></a>, <i>if</i> the
  result of this comparison chain has not already been determined.
@@ -272,7 +308,7 @@ loadScripts(document, 'script');</script>
 <h3 id="compare(java.lang.Object,java.lang.Object,java.util.Comparator)">compare</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-200">compare</a></span><wbr><span class="parameters">(T&nbsp;left,
+<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-231">compare</a></span><wbr><span class="parameters">(T&nbsp;left,
  T&nbsp;right,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;&nbsp;comparator)</span></div>
 <div class="block">Compares two objects using a comparator, <i>if</i> the result of this comparison chain has not
@@ -284,7 +320,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="compare(int,int)">
 <h3>compare</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-207">compare</a></span><wbr><span class="parameters">(int&nbsp;left,
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-238">compare</a></span><wbr><span class="parameters">(int&nbsp;left,
  int&nbsp;right)</span></div>
 <div class="block">Compares two <code>int</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html#compare(int,int)" title="class or interface in java.lang" class="external-link"><code>Integer.compare(int, int)</code></a>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
@@ -295,7 +331,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="compare(long,long)">
 <h3>compare</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-213">compare</a></span><wbr><span class="parameters">(long&nbsp;left,
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-244">compare</a></span><wbr><span class="parameters">(long&nbsp;left,
  long&nbsp;right)</span></div>
 <div class="block">Compares two <code>long</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html#compare(long,long)" title="class or interface in java.lang" class="external-link"><code>Long.compare(long, long)</code></a>, <i>if</i> the result of
  this comparison chain has not already been determined.</div>
@@ -306,7 +342,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="compare(float,float)">
 <h3>compare</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-219">compare</a></span><wbr><span class="parameters">(float&nbsp;left,
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-250">compare</a></span><wbr><span class="parameters">(float&nbsp;left,
  float&nbsp;right)</span></div>
 <div class="block">Compares two <code>float</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html#compare(float,float)" title="class or interface in java.lang" class="external-link"><code>Float.compare(float, float)</code></a>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
@@ -317,7 +353,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="compare(double,double)">
 <h3>compare</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-225">compare</a></span><wbr><span class="parameters">(double&nbsp;left,
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-256">compare</a></span><wbr><span class="parameters">(double&nbsp;left,
  double&nbsp;right)</span></div>
 <div class="block">Compares two <code>double</code> values as specified by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#compare(double,double)" title="class or interface in java.lang" class="external-link"><code>Double.compare(double, double)</code></a>, <i>if</i> the result
  of this comparison chain has not already been determined.</div>
@@ -330,7 +366,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="this.compareFalseFirst(left, right)")
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-234">compare</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;left,
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-265">compare</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;left,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Boolean.html" title="class or interface in java.lang" class="external-link">Boolean</a>&nbsp;right)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="#compareFalseFirst(boolean,boolean)"><code>compareFalseFirst(boolean, boolean)</code></a>; or, if the parameters passed are being either
@@ -348,7 +384,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="compareTrueFirst(boolean,boolean)">
 <h3>compareTrueFirst</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-246">compareTrueFirst</a></span><wbr><span class="parameters">(boolean&nbsp;left,
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-277">compareTrueFirst</a></span><wbr><span class="parameters">(boolean&nbsp;left,
  boolean&nbsp;right)</span></div>
 <div class="block">Compares two <code>boolean</code> values, considering <code>true</code> to be less than <code>false</code>,
  <i>if</i> the result of this comparison chain has not already been determined.</div>
@@ -363,7 +399,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="compareFalseFirst(boolean,boolean)">
 <h3>compareFalseFirst</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-254">compareFalseFirst</a></span><wbr><span class="parameters">(boolean&nbsp;left,
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="ComparisonChain.html" title="class in com.google.common.collect">ComparisonChain</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-285">compareFalseFirst</a></span><wbr><span class="parameters">(boolean&nbsp;left,
  boolean&nbsp;right)</span></div>
 <div class="block">Compares two <code>boolean</code> values, considering <code>false</code> to be less than <code>true</code>,
  <i>if</i> the result of this comparison chain has not already been determined.</div>
@@ -378,7 +414,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="result()">
 <h3>result</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-260">result</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ComparisonChain.html#line-291">result</a></span>()</div>
 <div class="block">Ends this comparison chain and returns its result: a value having the same sign as the first
  nonzero comparison result in the chain, or zero if every result was zero.</div>
 </div>

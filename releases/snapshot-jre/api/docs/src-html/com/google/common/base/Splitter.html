@@ -52,9 +52,9 @@
 <span class="source-line-no">039</span><span id="line-39"> *</span>
 <span class="source-line-no">040</span><span id="line-40"> * &lt;p&gt;For example, this expression:</span>
 <span class="source-line-no">041</span><span id="line-41"> *</span>
-<span class="source-line-no">042</span><span id="line-42"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">042</span><span id="line-42"> * {@snippet :</span>
 <span class="source-line-no">043</span><span id="line-43"> * Splitter.on(',').split("foo,bar,qux")</span>
-<span class="source-line-no">044</span><span id="line-44"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">044</span><span id="line-44"> * }</span>
 <span class="source-line-no">045</span><span id="line-45"> *</span>
 <span class="source-line-no">046</span><span id="line-46"> * ... produces an {@code Iterable} containing {@code "foo"}, {@code "bar"} and {@code "qux"}, in</span>
 <span class="source-line-no">047</span><span id="line-47"> * that order.</span>
@@ -62,19 +62,19 @@
 <span class="source-line-no">049</span><span id="line-49"> * &lt;p&gt;By default, {@code Splitter}'s behavior is simplistic and unassuming. The following</span>
 <span class="source-line-no">050</span><span id="line-50"> * expression:</span>
 <span class="source-line-no">051</span><span id="line-51"> *</span>
-<span class="source-line-no">052</span><span id="line-52"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">052</span><span id="line-52"> * {@snippet :</span>
 <span class="source-line-no">053</span><span id="line-53"> * Splitter.on(',').split(" foo,,,  bar ,")</span>
-<span class="source-line-no">054</span><span id="line-54"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">054</span><span id="line-54"> * }</span>
 <span class="source-line-no">055</span><span id="line-55"> *</span>
 <span class="source-line-no">056</span><span id="line-56"> * ... yields the substrings {@code [" foo", "", "", " bar ", ""]}. If this is not the desired</span>
 <span class="source-line-no">057</span><span id="line-57"> * behavior, use configuration methods to obtain a &lt;i&gt;new&lt;/i&gt; splitter instance with modified</span>
 <span class="source-line-no">058</span><span id="line-58"> * behavior:</span>
 <span class="source-line-no">059</span><span id="line-59"> *</span>
-<span class="source-line-no">060</span><span id="line-60"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">060</span><span id="line-60"> * {@snippet :</span>
 <span class="source-line-no">061</span><span id="line-61"> * private static final Splitter MY_SPLITTER = Splitter.on(',')</span>
 <span class="source-line-no">062</span><span id="line-62"> *     .trimResults()</span>
 <span class="source-line-no">063</span><span id="line-63"> *     .omitEmptyStrings();</span>
-<span class="source-line-no">064</span><span id="line-64"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">064</span><span id="line-64"> * }</span>
 <span class="source-line-no">065</span><span id="line-65"> *</span>
 <span class="source-line-no">066</span><span id="line-66"> * &lt;p&gt;Now {@code MY_SPLITTER.split("foo,,, bar ,")} returns just {@code ["foo", "bar"]}. Note that</span>
 <span class="source-line-no">067</span><span id="line-67"> * the order in which these configuration methods are called is never significant.</span>
@@ -83,12 +83,12 @@
 <span class="source-line-no">070</span><span id="line-70"> * effect on the receiving instance; you must store and use the new splitter instance it returns</span>
 <span class="source-line-no">071</span><span id="line-71"> * instead.</span>
 <span class="source-line-no">072</span><span id="line-72"> *</span>
-<span class="source-line-no">073</span><span id="line-73"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">073</span><span id="line-73"> * {@snippet :</span>
 <span class="source-line-no">074</span><span id="line-74"> * // Do NOT do this</span>
 <span class="source-line-no">075</span><span id="line-75"> * Splitter splitter = Splitter.on('/');</span>
 <span class="source-line-no">076</span><span id="line-76"> * splitter.trimResults(); // does nothing!</span>
 <span class="source-line-no">077</span><span id="line-77"> * return splitter.split("wrong / wrong / wrong");</span>
-<span class="source-line-no">078</span><span id="line-78"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">078</span><span id="line-78"> * }</span>
 <span class="source-line-no">079</span><span id="line-79"> *</span>
 <span class="source-line-no">080</span><span id="line-80"> * &lt;p&gt;For separator-based splitters that do not use {@code omitEmptyStrings}, an input string</span>
 <span class="source-line-no">081</span><span id="line-81"> * containing {@code n} occurrences of the separator naturally yields an iterable of size {@code n +</span>
@@ -465,13 +465,13 @@
 <span class="source-line-no">452</span><span id="line-452">   *</span>
 <span class="source-line-no">453</span><span id="line-453">   * &lt;p&gt;Example:</span>
 <span class="source-line-no">454</span><span id="line-454">   *</span>
-<span class="source-line-no">455</span><span id="line-455">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">455</span><span id="line-455">   * {@snippet :</span>
 <span class="source-line-no">456</span><span id="line-456">   * String toSplit = " x -&gt; y, z-&gt; a ";</span>
 <span class="source-line-no">457</span><span id="line-457">   * Splitter outerSplitter = Splitter.on(',').trimResults();</span>
 <span class="source-line-no">458</span><span id="line-458">   * MapSplitter mapSplitter = outerSplitter.withKeyValueSeparator(Splitter.on("-&gt;"));</span>
 <span class="source-line-no">459</span><span id="line-459">   * Map&lt;String, String&gt; result = mapSplitter.split(toSplit);</span>
 <span class="source-line-no">460</span><span id="line-460">   * assertThat(result).isEqualTo(ImmutableMap.of("x ", " y", "z", " a"));</span>
-<span class="source-line-no">461</span><span id="line-461">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">461</span><span id="line-461">   * }</span>
 <span class="source-line-no">462</span><span id="line-462">   *</span>
 <span class="source-line-no">463</span><span id="line-463">   * @since 10.0</span>
 <span class="source-line-no">464</span><span id="line-464">   */</span>

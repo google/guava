@@ -65,7 +65,7 @@
 <span class="source-line-no">052</span><span id="line-52"> * result. (If you want such access, you may prefer {@link Futures#addCallback</span>
 <span class="source-line-no">053</span><span id="line-53"> * Futures.addCallback}.) Still, direct {@code addListener} calls are occasionally useful:</span>
 <span class="source-line-no">054</span><span id="line-54"> *</span>
-<span class="source-line-no">055</span><span id="line-55"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">055</span><span id="line-55"> * {@snippet :</span>
 <span class="source-line-no">056</span><span id="line-56"> * final String name = ...;</span>
 <span class="source-line-no">057</span><span id="line-57"> * inFlight.add(name);</span>
 <span class="source-line-no">058</span><span id="line-58"> * ListenableFuture&lt;Result&gt; future = service.query(name);</span>
@@ -77,7 +77,7 @@
 <span class="source-line-no">064</span><span id="line-64"> *     logger.info("Done with {0}", name);</span>
 <span class="source-line-no">065</span><span id="line-65"> *   }</span>
 <span class="source-line-no">066</span><span id="line-66"> * }, executor);</span>
-<span class="source-line-no">067</span><span id="line-67"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">067</span><span id="line-67"> * }</span>
 <span class="source-line-no">068</span><span id="line-68"> *</span>
 <span class="source-line-no">069</span><span id="line-69"> * &lt;h3&gt;How to get an instance&lt;/h3&gt;</span>
 <span class="source-line-no">070</span><span id="line-70"> *</span>

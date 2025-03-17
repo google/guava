@@ -94,16 +94,19 @@ loadScripts(document, 'script');</script>
 <div class="block">A builder for creating <a href="ImmutableGraph.html" title="class in com.google.common.graph"><code>ImmutableGraph</code></a> instances, especially <code>static final</code>
  graphs. Example:
 
- <pre><code>
- static final ImmutableGraph&lt;Country&gt; COUNTRY_ADJACENCY_GRAPH =
-     GraphBuilder.undirected()
-         .&lt;Country&gt;immutable()
-         .putEdge(FRANCE, GERMANY)
-         .putEdge(FRANCE, BELGIUM)
-         .putEdge(GERMANY, BELGIUM)
-         .addNode(ICELAND)
-         .build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.ImmutableGraph.Builder1"><code>static final ImmutableGraph&lt;Country&gt; COUNTRY_ADJACENCY_GRAPH =
+    GraphBuilder.undirected()
+        .&lt;Country&gt;immutable()
+        .putEdge(FRANCE, GERMANY)
+        .putEdge(FRANCE, BELGIUM)
+        .putEdge(GERMANY, BELGIUM)
+        .addNode(ICELAND)
+        .build();
+</code></pre>
+</div>
+
 
  <p>Builder instances can be reused; it is safe to call <a href="#build()"><code>build()</code></a> multiple times to build
  multiple graphs in series. Each new graph contains all the elements of the ones created before

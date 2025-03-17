@@ -106,14 +106,17 @@ loadScripts(document, 'script');</script>
 <div class="block">A builder for creating immutable sorted map instances, especially <code>public static final</code>
  maps ("constant maps"). Example:
 
- <pre><code>
- static final ImmutableSortedMap&lt;Integer, String&gt; INT_TO_WORD =
-     new ImmutableSortedMap.Builder&lt;Integer, String&gt;(Ordering.natural())
-         .put(1, "one")
-         .put(2, "two")
-         .put(3, "three")
-         .buildOrThrow();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ImmutableSortedMap.Builder1"><code>static final ImmutableSortedMap&lt;Integer, String&gt; INT_TO_WORD =
+    new ImmutableSortedMap.Builder&lt;Integer, String&gt;(Ordering.natural())
+        .put(1, "one")
+        .put(2, "two")
+        .put(3, "three")
+        .buildOrThrow();
+</code></pre>
+</div>
+
 
  <p>For <i>small</i> immutable sorted maps, the <code>ImmutableSortedMap.of()</code> methods are even
  more convenient.

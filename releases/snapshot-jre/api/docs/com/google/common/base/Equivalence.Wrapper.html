@@ -101,16 +101,22 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  <p>For example, given an <a href="Equivalence.html" title="class in com.google.common.base"><code>Equivalence</code></a> for <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>strings</code></a> named <code>equiv</code>
  that tests equivalence using their lengths:
 
- <pre><code>
- equiv.wrap("a").equals(equiv.wrap("b")) // true
- equiv.wrap("a").equals(equiv.wrap("hello")) // false
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Equivalence.Wrapper1"><code>equiv.wrap("a").equals(equiv.wrap("b")) // true
+equiv.wrap("a").equals(equiv.wrap("hello")) // false
+</code></pre>
+</div>
+
 
  <p>Note in particular that an equivalence wrapper is never equal to the object it wraps.
 
- <pre><code>
- equiv.wrap(obj).equals(obj) // always false
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Equivalence.Wrapper2"><code>equiv.wrap(obj).equals(obj) // always false
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>

@@ -72,7 +72,7 @@
 <span class="source-line-no">059</span><span id="line-59"> * &lt;p&gt;As an example, imagine that we have a list of tasks to execute, but we don't want to submit</span>
 <span class="source-line-no">060</span><span id="line-60"> * more than 2 per second:</span>
 <span class="source-line-no">061</span><span id="line-61"> *</span>
-<span class="source-line-no">062</span><span id="line-62"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">062</span><span id="line-62"> * {@snippet :</span>
 <span class="source-line-no">063</span><span id="line-63"> * final RateLimiter rateLimiter = RateLimiter.create(2.0); // rate is "2 permits per second"</span>
 <span class="source-line-no">064</span><span id="line-64"> * void submitTasks(List&lt;Runnable&gt; tasks, Executor executor) {</span>
 <span class="source-line-no">065</span><span id="line-65"> *   for (Runnable task : tasks) {</span>
@@ -80,19 +80,19 @@
 <span class="source-line-no">067</span><span id="line-67"> *     executor.execute(task);</span>
 <span class="source-line-no">068</span><span id="line-68"> *   }</span>
 <span class="source-line-no">069</span><span id="line-69"> * }</span>
-<span class="source-line-no">070</span><span id="line-70"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">070</span><span id="line-70"> * }</span>
 <span class="source-line-no">071</span><span id="line-71"> *</span>
 <span class="source-line-no">072</span><span id="line-72"> * &lt;p&gt;As another example, imagine that we produce a stream of data, and we want to cap it at 5kb per</span>
 <span class="source-line-no">073</span><span id="line-73"> * second. This could be accomplished by requiring a permit per byte, and specifying a rate of 5000</span>
 <span class="source-line-no">074</span><span id="line-74"> * permits per second:</span>
 <span class="source-line-no">075</span><span id="line-75"> *</span>
-<span class="source-line-no">076</span><span id="line-76"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">076</span><span id="line-76"> * {@snippet :</span>
 <span class="source-line-no">077</span><span id="line-77"> * final RateLimiter rateLimiter = RateLimiter.create(5000.0); // rate = 5000 permits per second</span>
 <span class="source-line-no">078</span><span id="line-78"> * void submitPacket(byte[] packet) {</span>
 <span class="source-line-no">079</span><span id="line-79"> *   rateLimiter.acquire(packet.length);</span>
 <span class="source-line-no">080</span><span id="line-80"> *   networkService.send(packet);</span>
 <span class="source-line-no">081</span><span id="line-81"> * }</span>
-<span class="source-line-no">082</span><span id="line-82"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">082</span><span id="line-82"> * }</span>
 <span class="source-line-no">083</span><span id="line-83"> *</span>
 <span class="source-line-no">084</span><span id="line-84"> * &lt;p&gt;It is important to note that the number of permits requested &lt;i&gt;never&lt;/i&gt; affects the</span>
 <span class="source-line-no">085</span><span id="line-85"> * throttling of the request itself (an invocation to {@code acquire(1)} and an invocation to {@code</span>

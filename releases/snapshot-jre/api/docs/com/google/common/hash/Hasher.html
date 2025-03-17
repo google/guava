@@ -117,11 +117,14 @@ extends <a href="PrimitiveSink.html" title="interface in com.google.common.hash"
  were inserted, not how those bytes were chunked into discrete put() operations. For example, the
  following three expressions all generate colliding hash codes:
 
- <pre><code>
- newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
- newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
- newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.hash.Hasher1"><code>newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
+newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
+newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()
+</code></pre>
+</div>
+
 
  <p>If you wish to avoid this, you should either prepend or append the size of each chunk. Keep in
  mind that when dealing with char sequences, the encoded form of two concatenated char sequences

@@ -152,9 +152,12 @@ loadScripts(document, 'script');</script>
  <p>The implementation classes that <code>common.graph</code> provides are not public, by design. To
  create an instance of one of the built-in implementations of <code>ValueGraph</code>, use the <a href="ValueGraphBuilder.html" title="class in com.google.common.graph"><code>ValueGraphBuilder</code></a> class:
 
- <pre><code>
- MutableValueGraph&lt;Integer, Double&gt; graph = ValueGraphBuilder.directed().build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.ValueGraph1"><code>MutableValueGraph&lt;Integer, Double&gt; graph = ValueGraphBuilder.directed().build();
+</code></pre>
+</div>
+
 
  <p><a href="ValueGraphBuilder.html#build()"><code>ValueGraphBuilder.build()</code></a> returns an instance of <a href="MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a>, which is a
  subtype of <code>ValueGraph</code> that provides methods for adding and removing nodes and edges. If
@@ -163,9 +166,12 @@ loadScripts(document, 'script');</script>
 
  <p>You can create an immutable copy of an existing <code>ValueGraph</code> using <a href="ImmutableValueGraph.html#copyOf(com.google.common.graph.ValueGraph)"><code>ImmutableValueGraph.copyOf(ValueGraph)</code></a>:
 
- <pre><code>
- ImmutableValueGraph&lt;Integer, Double&gt; immutableGraph = ImmutableValueGraph.copyOf(graph);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.ValueGraph2"><code>ImmutableValueGraph&lt;Integer, Double&gt; immutableGraph = ImmutableValueGraph.copyOf(graph);
+</code></pre>
+</div>
+
 
  <p>Instances of <a href="ImmutableValueGraph.html" title="class in com.google.common.graph"><code>ImmutableValueGraph</code></a> do not implement <a href="MutableValueGraph.html" title="interface in com.google.common.graph"><code>MutableValueGraph</code></a>
  (obviously!) and are contractually guaranteed to be unmodifiable and thread-safe.

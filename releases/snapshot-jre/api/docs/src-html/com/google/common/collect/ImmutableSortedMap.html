@@ -605,14 +605,14 @@
 <span class="source-line-no">592</span><span id="line-592">   * A builder for creating immutable sorted map instances, especially {@code public static final}</span>
 <span class="source-line-no">593</span><span id="line-593">   * maps ("constant maps"). Example:</span>
 <span class="source-line-no">594</span><span id="line-594">   *</span>
-<span class="source-line-no">595</span><span id="line-595">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">595</span><span id="line-595">   * {@snippet :</span>
 <span class="source-line-no">596</span><span id="line-596">   * static final ImmutableSortedMap&lt;Integer, String&gt; INT_TO_WORD =</span>
 <span class="source-line-no">597</span><span id="line-597">   *     new ImmutableSortedMap.Builder&lt;Integer, String&gt;(Ordering.natural())</span>
 <span class="source-line-no">598</span><span id="line-598">   *         .put(1, "one")</span>
 <span class="source-line-no">599</span><span id="line-599">   *         .put(2, "two")</span>
 <span class="source-line-no">600</span><span id="line-600">   *         .put(3, "three")</span>
 <span class="source-line-no">601</span><span id="line-601">   *         .buildOrThrow();</span>
-<span class="source-line-no">602</span><span id="line-602">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">602</span><span id="line-602">   * }</span>
 <span class="source-line-no">603</span><span id="line-603">   *</span>
 <span class="source-line-no">604</span><span id="line-604">   * &lt;p&gt;For &lt;i&gt;small&lt;/i&gt; immutable sorted maps, the {@code ImmutableSortedMap.of()} methods are even</span>
 <span class="source-line-no">605</span><span id="line-605">   * more convenient.</span>

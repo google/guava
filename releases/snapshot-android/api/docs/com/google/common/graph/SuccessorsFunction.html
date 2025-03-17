@@ -102,18 +102,24 @@ loadScripts(document, 'script');</script>
 
  Given an algorithm, for example:
 
- <pre><code>
- public &lt;N&gt; someGraphAlgorithm(N startNode, SuccessorsFunction&lt;N&gt; successorsFunction);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.SuccessorsFunction1"><code>public &lt;N&gt; someGraphAlgorithm(N startNode, SuccessorsFunction&lt;N&gt; successorsFunction);
+</code></pre>
+</div>
+
 
  you will invoke it depending on the graph representation you're using.
 
  <p>If you have an instance of one of the primary <code>common.graph</code> types (<a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>,
  <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, and <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a>):
 
- <pre><code>
- someGraphAlgorithm(startNode, graph);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.SuccessorsFunction2"><code>someGraphAlgorithm(startNode, graph);
+</code></pre>
+</div>
+
 
  This works because those types each implement <code>SuccessorsFunction</code>. It will also work with
  any other implementation of this interface.
@@ -121,17 +127,23 @@ loadScripts(document, 'script');</script>
  <p>If you have your own graph implementation based around a custom node type <code>MyNode</code>,
  which has a method <code>getChildren()</code> that retrieves its successors in a graph:
 
- <pre><code>
- someGraphAlgorithm(startNode, MyNode::getChildren);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.SuccessorsFunction3"><code>someGraphAlgorithm(startNode, MyNode::getChildren);
+</code></pre>
+</div>
+
 
  <p>If you have some other mechanism for returning the successors of a node, or one that doesn't
  return an <code>Iterable&lt;? extends N&gt;</code>, then you can use a lambda to perform a more general
  transformation:
 
- <pre><code>
- someGraphAlgorithm(startNode, node -&gt; ImmutableList.of(node.leftChild(), node.rightChild()));
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.SuccessorsFunction4"><code>someGraphAlgorithm(startNode, node -&gt; ImmutableList.of(node.leftChild(), node.rightChild()));
+</code></pre>
+</div>
+
 
  <p>Graph algorithms that need additional capabilities (accessing both predecessors and
  successors, iterating over the edges, etc.) should declare their input to be of a type that

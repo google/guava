@@ -103,13 +103,16 @@ loadScripts(document, 'script');</script>
 <div class="block">A builder for creating immutable list instances, especially <code>public static final</code> lists
  ("constant lists"). Example:
 
- <pre><code>
- public static final ImmutableList&lt;Color&gt; GOOGLE_COLORS =
-     new ImmutableList.Builder&lt;Color&gt;()
-         .addAll(WEBSAFE_COLORS)
-         .add(new Color(0, 191, 255))
-         .build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ImmutableList.Builder1"><code>public static final ImmutableList&lt;Color&gt; GOOGLE_COLORS =
+    new ImmutableList.Builder&lt;Color&gt;()
+        .addAll(WEBSAFE_COLORS)
+        .add(new Color(0, 191, 255))
+        .build();
+</code></pre>
+</div>
+
 
  <p>Elements appear in the resulting list in the same order they were added to the builder.
 

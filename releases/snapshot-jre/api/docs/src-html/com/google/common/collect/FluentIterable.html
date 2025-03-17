@@ -96,18 +96,18 @@
 <span class="source-line-no">083</span><span id="line-83"> * transforms it by invoking {@code toString()} on each element, and returns the first 10 elements</span>
 <span class="source-line-no">084</span><span id="line-84"> * as a {@code List}:</span>
 <span class="source-line-no">085</span><span id="line-85"> *</span>
-<span class="source-line-no">086</span><span id="line-86"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">086</span><span id="line-86"> * {@snippet :</span>
 <span class="source-line-no">087</span><span id="line-87"> * ImmutableList&lt;String&gt; results =</span>
 <span class="source-line-no">088</span><span id="line-88"> *     FluentIterable.from(database.getClientList())</span>
 <span class="source-line-no">089</span><span id="line-89"> *         .filter(Client::isActiveInLastMonth)</span>
 <span class="source-line-no">090</span><span id="line-90"> *         .transform(Object::toString)</span>
 <span class="source-line-no">091</span><span id="line-91"> *         .limit(10)</span>
 <span class="source-line-no">092</span><span id="line-92"> *         .toList();</span>
-<span class="source-line-no">093</span><span id="line-93"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">093</span><span id="line-93"> * }</span>
 <span class="source-line-no">094</span><span id="line-94"> *</span>
 <span class="source-line-no">095</span><span id="line-95"> * The approximate stream equivalent is:</span>
 <span class="source-line-no">096</span><span id="line-96"> *</span>
-<span class="source-line-no">097</span><span id="line-97"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">097</span><span id="line-97"> * {@snippet :</span>
 <span class="source-line-no">098</span><span id="line-98"> * List&lt;String&gt; results =</span>
 <span class="source-line-no">099</span><span id="line-99"> *     database.getClientList()</span>
 <span class="source-line-no">100</span><span id="line-100"> *         .stream()</span>
@@ -115,7 +115,7 @@
 <span class="source-line-no">102</span><span id="line-102"> *         .map(Object::toString)</span>
 <span class="source-line-no">103</span><span id="line-103"> *         .limit(10)</span>
 <span class="source-line-no">104</span><span id="line-104"> *         .collect(Collectors.toList());</span>
-<span class="source-line-no">105</span><span id="line-105"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">105</span><span id="line-105"> * }</span>
 <span class="source-line-no">106</span><span id="line-106"> *</span>
 <span class="source-line-no">107</span><span id="line-107"> * @author Marcin Mikosik</span>
 <span class="source-line-no">108</span><span id="line-108"> * @since 12.0</span>
@@ -434,11 +434,11 @@
 <span class="source-line-no">421</span><span id="line-421">   * This does perform a little more work than necessary, so another option is to insert an</span>
 <span class="source-line-no">422</span><span id="line-422">   * unchecked cast at some later point:</span>
 <span class="source-line-no">423</span><span id="line-423">   *</span>
-<span class="source-line-no">424</span><span id="line-424">   * &lt;pre&gt;</span>
-<span class="source-line-no">425</span><span id="line-425">   * {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check</span>
+<span class="source-line-no">424</span><span id="line-424">   * {@snippet :</span>
+<span class="source-line-no">425</span><span id="line-425">   * @SuppressWarnings("unchecked") // safe because of ::isInstance check</span>
 <span class="source-line-no">426</span><span id="line-426">   * ImmutableList&lt;NewType&gt; result =</span>
-<span class="source-line-no">427</span><span id="line-427">   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}</span>
-<span class="source-line-no">428</span><span id="line-428">   * &lt;/pre&gt;</span>
+<span class="source-line-no">427</span><span id="line-427">   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());</span>
+<span class="source-line-no">428</span><span id="line-428">   * }</span>
 <span class="source-line-no">429</span><span id="line-429">   */</span>
 <span class="source-line-no">430</span><span id="line-430">  @GwtIncompatible // Class.isInstance</span>
 <span class="source-line-no">431</span><span id="line-431">  public final &lt;T&gt; FluentIterable&lt;T&gt; filter(Class&lt;T&gt; type) {</span>
@@ -747,14 +747,14 @@
 <span class="source-line-no">734</span><span id="line-734">   * map whose key is the result of applying {@code keyFunction} to that value. These entries appear</span>
 <span class="source-line-no">735</span><span id="line-735">   * in the same order as they appeared in this fluent iterable. Example usage:</span>
 <span class="source-line-no">736</span><span id="line-736">   *</span>
-<span class="source-line-no">737</span><span id="line-737">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">737</span><span id="line-737">   * {@snippet :</span>
 <span class="source-line-no">738</span><span id="line-738">   * Color red = new Color("red", 255, 0, 0);</span>
 <span class="source-line-no">739</span><span id="line-739">   * ...</span>
 <span class="source-line-no">740</span><span id="line-740">   * FluentIterable&lt;Color&gt; allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));</span>
 <span class="source-line-no">741</span><span id="line-741">   *</span>
 <span class="source-line-no">742</span><span id="line-742">   * Map&lt;String, Color&gt; colorForName = allColors.uniqueIndex(toStringFunction());</span>
 <span class="source-line-no">743</span><span id="line-743">   * assertThat(colorForName).containsEntry("red", red);</span>
-<span class="source-line-no">744</span><span id="line-744">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">744</span><span id="line-744">   * }</span>
 <span class="source-line-no">745</span><span id="line-745">   *</span>
 <span class="source-line-no">746</span><span id="line-746">   * &lt;p&gt;If your index may associate multiple values with each key, use {@link #index(Function)</span>
 <span class="source-line-no">747</span><span id="line-747">   * index}.</span>

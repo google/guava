@@ -434,11 +434,14 @@ B extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the class being tested is assignable to
  (is a subtype of) <code>clazz</code>. Example:
 
- <pre><code>
- List&lt;Class&lt;?&gt;&gt; classes = Arrays.asList(
-     Object.class, String.class, Number.class, Long.class);
- return Iterables.filter(classes, subtypeOf(Number.class));
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-subtypeOf(java.lang.Class)1"><code>List&lt;Class&lt;?&gt;&gt; classes = Arrays.asList(
+    Object.class, String.class, Number.class, Long.class);
+return Iterables.filter(classes, subtypeOf(Number.class));
+</code></pre>
+</div>
+
 
  The code above returns an iterable containing <code>Number.class</code> and <code>Long.class</code>.</div>
 <dl class="notes">

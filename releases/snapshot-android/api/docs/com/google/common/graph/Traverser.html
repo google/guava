@@ -273,39 +273,48 @@ loadScripts(document, 'script');</script>
  b</code> were <i>also</i> a start node, then there would be multiple paths to reach <code>e</code> and
  <code>h</code>.
 
- <pre><code>
-    a     b      c
-   / \   / \     |
-  /   \ /   \    |
- d     e     f   g
-       |
-       |
-       h
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-forTree(com.google.common.graph.SuccessorsFunction)1"><code>   a     b      c
+  / \   / \     |
+ /   \ /   \    |
+d     e     f   g
+      |
+      |
+      h
+</code></pre>
+</div>
+
 
  <p>.
 
  <p>The graph below would be a valid input with start nodes of <code>a, f</code>. However, if <code>
  b</code> were a start node, there would be multiple paths to <code>f</code>.
 
- <pre><code>
-    a     b
-   / \   / \
-  /   \ /   \
- c     d     e
-        \   /
-         \ /
-          f
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-forTree(com.google.common.graph.SuccessorsFunction)2"><code>   a     b
+  / \   / \
+ /   \ /   \
+c     d     e
+       \   /
+        \ /
+         f
+</code></pre>
+</div>
+
 
  <p><b>Note on binary trees</b>
 
  <p>This method can be used to traverse over a binary tree. Given methods <code>
  leftChild(node)</code> and <code>rightChild(node)</code>, this method can be called as
 
- <pre><code>
- Traverser.forTree(node -&gt; ImmutableList.of(leftChild(node), rightChild(node)));
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-forTree(com.google.common.graph.SuccessorsFunction)3"><code>Traverser.forTree(node -&gt; ImmutableList.of(leftChild(node), rightChild(node)));
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>tree</code> - <a href="SuccessorsFunction.html" title="interface in com.google.common.graph"><code>SuccessorsFunction</code></a> representing a directed acyclic graph that has at most
@@ -326,12 +335,15 @@ loadScripts(document, 'script');</script>
  <p><b>Example:</b> The following graph with <code>startNode</code> <code>a</code> would return nodes in
  the order <code>abcdef</code> (assuming successors are returned in alphabetical order).
 
- <pre><code>
- b ---- a ---- d
- |      |
- |      |
- e ---- c ---- f
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-breadthFirst(N)1"><code>b ---- a ---- d
+|      |
+|      |
+e ---- c ---- f
+</code></pre>
+</div>
+
 
  <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
  while iteration is in progress.
@@ -340,9 +352,12 @@ loadScripts(document, 'script');</script>
  compute its next element on the fly. It is thus possible to limit the traversal to a certain
  number of nodes as follows:
 
- <pre><code>
- Iterables.limit(Traverser.forGraph(graph).breadthFirst(node), maxNumberOfNodes);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-breadthFirst(N)2"><code>Iterables.limit(Traverser.forGraph(graph).breadthFirst(node), maxNumberOfNodes);
+</code></pre>
+</div>
+
 
  <p>See <a href="https://en.wikipedia.org/wiki/Breadth-first_search">Wikipedia</a> for more
  info.</div>
@@ -389,12 +404,15 @@ loadScripts(document, 'script');</script>
  <p><b>Example:</b> The following graph with <code>startNode</code> <code>a</code> would return nodes in
  the order <code>abecfd</code> (assuming successors are returned in alphabetical order).
 
- <pre><code>
- b ---- a ---- d
- |      |
- |      |
- e ---- c ---- f
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-depthFirstPreOrder(N)1"><code>b ---- a ---- d
+|      |
+|      |
+e ---- c ---- f
+</code></pre>
+</div>
+
 
  <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
  while iteration is in progress.
@@ -403,10 +421,13 @@ loadScripts(document, 'script');</script>
  compute its next element on the fly. It is thus possible to limit the traversal to a certain
  number of nodes as follows:
 
- <pre><code>
- Iterables.limit(
-     Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-depthFirstPreOrder(N)2"><code>Iterables.limit(
+    Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);
+</code></pre>
+</div>
+
 
  <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.</div>
 <dl class="notes">
@@ -452,12 +473,15 @@ loadScripts(document, 'script');</script>
  <p><b>Example:</b> The following graph with <code>startNode</code> <code>a</code> would return nodes in
  the order <code>fcebda</code> (assuming successors are returned in alphabetical order).
 
- <pre><code>
- b ---- a ---- d
- |      |
- |      |
- e ---- c ---- f
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-depthFirstPostOrder(N)1"><code>b ---- a ---- d
+|      |
+|      |
+e ---- c ---- f
+</code></pre>
+</div>
+
 
  <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
  while iteration is in progress.
@@ -466,10 +490,13 @@ loadScripts(document, 'script');</script>
  compute its next element on the fly. It is thus possible to limit the traversal to a certain
  number of nodes as follows:
 
- <pre><code>
- Iterables.limit(
-     Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-depthFirstPostOrder(N)2"><code>Iterables.limit(
+    Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);
+</code></pre>
+</div>
+
 
  <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.</div>
 <dl class="notes">

@@ -451,28 +451,31 @@ V&gt;&gt;</span>
 
  <p>Example:
 
- <pre><code>
- static final ListMultimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP =
-     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-         .collect(
-             toMultimap(
-                  str -&gt; str.charAt(0),
-                  str -&gt; str.substring(1),
-                  MultimapBuilder.treeKeys().arrayListValues()::build));
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-toMultimap(java.util.function.Function,java.util.function.Function,java.util.function.Supplier)1"><code>static final ListMultimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP =
+    Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+        .collect(
+            toMultimap(
+                 str -&gt; str.charAt(0),
+                 str -&gt; str.substring(1),
+                 MultimapBuilder.treeKeys().arrayListValues()::build));
 
- // is equivalent to
+// is equivalent to
 
- static final ListMultimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP;
+static final ListMultimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP;
 
- static {
-     FIRST_LETTER_MULTIMAP = MultimapBuilder.treeKeys().arrayListValues().build();
-     FIRST_LETTER_MULTIMAP.put('b', "anana");
-     FIRST_LETTER_MULTIMAP.put('a', "pple");
-     FIRST_LETTER_MULTIMAP.put('a', "sparagus");
-     FIRST_LETTER_MULTIMAP.put('c', "arrot");
-     FIRST_LETTER_MULTIMAP.put('c', "herry");
- }
- </code></pre>
+static {
+    FIRST_LETTER_MULTIMAP = MultimapBuilder.treeKeys().arrayListValues().build();
+    FIRST_LETTER_MULTIMAP.put('b', "anana");
+    FIRST_LETTER_MULTIMAP.put('a', "pple");
+    FIRST_LETTER_MULTIMAP.put('a', "sparagus");
+    FIRST_LETTER_MULTIMAP.put('c', "arrot");
+    FIRST_LETTER_MULTIMAP.put('c', "herry");
+}
+</code></pre>
+</div>
+
 
  <p>To collect to an <a href="ImmutableMultimap.html" title="class in com.google.common.collect"><code>ImmutableMultimap</code></a>, use either <a href="ImmutableSetMultimap.html#toImmutableSetMultimap(java.util.function.Function,java.util.function.Function)"><code>ImmutableSetMultimap.toImmutableSetMultimap(java.util.function.Function&lt;? super T, ? extends K&gt;, java.util.function.Function&lt;? super T, ? extends V&gt;)</code></a> or <a href="ImmutableListMultimap.html#toImmutableListMultimap(java.util.function.Function,java.util.function.Function)"><code>ImmutableListMultimap.toImmutableListMultimap(java.util.function.Function&lt;? super T, ? extends K&gt;, java.util.function.Function&lt;? super T, ? extends V&gt;)</code></a>.</div>
 <dl class="notes">
@@ -501,28 +504,31 @@ V&gt;&gt;</span>
 
  <p>Example:
 
- <pre><code>
- static final ListMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =
-     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
-         .collect(
-             flatteningToMultimap(
-                  str -&gt; str.charAt(0),
-                  str -&gt; str.substring(1).chars().mapToObj(c -&gt; (char) c),
-                  MultimapBuilder.linkedHashKeys().arrayListValues()::build));
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-flatteningToMultimap(java.util.function.Function,java.util.function.Function,java.util.function.Supplier)1"><code>static final ListMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =
+    Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
+        .collect(
+            flatteningToMultimap(
+                 str -&gt; str.charAt(0),
+                 str -&gt; str.substring(1).chars().mapToObj(c -&gt; (char) c),
+                 MultimapBuilder.linkedHashKeys().arrayListValues()::build));
 
- // is equivalent to
+// is equivalent to
 
- static final ListMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP;
+static final ListMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP;
 
- static {
-     FIRST_LETTER_MULTIMAP = MultimapBuilder.linkedHashKeys().arrayListValues().build();
-     FIRST_LETTER_MULTIMAP.putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'));
-     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('p', 'p', 'l', 'e'));
-     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'));
-     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'));
-     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
- }
- </code></pre></div>
+static {
+    FIRST_LETTER_MULTIMAP = MultimapBuilder.linkedHashKeys().arrayListValues().build();
+    FIRST_LETTER_MULTIMAP.putAll('b', Arrays.asList('a', 'n', 'a', 'n', 'a'));
+    FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('p', 'p', 'l', 'e'));
+    FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('a', 'r', 'r', 'o', 't'));
+    FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'));
+    FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>21.0</dd>
@@ -729,19 +735,22 @@ V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  <p>It is imperative that the user manually synchronize on the returned multimap when accessing
  any of its collection views:
 
- <pre><code>
- Multimap&lt;K, V&gt; multimap = Multimaps.synchronizedMultimap(
-     HashMultimap.&lt;K, V&gt;create());
- ...
- Collection&lt;V&gt; values = multimap.get(key);  // Needn't be in synchronized block
- ...
- synchronized (multimap) {  // Synchronizing on multimap, not values!
-   Iterator&lt;V&gt; i = values.iterator(); // Must be in synchronized block
-   while (i.hasNext()) {
-     foo(i.next());
-   }
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-synchronizedMultimap(com.google.common.collect.Multimap)1"><code>Multimap&lt;K, V&gt; multimap = Multimaps.synchronizedMultimap(
+    HashMultimap.&lt;K, V&gt;create());
+...
+Collection&lt;V&gt; values = multimap.get(key);  // Needn't be in synchronized block
+...
+synchronized (multimap) {  // Synchronizing on multimap, not values!
+  Iterator&lt;V&gt; i = values.iterator(); // Must be in synchronized block
+  while (i.hasNext()) {
+    foo(i.next());
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
@@ -1068,18 +1077,21 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
 <div class="block">Returns a view of a multimap where each value is transformed by a function. All other
  properties of the multimap, such as iteration order, are left intact. For example, the code:
 
- <pre><code>
- Multimap&lt;String, Integer&gt; multimap =
-     ImmutableSetMultimap.of("a", 2, "b", -3, "b", -3, "a", 4, "c", 6);
- Function&lt;Integer, String&gt; square = new Function&lt;Integer, String&gt;() {
-     public String apply(Integer in) {
-       return Integer.toString(in * in);
-     }
- };
- Multimap&lt;String, String&gt; transformed =
-     Multimaps.transformValues(multimap, square);
-   System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformValues(com.google.common.collect.Multimap,com.google.common.base.Function)1"><code>Multimap&lt;String, Integer&gt; multimap =
+    ImmutableSetMultimap.of("a", 2, "b", -3, "b", -3, "a", 4, "c", 6);
+Function&lt;Integer, String&gt; square = new Function&lt;Integer, String&gt;() {
+    public String apply(Integer in) {
+      return Integer.toString(in * in);
+    }
+};
+Multimap&lt;String, String&gt; transformed =
+    Multimaps.transformValues(multimap, square);
+  System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{a=[4, 16], b=[9, 9], c=[36]}</code>.
 
@@ -1122,14 +1134,17 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
  other properties of the multimap, such as iteration order, are left intact. For example, the
  code:
 
- <pre><code>
- ListMultimap&lt;String, Integer&gt; multimap =
-      ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
- Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
- ListMultimap&lt;String, Double&gt; transformed = Multimaps.transformValues(map,
-     sqrt);
- System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformValues(com.google.common.collect.ListMultimap,com.google.common.base.Function)1"><code>ListMultimap&lt;String, Integer&gt; multimap =
+     ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
+Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
+ListMultimap&lt;String, Double&gt; transformed = Multimaps.transformValues(map,
+    sqrt);
+System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{a=[2.0, 4.0], b=[3.0]}</code>.
 
@@ -1172,19 +1187,22 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
  <p>All other properties of the transformed multimap, such as iteration order, are left intact.
  For example, the code:
 
- <pre><code>
- SetMultimap&lt;String, Integer&gt; multimap =
-     ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);
- EntryTransformer&lt;String, Integer, String&gt; transformer =
-     new EntryTransformer&lt;String, Integer, String&gt;() {
-       public String transformEntry(String key, Integer value) {
-          return (value &gt;= 0) ? key : "no" + key;
-       }
-     };
- Multimap&lt;String, String&gt; transformed =
-     Multimaps.transformEntries(multimap, transformer);
- System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformEntries(com.google.common.collect.Multimap,com.google.common.collect.Maps.EntryTransformer)1"><code>SetMultimap&lt;String, Integer&gt; multimap =
+    ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);
+EntryTransformer&lt;String, Integer, String&gt; transformer =
+    new EntryTransformer&lt;String, Integer, String&gt;() {
+      public String transformEntry(String key, Integer value) {
+         return (value &gt;= 0) ? key : "no" + key;
+      }
+    };
+Multimap&lt;String, String&gt; transformed =
+    Multimaps.transformEntries(multimap, transformer);
+System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{a=[a, a], b=[nob]}</code>.
 
@@ -1235,19 +1253,22 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
  <p>All other properties of the transformed multimap, such as iteration order, are left intact.
  For example, the code:
 
- <pre><code>
- Multimap&lt;String, Integer&gt; multimap =
-     ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
- EntryTransformer&lt;String, Integer, String&gt; transformer =
-     new EntryTransformer&lt;String, Integer, String&gt;() {
-       public String transformEntry(String key, Integer value) {
-         return key + value;
-       }
-     };
- Multimap&lt;String, String&gt; transformed =
-     Multimaps.transformEntries(multimap, transformer);
- System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformEntries(com.google.common.collect.ListMultimap,com.google.common.collect.Maps.EntryTransformer)1"><code>Multimap&lt;String, Integer&gt; multimap =
+    ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
+EntryTransformer&lt;String, Integer, String&gt; transformer =
+    new EntryTransformer&lt;String, Integer, String&gt;() {
+      public String transformEntry(String key, Integer value) {
+        return key + value;
+      }
+    };
+Multimap&lt;String, String&gt; transformed =
+    Multimaps.transformEntries(multimap, transformer);
+System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{"a"=["a1", "a4"], "b"=["b6"]}</code>.
 
@@ -1296,20 +1317,26 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableListMultimap.html"
 
  <p>For example,
 
- <pre><code>
- List&lt;String&gt; badGuys =
-     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
- Function&lt;String, Integer&gt; stringLengthFunction = ...;
- Multimap&lt;Integer, String&gt; index =
-     Multimaps.index(badGuys, stringLengthFunction);
- System.out.println(index);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-index(java.lang.Iterable,com.google.common.base.Function)1"><code>List&lt;String&gt; badGuys =
+    Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
+Function&lt;String, Integer&gt; stringLengthFunction = ...;
+Multimap&lt;Integer, String&gt; index =
+    Multimaps.index(badGuys, stringLengthFunction);
+System.out.println(index);
+</code></pre>
+</div>
+
 
  <p>prints
 
- <pre><code>
- {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-index(java.lang.Iterable,com.google.common.base.Function)2"><code>{4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
+</code></pre>
+</div>
+
 
  <p>The returned multimap is serializable if its keys and values are all serializable.</div>
 <dl class="notes">
@@ -1343,20 +1370,26 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableListMultimap.html"
 
  <p>For example,
 
- <pre><code>
- List&lt;String&gt; badGuys =
-     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
- Function&lt;String, Integer&gt; stringLengthFunction = ...;
- Multimap&lt;Integer, String&gt; index =
-     Multimaps.index(badGuys.iterator(), stringLengthFunction);
- System.out.println(index);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-index(java.util.Iterator,com.google.common.base.Function)1"><code>List&lt;String&gt; badGuys =
+    Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
+Function&lt;String, Integer&gt; stringLengthFunction = ...;
+Multimap&lt;Integer, String&gt; index =
+    Multimaps.index(badGuys.iterator(), stringLengthFunction);
+System.out.println(index);
+</code></pre>
+</div>
+
 
  <p>prints
 
- <pre><code>
- {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-index(java.util.Iterator,com.google.common.base.Function)2"><code>{4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
+</code></pre>
+</div>
+
 
  <p>The returned multimap is serializable if its keys and values are all serializable.</div>
 <dl class="notes">

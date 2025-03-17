@@ -445,7 +445,7 @@
 <span class="source-line-no">432</span><span id="line-432">   * &lt;p&gt;It is imperative that the user manually synchronize on the returned queue when accessing the</span>
 <span class="source-line-no">433</span><span id="line-433">   * queue's iterator:</span>
 <span class="source-line-no">434</span><span id="line-434">   *</span>
-<span class="source-line-no">435</span><span id="line-435">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">435</span><span id="line-435">   * {@snippet :</span>
 <span class="source-line-no">436</span><span id="line-436">   * Queue&lt;E&gt; queue = Queues.synchronizedQueue(MinMaxPriorityQueue.&lt;E&gt;create());</span>
 <span class="source-line-no">437</span><span id="line-437">   * ...</span>
 <span class="source-line-no">438</span><span id="line-438">   * queue.add(element);  // Needn't be in synchronized block</span>
@@ -456,7 +456,7 @@
 <span class="source-line-no">443</span><span id="line-443">   *     foo(i.next());</span>
 <span class="source-line-no">444</span><span id="line-444">   *   }</span>
 <span class="source-line-no">445</span><span id="line-445">   * }</span>
-<span class="source-line-no">446</span><span id="line-446">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">446</span><span id="line-446">   * }</span>
 <span class="source-line-no">447</span><span id="line-447">   *</span>
 <span class="source-line-no">448</span><span id="line-448">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</span>
 <span class="source-line-no">449</span><span id="line-449">   *</span>
@@ -479,7 +479,7 @@
 <span class="source-line-no">466</span><span id="line-466">   * &lt;p&gt;It is imperative that the user manually synchronize on the returned deque when accessing any</span>
 <span class="source-line-no">467</span><span id="line-467">   * of the deque's iterators:</span>
 <span class="source-line-no">468</span><span id="line-468">   *</span>
-<span class="source-line-no">469</span><span id="line-469">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">469</span><span id="line-469">   * {@snippet :</span>
 <span class="source-line-no">470</span><span id="line-470">   * Deque&lt;E&gt; deque = Queues.synchronizedDeque(Queues.&lt;E&gt;newArrayDeque());</span>
 <span class="source-line-no">471</span><span id="line-471">   * ...</span>
 <span class="source-line-no">472</span><span id="line-472">   * deque.add(element);  // Needn't be in synchronized block</span>
@@ -490,7 +490,7 @@
 <span class="source-line-no">477</span><span id="line-477">   *     foo(i.next());</span>
 <span class="source-line-no">478</span><span id="line-478">   *   }</span>
 <span class="source-line-no">479</span><span id="line-479">   * }</span>
-<span class="source-line-no">480</span><span id="line-480">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">480</span><span id="line-480">   * }</span>
 <span class="source-line-no">481</span><span id="line-481">   *</span>
 <span class="source-line-no">482</span><span id="line-482">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</span>
 <span class="source-line-no">483</span><span id="line-483">   *</span>

@@ -120,19 +120,22 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
  rarely use it directly, in part because it does not provide direct access to the <code>Future</code>
  result. (If you want such access, you may prefer <a href="Futures.html#addCallback(com.google.common.util.concurrent.ListenableFuture,com.google.common.util.concurrent.FutureCallback,java.util.concurrent.Executor)"><code>Futures.addCallback</code></a>.) Still, direct <code>addListener</code> calls are occasionally useful:
 
- <pre><code>
- final String name = ...;
- inFlight.add(name);
- ListenableFuture&lt;Result&gt; future = service.query(name);
- future.addListener(new Runnable() {
-   public void run() {
-     processedCount.incrementAndGet();
-     inFlight.remove(name);
-     lastProcessed.set(name);
-     logger.info("Done with {0}", name);
-   }
- }, executor);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.ListenableFuture1"><code>final String name = ...;
+inFlight.add(name);
+ListenableFuture&lt;Result&gt; future = service.query(name);
+future.addListener(new Runnable() {
+  public void run() {
+    processedCount.incrementAndGet();
+    inFlight.remove(name);
+    lastProcessed.set(name);
+    logger.info("Done with {0}", name);
+  }
+}, executor);
+</code></pre>
+</div>
+
 
  <h3 id="how-to-get-an-instance-heading">How to get an instance</h3>
 

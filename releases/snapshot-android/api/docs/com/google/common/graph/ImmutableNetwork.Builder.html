@@ -94,18 +94,21 @@ loadScripts(document, 'script');</script>
 <div class="block">A builder for creating <a href="ImmutableNetwork.html" title="class in com.google.common.graph"><code>ImmutableNetwork</code></a> instances, especially <code>static final</code>
  networks. Example:
 
- <pre><code>
- static final ImmutableNetwork&lt;City, Train&gt; TRAIN_NETWORK =
-     NetworkBuilder.undirected()
-         .allowsParallelEdges(true)
-         .&lt;City, Train&gt;immutable()
-         .addEdge(PARIS, BRUSSELS, Thalys.trainNumber("1111"))
-         .addEdge(PARIS, BRUSSELS, RegionalTrain.trainNumber("2222"))
-         .addEdge(LONDON, PARIS, Eurostar.trainNumber("3333"))
-         .addEdge(LONDON, BRUSSELS, Eurostar.trainNumber("4444"))
-         .addNode(REYKJAVIK)
-         .build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.ImmutableNetwork.Builder1"><code>static final ImmutableNetwork&lt;City, Train&gt; TRAIN_NETWORK =
+    NetworkBuilder.undirected()
+        .allowsParallelEdges(true)
+        .&lt;City, Train&gt;immutable()
+        .addEdge(PARIS, BRUSSELS, Thalys.trainNumber("1111"))
+        .addEdge(PARIS, BRUSSELS, RegionalTrain.trainNumber("2222"))
+        .addEdge(LONDON, PARIS, Eurostar.trainNumber("3333"))
+        .addEdge(LONDON, BRUSSELS, Eurostar.trainNumber("4444"))
+        .addNode(REYKJAVIK)
+        .build();
+</code></pre>
+</div>
+
 
  <p>Builder instances can be reused; it is safe to call <a href="#build()"><code>build()</code></a> multiple times to build
  multiple networks in series. Each new network contains all the elements of the ones created

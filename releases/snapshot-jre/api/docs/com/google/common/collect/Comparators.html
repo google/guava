@@ -273,11 +273,14 @@ S extends T&gt;</span>
 
  <p>For example:
 
- <pre><code>
- Stream.of("foo", "quux", "banana", "elephant")
-     .collect(least(2, comparingInt(String::length)))
- // returns {"foo", "quux"}
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-least(int,java.util.Comparator)1"><code>Stream.of("foo", "quux", "banana", "elephant")
+    .collect(least(2, comparingInt(String::length)))
+// returns {"foo", "quux"}
+</code></pre>
+</div>
+
 
  <p>This <code>Collector</code> uses O(k) memory and takes expected time O(n) (worst-case O(n log
  k)), as opposed to e.g. <code>Stream.sorted(comparator).limit(k)</code>, which currently takes O(n
@@ -304,11 +307,14 @@ S extends T&gt;</span>
 
  <p>For example:
 
- <pre><code>
- Stream.of("foo", "quux", "banana", "elephant")
-     .collect(greatest(2, comparingInt(String::length)))
- // returns {"elephant", "banana"}
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-greatest(int,java.util.Comparator)1"><code>Stream.of("foo", "quux", "banana", "elephant")
+    .collect(greatest(2, comparingInt(String::length)))
+// returns {"elephant", "banana"}
+</code></pre>
+</div>
+
 
  <p>This <code>Collector</code> uses O(k) memory and takes expected time O(n) (worst-case O(n log
  k)), as opposed to e.g. <code>Stream.sorted(comparator.reversed()).limit(k)</code>, which currently

@@ -282,14 +282,14 @@
 <span class="source-line-no">269</span><span id="line-269">   *</span>
 <span class="source-line-no">270</span><span id="line-270">   * &lt;p&gt;Usage example:</span>
 <span class="source-line-no">271</span><span id="line-271">   *</span>
-<span class="source-line-no">272</span><span id="line-272">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">272</span><span id="line-272">   * {@snippet :</span>
 <span class="source-line-no">273</span><span id="line-273">   * ListenableFuture&lt;Integer&gt; fetchCounterFuture = ...;</span>
 <span class="source-line-no">274</span><span id="line-274">   *</span>
 <span class="source-line-no">275</span><span id="line-275">   * // Falling back to a zero counter in case an exception happens when</span>
 <span class="source-line-no">276</span><span id="line-276">   * // processing the RPC to fetch counters.</span>
 <span class="source-line-no">277</span><span id="line-277">   * ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catching(</span>
 <span class="source-line-no">278</span><span id="line-278">   *     fetchCounterFuture, FetchException.class, x -&gt; 0, directExecutor());</span>
-<span class="source-line-no">279</span><span id="line-279">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">279</span><span id="line-279">   * }</span>
 <span class="source-line-no">280</span><span id="line-280">   *</span>
 <span class="source-line-no">281</span><span id="line-281">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</span>
 <span class="source-line-no">282</span><span id="line-282">   * the warnings the {@link MoreExecutors#directExecutor} documentation.</span>
@@ -328,18 +328,18 @@
 <span class="source-line-no">315</span><span id="line-315">   *</span>
 <span class="source-line-no">316</span><span id="line-316">   * &lt;p&gt;Usage examples:</span>
 <span class="source-line-no">317</span><span id="line-317">   *</span>
-<span class="source-line-no">318</span><span id="line-318">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">318</span><span id="line-318">   * {@snippet :</span>
 <span class="source-line-no">319</span><span id="line-319">   * ListenableFuture&lt;Integer&gt; fetchCounterFuture = ...;</span>
 <span class="source-line-no">320</span><span id="line-320">   *</span>
 <span class="source-line-no">321</span><span id="line-321">   * // Falling back to a zero counter in case an exception happens when</span>
 <span class="source-line-no">322</span><span id="line-322">   * // processing the RPC to fetch counters.</span>
 <span class="source-line-no">323</span><span id="line-323">   * ListenableFuture&lt;Integer&gt; faultTolerantFuture = Futures.catchingAsync(</span>
 <span class="source-line-no">324</span><span id="line-324">   *     fetchCounterFuture, FetchException.class, x -&gt; immediateFuture(0), directExecutor());</span>
-<span class="source-line-no">325</span><span id="line-325">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">325</span><span id="line-325">   * }</span>
 <span class="source-line-no">326</span><span id="line-326">   *</span>
 <span class="source-line-no">327</span><span id="line-327">   * &lt;p&gt;The fallback can also choose to propagate the original exception when desired:</span>
 <span class="source-line-no">328</span><span id="line-328">   *</span>
-<span class="source-line-no">329</span><span id="line-329">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">329</span><span id="line-329">   * {@snippet :</span>
 <span class="source-line-no">330</span><span id="line-330">   * ListenableFuture&lt;Integer&gt; fetchCounterFuture = ...;</span>
 <span class="source-line-no">331</span><span id="line-331">   *</span>
 <span class="source-line-no">332</span><span id="line-332">   * // Falling back to a zero counter only in case the exception was a</span>
@@ -354,7 +354,7 @@
 <span class="source-line-no">341</span><span id="line-341">   *       throw e;</span>
 <span class="source-line-no">342</span><span id="line-342">   *     },</span>
 <span class="source-line-no">343</span><span id="line-343">   *     directExecutor());</span>
-<span class="source-line-no">344</span><span id="line-344">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">344</span><span id="line-344">   * }</span>
 <span class="source-line-no">345</span><span id="line-345">   *</span>
 <span class="source-line-no">346</span><span id="line-346">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</span>
 <span class="source-line-no">347</span><span id="line-347">   * the warnings the {@link MoreExecutors#directExecutor} documentation.</span>
@@ -436,11 +436,11 @@
 <span class="source-line-no">423</span><span id="line-423">   * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.</span>
 <span class="source-line-no">424</span><span id="line-424">   * Example usage:</span>
 <span class="source-line-no">425</span><span id="line-425">   *</span>
-<span class="source-line-no">426</span><span id="line-426">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">426</span><span id="line-426">   * {@snippet :</span>
 <span class="source-line-no">427</span><span id="line-427">   * ListenableFuture&lt;RowKey&gt; rowKeyFuture = indexService.lookUp(query);</span>
 <span class="source-line-no">428</span><span id="line-428">   * ListenableFuture&lt;QueryResult&gt; queryFuture =</span>
 <span class="source-line-no">429</span><span id="line-429">   *     transformAsync(rowKeyFuture, dataService::readFuture, executor);</span>
-<span class="source-line-no">430</span><span id="line-430">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">430</span><span id="line-430">   * }</span>
 <span class="source-line-no">431</span><span id="line-431">   *</span>
 <span class="source-line-no">432</span><span id="line-432">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</span>
 <span class="source-line-no">433</span><span id="line-433">   * the warnings the {@link MoreExecutors#directExecutor} documentation.</span>
@@ -472,11 +472,11 @@
 <span class="source-line-no">459</span><span id="line-459">   * Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and</span>
 <span class="source-line-no">460</span><span id="line-460">   * the function is not invoked). Example usage:</span>
 <span class="source-line-no">461</span><span id="line-461">   *</span>
-<span class="source-line-no">462</span><span id="line-462">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">462</span><span id="line-462">   * {@snippet :</span>
 <span class="source-line-no">463</span><span id="line-463">   * ListenableFuture&lt;QueryResult&gt; queryFuture = ...;</span>
 <span class="source-line-no">464</span><span id="line-464">   * ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture =</span>
 <span class="source-line-no">465</span><span id="line-465">   *     transform(queryFuture, QueryResult::getRows, executor);</span>
-<span class="source-line-no">466</span><span id="line-466">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">466</span><span id="line-466">   * }</span>
 <span class="source-line-no">467</span><span id="line-467">   *</span>
 <span class="source-line-no">468</span><span id="line-468">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</span>
 <span class="source-line-no">469</span><span id="line-469">   * the warnings the {@link MoreExecutors#directExecutor} documentation.</span>
@@ -680,7 +680,7 @@
 <span class="source-line-no">667</span><span id="line-667">   *</span>
 <span class="source-line-no">668</span><span id="line-668">   * &lt;p&gt;Example:</span>
 <span class="source-line-no">669</span><span id="line-669">   *</span>
-<span class="source-line-no">670</span><span id="line-670">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">670</span><span id="line-670">   * {@snippet :</span>
 <span class="source-line-no">671</span><span id="line-671">   * final ListenableFuture&lt;Instant&gt; loginDateFuture =</span>
 <span class="source-line-no">672</span><span id="line-672">   *     loginService.findLastLoginDate(username);</span>
 <span class="source-line-no">673</span><span id="line-673">   * final ListenableFuture&lt;List&lt;String&gt;&gt; recentCommandsFuture =</span>
@@ -694,7 +694,7 @@
 <span class="source-line-no">681</span><span id="line-681">   *                     Futures.getDone(loginDateFuture),</span>
 <span class="source-line-no">682</span><span id="line-682">   *                     Futures.getDone(recentCommandsFuture)),</span>
 <span class="source-line-no">683</span><span id="line-683">   *             executor);</span>
-<span class="source-line-no">684</span><span id="line-684">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">684</span><span id="line-684">   * }</span>
 <span class="source-line-no">685</span><span id="line-685">   *</span>
 <span class="source-line-no">686</span><span id="line-686">   * @since 20.0</span>
 <span class="source-line-no">687</span><span id="line-687">   */</span>
@@ -1080,7 +1080,7 @@
 <span class="source-line-no">1067</span><span id="line-1067">   *</span>
 <span class="source-line-no">1068</span><span id="line-1068">   * &lt;p&gt;Example:</span>
 <span class="source-line-no">1069</span><span id="line-1069">   *</span>
-<span class="source-line-no">1070</span><span id="line-1070">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1070</span><span id="line-1070">   * {@snippet :</span>
 <span class="source-line-no">1071</span><span id="line-1071">   * ListenableFuture&lt;QueryResult&gt; future = ...;</span>
 <span class="source-line-no">1072</span><span id="line-1072">   * Executor e = ...</span>
 <span class="source-line-no">1073</span><span id="line-1073">   * addCallback(future,</span>
@@ -1092,7 +1092,7 @@
 <span class="source-line-no">1079</span><span id="line-1079">   *         reportError(t);</span>
 <span class="source-line-no">1080</span><span id="line-1080">   *       }</span>
 <span class="source-line-no">1081</span><span id="line-1081">   *     }, e);</span>
-<span class="source-line-no">1082</span><span id="line-1082">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1082</span><span id="line-1082">   * }</span>
 <span class="source-line-no">1083</span><span id="line-1083">   *</span>
 <span class="source-line-no">1084</span><span id="line-1084">   * &lt;p&gt;When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See</span>
 <span class="source-line-no">1085</span><span id="line-1085">   * the warnings the {@link MoreExecutors#directExecutor} documentation.</span>

@@ -115,16 +115,22 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;C&gt;</span></div>
 <div class="block">A sorted set of contiguous values in a given <a href="DiscreteDomain.html" title="class in com.google.common.collect"><code>DiscreteDomain</code></a>. Example:
 
- <pre><code>
- ContiguousSet.create(Range.closed(5, 42), DiscreteDomain.integers())
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ContiguousSet1"><code>ContiguousSet.create(Range.closed(5, 42), DiscreteDomain.integers())
+</code></pre>
+</div>
+
 
  <p>Note that because bounded ranges over <code>int</code> and <code>long</code> values are so common, this
  particular example can be written as just:
 
- <pre><code>
- ContiguousSet.closed(5, 42)
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ContiguousSet2"><code>ContiguousSet.closed(5, 42)
+</code></pre>
+</div>
+
 
  <p><b>Warning:</b> Be extremely careful what you do with conceptually large instances (such as
  <code>ContiguousSet.create(Range.greaterThan(0), DiscreteDomain.integers()</code>). Certain operations

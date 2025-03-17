@@ -121,15 +121,18 @@ loadScripts(document, 'script');</script>
 
  <p>Basic usage:
 
- <pre><code>
- Stopwatch stopwatch = Stopwatch.createStarted();
- doSomething();
- stopwatch.stop(); // optional
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Stopwatch1"><code>Stopwatch stopwatch = Stopwatch.createStarted();
+doSomething();
+stopwatch.stop(); // optional
 
- Duration duration = stopwatch.elapsed();
+Duration duration = stopwatch.elapsed();
 
- log.info("time: " + stopwatch); // formatted string like "12.3 ms"
- </code></pre>
+log.info("time: " + stopwatch); // formatted string like "12.3 ms"
+</code></pre>
+</div>
+
 
  <p>The state-changing methods are not idempotent; it is an error to start or stop a stopwatch
  that is already in the desired state.
@@ -142,14 +145,17 @@ loadScripts(document, 'script');</script>
  <p><b>Warning for Android users:</b> a stopwatch with default behavior may not continue to keep
  time while the device is asleep. Instead, create one like this:
 
- <pre><code>
- Stopwatch.createStarted(
-      new Ticker() {
-        public long read() {
-          return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17
-        }
-      });
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Stopwatch2"><code>Stopwatch.createStarted(
+     new Ticker() {
+       public long read() {
+         return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17
+       }
+     });
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>

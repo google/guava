@@ -104,14 +104,17 @@ loadScripts(document, 'script');</script>
 <div class="block">A builder for creating immutable table instances, especially <code>public static final</code> tables
  ("constant tables"). Example:
 
- <pre><code>
- static final ImmutableTable&lt;Integer, Character, String&gt; SPREADSHEET =
-     new ImmutableTable.Builder&lt;Integer, Character, String&gt;()
-         .put(1, 'A', "foo")
-         .put(1, 'B', "bar")
-         .put(2, 'A', "baz")
-         .buildOrThrow();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ImmutableTable.Builder1"><code>static final ImmutableTable&lt;Integer, Character, String&gt; SPREADSHEET =
+    new ImmutableTable.Builder&lt;Integer, Character, String&gt;()
+        .put(1, 'A', "foo")
+        .put(1, 'B', "bar")
+        .put(2, 'A', "baz")
+        .buildOrThrow();
+</code></pre>
+</div>
+
 
  <p>By default, the order in which cells are added to the builder determines the iteration
  ordering of all views in the returned table, with <a href="#putAll(com.google.common.collect.Table)"><code>putAll(com.google.common.collect.Table&lt;? extends R, ? extends C, ? extends V&gt;)</code></a> following the <a href="Table.html#cellSet()"><code>Table.cellSet()</code></a> iteration order. However, if <a href="#orderRowsBy(java.util.Comparator)"><code>orderRowsBy(java.util.Comparator&lt;? super R&gt;)</code></a> or <a href="#orderColumnsBy(java.util.Comparator)"><code>orderColumnsBy(java.util.Comparator&lt;? super C&gt;)</code></a>

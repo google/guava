@@ -104,13 +104,16 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</span></div>
 <div class="block">A <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that supports fluent chains of operations. For example:
 
- <pre><code>
- ListenableFuture&lt;Boolean&gt; adminIsLoggedIn =
-     FluentFuture.from(usersDatabase.getAdminUser())
-         .transform(User::getId, directExecutor())
-         .transform(ActivityService::isLoggedIn, threadPool)
-         .catching(RpcException.class, e -&gt; false, directExecutor());
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.FluentFuture1"><code>ListenableFuture&lt;Boolean&gt; adminIsLoggedIn =
+    FluentFuture.from(usersDatabase.getAdminUser())
+        .transform(User::getId, directExecutor())
+        .transform(ActivityService::isLoggedIn, threadPool)
+        .catching(RpcException.class, e -&gt; false, directExecutor());
+</code></pre>
+</div>
+
 
  <h3 id="alternatives-heading">Alternatives</h3>
 
@@ -303,12 +306,15 @@ loadScripts(document, 'script');</script>
 
  <p>Usage example:
 
- <pre><code>
- // Falling back to a zero counter in case an exception happens when processing the RPC to fetch
- // counters.
- ListenableFuture&lt;Integer&gt; faultTolerantFuture =
-     fetchCounters().catching(FetchException.class, x -&gt; 0, directExecutor());
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-catching(java.lang.Class,com.google.common.base.Function,java.util.concurrent.Executor)1"><code>// Falling back to a zero counter in case an exception happens when processing the RPC to fetch
+// counters.
+ListenableFuture&lt;Integer&gt; faultTolerantFuture =
+    fetchCounters().catching(FetchException.class, x -&gt; 0, directExecutor());
+</code></pre>
+</div>
+
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>AbstractFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings about heavyweight
@@ -350,30 +356,36 @@ loadScripts(document, 'script');</script>
 
  <p>Usage examples:
 
- <pre><code>
- // Falling back to a zero counter in case an exception happens when processing the RPC to fetch
- // counters.
- ListenableFuture&lt;Integer&gt; faultTolerantFuture =
-     fetchCounters().catchingAsync(
-         FetchException.class, x -&gt; immediateFuture(0), directExecutor());
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-catchingAsync(java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)1"><code>// Falling back to a zero counter in case an exception happens when processing the RPC to fetch
+// counters.
+ListenableFuture&lt;Integer&gt; faultTolerantFuture =
+    fetchCounters().catchingAsync(
+        FetchException.class, x -&gt; immediateFuture(0), directExecutor());
+</code></pre>
+</div>
+
 
  <p>The fallback can also choose to propagate the original exception when desired:
 
- <pre><code>
- // Falling back to a zero counter only in case the exception was a
- // TimeoutException.
- ListenableFuture&lt;Integer&gt; faultTolerantFuture =
-     fetchCounters().catchingAsync(
-         FetchException.class,
-         e -&gt; {
-           if (omitDataOnFetchFailure) {
-             return immediateFuture(0);
-           }
-           throw e;
-         },
-         directExecutor());
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-catchingAsync(java.lang.Class,com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)2"><code>// Falling back to a zero counter only in case the exception was a
+// TimeoutException.
+ListenableFuture&lt;Integer&gt; faultTolerantFuture =
+    fetchCounters().catchingAsync(
+        FetchException.class,
+        e -&gt; {
+          if (omitDataOnFetchFailure) {
+            return immediateFuture(0);
+          }
+          throw e;
+        },
+        directExecutor());
+</code></pre>
+</div>
+
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>AbstractFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings about heavyweight
@@ -457,11 +469,14 @@ loadScripts(document, 'script');</script>
  by applying the given <code>AsyncFunction</code> to the result of the original <code>Future</code>.
  Example usage:
 
- <pre><code>
- FluentFuture&lt;RowKey&gt; rowKeyFuture = FluentFuture.from(indexService.lookUp(query));
- ListenableFuture&lt;QueryResult&gt; queryFuture =
-     rowKeyFuture.transformAsync(dataService::readFuture, executor);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformAsync(com.google.common.util.concurrent.AsyncFunction,java.util.concurrent.Executor)1"><code>FluentFuture&lt;RowKey&gt; rowKeyFuture = FluentFuture.from(indexService.lookUp(query));
+ListenableFuture&lt;QueryResult&gt; queryFuture =
+    rowKeyFuture.transformAsync(dataService::readFuture, executor);
+</code></pre>
+</div>
+
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>AbstractFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings about heavyweight
@@ -502,10 +517,13 @@ loadScripts(document, 'script');</script>
  this input <code>Future</code> fails, the returned <code>Future</code> fails with the same exception (and
  the function is not invoked). Example usage:
 
- <pre><code>
- ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
-     queryFuture.transform(QueryResult::getRows, executor);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transform(com.google.common.base.Function,java.util.concurrent.Executor)1"><code>ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
+    queryFuture.transform(QueryResult::getRows, executor);
+</code></pre>
+</div>
+
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>AbstractFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings about heavyweight
@@ -549,17 +567,20 @@ loadScripts(document, 'script');</script>
 
  <p>Example:
 
- <pre><code>
- future.addCallback(
-     new FutureCallback&lt;QueryResult&gt;() {
-       public void onSuccess(QueryResult result) {
-         storeInCache(result);
-       }
-       public void onFailure(Throwable t) {
-         reportError(t);
-       }
-     }, executor);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-addCallback(com.google.common.util.concurrent.FutureCallback,java.util.concurrent.Executor)1"><code>future.addCallback(
+    new FutureCallback&lt;QueryResult&gt;() {
+      public void onSuccess(QueryResult result) {
+        storeInCache(result);
+      }
+      public void onFailure(Throwable t) {
+        reportError(t);
+      }
+    }, executor);
+</code></pre>
+</div>
+
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>AbstractFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings about heavyweight

@@ -152,30 +152,36 @@ loadScripts(document, 'script');</script>
  followed immediately by a <i>try/finally</i> block to ensure that the current thread leaves the
  monitor cleanly:
 
- <pre><code>
- monitor.enter();
- try {
-   // do things while occupying the monitor
- } finally {
-   monitor.leave();
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.Monitor1"><code>monitor.enter();
+try {
+  // do things while occupying the monitor
+} finally {
+  monitor.leave();
+}
+</code></pre>
+</div>
+
 
  <p>A call to any of the <i>enter</i> methods with <b>boolean</b> return type should always appear
  as the condition of an <i>if</i> statement containing a <i>try/finally</i> block to ensure that
  the current thread leaves the monitor cleanly:
 
- <pre><code>
- if (monitor.tryEnter()) {
-   try {
-     // do things while occupying the monitor
-   } finally {
-     monitor.leave();
-   }
- } else {
-   // do other things since the monitor was not available
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.Monitor2"><code>if (monitor.tryEnter()) {
+  try {
+    // do things while occupying the monitor
+  } finally {
+    monitor.leave();
+  }
+} else {
+  // do other things since the monitor was not available
+}
+</code></pre>
+</div>
+
 
  <h2 id="comparison-with-synchronized-and-reentrantlock-heading">Comparison with <code>synchronized</code> and <code>ReentrantLock</code></h2>
 
@@ -190,29 +196,32 @@ loadScripts(document, 'script');</script>
  <code>notifyAll()</code> must be used instead of <code>notify()</code> because there are two different
  logical conditions being awaited.
 
- <pre><code>
- public class SafeBox&lt;V&gt; {
-   private V value;
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.Monitor3"><code>public class SafeBox&lt;V&gt; {
+  private V value;
 
-   public synchronized V get() throws InterruptedException {
-     while (value == null) {
-       wait();
-     }
-     V result = value;
-     value = null;
-     notifyAll();
-     return result;
-   }
+  public synchronized V get() throws InterruptedException {
+    while (value == null) {
+      wait();
+    }
+    V result = value;
+    value = null;
+    notifyAll();
+    return result;
+  }
 
-   public synchronized void set(V newValue) throws InterruptedException {
-     while (value != null) {
-       wait();
-     }
-     value = newValue;
-     notifyAll();
-   }
- }
- </code></pre>
+  public synchronized void set(V newValue) throws InterruptedException {
+    while (value != null) {
+      wait();
+    }
+    value = newValue;
+    notifyAll();
+  }
+}
+</code></pre>
+</div>
+
 
  <h3 id="reentrantlock-heading"><code>ReentrantLock</code></h3>
 
@@ -221,42 +230,45 @@ loadScripts(document, 'script');</script>
  one advantage is that we can introduce two separate <code>Condition</code> objects, which allows us to
  use <code>signal()</code> instead of <code>signalAll()</code>, which may be a performance benefit.
 
- <pre><code>
- public class SafeBox&lt;V&gt; {
-   private V value;
-   private final ReentrantLock lock = new ReentrantLock();
-   private final Condition valuePresent = lock.newCondition();
-   private final Condition valueAbsent = lock.newCondition();
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.Monitor4"><code>public class SafeBox&lt;V&gt; {
+  private V value;
+  private final ReentrantLock lock = new ReentrantLock();
+  private final Condition valuePresent = lock.newCondition();
+  private final Condition valueAbsent = lock.newCondition();
 
-   public V get() throws InterruptedException {
-     lock.lock();
-     try {
-       while (value == null) {
-         valuePresent.await();
-       }
-       V result = value;
-       value = null;
-       valueAbsent.signal();
-       return result;
-     } finally {
-       lock.unlock();
-     }
-   }
+  public V get() throws InterruptedException {
+    lock.lock();
+    try {
+      while (value == null) {
+        valuePresent.await();
+      }
+      V result = value;
+      value = null;
+      valueAbsent.signal();
+      return result;
+    } finally {
+      lock.unlock();
+    }
+  }
 
-   public void set(V newValue) throws InterruptedException {
-     lock.lock();
-     try {
-       while (value != null) {
-         valueAbsent.await();
-       }
-       value = newValue;
-       valuePresent.signal();
-     } finally {
-       lock.unlock();
-     }
-   }
- }
- </code></pre>
+  public void set(V newValue) throws InterruptedException {
+    lock.lock();
+    try {
+      while (value != null) {
+        valueAbsent.await();
+      }
+      value = newValue;
+      valuePresent.signal();
+    } finally {
+      lock.unlock();
+    }
+  }
+}
+</code></pre>
+</div>
+
 
  <h3 id="monitor-heading"><code>Monitor</code></h3>
 
@@ -266,34 +278,37 @@ loadScripts(document, 'script');</script>
  Finally, the programmer no longer has to hand-code the wait loop, and therefore doesn't have to
  remember to use <code>while</code> instead of <code>if</code>.
 
- <pre><code>
- public class SafeBox&lt;V&gt; {
-   private V value;
-   private final Monitor monitor = new Monitor();
-   private final Monitor.Guard valuePresent = monitor.newGuard(() -&gt; value != null);
-   private final Monitor.Guard valueAbsent = monitor.newGuard(() -&gt; value == null);
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.Monitor5"><code>public class SafeBox&lt;V&gt; {
+  private V value;
+  private final Monitor monitor = new Monitor();
+  private final Monitor.Guard valuePresent = monitor.newGuard(() -&gt; value != null);
+  private final Monitor.Guard valueAbsent = monitor.newGuard(() -&gt; value == null);
 
-   public V get() throws InterruptedException {
-     monitor.enterWhen(valuePresent);
-     try {
-       V result = value;
-       value = null;
-       return result;
-     } finally {
-       monitor.leave();
-     }
-   }
+  public V get() throws InterruptedException {
+    monitor.enterWhen(valuePresent);
+    try {
+      V result = value;
+      value = null;
+      return result;
+    } finally {
+      monitor.leave();
+    }
+  }
 
-   public void set(V newValue) throws InterruptedException {
-     monitor.enterWhen(valueAbsent);
-     try {
-       value = newValue;
-     } finally {
-       monitor.leave();
-     }
-   }
- }
- </code></pre></div>
+  public void set(V newValue) throws InterruptedException {
+    monitor.enterWhen(valueAbsent);
+    try {
+      value = newValue;
+    } finally {
+      monitor.leave();
+    }
+  }
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>

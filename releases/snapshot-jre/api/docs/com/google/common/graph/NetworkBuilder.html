@@ -121,24 +121,27 @@ loadScripts(document, 'script');</script>
 
  <p>Examples of use:
 
- <pre><code>
- // Building a mutable network
- MutableNetwork&lt;String, Integer&gt; network =
-     NetworkBuilder.directed().allowsParallelEdges(true).build();
- flightNetwork.addEdge("LAX", "ATL", 3025);
- flightNetwork.addEdge("LAX", "ATL", 1598);
- flightNetwork.addEdge("ATL", "LAX", 2450);
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.NetworkBuilder1"><code>// Building a mutable network
+MutableNetwork&lt;String, Integer&gt; network =
+    NetworkBuilder.directed().allowsParallelEdges(true).build();
+flightNetwork.addEdge("LAX", "ATL", 3025);
+flightNetwork.addEdge("LAX", "ATL", 1598);
+flightNetwork.addEdge("ATL", "LAX", 2450);
 
- // Building a immutable network
- ImmutableNetwork&lt;String, Integer&gt; immutableNetwork =
-     NetworkBuilder.directed()
-         .allowsParallelEdges(true)
-         .&lt;String, Integer&gt;immutable()
-         .addEdge("LAX", "ATL", 3025)
-         .addEdge("LAX", "ATL", 1598)
-         .addEdge("ATL", "LAX", 2450)
-         .build();
- </code></pre></div>
+// Building a immutable network
+ImmutableNetwork&lt;String, Integer&gt; immutableNetwork =
+    NetworkBuilder.directed()
+        .allowsParallelEdges(true)
+        .&lt;String, Integer&gt;immutable()
+        .addEdge("LAX", "ATL", 3025)
+        .addEdge("LAX", "ATL", 1598)
+        .addEdge("ATL", "LAX", 2450)
+        .build();
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>

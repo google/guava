@@ -58,15 +58,15 @@
 <span class="source-line-no">045</span><span id="line-45"> * strings. This class includes several constants for encoding schemes specified by &lt;a</span>
 <span class="source-line-no">046</span><span id="line-46"> * href="http://tools.ietf.org/html/rfc4648"&gt;RFC 4648&lt;/a&gt;. For example, the expression:</span>
 <span class="source-line-no">047</span><span id="line-47"> *</span>
-<span class="source-line-no">048</span><span id="line-48"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">048</span><span id="line-48"> * {@snippet :</span>
 <span class="source-line-no">049</span><span id="line-49"> * BaseEncoding.base32().encode("foo".getBytes(US_ASCII))</span>
-<span class="source-line-no">050</span><span id="line-50"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">050</span><span id="line-50"> * }</span>
 <span class="source-line-no">051</span><span id="line-51"> *</span>
 <span class="source-line-no">052</span><span id="line-52"> * &lt;p&gt;returns the string {@code "MZXW6==="}, and</span>
 <span class="source-line-no">053</span><span id="line-53"> *</span>
-<span class="source-line-no">054</span><span id="line-54"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">054</span><span id="line-54"> * {@snippet :</span>
 <span class="source-line-no">055</span><span id="line-55"> * byte[] decoded = BaseEncoding.base32().decode("MZXW6===");</span>
-<span class="source-line-no">056</span><span id="line-56"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">056</span><span id="line-56"> * }</span>
 <span class="source-line-no">057</span><span id="line-57"> *</span>
 <span class="source-line-no">058</span><span id="line-58"> * &lt;p&gt;...returns the ASCII bytes of the string {@code "foo"}.</span>
 <span class="source-line-no">059</span><span id="line-59"> *</span>
@@ -75,19 +75,19 @@
 <span class="source-line-no">062</span><span id="line-62"> * encoding and decoding behavior, use configuration methods to obtain a new encoding with modified</span>
 <span class="source-line-no">063</span><span id="line-63"> * behavior:</span>
 <span class="source-line-no">064</span><span id="line-64"> *</span>
-<span class="source-line-no">065</span><span id="line-65"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">065</span><span id="line-65"> * {@snippet :</span>
 <span class="source-line-no">066</span><span id="line-66"> * BaseEncoding.base16().lowerCase().decode("deadbeef");</span>
-<span class="source-line-no">067</span><span id="line-67"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">067</span><span id="line-67"> * }</span>
 <span class="source-line-no">068</span><span id="line-68"> *</span>
 <span class="source-line-no">069</span><span id="line-69"> * &lt;p&gt;Warning: BaseEncoding instances are immutable. Invoking a configuration method has no effect</span>
 <span class="source-line-no">070</span><span id="line-70"> * on the receiving instance; you must store and use the new encoding instance it returns, instead.</span>
 <span class="source-line-no">071</span><span id="line-71"> *</span>
-<span class="source-line-no">072</span><span id="line-72"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">072</span><span id="line-72"> * {@snippet :</span>
 <span class="source-line-no">073</span><span id="line-73"> * // Do NOT do this</span>
 <span class="source-line-no">074</span><span id="line-74"> * BaseEncoding hex = BaseEncoding.base16();</span>
 <span class="source-line-no">075</span><span id="line-75"> * hex.lowerCase(); // does nothing!</span>
 <span class="source-line-no">076</span><span id="line-76"> * return hex.decode("deadbeef"); // throws an IllegalArgumentException</span>
-<span class="source-line-no">077</span><span id="line-77"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">077</span><span id="line-77"> * }</span>
 <span class="source-line-no">078</span><span id="line-78"> *</span>
 <span class="source-line-no">079</span><span id="line-79"> * &lt;p&gt;It is guaranteed that {@code encoding.decode(encoding.encode(x))} is always equal to {@code</span>
 <span class="source-line-no">080</span><span id="line-80"> * x}, but the reverse does not necessarily hold.</span>

@@ -73,7 +73,7 @@
 <span class="source-line-no">060</span><span id="line-60"> *</span>
 <span class="source-line-no">061</span><span id="line-61"> * &lt;p&gt;Basic usage:</span>
 <span class="source-line-no">062</span><span id="line-62"> *</span>
-<span class="source-line-no">063</span><span id="line-63"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">063</span><span id="line-63"> * {@snippet :</span>
 <span class="source-line-no">064</span><span id="line-64"> * Stopwatch stopwatch = Stopwatch.createStarted();</span>
 <span class="source-line-no">065</span><span id="line-65"> * doSomething();</span>
 <span class="source-line-no">066</span><span id="line-66"> * stopwatch.stop(); // optional</span>
@@ -81,7 +81,7 @@
 <span class="source-line-no">068</span><span id="line-68"> * Duration duration = stopwatch.elapsed();</span>
 <span class="source-line-no">069</span><span id="line-69"> *</span>
 <span class="source-line-no">070</span><span id="line-70"> * log.info("time: " + stopwatch); // formatted string like "12.3 ms"</span>
-<span class="source-line-no">071</span><span id="line-71"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">071</span><span id="line-71"> * }</span>
 <span class="source-line-no">072</span><span id="line-72"> *</span>
 <span class="source-line-no">073</span><span id="line-73"> * &lt;p&gt;The state-changing methods are not idempotent; it is an error to start or stop a stopwatch</span>
 <span class="source-line-no">074</span><span id="line-74"> * that is already in the desired state.</span>
@@ -95,14 +95,14 @@
 <span class="source-line-no">082</span><span id="line-82"> * &lt;p&gt;&lt;b&gt;Warning for Android users:&lt;/b&gt; a stopwatch with default behavior may not continue to keep</span>
 <span class="source-line-no">083</span><span id="line-83"> * time while the device is asleep. Instead, create one like this:</span>
 <span class="source-line-no">084</span><span id="line-84"> *</span>
-<span class="source-line-no">085</span><span id="line-85"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">085</span><span id="line-85"> * {@snippet :</span>
 <span class="source-line-no">086</span><span id="line-86"> * Stopwatch.createStarted(</span>
 <span class="source-line-no">087</span><span id="line-87"> *      new Ticker() {</span>
 <span class="source-line-no">088</span><span id="line-88"> *        public long read() {</span>
 <span class="source-line-no">089</span><span id="line-89"> *          return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17</span>
 <span class="source-line-no">090</span><span id="line-90"> *        }</span>
 <span class="source-line-no">091</span><span id="line-91"> *      });</span>
-<span class="source-line-no">092</span><span id="line-92"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">092</span><span id="line-92"> * }</span>
 <span class="source-line-no">093</span><span id="line-93"> *</span>
 <span class="source-line-no">094</span><span id="line-94"> * @author Kevin Bourrillion</span>
 <span class="source-line-no">095</span><span id="line-95"> * @since 10.0</span>

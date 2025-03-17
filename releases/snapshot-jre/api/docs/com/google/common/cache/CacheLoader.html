@@ -103,21 +103,27 @@ loadScripts(document, 'script');</script>
 
  <p>Usage example:
 
- <pre><code>
- CacheLoader&lt;Key, Graph&gt; loader = new CacheLoader&lt;Key, Graph&gt;() {
-   public Graph load(Key key) throws AnyException {
-     return createExpensiveGraph(key);
-   }
- };
- LoadingCache&lt;Key, Graph&gt; cache = CacheBuilder.newBuilder().build(loader);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.cache.CacheLoader1"><code>CacheLoader&lt;Key, Graph&gt; loader = new CacheLoader&lt;Key, Graph&gt;() {
+  public Graph load(Key key) throws AnyException {
+    return createExpensiveGraph(key);
+  }
+};
+LoadingCache&lt;Key, Graph&gt; cache = CacheBuilder.newBuilder().build(loader);
+</code></pre>
+</div>
+
 
  <p>Since this example doesn't support reloading or bulk loading, it can also be specified much
  more simply:
 
- <pre><code>
- CacheLoader&lt;Key, Graph&gt; loader = CacheLoader.from(key -&gt; createExpensiveGraph(key));
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.cache.CacheLoader2"><code>CacheLoader&lt;Key, Graph&gt; loader = CacheLoader.from(key -&gt; createExpensiveGraph(key));
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>

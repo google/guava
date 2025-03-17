@@ -116,13 +116,16 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  <a href="#compareAndSet(int,double,double)"><code>compareAndSet(int, double, double)</code></a> by comparing their bitwise representation using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#doubleToRawLongBits(double)" title="class or interface in java.lang" class="external-link"><code>Double.doubleToRawLongBits(double)</code></a>, which differs from both the primitive double <code>==</code> operator and
  from <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Double.equals(java.lang.Object)</code></a>, as if implemented by:
 
- <pre><code>
- static boolean bitEquals(double x, double y) {
-   long xBits = Double.doubleToRawLongBits(x);
-   long yBits = Double.doubleToRawLongBits(y);
-   return xBits == yBits;
- }
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.AtomicDoubleArray1"><code>static boolean bitEquals(double x, double y) {
+  long xBits = Double.doubleToRawLongBits(x);
+  long yBits = Double.doubleToRawLongBits(y);
+  return xBits == yBits;
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>11.0</dd>

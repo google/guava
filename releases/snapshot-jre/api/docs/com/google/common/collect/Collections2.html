@@ -264,27 +264,30 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 
  <p>Examples:
 
- <pre><code>
- for (List&lt;String&gt; perm : orderedPermutations(asList("b", "c", "a"))) {
-   println(perm);
- }
- // -&gt; ["a", "b", "c"]
- // -&gt; ["a", "c", "b"]
- // -&gt; ["b", "a", "c"]
- // -&gt; ["b", "c", "a"]
- // -&gt; ["c", "a", "b"]
- // -&gt; ["c", "b", "a"]
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-orderedPermutations(java.lang.Iterable,java.util.Comparator)1"><code>for (List&lt;String&gt; perm : orderedPermutations(asList("b", "c", "a"))) {
+  println(perm);
+}
+// -&gt; ["a", "b", "c"]
+// -&gt; ["a", "c", "b"]
+// -&gt; ["b", "a", "c"]
+// -&gt; ["b", "c", "a"]
+// -&gt; ["c", "a", "b"]
+// -&gt; ["c", "b", "a"]
 
- for (List&lt;Integer&gt; perm : orderedPermutations(asList(1, 2, 2, 1))) {
-   println(perm);
- }
- // -&gt; [1, 1, 2, 2]
- // -&gt; [1, 2, 1, 2]
- // -&gt; [1, 2, 2, 1]
- // -&gt; [2, 1, 1, 2]
- // -&gt; [2, 1, 2, 1]
- // -&gt; [2, 2, 1, 1]
- </code></pre>
+for (List&lt;Integer&gt; perm : orderedPermutations(asList(1, 2, 2, 1))) {
+  println(perm);
+}
+// -&gt; [1, 1, 2, 2]
+// -&gt; [1, 2, 1, 2]
+// -&gt; [1, 2, 2, 1]
+// -&gt; [2, 1, 1, 2]
+// -&gt; [2, 1, 2, 1]
+// -&gt; [2, 2, 1, 1]
+</code></pre>
+</div>
+
 
  <p><i>Notes:</i> This is an implementation of the algorithm for Lexicographical Permutations
  Generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,

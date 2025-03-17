@@ -98,21 +98,24 @@ loadScripts(document, 'script');</script>
 
  <p>Example:
 
- <pre><code>
- final ListenableFuture&lt;Instant&gt; loginDateFuture =
-     loginService.findLastLoginDate(username);
- final ListenableFuture&lt;List&lt;String&gt;&gt; recentCommandsFuture =
-     recentCommandsService.findRecentCommands(username);
- ListenableFuture&lt;UsageHistory&gt; usageFuture =
-     Futures.whenAllSucceed(loginDateFuture, recentCommandsFuture)
-         .call(
-             () -&gt;
-                 new UsageHistory(
-                     username,
-                     Futures.getDone(loginDateFuture),
-                     Futures.getDone(recentCommandsFuture)),
-             executor);
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.Futures.FutureCombiner1"><code>final ListenableFuture&lt;Instant&gt; loginDateFuture =
+    loginService.findLastLoginDate(username);
+final ListenableFuture&lt;List&lt;String&gt;&gt; recentCommandsFuture =
+    recentCommandsService.findRecentCommands(username);
+ListenableFuture&lt;UsageHistory&gt; usageFuture =
+    Futures.whenAllSucceed(loginDateFuture, recentCommandsFuture)
+        .call(
+            () -&gt;
+                new UsageHistory(
+                    username,
+                    Futures.getDone(loginDateFuture),
+                    Futures.getDone(recentCommandsFuture)),
+            executor);
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>

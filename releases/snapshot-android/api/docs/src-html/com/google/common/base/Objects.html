@@ -74,11 +74,11 @@
 <span class="source-line-no">061</span><span id="line-61">   * &lt;p&gt;This is useful for implementing {@link Object#hashCode()}. For example, in an object that</span>
 <span class="source-line-no">062</span><span id="line-62">   * has three properties, {@code x}, {@code y}, and {@code z}, one could write:</span>
 <span class="source-line-no">063</span><span id="line-63">   *</span>
-<span class="source-line-no">064</span><span id="line-64">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">064</span><span id="line-64">   * {@snippet :</span>
 <span class="source-line-no">065</span><span id="line-65">   * public int hashCode() {</span>
 <span class="source-line-no">066</span><span id="line-66">   *   return Objects.hashCode(getX(), getY(), getZ());</span>
 <span class="source-line-no">067</span><span id="line-67">   * }</span>
-<span class="source-line-no">068</span><span id="line-68">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">068</span><span id="line-68">   * }</span>
 <span class="source-line-no">069</span><span id="line-69">   *</span>
 <span class="source-line-no">070</span><span id="line-70">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; When a single object is supplied, the returned hash code does not equal the</span>
 <span class="source-line-no">071</span><span id="line-71">   * hash code of that object.</span>

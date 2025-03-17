@@ -117,24 +117,27 @@ loadScripts(document, 'script');</script>
 
  <p>Examples of use:
 
- <pre><code>
- // Building a mutable value graph
- MutableValueGraph&lt;String, Double&gt; graph =
-     ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
- graph.putEdgeValue("San Francisco", "San Francisco", 0.0);
- graph.putEdgeValue("San Jose", "San Jose", 0.0);
- graph.putEdgeValue("San Francisco", "San Jose", 48.4);
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.ValueGraphBuilder1"><code>// Building a mutable value graph
+MutableValueGraph&lt;String, Double&gt; graph =
+    ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
+graph.putEdgeValue("San Francisco", "San Francisco", 0.0);
+graph.putEdgeValue("San Jose", "San Jose", 0.0);
+graph.putEdgeValue("San Francisco", "San Jose", 48.4);
 
- // Building an immutable value graph
- ImmutableValueGraph&lt;String, Double&gt; immutableGraph =
-     ValueGraphBuilder.undirected()
-         .allowsSelfLoops(true)
-         .&lt;String, Double&gt;immutable()
-         .putEdgeValue("San Francisco", "San Francisco", 0.0)
-         .putEdgeValue("San Jose", "San Jose", 0.0)
-         .putEdgeValue("San Francisco", "San Jose", 48.4)
-         .build();
- </code></pre></div>
+// Building an immutable value graph
+ImmutableValueGraph&lt;String, Double&gt; immutableGraph =
+    ValueGraphBuilder.undirected()
+        .allowsSelfLoops(true)
+        .&lt;String, Double&gt;immutable()
+        .putEdgeValue("San Francisco", "San Francisco", 0.0)
+        .putEdgeValue("San Jose", "San Jose", 0.0)
+        .putEdgeValue("San Francisco", "San Jose", 48.4)
+        .build();
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>

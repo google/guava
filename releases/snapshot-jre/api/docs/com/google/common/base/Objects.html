@@ -172,11 +172,14 @@ loadScripts(document, 'script');</script>
  <p>This is useful for implementing <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link"><code>Object.hashCode()</code></a>. For example, in an object that
  has three properties, <code>x</code>, <code>y</code>, and <code>z</code>, one could write:
 
- <pre><code>
- public int hashCode() {
-   return Objects.hashCode(getX(), getY(), getZ());
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-hashCode(java.lang.Object...)1"><code>public int hashCode() {
+  return Objects.hashCode(getX(), getY(), getZ());
+}
+</code></pre>
+</div>
+
 
  <p><b>Warning:</b> When a single object is supplied, the returned hash code does not equal the
  hash code of that object.

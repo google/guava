@@ -140,9 +140,9 @@
 <span class="source-line-no">127</span><span id="line-127">   *</span>
 <span class="source-line-no">128</span><span id="line-128">   * &lt;p&gt;For example:</span>
 <span class="source-line-no">129</span><span id="line-129">   *</span>
-<span class="source-line-no">130</span><span id="line-130">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">130</span><span id="line-130">   * {@snippet :</span>
 <span class="source-line-no">131</span><span id="line-131">   * Equivalence&lt;Person&gt; SAME_AGE = Equivalence.equals().onResultOf(GET_PERSON_AGE);</span>
-<span class="source-line-no">132</span><span id="line-132">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">132</span><span id="line-132">   * }</span>
 <span class="source-line-no">133</span><span id="line-133">   *</span>
 <span class="source-line-no">134</span><span id="line-134">   * &lt;p&gt;{@code function} will never be invoked with a null value.</span>
 <span class="source-line-no">135</span><span id="line-135">   *</span>
@@ -179,16 +179,16 @@
 <span class="source-line-no">166</span><span id="line-166">   * &lt;p&gt;For example, given an {@link Equivalence} for {@link String strings} named {@code equiv}</span>
 <span class="source-line-no">167</span><span id="line-167">   * that tests equivalence using their lengths:</span>
 <span class="source-line-no">168</span><span id="line-168">   *</span>
-<span class="source-line-no">169</span><span id="line-169">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">169</span><span id="line-169">   * {@snippet :</span>
 <span class="source-line-no">170</span><span id="line-170">   * equiv.wrap("a").equals(equiv.wrap("b")) // true</span>
 <span class="source-line-no">171</span><span id="line-171">   * equiv.wrap("a").equals(equiv.wrap("hello")) // false</span>
-<span class="source-line-no">172</span><span id="line-172">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">172</span><span id="line-172">   * }</span>
 <span class="source-line-no">173</span><span id="line-173">   *</span>
 <span class="source-line-no">174</span><span id="line-174">   * &lt;p&gt;Note in particular that an equivalence wrapper is never equal to the object it wraps.</span>
 <span class="source-line-no">175</span><span id="line-175">   *</span>
-<span class="source-line-no">176</span><span id="line-176">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">176</span><span id="line-176">   * {@snippet :</span>
 <span class="source-line-no">177</span><span id="line-177">   * equiv.wrap(obj).equals(obj) // always false</span>
-<span class="source-line-no">178</span><span id="line-178">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">178</span><span id="line-178">   * }</span>
 <span class="source-line-no">179</span><span id="line-179">   *</span>
 <span class="source-line-no">180</span><span id="line-180">   * @since 10.0</span>
 <span class="source-line-no">181</span><span id="line-181">   */</span>

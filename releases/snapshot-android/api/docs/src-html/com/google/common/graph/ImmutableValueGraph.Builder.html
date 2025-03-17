@@ -122,7 +122,7 @@
 <span class="source-line-no">109</span><span id="line-109">   * A builder for creating {@link ImmutableValueGraph} instances, especially {@code static final}</span>
 <span class="source-line-no">110</span><span id="line-110">   * graphs. Example:</span>
 <span class="source-line-no">111</span><span id="line-111">   *</span>
-<span class="source-line-no">112</span><span id="line-112">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">112</span><span id="line-112">   * {@snippet :</span>
 <span class="source-line-no">113</span><span id="line-113">   * static final ImmutableValueGraph&lt;City, Distance&gt; CITY_ROAD_DISTANCE_GRAPH =</span>
 <span class="source-line-no">114</span><span id="line-114">   *     ValueGraphBuilder.undirected()</span>
 <span class="source-line-no">115</span><span id="line-115">   *         .&lt;City, Distance&gt;immutable()</span>
@@ -131,7 +131,7 @@
 <span class="source-line-no">118</span><span id="line-118">   *         .putEdgeValue(BERLIN, BRUSSELS, kilometers(764))</span>
 <span class="source-line-no">119</span><span id="line-119">   *         .addNode(REYKJAVIK)</span>
 <span class="source-line-no">120</span><span id="line-120">   *         .build();</span>
-<span class="source-line-no">121</span><span id="line-121">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">121</span><span id="line-121">   * }</span>
 <span class="source-line-no">122</span><span id="line-122">   *</span>
 <span class="source-line-no">123</span><span id="line-123">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</span>
 <span class="source-line-no">124</span><span id="line-124">   * multiple graphs in series. Each new graph contains all the elements of the ones created before</span>

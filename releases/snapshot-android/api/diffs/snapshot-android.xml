@@ -235,10 +235,10 @@
 
  <p>Examples:
 
- <pre>{@code
+ {@snippet :
  Ascii.truncate("foobar", 7, "..."); // returns "foobar"
  Ascii.truncate("foobar", 5, "..."); // returns "fo..."
- }</pre>
+ }
 
  <p><b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for use
  with arbitrary Unicode text. It is mostly intended for use with text that is known to be safe
@@ -1270,9 +1270,9 @@
       <![CDATA[Returns a string containing all non-matching characters of a character sequence, in order. For
  example:
 
- <pre>{@code
+ {@snippet :
  CharMatcher.is('a').removeFrom("bazaar")
- }</pre>
+ }
 
  ... returns {@code "bzr"}.]]>
       </doc>
@@ -1286,9 +1286,9 @@
       <![CDATA[Returns a string containing all matching BMP characters of a character sequence, in order. For
  example:
 
- <pre>{@code
+ {@snippet :
  CharMatcher.is('a').retainFrom("bazaar")
- }</pre>
+ }
 
  ... returns {@code "aaa"}.]]>
       </doc>
@@ -1303,9 +1303,9 @@
       <![CDATA[Returns a string copy of the input character sequence, with each matching BMP character
  replaced by a given replacement character. For example:
 
- <pre>{@code
+ {@snippet :
  CharMatcher.is('a').replaceFrom("radar", 'o')
- }</pre>
+ }
 
  ... returns {@code "rodor"}.
 
@@ -1329,9 +1329,9 @@
       <![CDATA[Returns a string copy of the input character sequence, with each matching BMP character
  replaced by a given replacement sequence. For example:
 
- <pre>{@code
+ {@snippet :
  CharMatcher.is('a').replaceFrom("yaha", "oo")
- }</pre>
+ }
 
  ... returns {@code "yoohoo"}.
 
@@ -1353,17 +1353,17 @@
       <![CDATA[Returns a substring of the input character sequence that omits all matching BMP characters from
  the beginning and from the end of the string. For example:
 
- <pre>{@code
+ {@snippet :
  CharMatcher.anyOf("ab").trimFrom("abacatbab")
- }</pre>
+ }
 
  ... returns {@code "cat"}.
 
  <p>Note that:
 
- <pre>{@code
+ {@snippet :
  CharMatcher.inRange('\0', ' ').trimFrom(str)
- }</pre>
+ }
 
  ... is equivalent to {@link String#trim()}.]]>
       </doc>
@@ -1377,9 +1377,9 @@
       <![CDATA[Returns a substring of the input character sequence that omits all matching BMP characters from
  the beginning of the string. For example:
 
- <pre>{@code
+ {@snippet :
  CharMatcher.anyOf("ab").trimLeadingFrom("abacatbab")
- }</pre>
+ }
 
  ... returns {@code "catbab"}.]]>
       </doc>
@@ -1393,9 +1393,9 @@
       <![CDATA[Returns a substring of the input character sequence that omits all matching BMP characters from
  the end of the string. For example:
 
- <pre>{@code
+ {@snippet :
  CharMatcher.anyOf("ab").trimTrailingFrom("abacatbab")
- }</pre>
+ }
 
  ... returns {@code "abacat"}.]]>
       </doc>
@@ -1410,9 +1410,9 @@
       <![CDATA[Returns a string copy of the input character sequence, with each group of consecutive matching
  BMP characters replaced by a single replacement character. For example:
 
- <pre>{@code
+ {@snippet :
  CharMatcher.anyOf("eko").collapseFrom("bookkeeper", '-')
- }</pre>
+ }
 
  ... returns {@code "b-p-r"}.
 
@@ -1802,11 +1802,11 @@
 
  <p>An alternative using Java 8:
 
- <pre>{@code
+ {@snippet :
  return Converter.from(
      Integer::toHexString,
      s -> parseUnsignedInt(s, 16));
- }</pre>
+ }
 
  @author Mike Ward
  @author Kurt Alfred Kluever
@@ -1992,9 +1992,9 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  Equivalence<Person> SAME_AGE = Equivalence.equals().onResultOf(GET_PERSON_AGE);
- }</pre>
+ }
 
  <p>{@code function} will never be invoked with a null value.
 
@@ -2148,16 +2148,16 @@
  <p>For example, given an {@link Equivalence} for {@link String strings} named {@code equiv}
  that tests equivalence using their lengths:
 
- <pre>{@code
+ {@snippet :
  equiv.wrap("a").equals(equiv.wrap("b")) // true
  equiv.wrap("a").equals(equiv.wrap("hello")) // false
- }</pre>
+ }
 
  <p>Note in particular that an equivalence wrapper is never equal to the object it wraps.
 
- <pre>{@code
+ {@snippet :
  equiv.wrap(obj).equals(obj) // always false
- }</pre>
+ }
 
  @since 10.0]]>
     </doc>
@@ -2247,7 +2247,7 @@
  its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that has a
  number of well-known problems. Here is how you might use this class instead:
 
- <pre>{@code
+ {@snippet :
  public class MyServer implements Closeable {
    private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
    // You might also share this between several objects.
@@ -2289,12 +2289,12 @@
      serverSocket.close();
    }
  }
- }</pre>
+ }
 
  <p id="cleaner">Here is how you might achieve the same thing using {@link java.lang.ref.Cleaner
  Cleaner}, if you are using a Java version where that is available:
 
- <pre>{@code
+ {@snippet :
  public class MyServer implements Closeable {
    private static final Cleaner cleaner = Cleaner.create();
    // You might also share this between several objects.
@@ -2328,7 +2328,7 @@
      cleanable.clean();
    }
  }
- }</pre>
+ }
 
  <p>Some care is needed when using {@code Cleaner} to ensure that the callback passed to {@code
  register} does not have a reference to the object (in this case, {@code MyServer}) that may be
@@ -2828,11 +2828,11 @@
  {@link Map}) with a separator. It either appends the results to an {@link Appendable} or returns
  them as a {@link String}. Example:
 
- <pre>{@code
+ {@snippet :
  Joiner joiner = Joiner.on("; ").skipNulls();
   . . .
  return joiner.join("Harry", null, "Ron", "Hermione");
- }</pre>
+ }
 
  <p>This returns the string {@code "Harry; Ron; Hermione"}. Note that all input elements are
  converted to strings using {@link Object#toString()} before being appended.
@@ -2845,12 +2845,12 @@
  instance returned by the method. This makes joiners thread-safe, and safe to store as {@code
  static final} constants.
 
- <pre>{@code
+ {@snippet :
  // Bad! Do not do this!
  Joiner joiner = Joiner.on(',');
  joiner.skipNulls(); // does nothing!
  return joiner.join("wrong", null, "wrong");
- }</pre>
+ }
 
  <p>See the Guava User Guide article on <a
  href="https://github.com/google/guava/wiki/StringsExplained#joiner">{@code Joiner}</a>.
@@ -3051,7 +3051,7 @@
 
  <p>This is helpful for implementing {@link Object#toString()}. Specification by example:
 
- <pre>{@code
+ {@snippet :
  // Returns "ClassName{}"
  MoreObjects.toStringHelper(this)
      .toString();
@@ -3078,7 +3078,7 @@
      .add("x", 1)
      .add("y", null)
      .toString();
- }</pre>
+ }
 
  <p>Note that in GWT, class names are often obfuscated.
 
@@ -3407,11 +3407,11 @@
  <p>This is useful for implementing {@link Object#hashCode()}. For example, in an object that
  has three properties, {@code x}, {@code y}, and {@code z}, one could write:
 
- <pre>{@code
+ {@snippet :
  public int hashCode() {
    return Objects.hashCode(getX(), getY(), getZ());
  }
- }</pre>
+ }
 
  <p><b>Warning:</b> When a single object is supplied, the returned hash code does not equal the
  hash code of that object.
@@ -3562,27 +3562,27 @@
  restrictive. However, the ideal signature, {@code public <S super T> S or(S)}, is not legal
  Java. As a result, some sensible operations involving subtypes are compile errors:
 
- <pre>{@code
+ {@snippet :
  Optional<Integer> optionalInt = getSomeOptionalInt();
  Number value = optionalInt.or(0.5); // error
 
  FluentIterable<? extends Number> numbers = getSomeNumbers();
  Optional<? extends Number> first = numbers.first();
  Number value = first.or(0.5); // error
- }</pre>
+ }
 
  <p>As a workaround, it is always safe to cast an {@code Optional<? extends T>} to {@code
  Optional<T>}. Casting either of the above example {@code Optional} instances to {@code
  Optional<Number>} (where {@code Number} is the desired output type) solves the problem:
 
- <pre>{@code
+ {@snippet :
  Optional<Number> optionalInt = (Optional) getSomeOptionalInt();
  Number value = optionalInt.or(0.5); // fine
 
  FluentIterable<? extends Number> numbers = getSomeNumbers();
  Optional<Number> first = (Optional) numbers.first();
  Number value = first.or(0.5); // fine
- }</pre>
+ }
 
  <p><b>Comparison to {@code java.util.Optional}:</b> this method is similar to Java 8's {@code
  Optional.orElse}, but will not accept {@code null} as a {@code defaultValue} ({@link #orNull}
@@ -3642,17 +3642,17 @@
  <p><b>Comparison to {@code java.util.Optional}:</b> this method has no equivalent in Java 8's
  {@code Optional} class. However, this common usage:
 
- <pre>{@code
+ {@snippet :
  for (Foo foo : possibleFoo.asSet()) {
    doSomethingWith(foo);
  }
- }</pre>
+ }
 
  ... can be replaced with:
 
- <pre>{@code
+ {@snippet :
  possibleFoo.ifPresent(foo -> doSomethingWith(foo));
- }</pre>
+ }
 
  <p><b>Java 9 users:</b> some use cases can be written with calls to {@code optional.stream()}.
 
@@ -5127,31 +5127,31 @@
  of a specified type, which helps the method in which the exception was thrown communicate that
  its caller has made a mistake. This allows constructs such as
 
- <pre>{@code
+ {@snippet :
  public static double sqrt(double value) {
    if (value < 0) {
      throw new IllegalArgumentException("input is negative: " + value);
    }
    // calculate square root
  }
- }</pre>
+ }
 
  <p>to be replaced with the more compact
 
- <pre>{@code
+ {@snippet :
  public static double sqrt(double value) {
    checkArgument(value >= 0, "input is negative: %s", value);
    // calculate square root
  }
- }</pre>
+ }
 
  <p>so that a hypothetical bad caller of this method, such as:
 
- <pre>{@code
+ {@snippet :
  void exampleBadCaller() {
    double d = sqrt(-1.0);
  }
- }</pre>
+ }
 
  <p>would be flagged as having called {@code sqrt()} with an illegal argument.
 
@@ -5445,11 +5445,11 @@
       <![CDATA[Returns a predicate that evaluates to {@code true} if the class being tested is assignable to
  (is a subtype of) {@code clazz}. Example:
 
- <pre>{@code
+ {@snippet :
  List<Class<?>> classes = Arrays.asList(
      Object.class, String.class, Number.class, Long.class);
  return Iterables.filter(classes, subtypeOf(Number.class));
- }</pre>
+ }
 
  The code above returns an iterable containing {@code Number.class} and {@code Long.class}.
 
@@ -5786,13 +5786,13 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  String toSplit = " x -> y, z-> a ";
  Splitter outerSplitter = Splitter.on(',').trimResults();
  MapSplitter mapSplitter = outerSplitter.withKeyValueSeparator(Splitter.on("->"));
  Map<String, String> result = mapSplitter.split(toSplit);
  assertThat(result).isEqualTo(ImmutableMap.of("x ", " y", "z", " a"));
- }</pre>
+ }
 
  @since 10.0]]>
       </doc>
@@ -5806,9 +5806,9 @@
 
  <p>For example, this expression:
 
- <pre>{@code
+ {@snippet :
  Splitter.on(',').split("foo,bar,qux")
- }</pre>
+ }
 
  ... produces an {@code Iterable} containing {@code "foo"}, {@code "bar"} and {@code "qux"}, in
  that order.
@@ -5816,19 +5816,19 @@
  <p>By default, {@code Splitter}'s behavior is simplistic and unassuming. The following
  expression:
 
- <pre>{@code
+ {@snippet :
  Splitter.on(',').split(" foo,,,  bar ,")
- }</pre>
+ }
 
  ... yields the substrings {@code [" foo", "", "", " bar ", ""]}. If this is not the desired
  behavior, use configuration methods to obtain a <i>new</i> splitter instance with modified
  behavior:
 
- <pre>{@code
+ {@snippet :
  private static final Splitter MY_SPLITTER = Splitter.on(',')
      .trimResults()
      .omitEmptyStrings();
- }</pre>
+ }
 
  <p>Now {@code MY_SPLITTER.split("foo,,, bar ,")} returns just {@code ["foo", "bar"]}. Note that
  the order in which these configuration methods are called is never significant.
@@ -5837,12 +5837,12 @@
  effect on the receiving instance; you must store and use the new splitter instance it returns
  instead.
 
- <pre>{@code
+ {@snippet :
  // Do NOT do this
  Splitter splitter = Splitter.on('/');
  splitter.trimResults(); // does nothing!
  return splitter.split("wrong / wrong / wrong");
- }</pre>
+ }
 
  <p>For separator-based splitters that do not use {@code omitEmptyStrings}, an input string
  containing {@code n} occurrences of the separator naturally yields an iterable of size {@code n +
@@ -6127,7 +6127,7 @@
 
  <p>Basic usage:
 
- <pre>{@code
+ {@snippet :
  Stopwatch stopwatch = Stopwatch.createStarted();
  doSomething();
  stopwatch.stop(); // optional
@@ -6135,7 +6135,7 @@
  Duration duration = stopwatch.elapsed();
 
  log.info("time: " + stopwatch); // formatted string like "12.3 ms"
- }</pre>
+ }
 
  <p>The state-changing methods are not idempotent; it is an error to start or stop a stopwatch
  that is already in the desired state.
@@ -6149,14 +6149,14 @@
  <p><b>Warning for Android users:</b> a stopwatch with default behavior may not continue to keep
  time while the device is asleep. Instead, create one like this:
 
- <pre>{@code
+ {@snippet :
  Stopwatch.createStarted(
       new Ticker() {
         public long read() {
           return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17
         }
       });
- }</pre>
+ }
 
  @author Kevin Bourrillion
  @since 10.0]]>
@@ -7424,13 +7424,13 @@
  except that they are always enabled. These methods should be used instead of Java assertions
  whenever there is a chance the check may fail "in real life". Example:
 
- <pre>{@code
+ {@snippet :
  Bill bill = remoteService.getLastUnpaidBill();
 
  // In case bug 12345 happens again we'd rather just die
  Verify.verify(bill.status() == Status.UNPAID,
      "Unexpected bill status: %s", bill.status());
- }</pre>
+ }
 
  <h3>Comparison to alternatives</h3>
 
@@ -7461,12 +7461,12 @@
  the message ends up unneeded. Performance-sensitive verification checks should continue to use
  usual form:
 
- <pre>{@code
+ {@snippet :
  Bill bill = remoteService.getLastUnpaidBill();
  if (bill.status() != Status.UNPAID) {
    throw new VerifyException("Unexpected bill status: " + bill.status());
  }
- }</pre>
+ }
 
  <h3>Only {@code %s} is supported</h3>
 
@@ -8679,7 +8679,7 @@
 
  <p>Usage example:
 
- <pre>{@code
+ {@snippet :
  LoadingCache<Key, Graph> graphs = CacheBuilder.newBuilder()
      .maximumSize(10000)
      .expireAfterWrite(Duration.ofMinutes(10))
@@ -8690,11 +8690,11 @@
              return createExpensiveGraph(key);
            }
          });
- }</pre>
+ }
 
  <p>Or equivalently,
 
- <pre>{@code
+ {@snippet :
  // In real life this would come from a command-line flag or config file
  String spec = "maximumSize=10000,expireAfterWrite=10m";
 
@@ -8706,7 +8706,7 @@
              return createExpensiveGraph(key);
            }
          });
- }</pre>
+ }
 
  <p>The returned cache implements all optional operations of the {@link LoadingCache} and {@link
  Cache} interfaces. The {@code asMap} view (and its collection views) have <i>weakly consistent
@@ -9015,21 +9015,21 @@
 
  <p>Usage example:
 
- <pre>{@code
+ {@snippet :
  CacheLoader<Key, Graph> loader = new CacheLoader<Key, Graph>() {
    public Graph load(Key key) throws AnyException {
      return createExpensiveGraph(key);
    }
  };
  LoadingCache<Key, Graph> cache = CacheBuilder.newBuilder().build(loader);
- }</pre>
+ }
 
  <p>Since this example doesn't support reloading or bulk loading, if you're able to use lambda
  expressions it can be specified even more easily:
 
- <pre>{@code
+ {@snippet :
  CacheLoader<Key, Graph> loader = CacheLoader.from(key -> createExpensiveGraph(key));
- }</pre>
+ }
 
  @author Charles Fry
  @since 10.0]]>
@@ -9942,7 +9942,7 @@
  <p>Another example is an iterator that skips over null elements in a backing iterator. This could
  be implemented as:
 
- <pre>{@code
+ {@snippet :
  public static Iterator<String> skipNulls(final Iterator<String> in) {
    return new AbstractIterator<String>() {
      protected String computeNext() {
@@ -9956,7 +9956,7 @@
      }
    };
  }
- }</pre>
+ }
 
  <p>This class supports iterators that include null elements.
 
@@ -10006,14 +10006,14 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  Iterator<Integer> powersOfTwo =
      new AbstractSequentialIterator<Integer>(1) {
        protected Integer computeNext(Integer previous) {
          return (previous == 1 << 30) ? null : previous * 2;
        }
      };
- }</pre>
+ }
 
  @author Chris Povirk
  @since 12.0 (in Guava as {@code AbstractLinkedIterator} since 8.0)]]>
@@ -10812,7 +10812,7 @@
 
  <p>Examples:
 
- <pre>{@code
+ {@snippet :
  for (List<String> perm : orderedPermutations(asList("b", "c", "a"))) {
    println(perm);
  }
@@ -10832,7 +10832,7 @@
  // -> [2, 1, 1, 2]
  // -> [2, 1, 2, 1]
  // -> [2, 2, 1, 1]
- }</pre>
+ }
 
  <p><i>Notes:</i> This is an implementation of the algorithm for Lexicographical Permutations
  Generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,
@@ -10950,11 +10950,11 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  Stream.of("foo", "quux", "banana", "elephant")
      .collect(least(2, comparingInt(String::length)))
  // returns {"foo", "quux"}
- }</pre>
+ }
 
  <p>This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log
  k)), as opposed to e.g. {@code Stream.sorted(comparator).limit(k)}, which currently takes O(n
@@ -10977,11 +10977,11 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  Stream.of("foo", "quux", "banana", "elephant")
      .collect(greatest(2, comparingInt(String::length)))
  // returns {"elephant", "banana"}
- }</pre>
+ }
 
  <p>This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log
  k)), as opposed to e.g. {@code Stream.sorted(comparator.reversed()).limit(k)}, which currently
@@ -11265,7 +11265,7 @@
     <doc>
     <![CDATA[A utility for performing a chained comparison statement. For example:
 
- <pre>{@code
+ {@snippet :
  public int compareTo(Foo that) {
    return ComparisonChain.start()
        .compare(this.aString, that.aString)
@@ -11273,7 +11273,7 @@
        .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
        .result();
  }
- }</pre>
+ }
 
  <p>The value of this expression will have the same sign as the <i>first nonzero</i> comparison
  result in the chain, or will be zero if every comparison result was zero.
@@ -11290,6 +11290,37 @@
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto">{@code
  ComparisonChain}</a>.
+
+ <h4 id="java8">Java 8+ equivalents</h4>
+
+ If you are using Java version 8 or greater, you should generally use the static methods in {@link
+ Comparator} instead of {@code ComparisonChain}. The example above can be implemented like this:
+
+ {@snippet :
+ import static java.util.Comparator.comparing;
+ import static java.util.Comparator.nullsLast;
+ import static java.util.Comparator.naturalOrder;
+
+ ...
+   private static final Comparator<Foo> COMPARATOR =
+       comparing((Foo foo) -> foo.aString)
+           .thenComparing(foo -> foo.anInt)
+           .thenComparing(foo -> foo.anEnum, nullsLast(naturalOrder()));
+
+   @Override
+   public int compareTo(Foo that) {
+     return COMPARATOR.compare(this, that);
+   }
+ }
+
+ <p>With method references it is more succinct: {@code comparing(Foo::aString)} for example.
+
+ <p>Using {@link Comparator} avoids certain types of bugs, for example when you meant to write
+ {@code .compare(a.foo, b.foo)} but you actually wrote {@code .compare(a.foo, a.foo)} or {@code
+ .compare(a.foo, b.bar)}. {@code ComparisonChain} also has a potential performance problem that
+ {@code Comparator} doesn't: it evaluates all the parameters of all the {@code .compare} calls,
+ even when the result of the comparison is already known from previous {@code .compare} calls.
+ That can be expensive.
 
  @author Mark Davis
  @author Kevin Bourrillion
@@ -11728,16 +11759,16 @@
     <doc>
     <![CDATA[A sorted set of contiguous values in a given {@link DiscreteDomain}. Example:
 
- <pre>{@code
+ {@snippet :
  ContiguousSet.create(Range.closed(5, 42), DiscreteDomain.integers())
- }</pre>
+ }
 
  <p>Note that because bounded ranges over {@code int} and {@code long} values are so common, this
  particular example can be written as just:
 
- <pre>{@code
+ {@snippet :
  ContiguousSet.closed(5, 42)
- }</pre>
+ }
 
  <p><b>Warning:</b> Be extremely careful what you do with conceptually large instances (such as
  {@code ContiguousSet.create(Range.greaterThan(0), DiscreteDomain.integers()}). Certain operations
@@ -12505,11 +12536,11 @@
  This does perform a little more work than necessary, so another option is to insert an
  unchecked cast at some later point:
 
- <pre>
- {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check
+ {@snippet :
+ @SuppressWarnings("unchecked") // safe because of ::isInstance check
  ImmutableList<NewType> result =
-     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}
- </pre>]]>
+     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());
+ }]]>
       </doc>
     </method>
     <method name="anyMatch" return="boolean"
@@ -12807,14 +12838,14 @@
  map whose key is the result of applying {@code keyFunction} to that value. These entries appear
  in the same order as they appeared in this fluent iterable. Example usage:
 
- <pre>{@code
+ {@snippet :
  Color red = new Color("red", 255, 0, 0);
  ...
  FluentIterable<Color> allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));
 
  Map<String, Color> colorForName = allColors.uniqueIndex(toStringFunction());
  assertThat(colorForName).containsEntry("red", red);
- }</pre>
+ }
 
  <p>If your index may associate multiple values with each key, use {@link #index(Function)
  index}.
@@ -12955,18 +12986,18 @@
  transforms it by invoking {@code toString()} on each element, and returns the first 10 elements
  as a {@code List}:
 
- <pre>{@code
+ {@snippet :
  ImmutableList<String> results =
      FluentIterable.from(database.getClientList())
          .filter(Client::isActiveInLastMonth)
          .transform(Object::toString)
          .limit(10)
          .toList();
- }</pre>
+ }
 
  The approximate stream equivalent is:
 
- <pre>{@code
+ {@snippet :
  List<String> results =
      database.getClientList()
          .stream()
@@ -12974,7 +13005,7 @@
          .map(Object::toString)
          .limit(10)
          .collect(Collectors.toList());
- }</pre>
+ }
 
  @author Marcin Mikosik
  @since 12.0]]>
@@ -17352,14 +17383,14 @@
     <![CDATA[A builder for creating immutable bimap instances, especially {@code public static final} bimaps
  ("constant bimaps"). Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableBiMap<String, Integer> WORD_TO_INT =
      new ImmutableBiMap.Builder<String, Integer>()
          .put("one", 1)
          .put("two", 2)
          .put("three", 3)
          .buildOrThrow();
- }</pre>
+ }
 
  <p>For <i>small</i> immutable bimaps, the {@code ImmutableBiMap.of()} methods are even more
  convenient.
@@ -17518,14 +17549,14 @@
     <doc>
     <![CDATA[A builder for creating immutable class-to-instance maps. Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableClassToInstanceMap<Handler> HANDLERS =
      new ImmutableClassToInstanceMap.Builder<Handler>()
          .put(FooHandler.class, new FooHandler())
          .put(BarHandler.class, new SubBarHandler())
          .put(Handler.class, new QuuxHandler())
          .build();
- }</pre>
+ }
 
  <p>After invoking {@link #build()} it is still possible to add more entries and build again.
  Thus each map generated by this builder will be a superset of any map generated before it.
@@ -17760,7 +17791,7 @@
 
  <h4>Example usage</h4>
 
- <pre>{@code
+ {@snippet :
  class Foo {
    private static final ImmutableSet<String> RESERVED_CODES =
        ImmutableSet.of("AZ", "CQ", "ZX");
@@ -17772,7 +17803,7 @@
      checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));
    }
  }
- }</pre>
+ }
 
  <h3>See also</h3>
 
@@ -18461,13 +18492,13 @@
     <![CDATA[A builder for creating immutable list instances, especially {@code public static final} lists
  ("constant lists"). Example:
 
- <pre>{@code
+ {@snippet :
  public static final ImmutableList<Color> GOOGLE_COLORS =
      new ImmutableList.Builder<Color>()
          .addAll(WEBSAFE_COLORS)
          .add(new Color(0, 191, 255))
          .build();
- }</pre>
+ }
 
  <p>Elements appear in the resulting list in the same order they were added to the builder.
 
@@ -18502,7 +18533,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
      Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
          .collect(toImmutableListMultimap(str -> str.charAt(0), str -> str.substring(1)));
@@ -18515,7 +18546,7 @@
          .putAll('a', "pple", "sparagus")
          .putAll('c', "arrot", "herry")
          .build();
- }</pre>
+ }
 
  @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
@@ -18534,7 +18565,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
      Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
          .collect(
@@ -18553,7 +18584,8 @@
          .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
          .build();
  }
- }</pre>
+
+ }
 
  @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
@@ -18861,14 +18893,14 @@
     <![CDATA[A builder for creating immutable {@code ListMultimap} instances, especially {@code public
  static final} multimaps ("constant multimaps"). Example:
 
- <pre>{@code
+ {@snippet :
  static final Multimap<String, Integer> STRING_TO_INTEGER_MULTIMAP =
      new ImmutableListMultimap.Builder<String, Integer>()
          .put("one", 1)
          .putAll("several", 1, 2, 3)
          .putAll("many", 1, 2, 3, 4, 5)
          .build();
- }</pre>
+ }
 
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
  multiple multimaps in series. Each multimap contains the key-value mappings in the previously
@@ -19514,14 +19546,14 @@
     <![CDATA[A builder for creating immutable map instances, especially {@code public static final} maps
  ("constant maps"). Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableMap<String, Integer> WORD_TO_INT =
      new ImmutableMap.Builder<String, Integer>()
          .put("one", 1)
          .put("two", 2)
          .put("three", 3)
          .buildOrThrow();
- }</pre>
+ }
 
  <p>For <i>small</i> immutable maps, the {@code ImmutableMap.of()} methods are even more
  convenient.
@@ -20018,14 +20050,14 @@
     <![CDATA[A builder for creating immutable multimap instances, especially {@code public static final}
  multimaps ("constant multimaps"). Example:
 
- <pre>{@code
+ {@snippet :
  static final Multimap<String, Integer> STRING_TO_INTEGER_MULTIMAP =
      new ImmutableMultimap.Builder<String, Integer>()
          .put("one", 1)
          .putAll("several", 1, 2, 3)
          .putAll("many", 1, 2, 3, 4, 5)
          .build();
- }</pre>
+ }
 
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
  multiple multimaps in series. Each multimap contains the key-value mappings in the previously
@@ -20447,7 +20479,7 @@
     <![CDATA[A builder for creating immutable multiset instances, especially {@code public static final}
  multisets ("constant multisets"). Example:
 
- <pre>{@code
+ {@snippet :
  public static final ImmutableMultiset<Bean> BEANS =
      new ImmutableMultiset.Builder<Bean>()
          .addCopies(Bean.COCOA, 4)
@@ -20455,7 +20487,7 @@
          .addCopies(Bean.RED, 8)
          .addCopies(Bean.BLACK_EYED, 10)
          .build();
- }</pre>
+ }
 
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
  multiple multisets in series.
@@ -21345,13 +21377,13 @@
     <doc>
     <![CDATA[A builder for creating {@code ImmutableSet} instances. Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableSet<Color> GOOGLE_COLORS =
      ImmutableSet.<Color>builder()
          .addAll(WEBSAFE_COLORS)
          .add(new Color(0, 191, 255))
          .build();
- }</pre>
+ }
 
  <p>Elements appear in the resulting set in the same order they were first added to the builder.
 
@@ -21385,7 +21417,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
      Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
          .collect(toImmutableSetMultimap(str -> str.charAt(0), str -> str.substring(1)));
@@ -21398,7 +21430,7 @@
          .putAll('a', "pple", "sparagus")
          .putAll('c', "arrot", "herry")
          .build();
- }</pre>
+ }
 
  @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
@@ -21417,7 +21449,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableSetMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
      Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
          .collect(
@@ -21445,7 +21477,8 @@
          .putAll('c', Arrays.asList('a', 'r', 'o', 't', 'h', 'e', 'y'))
          .build();
  }
- }</pre>
+
+ }
 
  @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
@@ -21780,14 +21813,14 @@
     <![CDATA[A builder for creating immutable {@code SetMultimap} instances, especially {@code public static
  final} multimaps ("constant multimaps"). Example:
 
- <pre>{@code
+ {@snippet :
  static final Multimap<String, Integer> STRING_TO_INTEGER_MULTIMAP =
      new ImmutableSetMultimap.Builder<String, Integer>()
          .put("one", 1)
          .putAll("several", 1, 2, 3)
          .putAll("many", 1, 2, 3, 4, 5)
          .build();
- }</pre>
+ }
 
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
  multiple multimaps in series. Each multimap contains the key-value mappings in the previously
@@ -22934,14 +22967,14 @@
     <![CDATA[A builder for creating immutable sorted map instances, especially {@code public static final}
  maps ("constant maps"). Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableSortedMap<Integer, String> INT_TO_WORD =
      new ImmutableSortedMap.Builder<Integer, String>(Ordering.natural())
          .put(1, "one")
          .put(2, "two")
          .put(3, "three")
          .buildOrThrow();
- }</pre>
+ }
 
  <p>For <i>small</i> immutable sorted maps, the {@code ImmutableSortedMap.of()} methods are even
  more convenient.
@@ -23605,7 +23638,7 @@
     <![CDATA[A builder for creating immutable multiset instances, especially {@code public static final}
  multisets ("constant multisets"). Example:
 
- <pre>{@code
+ {@snippet :
  public static final ImmutableSortedMultiset<Bean> BEANS =
      new ImmutableSortedMultiset.Builder<Bean>(colorComparator())
          .addCopies(Bean.COCOA, 4)
@@ -23613,7 +23646,7 @@
          .addCopies(Bean.RED, 8)
          .addCopies(Bean.BLACK_EYED, 10)
          .build();
- }</pre>
+ }
 
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
  multiple multisets in series.
@@ -24395,13 +24428,13 @@
     <![CDATA[A builder for creating immutable sorted set instances, especially {@code public static final}
  sets ("constant sets"), with a given comparator. Example:
 
- <pre>{@code
+ {@snippet :
  public static final ImmutableSortedSet<Number> LUCKY_NUMBERS =
      new ImmutableSortedSet.Builder<Number>(ODDS_FIRST_COMPARATOR)
          .addAll(SINGLE_DIGIT_PRIMES)
          .add(42)
          .build();
- }</pre>
+ }
 
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
  multiple sets in series. Each set is a superset of the set created before it.
@@ -24737,14 +24770,14 @@
     <![CDATA[A builder for creating immutable table instances, especially {@code public static final} tables
  ("constant tables"). Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableTable<Integer, Character, String> SPREADSHEET =
      new ImmutableTable.Builder<Integer, Character, String>()
          .put(1, 'A', "foo")
          .put(1, 'B', "bar")
          .put(2, 'A', "baz")
          .buildOrThrow();
- }</pre>
+ }
 
  <p>By default, the order in which cells are added to the builder determines the iteration
  ordering of all views in the returned table, with {@link #putAll} following the {@link
@@ -25326,11 +25359,11 @@
  This does perform a little more work than necessary, so another option is to insert an
  unchecked cast at some later point:
 
- <pre>
- {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check
+ {@snippet :
+ @SuppressWarnings("unchecked") // safe because of ::isInstance check
  ImmutableList<NewType> result =
-     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}
- </pre>]]>
+     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());
+ }]]>
       </doc>
     </method>
     <method name="any" return="boolean"
@@ -26362,13 +26395,13 @@
  iteration, and hence return the same object each time. A subsequent call to {@code next} is
  guaranteed to return the same object again. For example:
 
- <pre>{@code
+ {@snippet :
  PeekingIterator<String> peekingIterator =
      Iterators.peekingIterator(Iterators.forArray("a", "b"));
  String a1 = peekingIterator.peek(); // returns "a"
  String a2 = peekingIterator.peek(); // also returns "a"
  String a3 = peekingIterator.next(); // also returns "a"
- }</pre>
+ }
 
  <p>Any structural changes to the underlying iteration (aside from those performed by the
  iterator's own {@link PeekingIterator#remove()} method) will leave the iterator in an undefined
@@ -26804,20 +26837,20 @@
  keys and values. The iteration order is preserved across non-distinct key values. For example,
  for the following multimap definition:
 
- <pre>{@code
+ {@snippet :
  Multimap<K, V> multimap = LinkedListMultimap.create();
  multimap.put(key1, foo);
  multimap.put(key2, bar);
  multimap.put(key1, baz);
- }</pre>
+ }
 
  ... the iteration order for {@link #keys()} is {@code [key1, key2, key1]}, and similarly for
  {@link #entries()}. Unlike {@link LinkedHashMultimap}, the iteration order is kept consistent
  between keys, entries and values. For example, calling:
 
- <pre>{@code
+ {@snippet :
  multimap.remove(key1, foo);
- }</pre>
+ }
 
  <p>changes the entries iteration order to {@code [key2=bar, key1=baz]} and the key iteration
  order to {@code [key2, key1]}. The {@link #entries()} iterator returns mutable map entries, and
@@ -27184,11 +27217,11 @@
  lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the lists. For example:
 
- <pre>{@code
+ {@snippet :
  Lists.cartesianProduct(ImmutableList.of(
      ImmutableList.of(1, 2),
      ImmutableList.of("A", "B", "C")))
- }</pre>
+ }
 
  <p>returns a list containing six lists in the following order:
 
@@ -27204,7 +27237,7 @@
  <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
  products that you would get from nesting for loops:
 
- <pre>{@code
+ {@snippet :
  for (B b0 : lists.get(0)) {
    for (B b1 : lists.get(1)) {
      ...
@@ -27212,7 +27245,7 @@
      // operate on tuple
    }
  }
- }</pre>
+ }
 
  <p>Note that if any input list is empty, the Cartesian product will also be empty. If no lists
  at all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -27244,11 +27277,11 @@
  lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the lists. For example:
 
- <pre>{@code
+ {@snippet :
  Lists.cartesianProduct(ImmutableList.of(
      ImmutableList.of(1, 2),
      ImmutableList.of("A", "B", "C")))
- }</pre>
+ }
 
  <p>returns a list containing six lists in the following order:
 
@@ -27264,7 +27297,7 @@
  <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
  products that you would get from nesting for loops:
 
- <pre>{@code
+ {@snippet :
  for (B b0 : lists.get(0)) {
    for (B b1 : lists.get(1)) {
      ...
@@ -27272,7 +27305,7 @@
      // operate on tuple
    }
  }
- }</pre>
+ }
 
  <p>Note that if any input list is empty, the Cartesian product will also be empty. If no lists
  at all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -27480,10 +27513,10 @@
       <doc>
       <![CDATA[Returns the hash code for this instance. This is defined as the hash code of
 
- <pre>{@code
+ {@snippet :
  Arrays.asList(entriesOnlyOnLeft(), entriesOnlyOnRight(),
      entriesInCommon(), entriesDiffering())
- }</pre>]]>
+ }]]>
       </doc>
     </method>
     <doc>
@@ -27662,12 +27695,12 @@
 
  <p>Usage example:
 
- <pre>{@code
+ {@snippet :
  ConcurrentMap<Request, Stopwatch> timers = new MapMaker()
      .concurrencyLevel(4)
      .weakKeys()
      .makeMap();
- }</pre>
+ }
 
  <p>These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent
  map that behaves similarly to a {@link ConcurrentHashMap}.
@@ -28181,12 +28214,12 @@
 
  <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
 
- <pre>{@code
+ {@snippet :
  import static com.google.common.collect.ImmutableMap.toImmutableMap;
  ...
  ImmutableMap<Color, String> colorNames =
      allColors.stream().collect(toImmutableMap(c -> c, c -> c.toString()));
- }</pre>
+ }
 
  <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
  and values in the map are.
@@ -28228,7 +28261,7 @@
  {@code keyFunction} to that value. These entries appear in the same order as the input values.
  Example usage:
 
- <pre>{@code
+ {@snippet :
  Color red = new Color("red", 255, 0, 0);
  ...
  ImmutableSet<Color> allColors = ImmutableSet.of(red, green, blue);
@@ -28236,19 +28269,19 @@
  ImmutableMap<String, Color> colorForName =
      uniqueIndex(allColors, c -> c.toString());
  assertThat(colorForName).containsEntry("red", red);
- }</pre>
+ }
 
  <p>If your index may associate multiple values with each key, use {@link
  Multimaps#index(Iterable, Function) Multimaps.index}.
 
  <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
 
- <pre>{@code
+ {@snippet :
  import static com.google.common.collect.ImmutableMap.toImmutableMap;
  ...
  ImmutableMap<String, Color> colorForName =
      allColors.stream().collect(toImmutableMap(c -> c.toString(), c -> c));
- }</pre>
+ }
 
  <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
  and values in the map are.
@@ -28275,7 +28308,7 @@
  {@code keyFunction} to that value. These entries appear in the same order as the input values.
  Example usage:
 
- <pre>{@code
+ {@snippet :
  Color red = new Color("red", 255, 0, 0);
  ...
  Iterator<Color> allColors = ImmutableSet.of(red, green, blue).iterator();
@@ -28283,7 +28316,7 @@
  Map<String, Color> colorForName =
      uniqueIndex(allColors, toStringFunction());
  assertThat(colorForName).containsEntry("red", red);
- }</pre>
+ }
 
  <p>If your index may associate multiple values with each key, use {@link
  Multimaps#index(Iterator, Function) Multimaps.index}.
@@ -28363,7 +28396,7 @@
  <p>It is imperative that the user manually synchronize on the returned map when accessing any
  of its collection views:
 
- <pre>{@code
+ {@snippet :
  BiMap<Long, String> map = Maps.synchronizedBiMap(
      HashBiMap.<Long, String>create());
  ...
@@ -28375,7 +28408,7 @@
      foo(it.next());
    }
  }
- }</pre>
+ }
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
@@ -28412,12 +28445,12 @@
       <![CDATA[Returns a view of a map where each value is transformed by a function. All other properties of
  the map, such as iteration order, are left intact. For example, the code:
 
- <pre>{@code
+ {@snippet :
  Map<String, Integer> map = ImmutableMap.of("a", 4, "b", 9);
  Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
  Map<String, Double> transformed = Maps.transformValues(map, sqrt);
  System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {a=2.0, b=3.0}}.
 
@@ -28447,13 +28480,13 @@
       <![CDATA[Returns a view of a sorted map where each value is transformed by a function. All other
  properties of the map, such as iteration order, are left intact. For example, the code:
 
- <pre>{@code
+ {@snippet :
  SortedMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
  Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
  SortedMap<String, Double> transformed =
       Maps.transformValues(map, sqrt);
  System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {a=2.0, b=3.0}}.
 
@@ -28485,7 +28518,7 @@
       <![CDATA[Returns a view of a navigable map where each value is transformed by a function. All other
  properties of the map, such as iteration order, are left intact. For example, the code:
 
- <pre>{@code
+ {@snippet :
  NavigableMap<String, Integer> map = Maps.newTreeMap();
  map.put("a", 4);
  map.put("b", 9);
@@ -28493,7 +28526,7 @@
  NavigableMap<String, Double> transformed =
       Maps.transformNavigableValues(map, sqrt);
  System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {a=2.0, b=3.0}}.
 
@@ -28529,7 +28562,7 @@
  <p>All other properties of the transformed map, such as iteration order, are left intact. For
  example, the code:
 
- <pre>{@code
+ {@snippet :
  Map<String, Boolean> options =
      ImmutableMap.of("verbose", true, "sort", false);
  EntryTransformer<String, Boolean, String> flagPrefixer =
@@ -28541,7 +28574,7 @@
  Map<String, String> transformed =
      Maps.transformEntries(options, flagPrefixer);
  System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {verbose=verbose, sort=nosort}}.
 
@@ -28583,7 +28616,7 @@
  <p>All other properties of the transformed map, such as iteration order, are left intact. For
  example, the code:
 
- <pre>{@code
+ {@snippet :
  Map<String, Boolean> options =
      ImmutableSortedMap.of("verbose", true, "sort", false);
  EntryTransformer<String, Boolean, String> flagPrefixer =
@@ -28595,7 +28628,7 @@
  SortedMap<String, String> transformed =
      Maps.transformEntries(options, flagPrefixer);
  System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {sort=yessort, verbose=verbose}}.
 
@@ -28637,7 +28670,7 @@
  <p>All other properties of the transformed map, such as iteration order, are left intact. For
  example, the code:
 
- <pre>{@code
+ {@snippet :
  NavigableMap<String, Boolean> options = Maps.newTreeMap();
  options.put("verbose", false);
  options.put("sort", true);
@@ -28650,7 +28683,7 @@
  NavigableMap<String, String> transformed =
      LabsMaps.transformNavigableEntries(options, flagPrefixer);
  System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {sort=yessort, verbose=verbose}}.
 
@@ -29104,7 +29137,7 @@
  iterating over any of its collection views, or the collections views of any of its {@code
  descendingMap}, {@code subMap}, {@code headMap} or {@code tailMap} views.
 
- <pre>{@code
+ {@snippet :
  NavigableMap<K, V> map = synchronizedNavigableMap(new TreeMap<K, V>());
 
  // Needn't be in synchronized block
@@ -29116,11 +29149,11 @@
      foo(it.next());
    }
  }
- }</pre>
+ }
 
  <p>or:
 
- <pre>{@code
+ {@snippet :
  NavigableMap<K, V> map = synchronizedNavigableMap(new TreeMap<K, V>());
  NavigableMap<K, V> map2 = map.subMap(foo, false, bar, true);
 
@@ -29133,7 +29166,7 @@
      foo(it.next());
    }
  }
- }</pre>
+ }
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
@@ -29429,11 +29462,11 @@
 
  <p>Usage example:
 
- <pre>{@code
+ {@snippet :
  MinMaxPriorityQueue<User> users = MinMaxPriorityQueue.orderedBy(userComparator)
      .maximumSize(1000)
      .create();
- }</pre>
+ }
 
  <p>As a {@link Queue} it functions exactly as a {@link PriorityQueue}: its head element -- the
  implicit target of the methods {@link #peek()}, {@link #poll()} and {@link #remove()} -- is
@@ -29668,11 +29701,11 @@
       <![CDATA[Stores a key-value pair in this multimap for each of {@code values}, all using the same key,
  {@code key}. Equivalent to (but expected to be more efficient than):
 
- <pre>{@code
+ {@snippet :
  for (V value : values) {
    put(key, value);
  }
- }</pre>
+ }
 
  <p>In particular, this is a no-op if {@code values} is empty.
 
@@ -29871,7 +29904,7 @@
 
  <p>The following code:
 
- <pre>{@code
+ {@snippet :
  ListMultimap<String, String> multimap = ArrayListMultimap.create();
  for (President pres : US_PRESIDENTS_IN_ORDER) {
    multimap.put(pres.firstName(), pres.lastName());
@@ -29880,17 +29913,17 @@
    List<String> lastNames = multimap.get(firstName);
    out.println(firstName + ": " + lastNames);
  }
- }</pre>
+ }
 
  ... produces output such as:
 
- <pre>{@code
+ {@snippet :
  Zachary: [Taylor]
  John: [Adams, Adams, Tyler, Kennedy]  // Remember, Quincy!
  George: [Washington, Bush, Bush]
  Grover: [Cleveland, Cleveland]        // Two, non-consecutive terms, rep'ing NJ!
  ...
- }</pre>
+ }
 
  <h3>Views</h3>
 
@@ -30095,12 +30128,12 @@
     <![CDATA[An immutable builder for {@link Multimap} instances, letting you independently select the desired
  behaviors (for example, ordering) of the backing map and value-collections. Example:
 
- <pre>{@code
+ {@snippet :
  ListMultimap<UserId, ErrorResponse> errorsByUser =
      MultimapBuilder.linkedHashKeys().arrayListValues().build();
  SortedSetMultimap<String, Method> methodsForName =
      MultimapBuilder.treeKeys().treeSetValues(this::compareMethods).build();
- }</pre>
+ }
 
  <p>{@code MultimapBuilder} instances are immutable. Invoking a configuration method has no effect
  on the receiving instance; you must store and use the new builder instance it returns instead.
@@ -30320,7 +30353,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  static final ListMultimap<Character, String> FIRST_LETTER_MULTIMAP =
      Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
          .collect(
@@ -30341,7 +30374,7 @@
      FIRST_LETTER_MULTIMAP.put('c', "arrot");
      FIRST_LETTER_MULTIMAP.put('c', "herry");
  }
- }</pre>
+ }
 
  <p>To collect to an {@link ImmutableMultimap}, use either {@link
  ImmutableSetMultimap#toImmutableSetMultimap} or {@link
@@ -30365,7 +30398,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
      Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
          .collect(
@@ -30386,7 +30419,7 @@
      FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'));
      FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
  }
- }</pre>
+ }
 
  @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>
@@ -30574,7 +30607,7 @@
  <p>It is imperative that the user manually synchronize on the returned multimap when accessing
  any of its collection views:
 
- <pre>{@code
+ {@snippet :
  Multimap<K, V> multimap = Multimaps.synchronizedMultimap(
      HashMultimap.<K, V>create());
  ...
@@ -30586,7 +30619,7 @@
      foo(i.next());
    }
  }
- }</pre>
+ }
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
@@ -30829,7 +30862,7 @@
       <![CDATA[Returns a view of a multimap where each value is transformed by a function. All other
  properties of the multimap, such as iteration order, are left intact. For example, the code:
 
- <pre>{@code
+ {@snippet :
  Multimap<String, Integer> multimap =
      ImmutableSetMultimap.of("a", 2, "b", -3, "b", -3, "a", 4, "c", 6);
  Function<Integer, String> square = new Function<Integer, String>() {
@@ -30840,7 +30873,7 @@
  Multimap<String, String> transformed =
      Multimaps.transformValues(multimap, square);
    System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {a=[4, 16], b=[9, 9], c=[36]}}.
 
@@ -30878,14 +30911,14 @@
  other properties of the multimap, such as iteration order, are left intact. For example, the
  code:
 
- <pre>{@code
+ {@snippet :
  ListMultimap<String, Integer> multimap =
       ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
  Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
  ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
      sqrt);
  System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.
 
@@ -30923,7 +30956,7 @@
  <p>All other properties of the transformed multimap, such as iteration order, are left intact.
  For example, the code:
 
- <pre>{@code
+ {@snippet :
  SetMultimap<String, Integer> multimap =
      ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);
  EntryTransformer<String, Integer, String> transformer =
@@ -30935,7 +30968,7 @@
  Multimap<String, String> transformed =
      Multimaps.transformEntries(multimap, transformer);
  System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {a=[a, a], b=[nob]}}.
 
@@ -30981,7 +31014,7 @@
  <p>All other properties of the transformed multimap, such as iteration order, are left intact.
  For example, the code:
 
- <pre>{@code
+ {@snippet :
  Multimap<String, Integer> multimap =
      ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
  EntryTransformer<String, Integer, String> transformer =
@@ -30993,7 +31026,7 @@
  Multimap<String, String> transformed =
      Multimaps.transformEntries(multimap, transformer);
  System.out.println(transformed);
- }</pre>
+ }
 
  ... prints {@code {"a"=["a1", "a4"], "b"=["b6"]}}.
 
@@ -31039,20 +31072,20 @@
 
  <p>For example,
 
- <pre>{@code
+ {@snippet :
  List<String> badGuys =
      Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
  Function<String, Integer> stringLengthFunction = ...;
  Multimap<Integer, String> index =
      Multimaps.index(badGuys, stringLengthFunction);
  System.out.println(index);
- }</pre>
+ }
 
  <p>prints
 
- <pre>{@code
+ {@snippet :
  {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
- }</pre>
+ }
 
  <p>The returned multimap is serializable if its keys and values are all serializable.
 
@@ -31081,20 +31114,20 @@
 
  <p>For example,
 
- <pre>{@code
+ {@snippet :
  List<String> badGuys =
      Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
  Function<String, Integer> stringLengthFunction = ...;
  Multimap<Integer, String> index =
      Multimaps.index(badGuys.iterator(), stringLengthFunction);
  System.out.println(index);
- }</pre>
+ }
 
  <p>prints
 
- <pre>{@code
+ {@snippet :
  {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
- }</pre>
+ }
 
  <p>The returned multimap is serializable if its keys and values are all serializable.
 
@@ -31580,9 +31613,9 @@
       <doc>
       <![CDATA[Returns the hash code for this multiset. This is defined as the sum of
 
- <pre>{@code
+ {@snippet :
  ((element == null) ? 0 : element.hashCode()) ^ count(element)
- }</pre>
+ }
 
  <p>over all distinct elements in the multiset. It follows that a multiset and its entry set
  always have the same hash code.]]>
@@ -31788,10 +31821,10 @@
  represent the same element and count. That is, two entries {@code a} and {@code b} are equal
  if:
 
- <pre>{@code
+ {@snippet :
  Objects.equal(a.getElement(), b.getElement())
      && a.getCount() == b.getCount()
- }</pre>]]>
+ }]]>
       </doc>
     </method>
     <method name="hashCode" return="int"
@@ -31804,9 +31837,9 @@
  <p>The hash code of a multiset entry for element {@code element} and count {@code count} is
  defined as:
 
- <pre>{@code
+ {@snippet :
  ((element == null) ? 0 : element.hashCode()) ^ count
- }</pre>]]>
+ }]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"
@@ -32083,11 +32116,11 @@
  in {@code occurrencesToRemove}. However, this operation <i>is</i> equivalent to, albeit
  sometimes more efficient than, the following:
 
- <pre>{@code
+ {@snippet :
  for (E e : occurrencesToRemove) {
    multisetToModify.remove(e);
  }
- }</pre>
+ }
 
  @return {@code true} if {@code multisetToModify} was changed as a result of this operation
  @since 18.0 (present in 10.0 with a requirement that the second parameter be a {@code
@@ -32113,11 +32146,11 @@
  in {@code occurrencesToRemove}. However, this operation <i>is</i> equivalent to, albeit
  sometimes more efficient than, the following:
 
- <pre>{@code
+ {@snippet :
  for (E e : occurrencesToRemove) {
    multisetToModify.remove(e);
  }
- }</pre>
+ }
 
  @return {@code true} if {@code multisetToModify} was changed as a result of this operation
  @since 10.0 (missing in 18.0 when only the overload taking an {@code Iterable} was present)]]>
@@ -32433,10 +32466,10 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  Ordering.allEqual().nullsLast().sortedCopy(
      asList(t, null, e, s, null, t, null))
- }</pre>
+ }
 
  <p>Assuming {@code t}, {@code e} and {@code s} are non-null, this returns {@code [t, e, s, t,
  null, null, null]} regardless of the true comparison order of those three values (which might
@@ -32534,10 +32567,10 @@
  then comparing those results using {@code this}. For example, to compare objects by their
  string forms, in a case-insensitive manner, use:
 
- <pre>{@code
+ {@snippet :
  Ordering.from(String.CASE_INSENSITIVE_ORDER)
      .onResultOf(Functions.toStringFunction())
- }</pre>
+ }
 
  <p><b>Java 8+ users:</b> Use {@code Comparator.comparing(function, thisComparator)} instead
  (you can omit the comparator if it is the natural order).]]>
@@ -33016,13 +33049,13 @@
 
  <p>Complex chained orderings like the following example can be challenging to understand.
 
- <pre>{@code
+ {@snippet :
  Ordering<Foo> ordering =
      Ordering.natural()
          .nullsFirst()
          .onResultOf(getBarFunction)
          .nullsLast();
- }</pre>
+ }
 
  Note that each chaining method returns a new ordering instance which is backed by the previous
  instance, but has the chance to act on values <i>before</i> handing off to that backing instance.
@@ -33418,7 +33451,7 @@
  <p>It is imperative that the user manually synchronize on the returned queue when accessing the
  queue's iterator:
 
- <pre>{@code
+ {@snippet :
  Queue<E> queue = Queues.synchronizedQueue(MinMaxPriorityQueue.<E>create());
  ...
  queue.add(element);  // Needn't be in synchronized block
@@ -33429,7 +33462,7 @@
      foo(i.next());
    }
  }
- }</pre>
+ }
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
@@ -33453,7 +33486,7 @@
  <p>It is imperative that the user manually synchronize on the returned deque when accessing any
  of the deque's iterators:
 
- <pre>{@code
+ {@snippet :
  Deque<E> deque = Queues.synchronizedDeque(Queues.<E>newArrayDeque());
  ...
  deque.add(element);  // Needn't be in synchronized block
@@ -33464,7 +33497,7 @@
      foo(i.next());
    }
  }
- }</pre>
+ }
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
@@ -34542,14 +34575,14 @@
  <p>Implementations that choose to support the {@link #add(Range)} operation are required to
  ignore empty ranges and coalesce connected ranges. For example:
 
- <pre>{@code
+ {@snippet :
  RangeSet<Integer> rangeSet = TreeRangeSet.create();
  rangeSet.add(Range.closed(1, 10)); // {[1, 10]}
  rangeSet.add(Range.closedOpen(11, 15)); // disconnected range; {[1, 10], [11, 15)}
  rangeSet.add(Range.closedOpen(15, 20)); // connected range; {[1, 10], [11, 20)}
  rangeSet.add(Range.openClosed(0, 0)); // empty range; {[1, 10], [11, 20)}
  rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 20)}
- }</pre>
+ }
 
  <p>Note that the behavior of {@link Range#isEmpty()} and {@link Range#isConnected(Range)} may not
  be as expected on discrete ranges. See the Javadoc of those methods for details.
@@ -35138,10 +35171,10 @@
  empty, passed directly to this method, and no reference to the map is retained, as illustrated
  in the following code fragment:
 
- <pre>{@code
+ {@snippet :
  Set<Object> identityHashSet = Sets.newSetFromMap(
      new IdentityHashMap<Object, Boolean>());
- }</pre>
+ }
 
  <p>The returned set is serializable if the backing map is.
 
@@ -35189,7 +35222,7 @@
  set based on the type of the first set passed, this could in rare cases force you to make a
  cast, for example:
 
- <pre>{@code
+ {@snippet :
  Set<Object> aFewBadObjects = ...
  Set<String> manyBadStrings = ...
 
@@ -35197,7 +35230,7 @@
  SuppressWarnings("unchecked")
  Set<String> badStrings = (Set) Sets.intersection(
      aFewBadObjects, manyBadStrings);
- }</pre>
+ }
 
  <p>This is unfortunate, but should come up only very rarely.]]>
       </doc>
@@ -35342,11 +35375,11 @@
  sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the sets. For example:
 
- <pre>{@code
+ {@snippet :
  Sets.cartesianProduct(ImmutableList.of(
      ImmutableSet.of(1, 2),
      ImmutableSet.of("A", "B", "C")))
- }</pre>
+ }
 
  <p>returns a set containing six lists:
 
@@ -35362,7 +35395,7 @@
  <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
  products that you would get from nesting for loops:
 
- <pre>{@code
+ {@snippet :
  for (B b0 : sets.get(0)) {
    for (B b1 : sets.get(1)) {
      ...
@@ -35370,7 +35403,7 @@
      // operate on tuple
    }
  }
- }</pre>
+ }
 
  <p>Note that if any input set is empty, the Cartesian product will also be empty. If no sets at
  all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -35401,11 +35434,11 @@
  sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the sets. For example:
 
- <pre>{@code
+ {@snippet :
  Sets.cartesianProduct(
      ImmutableSet.of(1, 2),
      ImmutableSet.of("A", "B", "C"))
- }</pre>
+ }
 
  <p>returns a set containing six lists:
 
@@ -35421,7 +35454,7 @@
  <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
  products that you would get from nesting for loops:
 
- <pre>{@code
+ {@snippet :
  for (B b0 : sets.get(0)) {
    for (B b1 : sets.get(1)) {
      ...
@@ -35429,7 +35462,7 @@
      // operate on tuple
    }
  }
- }</pre>
+ }
 
  <p>Note that if any input set is empty, the Cartesian product will also be empty. If no sets at
  all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -35546,7 +35579,7 @@
  iterating over it or any of its {@code descendingSet}, {@code subSet}, {@code headSet}, or
  {@code tailSet} views.
 
- <pre>{@code
+ {@snippet :
  NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<E>());
   ...
  synchronized (set) {
@@ -35556,22 +35589,22 @@
      foo(it.next());
    }
  }
- }</pre>
+ }
 
  <p>or:
 
- <pre>{@code
+ {@snippet :
  NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<E>());
  NavigableSet<E> set2 = set.descendingSet().headSet(foo);
   ...
  synchronized (set) { // Note: set, not set2!!!
    // Must be in the synchronized block
    Iterator<E> it = set2.descendingIterator();
-   while (it.hasNext())
+   while (it.hasNext()) {
      foo(it.next());
    }
  }
- }</pre>
+ }
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
@@ -36213,12 +36246,12 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  Streams.zip(
    Stream.of("foo1", "foo2", "foo3"),
    Stream.of("bar1", "bar2"),
    (arg1, arg2) -> arg1 + ":" + arg2)
- }</pre>
+ }
 
  <p>will return {@code Stream.of("foo1:bar1", "foo2:bar2")}.
 
@@ -36246,19 +36279,19 @@
  ignored. Elements passed to the consumer are guaranteed to come from the same position in their
  respective source streams. For example:
 
- <pre>{@code
+ {@snippet :
  Streams.forEachPair(
    Stream.of("foo1", "foo2", "foo3"),
    Stream.of("bar1", "bar2"),
    (arg1, arg2) -> System.out.println(arg1 + ":" + arg2)
- }</pre>
+ }
 
  <p>will print:
 
- <pre>{@code
+ {@snippet :
  foo1:bar1
  foo2:bar2
- }</pre>
+ }
 
  <p><b>Warning:</b> If either supplied stream is a parallel stream, the same correspondence
  between elements will be made, but the order in which those pairs of elements are passed to the
@@ -36281,11 +36314,11 @@
       <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
  {@code stream} and their indices in the stream. For example,
 
- <pre>{@code
+ {@snippet :
  mapWithIndex(
      Stream.of("a", "b", "c"),
      (e, index) -> index + ":" + e)
- }</pre>
+ }
 
  <p>would return {@code Stream.of("0:a", "1:b", "2:c")}.
 
@@ -36310,11 +36343,11 @@
       <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
  {@code stream} and their indexes in the stream. For example,
 
- <pre>{@code
+ {@snippet :
  mapWithIndex(
      IntStream.of(10, 11, 12),
      (e, index) -> index + ":" + e)
- }</pre>
+ }
 
  <p>...would return {@code Stream.of("0:10", "1:11", "2:12")}.
 
@@ -36339,11 +36372,11 @@
       <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
  {@code stream} and their indexes in the stream. For example,
 
- <pre>{@code
+ {@snippet :
  mapWithIndex(
      LongStream.of(10, 11, 12),
      (e, index) -> index + ":" + e)
- }</pre>
+ }
 
  <p>...would return {@code Stream.of("0:10", "1:11", "2:12")}.
 
@@ -36368,11 +36401,11 @@
       <![CDATA[Returns a stream consisting of the results of applying the given function to the elements of
  {@code stream} and their indexes in the stream. For example,
 
- <pre>{@code
+ {@snippet :
  mapWithIndex(
      DoubleStream.of(0.0, 1.0, 2.0)
      (e, index) -> index + ":" + e)
- }</pre>
+ }
 
  <p>...would return {@code Stream.of("0:0.0", "1:1.0", "2:2.0")}.
 
@@ -37127,7 +37160,7 @@
  <p>It is imperative that the user manually synchronize on the returned table when accessing any
  of its collection views:
 
- <pre>{@code
+ {@snippet :
  Table<R, C, V> table = Tables.synchronizedTable(HashBasedTable.<R, C, V>create());
  ...
  Map<C, V> row = table.row(rowKey);  // Needn't be in synchronized block
@@ -37138,7 +37171,7 @@
      foo(i.next());
    }
  }
- }</pre>
+ }
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
@@ -37863,7 +37896,7 @@
 
  <p>For example, the tree
 
- <pre>{@code
+ {@snippet :
         h
       / | \
      /  e  \
@@ -37871,7 +37904,7 @@
    /|\      |
   / | \     f
  a  b  c
- }</pre>
+ }
 
  <p>can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order
  (hdegabcf).
@@ -37881,16 +37914,16 @@
  <p>Because this is an abstract class, not an interface, you can't use a lambda expression to
  implement it:
 
- <pre>{@code
+ {@snippet :
  // won't work
  TreeTraverser<NodeType> traverser = node -> node.getChildNodes();
- }</pre>
+ }
 
  Instead, you can pass a lambda expression to the {@code using} factory method:
 
- <pre>{@code
+ {@snippet :
  TreeTraverser<NodeType> traverser = TreeTraverser.using(node -> node.getChildNodes());
- }</pre>
+ }
 
  @author Louis Wasserman
  @since 15.0
@@ -39593,10 +39626,10 @@
 
  <p>Example usage:
 
- <pre>{@code
+ {@snippet :
  MutableGraph<Integer> graph =
      GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
- }</pre>
+ }
 
  @author Joshua O'Madadhain
  @since 20.0]]>
@@ -40079,9 +40112,9 @@
  create an instance of one of the built-in implementations of {@code Graph}, use the {@link
  GraphBuilder} class:
 
- <pre>{@code
+ {@snippet :
  MutableGraph<Integer> graph = GraphBuilder.undirected().build();
- }</pre>
+ }
 
  <p>{@link GraphBuilder#build()} returns an instance of {@link MutableGraph}, which is a subtype
  of {@code Graph} that provides methods for adding and removing nodes and edges. If you do not
@@ -40091,9 +40124,9 @@
  <p>You can create an immutable copy of an existing {@code Graph} using {@link
  ImmutableGraph#copyOf(Graph)}:
 
- <pre>{@code
+ {@snippet :
  ImmutableGraph<Integer> immutableGraph = ImmutableGraph.copyOf(graph);
- }</pre>
+ }
 
  <p>Instances of {@link ImmutableGraph} do not implement {@link MutableGraph} (obviously!) and are
  contractually guaranteed to be unmodifiable and thread-safe.
@@ -40255,7 +40288,7 @@
 
  <p>Examples of use:
 
- <pre>{@code
+ {@snippet :
  // Building a mutable graph
  MutableGraph<String> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
  graph.putEdge("bread", "bread");
@@ -40271,7 +40304,7 @@
          .putEdge("chocolate", "peanut butter")
          .putEdge("peanut butter", "jelly")
          .build();
- }</pre>
+ }
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -40580,7 +40613,7 @@
     <![CDATA[A builder for creating {@link ImmutableGraph} instances, especially {@code static final}
  graphs. Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableGraph<Country> COUNTRY_ADJACENCY_GRAPH =
      GraphBuilder.undirected()
          .<Country>immutable()
@@ -40589,7 +40622,7 @@
          .putEdge(GERMANY, BELGIUM)
          .addNode(ICELAND)
          .build();
- }</pre>
+ }
 
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
  multiple graphs in series. Each new graph contains all the elements of the ones created before
@@ -40740,7 +40773,7 @@
     <![CDATA[A builder for creating {@link ImmutableNetwork} instances, especially {@code static final}
  networks. Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableNetwork<City, Train> TRAIN_NETWORK =
      NetworkBuilder.undirected()
          .allowsParallelEdges(true)
@@ -40751,7 +40784,7 @@
          .addEdge(LONDON, BRUSSELS, Eurostar.trainNumber("4444"))
          .addNode(REYKJAVIK)
          .build();
- }</pre>
+ }
 
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
  multiple networks in series. Each new network contains all the elements of the ones created
@@ -40894,7 +40927,7 @@
     <![CDATA[A builder for creating {@link ImmutableValueGraph} instances, especially {@code static final}
  graphs. Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableValueGraph<City, Distance> CITY_ROAD_DISTANCE_GRAPH =
      ValueGraphBuilder.undirected()
          .<City, Distance>immutable()
@@ -40903,7 +40936,7 @@
          .putEdgeValue(BERLIN, BRUSSELS, kilometers(764))
          .addNode(REYKJAVIK)
          .build();
- }</pre>
+ }
 
  <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
  multiple graphs in series. Each new graph contains all the elements of the ones created before
@@ -41787,9 +41820,9 @@
  create an instance of one of the built-in implementations of {@code Network}, use the {@link
  NetworkBuilder} class:
 
- <pre>{@code
+ {@snippet :
  MutableNetwork<Integer, MyEdge> network = NetworkBuilder.directed().build();
- }</pre>
+ }
 
  <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
  subtype of {@code Network} that provides methods for adding and removing nodes and edges. If you
@@ -41800,9 +41833,9 @@
  <p>You can create an immutable copy of an existing {@code Network} using {@link
  ImmutableNetwork#copyOf(Network)}:
 
- <pre>{@code
+ {@snippet :
  ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(network);
- }</pre>
+ }
 
  <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
  are contractually guaranteed to be unmodifiable and thread-safe.
@@ -41979,7 +42012,7 @@
 
  <p>Examples of use:
 
- <pre>{@code
+ {@snippet :
  // Building a mutable network
  MutableNetwork<String, Integer> network =
      NetworkBuilder.directed().allowsParallelEdges(true).build();
@@ -41996,7 +42029,7 @@
          .addEdge("LAX", "ATL", 1598)
          .addEdge("ATL", "LAX", 2450)
          .build();
- }</pre>
+ }
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -42050,18 +42083,18 @@
 
  Given an algorithm, for example:
 
- <pre>{@code
+ {@snippet :
  public <N> someGraphAlgorithm(N startNode, PredecessorsFunction<N> predecessorsFunction);
- }</pre>
+ }
 
  you will invoke it depending on the graph representation you're using.
 
  <p>If you have an instance of one of the primary {@code common.graph} types ({@link Graph},
  {@link ValueGraph}, and {@link Network}):
 
- <pre>{@code
+ {@snippet :
  someGraphAlgorithm(startNode, graph);
- }</pre>
+ }
 
  This works because those types each implement {@code PredecessorsFunction}. It will also work
  with any other implementation of this interface.
@@ -42069,17 +42102,17 @@
  <p>If you have your own graph implementation based around a custom node type {@code MyNode},
  which has a method {@code getParents()} that retrieves its predecessors in a graph:
 
- <pre>{@code
+ {@snippet :
  someGraphAlgorithm(startNode, MyNode::getParents);
- }</pre>
+ }
 
  <p>If you have some other mechanism for returning the predecessors of a node, or one that doesn't
  return a {@code Iterable<? extends N>}, then you can use a lambda to perform a more general
  transformation:
 
- <pre>{@code
+ {@snippet :
  someGraphAlgorithm(startNode, node -> ImmutableList.of(node.mother(), node.father()));
- }</pre>
+ }
 
  <p>Graph algorithms that need additional capabilities (accessing both predecessors and
  successors, iterating over the edges, etc.) should declare their input to be of a type that
@@ -42143,18 +42176,18 @@
 
  Given an algorithm, for example:
 
- <pre>{@code
+ {@snippet :
  public <N> someGraphAlgorithm(N startNode, SuccessorsFunction<N> successorsFunction);
- }</pre>
+ }
 
  you will invoke it depending on the graph representation you're using.
 
  <p>If you have an instance of one of the primary {@code common.graph} types ({@link Graph},
  {@link ValueGraph}, and {@link Network}):
 
- <pre>{@code
+ {@snippet :
  someGraphAlgorithm(startNode, graph);
- }</pre>
+ }
 
  This works because those types each implement {@code SuccessorsFunction}. It will also work with
  any other implementation of this interface.
@@ -42162,17 +42195,17 @@
  <p>If you have your own graph implementation based around a custom node type {@code MyNode},
  which has a method {@code getChildren()} that retrieves its successors in a graph:
 
- <pre>{@code
+ {@snippet :
  someGraphAlgorithm(startNode, MyNode::getChildren);
- }</pre>
+ }
 
  <p>If you have some other mechanism for returning the successors of a node, or one that doesn't
  return an {@code Iterable<? extends N>}, then you can use a lambda to perform a more general
  transformation:
 
- <pre>{@code
+ {@snippet :
  someGraphAlgorithm(startNode, node -> ImmutableList.of(node.leftChild(), node.rightChild()));
- }</pre>
+ }
 
  <p>Graph algorithms that need additional capabilities (accessing both predecessors and
  successors, iterating over the edges, etc.) should declare their input to be of a type that
@@ -42269,7 +42302,7 @@
  b} were <i>also</i> a start node, then there would be multiple paths to reach {@code e} and
  {@code h}.
 
- <pre>{@code
+ {@snippet :
     a     b      c
    / \   / \     |
   /   \ /   \    |
@@ -42277,14 +42310,14 @@
        |
        |
        h
- }</pre>
+ }
 
  <p>.
 
  <p>The graph below would be a valid input with start nodes of {@code a, f}. However, if {@code
  b} were a start node, there would be multiple paths to {@code f}.
 
- <pre>{@code
+ {@snippet :
     a     b
    / \   / \
   /   \ /   \
@@ -42292,16 +42325,16 @@
         \   /
          \ /
           f
- }</pre>
+ }
 
  <p><b>Note on binary trees</b>
 
  <p>This method can be used to traverse over a binary tree. Given methods {@code
  leftChild(node)} and {@code rightChild(node)}, this method can be called as
 
- <pre>{@code
+ {@snippet :
  Traverser.forTree(node -> ImmutableList.of(leftChild(node), rightChild(node)));
- }</pre>
+ }
 
  @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most
      one path between any two nodes]]>
@@ -42320,12 +42353,12 @@
  <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
  the order {@code abcdef} (assuming successors are returned in alphabetical order).
 
- <pre>{@code
+ {@snippet :
  b ---- a ---- d
  |      |
  |      |
  e ---- c ---- f
- }</pre>
+ }
 
  <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
  while iteration is in progress.
@@ -42334,9 +42367,9 @@
  compute its next element on the fly. It is thus possible to limit the traversal to a certain
  number of nodes as follows:
 
- <pre>{@code
+ {@snippet :
  Iterables.limit(Traverser.forGraph(graph).breadthFirst(node), maxNumberOfNodes);
- }</pre>
+ }
 
  <p>See <a href="https://en.wikipedia.org/wiki/Breadth-first_search">Wikipedia</a> for more
  info.
@@ -42373,12 +42406,12 @@
  <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
  the order {@code abecfd} (assuming successors are returned in alphabetical order).
 
- <pre>{@code
+ {@snippet :
  b ---- a ---- d
  |      |
  |      |
  e ---- c ---- f
- }</pre>
+ }
 
  <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
  while iteration is in progress.
@@ -42387,10 +42420,10 @@
  compute its next element on the fly. It is thus possible to limit the traversal to a certain
  number of nodes as follows:
 
- <pre>{@code
+ {@snippet :
  Iterables.limit(
      Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);
- }</pre>
+ }
 
  <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
 
@@ -42426,12 +42459,12 @@
  <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
  the order {@code fcebda} (assuming successors are returned in alphabetical order).
 
- <pre>{@code
+ {@snippet :
  b ---- a ---- d
  |      |
  |      |
  e ---- c ---- f
- }</pre>
+ }
 
  <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
  while iteration is in progress.
@@ -42440,10 +42473,10 @@
  compute its next element on the fly. It is thus possible to limit the traversal to a certain
  number of nodes as follows:
 
- <pre>{@code
+ {@snippet :
  Iterables.limit(
      Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);
- }</pre>
+ }
 
  <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
 
@@ -42860,9 +42893,9 @@
  create an instance of one of the built-in implementations of {@code ValueGraph}, use the {@link
  ValueGraphBuilder} class:
 
- <pre>{@code
+ {@snippet :
  MutableValueGraph<Integer, Double> graph = ValueGraphBuilder.directed().build();
- }</pre>
+ }
 
  <p>{@link ValueGraphBuilder#build()} returns an instance of {@link MutableValueGraph}, which is a
  subtype of {@code ValueGraph} that provides methods for adding and removing nodes and edges. If
@@ -42873,9 +42906,9 @@
  <p>You can create an immutable copy of an existing {@code ValueGraph} using {@link
  ImmutableValueGraph#copyOf(ValueGraph)}:
 
- <pre>{@code
+ {@snippet :
  ImmutableValueGraph<Integer, Double> immutableGraph = ImmutableValueGraph.copyOf(graph);
- }</pre>
+ }
 
  <p>Instances of {@link ImmutableValueGraph} do not implement {@link MutableValueGraph}
  (obviously!) and are contractually guaranteed to be unmodifiable and thread-safe.
@@ -43041,7 +43074,7 @@
 
  <p>Examples of use:
 
- <pre>{@code
+ {@snippet :
  // Building a mutable value graph
  MutableValueGraph<String, Double> graph =
      ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
@@ -43058,7 +43091,7 @@
          .putEdgeValue("San Jose", "San Jose", 0.0)
          .putEdgeValue("San Francisco", "San Jose", 48.4)
          .build();
- }</pre>
+ }
 
  @author James Sexton
  @author Joshua O'Madadhain
@@ -43462,7 +43495,7 @@
  single-element enum to maintain serialization guarantees. See Effective Java (2nd Edition), Item
  3: "Enforce the singleton property with a private constructor or an enum type". For example:
 
- <pre>{@code
+ {@snippet :
  public enum PersonFunnel implements Funnel<Person> {
    INSTANCE;
    public void funnel(Person person, PrimitiveSink into) {
@@ -43471,7 +43504,7 @@
          .putInt(person.getAge());
    }
  }
- }</pre>
+ }
 
  @author Dimitris Andreou
  @since 11.0]]>
@@ -43910,11 +43943,11 @@
  were inserted, not how those bytes were chunked into discrete put() operations. For example, the
  following three expressions all generate colliding hash codes:
 
- <pre>{@code
+ {@snippet :
  newHasher().putByte(b1).putByte(b2).putByte(b3).hash()
  newHasher().putByte(b1).putBytes(new byte[] { b2, b3 }).hash()
  newHasher().putBytes(new byte[] { b1, b2, b3 }).hash()
- }</pre>
+ }
 
  <p>If you wish to avoid this, you should either prepend or append the size of each chunk. Keep in
  mind that when dealing with char sequences, the encoded form of two concatenated char sequences
@@ -43939,13 +43972,13 @@
       <![CDATA[Begins a new hash code computation by returning an initialized, stateful {@code Hasher}
  instance that is ready to receive data. Example:
 
- <pre>{@code
+ {@snippet :
  HashFunction hf = Hashing.md5();
  HashCode hc = hf.newHasher()
      .putLong(id)
      .putBoolean(isActive)
      .hash();
- }</pre>]]>
+ }]]>
       </doc>
     </method>
     <method name="newHasher" return="com.google.common.hash.Hasher"
@@ -45380,15 +45413,15 @@
  strings. This class includes several constants for encoding schemes specified by <a
  href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
 
- <pre>{@code
+ {@snippet :
  BaseEncoding.base32().encode("foo".getBytes(US_ASCII))
- }</pre>
+ }
 
  <p>returns the string {@code "MZXW6==="}, and
 
- <pre>{@code
+ {@snippet :
  byte[] decoded = BaseEncoding.base32().decode("MZXW6===");
- }</pre>
+ }
 
  <p>...returns the ASCII bytes of the string {@code "foo"}.
 
@@ -45397,19 +45430,19 @@
  encoding and decoding behavior, use configuration methods to obtain a new encoding with modified
  behavior:
 
- <pre>{@code
+ {@snippet :
  BaseEncoding.base16().lowerCase().decode("deadbeef");
- }</pre>
+ }
 
  <p>Warning: BaseEncoding instances are immutable. Invoking a configuration method has no effect
  on the receiving instance; you must store and use the new encoding instance it returns, instead.
 
- <pre>{@code
+ {@snippet :
  // Do NOT do this
  BaseEncoding hex = BaseEncoding.base16();
  hex.lowerCase(); // does nothing!
  return hex.decode("deadbeef"); // throws an IllegalArgumentException
- }</pre>
+ }
 
  <p>It is guaranteed that {@code encoding.decode(encoding.encode(x))} is always equal to {@code
  x}, but the reverse does not necessarily hold.
@@ -46688,13 +46721,13 @@
 
  <p>The caller is responsible for ensuring that the returned stream is closed. For example:
 
- <pre>{@code
+ {@snippet :
  try (Stream<String> lines = source.lines()) {
    lines.map(...)
       .filter(...)
       .forEach(...);
  }
- }</pre>
+ }
 
  @throws IOException if an I/O error occurs while opening the stream
  @since 33.4.0 (but since 22.0 in the JRE flavor)]]>
@@ -47166,7 +47199,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  public void useStreamNicely() throws IOException {
    SomeStream stream = new SomeStream("foo");
    boolean threw = true;
@@ -47178,7 +47211,7 @@
      Closeables.close(stream, threw);
    }
  }
- }</pre>
+ }
 
  @param closeable the {@code Closeable} object to be closed, or null, in which case this method
      does nothing
@@ -47352,7 +47385,7 @@
 
  <p>This class is intended to be used in the following pattern:
 
- <pre>{@code
+ {@snippet :
  Closer closer = Closer.create();
  try {
    InputStream in = closer.register(openInputStream());
@@ -47365,7 +47398,7 @@
  } finally {
    closer.close();
  }
- }</pre>
+ }
 
  <p>Note that this try-catch-finally block is not equivalent to a try-catch-finally block using
  try-with-resources. To get the equivalent of that, you must wrap the above code in <i>another</i>
@@ -49978,13 +50011,13 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  mod(7, 4) == 3
  mod(-7, 4) == 1
  mod(-1, 4) == 3
  mod(-8, 4) == 0
  mod(8, 4) == 0
- }</pre>
+ }
 
  @throws ArithmeticException if {@code m <= 0}
  @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
@@ -50466,13 +50499,13 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  mod(7, 4) == 3
  mod(-7, 4) == 1
  mod(-1, 4) == 3
  mod(-8, 4) == 0
  mod(8, 4) == 0
- }</pre>
+ }
 
  @throws ArithmeticException if {@code m <= 0}
  @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
@@ -50491,13 +50524,13 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  mod(7, 4) == 3
  mod(-7, 4) == 1
  mod(-1, 4) == 3
  mod(-8, 4) == 0
  mod(8, 4) == 0
- }</pre>
+ }
 
  @throws ArithmeticException if {@code m <= 0}
  @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
@@ -51134,26 +51167,26 @@
 
  <p>To compute the median:
 
- <pre>{@code
+ {@snippet :
  double myMedian = median().compute(myDataset);
- }</pre>
+ }
 
  where {@link #median()} has been statically imported.
 
  <p>To compute the 99th percentile:
 
- <pre>{@code
+ {@snippet :
  double myPercentile99 = percentiles().index(99).compute(myDataset);
- }</pre>
+ }
 
  where {@link #percentiles()} has been statically imported.
 
  <p>To compute median and the 90th and 99th percentiles:
 
- <pre>{@code
+ {@snippet :
  Map<Integer, Double> myPercentiles =
      percentiles().indexes(50, 90, 99).compute(myDataset);
- }</pre>
+ }
 
  where {@link #percentiles()} has been statically imported: {@code myPercentiles} maps the keys
  50, 90, and 99, to their corresponding quantile values.
@@ -55218,19 +55251,19 @@
 
  <p>The following two code snippets are equivalent:
 
- <pre>{@code
+ {@snippet :
  domainName = InternetDomainName.isValid(name)
      ? InternetDomainName.from(name)
      : DEFAULT_DOMAIN;
- }</pre>
+ }
 
- <pre>{@code
+ {@snippet :
  try {
    domainName = InternetDomainName.from(name);
  } catch (IllegalArgumentException e) {
    domainName = DEFAULT_DOMAIN;
  }
- }</pre>
+ }
 
  @since 8.0 (previously named {@code isValidLenient})]]>
       </doc>
@@ -55432,7 +55465,7 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true
  PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false
  PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true
@@ -55441,7 +55474,7 @@
  PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_8)) // true
  PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE.withCharset(UTF_8)) // false
  PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_16)) // false
- }</pre>
+ }
 
  <p>Note that while it is possible to have the same parameter declared multiple times within a
  media type this method does not consider the number of occurrences of a parameter. For example,
@@ -63677,13 +63710,13 @@
     <doc>
     <![CDATA[A builder for creating immutable type-to-instance maps. Example:
 
- <pre>{@code
+ {@snippet :
  static final ImmutableTypeToInstanceMap<Handler<?>> HANDLERS =
      ImmutableTypeToInstanceMap.<Handler<?>>builder()
          .put(new TypeToken<Handler<Foo>>() {}, new FooHandler())
          .put(new TypeToken<Handler<Bar>>() {}, new SubBarHandler())
          .build();
- }</pre>
+ }
 
  <p>After invoking {@link #build()} it is still possible to add more entries and build again.
  Thus each map generated by this builder will be a superset of any map generated before it.
@@ -63952,10 +63985,10 @@
       <doc>
       <![CDATA[Explicitly specifies the return type of this {@code Invokable}. For example:
 
- <pre>{@code
+ {@snippet :
  Method factoryMethod = Person.class.getMethod("create");
  Invokable<?, Person> factory = Invokable.of(getNameMethod).returning(Person.class);
- }</pre>]]>
+ }]]>
       </doc>
     </method>
     <method name="returning" return="com.google.common.reflect.Invokable&lt;T, R1&gt;"
@@ -63989,12 +64022,12 @@
  will resolve the type parameters of the method or constructor in the context of the owner type,
  which may be a subtype of the declaring class. For example:
 
- <pre>{@code
+ {@snippet :
  Method getMethod = List.class.getMethod("get", int.class);
  Invokable<List<String>, ?> invokable = new TypeToken<List<String>>() {}.method(getMethod);
  assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
  assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());
- }</pre>
+ }
 
  <p><b>Note:</b> earlier versions of this class inherited from {@link
  java.lang.reflect.AccessibleObject AccessibleObject} and {@link
@@ -64286,12 +64319,12 @@
     <doc>
     <![CDATA[Captures a free type variable that can be used in {@link TypeToken#where}. For example:
 
- <pre>{@code
+ {@snippet :
  static <T> TypeToken<List<T>> listOf(Class<T> elementType) {
    return new TypeToken<List<T>>() {}
        .where(new TypeParameter<T>() {}, elementType);
  }
- }</pre>
+ }
 
  @author Ben Yu
  @since 12.0]]>
@@ -64458,9 +64491,9 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  TypeToken<List<String>> t = new TypeToken<List<String>>() {};
- }</pre>]]>
+ }]]>
       </doc>
     </constructor>
     <constructor name="TypeToken" type="java.lang.Class&lt;?&gt;"
@@ -64475,7 +64508,7 @@
 
  <p>For example:
 
- <pre>{@code
+ {@snippet :
  abstract class IKnowMyType<T> {
    TypeToken<T> getMyType() {
      return new TypeToken<T>(getClass()) {};
@@ -64483,7 +64516,7 @@
  }
 
  new IKnowMyType<String>() {}.getMyType() => String
- }</pre>]]>
+ }]]>
       </doc>
     </constructor>
     <method name="of" return="com.google.common.reflect.TypeToken&lt;T&gt;"
@@ -64543,14 +64576,14 @@
  substituted by {@code typeArg}. For example, it can be used to construct {@code Map<K, V>} for
  any {@code K} and {@code V} type:
 
- <pre>{@code
+ {@snippet :
  static <K, V> TypeToken<Map<K, V>> mapOf(
      TypeToken<K> keyType, TypeToken<V> valueType) {
    return new TypeToken<Map<K, V>>() {}
        .where(new TypeParameter<K>() {}, keyType)
        .where(new TypeParameter<V>() {}, valueType);
  }
- }</pre>
+ }
 
  @param <X> The parameter type
  @param typeParam the parameter type variable
@@ -64568,14 +64601,14 @@
  substituted by {@code typeArg}. For example, it can be used to construct {@code Map<K, V>} for
  any {@code K} and {@code V} type:
 
- <pre>{@code
+ {@snippet :
  static <K, V> TypeToken<Map<K, V>> mapOf(
      Class<K> keyType, Class<V> valueType) {
    return new TypeToken<Map<K, V>>() {}
        .where(new TypeParameter<K>() {}, keyType)
        .where(new TypeParameter<V>() {}, valueType);
  }
- }</pre>
+ }
 
  @param <X> The parameter type
  @param typeParam the parameter type variable
@@ -64590,11 +64623,11 @@
       <doc>
       <![CDATA[Resolves the given {@code type} against the type context represented by this type. For example:
 
- <pre>{@code
+ {@snippet :
  new TypeToken<List<String>>() {}.resolveType(
      List.class.getMethod("get", int.class).getGenericReturnType())
  => String.class
- }</pre>]]>
+ }]]>
       </doc>
     </method>
     <method name="getTypes" return="com.google.common.reflect.TypeToken&lt;T&gt;.TypeSet"
@@ -64803,13 +64836,13 @@
    <li>Wrap a {@code Type} obtained via reflection. For example: {@code
        TypeToken.of(method.getGenericReturnType())}.
    <li>Capture a generic type with a (usually anonymous) subclass. For example:
-       <pre>{@code
+       {@snippet :
  new TypeToken<List<String>>() {}
- }</pre>
+ }
        <p>Note that it's critical that the actual type argument is carried by a subclass. The
        following code is wrong because it only captures the {@code <T>} type variable of the
        {@code listType()} method signature; while {@code <String>} is lost in erasure:
-       <pre>{@code
+       {@snippet :
  class Util {
    static <T> TypeToken<List<T>> listType() {
      return new TypeToken<List<T>>() {};
@@ -64817,15 +64850,15 @@
  }
 
  TypeToken<List<String>> stringListType = Util.<String>listType();
- }</pre>
+ }
    <li>Capture a generic type with a (usually anonymous) subclass and resolve it against a context
        class that knows what the type parameters are. For example:
-       <pre>{@code
+       {@snippet :
  abstract class IKnowMyType<T> {
    TypeToken<T> type = new TypeToken<T>(getClass()) {};
  }
  new IKnowMyType<String>() {}.type => String
- }</pre>
+ }
  </ul>
 
  <p>{@code TypeToken} is serializable when no type variable is contained in the type.
@@ -65763,7 +65796,7 @@
  <p>Here is a sketch of a service which crawls a website and uses the scheduling capabilities to
  rate limit itself.
 
- <pre>{@code
+ {@snippet :
  class CrawlingService extends AbstractScheduledService {
    private Set<Uri> visited;
    private Queue<Uri> toCrawl;
@@ -65788,7 +65821,7 @@
      return Scheduler.newFixedRateSchedule(0, 1, TimeUnit.SECONDS);
    }
  }
- }</pre>
+ }
 
  <p>This class uses the life cycle methods to read in a list of starting URIs and save the set of
  outstanding URIs when shutting down. Also, it takes advantage of the scheduling functionality to
@@ -66368,13 +66401,13 @@
  Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
  from {@link Double#equals}, as if implemented by:
 
- <pre>{@code
+ {@snippet :
  static boolean bitEquals(double x, double y) {
    long xBits = Double.doubleToRawLongBits(x);
    long yBits = Double.doubleToRawLongBits(y);
    return xBits == yBits;
  }
- }</pre>
+ }
 
  <p>It is possible to write a more scalable updater, at the cost of giving up strict atomicity.
  See for example <a
@@ -66564,13 +66597,13 @@
  Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
  from {@link Double#equals}, as if implemented by:
 
- <pre>{@code
+ {@snippet :
  static boolean bitEquals(double x, double y) {
    long xBits = Double.doubleToRawLongBits(x);
    long yBits = Double.doubleToRawLongBits(y);
    return xBits == yBits;
  }
- }</pre>
+ }
 
  @author Doug Lea
  @author Martin Buchholz
@@ -67153,10 +67186,10 @@
 
  <p>Example usage:
 
- <pre>{@code
+ {@snippet :
  ClosingFuture<List<Row>> rowsFuture =
      queryFuture.transform((closer, result) -> result.getRows(), executor);
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the discussion in the {@link ListenableFuture#addListener} documentation. All its warnings
@@ -67214,7 +67247,7 @@
 
  <p>Example usage:
 
- <pre>{@code
+ {@snippet :
  // Result.getRowsClosingFuture() returns a ClosingFuture.
  ClosingFuture<List<Row>> rowsFuture =
      queryFuture.transformAsync((closer, result) -> result.getRowsClosingFuture(), executor);
@@ -67234,7 +67267,7 @@
  ClosingFuture<List<Row>> rowsFuture3 =
      queryFuture.transformAsync(withoutCloser(Result::getRowsFuture), executor);
 
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the discussion in the {@link ListenableFuture#addListener} documentation. All its warnings
@@ -67278,11 +67311,11 @@
 
  <p>Example usage:
 
- <pre>{@code
+ {@snippet :
  // Result.getRowsFuture() returns a ListenableFuture.
  ClosingFuture<List<Row>> rowsFuture =
      queryFuture.transformAsync(withoutCloser(Result::getRowsFuture), executor);
- }</pre>
+ }
 
  @param function transforms the value of a {@code ClosingFuture} step to a {@link
      ListenableFuture} with the value of a derived step]]>
@@ -67309,11 +67342,11 @@
 
  <p>Example usage:
 
- <pre>{@code
+ {@snippet :
  ClosingFuture<QueryResult> queryFuture =
      queryFuture.catching(
          QueryException.class, (closer, x) -> Query.emptyQueryResult(), executor);
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the discussion in the {@link ListenableFuture#addListener} documentation. All its warnings
@@ -67380,13 +67413,12 @@
 
  <p>Example usage:
 
- <pre>{@code
+ {@snippet :
  // Fall back to a secondary input stream in case of IOException.
  ClosingFuture<InputStream> inputFuture =
      firstInputFuture.catchingAsync(
          IOException.class, (closer, x) -> secondaryInputStreamClosingFuture(), executor);
  }
- }</pre>
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the discussion in the {@link ListenableFuture#addListener} documentation. All its warnings
@@ -67563,7 +67595,7 @@
  to be closed asynchronously <b>after</b> the returned {@code Future} is done: the future
  completes before closing starts, rather than once it has finished.
 
- <pre>{@code
+ {@snippet :
  FluentFuture<UserName> userName =
      ClosingFuture.submit(
              closer -> closer.eventuallyClose(database.newTransaction(), closingExecutor),
@@ -67572,7 +67604,7 @@
          .transform((closer, result) -> result.get("userName"), directExecutor())
          .catching(DBException.class, e -> "no user", directExecutor())
          .finishToFuture();
- }</pre>
+ }
 
  In this example, when the {@code userName} {@link Future} is done, the transaction and the query
  result cursor will both be closed, even if the operation is cancelled or fails.
@@ -67583,7 +67615,7 @@
  {@link #finishToValueAndCloser(ValueAndCloserConsumer, Executor)} to get an object that holds the
  final result. You then call {@link ValueAndCloser#closeAsync()} to close the captured objects.
 
- <pre>{@code
+ {@snippet :
      ClosingFuture.submit(
              closer -> closer.eventuallyClose(database.newTransaction(), closingExecutor),
              executor)
@@ -67600,7 +67632,7 @@
  } finally {
    userNameValueAndCloser.closeAsync();
  }
- }</pre>
+ }
 
  In this example, when {@code userNameValueAndCloser.closeAsync()} is called, the transaction and
  the query result cursor will both be closed, even if the operation is cancelled or fails.
@@ -67800,7 +67832,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  final ClosingFuture<BufferedReader> file1ReaderFuture = ...;
  final ClosingFuture<BufferedReader> file2ReaderFuture = ...;
  ListenableFuture<Integer> numberOfDifferentLines =
@@ -67813,7 +67845,7 @@
                },
                executor)
            .closing(executor);
- }</pre>]]>
+ }]]>
     </doc>
   </class>
   <!-- end class com.google.common.util.concurrent.ClosingFuture.Combiner -->
@@ -68944,7 +68976,7 @@
  corresponding to smaller values of {@link Enum#ordinal()} should only be acquired before locks
  with larger ordinals. Example:
 
- <pre>{@code
+ {@snippet :
  enum MyLockOrder {
    FIRST, SECOND, THIRD;
  }
@@ -68959,7 +68991,7 @@
  lock1.lock();
  lock3.lock();
  lock2.lock();  // will throw an IllegalStateException
- }</pre>
+ }
 
  <p>As with all locks created by instances of {@code CycleDetectingLockFactory} explicitly
  ordered locks participate in general cycle detection with all other cycle detecting locks, and
@@ -68971,7 +69003,7 @@
  attempting to acquire multiple locks with the same Enum value (within the same thread) will
  result in an IllegalStateException regardless of the factory's policy. For example:
 
- <pre>{@code
+ {@snippet :
  CycleDetectingLockFactory.WithExplicitOrdering<MyLockOrder> factory1 =
    CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
  CycleDetectingLockFactory.WithExplicitOrdering<MyLockOrder> factory2 =
@@ -68987,7 +69019,7 @@
  lockC.lock();  // will throw an IllegalStateException
 
  lockA.lock();  // reentrant acquisition is okay
- }</pre>
+ }
 
  <p>It is the responsibility of the application to ensure that multiple lock instances with the
  same rank are never acquired in the same thread.
@@ -69338,12 +69370,12 @@
 
  <p>Usage example:
 
- <pre>{@code
+ {@snippet :
  // Falling back to a zero counter in case an exception happens when processing the RPC to fetch
  // counters.
  ListenableFuture<Integer> faultTolerantFuture =
      fetchCounters().catching(FetchException.class, x -> 0, directExecutor());
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the discussion in the {@link #addListener} documentation. All its warnings about heavyweight
@@ -69383,17 +69415,17 @@
 
  <p>Usage examples:
 
- <pre>{@code
+ {@snippet :
  // Falling back to a zero counter in case an exception happens when processing the RPC to fetch
  // counters.
  ListenableFuture<Integer> faultTolerantFuture =
      fetchCounters().catchingAsync(
          FetchException.class, x -> immediateFuture(0), directExecutor());
- }</pre>
+ }
 
  <p>The fallback can also choose to propagate the original exception when desired:
 
- <pre>{@code
+ {@snippet :
  // Falling back to a zero counter only in case the exception was a
  // TimeoutException.
  ListenableFuture<Integer> faultTolerantFuture =
@@ -69406,7 +69438,7 @@
            throw e;
          },
          directExecutor());
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the discussion in the {@link #addListener} documentation. All its warnings about heavyweight
@@ -69483,11 +69515,11 @@
  by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
  Example usage:
 
- <pre>{@code
+ {@snippet :
  FluentFuture<RowKey> rowKeyFuture = FluentFuture.from(indexService.lookUp(query));
  ListenableFuture<QueryResult> queryFuture =
      rowKeyFuture.transformAsync(dataService::readFuture, executor);
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the discussion in the {@link #addListener} documentation. All its warnings about heavyweight
@@ -69525,10 +69557,10 @@
  this input {@code Future} fails, the returned {@code Future} fails with the same exception (and
  the function is not invoked). Example usage:
 
- <pre>{@code
+ {@snippet :
  ListenableFuture<List<Row>> rowsFuture =
      queryFuture.transform(QueryResult::getRows, executor);
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the discussion in the {@link #addListener} documentation. All its warnings about heavyweight
@@ -69570,7 +69602,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  future.addCallback(
      new FutureCallback<QueryResult>() {
        public void onSuccess(QueryResult result) {
@@ -69580,7 +69612,7 @@
          reportError(t);
        }
      }, executor);
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the discussion in the {@link #addListener} documentation. All its warnings about heavyweight
@@ -69600,13 +69632,13 @@
     <doc>
     <![CDATA[A {@link ListenableFuture} that supports fluent chains of operations. For example:
 
- <pre>{@code
+ {@snippet :
  ListenableFuture<Boolean> adminIsLoggedIn =
      FluentFuture.from(usersDatabase.getAdminUser())
          .transform(User::getId, directExecutor())
          .transform(ActivityService::isLoggedIn, threadPool)
          .catching(RpcException.class, e -> false, directExecutor());
- }</pre>
+ }
 
  <h3>Alternatives</h3>
 
@@ -70361,14 +70393,14 @@
 
  <p>Usage example:
 
- <pre>{@code
+ {@snippet :
  ListenableFuture<Integer> fetchCounterFuture = ...;
 
  // Falling back to a zero counter in case an exception happens when
  // processing the RPC to fetch counters.
  ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
      fetchCounterFuture, FetchException.class, x -> 0, directExecutor());
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the warnings the {@link MoreExecutors#directExecutor} documentation.
@@ -70406,18 +70438,18 @@
 
  <p>Usage examples:
 
- <pre>{@code
+ {@snippet :
  ListenableFuture<Integer> fetchCounterFuture = ...;
 
  // Falling back to a zero counter in case an exception happens when
  // processing the RPC to fetch counters.
  ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
      fetchCounterFuture, FetchException.class, x -> immediateFuture(0), directExecutor());
- }</pre>
+ }
 
  <p>The fallback can also choose to propagate the original exception when desired:
 
- <pre>{@code
+ {@snippet :
  ListenableFuture<Integer> fetchCounterFuture = ...;
 
  // Falling back to a zero counter only in case the exception was a
@@ -70432,7 +70464,7 @@
        throw e;
      },
      directExecutor());
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the warnings the {@link MoreExecutors#directExecutor} documentation.
@@ -70508,11 +70540,11 @@
  by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
  Example usage:
 
- <pre>{@code
+ {@snippet :
  ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
  ListenableFuture<QueryResult> queryFuture =
      transformAsync(rowKeyFuture, dataService::readFuture, executor);
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the warnings the {@link MoreExecutors#directExecutor} documentation.
@@ -70544,11 +70576,11 @@
  Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
  the function is not invoked). Example usage:
 
- <pre>{@code
+ {@snippet :
  ListenableFuture<QueryResult> queryFuture = ...;
  ListenableFuture<List<Row>> rowsFuture =
      transform(queryFuture, QueryResult::getRows, executor);
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the warnings the {@link MoreExecutors#directExecutor} documentation.
@@ -70805,7 +70837,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  ListenableFuture<QueryResult> future = ...;
  Executor e = ...
  addCallback(future,
@@ -70817,7 +70849,7 @@
          reportError(t);
        }
      }, e);
- }</pre>
+ }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
  the warnings the {@link MoreExecutors#directExecutor} documentation.
@@ -71168,7 +71200,7 @@
 
  <p>Example:
 
- <pre>{@code
+ {@snippet :
  final ListenableFuture<Instant> loginDateFuture =
      loginService.findLastLoginDate(username);
  final ListenableFuture<List<String>> recentCommandsFuture =
@@ -71182,7 +71214,7 @@
                      Futures.getDone(loginDateFuture),
                      Futures.getDone(recentCommandsFuture)),
              executor);
- }</pre>
+ }
 
  @since 20.0]]>
     </doc>
@@ -71329,7 +71361,7 @@
  result. (If you want such access, you may prefer {@link Futures#addCallback
  Futures.addCallback}.) Still, direct {@code addListener} calls are occasionally useful:
 
- <pre>{@code
+ {@snippet :
  final String name = ...;
  inFlight.add(name);
  ListenableFuture<Result> future = service.query(name);
@@ -71341,7 +71373,7 @@
      logger.info("Done with {0}", name);
    }
  }, executor);
- }</pre>
+ }
 
  <h3>How to get an instance</h3>
 
@@ -72141,20 +72173,20 @@
  followed immediately by a <i>try/finally</i> block to ensure that the current thread leaves the
  monitor cleanly:
 
- <pre>{@code
+ {@snippet :
  monitor.enter();
  try {
    // do things while occupying the monitor
  } finally {
    monitor.leave();
  }
- }</pre>
+ }
 
  <p>A call to any of the <i>enter</i> methods with <b>boolean</b> return type should always appear
  as the condition of an <i>if</i> statement containing a <i>try/finally</i> block to ensure that
  the current thread leaves the monitor cleanly:
 
- <pre>{@code
+ {@snippet :
  if (monitor.tryEnter()) {
    try {
      // do things while occupying the monitor
@@ -72164,7 +72196,7 @@
  } else {
    // do other things since the monitor was not available
  }
- }</pre>
+ }
 
  <h2>Comparison with {@code synchronized} and {@code ReentrantLock}</h2>
 
@@ -72179,7 +72211,7 @@
  {@code notifyAll()} must be used instead of {@code notify()} because there are two different
  logical conditions being awaited.
 
- <pre>{@code
+ {@snippet :
  public class SafeBox<V> {
    private V value;
 
@@ -72201,7 +72233,7 @@
      notifyAll();
    }
  }
- }</pre>
+ }
 
  <h3>{@code ReentrantLock}</h3>
 
@@ -72210,7 +72242,7 @@
  one advantage is that we can introduce two separate {@code Condition} objects, which allows us to
  use {@code signal()} instead of {@code signalAll()}, which may be a performance benefit.
 
- <pre>{@code
+ {@snippet :
  public class SafeBox<V> {
    private V value;
    private final ReentrantLock lock = new ReentrantLock();
@@ -72245,7 +72277,7 @@
      }
    }
  }
- }</pre>
+ }
 
  <h3>{@code Monitor}</h3>
 
@@ -72255,7 +72287,7 @@
  Finally, the programmer no longer has to hand-code the wait loop, and therefore doesn't have to
  remember to use {@code while} instead of {@code if}.
 
- <pre>{@code
+ {@snippet :
  public class SafeBox<V> {
    private V value;
    private final Monitor monitor = new Monitor();
@@ -72282,7 +72314,7 @@
      }
    }
  }
- }</pre>
+ }
 
  @author Justin T. Sampson
  @author Martin Buchholz
@@ -72567,13 +72599,13 @@
 
  <p>This instance is equivalent to:
 
- <pre>{@code
+ {@snippet :
  final class DirectExecutor implements Executor {
    public void execute(Runnable r) {
      r.run();
    }
  }
- }</pre>
+ }
 
  <p>This should be preferred to {@link #newDirectExecutorService()} because implementing the
  {@link ExecutorService} subinterface necessitates significant performance overhead.
@@ -73055,7 +73087,7 @@
  <p>As an example, imagine that we have a list of tasks to execute, but we don't want to submit
  more than 2 per second:
 
- <pre>{@code
+ {@snippet :
  final RateLimiter rateLimiter = RateLimiter.create(2.0); // rate is "2 permits per second"
  void submitTasks(List<Runnable> tasks, Executor executor) {
    for (Runnable task : tasks) {
@@ -73063,19 +73095,19 @@
      executor.execute(task);
    }
  }
- }</pre>
+ }
 
  <p>As another example, imagine that we produce a stream of data, and we want to cap it at 5kb per
  second. This could be accomplished by requiring a permit per byte, and specifying a rate of 5000
  permits per second:
 
- <pre>{@code
+ {@snippet :
  final RateLimiter rateLimiter = RateLimiter.create(5000.0); // rate = 5000 permits per second
  void submitPacket(byte[] packet) {
    rateLimiter.acquire(packet.length);
    networkService.send(packet);
  }
- }</pre>
+ }
 
  <p>It is important to note that the number of permits requested <i>never</i> affects the
  throttling of the request itself (an invocation to {@code acquire(1)} and an invocation to {@code
@@ -73640,7 +73672,7 @@
 
  <p>Here is a simple example of how to use a {@code ServiceManager} to start a server.
 
- <pre>{@code
+ {@snippet :
  class Server {
    public static void main(String[] args) {
      Set<Service> services = ...;
@@ -73672,7 +73704,7 @@
      manager.startAsync();  // start all the services asynchronously
    }
  }
- }</pre>
+ }
 
  <p>This class uses the ServiceManager's methods to start all of its services, to respond to
  service failure and to ensure that when the JVM is shutting down all the services are stopped.

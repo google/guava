@@ -1442,10 +1442,13 @@ loadScripts(document, 'script');</script>
 
  <p>Examples:
 
- <pre><code>
- Ascii.truncate("foobar", 7, "..."); // returns "foobar"
- Ascii.truncate("foobar", 5, "..."); // returns "fo..."
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-truncate(java.lang.CharSequence,int,java.lang.String)1"><code>Ascii.truncate("foobar", 7, "..."); // returns "foobar"
+Ascii.truncate("foobar", 5, "..."); // returns "fo..."
+</code></pre>
+</div>
+
 
  <p><b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for use
  with arbitrary Unicode text. It is mostly intended for use with text that is known to be safe

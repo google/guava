@@ -99,15 +99,18 @@ loadScripts(document, 'script');</script>
 
  <p>Example usage of <code>ComparisonChain</code>:
 
- <pre><code>
- public int compareTo(Foo that) {
-   return ComparisonChain.start()
-       .compare(this.aString, that.aString)
-       .compare(this.anInt, that.anInt)
-       .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
-       .result();
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ComparisonChain1"><code>public int compareTo(Foo that) {
+  return ComparisonChain.start()
+      .compare(this.aString, that.aString)
+      .compare(this.anInt, that.anInt)
+      .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
+      .result();
+}
+</code></pre>
+</div>
+
 
  <p>The value of this expression will have the same sign as the <i>first nonzero</i> comparison
  result in the chain, or will be zero if every comparison result was zero.
@@ -128,22 +131,25 @@ loadScripts(document, 'script');</script>
 
  If you are using Java version 8 or greater, you should generally use the static methods in <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a> instead of <code>ComparisonChain</code>. The example above can be implemented like this:
 
- <pre><code>
- import static java.util.Comparator.comparing;
- import static java.util.Comparator.nullsLast;
- import static java.util.Comparator.naturalOrder;
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ComparisonChain2"><code>import static java.util.Comparator.comparing;
+import static java.util.Comparator.nullsLast;
+import static java.util.Comparator.naturalOrder;
 
- ...
-   private static final Comparator&lt;Foo&gt; COMPARATOR =
-       comparing((Foo foo) -&gt; foo.aString)
-           .thenComparing(foo -&gt; foo.anInt)
-           .thenComparing(foo -&gt; foo.anEnum, nullsLast(naturalOrder()));</code>
+...
+  private static final Comparator&lt;Foo&gt; COMPARATOR =
+      comparing((Foo foo) -&gt; foo.aString)
+          .thenComparing(foo -&gt; foo.anInt)
+          .thenComparing(foo -&gt; foo.anEnum, nullsLast(naturalOrder()));
 
-   <code>@Override</code><code>
-   public int compareTo(Foo that) {
-     return COMPARATOR.compare(this, that);
-   }
- </code></pre>
+  @Override
+  public int compareTo(Foo that) {
+    return COMPARATOR.compare(this, that);
+  }
+</code></pre>
+</div>
+
 
  <p>With method references it is more succinct: <code>comparing(Foo::aString)</code> for example.
 

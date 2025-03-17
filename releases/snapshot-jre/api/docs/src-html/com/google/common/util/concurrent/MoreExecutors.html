@@ -387,13 +387,13 @@
 <span class="source-line-no">374</span><span id="line-374">   *</span>
 <span class="source-line-no">375</span><span id="line-375">   * &lt;p&gt;This instance is equivalent to:</span>
 <span class="source-line-no">376</span><span id="line-376">   *</span>
-<span class="source-line-no">377</span><span id="line-377">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">377</span><span id="line-377">   * {@snippet :</span>
 <span class="source-line-no">378</span><span id="line-378">   * final class DirectExecutor implements Executor {</span>
 <span class="source-line-no">379</span><span id="line-379">   *   public void execute(Runnable r) {</span>
 <span class="source-line-no">380</span><span id="line-380">   *     r.run();</span>
 <span class="source-line-no">381</span><span id="line-381">   *   }</span>
 <span class="source-line-no">382</span><span id="line-382">   * }</span>
-<span class="source-line-no">383</span><span id="line-383">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">383</span><span id="line-383">   * }</span>
 <span class="source-line-no">384</span><span id="line-384">   *</span>
 <span class="source-line-no">385</span><span id="line-385">   * &lt;p&gt;This should be preferred to {@link #newDirectExecutorService()} because implementing the</span>
 <span class="source-line-no">386</span><span id="line-386">   * {@link ExecutorService} subinterface necessitates significant performance overhead.</span>

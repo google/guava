@@ -101,20 +101,23 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 
  <p>This class is intended to be used in the following pattern:
 
- <pre><code>
- Closer closer = Closer.create();
- try {
-   InputStream in = closer.register(openInputStream());
-   OutputStream out = closer.register(openOutputStream());
-   // do stuff
- } catch (Throwable e) {
-   // ensure that any checked exception types other than IOException that could be thrown are
-   // provided here, e.g. throw closer.rethrow(e, CheckedException.class);
-   throw closer.rethrow(e);
- } finally {
-   closer.close();
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.io.Closer1"><code>Closer closer = Closer.create();
+try {
+  InputStream in = closer.register(openInputStream());
+  OutputStream out = closer.register(openOutputStream());
+  // do stuff
+} catch (Throwable e) {
+  // ensure that any checked exception types other than IOException that could be thrown are
+  // provided here, e.g. throw closer.rethrow(e, CheckedException.class);
+  throw closer.rethrow(e);
+} finally {
+  closer.close();
+}
+</code></pre>
+</div>
+
 
  <p>Note that this try-catch-finally block is not equivalent to a try-catch-finally block using
  try-with-resources. To get the equivalent of that, you must wrap the above code in <i>another</i>

@@ -94,16 +94,19 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
  single-element enum to maintain serialization guarantees. See Effective Java (2nd Edition), Item
  3: "Enforce the singleton property with a private constructor or an enum type". For example:
 
- <pre><code>
- public enum PersonFunnel implements Funnel&lt;Person&gt; {
-   INSTANCE;
-   public void funnel(Person person, PrimitiveSink into) {
-     into.putUnencodedChars(person.getFirstName())
-         .putUnencodedChars(person.getLastName())
-         .putInt(person.getAge());
-   }
- }
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.hash.Funnel1"><code>public enum PersonFunnel implements Funnel&lt;Person&gt; {
+  INSTANCE;
+  public void funnel(Person person, PrimitiveSink into) {
+    into.putUnencodedChars(person.getFirstName())
+        .putUnencodedChars(person.getLastName())
+        .putInt(person.getAge());
+  }
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>11.0</dd>

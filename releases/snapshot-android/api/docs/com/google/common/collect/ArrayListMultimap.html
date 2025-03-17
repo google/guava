@@ -711,11 +711,14 @@ V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <div class="block">Stores a key-value pair in this multimap for each of <code>values</code>, all using the same key,
  <code>key</code>. Equivalent to (but expected to be more efficient than):
 
- <pre><code>
- for (V value : values) {
-   put(key, value);
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-putAll(K,java.lang.Iterable)1"><code>for (V value : values) {
+  put(key, value);
+}
+</code></pre>
+</div>
+
 
  <p>In particular, this is a no-op if <code>values</code> is empty.</div>
 <dl class="notes">

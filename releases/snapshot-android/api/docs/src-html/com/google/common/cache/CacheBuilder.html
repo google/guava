@@ -117,7 +117,7 @@
 <span class="source-line-no">104</span><span id="line-104"> *</span>
 <span class="source-line-no">105</span><span id="line-105"> * &lt;p&gt;Usage example:</span>
 <span class="source-line-no">106</span><span id="line-106"> *</span>
-<span class="source-line-no">107</span><span id="line-107"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">107</span><span id="line-107"> * {@snippet :</span>
 <span class="source-line-no">108</span><span id="line-108"> * LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.newBuilder()</span>
 <span class="source-line-no">109</span><span id="line-109"> *     .maximumSize(10000)</span>
 <span class="source-line-no">110</span><span id="line-110"> *     .expireAfterWrite(Duration.ofMinutes(10))</span>
@@ -128,11 +128,11 @@
 <span class="source-line-no">115</span><span id="line-115"> *             return createExpensiveGraph(key);</span>
 <span class="source-line-no">116</span><span id="line-116"> *           }</span>
 <span class="source-line-no">117</span><span id="line-117"> *         });</span>
-<span class="source-line-no">118</span><span id="line-118"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">118</span><span id="line-118"> * }</span>
 <span class="source-line-no">119</span><span id="line-119"> *</span>
 <span class="source-line-no">120</span><span id="line-120"> * &lt;p&gt;Or equivalently,</span>
 <span class="source-line-no">121</span><span id="line-121"> *</span>
-<span class="source-line-no">122</span><span id="line-122"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">122</span><span id="line-122"> * {@snippet :</span>
 <span class="source-line-no">123</span><span id="line-123"> * // In real life this would come from a command-line flag or config file</span>
 <span class="source-line-no">124</span><span id="line-124"> * String spec = "maximumSize=10000,expireAfterWrite=10m";</span>
 <span class="source-line-no">125</span><span id="line-125"> *</span>
@@ -144,7 +144,7 @@
 <span class="source-line-no">131</span><span id="line-131"> *             return createExpensiveGraph(key);</span>
 <span class="source-line-no">132</span><span id="line-132"> *           }</span>
 <span class="source-line-no">133</span><span id="line-133"> *         });</span>
-<span class="source-line-no">134</span><span id="line-134"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">134</span><span id="line-134"> * }</span>
 <span class="source-line-no">135</span><span id="line-135"> *</span>
 <span class="source-line-no">136</span><span id="line-136"> * &lt;p&gt;The returned cache implements all optional operations of the {@link LoadingCache} and {@link</span>
 <span class="source-line-no">137</span><span id="line-137"> * Cache} interfaces. The {@code asMap} view (and its collection views) have &lt;i&gt;weakly consistent</span>

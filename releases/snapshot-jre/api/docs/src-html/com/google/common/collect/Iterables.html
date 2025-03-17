@@ -618,11 +618,11 @@
 <span class="source-line-no">605</span><span id="line-605">   * This does perform a little more work than necessary, so another option is to insert an</span>
 <span class="source-line-no">606</span><span id="line-606">   * unchecked cast at some later point:</span>
 <span class="source-line-no">607</span><span id="line-607">   *</span>
-<span class="source-line-no">608</span><span id="line-608">   * &lt;pre&gt;</span>
-<span class="source-line-no">609</span><span id="line-609">   * {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check</span>
+<span class="source-line-no">608</span><span id="line-608">   * {@snippet :</span>
+<span class="source-line-no">609</span><span id="line-609">   * @SuppressWarnings("unchecked") // safe because of ::isInstance check</span>
 <span class="source-line-no">610</span><span id="line-610">   * ImmutableList&lt;NewType&gt; result =</span>
-<span class="source-line-no">611</span><span id="line-611">   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}</span>
-<span class="source-line-no">612</span><span id="line-612">   * &lt;/pre&gt;</span>
+<span class="source-line-no">611</span><span id="line-611">   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());</span>
+<span class="source-line-no">612</span><span id="line-612">   * }</span>
 <span class="source-line-no">613</span><span id="line-613">   */</span>
 <span class="source-line-no">614</span><span id="line-614">  @SuppressWarnings("unchecked")</span>
 <span class="source-line-no">615</span><span id="line-615">  @GwtIncompatible // Class.isInstance</span>

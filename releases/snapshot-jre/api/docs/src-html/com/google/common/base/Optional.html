@@ -213,27 +213,27 @@
 <span class="source-line-no">200</span><span id="line-200">   * restrictive. However, the ideal signature, {@code public &lt;S super T&gt; S or(S)}, is not legal</span>
 <span class="source-line-no">201</span><span id="line-201">   * Java. As a result, some sensible operations involving subtypes are compile errors:</span>
 <span class="source-line-no">202</span><span id="line-202">   *</span>
-<span class="source-line-no">203</span><span id="line-203">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">203</span><span id="line-203">   * {@snippet :</span>
 <span class="source-line-no">204</span><span id="line-204">   * Optional&lt;Integer&gt; optionalInt = getSomeOptionalInt();</span>
 <span class="source-line-no">205</span><span id="line-205">   * Number value = optionalInt.or(0.5); // error</span>
 <span class="source-line-no">206</span><span id="line-206">   *</span>
 <span class="source-line-no">207</span><span id="line-207">   * FluentIterable&lt;? extends Number&gt; numbers = getSomeNumbers();</span>
 <span class="source-line-no">208</span><span id="line-208">   * Optional&lt;? extends Number&gt; first = numbers.first();</span>
 <span class="source-line-no">209</span><span id="line-209">   * Number value = first.or(0.5); // error</span>
-<span class="source-line-no">210</span><span id="line-210">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">210</span><span id="line-210">   * }</span>
 <span class="source-line-no">211</span><span id="line-211">   *</span>
 <span class="source-line-no">212</span><span id="line-212">   * &lt;p&gt;As a workaround, it is always safe to cast an {@code Optional&lt;? extends T&gt;} to {@code</span>
 <span class="source-line-no">213</span><span id="line-213">   * Optional&lt;T&gt;}. Casting either of the above example {@code Optional} instances to {@code</span>
 <span class="source-line-no">214</span><span id="line-214">   * Optional&lt;Number&gt;} (where {@code Number} is the desired output type) solves the problem:</span>
 <span class="source-line-no">215</span><span id="line-215">   *</span>
-<span class="source-line-no">216</span><span id="line-216">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">216</span><span id="line-216">   * {@snippet :</span>
 <span class="source-line-no">217</span><span id="line-217">   * Optional&lt;Number&gt; optionalInt = (Optional) getSomeOptionalInt();</span>
 <span class="source-line-no">218</span><span id="line-218">   * Number value = optionalInt.or(0.5); // fine</span>
 <span class="source-line-no">219</span><span id="line-219">   *</span>
 <span class="source-line-no">220</span><span id="line-220">   * FluentIterable&lt;? extends Number&gt; numbers = getSomeNumbers();</span>
 <span class="source-line-no">221</span><span id="line-221">   * Optional&lt;Number&gt; first = (Optional) numbers.first();</span>
 <span class="source-line-no">222</span><span id="line-222">   * Number value = first.or(0.5); // fine</span>
-<span class="source-line-no">223</span><span id="line-223">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">223</span><span id="line-223">   * }</span>
 <span class="source-line-no">224</span><span id="line-224">   *</span>
 <span class="source-line-no">225</span><span id="line-225">   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method is similar to Java 8's {@code</span>
 <span class="source-line-no">226</span><span id="line-226">   * Optional.orElse}, but will not accept {@code null} as a {@code defaultValue} ({@link #orNull}</span>
@@ -279,17 +279,17 @@
 <span class="source-line-no">266</span><span id="line-266">   * &lt;p&gt;&lt;b&gt;Comparison to {@code java.util.Optional}:&lt;/b&gt; this method has no equivalent in Java 8's</span>
 <span class="source-line-no">267</span><span id="line-267">   * {@code Optional} class. However, this common usage:</span>
 <span class="source-line-no">268</span><span id="line-268">   *</span>
-<span class="source-line-no">269</span><span id="line-269">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">269</span><span id="line-269">   * {@snippet :</span>
 <span class="source-line-no">270</span><span id="line-270">   * for (Foo foo : possibleFoo.asSet()) {</span>
 <span class="source-line-no">271</span><span id="line-271">   *   doSomethingWith(foo);</span>
 <span class="source-line-no">272</span><span id="line-272">   * }</span>
-<span class="source-line-no">273</span><span id="line-273">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">273</span><span id="line-273">   * }</span>
 <span class="source-line-no">274</span><span id="line-274">   *</span>
 <span class="source-line-no">275</span><span id="line-275">   * ... can be replaced with:</span>
 <span class="source-line-no">276</span><span id="line-276">   *</span>
-<span class="source-line-no">277</span><span id="line-277">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">277</span><span id="line-277">   * {@snippet :</span>
 <span class="source-line-no">278</span><span id="line-278">   * possibleFoo.ifPresent(foo -&gt; doSomethingWith(foo));</span>
-<span class="source-line-no">279</span><span id="line-279">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">279</span><span id="line-279">   * }</span>
 <span class="source-line-no">280</span><span id="line-280">   *</span>
 <span class="source-line-no">281</span><span id="line-281">   * &lt;p&gt;&lt;b&gt;Java 9 users:&lt;/b&gt; some use cases can be written with calls to {@code optional.stream()}.</span>
 <span class="source-line-no">282</span><span id="line-282">   *</span>

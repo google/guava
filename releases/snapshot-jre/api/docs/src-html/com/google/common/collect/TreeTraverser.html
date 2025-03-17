@@ -48,7 +48,7 @@
 <span class="source-line-no">035</span><span id="line-35"> *</span>
 <span class="source-line-no">036</span><span id="line-36"> * &lt;p&gt;For example, the tree</span>
 <span class="source-line-no">037</span><span id="line-37"> *</span>
-<span class="source-line-no">038</span><span id="line-38"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">038</span><span id="line-38"> * {@snippet :</span>
 <span class="source-line-no">039</span><span id="line-39"> *        h</span>
 <span class="source-line-no">040</span><span id="line-40"> *      / | \</span>
 <span class="source-line-no">041</span><span id="line-41"> *     /  e  \</span>
@@ -56,7 +56,7 @@
 <span class="source-line-no">043</span><span id="line-43"> *   /|\      |</span>
 <span class="source-line-no">044</span><span id="line-44"> *  / | \     f</span>
 <span class="source-line-no">045</span><span id="line-45"> * a  b  c</span>
-<span class="source-line-no">046</span><span id="line-46"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">046</span><span id="line-46"> * }</span>
 <span class="source-line-no">047</span><span id="line-47"> *</span>
 <span class="source-line-no">048</span><span id="line-48"> * &lt;p&gt;can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order</span>
 <span class="source-line-no">049</span><span id="line-49"> * (hdegabcf).</span>
@@ -66,16 +66,16 @@
 <span class="source-line-no">053</span><span id="line-53"> * &lt;p&gt;Because this is an abstract class, not an interface, you can't use a lambda expression to</span>
 <span class="source-line-no">054</span><span id="line-54"> * implement it:</span>
 <span class="source-line-no">055</span><span id="line-55"> *</span>
-<span class="source-line-no">056</span><span id="line-56"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">056</span><span id="line-56"> * {@snippet :</span>
 <span class="source-line-no">057</span><span id="line-57"> * // won't work</span>
 <span class="source-line-no">058</span><span id="line-58"> * TreeTraverser&lt;NodeType&gt; traverser = node -&gt; node.getChildNodes();</span>
-<span class="source-line-no">059</span><span id="line-59"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">059</span><span id="line-59"> * }</span>
 <span class="source-line-no">060</span><span id="line-60"> *</span>
 <span class="source-line-no">061</span><span id="line-61"> * Instead, you can pass a lambda expression to the {@code using} factory method:</span>
 <span class="source-line-no">062</span><span id="line-62"> *</span>
-<span class="source-line-no">063</span><span id="line-63"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">063</span><span id="line-63"> * {@snippet :</span>
 <span class="source-line-no">064</span><span id="line-64"> * TreeTraverser&lt;NodeType&gt; traverser = TreeTraverser.using(node -&gt; node.getChildNodes());</span>
-<span class="source-line-no">065</span><span id="line-65"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">065</span><span id="line-65"> * }</span>
 <span class="source-line-no">066</span><span id="line-66"> *</span>
 <span class="source-line-no">067</span><span id="line-67"> * @author Louis Wasserman</span>
 <span class="source-line-no">068</span><span id="line-68"> * @since 15.0</span>

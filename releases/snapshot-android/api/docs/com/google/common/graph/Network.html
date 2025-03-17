@@ -154,9 +154,12 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
  <p>The implementation classes that <code>common.graph</code> provides are not public, by design. To
  create an instance of one of the built-in implementations of <code>Network</code>, use the <a href="NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> class:
 
- <pre><code>
- MutableNetwork&lt;Integer, MyEdge&gt; network = NetworkBuilder.directed().build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.Network1"><code>MutableNetwork&lt;Integer, MyEdge&gt; network = NetworkBuilder.directed().build();
+</code></pre>
+</div>
+
 
  <p><a href="NetworkBuilder.html#build()"><code>NetworkBuilder.build()</code></a> returns an instance of <a href="MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a>, which is a
  subtype of <code>Network</code> that provides methods for adding and removing nodes and edges. If you
@@ -165,9 +168,12 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
 
  <p>You can create an immutable copy of an existing <code>Network</code> using <a href="ImmutableNetwork.html#copyOf(com.google.common.graph.Network)"><code>ImmutableNetwork.copyOf(Network)</code></a>:
 
- <pre><code>
- ImmutableNetwork&lt;Integer, MyEdge&gt; immutableGraph = ImmutableNetwork.copyOf(network);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.Network2"><code>ImmutableNetwork&lt;Integer, MyEdge&gt; immutableGraph = ImmutableNetwork.copyOf(network);
+</code></pre>
+</div>
+
 
  <p>Instances of <a href="ImmutableNetwork.html" title="class in com.google.common.graph"><code>ImmutableNetwork</code></a> do not implement <a href="MutableNetwork.html" title="interface in com.google.common.graph"><code>MutableNetwork</code></a> (obviously!) and
  are contractually guaranteed to be unmodifiable and thread-safe.

@@ -105,22 +105,25 @@ loadScripts(document, 'script');</script>
  corresponding to smaller values of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html#ordinal()" title="class or interface in java.lang" class="external-link"><code>Enum.ordinal()</code></a> should only be acquired before locks
  with larger ordinals. Example:
 
- <pre><code>
- enum MyLockOrder {
-   FIRST, SECOND, THIRD;
- }
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.CycleDetectingLockFactory.WithExplicitOrdering1"><code>enum MyLockOrder {
+  FIRST, SECOND, THIRD;
+}
 
- CycleDetectingLockFactory.WithExplicitOrdering&lt;MyLockOrder&gt; factory =
-   CycleDetectingLockFactory.newInstanceWithExplicitOrdering(Policies.THROW);
+CycleDetectingLockFactory.WithExplicitOrdering&lt;MyLockOrder&gt; factory =
+  CycleDetectingLockFactory.newInstanceWithExplicitOrdering(Policies.THROW);
 
- Lock lock1 = factory.newReentrantLock(MyLockOrder.FIRST);
- Lock lock2 = factory.newReentrantLock(MyLockOrder.SECOND);
- Lock lock3 = factory.newReentrantLock(MyLockOrder.THIRD);
+Lock lock1 = factory.newReentrantLock(MyLockOrder.FIRST);
+Lock lock2 = factory.newReentrantLock(MyLockOrder.SECOND);
+Lock lock3 = factory.newReentrantLock(MyLockOrder.THIRD);
 
- lock1.lock();
- lock3.lock();
- lock2.lock();  // will throw an IllegalStateException
- </code></pre>
+lock1.lock();
+lock3.lock();
+lock2.lock();  // will throw an IllegalStateException
+</code></pre>
+</div>
+
 
  <p>As with all locks created by instances of <code>CycleDetectingLockFactory</code> explicitly
  ordered locks participate in general cycle detection with all other cycle detecting locks, and
@@ -132,23 +135,26 @@ loadScripts(document, 'script');</script>
  attempting to acquire multiple locks with the same Enum value (within the same thread) will
  result in an IllegalStateException regardless of the factory's policy. For example:
 
- <pre><code>
- CycleDetectingLockFactory.WithExplicitOrdering&lt;MyLockOrder&gt; factory1 =
-   CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
- CycleDetectingLockFactory.WithExplicitOrdering&lt;MyLockOrder&gt; factory2 =
-   CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.CycleDetectingLockFactory.WithExplicitOrdering2"><code>CycleDetectingLockFactory.WithExplicitOrdering&lt;MyLockOrder&gt; factory1 =
+  CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
+CycleDetectingLockFactory.WithExplicitOrdering&lt;MyLockOrder&gt; factory2 =
+  CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
 
- Lock lockA = factory1.newReentrantLock(MyLockOrder.FIRST);
- Lock lockB = factory1.newReentrantLock(MyLockOrder.FIRST);
- Lock lockC = factory2.newReentrantLock(MyLockOrder.FIRST);
+Lock lockA = factory1.newReentrantLock(MyLockOrder.FIRST);
+Lock lockB = factory1.newReentrantLock(MyLockOrder.FIRST);
+Lock lockC = factory2.newReentrantLock(MyLockOrder.FIRST);
 
- lockA.lock();
+lockA.lock();
 
- lockB.lock();  // will throw an IllegalStateException
- lockC.lock();  // will throw an IllegalStateException
+lockB.lock();  // will throw an IllegalStateException
+lockC.lock();  // will throw an IllegalStateException
 
- lockA.lock();  // reentrant acquisition is okay
- </code></pre>
+lockA.lock();  // reentrant acquisition is okay
+</code></pre>
+</div>
+
 
  <p>It is the responsibility of the application to ensure that multiple lock instances with the
  same rank are never acquired in the same thread.</div>

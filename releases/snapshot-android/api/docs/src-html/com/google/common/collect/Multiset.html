@@ -312,10 +312,10 @@
 <span class="source-line-no">299</span><span id="line-299">     * represent the same element and count. That is, two entries {@code a} and {@code b} are equal</span>
 <span class="source-line-no">300</span><span id="line-300">     * if:</span>
 <span class="source-line-no">301</span><span id="line-301">     *</span>
-<span class="source-line-no">302</span><span id="line-302">     * &lt;pre&gt;{@code</span>
+<span class="source-line-no">302</span><span id="line-302">     * {@snippet :</span>
 <span class="source-line-no">303</span><span id="line-303">     * Objects.equal(a.getElement(), b.getElement())</span>
 <span class="source-line-no">304</span><span id="line-304">     *     &amp;&amp; a.getCount() == b.getCount()</span>
-<span class="source-line-no">305</span><span id="line-305">     * }&lt;/pre&gt;</span>
+<span class="source-line-no">305</span><span id="line-305">     * }</span>
 <span class="source-line-no">306</span><span id="line-306">     */</span>
 <span class="source-line-no">307</span><span id="line-307">    @Override</span>
 <span class="source-line-no">308</span><span id="line-308">    // TODO(kevinb): check this wrt TreeMultiset?</span>
@@ -327,9 +327,9 @@
 <span class="source-line-no">314</span><span id="line-314">     * &lt;p&gt;The hash code of a multiset entry for element {@code element} and count {@code count} is</span>
 <span class="source-line-no">315</span><span id="line-315">     * defined as:</span>
 <span class="source-line-no">316</span><span id="line-316">     *</span>
-<span class="source-line-no">317</span><span id="line-317">     * &lt;pre&gt;{@code</span>
+<span class="source-line-no">317</span><span id="line-317">     * {@snippet :</span>
 <span class="source-line-no">318</span><span id="line-318">     * ((element == null) ? 0 : element.hashCode()) ^ count</span>
-<span class="source-line-no">319</span><span id="line-319">     * }&lt;/pre&gt;</span>
+<span class="source-line-no">319</span><span id="line-319">     * }</span>
 <span class="source-line-no">320</span><span id="line-320">     */</span>
 <span class="source-line-no">321</span><span id="line-321">    @Override</span>
 <span class="source-line-no">322</span><span id="line-322">    int hashCode();</span>
@@ -358,9 +358,9 @@
 <span class="source-line-no">345</span><span id="line-345">  /**</span>
 <span class="source-line-no">346</span><span id="line-346">   * Returns the hash code for this multiset. This is defined as the sum of</span>
 <span class="source-line-no">347</span><span id="line-347">   *</span>
-<span class="source-line-no">348</span><span id="line-348">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">348</span><span id="line-348">   * {@snippet :</span>
 <span class="source-line-no">349</span><span id="line-349">   * ((element == null) ? 0 : element.hashCode()) ^ count(element)</span>
-<span class="source-line-no">350</span><span id="line-350">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">350</span><span id="line-350">   * }</span>
 <span class="source-line-no">351</span><span id="line-351">   *</span>
 <span class="source-line-no">352</span><span id="line-352">   * &lt;p&gt;over all distinct elements in the multiset. It follows that a multiset and its entry set</span>
 <span class="source-line-no">353</span><span id="line-353">   * always have the same hash code.</span>

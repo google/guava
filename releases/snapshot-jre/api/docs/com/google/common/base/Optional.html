@@ -436,27 +436,33 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  restrictive. However, the ideal signature, <code>public &lt;S super T&gt; S or(S)</code>, is not legal
  Java. As a result, some sensible operations involving subtypes are compile errors:
 
- <pre><code>
- Optional&lt;Integer&gt; optionalInt = getSomeOptionalInt();
- Number value = optionalInt.or(0.5); // error
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-or(T)1"><code>Optional&lt;Integer&gt; optionalInt = getSomeOptionalInt();
+Number value = optionalInt.or(0.5); // error
 
- FluentIterable&lt;? extends Number&gt; numbers = getSomeNumbers();
- Optional&lt;? extends Number&gt; first = numbers.first();
- Number value = first.or(0.5); // error
- </code></pre>
+FluentIterable&lt;? extends Number&gt; numbers = getSomeNumbers();
+Optional&lt;? extends Number&gt; first = numbers.first();
+Number value = first.or(0.5); // error
+</code></pre>
+</div>
+
 
  <p>As a workaround, it is always safe to cast an <code>Optional&lt;? extends T&gt;</code> to <code>
  Optional&lt;T&gt;</code>. Casting either of the above example <code>Optional</code> instances to <code>
  Optional&lt;Number&gt;</code> (where <code>Number</code> is the desired output type) solves the problem:
 
- <pre><code>
- Optional&lt;Number&gt; optionalInt = (Optional) getSomeOptionalInt();
- Number value = optionalInt.or(0.5); // fine
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-or(T)2"><code>Optional&lt;Number&gt; optionalInt = (Optional) getSomeOptionalInt();
+Number value = optionalInt.or(0.5); // fine
 
- FluentIterable&lt;? extends Number&gt; numbers = getSomeNumbers();
- Optional&lt;Number&gt; first = (Optional) numbers.first();
- Number value = first.or(0.5); // fine
- </code></pre>
+FluentIterable&lt;? extends Number&gt; numbers = getSomeNumbers();
+Optional&lt;Number&gt; first = (Optional) numbers.first();
+Number value = first.or(0.5); // fine
+</code></pre>
+</div>
+
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is similar to Java 8's <code>
  Optional.orElse</code>, but will not accept <code>null</code> as a <code>defaultValue</code> (<a href="#orNull()"><code>orNull()</code></a>
@@ -520,17 +526,23 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method has no equivalent in Java 8's
  <code>Optional</code> class. However, this common usage:
 
- <pre><code>
- for (Foo foo : possibleFoo.asSet()) {
-   doSomethingWith(foo);
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-asSet()1"><code>for (Foo foo : possibleFoo.asSet()) {
+  doSomethingWith(foo);
+}
+</code></pre>
+</div>
+
 
  ... can be replaced with:
 
- <pre><code>
- possibleFoo.ifPresent(foo -&gt; doSomethingWith(foo));
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-asSet()2"><code>possibleFoo.ifPresent(foo -&gt; doSomethingWith(foo));
+</code></pre>
+</div>
+
 
  <p><b>Java 9 users:</b> some use cases can be written with calls to <code>optional.stream()</code>.</div>
 <dl class="notes">

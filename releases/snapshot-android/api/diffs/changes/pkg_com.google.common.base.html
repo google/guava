@@ -85,11 +85,11 @@ Package <A HREF="../../docs/com/google/common/base/package-summary.html" target=
  <A HREF="../../docs/com/google/common/base/Joiner/Map.html"><TT>Map</TT></A>) with a separator. It either appends the results to an <A HREF="../../docs/com/google/common/base/Joiner/Appendable.html"><TT>Appendable</TT></A> or returns
  them as a <A HREF="../../docs/com/google/common/base/Joiner/String.html"><TT>String</TT></A>. Example:
 
- <pre>{@code
+ {@snippet :
  Joiner joiner = Joiner.on("; ").skipNulls();
   . . .
  return joiner.join("Harry", null, "Ron", "Hermione");
- }</pre>
+ }
 
  </TD>
 </TR>

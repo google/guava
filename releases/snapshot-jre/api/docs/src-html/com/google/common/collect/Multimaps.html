@@ -96,7 +96,7 @@
 <span class="source-line-no">083</span><span id="line-83">   *</span>
 <span class="source-line-no">084</span><span id="line-84">   * &lt;p&gt;Example:</span>
 <span class="source-line-no">085</span><span id="line-85">   *</span>
-<span class="source-line-no">086</span><span id="line-86">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">086</span><span id="line-86">   * {@snippet :</span>
 <span class="source-line-no">087</span><span id="line-87">   * static final ListMultimap&lt;Character, String&gt; FIRST_LETTER_MULTIMAP =</span>
 <span class="source-line-no">088</span><span id="line-88">   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")</span>
 <span class="source-line-no">089</span><span id="line-89">   *         .collect(</span>
@@ -117,7 +117,7 @@
 <span class="source-line-no">104</span><span id="line-104">   *     FIRST_LETTER_MULTIMAP.put('c', "arrot");</span>
 <span class="source-line-no">105</span><span id="line-105">   *     FIRST_LETTER_MULTIMAP.put('c', "herry");</span>
 <span class="source-line-no">106</span><span id="line-106">   * }</span>
-<span class="source-line-no">107</span><span id="line-107">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">107</span><span id="line-107">   * }</span>
 <span class="source-line-no">108</span><span id="line-108">   *</span>
 <span class="source-line-no">109</span><span id="line-109">   * &lt;p&gt;To collect to an {@link ImmutableMultimap}, use either {@link</span>
 <span class="source-line-no">110</span><span id="line-110">   * ImmutableSetMultimap#toImmutableSetMultimap} or {@link</span>
@@ -145,7 +145,7 @@
 <span class="source-line-no">132</span><span id="line-132">   *</span>
 <span class="source-line-no">133</span><span id="line-133">   * &lt;p&gt;Example:</span>
 <span class="source-line-no">134</span><span id="line-134">   *</span>
-<span class="source-line-no">135</span><span id="line-135">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">135</span><span id="line-135">   * {@snippet :</span>
 <span class="source-line-no">136</span><span id="line-136">   * static final ListMultimap&lt;Character, Character&gt; FIRST_LETTER_MULTIMAP =</span>
 <span class="source-line-no">137</span><span id="line-137">   *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")</span>
 <span class="source-line-no">138</span><span id="line-138">   *         .collect(</span>
@@ -166,7 +166,7 @@
 <span class="source-line-no">153</span><span id="line-153">   *     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'));</span>
 <span class="source-line-no">154</span><span id="line-154">   *     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));</span>
 <span class="source-line-no">155</span><span id="line-155">   * }</span>
-<span class="source-line-no">156</span><span id="line-156">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">156</span><span id="line-156">   * }</span>
 <span class="source-line-no">157</span><span id="line-157">   *</span>
 <span class="source-line-no">158</span><span id="line-158">   * @since 21.0</span>
 <span class="source-line-no">159</span><span id="line-159">   */</span>
@@ -617,7 +617,7 @@
 <span class="source-line-no">604</span><span id="line-604">   * &lt;p&gt;It is imperative that the user manually synchronize on the returned multimap when accessing</span>
 <span class="source-line-no">605</span><span id="line-605">   * any of its collection views:</span>
 <span class="source-line-no">606</span><span id="line-606">   *</span>
-<span class="source-line-no">607</span><span id="line-607">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">607</span><span id="line-607">   * {@snippet :</span>
 <span class="source-line-no">608</span><span id="line-608">   * Multimap&lt;K, V&gt; multimap = Multimaps.synchronizedMultimap(</span>
 <span class="source-line-no">609</span><span id="line-609">   *     HashMultimap.&lt;K, V&gt;create());</span>
 <span class="source-line-no">610</span><span id="line-610">   * ...</span>
@@ -629,7 +629,7 @@
 <span class="source-line-no">616</span><span id="line-616">   *     foo(i.next());</span>
 <span class="source-line-no">617</span><span id="line-617">   *   }</span>
 <span class="source-line-no">618</span><span id="line-618">   * }</span>
-<span class="source-line-no">619</span><span id="line-619">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">619</span><span id="line-619">   * }</span>
 <span class="source-line-no">620</span><span id="line-620">   *</span>
 <span class="source-line-no">621</span><span id="line-621">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</span>
 <span class="source-line-no">622</span><span id="line-622">   *</span>
@@ -1300,7 +1300,7 @@
 <span class="source-line-no">1287</span><span id="line-1287">   * Returns a view of a multimap where each value is transformed by a function. All other</span>
 <span class="source-line-no">1288</span><span id="line-1288">   * properties of the multimap, such as iteration order, are left intact. For example, the code:</span>
 <span class="source-line-no">1289</span><span id="line-1289">   *</span>
-<span class="source-line-no">1290</span><span id="line-1290">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1290</span><span id="line-1290">   * {@snippet :</span>
 <span class="source-line-no">1291</span><span id="line-1291">   * Multimap&lt;String, Integer&gt; multimap =</span>
 <span class="source-line-no">1292</span><span id="line-1292">   *     ImmutableSetMultimap.of("a", 2, "b", -3, "b", -3, "a", 4, "c", 6);</span>
 <span class="source-line-no">1293</span><span id="line-1293">   * Function&lt;Integer, String&gt; square = new Function&lt;Integer, String&gt;() {</span>
@@ -1311,7 +1311,7 @@
 <span class="source-line-no">1298</span><span id="line-1298">   * Multimap&lt;String, String&gt; transformed =</span>
 <span class="source-line-no">1299</span><span id="line-1299">   *     Multimaps.transformValues(multimap, square);</span>
 <span class="source-line-no">1300</span><span id="line-1300">   *   System.out.println(transformed);</span>
-<span class="source-line-no">1301</span><span id="line-1301">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1301</span><span id="line-1301">   * }</span>
 <span class="source-line-no">1302</span><span id="line-1302">   *</span>
 <span class="source-line-no">1303</span><span id="line-1303">   * ... prints {@code {a=[4, 16], b=[9, 9], c=[36]}}.</span>
 <span class="source-line-no">1304</span><span id="line-1304">   *</span>
@@ -1351,14 +1351,14 @@
 <span class="source-line-no">1338</span><span id="line-1338">   * other properties of the multimap, such as iteration order, are left intact. For example, the</span>
 <span class="source-line-no">1339</span><span id="line-1339">   * code:</span>
 <span class="source-line-no">1340</span><span id="line-1340">   *</span>
-<span class="source-line-no">1341</span><span id="line-1341">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1341</span><span id="line-1341">   * {@snippet :</span>
 <span class="source-line-no">1342</span><span id="line-1342">   * ListMultimap&lt;String, Integer&gt; multimap =</span>
 <span class="source-line-no">1343</span><span id="line-1343">   *      ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);</span>
 <span class="source-line-no">1344</span><span id="line-1344">   * Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);</span>
 <span class="source-line-no">1345</span><span id="line-1345">   * ListMultimap&lt;String, Double&gt; transformed = Multimaps.transformValues(map,</span>
 <span class="source-line-no">1346</span><span id="line-1346">   *     sqrt);</span>
 <span class="source-line-no">1347</span><span id="line-1347">   * System.out.println(transformed);</span>
-<span class="source-line-no">1348</span><span id="line-1348">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1348</span><span id="line-1348">   * }</span>
 <span class="source-line-no">1349</span><span id="line-1349">   *</span>
 <span class="source-line-no">1350</span><span id="line-1350">   * ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.</span>
 <span class="source-line-no">1351</span><span id="line-1351">   *</span>
@@ -1398,7 +1398,7 @@
 <span class="source-line-no">1385</span><span id="line-1385">   * &lt;p&gt;All other properties of the transformed multimap, such as iteration order, are left intact.</span>
 <span class="source-line-no">1386</span><span id="line-1386">   * For example, the code:</span>
 <span class="source-line-no">1387</span><span id="line-1387">   *</span>
-<span class="source-line-no">1388</span><span id="line-1388">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1388</span><span id="line-1388">   * {@snippet :</span>
 <span class="source-line-no">1389</span><span id="line-1389">   * SetMultimap&lt;String, Integer&gt; multimap =</span>
 <span class="source-line-no">1390</span><span id="line-1390">   *     ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);</span>
 <span class="source-line-no">1391</span><span id="line-1391">   * EntryTransformer&lt;String, Integer, String&gt; transformer =</span>
@@ -1410,7 +1410,7 @@
 <span class="source-line-no">1397</span><span id="line-1397">   * Multimap&lt;String, String&gt; transformed =</span>
 <span class="source-line-no">1398</span><span id="line-1398">   *     Multimaps.transformEntries(multimap, transformer);</span>
 <span class="source-line-no">1399</span><span id="line-1399">   * System.out.println(transformed);</span>
-<span class="source-line-no">1400</span><span id="line-1400">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1400</span><span id="line-1400">   * }</span>
 <span class="source-line-no">1401</span><span id="line-1401">   *</span>
 <span class="source-line-no">1402</span><span id="line-1402">   * ... prints {@code {a=[a, a], b=[nob]}}.</span>
 <span class="source-line-no">1403</span><span id="line-1403">   *</span>
@@ -1456,7 +1456,7 @@
 <span class="source-line-no">1443</span><span id="line-1443">   * &lt;p&gt;All other properties of the transformed multimap, such as iteration order, are left intact.</span>
 <span class="source-line-no">1444</span><span id="line-1444">   * For example, the code:</span>
 <span class="source-line-no">1445</span><span id="line-1445">   *</span>
-<span class="source-line-no">1446</span><span id="line-1446">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1446</span><span id="line-1446">   * {@snippet :</span>
 <span class="source-line-no">1447</span><span id="line-1447">   * Multimap&lt;String, Integer&gt; multimap =</span>
 <span class="source-line-no">1448</span><span id="line-1448">   *     ImmutableMultimap.of("a", 1, "a", 4, "b", 6);</span>
 <span class="source-line-no">1449</span><span id="line-1449">   * EntryTransformer&lt;String, Integer, String&gt; transformer =</span>
@@ -1468,7 +1468,7 @@
 <span class="source-line-no">1455</span><span id="line-1455">   * Multimap&lt;String, String&gt; transformed =</span>
 <span class="source-line-no">1456</span><span id="line-1456">   *     Multimaps.transformEntries(multimap, transformer);</span>
 <span class="source-line-no">1457</span><span id="line-1457">   * System.out.println(transformed);</span>
-<span class="source-line-no">1458</span><span id="line-1458">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1458</span><span id="line-1458">   * }</span>
 <span class="source-line-no">1459</span><span id="line-1459">   *</span>
 <span class="source-line-no">1460</span><span id="line-1460">   * ... prints {@code {"a"=["a1", "a4"], "b"=["b6"]}}.</span>
 <span class="source-line-no">1461</span><span id="line-1461">   *</span>
@@ -1657,20 +1657,20 @@
 <span class="source-line-no">1644</span><span id="line-1644">   *</span>
 <span class="source-line-no">1645</span><span id="line-1645">   * &lt;p&gt;For example,</span>
 <span class="source-line-no">1646</span><span id="line-1646">   *</span>
-<span class="source-line-no">1647</span><span id="line-1647">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1647</span><span id="line-1647">   * {@snippet :</span>
 <span class="source-line-no">1648</span><span id="line-1648">   * List&lt;String&gt; badGuys =</span>
 <span class="source-line-no">1649</span><span id="line-1649">   *     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");</span>
 <span class="source-line-no">1650</span><span id="line-1650">   * Function&lt;String, Integer&gt; stringLengthFunction = ...;</span>
 <span class="source-line-no">1651</span><span id="line-1651">   * Multimap&lt;Integer, String&gt; index =</span>
 <span class="source-line-no">1652</span><span id="line-1652">   *     Multimaps.index(badGuys, stringLengthFunction);</span>
 <span class="source-line-no">1653</span><span id="line-1653">   * System.out.println(index);</span>
-<span class="source-line-no">1654</span><span id="line-1654">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1654</span><span id="line-1654">   * }</span>
 <span class="source-line-no">1655</span><span id="line-1655">   *</span>
 <span class="source-line-no">1656</span><span id="line-1656">   * &lt;p&gt;prints</span>
 <span class="source-line-no">1657</span><span id="line-1657">   *</span>
-<span class="source-line-no">1658</span><span id="line-1658">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1658</span><span id="line-1658">   * {@snippet :</span>
 <span class="source-line-no">1659</span><span id="line-1659">   * {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}</span>
-<span class="source-line-no">1660</span><span id="line-1660">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1660</span><span id="line-1660">   * }</span>
 <span class="source-line-no">1661</span><span id="line-1661">   *</span>
 <span class="source-line-no">1662</span><span id="line-1662">   * &lt;p&gt;The returned multimap is serializable if its keys and values are all serializable.</span>
 <span class="source-line-no">1663</span><span id="line-1663">   *</span>
@@ -1697,20 +1697,20 @@
 <span class="source-line-no">1684</span><span id="line-1684">   *</span>
 <span class="source-line-no">1685</span><span id="line-1685">   * &lt;p&gt;For example,</span>
 <span class="source-line-no">1686</span><span id="line-1686">   *</span>
-<span class="source-line-no">1687</span><span id="line-1687">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1687</span><span id="line-1687">   * {@snippet :</span>
 <span class="source-line-no">1688</span><span id="line-1688">   * List&lt;String&gt; badGuys =</span>
 <span class="source-line-no">1689</span><span id="line-1689">   *     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");</span>
 <span class="source-line-no">1690</span><span id="line-1690">   * Function&lt;String, Integer&gt; stringLengthFunction = ...;</span>
 <span class="source-line-no">1691</span><span id="line-1691">   * Multimap&lt;Integer, String&gt; index =</span>
 <span class="source-line-no">1692</span><span id="line-1692">   *     Multimaps.index(badGuys.iterator(), stringLengthFunction);</span>
 <span class="source-line-no">1693</span><span id="line-1693">   * System.out.println(index);</span>
-<span class="source-line-no">1694</span><span id="line-1694">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1694</span><span id="line-1694">   * }</span>
 <span class="source-line-no">1695</span><span id="line-1695">   *</span>
 <span class="source-line-no">1696</span><span id="line-1696">   * &lt;p&gt;prints</span>
 <span class="source-line-no">1697</span><span id="line-1697">   *</span>
-<span class="source-line-no">1698</span><span id="line-1698">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1698</span><span id="line-1698">   * {@snippet :</span>
 <span class="source-line-no">1699</span><span id="line-1699">   * {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}</span>
-<span class="source-line-no">1700</span><span id="line-1700">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1700</span><span id="line-1700">   * }</span>
 <span class="source-line-no">1701</span><span id="line-1701">   *</span>
 <span class="source-line-no">1702</span><span id="line-1702">   * &lt;p&gt;The returned multimap is serializable if its keys and values are all serializable.</span>
 <span class="source-line-no">1703</span><span id="line-1703">   *</span>

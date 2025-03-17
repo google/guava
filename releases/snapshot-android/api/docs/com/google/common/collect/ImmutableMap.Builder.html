@@ -109,14 +109,17 @@ loadScripts(document, 'script');</script>
 <div class="block">A builder for creating immutable map instances, especially <code>public static final</code> maps
  ("constant maps"). Example:
 
- <pre><code>
- static final ImmutableMap&lt;String, Integer&gt; WORD_TO_INT =
-     new ImmutableMap.Builder&lt;String, Integer&gt;()
-         .put("one", 1)
-         .put("two", 2)
-         .put("three", 3)
-         .buildOrThrow();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ImmutableMap.Builder1"><code>static final ImmutableMap&lt;String, Integer&gt; WORD_TO_INT =
+    new ImmutableMap.Builder&lt;String, Integer&gt;()
+        .put("one", 1)
+        .put("two", 2)
+        .put("three", 3)
+        .buildOrThrow();
+</code></pre>
+</div>
+
 
  <p>For <i>small</i> immutable maps, the <code>ImmutableMap.of()</code> methods are even more
  convenient.

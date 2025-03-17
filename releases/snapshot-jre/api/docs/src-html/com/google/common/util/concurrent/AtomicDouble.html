@@ -54,13 +54,13 @@
 <span class="source-line-no">041</span><span id="line-41"> * Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and</span>
 <span class="source-line-no">042</span><span id="line-42"> * from {@link Double#equals}, as if implemented by:</span>
 <span class="source-line-no">043</span><span id="line-43"> *</span>
-<span class="source-line-no">044</span><span id="line-44"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">044</span><span id="line-44"> * {@snippet :</span>
 <span class="source-line-no">045</span><span id="line-45"> * static boolean bitEquals(double x, double y) {</span>
 <span class="source-line-no">046</span><span id="line-46"> *   long xBits = Double.doubleToRawLongBits(x);</span>
 <span class="source-line-no">047</span><span id="line-47"> *   long yBits = Double.doubleToRawLongBits(y);</span>
 <span class="source-line-no">048</span><span id="line-48"> *   return xBits == yBits;</span>
 <span class="source-line-no">049</span><span id="line-49"> * }</span>
-<span class="source-line-no">050</span><span id="line-50"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">050</span><span id="line-50"> * }</span>
 <span class="source-line-no">051</span><span id="line-51"> *</span>
 <span class="source-line-no">052</span><span id="line-52"> * &lt;p&gt;It is possible to write a more scalable updater, at the cost of giving up strict atomicity.</span>
 <span class="source-line-no">053</span><span id="line-53"> * See for example &lt;a</span>

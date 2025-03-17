@@ -134,13 +134,13 @@
 <span class="source-line-no">121</span><span id="line-121">   * Begins a new hash code computation by returning an initialized, stateful {@code Hasher}</span>
 <span class="source-line-no">122</span><span id="line-122">   * instance that is ready to receive data. Example:</span>
 <span class="source-line-no">123</span><span id="line-123">   *</span>
-<span class="source-line-no">124</span><span id="line-124">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">124</span><span id="line-124">   * {@snippet :</span>
 <span class="source-line-no">125</span><span id="line-125">   * HashFunction hf = Hashing.md5();</span>
 <span class="source-line-no">126</span><span id="line-126">   * HashCode hc = hf.newHasher()</span>
 <span class="source-line-no">127</span><span id="line-127">   *     .putLong(id)</span>
 <span class="source-line-no">128</span><span id="line-128">   *     .putBoolean(isActive)</span>
 <span class="source-line-no">129</span><span id="line-129">   *     .hash();</span>
-<span class="source-line-no">130</span><span id="line-130">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">130</span><span id="line-130">   * }</span>
 <span class="source-line-no">131</span><span id="line-131">   */</span>
 <span class="source-line-no">132</span><span id="line-132">  Hasher newHasher();</span>
 <span class="source-line-no">133</span><span id="line-133"></span>

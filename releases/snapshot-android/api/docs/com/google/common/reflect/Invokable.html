@@ -136,12 +136,15 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  will resolve the type parameters of the method or constructor in the context of the owner type,
  which may be a subtype of the declaring class. For example:
 
- <pre><code>
- Method getMethod = List.class.getMethod("get", int.class);
- Invokable&lt;List&lt;String&gt;, ?&gt; invokable = new TypeToken&lt;List&lt;String&gt;&gt;() {}.method(getMethod);
- assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
- assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerType());
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.reflect.Invokable1"><code>Method getMethod = List.class.getMethod("get", int.class);
+Invokable&lt;List&lt;String&gt;, ?&gt; invokable = new TypeToken&lt;List&lt;String&gt;&gt;() {}.method(getMethod);
+assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
+assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerType());
+</code></pre>
+</div>
+
 
  <p><b>Note:</b> earlier versions of this class inherited from <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AccessibleObject.html" title="class or interface in java.lang.reflect" class="external-link"><code>AccessibleObject</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/GenericDeclaration.html" title="class or interface in java.lang.reflect" class="external-link"><code>GenericDeclaration</code></a>. Since version 31.0 that is no longer
  the case. However, most methods from those types are present with the same signature in this
@@ -695,10 +698,13 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;</span>&nbsp;<span class="return-type"><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,<wbr>R1&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-306">returning</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;R1&gt;&nbsp;returnType)</span></div>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>. For example:
 
- <pre><code>
- Method factoryMethod = Person.class.getMethod("create");
- Invokable&lt;?, Person&gt; factory = Invokable.of(getNameMethod).returning(Person.class);
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-returning(java.lang.Class)1"><code>Method factoryMethod = Person.class.getMethod("create");
+Invokable&lt;?, Person&gt; factory = Invokable.of(getNameMethod).returning(Person.class);
+</code></pre>
+</div>
+</div>
 </div>
 </section>
 </li>

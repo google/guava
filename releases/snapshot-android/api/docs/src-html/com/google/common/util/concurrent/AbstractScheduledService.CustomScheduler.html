@@ -78,7 +78,7 @@
 <span class="source-line-no">065</span><span id="line-65"> * &lt;p&gt;Here is a sketch of a service which crawls a website and uses the scheduling capabilities to</span>
 <span class="source-line-no">066</span><span id="line-66"> * rate limit itself.</span>
 <span class="source-line-no">067</span><span id="line-67"> *</span>
-<span class="source-line-no">068</span><span id="line-68"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">068</span><span id="line-68"> * {@snippet :</span>
 <span class="source-line-no">069</span><span id="line-69"> * class CrawlingService extends AbstractScheduledService {</span>
 <span class="source-line-no">070</span><span id="line-70"> *   private Set&lt;Uri&gt; visited;</span>
 <span class="source-line-no">071</span><span id="line-71"> *   private Queue&lt;Uri&gt; toCrawl;</span>
@@ -103,7 +103,7 @@
 <span class="source-line-no">090</span><span id="line-90"> *     return Scheduler.newFixedRateSchedule(0, 1, TimeUnit.SECONDS);</span>
 <span class="source-line-no">091</span><span id="line-91"> *   }</span>
 <span class="source-line-no">092</span><span id="line-92"> * }</span>
-<span class="source-line-no">093</span><span id="line-93"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">093</span><span id="line-93"> * }</span>
 <span class="source-line-no">094</span><span id="line-94"> *</span>
 <span class="source-line-no">095</span><span id="line-95"> * &lt;p&gt;This class uses the life cycle methods to read in a list of starting URIs and save the set of</span>
 <span class="source-line-no">096</span><span id="line-96"> * outstanding URIs when shutting down. Also, it takes advantage of the scheduling functionality to</span>

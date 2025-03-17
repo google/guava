@@ -104,14 +104,17 @@ loadScripts(document, 'script');</script>
 
  <p>Example:
 
- <pre><code>
- Iterator&lt;Integer&gt; powersOfTwo =
-     new AbstractSequentialIterator&lt;Integer&gt;(1) {
-       protected Integer computeNext(Integer previous) {
-         return (previous == 1 &lt;&lt; 30) ? null : previous * 2;
-       }
-     };
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.AbstractSequentialIterator1"><code>Iterator&lt;Integer&gt; powersOfTwo =
+    new AbstractSequentialIterator&lt;Integer&gt;(1) {
+      protected Integer computeNext(Integer previous) {
+        return (previous == 1 &lt;&lt; 30) ? null : previous * 2;
+      }
+    };
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>12.0 (in Guava as <code>AbstractLinkedIterator</code> since 8.0)</dd>

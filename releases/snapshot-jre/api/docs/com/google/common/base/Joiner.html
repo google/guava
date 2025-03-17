@@ -106,11 +106,14 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link"><code>Map</code></a>) with a separator. It either appends the results to an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Appendable.html" title="class or interface in java.lang" class="external-link"><code>Appendable</code></a> or returns
  them as a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a>. Example:
 
- <pre><code>
- Joiner joiner = Joiner.on("; ").skipNulls();
-  . . .
- return joiner.join("Harry", null, "Ron", "Hermione");
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Joiner1"><code>Joiner joiner = Joiner.on("; ").skipNulls();
+ . . .
+return joiner.join("Harry", null, "Ron", "Hermione");
+</code></pre>
+</div>
+
 
  <p>This returns the string <code>"Harry; Ron; Hermione"</code>. Note that all input elements are
  converted to strings using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> before being appended.
@@ -123,12 +126,15 @@ loadScripts(document, 'script');</script>
  instance returned by the method. This makes joiners thread-safe, and safe to store as <code>
  static final</code> constants.
 
- <pre><code>
- // Bad! Do not do this!
- Joiner joiner = Joiner.on(',');
- joiner.skipNulls(); // does nothing!
- return joiner.join("wrong", null, "wrong");
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Joiner2"><code>// Bad! Do not do this!
+Joiner joiner = Joiner.on(',');
+joiner.skipNulls(); // does nothing!
+return joiner.join("wrong", null, "wrong");
+</code></pre>
+</div>
+
 
  <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/StringsExplained#joiner"><code>Joiner</code></a>.</div>
 <dl class="notes">

@@ -93,12 +93,15 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Captures a free type variable that can be used in <a href="TypeToken.html#where(com.google.common.reflect.TypeParameter,com.google.common.reflect.TypeToken)"><code>TypeToken.where(com.google.common.reflect.TypeParameter&lt;X&gt;, com.google.common.reflect.TypeToken&lt;X&gt;)</code></a>. For example:
 
- <pre><code>
- static &lt;T&gt; TypeToken&lt;List&lt;T&gt;&gt; listOf(Class&lt;T&gt; elementType) {
-   return new TypeToken&lt;List&lt;T&gt;&gt;() {}
-       .where(new TypeParameter&lt;T&gt;() {}, elementType);
- }
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.reflect.TypeParameter1"><code>static &lt;T&gt; TypeToken&lt;List&lt;T&gt;&gt; listOf(Class&lt;T&gt; elementType) {
+  return new TypeToken&lt;List&lt;T&gt;&gt;() {}
+      .where(new TypeParameter&lt;T&gt;() {}, elementType);
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>12.0</dd>

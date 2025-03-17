@@ -574,10 +574,10 @@
 <span class="source-line-no">561</span><span id="line-561">   * empty, passed directly to this method, and no reference to the map is retained, as illustrated</span>
 <span class="source-line-no">562</span><span id="line-562">   * in the following code fragment:</span>
 <span class="source-line-no">563</span><span id="line-563">   *</span>
-<span class="source-line-no">564</span><span id="line-564">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">564</span><span id="line-564">   * {@snippet :</span>
 <span class="source-line-no">565</span><span id="line-565">   * Set&lt;Object&gt; identityHashSet = Sets.newSetFromMap(</span>
 <span class="source-line-no">566</span><span id="line-566">   *     new IdentityHashMap&lt;Object, Boolean&gt;());</span>
-<span class="source-line-no">567</span><span id="line-567">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">567</span><span id="line-567">   * }</span>
 <span class="source-line-no">568</span><span id="line-568">   *</span>
 <span class="source-line-no">569</span><span id="line-569">   * &lt;p&gt;The returned set is serializable if the backing map is.</span>
 <span class="source-line-no">570</span><span id="line-570">   *</span>
@@ -858,7 +858,7 @@
 <span class="source-line-no">845</span><span id="line-845">   * set based on the type of the first set passed, this could in rare cases force you to make a</span>
 <span class="source-line-no">846</span><span id="line-846">   * cast, for example:</span>
 <span class="source-line-no">847</span><span id="line-847">   *</span>
-<span class="source-line-no">848</span><span id="line-848">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">848</span><span id="line-848">   * {@snippet :</span>
 <span class="source-line-no">849</span><span id="line-849">   * Set&lt;Object&gt; aFewBadObjects = ...</span>
 <span class="source-line-no">850</span><span id="line-850">   * Set&lt;String&gt; manyBadStrings = ...</span>
 <span class="source-line-no">851</span><span id="line-851">   *</span>
@@ -866,7 +866,7 @@
 <span class="source-line-no">853</span><span id="line-853">   * SuppressWarnings("unchecked")</span>
 <span class="source-line-no">854</span><span id="line-854">   * Set&lt;String&gt; badStrings = (Set) Sets.intersection(</span>
 <span class="source-line-no">855</span><span id="line-855">   *     aFewBadObjects, manyBadStrings);</span>
-<span class="source-line-no">856</span><span id="line-856">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">856</span><span id="line-856">   * }</span>
 <span class="source-line-no">857</span><span id="line-857">   *</span>
 <span class="source-line-no">858</span><span id="line-858">   * &lt;p&gt;This is unfortunate, but should come up only very rarely.</span>
 <span class="source-line-no">859</span><span id="line-859">   */</span>
@@ -1347,11 +1347,11 @@
 <span class="source-line-no">1334</span><span id="line-1334">   * sets in order; the "n-ary &lt;a href="http://en.wikipedia.org/wiki/Cartesian_product"&gt;Cartesian</span>
 <span class="source-line-no">1335</span><span id="line-1335">   * product&lt;/a&gt;" of the sets. For example:</span>
 <span class="source-line-no">1336</span><span id="line-1336">   *</span>
-<span class="source-line-no">1337</span><span id="line-1337">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1337</span><span id="line-1337">   * {@snippet :</span>
 <span class="source-line-no">1338</span><span id="line-1338">   * Sets.cartesianProduct(ImmutableList.of(</span>
 <span class="source-line-no">1339</span><span id="line-1339">   *     ImmutableSet.of(1, 2),</span>
 <span class="source-line-no">1340</span><span id="line-1340">   *     ImmutableSet.of("A", "B", "C")))</span>
-<span class="source-line-no">1341</span><span id="line-1341">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1341</span><span id="line-1341">   * }</span>
 <span class="source-line-no">1342</span><span id="line-1342">   *</span>
 <span class="source-line-no">1343</span><span id="line-1343">   * &lt;p&gt;returns a set containing six lists:</span>
 <span class="source-line-no">1344</span><span id="line-1344">   *</span>
@@ -1367,7 +1367,7 @@
 <span class="source-line-no">1354</span><span id="line-1354">   * &lt;p&gt;The result is guaranteed to be in the "traditional", lexicographical order for Cartesian</span>
 <span class="source-line-no">1355</span><span id="line-1355">   * products that you would get from nesting for loops:</span>
 <span class="source-line-no">1356</span><span id="line-1356">   *</span>
-<span class="source-line-no">1357</span><span id="line-1357">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1357</span><span id="line-1357">   * {@snippet :</span>
 <span class="source-line-no">1358</span><span id="line-1358">   * for (B b0 : sets.get(0)) {</span>
 <span class="source-line-no">1359</span><span id="line-1359">   *   for (B b1 : sets.get(1)) {</span>
 <span class="source-line-no">1360</span><span id="line-1360">   *     ...</span>
@@ -1375,7 +1375,7 @@
 <span class="source-line-no">1362</span><span id="line-1362">   *     // operate on tuple</span>
 <span class="source-line-no">1363</span><span id="line-1363">   *   }</span>
 <span class="source-line-no">1364</span><span id="line-1364">   * }</span>
-<span class="source-line-no">1365</span><span id="line-1365">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1365</span><span id="line-1365">   * }</span>
 <span class="source-line-no">1366</span><span id="line-1366">   *</span>
 <span class="source-line-no">1367</span><span id="line-1367">   * &lt;p&gt;Note that if any input set is empty, the Cartesian product will also be empty. If no sets at</span>
 <span class="source-line-no">1368</span><span id="line-1368">   * all are provided (an empty list), the resulting Cartesian product has one element, an empty</span>
@@ -1404,11 +1404,11 @@
 <span class="source-line-no">1391</span><span id="line-1391">   * sets in order; the "n-ary &lt;a href="http://en.wikipedia.org/wiki/Cartesian_product"&gt;Cartesian</span>
 <span class="source-line-no">1392</span><span id="line-1392">   * product&lt;/a&gt;" of the sets. For example:</span>
 <span class="source-line-no">1393</span><span id="line-1393">   *</span>
-<span class="source-line-no">1394</span><span id="line-1394">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1394</span><span id="line-1394">   * {@snippet :</span>
 <span class="source-line-no">1395</span><span id="line-1395">   * Sets.cartesianProduct(</span>
 <span class="source-line-no">1396</span><span id="line-1396">   *     ImmutableSet.of(1, 2),</span>
 <span class="source-line-no">1397</span><span id="line-1397">   *     ImmutableSet.of("A", "B", "C"))</span>
-<span class="source-line-no">1398</span><span id="line-1398">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1398</span><span id="line-1398">   * }</span>
 <span class="source-line-no">1399</span><span id="line-1399">   *</span>
 <span class="source-line-no">1400</span><span id="line-1400">   * &lt;p&gt;returns a set containing six lists:</span>
 <span class="source-line-no">1401</span><span id="line-1401">   *</span>
@@ -1424,7 +1424,7 @@
 <span class="source-line-no">1411</span><span id="line-1411">   * &lt;p&gt;The result is guaranteed to be in the "traditional", lexicographical order for Cartesian</span>
 <span class="source-line-no">1412</span><span id="line-1412">   * products that you would get from nesting for loops:</span>
 <span class="source-line-no">1413</span><span id="line-1413">   *</span>
-<span class="source-line-no">1414</span><span id="line-1414">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1414</span><span id="line-1414">   * {@snippet :</span>
 <span class="source-line-no">1415</span><span id="line-1415">   * for (B b0 : sets.get(0)) {</span>
 <span class="source-line-no">1416</span><span id="line-1416">   *   for (B b1 : sets.get(1)) {</span>
 <span class="source-line-no">1417</span><span id="line-1417">   *     ...</span>
@@ -1432,7 +1432,7 @@
 <span class="source-line-no">1419</span><span id="line-1419">   *     // operate on tuple</span>
 <span class="source-line-no">1420</span><span id="line-1420">   *   }</span>
 <span class="source-line-no">1421</span><span id="line-1421">   * }</span>
-<span class="source-line-no">1422</span><span id="line-1422">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1422</span><span id="line-1422">   * }</span>
 <span class="source-line-no">1423</span><span id="line-1423">   *</span>
 <span class="source-line-no">1424</span><span id="line-1424">   * &lt;p&gt;Note that if any input set is empty, the Cartesian product will also be empty. If no sets at</span>
 <span class="source-line-no">1425</span><span id="line-1425">   * all are provided (an empty list), the resulting Cartesian product has one element, an empty</span>
@@ -1994,7 +1994,7 @@
 <span class="source-line-no">1981</span><span id="line-1981">   * iterating over it or any of its {@code descendingSet}, {@code subSet}, {@code headSet}, or</span>
 <span class="source-line-no">1982</span><span id="line-1982">   * {@code tailSet} views.</span>
 <span class="source-line-no">1983</span><span id="line-1983">   *</span>
-<span class="source-line-no">1984</span><span id="line-1984">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1984</span><span id="line-1984">   * {@snippet :</span>
 <span class="source-line-no">1985</span><span id="line-1985">   * NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());</span>
 <span class="source-line-no">1986</span><span id="line-1986">   *  ...</span>
 <span class="source-line-no">1987</span><span id="line-1987">   * synchronized (set) {</span>
@@ -2004,22 +2004,22 @@
 <span class="source-line-no">1991</span><span id="line-1991">   *     foo(it.next());</span>
 <span class="source-line-no">1992</span><span id="line-1992">   *   }</span>
 <span class="source-line-no">1993</span><span id="line-1993">   * }</span>
-<span class="source-line-no">1994</span><span id="line-1994">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1994</span><span id="line-1994">   * }</span>
 <span class="source-line-no">1995</span><span id="line-1995">   *</span>
 <span class="source-line-no">1996</span><span id="line-1996">   * &lt;p&gt;or:</span>
 <span class="source-line-no">1997</span><span id="line-1997">   *</span>
-<span class="source-line-no">1998</span><span id="line-1998">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1998</span><span id="line-1998">   * {@snippet :</span>
 <span class="source-line-no">1999</span><span id="line-1999">   * NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());</span>
 <span class="source-line-no">2000</span><span id="line-2000">   * NavigableSet&lt;E&gt; set2 = set.descendingSet().headSet(foo);</span>
 <span class="source-line-no">2001</span><span id="line-2001">   *  ...</span>
 <span class="source-line-no">2002</span><span id="line-2002">   * synchronized (set) { // Note: set, not set2!!!</span>
 <span class="source-line-no">2003</span><span id="line-2003">   *   // Must be in the synchronized block</span>
 <span class="source-line-no">2004</span><span id="line-2004">   *   Iterator&lt;E&gt; it = set2.descendingIterator();</span>
-<span class="source-line-no">2005</span><span id="line-2005">   *   while (it.hasNext())</span>
+<span class="source-line-no">2005</span><span id="line-2005">   *   while (it.hasNext()) {</span>
 <span class="source-line-no">2006</span><span id="line-2006">   *     foo(it.next());</span>
 <span class="source-line-no">2007</span><span id="line-2007">   *   }</span>
 <span class="source-line-no">2008</span><span id="line-2008">   * }</span>
-<span class="source-line-no">2009</span><span id="line-2009">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">2009</span><span id="line-2009">   * }</span>
 <span class="source-line-no">2010</span><span id="line-2010">   *</span>
 <span class="source-line-no">2011</span><span id="line-2011">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</span>
 <span class="source-line-no">2012</span><span id="line-2012">   *</span>

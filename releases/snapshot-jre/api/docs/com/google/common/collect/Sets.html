@@ -875,10 +875,13 @@ loadScripts(document, 'script');</script>
  empty, passed directly to this method, and no reference to the map is retained, as illustrated
  in the following code fragment:
 
- <pre><code>
- Set&lt;Object&gt; identityHashSet = Sets.newSetFromMap(
-     new IdentityHashMap&lt;Object, Boolean&gt;());
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-newSetFromMap(java.util.Map)1"><code>Set&lt;Object&gt; identityHashSet = Sets.newSetFromMap(
+    new IdentityHashMap&lt;Object, Boolean&gt;());
+</code></pre>
+</div>
+
 
  <p>The returned set is serializable if the backing map is.</div>
 <dl class="notes">
@@ -931,15 +934,18 @@ loadScripts(document, 'script');</script>
  set based on the type of the first set passed, this could in rare cases force you to make a
  cast, for example:
 
- <pre><code>
- Set&lt;Object&gt; aFewBadObjects = ...
- Set&lt;String&gt; manyBadStrings = ...
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-intersection(java.util.Set,java.util.Set)1"><code>Set&lt;Object&gt; aFewBadObjects = ...
+Set&lt;String&gt; manyBadStrings = ...
 
- // impossible for a non-String to be in the intersection
- SuppressWarnings("unchecked")
- Set&lt;String&gt; badStrings = (Set) Sets.intersection(
-     aFewBadObjects, manyBadStrings);
- </code></pre>
+// impossible for a non-String to be in the intersection
+SuppressWarnings("unchecked")
+Set&lt;String&gt; badStrings = (Set) Sets.intersection(
+    aFewBadObjects, manyBadStrings);
+</code></pre>
+</div>
+
 
  <p>This is unfortunate, but should come up only very rarely.</div>
 </div>
@@ -1091,11 +1097,14 @@ loadScripts(document, 'script');</script>
  sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the sets. For example:
 
- <pre><code>
- Sets.cartesianProduct(ImmutableList.of(
-     ImmutableSet.of(1, 2),
-     ImmutableSet.of("A", "B", "C")))
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-cartesianProduct(java.util.List)3"><code>Sets.cartesianProduct(ImmutableList.of(
+    ImmutableSet.of(1, 2),
+    ImmutableSet.of("A", "B", "C")))
+</code></pre>
+</div>
+
 
  <p>returns a set containing six lists:
 
@@ -1111,15 +1120,18 @@ loadScripts(document, 'script');</script>
  <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
  products that you would get from nesting for loops:
 
- <pre><code>
- for (B b0 : sets.get(0)) {
-   for (B b1 : sets.get(1)) {
-     ...
-     ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
-     // operate on tuple
-   }
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-cartesianProduct(java.util.List)4"><code>for (B b0 : sets.get(0)) {
+  for (B b1 : sets.get(1)) {
+    ...
+    ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
+    // operate on tuple
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Note that if any input set is empty, the Cartesian product will also be empty. If no sets at
  all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -1157,11 +1169,14 @@ loadScripts(document, 'script');</script>
  sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
  product</a>" of the sets. For example:
 
- <pre><code>
- Sets.cartesianProduct(
-     ImmutableSet.of(1, 2),
-     ImmutableSet.of("A", "B", "C"))
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-cartesianProduct(java.util.Set...)1"><code>Sets.cartesianProduct(
+    ImmutableSet.of(1, 2),
+    ImmutableSet.of("A", "B", "C"))
+</code></pre>
+</div>
+
 
  <p>returns a set containing six lists:
 
@@ -1177,15 +1192,18 @@ loadScripts(document, 'script');</script>
  <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
  products that you would get from nesting for loops:
 
- <pre><code>
- for (B b0 : sets.get(0)) {
-   for (B b1 : sets.get(1)) {
-     ...
-     ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
-     // operate on tuple
-   }
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-cartesianProduct(java.util.Set...)2"><code>for (B b0 : sets.get(0)) {
+  for (B b1 : sets.get(1)) {
+    ...
+    ImmutableList&lt;B&gt; tuple = ImmutableList.of(b0, b1, ...);
+    // operate on tuple
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Note that if any input set is empty, the Cartesian product will also be empty. If no sets at
  all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -1331,32 +1349,38 @@ loadScripts(document, 'script');</script>
  iterating over it or any of its <code>descendingSet</code>, <code>subSet</code>, <code>headSet</code>, or
  <code>tailSet</code> views.
 
- <pre><code>
- NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());
-  ...
- synchronized (set) {
-   // Must be in the synchronized block
-   Iterator&lt;E&gt; it = set.iterator();
-   while (it.hasNext()) {
-     foo(it.next());
-   }
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-synchronizedNavigableSet(java.util.NavigableSet)1"><code>NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());
+ ...
+synchronized (set) {
+  // Must be in the synchronized block
+  Iterator&lt;E&gt; it = set.iterator();
+  while (it.hasNext()) {
+    foo(it.next());
+  }
+}
+</code></pre>
+</div>
+
 
  <p>or:
 
- <pre><code>
- NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());
- NavigableSet&lt;E&gt; set2 = set.descendingSet().headSet(foo);
-  ...
- synchronized (set) { // Note: set, not set2!!!
-   // Must be in the synchronized block
-   Iterator&lt;E&gt; it = set2.descendingIterator();
-   while (it.hasNext())
-     foo(it.next());
-   }
- </code>
- }</pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-synchronizedNavigableSet(java.util.NavigableSet)2"><code>NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());
+NavigableSet&lt;E&gt; set2 = set.descendingSet().headSet(foo);
+ ...
+synchronized (set) { // Note: set, not set2!!!
+  // Must be in the synchronized block
+  Iterator&lt;E&gt; it = set2.descendingIterator();
+  while (it.hasNext()) {
+    foo(it.next());
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 

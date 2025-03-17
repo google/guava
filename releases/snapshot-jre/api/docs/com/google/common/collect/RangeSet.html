@@ -111,14 +111,17 @@ loadScripts(document, 'script');</script>
  <p>Implementations that choose to support the <a href="#add(com.google.common.collect.Range)"><code>add(Range)</code></a> operation are required to
  ignore empty ranges and coalesce connected ranges. For example:
 
- <pre><code>
- RangeSet&lt;Integer&gt; rangeSet = TreeRangeSet.create();
- rangeSet.add(Range.closed(1, 10)); // {[1, 10]}
- rangeSet.add(Range.closedOpen(11, 15)); // disconnected range; {[1, 10], [11, 15)}
- rangeSet.add(Range.closedOpen(15, 20)); // connected range; {[1, 10], [11, 20)}
- rangeSet.add(Range.openClosed(0, 0)); // empty range; {[1, 10], [11, 20)}
- rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 20)}
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.RangeSet1"><code>RangeSet&lt;Integer&gt; rangeSet = TreeRangeSet.create();
+rangeSet.add(Range.closed(1, 10)); // {[1, 10]}
+rangeSet.add(Range.closedOpen(11, 15)); // disconnected range; {[1, 10], [11, 15)}
+rangeSet.add(Range.closedOpen(15, 20)); // connected range; {[1, 10], [11, 20)}
+rangeSet.add(Range.openClosed(0, 0)); // empty range; {[1, 10], [11, 20)}
+rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 20)}
+</code></pre>
+</div>
+
 
  <p>Note that the behavior of <a href="Range.html#isEmpty()"><code>Range.isEmpty()</code></a> and <a href="Range.html#isConnected(com.google.common.collect.Range)"><code>Range.isConnected(Range)</code></a> may not
  be as expected on discrete ranges. See the Javadoc of those methods for details.

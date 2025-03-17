@@ -129,11 +129,11 @@
 <span class="source-line-no">116</span><span id="line-116">   *</span>
 <span class="source-line-no">117</span><span id="line-117">   * &lt;p&gt;For example:</span>
 <span class="source-line-no">118</span><span id="line-118">   *</span>
-<span class="source-line-no">119</span><span id="line-119">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">119</span><span id="line-119">   * {@snippet :</span>
 <span class="source-line-no">120</span><span id="line-120">   * Stream.of("foo", "quux", "banana", "elephant")</span>
 <span class="source-line-no">121</span><span id="line-121">   *     .collect(least(2, comparingInt(String::length)))</span>
 <span class="source-line-no">122</span><span id="line-122">   * // returns {"foo", "quux"}</span>
-<span class="source-line-no">123</span><span id="line-123">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">123</span><span id="line-123">   * }</span>
 <span class="source-line-no">124</span><span id="line-124">   *</span>
 <span class="source-line-no">125</span><span id="line-125">   * &lt;p&gt;This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log</span>
 <span class="source-line-no">126</span><span id="line-126">   * k)), as opposed to e.g. {@code Stream.sorted(comparator).limit(k)}, which currently takes O(n</span>
@@ -161,11 +161,11 @@
 <span class="source-line-no">148</span><span id="line-148">   *</span>
 <span class="source-line-no">149</span><span id="line-149">   * &lt;p&gt;For example:</span>
 <span class="source-line-no">150</span><span id="line-150">   *</span>
-<span class="source-line-no">151</span><span id="line-151">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">151</span><span id="line-151">   * {@snippet :</span>
 <span class="source-line-no">152</span><span id="line-152">   * Stream.of("foo", "quux", "banana", "elephant")</span>
 <span class="source-line-no">153</span><span id="line-153">   *     .collect(greatest(2, comparingInt(String::length)))</span>
 <span class="source-line-no">154</span><span id="line-154">   * // returns {"elephant", "banana"}</span>
-<span class="source-line-no">155</span><span id="line-155">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">155</span><span id="line-155">   * }</span>
 <span class="source-line-no">156</span><span id="line-156">   *</span>
 <span class="source-line-no">157</span><span id="line-157">   * &lt;p&gt;This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log</span>
 <span class="source-line-no">158</span><span id="line-158">   * k)), as opposed to e.g. {@code Stream.sorted(comparator.reversed()).limit(k)}, which currently</span>

@@ -168,34 +168,40 @@ loadScripts(document, 'script');</script>
 
  <p>Usage example:
 
- <pre><code>
- LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.newBuilder()
-     .maximumSize(10000)
-     .expireAfterWrite(Duration.ofMinutes(10))
-     .removalListener(MY_LISTENER)
-     .build(
-         new CacheLoader&lt;Key, Graph&gt;() {
-           public Graph load(Key key) throws AnyException {
-             return createExpensiveGraph(key);
-           }
-         });
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.cache.CacheBuilder1"><code>LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.newBuilder()
+    .maximumSize(10000)
+    .expireAfterWrite(Duration.ofMinutes(10))
+    .removalListener(MY_LISTENER)
+    .build(
+        new CacheLoader&lt;Key, Graph&gt;() {
+          public Graph load(Key key) throws AnyException {
+            return createExpensiveGraph(key);
+          }
+        });
+</code></pre>
+</div>
+
 
  <p>Or equivalently,
 
- <pre><code>
- // In real life this would come from a command-line flag or config file
- String spec = "maximumSize=10000,expireAfterWrite=10m";
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.cache.CacheBuilder2"><code>// In real life this would come from a command-line flag or config file
+String spec = "maximumSize=10000,expireAfterWrite=10m";
 
- LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.from(spec)
-     .removalListener(MY_LISTENER)
-     .build(
-         new CacheLoader&lt;Key, Graph&gt;() {
-           public Graph load(Key key) throws AnyException {
-             return createExpensiveGraph(key);
-           }
-         });
- </code></pre>
+LoadingCache&lt;Key, Graph&gt; graphs = CacheBuilder.from(spec)
+    .removalListener(MY_LISTENER)
+    .build(
+        new CacheLoader&lt;Key, Graph&gt;() {
+          public Graph load(Key key) throws AnyException {
+            return createExpensiveGraph(key);
+          }
+        });
+</code></pre>
+</div>
+
 
  <p>The returned cache implements all optional operations of the <a href="LoadingCache.html" title="interface in com.google.common.cache"><code>LoadingCache</code></a> and <a href="Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> interfaces. The <code>asMap</code> view (and its collection views) have <i>weakly consistent
  iterators</i>. This means that they are safe for concurrent use, but if other threads modify the

@@ -107,15 +107,18 @@ loadScripts(document, 'script');</script>
 <div class="block">A builder for creating immutable multiset instances, especially <code>public static final</code>
  multisets ("constant multisets"). Example:
 
- <pre><code>
- public static final ImmutableSortedMultiset&lt;Bean&gt; BEANS =
-     new ImmutableSortedMultiset.Builder&lt;Bean&gt;(colorComparator())
-         .addCopies(Bean.COCOA, 4)
-         .addCopies(Bean.GARDEN, 6)
-         .addCopies(Bean.RED, 8)
-         .addCopies(Bean.BLACK_EYED, 10)
-         .build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ImmutableSortedMultiset.Builder1"><code>public static final ImmutableSortedMultiset&lt;Bean&gt; BEANS =
+    new ImmutableSortedMultiset.Builder&lt;Bean&gt;(colorComparator())
+        .addCopies(Bean.COCOA, 4)
+        .addCopies(Bean.GARDEN, 6)
+        .addCopies(Bean.RED, 8)
+        .addCopies(Bean.BLACK_EYED, 10)
+        .build();
+</code></pre>
+</div>
+
 
  <p>Builder instances can be reused; it is safe to call <a href="#build()"><code>build()</code></a> multiple times to build
  multiple multisets in series.</div>

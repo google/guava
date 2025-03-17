@@ -100,12 +100,15 @@ loadScripts(document, 'script');</script>
 
  <p>Usage example:
 
- <pre><code>
- ConcurrentMap&lt;Request, Stopwatch&gt; timers = new MapMaker()
-     .concurrencyLevel(4)
-     .weakKeys()
-     .makeMap();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.MapMaker1"><code>ConcurrentMap&lt;Request, Stopwatch&gt; timers = new MapMaker()
+    .concurrencyLevel(4)
+    .weakKeys()
+    .makeMap();
+</code></pre>
+</div>
+
 
  <p>These features are all optional; <code>new MapMaker().makeMap()</code> returns a valid concurrent
  map that behaves similarly to a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html" title="class or interface in java.util.concurrent" class="external-link"><code>ConcurrentHashMap</code></a>.

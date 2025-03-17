@@ -106,15 +106,21 @@ loadScripts(document, 'script');</script>
 <div class="block">A binary encoding scheme for reversibly translating between byte sequences and printable ASCII
  strings. This class includes several constants for encoding schemes specified by <a href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
 
- <pre><code>
- BaseEncoding.base32().encode("foo".getBytes(US_ASCII))
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.io.BaseEncoding1"><code>BaseEncoding.base32().encode("foo".getBytes(US_ASCII))
+</code></pre>
+</div>
+
 
  <p>returns the string <code>"MZXW6==="</code>, and
 
- <pre><code>
- byte[] decoded = BaseEncoding.base32().decode("MZXW6===");
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.io.BaseEncoding2"><code>byte[] decoded = BaseEncoding.base32().decode("MZXW6===");
+</code></pre>
+</div>
+
 
  <p>...returns the ASCII bytes of the string <code>"foo"</code>.
 
@@ -123,19 +129,25 @@ loadScripts(document, 'script');</script>
  encoding and decoding behavior, use configuration methods to obtain a new encoding with modified
  behavior:
 
- <pre><code>
- BaseEncoding.base16().lowerCase().decode("deadbeef");
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.io.BaseEncoding3"><code>BaseEncoding.base16().lowerCase().decode("deadbeef");
+</code></pre>
+</div>
+
 
  <p>Warning: BaseEncoding instances are immutable. Invoking a configuration method has no effect
  on the receiving instance; you must store and use the new encoding instance it returns, instead.
 
- <pre><code>
- // Do NOT do this
- BaseEncoding hex = BaseEncoding.base16();
- hex.lowerCase(); // does nothing!
- return hex.decode("deadbeef"); // throws an IllegalArgumentException
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.io.BaseEncoding4"><code>// Do NOT do this
+BaseEncoding hex = BaseEncoding.base16();
+hex.lowerCase(); // does nothing!
+return hex.decode("deadbeef"); // throws an IllegalArgumentException
+</code></pre>
+</div>
+
 
  <p>It is guaranteed that <code>encoding.decode(encoding.encode(x))</code> is always equal to <code>
  x</code>, but the reverse does not necessarily hold.

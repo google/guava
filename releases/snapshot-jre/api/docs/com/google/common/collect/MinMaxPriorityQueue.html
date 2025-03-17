@@ -120,11 +120,14 @@ loadScripts(document, 'script');</script>
 
  <p>Usage example:
 
- <pre><code>
- MinMaxPriorityQueue&lt;User&gt; users = MinMaxPriorityQueue.orderedBy(userComparator)
-     .maximumSize(1000)
-     .create();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.MinMaxPriorityQueue1"><code>MinMaxPriorityQueue&lt;User&gt; users = MinMaxPriorityQueue.orderedBy(userComparator)
+    .maximumSize(1000)
+    .create();
+</code></pre>
+</div>
+
 
  <p>As a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Queue.html" title="class or interface in java.util" class="external-link"><code>Queue</code></a> it functions exactly as a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/PriorityQueue.html" title="class or interface in java.util" class="external-link"><code>PriorityQueue</code></a>: its head element -- the
  implicit target of the methods <a href="#peek()"><code>peek()</code></a>, <a href="#poll()"><code>poll()</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/AbstractQueue.html#remove()" title="class or interface in java.util" class="external-link"><code>AbstractQueue.remove()</code></a> -- is

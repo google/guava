@@ -159,19 +159,22 @@ loadScripts(document, 'script');</script>
 
  <p>Example:
 
- <pre><code>
- public void useStreamNicely() throws IOException {
-   SomeStream stream = new SomeStream("foo");
-   boolean threw = true;
-   try {
-     // ... code which does something with the stream ...
-     threw = false;
-   } finally {
-     // If an exception occurs, rethrow it only if threw==false:
-     Closeables.close(stream, threw);
-   }
- }
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-close(java.io.Closeable,boolean)1"><code>public void useStreamNicely() throws IOException {
+  SomeStream stream = new SomeStream("foo");
+  boolean threw = true;
+  try {
+    // ... code which does something with the stream ...
+    threw = false;
+  } finally {
+    // If an exception occurs, rethrow it only if threw==false:
+    Closeables.close(stream, threw);
+  }
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>closeable</code> - the <code>Closeable</code> object to be closed, or null, in which case this method

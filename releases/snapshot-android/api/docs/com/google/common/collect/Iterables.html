@@ -922,11 +922,14 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  This does perform a little more work than necessary, so another option is to insert an
  unchecked cast at some later point:
 
- <pre>
- <code>@SuppressWarnings("unchecked") // safe because of ::isInstance check
- ImmutableList&lt;NewType&gt; result =
-     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());</code>
- </pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-filter(java.lang.Iterable,java.lang.Class)1"><code>@SuppressWarnings("unchecked") // safe because of ::isInstance check
+ImmutableList&lt;NewType&gt; result =
+    (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());
+</code></pre>
+</div>
+</div>
 </div>
 </section>
 </li>

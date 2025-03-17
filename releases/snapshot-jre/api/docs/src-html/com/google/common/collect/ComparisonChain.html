@@ -41,7 +41,7 @@
 <span class="source-line-no">028</span><span id="line-28"> *</span>
 <span class="source-line-no">029</span><span id="line-29"> * &lt;p&gt;Example usage of {@code ComparisonChain}:</span>
 <span class="source-line-no">030</span><span id="line-30"> *</span>
-<span class="source-line-no">031</span><span id="line-31"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">031</span><span id="line-31"> * {@snippet :</span>
 <span class="source-line-no">032</span><span id="line-32"> * public int compareTo(Foo that) {</span>
 <span class="source-line-no">033</span><span id="line-33"> *   return ComparisonChain.start()</span>
 <span class="source-line-no">034</span><span id="line-34"> *       .compare(this.aString, that.aString)</span>
@@ -49,7 +49,7 @@
 <span class="source-line-no">036</span><span id="line-36"> *       .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())</span>
 <span class="source-line-no">037</span><span id="line-37"> *       .result();</span>
 <span class="source-line-no">038</span><span id="line-38"> * }</span>
-<span class="source-line-no">039</span><span id="line-39"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">039</span><span id="line-39"> * }</span>
 <span class="source-line-no">040</span><span id="line-40"> *</span>
 <span class="source-line-no">041</span><span id="line-41"> * &lt;p&gt;The value of this expression will have the same sign as the &lt;i&gt;first nonzero&lt;/i&gt; comparison</span>
 <span class="source-line-no">042</span><span id="line-42"> * result in the chain, or will be zero if every comparison result was zero.</span>
@@ -72,7 +72,7 @@
 <span class="source-line-no">059</span><span id="line-59"> * If you are using Java version 8 or greater, you should generally use the static methods in {@link</span>
 <span class="source-line-no">060</span><span id="line-60"> * Comparator} instead of {@code ComparisonChain}. The example above can be implemented like this:</span>
 <span class="source-line-no">061</span><span id="line-61"> *</span>
-<span class="source-line-no">062</span><span id="line-62"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">062</span><span id="line-62"> * {@snippet :</span>
 <span class="source-line-no">063</span><span id="line-63"> * import static java.util.Comparator.comparing;</span>
 <span class="source-line-no">064</span><span id="line-64"> * import static java.util.Comparator.nullsLast;</span>
 <span class="source-line-no">065</span><span id="line-65"> * import static java.util.Comparator.naturalOrder;</span>
@@ -81,13 +81,13 @@
 <span class="source-line-no">068</span><span id="line-68"> *   private static final Comparator&lt;Foo&gt; COMPARATOR =</span>
 <span class="source-line-no">069</span><span id="line-69"> *       comparing((Foo foo) -&gt; foo.aString)</span>
 <span class="source-line-no">070</span><span id="line-70"> *           .thenComparing(foo -&gt; foo.anInt)</span>
-<span class="source-line-no">071</span><span id="line-71"> *           .thenComparing(foo -&gt; foo.anEnum, nullsLast(naturalOrder()));}</span>
+<span class="source-line-no">071</span><span id="line-71"> *           .thenComparing(foo -&gt; foo.anEnum, nullsLast(naturalOrder()));</span>
 <span class="source-line-no">072</span><span id="line-72"> *</span>
-<span class="source-line-no">073</span><span id="line-73"> *   {@code @Override}{@code</span>
+<span class="source-line-no">073</span><span id="line-73"> *   @Override</span>
 <span class="source-line-no">074</span><span id="line-74"> *   public int compareTo(Foo that) {</span>
 <span class="source-line-no">075</span><span id="line-75"> *     return COMPARATOR.compare(this, that);</span>
 <span class="source-line-no">076</span><span id="line-76"> *   }</span>
-<span class="source-line-no">077</span><span id="line-77"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">077</span><span id="line-77"> * }</span>
 <span class="source-line-no">078</span><span id="line-78"> *</span>
 <span class="source-line-no">079</span><span id="line-79"> * &lt;p&gt;With method references it is more succinct: {@code comparing(Foo::aString)} for example.</span>
 <span class="source-line-no">080</span><span id="line-80"> *</span>

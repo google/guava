@@ -1136,12 +1136,15 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableMap.html" title="c
 
  <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
 
- <pre><code>
- import static com.google.common.collect.ImmutableMap.toImmutableMap;
- ...
- ImmutableMap&lt;Color, String&gt; colorNames =
-     allColors.stream().collect(toImmutableMap(c -&gt; c, c -&gt; c.toString()));
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-toMap(java.lang.Iterable,com.google.common.base.Function)1"><code>import static com.google.common.collect.ImmutableMap.toImmutableMap;
+...
+ImmutableMap&lt;Color, String&gt; colorNames =
+    allColors.stream().collect(toImmutableMap(c -&gt; c, c -&gt; c.toString()));
+</code></pre>
+</div>
+
 
  <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
  and values in the map are.</div>
@@ -1192,26 +1195,32 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableMap.html" title="c
  <code>keyFunction</code> to that value. These entries appear in the same order as the input values.
  Example usage:
 
- <pre><code>
- Color red = new Color("red", 255, 0, 0);
- ...
- ImmutableSet&lt;Color&gt; allColors = ImmutableSet.of(red, green, blue);
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-uniqueIndex(java.lang.Iterable,com.google.common.base.Function)1"><code>Color red = new Color("red", 255, 0, 0);
+...
+ImmutableSet&lt;Color&gt; allColors = ImmutableSet.of(red, green, blue);
 
- ImmutableMap&lt;String, Color&gt; colorForName =
-     uniqueIndex(allColors, c -&gt; c.toString());
- assertThat(colorForName).containsEntry("red", red);
- </code></pre>
+ImmutableMap&lt;String, Color&gt; colorForName =
+    uniqueIndex(allColors, c -&gt; c.toString());
+assertThat(colorForName).containsEntry("red", red);
+</code></pre>
+</div>
+
 
  <p>If your index may associate multiple values with each key, use <a href="Multimaps.html#index(java.lang.Iterable,com.google.common.base.Function)"><code>Multimaps.index</code></a>.
 
  <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
 
- <pre><code>
- import static com.google.common.collect.ImmutableMap.toImmutableMap;
- ...
- ImmutableMap&lt;String, Color&gt; colorForName =
-     allColors.stream().collect(toImmutableMap(c -&gt; c.toString(), c -&gt; c));
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-uniqueIndex(java.lang.Iterable,com.google.common.base.Function)2"><code>import static com.google.common.collect.ImmutableMap.toImmutableMap;
+...
+ImmutableMap&lt;String, Color&gt; colorForName =
+    allColors.stream().collect(toImmutableMap(c -&gt; c.toString(), c -&gt; c));
+</code></pre>
+</div>
+
 
  <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
  and values in the map are.</div>
@@ -1244,15 +1253,18 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableMap.html" title="c
  <code>keyFunction</code> to that value. These entries appear in the same order as the input values.
  Example usage:
 
- <pre><code>
- Color red = new Color("red", 255, 0, 0);
- ...
- Iterator&lt;Color&gt; allColors = ImmutableSet.of(red, green, blue).iterator();
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-uniqueIndex(java.util.Iterator,com.google.common.base.Function)1"><code>Color red = new Color("red", 255, 0, 0);
+...
+Iterator&lt;Color&gt; allColors = ImmutableSet.of(red, green, blue).iterator();
 
- Map&lt;String, Color&gt; colorForName =
-     uniqueIndex(allColors, toStringFunction());
- assertThat(colorForName).containsEntry("red", red);
- </code></pre>
+Map&lt;String, Color&gt; colorForName =
+    uniqueIndex(allColors, toStringFunction());
+assertThat(colorForName).containsEntry("red", red);
+</code></pre>
+</div>
+
 
  <p>If your index may associate multiple values with each key, use <a href="Multimaps.html#index(java.util.Iterator,com.google.common.base.Function)"><code>Multimaps.index</code></a>.</div>
 <dl class="notes">
@@ -1349,19 +1361,22 @@ V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  <p>It is imperative that the user manually synchronize on the returned map when accessing any
  of its collection views:
 
- <pre><code>
- BiMap&lt;Long, String&gt; map = Maps.synchronizedBiMap(
-     HashBiMap.&lt;Long, String&gt;create());
- ...
- Set&lt;Long&gt; set = map.keySet();  // Needn't be in synchronized block
- ...
- synchronized (map) {  // Synchronizing on map, not set!
-   Iterator&lt;Long&gt; it = set.iterator(); // Must be in synchronized block
-   while (it.hasNext()) {
-     foo(it.next());
-   }
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-synchronizedBiMap(com.google.common.collect.BiMap)1"><code>BiMap&lt;Long, String&gt; map = Maps.synchronizedBiMap(
+    HashBiMap.&lt;Long, String&gt;create());
+...
+Set&lt;Long&gt; set = map.keySet();  // Needn't be in synchronized block
+...
+synchronized (map) {  // Synchronizing on map, not set!
+  Iterator&lt;Long&gt; it = set.iterator(); // Must be in synchronized block
+  while (it.hasNext()) {
+    foo(it.next());
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 
@@ -1409,12 +1424,15 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
 <div class="block">Returns a view of a map where each value is transformed by a function. All other properties of
  the map, such as iteration order, are left intact. For example, the code:
 
- <pre><code>
- Map&lt;String, Integer&gt; map = ImmutableMap.of("a", 4, "b", 9);
- Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
- Map&lt;String, Double&gt; transformed = Maps.transformValues(map, sqrt);
- System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformValues(java.util.Map,com.google.common.base.Function)1"><code>Map&lt;String, Integer&gt; map = ImmutableMap.of("a", 4, "b", 9);
+Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
+Map&lt;String, Double&gt; transformed = Maps.transformValues(map, sqrt);
+System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{a=2.0, b=3.0}</code>.
 
@@ -1447,13 +1465,16 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
 <div class="block">Returns a view of a sorted map where each value is transformed by a function. All other
  properties of the map, such as iteration order, are left intact. For example, the code:
 
- <pre><code>
- SortedMap&lt;String, Integer&gt; map = ImmutableSortedMap.of("a", 4, "b", 9);
- Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
- SortedMap&lt;String, Double&gt; transformed =
-      Maps.transformValues(map, sqrt);
- System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformValues(java.util.SortedMap,com.google.common.base.Function)1"><code>SortedMap&lt;String, Integer&gt; map = ImmutableSortedMap.of("a", 4, "b", 9);
+Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
+SortedMap&lt;String, Double&gt; transformed =
+     Maps.transformValues(map, sqrt);
+System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{a=2.0, b=3.0}</code>.
 
@@ -1491,15 +1512,18 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
 <div class="block">Returns a view of a navigable map where each value is transformed by a function. All other
  properties of the map, such as iteration order, are left intact. For example, the code:
 
- <pre><code>
- NavigableMap&lt;String, Integer&gt; map = Maps.newTreeMap();
- map.put("a", 4);
- map.put("b", 9);
- Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
- NavigableMap&lt;String, Double&gt; transformed =
-      Maps.transformNavigableValues(map, sqrt);
- System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformValues(java.util.NavigableMap,com.google.common.base.Function)1"><code>NavigableMap&lt;String, Integer&gt; map = Maps.newTreeMap();
+map.put("a", 4);
+map.put("b", 9);
+Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
+NavigableMap&lt;String, Double&gt; transformed =
+     Maps.transformNavigableValues(map, sqrt);
+System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{a=2.0, b=3.0}</code>.
 
@@ -1540,19 +1564,22 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
  <p>All other properties of the transformed map, such as iteration order, are left intact. For
  example, the code:
 
- <pre><code>
- Map&lt;String, Boolean&gt; options =
-     ImmutableMap.of("verbose", true, "sort", false);
- EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
-     new EntryTransformer&lt;String, Boolean, String&gt;() {
-       public String transformEntry(String key, Boolean value) {
-         return value ? key : "no" + key;
-       }
-     };
- Map&lt;String, String&gt; transformed =
-     Maps.transformEntries(options, flagPrefixer);
- System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformEntries(java.util.Map,com.google.common.collect.Maps.EntryTransformer)1"><code>Map&lt;String, Boolean&gt; options =
+    ImmutableMap.of("verbose", true, "sort", false);
+EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
+    new EntryTransformer&lt;String, Boolean, String&gt;() {
+      public String transformEntry(String key, Boolean value) {
+        return value ? key : "no" + key;
+      }
+    };
+Map&lt;String, String&gt; transformed =
+    Maps.transformEntries(options, flagPrefixer);
+System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{verbose=verbose, sort=nosort}</code>.
 
@@ -1599,19 +1626,22 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
  <p>All other properties of the transformed map, such as iteration order, are left intact. For
  example, the code:
 
- <pre><code>
- Map&lt;String, Boolean&gt; options =
-     ImmutableSortedMap.of("verbose", true, "sort", false);
- EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
-     new EntryTransformer&lt;String, Boolean, String&gt;() {
-       public String transformEntry(String key, Boolean value) {
-         return value ? key : "yes" + key;
-       }
-     };
- SortedMap&lt;String, String&gt; transformed =
-     Maps.transformEntries(options, flagPrefixer);
- System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformEntries(java.util.SortedMap,com.google.common.collect.Maps.EntryTransformer)1"><code>Map&lt;String, Boolean&gt; options =
+    ImmutableSortedMap.of("verbose", true, "sort", false);
+EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
+    new EntryTransformer&lt;String, Boolean, String&gt;() {
+      public String transformEntry(String key, Boolean value) {
+        return value ? key : "yes" + key;
+      }
+    };
+SortedMap&lt;String, String&gt; transformed =
+    Maps.transformEntries(options, flagPrefixer);
+System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{sort=yessort, verbose=verbose}</code>.
 
@@ -1659,20 +1689,23 @@ V2 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
  <p>All other properties of the transformed map, such as iteration order, are left intact. For
  example, the code:
 
- <pre><code>
- NavigableMap&lt;String, Boolean&gt; options = Maps.newTreeMap();
- options.put("verbose", false);
- options.put("sort", true);
- EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
-     new EntryTransformer&lt;String, Boolean, String&gt;() {
-       public String transformEntry(String key, Boolean value) {
-         return value ? key : ("yes" + key);
-       }
-     };
- NavigableMap&lt;String, String&gt; transformed =
-     LabsMaps.transformNavigableEntries(options, flagPrefixer);
- System.out.println(transformed);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformEntries(java.util.NavigableMap,com.google.common.collect.Maps.EntryTransformer)1"><code>NavigableMap&lt;String, Boolean&gt; options = Maps.newTreeMap();
+options.put("verbose", false);
+options.put("sort", true);
+EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
+    new EntryTransformer&lt;String, Boolean, String&gt;() {
+      public String transformEntry(String key, Boolean value) {
+        return value ? key : ("yes" + key);
+      }
+    };
+NavigableMap&lt;String, String&gt; transformed =
+    LabsMaps.transformNavigableEntries(options, flagPrefixer);
+System.out.println(transformed);
+</code></pre>
+</div>
+
 
  ... prints <code>{sort=yessort, verbose=verbose}</code>.
 
@@ -2178,36 +2211,42 @@ V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  iterating over any of its collection views, or the collections views of any of its <code>
  descendingMap</code>, <code>subMap</code>, <code>headMap</code> or <code>tailMap</code> views.
 
- <pre><code>
- NavigableMap&lt;K, V&gt; map = synchronizedNavigableMap(new TreeMap&lt;K, V&gt;());
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-synchronizedNavigableMap(java.util.NavigableMap)1"><code>NavigableMap&lt;K, V&gt; map = synchronizedNavigableMap(new TreeMap&lt;K, V&gt;());
 
- // Needn't be in synchronized block
- NavigableSet&lt;K&gt; set = map.navigableKeySet();
+// Needn't be in synchronized block
+NavigableSet&lt;K&gt; set = map.navigableKeySet();
 
- synchronized (map) { // Synchronizing on map, not set!
-   Iterator&lt;K&gt; it = set.iterator(); // Must be in synchronized block
-   while (it.hasNext()) {
-     foo(it.next());
-   }
- }
- </code></pre>
+synchronized (map) { // Synchronizing on map, not set!
+  Iterator&lt;K&gt; it = set.iterator(); // Must be in synchronized block
+  while (it.hasNext()) {
+    foo(it.next());
+  }
+}
+</code></pre>
+</div>
+
 
  <p>or:
 
- <pre><code>
- NavigableMap&lt;K, V&gt; map = synchronizedNavigableMap(new TreeMap&lt;K, V&gt;());
- NavigableMap&lt;K, V&gt; map2 = map.subMap(foo, false, bar, true);
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-synchronizedNavigableMap(java.util.NavigableMap)2"><code>NavigableMap&lt;K, V&gt; map = synchronizedNavigableMap(new TreeMap&lt;K, V&gt;());
+NavigableMap&lt;K, V&gt; map2 = map.subMap(foo, false, bar, true);
 
- // Needn't be in synchronized block
- NavigableSet&lt;K&gt; set2 = map2.descendingKeySet();
+// Needn't be in synchronized block
+NavigableSet&lt;K&gt; set2 = map2.descendingKeySet();
 
- synchronized (map) { // Synchronizing on map, not map2 or set2!
-   Iterator&lt;K&gt; it = set2.iterator(); // Must be in synchronized block
-   while (it.hasNext()) {
-     foo(it.next());
-   }
- }
- </code></pre>
+synchronized (map) { // Synchronizing on map, not map2 or set2!
+  Iterator&lt;K&gt; it = set2.iterator(); // Must be in synchronized block
+  while (it.hasNext()) {
+    foo(it.next());
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 

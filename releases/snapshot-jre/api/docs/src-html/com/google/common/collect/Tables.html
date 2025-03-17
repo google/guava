@@ -689,7 +689,7 @@
 <span class="source-line-no">676</span><span id="line-676">   * &lt;p&gt;It is imperative that the user manually synchronize on the returned table when accessing any</span>
 <span class="source-line-no">677</span><span id="line-677">   * of its collection views:</span>
 <span class="source-line-no">678</span><span id="line-678">   *</span>
-<span class="source-line-no">679</span><span id="line-679">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">679</span><span id="line-679">   * {@snippet :</span>
 <span class="source-line-no">680</span><span id="line-680">   * Table&lt;R, C, V&gt; table = Tables.synchronizedTable(HashBasedTable.&lt;R, C, V&gt;create());</span>
 <span class="source-line-no">681</span><span id="line-681">   * ...</span>
 <span class="source-line-no">682</span><span id="line-682">   * Map&lt;C, V&gt; row = table.row(rowKey);  // Needn't be in synchronized block</span>
@@ -700,7 +700,7 @@
 <span class="source-line-no">687</span><span id="line-687">   *     foo(i.next());</span>
 <span class="source-line-no">688</span><span id="line-688">   *   }</span>
 <span class="source-line-no">689</span><span id="line-689">   * }</span>
-<span class="source-line-no">690</span><span id="line-690">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">690</span><span id="line-690">   * }</span>
 <span class="source-line-no">691</span><span id="line-691">   *</span>
 <span class="source-line-no">692</span><span id="line-692">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</span>
 <span class="source-line-no">693</span><span id="line-693">   *</span>

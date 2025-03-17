@@ -113,13 +113,16 @@ loadScripts(document, 'script');</script>
  except that they are always enabled. These methods should be used instead of Java assertions
  whenever there is a chance the check may fail "in real life". Example:
 
- <pre><code>
- Bill bill = remoteService.getLastUnpaidBill();
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Verify1"><code>Bill bill = remoteService.getLastUnpaidBill();
 
- // In case bug 12345 happens again we'd rather just die
- Verify.verify(bill.status() == Status.UNPAID,
-     "Unexpected bill status: %s", bill.status());
- </code></pre>
+// In case bug 12345 happens again we'd rather just die
+Verify.verify(bill.status() == Status.UNPAID,
+    "Unexpected bill status: %s", bill.status());
+</code></pre>
+</div>
+
 
  <h3 id="comparison-to-alternatives-heading">Comparison to alternatives</h3>
 
@@ -149,12 +152,15 @@ loadScripts(document, 'script');</script>
  the message ends up unneeded. Performance-sensitive verification checks should continue to use
  usual form:
 
- <pre><code>
- Bill bill = remoteService.getLastUnpaidBill();
- if (bill.status() != Status.UNPAID) {
-   throw new VerifyException("Unexpected bill status: " + bill.status());
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Verify2"><code>Bill bill = remoteService.getLastUnpaidBill();
+if (bill.status() != Status.UNPAID) {
+  throw new VerifyException("Unexpected bill status: " + bill.status());
+}
+</code></pre>
+</div>
+
 
  <h3 id="only-s-is-supported-heading">Only <code>%s</code> is supported</h3>
 

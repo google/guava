@@ -1272,12 +1272,12 @@
 <span class="source-line-no">1259</span><span id="line-1259">   *</span>
 <span class="source-line-no">1260</span><span id="line-1260">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; on Java 8+, it is usually better to use streams. For example:</span>
 <span class="source-line-no">1261</span><span id="line-1261">   *</span>
-<span class="source-line-no">1262</span><span id="line-1262">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1262</span><span id="line-1262">   * {@snippet :</span>
 <span class="source-line-no">1263</span><span id="line-1263">   * import static com.google.common.collect.ImmutableMap.toImmutableMap;</span>
 <span class="source-line-no">1264</span><span id="line-1264">   * ...</span>
 <span class="source-line-no">1265</span><span id="line-1265">   * ImmutableMap&lt;Color, String&gt; colorNames =</span>
 <span class="source-line-no">1266</span><span id="line-1266">   *     allColors.stream().collect(toImmutableMap(c -&gt; c, c -&gt; c.toString()));</span>
-<span class="source-line-no">1267</span><span id="line-1267">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1267</span><span id="line-1267">   * }</span>
 <span class="source-line-no">1268</span><span id="line-1268">   *</span>
 <span class="source-line-no">1269</span><span id="line-1269">   * &lt;p&gt;Streams provide a more standard and flexible API and the lambdas make it clear what the keys</span>
 <span class="source-line-no">1270</span><span id="line-1270">   * and values in the map are.</span>
@@ -1322,7 +1322,7 @@
 <span class="source-line-no">1309</span><span id="line-1309">   * {@code keyFunction} to that value. These entries appear in the same order as the input values.</span>
 <span class="source-line-no">1310</span><span id="line-1310">   * Example usage:</span>
 <span class="source-line-no">1311</span><span id="line-1311">   *</span>
-<span class="source-line-no">1312</span><span id="line-1312">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1312</span><span id="line-1312">   * {@snippet :</span>
 <span class="source-line-no">1313</span><span id="line-1313">   * Color red = new Color("red", 255, 0, 0);</span>
 <span class="source-line-no">1314</span><span id="line-1314">   * ...</span>
 <span class="source-line-no">1315</span><span id="line-1315">   * ImmutableSet&lt;Color&gt; allColors = ImmutableSet.of(red, green, blue);</span>
@@ -1330,19 +1330,19 @@
 <span class="source-line-no">1317</span><span id="line-1317">   * ImmutableMap&lt;String, Color&gt; colorForName =</span>
 <span class="source-line-no">1318</span><span id="line-1318">   *     uniqueIndex(allColors, c -&gt; c.toString());</span>
 <span class="source-line-no">1319</span><span id="line-1319">   * assertThat(colorForName).containsEntry("red", red);</span>
-<span class="source-line-no">1320</span><span id="line-1320">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1320</span><span id="line-1320">   * }</span>
 <span class="source-line-no">1321</span><span id="line-1321">   *</span>
 <span class="source-line-no">1322</span><span id="line-1322">   * &lt;p&gt;If your index may associate multiple values with each key, use {@link</span>
 <span class="source-line-no">1323</span><span id="line-1323">   * Multimaps#index(Iterable, Function) Multimaps.index}.</span>
 <span class="source-line-no">1324</span><span id="line-1324">   *</span>
 <span class="source-line-no">1325</span><span id="line-1325">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; on Java 8+, it is usually better to use streams. For example:</span>
 <span class="source-line-no">1326</span><span id="line-1326">   *</span>
-<span class="source-line-no">1327</span><span id="line-1327">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1327</span><span id="line-1327">   * {@snippet :</span>
 <span class="source-line-no">1328</span><span id="line-1328">   * import static com.google.common.collect.ImmutableMap.toImmutableMap;</span>
 <span class="source-line-no">1329</span><span id="line-1329">   * ...</span>
 <span class="source-line-no">1330</span><span id="line-1330">   * ImmutableMap&lt;String, Color&gt; colorForName =</span>
 <span class="source-line-no">1331</span><span id="line-1331">   *     allColors.stream().collect(toImmutableMap(c -&gt; c.toString(), c -&gt; c));</span>
-<span class="source-line-no">1332</span><span id="line-1332">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1332</span><span id="line-1332">   * }</span>
 <span class="source-line-no">1333</span><span id="line-1333">   *</span>
 <span class="source-line-no">1334</span><span id="line-1334">   * &lt;p&gt;Streams provide a more standard and flexible API and the lambdas make it clear what the keys</span>
 <span class="source-line-no">1335</span><span id="line-1335">   * and values in the map are.</span>
@@ -1374,7 +1374,7 @@
 <span class="source-line-no">1361</span><span id="line-1361">   * {@code keyFunction} to that value. These entries appear in the same order as the input values.</span>
 <span class="source-line-no">1362</span><span id="line-1362">   * Example usage:</span>
 <span class="source-line-no">1363</span><span id="line-1363">   *</span>
-<span class="source-line-no">1364</span><span id="line-1364">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1364</span><span id="line-1364">   * {@snippet :</span>
 <span class="source-line-no">1365</span><span id="line-1365">   * Color red = new Color("red", 255, 0, 0);</span>
 <span class="source-line-no">1366</span><span id="line-1366">   * ...</span>
 <span class="source-line-no">1367</span><span id="line-1367">   * Iterator&lt;Color&gt; allColors = ImmutableSet.of(red, green, blue).iterator();</span>
@@ -1382,7 +1382,7 @@
 <span class="source-line-no">1369</span><span id="line-1369">   * Map&lt;String, Color&gt; colorForName =</span>
 <span class="source-line-no">1370</span><span id="line-1370">   *     uniqueIndex(allColors, toStringFunction());</span>
 <span class="source-line-no">1371</span><span id="line-1371">   * assertThat(colorForName).containsEntry("red", red);</span>
-<span class="source-line-no">1372</span><span id="line-1372">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1372</span><span id="line-1372">   * }</span>
 <span class="source-line-no">1373</span><span id="line-1373">   *</span>
 <span class="source-line-no">1374</span><span id="line-1374">   * &lt;p&gt;If your index may associate multiple values with each key, use {@link</span>
 <span class="source-line-no">1375</span><span id="line-1375">   * Multimaps#index(Iterator, Function) Multimaps.index}.</span>
@@ -1669,7 +1669,7 @@
 <span class="source-line-no">1656</span><span id="line-1656">   * &lt;p&gt;It is imperative that the user manually synchronize on the returned map when accessing any</span>
 <span class="source-line-no">1657</span><span id="line-1657">   * of its collection views:</span>
 <span class="source-line-no">1658</span><span id="line-1658">   *</span>
-<span class="source-line-no">1659</span><span id="line-1659">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1659</span><span id="line-1659">   * {@snippet :</span>
 <span class="source-line-no">1660</span><span id="line-1660">   * BiMap&lt;Long, String&gt; map = Maps.synchronizedBiMap(</span>
 <span class="source-line-no">1661</span><span id="line-1661">   *     HashBiMap.&lt;Long, String&gt;create());</span>
 <span class="source-line-no">1662</span><span id="line-1662">   * ...</span>
@@ -1681,7 +1681,7 @@
 <span class="source-line-no">1668</span><span id="line-1668">   *     foo(it.next());</span>
 <span class="source-line-no">1669</span><span id="line-1669">   *   }</span>
 <span class="source-line-no">1670</span><span id="line-1670">   * }</span>
-<span class="source-line-no">1671</span><span id="line-1671">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1671</span><span id="line-1671">   * }</span>
 <span class="source-line-no">1672</span><span id="line-1672">   *</span>
 <span class="source-line-no">1673</span><span id="line-1673">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</span>
 <span class="source-line-no">1674</span><span id="line-1674">   *</span>
@@ -1811,12 +1811,12 @@
 <span class="source-line-no">1798</span><span id="line-1798">   * Returns a view of a map where each value is transformed by a function. All other properties of</span>
 <span class="source-line-no">1799</span><span id="line-1799">   * the map, such as iteration order, are left intact. For example, the code:</span>
 <span class="source-line-no">1800</span><span id="line-1800">   *</span>
-<span class="source-line-no">1801</span><span id="line-1801">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1801</span><span id="line-1801">   * {@snippet :</span>
 <span class="source-line-no">1802</span><span id="line-1802">   * Map&lt;String, Integer&gt; map = ImmutableMap.of("a", 4, "b", 9);</span>
 <span class="source-line-no">1803</span><span id="line-1803">   * Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);</span>
 <span class="source-line-no">1804</span><span id="line-1804">   * Map&lt;String, Double&gt; transformed = Maps.transformValues(map, sqrt);</span>
 <span class="source-line-no">1805</span><span id="line-1805">   * System.out.println(transformed);</span>
-<span class="source-line-no">1806</span><span id="line-1806">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1806</span><span id="line-1806">   * }</span>
 <span class="source-line-no">1807</span><span id="line-1807">   *</span>
 <span class="source-line-no">1808</span><span id="line-1808">   * ... prints {@code {a=2.0, b=3.0}}.</span>
 <span class="source-line-no">1809</span><span id="line-1809">   *</span>
@@ -1846,13 +1846,13 @@
 <span class="source-line-no">1833</span><span id="line-1833">   * Returns a view of a sorted map where each value is transformed by a function. All other</span>
 <span class="source-line-no">1834</span><span id="line-1834">   * properties of the map, such as iteration order, are left intact. For example, the code:</span>
 <span class="source-line-no">1835</span><span id="line-1835">   *</span>
-<span class="source-line-no">1836</span><span id="line-1836">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1836</span><span id="line-1836">   * {@snippet :</span>
 <span class="source-line-no">1837</span><span id="line-1837">   * SortedMap&lt;String, Integer&gt; map = ImmutableSortedMap.of("a", 4, "b", 9);</span>
 <span class="source-line-no">1838</span><span id="line-1838">   * Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);</span>
 <span class="source-line-no">1839</span><span id="line-1839">   * SortedMap&lt;String, Double&gt; transformed =</span>
 <span class="source-line-no">1840</span><span id="line-1840">   *      Maps.transformValues(map, sqrt);</span>
 <span class="source-line-no">1841</span><span id="line-1841">   * System.out.println(transformed);</span>
-<span class="source-line-no">1842</span><span id="line-1842">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1842</span><span id="line-1842">   * }</span>
 <span class="source-line-no">1843</span><span id="line-1843">   *</span>
 <span class="source-line-no">1844</span><span id="line-1844">   * ... prints {@code {a=2.0, b=3.0}}.</span>
 <span class="source-line-no">1845</span><span id="line-1845">   *</span>
@@ -1885,7 +1885,7 @@
 <span class="source-line-no">1872</span><span id="line-1872">   * Returns a view of a navigable map where each value is transformed by a function. All other</span>
 <span class="source-line-no">1873</span><span id="line-1873">   * properties of the map, such as iteration order, are left intact. For example, the code:</span>
 <span class="source-line-no">1874</span><span id="line-1874">   *</span>
-<span class="source-line-no">1875</span><span id="line-1875">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1875</span><span id="line-1875">   * {@snippet :</span>
 <span class="source-line-no">1876</span><span id="line-1876">   * NavigableMap&lt;String, Integer&gt; map = Maps.newTreeMap();</span>
 <span class="source-line-no">1877</span><span id="line-1877">   * map.put("a", 4);</span>
 <span class="source-line-no">1878</span><span id="line-1878">   * map.put("b", 9);</span>
@@ -1893,7 +1893,7 @@
 <span class="source-line-no">1880</span><span id="line-1880">   * NavigableMap&lt;String, Double&gt; transformed =</span>
 <span class="source-line-no">1881</span><span id="line-1881">   *      Maps.transformNavigableValues(map, sqrt);</span>
 <span class="source-line-no">1882</span><span id="line-1882">   * System.out.println(transformed);</span>
-<span class="source-line-no">1883</span><span id="line-1883">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1883</span><span id="line-1883">   * }</span>
 <span class="source-line-no">1884</span><span id="line-1884">   *</span>
 <span class="source-line-no">1885</span><span id="line-1885">   * ... prints {@code {a=2.0, b=3.0}}.</span>
 <span class="source-line-no">1886</span><span id="line-1886">   *</span>
@@ -1931,7 +1931,7 @@
 <span class="source-line-no">1918</span><span id="line-1918">   * &lt;p&gt;All other properties of the transformed map, such as iteration order, are left intact. For</span>
 <span class="source-line-no">1919</span><span id="line-1919">   * example, the code:</span>
 <span class="source-line-no">1920</span><span id="line-1920">   *</span>
-<span class="source-line-no">1921</span><span id="line-1921">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1921</span><span id="line-1921">   * {@snippet :</span>
 <span class="source-line-no">1922</span><span id="line-1922">   * Map&lt;String, Boolean&gt; options =</span>
 <span class="source-line-no">1923</span><span id="line-1923">   *     ImmutableMap.of("verbose", true, "sort", false);</span>
 <span class="source-line-no">1924</span><span id="line-1924">   * EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =</span>
@@ -1943,7 +1943,7 @@
 <span class="source-line-no">1930</span><span id="line-1930">   * Map&lt;String, String&gt; transformed =</span>
 <span class="source-line-no">1931</span><span id="line-1931">   *     Maps.transformEntries(options, flagPrefixer);</span>
 <span class="source-line-no">1932</span><span id="line-1932">   * System.out.println(transformed);</span>
-<span class="source-line-no">1933</span><span id="line-1933">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1933</span><span id="line-1933">   * }</span>
 <span class="source-line-no">1934</span><span id="line-1934">   *</span>
 <span class="source-line-no">1935</span><span id="line-1935">   * ... prints {@code {verbose=verbose, sort=nosort}}.</span>
 <span class="source-line-no">1936</span><span id="line-1936">   *</span>
@@ -1985,7 +1985,7 @@
 <span class="source-line-no">1972</span><span id="line-1972">   * &lt;p&gt;All other properties of the transformed map, such as iteration order, are left intact. For</span>
 <span class="source-line-no">1973</span><span id="line-1973">   * example, the code:</span>
 <span class="source-line-no">1974</span><span id="line-1974">   *</span>
-<span class="source-line-no">1975</span><span id="line-1975">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1975</span><span id="line-1975">   * {@snippet :</span>
 <span class="source-line-no">1976</span><span id="line-1976">   * Map&lt;String, Boolean&gt; options =</span>
 <span class="source-line-no">1977</span><span id="line-1977">   *     ImmutableSortedMap.of("verbose", true, "sort", false);</span>
 <span class="source-line-no">1978</span><span id="line-1978">   * EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =</span>
@@ -1997,7 +1997,7 @@
 <span class="source-line-no">1984</span><span id="line-1984">   * SortedMap&lt;String, String&gt; transformed =</span>
 <span class="source-line-no">1985</span><span id="line-1985">   *     Maps.transformEntries(options, flagPrefixer);</span>
 <span class="source-line-no">1986</span><span id="line-1986">   * System.out.println(transformed);</span>
-<span class="source-line-no">1987</span><span id="line-1987">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1987</span><span id="line-1987">   * }</span>
 <span class="source-line-no">1988</span><span id="line-1988">   *</span>
 <span class="source-line-no">1989</span><span id="line-1989">   * ... prints {@code {sort=yessort, verbose=verbose}}.</span>
 <span class="source-line-no">1990</span><span id="line-1990">   *</span>
@@ -2039,7 +2039,7 @@
 <span class="source-line-no">2026</span><span id="line-2026">   * &lt;p&gt;All other properties of the transformed map, such as iteration order, are left intact. For</span>
 <span class="source-line-no">2027</span><span id="line-2027">   * example, the code:</span>
 <span class="source-line-no">2028</span><span id="line-2028">   *</span>
-<span class="source-line-no">2029</span><span id="line-2029">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">2029</span><span id="line-2029">   * {@snippet :</span>
 <span class="source-line-no">2030</span><span id="line-2030">   * NavigableMap&lt;String, Boolean&gt; options = Maps.newTreeMap();</span>
 <span class="source-line-no">2031</span><span id="line-2031">   * options.put("verbose", false);</span>
 <span class="source-line-no">2032</span><span id="line-2032">   * options.put("sort", true);</span>
@@ -2052,7 +2052,7 @@
 <span class="source-line-no">2039</span><span id="line-2039">   * NavigableMap&lt;String, String&gt; transformed =</span>
 <span class="source-line-no">2040</span><span id="line-2040">   *     LabsMaps.transformNavigableEntries(options, flagPrefixer);</span>
 <span class="source-line-no">2041</span><span id="line-2041">   * System.out.println(transformed);</span>
-<span class="source-line-no">2042</span><span id="line-2042">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">2042</span><span id="line-2042">   * }</span>
 <span class="source-line-no">2043</span><span id="line-2043">   *</span>
 <span class="source-line-no">2044</span><span id="line-2044">   * ... prints {@code {sort=yessort, verbose=verbose}}.</span>
 <span class="source-line-no">2045</span><span id="line-2045">   *</span>
@@ -3662,7 +3662,7 @@
 <span class="source-line-no">3649</span><span id="line-3649">   * iterating over any of its collection views, or the collections views of any of its {@code</span>
 <span class="source-line-no">3650</span><span id="line-3650">   * descendingMap}, {@code subMap}, {@code headMap} or {@code tailMap} views.</span>
 <span class="source-line-no">3651</span><span id="line-3651">   *</span>
-<span class="source-line-no">3652</span><span id="line-3652">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">3652</span><span id="line-3652">   * {@snippet :</span>
 <span class="source-line-no">3653</span><span id="line-3653">   * NavigableMap&lt;K, V&gt; map = synchronizedNavigableMap(new TreeMap&lt;K, V&gt;());</span>
 <span class="source-line-no">3654</span><span id="line-3654">   *</span>
 <span class="source-line-no">3655</span><span id="line-3655">   * // Needn't be in synchronized block</span>
@@ -3674,11 +3674,11 @@
 <span class="source-line-no">3661</span><span id="line-3661">   *     foo(it.next());</span>
 <span class="source-line-no">3662</span><span id="line-3662">   *   }</span>
 <span class="source-line-no">3663</span><span id="line-3663">   * }</span>
-<span class="source-line-no">3664</span><span id="line-3664">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">3664</span><span id="line-3664">   * }</span>
 <span class="source-line-no">3665</span><span id="line-3665">   *</span>
 <span class="source-line-no">3666</span><span id="line-3666">   * &lt;p&gt;or:</span>
 <span class="source-line-no">3667</span><span id="line-3667">   *</span>
-<span class="source-line-no">3668</span><span id="line-3668">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">3668</span><span id="line-3668">   * {@snippet :</span>
 <span class="source-line-no">3669</span><span id="line-3669">   * NavigableMap&lt;K, V&gt; map = synchronizedNavigableMap(new TreeMap&lt;K, V&gt;());</span>
 <span class="source-line-no">3670</span><span id="line-3670">   * NavigableMap&lt;K, V&gt; map2 = map.subMap(foo, false, bar, true);</span>
 <span class="source-line-no">3671</span><span id="line-3671">   *</span>
@@ -3691,7 +3691,7 @@
 <span class="source-line-no">3678</span><span id="line-3678">   *     foo(it.next());</span>
 <span class="source-line-no">3679</span><span id="line-3679">   *   }</span>
 <span class="source-line-no">3680</span><span id="line-3680">   * }</span>
-<span class="source-line-no">3681</span><span id="line-3681">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">3681</span><span id="line-3681">   * }</span>
 <span class="source-line-no">3682</span><span id="line-3682">   *</span>
 <span class="source-line-no">3683</span><span id="line-3683">   * &lt;p&gt;Failure to follow this advice may result in non-deterministic behavior.</span>
 <span class="source-line-no">3684</span><span id="line-3684">   *</span>

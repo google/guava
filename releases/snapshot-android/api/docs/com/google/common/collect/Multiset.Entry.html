@@ -190,10 +190,13 @@ loadScripts(document, 'script');</script>
  represent the same element and count. That is, two entries <code>a</code> and <code>b</code> are equal
  if:
 
- <pre><code>
- Objects.equal(a.getElement(), b.getElement())
-     &amp;&amp; a.getCount() == b.getCount()
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-equals(java.lang.Object)1"><code>Objects.equal(a.getElement(), b.getElement())
+    &amp;&amp; a.getCount() == b.getCount()
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
@@ -211,9 +214,12 @@ loadScripts(document, 'script');</script>
  <p>The hash code of a multiset entry for element <code>element</code> and count <code>count</code> is
  defined as:
 
- <pre><code>
- ((element == null) ? 0 : element.hashCode()) ^ count
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-hashCode()9"><code>((element == null) ? 0 : element.hashCode()) ^ count
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>

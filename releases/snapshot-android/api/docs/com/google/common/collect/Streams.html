@@ -522,12 +522,15 @@ R extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 
  <p>For example:
 
- <pre><code>
- Streams.zip(
-   Stream.of("foo1", "foo2", "foo3"),
-   Stream.of("bar1", "bar2"),
-   (arg1, arg2) -&gt; arg1 + ":" + arg2)
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-zip(java.util.stream.Stream,java.util.stream.Stream,java.util.function.BiFunction)1"><code>Streams.zip(
+  Stream.of("foo1", "foo2", "foo3"),
+  Stream.of("bar1", "bar2"),
+  (arg1, arg2) -&gt; arg1 + ":" + arg2)
+</code></pre>
+</div>
+
 
  <p>will return <code>Stream.of("foo1:bar1", "foo2:bar2")</code>.
 
@@ -557,19 +560,25 @@ B extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  ignored. Elements passed to the consumer are guaranteed to come from the same position in their
  respective source streams. For example:
 
- <pre><code>
- Streams.forEachPair(
-   Stream.of("foo1", "foo2", "foo3"),
-   Stream.of("bar1", "bar2"),
-   (arg1, arg2) -&gt; System.out.println(arg1 + ":" + arg2)
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-forEachPair(java.util.stream.Stream,java.util.stream.Stream,java.util.function.BiConsumer)1"><code>Streams.forEachPair(
+  Stream.of("foo1", "foo2", "foo3"),
+  Stream.of("bar1", "bar2"),
+  (arg1, arg2) -&gt; System.out.println(arg1 + ":" + arg2)
+</code></pre>
+</div>
+
 
  <p>will print:
 
- <pre><code>
- foo1:bar1
- foo2:bar2
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-forEachPair(java.util.stream.Stream,java.util.stream.Stream,java.util.function.BiConsumer)2"><code>foo1:bar1
+foo2:bar2
+</code></pre>
+</div>
+
 
  <p><b>Warning:</b> If either supplied stream is a parallel stream, the same correspondence
  between elements will be made, but the order in which those pairs of elements are passed to the
@@ -596,11 +605,14 @@ R extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indices in the stream. For example,
 
- <pre><code>
- mapWithIndex(
-     Stream.of("a", "b", "c"),
-     (e, index) -&gt; index + ":" + e)
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-mapWithIndex(java.util.stream.Stream,com.google.common.collect.Streams.FunctionWithIndex)1"><code>mapWithIndex(
+    Stream.of("a", "b", "c"),
+    (e, index) -&gt; index + ":" + e)
+</code></pre>
+</div>
+
 
  <p>would return <code>Stream.of("0:a", "1:b", "2:c")</code>.
 
@@ -625,11 +637,14 @@ R extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indexes in the stream. For example,
 
- <pre><code>
- mapWithIndex(
-     IntStream.of(10, 11, 12),
-     (e, index) -&gt; index + ":" + e)
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-mapWithIndex(java.util.stream.IntStream,com.google.common.collect.Streams.IntFunctionWithIndex)1"><code>mapWithIndex(
+    IntStream.of(10, 11, 12),
+    (e, index) -&gt; index + ":" + e)
+</code></pre>
+</div>
+
 
  <p>...would return <code>Stream.of("0:10", "1:11", "2:12")</code>.
 
@@ -654,11 +669,14 @@ R extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indexes in the stream. For example,
 
- <pre><code>
- mapWithIndex(
-     LongStream.of(10, 11, 12),
-     (e, index) -&gt; index + ":" + e)
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-mapWithIndex(java.util.stream.LongStream,com.google.common.collect.Streams.LongFunctionWithIndex)1"><code>mapWithIndex(
+    LongStream.of(10, 11, 12),
+    (e, index) -&gt; index + ":" + e)
+</code></pre>
+</div>
+
 
  <p>...would return <code>Stream.of("0:10", "1:11", "2:12")</code>.
 
@@ -683,11 +701,14 @@ R extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <div class="block">Returns a stream consisting of the results of applying the given function to the elements of
  <code>stream</code> and their indexes in the stream. For example,
 
- <pre><code>
- mapWithIndex(
-     DoubleStream.of(0.0, 1.0, 2.0)
-     (e, index) -&gt; index + ":" + e)
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-mapWithIndex(java.util.stream.DoubleStream,com.google.common.collect.Streams.DoubleFunctionWithIndex)1"><code>mapWithIndex(
+    DoubleStream.of(0.0, 1.0, 2.0)
+    (e, index) -&gt; index + ":" + e)
+</code></pre>
+</div>
+
 
  <p>...would return <code>Stream.of("0:0.0", "1:1.0", "2:2.0")</code>.
 

@@ -153,7 +153,7 @@
 <span class="source-line-no">140</span><span id="line-140">   * b} were &lt;i&gt;also&lt;/i&gt; a start node, then there would be multiple paths to reach {@code e} and</span>
 <span class="source-line-no">141</span><span id="line-141">   * {@code h}.</span>
 <span class="source-line-no">142</span><span id="line-142">   *</span>
-<span class="source-line-no">143</span><span id="line-143">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">143</span><span id="line-143">   * {@snippet :</span>
 <span class="source-line-no">144</span><span id="line-144">   *    a     b      c</span>
 <span class="source-line-no">145</span><span id="line-145">   *   / \   / \     |</span>
 <span class="source-line-no">146</span><span id="line-146">   *  /   \ /   \    |</span>
@@ -161,14 +161,14 @@
 <span class="source-line-no">148</span><span id="line-148">   *       |</span>
 <span class="source-line-no">149</span><span id="line-149">   *       |</span>
 <span class="source-line-no">150</span><span id="line-150">   *       h</span>
-<span class="source-line-no">151</span><span id="line-151">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">151</span><span id="line-151">   * }</span>
 <span class="source-line-no">152</span><span id="line-152">   *</span>
 <span class="source-line-no">153</span><span id="line-153">   * &lt;p&gt;.</span>
 <span class="source-line-no">154</span><span id="line-154">   *</span>
 <span class="source-line-no">155</span><span id="line-155">   * &lt;p&gt;The graph below would be a valid input with start nodes of {@code a, f}. However, if {@code</span>
 <span class="source-line-no">156</span><span id="line-156">   * b} were a start node, there would be multiple paths to {@code f}.</span>
 <span class="source-line-no">157</span><span id="line-157">   *</span>
-<span class="source-line-no">158</span><span id="line-158">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">158</span><span id="line-158">   * {@snippet :</span>
 <span class="source-line-no">159</span><span id="line-159">   *    a     b</span>
 <span class="source-line-no">160</span><span id="line-160">   *   / \   / \</span>
 <span class="source-line-no">161</span><span id="line-161">   *  /   \ /   \</span>
@@ -176,16 +176,16 @@
 <span class="source-line-no">163</span><span id="line-163">   *        \   /</span>
 <span class="source-line-no">164</span><span id="line-164">   *         \ /</span>
 <span class="source-line-no">165</span><span id="line-165">   *          f</span>
-<span class="source-line-no">166</span><span id="line-166">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">166</span><span id="line-166">   * }</span>
 <span class="source-line-no">167</span><span id="line-167">   *</span>
 <span class="source-line-no">168</span><span id="line-168">   * &lt;p&gt;&lt;b&gt;Note on binary trees&lt;/b&gt;</span>
 <span class="source-line-no">169</span><span id="line-169">   *</span>
 <span class="source-line-no">170</span><span id="line-170">   * &lt;p&gt;This method can be used to traverse over a binary tree. Given methods {@code</span>
 <span class="source-line-no">171</span><span id="line-171">   * leftChild(node)} and {@code rightChild(node)}, this method can be called as</span>
 <span class="source-line-no">172</span><span id="line-172">   *</span>
-<span class="source-line-no">173</span><span id="line-173">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">173</span><span id="line-173">   * {@snippet :</span>
 <span class="source-line-no">174</span><span id="line-174">   * Traverser.forTree(node -&gt; ImmutableList.of(leftChild(node), rightChild(node)));</span>
-<span class="source-line-no">175</span><span id="line-175">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">175</span><span id="line-175">   * }</span>
 <span class="source-line-no">176</span><span id="line-176">   *</span>
 <span class="source-line-no">177</span><span id="line-177">   * @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most</span>
 <span class="source-line-no">178</span><span id="line-178">   *     one path between any two nodes</span>
@@ -213,12 +213,12 @@
 <span class="source-line-no">200</span><span id="line-200">   * &lt;p&gt;&lt;b&gt;Example:&lt;/b&gt; The following graph with {@code startNode} {@code a} would return nodes in</span>
 <span class="source-line-no">201</span><span id="line-201">   * the order {@code abcdef} (assuming successors are returned in alphabetical order).</span>
 <span class="source-line-no">202</span><span id="line-202">   *</span>
-<span class="source-line-no">203</span><span id="line-203">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">203</span><span id="line-203">   * {@snippet :</span>
 <span class="source-line-no">204</span><span id="line-204">   * b ---- a ---- d</span>
 <span class="source-line-no">205</span><span id="line-205">   * |      |</span>
 <span class="source-line-no">206</span><span id="line-206">   * |      |</span>
 <span class="source-line-no">207</span><span id="line-207">   * e ---- c ---- f</span>
-<span class="source-line-no">208</span><span id="line-208">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">208</span><span id="line-208">   * }</span>
 <span class="source-line-no">209</span><span id="line-209">   *</span>
 <span class="source-line-no">210</span><span id="line-210">   * &lt;p&gt;The behavior of this method is undefined if the nodes, or the topology of the graph, change</span>
 <span class="source-line-no">211</span><span id="line-211">   * while iteration is in progress.</span>
@@ -227,9 +227,9 @@
 <span class="source-line-no">214</span><span id="line-214">   * compute its next element on the fly. It is thus possible to limit the traversal to a certain</span>
 <span class="source-line-no">215</span><span id="line-215">   * number of nodes as follows:</span>
 <span class="source-line-no">216</span><span id="line-216">   *</span>
-<span class="source-line-no">217</span><span id="line-217">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">217</span><span id="line-217">   * {@snippet :</span>
 <span class="source-line-no">218</span><span id="line-218">   * Iterables.limit(Traverser.forGraph(graph).breadthFirst(node), maxNumberOfNodes);</span>
-<span class="source-line-no">219</span><span id="line-219">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">219</span><span id="line-219">   * }</span>
 <span class="source-line-no">220</span><span id="line-220">   *</span>
 <span class="source-line-no">221</span><span id="line-221">   * &lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/Breadth-first_search"&gt;Wikipedia&lt;/a&gt; for more</span>
 <span class="source-line-no">222</span><span id="line-222">   * info.</span>
@@ -263,12 +263,12 @@
 <span class="source-line-no">250</span><span id="line-250">   * &lt;p&gt;&lt;b&gt;Example:&lt;/b&gt; The following graph with {@code startNode} {@code a} would return nodes in</span>
 <span class="source-line-no">251</span><span id="line-251">   * the order {@code abecfd} (assuming successors are returned in alphabetical order).</span>
 <span class="source-line-no">252</span><span id="line-252">   *</span>
-<span class="source-line-no">253</span><span id="line-253">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">253</span><span id="line-253">   * {@snippet :</span>
 <span class="source-line-no">254</span><span id="line-254">   * b ---- a ---- d</span>
 <span class="source-line-no">255</span><span id="line-255">   * |      |</span>
 <span class="source-line-no">256</span><span id="line-256">   * |      |</span>
 <span class="source-line-no">257</span><span id="line-257">   * e ---- c ---- f</span>
-<span class="source-line-no">258</span><span id="line-258">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">258</span><span id="line-258">   * }</span>
 <span class="source-line-no">259</span><span id="line-259">   *</span>
 <span class="source-line-no">260</span><span id="line-260">   * &lt;p&gt;The behavior of this method is undefined if the nodes, or the topology of the graph, change</span>
 <span class="source-line-no">261</span><span id="line-261">   * while iteration is in progress.</span>
@@ -277,10 +277,10 @@
 <span class="source-line-no">264</span><span id="line-264">   * compute its next element on the fly. It is thus possible to limit the traversal to a certain</span>
 <span class="source-line-no">265</span><span id="line-265">   * number of nodes as follows:</span>
 <span class="source-line-no">266</span><span id="line-266">   *</span>
-<span class="source-line-no">267</span><span id="line-267">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">267</span><span id="line-267">   * {@snippet :</span>
 <span class="source-line-no">268</span><span id="line-268">   * Iterables.limit(</span>
 <span class="source-line-no">269</span><span id="line-269">   *     Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);</span>
-<span class="source-line-no">270</span><span id="line-270">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">270</span><span id="line-270">   * }</span>
 <span class="source-line-no">271</span><span id="line-271">   *</span>
 <span class="source-line-no">272</span><span id="line-272">   * &lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/Depth-first_search"&gt;Wikipedia&lt;/a&gt; for more info.</span>
 <span class="source-line-no">273</span><span id="line-273">   *</span>
@@ -313,12 +313,12 @@
 <span class="source-line-no">300</span><span id="line-300">   * &lt;p&gt;&lt;b&gt;Example:&lt;/b&gt; The following graph with {@code startNode} {@code a} would return nodes in</span>
 <span class="source-line-no">301</span><span id="line-301">   * the order {@code fcebda} (assuming successors are returned in alphabetical order).</span>
 <span class="source-line-no">302</span><span id="line-302">   *</span>
-<span class="source-line-no">303</span><span id="line-303">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">303</span><span id="line-303">   * {@snippet :</span>
 <span class="source-line-no">304</span><span id="line-304">   * b ---- a ---- d</span>
 <span class="source-line-no">305</span><span id="line-305">   * |      |</span>
 <span class="source-line-no">306</span><span id="line-306">   * |      |</span>
 <span class="source-line-no">307</span><span id="line-307">   * e ---- c ---- f</span>
-<span class="source-line-no">308</span><span id="line-308">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">308</span><span id="line-308">   * }</span>
 <span class="source-line-no">309</span><span id="line-309">   *</span>
 <span class="source-line-no">310</span><span id="line-310">   * &lt;p&gt;The behavior of this method is undefined if the nodes, or the topology of the graph, change</span>
 <span class="source-line-no">311</span><span id="line-311">   * while iteration is in progress.</span>
@@ -327,10 +327,10 @@
 <span class="source-line-no">314</span><span id="line-314">   * compute its next element on the fly. It is thus possible to limit the traversal to a certain</span>
 <span class="source-line-no">315</span><span id="line-315">   * number of nodes as follows:</span>
 <span class="source-line-no">316</span><span id="line-316">   *</span>
-<span class="source-line-no">317</span><span id="line-317">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">317</span><span id="line-317">   * {@snippet :</span>
 <span class="source-line-no">318</span><span id="line-318">   * Iterables.limit(</span>
 <span class="source-line-no">319</span><span id="line-319">   *     Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);</span>
-<span class="source-line-no">320</span><span id="line-320">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">320</span><span id="line-320">   * }</span>
 <span class="source-line-no">321</span><span id="line-321">   *</span>
 <span class="source-line-no">322</span><span id="line-322">   * &lt;p&gt;See &lt;a href="https://en.wikipedia.org/wiki/Depth-first_search"&gt;Wikipedia&lt;/a&gt; for more info.</span>
 <span class="source-line-no">323</span><span id="line-323">   *</span>

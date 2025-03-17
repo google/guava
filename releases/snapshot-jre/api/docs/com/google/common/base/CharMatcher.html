@@ -1020,9 +1020,12 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <div class="block">Returns a string containing all non-matching characters of a character sequence, in order. For
  example:
 
- <pre><code>
- CharMatcher.is('a').removeFrom("bazaar")
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-removeFrom(java.lang.CharSequence)1"><code>CharMatcher.is('a').removeFrom("bazaar")
+</code></pre>
+</div>
+
 
  ... returns <code>"bzr"</code>.</div>
 </div>
@@ -1036,9 +1039,12 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <div class="block">Returns a string containing all matching BMP characters of a character sequence, in order. For
  example:
 
- <pre><code>
- CharMatcher.is('a').retainFrom("bazaar")
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-retainFrom(java.lang.CharSequence)1"><code>CharMatcher.is('a').retainFrom("bazaar")
+</code></pre>
+</div>
+
 
  ... returns <code>"aaa"</code>.</div>
 </div>
@@ -1053,9 +1059,12 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <div class="block">Returns a string copy of the input character sequence, with each matching BMP character
  replaced by a given replacement character. For example:
 
- <pre><code>
- CharMatcher.is('a').replaceFrom("radar", 'o')
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-replaceFrom(java.lang.CharSequence,char)1"><code>CharMatcher.is('a').replaceFrom("radar", 'o')
+</code></pre>
+</div>
+
 
  ... returns <code>"rodor"</code>.
 
@@ -1082,9 +1091,12 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <div class="block">Returns a string copy of the input character sequence, with each matching BMP character
  replaced by a given replacement sequence. For example:
 
- <pre><code>
- CharMatcher.is('a').replaceFrom("yaha", "oo")
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-replaceFrom(java.lang.CharSequence,java.lang.CharSequence)1"><code>CharMatcher.is('a').replaceFrom("yaha", "oo")
+</code></pre>
+</div>
+
 
  ... returns <code>"yoohoo"</code>.
 
@@ -1109,17 +1121,23 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <div class="block">Returns a substring of the input character sequence that omits all matching BMP characters from
  the beginning and from the end of the string. For example:
 
- <pre><code>
- CharMatcher.anyOf("ab").trimFrom("abacatbab")
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-trimFrom(java.lang.CharSequence)1"><code>CharMatcher.anyOf("ab").trimFrom("abacatbab")
+</code></pre>
+</div>
+
 
  ... returns <code>"cat"</code>.
 
  <p>Note that:
 
- <pre><code>
- CharMatcher.inRange('\0', ' ').trimFrom(str)
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-trimFrom(java.lang.CharSequence)2"><code>CharMatcher.inRange('\0', ' ').trimFrom(str)
+</code></pre>
+</div>
+
 
  ... is equivalent to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#trim()" title="class or interface in java.lang" class="external-link"><code>String.trim()</code></a>.</div>
 </div>
@@ -1133,9 +1151,12 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <div class="block">Returns a substring of the input character sequence that omits all matching BMP characters from
  the beginning of the string. For example:
 
- <pre><code>
- CharMatcher.anyOf("ab").trimLeadingFrom("abacatbab")
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-trimLeadingFrom(java.lang.CharSequence)1"><code>CharMatcher.anyOf("ab").trimLeadingFrom("abacatbab")
+</code></pre>
+</div>
+
 
  ... returns <code>"catbab"</code>.</div>
 </div>
@@ -1149,9 +1170,12 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <div class="block">Returns a substring of the input character sequence that omits all matching BMP characters from
  the end of the string. For example:
 
- <pre><code>
- CharMatcher.anyOf("ab").trimTrailingFrom("abacatbab")
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-trimTrailingFrom(java.lang.CharSequence)1"><code>CharMatcher.anyOf("ab").trimTrailingFrom("abacatbab")
+</code></pre>
+</div>
+
 
  ... returns <code>"abacat"</code>.</div>
 </div>
@@ -1166,9 +1190,12 @@ implements <a href="Predicate.html" title="interface in com.google.common.base">
 <div class="block">Returns a string copy of the input character sequence, with each group of consecutive matching
  BMP characters replaced by a single replacement character. For example:
 
- <pre><code>
- CharMatcher.anyOf("eko").collapseFrom("bookkeeper", '-')
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-collapseFrom(java.lang.CharSequence,char)1"><code>CharMatcher.anyOf("eko").collapseFrom("bookkeeper", '-')
+</code></pre>
+</div>
+
 
  ... returns <code>"b-p-r"</code>.
 

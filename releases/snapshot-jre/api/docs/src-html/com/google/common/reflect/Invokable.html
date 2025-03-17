@@ -54,12 +54,12 @@
 <span class="source-line-no">041</span><span id="line-41"> * will resolve the type parameters of the method or constructor in the context of the owner type,</span>
 <span class="source-line-no">042</span><span id="line-42"> * which may be a subtype of the declaring class. For example:</span>
 <span class="source-line-no">043</span><span id="line-43"> *</span>
-<span class="source-line-no">044</span><span id="line-44"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">044</span><span id="line-44"> * {@snippet :</span>
 <span class="source-line-no">045</span><span id="line-45"> * Method getMethod = List.class.getMethod("get", int.class);</span>
 <span class="source-line-no">046</span><span id="line-46"> * Invokable&lt;List&lt;String&gt;, ?&gt; invokable = new TypeToken&lt;List&lt;String&gt;&gt;() {}.method(getMethod);</span>
 <span class="source-line-no">047</span><span id="line-47"> * assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!</span>
 <span class="source-line-no">048</span><span id="line-48"> * assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerType());</span>
-<span class="source-line-no">049</span><span id="line-49"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">049</span><span id="line-49"> * }</span>
 <span class="source-line-no">050</span><span id="line-50"> *</span>
 <span class="source-line-no">051</span><span id="line-51"> * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; earlier versions of this class inherited from {@link</span>
 <span class="source-line-no">052</span><span id="line-52"> * java.lang.reflect.AccessibleObject AccessibleObject} and {@link</span>
@@ -312,10 +312,10 @@
 <span class="source-line-no">299</span><span id="line-299">  /**</span>
 <span class="source-line-no">300</span><span id="line-300">   * Explicitly specifies the return type of this {@code Invokable}. For example:</span>
 <span class="source-line-no">301</span><span id="line-301">   *</span>
-<span class="source-line-no">302</span><span id="line-302">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">302</span><span id="line-302">   * {@snippet :</span>
 <span class="source-line-no">303</span><span id="line-303">   * Method factoryMethod = Person.class.getMethod("create");</span>
 <span class="source-line-no">304</span><span id="line-304">   * Invokable&lt;?, Person&gt; factory = Invokable.of(getNameMethod).returning(Person.class);</span>
-<span class="source-line-no">305</span><span id="line-305">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">305</span><span id="line-305">   * }</span>
 <span class="source-line-no">306</span><span id="line-306">   */</span>
 <span class="source-line-no">307</span><span id="line-307">  public final &lt;R1 extends R&gt; Invokable&lt;T, R1&gt; returning(Class&lt;R1&gt; returnType) {</span>
 <span class="source-line-no">308</span><span id="line-308">    return returning(TypeToken.of(returnType));</span>

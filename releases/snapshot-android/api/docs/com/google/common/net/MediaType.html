@@ -2373,16 +2373,19 @@ loadScripts(document, 'script');</script>
 
  <p>For example:
 
- <pre><code>
- PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true
- PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false
- PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true
- PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE) // true
- PLAIN_TEXT_UTF_8.is(ANY_IMAGE_TYPE) // false
- PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_8)) // true
- PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE.withCharset(UTF_8)) // false
- PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_16)) // false
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-is(com.google.common.net.MediaType)1"><code>PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true
+PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false
+PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true
+PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE) // true
+PLAIN_TEXT_UTF_8.is(ANY_IMAGE_TYPE) // false
+PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_8)) // true
+PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE.withCharset(UTF_8)) // false
+PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_16)) // false
+</code></pre>
+</div>
+
 
  <p>Note that while it is possible to have the same parameter declared multiple times within a
  media type this method does not consider the number of occurrences of a parameter. For example,

@@ -630,19 +630,25 @@ loadScripts(document, 'script');</script>
 
  <p>The following two code snippets are equivalent:
 
- <pre><code>
- domainName = InternetDomainName.isValid(name)
-     ? InternetDomainName.from(name)
-     : DEFAULT_DOMAIN;
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-isValid(java.lang.String)1"><code>domainName = InternetDomainName.isValid(name)
+    ? InternetDomainName.from(name)
+    : DEFAULT_DOMAIN;
+</code></pre>
+</div>
 
- <pre><code>
- try {
-   domainName = InternetDomainName.from(name);
- } catch (IllegalArgumentException e) {
-   domainName = DEFAULT_DOMAIN;
- }
- </code></pre></div>
+
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-isValid(java.lang.String)2"><code>try {
+  domainName = InternetDomainName.from(name);
+} catch (IllegalArgumentException e) {
+  domainName = DEFAULT_DOMAIN;
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>8.0 (previously named <code>isValidLenient</code>)</dd>

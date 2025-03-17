@@ -421,11 +421,11 @@
 <span class="source-line-no">408</span><span id="line-408">   * lists in order; the "n-ary &lt;a href="http://en.wikipedia.org/wiki/Cartesian_product"&gt;Cartesian</span>
 <span class="source-line-no">409</span><span id="line-409">   * product&lt;/a&gt;" of the lists. For example:</span>
 <span class="source-line-no">410</span><span id="line-410">   *</span>
-<span class="source-line-no">411</span><span id="line-411">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">411</span><span id="line-411">   * {@snippet :</span>
 <span class="source-line-no">412</span><span id="line-412">   * Lists.cartesianProduct(ImmutableList.of(</span>
 <span class="source-line-no">413</span><span id="line-413">   *     ImmutableList.of(1, 2),</span>
 <span class="source-line-no">414</span><span id="line-414">   *     ImmutableList.of("A", "B", "C")))</span>
-<span class="source-line-no">415</span><span id="line-415">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">415</span><span id="line-415">   * }</span>
 <span class="source-line-no">416</span><span id="line-416">   *</span>
 <span class="source-line-no">417</span><span id="line-417">   * &lt;p&gt;returns a list containing six lists in the following order:</span>
 <span class="source-line-no">418</span><span id="line-418">   *</span>
@@ -441,7 +441,7 @@
 <span class="source-line-no">428</span><span id="line-428">   * &lt;p&gt;The result is guaranteed to be in the "traditional", lexicographical order for Cartesian</span>
 <span class="source-line-no">429</span><span id="line-429">   * products that you would get from nesting for loops:</span>
 <span class="source-line-no">430</span><span id="line-430">   *</span>
-<span class="source-line-no">431</span><span id="line-431">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">431</span><span id="line-431">   * {@snippet :</span>
 <span class="source-line-no">432</span><span id="line-432">   * for (B b0 : lists.get(0)) {</span>
 <span class="source-line-no">433</span><span id="line-433">   *   for (B b1 : lists.get(1)) {</span>
 <span class="source-line-no">434</span><span id="line-434">   *     ...</span>
@@ -449,7 +449,7 @@
 <span class="source-line-no">436</span><span id="line-436">   *     // operate on tuple</span>
 <span class="source-line-no">437</span><span id="line-437">   *   }</span>
 <span class="source-line-no">438</span><span id="line-438">   * }</span>
-<span class="source-line-no">439</span><span id="line-439">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">439</span><span id="line-439">   * }</span>
 <span class="source-line-no">440</span><span id="line-440">   *</span>
 <span class="source-line-no">441</span><span id="line-441">   * &lt;p&gt;Note that if any input list is empty, the Cartesian product will also be empty. If no lists</span>
 <span class="source-line-no">442</span><span id="line-442">   * at all are provided (an empty list), the resulting Cartesian product has one element, an empty</span>
@@ -479,11 +479,11 @@
 <span class="source-line-no">466</span><span id="line-466">   * lists in order; the "n-ary &lt;a href="http://en.wikipedia.org/wiki/Cartesian_product"&gt;Cartesian</span>
 <span class="source-line-no">467</span><span id="line-467">   * product&lt;/a&gt;" of the lists. For example:</span>
 <span class="source-line-no">468</span><span id="line-468">   *</span>
-<span class="source-line-no">469</span><span id="line-469">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">469</span><span id="line-469">   * {@snippet :</span>
 <span class="source-line-no">470</span><span id="line-470">   * Lists.cartesianProduct(ImmutableList.of(</span>
 <span class="source-line-no">471</span><span id="line-471">   *     ImmutableList.of(1, 2),</span>
 <span class="source-line-no">472</span><span id="line-472">   *     ImmutableList.of("A", "B", "C")))</span>
-<span class="source-line-no">473</span><span id="line-473">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">473</span><span id="line-473">   * }</span>
 <span class="source-line-no">474</span><span id="line-474">   *</span>
 <span class="source-line-no">475</span><span id="line-475">   * &lt;p&gt;returns a list containing six lists in the following order:</span>
 <span class="source-line-no">476</span><span id="line-476">   *</span>
@@ -499,7 +499,7 @@
 <span class="source-line-no">486</span><span id="line-486">   * &lt;p&gt;The result is guaranteed to be in the "traditional", lexicographical order for Cartesian</span>
 <span class="source-line-no">487</span><span id="line-487">   * products that you would get from nesting for loops:</span>
 <span class="source-line-no">488</span><span id="line-488">   *</span>
-<span class="source-line-no">489</span><span id="line-489">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">489</span><span id="line-489">   * {@snippet :</span>
 <span class="source-line-no">490</span><span id="line-490">   * for (B b0 : lists.get(0)) {</span>
 <span class="source-line-no">491</span><span id="line-491">   *   for (B b1 : lists.get(1)) {</span>
 <span class="source-line-no">492</span><span id="line-492">   *     ...</span>
@@ -507,7 +507,7 @@
 <span class="source-line-no">494</span><span id="line-494">   *     // operate on tuple</span>
 <span class="source-line-no">495</span><span id="line-495">   *   }</span>
 <span class="source-line-no">496</span><span id="line-496">   * }</span>
-<span class="source-line-no">497</span><span id="line-497">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">497</span><span id="line-497">   * }</span>
 <span class="source-line-no">498</span><span id="line-498">   *</span>
 <span class="source-line-no">499</span><span id="line-499">   * &lt;p&gt;Note that if any input list is empty, the Cartesian product will also be empty. If no lists</span>
 <span class="source-line-no">500</span><span id="line-500">   * at all are provided (an empty list), the resulting Cartesian product has one element, an empty</span>

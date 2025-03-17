@@ -106,13 +106,16 @@ loadScripts(document, 'script');</script>
 <span class="extends-implements">extends <a href="ImmutableCollection.Builder.html" title="class in com.google.common.collect">ImmutableCollection.Builder</a>&lt;E&gt;</span></div>
 <div class="block">A builder for creating <code>ImmutableSet</code> instances. Example:
 
- <pre><code>
- static final ImmutableSet&lt;Color&gt; GOOGLE_COLORS =
-     ImmutableSet.&lt;Color&gt;builder()
-         .addAll(WEBSAFE_COLORS)
-         .add(new Color(0, 191, 255))
-         .build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.ImmutableSet.Builder1"><code>static final ImmutableSet&lt;Color&gt; GOOGLE_COLORS =
+    ImmutableSet.&lt;Color&gt;builder()
+        .addAll(WEBSAFE_COLORS)
+        .add(new Color(0, 191, 255))
+        .build();
+</code></pre>
+</div>
+
 
  <p>Elements appear in the resulting set in the same order they were first added to the builder.
 

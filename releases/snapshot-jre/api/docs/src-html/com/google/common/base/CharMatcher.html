@@ -622,9 +622,9 @@
 <span class="source-line-no">609</span><span id="line-609">   * Returns a string containing all non-matching characters of a character sequence, in order. For</span>
 <span class="source-line-no">610</span><span id="line-610">   * example:</span>
 <span class="source-line-no">611</span><span id="line-611">   *</span>
-<span class="source-line-no">612</span><span id="line-612">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">612</span><span id="line-612">   * {@snippet :</span>
 <span class="source-line-no">613</span><span id="line-613">   * CharMatcher.is('a').removeFrom("bazaar")</span>
-<span class="source-line-no">614</span><span id="line-614">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">614</span><span id="line-614">   * }</span>
 <span class="source-line-no">615</span><span id="line-615">   *</span>
 <span class="source-line-no">616</span><span id="line-616">   * ... returns {@code "bzr"}.</span>
 <span class="source-line-no">617</span><span id="line-617">   */</span>
@@ -661,9 +661,9 @@
 <span class="source-line-no">648</span><span id="line-648">   * Returns a string containing all matching BMP characters of a character sequence, in order. For</span>
 <span class="source-line-no">649</span><span id="line-649">   * example:</span>
 <span class="source-line-no">650</span><span id="line-650">   *</span>
-<span class="source-line-no">651</span><span id="line-651">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">651</span><span id="line-651">   * {@snippet :</span>
 <span class="source-line-no">652</span><span id="line-652">   * CharMatcher.is('a').retainFrom("bazaar")</span>
-<span class="source-line-no">653</span><span id="line-653">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">653</span><span id="line-653">   * }</span>
 <span class="source-line-no">654</span><span id="line-654">   *</span>
 <span class="source-line-no">655</span><span id="line-655">   * ... returns {@code "aaa"}.</span>
 <span class="source-line-no">656</span><span id="line-656">   */</span>
@@ -675,9 +675,9 @@
 <span class="source-line-no">662</span><span id="line-662">   * Returns a string copy of the input character sequence, with each matching BMP character</span>
 <span class="source-line-no">663</span><span id="line-663">   * replaced by a given replacement character. For example:</span>
 <span class="source-line-no">664</span><span id="line-664">   *</span>
-<span class="source-line-no">665</span><span id="line-665">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">665</span><span id="line-665">   * {@snippet :</span>
 <span class="source-line-no">666</span><span id="line-666">   * CharMatcher.is('a').replaceFrom("radar", 'o')</span>
-<span class="source-line-no">667</span><span id="line-667">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">667</span><span id="line-667">   * }</span>
 <span class="source-line-no">668</span><span id="line-668">   *</span>
 <span class="source-line-no">669</span><span id="line-669">   * ... returns {@code "rodor"}.</span>
 <span class="source-line-no">670</span><span id="line-670">   *</span>
@@ -710,9 +710,9 @@
 <span class="source-line-no">697</span><span id="line-697">   * Returns a string copy of the input character sequence, with each matching BMP character</span>
 <span class="source-line-no">698</span><span id="line-698">   * replaced by a given replacement sequence. For example:</span>
 <span class="source-line-no">699</span><span id="line-699">   *</span>
-<span class="source-line-no">700</span><span id="line-700">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">700</span><span id="line-700">   * {@snippet :</span>
 <span class="source-line-no">701</span><span id="line-701">   * CharMatcher.is('a').replaceFrom("yaha", "oo")</span>
-<span class="source-line-no">702</span><span id="line-702">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">702</span><span id="line-702">   * }</span>
 <span class="source-line-no">703</span><span id="line-703">   *</span>
 <span class="source-line-no">704</span><span id="line-704">   * ... returns {@code "yoohoo"}.</span>
 <span class="source-line-no">705</span><span id="line-705">   *</span>
@@ -758,17 +758,17 @@
 <span class="source-line-no">745</span><span id="line-745">   * Returns a substring of the input character sequence that omits all matching BMP characters from</span>
 <span class="source-line-no">746</span><span id="line-746">   * the beginning and from the end of the string. For example:</span>
 <span class="source-line-no">747</span><span id="line-747">   *</span>
-<span class="source-line-no">748</span><span id="line-748">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">748</span><span id="line-748">   * {@snippet :</span>
 <span class="source-line-no">749</span><span id="line-749">   * CharMatcher.anyOf("ab").trimFrom("abacatbab")</span>
-<span class="source-line-no">750</span><span id="line-750">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">750</span><span id="line-750">   * }</span>
 <span class="source-line-no">751</span><span id="line-751">   *</span>
 <span class="source-line-no">752</span><span id="line-752">   * ... returns {@code "cat"}.</span>
 <span class="source-line-no">753</span><span id="line-753">   *</span>
 <span class="source-line-no">754</span><span id="line-754">   * &lt;p&gt;Note that:</span>
 <span class="source-line-no">755</span><span id="line-755">   *</span>
-<span class="source-line-no">756</span><span id="line-756">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">756</span><span id="line-756">   * {@snippet :</span>
 <span class="source-line-no">757</span><span id="line-757">   * CharMatcher.inRange('\0', ' ').trimFrom(str)</span>
-<span class="source-line-no">758</span><span id="line-758">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">758</span><span id="line-758">   * }</span>
 <span class="source-line-no">759</span><span id="line-759">   *</span>
 <span class="source-line-no">760</span><span id="line-760">   * ... is equivalent to {@link String#trim()}.</span>
 <span class="source-line-no">761</span><span id="line-761">   */</span>
@@ -795,9 +795,9 @@
 <span class="source-line-no">782</span><span id="line-782">   * Returns a substring of the input character sequence that omits all matching BMP characters from</span>
 <span class="source-line-no">783</span><span id="line-783">   * the beginning of the string. For example:</span>
 <span class="source-line-no">784</span><span id="line-784">   *</span>
-<span class="source-line-no">785</span><span id="line-785">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">785</span><span id="line-785">   * {@snippet :</span>
 <span class="source-line-no">786</span><span id="line-786">   * CharMatcher.anyOf("ab").trimLeadingFrom("abacatbab")</span>
-<span class="source-line-no">787</span><span id="line-787">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">787</span><span id="line-787">   * }</span>
 <span class="source-line-no">788</span><span id="line-788">   *</span>
 <span class="source-line-no">789</span><span id="line-789">   * ... returns {@code "catbab"}.</span>
 <span class="source-line-no">790</span><span id="line-790">   */</span>
@@ -815,9 +815,9 @@
 <span class="source-line-no">802</span><span id="line-802">   * Returns a substring of the input character sequence that omits all matching BMP characters from</span>
 <span class="source-line-no">803</span><span id="line-803">   * the end of the string. For example:</span>
 <span class="source-line-no">804</span><span id="line-804">   *</span>
-<span class="source-line-no">805</span><span id="line-805">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">805</span><span id="line-805">   * {@snippet :</span>
 <span class="source-line-no">806</span><span id="line-806">   * CharMatcher.anyOf("ab").trimTrailingFrom("abacatbab")</span>
-<span class="source-line-no">807</span><span id="line-807">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">807</span><span id="line-807">   * }</span>
 <span class="source-line-no">808</span><span id="line-808">   *</span>
 <span class="source-line-no">809</span><span id="line-809">   * ... returns {@code "abacat"}.</span>
 <span class="source-line-no">810</span><span id="line-810">   */</span>
@@ -835,9 +835,9 @@
 <span class="source-line-no">822</span><span id="line-822">   * Returns a string copy of the input character sequence, with each group of consecutive matching</span>
 <span class="source-line-no">823</span><span id="line-823">   * BMP characters replaced by a single replacement character. For example:</span>
 <span class="source-line-no">824</span><span id="line-824">   *</span>
-<span class="source-line-no">825</span><span id="line-825">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">825</span><span id="line-825">   * {@snippet :</span>
 <span class="source-line-no">826</span><span id="line-826">   * CharMatcher.anyOf("eko").collapseFrom("bookkeeper", '-')</span>
-<span class="source-line-no">827</span><span id="line-827">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">827</span><span id="line-827">   * }</span>
 <span class="source-line-no">828</span><span id="line-828">   *</span>
 <span class="source-line-no">829</span><span id="line-829">   * ... returns {@code "b-p-r"}.</span>
 <span class="source-line-no">830</span><span id="line-830">   *</span>

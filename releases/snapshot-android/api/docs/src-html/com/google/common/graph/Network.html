@@ -68,9 +68,9 @@
 <span class="source-line-no">055</span><span id="line-55"> * create an instance of one of the built-in implementations of {@code Network}, use the {@link</span>
 <span class="source-line-no">056</span><span id="line-56"> * NetworkBuilder} class:</span>
 <span class="source-line-no">057</span><span id="line-57"> *</span>
-<span class="source-line-no">058</span><span id="line-58"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">058</span><span id="line-58"> * {@snippet :</span>
 <span class="source-line-no">059</span><span id="line-59"> * MutableNetwork&lt;Integer, MyEdge&gt; network = NetworkBuilder.directed().build();</span>
-<span class="source-line-no">060</span><span id="line-60"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">060</span><span id="line-60"> * }</span>
 <span class="source-line-no">061</span><span id="line-61"> *</span>
 <span class="source-line-no">062</span><span id="line-62"> * &lt;p&gt;{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a</span>
 <span class="source-line-no">063</span><span id="line-63"> * subtype of {@code Network} that provides methods for adding and removing nodes and edges. If you</span>
@@ -81,9 +81,9 @@
 <span class="source-line-no">068</span><span id="line-68"> * &lt;p&gt;You can create an immutable copy of an existing {@code Network} using {@link</span>
 <span class="source-line-no">069</span><span id="line-69"> * ImmutableNetwork#copyOf(Network)}:</span>
 <span class="source-line-no">070</span><span id="line-70"> *</span>
-<span class="source-line-no">071</span><span id="line-71"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">071</span><span id="line-71"> * {@snippet :</span>
 <span class="source-line-no">072</span><span id="line-72"> * ImmutableNetwork&lt;Integer, MyEdge&gt; immutableGraph = ImmutableNetwork.copyOf(network);</span>
-<span class="source-line-no">073</span><span id="line-73"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">073</span><span id="line-73"> * }</span>
 <span class="source-line-no">074</span><span id="line-74"> *</span>
 <span class="source-line-no">075</span><span id="line-75"> * &lt;p&gt;Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and</span>
 <span class="source-line-no">076</span><span id="line-76"> * are contractually guaranteed to be unmodifiable and thread-safe.</span>

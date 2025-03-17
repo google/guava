@@ -450,7 +450,7 @@
 <span class="source-line-no">437</span><span id="line-437">   * A builder for creating immutable multiset instances, especially {@code public static final}</span>
 <span class="source-line-no">438</span><span id="line-438">   * multisets ("constant multisets"). Example:</span>
 <span class="source-line-no">439</span><span id="line-439">   *</span>
-<span class="source-line-no">440</span><span id="line-440">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">440</span><span id="line-440">   * {@snippet :</span>
 <span class="source-line-no">441</span><span id="line-441">   * public static final ImmutableSortedMultiset&lt;Bean&gt; BEANS =</span>
 <span class="source-line-no">442</span><span id="line-442">   *     new ImmutableSortedMultiset.Builder&lt;Bean&gt;(colorComparator())</span>
 <span class="source-line-no">443</span><span id="line-443">   *         .addCopies(Bean.COCOA, 4)</span>
@@ -458,7 +458,7 @@
 <span class="source-line-no">445</span><span id="line-445">   *         .addCopies(Bean.RED, 8)</span>
 <span class="source-line-no">446</span><span id="line-446">   *         .addCopies(Bean.BLACK_EYED, 10)</span>
 <span class="source-line-no">447</span><span id="line-447">   *         .build();</span>
-<span class="source-line-no">448</span><span id="line-448">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">448</span><span id="line-448">   * }</span>
 <span class="source-line-no">449</span><span id="line-449">   *</span>
 <span class="source-line-no">450</span><span id="line-450">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</span>
 <span class="source-line-no">451</span><span id="line-451">   * multiple multisets in series.</span>

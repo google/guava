@@ -184,16 +184,19 @@ loadScripts(document, 'script');</script>
  to be closed asynchronously <b>after</b> the returned <code>Future</code> is done: the future
  completes before closing starts, rather than once it has finished.
 
- <pre><code>
- FluentFuture&lt;UserName&gt; userName =
-     ClosingFuture.submit(
-             closer -&gt; closer.eventuallyClose(database.newTransaction(), closingExecutor),
-             executor)
-         .transformAsync((closer, transaction) -&gt; transaction.queryClosingFuture("..."), executor)
-         .transform((closer, result) -&gt; result.get("userName"), directExecutor())
-         .catching(DBException.class, e -&gt; "no user", directExecutor())
-         .finishToFuture();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.ClosingFuture1"><code>FluentFuture&lt;UserName&gt; userName =
+    ClosingFuture.submit(
+            closer -&gt; closer.eventuallyClose(database.newTransaction(), closingExecutor),
+            executor)
+        .transformAsync((closer, transaction) -&gt; transaction.queryClosingFuture("..."), executor)
+        .transform((closer, result) -&gt; result.get("userName"), directExecutor())
+        .catching(DBException.class, e -&gt; "no user", directExecutor())
+        .finishToFuture();
+</code></pre>
+</div>
+
 
  In this example, when the <code>userName</code> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link"><code>Future</code></a> is done, the transaction and the query
  result cursor will both be closed, even if the operation is cancelled or fails.
@@ -204,24 +207,27 @@ loadScripts(document, 'script');</script>
  <a href="#finishToValueAndCloser(com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer,java.util.concurrent.Executor)"><code>finishToValueAndCloser(ValueAndCloserConsumer, Executor)</code></a> to get an object that holds the
  final result. You then call <a href="ClosingFuture.ValueAndCloser.html#closeAsync()"><code>ClosingFuture.ValueAndCloser.closeAsync()</code></a> to close the captured objects.
 
- <pre><code>
-     ClosingFuture.submit(
-             closer -&gt; closer.eventuallyClose(database.newTransaction(), closingExecutor),
-             executor)
-     .transformAsync((closer, transaction) -&gt; transaction.queryClosingFuture("..."), executor)
-     .transform((closer, result) -&gt; result.get("userName"), directExecutor())
-     .catching(DBException.class, e -&gt; "no user", directExecutor())
-     .finishToValueAndCloser(
-         valueAndCloser -&gt; this.userNameValueAndCloser = valueAndCloser, executor);
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.ClosingFuture2"><code>    ClosingFuture.submit(
+            closer -&gt; closer.eventuallyClose(database.newTransaction(), closingExecutor),
+            executor)
+    .transformAsync((closer, transaction) -&gt; transaction.queryClosingFuture("..."), executor)
+    .transform((closer, result) -&gt; result.get("userName"), directExecutor())
+    .catching(DBException.class, e -&gt; "no user", directExecutor())
+    .finishToValueAndCloser(
+        valueAndCloser -&gt; this.userNameValueAndCloser = valueAndCloser, executor);
 
- // later
- try { // get() will throw if the operation failed or was cancelled.
-   UserName userName = userNameValueAndCloser.get();
-   // do something with userName
- } finally {
-   userNameValueAndCloser.closeAsync();
- }
- </code></pre>
+// later
+try { // get() will throw if the operation failed or was cancelled.
+  UserName userName = userNameValueAndCloser.get();
+  // do something with userName
+} finally {
+  userNameValueAndCloser.closeAsync();
+}
+</code></pre>
+</div>
+
 
  In this example, when <code>userNameValueAndCloser.closeAsync()</code> is called, the transaction and
  the query result cursor will both be closed, even if the operation is cancelled or fails.
@@ -789,10 +795,13 @@ V5 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
 
  <p>Example usage:
 
- <pre><code>
- ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
-     queryFuture.transform((closer, result) -&gt; result.getRows(), executor);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transform(com.google.common.util.concurrent.ClosingFuture.ClosingFunction,java.util.concurrent.Executor)1"><code>ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
+    queryFuture.transform((closer, result) -&gt; result.getRows(), executor);
+</code></pre>
+</div>
+
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="ListenableFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>ListenableFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings
@@ -851,27 +860,30 @@ V5 extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nulla
 
  <p>Example usage:
 
- <pre><code>
- // Result.getRowsClosingFuture() returns a ClosingFuture.
- ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
-     queryFuture.transformAsync((closer, result) -&gt; result.getRowsClosingFuture(), executor);
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-transformAsync(com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction,java.util.concurrent.Executor)1"><code>// Result.getRowsClosingFuture() returns a ClosingFuture.
+ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
+    queryFuture.transformAsync((closer, result) -&gt; result.getRowsClosingFuture(), executor);
 
- // Result.writeRowsToOutputStreamFuture() returns a ListenableFuture that resolves to the
- // number of written rows. openOutputFile() returns a FileOutputStream (which implements
- // Closeable).
- ClosingFuture&lt;Integer&gt; rowsFuture2 =
-     queryFuture.transformAsync(
-         (closer, result) -&gt; {
-           FileOutputStream fos = closer.eventuallyClose(openOutputFile(), closingExecutor);
-           return ClosingFuture.from(result.writeRowsToOutputStreamFuture(fos));
-      },
-      executor);
+// Result.writeRowsToOutputStreamFuture() returns a ListenableFuture that resolves to the
+// number of written rows. openOutputFile() returns a FileOutputStream (which implements
+// Closeable).
+ClosingFuture&lt;Integer&gt; rowsFuture2 =
+    queryFuture.transformAsync(
+        (closer, result) -&gt; {
+          FileOutputStream fos = closer.eventuallyClose(openOutputFile(), closingExecutor);
+          return ClosingFuture.from(result.writeRowsToOutputStreamFuture(fos));
+     },
+     executor);
 
- // Result.getRowsFuture() returns a ListenableFuture (no new closeables are created).
- ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture3 =
-     queryFuture.transformAsync(withoutCloser(Result::getRowsFuture), executor);
+// Result.getRowsFuture() returns a ListenableFuture (no new closeables are created).
+ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture3 =
+    queryFuture.transformAsync(withoutCloser(Result::getRowsFuture), executor);
 
- </code></pre>
+</code></pre>
+</div>
+
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="ListenableFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>ListenableFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings
@@ -917,11 +929,14 @@ U extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 
  <p>Example usage:
 
- <pre><code>
- // Result.getRowsFuture() returns a ListenableFuture.
- ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
-     queryFuture.transformAsync(withoutCloser(Result::getRowsFuture), executor);
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-withoutCloser(com.google.common.util.concurrent.AsyncFunction)1"><code>// Result.getRowsFuture() returns a ListenableFuture.
+ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
+    queryFuture.transformAsync(withoutCloser(Result::getRowsFuture), executor);
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>function</code> - transforms the value of a <code>ClosingFuture</code> step to a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> with the value of a derived step</dd>
@@ -948,11 +963,14 @@ U extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 
  <p>Example usage:
 
- <pre><code>
- ClosingFuture&lt;QueryResult&gt; queryFuture =
-     queryFuture.catching(
-         QueryException.class, (closer, x) -&gt; Query.emptyQueryResult(), executor);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-catching(java.lang.Class,com.google.common.util.concurrent.ClosingFuture.ClosingFunction,java.util.concurrent.Executor)1"><code>ClosingFuture&lt;QueryResult&gt; queryFuture =
+    queryFuture.catching(
+        QueryException.class, (closer, x) -&gt; Query.emptyQueryResult(), executor);
+</code></pre>
+</div>
+
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="ListenableFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>ListenableFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings
@@ -982,7 +1000,7 @@ U extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <section class="detail" id="catchingAsync(java.lang.Class,com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction,java.util.concurrent.Executor)">
 <h3>catchingAsync</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;X extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&gt;</span>&nbsp;<span class="return-type"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-968">catchingAsync</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;X&gt;&nbsp;exceptionType,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;X extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&gt;</span>&nbsp;<span class="return-type"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;<a href="ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-967">catchingAsync</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;X&gt;&nbsp;exceptionType,
  <a href="ClosingFuture.AsyncClosingFunction.html" title="interface in com.google.common.util.concurrent">ClosingFuture.AsyncClosingFunction</a>&lt;? super X,<wbr>? extends <a href="ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;fallback,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from this one by applying a function
@@ -1019,13 +1037,15 @@ U extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 
  <p>Example usage:
 
- <pre><code>
- // Fall back to a secondary input stream in case of IOException.
- ClosingFuture&lt;InputStream&gt; inputFuture =
-     firstInputFuture.catchingAsync(
-         IOException.class, (closer, x) -&gt; secondaryInputStreamClosingFuture(), executor);
- </code>
- }</pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-catchingAsync(java.lang.Class,com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction,java.util.concurrent.Executor)1"><code>// Fall back to a secondary input stream in case of IOException.
+ClosingFuture&lt;InputStream&gt; inputFuture =
+    firstInputFuture.catchingAsync(
+        IOException.class, (closer, x) -&gt; secondaryInputStreamClosingFuture(), executor);
+</code></pre>
+</div>
+
 
  <p>When selecting an executor, note that <code>directExecutor</code> is dangerous in some cases. See
  the discussion in the <a href="ListenableFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)"><code>ListenableFuture.addListener(java.lang.Runnable, java.util.concurrent.Executor)</code></a> documentation. All its warnings
@@ -1058,7 +1078,7 @@ U extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <section class="detail" id="finishToFuture()">
 <h3>finishToFuture</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-1010">finishToFuture</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="FluentFuture.html" title="class in com.google.common.util.concurrent">FluentFuture</a>&lt;<a href="ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-1009">finishToFuture</a></span>()</div>
 <div class="block">Marks this step as the last step in the <code>ClosingFuture</code> pipeline.
 
  <p>The returned <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link"><code>Future</code></a> is completed when the pipeline's computation completes, or when
@@ -1081,7 +1101,7 @@ U extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <section class="detail" id="finishToValueAndCloser(com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer,java.util.concurrent.Executor)">
 <h3>finishToValueAndCloser</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-1053">finishToValueAndCloser</a></span><wbr><span class="parameters">(<a href="ClosingFuture.ValueAndCloserConsumer.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ValueAndCloserConsumer</a>&lt;? super <a href="ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;consumer,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-1052">finishToValueAndCloser</a></span><wbr><span class="parameters">(<a href="ClosingFuture.ValueAndCloserConsumer.html" title="interface in com.google.common.util.concurrent">ClosingFuture.ValueAndCloserConsumer</a>&lt;? super <a href="ClosingFuture.html" title="type parameter in ClosingFuture">V</a>&gt;&nbsp;consumer,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Marks this step as the last step in the <code>ClosingFuture</code> pipeline. When this step is done,
  <code>receiver</code> will be called with an object that contains the result of the operation. The
@@ -1102,7 +1122,7 @@ U extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3>cancel</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-1100">cancel</a></span><wbr><span class="parameters">(boolean&nbsp;mayInterruptIfRunning)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-1099">cancel</a></span><wbr><span class="parameters">(boolean&nbsp;mayInterruptIfRunning)</span></div>
 <div class="block">Attempts to cancel execution of this step. This attempt will fail if the step has already
  completed, has already been cancelled, or could not be cancelled for some other reason. If
  successful, and this step has not started when <code>cancel</code> is called, this step should never
@@ -1127,7 +1147,7 @@ U extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-2114">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-2113">toString</a></span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
@@ -1139,7 +1159,7 @@ U extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <section class="detail" id="finalize()">
 <h3>finalize</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-2120">finalize</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-2119">finalize</a></span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>

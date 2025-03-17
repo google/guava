@@ -174,11 +174,14 @@ implements <a href="Function.html" title="interface in com.google.common.base">F
 
  <p>An alternative using Java 8:
 
- <pre><code>
- return Converter.from(
-     Integer::toHexString,
-     s -&gt; parseUnsignedInt(s, 16));
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Converter1"><code>return Converter.from(
+    Integer::toHexString,
+    s -&gt; parseUnsignedInt(s, 16));
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>16.0</dd>

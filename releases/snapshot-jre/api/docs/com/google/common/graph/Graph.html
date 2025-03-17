@@ -143,9 +143,12 @@ loadScripts(document, 'script');</script>
  <p>The implementation classes that <code>common.graph</code> provides are not public, by design. To
  create an instance of one of the built-in implementations of <code>Graph</code>, use the <a href="GraphBuilder.html" title="class in com.google.common.graph"><code>GraphBuilder</code></a> class:
 
- <pre><code>
- MutableGraph&lt;Integer&gt; graph = GraphBuilder.undirected().build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.Graph1"><code>MutableGraph&lt;Integer&gt; graph = GraphBuilder.undirected().build();
+</code></pre>
+</div>
+
 
  <p><a href="GraphBuilder.html#build()"><code>GraphBuilder.build()</code></a> returns an instance of <a href="MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a>, which is a subtype
  of <code>Graph</code> that provides methods for adding and removing nodes and edges. If you do not
@@ -154,9 +157,12 @@ loadScripts(document, 'script');</script>
 
  <p>You can create an immutable copy of an existing <code>Graph</code> using <a href="ImmutableGraph.html#copyOf(com.google.common.graph.Graph)"><code>ImmutableGraph.copyOf(Graph)</code></a>:
 
- <pre><code>
- ImmutableGraph&lt;Integer&gt; immutableGraph = ImmutableGraph.copyOf(graph);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.Graph2"><code>ImmutableGraph&lt;Integer&gt; immutableGraph = ImmutableGraph.copyOf(graph);
+</code></pre>
+</div>
+
 
  <p>Instances of <a href="ImmutableGraph.html" title="class in com.google.common.graph"><code>ImmutableGraph</code></a> do not implement <a href="MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> (obviously!) and are
  contractually guaranteed to be unmodifiable and thread-safe.

@@ -1244,13 +1244,13 @@
 <span class="source-line-no">1231</span><span id="line-1231">   * iteration, and hence return the same object each time. A subsequent call to {@code next} is</span>
 <span class="source-line-no">1232</span><span id="line-1232">   * guaranteed to return the same object again. For example:</span>
 <span class="source-line-no">1233</span><span id="line-1233">   *</span>
-<span class="source-line-no">1234</span><span id="line-1234">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">1234</span><span id="line-1234">   * {@snippet :</span>
 <span class="source-line-no">1235</span><span id="line-1235">   * PeekingIterator&lt;String&gt; peekingIterator =</span>
 <span class="source-line-no">1236</span><span id="line-1236">   *     Iterators.peekingIterator(Iterators.forArray("a", "b"));</span>
 <span class="source-line-no">1237</span><span id="line-1237">   * String a1 = peekingIterator.peek(); // returns "a"</span>
 <span class="source-line-no">1238</span><span id="line-1238">   * String a2 = peekingIterator.peek(); // also returns "a"</span>
 <span class="source-line-no">1239</span><span id="line-1239">   * String a3 = peekingIterator.next(); // also returns "a"</span>
-<span class="source-line-no">1240</span><span id="line-1240">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">1240</span><span id="line-1240">   * }</span>
 <span class="source-line-no">1241</span><span id="line-1241">   *</span>
 <span class="source-line-no">1242</span><span id="line-1242">   * &lt;p&gt;Any structural changes to the underlying iteration (aside from those performed by the</span>
 <span class="source-line-no">1243</span><span id="line-1243">   * iterator's own {@link PeekingIterator#remove()} method) will leave the iterator in an undefined</span>

@@ -94,16 +94,19 @@ loadScripts(document, 'script');</script>
 <div class="block">A builder for creating <a href="ImmutableValueGraph.html" title="class in com.google.common.graph"><code>ImmutableValueGraph</code></a> instances, especially <code>static final</code>
  graphs. Example:
 
- <pre><code>
- static final ImmutableValueGraph&lt;City, Distance&gt; CITY_ROAD_DISTANCE_GRAPH =
-     ValueGraphBuilder.undirected()
-         .&lt;City, Distance&gt;immutable()
-         .putEdgeValue(PARIS, BERLIN, kilometers(1060))
-         .putEdgeValue(PARIS, BRUSSELS, kilometers(317))
-         .putEdgeValue(BERLIN, BRUSSELS, kilometers(764))
-         .addNode(REYKJAVIK)
-         .build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.graph.ImmutableValueGraph.Builder1"><code>static final ImmutableValueGraph&lt;City, Distance&gt; CITY_ROAD_DISTANCE_GRAPH =
+    ValueGraphBuilder.undirected()
+        .&lt;City, Distance&gt;immutable()
+        .putEdgeValue(PARIS, BERLIN, kilometers(1060))
+        .putEdgeValue(PARIS, BRUSSELS, kilometers(317))
+        .putEdgeValue(BERLIN, BRUSSELS, kilometers(764))
+        .addNode(REYKJAVIK)
+        .build();
+</code></pre>
+</div>
+
 
  <p>Builder instances can be reused; it is safe to call <a href="#build()"><code>build()</code></a> multiple times to build
  multiple graphs in series. Each new graph contains all the elements of the ones created before

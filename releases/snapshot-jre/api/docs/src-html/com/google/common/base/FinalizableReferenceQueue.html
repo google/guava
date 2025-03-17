@@ -58,7 +58,7 @@
 <span class="source-line-no">045</span><span id="line-45"> * its {@code close} method. You &lt;em&gt;could&lt;/em&gt; use a finalizer to accomplish this, but that has a</span>
 <span class="source-line-no">046</span><span id="line-46"> * number of well-known problems. Here is how you might use this class instead:</span>
 <span class="source-line-no">047</span><span id="line-47"> *</span>
-<span class="source-line-no">048</span><span id="line-48"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">048</span><span id="line-48"> * {@snippet :</span>
 <span class="source-line-no">049</span><span id="line-49"> * public class MyServer implements Closeable {</span>
 <span class="source-line-no">050</span><span id="line-50"> *   private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();</span>
 <span class="source-line-no">051</span><span id="line-51"> *   // You might also share this between several objects.</span>
@@ -100,12 +100,12 @@
 <span class="source-line-no">087</span><span id="line-87"> *     serverSocket.close();</span>
 <span class="source-line-no">088</span><span id="line-88"> *   }</span>
 <span class="source-line-no">089</span><span id="line-89"> * }</span>
-<span class="source-line-no">090</span><span id="line-90"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">090</span><span id="line-90"> * }</span>
 <span class="source-line-no">091</span><span id="line-91"> *</span>
 <span class="source-line-no">092</span><span id="line-92"> * &lt;p id="cleaner"&gt;Here is how you might achieve the same thing using {@link java.lang.ref.Cleaner</span>
 <span class="source-line-no">093</span><span id="line-93"> * Cleaner}, if you are using a Java version where that is available:</span>
 <span class="source-line-no">094</span><span id="line-94"> *</span>
-<span class="source-line-no">095</span><span id="line-95"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">095</span><span id="line-95"> * {@snippet :</span>
 <span class="source-line-no">096</span><span id="line-96"> * public class MyServer implements Closeable {</span>
 <span class="source-line-no">097</span><span id="line-97"> *   private static final Cleaner cleaner = Cleaner.create();</span>
 <span class="source-line-no">098</span><span id="line-98"> *   // You might also share this between several objects.</span>
@@ -139,7 +139,7 @@
 <span class="source-line-no">126</span><span id="line-126"> *     cleanable.clean();</span>
 <span class="source-line-no">127</span><span id="line-127"> *   }</span>
 <span class="source-line-no">128</span><span id="line-128"> * }</span>
-<span class="source-line-no">129</span><span id="line-129"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">129</span><span id="line-129"> * }</span>
 <span class="source-line-no">130</span><span id="line-130"> *</span>
 <span class="source-line-no">131</span><span id="line-131"> * &lt;p&gt;Some care is needed when using {@code Cleaner} to ensure that the callback passed to {@code</span>
 <span class="source-line-no">132</span><span id="line-132"> * register} does not have a reference to the object (in this case, {@code MyServer}) that may be</span>

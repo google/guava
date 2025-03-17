@@ -286,13 +286,16 @@ loadScripts(document, 'script');</script>
 <div class="block">Begins a new hash code computation by returning an initialized, stateful <code>Hasher</code>
  instance that is ready to receive data. Example:
 
- <pre><code>
- HashFunction hf = Hashing.md5();
- HashCode hc = hf.newHasher()
-     .putLong(id)
-     .putBoolean(isActive)
-     .hash();
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-newHasher()1"><code>HashFunction hf = Hashing.md5();
+HashCode hc = hf.newHasher()
+    .putLong(id)
+    .putBoolean(isActive)
+    .hash();
+</code></pre>
+</div>
+</div>
 </div>
 </section>
 </li>

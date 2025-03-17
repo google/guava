@@ -432,13 +432,13 @@
 <span class="source-line-no">419</span><span id="line-419">   * A builder for creating immutable sorted set instances, especially {@code public static final}</span>
 <span class="source-line-no">420</span><span id="line-420">   * sets ("constant sets"), with a given comparator. Example:</span>
 <span class="source-line-no">421</span><span id="line-421">   *</span>
-<span class="source-line-no">422</span><span id="line-422">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">422</span><span id="line-422">   * {@snippet :</span>
 <span class="source-line-no">423</span><span id="line-423">   * public static final ImmutableSortedSet&lt;Number&gt; LUCKY_NUMBERS =</span>
 <span class="source-line-no">424</span><span id="line-424">   *     new ImmutableSortedSet.Builder&lt;Number&gt;(ODDS_FIRST_COMPARATOR)</span>
 <span class="source-line-no">425</span><span id="line-425">   *         .addAll(SINGLE_DIGIT_PRIMES)</span>
 <span class="source-line-no">426</span><span id="line-426">   *         .add(42)</span>
 <span class="source-line-no">427</span><span id="line-427">   *         .build();</span>
-<span class="source-line-no">428</span><span id="line-428">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">428</span><span id="line-428">   * }</span>
 <span class="source-line-no">429</span><span id="line-429">   *</span>
 <span class="source-line-no">430</span><span id="line-430">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</span>
 <span class="source-line-no">431</span><span id="line-431">   * multiple sets in series. Each set is a superset of the set created before it.</span>

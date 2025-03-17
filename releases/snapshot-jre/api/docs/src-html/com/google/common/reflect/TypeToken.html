@@ -76,13 +76,13 @@
 <span class="source-line-no">063</span><span id="line-63"> *   &lt;li&gt;Wrap a {@code Type} obtained via reflection. For example: {@code</span>
 <span class="source-line-no">064</span><span id="line-64"> *       TypeToken.of(method.getGenericReturnType())}.</span>
 <span class="source-line-no">065</span><span id="line-65"> *   &lt;li&gt;Capture a generic type with a (usually anonymous) subclass. For example:</span>
-<span class="source-line-no">066</span><span id="line-66"> *       &lt;pre&gt;{@code</span>
+<span class="source-line-no">066</span><span id="line-66"> *       {@snippet :</span>
 <span class="source-line-no">067</span><span id="line-67"> * new TypeToken&lt;List&lt;String&gt;&gt;() {}</span>
-<span class="source-line-no">068</span><span id="line-68"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">068</span><span id="line-68"> * }</span>
 <span class="source-line-no">069</span><span id="line-69"> *       &lt;p&gt;Note that it's critical that the actual type argument is carried by a subclass. The</span>
 <span class="source-line-no">070</span><span id="line-70"> *       following code is wrong because it only captures the {@code &lt;T&gt;} type variable of the</span>
 <span class="source-line-no">071</span><span id="line-71"> *       {@code listType()} method signature; while {@code &lt;String&gt;} is lost in erasure:</span>
-<span class="source-line-no">072</span><span id="line-72"> *       &lt;pre&gt;{@code</span>
+<span class="source-line-no">072</span><span id="line-72"> *       {@snippet :</span>
 <span class="source-line-no">073</span><span id="line-73"> * class Util {</span>
 <span class="source-line-no">074</span><span id="line-74"> *   static &lt;T&gt; TypeToken&lt;List&lt;T&gt;&gt; listType() {</span>
 <span class="source-line-no">075</span><span id="line-75"> *     return new TypeToken&lt;List&lt;T&gt;&gt;() {};</span>
@@ -90,15 +90,15 @@
 <span class="source-line-no">077</span><span id="line-77"> * }</span>
 <span class="source-line-no">078</span><span id="line-78"> *</span>
 <span class="source-line-no">079</span><span id="line-79"> * TypeToken&lt;List&lt;String&gt;&gt; stringListType = Util.&lt;String&gt;listType();</span>
-<span class="source-line-no">080</span><span id="line-80"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">080</span><span id="line-80"> * }</span>
 <span class="source-line-no">081</span><span id="line-81"> *   &lt;li&gt;Capture a generic type with a (usually anonymous) subclass and resolve it against a context</span>
 <span class="source-line-no">082</span><span id="line-82"> *       class that knows what the type parameters are. For example:</span>
-<span class="source-line-no">083</span><span id="line-83"> *       &lt;pre&gt;{@code</span>
+<span class="source-line-no">083</span><span id="line-83"> *       {@snippet :</span>
 <span class="source-line-no">084</span><span id="line-84"> * abstract class IKnowMyType&lt;T&gt; {</span>
 <span class="source-line-no">085</span><span id="line-85"> *   TypeToken&lt;T&gt; type = new TypeToken&lt;T&gt;(getClass()) {};</span>
 <span class="source-line-no">086</span><span id="line-86"> * }</span>
 <span class="source-line-no">087</span><span id="line-87"> * new IKnowMyType&lt;String&gt;() {}.type =&gt; String</span>
-<span class="source-line-no">088</span><span id="line-88"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">088</span><span id="line-88"> * }</span>
 <span class="source-line-no">089</span><span id="line-89"> * &lt;/ul&gt;</span>
 <span class="source-line-no">090</span><span id="line-90"> *</span>
 <span class="source-line-no">091</span><span id="line-91"> * &lt;p&gt;{@code TypeToken} is serializable when no type variable is contained in the type.</span>
@@ -130,9 +130,9 @@
 <span class="source-line-no">117</span><span id="line-117">   *</span>
 <span class="source-line-no">118</span><span id="line-118">   * &lt;p&gt;For example:</span>
 <span class="source-line-no">119</span><span id="line-119">   *</span>
-<span class="source-line-no">120</span><span id="line-120">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">120</span><span id="line-120">   * {@snippet :</span>
 <span class="source-line-no">121</span><span id="line-121">   * TypeToken&lt;List&lt;String&gt;&gt; t = new TypeToken&lt;List&lt;String&gt;&gt;() {};</span>
-<span class="source-line-no">122</span><span id="line-122">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">122</span><span id="line-122">   * }</span>
 <span class="source-line-no">123</span><span id="line-123">   */</span>
 <span class="source-line-no">124</span><span id="line-124">  protected TypeToken() {</span>
 <span class="source-line-no">125</span><span id="line-125">    this.runtimeType = capture();</span>
@@ -155,7 +155,7 @@
 <span class="source-line-no">142</span><span id="line-142">   *</span>
 <span class="source-line-no">143</span><span id="line-143">   * &lt;p&gt;For example:</span>
 <span class="source-line-no">144</span><span id="line-144">   *</span>
-<span class="source-line-no">145</span><span id="line-145">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">145</span><span id="line-145">   * {@snippet :</span>
 <span class="source-line-no">146</span><span id="line-146">   * abstract class IKnowMyType&lt;T&gt; {</span>
 <span class="source-line-no">147</span><span id="line-147">   *   TypeToken&lt;T&gt; getMyType() {</span>
 <span class="source-line-no">148</span><span id="line-148">   *     return new TypeToken&lt;T&gt;(getClass()) {};</span>
@@ -163,7 +163,7 @@
 <span class="source-line-no">150</span><span id="line-150">   * }</span>
 <span class="source-line-no">151</span><span id="line-151">   *</span>
 <span class="source-line-no">152</span><span id="line-152">   * new IKnowMyType&lt;String&gt;() {}.getMyType() =&gt; String</span>
-<span class="source-line-no">153</span><span id="line-153">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">153</span><span id="line-153">   * }</span>
 <span class="source-line-no">154</span><span id="line-154">   */</span>
 <span class="source-line-no">155</span><span id="line-155">  protected TypeToken(Class&lt;?&gt; declaringClass) {</span>
 <span class="source-line-no">156</span><span id="line-156">    Type captured = super.capture();</span>
@@ -221,14 +221,14 @@
 <span class="source-line-no">208</span><span id="line-208">   * substituted by {@code typeArg}. For example, it can be used to construct {@code Map&lt;K, V&gt;} for</span>
 <span class="source-line-no">209</span><span id="line-209">   * any {@code K} and {@code V} type:</span>
 <span class="source-line-no">210</span><span id="line-210">   *</span>
-<span class="source-line-no">211</span><span id="line-211">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">211</span><span id="line-211">   * {@snippet :</span>
 <span class="source-line-no">212</span><span id="line-212">   * static &lt;K, V&gt; TypeToken&lt;Map&lt;K, V&gt;&gt; mapOf(</span>
 <span class="source-line-no">213</span><span id="line-213">   *     TypeToken&lt;K&gt; keyType, TypeToken&lt;V&gt; valueType) {</span>
 <span class="source-line-no">214</span><span id="line-214">   *   return new TypeToken&lt;Map&lt;K, V&gt;&gt;() {}</span>
 <span class="source-line-no">215</span><span id="line-215">   *       .where(new TypeParameter&lt;K&gt;() {}, keyType)</span>
 <span class="source-line-no">216</span><span id="line-216">   *       .where(new TypeParameter&lt;V&gt;() {}, valueType);</span>
 <span class="source-line-no">217</span><span id="line-217">   * }</span>
-<span class="source-line-no">218</span><span id="line-218">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">218</span><span id="line-218">   * }</span>
 <span class="source-line-no">219</span><span id="line-219">   *</span>
 <span class="source-line-no">220</span><span id="line-220">   * @param &lt;X&gt; The parameter type</span>
 <span class="source-line-no">221</span><span id="line-221">   * @param typeParam the parameter type variable</span>
@@ -260,14 +260,14 @@
 <span class="source-line-no">247</span><span id="line-247">   * substituted by {@code typeArg}. For example, it can be used to construct {@code Map&lt;K, V&gt;} for</span>
 <span class="source-line-no">248</span><span id="line-248">   * any {@code K} and {@code V} type:</span>
 <span class="source-line-no">249</span><span id="line-249">   *</span>
-<span class="source-line-no">250</span><span id="line-250">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">250</span><span id="line-250">   * {@snippet :</span>
 <span class="source-line-no">251</span><span id="line-251">   * static &lt;K, V&gt; TypeToken&lt;Map&lt;K, V&gt;&gt; mapOf(</span>
 <span class="source-line-no">252</span><span id="line-252">   *     Class&lt;K&gt; keyType, Class&lt;V&gt; valueType) {</span>
 <span class="source-line-no">253</span><span id="line-253">   *   return new TypeToken&lt;Map&lt;K, V&gt;&gt;() {}</span>
 <span class="source-line-no">254</span><span id="line-254">   *       .where(new TypeParameter&lt;K&gt;() {}, keyType)</span>
 <span class="source-line-no">255</span><span id="line-255">   *       .where(new TypeParameter&lt;V&gt;() {}, valueType);</span>
 <span class="source-line-no">256</span><span id="line-256">   * }</span>
-<span class="source-line-no">257</span><span id="line-257">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">257</span><span id="line-257">   * }</span>
 <span class="source-line-no">258</span><span id="line-258">   *</span>
 <span class="source-line-no">259</span><span id="line-259">   * @param &lt;X&gt; The parameter type</span>
 <span class="source-line-no">260</span><span id="line-260">   * @param typeParam the parameter type variable</span>
@@ -284,11 +284,11 @@
 <span class="source-line-no">271</span><span id="line-271">  /**</span>
 <span class="source-line-no">272</span><span id="line-272">   * Resolves the given {@code type} against the type context represented by this type. For example:</span>
 <span class="source-line-no">273</span><span id="line-273">   *</span>
-<span class="source-line-no">274</span><span id="line-274">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">274</span><span id="line-274">   * {@snippet :</span>
 <span class="source-line-no">275</span><span id="line-275">   * new TypeToken&lt;List&lt;String&gt;&gt;() {}.resolveType(</span>
 <span class="source-line-no">276</span><span id="line-276">   *     List.class.getMethod("get", int.class).getGenericReturnType())</span>
 <span class="source-line-no">277</span><span id="line-277">   * =&gt; String.class</span>
-<span class="source-line-no">278</span><span id="line-278">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">278</span><span id="line-278">   * }</span>
 <span class="source-line-no">279</span><span id="line-279">   */</span>
 <span class="source-line-no">280</span><span id="line-280">  public final TypeToken&lt;?&gt; resolveType(Type type) {</span>
 <span class="source-line-no">281</span><span id="line-281">    checkNotNull(type);</span>

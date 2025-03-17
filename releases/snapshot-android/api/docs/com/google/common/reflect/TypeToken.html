@@ -132,29 +132,38 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
    <li>Wrap a <code>Type</code> obtained via reflection. For example: <code>
        TypeToken.of(method.getGenericReturnType())</code>.
    <li>Capture a generic type with a (usually anonymous) subclass. For example:
-       <pre><code>
- new TypeToken&lt;List&lt;String&gt;&gt;() {}
- </code></pre>
+       
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.reflect.TypeToken1"><code>new TypeToken&lt;List&lt;String&gt;&gt;() {}
+</code></pre>
+</div>
+
        <p>Note that it's critical that the actual type argument is carried by a subclass. The
        following code is wrong because it only captures the <code>&lt;T&gt;</code> type variable of the
        <code>listType()</code> method signature; while <code>&lt;String&gt;</code> is lost in erasure:
-       <pre><code>
- class Util {
-   static &lt;T&gt; TypeToken&lt;List&lt;T&gt;&gt; listType() {
-     return new TypeToken&lt;List&lt;T&gt;&gt;() {};
-   }
- }
+       
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.reflect.TypeToken2"><code>class Util {
+  static &lt;T&gt; TypeToken&lt;List&lt;T&gt;&gt; listType() {
+    return new TypeToken&lt;List&lt;T&gt;&gt;() {};
+  }
+}
 
- TypeToken&lt;List&lt;String&gt;&gt; stringListType = Util.&lt;String&gt;listType();
- </code></pre>
+TypeToken&lt;List&lt;String&gt;&gt; stringListType = Util.&lt;String&gt;listType();
+</code></pre>
+</div>
+
    <li>Capture a generic type with a (usually anonymous) subclass and resolve it against a context
        class that knows what the type parameters are. For example:
-       <pre><code>
- abstract class IKnowMyType&lt;T&gt; {
-   TypeToken&lt;T&gt; type = new TypeToken&lt;T&gt;(getClass()) {};
- }
- new IKnowMyType&lt;String&gt;() {}.type =&gt; String
- </code></pre>
+       
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.reflect.TypeToken3"><code>abstract class IKnowMyType&lt;T&gt; {
+  TypeToken&lt;T&gt; type = new TypeToken&lt;T&gt;(getClass()) {};
+}
+new IKnowMyType&lt;String&gt;() {}.type =&gt; String
+</code></pre>
+</div>
+
  </ul>
 
  <p><code>TypeToken</code> is serializable when no type variable is contained in the type.
@@ -386,9 +395,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 
  <p>For example:
 
- <pre><code>
- TypeToken&lt;List&lt;String&gt;&gt; t = new TypeToken&lt;List&lt;String&gt;&gt;() {};
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-&lt;init&gt;()1"><code>TypeToken&lt;List&lt;String&gt;&gt; t = new TypeToken&lt;List&lt;String&gt;&gt;() {};
+</code></pre>
+</div>
+</div>
 </div>
 </section>
 </li>
@@ -405,15 +417,18 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 
  <p>For example:
 
- <pre><code>
- abstract class IKnowMyType&lt;T&gt; {
-   TypeToken&lt;T&gt; getMyType() {
-     return new TypeToken&lt;T&gt;(getClass()) {};
-   }
- }
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-&lt;init&gt;(java.lang.Class)1"><code>abstract class IKnowMyType&lt;T&gt; {
+  TypeToken&lt;T&gt; getMyType() {
+    return new TypeToken&lt;T&gt;(getClass()) {};
+  }
+}
 
- new IKnowMyType&lt;String&gt;() {}.getMyType() =&gt; String
- </code></pre></div>
+new IKnowMyType&lt;String&gt;() {}.getMyType() =&gt; String
+</code></pre>
+</div>
+</div>
 </div>
 </section>
 </li>
@@ -481,14 +496,17 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  substituted by <code>typeArg</code>. For example, it can be used to construct <code>Map&lt;K, V&gt;</code> for
  any <code>K</code> and <code>V</code> type:
 
- <pre><code>
- static &lt;K, V&gt; TypeToken&lt;Map&lt;K, V&gt;&gt; mapOf(
-     TypeToken&lt;K&gt; keyType, TypeToken&lt;V&gt; valueType) {
-   return new TypeToken&lt;Map&lt;K, V&gt;&gt;() {}
-       .where(new TypeParameter&lt;K&gt;() {}, keyType)
-       .where(new TypeParameter&lt;V&gt;() {}, valueType);
- }
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-where(com.google.common.reflect.TypeParameter,com.google.common.reflect.TypeToken)1"><code>static &lt;K, V&gt; TypeToken&lt;Map&lt;K, V&gt;&gt; mapOf(
+    TypeToken&lt;K&gt; keyType, TypeToken&lt;V&gt; valueType) {
+  return new TypeToken&lt;Map&lt;K, V&gt;&gt;() {}
+      .where(new TypeParameter&lt;K&gt;() {}, keyType)
+      .where(new TypeParameter&lt;V&gt;() {}, valueType);
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
 <dd><code>X</code> - The parameter type</dd>
@@ -509,14 +527,17 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  substituted by <code>typeArg</code>. For example, it can be used to construct <code>Map&lt;K, V&gt;</code> for
  any <code>K</code> and <code>V</code> type:
 
- <pre><code>
- static &lt;K, V&gt; TypeToken&lt;Map&lt;K, V&gt;&gt; mapOf(
-     Class&lt;K&gt; keyType, Class&lt;V&gt; valueType) {
-   return new TypeToken&lt;Map&lt;K, V&gt;&gt;() {}
-       .where(new TypeParameter&lt;K&gt;() {}, keyType)
-       .where(new TypeParameter&lt;V&gt;() {}, valueType);
- }
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-where(com.google.common.reflect.TypeParameter,java.lang.Class)1"><code>static &lt;K, V&gt; TypeToken&lt;Map&lt;K, V&gt;&gt; mapOf(
+    Class&lt;K&gt; keyType, Class&lt;V&gt; valueType) {
+  return new TypeToken&lt;Map&lt;K, V&gt;&gt;() {}
+      .where(new TypeParameter&lt;K&gt;() {}, keyType)
+      .where(new TypeParameter&lt;V&gt;() {}, valueType);
+}
+</code></pre>
+</div>
+</div>
 <dl class="notes">
 <dt>Type Parameters:</dt>
 <dd><code>X</code> - The parameter type</dd>
@@ -534,11 +555,14 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;?&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/TypeToken.html#line-280">resolveType</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Type.html" title="class or interface in java.lang.reflect" class="external-link">Type</a>&nbsp;type)</span></div>
 <div class="block">Resolves the given <code>type</code> against the type context represented by this type. For example:
 
- <pre><code>
- new TypeToken&lt;List&lt;String&gt;&gt;() {}.resolveType(
-     List.class.getMethod("get", int.class).getGenericReturnType())
- =&gt; String.class
- </code></pre></div>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-resolveType(java.lang.reflect.Type)1"><code>new TypeToken&lt;List&lt;String&gt;&gt;() {}.resolveType(
+    List.class.getMethod("get", int.class).getGenericReturnType())
+=&gt; String.class
+</code></pre>
+</div>
+</div>
 </div>
 </section>
 </li>

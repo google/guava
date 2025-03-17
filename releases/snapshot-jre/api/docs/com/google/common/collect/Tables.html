@@ -470,18 +470,21 @@ V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  <p>It is imperative that the user manually synchronize on the returned table when accessing any
  of its collection views:
 
- <pre><code>
- Table&lt;R, C, V&gt; table = Tables.synchronizedTable(HashBasedTable.&lt;R, C, V&gt;create());
- ...
- Map&lt;C, V&gt; row = table.row(rowKey);  // Needn't be in synchronized block
- ...
- synchronized (table) {  // Synchronizing on table, not row!
-   Iterator&lt;Entry&lt;C, V&gt;&gt; i = row.entrySet().iterator(); // Must be in synchronized block
-   while (i.hasNext()) {
-     foo(i.next());
-   }
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-synchronizedTable(com.google.common.collect.Table)1"><code>Table&lt;R, C, V&gt; table = Tables.synchronizedTable(HashBasedTable.&lt;R, C, V&gt;create());
+...
+Map&lt;C, V&gt; row = table.row(rowKey);  // Needn't be in synchronized block
+...
+synchronized (table) {  // Synchronizing on table, not row!
+  Iterator&lt;Entry&lt;C, V&gt;&gt; i = row.entrySet().iterator(); // Must be in synchronized block
+  while (i.hasNext()) {
+    foo(i.next());
+  }
+}
+</code></pre>
+</div>
+
 
  <p>Failure to follow this advice may result in non-deterministic behavior.
 

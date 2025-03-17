@@ -105,12 +105,15 @@ loadScripts(document, 'script');</script>
 <div class="block">An immutable builder for <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> instances, letting you independently select the desired
  behaviors (for example, ordering) of the backing map and value-collections. Example:
 
- <pre><code>
- ListMultimap&lt;UserId, ErrorResponse&gt; errorsByUser =
-     MultimapBuilder.linkedHashKeys().arrayListValues().build();
- SortedSetMultimap&lt;String, Method&gt; methodsForName =
-     MultimapBuilder.treeKeys().treeSetValues(this::compareMethods).build();
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.MultimapBuilder1"><code>ListMultimap&lt;UserId, ErrorResponse&gt; errorsByUser =
+    MultimapBuilder.linkedHashKeys().arrayListValues().build();
+SortedSetMultimap&lt;String, Method&gt; methodsForName =
+    MultimapBuilder.treeKeys().treeSetValues(this::compareMethods).build();
+</code></pre>
+</div>
+
 
  <p><code>MultimapBuilder</code> instances are immutable. Invoking a configuration method has no effect
  on the receiving instance; you must store and use the new builder instance it returns instead.

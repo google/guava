@@ -66,20 +66,20 @@
 <span class="source-line-no">053</span><span id="line-53"> * followed immediately by a &lt;i&gt;try/finally&lt;/i&gt; block to ensure that the current thread leaves the</span>
 <span class="source-line-no">054</span><span id="line-54"> * monitor cleanly:</span>
 <span class="source-line-no">055</span><span id="line-55"> *</span>
-<span class="source-line-no">056</span><span id="line-56"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">056</span><span id="line-56"> * {@snippet :</span>
 <span class="source-line-no">057</span><span id="line-57"> * monitor.enter();</span>
 <span class="source-line-no">058</span><span id="line-58"> * try {</span>
 <span class="source-line-no">059</span><span id="line-59"> *   // do things while occupying the monitor</span>
 <span class="source-line-no">060</span><span id="line-60"> * } finally {</span>
 <span class="source-line-no">061</span><span id="line-61"> *   monitor.leave();</span>
 <span class="source-line-no">062</span><span id="line-62"> * }</span>
-<span class="source-line-no">063</span><span id="line-63"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">063</span><span id="line-63"> * }</span>
 <span class="source-line-no">064</span><span id="line-64"> *</span>
 <span class="source-line-no">065</span><span id="line-65"> * &lt;p&gt;A call to any of the &lt;i&gt;enter&lt;/i&gt; methods with &lt;b&gt;boolean&lt;/b&gt; return type should always appear</span>
 <span class="source-line-no">066</span><span id="line-66"> * as the condition of an &lt;i&gt;if&lt;/i&gt; statement containing a &lt;i&gt;try/finally&lt;/i&gt; block to ensure that</span>
 <span class="source-line-no">067</span><span id="line-67"> * the current thread leaves the monitor cleanly:</span>
 <span class="source-line-no">068</span><span id="line-68"> *</span>
-<span class="source-line-no">069</span><span id="line-69"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">069</span><span id="line-69"> * {@snippet :</span>
 <span class="source-line-no">070</span><span id="line-70"> * if (monitor.tryEnter()) {</span>
 <span class="source-line-no">071</span><span id="line-71"> *   try {</span>
 <span class="source-line-no">072</span><span id="line-72"> *     // do things while occupying the monitor</span>
@@ -89,7 +89,7 @@
 <span class="source-line-no">076</span><span id="line-76"> * } else {</span>
 <span class="source-line-no">077</span><span id="line-77"> *   // do other things since the monitor was not available</span>
 <span class="source-line-no">078</span><span id="line-78"> * }</span>
-<span class="source-line-no">079</span><span id="line-79"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">079</span><span id="line-79"> * }</span>
 <span class="source-line-no">080</span><span id="line-80"> *</span>
 <span class="source-line-no">081</span><span id="line-81"> * &lt;h2&gt;Comparison with {@code synchronized} and {@code ReentrantLock}&lt;/h2&gt;</span>
 <span class="source-line-no">082</span><span id="line-82"> *</span>
@@ -104,7 +104,7 @@
 <span class="source-line-no">091</span><span id="line-91"> * {@code notifyAll()} must be used instead of {@code notify()} because there are two different</span>
 <span class="source-line-no">092</span><span id="line-92"> * logical conditions being awaited.</span>
 <span class="source-line-no">093</span><span id="line-93"> *</span>
-<span class="source-line-no">094</span><span id="line-94"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">094</span><span id="line-94"> * {@snippet :</span>
 <span class="source-line-no">095</span><span id="line-95"> * public class SafeBox&lt;V&gt; {</span>
 <span class="source-line-no">096</span><span id="line-96"> *   private V value;</span>
 <span class="source-line-no">097</span><span id="line-97"> *</span>
@@ -126,7 +126,7 @@
 <span class="source-line-no">113</span><span id="line-113"> *     notifyAll();</span>
 <span class="source-line-no">114</span><span id="line-114"> *   }</span>
 <span class="source-line-no">115</span><span id="line-115"> * }</span>
-<span class="source-line-no">116</span><span id="line-116"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">116</span><span id="line-116"> * }</span>
 <span class="source-line-no">117</span><span id="line-117"> *</span>
 <span class="source-line-no">118</span><span id="line-118"> * &lt;h3&gt;{@code ReentrantLock}&lt;/h3&gt;</span>
 <span class="source-line-no">119</span><span id="line-119"> *</span>
@@ -135,7 +135,7 @@
 <span class="source-line-no">122</span><span id="line-122"> * one advantage is that we can introduce two separate {@code Condition} objects, which allows us to</span>
 <span class="source-line-no">123</span><span id="line-123"> * use {@code signal()} instead of {@code signalAll()}, which may be a performance benefit.</span>
 <span class="source-line-no">124</span><span id="line-124"> *</span>
-<span class="source-line-no">125</span><span id="line-125"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">125</span><span id="line-125"> * {@snippet :</span>
 <span class="source-line-no">126</span><span id="line-126"> * public class SafeBox&lt;V&gt; {</span>
 <span class="source-line-no">127</span><span id="line-127"> *   private V value;</span>
 <span class="source-line-no">128</span><span id="line-128"> *   private final ReentrantLock lock = new ReentrantLock();</span>
@@ -170,7 +170,7 @@
 <span class="source-line-no">157</span><span id="line-157"> *     }</span>
 <span class="source-line-no">158</span><span id="line-158"> *   }</span>
 <span class="source-line-no">159</span><span id="line-159"> * }</span>
-<span class="source-line-no">160</span><span id="line-160"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">160</span><span id="line-160"> * }</span>
 <span class="source-line-no">161</span><span id="line-161"> *</span>
 <span class="source-line-no">162</span><span id="line-162"> * &lt;h3&gt;{@code Monitor}&lt;/h3&gt;</span>
 <span class="source-line-no">163</span><span id="line-163"> *</span>
@@ -180,7 +180,7 @@
 <span class="source-line-no">167</span><span id="line-167"> * Finally, the programmer no longer has to hand-code the wait loop, and therefore doesn't have to</span>
 <span class="source-line-no">168</span><span id="line-168"> * remember to use {@code while} instead of {@code if}.</span>
 <span class="source-line-no">169</span><span id="line-169"> *</span>
-<span class="source-line-no">170</span><span id="line-170"> * &lt;pre&gt;{@code</span>
+<span class="source-line-no">170</span><span id="line-170"> * {@snippet :</span>
 <span class="source-line-no">171</span><span id="line-171"> * public class SafeBox&lt;V&gt; {</span>
 <span class="source-line-no">172</span><span id="line-172"> *   private V value;</span>
 <span class="source-line-no">173</span><span id="line-173"> *   private final Monitor monitor = new Monitor();</span>
@@ -207,7 +207,7 @@
 <span class="source-line-no">194</span><span id="line-194"> *     }</span>
 <span class="source-line-no">195</span><span id="line-195"> *   }</span>
 <span class="source-line-no">196</span><span id="line-196"> * }</span>
-<span class="source-line-no">197</span><span id="line-197"> * }&lt;/pre&gt;</span>
+<span class="source-line-no">197</span><span id="line-197"> * }</span>
 <span class="source-line-no">198</span><span id="line-198"> *</span>
 <span class="source-line-no">199</span><span id="line-199"> * @author Justin T. Sampson</span>
 <span class="source-line-no">200</span><span id="line-200"> * @author Martin Buchholz</span>

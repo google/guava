@@ -131,32 +131,35 @@ implements <a href="Service.html" title="interface in com.google.common.util.con
  <p>Here is a sketch of a service which crawls a website and uses the scheduling capabilities to
  rate limit itself.
 
- <pre><code>
- class CrawlingService extends AbstractScheduledService {
-   private Set&lt;Uri&gt; visited;
-   private Queue&lt;Uri&gt; toCrawl;
-   protected void startUp() throws Exception {
-     toCrawl = readStartingUris();
-   }
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.AbstractScheduledService1"><code>class CrawlingService extends AbstractScheduledService {
+  private Set&lt;Uri&gt; visited;
+  private Queue&lt;Uri&gt; toCrawl;
+  protected void startUp() throws Exception {
+    toCrawl = readStartingUris();
+  }
 
-   protected void runOneIteration() throws Exception {
-     Uri uri = toCrawl.remove();
-     Collection&lt;Uri&gt; newUris = crawl(uri);
-     visited.add(uri);
-     for (Uri newUri : newUris) {
-       if (!visited.contains(newUri)) { toCrawl.add(newUri); }
-     }
-   }
+  protected void runOneIteration() throws Exception {
+    Uri uri = toCrawl.remove();
+    Collection&lt;Uri&gt; newUris = crawl(uri);
+    visited.add(uri);
+    for (Uri newUri : newUris) {
+      if (!visited.contains(newUri)) { toCrawl.add(newUri); }
+    }
+  }
 
-   protected void shutDown() throws Exception {
-     saveUris(toCrawl);
-   }
+  protected void shutDown() throws Exception {
+    saveUris(toCrawl);
+  }
 
-   protected Scheduler scheduler() {
-     return Scheduler.newFixedRateSchedule(0, 1, TimeUnit.SECONDS);
-   }
- }
- </code></pre>
+  protected Scheduler scheduler() {
+    return Scheduler.newFixedRateSchedule(0, 1, TimeUnit.SECONDS);
+  }
+}
+</code></pre>
+</div>
+
 
  <p>This class uses the life cycle methods to read in a list of starting URIs and save the set of
  outstanding URIs when shutting down. Also, it takes advantage of the scheduling functionality to

@@ -100,26 +100,35 @@ loadScripts(document, 'script');</script>
 
  <p>To compute the median:
 
- <pre><code>
- double myMedian = median().compute(myDataset);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.math.Quantiles1"><code>double myMedian = median().compute(myDataset);
+</code></pre>
+</div>
+
 
  where <a href="#median()"><code>median()</code></a> has been statically imported.
 
  <p>To compute the 99th percentile:
 
- <pre><code>
- double myPercentile99 = percentiles().index(99).compute(myDataset);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.math.Quantiles2"><code>double myPercentile99 = percentiles().index(99).compute(myDataset);
+</code></pre>
+</div>
+
 
  where <a href="#percentiles()"><code>percentiles()</code></a> has been statically imported.
 
  <p>To compute median and the 90th and 99th percentiles:
 
- <pre><code>
- Map&lt;Integer, Double&gt; myPercentiles =
-     percentiles().indexes(50, 90, 99).compute(myDataset);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.math.Quantiles3"><code>Map&lt;Integer, Double&gt; myPercentiles =
+    percentiles().indexes(50, 90, 99).compute(myDataset);
+</code></pre>
+</div>
+
 
  where <a href="#percentiles()"><code>percentiles()</code></a> has been statically imported: <code>myPercentiles</code> maps the keys
  50, 90, and 99, to their corresponding quantile values.

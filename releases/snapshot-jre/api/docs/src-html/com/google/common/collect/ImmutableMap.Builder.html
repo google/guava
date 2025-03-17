@@ -400,14 +400,14 @@
 <span class="source-line-no">387</span><span id="line-387">   * A builder for creating immutable map instances, especially {@code public static final} maps</span>
 <span class="source-line-no">388</span><span id="line-388">   * ("constant maps"). Example:</span>
 <span class="source-line-no">389</span><span id="line-389">   *</span>
-<span class="source-line-no">390</span><span id="line-390">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">390</span><span id="line-390">   * {@snippet :</span>
 <span class="source-line-no">391</span><span id="line-391">   * static final ImmutableMap&lt;String, Integer&gt; WORD_TO_INT =</span>
 <span class="source-line-no">392</span><span id="line-392">   *     new ImmutableMap.Builder&lt;String, Integer&gt;()</span>
 <span class="source-line-no">393</span><span id="line-393">   *         .put("one", 1)</span>
 <span class="source-line-no">394</span><span id="line-394">   *         .put("two", 2)</span>
 <span class="source-line-no">395</span><span id="line-395">   *         .put("three", 3)</span>
 <span class="source-line-no">396</span><span id="line-396">   *         .buildOrThrow();</span>
-<span class="source-line-no">397</span><span id="line-397">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">397</span><span id="line-397">   * }</span>
 <span class="source-line-no">398</span><span id="line-398">   *</span>
 <span class="source-line-no">399</span><span id="line-399">   * &lt;p&gt;For &lt;i&gt;small&lt;/i&gt; immutable maps, the {@code ImmutableMap.of()} methods are even more</span>
 <span class="source-line-no">400</span><span id="line-400">   * convenient.</span>

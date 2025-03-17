@@ -117,20 +117,26 @@ implements <a href="ListMultimap.html" title="interface in com.google.common.col
  keys and values. The iteration order is preserved across non-distinct key values. For example,
  for the following multimap definition:
 
- <pre><code>
- Multimap&lt;K, V&gt; multimap = LinkedListMultimap.create();
- multimap.put(key1, foo);
- multimap.put(key2, bar);
- multimap.put(key1, baz);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.LinkedListMultimap1"><code>Multimap&lt;K, V&gt; multimap = LinkedListMultimap.create();
+multimap.put(key1, foo);
+multimap.put(key2, bar);
+multimap.put(key1, baz);
+</code></pre>
+</div>
+
 
  ... the iteration order for <a href="Multimap.html#keys()"><code>Multimap.keys()</code></a> is <code>[key1, key2, key1]</code>, and similarly for
  <a href="#entries()"><code>entries()</code></a>. Unlike <a href="LinkedHashMultimap.html" title="class in com.google.common.collect"><code>LinkedHashMultimap</code></a>, the iteration order is kept consistent
  between keys, entries and values. For example, calling:
 
- <pre><code>
- multimap.remove(key1, foo);
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.LinkedListMultimap2"><code>multimap.remove(key1, foo);
+</code></pre>
+</div>
+
 
  <p>changes the entries iteration order to <code>[key2=bar, key1=baz]</code> and the key iteration
  order to <code>[key2, key1]</code>. The <a href="#entries()"><code>entries()</code></a> iterator returns mutable map entries, and
@@ -667,11 +673,14 @@ V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <div class="block">Stores a key-value pair in this multimap for each of <code>values</code>, all using the same key,
  <code>key</code>. Equivalent to (but expected to be more efficient than):
 
- <pre><code>
- for (V value : values) {
-   put(key, value);
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-putAll(K,java.lang.Iterable)5"><code>for (V value : values) {
+  put(key, value);
+}
+</code></pre>
+</div>
+
 
  <p>In particular, this is a no-op if <code>values</code> is empty.</div>
 <dl class="notes">

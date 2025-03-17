@@ -1247,13 +1247,16 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
  iteration, and hence return the same object each time. A subsequent call to <code>next</code> is
  guaranteed to return the same object again. For example:
 
- <pre><code>
- PeekingIterator&lt;String&gt; peekingIterator =
-     Iterators.peekingIterator(Iterators.forArray("a", "b"));
- String a1 = peekingIterator.peek(); // returns "a"
- String a2 = peekingIterator.peek(); // also returns "a"
- String a3 = peekingIterator.next(); // also returns "a"
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-peekingIterator(java.util.Iterator)1"><code>PeekingIterator&lt;String&gt; peekingIterator =
+    Iterators.peekingIterator(Iterators.forArray("a", "b"));
+String a1 = peekingIterator.peek(); // returns "a"
+String a2 = peekingIterator.peek(); // also returns "a"
+String a3 = peekingIterator.next(); // also returns "a"
+</code></pre>
+</div>
+
 
  <p>Any structural changes to the underlying iteration (aside from those performed by the
  iterator's own <a href="PeekingIterator.html#remove()"><code>PeekingIterator.remove()</code></a> method) will leave the iterator in an undefined

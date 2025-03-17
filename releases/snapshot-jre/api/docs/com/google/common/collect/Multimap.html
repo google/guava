@@ -137,26 +137,32 @@ loadScripts(document, 'script');</script>
 
  <p>The following code:
 
- <pre><code>
- ListMultimap&lt;String, String&gt; multimap = ArrayListMultimap.create();
- for (President pres : US_PRESIDENTS_IN_ORDER) {
-   multimap.put(pres.firstName(), pres.lastName());
- }
- for (String firstName : multimap.keySet()) {
-   List&lt;String&gt; lastNames = multimap.get(firstName);
-   out.println(firstName + ": " + lastNames);
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.Multimap1"><code>ListMultimap&lt;String, String&gt; multimap = ArrayListMultimap.create();
+for (President pres : US_PRESIDENTS_IN_ORDER) {
+  multimap.put(pres.firstName(), pres.lastName());
+}
+for (String firstName : multimap.keySet()) {
+  List&lt;String&gt; lastNames = multimap.get(firstName);
+  out.println(firstName + ": " + lastNames);
+}
+</code></pre>
+</div>
+
 
  ... produces output such as:
 
- <pre><code>
- Zachary: [Taylor]
- John: [Adams, Adams, Tyler, Kennedy]  // Remember, Quincy!
- George: [Washington, Bush, Bush]
- Grover: [Cleveland, Cleveland]        // Two, non-consecutive terms, rep'ing NJ!
- ...
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.collect.Multimap2"><code>Zachary: [Taylor]
+John: [Adams, Adams, Tyler, Kennedy]  // Remember, Quincy!
+George: [Washington, Bush, Bush]
+Grover: [Cleveland, Cleveland]        // Two, non-consecutive terms, rep'ing NJ!
+...
+</code></pre>
+</div>
+
 
  <h3 id="views-heading">Views</h3>
 
@@ -492,11 +498,14 @@ loadScripts(document, 'script');</script>
 <div class="block">Stores a key-value pair in this multimap for each of <code>values</code>, all using the same key,
  <code>key</code>. Equivalent to (but expected to be more efficient than):
 
- <pre><code>
- for (V value : values) {
-   put(key, value);
- }
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-putAll(K,java.lang.Iterable)6"><code>for (V value : values) {
+  put(key, value);
+}
+</code></pre>
+</div>
+
 
  <p>In particular, this is a no-op if <code>values</code> is empty.</div>
 <dl class="notes">

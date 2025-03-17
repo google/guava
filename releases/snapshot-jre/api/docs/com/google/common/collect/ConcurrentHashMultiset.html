@@ -857,9 +857,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block">Returns the hash code for this multiset. This is defined as the sum of
 
- <pre><code>
- ((element == null) ? 0 : element.hashCode()) ^ count(element)
- </code></pre>
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-hashCode()1"><code>((element == null) ? 0 : element.hashCode()) ^ count(element)
+</code></pre>
+</div>
+
 
  <p>over all distinct elements in the multiset. It follows that a multiset and its entry set
  always have the same hash code.

@@ -323,12 +323,12 @@
 <span class="source-line-no">310</span><span id="line-310">   *</span>
 <span class="source-line-no">311</span><span id="line-311">   * &lt;p&gt;For example:</span>
 <span class="source-line-no">312</span><span id="line-312">   *</span>
-<span class="source-line-no">313</span><span id="line-313">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">313</span><span id="line-313">   * {@snippet :</span>
 <span class="source-line-no">314</span><span id="line-314">   * Streams.zip(</span>
 <span class="source-line-no">315</span><span id="line-315">   *   Stream.of("foo1", "foo2", "foo3"),</span>
 <span class="source-line-no">316</span><span id="line-316">   *   Stream.of("bar1", "bar2"),</span>
 <span class="source-line-no">317</span><span id="line-317">   *   (arg1, arg2) -&gt; arg1 + ":" + arg2)</span>
-<span class="source-line-no">318</span><span id="line-318">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">318</span><span id="line-318">   * }</span>
 <span class="source-line-no">319</span><span id="line-319">   *</span>
 <span class="source-line-no">320</span><span id="line-320">   * &lt;p&gt;will return {@code Stream.of("foo1:bar1", "foo2:bar2")}.</span>
 <span class="source-line-no">321</span><span id="line-321">   *</span>
@@ -381,19 +381,19 @@
 <span class="source-line-no">368</span><span id="line-368">   * ignored. Elements passed to the consumer are guaranteed to come from the same position in their</span>
 <span class="source-line-no">369</span><span id="line-369">   * respective source streams. For example:</span>
 <span class="source-line-no">370</span><span id="line-370">   *</span>
-<span class="source-line-no">371</span><span id="line-371">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">371</span><span id="line-371">   * {@snippet :</span>
 <span class="source-line-no">372</span><span id="line-372">   * Streams.forEachPair(</span>
 <span class="source-line-no">373</span><span id="line-373">   *   Stream.of("foo1", "foo2", "foo3"),</span>
 <span class="source-line-no">374</span><span id="line-374">   *   Stream.of("bar1", "bar2"),</span>
 <span class="source-line-no">375</span><span id="line-375">   *   (arg1, arg2) -&gt; System.out.println(arg1 + ":" + arg2)</span>
-<span class="source-line-no">376</span><span id="line-376">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">376</span><span id="line-376">   * }</span>
 <span class="source-line-no">377</span><span id="line-377">   *</span>
 <span class="source-line-no">378</span><span id="line-378">   * &lt;p&gt;will print:</span>
 <span class="source-line-no">379</span><span id="line-379">   *</span>
-<span class="source-line-no">380</span><span id="line-380">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">380</span><span id="line-380">   * {@snippet :</span>
 <span class="source-line-no">381</span><span id="line-381">   * foo1:bar1</span>
 <span class="source-line-no">382</span><span id="line-382">   * foo2:bar2</span>
-<span class="source-line-no">383</span><span id="line-383">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">383</span><span id="line-383">   * }</span>
 <span class="source-line-no">384</span><span id="line-384">   *</span>
 <span class="source-line-no">385</span><span id="line-385">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; If either supplied stream is a parallel stream, the same correspondence</span>
 <span class="source-line-no">386</span><span id="line-386">   * between elements will be made, but the order in which those pairs of elements are passed to the</span>
@@ -436,11 +436,11 @@
 <span class="source-line-no">423</span><span id="line-423">   * Returns a stream consisting of the results of applying the given function to the elements of</span>
 <span class="source-line-no">424</span><span id="line-424">   * {@code stream} and their indices in the stream. For example,</span>
 <span class="source-line-no">425</span><span id="line-425">   *</span>
-<span class="source-line-no">426</span><span id="line-426">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">426</span><span id="line-426">   * {@snippet :</span>
 <span class="source-line-no">427</span><span id="line-427">   * mapWithIndex(</span>
 <span class="source-line-no">428</span><span id="line-428">   *     Stream.of("a", "b", "c"),</span>
 <span class="source-line-no">429</span><span id="line-429">   *     (e, index) -&gt; index + ":" + e)</span>
-<span class="source-line-no">430</span><span id="line-430">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">430</span><span id="line-430">   * }</span>
 <span class="source-line-no">431</span><span id="line-431">   *</span>
 <span class="source-line-no">432</span><span id="line-432">   * &lt;p&gt;would return {@code Stream.of("0:a", "1:b", "2:c")}.</span>
 <span class="source-line-no">433</span><span id="line-433">   *</span>
@@ -519,11 +519,11 @@
 <span class="source-line-no">506</span><span id="line-506">   * Returns a stream consisting of the results of applying the given function to the elements of</span>
 <span class="source-line-no">507</span><span id="line-507">   * {@code stream} and their indexes in the stream. For example,</span>
 <span class="source-line-no">508</span><span id="line-508">   *</span>
-<span class="source-line-no">509</span><span id="line-509">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">509</span><span id="line-509">   * {@snippet :</span>
 <span class="source-line-no">510</span><span id="line-510">   * mapWithIndex(</span>
 <span class="source-line-no">511</span><span id="line-511">   *     IntStream.of(10, 11, 12),</span>
 <span class="source-line-no">512</span><span id="line-512">   *     (e, index) -&gt; index + ":" + e)</span>
-<span class="source-line-no">513</span><span id="line-513">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">513</span><span id="line-513">   * }</span>
 <span class="source-line-no">514</span><span id="line-514">   *</span>
 <span class="source-line-no">515</span><span id="line-515">   * &lt;p&gt;...would return {@code Stream.of("0:10", "1:11", "2:12")}.</span>
 <span class="source-line-no">516</span><span id="line-516">   *</span>
@@ -598,11 +598,11 @@
 <span class="source-line-no">585</span><span id="line-585">   * Returns a stream consisting of the results of applying the given function to the elements of</span>
 <span class="source-line-no">586</span><span id="line-586">   * {@code stream} and their indexes in the stream. For example,</span>
 <span class="source-line-no">587</span><span id="line-587">   *</span>
-<span class="source-line-no">588</span><span id="line-588">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">588</span><span id="line-588">   * {@snippet :</span>
 <span class="source-line-no">589</span><span id="line-589">   * mapWithIndex(</span>
 <span class="source-line-no">590</span><span id="line-590">   *     LongStream.of(10, 11, 12),</span>
 <span class="source-line-no">591</span><span id="line-591">   *     (e, index) -&gt; index + ":" + e)</span>
-<span class="source-line-no">592</span><span id="line-592">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">592</span><span id="line-592">   * }</span>
 <span class="source-line-no">593</span><span id="line-593">   *</span>
 <span class="source-line-no">594</span><span id="line-594">   * &lt;p&gt;...would return {@code Stream.of("0:10", "1:11", "2:12")}.</span>
 <span class="source-line-no">595</span><span id="line-595">   *</span>
@@ -677,11 +677,11 @@
 <span class="source-line-no">664</span><span id="line-664">   * Returns a stream consisting of the results of applying the given function to the elements of</span>
 <span class="source-line-no">665</span><span id="line-665">   * {@code stream} and their indexes in the stream. For example,</span>
 <span class="source-line-no">666</span><span id="line-666">   *</span>
-<span class="source-line-no">667</span><span id="line-667">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">667</span><span id="line-667">   * {@snippet :</span>
 <span class="source-line-no">668</span><span id="line-668">   * mapWithIndex(</span>
 <span class="source-line-no">669</span><span id="line-669">   *     DoubleStream.of(0.0, 1.0, 2.0)</span>
 <span class="source-line-no">670</span><span id="line-670">   *     (e, index) -&gt; index + ":" + e)</span>
-<span class="source-line-no">671</span><span id="line-671">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">671</span><span id="line-671">   * }</span>
 <span class="source-line-no">672</span><span id="line-672">   *</span>
 <span class="source-line-no">673</span><span id="line-673">   * &lt;p&gt;...would return {@code Stream.of("0:0.0", "1:1.0", "2:2.0")}.</span>
 <span class="source-line-no">674</span><span id="line-674">   *</span>

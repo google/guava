@@ -347,14 +347,14 @@
 <span class="source-line-no">334</span><span id="line-334">   * A builder for creating immutable bimap instances, especially {@code public static final} bimaps</span>
 <span class="source-line-no">335</span><span id="line-335">   * ("constant bimaps"). Example:</span>
 <span class="source-line-no">336</span><span id="line-336">   *</span>
-<span class="source-line-no">337</span><span id="line-337">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">337</span><span id="line-337">   * {@snippet :</span>
 <span class="source-line-no">338</span><span id="line-338">   * static final ImmutableBiMap&lt;String, Integer&gt; WORD_TO_INT =</span>
 <span class="source-line-no">339</span><span id="line-339">   *     new ImmutableBiMap.Builder&lt;String, Integer&gt;()</span>
 <span class="source-line-no">340</span><span id="line-340">   *         .put("one", 1)</span>
 <span class="source-line-no">341</span><span id="line-341">   *         .put("two", 2)</span>
 <span class="source-line-no">342</span><span id="line-342">   *         .put("three", 3)</span>
 <span class="source-line-no">343</span><span id="line-343">   *         .buildOrThrow();</span>
-<span class="source-line-no">344</span><span id="line-344">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">344</span><span id="line-344">   * }</span>
 <span class="source-line-no">345</span><span id="line-345">   *</span>
 <span class="source-line-no">346</span><span id="line-346">   * &lt;p&gt;For &lt;i&gt;small&lt;/i&gt; immutable bimaps, the {@code ImmutableBiMap.of()} methods are even more</span>
 <span class="source-line-no">347</span><span id="line-347">   * convenient.</span>

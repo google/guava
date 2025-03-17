@@ -147,7 +147,7 @@
 <span class="source-line-no">134</span><span id="line-134">   * A builder for creating {@link ImmutableNetwork} instances, especially {@code static final}</span>
 <span class="source-line-no">135</span><span id="line-135">   * networks. Example:</span>
 <span class="source-line-no">136</span><span id="line-136">   *</span>
-<span class="source-line-no">137</span><span id="line-137">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">137</span><span id="line-137">   * {@snippet :</span>
 <span class="source-line-no">138</span><span id="line-138">   * static final ImmutableNetwork&lt;City, Train&gt; TRAIN_NETWORK =</span>
 <span class="source-line-no">139</span><span id="line-139">   *     NetworkBuilder.undirected()</span>
 <span class="source-line-no">140</span><span id="line-140">   *         .allowsParallelEdges(true)</span>
@@ -158,7 +158,7 @@
 <span class="source-line-no">145</span><span id="line-145">   *         .addEdge(LONDON, BRUSSELS, Eurostar.trainNumber("4444"))</span>
 <span class="source-line-no">146</span><span id="line-146">   *         .addNode(REYKJAVIK)</span>
 <span class="source-line-no">147</span><span id="line-147">   *         .build();</span>
-<span class="source-line-no">148</span><span id="line-148">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">148</span><span id="line-148">   * }</span>
 <span class="source-line-no">149</span><span id="line-149">   *</span>
 <span class="source-line-no">150</span><span id="line-150">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</span>
 <span class="source-line-no">151</span><span id="line-151">   * multiple networks in series. Each new network contains all the elements of the ones created</span>

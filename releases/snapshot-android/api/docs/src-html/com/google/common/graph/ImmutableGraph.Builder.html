@@ -125,7 +125,7 @@
 <span class="source-line-no">112</span><span id="line-112">   * A builder for creating {@link ImmutableGraph} instances, especially {@code static final}</span>
 <span class="source-line-no">113</span><span id="line-113">   * graphs. Example:</span>
 <span class="source-line-no">114</span><span id="line-114">   *</span>
-<span class="source-line-no">115</span><span id="line-115">   * &lt;pre&gt;{@code</span>
+<span class="source-line-no">115</span><span id="line-115">   * {@snippet :</span>
 <span class="source-line-no">116</span><span id="line-116">   * static final ImmutableGraph&lt;Country&gt; COUNTRY_ADJACENCY_GRAPH =</span>
 <span class="source-line-no">117</span><span id="line-117">   *     GraphBuilder.undirected()</span>
 <span class="source-line-no">118</span><span id="line-118">   *         .&lt;Country&gt;immutable()</span>
@@ -134,7 +134,7 @@
 <span class="source-line-no">121</span><span id="line-121">   *         .putEdge(GERMANY, BELGIUM)</span>
 <span class="source-line-no">122</span><span id="line-122">   *         .addNode(ICELAND)</span>
 <span class="source-line-no">123</span><span id="line-123">   *         .build();</span>
-<span class="source-line-no">124</span><span id="line-124">   * }&lt;/pre&gt;</span>
+<span class="source-line-no">124</span><span id="line-124">   * }</span>
 <span class="source-line-no">125</span><span id="line-125">   *</span>
 <span class="source-line-no">126</span><span id="line-126">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</span>
 <span class="source-line-no">127</span><span id="line-127">   * multiple graphs in series. Each new graph contains all the elements of the ones created before</span>
