@@ -83,7 +83,7 @@ public final class Multimaps {
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ListMultimap<Character, String> FIRST_LETTER_MULTIMAP =
    *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
    *         .collect(
@@ -104,7 +104,7 @@ public final class Multimaps {
    *     FIRST_LETTER_MULTIMAP.put('c', "arrot");
    *     FIRST_LETTER_MULTIMAP.put('c', "herry");
    * }
-   * }</pre>
+   * }
    *
    * <p>To collect to an {@link ImmutableMultimap}, use either {@link
    * ImmutableSetMultimap#toImmutableSetMultimap} or {@link
@@ -132,7 +132,7 @@ public final class Multimaps {
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
    *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
    *         .collect(
@@ -153,7 +153,7 @@ public final class Multimaps {
    *     FIRST_LETTER_MULTIMAP.putAll('a', Arrays.asList('s', 'p', 'a', 'r', 'a', 'g', 'u', 's'));
    *     FIRST_LETTER_MULTIMAP.putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'));
    * }
-   * }</pre>
+   * }
    *
    * @since 21.0
    */
@@ -604,7 +604,7 @@ public final class Multimaps {
    * <p>It is imperative that the user manually synchronize on the returned multimap when accessing
    * any of its collection views:
    *
-   * <pre>{@code
+   * {@snippet :
    * Multimap<K, V> multimap = Multimaps.synchronizedMultimap(
    *     HashMultimap.<K, V>create());
    * ...
@@ -616,7 +616,7 @@ public final class Multimaps {
    *     foo(i.next());
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
@@ -1287,7 +1287,7 @@ public final class Multimaps {
    * Returns a view of a multimap where each value is transformed by a function. All other
    * properties of the multimap, such as iteration order, are left intact. For example, the code:
    *
-   * <pre>{@code
+   * {@snippet :
    * Multimap<String, Integer> multimap =
    *     ImmutableSetMultimap.of("a", 2, "b", -3, "b", -3, "a", 4, "c", 6);
    * Function<Integer, String> square = new Function<Integer, String>() {
@@ -1298,7 +1298,7 @@ public final class Multimaps {
    * Multimap<String, String> transformed =
    *     Multimaps.transformValues(multimap, square);
    *   System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {a=[4, 16], b=[9, 9], c=[36]}}.
    *
@@ -1338,14 +1338,14 @@ public final class Multimaps {
    * other properties of the multimap, such as iteration order, are left intact. For example, the
    * code:
    *
-   * <pre>{@code
+   * {@snippet :
    * ListMultimap<String, Integer> multimap =
    *      ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
    * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
    * ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
    *     sqrt);
    * System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {a=[2.0, 4.0], b=[3.0]}}.
    *
@@ -1385,7 +1385,7 @@ public final class Multimaps {
    * <p>All other properties of the transformed multimap, such as iteration order, are left intact.
    * For example, the code:
    *
-   * <pre>{@code
+   * {@snippet :
    * SetMultimap<String, Integer> multimap =
    *     ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);
    * EntryTransformer<String, Integer, String> transformer =
@@ -1397,7 +1397,7 @@ public final class Multimaps {
    * Multimap<String, String> transformed =
    *     Multimaps.transformEntries(multimap, transformer);
    * System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {a=[a, a], b=[nob]}}.
    *
@@ -1443,7 +1443,7 @@ public final class Multimaps {
    * <p>All other properties of the transformed multimap, such as iteration order, are left intact.
    * For example, the code:
    *
-   * <pre>{@code
+   * {@snippet :
    * Multimap<String, Integer> multimap =
    *     ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
    * EntryTransformer<String, Integer, String> transformer =
@@ -1455,7 +1455,7 @@ public final class Multimaps {
    * Multimap<String, String> transformed =
    *     Multimaps.transformEntries(multimap, transformer);
    * System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {"a"=["a1", "a4"], "b"=["b6"]}}.
    *
@@ -1644,20 +1644,20 @@ public final class Multimaps {
    *
    * <p>For example,
    *
-   * <pre>{@code
+   * {@snippet :
    * List<String> badGuys =
    *     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
    * Function<String, Integer> stringLengthFunction = ...;
    * Multimap<Integer, String> index =
    *     Multimaps.index(badGuys, stringLengthFunction);
    * System.out.println(index);
-   * }</pre>
+   * }
    *
    * <p>prints
    *
-   * <pre>{@code
+   * {@snippet :
    * {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
-   * }</pre>
+   * }
    *
    * <p>The returned multimap is serializable if its keys and values are all serializable.
    *
@@ -1684,20 +1684,20 @@ public final class Multimaps {
    *
    * <p>For example,
    *
-   * <pre>{@code
+   * {@snippet :
    * List<String> badGuys =
    *     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
    * Function<String, Integer> stringLengthFunction = ...;
    * Multimap<Integer, String> index =
    *     Multimaps.index(badGuys.iterator(), stringLengthFunction);
    * System.out.println(index);
-   * }</pre>
+   * }
    *
    * <p>prints
    *
-   * <pre>{@code
+   * {@snippet :
    * {4=[Inky], 6=[Blinky], 5=[Pinky, Pinky, Clyde]}
-   * }</pre>
+   * }
    *
    * <p>The returned multimap is serializable if its keys and values are all serializable.
    *

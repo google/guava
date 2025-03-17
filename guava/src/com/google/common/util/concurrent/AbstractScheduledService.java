@@ -65,7 +65,7 @@ import org.jspecify.annotations.Nullable;
  * <p>Here is a sketch of a service which crawls a website and uses the scheduling capabilities to
  * rate limit itself.
  *
- * <pre>{@code
+ * {@snippet :
  * class CrawlingService extends AbstractScheduledService {
  *   private Set<Uri> visited;
  *   private Queue<Uri> toCrawl;
@@ -90,7 +90,7 @@ import org.jspecify.annotations.Nullable;
  *     return Scheduler.newFixedRateSchedule(0, 1, TimeUnit.SECONDS);
  *   }
  * }
- * }</pre>
+ * }
  *
  * <p>This class uses the life cycle methods to read in a list of starting URIs and save the set of
  * outstanding URIs when shutting down. Also, it takes advantage of the scheduling functionality to

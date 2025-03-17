@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
  * its {@code close} method. You <em>could</em> use a finalizer to accomplish this, but that has a
  * number of well-known problems. Here is how you might use this class instead:
  *
- * <pre>{@code
+ * {@snippet :
  * public class MyServer implements Closeable {
  *   private static final FinalizableReferenceQueue frq = new FinalizableReferenceQueue();
  *   // You might also share this between several objects.
@@ -87,12 +87,12 @@ import org.jspecify.annotations.Nullable;
  *     serverSocket.close();
  *   }
  * }
- * }</pre>
+ * }
  *
  * <p id="cleaner">Here is how you might achieve the same thing using {@link java.lang.ref.Cleaner
  * Cleaner}, if you are using a Java version where that is available:
  *
- * <pre>{@code
+ * {@snippet :
  * public class MyServer implements Closeable {
  *   private static final Cleaner cleaner = Cleaner.create();
  *   // You might also share this between several objects.
@@ -126,7 +126,7 @@ import org.jspecify.annotations.Nullable;
  *     cleanable.clean();
  *   }
  * }
- * }</pre>
+ * }
  *
  * <p>Some care is needed when using {@code Cleaner} to ensure that the callback passed to {@code
  * register} does not have a reference to the object (in this case, {@code MyServer}) that may be

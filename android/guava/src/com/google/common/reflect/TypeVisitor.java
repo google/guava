@@ -29,7 +29,7 @@ import org.jspecify.annotations.Nullable;
  * recursion by calling {@link #visit} for any {@code Type} while visitation is in progress. For
  * example, this can be used to reject wildcards or type variables contained in a type as in:
  *
- * <pre>{@code
+ * {@snippet :
  * new TypeVisitor() {
  *   protected void visitParameterizedType(ParameterizedType t) {
  *     visit(t.getOwnerType());
@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
  *     throw new IllegalArgumentException("Cannot contain wildcard type.");
  *   }
  * }.visit(type);
- * }</pre>
+ * }
  *
  * <p>One {@code Type} is visited at most once. The second time the same type is visited, it's
  * ignored by {@link #visit}. This avoids infinite recursion caused by recursive type bounds.

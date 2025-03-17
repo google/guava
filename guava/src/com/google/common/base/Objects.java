@@ -61,11 +61,11 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    * <p>This is useful for implementing {@link Object#hashCode()}. For example, in an object that
    * has three properties, {@code x}, {@code y}, and {@code z}, one could write:
    *
-   * <pre>{@code
+   * {@snippet :
    * public int hashCode() {
    *   return Objects.hashCode(getX(), getY(), getZ());
    * }
-   * }</pre>
+   * }
    *
    * <p><b>Warning:</b> When a single object is supplied, the returned hash code does not equal the
    * hash code of that object.

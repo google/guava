@@ -134,7 +134,7 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
    * A builder for creating {@link ImmutableNetwork} instances, especially {@code static final}
    * networks. Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ImmutableNetwork<City, Train> TRAIN_NETWORK =
    *     NetworkBuilder.undirected()
    *         .allowsParallelEdges(true)
@@ -145,7 +145,7 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
    *         .addEdge(LONDON, BRUSSELS, Eurostar.trainNumber("4444"))
    *         .addNode(REYKJAVIK)
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple networks in series. Each new network contains all the elements of the ones created

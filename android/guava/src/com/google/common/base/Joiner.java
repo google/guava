@@ -33,11 +33,11 @@ import org.jspecify.annotations.Nullable;
  * {@link Map}) with a separator. It either appends the results to an {@link Appendable} or returns
  * them as a {@link String}. Example:
  *
- * <pre>{@code
+ * {@snippet :
  * Joiner joiner = Joiner.on("; ").skipNulls();
  *  . . .
  * return joiner.join("Harry", null, "Ron", "Hermione");
- * }</pre>
+ * }
  *
  * <p>This returns the string {@code "Harry; Ron; Hermione"}. Note that all input elements are
  * converted to strings using {@link Object#toString()} before being appended.
@@ -50,12 +50,12 @@ import org.jspecify.annotations.Nullable;
  * instance returned by the method. This makes joiners thread-safe, and safe to store as {@code
  * static final} constants.
  *
- * <pre>{@code
+ * {@snippet :
  * // Bad! Do not do this!
  * Joiner joiner = Joiner.on(',');
  * joiner.skipNulls(); // does nothing!
  * return joiner.join("wrong", null, "wrong");
- * }</pre>
+ * }
  *
  * <p>See the Guava User Guide article on <a
  * href="https://github.com/google/guava/wiki/StringsExplained#joiner">{@code Joiner}</a>.

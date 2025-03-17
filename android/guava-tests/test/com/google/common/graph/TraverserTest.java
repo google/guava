@@ -42,12 +42,12 @@ public class TraverserTest {
   /**
    * The undirected graph in the {@link Traverser#breadthFirst(Object)} javadoc:
    *
-   * <pre>{@code
+   * {@snippet :
    * b ---- a ---- d
    * |      |
    * |      |
    * e ---- c ---- f
-   * }</pre>
+   * }
    */
   private static final SuccessorsFunction<Character> JAVADOC_GRAPH =
       createUndirectedGraph("ba", "ad", "be", "ac", "ec", "cf");
@@ -55,13 +55,13 @@ public class TraverserTest {
   /**
    * A diamond shaped directed graph (arrows going down):
    *
-   * <pre>{@code
+   * {@snippet :
    *   a
    *  / \
    * b   c
    *  \ /
    *   d
-   * }</pre>
+   * }
    */
   private static final SuccessorsFunction<Character> DIAMOND_GRAPH =
       createDirectedGraph("ab", "ac", "bd", "cd");
@@ -69,13 +69,13 @@ public class TraverserTest {
   /**
    * Same as {@link #DIAMOND_GRAPH}, but with an extra c->a edge and some self edges:
    *
-   * <pre>{@code
+   * {@snippet :
    *   a<>
    *  / \\
    * b   c
    *  \ /
    *   d<>
-   * }</pre>
+   * }
    *
    * {@code <>} indicates a self-loop
    */
@@ -89,13 +89,13 @@ public class TraverserTest {
   /**
    * Same as {@link #CYCLE_GRAPH}, but with an extra a->c edge.
    *
-   * <pre>{@code
+   * {@snippet :
    * |--------------|
    * v              |
    * a -> b -> c -> d
    * |         ^
    * |---------|
-   * }</pre>
+   * }
    */
   private static final SuccessorsFunction<Character> TWO_CYCLES_GRAPH =
       createDirectedGraph("ab", "ac", "bc", "cd", "da");
@@ -103,7 +103,7 @@ public class TraverserTest {
   /**
    * A tree-shaped graph that looks as follows (all edges are directed facing downwards):
    *
-   * <pre>{@code
+   * {@snippet :
    *        h
    *       /|\
    *      / | \
@@ -112,7 +112,7 @@ public class TraverserTest {
    *   /|\      |
    *  / | \     |
    * a  b  c    f
-   * }</pre>
+   * }
    */
   private static final SuccessorsFunction<Character> TREE =
       createDirectedGraph("hd", "he", "hg", "da", "db", "dc", "gf");
@@ -120,21 +120,21 @@ public class TraverserTest {
   /**
    * Two disjoint tree-shaped graphs that look as follows (all edges are directed facing downwards):
    *
-   * <pre>{@code
+   * {@snippet :
    * a   c
    * |   |
    * |   |
    * b   d
-   * }</pre>
+   * }
    */
   private static final SuccessorsFunction<Character> TWO_TREES = createDirectedGraph("ab", "cd");
 
   /**
    * A graph consisting of a single root {@code a}:
    *
-   * <pre>{@code
+   * {@snippet :
    * a
-   * }</pre>
+   * }
    */
   private static final SuccessorsFunction<Character> SINGLE_ROOT = createSingleRootGraph();
 
@@ -143,13 +143,13 @@ public class TraverserTest {
    * {@code f} and thus has a cycle) but is a valid input to {@link Traverser#forTree} when starting
    * e.g. at node {@code a} (all edges without an arrow are directed facing downwards):
    *
-   * <pre>{@code
+   * {@snippet :
    *     a
    *    /
    *   b   e <----> f
    *  / \ /
    * c   d
-   * }</pre>
+   * }
    */
   private static final SuccessorsFunction<Character> CYCLIC_GRAPH_CONTAINING_TREE =
       createDirectedGraph("ab", "bc", "bd", "ed", "ef", "fe");
@@ -159,13 +159,13 @@ public class TraverserTest {
    * e} and {@code g}) but is a valid input to {@link Traverser#forTree} when starting e.g. at node
    * {@code a} (all edges are directed facing downwards):
    *
-   * <pre>{@code
+   * {@snippet :
    *     a   f
    *    /   / \
    *   b   e   g
    *  / \ / \ /
    * c   d   h
-   * }</pre>
+   * }
    */
   private static final SuccessorsFunction<Character> GRAPH_CONTAINING_TREE_AND_DIAMOND =
       createDirectedGraph("ab", "fe", "fg", "bc", "bd", "ed", "eh", "gh");

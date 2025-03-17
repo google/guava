@@ -147,14 +147,14 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    * A builder for creating immutable multimap instances, especially {@code public static final}
    * multimaps ("constant multimaps"). Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final Multimap<String, Integer> STRING_TO_INTEGER_MULTIMAP =
    *     new ImmutableMultimap.Builder<String, Integer>()
    *         .put("one", 1)
    *         .putAll("several", 1, 2, 3)
    *         .putAll("many", 1, 2, 3, 4, 5)
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple multimaps in series. Each multimap contains the key-value mappings in the previously

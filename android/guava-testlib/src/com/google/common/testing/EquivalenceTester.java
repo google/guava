@@ -36,12 +36,12 @@ import org.jspecify.annotations.NullMarked;
  * contains objects that are supposed to be equal to each other. Objects of different groups are
  * expected to be unequal. For example:
  *
- * <pre>{@code
+ * {@snippet :
  * EquivalenceTester.of(someStringEquivalence)
  *     .addEquivalenceGroup("hello", "h" + "ello")
  *     .addEquivalenceGroup("world", "wor" + "ld")
  *     .test();
- * }</pre>
+ * }
  *
  * <p>Note that testing {@link Object#equals(Object)} is more simply done using the {@link
  * EqualsTester}. It includes an extra test against an instance of an arbitrary class without having

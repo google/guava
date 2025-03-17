@@ -61,9 +61,9 @@ import org.jspecify.annotations.Nullable;
  * create an instance of one of the built-in implementations of {@code ValueGraph}, use the {@link
  * ValueGraphBuilder} class:
  *
- * <pre>{@code
+ * {@snippet :
  * MutableValueGraph<Integer, Double> graph = ValueGraphBuilder.directed().build();
- * }</pre>
+ * }
  *
  * <p>{@link ValueGraphBuilder#build()} returns an instance of {@link MutableValueGraph}, which is a
  * subtype of {@code ValueGraph} that provides methods for adding and removing nodes and edges. If
@@ -74,9 +74,9 @@ import org.jspecify.annotations.Nullable;
  * <p>You can create an immutable copy of an existing {@code ValueGraph} using {@link
  * ImmutableValueGraph#copyOf(ValueGraph)}:
  *
- * <pre>{@code
+ * {@snippet :
  * ImmutableValueGraph<Integer, Double> immutableGraph = ImmutableValueGraph.copyOf(graph);
- * }</pre>
+ * }
  *
  * <p>Instances of {@link ImmutableValueGraph} do not implement {@link MutableValueGraph}
  * (obviously!) and are contractually guaranteed to be unmodifiable and thread-safe.

@@ -87,18 +87,18 @@ import org.jspecify.annotations.Nullable;
  * transforms it by invoking {@code toString()} on each element, and returns the first 10 elements
  * as a {@code List}:
  *
- * <pre>{@code
+ * {@snippet :
  * ImmutableList<String> results =
  *     FluentIterable.from(database.getClientList())
  *         .filter(Client::isActiveInLastMonth)
  *         .transform(Object::toString)
  *         .limit(10)
  *         .toList();
- * }</pre>
+ * }
  *
  * The approximate stream equivalent is:
  *
- * <pre>{@code
+ * {@snippet :
  * List<String> results =
  *     database.getClientList()
  *         .stream()
@@ -106,7 +106,7 @@ import org.jspecify.annotations.Nullable;
  *         .map(Object::toString)
  *         .limit(10)
  *         .collect(Collectors.toList());
- * }</pre>
+ * }
  *
  * @author Marcin Mikosik
  * @since 12.0
@@ -425,11 +425,11 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * This does perform a little more work than necessary, so another option is to insert an
    * unchecked cast at some later point:
    *
-   * <pre>
-   * {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check
+   * {@snippet :
+   * @SuppressWarnings("unchecked") // safe because of ::isInstance check
    * ImmutableList<NewType> result =
-   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}
-   * </pre>
+   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());
+   * }
    */
   @GwtIncompatible // Class.isInstance
   public final <T> FluentIterable<T> filter(Class<T> type) {
@@ -741,14 +741,14 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * map whose key is the result of applying {@code keyFunction} to that value. These entries appear
    * in the same order as they appeared in this fluent iterable. Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * Color red = new Color("red", 255, 0, 0);
    * ...
    * FluentIterable<Color> allColors = FluentIterable.from(ImmutableSet.of(red, green, blue));
    *
    * Map<String, Color> colorForName = allColors.uniqueIndex(toStringFunction());
    * assertThat(colorForName).containsEntry("red", red);
-   * }</pre>
+   * }
    *
    * <p>If your index may associate multiple values with each key, use {@link #index(Function)
    * index}.

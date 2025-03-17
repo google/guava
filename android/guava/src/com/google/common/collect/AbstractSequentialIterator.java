@@ -27,14 +27,14 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>Example:
  *
- * <pre>{@code
+ * {@snippet :
  * Iterator<Integer> powersOfTwo =
  *     new AbstractSequentialIterator<Integer>(1) {
  *       protected Integer computeNext(Integer previous) {
  *         return (previous == 1 << 30) ? null : previous * 2;
  *       }
  *     };
- * }</pre>
+ * }
  *
  * @author Chris Povirk
  * @since 12.0 (in Guava as {@code AbstractLinkedIterator} since 8.0)

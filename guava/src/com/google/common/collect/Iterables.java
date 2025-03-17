@@ -605,11 +605,11 @@ public final class Iterables {
    * This does perform a little more work than necessary, so another option is to insert an
    * unchecked cast at some later point:
    *
-   * <pre>
-   * {@code @SuppressWarnings("unchecked") // safe because of ::isInstance check
+   * {@snippet :
+   * @SuppressWarnings("unchecked") // safe because of ::isInstance check
    * ImmutableList<NewType> result =
-   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());}
-   * </pre>
+   *     (ImmutableList) stream.filter(NewType.class::isInstance).collect(toImmutableList());
+   * }
    */
   @SuppressWarnings("unchecked")
   @GwtIncompatible // Class.isInstance

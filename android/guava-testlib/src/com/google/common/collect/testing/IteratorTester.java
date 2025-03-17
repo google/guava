@@ -58,7 +58,7 @@ import org.jspecify.annotations.Nullable;
  * <p>For example, to test {@link java.util.Collections#unmodifiableList(java.util.List)
  * Collections.unmodifiableList}'s iterator:
  *
- * <pre>{@code
+ * {@snippet :
  * List<String> expectedElements =
  *     Arrays.asList("a", "b", "c", "d", "e");
  * List<String> actualElements =
@@ -77,7 +77,7 @@ import org.jspecify.annotations.Nullable;
  *     };
  * iteratorTester.test();
  * iteratorTester.testForEachRemaining();
- * }</pre>
+ * }
  *
  * <p><b>Note</b>: It is necessary to use {@code IteratorTester.KnownOrder} as shown above, rather
  * than {@code KnownOrder} directly, because otherwise the code cannot be compiled.

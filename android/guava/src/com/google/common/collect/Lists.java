@@ -407,11 +407,11 @@ public final class Lists {
    * lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
    * product</a>" of the lists. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Lists.cartesianProduct(ImmutableList.of(
    *     ImmutableList.of(1, 2),
    *     ImmutableList.of("A", "B", "C")))
-   * }</pre>
+   * }
    *
    * <p>returns a list containing six lists in the following order:
    *
@@ -427,7 +427,7 @@ public final class Lists {
    * <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
    * products that you would get from nesting for loops:
    *
-   * <pre>{@code
+   * {@snippet :
    * for (B b0 : lists.get(0)) {
    *   for (B b1 : lists.get(1)) {
    *     ...
@@ -435,7 +435,7 @@ public final class Lists {
    *     // operate on tuple
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Note that if any input list is empty, the Cartesian product will also be empty. If no lists
    * at all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -465,11 +465,11 @@ public final class Lists {
    * lists in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
    * product</a>" of the lists. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Lists.cartesianProduct(ImmutableList.of(
    *     ImmutableList.of(1, 2),
    *     ImmutableList.of("A", "B", "C")))
-   * }</pre>
+   * }
    *
    * <p>returns a list containing six lists in the following order:
    *
@@ -485,7 +485,7 @@ public final class Lists {
    * <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
    * products that you would get from nesting for loops:
    *
-   * <pre>{@code
+   * {@snippet :
    * for (B b0 : lists.get(0)) {
    *   for (B b1 : lists.get(1)) {
    *     ...
@@ -493,7 +493,7 @@ public final class Lists {
    *     // operate on tuple
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Note that if any input list is empty, the Cartesian product will also be empty. If no lists
    * at all are provided (an empty list), the resulting Cartesian product has one element, an empty

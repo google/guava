@@ -52,7 +52,7 @@ import org.jspecify.annotations.Nullable;
  * result. (If you want such access, you may prefer {@link Futures#addCallback
  * Futures.addCallback}.) Still, direct {@code addListener} calls are occasionally useful:
  *
- * <pre>{@code
+ * {@snippet :
  * final String name = ...;
  * inFlight.add(name);
  * ListenableFuture<Result> future = service.query(name);
@@ -64,7 +64,7 @@ import org.jspecify.annotations.Nullable;
  *     logger.info("Done with {0}", name);
  *   }
  * }, executor);
- * }</pre>
+ * }
  *
  * <h3>How to get an instance</h3>
  *

@@ -625,19 +625,19 @@ public final class InternetDomainName {
    *
    * <p>The following two code snippets are equivalent:
    *
-   * <pre>{@code
+   * {@snippet :
    * domainName = InternetDomainName.isValid(name)
    *     ? InternetDomainName.from(name)
    *     : DEFAULT_DOMAIN;
-   * }</pre>
+   * }
    *
-   * <pre>{@code
+   * {@snippet :
    * try {
    *   domainName = InternetDomainName.from(name);
    * } catch (IllegalArgumentException e) {
    *   domainName = DEFAULT_DOMAIN;
    * }
-   * }</pre>
+   * }
    *
    * @since 8.0 (previously named {@code isValidLenient})
    */

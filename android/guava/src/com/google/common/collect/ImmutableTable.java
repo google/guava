@@ -167,14 +167,14 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    * A builder for creating immutable table instances, especially {@code public static final} tables
    * ("constant tables"). Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ImmutableTable<Integer, Character, String> SPREADSHEET =
    *     new ImmutableTable.Builder<Integer, Character, String>()
    *         .put(1, 'A', "foo")
    *         .put(1, 'B', "bar")
    *         .put(2, 'A', "baz")
    *         .buildOrThrow();
-   * }</pre>
+   * }
    *
    * <p>By default, the order in which cells are added to the builder determines the iteration
    * ordering of all views in the returned table, with {@link #putAll} following the {@link

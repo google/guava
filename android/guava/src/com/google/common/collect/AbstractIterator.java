@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
  * <p>Another example is an iterator that skips over null elements in a backing iterator. This could
  * be implemented as:
  *
- * <pre>{@code
+ * {@snippet :
  * public static Iterator<String> skipNulls(final Iterator<String> in) {
  *   return new AbstractIterator<String>() {
  *     protected String computeNext() {
@@ -52,7 +52,7 @@ import org.jspecify.annotations.Nullable;
  *     }
  *   };
  * }
- * }</pre>
+ * }
  *
  * <p>This class supports iterators that include null elements.
  *

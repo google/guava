@@ -42,7 +42,7 @@ import org.jspecify.annotations.Nullable;
  * <p>These declaration methods rely on Java static type checking to make sure what we want to
  * assert as subtypes are really subtypes according to javac. For example:
  *
- * <pre>{@code
+ * {@snippet :
  * class MySubtypeTests extends SubtypeTester {
  *   @TestSubtype(suppressGetSubtype = true, suppressGetSupertype = true)
  *   public <T> Iterable<? extends T> listIsSubtypeOfIterable(List<T> list) {
@@ -58,7 +58,7 @@ import org.jspecify.annotations.Nullable;
  * public void testMySubtypes() throws Exception {
  *   new MySubtypeTests().testAllDeclarations();
  * }
- * }</pre>
+ * }
  *
  * The calls to {@link #isSubtype} and {@link #notSubtype} tells the framework what assertions need
  * to be made.

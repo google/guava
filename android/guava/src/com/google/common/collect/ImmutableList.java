@@ -748,13 +748,13 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * A builder for creating immutable list instances, especially {@code public static final} lists
    * ("constant lists"). Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * public static final ImmutableList<Color> GOOGLE_COLORS =
    *     new ImmutableList.Builder<Color>()
    *         .addAll(WEBSAFE_COLORS)
    *         .add(new Color(0, 191, 255))
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Elements appear in the resulting list in the same order they were added to the builder.
    *

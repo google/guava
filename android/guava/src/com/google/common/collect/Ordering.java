@@ -97,13 +97,13 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>Complex chained orderings like the following example can be challenging to understand.
  *
- * <pre>{@code
+ * {@snippet :
  * Ordering<Foo> ordering =
  *     Ordering.natural()
  *         .nullsFirst()
  *         .onResultOf(getBarFunction)
  *         .nullsLast();
- * }</pre>
+ * }
  *
  * Note that each chaining method returns a new ordering instance which is backed by the previous
  * instance, but has the chance to act on values <i>before</i> handing off to that backing instance.
@@ -272,10 +272,10 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Ordering.allEqual().nullsLast().sortedCopy(
    *     asList(t, null, e, s, null, t, null))
-   * }</pre>
+   * }
    *
    * <p>Assuming {@code t}, {@code e} and {@code s} are non-null, this returns {@code [t, e, s, t,
    * null, null, null]} regardless of the true comparison order of those three values (which might
@@ -458,10 +458,10 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * then comparing those results using {@code this}. For example, to compare objects by their
    * string forms, in a case-insensitive manner, use:
    *
-   * <pre>{@code
+   * {@snippet :
    * Ordering.from(String.CASE_INSENSITIVE_ORDER)
    *     .onResultOf(Functions.toStringFunction())
-   * }</pre>
+   * }
    *
    * <p><b>Java 8+ users:</b> Use {@code Comparator.comparing(function, thisComparator)} instead
    * (you can omit the comparator if it is the natural order).

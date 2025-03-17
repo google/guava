@@ -28,7 +28,7 @@ import org.jspecify.annotations.Nullable;
  * single-element enum to maintain serialization guarantees. See Effective Java (2nd Edition), Item
  * 3: "Enforce the singleton property with a private constructor or an enum type". For example:
  *
- * <pre>{@code
+ * {@snippet :
  * public enum PersonFunnel implements Funnel<Person> {
  *   INSTANCE;
  *   public void funnel(Person person, PrimitiveSink into) {
@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
  *         .putInt(person.getAge());
  *   }
  * }
- * }</pre>
+ * }
  *
  * @author Dimitris Andreou
  * @since 11.0

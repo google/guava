@@ -962,7 +962,7 @@ public final class MediaType {
    *
    * <p>For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * PLAIN_TEXT_UTF_8.is(PLAIN_TEXT_UTF_8) // true
    * PLAIN_TEXT_UTF_8.is(HTML_UTF_8) // false
    * PLAIN_TEXT_UTF_8.is(ANY_TYPE) // true
@@ -971,7 +971,7 @@ public final class MediaType {
    * PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_8)) // true
    * PLAIN_TEXT_UTF_8.withoutParameters().is(ANY_TEXT_TYPE.withCharset(UTF_8)) // false
    * PLAIN_TEXT_UTF_8.is(ANY_TEXT_TYPE.withCharset(UTF_16)) // false
-   * }</pre>
+   * }
    *
    * <p>Note that while it is possible to have the same parameter declared multiple times within a
    * media type this method does not consider the number of occurrences of a parameter. For example,

@@ -750,11 +750,11 @@ public final class Multisets {
    * in {@code occurrencesToRemove}. However, this operation <i>is</i> equivalent to, albeit
    * sometimes more efficient than, the following:
    *
-   * <pre>{@code
+   * {@snippet :
    * for (E e : occurrencesToRemove) {
    *   multisetToModify.remove(e);
    * }
-   * }</pre>
+   * }
    *
    * @return {@code true} if {@code multisetToModify} was changed as a result of this operation
    * @since 18.0 (present in 10.0 with a requirement that the second parameter be a {@code
@@ -789,11 +789,11 @@ public final class Multisets {
    * in {@code occurrencesToRemove}. However, this operation <i>is</i> equivalent to, albeit
    * sometimes more efficient than, the following:
    *
-   * <pre>{@code
+   * {@snippet :
    * for (E e : occurrencesToRemove) {
    *   multisetToModify.remove(e);
    * }
-   * }</pre>
+   * }
    *
    * @return {@code true} if {@code multisetToModify} was changed as a result of this operation
    * @since 10.0 (missing in 18.0 when only the overload taking an {@code Iterable} was present)

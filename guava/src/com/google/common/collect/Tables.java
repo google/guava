@@ -676,7 +676,7 @@ public final class Tables {
    * <p>It is imperative that the user manually synchronize on the returned table when accessing any
    * of its collection views:
    *
-   * <pre>{@code
+   * {@snippet :
    * Table<R, C, V> table = Tables.synchronizedTable(HashBasedTable.<R, C, V>create());
    * ...
    * Map<C, V> row = table.row(rowKey);  // Needn't be in synchronized block
@@ -687,7 +687,7 @@ public final class Tables {
    *     foo(i.next());
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Failure to follow this advice may result in non-deterministic behavior.
    *

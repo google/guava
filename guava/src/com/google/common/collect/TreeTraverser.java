@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>For example, the tree
  *
- * <pre>{@code
+ * {@snippet :
  *        h
  *      / | \
  *     /  e  \
@@ -43,7 +43,7 @@ import org.jspecify.annotations.Nullable;
  *   /|\      |
  *  / | \     f
  * a  b  c
- * }</pre>
+ * }
  *
  * <p>can be iterated over in preorder (hdabcegf), postorder (abcdefgh), or breadth-first order
  * (hdegabcf).
@@ -53,16 +53,16 @@ import org.jspecify.annotations.Nullable;
  * <p>Because this is an abstract class, not an interface, you can't use a lambda expression to
  * implement it:
  *
- * <pre>{@code
+ * {@snippet :
  * // won't work
  * TreeTraverser<NodeType> traverser = node -> node.getChildNodes();
- * }</pre>
+ * }
  *
  * Instead, you can pass a lambda expression to the {@code using} factory method:
  *
- * <pre>{@code
+ * {@snippet :
  * TreeTraverser<NodeType> traverser = TreeTraverser.using(node -> node.getChildNodes());
- * }</pre>
+ * }
  *
  * @author Louis Wasserman
  * @since 15.0

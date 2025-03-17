@@ -48,7 +48,7 @@ public final class Closeables {
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * public void useStreamNicely() throws IOException {
    *   SomeStream stream = new SomeStream("foo");
    *   boolean threw = true;
@@ -60,7 +60,7 @@ public final class Closeables {
    *     Closeables.close(stream, threw);
    *   }
    * }
-   * }</pre>
+   * }
    *
    * @param closeable the {@code Closeable} object to be closed, or null, in which case this method
    *     does nothing

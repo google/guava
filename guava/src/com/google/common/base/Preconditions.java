@@ -28,31 +28,31 @@ import org.jspecify.annotations.Nullable;
  * of a specified type, which helps the method in which the exception was thrown communicate that
  * its caller has made a mistake. This allows constructs such as
  *
- * <pre>{@code
+ * {@snippet :
  * public static double sqrt(double value) {
  *   if (value < 0) {
  *     throw new IllegalArgumentException("input is negative: " + value);
  *   }
  *   // calculate square root
  * }
- * }</pre>
+ * }
  *
  * <p>to be replaced with the more compact
  *
- * <pre>{@code
+ * {@snippet :
  * public static double sqrt(double value) {
  *   checkArgument(value >= 0, "input is negative: %s", value);
  *   // calculate square root
  * }
- * }</pre>
+ * }
  *
  * <p>so that a hypothetical bad caller of this method, such as:
  *
- * <pre>{@code
+ * {@snippet :
  * void exampleBadCaller() {
  *   double d = sqrt(-1.0);
  * }
- * }</pre>
+ * }
  *
  * <p>would be flagged as having called {@code sqrt()} with an illegal argument.
  *

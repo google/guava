@@ -47,20 +47,20 @@ import org.jspecify.annotations.Nullable;
  * keys and values. The iteration order is preserved across non-distinct key values. For example,
  * for the following multimap definition:
  *
- * <pre>{@code
+ * {@snippet :
  * Multimap<K, V> multimap = LinkedListMultimap.create();
  * multimap.put(key1, foo);
  * multimap.put(key2, bar);
  * multimap.put(key1, baz);
- * }</pre>
+ * }
  *
  * ... the iteration order for {@link #keys()} is {@code [key1, key2, key1]}, and similarly for
  * {@link #entries()}. Unlike {@link LinkedHashMultimap}, the iteration order is kept consistent
  * between keys, entries and values. For example, calling:
  *
- * <pre>{@code
+ * {@snippet :
  * multimap.remove(key1, foo);
- * }</pre>
+ * }
  *
  * <p>changes the entries iteration order to {@code [key2=bar, key1=baz]} and the key iteration
  * order to {@code [key2, key1]}. The {@link #entries()} iterator returns mutable map entries, and

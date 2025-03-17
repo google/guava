@@ -116,11 +116,11 @@ public final class Comparators {
    *
    * <p>For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Stream.of("foo", "quux", "banana", "elephant")
    *     .collect(least(2, comparingInt(String::length)))
    * // returns {"foo", "quux"}
-   * }</pre>
+   * }
    *
    * <p>This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log
    * k)), as opposed to e.g. {@code Stream.sorted(comparator).limit(k)}, which currently takes O(n
@@ -150,11 +150,11 @@ public final class Comparators {
    *
    * <p>For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Stream.of("foo", "quux", "banana", "elephant")
    *     .collect(greatest(2, comparingInt(String::length)))
    * // returns {"elephant", "banana"}
-   * }</pre>
+   * }
    *
    * <p>This {@code Collector} uses O(k) memory and takes expected time O(n) (worst-case O(n log
    * k)), as opposed to e.g. {@code Stream.sorted(comparator.reversed()).limit(k)}, which currently

@@ -334,14 +334,14 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * A builder for creating immutable bimap instances, especially {@code public static final} bimaps
    * ("constant bimaps"). Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ImmutableBiMap<String, Integer> WORD_TO_INT =
    *     new ImmutableBiMap.Builder<String, Integer>()
    *         .put("one", 1)
    *         .put("two", 2)
    *         .put("three", 3)
    *         .buildOrThrow();
-   * }</pre>
+   * }
    *
    * <p>For <i>small</i> immutable bimaps, the {@code ImmutableBiMap.of()} methods are even more
    * convenient.

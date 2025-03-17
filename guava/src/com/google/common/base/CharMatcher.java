@@ -609,9 +609,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a string containing all non-matching characters of a character sequence, in order. For
    * example:
    *
-   * <pre>{@code
+   * {@snippet :
    * CharMatcher.is('a').removeFrom("bazaar")
-   * }</pre>
+   * }
    *
    * ... returns {@code "bzr"}.
    */
@@ -648,9 +648,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a string containing all matching BMP characters of a character sequence, in order. For
    * example:
    *
-   * <pre>{@code
+   * {@snippet :
    * CharMatcher.is('a').retainFrom("bazaar")
-   * }</pre>
+   * }
    *
    * ... returns {@code "aaa"}.
    */
@@ -662,9 +662,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a string copy of the input character sequence, with each matching BMP character
    * replaced by a given replacement character. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * CharMatcher.is('a').replaceFrom("radar", 'o')
-   * }</pre>
+   * }
    *
    * ... returns {@code "rodor"}.
    *
@@ -697,9 +697,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a string copy of the input character sequence, with each matching BMP character
    * replaced by a given replacement sequence. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * CharMatcher.is('a').replaceFrom("yaha", "oo")
-   * }</pre>
+   * }
    *
    * ... returns {@code "yoohoo"}.
    *
@@ -745,17 +745,17 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a substring of the input character sequence that omits all matching BMP characters from
    * the beginning and from the end of the string. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * CharMatcher.anyOf("ab").trimFrom("abacatbab")
-   * }</pre>
+   * }
    *
    * ... returns {@code "cat"}.
    *
    * <p>Note that:
    *
-   * <pre>{@code
+   * {@snippet :
    * CharMatcher.inRange('\0', ' ').trimFrom(str)
-   * }</pre>
+   * }
    *
    * ... is equivalent to {@link String#trim()}.
    */
@@ -782,9 +782,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a substring of the input character sequence that omits all matching BMP characters from
    * the beginning of the string. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * CharMatcher.anyOf("ab").trimLeadingFrom("abacatbab")
-   * }</pre>
+   * }
    *
    * ... returns {@code "catbab"}.
    */
@@ -802,9 +802,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a substring of the input character sequence that omits all matching BMP characters from
    * the end of the string. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * CharMatcher.anyOf("ab").trimTrailingFrom("abacatbab")
-   * }</pre>
+   * }
    *
    * ... returns {@code "abacat"}.
    */
@@ -822,9 +822,9 @@ public abstract class CharMatcher implements Predicate<Character> {
    * Returns a string copy of the input character sequence, with each group of consecutive matching
    * BMP characters replaced by a single replacement character. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * CharMatcher.anyOf("eko").collapseFrom("bookkeeper", '-')
-   * }</pre>
+   * }
    *
    * ... returns {@code "b-p-r"}.
    *

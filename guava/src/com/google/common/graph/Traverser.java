@@ -140,7 +140,7 @@ public abstract class Traverser<N> {
    * b} were <i>also</i> a start node, then there would be multiple paths to reach {@code e} and
    * {@code h}.
    *
-   * <pre>{@code
+   * {@snippet :
    *    a     b      c
    *   / \   / \     |
    *  /   \ /   \    |
@@ -148,14 +148,14 @@ public abstract class Traverser<N> {
    *       |
    *       |
    *       h
-   * }</pre>
+   * }
    *
    * <p>.
    *
    * <p>The graph below would be a valid input with start nodes of {@code a, f}. However, if {@code
    * b} were a start node, there would be multiple paths to {@code f}.
    *
-   * <pre>{@code
+   * {@snippet :
    *    a     b
    *   / \   / \
    *  /   \ /   \
@@ -163,16 +163,16 @@ public abstract class Traverser<N> {
    *        \   /
    *         \ /
    *          f
-   * }</pre>
+   * }
    *
    * <p><b>Note on binary trees</b>
    *
    * <p>This method can be used to traverse over a binary tree. Given methods {@code
    * leftChild(node)} and {@code rightChild(node)}, this method can be called as
    *
-   * <pre>{@code
+   * {@snippet :
    * Traverser.forTree(node -> ImmutableList.of(leftChild(node), rightChild(node)));
-   * }</pre>
+   * }
    *
    * @param tree {@link SuccessorsFunction} representing a directed acyclic graph that has at most
    *     one path between any two nodes
@@ -200,12 +200,12 @@ public abstract class Traverser<N> {
    * <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
    * the order {@code abcdef} (assuming successors are returned in alphabetical order).
    *
-   * <pre>{@code
+   * {@snippet :
    * b ---- a ---- d
    * |      |
    * |      |
    * e ---- c ---- f
-   * }</pre>
+   * }
    *
    * <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
    * while iteration is in progress.
@@ -214,9 +214,9 @@ public abstract class Traverser<N> {
    * compute its next element on the fly. It is thus possible to limit the traversal to a certain
    * number of nodes as follows:
    *
-   * <pre>{@code
+   * {@snippet :
    * Iterables.limit(Traverser.forGraph(graph).breadthFirst(node), maxNumberOfNodes);
-   * }</pre>
+   * }
    *
    * <p>See <a href="https://en.wikipedia.org/wiki/Breadth-first_search">Wikipedia</a> for more
    * info.
@@ -250,12 +250,12 @@ public abstract class Traverser<N> {
    * <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
    * the order {@code abecfd} (assuming successors are returned in alphabetical order).
    *
-   * <pre>{@code
+   * {@snippet :
    * b ---- a ---- d
    * |      |
    * |      |
    * e ---- c ---- f
-   * }</pre>
+   * }
    *
    * <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
    * while iteration is in progress.
@@ -264,10 +264,10 @@ public abstract class Traverser<N> {
    * compute its next element on the fly. It is thus possible to limit the traversal to a certain
    * number of nodes as follows:
    *
-   * <pre>{@code
+   * {@snippet :
    * Iterables.limit(
    *     Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);
-   * }</pre>
+   * }
    *
    * <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
    *
@@ -300,12 +300,12 @@ public abstract class Traverser<N> {
    * <p><b>Example:</b> The following graph with {@code startNode} {@code a} would return nodes in
    * the order {@code fcebda} (assuming successors are returned in alphabetical order).
    *
-   * <pre>{@code
+   * {@snippet :
    * b ---- a ---- d
    * |      |
    * |      |
    * e ---- c ---- f
-   * }</pre>
+   * }
    *
    * <p>The behavior of this method is undefined if the nodes, or the topology of the graph, change
    * while iteration is in progress.
@@ -314,10 +314,10 @@ public abstract class Traverser<N> {
    * compute its next element on the fly. It is thus possible to limit the traversal to a certain
    * number of nodes as follows:
    *
-   * <pre>{@code
+   * {@snippet :
    * Iterables.limit(
    *     Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);
-   * }</pre>
+   * }
    *
    * <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
    *

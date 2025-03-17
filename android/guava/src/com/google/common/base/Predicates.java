@@ -183,11 +183,11 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if the class being tested is assignable to
    * (is a subtype of) {@code clazz}. Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * List<Class<?>> classes = Arrays.asList(
    *     Object.class, String.class, Number.class, Long.class);
    * return Iterables.filter(classes, subtypeOf(Number.class));
-   * }</pre>
+   * }
    *
    * The code above returns an iterable containing {@code Number.class} and {@code Long.class}.
    *

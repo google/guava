@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>This class is intended to be used in the following pattern:
  *
- * <pre>{@code
+ * {@snippet :
  * Closer closer = Closer.create();
  * try {
  *   InputStream in = closer.register(openInputStream());
@@ -51,7 +51,7 @@ import org.jspecify.annotations.Nullable;
  * } finally {
  *   closer.close();
  * }
- * }</pre>
+ * }
  *
  * <p>Note that this try-catch-finally block is not equivalent to a try-catch-finally block using
  * try-with-resources. To get the equivalent of that, you must wrap the above code in <i>another</i>

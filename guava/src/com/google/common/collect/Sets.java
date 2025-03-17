@@ -561,10 +561,10 @@ public final class Sets {
    * empty, passed directly to this method, and no reference to the map is retained, as illustrated
    * in the following code fragment:
    *
-   * <pre>{@code
+   * {@snippet :
    * Set<Object> identityHashSet = Sets.newSetFromMap(
    *     new IdentityHashMap<Object, Boolean>());
-   * }</pre>
+   * }
    *
    * <p>The returned set is serializable if the backing map is.
    *
@@ -845,7 +845,7 @@ public final class Sets {
    * set based on the type of the first set passed, this could in rare cases force you to make a
    * cast, for example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Set<Object> aFewBadObjects = ...
    * Set<String> manyBadStrings = ...
    *
@@ -853,7 +853,7 @@ public final class Sets {
    * SuppressWarnings("unchecked")
    * Set<String> badStrings = (Set) Sets.intersection(
    *     aFewBadObjects, manyBadStrings);
-   * }</pre>
+   * }
    *
    * <p>This is unfortunate, but should come up only very rarely.
    */
@@ -1334,11 +1334,11 @@ public final class Sets {
    * sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
    * product</a>" of the sets. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Sets.cartesianProduct(ImmutableList.of(
    *     ImmutableSet.of(1, 2),
    *     ImmutableSet.of("A", "B", "C")))
-   * }</pre>
+   * }
    *
    * <p>returns a set containing six lists:
    *
@@ -1354,7 +1354,7 @@ public final class Sets {
    * <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
    * products that you would get from nesting for loops:
    *
-   * <pre>{@code
+   * {@snippet :
    * for (B b0 : sets.get(0)) {
    *   for (B b1 : sets.get(1)) {
    *     ...
@@ -1362,7 +1362,7 @@ public final class Sets {
    *     // operate on tuple
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Note that if any input set is empty, the Cartesian product will also be empty. If no sets at
    * all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -1391,11 +1391,11 @@ public final class Sets {
    * sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_product">Cartesian
    * product</a>" of the sets. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Sets.cartesianProduct(
    *     ImmutableSet.of(1, 2),
    *     ImmutableSet.of("A", "B", "C"))
-   * }</pre>
+   * }
    *
    * <p>returns a set containing six lists:
    *
@@ -1411,7 +1411,7 @@ public final class Sets {
    * <p>The result is guaranteed to be in the "traditional", lexicographical order for Cartesian
    * products that you would get from nesting for loops:
    *
-   * <pre>{@code
+   * {@snippet :
    * for (B b0 : sets.get(0)) {
    *   for (B b1 : sets.get(1)) {
    *     ...
@@ -1419,7 +1419,7 @@ public final class Sets {
    *     // operate on tuple
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Note that if any input set is empty, the Cartesian product will also be empty. If no sets at
    * all are provided (an empty list), the resulting Cartesian product has one element, an empty
@@ -1981,7 +1981,7 @@ public final class Sets {
    * iterating over it or any of its {@code descendingSet}, {@code subSet}, {@code headSet}, or
    * {@code tailSet} views.
    *
-   * <pre>{@code
+   * {@snippet :
    * NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<E>());
    *  ...
    * synchronized (set) {
@@ -1991,22 +1991,22 @@ public final class Sets {
    *     foo(it.next());
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>or:
    *
-   * <pre>{@code
+   * {@snippet :
    * NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<E>());
    * NavigableSet<E> set2 = set.descendingSet().headSet(foo);
    *  ...
    * synchronized (set) { // Note: set, not set2!!!
    *   // Must be in the synchronized block
    *   Iterator<E> it = set2.descendingIterator();
-   *   while (it.hasNext())
+   *   while (it.hasNext()) {
    *     foo(it.next());
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Failure to follow this advice may result in non-deterministic behavior.
    *

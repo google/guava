@@ -112,7 +112,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
    * A builder for creating {@link ImmutableGraph} instances, especially {@code static final}
    * graphs. Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ImmutableGraph<Country> COUNTRY_ADJACENCY_GRAPH =
    *     GraphBuilder.undirected()
    *         .<Country>immutable()
@@ -121,7 +121,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
    *         .putEdge(GERMANY, BELGIUM)
    *         .addNode(ICELAND)
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple graphs in series. Each new graph contains all the elements of the ones created before

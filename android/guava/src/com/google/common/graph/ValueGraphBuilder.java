@@ -43,7 +43,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  *
  * <p>Examples of use:
  *
- * <pre>{@code
+ * {@snippet :
  * // Building a mutable value graph
  * MutableValueGraph<String, Double> graph =
  *     ValueGraphBuilder.undirected().allowsSelfLoops(true).build();
@@ -60,7 +60,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
  *         .putEdgeValue("San Jose", "San Jose", 0.0)
  *         .putEdgeValue("San Francisco", "San Jose", 48.4)
  *         .build();
- * }</pre>
+ * }
  *
  * @author James Sexton
  * @author Joshua O'Madadhain

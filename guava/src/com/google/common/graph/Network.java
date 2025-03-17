@@ -56,9 +56,9 @@ import org.jspecify.annotations.Nullable;
  * create an instance of one of the built-in implementations of {@code Network}, use the {@link
  * NetworkBuilder} class:
  *
- * <pre>{@code
+ * {@snippet :
  * MutableNetwork<Integer, MyEdge> network = NetworkBuilder.directed().build();
- * }</pre>
+ * }
  *
  * <p>{@link NetworkBuilder#build()} returns an instance of {@link MutableNetwork}, which is a
  * subtype of {@code Network} that provides methods for adding and removing nodes and edges. If you
@@ -69,9 +69,9 @@ import org.jspecify.annotations.Nullable;
  * <p>You can create an immutable copy of an existing {@code Network} using {@link
  * ImmutableNetwork#copyOf(Network)}:
  *
- * <pre>{@code
+ * {@snippet :
  * ImmutableNetwork<Integer, MyEdge> immutableGraph = ImmutableNetwork.copyOf(network);
- * }</pre>
+ * }
  *
  * <p>Instances of {@link ImmutableNetwork} do not implement {@link MutableNetwork} (obviously!) and
  * are contractually guaranteed to be unmodifiable and thread-safe.

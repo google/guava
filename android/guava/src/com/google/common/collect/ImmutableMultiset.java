@@ -452,7 +452,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    * A builder for creating immutable multiset instances, especially {@code public static final}
    * multisets ("constant multisets"). Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * public static final ImmutableMultiset<Bean> BEANS =
    *     new ImmutableMultiset.Builder<Bean>()
    *         .addCopies(Bean.COCOA, 4)
@@ -460,7 +460,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
    *         .addCopies(Bean.RED, 8)
    *         .addCopies(Bean.BLACK_EYED, 10)
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple multisets in series.

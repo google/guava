@@ -594,14 +594,14 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    * A builder for creating immutable sorted map instances, especially {@code public static final}
    * maps ("constant maps"). Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ImmutableSortedMap<Integer, String> INT_TO_WORD =
    *     new ImmutableSortedMap.Builder<Integer, String>(Ordering.natural())
    *         .put(1, "one")
    *         .put(2, "two")
    *         .put(3, "three")
    *         .buildOrThrow();
-   * }</pre>
+   * }
    *
    * <p>For <i>small</i> immutable sorted maps, the {@code ImmutableSortedMap.of()} methods are even
    * more convenient.

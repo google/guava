@@ -419,13 +419,13 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
    * A builder for creating immutable sorted set instances, especially {@code public static final}
    * sets ("constant sets"), with a given comparator. Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * public static final ImmutableSortedSet<Number> LUCKY_NUMBERS =
    *     new ImmutableSortedSet.Builder<Number>(ODDS_FIRST_COMPARATOR)
    *         .addAll(SINGLE_DIGIT_PRIMES)
    *         .add(42)
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple sets in series. Each set is a superset of the set created before it.

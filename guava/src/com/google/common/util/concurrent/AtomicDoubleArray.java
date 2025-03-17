@@ -39,13 +39,13 @@ import java.util.function.DoubleUnaryOperator;
  * Double#doubleToRawLongBits}, which differs from both the primitive double {@code ==} operator and
  * from {@link Double#equals}, as if implemented by:
  *
- * <pre>{@code
+ * {@snippet :
  * static boolean bitEquals(double x, double y) {
  *   long xBits = Double.doubleToRawLongBits(x);
  *   long yBits = Double.doubleToRawLongBits(y);
  *   return xBits == yBits;
  * }
- * }</pre>
+ * }
  *
  * @author Doug Lea
  * @author Martin Buchholz

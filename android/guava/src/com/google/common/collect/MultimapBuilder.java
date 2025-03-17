@@ -40,12 +40,12 @@ import org.jspecify.annotations.Nullable;
  * An immutable builder for {@link Multimap} instances, letting you independently select the desired
  * behaviors (for example, ordering) of the backing map and value-collections. Example:
  *
- * <pre>{@code
+ * {@snippet :
  * ListMultimap<UserId, ErrorResponse> errorsByUser =
  *     MultimapBuilder.linkedHashKeys().arrayListValues().build();
  * SortedSetMultimap<String, Method> methodsForName =
  *     MultimapBuilder.treeKeys().treeSetValues(this::compareMethods).build();
- * }</pre>
+ * }
  *
  * <p>{@code MultimapBuilder} instances are immutable. Invoking a configuration method has no effect
  * on the receiving instance; you must store and use the new builder instance it returns instead.

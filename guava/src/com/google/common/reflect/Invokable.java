@@ -41,12 +41,12 @@ import org.jspecify.annotations.Nullable;
  * will resolve the type parameters of the method or constructor in the context of the owner type,
  * which may be a subtype of the declaring class. For example:
  *
- * <pre>{@code
+ * {@snippet :
  * Method getMethod = List.class.getMethod("get", int.class);
  * Invokable<List<String>, ?> invokable = new TypeToken<List<String>>() {}.method(getMethod);
  * assertEquals(TypeToken.of(String.class), invokable.getReturnType()); // Not Object.class!
  * assertEquals(new TypeToken<List<String>>() {}, invokable.getOwnerType());
- * }</pre>
+ * }
  *
  * <p><b>Note:</b> earlier versions of this class inherited from {@link
  * java.lang.reflect.AccessibleObject AccessibleObject} and {@link
@@ -299,10 +299,10 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   /**
    * Explicitly specifies the return type of this {@code Invokable}. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Method factoryMethod = Person.class.getMethod("create");
    * Invokable<?, Person> factory = Invokable.of(getNameMethod).returning(Person.class);
-   * }</pre>
+   * }
    */
   public final <R1 extends R> Invokable<T, R1> returning(Class<R1> returnType) {
     return returning(TypeToken.of(returnType));

@@ -75,7 +75,7 @@ public final class MoreObjects {
    *
    * <p>This is helpful for implementing {@link Object#toString()}. Specification by example:
    *
-   * <pre>{@code
+   * {@snippet :
    * // Returns "ClassName{}"
    * MoreObjects.toStringHelper(this)
    *     .toString();
@@ -102,7 +102,7 @@ public final class MoreObjects {
    *     .add("x", 1)
    *     .add("y", null)
    *     .toString();
-   * }</pre>
+   * }
    *
    * <p>Note that in GWT, class names are often obfuscated.
    *

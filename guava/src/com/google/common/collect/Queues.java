@@ -432,7 +432,7 @@ public final class Queues {
    * <p>It is imperative that the user manually synchronize on the returned queue when accessing the
    * queue's iterator:
    *
-   * <pre>{@code
+   * {@snippet :
    * Queue<E> queue = Queues.synchronizedQueue(MinMaxPriorityQueue.<E>create());
    * ...
    * queue.add(element);  // Needn't be in synchronized block
@@ -443,7 +443,7 @@ public final class Queues {
    *     foo(i.next());
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
@@ -466,7 +466,7 @@ public final class Queues {
    * <p>It is imperative that the user manually synchronize on the returned deque when accessing any
    * of the deque's iterators:
    *
-   * <pre>{@code
+   * {@snippet :
    * Deque<E> deque = Queues.synchronizedDeque(Queues.<E>newArrayDeque());
    * ...
    * deque.add(element);  // Needn't be in synchronized block
@@ -477,7 +477,7 @@ public final class Queues {
    *     foo(i.next());
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Failure to follow this advice may result in non-deterministic behavior.
    *

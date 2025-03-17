@@ -45,15 +45,15 @@ import org.jspecify.annotations.Nullable;
  * strings. This class includes several constants for encoding schemes specified by <a
  * href="http://tools.ietf.org/html/rfc4648">RFC 4648</a>. For example, the expression:
  *
- * <pre>{@code
+ * {@snippet :
  * BaseEncoding.base32().encode("foo".getBytes(US_ASCII))
- * }</pre>
+ * }
  *
  * <p>returns the string {@code "MZXW6==="}, and
  *
- * <pre>{@code
+ * {@snippet :
  * byte[] decoded = BaseEncoding.base32().decode("MZXW6===");
- * }</pre>
+ * }
  *
  * <p>...returns the ASCII bytes of the string {@code "foo"}.
  *
@@ -62,19 +62,19 @@ import org.jspecify.annotations.Nullable;
  * encoding and decoding behavior, use configuration methods to obtain a new encoding with modified
  * behavior:
  *
- * <pre>{@code
+ * {@snippet :
  * BaseEncoding.base16().lowerCase().decode("deadbeef");
- * }</pre>
+ * }
  *
  * <p>Warning: BaseEncoding instances are immutable. Invoking a configuration method has no effect
  * on the receiving instance; you must store and use the new encoding instance it returns, instead.
  *
- * <pre>{@code
+ * {@snippet :
  * // Do NOT do this
  * BaseEncoding hex = BaseEncoding.base16();
  * hex.lowerCase(); // does nothing!
  * return hex.decode("deadbeef"); // throws an IllegalArgumentException
- * }</pre>
+ * }
  *
  * <p>It is guaranteed that {@code encoding.decode(encoding.encode(x))} is always equal to {@code
  * x}, but the reverse does not necessarily hold.

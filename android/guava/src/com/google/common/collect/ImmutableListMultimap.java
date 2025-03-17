@@ -63,7 +63,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final Multimap<Character, String> FIRST_LETTER_MULTIMAP =
    *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
    *         .collect(toImmutableListMultimap(str -> str.charAt(0), str -> str.substring(1)));
@@ -76,7 +76,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    *         .putAll('a', "pple", "sparagus")
    *         .putAll('c', "arrot", "herry")
    *         .build();
-   * }</pre>
+   * }
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
@@ -97,7 +97,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ImmutableListMultimap<Character, Character> FIRST_LETTER_MULTIMAP =
    *     Stream.of("banana", "apple", "carrot", "asparagus", "cherry")
    *         .collect(
@@ -116,7 +116,8 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    *         .putAll('c', Arrays.asList('h', 'e', 'r', 'r', 'y'))
    *         .build();
    * }
-   * }</pre>
+   *
+   * }
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
@@ -214,14 +215,14 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    * A builder for creating immutable {@code ListMultimap} instances, especially {@code public
    * static final} multimaps ("constant multimaps"). Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final Multimap<String, Integer> STRING_TO_INTEGER_MULTIMAP =
    *     new ImmutableListMultimap.Builder<String, Integer>()
    *         .put("one", 1)
    *         .putAll("several", 1, 2, 3)
    *         .putAll("many", 1, 2, 3, 4, 5)
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple multimaps in series. Each multimap contains the key-value mappings in the previously

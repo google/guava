@@ -104,7 +104,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>Usage example:
  *
- * <pre>{@code
+ * {@snippet :
  * LoadingCache<Key, Graph> graphs = CacheBuilder.newBuilder()
  *     .maximumSize(10000)
  *     .expireAfterWrite(Duration.ofMinutes(10))
@@ -115,11 +115,11 @@ import org.jspecify.annotations.Nullable;
  *             return createExpensiveGraph(key);
  *           }
  *         });
- * }</pre>
+ * }
  *
  * <p>Or equivalently,
  *
- * <pre>{@code
+ * {@snippet :
  * // In real life this would come from a command-line flag or config file
  * String spec = "maximumSize=10000,expireAfterWrite=10m";
  *
@@ -131,7 +131,7 @@ import org.jspecify.annotations.Nullable;
  *             return createExpensiveGraph(key);
  *           }
  *         });
- * }</pre>
+ * }
  *
  * <p>The returned cache implements all optional operations of the {@link LoadingCache} and {@link
  * Cache} interfaces. The {@code asMap} view (and its collection views) have <i>weakly consistent

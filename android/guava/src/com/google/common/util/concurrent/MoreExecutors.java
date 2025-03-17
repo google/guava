@@ -380,13 +380,13 @@ public final class MoreExecutors {
    *
    * <p>This instance is equivalent to:
    *
-   * <pre>{@code
+   * {@snippet :
    * final class DirectExecutor implements Executor {
    *   public void execute(Runnable r) {
    *     r.run();
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>This should be preferred to {@link #newDirectExecutorService()} because implementing the
    * {@link ExecutorService} subinterface necessitates significant performance overhead.

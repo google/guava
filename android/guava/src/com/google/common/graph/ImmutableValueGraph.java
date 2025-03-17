@@ -109,7 +109,7 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
    * A builder for creating {@link ImmutableValueGraph} instances, especially {@code static final}
    * graphs. Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ImmutableValueGraph<City, Distance> CITY_ROAD_DISTANCE_GRAPH =
    *     ValueGraphBuilder.undirected()
    *         .<City, Distance>immutable()
@@ -118,7 +118,7 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
    *         .putEdgeValue(BERLIN, BRUSSELS, kilometers(764))
    *         .addNode(REYKJAVIK)
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple graphs in series. Each new graph contains all the elements of the ones created before

@@ -317,12 +317,12 @@ public final class Streams {
    *
    * <p>For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Streams.zip(
    *   Stream.of("foo1", "foo2", "foo3"),
    *   Stream.of("bar1", "bar2"),
    *   (arg1, arg2) -> arg1 + ":" + arg2)
-   * }</pre>
+   * }
    *
    * <p>will return {@code Stream.of("foo1:bar1", "foo2:bar2")}.
    *
@@ -375,19 +375,19 @@ public final class Streams {
    * ignored. Elements passed to the consumer are guaranteed to come from the same position in their
    * respective source streams. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Streams.forEachPair(
    *   Stream.of("foo1", "foo2", "foo3"),
    *   Stream.of("bar1", "bar2"),
    *   (arg1, arg2) -> System.out.println(arg1 + ":" + arg2)
-   * }</pre>
+   * }
    *
    * <p>will print:
    *
-   * <pre>{@code
+   * {@snippet :
    * foo1:bar1
    * foo2:bar2
-   * }</pre>
+   * }
    *
    * <p><b>Warning:</b> If either supplied stream is a parallel stream, the same correspondence
    * between elements will be made, but the order in which those pairs of elements are passed to the
@@ -430,11 +430,11 @@ public final class Streams {
    * Returns a stream consisting of the results of applying the given function to the elements of
    * {@code stream} and their indices in the stream. For example,
    *
-   * <pre>{@code
+   * {@snippet :
    * mapWithIndex(
    *     Stream.of("a", "b", "c"),
    *     (e, index) -> index + ":" + e)
-   * }</pre>
+   * }
    *
    * <p>would return {@code Stream.of("0:a", "1:b", "2:c")}.
    *
@@ -513,11 +513,11 @@ public final class Streams {
    * Returns a stream consisting of the results of applying the given function to the elements of
    * {@code stream} and their indexes in the stream. For example,
    *
-   * <pre>{@code
+   * {@snippet :
    * mapWithIndex(
    *     IntStream.of(10, 11, 12),
    *     (e, index) -> index + ":" + e)
-   * }</pre>
+   * }
    *
    * <p>...would return {@code Stream.of("0:10", "1:11", "2:12")}.
    *
@@ -593,11 +593,11 @@ public final class Streams {
    * Returns a stream consisting of the results of applying the given function to the elements of
    * {@code stream} and their indexes in the stream. For example,
    *
-   * <pre>{@code
+   * {@snippet :
    * mapWithIndex(
    *     LongStream.of(10, 11, 12),
    *     (e, index) -> index + ":" + e)
-   * }</pre>
+   * }
    *
    * <p>...would return {@code Stream.of("0:10", "1:11", "2:12")}.
    *
@@ -673,11 +673,11 @@ public final class Streams {
    * Returns a stream consisting of the results of applying the given function to the elements of
    * {@code stream} and their indexes in the stream. For example,
    *
-   * <pre>{@code
+   * {@snippet :
    * mapWithIndex(
    *     DoubleStream.of(0.0, 1.0, 2.0)
    *     (e, index) -> index + ":" + e)
-   * }</pre>
+   * }
    *
    * <p>...would return {@code Stream.of("0:0.0", "1:1.0", "2:2.0")}.
    *

@@ -105,11 +105,11 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>An alternative using Java 8:
  *
- * <pre>{@code
+ * {@snippet :
  * return Converter.from(
  *     Integer::toHexString,
  *     s -> parseUnsignedInt(s, 16));
- * }</pre>
+ * }
  *
  * @author Mike Ward
  * @author Kurt Alfred Kluever

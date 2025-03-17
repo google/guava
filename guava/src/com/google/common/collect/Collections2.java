@@ -388,7 +388,7 @@ public final class Collections2 {
    *
    * <p>Examples:
    *
-   * <pre>{@code
+   * {@snippet :
    * for (List<String> perm : orderedPermutations(asList("b", "c", "a"))) {
    *   println(perm);
    * }
@@ -408,7 +408,7 @@ public final class Collections2 {
    * // -> [2, 1, 1, 2]
    * // -> [2, 1, 2, 1]
    * // -> [2, 2, 1, 1]
-   * }</pre>
+   * }
    *
    * <p><i>Notes:</i> This is an implementation of the algorithm for Lexicographical Permutations
    * Generation, described in Knuth's "The Art of Computer Programming", Volume 4, Chapter 7,

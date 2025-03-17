@@ -53,20 +53,20 @@ import org.jspecify.annotations.Nullable;
  * followed immediately by a <i>try/finally</i> block to ensure that the current thread leaves the
  * monitor cleanly:
  *
- * <pre>{@code
+ * {@snippet :
  * monitor.enter();
  * try {
  *   // do things while occupying the monitor
  * } finally {
  *   monitor.leave();
  * }
- * }</pre>
+ * }
  *
  * <p>A call to any of the <i>enter</i> methods with <b>boolean</b> return type should always appear
  * as the condition of an <i>if</i> statement containing a <i>try/finally</i> block to ensure that
  * the current thread leaves the monitor cleanly:
  *
- * <pre>{@code
+ * {@snippet :
  * if (monitor.tryEnter()) {
  *   try {
  *     // do things while occupying the monitor
@@ -76,7 +76,7 @@ import org.jspecify.annotations.Nullable;
  * } else {
  *   // do other things since the monitor was not available
  * }
- * }</pre>
+ * }
  *
  * <h2>Comparison with {@code synchronized} and {@code ReentrantLock}</h2>
  *
@@ -91,7 +91,7 @@ import org.jspecify.annotations.Nullable;
  * {@code notifyAll()} must be used instead of {@code notify()} because there are two different
  * logical conditions being awaited.
  *
- * <pre>{@code
+ * {@snippet :
  * public class SafeBox<V> {
  *   private V value;
  *
@@ -113,7 +113,7 @@ import org.jspecify.annotations.Nullable;
  *     notifyAll();
  *   }
  * }
- * }</pre>
+ * }
  *
  * <h3>{@code ReentrantLock}</h3>
  *
@@ -122,7 +122,7 @@ import org.jspecify.annotations.Nullable;
  * one advantage is that we can introduce two separate {@code Condition} objects, which allows us to
  * use {@code signal()} instead of {@code signalAll()}, which may be a performance benefit.
  *
- * <pre>{@code
+ * {@snippet :
  * public class SafeBox<V> {
  *   private V value;
  *   private final ReentrantLock lock = new ReentrantLock();
@@ -157,7 +157,7 @@ import org.jspecify.annotations.Nullable;
  *     }
  *   }
  * }
- * }</pre>
+ * }
  *
  * <h3>{@code Monitor}</h3>
  *
@@ -167,7 +167,7 @@ import org.jspecify.annotations.Nullable;
  * Finally, the programmer no longer has to hand-code the wait loop, and therefore doesn't have to
  * remember to use {@code while} instead of {@code if}.
  *
- * <pre>{@code
+ * {@snippet :
  * public class SafeBox<V> {
  *   private V value;
  *   private final Monitor monitor = new Monitor();
@@ -194,7 +194,7 @@ import org.jspecify.annotations.Nullable;
  *     }
  *   }
  * }
- * }</pre>
+ * }
  *
  * @author Justin T. Sampson
  * @author Martin Buchholz

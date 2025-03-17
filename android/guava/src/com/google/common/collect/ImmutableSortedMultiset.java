@@ -457,7 +457,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    * A builder for creating immutable multiset instances, especially {@code public static final}
    * multisets ("constant multisets"). Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * public static final ImmutableSortedMultiset<Bean> BEANS =
    *     new ImmutableSortedMultiset.Builder<Bean>(colorComparator())
    *         .addCopies(Bean.COCOA, 4)
@@ -465,7 +465,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *         .addCopies(Bean.RED, 8)
    *         .addCopies(Bean.BLACK_EYED, 10)
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Builder instances can be reused; it is safe to call {@link #build} multiple times to build
    * multiple multisets in series.

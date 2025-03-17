@@ -29,16 +29,16 @@ import java.util.Set;
 /**
  * A sorted set of contiguous values in a given {@link DiscreteDomain}. Example:
  *
- * <pre>{@code
+ * {@snippet :
  * ContiguousSet.create(Range.closed(5, 42), DiscreteDomain.integers())
- * }</pre>
+ * }
  *
  * <p>Note that because bounded ranges over {@code int} and {@code long} values are so common, this
  * particular example can be written as just:
  *
- * <pre>{@code
+ * {@snippet :
  * ContiguousSet.closed(5, 42)
- * }</pre>
+ * }
  *
  * <p><b>Warning:</b> Be extremely careful what you do with conceptually large instances (such as
  * {@code ContiguousSet.create(Range.greaterThan(0), DiscreteDomain.integers()}). Certain operations

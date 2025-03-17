@@ -55,11 +55,11 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>Usage example:
  *
- * <pre>{@code
+ * {@snippet :
  * MinMaxPriorityQueue<User> users = MinMaxPriorityQueue.orderedBy(userComparator)
  *     .maximumSize(1000)
  *     .create();
- * }</pre>
+ * }
  *
  * <p>As a {@link Queue} it functions exactly as a {@link PriorityQueue}: its head element -- the
  * implicit target of the methods {@link #peek()}, {@link #poll()} and {@link #remove()} -- is

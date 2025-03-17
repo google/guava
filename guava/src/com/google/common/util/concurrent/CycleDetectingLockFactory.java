@@ -337,7 +337,7 @@ public class CycleDetectingLockFactory {
    * corresponding to smaller values of {@link Enum#ordinal()} should only be acquired before locks
    * with larger ordinals. Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * enum MyLockOrder {
    *   FIRST, SECOND, THIRD;
    * }
@@ -352,7 +352,7 @@ public class CycleDetectingLockFactory {
    * lock1.lock();
    * lock3.lock();
    * lock2.lock();  // will throw an IllegalStateException
-   * }</pre>
+   * }
    *
    * <p>As with all locks created by instances of {@code CycleDetectingLockFactory} explicitly
    * ordered locks participate in general cycle detection with all other cycle detecting locks, and
@@ -364,7 +364,7 @@ public class CycleDetectingLockFactory {
    * attempting to acquire multiple locks with the same Enum value (within the same thread) will
    * result in an IllegalStateException regardless of the factory's policy. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * CycleDetectingLockFactory.WithExplicitOrdering<MyLockOrder> factory1 =
    *   CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
    * CycleDetectingLockFactory.WithExplicitOrdering<MyLockOrder> factory2 =
@@ -380,7 +380,7 @@ public class CycleDetectingLockFactory {
    * lockC.lock();  // will throw an IllegalStateException
    *
    * lockA.lock();  // reentrant acquisition is okay
-   * }</pre>
+   * }
    *
    * <p>It is the responsibility of the application to ensure that multiple lock instances with the
    * same rank are never acquired in the same thread.

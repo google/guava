@@ -26,13 +26,13 @@ import org.jspecify.annotations.Nullable;
  * except that they are always enabled. These methods should be used instead of Java assertions
  * whenever there is a chance the check may fail "in real life". Example:
  *
- * <pre>{@code
+ * {@snippet :
  * Bill bill = remoteService.getLastUnpaidBill();
  *
  * // In case bug 12345 happens again we'd rather just die
  * Verify.verify(bill.status() == Status.UNPAID,
  *     "Unexpected bill status: %s", bill.status());
- * }</pre>
+ * }
  *
  * <h3>Comparison to alternatives</h3>
  *
@@ -63,12 +63,12 @@ import org.jspecify.annotations.Nullable;
  * the message ends up unneeded. Performance-sensitive verification checks should continue to use
  * usual form:
  *
- * <pre>{@code
+ * {@snippet :
  * Bill bill = remoteService.getLastUnpaidBill();
  * if (bill.status() != Status.UNPAID) {
  *   throw new VerifyException("Unexpected bill status: " + bill.status());
  * }
- * }</pre>
+ * }
  *
  * <h3>Only {@code %s} is supported</h3>
  *

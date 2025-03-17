@@ -36,10 +36,10 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>Example usage:
  *
- * <pre>{@code
+ * {@snippet :
  * MutableGraph<Integer> graph =
  *     GraphBuilder.directed().nodeOrder(ElementOrder.<Integer>natural()).build();
- * }</pre>
+ * }
  *
  * @author Joshua O'Madadhain
  * @since 20.0

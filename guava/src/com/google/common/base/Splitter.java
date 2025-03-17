@@ -39,9 +39,9 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>For example, this expression:
  *
- * <pre>{@code
+ * {@snippet :
  * Splitter.on(',').split("foo,bar,qux")
- * }</pre>
+ * }
  *
  * ... produces an {@code Iterable} containing {@code "foo"}, {@code "bar"} and {@code "qux"}, in
  * that order.
@@ -49,19 +49,19 @@ import org.jspecify.annotations.Nullable;
  * <p>By default, {@code Splitter}'s behavior is simplistic and unassuming. The following
  * expression:
  *
- * <pre>{@code
+ * {@snippet :
  * Splitter.on(',').split(" foo,,,  bar ,")
- * }</pre>
+ * }
  *
  * ... yields the substrings {@code [" foo", "", "", " bar ", ""]}. If this is not the desired
  * behavior, use configuration methods to obtain a <i>new</i> splitter instance with modified
  * behavior:
  *
- * <pre>{@code
+ * {@snippet :
  * private static final Splitter MY_SPLITTER = Splitter.on(',')
  *     .trimResults()
  *     .omitEmptyStrings();
- * }</pre>
+ * }
  *
  * <p>Now {@code MY_SPLITTER.split("foo,,, bar ,")} returns just {@code ["foo", "bar"]}. Note that
  * the order in which these configuration methods are called is never significant.
@@ -70,12 +70,12 @@ import org.jspecify.annotations.Nullable;
  * effect on the receiving instance; you must store and use the new splitter instance it returns
  * instead.
  *
- * <pre>{@code
+ * {@snippet :
  * // Do NOT do this
  * Splitter splitter = Splitter.on('/');
  * splitter.trimResults(); // does nothing!
  * return splitter.split("wrong / wrong / wrong");
- * }</pre>
+ * }
  *
  * <p>For separator-based splitters that do not use {@code omitEmptyStrings}, an input string
  * containing {@code n} occurrences of the separator naturally yields an iterable of size {@code n +
@@ -452,13 +452,13 @@ public final class Splitter {
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * String toSplit = " x -> y, z-> a ";
    * Splitter outerSplitter = Splitter.on(',').trimResults();
    * MapSplitter mapSplitter = outerSplitter.withKeyValueSeparator(Splitter.on("->"));
    * Map<String, String> result = mapSplitter.split(toSplit);
    * assertThat(result).isEqualTo(ImmutableMap.of("x ", " y", "z", " a"));
-   * }</pre>
+   * }
    *
    * @since 10.0
    */

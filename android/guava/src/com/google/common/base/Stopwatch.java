@@ -60,7 +60,7 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>Basic usage:
  *
- * <pre>{@code
+ * {@snippet :
  * Stopwatch stopwatch = Stopwatch.createStarted();
  * doSomething();
  * stopwatch.stop(); // optional
@@ -68,7 +68,7 @@ import java.util.concurrent.TimeUnit;
  * Duration duration = stopwatch.elapsed();
  *
  * log.info("time: " + stopwatch); // formatted string like "12.3 ms"
- * }</pre>
+ * }
  *
  * <p>The state-changing methods are not idempotent; it is an error to start or stop a stopwatch
  * that is already in the desired state.
@@ -82,14 +82,14 @@ import java.util.concurrent.TimeUnit;
  * <p><b>Warning for Android users:</b> a stopwatch with default behavior may not continue to keep
  * time while the device is asleep. Instead, create one like this:
  *
- * <pre>{@code
+ * {@snippet :
  * Stopwatch.createStarted(
  *      new Ticker() {
  *        public long read() {
  *          return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17
  *        }
  *      });
- * }</pre>
+ * }
  *
  * @author Kevin Bourrillion
  * @since 10.0

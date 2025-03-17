@@ -269,14 +269,14 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Usage example:
    *
-   * <pre>{@code
+   * {@snippet :
    * ListenableFuture<Integer> fetchCounterFuture = ...;
    *
    * // Falling back to a zero counter in case an exception happens when
    * // processing the RPC to fetch counters.
    * ListenableFuture<Integer> faultTolerantFuture = Futures.catching(
    *     fetchCounterFuture, FetchException.class, x -> 0, directExecutor());
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the warnings the {@link MoreExecutors#directExecutor} documentation.
@@ -315,18 +315,18 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Usage examples:
    *
-   * <pre>{@code
+   * {@snippet :
    * ListenableFuture<Integer> fetchCounterFuture = ...;
    *
    * // Falling back to a zero counter in case an exception happens when
    * // processing the RPC to fetch counters.
    * ListenableFuture<Integer> faultTolerantFuture = Futures.catchingAsync(
    *     fetchCounterFuture, FetchException.class, x -> immediateFuture(0), directExecutor());
-   * }</pre>
+   * }
    *
    * <p>The fallback can also choose to propagate the original exception when desired:
    *
-   * <pre>{@code
+   * {@snippet :
    * ListenableFuture<Integer> fetchCounterFuture = ...;
    *
    * // Falling back to a zero counter only in case the exception was a
@@ -341,7 +341,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *       throw e;
    *     },
    *     directExecutor());
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the warnings the {@link MoreExecutors#directExecutor} documentation.
@@ -423,11 +423,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
    * Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * ListenableFuture<RowKey> rowKeyFuture = indexService.lookUp(query);
    * ListenableFuture<QueryResult> queryFuture =
    *     transformAsync(rowKeyFuture, dataService::readFuture, executor);
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the warnings the {@link MoreExecutors#directExecutor} documentation.
@@ -459,11 +459,11 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
    * the function is not invoked). Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * ListenableFuture<QueryResult> queryFuture = ...;
    * ListenableFuture<List<Row>> rowsFuture =
    *     transform(queryFuture, QueryResult::getRows, executor);
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the warnings the {@link MoreExecutors#directExecutor} documentation.
@@ -667,7 +667,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * final ListenableFuture<Instant> loginDateFuture =
    *     loginService.findLastLoginDate(username);
    * final ListenableFuture<List<String>> recentCommandsFuture =
@@ -681,7 +681,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *                     Futures.getDone(loginDateFuture),
    *                     Futures.getDone(recentCommandsFuture)),
    *             executor);
-   * }</pre>
+   * }
    *
    * @since 20.0
    */
@@ -1067,7 +1067,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * ListenableFuture<QueryResult> future = ...;
    * Executor e = ...
    * addCallback(future,
@@ -1079,7 +1079,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    *         reportError(t);
    *       }
    *     }, e);
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the warnings the {@link MoreExecutors#directExecutor} documentation.

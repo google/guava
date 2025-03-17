@@ -30,18 +30,18 @@ import com.google.errorprone.annotations.DoNotMock;
  *
  * Given an algorithm, for example:
  *
- * <pre>{@code
+ * {@snippet :
  * public <N> someGraphAlgorithm(N startNode, PredecessorsFunction<N> predecessorsFunction);
- * }</pre>
+ * }
  *
  * you will invoke it depending on the graph representation you're using.
  *
  * <p>If you have an instance of one of the primary {@code common.graph} types ({@link Graph},
  * {@link ValueGraph}, and {@link Network}):
  *
- * <pre>{@code
+ * {@snippet :
  * someGraphAlgorithm(startNode, graph);
- * }</pre>
+ * }
  *
  * This works because those types each implement {@code PredecessorsFunction}. It will also work
  * with any other implementation of this interface.
@@ -49,17 +49,17 @@ import com.google.errorprone.annotations.DoNotMock;
  * <p>If you have your own graph implementation based around a custom node type {@code MyNode},
  * which has a method {@code getParents()} that retrieves its predecessors in a graph:
  *
- * <pre>{@code
+ * {@snippet :
  * someGraphAlgorithm(startNode, MyNode::getParents);
- * }</pre>
+ * }
  *
  * <p>If you have some other mechanism for returning the predecessors of a node, or one that doesn't
  * return a {@code Iterable<? extends N>}, then you can use a lambda to perform a more general
  * transformation:
  *
- * <pre>{@code
+ * {@snippet :
  * someGraphAlgorithm(startNode, node -> ImmutableList.of(node.mother(), node.father()));
- * }</pre>
+ * }
  *
  * <p>Graph algorithms that need additional capabilities (accessing both predecessors and
  * successors, iterating over the edges, etc.) should declare their input to be of a type that

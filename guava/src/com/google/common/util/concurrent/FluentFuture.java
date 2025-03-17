@@ -35,13 +35,13 @@ import org.jspecify.annotations.Nullable;
 /**
  * A {@link ListenableFuture} that supports fluent chains of operations. For example:
  *
- * <pre>{@code
+ * {@snippet :
  * ListenableFuture<Boolean> adminIsLoggedIn =
  *     FluentFuture.from(usersDatabase.getAdminUser())
  *         .transform(User::getId, directExecutor())
  *         .transform(ActivityService::isLoggedIn, threadPool)
  *         .catching(RpcException.class, e -> false, directExecutor());
- * }</pre>
+ * }
  *
  * <h3>Alternatives</h3>
  *
@@ -159,12 +159,12 @@ public abstract class FluentFuture<V extends @Nullable Object>
    *
    * <p>Usage example:
    *
-   * <pre>{@code
+   * {@snippet :
    * // Falling back to a zero counter in case an exception happens when processing the RPC to fetch
    * // counters.
    * ListenableFuture<Integer> faultTolerantFuture =
    *     fetchCounters().catching(FetchException.class, x -> 0, directExecutor());
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight
@@ -203,17 +203,17 @@ public abstract class FluentFuture<V extends @Nullable Object>
    *
    * <p>Usage examples:
    *
-   * <pre>{@code
+   * {@snippet :
    * // Falling back to a zero counter in case an exception happens when processing the RPC to fetch
    * // counters.
    * ListenableFuture<Integer> faultTolerantFuture =
    *     fetchCounters().catchingAsync(
    *         FetchException.class, x -> immediateFuture(0), directExecutor());
-   * }</pre>
+   * }
    *
    * <p>The fallback can also choose to propagate the original exception when desired:
    *
-   * <pre>{@code
+   * {@snippet :
    * // Falling back to a zero counter only in case the exception was a
    * // TimeoutException.
    * ListenableFuture<Integer> faultTolerantFuture =
@@ -226,7 +226,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    *           throw e;
    *         },
    *         directExecutor());
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight
@@ -303,11 +303,11 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
    * Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * FluentFuture<RowKey> rowKeyFuture = FluentFuture.from(indexService.lookUp(query));
    * ListenableFuture<QueryResult> queryFuture =
    *     rowKeyFuture.transformAsync(dataService::readFuture, executor);
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight
@@ -343,10 +343,10 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * this input {@code Future} fails, the returned {@code Future} fails with the same exception (and
    * the function is not invoked). Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * ListenableFuture<List<Row>> rowsFuture =
    *     queryFuture.transform(QueryResult::getRows, executor);
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight
@@ -386,7 +386,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * future.addCallback(
    *     new FutureCallback<QueryResult>() {
    *       public void onSuccess(QueryResult result) {
@@ -396,7 +396,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    *         reportError(t);
    *       }
    *     }, executor);
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link #addListener} documentation. All its warnings about heavyweight

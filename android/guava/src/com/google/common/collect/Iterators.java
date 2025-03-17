@@ -1231,13 +1231,13 @@ public final class Iterators {
    * iteration, and hence return the same object each time. A subsequent call to {@code next} is
    * guaranteed to return the same object again. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * PeekingIterator<String> peekingIterator =
    *     Iterators.peekingIterator(Iterators.forArray("a", "b"));
    * String a1 = peekingIterator.peek(); // returns "a"
    * String a2 = peekingIterator.peek(); // also returns "a"
    * String a3 = peekingIterator.next(); // also returns "a"
-   * }</pre>
+   * }
    *
    * <p>Any structural changes to the underlying iteration (aside from those performed by the
    * iterator's own {@link PeekingIterator#remove()} method) will leave the iterator in an undefined

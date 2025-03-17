@@ -441,13 +441,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   /**
    * A builder for creating {@code ImmutableSet} instances. Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ImmutableSet<Color> GOOGLE_COLORS =
    *     ImmutableSet.<Color>builder()
    *         .addAll(WEBSAFE_COLORS)
    *         .add(new Color(0, 191, 255))
    *         .build();
-   * }</pre>
+   * }
    *
    * <p>Elements appear in the resulting set in the same order they were first added to the builder.
    *

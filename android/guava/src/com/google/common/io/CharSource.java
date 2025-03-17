@@ -143,13 +143,13 @@ public abstract class CharSource {
    *
    * <p>The caller is responsible for ensuring that the returned stream is closed. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * try (Stream<String> lines = source.lines()) {
    *   lines.map(...)
    *      .filter(...)
    *      .forEach(...);
    * }
-   * }</pre>
+   * }
    *
    * @throws IOException if an I/O error occurs while opening the stream
    * @since 33.4.0 (but since 22.0 in the JRE flavor)

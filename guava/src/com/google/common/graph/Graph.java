@@ -57,9 +57,9 @@ import org.jspecify.annotations.Nullable;
  * create an instance of one of the built-in implementations of {@code Graph}, use the {@link
  * GraphBuilder} class:
  *
- * <pre>{@code
+ * {@snippet :
  * MutableGraph<Integer> graph = GraphBuilder.undirected().build();
- * }</pre>
+ * }
  *
  * <p>{@link GraphBuilder#build()} returns an instance of {@link MutableGraph}, which is a subtype
  * of {@code Graph} that provides methods for adding and removing nodes and edges. If you do not
@@ -69,9 +69,9 @@ import org.jspecify.annotations.Nullable;
  * <p>You can create an immutable copy of an existing {@code Graph} using {@link
  * ImmutableGraph#copyOf(Graph)}:
  *
- * <pre>{@code
+ * {@snippet :
  * ImmutableGraph<Integer> immutableGraph = ImmutableGraph.copyOf(graph);
- * }</pre>
+ * }
  *
  * <p>Instances of {@link ImmutableGraph} do not implement {@link MutableGraph} (obviously!) and are
  * contractually guaranteed to be unmodifiable and thread-safe.

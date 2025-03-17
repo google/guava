@@ -523,10 +523,10 @@ public final class Ascii {
    *
    * <p>Examples:
    *
-   * <pre>{@code
+   * {@snippet :
    * Ascii.truncate("foobar", 7, "..."); // returns "foobar"
    * Ascii.truncate("foobar", 5, "..."); // returns "fo..."
-   * }</pre>
+   * }
    *
    * <p><b>Note:</b> This method <i>may</i> work with certain non-ASCII text but is not safe for use
    * with arbitrary Unicode text. It is mostly intended for use with text that is known to be safe

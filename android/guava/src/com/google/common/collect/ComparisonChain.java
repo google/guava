@@ -24,7 +24,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * A utility for performing a chained comparison statement. For example:
  *
- * <pre>{@code
+ * {@snippet :
  * public int compareTo(Foo that) {
  *   return ComparisonChain.start()
  *       .compare(this.aString, that.aString)
@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  *       .compare(this.anEnum, that.anEnum, Ordering.natural().nullsLast())
  *       .result();
  * }
- * }</pre>
+ * }
  *
  * <p>The value of this expression will have the same sign as the <i>first nonzero</i> comparison
  * result in the chain, or will be zero if every comparison result was zero.
@@ -49,6 +49,37 @@ import org.jspecify.annotations.Nullable;
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained#comparecompareto">{@code
  * ComparisonChain}</a>.
+ *
+ * <h4 id="java8">Java 8+ equivalents</h4>
+ *
+ * If you are using Java version 8 or greater, you should generally use the static methods in {@link
+ * Comparator} instead of {@code ComparisonChain}. The example above can be implemented like this:
+ *
+ * {@snippet :
+ * import static java.util.Comparator.comparing;
+ * import static java.util.Comparator.nullsLast;
+ * import static java.util.Comparator.naturalOrder;
+ *
+ * ...
+ *   private static final Comparator<Foo> COMPARATOR =
+ *       comparing((Foo foo) -> foo.aString)
+ *           .thenComparing(foo -> foo.anInt)
+ *           .thenComparing(foo -> foo.anEnum, nullsLast(naturalOrder()));
+ *
+ *   @Override
+ *   public int compareTo(Foo that) {
+ *     return COMPARATOR.compare(this, that);
+ *   }
+ * }
+ *
+ * <p>With method references it is more succinct: {@code comparing(Foo::aString)} for example.
+ *
+ * <p>Using {@link Comparator} avoids certain types of bugs, for example when you meant to write
+ * {@code .compare(a.foo, b.foo)} but you actually wrote {@code .compare(a.foo, a.foo)} or {@code
+ * .compare(a.foo, b.bar)}. {@code ComparisonChain} also has a potential performance problem that
+ * {@code Comparator} doesn't: it evaluates all the parameters of all the {@code .compare} calls,
+ * even when the result of the comparison is already known from previous {@code .compare} calls.
+ * That can be expensive.
  *
  * @author Mark Davis
  * @author Kevin Bourrillion

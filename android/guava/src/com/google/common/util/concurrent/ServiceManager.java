@@ -79,7 +79,7 @@ import java.util.logging.Level;
  *
  * <p>Here is a simple example of how to use a {@code ServiceManager} to start a server.
  *
- * <pre>{@code
+ * {@snippet :
  * class Server {
  *   public static void main(String[] args) {
  *     Set<Service> services = ...;
@@ -111,7 +111,7 @@ import java.util.logging.Level;
  *     manager.startAsync();  // start all the services asynchronously
  *   }
  * }
- * }</pre>
+ * }
  *
  * <p>This class uses the ServiceManager's methods to start all of its services, to respond to
  * service failure and to ensure that when the JVM is shutting down all the services are stopped.

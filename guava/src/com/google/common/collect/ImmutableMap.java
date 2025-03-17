@@ -387,14 +387,14 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    * A builder for creating immutable map instances, especially {@code public static final} maps
    * ("constant maps"). Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * static final ImmutableMap<String, Integer> WORD_TO_INT =
    *     new ImmutableMap.Builder<String, Integer>()
    *         .put("one", 1)
    *         .put("two", 2)
    *         .put("three", 3)
    *         .buildOrThrow();
-   * }</pre>
+   * }
    *
    * <p>For <i>small</i> immutable maps, the {@code ImmutableMap.of()} methods are even more
    * convenient.

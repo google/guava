@@ -36,21 +36,21 @@ import java.util.concurrent.Executor;
  *
  * <p>Usage example:
  *
- * <pre>{@code
+ * {@snippet :
  * CacheLoader<Key, Graph> loader = new CacheLoader<Key, Graph>() {
  *   public Graph load(Key key) throws AnyException {
  *     return createExpensiveGraph(key);
  *   }
  * };
  * LoadingCache<Key, Graph> cache = CacheBuilder.newBuilder().build(loader);
- * }</pre>
+ * }
  *
  * <p>Since this example doesn't support reloading or bulk loading, if you're able to use lambda
  * expressions it can be specified even more easily:
  *
- * <pre>{@code
+ * {@snippet :
  * CacheLoader<Key, Graph> loader = CacheLoader.from(key -> createExpensiveGraph(key));
- * }</pre>
+ * }
  *
  * @author Charles Fry
  * @since 10.0

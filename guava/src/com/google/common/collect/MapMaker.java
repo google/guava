@@ -39,12 +39,12 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>Usage example:
  *
- * <pre>{@code
+ * {@snippet :
  * ConcurrentMap<Request, Stopwatch> timers = new MapMaker()
  *     .concurrencyLevel(4)
  *     .weakKeys()
  *     .makeMap();
- * }</pre>
+ * }
  *
  * <p>These features are all optional; {@code new MapMaker().makeMap()} returns a valid concurrent
  * map that behaves similarly to a {@link ConcurrentHashMap}.

@@ -139,7 +139,7 @@ import org.jspecify.annotations.Nullable;
  * to be closed asynchronously <b>after</b> the returned {@code Future} is done: the future
  * completes before closing starts, rather than once it has finished.
  *
- * <pre>{@code
+ * {@snippet :
  * FluentFuture<UserName> userName =
  *     ClosingFuture.submit(
  *             closer -> closer.eventuallyClose(database.newTransaction(), closingExecutor),
@@ -148,7 +148,7 @@ import org.jspecify.annotations.Nullable;
  *         .transform((closer, result) -> result.get("userName"), directExecutor())
  *         .catching(DBException.class, e -> "no user", directExecutor())
  *         .finishToFuture();
- * }</pre>
+ * }
  *
  * In this example, when the {@code userName} {@link Future} is done, the transaction and the query
  * result cursor will both be closed, even if the operation is cancelled or fails.
@@ -159,7 +159,7 @@ import org.jspecify.annotations.Nullable;
  * {@link #finishToValueAndCloser(ValueAndCloserConsumer, Executor)} to get an object that holds the
  * final result. You then call {@link ValueAndCloser#closeAsync()} to close the captured objects.
  *
- * <pre>{@code
+ * {@snippet :
  *     ClosingFuture.submit(
  *             closer -> closer.eventuallyClose(database.newTransaction(), closingExecutor),
  *             executor)
@@ -176,7 +176,7 @@ import org.jspecify.annotations.Nullable;
  * } finally {
  *   userNameValueAndCloser.closeAsync();
  * }
- * }</pre>
+ * }
  *
  * In this example, when {@code userNameValueAndCloser.closeAsync()} is called, the transaction and
  * the query result cursor will both be closed, even if the operation is cancelled or fails.
@@ -660,10 +660,10 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *
    * <p>Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * ClosingFuture<List<Row>> rowsFuture =
    *     queryFuture.transform((closer, result) -> result.getRows(), executor);
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link ListenableFuture#addListener} documentation. All its warnings
@@ -733,7 +733,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *
    * <p>Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * // Result.getRowsClosingFuture() returns a ClosingFuture.
    * ClosingFuture<List<Row>> rowsFuture =
    *     queryFuture.transformAsync((closer, result) -> result.getRowsClosingFuture(), executor);
@@ -753,7 +753,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    * ClosingFuture<List<Row>> rowsFuture3 =
    *     queryFuture.transformAsync(withoutCloser(Result::getRowsFuture), executor);
    *
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link ListenableFuture#addListener} documentation. All its warnings
@@ -809,11 +809,11 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *
    * <p>Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * // Result.getRowsFuture() returns a ListenableFuture.
    * ClosingFuture<List<Row>> rowsFuture =
    *     queryFuture.transformAsync(withoutCloser(Result::getRowsFuture), executor);
-   * }</pre>
+   * }
    *
    * @param function transforms the value of a {@code ClosingFuture} step to a {@link
    *     ListenableFuture} with the value of a derived step
@@ -838,11 +838,11 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *
    * <p>Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * ClosingFuture<QueryResult> queryFuture =
    *     queryFuture.catching(
    *         QueryException.class, (closer, x) -> Query.emptyQueryResult(), executor);
-   * }</pre>
+   * }
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link ListenableFuture#addListener} documentation. All its warnings
@@ -926,13 +926,12 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *
    * <p>Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * // Fall back to a secondary input stream in case of IOException.
    * ClosingFuture<InputStream> inputFuture =
    *     firstInputFuture.catchingAsync(
    *         IOException.class, (closer, x) -> secondaryInputStreamClosingFuture(), executor);
    * }
-   * }</pre>
    *
    * <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
    * the discussion in the {@link ListenableFuture#addListener} documentation. All its warnings
@@ -1188,7 +1187,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *
    * <p>Example:
    *
-   * <pre>{@code
+   * {@snippet :
    * final ClosingFuture<BufferedReader> file1ReaderFuture = ...;
    * final ClosingFuture<BufferedReader> file2ReaderFuture = ...;
    * ListenableFuture<Integer> numberOfDifferentLines =
@@ -1201,7 +1200,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *               },
    *               executor)
    *           .closing(executor);
-   * }</pre>
+   * }
    */
   @DoNotMock("Use ClosingFuture.whenAllSucceed() or .whenAllComplete() instead.")
   public static class Combiner {

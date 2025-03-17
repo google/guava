@@ -144,7 +144,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <h4>Example usage</h4>
  *
- * <pre>{@code
+ * {@snippet :
  * class Foo {
  *   private static final ImmutableSet<String> RESERVED_CODES =
  *       ImmutableSet.of("AZ", "CQ", "ZX");
@@ -156,7 +156,7 @@ import org.jspecify.annotations.Nullable;
  *     checkArgument(Collections.disjoint(this.codes, RESERVED_CODES));
  *   }
  * }
- * }</pre>
+ * }
  *
  * <h3>See also</h3>
  *

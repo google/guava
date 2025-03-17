@@ -44,7 +44,7 @@ import com.google.errorprone.annotations.DoNotMock;
  *
  * <p>Examples of use:
  *
- * <pre>{@code
+ * {@snippet :
  * // Building a mutable graph
  * MutableGraph<String> graph = GraphBuilder.undirected().allowsSelfLoops(true).build();
  * graph.putEdge("bread", "bread");
@@ -60,7 +60,7 @@ import com.google.errorprone.annotations.DoNotMock;
  *         .putEdge("chocolate", "peanut butter")
  *         .putEdge("peanut butter", "jelly")
  *         .build();
- * }</pre>
+ * }
  *
  * @author James Sexton
  * @author Joshua O'Madadhain

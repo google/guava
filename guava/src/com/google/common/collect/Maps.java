@@ -1259,12 +1259,12 @@ public final class Maps {
    *
    * <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * import static com.google.common.collect.ImmutableMap.toImmutableMap;
    * ...
    * ImmutableMap<Color, String> colorNames =
    *     allColors.stream().collect(toImmutableMap(c -> c, c -> c.toString()));
-   * }</pre>
+   * }
    *
    * <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
    * and values in the map are.
@@ -1309,7 +1309,7 @@ public final class Maps {
    * {@code keyFunction} to that value. These entries appear in the same order as the input values.
    * Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * Color red = new Color("red", 255, 0, 0);
    * ...
    * ImmutableSet<Color> allColors = ImmutableSet.of(red, green, blue);
@@ -1317,19 +1317,19 @@ public final class Maps {
    * ImmutableMap<String, Color> colorForName =
    *     uniqueIndex(allColors, c -> c.toString());
    * assertThat(colorForName).containsEntry("red", red);
-   * }</pre>
+   * }
    *
    * <p>If your index may associate multiple values with each key, use {@link
    * Multimaps#index(Iterable, Function) Multimaps.index}.
    *
    * <p><b>Note:</b> on Java 8+, it is usually better to use streams. For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * import static com.google.common.collect.ImmutableMap.toImmutableMap;
    * ...
    * ImmutableMap<String, Color> colorForName =
    *     allColors.stream().collect(toImmutableMap(c -> c.toString(), c -> c));
-   * }</pre>
+   * }
    *
    * <p>Streams provide a more standard and flexible API and the lambdas make it clear what the keys
    * and values in the map are.
@@ -1361,7 +1361,7 @@ public final class Maps {
    * {@code keyFunction} to that value. These entries appear in the same order as the input values.
    * Example usage:
    *
-   * <pre>{@code
+   * {@snippet :
    * Color red = new Color("red", 255, 0, 0);
    * ...
    * Iterator<Color> allColors = ImmutableSet.of(red, green, blue).iterator();
@@ -1369,7 +1369,7 @@ public final class Maps {
    * Map<String, Color> colorForName =
    *     uniqueIndex(allColors, toStringFunction());
    * assertThat(colorForName).containsEntry("red", red);
-   * }</pre>
+   * }
    *
    * <p>If your index may associate multiple values with each key, use {@link
    * Multimaps#index(Iterator, Function) Multimaps.index}.
@@ -1656,7 +1656,7 @@ public final class Maps {
    * <p>It is imperative that the user manually synchronize on the returned map when accessing any
    * of its collection views:
    *
-   * <pre>{@code
+   * {@snippet :
    * BiMap<Long, String> map = Maps.synchronizedBiMap(
    *     HashBiMap.<Long, String>create());
    * ...
@@ -1668,7 +1668,7 @@ public final class Maps {
    *     foo(it.next());
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Failure to follow this advice may result in non-deterministic behavior.
    *
@@ -1798,12 +1798,12 @@ public final class Maps {
    * Returns a view of a map where each value is transformed by a function. All other properties of
    * the map, such as iteration order, are left intact. For example, the code:
    *
-   * <pre>{@code
+   * {@snippet :
    * Map<String, Integer> map = ImmutableMap.of("a", 4, "b", 9);
    * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
    * Map<String, Double> transformed = Maps.transformValues(map, sqrt);
    * System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {a=2.0, b=3.0}}.
    *
@@ -1833,13 +1833,13 @@ public final class Maps {
    * Returns a view of a sorted map where each value is transformed by a function. All other
    * properties of the map, such as iteration order, are left intact. For example, the code:
    *
-   * <pre>{@code
+   * {@snippet :
    * SortedMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
    * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
    * SortedMap<String, Double> transformed =
    *      Maps.transformValues(map, sqrt);
    * System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {a=2.0, b=3.0}}.
    *
@@ -1872,7 +1872,7 @@ public final class Maps {
    * Returns a view of a navigable map where each value is transformed by a function. All other
    * properties of the map, such as iteration order, are left intact. For example, the code:
    *
-   * <pre>{@code
+   * {@snippet :
    * NavigableMap<String, Integer> map = Maps.newTreeMap();
    * map.put("a", 4);
    * map.put("b", 9);
@@ -1880,7 +1880,7 @@ public final class Maps {
    * NavigableMap<String, Double> transformed =
    *      Maps.transformNavigableValues(map, sqrt);
    * System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {a=2.0, b=3.0}}.
    *
@@ -1918,7 +1918,7 @@ public final class Maps {
    * <p>All other properties of the transformed map, such as iteration order, are left intact. For
    * example, the code:
    *
-   * <pre>{@code
+   * {@snippet :
    * Map<String, Boolean> options =
    *     ImmutableMap.of("verbose", true, "sort", false);
    * EntryTransformer<String, Boolean, String> flagPrefixer =
@@ -1930,7 +1930,7 @@ public final class Maps {
    * Map<String, String> transformed =
    *     Maps.transformEntries(options, flagPrefixer);
    * System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {verbose=verbose, sort=nosort}}.
    *
@@ -1972,7 +1972,7 @@ public final class Maps {
    * <p>All other properties of the transformed map, such as iteration order, are left intact. For
    * example, the code:
    *
-   * <pre>{@code
+   * {@snippet :
    * Map<String, Boolean> options =
    *     ImmutableSortedMap.of("verbose", true, "sort", false);
    * EntryTransformer<String, Boolean, String> flagPrefixer =
@@ -1984,7 +1984,7 @@ public final class Maps {
    * SortedMap<String, String> transformed =
    *     Maps.transformEntries(options, flagPrefixer);
    * System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {sort=yessort, verbose=verbose}}.
    *
@@ -2026,7 +2026,7 @@ public final class Maps {
    * <p>All other properties of the transformed map, such as iteration order, are left intact. For
    * example, the code:
    *
-   * <pre>{@code
+   * {@snippet :
    * NavigableMap<String, Boolean> options = Maps.newTreeMap();
    * options.put("verbose", false);
    * options.put("sort", true);
@@ -2039,7 +2039,7 @@ public final class Maps {
    * NavigableMap<String, String> transformed =
    *     LabsMaps.transformNavigableEntries(options, flagPrefixer);
    * System.out.println(transformed);
-   * }</pre>
+   * }
    *
    * ... prints {@code {sort=yessort, verbose=verbose}}.
    *
@@ -3649,7 +3649,7 @@ public final class Maps {
    * iterating over any of its collection views, or the collections views of any of its {@code
    * descendingMap}, {@code subMap}, {@code headMap} or {@code tailMap} views.
    *
-   * <pre>{@code
+   * {@snippet :
    * NavigableMap<K, V> map = synchronizedNavigableMap(new TreeMap<K, V>());
    *
    * // Needn't be in synchronized block
@@ -3661,11 +3661,11 @@ public final class Maps {
    *     foo(it.next());
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>or:
    *
-   * <pre>{@code
+   * {@snippet :
    * NavigableMap<K, V> map = synchronizedNavigableMap(new TreeMap<K, V>());
    * NavigableMap<K, V> map2 = map.subMap(foo, false, bar, true);
    *
@@ -3678,7 +3678,7 @@ public final class Maps {
    *     foo(it.next());
    *   }
    * }
-   * }</pre>
+   * }
    *
    * <p>Failure to follow this advice may result in non-deterministic behavior.
    *

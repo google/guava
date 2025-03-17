@@ -45,13 +45,13 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>For example:
  *
- * <pre>{@code
+ * {@snippet :
  * new ForwardingWrapperTester().testForwarding(Foo.class, new Function<Foo, Foo>() {
  *   public Foo apply(Foo foo) {
  *     return new ForwardingFoo(foo);
  *   }
  * });
- * }</pre>
+ * }
  *
  * @author Ben Yu
  * @since 14.0

@@ -142,9 +142,9 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
    *
    * <p>For example:
    *
-   * <pre>{@code
+   * {@snippet :
    * Equivalence<Person> SAME_AGE = Equivalence.equals().onResultOf(GET_PERSON_AGE);
-   * }</pre>
+   * }
    *
    * <p>{@code function} will never be invoked with a null value.
    *
@@ -181,16 +181,16 @@ public abstract class Equivalence<T> implements BiPredicate<@Nullable T, @Nullab
    * <p>For example, given an {@link Equivalence} for {@link String strings} named {@code equiv}
    * that tests equivalence using their lengths:
    *
-   * <pre>{@code
+   * {@snippet :
    * equiv.wrap("a").equals(equiv.wrap("b")) // true
    * equiv.wrap("a").equals(equiv.wrap("hello")) // false
-   * }</pre>
+   * }
    *
    * <p>Note in particular that an equivalence wrapper is never equal to the object it wraps.
    *
-   * <pre>{@code
+   * {@snippet :
    * equiv.wrap(obj).equals(obj) // always false
-   * }</pre>
+   * }
    *
    * @since 10.0
    */

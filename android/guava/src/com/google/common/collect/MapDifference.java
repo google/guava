@@ -72,10 +72,10 @@ public interface MapDifference<K extends @Nullable Object, V extends @Nullable O
   /**
    * Returns the hash code for this instance. This is defined as the hash code of
    *
-   * <pre>{@code
+   * {@snippet :
    * Arrays.asList(entriesOnlyOnLeft(), entriesOnlyOnRight(),
    *     entriesInCommon(), entriesDiffering())
-   * }</pre>
+   * }
    */
   @Override
   int hashCode();

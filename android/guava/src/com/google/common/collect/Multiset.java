@@ -299,10 +299,10 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
      * represent the same element and count. That is, two entries {@code a} and {@code b} are equal
      * if:
      *
-     * <pre>{@code
+     * {@snippet :
      * Objects.equal(a.getElement(), b.getElement())
      *     && a.getCount() == b.getCount()
-     * }</pre>
+     * }
      */
     @Override
     // TODO(kevinb): check this wrt TreeMultiset?
@@ -314,9 +314,9 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
      * <p>The hash code of a multiset entry for element {@code element} and count {@code count} is
      * defined as:
      *
-     * <pre>{@code
+     * {@snippet :
      * ((element == null) ? 0 : element.hashCode()) ^ count
-     * }</pre>
+     * }
      */
     @Override
     int hashCode();
@@ -345,9 +345,9 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
   /**
    * Returns the hash code for this multiset. This is defined as the sum of
    *
-   * <pre>{@code
+   * {@snippet :
    * ((element == null) ? 0 : element.hashCode()) ^ count(element)
-   * }</pre>
+   * }
    *
    * <p>over all distinct elements in the multiset. It follows that a multiset and its entry set
    * always have the same hash code.
