@@ -217,9 +217,6 @@
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.11.2</version>
           <configuration>
-            <jdkToolchain>
-              <version>23</version>
-            </jdkToolchain>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
             <encoding>UTF-8</encoding>
