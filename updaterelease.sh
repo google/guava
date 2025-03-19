@@ -155,6 +155,7 @@ generate_jdiff_xml() {
   # Generate JDiff XML file for the release.
   echo -n "Generating JDiff XML for Guava $version..."
   ${JAVA_11_HOME}/bin/javadoc \
+    -source 8 \
     -sourcepath "$TEMPDIR/$flavor/src" \
     -classpath "$classpath" \
     -subpackages com.google.common \
