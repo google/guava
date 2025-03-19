@@ -1,0 +1,570 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2012 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.util.concurrent;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkArgument;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import static com.google.common.base.Preconditions.checkNotNull;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.util.concurrent.Internal.toNanosSaturated;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import static java.lang.Math.max;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import static java.util.concurrent.TimeUnit.MICROSECONDS;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import static java.util.concurrent.TimeUnit.SECONDS;</a>
+<span class="sourceLineNo">023</span><a id="line.23"></a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.google.common.annotations.Beta;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import com.google.common.annotations.VisibleForTesting;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import com.google.common.base.Stopwatch;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import com.google.common.util.concurrent.SmoothRateLimiter.SmoothBursty;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import com.google.common.util.concurrent.SmoothRateLimiter.SmoothWarmingUp;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import java.time.Duration;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import java.util.Locale;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import java.util.concurrent.TimeUnit;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">036</span><a id="line.36"></a>
+<span class="sourceLineNo">037</span><a id="line.37">/**</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * {@link #acquire()} blocks if necessary until a permit is available, and then takes it. Once</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * acquired, permits need not be released.</a>
+<span class="sourceLineNo">041</span><a id="line.41"> *</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * &lt;p&gt;{@code RateLimiter} is safe for concurrent use: It will restrict the total rate of calls from</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * all threads. Note, however, that it does not guarantee fairness.</a>
+<span class="sourceLineNo">044</span><a id="line.44"> *</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * &lt;p&gt;Rate limiters are often used to restrict the rate at which some physical or logical resource</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * is accessed. This is in contrast to {@link java.util.concurrent.Semaphore} which restricts the</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * number of concurrent accesses instead of the rate (note though that concurrency and rate are</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * closely related, e.g. see &lt;a href="http://en.wikipedia.org/wiki/Little%27s_law"&gt;Little's</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * Law&lt;/a&gt;).</a>
+<span class="sourceLineNo">050</span><a id="line.50"> *</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * &lt;p&gt;A {@code RateLimiter} is defined primarily by the rate at which permits are issued. Absent</a>
+<span class="sourceLineNo">052</span><a id="line.52"> * additional configuration, permits will be distributed at a fixed rate, defined in terms of</a>
+<span class="sourceLineNo">053</span><a id="line.53"> * permits per second. Permits will be distributed smoothly, with the delay between individual</a>
+<span class="sourceLineNo">054</span><a id="line.54"> * permits being adjusted to ensure that the configured rate is maintained.</a>
+<span class="sourceLineNo">055</span><a id="line.55"> *</a>
+<span class="sourceLineNo">056</span><a id="line.56"> * &lt;p&gt;It is possible to configure a {@code RateLimiter} to have a warmup period during which time</a>
+<span class="sourceLineNo">057</span><a id="line.57"> * the permits issued each second steadily increases until it hits the stable rate.</a>
+<span class="sourceLineNo">058</span><a id="line.58"> *</a>
+<span class="sourceLineNo">059</span><a id="line.59"> * &lt;p&gt;As an example, imagine that we have a list of tasks to execute, but we don't want to submit</a>
+<span class="sourceLineNo">060</span><a id="line.60"> * more than 2 per second:</a>
+<span class="sourceLineNo">061</span><a id="line.61"> *</a>
+<span class="sourceLineNo">062</span><a id="line.62"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">063</span><a id="line.63"> * final RateLimiter rateLimiter = RateLimiter.create(2.0); // rate is "2 permits per second"</a>
+<span class="sourceLineNo">064</span><a id="line.64"> * void submitTasks(List&lt;Runnable&gt; tasks, Executor executor) {</a>
+<span class="sourceLineNo">065</span><a id="line.65"> *   for (Runnable task : tasks) {</a>
+<span class="sourceLineNo">066</span><a id="line.66"> *     rateLimiter.acquire(); // may wait</a>
+<span class="sourceLineNo">067</span><a id="line.67"> *     executor.execute(task);</a>
+<span class="sourceLineNo">068</span><a id="line.68"> *   }</a>
+<span class="sourceLineNo">069</span><a id="line.69"> * }</a>
+<span class="sourceLineNo">070</span><a id="line.70"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">071</span><a id="line.71"> *</a>
+<span class="sourceLineNo">072</span><a id="line.72"> * &lt;p&gt;As another example, imagine that we produce a stream of data, and we want to cap it at 5kb per</a>
+<span class="sourceLineNo">073</span><a id="line.73"> * second. This could be accomplished by requiring a permit per byte, and specifying a rate of 5000</a>
+<span class="sourceLineNo">074</span><a id="line.74"> * permits per second:</a>
+<span class="sourceLineNo">075</span><a id="line.75"> *</a>
+<span class="sourceLineNo">076</span><a id="line.76"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">077</span><a id="line.77"> * final RateLimiter rateLimiter = RateLimiter.create(5000.0); // rate = 5000 permits per second</a>
+<span class="sourceLineNo">078</span><a id="line.78"> * void submitPacket(byte[] packet) {</a>
+<span class="sourceLineNo">079</span><a id="line.79"> *   rateLimiter.acquire(packet.length);</a>
+<span class="sourceLineNo">080</span><a id="line.80"> *   networkService.send(packet);</a>
+<span class="sourceLineNo">081</span><a id="line.81"> * }</a>
+<span class="sourceLineNo">082</span><a id="line.82"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">083</span><a id="line.83"> *</a>
+<span class="sourceLineNo">084</span><a id="line.84"> * &lt;p&gt;It is important to note that the number of permits requested &lt;i&gt;never&lt;/i&gt; affects the</a>
+<span class="sourceLineNo">085</span><a id="line.85"> * throttling of the request itself (an invocation to {@code acquire(1)} and an invocation to {@code</a>
+<span class="sourceLineNo">086</span><a id="line.86"> * acquire(1000)} will result in exactly the same throttling, if any), but it affects the throttling</a>
+<span class="sourceLineNo">087</span><a id="line.87"> * of the &lt;i&gt;next&lt;/i&gt; request. I.e., if an expensive task arrives at an idle RateLimiter, it will be</a>
+<span class="sourceLineNo">088</span><a id="line.88"> * granted immediately, but it is the &lt;i&gt;next&lt;/i&gt; request that will experience extra throttling,</a>
+<span class="sourceLineNo">089</span><a id="line.89"> * thus paying for the cost of the expensive task.</a>
+<span class="sourceLineNo">090</span><a id="line.90"> *</a>
+<span class="sourceLineNo">091</span><a id="line.91"> * @author Dimitris Andreou</a>
+<span class="sourceLineNo">092</span><a id="line.92"> * @since 13.0</a>
+<span class="sourceLineNo">093</span><a id="line.93"> */</a>
+<span class="sourceLineNo">094</span><a id="line.94">// TODO(user): switch to nano precision. A natural unit of cost is "bytes", and a micro precision</a>
+<span class="sourceLineNo">095</span><a id="line.95">// would mean a maximum rate of "1MB/s", which might be small in some cases.</a>
+<span class="sourceLineNo">096</span><a id="line.96">@Beta</a>
+<span class="sourceLineNo">097</span><a id="line.97">@J2ktIncompatible</a>
+<span class="sourceLineNo">098</span><a id="line.98">@GwtIncompatible</a>
+<span class="sourceLineNo">099</span><a id="line.99">public abstract class RateLimiter {</a>
+<span class="sourceLineNo">100</span><a id="line.100">  /**</a>
+<span class="sourceLineNo">101</span><a id="line.101">   * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * second" (commonly referred to as &lt;i&gt;QPS&lt;/i&gt;, queries per second).</a>
+<span class="sourceLineNo">103</span><a id="line.103">   *</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * &lt;p&gt;The returned {@code RateLimiter} ensures that on average no more than {@code</a>
+<span class="sourceLineNo">105</span><a id="line.105">   * permitsPerSecond} are issued during any given second, with sustained requests being smoothly</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * spread over each second. When the incoming request rate exceeds {@code permitsPerSecond} the</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * rate limiter will release one permit every {@code (1.0 / permitsPerSecond)} seconds. When the</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * rate limiter is unused, bursts of up to {@code permitsPerSecond} permits will be allowed, with</a>
+<span class="sourceLineNo">109</span><a id="line.109">   * subsequent requests being smoothly limited at the stable rate of {@code permitsPerSecond}.</a>
+<span class="sourceLineNo">110</span><a id="line.110">   *</a>
+<span class="sourceLineNo">111</span><a id="line.111">   * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many</a>
+<span class="sourceLineNo">112</span><a id="line.112">   *     permits become available per second</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero</a>
+<span class="sourceLineNo">114</span><a id="line.114">   */</a>
+<span class="sourceLineNo">115</span><a id="line.115">  // TODO(user): "This is equivalent to</a>
+<span class="sourceLineNo">116</span><a id="line.116">  // {@code createWithCapacity(permitsPerSecond, 1, TimeUnit.SECONDS)}".</a>
+<span class="sourceLineNo">117</span><a id="line.117">  public static RateLimiter create(double permitsPerSecond) {</a>
+<span class="sourceLineNo">118</span><a id="line.118">    /*</a>
+<span class="sourceLineNo">119</span><a id="line.119">     * The default RateLimiter configuration can save the unused permits of up to one second. This</a>
+<span class="sourceLineNo">120</span><a id="line.120">     * is to avoid unnecessary stalls in situations like this: A RateLimiter of 1qps, and 4 threads,</a>
+<span class="sourceLineNo">121</span><a id="line.121">     * all calling acquire() at these moments:</a>
+<span class="sourceLineNo">122</span><a id="line.122">     *</a>
+<span class="sourceLineNo">123</span><a id="line.123">     * T0 at 0 seconds</a>
+<span class="sourceLineNo">124</span><a id="line.124">     * T1 at 1.05 seconds</a>
+<span class="sourceLineNo">125</span><a id="line.125">     * T2 at 2 seconds</a>
+<span class="sourceLineNo">126</span><a id="line.126">     * T3 at 3 seconds</a>
+<span class="sourceLineNo">127</span><a id="line.127">     *</a>
+<span class="sourceLineNo">128</span><a id="line.128">     * Due to the slight delay of T1, T2 would have to sleep till 2.05 seconds, and T3 would also</a>
+<span class="sourceLineNo">129</span><a id="line.129">     * have to sleep till 3.05 seconds.</a>
+<span class="sourceLineNo">130</span><a id="line.130">     */</a>
+<span class="sourceLineNo">131</span><a id="line.131">    return create(permitsPerSecond, SleepingStopwatch.createFromSystemTimer());</a>
+<span class="sourceLineNo">132</span><a id="line.132">  }</a>
+<span class="sourceLineNo">133</span><a id="line.133"></a>
+<span class="sourceLineNo">134</span><a id="line.134">  @VisibleForTesting</a>
+<span class="sourceLineNo">135</span><a id="line.135">  static RateLimiter create(double permitsPerSecond, SleepingStopwatch stopwatch) {</a>
+<span class="sourceLineNo">136</span><a id="line.136">    RateLimiter rateLimiter = new SmoothBursty(stopwatch, 1.0 /* maxBurstSeconds */);</a>
+<span class="sourceLineNo">137</span><a id="line.137">    rateLimiter.setRate(permitsPerSecond);</a>
+<span class="sourceLineNo">138</span><a id="line.138">    return rateLimiter;</a>
+<span class="sourceLineNo">139</span><a id="line.139">  }</a>
+<span class="sourceLineNo">140</span><a id="line.140"></a>
+<span class="sourceLineNo">141</span><a id="line.141">  /**</a>
+<span class="sourceLineNo">142</span><a id="line.142">   * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per</a>
+<span class="sourceLineNo">143</span><a id="line.143">   * second" (commonly referred to as &lt;i&gt;QPS&lt;/i&gt;, queries per second), and a &lt;i&gt;warmup period&lt;/i&gt;,</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * during which the {@code RateLimiter} smoothly ramps up its rate, until it reaches its maximum</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * rate at the end of the period (as long as there are enough requests to saturate it). Similarly,</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * if the {@code RateLimiter} is left &lt;i&gt;unused&lt;/i&gt; for a duration of {@code warmupPeriod}, it</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * will gradually return to its "cold" state, i.e. it will go through the same warming up process</a>
+<span class="sourceLineNo">148</span><a id="line.148">   * as when it was first created.</a>
+<span class="sourceLineNo">149</span><a id="line.149">   *</a>
+<span class="sourceLineNo">150</span><a id="line.150">   * &lt;p&gt;The returned {@code RateLimiter} is intended for cases where the resource that actually</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * fulfills the requests (e.g., a remote server) needs "warmup" time, rather than being</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * immediately accessed at the stable (maximum) rate.</a>
+<span class="sourceLineNo">153</span><a id="line.153">   *</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * &lt;p&gt;The returned {@code RateLimiter} starts in a "cold" state (i.e. the warmup period will</a>
+<span class="sourceLineNo">155</span><a id="line.155">   * follow), and if it is left unused for long enough, it will return to that state.</a>
+<span class="sourceLineNo">156</span><a id="line.156">   *</a>
+<span class="sourceLineNo">157</span><a id="line.157">   * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many</a>
+<span class="sourceLineNo">158</span><a id="line.158">   *     permits become available per second</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its rate,</a>
+<span class="sourceLineNo">160</span><a id="line.160">   *     before reaching its stable (maximum) rate</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code</a>
+<span class="sourceLineNo">162</span><a id="line.162">   *     warmupPeriod} is negative</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
+<span class="sourceLineNo">164</span><a id="line.164">   */</a>
+<span class="sourceLineNo">165</span><a id="line.165">  public static RateLimiter create(double permitsPerSecond, Duration warmupPeriod) {</a>
+<span class="sourceLineNo">166</span><a id="line.166">    return create(permitsPerSecond, toNanosSaturated(warmupPeriod), TimeUnit.NANOSECONDS);</a>
+<span class="sourceLineNo">167</span><a id="line.167">  }</a>
+<span class="sourceLineNo">168</span><a id="line.168"></a>
+<span class="sourceLineNo">169</span><a id="line.169">  /**</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per</a>
+<span class="sourceLineNo">171</span><a id="line.171">   * second" (commonly referred to as &lt;i&gt;QPS&lt;/i&gt;, queries per second), and a &lt;i&gt;warmup period&lt;/i&gt;,</a>
+<span class="sourceLineNo">172</span><a id="line.172">   * during which the {@code RateLimiter} smoothly ramps up its rate, until it reaches its maximum</a>
+<span class="sourceLineNo">173</span><a id="line.173">   * rate at the end of the period (as long as there are enough requests to saturate it). Similarly,</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * if the {@code RateLimiter} is left &lt;i&gt;unused&lt;/i&gt; for a duration of {@code warmupPeriod}, it</a>
+<span class="sourceLineNo">175</span><a id="line.175">   * will gradually return to its "cold" state, i.e. it will go through the same warming up process</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * as when it was first created.</a>
+<span class="sourceLineNo">177</span><a id="line.177">   *</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * &lt;p&gt;The returned {@code RateLimiter} is intended for cases where the resource that actually</a>
+<span class="sourceLineNo">179</span><a id="line.179">   * fulfills the requests (e.g., a remote server) needs "warmup" time, rather than being</a>
+<span class="sourceLineNo">180</span><a id="line.180">   * immediately accessed at the stable (maximum) rate.</a>
+<span class="sourceLineNo">181</span><a id="line.181">   *</a>
+<span class="sourceLineNo">182</span><a id="line.182">   * &lt;p&gt;The returned {@code RateLimiter} starts in a "cold" state (i.e. the warmup period will</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * follow), and if it is left unused for long enough, it will return to that state.</a>
+<span class="sourceLineNo">184</span><a id="line.184">   *</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many</a>
+<span class="sourceLineNo">186</span><a id="line.186">   *     permits become available per second</a>
+<span class="sourceLineNo">187</span><a id="line.187">   * @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its rate,</a>
+<span class="sourceLineNo">188</span><a id="line.188">   *     before reaching its stable (maximum) rate</a>
+<span class="sourceLineNo">189</span><a id="line.189">   * @param unit the time unit of the warmupPeriod argument</a>
+<span class="sourceLineNo">190</span><a id="line.190">   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero or {@code</a>
+<span class="sourceLineNo">191</span><a id="line.191">   *     warmupPeriod} is negative</a>
+<span class="sourceLineNo">192</span><a id="line.192">   */</a>
+<span class="sourceLineNo">193</span><a id="line.193">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
+<span class="sourceLineNo">194</span><a id="line.194">  public static RateLimiter create(double permitsPerSecond, long warmupPeriod, TimeUnit unit) {</a>
+<span class="sourceLineNo">195</span><a id="line.195">    checkArgument(warmupPeriod &gt;= 0, "warmupPeriod must not be negative: %s", warmupPeriod);</a>
+<span class="sourceLineNo">196</span><a id="line.196">    return create(</a>
+<span class="sourceLineNo">197</span><a id="line.197">        permitsPerSecond, warmupPeriod, unit, 3.0, SleepingStopwatch.createFromSystemTimer());</a>
+<span class="sourceLineNo">198</span><a id="line.198">  }</a>
+<span class="sourceLineNo">199</span><a id="line.199"></a>
+<span class="sourceLineNo">200</span><a id="line.200">  @VisibleForTesting</a>
+<span class="sourceLineNo">201</span><a id="line.201">  static RateLimiter create(</a>
+<span class="sourceLineNo">202</span><a id="line.202">      double permitsPerSecond,</a>
+<span class="sourceLineNo">203</span><a id="line.203">      long warmupPeriod,</a>
+<span class="sourceLineNo">204</span><a id="line.204">      TimeUnit unit,</a>
+<span class="sourceLineNo">205</span><a id="line.205">      double coldFactor,</a>
+<span class="sourceLineNo">206</span><a id="line.206">      SleepingStopwatch stopwatch) {</a>
+<span class="sourceLineNo">207</span><a id="line.207">    RateLimiter rateLimiter = new SmoothWarmingUp(stopwatch, warmupPeriod, unit, coldFactor);</a>
+<span class="sourceLineNo">208</span><a id="line.208">    rateLimiter.setRate(permitsPerSecond);</a>
+<span class="sourceLineNo">209</span><a id="line.209">    return rateLimiter;</a>
+<span class="sourceLineNo">210</span><a id="line.210">  }</a>
+<span class="sourceLineNo">211</span><a id="line.211"></a>
+<span class="sourceLineNo">212</span><a id="line.212">  /**</a>
+<span class="sourceLineNo">213</span><a id="line.213">   * The underlying timer; used both to measure elapsed time and sleep as necessary. A separate</a>
+<span class="sourceLineNo">214</span><a id="line.214">   * object to facilitate testing.</a>
+<span class="sourceLineNo">215</span><a id="line.215">   */</a>
+<span class="sourceLineNo">216</span><a id="line.216">  private final SleepingStopwatch stopwatch;</a>
+<span class="sourceLineNo">217</span><a id="line.217"></a>
+<span class="sourceLineNo">218</span><a id="line.218">  // Can't be initialized in the constructor because mocks don't call the constructor.</a>
+<span class="sourceLineNo">219</span><a id="line.219">  private volatile @Nullable Object mutexDoNotUseDirectly;</a>
+<span class="sourceLineNo">220</span><a id="line.220"></a>
+<span class="sourceLineNo">221</span><a id="line.221">  private Object mutex() {</a>
+<span class="sourceLineNo">222</span><a id="line.222">    Object mutex = mutexDoNotUseDirectly;</a>
+<span class="sourceLineNo">223</span><a id="line.223">    if (mutex == null) {</a>
+<span class="sourceLineNo">224</span><a id="line.224">      synchronized (this) {</a>
+<span class="sourceLineNo">225</span><a id="line.225">        mutex = mutexDoNotUseDirectly;</a>
+<span class="sourceLineNo">226</span><a id="line.226">        if (mutex == null) {</a>
+<span class="sourceLineNo">227</span><a id="line.227">          mutexDoNotUseDirectly = mutex = new Object();</a>
+<span class="sourceLineNo">228</span><a id="line.228">        }</a>
+<span class="sourceLineNo">229</span><a id="line.229">      }</a>
+<span class="sourceLineNo">230</span><a id="line.230">    }</a>
+<span class="sourceLineNo">231</span><a id="line.231">    return mutex;</a>
+<span class="sourceLineNo">232</span><a id="line.232">  }</a>
+<span class="sourceLineNo">233</span><a id="line.233"></a>
+<span class="sourceLineNo">234</span><a id="line.234">  RateLimiter(SleepingStopwatch stopwatch) {</a>
+<span class="sourceLineNo">235</span><a id="line.235">    this.stopwatch = checkNotNull(stopwatch);</a>
+<span class="sourceLineNo">236</span><a id="line.236">  }</a>
+<span class="sourceLineNo">237</span><a id="line.237"></a>
+<span class="sourceLineNo">238</span><a id="line.238">  /**</a>
+<span class="sourceLineNo">239</span><a id="line.239">   * Updates the stable rate of this {@code RateLimiter}, that is, the {@code permitsPerSecond}</a>
+<span class="sourceLineNo">240</span><a id="line.240">   * argument provided in the factory method that constructed the {@code RateLimiter}. Currently</a>
+<span class="sourceLineNo">241</span><a id="line.241">   * throttled threads will &lt;b&gt;not&lt;/b&gt; be awakened as a result of this invocation, thus they do not</a>
+<span class="sourceLineNo">242</span><a id="line.242">   * observe the new rate; only subsequent requests will.</a>
+<span class="sourceLineNo">243</span><a id="line.243">   *</a>
+<span class="sourceLineNo">244</span><a id="line.244">   * &lt;p&gt;Note though that, since each request repays (by waiting, if necessary) the cost of the</a>
+<span class="sourceLineNo">245</span><a id="line.245">   * &lt;i&gt;previous&lt;/i&gt; request, this means that the very next request after an invocation to {@code</a>
+<span class="sourceLineNo">246</span><a id="line.246">   * setRate} will not be affected by the new rate; it will pay the cost of the previous request,</a>
+<span class="sourceLineNo">247</span><a id="line.247">   * which is in terms of the previous rate.</a>
+<span class="sourceLineNo">248</span><a id="line.248">   *</a>
+<span class="sourceLineNo">249</span><a id="line.249">   * &lt;p&gt;The behavior of the {@code RateLimiter} is not modified in any other way, e.g. if the {@code</a>
+<span class="sourceLineNo">250</span><a id="line.250">   * RateLimiter} was configured with a warmup period of 20 seconds, it still has a warmup period of</a>
+<span class="sourceLineNo">251</span><a id="line.251">   * 20 seconds after this method invocation.</a>
+<span class="sourceLineNo">252</span><a id="line.252">   *</a>
+<span class="sourceLineNo">253</span><a id="line.253">   * @param permitsPerSecond the new stable rate of this {@code RateLimiter}</a>
+<span class="sourceLineNo">254</span><a id="line.254">   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero</a>
+<span class="sourceLineNo">255</span><a id="line.255">   */</a>
+<span class="sourceLineNo">256</span><a id="line.256">  public final void setRate(double permitsPerSecond) {</a>
+<span class="sourceLineNo">257</span><a id="line.257">    checkArgument(permitsPerSecond &gt; 0.0, "rate must be positive");</a>
+<span class="sourceLineNo">258</span><a id="line.258">    synchronized (mutex()) {</a>
+<span class="sourceLineNo">259</span><a id="line.259">      doSetRate(permitsPerSecond, stopwatch.readMicros());</a>
+<span class="sourceLineNo">260</span><a id="line.260">    }</a>
+<span class="sourceLineNo">261</span><a id="line.261">  }</a>
+<span class="sourceLineNo">262</span><a id="line.262"></a>
+<span class="sourceLineNo">263</span><a id="line.263">  abstract void doSetRate(double permitsPerSecond, long nowMicros);</a>
+<span class="sourceLineNo">264</span><a id="line.264"></a>
+<span class="sourceLineNo">265</span><a id="line.265">  /**</a>
+<span class="sourceLineNo">266</span><a id="line.266">   * Returns the stable rate (as {@code permits per seconds}) with which this {@code RateLimiter} is</a>
+<span class="sourceLineNo">267</span><a id="line.267">   * configured with. The initial value of this is the same as the {@code permitsPerSecond} argument</a>
+<span class="sourceLineNo">268</span><a id="line.268">   * passed in the factory method that produced this {@code RateLimiter}, and it is only updated</a>
+<span class="sourceLineNo">269</span><a id="line.269">   * after invocations to {@linkplain #setRate}.</a>
+<span class="sourceLineNo">270</span><a id="line.270">   */</a>
+<span class="sourceLineNo">271</span><a id="line.271">  public final double getRate() {</a>
+<span class="sourceLineNo">272</span><a id="line.272">    synchronized (mutex()) {</a>
+<span class="sourceLineNo">273</span><a id="line.273">      return doGetRate();</a>
+<span class="sourceLineNo">274</span><a id="line.274">    }</a>
+<span class="sourceLineNo">275</span><a id="line.275">  }</a>
+<span class="sourceLineNo">276</span><a id="line.276"></a>
+<span class="sourceLineNo">277</span><a id="line.277">  abstract double doGetRate();</a>
+<span class="sourceLineNo">278</span><a id="line.278"></a>
+<span class="sourceLineNo">279</span><a id="line.279">  /**</a>
+<span class="sourceLineNo">280</span><a id="line.280">   * Acquires a single permit from this {@code RateLimiter}, blocking until the request can be</a>
+<span class="sourceLineNo">281</span><a id="line.281">   * granted. Tells the amount of time slept, if any.</a>
+<span class="sourceLineNo">282</span><a id="line.282">   *</a>
+<span class="sourceLineNo">283</span><a id="line.283">   * &lt;p&gt;This method is equivalent to {@code acquire(1)}.</a>
+<span class="sourceLineNo">284</span><a id="line.284">   *</a>
+<span class="sourceLineNo">285</span><a id="line.285">   * @return time spent sleeping to enforce rate, in seconds; 0.0 if not rate-limited</a>
+<span class="sourceLineNo">286</span><a id="line.286">   * @since 16.0 (present in 13.0 with {@code void} return type})</a>
+<span class="sourceLineNo">287</span><a id="line.287">   */</a>
+<span class="sourceLineNo">288</span><a id="line.288">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">289</span><a id="line.289">  public double acquire() {</a>
+<span class="sourceLineNo">290</span><a id="line.290">    return acquire(1);</a>
+<span class="sourceLineNo">291</span><a id="line.291">  }</a>
+<span class="sourceLineNo">292</span><a id="line.292"></a>
+<span class="sourceLineNo">293</span><a id="line.293">  /**</a>
+<span class="sourceLineNo">294</span><a id="line.294">   * Acquires the given number of permits from this {@code RateLimiter}, blocking until the request</a>
+<span class="sourceLineNo">295</span><a id="line.295">   * can be granted. Tells the amount of time slept, if any.</a>
+<span class="sourceLineNo">296</span><a id="line.296">   *</a>
+<span class="sourceLineNo">297</span><a id="line.297">   * @param permits the number of permits to acquire</a>
+<span class="sourceLineNo">298</span><a id="line.298">   * @return time spent sleeping to enforce rate, in seconds; 0.0 if not rate-limited</a>
+<span class="sourceLineNo">299</span><a id="line.299">   * @throws IllegalArgumentException if the requested number of permits is negative or zero</a>
+<span class="sourceLineNo">300</span><a id="line.300">   * @since 16.0 (present in 13.0 with {@code void} return type})</a>
+<span class="sourceLineNo">301</span><a id="line.301">   */</a>
+<span class="sourceLineNo">302</span><a id="line.302">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">303</span><a id="line.303">  public double acquire(int permits) {</a>
+<span class="sourceLineNo">304</span><a id="line.304">    long microsToWait = reserve(permits);</a>
+<span class="sourceLineNo">305</span><a id="line.305">    stopwatch.sleepMicrosUninterruptibly(microsToWait);</a>
+<span class="sourceLineNo">306</span><a id="line.306">    return 1.0 * microsToWait / SECONDS.toMicros(1L);</a>
+<span class="sourceLineNo">307</span><a id="line.307">  }</a>
+<span class="sourceLineNo">308</span><a id="line.308"></a>
+<span class="sourceLineNo">309</span><a id="line.309">  /**</a>
+<span class="sourceLineNo">310</span><a id="line.310">   * Reserves the given number of permits from this {@code RateLimiter} for future use, returning</a>
+<span class="sourceLineNo">311</span><a id="line.311">   * the number of microseconds until the reservation can be consumed.</a>
+<span class="sourceLineNo">312</span><a id="line.312">   *</a>
+<span class="sourceLineNo">313</span><a id="line.313">   * @return time in microseconds to wait until the resource can be acquired, never negative</a>
+<span class="sourceLineNo">314</span><a id="line.314">   */</a>
+<span class="sourceLineNo">315</span><a id="line.315">  final long reserve(int permits) {</a>
+<span class="sourceLineNo">316</span><a id="line.316">    checkPermits(permits);</a>
+<span class="sourceLineNo">317</span><a id="line.317">    synchronized (mutex()) {</a>
+<span class="sourceLineNo">318</span><a id="line.318">      return reserveAndGetWaitLength(permits, stopwatch.readMicros());</a>
+<span class="sourceLineNo">319</span><a id="line.319">    }</a>
+<span class="sourceLineNo">320</span><a id="line.320">  }</a>
+<span class="sourceLineNo">321</span><a id="line.321"></a>
+<span class="sourceLineNo">322</span><a id="line.322">  /**</a>
+<span class="sourceLineNo">323</span><a id="line.323">   * Acquires a permit from this {@code RateLimiter} if it can be obtained without exceeding the</a>
+<span class="sourceLineNo">324</span><a id="line.324">   * specified {@code timeout}, or returns {@code false} immediately (without waiting) if the permit</a>
+<span class="sourceLineNo">325</span><a id="line.325">   * would not have been granted before the timeout expired.</a>
+<span class="sourceLineNo">326</span><a id="line.326">   *</a>
+<span class="sourceLineNo">327</span><a id="line.327">   * &lt;p&gt;This method is equivalent to {@code tryAcquire(1, timeout)}.</a>
+<span class="sourceLineNo">328</span><a id="line.328">   *</a>
+<span class="sourceLineNo">329</span><a id="line.329">   * @param timeout the maximum time to wait for the permit. Negative values are treated as zero.</a>
+<span class="sourceLineNo">330</span><a id="line.330">   * @return {@code true} if the permit was acquired, {@code false} otherwise</a>
+<span class="sourceLineNo">331</span><a id="line.331">   * @throws IllegalArgumentException if the requested number of permits is negative or zero</a>
+<span class="sourceLineNo">332</span><a id="line.332">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
+<span class="sourceLineNo">333</span><a id="line.333">   */</a>
+<span class="sourceLineNo">334</span><a id="line.334">  public boolean tryAcquire(Duration timeout) {</a>
+<span class="sourceLineNo">335</span><a id="line.335">    return tryAcquire(1, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);</a>
+<span class="sourceLineNo">336</span><a id="line.336">  }</a>
+<span class="sourceLineNo">337</span><a id="line.337"></a>
+<span class="sourceLineNo">338</span><a id="line.338">  /**</a>
+<span class="sourceLineNo">339</span><a id="line.339">   * Acquires a permit from this {@code RateLimiter} if it can be obtained without exceeding the</a>
+<span class="sourceLineNo">340</span><a id="line.340">   * specified {@code timeout}, or returns {@code false} immediately (without waiting) if the permit</a>
+<span class="sourceLineNo">341</span><a id="line.341">   * would not have been granted before the timeout expired.</a>
+<span class="sourceLineNo">342</span><a id="line.342">   *</a>
+<span class="sourceLineNo">343</span><a id="line.343">   * &lt;p&gt;This method is equivalent to {@code tryAcquire(1, timeout, unit)}.</a>
+<span class="sourceLineNo">344</span><a id="line.344">   *</a>
+<span class="sourceLineNo">345</span><a id="line.345">   * @param timeout the maximum time to wait for the permit. Negative values are treated as zero.</a>
+<span class="sourceLineNo">346</span><a id="line.346">   * @param unit the time unit of the timeout argument</a>
+<span class="sourceLineNo">347</span><a id="line.347">   * @return {@code true} if the permit was acquired, {@code false} otherwise</a>
+<span class="sourceLineNo">348</span><a id="line.348">   * @throws IllegalArgumentException if the requested number of permits is negative or zero</a>
+<span class="sourceLineNo">349</span><a id="line.349">   */</a>
+<span class="sourceLineNo">350</span><a id="line.350">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
+<span class="sourceLineNo">351</span><a id="line.351">  public boolean tryAcquire(long timeout, TimeUnit unit) {</a>
+<span class="sourceLineNo">352</span><a id="line.352">    return tryAcquire(1, timeout, unit);</a>
+<span class="sourceLineNo">353</span><a id="line.353">  }</a>
+<span class="sourceLineNo">354</span><a id="line.354"></a>
+<span class="sourceLineNo">355</span><a id="line.355">  /**</a>
+<span class="sourceLineNo">356</span><a id="line.356">   * Acquires permits from this {@link RateLimiter} if it can be acquired immediately without delay.</a>
+<span class="sourceLineNo">357</span><a id="line.357">   *</a>
+<span class="sourceLineNo">358</span><a id="line.358">   * &lt;p&gt;This method is equivalent to {@code tryAcquire(permits, 0, anyUnit)}.</a>
+<span class="sourceLineNo">359</span><a id="line.359">   *</a>
+<span class="sourceLineNo">360</span><a id="line.360">   * @param permits the number of permits to acquire</a>
+<span class="sourceLineNo">361</span><a id="line.361">   * @return {@code true} if the permits were acquired, {@code false} otherwise</a>
+<span class="sourceLineNo">362</span><a id="line.362">   * @throws IllegalArgumentException if the requested number of permits is negative or zero</a>
+<span class="sourceLineNo">363</span><a id="line.363">   * @since 14.0</a>
+<span class="sourceLineNo">364</span><a id="line.364">   */</a>
+<span class="sourceLineNo">365</span><a id="line.365">  public boolean tryAcquire(int permits) {</a>
+<span class="sourceLineNo">366</span><a id="line.366">    return tryAcquire(permits, 0, MICROSECONDS);</a>
+<span class="sourceLineNo">367</span><a id="line.367">  }</a>
+<span class="sourceLineNo">368</span><a id="line.368"></a>
+<span class="sourceLineNo">369</span><a id="line.369">  /**</a>
+<span class="sourceLineNo">370</span><a id="line.370">   * Acquires a permit from this {@link RateLimiter} if it can be acquired immediately without</a>
+<span class="sourceLineNo">371</span><a id="line.371">   * delay.</a>
+<span class="sourceLineNo">372</span><a id="line.372">   *</a>
+<span class="sourceLineNo">373</span><a id="line.373">   * &lt;p&gt;This method is equivalent to {@code tryAcquire(1)}.</a>
+<span class="sourceLineNo">374</span><a id="line.374">   *</a>
+<span class="sourceLineNo">375</span><a id="line.375">   * @return {@code true} if the permit was acquired, {@code false} otherwise</a>
+<span class="sourceLineNo">376</span><a id="line.376">   * @since 14.0</a>
+<span class="sourceLineNo">377</span><a id="line.377">   */</a>
+<span class="sourceLineNo">378</span><a id="line.378">  public boolean tryAcquire() {</a>
+<span class="sourceLineNo">379</span><a id="line.379">    return tryAcquire(1, 0, MICROSECONDS);</a>
+<span class="sourceLineNo">380</span><a id="line.380">  }</a>
+<span class="sourceLineNo">381</span><a id="line.381"></a>
+<span class="sourceLineNo">382</span><a id="line.382">  /**</a>
+<span class="sourceLineNo">383</span><a id="line.383">   * Acquires the given number of permits from this {@code RateLimiter} if it can be obtained</a>
+<span class="sourceLineNo">384</span><a id="line.384">   * without exceeding the specified {@code timeout}, or returns {@code false} immediately (without</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * waiting) if the permits would not have been granted before the timeout expired.</a>
+<span class="sourceLineNo">386</span><a id="line.386">   *</a>
+<span class="sourceLineNo">387</span><a id="line.387">   * @param permits the number of permits to acquire</a>
+<span class="sourceLineNo">388</span><a id="line.388">   * @param timeout the maximum time to wait for the permits. Negative values are treated as zero.</a>
+<span class="sourceLineNo">389</span><a id="line.389">   * @return {@code true} if the permits were acquired, {@code false} otherwise</a>
+<span class="sourceLineNo">390</span><a id="line.390">   * @throws IllegalArgumentException if the requested number of permits is negative or zero</a>
+<span class="sourceLineNo">391</span><a id="line.391">   * @since 28.0 (but only since 33.4.0 in the Android flavor)</a>
+<span class="sourceLineNo">392</span><a id="line.392">   */</a>
+<span class="sourceLineNo">393</span><a id="line.393">  public boolean tryAcquire(int permits, Duration timeout) {</a>
+<span class="sourceLineNo">394</span><a id="line.394">    return tryAcquire(permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);</a>
+<span class="sourceLineNo">395</span><a id="line.395">  }</a>
+<span class="sourceLineNo">396</span><a id="line.396"></a>
+<span class="sourceLineNo">397</span><a id="line.397">  /**</a>
+<span class="sourceLineNo">398</span><a id="line.398">   * Acquires the given number of permits from this {@code RateLimiter} if it can be obtained</a>
+<span class="sourceLineNo">399</span><a id="line.399">   * without exceeding the specified {@code timeout}, or returns {@code false} immediately (without</a>
+<span class="sourceLineNo">400</span><a id="line.400">   * waiting) if the permits would not have been granted before the timeout expired.</a>
+<span class="sourceLineNo">401</span><a id="line.401">   *</a>
+<span class="sourceLineNo">402</span><a id="line.402">   * @param permits the number of permits to acquire</a>
+<span class="sourceLineNo">403</span><a id="line.403">   * @param timeout the maximum time to wait for the permits. Negative values are treated as zero.</a>
+<span class="sourceLineNo">404</span><a id="line.404">   * @param unit the time unit of the timeout argument</a>
+<span class="sourceLineNo">405</span><a id="line.405">   * @return {@code true} if the permits were acquired, {@code false} otherwise</a>
+<span class="sourceLineNo">406</span><a id="line.406">   * @throws IllegalArgumentException if the requested number of permits is negative or zero</a>
+<span class="sourceLineNo">407</span><a id="line.407">   */</a>
+<span class="sourceLineNo">408</span><a id="line.408">  @SuppressWarnings("GoodTime") // should accept a java.time.Duration</a>
+<span class="sourceLineNo">409</span><a id="line.409">  public boolean tryAcquire(int permits, long timeout, TimeUnit unit) {</a>
+<span class="sourceLineNo">410</span><a id="line.410">    long timeoutMicros = max(unit.toMicros(timeout), 0);</a>
+<span class="sourceLineNo">411</span><a id="line.411">    checkPermits(permits);</a>
+<span class="sourceLineNo">412</span><a id="line.412">    long microsToWait;</a>
+<span class="sourceLineNo">413</span><a id="line.413">    synchronized (mutex()) {</a>
+<span class="sourceLineNo">414</span><a id="line.414">      long nowMicros = stopwatch.readMicros();</a>
+<span class="sourceLineNo">415</span><a id="line.415">      if (!canAcquire(nowMicros, timeoutMicros)) {</a>
+<span class="sourceLineNo">416</span><a id="line.416">        return false;</a>
+<span class="sourceLineNo">417</span><a id="line.417">      } else {</a>
+<span class="sourceLineNo">418</span><a id="line.418">        microsToWait = reserveAndGetWaitLength(permits, nowMicros);</a>
+<span class="sourceLineNo">419</span><a id="line.419">      }</a>
+<span class="sourceLineNo">420</span><a id="line.420">    }</a>
+<span class="sourceLineNo">421</span><a id="line.421">    stopwatch.sleepMicrosUninterruptibly(microsToWait);</a>
+<span class="sourceLineNo">422</span><a id="line.422">    return true;</a>
+<span class="sourceLineNo">423</span><a id="line.423">  }</a>
+<span class="sourceLineNo">424</span><a id="line.424"></a>
+<span class="sourceLineNo">425</span><a id="line.425">  private boolean canAcquire(long nowMicros, long timeoutMicros) {</a>
+<span class="sourceLineNo">426</span><a id="line.426">    return queryEarliestAvailable(nowMicros) - timeoutMicros &lt;= nowMicros;</a>
+<span class="sourceLineNo">427</span><a id="line.427">  }</a>
+<span class="sourceLineNo">428</span><a id="line.428"></a>
+<span class="sourceLineNo">429</span><a id="line.429">  /**</a>
+<span class="sourceLineNo">430</span><a id="line.430">   * Reserves next ticket and returns the wait time that the caller must wait for.</a>
+<span class="sourceLineNo">431</span><a id="line.431">   *</a>
+<span class="sourceLineNo">432</span><a id="line.432">   * @return the required wait time, never negative</a>
+<span class="sourceLineNo">433</span><a id="line.433">   */</a>
+<span class="sourceLineNo">434</span><a id="line.434">  final long reserveAndGetWaitLength(int permits, long nowMicros) {</a>
+<span class="sourceLineNo">435</span><a id="line.435">    long momentAvailable = reserveEarliestAvailable(permits, nowMicros);</a>
+<span class="sourceLineNo">436</span><a id="line.436">    return max(momentAvailable - nowMicros, 0);</a>
+<span class="sourceLineNo">437</span><a id="line.437">  }</a>
+<span class="sourceLineNo">438</span><a id="line.438"></a>
+<span class="sourceLineNo">439</span><a id="line.439">  /**</a>
+<span class="sourceLineNo">440</span><a id="line.440">   * Returns the earliest time that permits are available (with one caveat).</a>
+<span class="sourceLineNo">441</span><a id="line.441">   *</a>
+<span class="sourceLineNo">442</span><a id="line.442">   * @return the time that permits are available, or, if permits are available immediately, an</a>
+<span class="sourceLineNo">443</span><a id="line.443">   *     arbitrary past or present time</a>
+<span class="sourceLineNo">444</span><a id="line.444">   */</a>
+<span class="sourceLineNo">445</span><a id="line.445">  abstract long queryEarliestAvailable(long nowMicros);</a>
+<span class="sourceLineNo">446</span><a id="line.446"></a>
+<span class="sourceLineNo">447</span><a id="line.447">  /**</a>
+<span class="sourceLineNo">448</span><a id="line.448">   * Reserves the requested number of permits and returns the time that those permits can be used</a>
+<span class="sourceLineNo">449</span><a id="line.449">   * (with one caveat).</a>
+<span class="sourceLineNo">450</span><a id="line.450">   *</a>
+<span class="sourceLineNo">451</span><a id="line.451">   * @return the time that the permits may be used, or, if the permits may be used immediately, an</a>
+<span class="sourceLineNo">452</span><a id="line.452">   *     arbitrary past or present time</a>
+<span class="sourceLineNo">453</span><a id="line.453">   */</a>
+<span class="sourceLineNo">454</span><a id="line.454">  abstract long reserveEarliestAvailable(int permits, long nowMicros);</a>
+<span class="sourceLineNo">455</span><a id="line.455"></a>
+<span class="sourceLineNo">456</span><a id="line.456">  @Override</a>
+<span class="sourceLineNo">457</span><a id="line.457">  public String toString() {</a>
+<span class="sourceLineNo">458</span><a id="line.458">    return String.format(Locale.ROOT, "RateLimiter[stableRate=%3.1fqps]", getRate());</a>
+<span class="sourceLineNo">459</span><a id="line.459">  }</a>
+<span class="sourceLineNo">460</span><a id="line.460"></a>
+<span class="sourceLineNo">461</span><a id="line.461">  abstract static class SleepingStopwatch {</a>
+<span class="sourceLineNo">462</span><a id="line.462">    /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">463</span><a id="line.463">    protected SleepingStopwatch() {}</a>
+<span class="sourceLineNo">464</span><a id="line.464"></a>
+<span class="sourceLineNo">465</span><a id="line.465">    /*</a>
+<span class="sourceLineNo">466</span><a id="line.466">     * We always hold the mutex when calling this. TODO(cpovirk): Is that important? Perhaps we need</a>
+<span class="sourceLineNo">467</span><a id="line.467">     * to guarantee that each call to reserveEarliestAvailable, etc. sees a value &gt;= the previous?</a>
+<span class="sourceLineNo">468</span><a id="line.468">     * Also, is it OK that we don't hold the mutex when sleeping?</a>
+<span class="sourceLineNo">469</span><a id="line.469">     */</a>
+<span class="sourceLineNo">470</span><a id="line.470">    protected abstract long readMicros();</a>
+<span class="sourceLineNo">471</span><a id="line.471"></a>
+<span class="sourceLineNo">472</span><a id="line.472">    protected abstract void sleepMicrosUninterruptibly(long micros);</a>
+<span class="sourceLineNo">473</span><a id="line.473"></a>
+<span class="sourceLineNo">474</span><a id="line.474">    public static SleepingStopwatch createFromSystemTimer() {</a>
+<span class="sourceLineNo">475</span><a id="line.475">      return new SleepingStopwatch() {</a>
+<span class="sourceLineNo">476</span><a id="line.476">        final Stopwatch stopwatch = Stopwatch.createStarted();</a>
+<span class="sourceLineNo">477</span><a id="line.477"></a>
+<span class="sourceLineNo">478</span><a id="line.478">        @Override</a>
+<span class="sourceLineNo">479</span><a id="line.479">        protected long readMicros() {</a>
+<span class="sourceLineNo">480</span><a id="line.480">          return stopwatch.elapsed(MICROSECONDS);</a>
+<span class="sourceLineNo">481</span><a id="line.481">        }</a>
+<span class="sourceLineNo">482</span><a id="line.482"></a>
+<span class="sourceLineNo">483</span><a id="line.483">        @Override</a>
+<span class="sourceLineNo">484</span><a id="line.484">        protected void sleepMicrosUninterruptibly(long micros) {</a>
+<span class="sourceLineNo">485</span><a id="line.485">          if (micros &gt; 0) {</a>
+<span class="sourceLineNo">486</span><a id="line.486">            Uninterruptibles.sleepUninterruptibly(micros, MICROSECONDS);</a>
+<span class="sourceLineNo">487</span><a id="line.487">          }</a>
+<span class="sourceLineNo">488</span><a id="line.488">        }</a>
+<span class="sourceLineNo">489</span><a id="line.489">      };</a>
+<span class="sourceLineNo">490</span><a id="line.490">    }</a>
+<span class="sourceLineNo">491</span><a id="line.491">  }</a>
+<span class="sourceLineNo">492</span><a id="line.492"></a>
+<span class="sourceLineNo">493</span><a id="line.493">  private static void checkPermits(int permits) {</a>
+<span class="sourceLineNo">494</span><a id="line.494">    checkArgument(permits &gt; 0, "Requested permits (%s) must be positive", permits);</a>
+<span class="sourceLineNo">495</span><a id="line.495">  }</a>
+<span class="sourceLineNo">496</span><a id="line.496">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,313 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2014 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package com.google.common.graph;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.base.Preconditions.checkNotNull;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.Beta;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.base.Function;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.common.collect.ImmutableMap;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.google.common.collect.Maps;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import com.google.errorprone.annotations.Immutable;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.util.Map;</a>
+<span class="sourceLineNo">028</span><a id="line.28"></a>
+<span class="sourceLineNo">029</span><a id="line.29">/**</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * A {@link Network} whose elements and structural relationships will never change. Instances of</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * this class may be obtained with {@link #copyOf(Network)}.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> *</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * &lt;p&gt;See the Guava User's Guide's &lt;a</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * href="https://github.com/google/guava/wiki/GraphsExplained#immutable-implementations"&gt;discussion</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * of the {@code Immutable*} types&lt;/a&gt; for more information on the properties and guarantees</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * provided by this class.</a>
+<span class="sourceLineNo">037</span><a id="line.37"> *</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * @author James Sexton</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * @author Joshua O'Madadhain</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * @author Omar Darwish</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * @author Jens Nyman</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * @param &lt;N&gt; Node parameter type</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * @param &lt;E&gt; Edge parameter type</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * @since 20.0</a>
+<span class="sourceLineNo">045</span><a id="line.45"> */</a>
+<span class="sourceLineNo">046</span><a id="line.46">@Beta</a>
+<span class="sourceLineNo">047</span><a id="line.47">@Immutable(containerOf = {"N", "E"})</a>
+<span class="sourceLineNo">048</span><a id="line.48">@SuppressWarnings("Immutable") // Extends StandardNetwork but uses ImmutableMaps.</a>
+<span class="sourceLineNo">049</span><a id="line.49">public final class ImmutableNetwork&lt;N, E&gt; extends StandardNetwork&lt;N, E&gt; {</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  private ImmutableNetwork(Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">052</span><a id="line.52">    super(</a>
+<span class="sourceLineNo">053</span><a id="line.53">        NetworkBuilder.from(network), getNodeConnections(network), getEdgeToReferenceNode(network));</a>
+<span class="sourceLineNo">054</span><a id="line.54">  }</a>
+<span class="sourceLineNo">055</span><a id="line.55"></a>
+<span class="sourceLineNo">056</span><a id="line.56">  /** Returns an immutable copy of {@code network}. */</a>
+<span class="sourceLineNo">057</span><a id="line.57">  public static &lt;N, E&gt; ImmutableNetwork&lt;N, E&gt; copyOf(Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">058</span><a id="line.58">    return (network instanceof ImmutableNetwork)</a>
+<span class="sourceLineNo">059</span><a id="line.59">        ? (ImmutableNetwork&lt;N, E&gt;) network</a>
+<span class="sourceLineNo">060</span><a id="line.60">        : new ImmutableNetwork&lt;N, E&gt;(network);</a>
+<span class="sourceLineNo">061</span><a id="line.61">  }</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">  /**</a>
+<span class="sourceLineNo">064</span><a id="line.64">   * Simply returns its argument.</a>
+<span class="sourceLineNo">065</span><a id="line.65">   *</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * @deprecated no need to use this</a>
+<span class="sourceLineNo">067</span><a id="line.67">   */</a>
+<span class="sourceLineNo">068</span><a id="line.68">  @Deprecated</a>
+<span class="sourceLineNo">069</span><a id="line.69">  public static &lt;N, E&gt; ImmutableNetwork&lt;N, E&gt; copyOf(ImmutableNetwork&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">070</span><a id="line.70">    return checkNotNull(network);</a>
+<span class="sourceLineNo">071</span><a id="line.71">  }</a>
+<span class="sourceLineNo">072</span><a id="line.72"></a>
+<span class="sourceLineNo">073</span><a id="line.73">  @Override</a>
+<span class="sourceLineNo">074</span><a id="line.74">  public ImmutableGraph&lt;N&gt; asGraph() {</a>
+<span class="sourceLineNo">075</span><a id="line.75">    return new ImmutableGraph&lt;&gt;(super.asGraph()); // safe because the view is effectively immutable</a>
+<span class="sourceLineNo">076</span><a id="line.76">  }</a>
+<span class="sourceLineNo">077</span><a id="line.77"></a>
+<span class="sourceLineNo">078</span><a id="line.78">  private static &lt;N, E&gt; Map&lt;N, NetworkConnections&lt;N, E&gt;&gt; getNodeConnections(Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">079</span><a id="line.79">    // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have</a>
+<span class="sourceLineNo">080</span><a id="line.80">    // whatever ordering the network's nodes do, so ImmutableSortedMap is unnecessary even if the</a>
+<span class="sourceLineNo">081</span><a id="line.81">    // input nodes are sorted.</a>
+<span class="sourceLineNo">082</span><a id="line.82">    ImmutableMap.Builder&lt;N, NetworkConnections&lt;N, E&gt;&gt; nodeConnections = ImmutableMap.builder();</a>
+<span class="sourceLineNo">083</span><a id="line.83">    for (N node : network.nodes()) {</a>
+<span class="sourceLineNo">084</span><a id="line.84">      nodeConnections.put(node, connectionsOf(network, node));</a>
+<span class="sourceLineNo">085</span><a id="line.85">    }</a>
+<span class="sourceLineNo">086</span><a id="line.86">    return nodeConnections.buildOrThrow();</a>
+<span class="sourceLineNo">087</span><a id="line.87">  }</a>
+<span class="sourceLineNo">088</span><a id="line.88"></a>
+<span class="sourceLineNo">089</span><a id="line.89">  private static &lt;N, E&gt; Map&lt;E, N&gt; getEdgeToReferenceNode(Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">090</span><a id="line.90">    // ImmutableMap.Builder maintains the order of the elements as inserted, so the map will have</a>
+<span class="sourceLineNo">091</span><a id="line.91">    // whatever ordering the network's edges do, so ImmutableSortedMap is unnecessary even if the</a>
+<span class="sourceLineNo">092</span><a id="line.92">    // input edges are sorted.</a>
+<span class="sourceLineNo">093</span><a id="line.93">    ImmutableMap.Builder&lt;E, N&gt; edgeToReferenceNode = ImmutableMap.builder();</a>
+<span class="sourceLineNo">094</span><a id="line.94">    for (E edge : network.edges()) {</a>
+<span class="sourceLineNo">095</span><a id="line.95">      edgeToReferenceNode.put(edge, network.incidentNodes(edge).nodeU());</a>
+<span class="sourceLineNo">096</span><a id="line.96">    }</a>
+<span class="sourceLineNo">097</span><a id="line.97">    return edgeToReferenceNode.buildOrThrow();</a>
+<span class="sourceLineNo">098</span><a id="line.98">  }</a>
+<span class="sourceLineNo">099</span><a id="line.99"></a>
+<span class="sourceLineNo">100</span><a id="line.100">  private static &lt;N, E&gt; NetworkConnections&lt;N, E&gt; connectionsOf(Network&lt;N, E&gt; network, N node) {</a>
+<span class="sourceLineNo">101</span><a id="line.101">    if (network.isDirected()) {</a>
+<span class="sourceLineNo">102</span><a id="line.102">      Map&lt;E, N&gt; inEdgeMap = Maps.asMap(network.inEdges(node), sourceNodeFn(network));</a>
+<span class="sourceLineNo">103</span><a id="line.103">      Map&lt;E, N&gt; outEdgeMap = Maps.asMap(network.outEdges(node), targetNodeFn(network));</a>
+<span class="sourceLineNo">104</span><a id="line.104">      int selfLoopCount = network.edgesConnecting(node, node).size();</a>
+<span class="sourceLineNo">105</span><a id="line.105">      return network.allowsParallelEdges()</a>
+<span class="sourceLineNo">106</span><a id="line.106">          ? DirectedMultiNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount)</a>
+<span class="sourceLineNo">107</span><a id="line.107">          : DirectedNetworkConnections.ofImmutable(inEdgeMap, outEdgeMap, selfLoopCount);</a>
+<span class="sourceLineNo">108</span><a id="line.108">    } else {</a>
+<span class="sourceLineNo">109</span><a id="line.109">      Map&lt;E, N&gt; incidentEdgeMap =</a>
+<span class="sourceLineNo">110</span><a id="line.110">          Maps.asMap(network.incidentEdges(node), adjacentNodeFn(network, node));</a>
+<span class="sourceLineNo">111</span><a id="line.111">      return network.allowsParallelEdges()</a>
+<span class="sourceLineNo">112</span><a id="line.112">          ? UndirectedMultiNetworkConnections.ofImmutable(incidentEdgeMap)</a>
+<span class="sourceLineNo">113</span><a id="line.113">          : UndirectedNetworkConnections.ofImmutable(incidentEdgeMap);</a>
+<span class="sourceLineNo">114</span><a id="line.114">    }</a>
+<span class="sourceLineNo">115</span><a id="line.115">  }</a>
+<span class="sourceLineNo">116</span><a id="line.116"></a>
+<span class="sourceLineNo">117</span><a id="line.117">  private static &lt;N, E&gt; Function&lt;E, N&gt; sourceNodeFn(Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">118</span><a id="line.118">    return (E edge) -&gt; network.incidentNodes(edge).source();</a>
+<span class="sourceLineNo">119</span><a id="line.119">  }</a>
+<span class="sourceLineNo">120</span><a id="line.120"></a>
+<span class="sourceLineNo">121</span><a id="line.121">  private static &lt;N, E&gt; Function&lt;E, N&gt; targetNodeFn(Network&lt;N, E&gt; network) {</a>
+<span class="sourceLineNo">122</span><a id="line.122">    return (E edge) -&gt; network.incidentNodes(edge).target();</a>
+<span class="sourceLineNo">123</span><a id="line.123">  }</a>
+<span class="sourceLineNo">124</span><a id="line.124"></a>
+<span class="sourceLineNo">125</span><a id="line.125">  private static &lt;N, E&gt; Function&lt;E, N&gt; adjacentNodeFn(Network&lt;N, E&gt; network, N node) {</a>
+<span class="sourceLineNo">126</span><a id="line.126">    return (E edge) -&gt; network.incidentNodes(edge).adjacentNode(node);</a>
+<span class="sourceLineNo">127</span><a id="line.127">  }</a>
+<span class="sourceLineNo">128</span><a id="line.128"></a>
+<span class="sourceLineNo">129</span><a id="line.129">  /**</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * A builder for creating {@link ImmutableNetwork} instances, especially {@code static final}</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * networks. Example:</a>
+<span class="sourceLineNo">132</span><a id="line.132">   *</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * static final ImmutableNetwork&lt;City, Train&gt; TRAIN_NETWORK =</a>
+<span class="sourceLineNo">135</span><a id="line.135">   *     NetworkBuilder.undirected()</a>
+<span class="sourceLineNo">136</span><a id="line.136">   *         .allowsParallelEdges(true)</a>
+<span class="sourceLineNo">137</span><a id="line.137">   *         .&lt;City, Train&gt;immutable()</a>
+<span class="sourceLineNo">138</span><a id="line.138">   *         .addEdge(PARIS, BRUSSELS, Thalys.trainNumber("1111"))</a>
+<span class="sourceLineNo">139</span><a id="line.139">   *         .addEdge(PARIS, BRUSSELS, RegionalTrain.trainNumber("2222"))</a>
+<span class="sourceLineNo">140</span><a id="line.140">   *         .addEdge(LONDON, PARIS, Eurostar.trainNumber("3333"))</a>
+<span class="sourceLineNo">141</span><a id="line.141">   *         .addEdge(LONDON, BRUSSELS, Eurostar.trainNumber("4444"))</a>
+<span class="sourceLineNo">142</span><a id="line.142">   *         .addNode(REYKJAVIK)</a>
+<span class="sourceLineNo">143</span><a id="line.143">   *         .build();</a>
+<span class="sourceLineNo">144</span><a id="line.144">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">145</span><a id="line.145">   *</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * &lt;p&gt;Builder instances can be reused; it is safe to call {@link #build} multiple times to build</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * multiple networks in series. Each new network contains all the elements of the ones created</a>
+<span class="sourceLineNo">148</span><a id="line.148">   * before it.</a>
+<span class="sourceLineNo">149</span><a id="line.149">   *</a>
+<span class="sourceLineNo">150</span><a id="line.150">   * @since 28.0</a>
+<span class="sourceLineNo">151</span><a id="line.151">   */</a>
+<span class="sourceLineNo">152</span><a id="line.152">  public static class Builder&lt;N, E&gt; {</a>
+<span class="sourceLineNo">153</span><a id="line.153"></a>
+<span class="sourceLineNo">154</span><a id="line.154">    private final MutableNetwork&lt;N, E&gt; mutableNetwork;</a>
+<span class="sourceLineNo">155</span><a id="line.155"></a>
+<span class="sourceLineNo">156</span><a id="line.156">    Builder(NetworkBuilder&lt;N, E&gt; networkBuilder) {</a>
+<span class="sourceLineNo">157</span><a id="line.157">      this.mutableNetwork = networkBuilder.build();</a>
+<span class="sourceLineNo">158</span><a id="line.158">    }</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">    /**</a>
+<span class="sourceLineNo">161</span><a id="line.161">     * Adds {@code node} if it is not already present.</a>
+<span class="sourceLineNo">162</span><a id="line.162">     *</a>
+<span class="sourceLineNo">163</span><a id="line.163">     * &lt;p&gt;&lt;b&gt;Nodes must be unique&lt;/b&gt;, just as {@code Map} keys must be. They must also be non-null.</a>
+<span class="sourceLineNo">164</span><a id="line.164">     *</a>
+<span class="sourceLineNo">165</span><a id="line.165">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">166</span><a id="line.166">     */</a>
+<span class="sourceLineNo">167</span><a id="line.167">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">168</span><a id="line.168">    public ImmutableNetwork.Builder&lt;N, E&gt; addNode(N node) {</a>
+<span class="sourceLineNo">169</span><a id="line.169">      mutableNetwork.addNode(node);</a>
+<span class="sourceLineNo">170</span><a id="line.170">      return this;</a>
+<span class="sourceLineNo">171</span><a id="line.171">    }</a>
+<span class="sourceLineNo">172</span><a id="line.172"></a>
+<span class="sourceLineNo">173</span><a id="line.173">    /**</a>
+<span class="sourceLineNo">174</span><a id="line.174">     * Adds {@code edge} connecting {@code nodeU} to {@code nodeV}.</a>
+<span class="sourceLineNo">175</span><a id="line.175">     *</a>
+<span class="sourceLineNo">176</span><a id="line.176">     * &lt;p&gt;If the network is directed, {@code edge} will be directed in this network; otherwise, it</a>
+<span class="sourceLineNo">177</span><a id="line.177">     * will be undirected.</a>
+<span class="sourceLineNo">178</span><a id="line.178">     *</a>
+<span class="sourceLineNo">179</span><a id="line.179">     * &lt;p&gt;&lt;b&gt;{@code edge} must be unique to this network&lt;/b&gt;, just as a {@code Map} key must be. It</a>
+<span class="sourceLineNo">180</span><a id="line.180">     * must also be non-null.</a>
+<span class="sourceLineNo">181</span><a id="line.181">     *</a>
+<span class="sourceLineNo">182</span><a id="line.182">     * &lt;p&gt;If {@code nodeU} and {@code nodeV} are not already present in this network, this method</a>
+<span class="sourceLineNo">183</span><a id="line.183">     * will silently {@link #addNode(Object) add} {@code nodeU} and {@code nodeV} to the network.</a>
+<span class="sourceLineNo">184</span><a id="line.184">     *</a>
+<span class="sourceLineNo">185</span><a id="line.185">     * &lt;p&gt;If {@code edge} already connects {@code nodeU} to {@code nodeV} (in the specified order if</a>
+<span class="sourceLineNo">186</span><a id="line.186">     * this network {@link #isDirected()}, else in any order), then this method will have no effect.</a>
+<span class="sourceLineNo">187</span><a id="line.187">     *</a>
+<span class="sourceLineNo">188</span><a id="line.188">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">189</span><a id="line.189">     * @throws IllegalArgumentException if {@code edge} already exists in the network and does not</a>
+<span class="sourceLineNo">190</span><a id="line.190">     *     connect {@code nodeU} to {@code nodeV}</a>
+<span class="sourceLineNo">191</span><a id="line.191">     * @throws IllegalArgumentException if the introduction of the edge would violate {@link</a>
+<span class="sourceLineNo">192</span><a id="line.192">     *     #allowsParallelEdges()} or {@link #allowsSelfLoops()}</a>
+<span class="sourceLineNo">193</span><a id="line.193">     */</a>
+<span class="sourceLineNo">194</span><a id="line.194">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">195</span><a id="line.195">    public ImmutableNetwork.Builder&lt;N, E&gt; addEdge(N nodeU, N nodeV, E edge) {</a>
+<span class="sourceLineNo">196</span><a id="line.196">      mutableNetwork.addEdge(nodeU, nodeV, edge);</a>
+<span class="sourceLineNo">197</span><a id="line.197">      return this;</a>
+<span class="sourceLineNo">198</span><a id="line.198">    }</a>
+<span class="sourceLineNo">199</span><a id="line.199"></a>
+<span class="sourceLineNo">200</span><a id="line.200">    /**</a>
+<span class="sourceLineNo">201</span><a id="line.201">     * Adds {@code edge} connecting {@code endpoints}. In an undirected network, {@code edge} will</a>
+<span class="sourceLineNo">202</span><a id="line.202">     * also connect {@code nodeV} to {@code nodeU}.</a>
+<span class="sourceLineNo">203</span><a id="line.203">     *</a>
+<span class="sourceLineNo">204</span><a id="line.204">     * &lt;p&gt;If this network is directed, {@code edge} will be directed in this network; if it is</a>
+<span class="sourceLineNo">205</span><a id="line.205">     * undirected, {@code edge} will be undirected in this network.</a>
+<span class="sourceLineNo">206</span><a id="line.206">     *</a>
+<span class="sourceLineNo">207</span><a id="line.207">     * &lt;p&gt;If this network is directed, {@code endpoints} must be ordered.</a>
+<span class="sourceLineNo">208</span><a id="line.208">     *</a>
+<span class="sourceLineNo">209</span><a id="line.209">     * &lt;p&gt;&lt;b&gt;{@code edge} must be unique to this network&lt;/b&gt;, just as a {@code Map} key must be. It</a>
+<span class="sourceLineNo">210</span><a id="line.210">     * must also be non-null.</a>
+<span class="sourceLineNo">211</span><a id="line.211">     *</a>
+<span class="sourceLineNo">212</span><a id="line.212">     * &lt;p&gt;If either or both endpoints are not already present in this network, this method will</a>
+<span class="sourceLineNo">213</span><a id="line.213">     * silently {@link #addNode(Object) add} each missing endpoint to the network.</a>
+<span class="sourceLineNo">214</span><a id="line.214">     *</a>
+<span class="sourceLineNo">215</span><a id="line.215">     * &lt;p&gt;If {@code edge} already connects an endpoint pair equal to {@code endpoints}, then this</a>
+<span class="sourceLineNo">216</span><a id="line.216">     * method will have no effect.</a>
+<span class="sourceLineNo">217</span><a id="line.217">     *</a>
+<span class="sourceLineNo">218</span><a id="line.218">     * @return this {@code Builder} object</a>
+<span class="sourceLineNo">219</span><a id="line.219">     * @throws IllegalArgumentException if {@code edge} already exists in the network and connects</a>
+<span class="sourceLineNo">220</span><a id="line.220">     *     some other endpoint pair that is not equal to {@code endpoints}</a>
+<span class="sourceLineNo">221</span><a id="line.221">     * @throws IllegalArgumentException if the introduction of the edge would violate {@link</a>
+<span class="sourceLineNo">222</span><a id="line.222">     *     #allowsParallelEdges()} or {@link #allowsSelfLoops()}</a>
+<span class="sourceLineNo">223</span><a id="line.223">     * @throws IllegalArgumentException if the endpoints are unordered and the network is directed</a>
+<span class="sourceLineNo">224</span><a id="line.224">     */</a>
+<span class="sourceLineNo">225</span><a id="line.225">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">226</span><a id="line.226">    public ImmutableNetwork.Builder&lt;N, E&gt; addEdge(EndpointPair&lt;N&gt; endpoints, E edge) {</a>
+<span class="sourceLineNo">227</span><a id="line.227">      mutableNetwork.addEdge(endpoints, edge);</a>
+<span class="sourceLineNo">228</span><a id="line.228">      return this;</a>
+<span class="sourceLineNo">229</span><a id="line.229">    }</a>
+<span class="sourceLineNo">230</span><a id="line.230"></a>
+<span class="sourceLineNo">231</span><a id="line.231">    /**</a>
+<span class="sourceLineNo">232</span><a id="line.232">     * Returns a newly-created {@code ImmutableNetwork} based on the contents of this {@code</a>
+<span class="sourceLineNo">233</span><a id="line.233">     * Builder}.</a>
+<span class="sourceLineNo">234</span><a id="line.234">     */</a>
+<span class="sourceLineNo">235</span><a id="line.235">    public ImmutableNetwork&lt;N, E&gt; build() {</a>
+<span class="sourceLineNo">236</span><a id="line.236">      return ImmutableNetwork.copyOf(mutableNetwork);</a>
+<span class="sourceLineNo">237</span><a id="line.237">    }</a>
+<span class="sourceLineNo">238</span><a id="line.238">  }</a>
+<span class="sourceLineNo">239</span><a id="line.239">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

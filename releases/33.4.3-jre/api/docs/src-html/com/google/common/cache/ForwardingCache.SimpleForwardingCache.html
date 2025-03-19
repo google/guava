@@ -1,0 +1,209 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2011 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.cache;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import com.google.common.base.Preconditions;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.collect.ForwardingObject;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.collect.ImmutableMap;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.util.Map;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.util.concurrent.Callable;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.util.concurrent.ConcurrentMap;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.util.concurrent.ExecutionException;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">026</span><a id="line.26"></a>
+<span class="sourceLineNo">027</span><a id="line.27">/**</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * A cache which forwards all its method calls to another cache. Subclasses should override one or</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * more methods to modify the behavior of the backing cache as desired per the &lt;a</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.</a>
+<span class="sourceLineNo">031</span><a id="line.31"> *</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * @author Charles Fry</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * @since 10.0</a>
+<span class="sourceLineNo">034</span><a id="line.34"> */</a>
+<span class="sourceLineNo">035</span><a id="line.35">@GwtIncompatible</a>
+<span class="sourceLineNo">036</span><a id="line.36">public abstract class ForwardingCache&lt;K, V&gt; extends ForwardingObject implements Cache&lt;K, V&gt; {</a>
+<span class="sourceLineNo">037</span><a id="line.37"></a>
+<span class="sourceLineNo">038</span><a id="line.38">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">039</span><a id="line.39">  protected ForwardingCache() {}</a>
+<span class="sourceLineNo">040</span><a id="line.40"></a>
+<span class="sourceLineNo">041</span><a id="line.41">  @Override</a>
+<span class="sourceLineNo">042</span><a id="line.42">  protected abstract Cache&lt;K, V&gt; delegate();</a>
+<span class="sourceLineNo">043</span><a id="line.43"></a>
+<span class="sourceLineNo">044</span><a id="line.44">  /**</a>
+<span class="sourceLineNo">045</span><a id="line.45">   * @since 11.0</a>
+<span class="sourceLineNo">046</span><a id="line.46">   */</a>
+<span class="sourceLineNo">047</span><a id="line.47">  @Override</a>
+<span class="sourceLineNo">048</span><a id="line.48">  public @Nullable V getIfPresent(Object key) {</a>
+<span class="sourceLineNo">049</span><a id="line.49">    return delegate().getIfPresent(key);</a>
+<span class="sourceLineNo">050</span><a id="line.50">  }</a>
+<span class="sourceLineNo">051</span><a id="line.51"></a>
+<span class="sourceLineNo">052</span><a id="line.52">  /** @since 11.0 */</a>
+<span class="sourceLineNo">053</span><a id="line.53">  @Override</a>
+<span class="sourceLineNo">054</span><a id="line.54">  public V get(K key, Callable&lt;? extends V&gt; valueLoader) throws ExecutionException {</a>
+<span class="sourceLineNo">055</span><a id="line.55">    return delegate().get(key, valueLoader);</a>
+<span class="sourceLineNo">056</span><a id="line.56">  }</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  /** @since 11.0 */</a>
+<span class="sourceLineNo">059</span><a id="line.59">  @Override</a>
+<span class="sourceLineNo">060</span><a id="line.60">  /*</a>
+<span class="sourceLineNo">061</span><a id="line.61">   * &lt;? extends Object&gt; is mostly the same as &lt;?&gt; to plain Java. But to nullness checkers, they</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * differ: &lt;? extends Object&gt; means "non-null types," while &lt;?&gt; means "all types."</a>
+<span class="sourceLineNo">063</span><a id="line.63">   */</a>
+<span class="sourceLineNo">064</span><a id="line.64">  public ImmutableMap&lt;K, V&gt; getAllPresent(Iterable&lt;? extends Object&gt; keys) {</a>
+<span class="sourceLineNo">065</span><a id="line.65">    return delegate().getAllPresent(keys);</a>
+<span class="sourceLineNo">066</span><a id="line.66">  }</a>
+<span class="sourceLineNo">067</span><a id="line.67"></a>
+<span class="sourceLineNo">068</span><a id="line.68">  /** @since 11.0 */</a>
+<span class="sourceLineNo">069</span><a id="line.69">  @Override</a>
+<span class="sourceLineNo">070</span><a id="line.70">  public void put(K key, V value) {</a>
+<span class="sourceLineNo">071</span><a id="line.71">    delegate().put(key, value);</a>
+<span class="sourceLineNo">072</span><a id="line.72">  }</a>
+<span class="sourceLineNo">073</span><a id="line.73"></a>
+<span class="sourceLineNo">074</span><a id="line.74">  /** @since 12.0 */</a>
+<span class="sourceLineNo">075</span><a id="line.75">  @Override</a>
+<span class="sourceLineNo">076</span><a id="line.76">  public void putAll(Map&lt;? extends K, ? extends V&gt; m) {</a>
+<span class="sourceLineNo">077</span><a id="line.77">    delegate().putAll(m);</a>
+<span class="sourceLineNo">078</span><a id="line.78">  }</a>
+<span class="sourceLineNo">079</span><a id="line.79"></a>
+<span class="sourceLineNo">080</span><a id="line.80">  @Override</a>
+<span class="sourceLineNo">081</span><a id="line.81">  public void invalidate(Object key) {</a>
+<span class="sourceLineNo">082</span><a id="line.82">    delegate().invalidate(key);</a>
+<span class="sourceLineNo">083</span><a id="line.83">  }</a>
+<span class="sourceLineNo">084</span><a id="line.84"></a>
+<span class="sourceLineNo">085</span><a id="line.85">  /** @since 11.0 */</a>
+<span class="sourceLineNo">086</span><a id="line.86">  @Override</a>
+<span class="sourceLineNo">087</span><a id="line.87">  // For discussion of &lt;? extends Object&gt;, see getAllPresent.</a>
+<span class="sourceLineNo">088</span><a id="line.88">  public void invalidateAll(Iterable&lt;? extends Object&gt; keys) {</a>
+<span class="sourceLineNo">089</span><a id="line.89">    delegate().invalidateAll(keys);</a>
+<span class="sourceLineNo">090</span><a id="line.90">  }</a>
+<span class="sourceLineNo">091</span><a id="line.91"></a>
+<span class="sourceLineNo">092</span><a id="line.92">  @Override</a>
+<span class="sourceLineNo">093</span><a id="line.93">  public void invalidateAll() {</a>
+<span class="sourceLineNo">094</span><a id="line.94">    delegate().invalidateAll();</a>
+<span class="sourceLineNo">095</span><a id="line.95">  }</a>
+<span class="sourceLineNo">096</span><a id="line.96"></a>
+<span class="sourceLineNo">097</span><a id="line.97">  @Override</a>
+<span class="sourceLineNo">098</span><a id="line.98">  public long size() {</a>
+<span class="sourceLineNo">099</span><a id="line.99">    return delegate().size();</a>
+<span class="sourceLineNo">100</span><a id="line.100">  }</a>
+<span class="sourceLineNo">101</span><a id="line.101"></a>
+<span class="sourceLineNo">102</span><a id="line.102">  @Override</a>
+<span class="sourceLineNo">103</span><a id="line.103">  public CacheStats stats() {</a>
+<span class="sourceLineNo">104</span><a id="line.104">    return delegate().stats();</a>
+<span class="sourceLineNo">105</span><a id="line.105">  }</a>
+<span class="sourceLineNo">106</span><a id="line.106"></a>
+<span class="sourceLineNo">107</span><a id="line.107">  @Override</a>
+<span class="sourceLineNo">108</span><a id="line.108">  public ConcurrentMap&lt;K, V&gt; asMap() {</a>
+<span class="sourceLineNo">109</span><a id="line.109">    return delegate().asMap();</a>
+<span class="sourceLineNo">110</span><a id="line.110">  }</a>
+<span class="sourceLineNo">111</span><a id="line.111"></a>
+<span class="sourceLineNo">112</span><a id="line.112">  @Override</a>
+<span class="sourceLineNo">113</span><a id="line.113">  public void cleanUp() {</a>
+<span class="sourceLineNo">114</span><a id="line.114">    delegate().cleanUp();</a>
+<span class="sourceLineNo">115</span><a id="line.115">  }</a>
+<span class="sourceLineNo">116</span><a id="line.116"></a>
+<span class="sourceLineNo">117</span><a id="line.117">  /**</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * A simplified version of {@link ForwardingCache} where subclasses can pass in an already</a>
+<span class="sourceLineNo">119</span><a id="line.119">   * constructed {@link Cache} as the delegate.</a>
+<span class="sourceLineNo">120</span><a id="line.120">   *</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * @since 10.0</a>
+<span class="sourceLineNo">122</span><a id="line.122">   */</a>
+<span class="sourceLineNo">123</span><a id="line.123">  public abstract static class SimpleForwardingCache&lt;K, V&gt; extends ForwardingCache&lt;K, V&gt; {</a>
+<span class="sourceLineNo">124</span><a id="line.124">    private final Cache&lt;K, V&gt; delegate;</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">    protected SimpleForwardingCache(Cache&lt;K, V&gt; delegate) {</a>
+<span class="sourceLineNo">127</span><a id="line.127">      this.delegate = Preconditions.checkNotNull(delegate);</a>
+<span class="sourceLineNo">128</span><a id="line.128">    }</a>
+<span class="sourceLineNo">129</span><a id="line.129"></a>
+<span class="sourceLineNo">130</span><a id="line.130">    @Override</a>
+<span class="sourceLineNo">131</span><a id="line.131">    protected final Cache&lt;K, V&gt; delegate() {</a>
+<span class="sourceLineNo">132</span><a id="line.132">      return delegate;</a>
+<span class="sourceLineNo">133</span><a id="line.133">    }</a>
+<span class="sourceLineNo">134</span><a id="line.134">  }</a>
+<span class="sourceLineNo">135</span><a id="line.135">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
