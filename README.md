@@ -108,7 +108,7 @@ for the Android flavor.
     options open in case of surprises (like, say, a serious security problem).
 
 3.  Guava has one dependency that is needed for linkage at runtime:
-    `com.google.guava:failureaccess:1.0.2`. It also has
+    `com.google.guava:failureaccess:1.0.3`. It also has
     [some annotation-only dependencies][guava-deps], which we discuss in more
     detail at that link.
 
