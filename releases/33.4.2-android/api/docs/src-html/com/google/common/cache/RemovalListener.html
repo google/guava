@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2011 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.cache;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">/**</a>
+<span class="sourceLineNo">020</span><a id="line.20"> * An object that can receive a notification when an entry is removed from a cache. The removal</a>
+<span class="sourceLineNo">021</span><a id="line.21"> * resulting in notification could have occurred to an entry being manually removed or replaced, or</a>
+<span class="sourceLineNo">022</span><a id="line.22"> * due to eviction resulting from timed expiration, exceeding a maximum size, or garbage collection.</a>
+<span class="sourceLineNo">023</span><a id="line.23"> *</a>
+<span class="sourceLineNo">024</span><a id="line.24"> * &lt;p&gt;An instance may be called concurrently by multiple threads to process different entries.</a>
+<span class="sourceLineNo">025</span><a id="line.25"> * Implementations of this interface should avoid performing blocking calls or synchronizing on</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * shared resources.</a>
+<span class="sourceLineNo">027</span><a id="line.27"> *</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * @param &lt;K&gt; the most general type of keys this listener can listen for; for example {@code Object}</a>
+<span class="sourceLineNo">029</span><a id="line.29"> *     if any key is acceptable</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * @param &lt;V&gt; the most general type of values this listener can listen for; for example {@code</a>
+<span class="sourceLineNo">031</span><a id="line.31"> *     Object} if any key is acceptable</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * @author Charles Fry</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * @since 10.0</a>
+<span class="sourceLineNo">034</span><a id="line.34"> */</a>
+<span class="sourceLineNo">035</span><a id="line.35">@GwtCompatible</a>
+<span class="sourceLineNo">036</span><a id="line.36">public interface RemovalListener&lt;K, V&gt; {</a>
+<span class="sourceLineNo">037</span><a id="line.37">  /**</a>
+<span class="sourceLineNo">038</span><a id="line.38">   * Notifies the listener that a removal occurred at some point in the past.</a>
+<span class="sourceLineNo">039</span><a id="line.39">   *</a>
+<span class="sourceLineNo">040</span><a id="line.40">   * &lt;p&gt;This does not always signify that the key is now absent from the cache, as it may have</a>
+<span class="sourceLineNo">041</span><a id="line.41">   * already been re-added.</a>
+<span class="sourceLineNo">042</span><a id="line.42">   */</a>
+<span class="sourceLineNo">043</span><a id="line.43">  // Technically should accept RemovalNotification&lt;? extends K, ? extends V&gt;, but because</a>
+<span class="sourceLineNo">044</span><a id="line.44">  // RemovalNotification is guaranteed covariant, let's make users' lives simpler.</a>
+<span class="sourceLineNo">045</span><a id="line.45">  void onRemoval(RemovalNotification&lt;K, V&gt; notification);</a>
+<span class="sourceLineNo">046</span><a id="line.46">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

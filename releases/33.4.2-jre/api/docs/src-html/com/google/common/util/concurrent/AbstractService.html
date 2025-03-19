@@ -1,0 +1,711 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2009 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.util.concurrent;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkArgument;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import static com.google.common.base.Preconditions.checkNotNull;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.base.Preconditions.checkState;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import static com.google.common.util.concurrent.Service.State.FAILED;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import static com.google.common.util.concurrent.Service.State.NEW;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import static com.google.common.util.concurrent.Service.State.RUNNING;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import static com.google.common.util.concurrent.Service.State.STARTING;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import static com.google.common.util.concurrent.Service.State.STOPPING;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import static com.google.common.util.concurrent.Service.State.TERMINATED;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import static java.util.Objects.requireNonNull;</a>
+<span class="sourceLineNo">028</span><a id="line.28"></a>
+<span class="sourceLineNo">029</span><a id="line.29">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import com.google.common.util.concurrent.Monitor.Guard;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import com.google.common.util.concurrent.Service.State; // javadoc needs this</a>
+<span class="sourceLineNo">033</span><a id="line.33">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import com.google.errorprone.annotations.ForOverride;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import com.google.errorprone.annotations.concurrent.GuardedBy;</a>
+<span class="sourceLineNo">036</span><a id="line.36">import com.google.j2objc.annotations.WeakOuter;</a>
+<span class="sourceLineNo">037</span><a id="line.37">import java.time.Duration;</a>
+<span class="sourceLineNo">038</span><a id="line.38">import java.util.concurrent.Executor;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import java.util.concurrent.TimeUnit;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import java.util.concurrent.TimeoutException;</a>
+<span class="sourceLineNo">041</span><a id="line.41">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">042</span><a id="line.42"></a>
+<span class="sourceLineNo">043</span><a id="line.43">/**</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * Base class for implementing services that can handle {@link #doStart} and {@link #doStop}</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * requests, responding to them with {@link #notifyStarted()} and {@link #notifyStopped()}</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * callbacks. Its subclasses must manage threads manually; consider {@link</a>
+<span class="sourceLineNo">047</span><a id="line.47"> * AbstractExecutionThreadService} if you need only a single execution thread.</a>
+<span class="sourceLineNo">048</span><a id="line.48"> *</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * @author Jesse Wilson</a>
+<span class="sourceLineNo">050</span><a id="line.50"> * @author Luke Sandberg</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * @since 1.0</a>
+<span class="sourceLineNo">052</span><a id="line.52"> */</a>
+<span class="sourceLineNo">053</span><a id="line.53">@GwtIncompatible</a>
+<span class="sourceLineNo">054</span><a id="line.54">@J2ktIncompatible</a>
+<span class="sourceLineNo">055</span><a id="line.55">public abstract class AbstractService implements Service {</a>
+<span class="sourceLineNo">056</span><a id="line.56">  private static final ListenerCallQueue.Event&lt;Listener&gt; STARTING_EVENT =</a>
+<span class="sourceLineNo">057</span><a id="line.57">      new ListenerCallQueue.Event&lt;Listener&gt;() {</a>
+<span class="sourceLineNo">058</span><a id="line.58">        @Override</a>
+<span class="sourceLineNo">059</span><a id="line.59">        public void call(Listener listener) {</a>
+<span class="sourceLineNo">060</span><a id="line.60">          listener.starting();</a>
+<span class="sourceLineNo">061</span><a id="line.61">        }</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">        @Override</a>
+<span class="sourceLineNo">064</span><a id="line.64">        public String toString() {</a>
+<span class="sourceLineNo">065</span><a id="line.65">          return "starting()";</a>
+<span class="sourceLineNo">066</span><a id="line.66">        }</a>
+<span class="sourceLineNo">067</span><a id="line.67">      };</a>
+<span class="sourceLineNo">068</span><a id="line.68">  private static final ListenerCallQueue.Event&lt;Listener&gt; RUNNING_EVENT =</a>
+<span class="sourceLineNo">069</span><a id="line.69">      new ListenerCallQueue.Event&lt;Listener&gt;() {</a>
+<span class="sourceLineNo">070</span><a id="line.70">        @Override</a>
+<span class="sourceLineNo">071</span><a id="line.71">        public void call(Listener listener) {</a>
+<span class="sourceLineNo">072</span><a id="line.72">          listener.running();</a>
+<span class="sourceLineNo">073</span><a id="line.73">        }</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">        @Override</a>
+<span class="sourceLineNo">076</span><a id="line.76">        public String toString() {</a>
+<span class="sourceLineNo">077</span><a id="line.77">          return "running()";</a>
+<span class="sourceLineNo">078</span><a id="line.78">        }</a>
+<span class="sourceLineNo">079</span><a id="line.79">      };</a>
+<span class="sourceLineNo">080</span><a id="line.80">  private static final ListenerCallQueue.Event&lt;Listener&gt; STOPPING_FROM_STARTING_EVENT =</a>
+<span class="sourceLineNo">081</span><a id="line.81">      stoppingEvent(STARTING);</a>
+<span class="sourceLineNo">082</span><a id="line.82">  private static final ListenerCallQueue.Event&lt;Listener&gt; STOPPING_FROM_RUNNING_EVENT =</a>
+<span class="sourceLineNo">083</span><a id="line.83">      stoppingEvent(RUNNING);</a>
+<span class="sourceLineNo">084</span><a id="line.84"></a>
+<span class="sourceLineNo">085</span><a id="line.85">  private static final ListenerCallQueue.Event&lt;Listener&gt; TERMINATED_FROM_NEW_EVENT =</a>
+<span class="sourceLineNo">086</span><a id="line.86">      terminatedEvent(NEW);</a>
+<span class="sourceLineNo">087</span><a id="line.87">  private static final ListenerCallQueue.Event&lt;Listener&gt; TERMINATED_FROM_STARTING_EVENT =</a>
+<span class="sourceLineNo">088</span><a id="line.88">      terminatedEvent(STARTING);</a>
+<span class="sourceLineNo">089</span><a id="line.89">  private static final ListenerCallQueue.Event&lt;Listener&gt; TERMINATED_FROM_RUNNING_EVENT =</a>
+<span class="sourceLineNo">090</span><a id="line.90">      terminatedEvent(RUNNING);</a>
+<span class="sourceLineNo">091</span><a id="line.91">  private static final ListenerCallQueue.Event&lt;Listener&gt; TERMINATED_FROM_STOPPING_EVENT =</a>
+<span class="sourceLineNo">092</span><a id="line.92">      terminatedEvent(STOPPING);</a>
+<span class="sourceLineNo">093</span><a id="line.93"></a>
+<span class="sourceLineNo">094</span><a id="line.94">  private static ListenerCallQueue.Event&lt;Listener&gt; terminatedEvent(final State from) {</a>
+<span class="sourceLineNo">095</span><a id="line.95">    return new ListenerCallQueue.Event&lt;Listener&gt;() {</a>
+<span class="sourceLineNo">096</span><a id="line.96">      @Override</a>
+<span class="sourceLineNo">097</span><a id="line.97">      public void call(Listener listener) {</a>
+<span class="sourceLineNo">098</span><a id="line.98">        listener.terminated(from);</a>
+<span class="sourceLineNo">099</span><a id="line.99">      }</a>
+<span class="sourceLineNo">100</span><a id="line.100"></a>
+<span class="sourceLineNo">101</span><a id="line.101">      @Override</a>
+<span class="sourceLineNo">102</span><a id="line.102">      public String toString() {</a>
+<span class="sourceLineNo">103</span><a id="line.103">        return "terminated({from = " + from + "})";</a>
+<span class="sourceLineNo">104</span><a id="line.104">      }</a>
+<span class="sourceLineNo">105</span><a id="line.105">    };</a>
+<span class="sourceLineNo">106</span><a id="line.106">  }</a>
+<span class="sourceLineNo">107</span><a id="line.107"></a>
+<span class="sourceLineNo">108</span><a id="line.108">  private static ListenerCallQueue.Event&lt;Listener&gt; stoppingEvent(final State from) {</a>
+<span class="sourceLineNo">109</span><a id="line.109">    return new ListenerCallQueue.Event&lt;Listener&gt;() {</a>
+<span class="sourceLineNo">110</span><a id="line.110">      @Override</a>
+<span class="sourceLineNo">111</span><a id="line.111">      public void call(Listener listener) {</a>
+<span class="sourceLineNo">112</span><a id="line.112">        listener.stopping(from);</a>
+<span class="sourceLineNo">113</span><a id="line.113">      }</a>
+<span class="sourceLineNo">114</span><a id="line.114"></a>
+<span class="sourceLineNo">115</span><a id="line.115">      @Override</a>
+<span class="sourceLineNo">116</span><a id="line.116">      public String toString() {</a>
+<span class="sourceLineNo">117</span><a id="line.117">        return "stopping({from = " + from + "})";</a>
+<span class="sourceLineNo">118</span><a id="line.118">      }</a>
+<span class="sourceLineNo">119</span><a id="line.119">    };</a>
+<span class="sourceLineNo">120</span><a id="line.120">  }</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">  private final Monitor monitor = new Monitor();</a>
+<span class="sourceLineNo">123</span><a id="line.123"></a>
+<span class="sourceLineNo">124</span><a id="line.124">  private final Guard isStartable = new IsStartableGuard();</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">  @WeakOuter</a>
+<span class="sourceLineNo">127</span><a id="line.127">  private final class IsStartableGuard extends Guard {</a>
+<span class="sourceLineNo">128</span><a id="line.128">    IsStartableGuard() {</a>
+<span class="sourceLineNo">129</span><a id="line.129">      super(AbstractService.this.monitor);</a>
+<span class="sourceLineNo">130</span><a id="line.130">    }</a>
+<span class="sourceLineNo">131</span><a id="line.131"></a>
+<span class="sourceLineNo">132</span><a id="line.132">    @Override</a>
+<span class="sourceLineNo">133</span><a id="line.133">    public boolean isSatisfied() {</a>
+<span class="sourceLineNo">134</span><a id="line.134">      return state() == NEW;</a>
+<span class="sourceLineNo">135</span><a id="line.135">    }</a>
+<span class="sourceLineNo">136</span><a id="line.136">  }</a>
+<span class="sourceLineNo">137</span><a id="line.137"></a>
+<span class="sourceLineNo">138</span><a id="line.138">  private final Guard isStoppable = new IsStoppableGuard();</a>
+<span class="sourceLineNo">139</span><a id="line.139"></a>
+<span class="sourceLineNo">140</span><a id="line.140">  @WeakOuter</a>
+<span class="sourceLineNo">141</span><a id="line.141">  private final class IsStoppableGuard extends Guard {</a>
+<span class="sourceLineNo">142</span><a id="line.142">    IsStoppableGuard() {</a>
+<span class="sourceLineNo">143</span><a id="line.143">      super(AbstractService.this.monitor);</a>
+<span class="sourceLineNo">144</span><a id="line.144">    }</a>
+<span class="sourceLineNo">145</span><a id="line.145"></a>
+<span class="sourceLineNo">146</span><a id="line.146">    @Override</a>
+<span class="sourceLineNo">147</span><a id="line.147">    public boolean isSatisfied() {</a>
+<span class="sourceLineNo">148</span><a id="line.148">      return state().compareTo(RUNNING) &lt;= 0;</a>
+<span class="sourceLineNo">149</span><a id="line.149">    }</a>
+<span class="sourceLineNo">150</span><a id="line.150">  }</a>
+<span class="sourceLineNo">151</span><a id="line.151"></a>
+<span class="sourceLineNo">152</span><a id="line.152">  private final Guard hasReachedRunning = new HasReachedRunningGuard();</a>
+<span class="sourceLineNo">153</span><a id="line.153"></a>
+<span class="sourceLineNo">154</span><a id="line.154">  @WeakOuter</a>
+<span class="sourceLineNo">155</span><a id="line.155">  private final class HasReachedRunningGuard extends Guard {</a>
+<span class="sourceLineNo">156</span><a id="line.156">    HasReachedRunningGuard() {</a>
+<span class="sourceLineNo">157</span><a id="line.157">      super(AbstractService.this.monitor);</a>
+<span class="sourceLineNo">158</span><a id="line.158">    }</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">    @Override</a>
+<span class="sourceLineNo">161</span><a id="line.161">    public boolean isSatisfied() {</a>
+<span class="sourceLineNo">162</span><a id="line.162">      return state().compareTo(RUNNING) &gt;= 0;</a>
+<span class="sourceLineNo">163</span><a id="line.163">    }</a>
+<span class="sourceLineNo">164</span><a id="line.164">  }</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">  private final Guard isStopped = new IsStoppedGuard();</a>
+<span class="sourceLineNo">167</span><a id="line.167"></a>
+<span class="sourceLineNo">168</span><a id="line.168">  @WeakOuter</a>
+<span class="sourceLineNo">169</span><a id="line.169">  private final class IsStoppedGuard extends Guard {</a>
+<span class="sourceLineNo">170</span><a id="line.170">    IsStoppedGuard() {</a>
+<span class="sourceLineNo">171</span><a id="line.171">      super(AbstractService.this.monitor);</a>
+<span class="sourceLineNo">172</span><a id="line.172">    }</a>
+<span class="sourceLineNo">173</span><a id="line.173"></a>
+<span class="sourceLineNo">174</span><a id="line.174">    @Override</a>
+<span class="sourceLineNo">175</span><a id="line.175">    public boolean isSatisfied() {</a>
+<span class="sourceLineNo">176</span><a id="line.176">      return state().compareTo(TERMINATED) &gt;= 0;</a>
+<span class="sourceLineNo">177</span><a id="line.177">    }</a>
+<span class="sourceLineNo">178</span><a id="line.178">  }</a>
+<span class="sourceLineNo">179</span><a id="line.179"></a>
+<span class="sourceLineNo">180</span><a id="line.180">  /** The listeners to notify during a state transition. */</a>
+<span class="sourceLineNo">181</span><a id="line.181">  private final ListenerCallQueue&lt;Listener&gt; listeners = new ListenerCallQueue&lt;&gt;();</a>
+<span class="sourceLineNo">182</span><a id="line.182"></a>
+<span class="sourceLineNo">183</span><a id="line.183">  /**</a>
+<span class="sourceLineNo">184</span><a id="line.184">   * The current state of the service. This should be written with the lock held but can be read</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * without it because it is an immutable object in a volatile field. This is desirable so that</a>
+<span class="sourceLineNo">186</span><a id="line.186">   * methods like {@link #state}, {@link #failureCause} and notably {@link #toString} can be run</a>
+<span class="sourceLineNo">187</span><a id="line.187">   * without grabbing the lock.</a>
+<span class="sourceLineNo">188</span><a id="line.188">   *</a>
+<span class="sourceLineNo">189</span><a id="line.189">   * &lt;p&gt;To update this field correctly the lock must be held to guarantee that the state is</a>
+<span class="sourceLineNo">190</span><a id="line.190">   * consistent.</a>
+<span class="sourceLineNo">191</span><a id="line.191">   */</a>
+<span class="sourceLineNo">192</span><a id="line.192">  private volatile StateSnapshot snapshot = new StateSnapshot(NEW);</a>
+<span class="sourceLineNo">193</span><a id="line.193"></a>
+<span class="sourceLineNo">194</span><a id="line.194">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">195</span><a id="line.195">  protected AbstractService() {}</a>
+<span class="sourceLineNo">196</span><a id="line.196"></a>
+<span class="sourceLineNo">197</span><a id="line.197">  /**</a>
+<span class="sourceLineNo">198</span><a id="line.198">   * This method is called by {@link #startAsync} to initiate service startup. The invocation of</a>
+<span class="sourceLineNo">199</span><a id="line.199">   * this method should cause a call to {@link #notifyStarted()}, either during this method's run,</a>
+<span class="sourceLineNo">200</span><a id="line.200">   * or after it has returned. If startup fails, the invocation should cause a call to {@link</a>
+<span class="sourceLineNo">201</span><a id="line.201">   * #notifyFailed(Throwable)} instead.</a>
+<span class="sourceLineNo">202</span><a id="line.202">   *</a>
+<span class="sourceLineNo">203</span><a id="line.203">   * &lt;p&gt;This method should return promptly; prefer to do work on a different thread where it is</a>
+<span class="sourceLineNo">204</span><a id="line.204">   * convenient. It is invoked exactly once on service startup, even when {@link #startAsync} is</a>
+<span class="sourceLineNo">205</span><a id="line.205">   * called multiple times.</a>
+<span class="sourceLineNo">206</span><a id="line.206">   */</a>
+<span class="sourceLineNo">207</span><a id="line.207">  @ForOverride</a>
+<span class="sourceLineNo">208</span><a id="line.208">  protected abstract void doStart();</a>
+<span class="sourceLineNo">209</span><a id="line.209"></a>
+<span class="sourceLineNo">210</span><a id="line.210">  /**</a>
+<span class="sourceLineNo">211</span><a id="line.211">   * This method should be used to initiate service shutdown. The invocation of this method should</a>
+<span class="sourceLineNo">212</span><a id="line.212">   * cause a call to {@link #notifyStopped()}, either during this method's run, or after it has</a>
+<span class="sourceLineNo">213</span><a id="line.213">   * returned. If shutdown fails, the invocation should cause a call to {@link</a>
+<span class="sourceLineNo">214</span><a id="line.214">   * #notifyFailed(Throwable)} instead.</a>
+<span class="sourceLineNo">215</span><a id="line.215">   *</a>
+<span class="sourceLineNo">216</span><a id="line.216">   * &lt;p&gt;This method should return promptly; prefer to do work on a different thread where it is</a>
+<span class="sourceLineNo">217</span><a id="line.217">   * convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is</a>
+<span class="sourceLineNo">218</span><a id="line.218">   * called multiple times.</a>
+<span class="sourceLineNo">219</span><a id="line.219">   *</a>
+<span class="sourceLineNo">220</span><a id="line.220">   * &lt;p&gt;If {@link #stopAsync} is called on a {@link State#STARTING} service, this method is not</a>
+<span class="sourceLineNo">221</span><a id="line.221">   * invoked immediately. Instead, it will be deferred until after the service is {@link</a>
+<span class="sourceLineNo">222</span><a id="line.222">   * State#RUNNING}. Services that need to cancel startup work can override {@link #doCancelStart}.</a>
+<span class="sourceLineNo">223</span><a id="line.223">   */</a>
+<span class="sourceLineNo">224</span><a id="line.224">  @ForOverride</a>
+<span class="sourceLineNo">225</span><a id="line.225">  protected abstract void doStop();</a>
+<span class="sourceLineNo">226</span><a id="line.226"></a>
+<span class="sourceLineNo">227</span><a id="line.227">  /**</a>
+<span class="sourceLineNo">228</span><a id="line.228">   * This method is called by {@link #stopAsync} when the service is still starting (i.e. {@link</a>
+<span class="sourceLineNo">229</span><a id="line.229">   * #startAsync} has been called but {@link #notifyStarted} has not). Subclasses can override the</a>
+<span class="sourceLineNo">230</span><a id="line.230">   * method to cancel pending work and then call {@link #notifyStopped} to stop the service.</a>
+<span class="sourceLineNo">231</span><a id="line.231">   *</a>
+<span class="sourceLineNo">232</span><a id="line.232">   * &lt;p&gt;This method should return promptly; prefer to do work on a different thread where it is</a>
+<span class="sourceLineNo">233</span><a id="line.233">   * convenient. It is invoked exactly once on service shutdown, even when {@link #stopAsync} is</a>
+<span class="sourceLineNo">234</span><a id="line.234">   * called multiple times.</a>
+<span class="sourceLineNo">235</span><a id="line.235">   *</a>
+<span class="sourceLineNo">236</span><a id="line.236">   * &lt;p&gt;When this method is called {@link #state()} will return {@link State#STOPPING}, which is the</a>
+<span class="sourceLineNo">237</span><a id="line.237">   * external state observable by the caller of {@link #stopAsync}.</a>
+<span class="sourceLineNo">238</span><a id="line.238">   *</a>
+<span class="sourceLineNo">239</span><a id="line.239">   * @since 27.0</a>
+<span class="sourceLineNo">240</span><a id="line.240">   */</a>
+<span class="sourceLineNo">241</span><a id="line.241">  @ForOverride</a>
+<span class="sourceLineNo">242</span><a id="line.242">  protected void doCancelStart() {}</a>
+<span class="sourceLineNo">243</span><a id="line.243"></a>
+<span class="sourceLineNo">244</span><a id="line.244">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">245</span><a id="line.245">  @Override</a>
+<span class="sourceLineNo">246</span><a id="line.246">  public final Service startAsync() {</a>
+<span class="sourceLineNo">247</span><a id="line.247">    if (monitor.enterIf(isStartable)) {</a>
+<span class="sourceLineNo">248</span><a id="line.248">      try {</a>
+<span class="sourceLineNo">249</span><a id="line.249">        snapshot = new StateSnapshot(STARTING);</a>
+<span class="sourceLineNo">250</span><a id="line.250">        enqueueStartingEvent();</a>
+<span class="sourceLineNo">251</span><a id="line.251">        doStart();</a>
+<span class="sourceLineNo">252</span><a id="line.252">      } catch (Throwable startupFailure) {</a>
+<span class="sourceLineNo">253</span><a id="line.253">        restoreInterruptIfIsInterruptedException(startupFailure);</a>
+<span class="sourceLineNo">254</span><a id="line.254">        notifyFailed(startupFailure);</a>
+<span class="sourceLineNo">255</span><a id="line.255">      } finally {</a>
+<span class="sourceLineNo">256</span><a id="line.256">        monitor.leave();</a>
+<span class="sourceLineNo">257</span><a id="line.257">        dispatchListenerEvents();</a>
+<span class="sourceLineNo">258</span><a id="line.258">      }</a>
+<span class="sourceLineNo">259</span><a id="line.259">    } else {</a>
+<span class="sourceLineNo">260</span><a id="line.260">      throw new IllegalStateException("Service " + this + " has already been started");</a>
+<span class="sourceLineNo">261</span><a id="line.261">    }</a>
+<span class="sourceLineNo">262</span><a id="line.262">    return this;</a>
+<span class="sourceLineNo">263</span><a id="line.263">  }</a>
+<span class="sourceLineNo">264</span><a id="line.264"></a>
+<span class="sourceLineNo">265</span><a id="line.265">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">266</span><a id="line.266">  @Override</a>
+<span class="sourceLineNo">267</span><a id="line.267">  public final Service stopAsync() {</a>
+<span class="sourceLineNo">268</span><a id="line.268">    if (monitor.enterIf(isStoppable)) {</a>
+<span class="sourceLineNo">269</span><a id="line.269">      try {</a>
+<span class="sourceLineNo">270</span><a id="line.270">        State previous = state();</a>
+<span class="sourceLineNo">271</span><a id="line.271">        switch (previous) {</a>
+<span class="sourceLineNo">272</span><a id="line.272">          case NEW:</a>
+<span class="sourceLineNo">273</span><a id="line.273">            snapshot = new StateSnapshot(TERMINATED);</a>
+<span class="sourceLineNo">274</span><a id="line.274">            enqueueTerminatedEvent(NEW);</a>
+<span class="sourceLineNo">275</span><a id="line.275">            break;</a>
+<span class="sourceLineNo">276</span><a id="line.276">          case STARTING:</a>
+<span class="sourceLineNo">277</span><a id="line.277">            snapshot = new StateSnapshot(STARTING, true, null);</a>
+<span class="sourceLineNo">278</span><a id="line.278">            enqueueStoppingEvent(STARTING);</a>
+<span class="sourceLineNo">279</span><a id="line.279">            doCancelStart();</a>
+<span class="sourceLineNo">280</span><a id="line.280">            break;</a>
+<span class="sourceLineNo">281</span><a id="line.281">          case RUNNING:</a>
+<span class="sourceLineNo">282</span><a id="line.282">            snapshot = new StateSnapshot(STOPPING);</a>
+<span class="sourceLineNo">283</span><a id="line.283">            enqueueStoppingEvent(RUNNING);</a>
+<span class="sourceLineNo">284</span><a id="line.284">            doStop();</a>
+<span class="sourceLineNo">285</span><a id="line.285">            break;</a>
+<span class="sourceLineNo">286</span><a id="line.286">          case STOPPING:</a>
+<span class="sourceLineNo">287</span><a id="line.287">          case TERMINATED:</a>
+<span class="sourceLineNo">288</span><a id="line.288">          case FAILED:</a>
+<span class="sourceLineNo">289</span><a id="line.289">            // These cases are impossible due to the if statement above.</a>
+<span class="sourceLineNo">290</span><a id="line.290">            throw new AssertionError("isStoppable is incorrectly implemented, saw: " + previous);</a>
+<span class="sourceLineNo">291</span><a id="line.291">        }</a>
+<span class="sourceLineNo">292</span><a id="line.292">      } catch (Throwable shutdownFailure) {</a>
+<span class="sourceLineNo">293</span><a id="line.293">        restoreInterruptIfIsInterruptedException(shutdownFailure);</a>
+<span class="sourceLineNo">294</span><a id="line.294">        notifyFailed(shutdownFailure);</a>
+<span class="sourceLineNo">295</span><a id="line.295">      } finally {</a>
+<span class="sourceLineNo">296</span><a id="line.296">        monitor.leave();</a>
+<span class="sourceLineNo">297</span><a id="line.297">        dispatchListenerEvents();</a>
+<span class="sourceLineNo">298</span><a id="line.298">      }</a>
+<span class="sourceLineNo">299</span><a id="line.299">    }</a>
+<span class="sourceLineNo">300</span><a id="line.300">    return this;</a>
+<span class="sourceLineNo">301</span><a id="line.301">  }</a>
+<span class="sourceLineNo">302</span><a id="line.302"></a>
+<span class="sourceLineNo">303</span><a id="line.303">  @Override</a>
+<span class="sourceLineNo">304</span><a id="line.304">  public final void awaitRunning() {</a>
+<span class="sourceLineNo">305</span><a id="line.305">    monitor.enterWhenUninterruptibly(hasReachedRunning);</a>
+<span class="sourceLineNo">306</span><a id="line.306">    try {</a>
+<span class="sourceLineNo">307</span><a id="line.307">      checkCurrentState(RUNNING);</a>
+<span class="sourceLineNo">308</span><a id="line.308">    } finally {</a>
+<span class="sourceLineNo">309</span><a id="line.309">      monitor.leave();</a>
+<span class="sourceLineNo">310</span><a id="line.310">    }</a>
+<span class="sourceLineNo">311</span><a id="line.311">  }</a>
+<span class="sourceLineNo">312</span><a id="line.312"></a>
+<span class="sourceLineNo">313</span><a id="line.313">  /** @since 28.0 */</a>
+<span class="sourceLineNo">314</span><a id="line.314">  @Override</a>
+<span class="sourceLineNo">315</span><a id="line.315">  public final void awaitRunning(Duration timeout) throws TimeoutException {</a>
+<span class="sourceLineNo">316</span><a id="line.316">    Service.super.awaitRunning(timeout);</a>
+<span class="sourceLineNo">317</span><a id="line.317">  }</a>
+<span class="sourceLineNo">318</span><a id="line.318"></a>
+<span class="sourceLineNo">319</span><a id="line.319">  @Override</a>
+<span class="sourceLineNo">320</span><a id="line.320">  public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {</a>
+<span class="sourceLineNo">321</span><a id="line.321">    if (monitor.enterWhenUninterruptibly(hasReachedRunning, timeout, unit)) {</a>
+<span class="sourceLineNo">322</span><a id="line.322">      try {</a>
+<span class="sourceLineNo">323</span><a id="line.323">        checkCurrentState(RUNNING);</a>
+<span class="sourceLineNo">324</span><a id="line.324">      } finally {</a>
+<span class="sourceLineNo">325</span><a id="line.325">        monitor.leave();</a>
+<span class="sourceLineNo">326</span><a id="line.326">      }</a>
+<span class="sourceLineNo">327</span><a id="line.327">    } else {</a>
+<span class="sourceLineNo">328</span><a id="line.328">      // It is possible due to races that we are currently in the expected state even though we</a>
+<span class="sourceLineNo">329</span><a id="line.329">      // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never</a>
+<span class="sourceLineNo">330</span><a id="line.330">      // even check the guard. I don't think we care too much about this use case but it could lead</a>
+<span class="sourceLineNo">331</span><a id="line.331">      // to a confusing error message.</a>
+<span class="sourceLineNo">332</span><a id="line.332">      throw new TimeoutException("Timed out waiting for " + this + " to reach the RUNNING state.");</a>
+<span class="sourceLineNo">333</span><a id="line.333">    }</a>
+<span class="sourceLineNo">334</span><a id="line.334">  }</a>
+<span class="sourceLineNo">335</span><a id="line.335"></a>
+<span class="sourceLineNo">336</span><a id="line.336">  @Override</a>
+<span class="sourceLineNo">337</span><a id="line.337">  public final void awaitTerminated() {</a>
+<span class="sourceLineNo">338</span><a id="line.338">    monitor.enterWhenUninterruptibly(isStopped);</a>
+<span class="sourceLineNo">339</span><a id="line.339">    try {</a>
+<span class="sourceLineNo">340</span><a id="line.340">      checkCurrentState(TERMINATED);</a>
+<span class="sourceLineNo">341</span><a id="line.341">    } finally {</a>
+<span class="sourceLineNo">342</span><a id="line.342">      monitor.leave();</a>
+<span class="sourceLineNo">343</span><a id="line.343">    }</a>
+<span class="sourceLineNo">344</span><a id="line.344">  }</a>
+<span class="sourceLineNo">345</span><a id="line.345"></a>
+<span class="sourceLineNo">346</span><a id="line.346">  /** @since 28.0 */</a>
+<span class="sourceLineNo">347</span><a id="line.347">  @Override</a>
+<span class="sourceLineNo">348</span><a id="line.348">  public final void awaitTerminated(Duration timeout) throws TimeoutException {</a>
+<span class="sourceLineNo">349</span><a id="line.349">    Service.super.awaitTerminated(timeout);</a>
+<span class="sourceLineNo">350</span><a id="line.350">  }</a>
+<span class="sourceLineNo">351</span><a id="line.351"></a>
+<span class="sourceLineNo">352</span><a id="line.352">  @Override</a>
+<span class="sourceLineNo">353</span><a id="line.353">  public final void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {</a>
+<span class="sourceLineNo">354</span><a id="line.354">    if (monitor.enterWhenUninterruptibly(isStopped, timeout, unit)) {</a>
+<span class="sourceLineNo">355</span><a id="line.355">      try {</a>
+<span class="sourceLineNo">356</span><a id="line.356">        checkCurrentState(TERMINATED);</a>
+<span class="sourceLineNo">357</span><a id="line.357">      } finally {</a>
+<span class="sourceLineNo">358</span><a id="line.358">        monitor.leave();</a>
+<span class="sourceLineNo">359</span><a id="line.359">      }</a>
+<span class="sourceLineNo">360</span><a id="line.360">    } else {</a>
+<span class="sourceLineNo">361</span><a id="line.361">      // It is possible due to races that we are currently in the expected state even though we</a>
+<span class="sourceLineNo">362</span><a id="line.362">      // timed out. e.g. if we weren't event able to grab the lock within the timeout we would never</a>
+<span class="sourceLineNo">363</span><a id="line.363">      // even check the guard. I don't think we care too much about this use case but it could lead</a>
+<span class="sourceLineNo">364</span><a id="line.364">      // to a confusing error message.</a>
+<span class="sourceLineNo">365</span><a id="line.365">      throw new TimeoutException(</a>
+<span class="sourceLineNo">366</span><a id="line.366">          "Timed out waiting for "</a>
+<span class="sourceLineNo">367</span><a id="line.367">              + this</a>
+<span class="sourceLineNo">368</span><a id="line.368">              + " to reach a terminal state. "</a>
+<span class="sourceLineNo">369</span><a id="line.369">              + "Current state: "</a>
+<span class="sourceLineNo">370</span><a id="line.370">              + state());</a>
+<span class="sourceLineNo">371</span><a id="line.371">    }</a>
+<span class="sourceLineNo">372</span><a id="line.372">  }</a>
+<span class="sourceLineNo">373</span><a id="line.373"></a>
+<span class="sourceLineNo">374</span><a id="line.374">  /** Checks that the current state is equal to the expected state. */</a>
+<span class="sourceLineNo">375</span><a id="line.375">  @GuardedBy("monitor")</a>
+<span class="sourceLineNo">376</span><a id="line.376">  private void checkCurrentState(State expected) {</a>
+<span class="sourceLineNo">377</span><a id="line.377">    State actual = state();</a>
+<span class="sourceLineNo">378</span><a id="line.378">    if (actual != expected) {</a>
+<span class="sourceLineNo">379</span><a id="line.379">      if (actual == FAILED) {</a>
+<span class="sourceLineNo">380</span><a id="line.380">        // Handle this specially so that we can include the failureCause, if there is one.</a>
+<span class="sourceLineNo">381</span><a id="line.381">        throw new IllegalStateException(</a>
+<span class="sourceLineNo">382</span><a id="line.382">            "Expected the service " + this + " to be " + expected + ", but the service has FAILED",</a>
+<span class="sourceLineNo">383</span><a id="line.383">            failureCause());</a>
+<span class="sourceLineNo">384</span><a id="line.384">      }</a>
+<span class="sourceLineNo">385</span><a id="line.385">      throw new IllegalStateException(</a>
+<span class="sourceLineNo">386</span><a id="line.386">          "Expected the service " + this + " to be " + expected + ", but was " + actual);</a>
+<span class="sourceLineNo">387</span><a id="line.387">    }</a>
+<span class="sourceLineNo">388</span><a id="line.388">  }</a>
+<span class="sourceLineNo">389</span><a id="line.389"></a>
+<span class="sourceLineNo">390</span><a id="line.390">  /**</a>
+<span class="sourceLineNo">391</span><a id="line.391">   * Implementing classes should invoke this method once their service has started. It will cause</a>
+<span class="sourceLineNo">392</span><a id="line.392">   * the service to transition from {@link State#STARTING} to {@link State#RUNNING}.</a>
+<span class="sourceLineNo">393</span><a id="line.393">   *</a>
+<span class="sourceLineNo">394</span><a id="line.394">   * @throws IllegalStateException if the service is not {@link State#STARTING}.</a>
+<span class="sourceLineNo">395</span><a id="line.395">   */</a>
+<span class="sourceLineNo">396</span><a id="line.396">  protected final void notifyStarted() {</a>
+<span class="sourceLineNo">397</span><a id="line.397">    monitor.enter();</a>
+<span class="sourceLineNo">398</span><a id="line.398">    try {</a>
+<span class="sourceLineNo">399</span><a id="line.399">      // We have to examine the internal state of the snapshot here to properly handle the stop</a>
+<span class="sourceLineNo">400</span><a id="line.400">      // while starting case.</a>
+<span class="sourceLineNo">401</span><a id="line.401">      if (snapshot.state != STARTING) {</a>
+<span class="sourceLineNo">402</span><a id="line.402">        IllegalStateException failure =</a>
+<span class="sourceLineNo">403</span><a id="line.403">            new IllegalStateException(</a>
+<span class="sourceLineNo">404</span><a id="line.404">                "Cannot notifyStarted() when the service is " + snapshot.state);</a>
+<span class="sourceLineNo">405</span><a id="line.405">        notifyFailed(failure);</a>
+<span class="sourceLineNo">406</span><a id="line.406">        throw failure;</a>
+<span class="sourceLineNo">407</span><a id="line.407">      }</a>
+<span class="sourceLineNo">408</span><a id="line.408"></a>
+<span class="sourceLineNo">409</span><a id="line.409">      if (snapshot.shutdownWhenStartupFinishes) {</a>
+<span class="sourceLineNo">410</span><a id="line.410">        snapshot = new StateSnapshot(STOPPING);</a>
+<span class="sourceLineNo">411</span><a id="line.411">        // We don't call listeners here because we already did that when we set the</a>
+<span class="sourceLineNo">412</span><a id="line.412">        // shutdownWhenStartupFinishes flag.</a>
+<span class="sourceLineNo">413</span><a id="line.413">        doStop();</a>
+<span class="sourceLineNo">414</span><a id="line.414">      } else {</a>
+<span class="sourceLineNo">415</span><a id="line.415">        snapshot = new StateSnapshot(RUNNING);</a>
+<span class="sourceLineNo">416</span><a id="line.416">        enqueueRunningEvent();</a>
+<span class="sourceLineNo">417</span><a id="line.417">      }</a>
+<span class="sourceLineNo">418</span><a id="line.418">    } finally {</a>
+<span class="sourceLineNo">419</span><a id="line.419">      monitor.leave();</a>
+<span class="sourceLineNo">420</span><a id="line.420">      dispatchListenerEvents();</a>
+<span class="sourceLineNo">421</span><a id="line.421">    }</a>
+<span class="sourceLineNo">422</span><a id="line.422">  }</a>
+<span class="sourceLineNo">423</span><a id="line.423"></a>
+<span class="sourceLineNo">424</span><a id="line.424">  /**</a>
+<span class="sourceLineNo">425</span><a id="line.425">   * Implementing classes should invoke this method once their service has stopped. It will cause</a>
+<span class="sourceLineNo">426</span><a id="line.426">   * the service to transition from {@link State#STARTING} or {@link State#STOPPING} to {@link</a>
+<span class="sourceLineNo">427</span><a id="line.427">   * State#TERMINATED}.</a>
+<span class="sourceLineNo">428</span><a id="line.428">   *</a>
+<span class="sourceLineNo">429</span><a id="line.429">   * @throws IllegalStateException if the service is not one of {@link State#STOPPING}, {@link</a>
+<span class="sourceLineNo">430</span><a id="line.430">   *     State#STARTING}, or {@link State#RUNNING}.</a>
+<span class="sourceLineNo">431</span><a id="line.431">   */</a>
+<span class="sourceLineNo">432</span><a id="line.432">  protected final void notifyStopped() {</a>
+<span class="sourceLineNo">433</span><a id="line.433">    monitor.enter();</a>
+<span class="sourceLineNo">434</span><a id="line.434">    try {</a>
+<span class="sourceLineNo">435</span><a id="line.435">      State previous = state();</a>
+<span class="sourceLineNo">436</span><a id="line.436">      switch (previous) {</a>
+<span class="sourceLineNo">437</span><a id="line.437">        case NEW:</a>
+<span class="sourceLineNo">438</span><a id="line.438">        case TERMINATED:</a>
+<span class="sourceLineNo">439</span><a id="line.439">        case FAILED:</a>
+<span class="sourceLineNo">440</span><a id="line.440">          throw new IllegalStateException("Cannot notifyStopped() when the service is " + previous);</a>
+<span class="sourceLineNo">441</span><a id="line.441">        case RUNNING:</a>
+<span class="sourceLineNo">442</span><a id="line.442">        case STARTING:</a>
+<span class="sourceLineNo">443</span><a id="line.443">        case STOPPING:</a>
+<span class="sourceLineNo">444</span><a id="line.444">          snapshot = new StateSnapshot(TERMINATED);</a>
+<span class="sourceLineNo">445</span><a id="line.445">          enqueueTerminatedEvent(previous);</a>
+<span class="sourceLineNo">446</span><a id="line.446">          break;</a>
+<span class="sourceLineNo">447</span><a id="line.447">      }</a>
+<span class="sourceLineNo">448</span><a id="line.448">    } finally {</a>
+<span class="sourceLineNo">449</span><a id="line.449">      monitor.leave();</a>
+<span class="sourceLineNo">450</span><a id="line.450">      dispatchListenerEvents();</a>
+<span class="sourceLineNo">451</span><a id="line.451">    }</a>
+<span class="sourceLineNo">452</span><a id="line.452">  }</a>
+<span class="sourceLineNo">453</span><a id="line.453"></a>
+<span class="sourceLineNo">454</span><a id="line.454">  /**</a>
+<span class="sourceLineNo">455</span><a id="line.455">   * Invoke this method to transition the service to the {@link State#FAILED}. The service will</a>
+<span class="sourceLineNo">456</span><a id="line.456">   * &lt;b&gt;not be stopped&lt;/b&gt; if it is running. Invoke this method when a service has failed critically</a>
+<span class="sourceLineNo">457</span><a id="line.457">   * or otherwise cannot be started nor stopped.</a>
+<span class="sourceLineNo">458</span><a id="line.458">   */</a>
+<span class="sourceLineNo">459</span><a id="line.459">  protected final void notifyFailed(Throwable cause) {</a>
+<span class="sourceLineNo">460</span><a id="line.460">    checkNotNull(cause);</a>
+<span class="sourceLineNo">461</span><a id="line.461"></a>
+<span class="sourceLineNo">462</span><a id="line.462">    monitor.enter();</a>
+<span class="sourceLineNo">463</span><a id="line.463">    try {</a>
+<span class="sourceLineNo">464</span><a id="line.464">      State previous = state();</a>
+<span class="sourceLineNo">465</span><a id="line.465">      switch (previous) {</a>
+<span class="sourceLineNo">466</span><a id="line.466">        case NEW:</a>
+<span class="sourceLineNo">467</span><a id="line.467">        case TERMINATED:</a>
+<span class="sourceLineNo">468</span><a id="line.468">          throw new IllegalStateException("Failed while in state:" + previous, cause);</a>
+<span class="sourceLineNo">469</span><a id="line.469">        case RUNNING:</a>
+<span class="sourceLineNo">470</span><a id="line.470">        case STARTING:</a>
+<span class="sourceLineNo">471</span><a id="line.471">        case STOPPING:</a>
+<span class="sourceLineNo">472</span><a id="line.472">          snapshot = new StateSnapshot(FAILED, false, cause);</a>
+<span class="sourceLineNo">473</span><a id="line.473">          enqueueFailedEvent(previous, cause);</a>
+<span class="sourceLineNo">474</span><a id="line.474">          break;</a>
+<span class="sourceLineNo">475</span><a id="line.475">        case FAILED:</a>
+<span class="sourceLineNo">476</span><a id="line.476">          // Do nothing</a>
+<span class="sourceLineNo">477</span><a id="line.477">          break;</a>
+<span class="sourceLineNo">478</span><a id="line.478">      }</a>
+<span class="sourceLineNo">479</span><a id="line.479">    } finally {</a>
+<span class="sourceLineNo">480</span><a id="line.480">      monitor.leave();</a>
+<span class="sourceLineNo">481</span><a id="line.481">      dispatchListenerEvents();</a>
+<span class="sourceLineNo">482</span><a id="line.482">    }</a>
+<span class="sourceLineNo">483</span><a id="line.483">  }</a>
+<span class="sourceLineNo">484</span><a id="line.484"></a>
+<span class="sourceLineNo">485</span><a id="line.485">  @Override</a>
+<span class="sourceLineNo">486</span><a id="line.486">  public final boolean isRunning() {</a>
+<span class="sourceLineNo">487</span><a id="line.487">    return state() == RUNNING;</a>
+<span class="sourceLineNo">488</span><a id="line.488">  }</a>
+<span class="sourceLineNo">489</span><a id="line.489"></a>
+<span class="sourceLineNo">490</span><a id="line.490">  @Override</a>
+<span class="sourceLineNo">491</span><a id="line.491">  public final State state() {</a>
+<span class="sourceLineNo">492</span><a id="line.492">    return snapshot.externalState();</a>
+<span class="sourceLineNo">493</span><a id="line.493">  }</a>
+<span class="sourceLineNo">494</span><a id="line.494"></a>
+<span class="sourceLineNo">495</span><a id="line.495">  /** @since 14.0 */</a>
+<span class="sourceLineNo">496</span><a id="line.496">  @Override</a>
+<span class="sourceLineNo">497</span><a id="line.497">  public final Throwable failureCause() {</a>
+<span class="sourceLineNo">498</span><a id="line.498">    return snapshot.failureCause();</a>
+<span class="sourceLineNo">499</span><a id="line.499">  }</a>
+<span class="sourceLineNo">500</span><a id="line.500"></a>
+<span class="sourceLineNo">501</span><a id="line.501">  /** @since 13.0 */</a>
+<span class="sourceLineNo">502</span><a id="line.502">  @Override</a>
+<span class="sourceLineNo">503</span><a id="line.503">  public final void addListener(Listener listener, Executor executor) {</a>
+<span class="sourceLineNo">504</span><a id="line.504">    listeners.addListener(listener, executor);</a>
+<span class="sourceLineNo">505</span><a id="line.505">  }</a>
+<span class="sourceLineNo">506</span><a id="line.506"></a>
+<span class="sourceLineNo">507</span><a id="line.507">  @Override</a>
+<span class="sourceLineNo">508</span><a id="line.508">  public String toString() {</a>
+<span class="sourceLineNo">509</span><a id="line.509">    return getClass().getSimpleName() + " [" + state() + "]";</a>
+<span class="sourceLineNo">510</span><a id="line.510">  }</a>
+<span class="sourceLineNo">511</span><a id="line.511"></a>
+<span class="sourceLineNo">512</span><a id="line.512">  /**</a>
+<span class="sourceLineNo">513</span><a id="line.513">   * Attempts to execute all the listeners in {@link #listeners} while not holding the {@link</a>
+<span class="sourceLineNo">514</span><a id="line.514">   * #monitor}.</a>
+<span class="sourceLineNo">515</span><a id="line.515">   */</a>
+<span class="sourceLineNo">516</span><a id="line.516">  private void dispatchListenerEvents() {</a>
+<span class="sourceLineNo">517</span><a id="line.517">    if (!monitor.isOccupiedByCurrentThread()) {</a>
+<span class="sourceLineNo">518</span><a id="line.518">      listeners.dispatch();</a>
+<span class="sourceLineNo">519</span><a id="line.519">    }</a>
+<span class="sourceLineNo">520</span><a id="line.520">  }</a>
+<span class="sourceLineNo">521</span><a id="line.521"></a>
+<span class="sourceLineNo">522</span><a id="line.522">  private void enqueueStartingEvent() {</a>
+<span class="sourceLineNo">523</span><a id="line.523">    listeners.enqueue(STARTING_EVENT);</a>
+<span class="sourceLineNo">524</span><a id="line.524">  }</a>
+<span class="sourceLineNo">525</span><a id="line.525"></a>
+<span class="sourceLineNo">526</span><a id="line.526">  private void enqueueRunningEvent() {</a>
+<span class="sourceLineNo">527</span><a id="line.527">    listeners.enqueue(RUNNING_EVENT);</a>
+<span class="sourceLineNo">528</span><a id="line.528">  }</a>
+<span class="sourceLineNo">529</span><a id="line.529"></a>
+<span class="sourceLineNo">530</span><a id="line.530">  private void enqueueStoppingEvent(final State from) {</a>
+<span class="sourceLineNo">531</span><a id="line.531">    if (from == State.STARTING) {</a>
+<span class="sourceLineNo">532</span><a id="line.532">      listeners.enqueue(STOPPING_FROM_STARTING_EVENT);</a>
+<span class="sourceLineNo">533</span><a id="line.533">    } else if (from == State.RUNNING) {</a>
+<span class="sourceLineNo">534</span><a id="line.534">      listeners.enqueue(STOPPING_FROM_RUNNING_EVENT);</a>
+<span class="sourceLineNo">535</span><a id="line.535">    } else {</a>
+<span class="sourceLineNo">536</span><a id="line.536">      throw new AssertionError();</a>
+<span class="sourceLineNo">537</span><a id="line.537">    }</a>
+<span class="sourceLineNo">538</span><a id="line.538">  }</a>
+<span class="sourceLineNo">539</span><a id="line.539"></a>
+<span class="sourceLineNo">540</span><a id="line.540">  private void enqueueTerminatedEvent(final State from) {</a>
+<span class="sourceLineNo">541</span><a id="line.541">    switch (from) {</a>
+<span class="sourceLineNo">542</span><a id="line.542">      case NEW:</a>
+<span class="sourceLineNo">543</span><a id="line.543">        listeners.enqueue(TERMINATED_FROM_NEW_EVENT);</a>
+<span class="sourceLineNo">544</span><a id="line.544">        break;</a>
+<span class="sourceLineNo">545</span><a id="line.545">      case STARTING:</a>
+<span class="sourceLineNo">546</span><a id="line.546">        listeners.enqueue(TERMINATED_FROM_STARTING_EVENT);</a>
+<span class="sourceLineNo">547</span><a id="line.547">        break;</a>
+<span class="sourceLineNo">548</span><a id="line.548">      case RUNNING:</a>
+<span class="sourceLineNo">549</span><a id="line.549">        listeners.enqueue(TERMINATED_FROM_RUNNING_EVENT);</a>
+<span class="sourceLineNo">550</span><a id="line.550">        break;</a>
+<span class="sourceLineNo">551</span><a id="line.551">      case STOPPING:</a>
+<span class="sourceLineNo">552</span><a id="line.552">        listeners.enqueue(TERMINATED_FROM_STOPPING_EVENT);</a>
+<span class="sourceLineNo">553</span><a id="line.553">        break;</a>
+<span class="sourceLineNo">554</span><a id="line.554">      case TERMINATED:</a>
+<span class="sourceLineNo">555</span><a id="line.555">      case FAILED:</a>
+<span class="sourceLineNo">556</span><a id="line.556">        throw new AssertionError();</a>
+<span class="sourceLineNo">557</span><a id="line.557">    }</a>
+<span class="sourceLineNo">558</span><a id="line.558">  }</a>
+<span class="sourceLineNo">559</span><a id="line.559"></a>
+<span class="sourceLineNo">560</span><a id="line.560">  private void enqueueFailedEvent(final State from, final Throwable cause) {</a>
+<span class="sourceLineNo">561</span><a id="line.561">    // can't memoize this one due to the exception</a>
+<span class="sourceLineNo">562</span><a id="line.562">    listeners.enqueue(</a>
+<span class="sourceLineNo">563</span><a id="line.563">        new ListenerCallQueue.Event&lt;Listener&gt;() {</a>
+<span class="sourceLineNo">564</span><a id="line.564">          @Override</a>
+<span class="sourceLineNo">565</span><a id="line.565">          public void call(Listener listener) {</a>
+<span class="sourceLineNo">566</span><a id="line.566">            listener.failed(from, cause);</a>
+<span class="sourceLineNo">567</span><a id="line.567">          }</a>
+<span class="sourceLineNo">568</span><a id="line.568"></a>
+<span class="sourceLineNo">569</span><a id="line.569">          @Override</a>
+<span class="sourceLineNo">570</span><a id="line.570">          public String toString() {</a>
+<span class="sourceLineNo">571</span><a id="line.571">            return "failed({from = " + from + ", cause = " + cause + "})";</a>
+<span class="sourceLineNo">572</span><a id="line.572">          }</a>
+<span class="sourceLineNo">573</span><a id="line.573">        });</a>
+<span class="sourceLineNo">574</span><a id="line.574">  }</a>
+<span class="sourceLineNo">575</span><a id="line.575"></a>
+<span class="sourceLineNo">576</span><a id="line.576">  /**</a>
+<span class="sourceLineNo">577</span><a id="line.577">   * An immutable snapshot of the current state of the service. This class represents a consistent</a>
+<span class="sourceLineNo">578</span><a id="line.578">   * snapshot of the state and therefore it can be used to answer simple queries without needing to</a>
+<span class="sourceLineNo">579</span><a id="line.579">   * grab a lock.</a>
+<span class="sourceLineNo">580</span><a id="line.580">   */</a>
+<span class="sourceLineNo">581</span><a id="line.581">  // @Immutable except that Throwable is mutable (initCause(), setStackTrace(), mutable subclasses).</a>
+<span class="sourceLineNo">582</span><a id="line.582">  private static final class StateSnapshot {</a>
+<span class="sourceLineNo">583</span><a id="line.583">    /**</a>
+<span class="sourceLineNo">584</span><a id="line.584">     * The internal state, which equals external state unless shutdownWhenStartupFinishes is true.</a>
+<span class="sourceLineNo">585</span><a id="line.585">     */</a>
+<span class="sourceLineNo">586</span><a id="line.586">    final State state;</a>
+<span class="sourceLineNo">587</span><a id="line.587"></a>
+<span class="sourceLineNo">588</span><a id="line.588">    /** If true, the user requested a shutdown while the service was still starting up. */</a>
+<span class="sourceLineNo">589</span><a id="line.589">    final boolean shutdownWhenStartupFinishes;</a>
+<span class="sourceLineNo">590</span><a id="line.590"></a>
+<span class="sourceLineNo">591</span><a id="line.591">    /**</a>
+<span class="sourceLineNo">592</span><a id="line.592">     * The exception that caused this service to fail. This will be {@code null} unless the service</a>
+<span class="sourceLineNo">593</span><a id="line.593">     * has failed.</a>
+<span class="sourceLineNo">594</span><a id="line.594">     */</a>
+<span class="sourceLineNo">595</span><a id="line.595">    @CheckForNull final Throwable failure;</a>
+<span class="sourceLineNo">596</span><a id="line.596"></a>
+<span class="sourceLineNo">597</span><a id="line.597">    StateSnapshot(State internalState) {</a>
+<span class="sourceLineNo">598</span><a id="line.598">      this(internalState, false, null);</a>
+<span class="sourceLineNo">599</span><a id="line.599">    }</a>
+<span class="sourceLineNo">600</span><a id="line.600"></a>
+<span class="sourceLineNo">601</span><a id="line.601">    StateSnapshot(</a>
+<span class="sourceLineNo">602</span><a id="line.602">        State internalState, boolean shutdownWhenStartupFinishes, @CheckForNull Throwable failure) {</a>
+<span class="sourceLineNo">603</span><a id="line.603">      checkArgument(</a>
+<span class="sourceLineNo">604</span><a id="line.604">          !shutdownWhenStartupFinishes || internalState == STARTING,</a>
+<span class="sourceLineNo">605</span><a id="line.605">          "shutdownWhenStartupFinishes can only be set if state is STARTING. Got %s instead.",</a>
+<span class="sourceLineNo">606</span><a id="line.606">          internalState);</a>
+<span class="sourceLineNo">607</span><a id="line.607">      checkArgument(</a>
+<span class="sourceLineNo">608</span><a id="line.608">          (failure != null) == (internalState == FAILED),</a>
+<span class="sourceLineNo">609</span><a id="line.609">          "A failure cause should be set if and only if the state is failed.  Got %s and %s "</a>
+<span class="sourceLineNo">610</span><a id="line.610">              + "instead.",</a>
+<span class="sourceLineNo">611</span><a id="line.611">          internalState,</a>
+<span class="sourceLineNo">612</span><a id="line.612">          failure);</a>
+<span class="sourceLineNo">613</span><a id="line.613">      this.state = internalState;</a>
+<span class="sourceLineNo">614</span><a id="line.614">      this.shutdownWhenStartupFinishes = shutdownWhenStartupFinishes;</a>
+<span class="sourceLineNo">615</span><a id="line.615">      this.failure = failure;</a>
+<span class="sourceLineNo">616</span><a id="line.616">    }</a>
+<span class="sourceLineNo">617</span><a id="line.617"></a>
+<span class="sourceLineNo">618</span><a id="line.618">    /** @see Service#state() */</a>
+<span class="sourceLineNo">619</span><a id="line.619">    State externalState() {</a>
+<span class="sourceLineNo">620</span><a id="line.620">      if (shutdownWhenStartupFinishes &amp;&amp; state == STARTING) {</a>
+<span class="sourceLineNo">621</span><a id="line.621">        return STOPPING;</a>
+<span class="sourceLineNo">622</span><a id="line.622">      } else {</a>
+<span class="sourceLineNo">623</span><a id="line.623">        return state;</a>
+<span class="sourceLineNo">624</span><a id="line.624">      }</a>
+<span class="sourceLineNo">625</span><a id="line.625">    }</a>
+<span class="sourceLineNo">626</span><a id="line.626"></a>
+<span class="sourceLineNo">627</span><a id="line.627">    /** @see Service#failureCause() */</a>
+<span class="sourceLineNo">628</span><a id="line.628">    Throwable failureCause() {</a>
+<span class="sourceLineNo">629</span><a id="line.629">      checkState(</a>
+<span class="sourceLineNo">630</span><a id="line.630">          state == FAILED,</a>
+<span class="sourceLineNo">631</span><a id="line.631">          "failureCause() is only valid if the service has failed, service is %s",</a>
+<span class="sourceLineNo">632</span><a id="line.632">          state);</a>
+<span class="sourceLineNo">633</span><a id="line.633">      // requireNonNull is safe because the constructor requires a non-null cause with state=FAILED.</a>
+<span class="sourceLineNo">634</span><a id="line.634">      return requireNonNull(failure);</a>
+<span class="sourceLineNo">635</span><a id="line.635">    }</a>
+<span class="sourceLineNo">636</span><a id="line.636">  }</a>
+<span class="sourceLineNo">637</span><a id="line.637">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

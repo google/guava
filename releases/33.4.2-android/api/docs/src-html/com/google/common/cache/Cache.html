@@ -1,0 +1,263 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2011 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.cache;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import com.google.common.collect.ImmutableMap;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.util.concurrent.ExecutionError;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.util.concurrent.UncheckedExecutionException;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.errorprone.annotations.CompatibleWith;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.errorprone.annotations.DoNotMock;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.util.Map;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.util.concurrent.Callable;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.util.concurrent.ConcurrentMap;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.util.concurrent.ExecutionException;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">/**</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * A semi-persistent mapping from keys to values. Cache entries are manually added using {@link</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * #get(Object, Callable)} or {@link #put(Object, Object)}, and are stored in the cache until either</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * evicted or manually invalidated. The common way to build instances is using {@link CacheBuilder}.</a>
+<span class="sourceLineNo">034</span><a id="line.34"> *</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * &lt;p&gt;Implementations of this interface are expected to be thread-safe, and can be safely accessed</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * by multiple concurrent threads.</a>
+<span class="sourceLineNo">037</span><a id="line.37"> *</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * @param &lt;K&gt; the type of the cache's keys, which are not permitted to be null</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * @param &lt;V&gt; the type of the cache's values, which are not permitted to be null</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * @author Charles Fry</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * @since 10.0</a>
+<span class="sourceLineNo">042</span><a id="line.42"> */</a>
+<span class="sourceLineNo">043</span><a id="line.43">@DoNotMock("Use CacheBuilder.newBuilder().build()")</a>
+<span class="sourceLineNo">044</span><a id="line.44">@GwtCompatible</a>
+<span class="sourceLineNo">045</span><a id="line.45">public interface Cache&lt;K, V&gt; {</a>
+<span class="sourceLineNo">046</span><a id="line.46"></a>
+<span class="sourceLineNo">047</span><a id="line.47">  /**</a>
+<span class="sourceLineNo">048</span><a id="line.48">   * Returns the value associated with {@code key} in this cache, or {@code null} if there is no</a>
+<span class="sourceLineNo">049</span><a id="line.49">   * cached value for {@code key}.</a>
+<span class="sourceLineNo">050</span><a id="line.50">   *</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * @since 11.0</a>
+<span class="sourceLineNo">052</span><a id="line.52">   */</a>
+<span class="sourceLineNo">053</span><a id="line.53">  @CheckForNull</a>
+<span class="sourceLineNo">054</span><a id="line.54">  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?</a>
+<span class="sourceLineNo">055</span><a id="line.55">  V getIfPresent(@CompatibleWith("K") Object key);</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">  /**</a>
+<span class="sourceLineNo">058</span><a id="line.58">   * Returns the value associated with {@code key} in this cache, obtaining that value from {@code</a>
+<span class="sourceLineNo">059</span><a id="line.59">   * loader} if necessary. The method improves upon the conventional "if cached, return; otherwise</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * create, cache and return" pattern. For further improvements, use {@link LoadingCache} and its</a>
+<span class="sourceLineNo">061</span><a id="line.61">   * {@link LoadingCache#get(Object) get(K)} method instead of this one.</a>
+<span class="sourceLineNo">062</span><a id="line.62">   *</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * &lt;p&gt;Among the improvements that this method and {@code LoadingCache.get(K)} both provide are:</a>
+<span class="sourceLineNo">064</span><a id="line.64">   *</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">066</span><a id="line.66">   *   &lt;li&gt;{@linkplain LoadingCache#get(Object) awaiting the result of a pending load} rather than</a>
+<span class="sourceLineNo">067</span><a id="line.67">   *       starting a redundant one</a>
+<span class="sourceLineNo">068</span><a id="line.68">   *   &lt;li&gt;eliminating the error-prone caching boilerplate</a>
+<span class="sourceLineNo">069</span><a id="line.69">   *   &lt;li&gt;tracking load {@linkplain #stats statistics}</a>
+<span class="sourceLineNo">070</span><a id="line.70">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">071</span><a id="line.71">   *</a>
+<span class="sourceLineNo">072</span><a id="line.72">   * &lt;p&gt;Among the further improvements that {@code LoadingCache} can provide but this method cannot:</a>
+<span class="sourceLineNo">073</span><a id="line.73">   *</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">075</span><a id="line.75">   *   &lt;li&gt;consolidation of the loader logic to {@linkplain CacheBuilder#build(CacheLoader) a single</a>
+<span class="sourceLineNo">076</span><a id="line.76">   *       authoritative location}</a>
+<span class="sourceLineNo">077</span><a id="line.77">   *   &lt;li&gt;{@linkplain LoadingCache#refresh refreshing of entries}, including {@linkplain</a>
+<span class="sourceLineNo">078</span><a id="line.78">   *       CacheBuilder#refreshAfterWrite automated refreshing}</a>
+<span class="sourceLineNo">079</span><a id="line.79">   *   &lt;li&gt;{@linkplain LoadingCache#getAll bulk loading requests}, including {@linkplain</a>
+<span class="sourceLineNo">080</span><a id="line.80">   *       CacheLoader#loadAll bulk loading implementations}</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">082</span><a id="line.82">   *</a>
+<span class="sourceLineNo">083</span><a id="line.83">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; For any given key, every {@code loader} used with it should compute the same</a>
+<span class="sourceLineNo">084</span><a id="line.84">   * value. Otherwise, a call that passes one {@code loader} may return the result of another call</a>
+<span class="sourceLineNo">085</span><a id="line.85">   * with a differently behaving {@code loader}. For example, a call that requests a short timeout</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * for an RPC may wait for a similar call that requests a long timeout, or a call by an</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * unprivileged user may return a resource accessible only to a privileged user making a similar</a>
+<span class="sourceLineNo">088</span><a id="line.88">   * call. To prevent this problem, create a key object that includes all values that affect the</a>
+<span class="sourceLineNo">089</span><a id="line.89">   * result of the query. Or use {@code LoadingCache.get(K)}, which lacks the ability to refer to</a>
+<span class="sourceLineNo">090</span><a id="line.90">   * state other than that in the key.</a>
+<span class="sourceLineNo">091</span><a id="line.91">   *</a>
+<span class="sourceLineNo">092</span><a id="line.92">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; as with {@link CacheLoader#load}, {@code loader} &lt;b&gt;must not&lt;/b&gt; return</a>
+<span class="sourceLineNo">093</span><a id="line.93">   * {@code null}; it may either return a non-null value or throw an exception.</a>
+<span class="sourceLineNo">094</span><a id="line.94">   *</a>
+<span class="sourceLineNo">095</span><a id="line.95">   * &lt;p&gt;No observable state associated with this cache is modified until loading completes.</a>
+<span class="sourceLineNo">096</span><a id="line.96">   *</a>
+<span class="sourceLineNo">097</span><a id="line.97">   * @throws ExecutionException if a checked exception was thrown while loading the value</a>
+<span class="sourceLineNo">098</span><a id="line.98">   * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the</a>
+<span class="sourceLineNo">099</span><a id="line.99">   *     value</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * @throws ExecutionError if an error was thrown while loading the value</a>
+<span class="sourceLineNo">101</span><a id="line.101">   * @since 11.0</a>
+<span class="sourceLineNo">102</span><a id="line.102">   */</a>
+<span class="sourceLineNo">103</span><a id="line.103">  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this</a>
+<span class="sourceLineNo">104</span><a id="line.104">  V get(K key, Callable&lt;? extends V&gt; loader) throws ExecutionException;</a>
+<span class="sourceLineNo">105</span><a id="line.105"></a>
+<span class="sourceLineNo">106</span><a id="line.106">  /**</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * Returns a map of the values associated with {@code keys} in this cache. The returned map will</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * only contain entries which are already present in the cache.</a>
+<span class="sourceLineNo">109</span><a id="line.109">   *</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * @since 11.0</a>
+<span class="sourceLineNo">111</span><a id="line.111">   */</a>
+<span class="sourceLineNo">112</span><a id="line.112">  /*</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * &lt;? extends Object&gt; is mostly the same as &lt;?&gt; to plain Java. But to nullness checkers, they</a>
+<span class="sourceLineNo">114</span><a id="line.114">   * differ: &lt;? extends Object&gt; means "non-null types," while &lt;?&gt; means "all types."</a>
+<span class="sourceLineNo">115</span><a id="line.115">   */</a>
+<span class="sourceLineNo">116</span><a id="line.116">  ImmutableMap&lt;K, V&gt; getAllPresent(Iterable&lt;? extends Object&gt; keys);</a>
+<span class="sourceLineNo">117</span><a id="line.117"></a>
+<span class="sourceLineNo">118</span><a id="line.118">  /**</a>
+<span class="sourceLineNo">119</span><a id="line.119">   * Associates {@code value} with {@code key} in this cache. If the cache previously contained a</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * value associated with {@code key}, the old value is replaced by {@code value}.</a>
+<span class="sourceLineNo">121</span><a id="line.121">   *</a>
+<span class="sourceLineNo">122</span><a id="line.122">   * &lt;p&gt;Prefer {@link #get(Object, Callable)} when using the conventional "if cached, return;</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * otherwise create, cache and return" pattern.</a>
+<span class="sourceLineNo">124</span><a id="line.124">   *</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * @since 11.0</a>
+<span class="sourceLineNo">126</span><a id="line.126">   */</a>
+<span class="sourceLineNo">127</span><a id="line.127">  void put(K key, V value);</a>
+<span class="sourceLineNo">128</span><a id="line.128"></a>
+<span class="sourceLineNo">129</span><a id="line.129">  /**</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * Copies all of the mappings from the specified map to the cache. The effect of this call is</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * equivalent to that of calling {@code put(k, v)} on this map once for each mapping from key</a>
+<span class="sourceLineNo">132</span><a id="line.132">   * {@code k} to value {@code v} in the specified map. The behavior of this operation is undefined</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * if the specified map is modified while the operation is in progress.</a>
+<span class="sourceLineNo">134</span><a id="line.134">   *</a>
+<span class="sourceLineNo">135</span><a id="line.135">   * @since 12.0</a>
+<span class="sourceLineNo">136</span><a id="line.136">   */</a>
+<span class="sourceLineNo">137</span><a id="line.137">  void putAll(Map&lt;? extends K, ? extends V&gt; m);</a>
+<span class="sourceLineNo">138</span><a id="line.138"></a>
+<span class="sourceLineNo">139</span><a id="line.139">  /** Discards any cached value for key {@code key}. */</a>
+<span class="sourceLineNo">140</span><a id="line.140">  void invalidate(@CompatibleWith("K") Object key);</a>
+<span class="sourceLineNo">141</span><a id="line.141"></a>
+<span class="sourceLineNo">142</span><a id="line.142">  /**</a>
+<span class="sourceLineNo">143</span><a id="line.143">   * Discards any cached values for keys {@code keys}.</a>
+<span class="sourceLineNo">144</span><a id="line.144">   *</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * @since 11.0</a>
+<span class="sourceLineNo">146</span><a id="line.146">   */</a>
+<span class="sourceLineNo">147</span><a id="line.147">  // For discussion of &lt;? extends Object&gt;, see getAllPresent.</a>
+<span class="sourceLineNo">148</span><a id="line.148">  void invalidateAll(Iterable&lt;? extends Object&gt; keys);</a>
+<span class="sourceLineNo">149</span><a id="line.149"></a>
+<span class="sourceLineNo">150</span><a id="line.150">  /** Discards all entries in the cache. */</a>
+<span class="sourceLineNo">151</span><a id="line.151">  void invalidateAll();</a>
+<span class="sourceLineNo">152</span><a id="line.152"></a>
+<span class="sourceLineNo">153</span><a id="line.153">  /** Returns the approximate number of entries in this cache. */</a>
+<span class="sourceLineNo">154</span><a id="line.154">  long size();</a>
+<span class="sourceLineNo">155</span><a id="line.155"></a>
+<span class="sourceLineNo">156</span><a id="line.156">  /**</a>
+<span class="sourceLineNo">157</span><a id="line.157">   * Returns a current snapshot of this cache's cumulative statistics, or a set of default values if</a>
+<span class="sourceLineNo">158</span><a id="line.158">   * the cache is not recording statistics. All statistics begin at zero and never decrease over the</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * lifetime of the cache.</a>
+<span class="sourceLineNo">160</span><a id="line.160">   *</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; this cache may not be recording statistical data. For example, a cache</a>
+<span class="sourceLineNo">162</span><a id="line.162">   * created using {@link CacheBuilder} only does so if the {@link CacheBuilder#recordStats} method</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * was called. If statistics are not being recorded, a {@code CacheStats} instance with zero for</a>
+<span class="sourceLineNo">164</span><a id="line.164">   * all values is returned.</a>
+<span class="sourceLineNo">165</span><a id="line.165">   *</a>
+<span class="sourceLineNo">166</span><a id="line.166">   */</a>
+<span class="sourceLineNo">167</span><a id="line.167">  CacheStats stats();</a>
+<span class="sourceLineNo">168</span><a id="line.168"></a>
+<span class="sourceLineNo">169</span><a id="line.169">  /**</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to</a>
+<span class="sourceLineNo">171</span><a id="line.171">   * the map directly affect the cache.</a>
+<span class="sourceLineNo">172</span><a id="line.172">   *</a>
+<span class="sourceLineNo">173</span><a id="line.173">   * &lt;p&gt;Iterators from the returned map are at least &lt;i&gt;weakly consistent&lt;/i&gt;: they are safe for</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * concurrent use, but if the cache is modified (including by eviction) after the iterator is</a>
+<span class="sourceLineNo">175</span><a id="line.175">   * created, it is undefined which of the changes (if any) will be reflected in that iterator.</a>
+<span class="sourceLineNo">176</span><a id="line.176">   *</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * &lt;p&gt;&lt;b&gt;Warning to users of Java 8+:&lt;/b&gt; do not call any of the new &lt;i&gt;default methods&lt;/i&gt; that</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * have been newly added to {@link ConcurrentMap}! These are marked with "Since: 1.8" in the</a>
+<span class="sourceLineNo">179</span><a id="line.179">   * {@code ConcurrentMap} documentation. They will not function correctly and it is impossible for</a>
+<span class="sourceLineNo">180</span><a id="line.180">   * Guava to fix them until Guava is ready to &lt;i&gt;require&lt;/i&gt; Java 8 for all users.</a>
+<span class="sourceLineNo">181</span><a id="line.181">   */</a>
+<span class="sourceLineNo">182</span><a id="line.182">  ConcurrentMap&lt;K, V&gt; asMap();</a>
+<span class="sourceLineNo">183</span><a id="line.183"></a>
+<span class="sourceLineNo">184</span><a id="line.184">  /**</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * Performs any pending maintenance operations needed by the cache. Exactly which activities are</a>
+<span class="sourceLineNo">186</span><a id="line.186">   * performed -- if any -- is implementation-dependent.</a>
+<span class="sourceLineNo">187</span><a id="line.187">   */</a>
+<span class="sourceLineNo">188</span><a id="line.188">  void cleanUp();</a>
+<span class="sourceLineNo">189</span><a id="line.189">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

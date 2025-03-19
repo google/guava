@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2010 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.base;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkNotNull;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.errorprone.annotations.ForOverride;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.io.Serializable;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import javax.annotation.CheckForNull;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import org.checkerframework.checker.nullness.qual.NonNull;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">/**</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * A strategy for determining whether two instances are considered equivalent, and for computing</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * hash codes in a manner consistent with that equivalence. Two examples of equivalences are the</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * {@linkplain #identity() identity equivalence} and the {@linkplain #equals "equals" equivalence}.</a>
+<span class="sourceLineNo">030</span><a id="line.30"> *</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * &lt;p&gt;&lt;b&gt;For users targeting Android API level 24 or higher:&lt;/b&gt; This class will eventually</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * implement {@code BiPredicate&lt;T, T&gt;} (as it does in the main Guava artifact), but we currently</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * target a lower API level. In the meantime, if you have support for method references you can use</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * an equivalence as a bi-predicate like this: {@code myEquivalence::equivalent}.</a>
+<span class="sourceLineNo">035</span><a id="line.35"> *</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * @author Bob Lee</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * @author Ben Yu</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * @author Gregory Kick</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * @since 10.0 (&lt;a href="https://github.com/google/guava/wiki/Compatibility"&gt;mostly</a>
+<span class="sourceLineNo">040</span><a id="line.40"> *     source-compatible&lt;/a&gt; since 4.0)</a>
+<span class="sourceLineNo">041</span><a id="line.41"> */</a>
+<span class="sourceLineNo">042</span><a id="line.42">@GwtCompatible</a>
+<span class="sourceLineNo">043</span><a id="line.43">/*</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * The type parameter is &lt;T&gt; rather than &lt;T extends @Nullable&gt; so that we can use T in the</a>
+<span class="sourceLineNo">045</span><a id="line.45"> * doEquivalent and doHash methods to indicate that the parameter cannot be null.</a>
+<span class="sourceLineNo">046</span><a id="line.46"> */</a>
+<span class="sourceLineNo">047</span><a id="line.47">public abstract class Equivalence&lt;T&gt; {</a>
+<span class="sourceLineNo">048</span><a id="line.48">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">049</span><a id="line.49">  protected Equivalence() {}</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  /**</a>
+<span class="sourceLineNo">052</span><a id="line.52">   * Returns {@code true} if the given objects are considered equivalent.</a>
+<span class="sourceLineNo">053</span><a id="line.53">   *</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * &lt;p&gt;This method describes an &lt;i&gt;equivalence relation&lt;/i&gt; on object references, meaning that for</a>
+<span class="sourceLineNo">055</span><a id="line.55">   * all references {@code x}, {@code y}, and {@code z} (any of which may be null):</a>
+<span class="sourceLineNo">056</span><a id="line.56">   *</a>
+<span class="sourceLineNo">057</span><a id="line.57">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">058</span><a id="line.58">   *   &lt;li&gt;{@code equivalent(x, x)} is true (&lt;i&gt;reflexive&lt;/i&gt; property)</a>
+<span class="sourceLineNo">059</span><a id="line.59">   *   &lt;li&gt;{@code equivalent(x, y)} and {@code equivalent(y, x)} each return the same result</a>
+<span class="sourceLineNo">060</span><a id="line.60">   *       (&lt;i&gt;symmetric&lt;/i&gt; property)</a>
+<span class="sourceLineNo">061</span><a id="line.61">   *   &lt;li&gt;If {@code equivalent(x, y)} and {@code equivalent(y, z)} are both true, then {@code</a>
+<span class="sourceLineNo">062</span><a id="line.62">   *       equivalent(x, z)} is also true (&lt;i&gt;transitive&lt;/i&gt; property)</a>
+<span class="sourceLineNo">063</span><a id="line.63">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">064</span><a id="line.64">   *</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * &lt;p&gt;Note that all calls to {@code equivalent(x, y)} are expected to return the same result as</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * long as neither {@code x} nor {@code y} is modified.</a>
+<span class="sourceLineNo">067</span><a id="line.67">   */</a>
+<span class="sourceLineNo">068</span><a id="line.68">  public final boolean equivalent(@CheckForNull T a, @CheckForNull T b) {</a>
+<span class="sourceLineNo">069</span><a id="line.69">    if (a == b) {</a>
+<span class="sourceLineNo">070</span><a id="line.70">      return true;</a>
+<span class="sourceLineNo">071</span><a id="line.71">    }</a>
+<span class="sourceLineNo">072</span><a id="line.72">    if (a == null || b == null) {</a>
+<span class="sourceLineNo">073</span><a id="line.73">      return false;</a>
+<span class="sourceLineNo">074</span><a id="line.74">    }</a>
+<span class="sourceLineNo">075</span><a id="line.75">    return doEquivalent(a, b);</a>
+<span class="sourceLineNo">076</span><a id="line.76">  }</a>
+<span class="sourceLineNo">077</span><a id="line.77"></a>
+<span class="sourceLineNo">078</span><a id="line.78">  /**</a>
+<span class="sourceLineNo">079</span><a id="line.79">   *</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * @since 10.0 (previously, subclasses would override equivalent())</a>
+<span class="sourceLineNo">081</span><a id="line.81">   */</a>
+<span class="sourceLineNo">082</span><a id="line.82">  @ForOverride</a>
+<span class="sourceLineNo">083</span><a id="line.83">  protected abstract boolean doEquivalent(T a, T b);</a>
+<span class="sourceLineNo">084</span><a id="line.84"></a>
+<span class="sourceLineNo">085</span><a id="line.85">  /**</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * Returns a hash code for {@code t}.</a>
+<span class="sourceLineNo">087</span><a id="line.87">   *</a>
+<span class="sourceLineNo">088</span><a id="line.88">   * &lt;p&gt;The {@code hash} has the following properties:</a>
+<span class="sourceLineNo">089</span><a id="line.89">   *</a>
+<span class="sourceLineNo">090</span><a id="line.90">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">091</span><a id="line.91">   *   &lt;li&gt;It is &lt;i&gt;consistent&lt;/i&gt;: for any reference {@code x}, multiple invocations of {@code</a>
+<span class="sourceLineNo">092</span><a id="line.92">   *       hash(x}} consistently return the same value provided {@code x} remains unchanged</a>
+<span class="sourceLineNo">093</span><a id="line.93">   *       according to the definition of the equivalence. The hash need not remain consistent from</a>
+<span class="sourceLineNo">094</span><a id="line.94">   *       one execution of an application to another execution of the same application.</a>
+<span class="sourceLineNo">095</span><a id="line.95">   *   &lt;li&gt;It is &lt;i&gt;distributable across equivalence&lt;/i&gt;: for any references {@code x} and {@code</a>
+<span class="sourceLineNo">096</span><a id="line.96">   *       y}, if {@code equivalent(x, y)}, then {@code hash(x) == hash(y)}. It is &lt;i&gt;not&lt;/i&gt;</a>
+<span class="sourceLineNo">097</span><a id="line.97">   *       necessary that the hash be distributable across &lt;i&gt;inequivalence&lt;/i&gt;. If {@code</a>
+<span class="sourceLineNo">098</span><a id="line.98">   *       equivalence(x, y)} is false, {@code hash(x) == hash(y)} may still be true.</a>
+<span class="sourceLineNo">099</span><a id="line.99">   *   &lt;li&gt;{@code hash(null)} is {@code 0}.</a>
+<span class="sourceLineNo">100</span><a id="line.100">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">101</span><a id="line.101">   */</a>
+<span class="sourceLineNo">102</span><a id="line.102">  public final int hash(@CheckForNull T t) {</a>
+<span class="sourceLineNo">103</span><a id="line.103">    if (t == null) {</a>
+<span class="sourceLineNo">104</span><a id="line.104">      return 0;</a>
+<span class="sourceLineNo">105</span><a id="line.105">    }</a>
+<span class="sourceLineNo">106</span><a id="line.106">    return doHash(t);</a>
+<span class="sourceLineNo">107</span><a id="line.107">  }</a>
+<span class="sourceLineNo">108</span><a id="line.108"></a>
+<span class="sourceLineNo">109</span><a id="line.109">  /**</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * Implemented by the user to return a hash code for {@code t}, subject to the requirements</a>
+<span class="sourceLineNo">111</span><a id="line.111">   * specified in {@link #hash}.</a>
+<span class="sourceLineNo">112</span><a id="line.112">   *</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * &lt;p&gt;This method should not be called except by {@link #hash}. When {@link #hash} calls this</a>
+<span class="sourceLineNo">114</span><a id="line.114">   * method, {@code t} is guaranteed to be non-null.</a>
+<span class="sourceLineNo">115</span><a id="line.115">   *</a>
+<span class="sourceLineNo">116</span><a id="line.116">   * @since 10.0 (previously, subclasses would override hash())</a>
+<span class="sourceLineNo">117</span><a id="line.117">   */</a>
+<span class="sourceLineNo">118</span><a id="line.118">  @ForOverride</a>
+<span class="sourceLineNo">119</span><a id="line.119">  protected abstract int doHash(T t);</a>
+<span class="sourceLineNo">120</span><a id="line.120"></a>
+<span class="sourceLineNo">121</span><a id="line.121">  /**</a>
+<span class="sourceLineNo">122</span><a id="line.122">   * Returns a new equivalence relation for {@code F} which evaluates equivalence by first applying</a>
+<span class="sourceLineNo">123</span><a id="line.123">   * {@code function} to the argument, then evaluating using {@code this}. That is, for any pair of</a>
+<span class="sourceLineNo">124</span><a id="line.124">   * non-null objects {@code x} and {@code y}, {@code equivalence.onResultOf(function).equivalent(a,</a>
+<span class="sourceLineNo">125</span><a id="line.125">   * b)} is true if and only if {@code equivalence.equivalent(function.apply(a), function.apply(b))}</a>
+<span class="sourceLineNo">126</span><a id="line.126">   * is true.</a>
+<span class="sourceLineNo">127</span><a id="line.127">   *</a>
+<span class="sourceLineNo">128</span><a id="line.128">   * &lt;p&gt;For example:</a>
+<span class="sourceLineNo">129</span><a id="line.129">   *</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * Equivalence&lt;Person&gt; SAME_AGE = Equivalence.equals().onResultOf(GET_PERSON_AGE);</a>
+<span class="sourceLineNo">132</span><a id="line.132">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">133</span><a id="line.133">   *</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * &lt;p&gt;{@code function} will never be invoked with a null value.</a>
+<span class="sourceLineNo">135</span><a id="line.135">   *</a>
+<span class="sourceLineNo">136</span><a id="line.136">   * &lt;p&gt;Note that {@code function} must be consistent according to {@code this} equivalence</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * relation. That is, invoking {@link Function#apply} multiple times for a given value must return</a>
+<span class="sourceLineNo">138</span><a id="line.138">   * equivalent results. For example, {@code</a>
+<span class="sourceLineNo">139</span><a id="line.139">   * Equivalence.identity().onResultOf(Functions.toStringFunction())} is broken because it's not</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * guaranteed that {@link Object#toString}) always returns the same string instance.</a>
+<span class="sourceLineNo">141</span><a id="line.141">   *</a>
+<span class="sourceLineNo">142</span><a id="line.142">   * @since 10.0</a>
+<span class="sourceLineNo">143</span><a id="line.143">   */</a>
+<span class="sourceLineNo">144</span><a id="line.144">  public final &lt;F&gt; Equivalence&lt;F&gt; onResultOf(Function&lt;? super F, ? extends @Nullable T&gt; function) {</a>
+<span class="sourceLineNo">145</span><a id="line.145">    return new FunctionalEquivalence&lt;&gt;(function, this);</a>
+<span class="sourceLineNo">146</span><a id="line.146">  }</a>
+<span class="sourceLineNo">147</span><a id="line.147"></a>
+<span class="sourceLineNo">148</span><a id="line.148">  /**</a>
+<span class="sourceLineNo">149</span><a id="line.149">   * Returns a wrapper of {@code reference} that implements {@link Wrapper#equals(Object)</a>
+<span class="sourceLineNo">150</span><a id="line.150">   * Object.equals()} such that {@code wrap(a).equals(wrap(b))} if and only if {@code equivalent(a,</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * b)}.</a>
+<span class="sourceLineNo">152</span><a id="line.152">   *</a>
+<span class="sourceLineNo">153</span><a id="line.153">   * &lt;p&gt;The returned object is serializable if both this {@code Equivalence} and {@code reference}</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * are serializable (including when {@code reference} is null).</a>
+<span class="sourceLineNo">155</span><a id="line.155">   *</a>
+<span class="sourceLineNo">156</span><a id="line.156">   * @since 10.0</a>
+<span class="sourceLineNo">157</span><a id="line.157">   */</a>
+<span class="sourceLineNo">158</span><a id="line.158">  public final &lt;S extends @Nullable T&gt; Wrapper&lt;S&gt; wrap(@ParametricNullness S reference) {</a>
+<span class="sourceLineNo">159</span><a id="line.159">    return new Wrapper&lt;&gt;(this, reference);</a>
+<span class="sourceLineNo">160</span><a id="line.160">  }</a>
+<span class="sourceLineNo">161</span><a id="line.161"></a>
+<span class="sourceLineNo">162</span><a id="line.162">  /**</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * Wraps an object so that {@link #equals(Object)} and {@link #hashCode()} delegate to an {@link</a>
+<span class="sourceLineNo">164</span><a id="line.164">   * Equivalence}.</a>
+<span class="sourceLineNo">165</span><a id="line.165">   *</a>
+<span class="sourceLineNo">166</span><a id="line.166">   * &lt;p&gt;For example, given an {@link Equivalence} for {@link String strings} named {@code equiv}</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * that tests equivalence using their lengths:</a>
+<span class="sourceLineNo">168</span><a id="line.168">   *</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * equiv.wrap("a").equals(equiv.wrap("b")) // true</a>
+<span class="sourceLineNo">171</span><a id="line.171">   * equiv.wrap("a").equals(equiv.wrap("hello")) // false</a>
+<span class="sourceLineNo">172</span><a id="line.172">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">173</span><a id="line.173">   *</a>
+<span class="sourceLineNo">174</span><a id="line.174">   * &lt;p&gt;Note in particular that an equivalence wrapper is never equal to the object it wraps.</a>
+<span class="sourceLineNo">175</span><a id="line.175">   *</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * equiv.wrap(obj).equals(obj) // always false</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">179</span><a id="line.179">   *</a>
+<span class="sourceLineNo">180</span><a id="line.180">   * @since 10.0</a>
+<span class="sourceLineNo">181</span><a id="line.181">   */</a>
+<span class="sourceLineNo">182</span><a id="line.182">  public static final class Wrapper&lt;T extends @Nullable Object&gt; implements Serializable {</a>
+<span class="sourceLineNo">183</span><a id="line.183">    /*</a>
+<span class="sourceLineNo">184</span><a id="line.184">     * Equivalence's type argument is always non-nullable: Equivalence&lt;Number&gt;, never</a>
+<span class="sourceLineNo">185</span><a id="line.185">     * Equivalence&lt;@Nullable Number&gt;. That can still produce wrappers of various types --</a>
+<span class="sourceLineNo">186</span><a id="line.186">     * Wrapper&lt;Number&gt;, Wrapper&lt;Integer&gt;, Wrapper&lt;@Nullable Integer&gt;, etc. If we used just</a>
+<span class="sourceLineNo">187</span><a id="line.187">     * Equivalence&lt;? super T&gt; below, no type could satisfy both that bound and T's own</a>
+<span class="sourceLineNo">188</span><a id="line.188">     * bound. With this type, they have some overlap: in our example, Equivalence&lt;Number&gt;</a>
+<span class="sourceLineNo">189</span><a id="line.189">     * and Equivalence&lt;Object&gt;.</a>
+<span class="sourceLineNo">190</span><a id="line.190">     */</a>
+<span class="sourceLineNo">191</span><a id="line.191">    private final Equivalence&lt;? super @NonNull T&gt; equivalence;</a>
+<span class="sourceLineNo">192</span><a id="line.192"></a>
+<span class="sourceLineNo">193</span><a id="line.193">    @ParametricNullness private final T reference;</a>
+<span class="sourceLineNo">194</span><a id="line.194"></a>
+<span class="sourceLineNo">195</span><a id="line.195">    private Wrapper(Equivalence&lt;? super @NonNull T&gt; equivalence, @ParametricNullness T reference) {</a>
+<span class="sourceLineNo">196</span><a id="line.196">      this.equivalence = checkNotNull(equivalence);</a>
+<span class="sourceLineNo">197</span><a id="line.197">      this.reference = reference;</a>
+<span class="sourceLineNo">198</span><a id="line.198">    }</a>
+<span class="sourceLineNo">199</span><a id="line.199"></a>
+<span class="sourceLineNo">200</span><a id="line.200">    /** Returns the (possibly null) reference wrapped by this instance. */</a>
+<span class="sourceLineNo">201</span><a id="line.201">    @ParametricNullness</a>
+<span class="sourceLineNo">202</span><a id="line.202">    public T get() {</a>
+<span class="sourceLineNo">203</span><a id="line.203">      return reference;</a>
+<span class="sourceLineNo">204</span><a id="line.204">    }</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">    /**</a>
+<span class="sourceLineNo">207</span><a id="line.207">     * Returns {@code true} if {@link Equivalence#equivalent(Object, Object)} applied to the wrapped</a>
+<span class="sourceLineNo">208</span><a id="line.208">     * references is {@code true} and both wrappers use the {@link Object#equals(Object) same}</a>
+<span class="sourceLineNo">209</span><a id="line.209">     * equivalence.</a>
+<span class="sourceLineNo">210</span><a id="line.210">     */</a>
+<span class="sourceLineNo">211</span><a id="line.211">    @Override</a>
+<span class="sourceLineNo">212</span><a id="line.212">    public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">213</span><a id="line.213">      if (obj == this) {</a>
+<span class="sourceLineNo">214</span><a id="line.214">        return true;</a>
+<span class="sourceLineNo">215</span><a id="line.215">      }</a>
+<span class="sourceLineNo">216</span><a id="line.216">      if (obj instanceof Wrapper) {</a>
+<span class="sourceLineNo">217</span><a id="line.217">        Wrapper&lt;?&gt; that = (Wrapper&lt;?&gt;) obj; // note: not necessarily a Wrapper&lt;T&gt;</a>
+<span class="sourceLineNo">218</span><a id="line.218"></a>
+<span class="sourceLineNo">219</span><a id="line.219">        if (this.equivalence.equals(that.equivalence)) {</a>
+<span class="sourceLineNo">220</span><a id="line.220">          /*</a>
+<span class="sourceLineNo">221</span><a id="line.221">           * We'll accept that as sufficient "proof" that either equivalence should be able to</a>
+<span class="sourceLineNo">222</span><a id="line.222">           * handle either reference, so it's safe to circumvent compile-time type checking.</a>
+<span class="sourceLineNo">223</span><a id="line.223">           */</a>
+<span class="sourceLineNo">224</span><a id="line.224">          @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">225</span><a id="line.225">          Equivalence&lt;Object&gt; equivalence = (Equivalence&lt;Object&gt;) this.equivalence;</a>
+<span class="sourceLineNo">226</span><a id="line.226">          return equivalence.equivalent(this.reference, that.reference);</a>
+<span class="sourceLineNo">227</span><a id="line.227">        }</a>
+<span class="sourceLineNo">228</span><a id="line.228">      }</a>
+<span class="sourceLineNo">229</span><a id="line.229">      return false;</a>
+<span class="sourceLineNo">230</span><a id="line.230">    }</a>
+<span class="sourceLineNo">231</span><a id="line.231"></a>
+<span class="sourceLineNo">232</span><a id="line.232">    /** Returns the result of {@link Equivalence#hash(Object)} applied to the wrapped reference. */</a>
+<span class="sourceLineNo">233</span><a id="line.233">    @Override</a>
+<span class="sourceLineNo">234</span><a id="line.234">    public int hashCode() {</a>
+<span class="sourceLineNo">235</span><a id="line.235">      return equivalence.hash(reference);</a>
+<span class="sourceLineNo">236</span><a id="line.236">    }</a>
+<span class="sourceLineNo">237</span><a id="line.237"></a>
+<span class="sourceLineNo">238</span><a id="line.238">    /**</a>
+<span class="sourceLineNo">239</span><a id="line.239">     * Returns a string representation for this equivalence wrapper. The form of this string</a>
+<span class="sourceLineNo">240</span><a id="line.240">     * representation is not specified.</a>
+<span class="sourceLineNo">241</span><a id="line.241">     */</a>
+<span class="sourceLineNo">242</span><a id="line.242">    @Override</a>
+<span class="sourceLineNo">243</span><a id="line.243">    public String toString() {</a>
+<span class="sourceLineNo">244</span><a id="line.244">      return equivalence + ".wrap(" + reference + ")";</a>
+<span class="sourceLineNo">245</span><a id="line.245">    }</a>
+<span class="sourceLineNo">246</span><a id="line.246"></a>
+<span class="sourceLineNo">247</span><a id="line.247">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">248</span><a id="line.248">  }</a>
+<span class="sourceLineNo">249</span><a id="line.249"></a>
+<span class="sourceLineNo">250</span><a id="line.250">  /**</a>
+<span class="sourceLineNo">251</span><a id="line.251">   * Returns an equivalence over iterables based on the equivalence of their elements. More</a>
+<span class="sourceLineNo">252</span><a id="line.252">   * specifically, two iterables are considered equivalent if they both contain the same number of</a>
+<span class="sourceLineNo">253</span><a id="line.253">   * elements, and each pair of corresponding elements is equivalent according to {@code this}. Null</a>
+<span class="sourceLineNo">254</span><a id="line.254">   * iterables are equivalent to one another.</a>
+<span class="sourceLineNo">255</span><a id="line.255">   *</a>
+<span class="sourceLineNo">256</span><a id="line.256">   * &lt;p&gt;Note that this method performs a similar function for equivalences as {@link</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * com.google.common.collect.Ordering#lexicographical} does for orderings.</a>
+<span class="sourceLineNo">258</span><a id="line.258">   *</a>
+<span class="sourceLineNo">259</span><a id="line.259">   * &lt;p&gt;The returned object is serializable if this object is serializable.</a>
+<span class="sourceLineNo">260</span><a id="line.260">   *</a>
+<span class="sourceLineNo">261</span><a id="line.261">   * @since 10.0</a>
+<span class="sourceLineNo">262</span><a id="line.262">   */</a>
+<span class="sourceLineNo">263</span><a id="line.263">  @GwtCompatible(serializable = true)</a>
+<span class="sourceLineNo">264</span><a id="line.264">  public final &lt;S extends @Nullable T&gt; Equivalence&lt;Iterable&lt;S&gt;&gt; pairwise() {</a>
+<span class="sourceLineNo">265</span><a id="line.265">    // Ideally, the returned equivalence would support Iterable&lt;? extends T&gt;. However,</a>
+<span class="sourceLineNo">266</span><a id="line.266">    // the need for this is so rare that it's not worth making callers deal with the ugly wildcard.</a>
+<span class="sourceLineNo">267</span><a id="line.267">    return new PairwiseEquivalence&lt;&gt;(this);</a>
+<span class="sourceLineNo">268</span><a id="line.268">  }</a>
+<span class="sourceLineNo">269</span><a id="line.269"></a>
+<span class="sourceLineNo">270</span><a id="line.270">  /**</a>
+<span class="sourceLineNo">271</span><a id="line.271">   * Returns a predicate that evaluates to true if and only if the input is equivalent to {@code</a>
+<span class="sourceLineNo">272</span><a id="line.272">   * target} according to this equivalence relation.</a>
+<span class="sourceLineNo">273</span><a id="line.273">   *</a>
+<span class="sourceLineNo">274</span><a id="line.274">   * @since 10.0</a>
+<span class="sourceLineNo">275</span><a id="line.275">   */</a>
+<span class="sourceLineNo">276</span><a id="line.276">  public final Predicate&lt;@Nullable T&gt; equivalentTo(@CheckForNull T target) {</a>
+<span class="sourceLineNo">277</span><a id="line.277">    return new EquivalentToPredicate&lt;&gt;(this, target);</a>
+<span class="sourceLineNo">278</span><a id="line.278">  }</a>
+<span class="sourceLineNo">279</span><a id="line.279"></a>
+<span class="sourceLineNo">280</span><a id="line.280">  private static final class EquivalentToPredicate&lt;T&gt;</a>
+<span class="sourceLineNo">281</span><a id="line.281">      implements Predicate&lt;@Nullable T&gt;, Serializable {</a>
+<span class="sourceLineNo">282</span><a id="line.282"></a>
+<span class="sourceLineNo">283</span><a id="line.283">    private final Equivalence&lt;T&gt; equivalence;</a>
+<span class="sourceLineNo">284</span><a id="line.284">    @CheckForNull private final T target;</a>
+<span class="sourceLineNo">285</span><a id="line.285"></a>
+<span class="sourceLineNo">286</span><a id="line.286">    EquivalentToPredicate(Equivalence&lt;T&gt; equivalence, @CheckForNull T target) {</a>
+<span class="sourceLineNo">287</span><a id="line.287">      this.equivalence = checkNotNull(equivalence);</a>
+<span class="sourceLineNo">288</span><a id="line.288">      this.target = target;</a>
+<span class="sourceLineNo">289</span><a id="line.289">    }</a>
+<span class="sourceLineNo">290</span><a id="line.290"></a>
+<span class="sourceLineNo">291</span><a id="line.291">    @Override</a>
+<span class="sourceLineNo">292</span><a id="line.292">    public boolean apply(@CheckForNull T input) {</a>
+<span class="sourceLineNo">293</span><a id="line.293">      return equivalence.equivalent(input, target);</a>
+<span class="sourceLineNo">294</span><a id="line.294">    }</a>
+<span class="sourceLineNo">295</span><a id="line.295"></a>
+<span class="sourceLineNo">296</span><a id="line.296">    @Override</a>
+<span class="sourceLineNo">297</span><a id="line.297">    public boolean equals(@CheckForNull Object obj) {</a>
+<span class="sourceLineNo">298</span><a id="line.298">      if (this == obj) {</a>
+<span class="sourceLineNo">299</span><a id="line.299">        return true;</a>
+<span class="sourceLineNo">300</span><a id="line.300">      }</a>
+<span class="sourceLineNo">301</span><a id="line.301">      if (obj instanceof EquivalentToPredicate) {</a>
+<span class="sourceLineNo">302</span><a id="line.302">        EquivalentToPredicate&lt;?&gt; that = (EquivalentToPredicate&lt;?&gt;) obj;</a>
+<span class="sourceLineNo">303</span><a id="line.303">        return equivalence.equals(that.equivalence) &amp;&amp; Objects.equal(target, that.target);</a>
+<span class="sourceLineNo">304</span><a id="line.304">      }</a>
+<span class="sourceLineNo">305</span><a id="line.305">      return false;</a>
+<span class="sourceLineNo">306</span><a id="line.306">    }</a>
+<span class="sourceLineNo">307</span><a id="line.307"></a>
+<span class="sourceLineNo">308</span><a id="line.308">    @Override</a>
+<span class="sourceLineNo">309</span><a id="line.309">    public int hashCode() {</a>
+<span class="sourceLineNo">310</span><a id="line.310">      return Objects.hashCode(equivalence, target);</a>
+<span class="sourceLineNo">311</span><a id="line.311">    }</a>
+<span class="sourceLineNo">312</span><a id="line.312"></a>
+<span class="sourceLineNo">313</span><a id="line.313">    @Override</a>
+<span class="sourceLineNo">314</span><a id="line.314">    public String toString() {</a>
+<span class="sourceLineNo">315</span><a id="line.315">      return equivalence + ".equivalentTo(" + target + ")";</a>
+<span class="sourceLineNo">316</span><a id="line.316">    }</a>
+<span class="sourceLineNo">317</span><a id="line.317"></a>
+<span class="sourceLineNo">318</span><a id="line.318">    private static final long serialVersionUID = 0;</a>
+<span class="sourceLineNo">319</span><a id="line.319">  }</a>
+<span class="sourceLineNo">320</span><a id="line.320"></a>
+<span class="sourceLineNo">321</span><a id="line.321">  /**</a>
+<span class="sourceLineNo">322</span><a id="line.322">   * Returns an equivalence that delegates to {@link Object#equals} and {@link Object#hashCode}.</a>
+<span class="sourceLineNo">323</span><a id="line.323">   * {@link Equivalence#equivalent} returns {@code true} if both values are null, or if neither</a>
+<span class="sourceLineNo">324</span><a id="line.324">   * value is null and {@link Object#equals} returns {@code true}. {@link Equivalence#hash} returns</a>
+<span class="sourceLineNo">325</span><a id="line.325">   * {@code 0} if passed a null value.</a>
+<span class="sourceLineNo">326</span><a id="line.326">   *</a>
+<span class="sourceLineNo">327</span><a id="line.327">   * @since 13.0</a>
+<span class="sourceLineNo">328</span><a id="line.328">   * @since 8.0 (in Equivalences with null-friendly behavior)</a>
+<span class="sourceLineNo">329</span><a id="line.329">   * @since 4.0 (in Equivalences)</a>
+<span class="sourceLineNo">330</span><a id="line.330">   */</a>
+<span class="sourceLineNo">331</span><a id="line.331">  public static Equivalence&lt;Object&gt; equals() {</a>
+<span class="sourceLineNo">332</span><a id="line.332">    return Equals.INSTANCE;</a>
+<span class="sourceLineNo">333</span><a id="line.333">  }</a>
+<span class="sourceLineNo">334</span><a id="line.334"></a>
+<span class="sourceLineNo">335</span><a id="line.335">  /**</a>
+<span class="sourceLineNo">336</span><a id="line.336">   * Returns an equivalence that uses {@code ==} to compare values and {@link</a>
+<span class="sourceLineNo">337</span><a id="line.337">   * System#identityHashCode(Object)} to compute the hash code. {@link Equivalence#equivalent}</a>
+<span class="sourceLineNo">338</span><a id="line.338">   * returns {@code true} if {@code a == b}, including in the case that a and b are both null.</a>
+<span class="sourceLineNo">339</span><a id="line.339">   *</a>
+<span class="sourceLineNo">340</span><a id="line.340">   * @since 13.0</a>
+<span class="sourceLineNo">341</span><a id="line.341">   * @since 4.0 (in Equivalences)</a>
+<span class="sourceLineNo">342</span><a id="line.342">   */</a>
+<span class="sourceLineNo">343</span><a id="line.343">  public static Equivalence&lt;Object&gt; identity() {</a>
+<span class="sourceLineNo">344</span><a id="line.344">    return Identity.INSTANCE;</a>
+<span class="sourceLineNo">345</span><a id="line.345">  }</a>
+<span class="sourceLineNo">346</span><a id="line.346"></a>
+<span class="sourceLineNo">347</span><a id="line.347">  static final class Equals extends Equivalence&lt;Object&gt; implements Serializable {</a>
+<span class="sourceLineNo">348</span><a id="line.348"></a>
+<span class="sourceLineNo">349</span><a id="line.349">    static final Equals INSTANCE = new Equals();</a>
+<span class="sourceLineNo">350</span><a id="line.350"></a>
+<span class="sourceLineNo">351</span><a id="line.351">    @Override</a>
+<span class="sourceLineNo">352</span><a id="line.352">    protected boolean doEquivalent(Object a, Object b) {</a>
+<span class="sourceLineNo">353</span><a id="line.353">      return a.equals(b);</a>
+<span class="sourceLineNo">354</span><a id="line.354">    }</a>
+<span class="sourceLineNo">355</span><a id="line.355"></a>
+<span class="sourceLineNo">356</span><a id="line.356">    @Override</a>
+<span class="sourceLineNo">357</span><a id="line.357">    protected int doHash(Object o) {</a>
+<span class="sourceLineNo">358</span><a id="line.358">      return o.hashCode();</a>
+<span class="sourceLineNo">359</span><a id="line.359">    }</a>
+<span class="sourceLineNo">360</span><a id="line.360"></a>
+<span class="sourceLineNo">361</span><a id="line.361">    private Object readResolve() {</a>
+<span class="sourceLineNo">362</span><a id="line.362">      return INSTANCE;</a>
+<span class="sourceLineNo">363</span><a id="line.363">    }</a>
+<span class="sourceLineNo">364</span><a id="line.364"></a>
+<span class="sourceLineNo">365</span><a id="line.365">    private static final long serialVersionUID = 1;</a>
+<span class="sourceLineNo">366</span><a id="line.366">  }</a>
+<span class="sourceLineNo">367</span><a id="line.367"></a>
+<span class="sourceLineNo">368</span><a id="line.368">  static final class Identity extends Equivalence&lt;Object&gt; implements Serializable {</a>
+<span class="sourceLineNo">369</span><a id="line.369"></a>
+<span class="sourceLineNo">370</span><a id="line.370">    static final Identity INSTANCE = new Identity();</a>
+<span class="sourceLineNo">371</span><a id="line.371"></a>
+<span class="sourceLineNo">372</span><a id="line.372">    @Override</a>
+<span class="sourceLineNo">373</span><a id="line.373">    protected boolean doEquivalent(Object a, Object b) {</a>
+<span class="sourceLineNo">374</span><a id="line.374">      return false;</a>
+<span class="sourceLineNo">375</span><a id="line.375">    }</a>
+<span class="sourceLineNo">376</span><a id="line.376"></a>
+<span class="sourceLineNo">377</span><a id="line.377">    @Override</a>
+<span class="sourceLineNo">378</span><a id="line.378">    protected int doHash(Object o) {</a>
+<span class="sourceLineNo">379</span><a id="line.379">      return System.identityHashCode(o);</a>
+<span class="sourceLineNo">380</span><a id="line.380">    }</a>
+<span class="sourceLineNo">381</span><a id="line.381"></a>
+<span class="sourceLineNo">382</span><a id="line.382">    private Object readResolve() {</a>
+<span class="sourceLineNo">383</span><a id="line.383">      return INSTANCE;</a>
+<span class="sourceLineNo">384</span><a id="line.384">    }</a>
+<span class="sourceLineNo">385</span><a id="line.385"></a>
+<span class="sourceLineNo">386</span><a id="line.386">    private static final long serialVersionUID = 1;</a>
+<span class="sourceLineNo">387</span><a id="line.387">  }</a>
+<span class="sourceLineNo">388</span><a id="line.388">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
