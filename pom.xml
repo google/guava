@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>HEAD-jre-SNAPSHOT</version>
+  <version>33.4.2-jre</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <description>Parent for guava artifacts</description>
@@ -28,14 +28,14 @@
     <j2objc.version>3.0.0</j2objc.version>
     <!-- Empty for all JDKs but 9-12 -->
     <maven-javadoc-plugin.additionalJOptions></maven-javadoc-plugin.additionalJOptions>
-    <project.build.outputTimestamp>2024-01-02T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2025-03-19T21:40:57Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <test.add.opens></test.add.opens>
     <test.add.args></test.add.args>
-    <module.status>integration</module.status>
+    <module.status>release</module.status>
     <variant.jvmEnvironment>standard-jvm</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>jre</variant.jvmEnvironmentVariantName>
-    <otherVariant.version>HEAD-android-SNAPSHOT</otherVariant.version>
+    <otherVariant.version>33.4.2-android</otherVariant.version>
     <otherVariant.jvmEnvironment>android</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>android</otherVariant.jvmEnvironmentVariantName>
   </properties>
