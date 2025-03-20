@@ -1,5 +1,5 @@
-MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field ACCEPT_SIGNATURE
+OK: com.google.common.net.HttpHeaders Field ACCEPT_SIGNATURE
 OK: com.google.common.net.MediaType Field AVIF
-MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field IDENTITY_DIGEST
-MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field SIGNATURE
-MISSING @SINCE TAG: com.google.common.net.HttpHeaders Field SIGNATURE_INPUT
+OK: com.google.common.net.HttpHeaders Field IDENTITY_DIGEST
+OK: com.google.common.net.HttpHeaders Field SIGNATURE
+OK: com.google.common.net.HttpHeaders Field SIGNATURE_INPUT
