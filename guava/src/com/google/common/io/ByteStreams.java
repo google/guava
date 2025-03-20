@@ -952,4 +952,32 @@ public final class ByteStreams {
     }
     return total;
   }
+
+  /** Compares the contents of the two {@link InputStream}s for equality. */
+  static boolean contentsEqual(InputStream in1, InputStream in2) throws IOException {
+    byte[] buf1 = createBuffer();
+    byte[] buf2 = createBuffer();
+    while (true) {
+      int read1 = read(in1, buf1, 0, BUFFER_SIZE);
+      int read2 = read(in2, buf2, 0, BUFFER_SIZE);
+      if (read1 != read2 || !arraysEqual(buf1, buf2, read1)) {
+        return false;
+      } else if (read1 != BUFFER_SIZE) {
+        return true;
+      }
+    }
+  }
+
+  // The Arrays.equals(<arraytype>, int, int, <arraytype>, int, int) methods were not added until
+  // Java 9. This function is just returns the same result that
+  // Arrays.equals(array1, 0, count, array2, 0, count) would. It assumes that both arrays have a
+  // length of at least count.
+  private static boolean arraysEqual(byte[] array1, byte[] array2, int count) {
+    for (int i = 0; i < count; i++) {
+      if (array1[i] != array2[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
