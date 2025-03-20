@@ -41,8 +41,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author Doug Lea
  */
 final class LongAdder extends Striped64 implements Serializable, LongAddable {
-  @GwtIncompatible @J2ktIncompatible
-  private static final long serialVersionUID = 7249069246863182397L;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 7249069246863182397L;
 
   /** Version of plus for use in retryUpdate */
   @Override

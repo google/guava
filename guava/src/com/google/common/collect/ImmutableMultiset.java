@@ -670,5 +670,5 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 0xcafebabe;
 }

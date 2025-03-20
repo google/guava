@@ -1031,5 +1031,5 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     throw new UnsupportedOperationException();
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 0xcafebabe;
 }

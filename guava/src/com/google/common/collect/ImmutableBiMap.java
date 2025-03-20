@@ -677,5 +677,5 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     throw new UnsupportedOperationException();
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 0xcafebabe;
 }

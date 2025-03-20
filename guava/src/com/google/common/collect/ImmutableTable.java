@@ -508,5 +508,5 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 0xcafebabe;
 }

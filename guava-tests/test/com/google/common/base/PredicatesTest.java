@@ -61,7 +61,7 @@ public class PredicatesTest extends TestCase {
 
   /** Instantiable predicate with reasonable hashCode() and equals() methods. */
   static class IsOdd implements Predicate<@Nullable Integer>, Serializable {
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0x150ddL;
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 0x150ddL;
 
     @Override
     public boolean apply(@Nullable Integer i) {

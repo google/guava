@@ -153,6 +153,5 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
     return super.equals(object);
   }
 
-  @GwtIncompatible @J2ktIncompatible
-  private static final long serialVersionUID = 7431625294878419160L;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 7431625294878419160L;
 }

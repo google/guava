@@ -1281,8 +1281,7 @@ public final class Multimaps {
       return map.hashCode();
     }
 
-    @GwtIncompatible @J2ktIncompatible
-    private static final long serialVersionUID = 7845222491160860175L;
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 7845222491160860175L;
   }
 
   /**

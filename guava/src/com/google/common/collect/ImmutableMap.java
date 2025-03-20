@@ -1318,5 +1318,5 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 0xcafebabe;
 }

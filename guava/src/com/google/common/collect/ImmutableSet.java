@@ -996,5 +996,5 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         sqrt(inputElementsIncludingAnyDuplicates, RoundingMode.CEILING));
   }
 
-  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0xcafebabe;
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 0xcafebabe;
 }
