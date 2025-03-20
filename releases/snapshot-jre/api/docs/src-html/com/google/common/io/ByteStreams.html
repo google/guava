@@ -965,7 +965,35 @@
 <span class="source-line-no">952</span><span id="line-952">    }</span>
 <span class="source-line-no">953</span><span id="line-953">    return total;</span>
 <span class="source-line-no">954</span><span id="line-954">  }</span>
-<span class="source-line-no">955</span><span id="line-955">}</span>
+<span class="source-line-no">955</span><span id="line-955"></span>
+<span class="source-line-no">956</span><span id="line-956">  /** Compares the contents of the two {@link InputStream}s for equality. */</span>
+<span class="source-line-no">957</span><span id="line-957">  static boolean contentsEqual(InputStream in1, InputStream in2) throws IOException {</span>
+<span class="source-line-no">958</span><span id="line-958">    byte[] buf1 = createBuffer();</span>
+<span class="source-line-no">959</span><span id="line-959">    byte[] buf2 = createBuffer();</span>
+<span class="source-line-no">960</span><span id="line-960">    while (true) {</span>
+<span class="source-line-no">961</span><span id="line-961">      int read1 = read(in1, buf1, 0, BUFFER_SIZE);</span>
+<span class="source-line-no">962</span><span id="line-962">      int read2 = read(in2, buf2, 0, BUFFER_SIZE);</span>
+<span class="source-line-no">963</span><span id="line-963">      if (read1 != read2 || !arraysEqual(buf1, buf2, read1)) {</span>
+<span class="source-line-no">964</span><span id="line-964">        return false;</span>
+<span class="source-line-no">965</span><span id="line-965">      } else if (read1 != BUFFER_SIZE) {</span>
+<span class="source-line-no">966</span><span id="line-966">        return true;</span>
+<span class="source-line-no">967</span><span id="line-967">      }</span>
+<span class="source-line-no">968</span><span id="line-968">    }</span>
+<span class="source-line-no">969</span><span id="line-969">  }</span>
+<span class="source-line-no">970</span><span id="line-970"></span>
+<span class="source-line-no">971</span><span id="line-971">  // The Arrays.equals(&lt;arraytype&gt;, int, int, &lt;arraytype&gt;, int, int) methods were not added until</span>
+<span class="source-line-no">972</span><span id="line-972">  // Java 9. This function is just returns the same result that</span>
+<span class="source-line-no">973</span><span id="line-973">  // Arrays.equals(array1, 0, count, array2, 0, count) would. It assumes that both arrays have a</span>
+<span class="source-line-no">974</span><span id="line-974">  // length of at least count.</span>
+<span class="source-line-no">975</span><span id="line-975">  private static boolean arraysEqual(byte[] array1, byte[] array2, int count) {</span>
+<span class="source-line-no">976</span><span id="line-976">    for (int i = 0; i &lt; count; i++) {</span>
+<span class="source-line-no">977</span><span id="line-977">      if (array1[i] != array2[i]) {</span>
+<span class="source-line-no">978</span><span id="line-978">        return false;</span>
+<span class="source-line-no">979</span><span id="line-979">      }</span>
+<span class="source-line-no">980</span><span id="line-980">    }</span>
+<span class="source-line-no">981</span><span id="line-981">    return true;</span>
+<span class="source-line-no">982</span><span id="line-982">  }</span>
+<span class="source-line-no">983</span><span id="line-983">}</span>
 
 
 
