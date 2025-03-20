@@ -253,6 +253,13 @@ public final class MediaType {
   public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");
 
   /**
+   * <a href="https://en.wikipedia.org/wiki/AVIF">AVIF image format</a>.
+   *
+   * @since NEXT
+   */
+  public static final MediaType AVIF = createConstant(IMAGE_TYPE, "avif");
+
+  /**
    * <a href="https://en.wikipedia.org/wiki/WebP">WebP image format</a>.
    *
    * @since 13.0
