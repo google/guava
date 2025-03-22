@@ -262,7 +262,6 @@
               <additionalOption>-XDignore.symbol.file</additionalOption>
               <additionalOption>-Xdoclint:-html</additionalOption>
             </additionalOptions>
-            <linksource>true</linksource>
             <source>8</source>
           </configuration>
           <executions>
