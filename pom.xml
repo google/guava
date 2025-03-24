@@ -234,8 +234,9 @@
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>3.4.2</version>
           <configuration>
+            <!-- Warning: Guava (at least the main module) uses maven-bundle-plugin, not maven-jar-plugin, so the configuration does not apply to it. That configuration may or may not apply to guava-testlib or other modules. -->
             <excludes>
               <!-- The root module (where applicable) is withheld because it is provided at `META-INF/versions/9/`. -->
               <exclude>/module-info.class</exclude>

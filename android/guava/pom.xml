@@ -119,6 +119,9 @@
               <compileSourceRoots>
                 <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
               </compileSourceRoots>
+              <includes>
+                <include>module-info.java</include>
+              </includes>
 
               <!--
                 JPMS needs access to the module sources to complete a modular Java build. We also need to override the
