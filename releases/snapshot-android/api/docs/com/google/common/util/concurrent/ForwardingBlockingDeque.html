@@ -115,7 +115,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-48">ForwardingBlockingDeque</a>&lt;E&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">ForwardingBlockingDeque&lt;E&gt;</span>
 <span class="extends-implements">extends <a href="../../collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a>&lt;E&gt;
 implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingDeque.html" title="class or interface in java.util.concurrent" class="external-link">BlockingDeque</a>&lt;E&gt;</span></div>
 <div class="block">A <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingDeque.html" title="class or interface in java.util.concurrent" class="external-link"><code>BlockingDeque</code></a> which forwards all its method calls to another <code>BlockingDeque</code>.
@@ -277,7 +277,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="&lt;init&gt;()">
 <h3>ForwardingBlockingDeque</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-54">ForwardingBlockingDeque</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">ForwardingBlockingDeque</span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -294,7 +294,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="delegate()">
 <h3>delegate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingDeque.html" title="class or interface in java.util.concurrent" class="external-link">BlockingDeque</a>&lt;<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-56">delegate</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingDeque.html" title="class or interface in java.util.concurrent" class="external-link">BlockingDeque</a>&lt;<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</span>&nbsp;<span class="element-name">delegate</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="../../collect/ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -311,7 +311,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="remainingCapacity()">
 <h3>remainingCapacity</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-59">remainingCapacity</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">remainingCapacity</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingQueue.html#remainingCapacity()" title="class or interface in java.util.concurrent" class="external-link">remainingCapacity</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingQueue.html" title="class or interface in java.util.concurrent" class="external-link">BlockingQueue</a>&lt;<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -323,7 +323,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="putFirst(E)">
 <h3 id="putFirst(java.lang.Object)">putFirst</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-64">putFirst</a></span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">putFirst</span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</span>
               throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -338,7 +338,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="putLast(E)">
 <h3 id="putLast(java.lang.Object)">putLast</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-69">putLast</a></span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">putLast</span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</span>
              throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -353,7 +353,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="offerFirst(E,long,java.util.concurrent.TimeUnit)">
 <h3 id="offerFirst(java.lang.Object,long,java.util.concurrent.TimeUnit)">offerFirst</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-74">offerFirst</a></span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">offerFirst</span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
  long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                    throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
@@ -370,7 +370,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="offerLast(E,long,java.util.concurrent.TimeUnit)">
 <h3 id="offerLast(java.lang.Object,long,java.util.concurrent.TimeUnit)">offerLast</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-79">offerLast</a></span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">offerLast</span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
  long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                   throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
@@ -387,7 +387,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="takeFirst()">
 <h3>takeFirst</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-84">takeFirst</a></span>()
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name">takeFirst</span>()
             throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -402,7 +402,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="takeLast()">
 <h3>takeLast</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-89">takeLast</a></span>()
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name">takeLast</span>()
            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -417,7 +417,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="pollFirst(long,java.util.concurrent.TimeUnit)">
 <h3>pollFirst</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-94">pollFirst</a></span><wbr><span class="parameters">(long&nbsp;timeout,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name">pollFirst</span><wbr><span class="parameters">(long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <dl class="notes">
@@ -433,7 +433,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="pollLast(long,java.util.concurrent.TimeUnit)">
 <h3>pollLast</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-99">pollLast</a></span><wbr><span class="parameters">(long&nbsp;timeout,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name">pollLast</span><wbr><span class="parameters">(long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                      throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <dl class="notes">
@@ -449,7 +449,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="put(E)">
 <h3 id="put(java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-104">put</a></span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e)</span>
          throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -466,7 +466,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="offer(E,long,java.util.concurrent.TimeUnit)">
 <h3 id="offer(java.lang.Object,long,java.util.concurrent.TimeUnit)">offer</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-109">offer</a></span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">offer</span><wbr><span class="parameters">(<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&nbsp;e,
  long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
               throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
@@ -485,7 +485,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="take()">
 <h3>take</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-114">take</a></span>()
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name">take</span>()
        throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -502,7 +502,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="poll(long,java.util.concurrent.TimeUnit)">
 <h3>poll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-119">poll</a></span><wbr><span class="parameters">(long&nbsp;timeout,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a></span>&nbsp;<span class="element-name">poll</span><wbr><span class="parameters">(long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <dl class="notes">
@@ -520,7 +520,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="drainTo(java.util.Collection)">
 <h3>drainTo</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-124">drainTo</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;? super <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">drainTo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;? super <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingQueue.html#drainTo(java.util.Collection)" title="class or interface in java.util.concurrent" class="external-link">drainTo</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/BlockingQueue.html" title="class or interface in java.util.concurrent" class="external-link">BlockingQueue</a>&lt;<a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;</code></dd>
@@ -532,7 +532,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="drainTo(java.util.Collection,int)">
 <h3>drainTo</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ForwardingBlockingDeque.html#line-129">drainTo</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;? super <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">drainTo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;? super <a href="ForwardingBlockingDeque.html" title="type parameter in ForwardingBlockingDeque">E</a>&gt;&nbsp;c,
  int&nbsp;maxElements)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>

@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 <a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line-76">TreeTraverser</a>&lt;T&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">TreeTraverser&lt;T&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="../graph/Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> instead. All instance methods have
@@ -240,7 +240,7 @@ TreeTraverser&lt;NodeType&gt; traverser = node -&gt; node.getChildNodes();
 <section class="detail" id="&lt;init&gt;()">
 <h3>TreeTraverser</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line-81">TreeTraverser</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">TreeTraverser</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
@@ -259,7 +259,7 @@ TreeTraverser&lt;NodeType&gt; traverser = node -&gt; node.getChildNodes();
 <h3>using</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="TreeTraverser.html" title="class in com.google.common.collect">TreeTraverser</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line-93">using</a></span><wbr><span class="parameters">(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;T,<wbr>? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&gt;&nbsp;nodeToChildrenFunction)</span></div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="TreeTraverser.html" title="class in com.google.common.collect">TreeTraverser</a>&lt;T&gt;</span>&nbsp;<span class="element-name">using</span><wbr><span class="parameters">(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;T,<wbr>? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&gt;&nbsp;nodeToChildrenFunction)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="../graph/Traverser.html#forTree(com.google.common.graph.SuccessorsFunction)"><code>Traverser.forTree(com.google.common.graph.SuccessorsFunction&lt;N&gt;)</code></a> instead. If you are using a
      lambda, these methods have exactly the same signature.</div>
@@ -279,7 +279,7 @@ TreeTraverser&lt;NodeType&gt; traverser = node -&gt; node.getChildNodes();
 <section class="detail" id="children(T)">
 <h3 id="children(java.lang.Object)">children</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line-106">children</a></span><wbr><span class="parameters">(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;</span>&nbsp;<span class="element-name">children</span><wbr><span class="parameters">(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span></div>
 <div class="block">Returns the children of the specified node. Must not contain null.</div>
 </div>
@@ -290,7 +290,7 @@ TreeTraverser&lt;NodeType&gt; traverser = node -&gt; node.getChildNodes();
 <h3 id="preOrderTraversal(java.lang.Object)">preOrderTraversal</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line-118">preOrderTraversal</a></span><wbr><span class="parameters">(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;</span>&nbsp;<span class="element-name">preOrderTraversal</span><wbr><span class="parameters">(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="../graph/Traverser.html#depthFirstPreOrder(N)"><code>Traverser.depthFirstPreOrder(N)</code></a> instead, which has
      the same behavior.</div>
@@ -308,7 +308,7 @@ TreeTraverser&lt;NodeType&gt; traverser = node -&gt; node.getChildNodes();
 <h3 id="postOrderTraversal(java.lang.Object)">postOrderTraversal</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line-183">postOrderTraversal</a></span><wbr><span class="parameters">(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;</span>&nbsp;<span class="element-name">postOrderTraversal</span><wbr><span class="parameters">(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="../graph/Traverser.html#depthFirstPostOrder(N)"><code>Traverser.depthFirstPostOrder(N)</code></a> instead, which
      has the same behavior.</div>
@@ -326,7 +326,7 @@ TreeTraverser&lt;NodeType&gt; traverser = node -&gt; node.getChildNodes();
 <h3 id="breadthFirstTraversal(java.lang.Object)">breadthFirstTraversal</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeTraverser.html#line-258">breadthFirstTraversal</a></span><wbr><span class="parameters">(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&gt;</span>&nbsp;<span class="element-name">breadthFirstTraversal</span><wbr><span class="parameters">(<a href="TreeTraverser.html" title="type parameter in TreeTraverser">T</a>&nbsp;root)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="../graph/Traverser.html#breadthFirst(N)"><code>Traverser.breadthFirst(N)</code></a> instead, which has the
      same behavior.</div>

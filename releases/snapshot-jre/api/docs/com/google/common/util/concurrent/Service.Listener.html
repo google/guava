@@ -96,7 +96,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract static class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Service.html#line-243">Service.Listener</a></span>
+<div class="type-signature"><span class="modifiers">public abstract static class </span><span class="element-name type-name-label">Service.Listener</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A listener for the various state changes that a <a href="Service.html" title="interface in com.google.common.util.concurrent"><code>Service</code></a> goes through in its lifecycle.
 
@@ -184,7 +184,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Listener</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line-245">Listener</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Listener</span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -201,7 +201,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="starting()">
 <h3>starting</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line-252">starting</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">starting</span>()</div>
 <div class="block">Called when the service transitions from <a href="Service.State.html#NEW">NEW</a> to <a href="Service.State.html#STARTING">STARTING</a>. This occurs when <a href="Service.html#startAsync()"><code>Service.startAsync()</code></a> is called the first
  time.</div>
 </div>
@@ -211,7 +211,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="running()">
 <h3>running</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line-258">running</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">running</span>()</div>
 <div class="block">Called when the service transitions from <a href="Service.State.html#STARTING">STARTING</a> to <a href="Service.State.html#RUNNING">RUNNING</a>. This occurs when a service has successfully started.</div>
 </div>
 </section>
@@ -220,7 +220,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="stopping(com.google.common.util.concurrent.Service.State)">
 <h3>stopping</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line-267">stopping</a></span><wbr><span class="parameters">(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">stopping</span><wbr><span class="parameters">(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</span></div>
 <div class="block">Called when the service transitions to the <a href="Service.State.html#STOPPING">STOPPING</a> state. The
  only valid values for <code>from</code> are <a href="Service.State.html#STARTING">STARTING</a> or <a href="Service.State.html#RUNNING">RUNNING</a>. This occurs when <a href="Service.html#stopAsync()"><code>Service.stopAsync()</code></a> is called.</div>
 <dl class="notes">
@@ -234,7 +234,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="terminated(com.google.common.util.concurrent.Service.State)">
 <h3>terminated</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line-279">terminated</a></span><wbr><span class="parameters">(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">terminated</span><wbr><span class="parameters">(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from)</span></div>
 <div class="block">Called when the service transitions to the <a href="Service.State.html#TERMINATED">TERMINATED</a> state.
  The <a href="Service.State.html#TERMINATED">TERMINATED</a> state is a terminal state in the transition
  diagram. Therefore, if this method is called, no other methods will be called on the <a href="Service.Listener.html" title="class in com.google.common.util.concurrent"><code>Service.Listener</code></a>.</div>
@@ -250,7 +250,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="failed(com.google.common.util.concurrent.Service.State,java.lang.Throwable)">
 <h3>failed</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Service.Listener.html#line-291">failed</a></span><wbr><span class="parameters">(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">failed</span><wbr><span class="parameters">(<a href="Service.State.html" title="enum in com.google.common.util.concurrent">Service.State</a>&nbsp;from,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;failure)</span></div>
 <div class="block">Called when the service transitions to the <a href="Service.State.html#FAILED">FAILED</a> state. The
  <a href="Service.State.html#FAILED">FAILED</a> state is a terminal state in the transition diagram.

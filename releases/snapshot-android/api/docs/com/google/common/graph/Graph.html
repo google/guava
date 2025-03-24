@@ -112,7 +112,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use GraphBuilder to create a real instance")
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-104">Graph</a>&lt;N&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">Graph&lt;N&gt;</span></div>
 <div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
  whose edges are anonymous entities with no identity or information of their own.
 
@@ -317,7 +317,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="nodes()">
 <h3>nodes</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-112">nodes</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name">nodes</span>()</div>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="#nodeOrder()"><code>nodeOrder()</code></a>.</div>
 </div>
 </section>
@@ -326,7 +326,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="edges()">
 <h3>edges</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-116">edges</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name">edges</span>()</div>
 <div class="block">Returns all edges in this graph.</div>
 </div>
 </section>
@@ -335,7 +335,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isDirected()">
 <h3>isDirected</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-128">isDirected</a></span>()</div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">isDirected</span>()</div>
 <div class="block">Returns true if the edges in this graph are directed. Directed edges connect a <a href="EndpointPair.html#source()"><code>source node</code></a> to a <a href="EndpointPair.html#target()"><code>target node</code></a>, while
  undirected edges connect a pair of nodes to each other.</div>
 </div>
@@ -345,7 +345,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="allowsSelfLoops()">
 <h3>allowsSelfLoops</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-136">allowsSelfLoops</a></span>()</div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsSelfLoops</span>()</div>
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
  to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link"><code>IllegalArgumentException</code></a>.</div>
 </div>
@@ -355,7 +355,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="nodeOrder()">
 <h3>nodeOrder</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-140">nodeOrder</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name">nodeOrder</span>()</div>
 <div class="block">Returns the order of iteration for the elements of <a href="#nodes()"><code>nodes()</code></a>.</div>
 </div>
 </section>
@@ -364,7 +364,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="incidentEdgeOrder()">
 <h3>incidentEdgeOrder</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-150">incidentEdgeOrder</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name">incidentEdgeOrder</span>()</div>
 <div class="block">Returns an <a href="ElementOrder.html" title="class in com.google.common.graph"><code>ElementOrder</code></a> that specifies the order of iteration for the elements of
  <a href="#edges()"><code>edges()</code></a>, <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>, <a href="#predecessors(N)"><code>predecessors(Object)</code></a>, <a href="#successors(N)"><code>successors(Object)</code></a> and <a href="#incidentEdges(N)"><code>incidentEdges(Object)</code></a>.</div>
 <dl class="notes">
@@ -378,7 +378,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="adjacentNodes(N)">
 <h3 id="adjacentNodes(java.lang.Object)">adjacentNodes</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-177">adjacentNodes</a></span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name">adjacentNodes</span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
  this graph.
 
@@ -406,7 +406,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="predecessors(N)">
 <h3 id="predecessors(java.lang.Object)">predecessors</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-200">predecessors</a></span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name">predecessors</span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
@@ -436,7 +436,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="successors(N)">
 <h3 id="successors(java.lang.Object)">successors</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-226">successors</a></span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;</span>&nbsp;<span class="element-name">successors</span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
@@ -469,7 +469,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="incidentEdges(N)">
 <h3 id="incidentEdges(java.lang.Object)">incidentEdges</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-249">incidentEdges</a></span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name">incidentEdges</span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.
 
  <p>This is equal to the union of incoming and outgoing edges.
@@ -498,7 +498,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="degree(N)">
 <h3 id="degree(java.lang.Object)">degree</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-265">degree</a></span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">degree</span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns the count of <code>node</code>'s incident edges, counting self-loops twice (equivalently,
  the number of times an edge touches <code>node</code>).
 
@@ -519,7 +519,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="inDegree(N)">
 <h3 id="inDegree(java.lang.Object)">inDegree</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-276">inDegree</a></span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">inDegree</span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -535,7 +535,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="outDegree(N)">
 <h3 id="outDegree(java.lang.Object)">outDegree</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-287">outDegree</a></span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">outDegree</span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -551,7 +551,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasEdgeConnecting(N,N)">
 <h3 id="hasEdgeConnecting(java.lang.Object,java.lang.Object)">hasEdgeConnecting</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-298">hasEdgeConnecting</a></span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;nodeU,
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">hasEdgeConnecting</span><wbr><span class="parameters">(<a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;nodeU,
  <a href="Graph.html" title="type parameter in Graph">N</a>&nbsp;nodeV)</span></div>
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>.
@@ -568,7 +568,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasEdgeConnecting(com.google.common.graph.EndpointPair)">
 <h3>hasEdgeConnecting</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-314">hasEdgeConnecting</a></span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;endpoints)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">hasEdgeConnecting</span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="Graph.html" title="type parameter in Graph">N</a>&gt;&nbsp;endpoints)</span></div>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>). This is equivalent to <code>
  edges().contains(endpoints)</code>.
@@ -589,7 +589,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-340">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> that has the same elements and the
  same structural relationships as those in this graph.
 
@@ -618,7 +618,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graph.html#line-349">hashCode</a></span>()</div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of
  the set returned by <a href="#edges()"><code>edges()</code></a>.
 

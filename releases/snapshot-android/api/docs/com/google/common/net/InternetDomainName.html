@@ -103,7 +103,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@Immutable</a>
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-75">InternetDomainName</a></span>
+</span><span class="modifiers">public final class </span><span class="element-name type-name-label">InternetDomainName</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">An immutable well-formed internet domain name, such as <code>com</code> or <code>foo.co.uk</code>. Only
  syntactic analysis is performed; no DNS lookups or other network interactions take place. Thus
@@ -297,7 +297,7 @@ loadScripts(document, 'script');</script>
 <h3>from</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-259">from</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;domain)</span></div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;domain)</span></div>
 <div class="block">Returns an instance of <a href="InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a> after lenient validation. Specifically,
  validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
  ("Internationalizing Domain Names in Applications") is skipped, while validation against <a href="http://www.ietf.org/rfc/rfc1035.txt">RFC 1035</a> is relaxed in the following ways:
@@ -323,7 +323,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="parts()">
 <h3>parts</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-358">parts</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">parts</span>()</div>
 <div class="block">Returns the individual components of this domain name, normalized to all lower case. For
  example, for the domain name <code>mail.google.com</code>, this method returns the list <code>
  ["mail", "google", "com"]</code>.</div>
@@ -334,7 +334,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isPublicSuffix()">
 <h3>isPublicSuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-382">isPublicSuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isPublicSuffix</span>()</div>
 <div class="block">Indicates whether this domain name represents a <i>public suffix</i>, as defined by the Mozilla
  Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL). A public suffix
  is one under which Internet users can directly register names, such as <code>com</code>, <code>
@@ -362,7 +362,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasPublicSuffix()">
 <h3>hasPublicSuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-398">hasPublicSuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasPublicSuffix</span>()</div>
 <div class="block">Indicates whether this domain name ends in a <a href="#isPublicSuffix()">public suffix</a>,
  including if it is a public suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>com</code>, but not for <code>invalid</code> or <code>
@@ -382,7 +382,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="publicSuffix()">
 <h3>publicSuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-408">publicSuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name">publicSuffix</span>()</div>
 <div class="block">Returns the <a href="#isPublicSuffix()">public suffix</a> portion of the domain name, or <code>
  null</code> if no public suffix is present.</div>
 <dl class="notes">
@@ -396,7 +396,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isUnderPublicSuffix()">
 <h3>isUnderPublicSuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-424">isUnderPublicSuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isUnderPublicSuffix</span>()</div>
 <div class="block">Indicates whether this domain name ends in a <a href="#isPublicSuffix()">public suffix</a>,
  while not being a public suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>myblog.blogspot.com</code>, but not for <code>com</code>,
@@ -416,7 +416,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isTopPrivateDomain()">
 <h3>isTopPrivateDomain</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-440">isTopPrivateDomain</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isTopPrivateDomain</span>()</div>
 <div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
  <a href="#isPublicSuffix()">public suffix</a>. For example, returns <code>true</code> for <code>
  google.com</code> <code>foo.co.uk</code>, and <code>myblog.blogspot.com</code>, but not for <code>
@@ -436,7 +436,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="topPrivateDomain()">
 <h3>topPrivateDomain</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-460">topPrivateDomain</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name">topPrivateDomain</span>()</div>
 <div class="block">Returns the portion of this domain name that is one level beneath the <a href="#isPublicSuffix()">public suffix</a>. For example, for <code>x.adwords.google.co.uk</code> it returns
  <code>google.co.uk</code>, since <code>co.uk</code> is a public suffix. Similarly, for <code>
  myblog.blogspot.com</code> it returns the same domain, <code>myblog.blogspot.com</code>, since <code>
@@ -460,7 +460,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isRegistrySuffix()">
 <h3>isRegistrySuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-491">isRegistrySuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isRegistrySuffix</span>()</div>
 <div class="block">Indicates whether this domain name represents a <i>registry suffix</i>, as defined by a subset
  of the Mozilla Foundation's <a href="http://publicsuffix.org/">Public Suffix List</a> (PSL). A
  registry suffix is one under which Internet users can directly register names via a domain name
@@ -491,7 +491,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasRegistrySuffix()">
 <h3>hasRegistrySuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-506">hasRegistrySuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasRegistrySuffix</span>()</div>
 <div class="block">Indicates whether this domain name ends in a <a href="#isRegistrySuffix()">registry suffix</a>,
  including if it is a registry suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>com</code>, but not for <code>invalid</code> or <code>
@@ -510,7 +510,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="registrySuffix()">
 <h3>registrySuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-516">registrySuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name">registrySuffix</span>()</div>
 <div class="block">Returns the <a href="#isRegistrySuffix()">registry suffix</a> portion of the domain name, or
  <code>null</code> if no registry suffix is present.</div>
 <dl class="notes">
@@ -524,7 +524,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isUnderRegistrySuffix()">
 <h3>isUnderRegistrySuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-528">isUnderRegistrySuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isUnderRegistrySuffix</span>()</div>
 <div class="block">Indicates whether this domain name ends in a <a href="#isRegistrySuffix()">registry suffix</a>,
  while not being a registry suffix itself. For example, returns <code>true</code> for <code>
  www.google.com</code>, <code>foo.co.uk</code> and <code>blogspot.com</code>, but not for <code>com</code>, <code>
@@ -540,7 +540,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isTopDomainUnderRegistrySuffix()">
 <h3>isTopDomainUnderRegistrySuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-543">isTopDomainUnderRegistrySuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isTopDomainUnderRegistrySuffix</span>()</div>
 <div class="block">Indicates whether this domain name is composed of exactly one subdomain component followed by a
  <a href="#isRegistrySuffix()">registry suffix</a>. For example, returns <code>true</code> for <code>
  google.com</code>, <code>foo.co.uk</code>, and <code>blogspot.com</code>, but not for <code>www.google.com</code>,
@@ -559,7 +559,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="topDomainUnderRegistrySuffix()">
 <h3>topDomainUnderRegistrySuffix</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-562">topDomainUnderRegistrySuffix</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name">topDomainUnderRegistrySuffix</span>()</div>
 <div class="block">Returns the portion of this domain name that is one level beneath the <a href="#isRegistrySuffix()">registry suffix</a>. For example, for <code>x.adwords.google.co.uk</code> it
  returns <code>google.co.uk</code>, since <code>co.uk</code> is a registry suffix. Similarly, for <code>
  myblog.blogspot.com</code> it returns <code>blogspot.com</code>, since <code>com</code> is a registry suffix.
@@ -582,7 +582,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasParent()">
 <h3>hasParent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-571">hasParent</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasParent</span>()</div>
 <div class="block">Indicates whether this domain is composed of two or more parts.</div>
 </div>
 </section>
@@ -591,7 +591,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="parent()">
 <h3>parent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-582">parent</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name">parent</span>()</div>
 <div class="block">Returns an <code>InternetDomainName</code> that is the immediate ancestor of this one; that is, the
  current domain with the leftmost part removed. For example, the parent of <code>
  www.google.com</code> is <code>google.com</code>.</div>
@@ -606,7 +606,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="child(java.lang.String)">
 <h3>child</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-617">child</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;leftParts)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></span>&nbsp;<span class="element-name">child</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;leftParts)</span></div>
 <div class="block">Creates and returns a new <code>InternetDomainName</code> by prepending the argument and a dot to
  the current name. For example, <code>InternetDomainName.from("foo.com").child("www.bar")</code>
  returns a new <code>InternetDomainName</code> with the value <code>www.bar.foo.com</code>. Only lenient
@@ -623,7 +623,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isValid(java.lang.String)">
 <h3>isValid</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-644">isValid</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isValid</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name)</span></div>
 <div class="block">Indicates whether the argument is a syntactically valid domain name using lenient validation.
  Specifically, validation against <a href="http://www.ietf.org/rfc/rfc3490.txt">RFC 3490</a>
  ("Internationalizing Domain Names in Applications") is skipped.
@@ -660,7 +660,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-663">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">Returns the domain name, normalized to all lower case.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
@@ -673,7 +673,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-673">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Equality testing is based on the text supplied by the caller, after normalization as described
  in the class documentation. For example, a non-ASCII Unicode domain name and the Punycode
  version of the same domain name would not be considered equal.</div>
@@ -688,7 +688,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/net/InternetDomainName.html#line-687">hashCode</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>

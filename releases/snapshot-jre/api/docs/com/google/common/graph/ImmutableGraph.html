@@ -115,7 +115,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@Immutable</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html#containerOf()" title="class or interface in com.google.errorprone.annotations" class="external-link">containerOf</a>="N")
-</span><span class="modifiers">public class </span><span class="element-name"><a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line-47">ImmutableGraph</a>&lt;N&gt;</span>
+</span><span class="modifiers">public class </span><span class="element-name type-name-label">ImmutableGraph&lt;N&gt;</span>
 <span class="extends-implements">extends <a href="AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a>&lt;N&gt;</span></div>
 <div class="block">A <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> whose elements and structural relationships will never change. Instances of this
  class may be obtained with <a href="#copyOf(com.google.common.graph.Graph)"><code>copyOf(Graph)</code></a>.
@@ -313,7 +313,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="copyOf(com.google.common.graph.Graph)">
 <h3>copyOf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line-58">copyOf</a></span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name">copyOf</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
 <div class="block">Returns an immutable copy of <code>graph</code>.</div>
 </div>
 </section>
@@ -325,7 +325,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="checkNotNull(graph)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line-71">copyOf</a></span><wbr><span class="parameters">(<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;graph)</span></div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name">copyOf</span><wbr><span class="parameters">(<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;&nbsp;graph)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">no need to use this</div>
 </div>
@@ -337,7 +337,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="incidentEdgeOrder()">
 <h3>incidentEdgeOrder</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ImmutableGraph.html#line-79">incidentEdgeOrder</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ImmutableGraph.html" title="type parameter in ImmutableGraph">N</a>&gt;</span>&nbsp;<span class="element-name">incidentEdgeOrder</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Graph.html#incidentEdgeOrder()">Graph</a></code></span></div>
 <div class="block">Returns an <a href="ElementOrder.html" title="class in com.google.common.graph"><code>ElementOrder</code></a> that specifies the order of iteration for the elements of
  <a href="Graph.html#edges()"><code>Graph.edges()</code></a>, <a href="Graph.html#adjacentNodes(N)"><code>Graph.adjacentNodes(Object)</code></a>, <a href="Graph.html#predecessors(N)"><code>Graph.predecessors(Object)</code></a>, <a href="Graph.html#successors(N)"><code>Graph.successors(Object)</code></a> and <a href="Graph.html#incidentEdges(N)"><code>Graph.incidentEdges(Object)</code></a>.</div>

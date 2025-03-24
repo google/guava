@@ -89,7 +89,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="Escapers.html" title="class in com.google.common.escape">Escapers</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/escape/Escapers.html#line-91">Escapers.Builder</a></span>
+<div class="type-signature"><span class="modifiers">public static final class </span><span class="element-name type-name-label">Escapers.Builder</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A builder for simple, fast escapers.
 
@@ -162,7 +162,7 @@ loadScripts(document, 'script');</script>
 <h3>setSafeRange</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line-109">setSafeRange</a></span><wbr><span class="parameters">(char&nbsp;safeMin,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a></span>&nbsp;<span class="element-name">setSafeRange</span><wbr><span class="parameters">(char&nbsp;safeMin,
  char&nbsp;safeMax)</span></div>
 <div class="block">Sets the safe range of characters for the escaper. Characters in this range that have no
  explicit replacement are considered 'safe' and remain unescaped in the output. If <code>
@@ -182,7 +182,7 @@ loadScripts(document, 'script');</script>
 <h3>setUnsafeReplacement</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line-124">setUnsafeReplacement</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;unsafeReplacement)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a></span>&nbsp;<span class="element-name">setUnsafeReplacement</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;unsafeReplacement)</span></div>
 <div class="block">Sets the replacement string for any characters outside the 'safe' range that have no explicit
  replacement. If <code>unsafeReplacement</code> is <code>null</code> then no replacement will occur, if
  it is <code>""</code> then the unsafe characters are removed from the output.</div>
@@ -200,7 +200,7 @@ loadScripts(document, 'script');</script>
 <h3>addEscape</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line-140">addEscape</a></span><wbr><span class="parameters">(char&nbsp;c,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a></span>&nbsp;<span class="element-name">addEscape</span><wbr><span class="parameters">(char&nbsp;c,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;replacement)</span></div>
 <div class="block">Adds a replacement string for the given input character. The specified character will be
  replaced by the given string whenever it occurs in the input, irrespective of whether it lies
@@ -221,7 +221,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="build()">
 <h3>build</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escaper.html" title="class in com.google.common.escape">Escaper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/Escapers.Builder.html#line-149">build</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escaper.html" title="class in com.google.common.escape">Escaper</a></span>&nbsp;<span class="element-name">build</span>()</div>
 <div class="block">Returns a new escaper based on the current state of the builder.</div>
 </div>
 </section>

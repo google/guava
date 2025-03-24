@@ -97,7 +97,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-37">LinearTransformation</a></span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">LinearTransformation</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">The representation of a linear transformation between real numbers <code>x</code> and <code>y</code>.
  Graphically, this is the specification of a straight line on a plane. The transformation can be
@@ -229,7 +229,7 @@ loadScripts(document, 'script');</script>
 <h3>LinearTransformation</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-45">LinearTransformation</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="element-name">LinearTransformation</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Create instances by using the static factory methods of the class.</div>
 </div>
@@ -249,7 +249,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="mapping(double,double)">
 <h3>mapping</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="LinearTransformation.LinearTransformationBuilder.html" title="class in com.google.common.math">LinearTransformation.LinearTransformationBuilder</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-53">mapping</a></span><wbr><span class="parameters">(double&nbsp;x1,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="LinearTransformation.LinearTransformationBuilder.html" title="class in com.google.common.math">LinearTransformation.LinearTransformationBuilder</a></span>&nbsp;<span class="element-name">mapping</span><wbr><span class="parameters">(double&nbsp;x1,
  double&nbsp;y1)</span></div>
 <div class="block">Start building an instance which maps <code>x = x1</code> to <code>y = y1</code>. Both arguments must be
  finite. Call either <a href="LinearTransformation.LinearTransformationBuilder.html#and(double,double)"><code>LinearTransformation.LinearTransformationBuilder.and(double, double)</code></a> or <a href="LinearTransformation.LinearTransformationBuilder.html#withSlope(double)"><code>LinearTransformation.LinearTransformationBuilder.withSlope(double)</code></a> on the returned object to finish building the instance.</div>
@@ -260,7 +260,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="vertical(double)">
 <h3>vertical</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-112">vertical</a></span><wbr><span class="parameters">(double&nbsp;x)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name">vertical</span><wbr><span class="parameters">(double&nbsp;x)</span></div>
 <div class="block">Builds an instance representing a vertical transformation with a constant value of <code>x</code>.
  (The inverse of this will be a horizontal transformation.)</div>
 </div>
@@ -270,7 +270,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="horizontal(double)">
 <h3>horizontal</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-121">horizontal</a></span><wbr><span class="parameters">(double&nbsp;y)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name">horizontal</span><wbr><span class="parameters">(double&nbsp;y)</span></div>
 <div class="block">Builds an instance representing a horizontal transformation with a constant value of <code>y</code>.
  (The inverse of this will be a vertical transformation.)</div>
 </div>
@@ -280,7 +280,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="forNaN()">
 <h3>forNaN</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-133">forNaN</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name">forNaN</span>()</div>
 <div class="block">Builds an instance for datasets which contains <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#NaN" title="class or interface in java.lang" class="external-link"><code>Double.NaN</code></a>. The <a href="#isHorizontal()"><code>isHorizontal()</code></a>
  and <a href="#isVertical()"><code>isVertical()</code></a> methods return <code>false</code> and the <a href="#slope()"><code>slope()</code></a>, and <a href="#transform(double)"><code>transform(double)</code></a> methods all return <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#NaN" title="class or interface in java.lang" class="external-link"><code>Double.NaN</code></a>. The <a href="#inverse()"><code>inverse()</code></a> method returns the same
  instance.</div>
@@ -291,7 +291,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isVertical()">
 <h3>isVertical</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-138">isVertical</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isVertical</span>()</div>
 <div class="block">Returns whether this is a vertical transformation.</div>
 </div>
 </section>
@@ -300,7 +300,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isHorizontal()">
 <h3>isHorizontal</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-141">isHorizontal</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isHorizontal</span>()</div>
 <div class="block">Returns whether this is a horizontal transformation.</div>
 </div>
 </section>
@@ -309,7 +309,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="slope()">
 <h3>slope</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-148">slope</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">slope</span>()</div>
 <div class="block">Returns the slope of the transformation, i.e. the rate of change of <code>y</code> with respect to
  <code>x</code>. This must not be called on a vertical transformation (i.e. when <a href="#isVertical()"><code>isVertical()</code></a> is true).</div>
 </div>
@@ -319,7 +319,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="transform(double)">
 <h3>transform</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-154">transform</a></span><wbr><span class="parameters">(double&nbsp;x)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">transform</span><wbr><span class="parameters">(double&nbsp;x)</span></div>
 <div class="block">Returns the <code>y</code> corresponding to the given <code>x</code>. This must not be called on a
  vertical transformation (i.e. when <a href="#isVertical()"><code>isVertical()</code></a> is true).</div>
 </div>
@@ -329,7 +329,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="inverse()">
 <h3>inverse</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-165">inverse</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name">inverse</span>()</div>
 <div class="block">Returns the inverse linear transformation. The inverse of a horizontal transformation is a
  vertical transformation, and vice versa. The inverse of the <a href="#forNaN()"><code>forNaN()</code></a> transformation is
  itself. In all other cases, the inverse is a transformation such that applying both the

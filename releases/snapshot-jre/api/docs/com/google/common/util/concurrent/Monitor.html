@@ -130,7 +130,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-203">Monitor</a></span>
+</span><span class="modifiers">public final class </span><span class="element-name type-name-label">Monitor</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A synchronization abstraction supporting waiting on arbitrary boolean conditions.
 
@@ -594,7 +594,7 @@ try {
 <section class="detail" id="&lt;init&gt;()">
 <h3>Monitor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-348">Monitor</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Monitor</span>()</div>
 <div class="block">Creates a monitor with a non-fair (but fast) ordering policy. Equivalent to <code>
  Monitor(false)</code>.</div>
 </div>
@@ -604,7 +604,7 @@ try {
 <section class="detail" id="&lt;init&gt;(boolean)">
 <h3>Monitor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-358">Monitor</a></span><wbr><span class="parameters">(boolean&nbsp;fair)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Monitor</span><wbr><span class="parameters">(boolean&nbsp;fair)</span></div>
 <div class="block">Creates a monitor with the given ordering policy.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -626,7 +626,7 @@ try {
 <section class="detail" id="newGuard(java.util.function.BooleanSupplier)">
 <h3>newGuard</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-370">newGuard</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;isSatisfied)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a></span>&nbsp;<span class="element-name">newGuard</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/BooleanSupplier.html" title="class or interface in java.util.function" class="external-link">BooleanSupplier</a>&nbsp;isSatisfied)</span></div>
 <div class="block">Creates a new <a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">guard</a> for this monitor.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -641,7 +641,7 @@ try {
 <section class="detail" id="enter()">
 <h3>enter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-381">enter</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">enter</span>()</div>
 <div class="block">Enters this monitor. Blocks indefinitely.</div>
 </div>
 </section>
@@ -650,7 +650,7 @@ try {
 <section class="detail" id="enter(java.time.Duration)">
 <h3>enter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-391">enter</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enter</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span></div>
 <div class="block">Enters this monitor. Blocks at most the given time.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -665,7 +665,7 @@ try {
 <section class="detail" id="enter(long,java.util.concurrent.TimeUnit)">
 <h3>enter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-400">enter</a></span><wbr><span class="parameters">(long&nbsp;time,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enter</span><wbr><span class="parameters">(long&nbsp;time,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Enters this monitor. Blocks at most the given time.</div>
 <dl class="notes">
@@ -679,7 +679,7 @@ try {
 <section class="detail" id="enterInterruptibly()">
 <h3>enterInterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-430">enterInterruptibly</a></span>()
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">enterInterruptibly</span>()
                         throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <div class="block">Enters this monitor. Blocks indefinitely, but may be interrupted.</div>
 <dl class="notes">
@@ -693,7 +693,7 @@ try {
 <section class="detail" id="enterInterruptibly(java.time.Duration)">
 <h3>enterInterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-441">enterInterruptibly</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterInterruptibly</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span>
                            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <div class="block">Enters this monitor. Blocks at most the given time, and may be interrupted.</div>
 <dl class="notes">
@@ -711,7 +711,7 @@ try {
 <section class="detail" id="enterInterruptibly(long,java.util.concurrent.TimeUnit)">
 <h3>enterInterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-451">enterInterruptibly</a></span><wbr><span class="parameters">(long&nbsp;time,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterInterruptibly</span><wbr><span class="parameters">(long&nbsp;time,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                            throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <div class="block">Enters this monitor. Blocks at most the given time, and may be interrupted.</div>
@@ -728,7 +728,7 @@ try {
 <section class="detail" id="tryEnter()">
 <h3>tryEnter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-463">tryEnter</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">tryEnter</span>()</div>
 <div class="block">Enters this monitor if it is possible to do so immediately. Does not block.
 
  <p><b>Note:</b> This method disregards the fairness setting of this monitor.</div>
@@ -743,7 +743,7 @@ try {
 <section class="detail" id="enterWhen(com.google.common.util.concurrent.Monitor.Guard)">
 <h3>enterWhen</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-472">enterWhen</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">enterWhen</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span>
                throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks indefinitely, but may be interrupted.</div>
 <dl class="notes">
@@ -757,7 +757,7 @@ try {
 <section class="detail" id="enterWhen(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">
 <h3>enterWhen</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-502">enterWhen</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterWhen</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span>
                   throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks at most the given time, including both
@@ -778,7 +778,7 @@ try {
 <section class="detail" id="enterWhen(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">
 <h3>enterWhen</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-514">enterWhen</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterWhen</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  long&nbsp;time,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                   throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
@@ -798,7 +798,7 @@ try {
 <section class="detail" id="enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard)">
 <h3>enterWhenUninterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-570">enterWhenUninterruptibly</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">enterWhenUninterruptibly</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks indefinitely.</div>
 </div>
 </section>
@@ -807,7 +807,7 @@ try {
 <section class="detail" id="enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">
 <h3>enterWhenUninterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-598">enterWhenUninterruptibly</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterWhenUninterruptibly</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span></div>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks at most the given time, including both
  the time to acquire the lock and the time to wait for the guard to be satisfied.</div>
@@ -824,7 +824,7 @@ try {
 <section class="detail" id="enterWhenUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">
 <h3>enterWhenUninterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-608">enterWhenUninterruptibly</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterWhenUninterruptibly</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  long&nbsp;time,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Enters this monitor when the guard is satisfied. Blocks at most the given time, including both
@@ -840,7 +840,7 @@ try {
 <section class="detail" id="enterIf(com.google.common.util.concurrent.Monitor.Guard)">
 <h3>enterIf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-675">enterIf</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterIf</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
  not wait for the guard to be satisfied.</div>
 <dl class="notes">
@@ -854,7 +854,7 @@ try {
 <section class="detail" id="enterIf(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">
 <h3>enterIf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-699">enterIf</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterIf</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span></div>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
  lock, but does not wait for the guard to be satisfied.</div>
@@ -871,7 +871,7 @@ try {
 <section class="detail" id="enterIf(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">
 <h3>enterIf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-709">enterIf</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterIf</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  long&nbsp;time,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
@@ -887,7 +887,7 @@ try {
 <section class="detail" id="enterIfInterruptibly(com.google.common.util.concurrent.Monitor.Guard)">
 <h3>enterIfInterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-735">enterIfInterruptibly</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterIfInterruptibly</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span>
                              throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks indefinitely acquiring the lock, but does
  not wait for the guard to be satisfied, and may be interrupted.</div>
@@ -904,7 +904,7 @@ try {
 <section class="detail" id="enterIfInterruptibly(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">
 <h3>enterIfInterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-759">enterIfInterruptibly</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterIfInterruptibly</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span>
                              throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <div class="block">Enters this monitor if the guard is satisfied. Blocks at most the given time acquiring the
@@ -924,7 +924,7 @@ try {
 <section class="detail" id="enterIfInterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">
 <h3>enterIfInterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-769">enterIfInterruptibly</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">enterIfInterruptibly</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  long&nbsp;time,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                              throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
@@ -943,7 +943,7 @@ try {
 <section class="detail" id="tryEnterIf(com.google.common.util.concurrent.Monitor.Guard)">
 <h3>tryEnterIf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-798">tryEnterIf</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">tryEnterIf</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
 <div class="block">Enters this monitor if it is possible to do so immediately and the guard is satisfied. Does not
  block acquiring the lock and does not wait for the guard to be satisfied.
 
@@ -959,7 +959,7 @@ try {
 <section class="detail" id="waitFor(com.google.common.util.concurrent.Monitor.Guard)">
 <h3>waitFor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-823">waitFor</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">waitFor</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span>
              throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <div class="block">Waits for the guard to be satisfied. Waits indefinitely, but may be interrupted. May be called
  only by a thread currently occupying this monitor.</div>
@@ -974,7 +974,7 @@ try {
 <section class="detail" id="waitFor(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">
 <h3>waitFor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-840">waitFor</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">waitFor</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span>
                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
 <div class="block">Waits for the guard to be satisfied. Waits at most the given time, and may be interrupted. May
@@ -994,7 +994,7 @@ try {
 <section class="detail" id="waitFor(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">
 <h3>waitFor</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-851">waitFor</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">waitFor</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  long&nbsp;time,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a></span></div>
@@ -1013,7 +1013,7 @@ try {
 <section class="detail" id="waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard)">
 <h3>waitForUninterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-870">waitForUninterruptibly</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">waitForUninterruptibly</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
 <div class="block">Waits for the guard to be satisfied. Waits indefinitely. May be called only by a thread
  currently occupying this monitor.</div>
 </div>
@@ -1023,7 +1023,7 @@ try {
 <section class="detail" id="waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,java.time.Duration)">
 <h3>waitForUninterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-886">waitForUninterruptibly</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">waitForUninterruptibly</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;time)</span></div>
 <div class="block">Waits for the guard to be satisfied. Waits at most the given time. May be called only by a
  thread currently occupying this monitor.</div>
@@ -1040,7 +1040,7 @@ try {
 <section class="detail" id="waitForUninterruptibly(com.google.common.util.concurrent.Monitor.Guard,long,java.util.concurrent.TimeUnit)">
 <h3>waitForUninterruptibly</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-896">waitForUninterruptibly</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">waitForUninterruptibly</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard,
  long&nbsp;time,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Waits for the guard to be satisfied. Waits at most the given time. May be called only by a
@@ -1056,7 +1056,7 @@ try {
 <section class="detail" id="leave()">
 <h3>leave</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-929">leave</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">leave</span>()</div>
 <div class="block">Leaves this monitor. May be called only by a thread currently occupying this monitor.</div>
 </div>
 </section>
@@ -1065,7 +1065,7 @@ try {
 <section class="detail" id="isFair()">
 <h3>isFair</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-942">isFair</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isFair</span>()</div>
 <div class="block">Returns whether this monitor is using a fair ordering policy.</div>
 </div>
 </section>
@@ -1074,7 +1074,7 @@ try {
 <section class="detail" id="isOccupied()">
 <h3>isOccupied</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-950">isOccupied</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isOccupied</span>()</div>
 <div class="block">Returns whether this monitor is occupied by any thread. This method is designed for use in
  monitoring of the system state, not for synchronization control.</div>
 </div>
@@ -1084,7 +1084,7 @@ try {
 <section class="detail" id="isOccupiedByCurrentThread()">
 <h3>isOccupiedByCurrentThread</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-958">isOccupiedByCurrentThread</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isOccupiedByCurrentThread</span>()</div>
 <div class="block">Returns whether the current thread is occupying this monitor (has entered more times than it
  has left).</div>
 </div>
@@ -1094,7 +1094,7 @@ try {
 <section class="detail" id="getOccupiedDepth()">
 <h3>getOccupiedDepth</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-966">getOccupiedDepth</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getOccupiedDepth</span>()</div>
 <div class="block">Returns the number of times the current thread has entered this monitor in excess of the number
  of times it has left. Returns 0 if the current thread is not occupying this monitor.</div>
 </div>
@@ -1104,7 +1104,7 @@ try {
 <section class="detail" id="getQueueLength()">
 <h3>getQueueLength</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-976">getQueueLength</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getQueueLength</span>()</div>
 <div class="block">Returns an estimate of the number of threads waiting to enter this monitor. The value is only
  an estimate because the number of threads may change dynamically while this method traverses
  internal data structures. This method is designed for use in monitoring of the system state,
@@ -1116,7 +1116,7 @@ try {
 <section class="detail" id="hasQueuedThreads()">
 <h3>hasQueuedThreads</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-986">hasQueuedThreads</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasQueuedThreads</span>()</div>
 <div class="block">Returns whether any threads are waiting to enter this monitor. Note that because cancellations
  may occur at any time, a <code>true</code> return does not guarantee that any other thread will ever
  enter this monitor. This method is designed primarily for use in monitoring of the system
@@ -1128,7 +1128,7 @@ try {
 <section class="detail" id="hasQueuedThread(java.lang.Thread)">
 <h3>hasQueuedThread</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-996">hasQueuedThread</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html" title="class or interface in java.lang" class="external-link">Thread</a>&nbsp;thread)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasQueuedThread</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html" title="class or interface in java.lang" class="external-link">Thread</a>&nbsp;thread)</span></div>
 <div class="block">Queries whether the given thread is waiting to enter this monitor. Note that because
  cancellations may occur at any time, a <code>true</code> return does not guarantee that this thread
  will ever enter this monitor. This method is designed primarily for use in monitoring of the
@@ -1140,7 +1140,7 @@ try {
 <section class="detail" id="hasWaiters(com.google.common.util.concurrent.Monitor.Guard)">
 <h3>hasWaiters</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-1006">hasWaiters</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasWaiters</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
 <div class="block">Queries whether any threads are waiting for the given guard to become satisfied. Note that
  because timeouts and interrupts may occur at any time, a <code>true</code> return does not guarantee
  that the guard becoming satisfied in the future will awaken any threads. This method is
@@ -1152,7 +1152,7 @@ try {
 <section class="detail" id="getWaitQueueLength(com.google.common.util.concurrent.Monitor.Guard)">
 <h3>getWaitQueueLength</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-1016">getWaitQueueLength</a></span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getWaitQueueLength</span><wbr><span class="parameters">(<a href="Monitor.Guard.html" title="class in com.google.common.util.concurrent">Monitor.Guard</a>&nbsp;guard)</span></div>
 <div class="block">Returns an estimate of the number of threads waiting for the given guard to become satisfied.
  Note that because timeouts and interrupts may occur at any time, the estimate serves only as an
  upper bound on the actual number of waiters. This method is designed for use in monitoring of

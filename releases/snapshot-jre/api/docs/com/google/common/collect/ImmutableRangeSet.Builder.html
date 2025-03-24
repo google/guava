@@ -95,7 +95,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.html" title="type parameter in ImmutableRangeSet">C</a> extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.html#line-756">ImmutableRangeSet.Builder</a>&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&gt;</span>
+<div class="type-signature"><span class="modifiers">public static class </span><span class="element-name type-name-label">ImmutableRangeSet.Builder&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;?&gt;&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A builder for immutable range sets.</div>
 <dl class="notes">
@@ -173,7 +173,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Builder</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line-759">Builder</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">Builder</span>()</div>
 </div>
 </section>
 </li>
@@ -190,7 +190,7 @@ loadScripts(document, 'script');</script>
 <h3>add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line-771">add</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;range)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;range)</span></div>
 <div class="block">Add the specified range to this builder. Adjacent ranges are permitted and will be merged,
  but overlapping ranges will cause an exception when <a href="#build()"><code>build()</code></a> is called.</div>
 <dl class="notes">
@@ -205,7 +205,7 @@ loadScripts(document, 'script');</script>
 <h3>addAll</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line-783">addAll</a></span><wbr><span class="parameters">(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;ranges)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;</span>&nbsp;<span class="element-name">addAll</span><wbr><span class="parameters">(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&nbsp;ranges)</span></div>
 <div class="block">Add all ranges from the specified range set to this builder. Adjacent ranges are permitted
  and will be merged, but overlapping ranges will cause an exception when <a href="#build()"><code>build()</code></a> is
  called.</div>
@@ -217,7 +217,7 @@ loadScripts(document, 'script');</script>
 <h3>addAll</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line-795">addAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&gt;&nbsp;ranges)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableRangeSet.Builder.html" title="class in com.google.common.collect">ImmutableRangeSet.Builder</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;</span>&nbsp;<span class="element-name">addAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;&gt;&nbsp;ranges)</span></div>
 <div class="block">Add all of the specified ranges to this builder. Adjacent ranges are permitted and will be
  merged, but overlapping ranges will cause an exception when <a href="#build()"><code>build()</code></a> is called.</div>
 <dl class="notes">
@@ -233,7 +233,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="build()">
 <h3>build</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ImmutableRangeSet.Builder.html#line-814">build</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableRangeSet.html" title="class in com.google.common.collect">ImmutableRangeSet</a>&lt;<a href="ImmutableRangeSet.Builder.html" title="type parameter in ImmutableRangeSet.Builder">C</a>&gt;</span>&nbsp;<span class="element-name">build</span>()</div>
 <div class="block">Returns an <code>ImmutableRangeSet</code> containing the ranges added to this builder.</div>
 <dl class="notes">
 <dt>Throws:</dt>

@@ -96,7 +96,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-96">RateLimiter</a></span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">RateLimiter</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A rate limiter. Conceptually, a rate limiter distributes permits at a configurable rate. Each
  <a href="#acquire()"><code>acquire()</code></a> blocks if necessary until a permit is available, and then takes it. Once
@@ -293,7 +293,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="create(double)">
 <h3>create</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-117">create</a></span><wbr><span class="parameters">(double&nbsp;permitsPerSecond)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(double&nbsp;permitsPerSecond)</span></div>
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second).
 
@@ -317,7 +317,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="create(double,java.time.Duration)">
 <h3>create</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-165">create</a></span><wbr><span class="parameters">(double&nbsp;permitsPerSecond,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(double&nbsp;permitsPerSecond,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;warmupPeriod)</span></div>
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
  second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
@@ -352,7 +352,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="create(double,long,java.util.concurrent.TimeUnit)">
 <h3>create</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-195">create</a></span><wbr><span class="parameters">(double&nbsp;permitsPerSecond,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="RateLimiter.html" title="class in com.google.common.util.concurrent">RateLimiter</a></span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(double&nbsp;permitsPerSecond,
  long&nbsp;warmupPeriod,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Creates a <code>RateLimiter</code> with the specified stable throughput, given as "permits per
@@ -387,7 +387,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="setRate(double)">
 <h3>setRate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-258">setRate</a></span><wbr><span class="parameters">(double&nbsp;permitsPerSecond)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setRate</span><wbr><span class="parameters">(double&nbsp;permitsPerSecond)</span></div>
 <div class="block">Updates the stable rate of this <code>RateLimiter</code>, that is, the <code>permitsPerSecond</code>
  argument provided in the factory method that constructed the <code>RateLimiter</code>. Currently
  throttled threads will <b>not</b> be awakened as a result of this invocation, thus they do not
@@ -414,7 +414,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="getRate()">
 <h3>getRate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-273">getRate</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getRate</span>()</div>
 <div class="block">Returns the stable rate (as <code>permits per seconds</code>) with which this <code>RateLimiter</code> is
  configured with. The initial value of this is the same as the <code>permitsPerSecond</code> argument
  passed in the factory method that produced this <code>RateLimiter</code>, and it is only updated
@@ -427,7 +427,7 @@ void submitPacket(byte[] packet) {
 <h3>acquire</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-290">acquire</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">acquire</span>()</div>
 <div class="block">Acquires a single permit from this <code>RateLimiter</code>, blocking until the request can be
  granted. Tells the amount of time slept, if any.
 
@@ -446,7 +446,7 @@ void submitPacket(byte[] packet) {
 <h3>acquire</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-304">acquire</a></span><wbr><span class="parameters">(int&nbsp;permits)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">acquire</span><wbr><span class="parameters">(int&nbsp;permits)</span></div>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code>, blocking until the request
  can be granted. Tells the amount of time slept, if any.</div>
 <dl class="notes">
@@ -466,7 +466,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="tryAcquire(java.time.Duration)">
 <h3>tryAcquire</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-336">tryAcquire</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">tryAcquire</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span></div>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
  would not have been granted before the timeout expired.
@@ -489,7 +489,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="tryAcquire(long,java.util.concurrent.TimeUnit)">
 <h3>tryAcquire</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-354">tryAcquire</a></span><wbr><span class="parameters">(long&nbsp;timeout,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">tryAcquire</span><wbr><span class="parameters">(long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Acquires a permit from this <code>RateLimiter</code> if it can be obtained without exceeding the
  specified <code>timeout</code>, or returns <code>false</code> immediately (without waiting) if the permit
@@ -512,7 +512,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="tryAcquire(int)">
 <h3>tryAcquire</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-369">tryAcquire</a></span><wbr><span class="parameters">(int&nbsp;permits)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">tryAcquire</span><wbr><span class="parameters">(int&nbsp;permits)</span></div>
 <div class="block">Acquires permits from this <a href="RateLimiter.html" title="class in com.google.common.util.concurrent"><code>RateLimiter</code></a> if it can be acquired immediately without delay.
 
  <p>This method is equivalent to <code>tryAcquire(permits, 0, anyUnit)</code>.</div>
@@ -533,7 +533,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="tryAcquire()">
 <h3>tryAcquire</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-382">tryAcquire</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">tryAcquire</span>()</div>
 <div class="block">Acquires a permit from this <a href="RateLimiter.html" title="class in com.google.common.util.concurrent"><code>RateLimiter</code></a> if it can be acquired immediately without
  delay.
 
@@ -551,7 +551,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="tryAcquire(int,java.time.Duration)">
 <h3>tryAcquire</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-397">tryAcquire</a></span><wbr><span class="parameters">(int&nbsp;permits,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">tryAcquire</span><wbr><span class="parameters">(int&nbsp;permits,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span></div>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
  without exceeding the specified <code>timeout</code>, or returns <code>false</code> immediately (without
@@ -574,7 +574,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="tryAcquire(int,long,java.util.concurrent.TimeUnit)">
 <h3>tryAcquire</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-414">tryAcquire</a></span><wbr><span class="parameters">(int&nbsp;permits,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">tryAcquire</span><wbr><span class="parameters">(int&nbsp;permits,
  long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Acquires the given number of permits from this <code>RateLimiter</code> if it can be obtained
@@ -597,7 +597,7 @@ void submitPacket(byte[] packet) {
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/RateLimiter.html#line-462">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>

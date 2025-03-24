@@ -107,7 +107,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-40">AbstractCache</a>&lt;K,<wbr>V&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">AbstractCache&lt;K,<wbr>V&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="Cache.html" title="interface in com.google.common.cache">Cache</a>&lt;K,<wbr>V&gt;</span></div>
 <div class="block">This class provides a skeletal implementation of the <code>Cache</code> interface to minimize the
@@ -260,7 +260,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="&lt;init&gt;()">
 <h3>AbstractCache</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-44">AbstractCache</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">AbstractCache</span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -277,7 +277,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="get(K,java.util.concurrent.Callable)">
 <h3 id="get(java.lang.Object,java.util.concurrent.Callable)">get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractCache.html" title="type parameter in AbstractCache">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-49">get</a></span><wbr><span class="parameters">(<a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>&nbsp;key,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="AbstractCache.html" title="type parameter in AbstractCache">V</a></span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>&nbsp;key,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;? extends <a href="AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;valueLoader)</span>
       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#get(K,java.util.concurrent.Callable)">Cache</a></code></span></div>
@@ -332,7 +332,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="getAllPresent(java.lang.Iterable)">
 <h3>getAllPresent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>,<wbr><a href="AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-67">getAllPresent</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>,<wbr><a href="AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;</span>&nbsp;<span class="element-name">getAllPresent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
 <div class="block">Returns a map of the values associated with <code>keys</code> in this cache. The returned map will
  only contain entries which are already present in the cache.
 
@@ -352,7 +352,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="put(K,V)">
 <h3 id="put(java.lang.Object,java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-86">put</a></span><wbr><span class="parameters">(<a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>&nbsp;key,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>&nbsp;key,
  <a href="AbstractCache.html" title="type parameter in AbstractCache">V</a>&nbsp;value)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#put(K,V)">Cache</a></code></span></div>
 <div class="block">Associates <code>value</code> with <code>key</code> in this cache. If the cache previously contained a
@@ -373,7 +373,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="putAll(java.util.Map)">
 <h3>putAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-94">putAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;? extends <a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>,<wbr>? extends <a href="AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;m)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">putAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;? extends <a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>,<wbr>? extends <a href="AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;&nbsp;m)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#putAll(java.util.Map)">Cache</a></code></span></div>
 <div class="block">Copies all of the mappings from the specified map to the cache. The effect of this call is
  equivalent to that of calling <code>put(k, v)</code> on this map once for each mapping from key
@@ -392,7 +392,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="cleanUp()">
 <h3>cleanUp</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-101">cleanUp</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">cleanUp</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#cleanUp()">Cache</a></code></span></div>
 <div class="block">Performs any pending maintenance operations needed by the cache. Exactly which activities are
  performed -- if any -- is implementation-dependent.</div>
@@ -407,7 +407,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="size()">
 <h3>size</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-104">size</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">size</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#size()">Cache</a></code></span></div>
 <div class="block">Returns the approximate number of entries in this cache.</div>
 <dl class="notes">
@@ -421,7 +421,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="invalidate(java.lang.Object)">
 <h3>invalidate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-109">invalidate</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">invalidate</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#invalidate(java.lang.Object)">Cache</a></code></span></div>
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 <dl class="notes">
@@ -435,7 +435,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="invalidateAll(java.lang.Iterable)">
 <h3>invalidateAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-117">invalidateAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">invalidateAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#invalidateAll(java.lang.Iterable)">Cache</a></code></span></div>
 <div class="block">Discards any cached values for keys <code>keys</code>.</div>
 <dl class="notes">
@@ -451,7 +451,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="invalidateAll()">
 <h3>invalidateAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-125">invalidateAll</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">invalidateAll</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#invalidateAll()">Cache</a></code></span></div>
 <div class="block">Discards all entries in the cache.</div>
 <dl class="notes">
@@ -465,7 +465,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="stats()">
 <h3>stats</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CacheStats.html" title="class in com.google.common.cache">CacheStats</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-130">stats</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CacheStats.html" title="class in com.google.common.cache">CacheStats</a></span>&nbsp;<span class="element-name">stats</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#stats()">Cache</a></code></span></div>
 <div class="block">Returns a current snapshot of this cache's cumulative statistics, or a set of default values if
  the cache is not recording statistics. All statistics begin at zero and never decrease over the
@@ -486,7 +486,7 @@ implements <a href="Cache.html" title="interface in com.google.common.cache">Cac
 <section class="detail" id="asMap()">
 <h3>asMap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link">ConcurrentMap</a>&lt;<a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>,<wbr><a href="AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-135">asMap</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link">ConcurrentMap</a>&lt;<a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>,<wbr><a href="AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;</span>&nbsp;<span class="element-name">asMap</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Cache.html#asMap()">Cache</a></code></span></div>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.

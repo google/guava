@@ -109,7 +109,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-89">Multiset</a>&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">Multiset&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;E&gt;</span></div>
 <div class="block">A collection that supports order-independent equality, like <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a>, but may have duplicate
  elements. A multiset is also sometimes called a <i>bag</i>.
@@ -317,7 +317,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="size()">
 <h3>size</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-99">size</a></span>()</div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">size</span>()</div>
 <div class="block">Returns the total number of all occurrences of all elements in this multiset.
 
  <p><b>Note:</b> this method does not return the number of <i>distinct elements</i> in the
@@ -333,7 +333,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="count(java.lang.Object)">
 <h3>count</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-115">count</a></span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("E")
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">count</span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("E")
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
 <div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
  element). Note that for an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>-based multiset, this gives the same result as
@@ -357,7 +357,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <h3 id="add(java.lang.Object,int)">add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-137">add</a></span><wbr><span class="parameters">(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
+</span><span class="return-type">int</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
  int&nbsp;occurrences)</span></div>
 <div class="block">Adds a number of occurrences of an element to this multiset. Note that if <code>occurrences ==
  1</code>, this method has the identical effect to <a href="#add(E)"><code>add(Object)</code></a>. This method is functionally
@@ -387,7 +387,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <h3 id="add(java.lang.Object)">add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-159">add</a></span><wbr><span class="parameters">(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element)</span></div>
 <div class="block">Adds a single occurrence of the specified element to this multiset.
 
  <p>This method refines <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html#add(E)" title="class or interface in java.util" class="external-link"><code>Collection.add(E)</code></a>, which only <i>ensures</i> the presence of the
@@ -418,7 +418,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <h3>remove</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-175">remove</a></span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("E")
+</span><span class="return-type">int</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("E")
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
  int&nbsp;occurrences)</span></div>
 <div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -443,7 +443,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <h3>remove</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-190">remove</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
 <div class="block">Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
 
  <p>This method refines <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html#remove(java.lang.Object)" title="class or interface in java.util" class="external-link"><code>Collection.remove(java.lang.Object)</code></a> to further specify that it <b>may not</b>
@@ -466,7 +466,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <h3 id="setCount(java.lang.Object,int)">setCount</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-207">setCount</a></span><wbr><span class="parameters">(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
+</span><span class="return-type">int</span>&nbsp;<span class="element-name">setCount</span><wbr><span class="parameters">(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
  int&nbsp;count)</span></div>
 <div class="block">Adds or removes the necessary occurrences of an element such that the element attains the
  desired count.</div>
@@ -491,7 +491,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <h3 id="setCount(java.lang.Object,int,int)">setCount</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-226">setCount</a></span><wbr><span class="parameters">(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">setCount</span><wbr><span class="parameters">(<a href="Multiset.html" title="type parameter in Multiset">E</a>&nbsp;element,
  int&nbsp;oldCount,
  int&nbsp;newCount)</span></div>
 <div class="block">Conditionally sets the count of an element to a new value, as described in <a href="#setCount(E,int)"><code>setCount(Object, int)</code></a>, provided that the element has the expected current count. If the
@@ -518,7 +518,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="elementSet()">
 <h3>elementSet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-245">elementSet</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;</span>&nbsp;<span class="element-name">elementSet</span>()</div>
 <div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
  the same data as the multiset, so any change to either is immediately reflected in the other.
  The order of the elements in the element set is unspecified.
@@ -540,7 +540,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="entrySet()">
 <h3>entrySet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-263">entrySet</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;&gt;</span>&nbsp;<span class="element-name">entrySet</span>()</div>
 <div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
  each providing an element of the multiset and the count of that element. This set contains
  exactly one entry for each distinct element in the multiset (thus it always has the same size
@@ -564,7 +564,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-341">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Compares the specified object with this multiset for equality. Returns <code>true</code> if the
  given object is also a multiset and contains equal elements with equal counts, regardless of
  order.</div>
@@ -581,7 +581,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-355">hashCode</a></span>()</div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block">Returns the hash code for this multiset. This is defined as the sum of
 
  
@@ -606,7 +606,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-365">toString</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">
 
  <p>It is recommended, though not mandatory, that this method return the result of invoking
@@ -623,7 +623,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="iterator()">
 <h3>iterator</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-376">iterator</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;<a href="Multiset.html" title="type parameter in Multiset">E</a>&gt;</span>&nbsp;<span class="element-name">iterator</span>()</div>
 <div class="block">
 
  <p>Elements that occur multiple times in the multiset will appear multiple times in this
@@ -641,7 +641,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="contains(java.lang.Object)">
 <h3>contains</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-388">contains</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">contains</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
 <div class="block">Determines whether this multiset contains the specified element.
 
  <p>This method refines <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html#contains(java.lang.Object)" title="class or interface in java.util" class="external-link"><code>Collection.contains(java.lang.Object)</code></a> to further specify that it <b>may not</b>
@@ -661,7 +661,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="containsAll(java.util.Collection)">
 <h3>containsAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-408">containsAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;elements)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">containsAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;elements)</span></div>
 <div class="block">Returns <code>true</code> if this multiset contains at least one occurrence of each element in the
  specified collection.
 
@@ -691,7 +691,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <h3>removeAll</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-422">removeAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;c)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">removeAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;c)</span></div>
 <div class="block">
 
  <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only
@@ -712,7 +712,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <h3>retainAll</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Multiset.html#line-439">retainAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;c)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">retainAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;c)</span></div>
 <div class="block">
 
  <p><b>Note:</b> This method ignores how often any element might appear in <code>c</code>, and only

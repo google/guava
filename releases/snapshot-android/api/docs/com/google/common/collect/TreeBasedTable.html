@@ -113,7 +113,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line-73">TreeBasedTable</a>&lt;R,<wbr>C,<wbr>V&gt;</span>
+</span><span class="modifiers">public class </span><span class="element-name type-name-label">TreeBasedTable&lt;R,<wbr>C,<wbr>V&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Implementation of <code>Table</code> whose row keys and column keys are ordered by their natural
  ordering or by supplied comparators. When constructing a <code>TreeBasedTable</code>, you may provide
@@ -358,7 +358,7 @@ V&gt;&nbsp;<a href="TreeBasedTable.html" title="class in com.google.common.colle
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;R extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>,<wbr>
 C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>,<wbr>
 V&gt;</span>
-<span class="return-type"><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,<wbr>C,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line-100">create</a></span>()</div>
+<span class="return-type"><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,<wbr>C,<wbr>V&gt;</span>&nbsp;<span class="element-name">create</span>()</div>
 <div class="block">Creates an empty <code>TreeBasedTable</code> that uses the natural orderings of both row and column
  keys.
 
@@ -374,7 +374,7 @@ V&gt;</span>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;R,<wbr>
 C,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,<wbr>C,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line-111">create</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super R&gt;&nbsp;rowComparator,
+V&gt;</span>&nbsp;<span class="return-type"><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,<wbr>C,<wbr>V&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super R&gt;&nbsp;rowComparator,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super C&gt;&nbsp;columnComparator)</span></div>
 <div class="block">Creates an empty <code>TreeBasedTable</code> that is ordered by the specified comparators.</div>
 <dl class="notes">
@@ -391,7 +391,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="TreeBasedTable.html" title=
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;R,<wbr>
 C,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,<wbr>C,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line-122">create</a></span><wbr><span class="parameters">(<a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,<wbr>C,<wbr>? extends V&gt;&nbsp;table)</span></div>
+V&gt;</span>&nbsp;<span class="return-type"><a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,<wbr>C,<wbr>V&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="TreeBasedTable.html" title="class in com.google.common.collect">TreeBasedTable</a>&lt;R,<wbr>C,<wbr>? extends V&gt;&nbsp;table)</span></div>
 <div class="block">Creates a <code>TreeBasedTable</code> with the same mappings and sort order as the specified <code>
  TreeBasedTable</code>.</div>
 </div>
@@ -404,7 +404,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="TreeBasedTable.html" title=
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="requireNonNull(this.rowKeySet().comparator())",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="java.util.Objects.requireNonNull")
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line-144">rowComparator</a></span>()</div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&gt;</span>&nbsp;<span class="element-name">rowComparator</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <code>table.rowKeySet().comparator()</code> instead.</div>
 </div>
@@ -418,7 +418,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="TreeBasedTable.html" title=
 <h3>columnComparator</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line-164">columnComparator</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>&gt;</span>&nbsp;<span class="element-name">columnComparator</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Store the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a> alongside the <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a>. Or, if you know that the
      <a href="Table.html" title="interface in com.google.common.collect"><code>Table</code></a> contains at least one value, you can retrieve the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link"><code>Comparator</code></a> with:
@@ -432,7 +432,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="TreeBasedTable.html" title=
 <section class="detail" id="row(R)">
 <h3 id="row(java.lang.Object)">row</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<wbr><a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/TreeBasedTable.html#line-181">row</a></span><wbr><span class="parameters">(<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/SortedMap.html" title="class or interface in java.util" class="external-link">SortedMap</a>&lt;<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">C</a>,<wbr><a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">V</a>&gt;</span>&nbsp;<span class="element-name">row</span><wbr><span class="parameters">(<a href="TreeBasedTable.html" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey)</span></div>
 <div class="block">Returns a view of all mappings that have the given row key. For each row key / column key /
  value mapping in the table with that row key, the returned map associates the column key with
  the value. If no mappings in the table have the provided row key, an empty map is returned.

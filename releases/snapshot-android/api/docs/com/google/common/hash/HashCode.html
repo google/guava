@@ -93,7 +93,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <div class="horizontal-scroll">
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-35">HashCode</a></span>
+<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">HashCode</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">An immutable hash code of arbitrary bit length.</div>
 <dl class="notes">
@@ -213,7 +213,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="bits()">
 <h3>bits</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-39">bits</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">bits</span>()</div>
 <div class="block">Returns the number of bits in this hash code; a positive multiple of 8.</div>
 </div>
 </section>
@@ -222,7 +222,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="asInt()">
 <h3>asInt</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-47">asInt</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">asInt</span>()</div>
 <div class="block">Returns the first four bytes of <a href="#asBytes()">this hashcode's bytes</a>, converted to an
  <code>int</code> value in little-endian order.</div>
 <dl class="notes">
@@ -236,7 +236,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="asLong()">
 <h3>asLong</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-55">asLong</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">asLong</span>()</div>
 <div class="block">Returns the first eight bytes of <a href="#asBytes()">this hashcode's bytes</a>, converted to a
  <code>long</code> value in little-endian order.</div>
 <dl class="notes">
@@ -250,7 +250,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="padToLong()">
 <h3>padToLong</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-64">padToLong</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">padToLong</span>()</div>
 <div class="block">If this hashcode has enough bits, returns <code>asLong()</code>, otherwise returns a <code>long</code>
  value with <code>asBytes()</code> as the least-significant bytes and <code>0x00</code> as the remaining
  most-significant bytes.</div>
@@ -265,7 +265,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="asBytes()">
 <h3>asBytes</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-72">asBytes</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name">asBytes</span>()</div>
 <div class="block">Returns the value of this hash code as a byte array. The caller may modify the byte array;
  changes to it will <i>not</i> be reflected in this <code>HashCode</code> object or any other arrays
  returned by this method.</div>
@@ -277,7 +277,7 @@ loadScripts(document, 'script');</script>
 <h3>writeBytesTo</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-83">writeBytesTo</a></span><wbr><span class="parameters">(byte[]&nbsp;dest,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">writeBytesTo</span><wbr><span class="parameters">(byte[]&nbsp;dest,
  int&nbsp;offset,
  int&nbsp;maxLength)</span></div>
 <div class="block">Copies bytes from this hash code into <code>dest</code>.</div>
@@ -298,7 +298,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="fromInt(int)">
 <h3>fromInt</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-114">fromInt</a></span><wbr><span class="parameters">(int&nbsp;hash)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name">fromInt</span><wbr><span class="parameters">(int&nbsp;hash)</span></div>
 <div class="block">Creates a 32-bit <code>HashCode</code> representation of the given int value. The underlying bytes
  are interpreted in little endian order.</div>
 <dl class="notes">
@@ -312,7 +312,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="fromLong(long)">
 <h3>fromLong</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-171">fromLong</a></span><wbr><span class="parameters">(long&nbsp;hash)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name">fromLong</span><wbr><span class="parameters">(long&nbsp;hash)</span></div>
 <div class="block">Creates a 64-bit <code>HashCode</code> representation of the given long value. The underlying bytes
  are interpreted in little endian order.</div>
 <dl class="notes">
@@ -326,7 +326,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="fromBytes(byte[])">
 <h3>fromBytes</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-237">fromBytes</a></span><wbr><span class="parameters">(byte[]&nbsp;bytes)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name">fromBytes</span><wbr><span class="parameters">(byte[]&nbsp;bytes)</span></div>
 <div class="block">Creates a <code>HashCode</code> from a byte array. The array is defensively copied to preserve the
  immutability contract of <code>HashCode</code>. The array cannot be empty.</div>
 <dl class="notes">
@@ -340,7 +340,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="fromString(java.lang.String)">
 <h3>fromString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-335">fromString</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;string)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name">fromString</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;string)</span></div>
 <div class="block">Creates a <code>HashCode</code> from a hexadecimal (<code>base 16</code>) encoded string. The string must
  be at least 2 characters long, and contain only valid, lower-cased hexadecimal characters.
 
@@ -358,7 +358,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-369">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Returns <code>true</code> if <code>object</code> is a <a href="HashCode.html" title="class in com.google.common.hash"><code>HashCode</code></a> instance with the identical byte
  representation to this hash code.
 
@@ -375,7 +375,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-383">hashCode</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block">Returns a "Java hash code" for this <code>HashCode</code> instance; this is well-defined (so, for
  example, you can safely put <code>HashCode</code> instances into a <code>HashSet</code>) but is otherwise
  probably not what you want to use.</div>
@@ -390,7 +390,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/HashCode.html#line-410">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">Returns a string containing each byte of <a href="#asBytes()"><code>asBytes()</code></a>, in order, as a two-digit unsigned
  hexadecimal number in lower case.
 

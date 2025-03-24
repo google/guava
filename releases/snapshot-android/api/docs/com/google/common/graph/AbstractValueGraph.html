@@ -117,7 +117,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line-39">AbstractValueGraph</a>&lt;N,<wbr>V&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">AbstractValueGraph&lt;N,<wbr>V&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;</span></div>
 <div class="block">This class provides a skeletal implementation of <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>. It is recommended to extend
@@ -260,7 +260,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="&lt;init&gt;()">
 <h3>AbstractValueGraph</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line-43">AbstractValueGraph</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">AbstractValueGraph</span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -277,7 +277,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="asGraph()">
 <h3>asGraph</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line-45">asGraph</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="AbstractValueGraph.html" title="type parameter in AbstractValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name">asGraph</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#asGraph()">ValueGraph</a></code></span></div>
 <div class="block">Returns a live view of this graph as a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>. The resulting <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will have an
  edge connecting node A to node B if this <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> has an edge connecting A to B.</div>
@@ -292,7 +292,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line-110">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#equals(java.lang.Object)">ValueGraph</a></code></span></div>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
  the same structural relationships as those in this graph.
@@ -326,7 +326,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line-125">hashCode</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#hashCode()">ValueGraph</a></code></span></div>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
  map from each of its <a href="ValueGraph.html#edges()"><code>edges</code></a> to the associated <a href="ValueGraph.html#edgeValueOrDefault(N,N,V)"><code>edge value</code></a>.
@@ -345,7 +345,7 @@ implements <a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/AbstractValueGraph.html#line-131">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">Returns a string representation of this graph.</div>
 <dl class="notes">
 <dt>Overrides:</dt>

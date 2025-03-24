@@ -106,7 +106,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/EnumBiMap.html#line-43">EnumBiMap</a>&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;K&gt;,<wbr>V extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;V&gt;&gt;</span>
+</span><span class="modifiers">public final class </span><span class="element-name type-name-label">EnumBiMap&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;K&gt;,<wbr>V extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;V&gt;&gt;</span>
 <span class="extends-implements">extends <a href="ForwardingMap.html" title="class in com.google.common.collect">ForwardingMap</a>&lt;K,<wbr>V&gt;</span></div>
 <div class="block">A <code>BiMap</code> backed by two <code>EnumMap</code> instances. Null keys and values are not permitted.
  An <code>EnumBiMap</code> and its inverse are both serializable.
@@ -252,7 +252,7 @@ V extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;K&gt;,<wbr>
 V extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;V&gt;&gt;</span>
-<span class="return-type"><a href="EnumBiMap.html" title="class in com.google.common.collect">EnumBiMap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/EnumBiMap.html#line-69">create</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;K&gt;&nbsp;keyType,
+<span class="return-type"><a href="EnumBiMap.html" title="class in com.google.common.collect">EnumBiMap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;K&gt;&nbsp;keyType,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;V&gt;&nbsp;valueType)</span></div>
 <div class="block">Returns a new, empty <code>EnumBiMap</code> using the specified key and value types.</div>
 <dl class="notes">
@@ -269,7 +269,7 @@ V extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;K&gt;,<wbr>
 V extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link">Enum</a>&lt;V&gt;&gt;</span>
-<span class="return-type"><a href="EnumBiMap.html" title="class in com.google.common.collect">EnumBiMap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/EnumBiMap.html#line-83">create</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;K,<wbr>V&gt;&nbsp;map)</span></div>
+<span class="return-type"><a href="EnumBiMap.html" title="class in com.google.common.collect">EnumBiMap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name">create</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;K,<wbr>V&gt;&nbsp;map)</span></div>
 <div class="block">Returns a new bimap with the same mappings as the specified map. If the specified map is an
  <code>EnumBiMap</code>, the new bimap has the same types as the provided map. Otherwise, the
  specified map must contain at least one mapping, in order to determine the key and value types.</div>
@@ -288,7 +288,7 @@ V extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/
 <h3>keyType</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="EnumBiMap.html" title="type parameter in EnumBiMap">K</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/EnumBiMap.html#line-117">keyType</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="EnumBiMap.html" title="type parameter in EnumBiMap">K</a>&gt;</span>&nbsp;<span class="element-name">keyType</span>()</div>
 <div class="block">Returns the associated key type.</div>
 </div>
 </section>
@@ -298,7 +298,7 @@ V extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/
 <h3>valueType</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="EnumBiMap.html" title="type parameter in EnumBiMap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/EnumBiMap.html#line-123">valueType</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="EnumBiMap.html" title="type parameter in EnumBiMap">V</a>&gt;</span>&nbsp;<span class="element-name">valueType</span>()</div>
 <div class="block">Returns the associated value type.</div>
 </div>
 </section>

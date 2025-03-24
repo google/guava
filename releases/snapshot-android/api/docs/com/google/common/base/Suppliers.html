@@ -88,7 +88,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/base/Suppliers.html#line-42">Suppliers</a></span>
+</span><span class="modifiers">public final class </span><span class="element-name type-name-label">Suppliers</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Useful suppliers.
 
@@ -181,7 +181,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters-long">&lt;F extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>
 T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Suppliers.html#line-52">compose</a></span><wbr><span class="parameters">(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,<wbr>T&gt;&nbsp;function,
+<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name">compose</span><wbr><span class="parameters">(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,<wbr>T&gt;&nbsp;function,
  <a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;F&gt;&nbsp;supplier)</span></div>
 <div class="block">Returns a new supplier which is the composition of the provided function and supplier. In other
  words, the new supplier's value will be computed by retrieving the value from <code>supplier</code>,
@@ -195,7 +195,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3>memoize</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Suppliers.html#line-111">memoize</a></span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</span></div>
+<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name">memoize</span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</span></div>
 <div class="block">Returns a supplier which caches the instance retrieved during the first call to <code>get()</code>
  and returns that value on subsequent calls to <code>get()</code>. See: <a href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
 
@@ -217,7 +217,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3>memoizeWithExpiration</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Suppliers.html#line-241">memoizeWithExpiration</a></span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
+<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name">memoizeWithExpiration</span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
  long&nbsp;duration,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
 <div class="block">Returns a supplier that caches the instance supplied by the delegate and removes the cached
@@ -251,7 +251,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Suppliers.html#line-269">memoizeWithExpiration</a></span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
+<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name">memoizeWithExpiration</span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;duration)</span></div>
 <div class="block">Returns a supplier that caches the instance supplied by the delegate and removes the cached
  value after the specified time has passed. Subsequent calls to <code>get()</code> return the cached
@@ -282,7 +282,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3 id="ofInstance(java.lang.Object)">ofInstance</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Suppliers.html#line-347">ofInstance</a></span><wbr><span class="parameters">(T&nbsp;instance)</span></div>
+<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name">ofInstance</span><wbr><span class="parameters">(T&nbsp;instance)</span></div>
 <div class="block">Returns a supplier that always supplies <code>instance</code>.</div>
 </div>
 </section>
@@ -292,7 +292,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3>synchronizedSupplier</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Suppliers.html#line-392">synchronizedSupplier</a></span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</span></div>
+<span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name">synchronizedSupplier</span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;delegate)</span></div>
 <div class="block">Returns a supplier whose <code>get()</code> method synchronizes on <code>delegate</code> before calling
  it, making it thread-safe.</div>
 </div>
@@ -303,7 +303,7 @@ T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullab
 <h3>supplierFunction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,<wbr>T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Suppliers.html#line-431">supplierFunction</a></span>()</div>
+<span class="return-type"><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;,<wbr>T&gt;</span>&nbsp;<span class="element-name">supplierFunction</span>()</div>
 <div class="block">Returns a function that accepts a supplier and returns the result of invoking <a href="Supplier.html#get()"><code>Supplier.get()</code></a> on that supplier.
 
  <p><b>Java 8+ users:</b> use the method reference <code>Supplier::get</code> instead.</div>

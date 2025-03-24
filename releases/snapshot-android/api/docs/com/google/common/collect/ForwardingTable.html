@@ -116,7 +116,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-34">ForwardingTable</a>&lt;R extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>C extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">ForwardingTable&lt;R extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>C extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr>V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="extends-implements">extends <a href="ForwardingObject.html" title="class in com.google.common.collect">ForwardingObject</a>
 implements <a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;R,<wbr>C,<wbr>V&gt;</span></div>
 <div class="block">A table which forwards all its method calls to another table. Subclasses should override one or
@@ -310,7 +310,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="&lt;init&gt;()">
 <h3>ForwardingTable</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-39">ForwardingTable</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">ForwardingTable</span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -327,7 +327,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="delegate()">
 <h3>delegate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-41">delegate</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;</span>&nbsp;<span class="element-name">delegate</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -344,7 +344,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="cellSet()">
 <h3>cellSet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-44">cellSet</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Table.Cell.html" title="interface in com.google.common.collect">Table.Cell</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name">cellSet</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#cellSet()">Table</a></code></span></div>
 <div class="block">Returns a set of all row key / column key / value triplets. Changes to the returned set will
  update the underlying table, and vice versa. The cell set does not support the <code>add</code> or
@@ -362,7 +362,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="clear()">
 <h3>clear</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-49">clear</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clear</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#clear()">Table</a></code></span></div>
 <div class="block">Removes all mappings from the table.</div>
 <dl class="notes">
@@ -376,7 +376,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="column(C)">
 <h3 id="column(java.lang.Object)">column</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-54">column</a></span><wbr><span class="parameters">(<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>&nbsp;columnKey)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;</span>&nbsp;<span class="element-name">column</span><wbr><span class="parameters">(<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>&nbsp;columnKey)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#column(C)">Table</a></code></span></div>
 <div class="block">Returns a view of all mappings that have the given column key. For each row key / column key /
  value mapping in the table with that column key, the returned map associates the row key with
@@ -398,7 +398,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="columnKeySet()">
 <h3>columnKeySet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-59">columnKeySet</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>&gt;</span>&nbsp;<span class="element-name">columnKeySet</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#columnKeySet()">Table</a></code></span></div>
 <div class="block">Returns a set of column keys that have one or more values in the table. Changes to the set will
  update the underlying table, and vice versa.</div>
@@ -415,7 +415,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="columnMap()">
 <h3>columnMap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-64">columnMap</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name">columnMap</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#columnMap()">Table</a></code></span></div>
 <div class="block">Returns a view that associates each column key with the corresponding map from row keys to
  values. Changes to the returned map will update this table. The returned map does not support
@@ -437,7 +437,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="contains(java.lang.Object,java.lang.Object)">
 <h3>contains</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-69">contains</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">contains</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#contains(java.lang.Object,java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified row and column keys.</div>
@@ -455,7 +455,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="containsColumn(java.lang.Object)">
 <h3>containsColumn</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-74">containsColumn</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">containsColumn</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#containsColumn(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified column.</div>
 <dl class="notes">
@@ -471,7 +471,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="containsRow(java.lang.Object)">
 <h3>containsRow</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-79">containsRow</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">containsRow</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#containsRow(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified row key.</div>
 <dl class="notes">
@@ -487,7 +487,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="containsValue(java.lang.Object)">
 <h3>containsValue</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-84">containsValue</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">containsValue</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#containsValue(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains a mapping with the specified value.</div>
 <dl class="notes">
@@ -503,7 +503,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="get(java.lang.Object,java.lang.Object)">
 <h3>get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-89">get</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a></span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#get(java.lang.Object,java.lang.Object)">Table</a></code></span></div>
 <div class="block">Returns the value corresponding to the given row and column keys, or <code>null</code> if no such
@@ -522,7 +522,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="isEmpty()">
 <h3>isEmpty</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-94">isEmpty</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isEmpty</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#isEmpty()">Table</a></code></span></div>
 <div class="block">Returns <code>true</code> if the table contains no mappings.</div>
 <dl class="notes">
@@ -537,7 +537,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <h3 id="put(java.lang.Object,java.lang.Object,java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-99">put</a></span><wbr><span class="parameters">(<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>&nbsp;rowKey,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a></span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>&nbsp;rowKey,
  <a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>&nbsp;columnKey,
  <a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&nbsp;value)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#put(R,C,V)">Table</a></code></span></div>
@@ -561,7 +561,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="putAll(com.google.common.collect.Table)">
 <h3>putAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-106">putAll</a></span><wbr><span class="parameters">(<a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends <a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr>? extends <a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr>? extends <a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;&nbsp;table)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">putAll</span><wbr><span class="parameters">(<a href="Table.html" title="interface in com.google.common.collect">Table</a>&lt;? extends <a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr>? extends <a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr>? extends <a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;&nbsp;table)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#putAll(com.google.common.collect.Table)">Table</a></code></span></div>
 <div class="block">Copies all mappings from the specified table to this table. The effect is equivalent to calling
  <a href="Table.html#put(R,C,V)"><code>Table.put(R, C, V)</code></a> with each row key / column key / value mapping in <code>table</code>.</div>
@@ -579,7 +579,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <h3>remove</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-111">remove</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a></span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#remove(java.lang.Object,java.lang.Object)">Table</a></code></span></div>
 <div class="block">Removes the mapping, if any, associated with the given keys.</div>
@@ -599,7 +599,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="row(R)">
 <h3 id="row(java.lang.Object)">row</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-117">row</a></span><wbr><span class="parameters">(<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>&nbsp;rowKey)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;</span>&nbsp;<span class="element-name">row</span><wbr><span class="parameters">(<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>&nbsp;rowKey)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#row(R)">Table</a></code></span></div>
 <div class="block">Returns a view of all mappings that have the given row key. For each row key / column key /
  value mapping in the table with that row key, the returned map associates the column key with
@@ -621,7 +621,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="rowKeySet()">
 <h3>rowKeySet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-122">rowKeySet</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>&gt;</span>&nbsp;<span class="element-name">rowKeySet</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#rowKeySet()">Table</a></code></span></div>
 <div class="block">Returns a set of row keys that have one or more values in the table. Changes to the set will
  update the underlying table, and vice versa.</div>
@@ -638,7 +638,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="rowMap()">
 <h3>rowMap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-127">rowMap</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">R</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">C</a>,<wbr><a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;&gt;</span>&nbsp;<span class="element-name">rowMap</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#rowMap()">Table</a></code></span></div>
 <div class="block">Returns a view that associates each row key with the corresponding map from column keys to
  values. Changes to the returned map will update this table. The returned map does not support
@@ -660,7 +660,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="size()">
 <h3>size</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-132">size</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">size</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#size()">Table</a></code></span></div>
 <div class="block">Returns the number of row key / column key / value mappings in the table.</div>
 <dl class="notes">
@@ -674,7 +674,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="values()">
 <h3>values</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-137">values</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;<a href="ForwardingTable.html" title="type parameter in ForwardingTable">V</a>&gt;</span>&nbsp;<span class="element-name">values</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#values()">Table</a></code></span></div>
 <div class="block">Returns a collection of all values, which may contain duplicates. Changes to the returned
  collection will update the underlying table, and vice versa.</div>
@@ -691,7 +691,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-142">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#equals(java.lang.Object)">Table</a></code></span></div>
 <div class="block">Compares the specified object with this table for equality. Two tables are equal when their
  cell views, as returned by <a href="Table.html#cellSet()"><code>Table.cellSet()</code></a>, are equal.</div>
@@ -708,7 +708,7 @@ implements <a href="Table.html" title="interface in com.google.common.collect">T
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingTable.html#line-147">hashCode</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#hashCode()">Table</a></code></span></div>
 <div class="block">Returns the hash code for this table. The hash code of a table is defined as the hash code of
  its cell view, as returned by <a href="Table.html#cellSet()"><code>Table.cellSet()</code></a>.</div>

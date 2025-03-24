@@ -79,7 +79,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line-30">AsyncCallable</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">AsyncCallable&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
 <div class="block">Computes a value, possibly asynchronously. For an example usage and more information, see <a href="Futures.FutureCombiner.html#callAsync(com.google.common.util.concurrent.AsyncCallable,java.util.concurrent.Executor)"><code>Futures.FutureCombiner.callAsync(AsyncCallable, java.util.concurrent.Executor)</code></a>.
 
  <p>Much like <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link"><code>Callable</code></a>, but returning a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>
@@ -126,7 +126,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="call()">
 <h3>call</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="AsyncCallable.html" title="type parameter in AsyncCallable">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/AsyncCallable.html#line-39">call</a></span>()
+<div class="member-signature"><span class="return-type"><a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;<a href="AsyncCallable.html" title="type parameter in AsyncCallable">V</a>&gt;</span>&nbsp;<span class="element-name">call</span>()
                   throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a></span></div>
 <div class="block">Computes a result <code>Future</code>. The output <code>Future</code> need not be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#isDone()" title="class or interface in java.util.concurrent" class="external-link">done</a>, making <code>AsyncCallable</code> suitable for asynchronous derivations.
 

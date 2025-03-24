@@ -92,7 +92,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract static class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.html#line-306">Monitor.Guard</a></span>
+<div class="type-signature"><span class="modifiers">public abstract static class </span><span class="element-name type-name-label">Monitor.Guard</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A boolean condition for which a thread may wait. A <code>Guard</code> is associated with a single
  <code>Monitor</code>. The monitor may check the guard at arbitrary times from any thread occupying
@@ -163,7 +163,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(com.google.common.util.concurrent.Monitor)">
 <h3>Guard</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.Guard.html#line-318">Guard</a></span><wbr><span class="parameters">(<a href="Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a>&nbsp;monitor)</span></div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">Guard</span><wbr><span class="parameters">(<a href="Monitor.html" title="class in com.google.common.util.concurrent">Monitor</a>&nbsp;monitor)</span></div>
 </div>
 </section>
 </li>
@@ -179,7 +179,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isSatisfied()">
 <h3>isSatisfied</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/Monitor.Guard.html#line-328">isSatisfied</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isSatisfied</span>()</div>
 <div class="block">Evaluates this guard's boolean condition. This method is always called with the associated
  monitor already occupied. Implementations of this method must depend only on state protected
  by the associated monitor, and must not modify that state.</div>

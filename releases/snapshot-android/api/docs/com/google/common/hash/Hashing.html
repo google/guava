@@ -113,7 +113,7 @@ loadScripts(document, 'script');</script>
 <section class="class-description" id="class-description">
 <div class="horizontal-scroll">
 <hr>
-<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-45">Hashing</a></span>
+<div class="type-signature"><span class="modifiers">public final class </span><span class="element-name type-name-label">Hashing</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Static methods to obtain <a href="HashFunction.html" title="interface in com.google.common.hash"><code>HashFunction</code></a> instances, and other static hashing-related
  utilities.
@@ -366,7 +366,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="goodFastHash(int)">
 <h3>goodFastHash</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-64">goodFastHash</a></span><wbr><span class="parameters">(int&nbsp;minimumBits)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">goodFastHash</span><wbr><span class="parameters">(int&nbsp;minimumBits)</span></div>
 <div class="block">Returns a general-purpose, <b>temporary-use</b>, non-cryptographic hash function. The algorithm
  the returned function implements is unspecified and subject to change without notice.
 
@@ -392,7 +392,7 @@ loadScripts(document, 'script');</script>
 <h3>murmur3_32</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-106">murmur3_32</a></span><wbr><span class="parameters">(int&nbsp;seed)</span></div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">murmur3_32</span><wbr><span class="parameters">(int&nbsp;seed)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">This implementation produces incorrect hash values from the <a href="HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(java.lang.CharSequence, java.nio.charset.Charset)</code></a> method if the string contains non-BMP characters. Use <a href="#murmur3_32_fixed(int)"><code>murmur3_32_fixed(int)</code></a> instead.</div>
 </div>
@@ -410,7 +410,7 @@ loadScripts(document, 'script');</script>
 <h3>murmur3_32</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-125">murmur3_32</a></span>()</div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">murmur3_32</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">This implementation produces incorrect hash values from the <a href="HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(java.lang.CharSequence, java.nio.charset.Charset)</code></a> method if the string contains non-BMP characters. Use <a href="#murmur3_32_fixed()"><code>murmur3_32_fixed()</code></a> instead.</div>
 </div>
@@ -427,7 +427,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="murmur3_32_fixed(int)">
 <h3>murmur3_32_fixed</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-143">murmur3_32_fixed</a></span><wbr><span class="parameters">(int&nbsp;seed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">murmur3_32_fixed</span><wbr><span class="parameters">(int&nbsp;seed)</span></div>
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
  algorithm, x86 variant</a> (little-endian variant), using the given seed value.
 
@@ -446,7 +446,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="murmur3_32_fixed()">
 <h3>murmur3_32_fixed</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-160">murmur3_32_fixed</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">murmur3_32_fixed</span>()</div>
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
  algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.
 
@@ -465,7 +465,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="murmur3_128(int)">
 <h3>murmur3_128</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-172">murmur3_128</a></span><wbr><span class="parameters">(int&nbsp;seed)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">murmur3_128</span><wbr><span class="parameters">(int&nbsp;seed)</span></div>
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
  algorithm, x64 variant</a> (little-endian variant), using the given seed value.
 
@@ -477,7 +477,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="murmur3_128()">
 <h3>murmur3_128</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-184">murmur3_128</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">murmur3_128</span>()</div>
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
  algorithm, x64 variant</a> (little-endian variant), using a seed value of zero.
 
@@ -489,7 +489,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="sipHash24()">
 <h3>sipHash24</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-195">sipHash24</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">sipHash24</span>()</div>
 <div class="block">Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
  SipHash-2-4 algorithm</a> using a seed value of <code>k = 00 01 02 ...</code>.</div>
 <dl class="notes">
@@ -503,7 +503,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="sipHash24(long,long)">
 <h3>sipHash24</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-205">sipHash24</a></span><wbr><span class="parameters">(long&nbsp;k0,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">sipHash24</span><wbr><span class="parameters">(long&nbsp;k0,
  long&nbsp;k1)</span></div>
 <div class="block">Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
  SipHash-2-4 algorithm</a> using the given seed.</div>
@@ -519,7 +519,7 @@ loadScripts(document, 'script');</script>
 <h3>md5</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-221">md5</a></span>()</div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">md5</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">If you must interoperate with a system that requires MD5, then use this method,
      despite its deprecation. But if you can choose your hash function, avoid MD5, which is
@@ -539,7 +539,7 @@ loadScripts(document, 'script');</script>
 <h3>sha1</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-242">sha1</a></span>()</div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">sha1</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">If you must interoperate with a system that requires SHA-1, then use this method,
      despite its deprecation. But if you can choose your hash function, avoid SHA-1, which is
@@ -558,7 +558,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="sha256()">
 <h3>sha256</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-252">sha256</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">sha256</span>()</div>
 <div class="block">Returns a hash function implementing the SHA-256 algorithm (256 hash bits).</div>
 </div>
 </section>
@@ -567,7 +567,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="sha384()">
 <h3>sha384</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-266">sha384</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">sha384</span>()</div>
 <div class="block">Returns a hash function implementing the SHA-384 algorithm (384 hash bits).</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -580,7 +580,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="sha512()">
 <h3>sha512</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-276">sha512</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">sha512</span>()</div>
 <div class="block">Returns a hash function implementing the SHA-512 algorithm (512 hash bits).</div>
 </div>
 </section>
@@ -589,7 +589,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hmacMd5(java.security.Key)">
 <h3>hmacMd5</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-297">hmacMd5</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">hmacMd5</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</span></div>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  MD5 (128 hash bits) hash function and the given secret key.
 
@@ -610,7 +610,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hmacMd5(byte[])">
 <h3>hmacMd5</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-313">hmacMd5</a></span><wbr><span class="parameters">(byte[]&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">hmacMd5</span><wbr><span class="parameters">(byte[]&nbsp;key)</span></div>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  MD5 (128 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte array
  and the MD5 algorithm.
@@ -630,7 +630,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hmacSha1(java.security.Key)">
 <h3>hmacSha1</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-325">hmacSha1</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">hmacSha1</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</span></div>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-1 (160 hash bits) hash function and the given secret key.</div>
 <dl class="notes">
@@ -648,7 +648,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hmacSha1(byte[])">
 <h3>hmacSha1</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-337">hmacSha1</a></span><wbr><span class="parameters">(byte[]&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">hmacSha1</span><wbr><span class="parameters">(byte[]&nbsp;key)</span></div>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-1 (160 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte
  array and the SHA-1 algorithm.</div>
@@ -665,7 +665,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hmacSha256(java.security.Key)">
 <h3>hmacSha256</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-349">hmacSha256</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">hmacSha256</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</span></div>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-256 (256 hash bits) hash function and the given secret key.</div>
 <dl class="notes">
@@ -683,7 +683,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hmacSha256(byte[])">
 <h3>hmacSha256</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-361">hmacSha256</a></span><wbr><span class="parameters">(byte[]&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">hmacSha256</span><wbr><span class="parameters">(byte[]&nbsp;key)</span></div>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-256 (256 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte
  array and the SHA-256 algorithm.</div>
@@ -700,7 +700,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hmacSha512(java.security.Key)">
 <h3>hmacSha512</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-373">hmacSha512</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">hmacSha512</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</span></div>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-512 (512 hash bits) hash function and the given secret key.</div>
 <dl class="notes">
@@ -718,7 +718,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hmacSha512(byte[])">
 <h3>hmacSha512</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-385">hmacSha512</a></span><wbr><span class="parameters">(byte[]&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">hmacSha512</span><wbr><span class="parameters">(byte[]&nbsp;key)</span></div>
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
  SHA-512 (512 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte
  array and the SHA-512 algorithm.</div>
@@ -735,7 +735,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="crc32c()">
 <h3>crc32c</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-409">crc32c</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">crc32c</span>()</div>
 <div class="block">Returns a hash function implementing the CRC32C checksum algorithm (32 hash bits) as described
  by RFC 3720, Section 12.1.
 
@@ -751,7 +751,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="crc32()">
 <h3>crc32</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-425">crc32</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">crc32</span>()</div>
 <div class="block">Returns a hash function implementing the CRC-32 checksum algorithm (32 hash bits).
 
  <p>To get the <code>long</code> value equivalent to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/zip/Checksum.html#getValue()" title="class or interface in java.util.zip" class="external-link"><code>Checksum.getValue()</code></a> for a <code>
@@ -769,7 +769,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="adler32()">
 <h3>adler32</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-441">adler32</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">adler32</span>()</div>
 <div class="block">Returns a hash function implementing the Adler-32 checksum algorithm (32 hash bits).
 
  <p>To get the <code>long</code> value equivalent to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/zip/Checksum.html#getValue()" title="class or interface in java.util.zip" class="external-link"><code>Checksum.getValue()</code></a> for a <code>
@@ -787,7 +787,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="farmHashFingerprint64()">
 <h3>farmHashFingerprint64</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-485">farmHashFingerprint64</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">farmHashFingerprint64</span>()</div>
 <div class="block">Returns a hash function implementing FarmHash's Fingerprint64, an open-source algorithm.
 
  <p>This is designed for generating persistent fingerprints of strings. It isn't
@@ -811,7 +811,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="fingerprint2011()">
 <h3>fingerprint2011</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-509">fingerprint2011</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">fingerprint2011</span>()</div>
 <div class="block">Returns a hash function implementing the Fingerprint2011 hashing function (64 hash bits).
 
  <p>This is designed for generating persistent fingerprints of strings. It isn't
@@ -838,7 +838,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="consistentHash(com.google.common.hash.HashCode,int)">
 <h3>consistentHash</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-543">consistentHash</a></span><wbr><span class="parameters">(<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;hashCode,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">consistentHash</span><wbr><span class="parameters">(<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&nbsp;hashCode,
  int&nbsp;buckets)</span></div>
 <div class="block">Assigns to <code>hashCode</code> a "bucket" in the range <code>[0, buckets)</code>, in a uniform manner
  that minimizes the need for remapping as <code>buckets</code> grows. That is, <code>
@@ -875,7 +875,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="consistentHash(long,int)">
 <h3>consistentHash</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-577">consistentHash</a></span><wbr><span class="parameters">(long&nbsp;input,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">consistentHash</span><wbr><span class="parameters">(long&nbsp;input,
  int&nbsp;buckets)</span></div>
 <div class="block">Assigns to <code>input</code> a "bucket" in the range <code>[0, buckets)</code>, in a uniform manner that
  minimizes the need for remapping as <code>buckets</code> grows. That is, <code>consistentHash(h,
@@ -912,7 +912,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="combineOrdered(java.lang.Iterable)">
 <h3>combineOrdered</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-603">combineOrdered</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name">combineOrdered</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</span></div>
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
  the information of these hash codes in an ordered fashion. That is, whenever two equal hash
  codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
@@ -929,7 +929,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="combineUnordered(java.lang.Iterable)">
 <h3>combineUnordered</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-628">combineUnordered</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name">combineUnordered</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</span></div>
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
  the information of these hash codes in an unordered fashion. That is, whenever two equal hash
  codes are produced by two calls to this method, it is <i>as likely as possible</i> that each
@@ -946,7 +946,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="concatenating(com.google.common.hash.HashFunction,com.google.common.hash.HashFunction,com.google.common.hash.HashFunction...)">
 <h3>concatenating</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-659">concatenating</a></span><wbr><span class="parameters">(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;first,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">concatenating</span><wbr><span class="parameters">(<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;first,
  <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;second,
  <a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>...&nbsp;rest)</span></div>
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
@@ -966,7 +966,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="concatenating(java.lang.Iterable)">
 <h3>concatenating</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Hashing.html#line-679">concatenating</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></span>&nbsp;<span class="element-name">concatenating</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</span></div>
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
  underlying hash functions together. This can be useful if you need to generate hash codes of a
  specific length.

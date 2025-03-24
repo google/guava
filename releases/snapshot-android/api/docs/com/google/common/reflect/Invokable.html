@@ -126,7 +126,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedElement</a></code>, <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html" title="class or interface in java.lang.reflect" class="external-link">Member</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-63">Invokable</a>&lt;T,<wbr>R&gt;</span>
+<div class="type-signature"><span class="modifiers">public abstract class </span><span class="element-name type-name-label">Invokable&lt;T,<wbr>R&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedElement</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html" title="class or interface in java.lang.reflect" class="external-link">Member</a></span></div>
 <div class="block">Wrapper around either a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Method.html" title="class or interface in java.lang.reflect" class="external-link"><code>Method</code></a> or a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Constructor.html" title="class or interface in java.lang.reflect" class="external-link"><code>Constructor</code></a>. Convenience API is provided to
@@ -363,7 +363,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="from(java.lang.reflect.Method)">
 <h3>from</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-74">from</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Method.html" title="class or interface in java.lang.reflect" class="external-link">Method</a>&nbsp;method)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;?,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Method.html" title="class or interface in java.lang.reflect" class="external-link">Method</a>&nbsp;method)</span></div>
 <div class="block">Returns <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>method</code>.</div>
 </div>
 </section>
@@ -372,7 +372,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="from(java.lang.reflect.Constructor)">
 <h3>from</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,<wbr>T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-79">from</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Constructor.html" title="class or interface in java.lang.reflect" class="external-link">Constructor</a>&lt;T&gt;&nbsp;constructor)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;T,<wbr>T&gt;</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Constructor.html" title="class or interface in java.lang.reflect" class="external-link">Constructor</a>&lt;T&gt;&nbsp;constructor)</span></div>
 <div class="block">Returns <a href="Invokable.html" title="class in com.google.common.reflect"><code>Invokable</code></a> of <code>constructor</code>.</div>
 </div>
 </section>
@@ -381,7 +381,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isAnnotationPresent(java.lang.Class)">
 <h3>isAnnotationPresent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-83">isAnnotationPresent</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotationClass)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isAnnotationPresent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;&nbsp;annotationClass)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html#isAnnotationPresent(java.lang.Class)" title="class or interface in java.lang.reflect" class="external-link">isAnnotationPresent</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedElement</a></code></dd>
@@ -393,7 +393,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="getAnnotation(java.lang.Class)">
 <h3>getAnnotation</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;A extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> A</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-88">getAnnotation</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;A&gt;&nbsp;annotationClass)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;A extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> A</span>&nbsp;<span class="element-name">getAnnotation</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;A&gt;&nbsp;annotationClass)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html#getAnnotation(java.lang.Class)" title="class or interface in java.lang.reflect" class="external-link">getAnnotation</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedElement</a></code></dd>
@@ -405,7 +405,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="getAnnotations()">
 <h3>getAnnotations</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>[]</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-93">getAnnotations</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>[]</span>&nbsp;<span class="element-name">getAnnotations</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html#getAnnotations()" title="class or interface in java.lang.reflect" class="external-link">getAnnotations</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedElement</a></code></dd>
@@ -417,7 +417,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="getDeclaredAnnotations()">
 <h3>getDeclaredAnnotations</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>[]</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-98">getDeclaredAnnotations</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Annotation.html" title="class or interface in java.lang.annotation" class="external-link">Annotation</a>[]</span>&nbsp;<span class="element-name">getDeclaredAnnotations</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html#getDeclaredAnnotations()" title="class or interface in java.lang.reflect" class="external-link">getDeclaredAnnotations</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AnnotatedElement.html" title="class or interface in java.lang.reflect" class="external-link">AnnotatedElement</a></code></dd>
@@ -429,7 +429,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="getTypeParameters()">
 <h3>getTypeParameters</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/TypeVariable.html" title="class or interface in java.lang.reflect" class="external-link">TypeVariable</a>&lt;?&gt;[]</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-108">getTypeParameters</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/TypeVariable.html" title="class or interface in java.lang.reflect" class="external-link">TypeVariable</a>&lt;?&gt;[]</span>&nbsp;<span class="element-name">getTypeParameters</span>()</div>
 <div class="block">See <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/GenericDeclaration.html#getTypeParameters()" title="class or interface in java.lang.reflect" class="external-link"><code>GenericDeclaration.getTypeParameters()</code></a>.</div>
 </div>
 </section>
@@ -438,7 +438,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="setAccessible(boolean)">
 <h3>setAccessible</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-111">setAccessible</a></span><wbr><span class="parameters">(boolean&nbsp;flag)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">setAccessible</span><wbr><span class="parameters">(boolean&nbsp;flag)</span></div>
 <div class="block">See <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AccessibleObject.html#setAccessible(boolean)" title="class or interface in java.lang.reflect" class="external-link"><code>AccessibleObject.setAccessible(boolean)</code></a>.</div>
 </div>
 </section>
@@ -447,7 +447,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="trySetAccessible()">
 <h3>trySetAccessible</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-116">trySetAccessible</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">trySetAccessible</span>()</div>
 <div class="block">See <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AccessibleObject.html#trySetAccessible()" title="class or interface in java.lang.reflect" class="external-link"><code>AccessibleObject.trySetAccessible()</code></a>.</div>
 </div>
 </section>
@@ -456,7 +456,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isAccessible()">
 <h3>isAccessible</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-129">isAccessible</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isAccessible</span>()</div>
 <div class="block">See <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/AccessibleObject.html#isAccessible()" title="class or interface in java.lang.reflect" class="external-link"><code>AccessibleObject.isAccessible()</code></a>.</div>
 </div>
 </section>
@@ -465,7 +465,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="getName()">
 <h3>getName</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-133">getName</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">getName</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html#getName()" title="class or interface in java.lang.reflect" class="external-link">getName</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html" title="class or interface in java.lang.reflect" class="external-link">Member</a></code></dd>
@@ -477,7 +477,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="getModifiers()">
 <h3>getModifiers</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-138">getModifiers</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">getModifiers</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html#getModifiers()" title="class or interface in java.lang.reflect" class="external-link">getModifiers</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html" title="class or interface in java.lang.reflect" class="external-link">Member</a></code></dd>
@@ -489,7 +489,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isSynthetic()">
 <h3>isSynthetic</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-143">isSynthetic</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isSynthetic</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html#isSynthetic()" title="class or interface in java.lang.reflect" class="external-link">isSynthetic</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html" title="class or interface in java.lang.reflect" class="external-link">Member</a></code></dd>
@@ -501,7 +501,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isPublic()">
 <h3>isPublic</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-149">isPublic</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isPublic</span>()</div>
 <div class="block">Returns true if the element is public.</div>
 </div>
 </section>
@@ -510,7 +510,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isProtected()">
 <h3>isProtected</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-154">isProtected</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isProtected</span>()</div>
 <div class="block">Returns true if the element is protected.</div>
 </div>
 </section>
@@ -519,7 +519,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isPackagePrivate()">
 <h3>isPackagePrivate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-159">isPackagePrivate</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isPackagePrivate</span>()</div>
 <div class="block">Returns true if the element is package-private.</div>
 </div>
 </section>
@@ -528,7 +528,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isPrivate()">
 <h3>isPrivate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-164">isPrivate</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isPrivate</span>()</div>
 <div class="block">Returns true if the element is private.</div>
 </div>
 </section>
@@ -537,7 +537,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isStatic()">
 <h3>isStatic</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-169">isStatic</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isStatic</span>()</div>
 <div class="block">Returns true if the element is static.</div>
 </div>
 </section>
@@ -546,7 +546,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isFinal()">
 <h3>isFinal</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-180">isFinal</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isFinal</span>()</div>
 <div class="block">Returns <code>true</code> if this method is final, per <code>Modifier.isFinal(getModifiers())</code>.
 
  <p>Note that a method may still be effectively "final", or non-overridable when it has no
@@ -559,7 +559,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isAbstract()">
 <h3>isAbstract</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-185">isAbstract</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isAbstract</span>()</div>
 <div class="block">Returns true if the method is abstract.</div>
 </div>
 </section>
@@ -568,7 +568,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isNative()">
 <h3>isNative</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-190">isNative</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isNative</span>()</div>
 <div class="block">Returns true if the element is native.</div>
 </div>
 </section>
@@ -577,7 +577,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isSynchronized()">
 <h3>isSynchronized</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-195">isSynchronized</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isSynchronized</span>()</div>
 <div class="block">Returns true if the method is synchronized.</div>
 </div>
 </section>
@@ -586,7 +586,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-209">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
@@ -598,7 +598,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-218">hashCode</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
@@ -610,7 +610,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-223">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
@@ -622,7 +622,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isOverridable()">
 <h3>isOverridable</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-232">isOverridable</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isOverridable</span>()</div>
 <div class="block">Returns <code>true</code> if this is an overridable method. Constructors, private, static or final
  methods, or methods declared by final classes are not overridable.</div>
 </div>
@@ -632,7 +632,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="isVarArgs()">
 <h3>isVarArgs</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-235">isVarArgs</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isVarArgs</span>()</div>
 <div class="block">Returns <code>true</code> if this was declared to take a variable number of arguments.</div>
 </div>
 </section>
@@ -642,7 +642,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <h3 id="invoke(java.lang.Object,java.lang.Object[])">invoke</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Invokable.html" title="type parameter in Invokable">R</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-251">invoke</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Invokable.html" title="type parameter in Invokable">R</a></span>&nbsp;<span class="element-name">invoke</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Invokable.html" title="type parameter in Invokable">T</a>&nbsp;receiver,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>...&nbsp;args)</span>
                          throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/InvocationTargetException.html" title="class or interface in java.lang.reflect" class="external-link">InvocationTargetException</a>,
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalAccessException.html" title="class or interface in java.lang" class="external-link">IllegalAccessException</a></span></div>
@@ -666,7 +666,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="getReturnType()">
 <h3>getReturnType</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-260">getReturnType</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;</span>&nbsp;<span class="element-name">getReturnType</span>()</div>
 <div class="block">Returns the return type of this <code>Invokable</code>.</div>
 </div>
 </section>
@@ -675,7 +675,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="getParameters()">
 <h3>getParameters</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="Parameter.html" title="class in com.google.common.reflect">Parameter</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-270">getParameters</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="Parameter.html" title="class in com.google.common.reflect">Parameter</a>&gt;</span>&nbsp;<span class="element-name">getParameters</span>()</div>
 <div class="block">Returns all declared parameters of this <code>Invokable</code>. Note that if this is a constructor
  of a non-static inner class, unlike <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Constructor.html#getParameterTypes()" title="class or interface in java.lang.reflect" class="external-link"><code>Constructor.getParameterTypes()</code></a>, the hidden <code>
  this</code> parameter of the enclosing class is excluded from the returned parameters.</div>
@@ -686,7 +686,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="getExceptionTypes()">
 <h3>getExceptionTypes</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-286">getExceptionTypes</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&gt;&gt;</span>&nbsp;<span class="element-name">getExceptionTypes</span>()</div>
 <div class="block">Returns all declared exception types of this <code>Invokable</code>.</div>
 </div>
 </section>
@@ -695,7 +695,7 @@ assertEquals(new TypeToken&lt;List&lt;String&gt;&gt;() {}, invokable.getOwnerTyp
 <section class="detail" id="returning(java.lang.Class)">
 <h3>returning</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;</span>&nbsp;<span class="return-type"><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,<wbr>R1&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-306">returning</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;R1&gt;&nbsp;returnType)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;</span>&nbsp;<span class="return-type"><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,<wbr>R1&gt;</span>&nbsp;<span class="element-name">returning</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;R1&gt;&nbsp;returnType)</span></div>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>. For example:
 
  
@@ -712,7 +712,7 @@ Invokable&lt;?, Person&gt; factory = Invokable.of(getNameMethod).returning(Perso
 <section class="detail" id="returning(com.google.common.reflect.TypeToken)">
 <h3>returning</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;</span>&nbsp;<span class="return-type"><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,<wbr>R1&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-311">returning</a></span><wbr><span class="parameters">(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;R1 extends <a href="Invokable.html" title="type parameter in Invokable">R</a>&gt;</span>&nbsp;<span class="return-type"><a href="Invokable.html" title="class in com.google.common.reflect">Invokable</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>,<wbr>R1&gt;</span>&nbsp;<span class="element-name">returning</span><wbr><span class="parameters">(<a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;R1&gt;&nbsp;returnType)</span></div>
 <div class="block">Explicitly specifies the return type of this <code>Invokable</code>.</div>
 </div>
 </section>
@@ -721,7 +721,7 @@ Invokable&lt;?, Person&gt; factory = Invokable.of(getNameMethod).returning(Perso
 <section class="detail" id="getDeclaringClass()">
 <h3>getDeclaringClass</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? super <a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-321">getDeclaringClass</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;? super <a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;</span>&nbsp;<span class="element-name">getDeclaringClass</span>()</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html#getDeclaringClass()" title="class or interface in java.lang.reflect" class="external-link">getDeclaringClass</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Member.html" title="class or interface in java.lang.reflect" class="external-link">Member</a></code></dd>
@@ -733,7 +733,7 @@ Invokable&lt;?, Person&gt; factory = Invokable.of(getNameMethod).returning(Perso
 <section class="detail" id="getOwnerType()">
 <h3>getOwnerType</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/reflect/Invokable.html#line-329">getOwnerType</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="TypeToken.html" title="class in com.google.common.reflect">TypeToken</a>&lt;<a href="Invokable.html" title="type parameter in Invokable">T</a>&gt;</span>&nbsp;<span class="element-name">getOwnerType</span>()</div>
 <div class="block">Returns the type of <code>T</code>.</div>
 </div>
 </section>

@@ -110,7 +110,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use Optional.of(value) or Optional.absent()")
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-87">Optional</a>&lt;T&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">Optional&lt;T&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
 <div class="block">An immutable object that may contain a non-null reference to another object. Each instance of
@@ -305,7 +305,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="absent()">
 <h3>absent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-96">absent</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name">absent</span>()</div>
 <div class="block">Returns an <code>Optional</code> instance with no contained reference.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is equivalent to Java 8's
@@ -317,7 +317,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="of(T)">
 <h3 id="of(java.lang.Object)">of</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-108">of</a></span><wbr><span class="parameters">(T&nbsp;reference)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(T&nbsp;reference)</span></div>
 <div class="block">Returns an <code>Optional</code> instance containing the given non-null reference. To have <code>
  null</code> treated as <a href="#absent()"><code>absent()</code></a>, use <a href="#fromNullable(T)"><code>fromNullable(T)</code></a> instead.
 
@@ -333,7 +333,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="fromNullable(T)">
 <h3 id="fromNullable(java.lang.Object)">fromNullable</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-119">fromNullable</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&nbsp;nullableReference)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name">fromNullable</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&nbsp;nullableReference)</span></div>
 <div class="block">If <code>nullableReference</code> is non-null, returns an <code>Optional</code> instance containing that
  reference; otherwise returns <a href="#absent()"><code>absent()</code></a>.
 
@@ -346,7 +346,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="fromJavaUtil(java.util.Optional)">
 <h3>fromJavaUtil</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-129">fromJavaUtil</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name">fromJavaUtil</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;&nbsp;javaUtilOptional)</span></div>
 <div class="block">Returns the equivalent <code>com.google.common.base.Optional</code> value to the given <code>
  java.util.Optional</code>, or <code>null</code> if the argument is null.</div>
 <dl class="notes">
@@ -360,7 +360,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="toJavaUtil(com.google.common.base.Optional)">
 <h3>toJavaUtil</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-148">toJavaUtil</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;T&gt;</span>&nbsp;<span class="element-name">toJavaUtil</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;T&gt;&nbsp;googleOptional)</span></div>
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to the given <code>
  com.google.common.base.Optional</code>, or <code>null</code> if the argument is null.
 
@@ -381,7 +381,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="toJavaUtil()">
 <h3>toJavaUtil</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-166">toJavaUtil</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;</span>&nbsp;<span class="element-name">toJavaUtil</span>()</div>
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to this optional.
 
  <p>Unfortunately, the method reference <code>Optional::toJavaUtil</code> will not work, because it
@@ -398,7 +398,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="isPresent()">
 <h3>isPresent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-178">isPresent</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isPresent</span>()</div>
 <div class="block">Returns <code>true</code> if this holder contains a (non-null) instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> no differences.</div>
@@ -409,7 +409,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="get()">
 <h3>get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-192">get</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name">get</span>()</div>
 <div class="block">Returns the contained instance, which must be present. If the instance might be absent, use
  <a href="#or(T)"><code>or(Object)</code></a> or <a href="#orNull()"><code>orNull()</code></a> instead.
 
@@ -427,7 +427,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="or(T)">
 <h3 id="or(java.lang.Object)">or</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-230">or</a></span><wbr><span class="parameters">(<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;defaultValue)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name">or</span><wbr><span class="parameters">(<a href="Optional.html" title="type parameter in Optional">T</a>&nbsp;defaultValue)</span></div>
 <div class="block">Returns the contained instance if it is present; <code>defaultValue</code> otherwise. If no default
  value should be required because the instance is known to be present, use <a href="#get()"><code>get()</code></a>
  instead. For a default value of <code>null</code>, use <a href="#orNull()"><code>orNull()</code></a>.
@@ -475,7 +475,7 @@ Number value = first.or(0.5); // fine
 <section class="detail" id="or(com.google.common.base.Optional)">
 <h3>or</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-239">or</a></span><wbr><span class="parameters">(<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;secondChoice)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;</span>&nbsp;<span class="element-name">or</span><wbr><span class="parameters">(<a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;secondChoice)</span></div>
 <div class="block">Returns this <code>Optional</code> if it has a value present; <code>secondChoice</code> otherwise.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method has no equivalent in Java 8's
@@ -488,7 +488,7 @@ Number value = first.or(0.5); // fine
 <section class="detail" id="or(com.google.common.base.Supplier)">
 <h3>or</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-251">or</a></span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;supplier)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name">or</span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;? extends <a href="Optional.html" title="type parameter in Optional">T</a>&gt;&nbsp;supplier)</span></div>
 <div class="block">Returns the contained instance if it is present; <code>supplier.get()</code> otherwise.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this method is similar to Java 8's <code>
@@ -506,7 +506,7 @@ Number value = first.or(0.5); // fine
 <section class="detail" id="orNull()">
 <h3>orNull</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-260">orNull</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Optional.html" title="type parameter in Optional">T</a></span>&nbsp;<span class="element-name">orNull</span>()</div>
 <div class="block">Returns the contained instance if it is present; <code>null</code> otherwise. If the instance is
  known to be present, use <a href="#get()"><code>get()</code></a> instead.
 
@@ -519,7 +519,7 @@ Number value = first.or(0.5); // fine
 <section class="detail" id="asSet()">
 <h3>asSet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-285">asSet</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Optional.html" title="type parameter in Optional">T</a>&gt;</span>&nbsp;<span class="element-name">asSet</span>()</div>
 <div class="block">Returns an immutable singleton <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> whose only element is the contained instance if it
  is present; an empty immutable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> otherwise.
 
@@ -556,7 +556,7 @@ Number value = first.or(0.5); // fine
 <section class="detail" id="transform(com.google.common.base.Function)">
 <h3>transform</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="type-parameters">&lt;V&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-298">transform</a></span><wbr><span class="parameters">(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="Optional.html" title="type parameter in Optional">T</a>,<wbr>V&gt;&nbsp;function)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="type-parameters">&lt;V&gt;</span>&nbsp;<span class="return-type"><a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;V&gt;</span>&nbsp;<span class="element-name">transform</span><wbr><span class="parameters">(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="Optional.html" title="type parameter in Optional">T</a>,<wbr>V&gt;&nbsp;function)</span></div>
 <div class="block">If the instance is present, it is transformed with the given <a href="Function.html" title="interface in com.google.common.base"><code>Function</code></a>; otherwise,
  <a href="#absent()"><code>absent()</code></a> is returned.
 
@@ -576,7 +576,7 @@ Number value = first.or(0.5); // fine
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-307">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Returns <code>true</code> if <code>object</code> is an <code>Optional</code> instance, and either the
  contained references are <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equal</a> to each other or both are absent.
  Note that <code>Optional</code> instances of differing parameterized types can be equal.
@@ -593,7 +593,7 @@ Number value = first.or(0.5); // fine
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-316">hashCode</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block">Returns a hash code for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific choice of
@@ -609,7 +609,7 @@ Number value = first.or(0.5); // fine
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-325">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">Returns a string representation for this instance.
 
  <p><b>Comparison to <code>java.util.Optional</code>:</b> this class leaves the specific string
@@ -625,7 +625,7 @@ Number value = first.or(0.5); // fine
 <section class="detail" id="presentInstances(java.lang.Iterable)">
 <h3>presentInstances</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Optional.html#line-341">presentInstances</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">presentInstances</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="Optional.html" title="class in com.google.common.base">Optional</a>&lt;? extends T&gt;&gt;&nbsp;optionals)</span></div>
 <div class="block">Returns the value of each present instance from the supplied <code>optionals</code>, in order,
  skipping over occurrences of <a href="#absent()"><code>absent()</code></a>. Iterators are unmodifiable and are
  evaluated lazily.

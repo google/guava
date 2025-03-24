@@ -84,7 +84,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Implement with a lambda")
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/hash/Funnel.html#line-45">Funnel</a>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">Funnel&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span><span class="extends-implements">
 extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
 <div class="block">An object which can send data from an object of type <code>T</code> into a <code>PrimitiveSink</code>.
  Implementations for common types can be found in <a href="Funnels.html" title="class in com.google.common.hash"><code>Funnels</code></a>.
@@ -152,7 +152,7 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <section class="detail" id="funnel(T,com.google.common.hash.PrimitiveSink)">
 <h3 id="funnel(java.lang.Object,com.google.common.hash.PrimitiveSink)">funnel</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/hash/Funnel.html#line-55">funnel</a></span><wbr><span class="parameters">(<a href="Funnel.html" title="type parameter in Funnel">T</a>&nbsp;from,
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">funnel</span><wbr><span class="parameters">(<a href="Funnel.html" title="type parameter in Funnel">T</a>&nbsp;from,
  <a href="PrimitiveSink.html" title="interface in com.google.common.hash">PrimitiveSink</a>&nbsp;into)</span></div>
 <div class="block">Sends a stream of data from the <code>from</code> object into the sink <code>into</code>. There is no
  requirement that this data be complete enough to fully reconstitute the object later.</div>

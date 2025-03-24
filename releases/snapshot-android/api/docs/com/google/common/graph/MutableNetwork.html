@@ -92,7 +92,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line-32">MutableNetwork</a>&lt;N,<wbr>E&gt;</span><span class="extends-implements">
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">MutableNetwork&lt;N,<wbr>E&gt;</span><span class="extends-implements">
 extends <a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;</span></div>
 <div class="block">A subinterface of <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> which adds mutation methods. When mutation is not required,
  users should prefer the <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface.</div>
@@ -167,7 +167,7 @@ extends <a href="Network.html" title="interface in com.google.common.graph">Netw
 <h3 id="addNode(java.lang.Object)">addNode</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line-42">addNode</a></span><wbr><span class="parameters">(<a href="MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">addNode</span><wbr><span class="parameters">(<a href="MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node)</span></div>
 <div class="block">Adds <code>node</code> if it is not already present.
 
  <p><b>Nodes must be unique</b>, just as <code>Map</code> keys must be. They must also be non-null.</div>
@@ -183,7 +183,7 @@ extends <a href="Network.html" title="interface in com.google.common.graph">Netw
 <h3 id="addEdge(java.lang.Object,java.lang.Object,java.lang.Object)">addEdge</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line-66">addEdge</a></span><wbr><span class="parameters">(<a href="MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeU,
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">addEdge</span><wbr><span class="parameters">(<a href="MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeU,
  <a href="MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;nodeV,
  <a href="MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge)</span></div>
 <div class="block">Adds <code>edge</code> connecting <code>nodeU</code> to <code>nodeV</code>.
@@ -215,7 +215,7 @@ extends <a href="Network.html" title="interface in com.google.common.graph">Netw
 <h3 id="addEdge(com.google.common.graph.EndpointPair,java.lang.Object)">addEdge</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line-95">addEdge</a></span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&gt;&nbsp;endpoints,
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">addEdge</span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&gt;&nbsp;endpoints,
  <a href="MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge)</span></div>
 <div class="block">Adds <code>edge</code> connecting <code>endpoints</code>. In an undirected network, <code>edge</code> will
  also connect <code>nodeV</code> to <code>nodeU</code>.
@@ -252,7 +252,7 @@ extends <a href="Network.html" title="interface in com.google.common.graph">Netw
 <h3 id="removeNode(java.lang.Object)">removeNode</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line-103">removeNode</a></span><wbr><span class="parameters">(<a href="MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">removeNode</span><wbr><span class="parameters">(<a href="MutableNetwork.html" title="type parameter in MutableNetwork">N</a>&nbsp;node)</span></div>
 <div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -266,7 +266,7 @@ extends <a href="Network.html" title="interface in com.google.common.graph">Netw
 <h3 id="removeEdge(java.lang.Object)">removeEdge</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableNetwork.html#line-111">removeEdge</a></span><wbr><span class="parameters">(<a href="MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">removeEdge</span><wbr><span class="parameters">(<a href="MutableNetwork.html" title="type parameter in MutableNetwork">E</a>&nbsp;edge)</span></div>
 <div class="block">Removes <code>edge</code> from this network, if it is present.</div>
 <dl class="notes">
 <dt>Returns:</dt>

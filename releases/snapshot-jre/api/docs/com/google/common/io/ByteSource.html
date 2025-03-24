@@ -105,7 +105,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-76">ByteSource</a></span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">ByteSource</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A readable source of bytes, such as a file. Unlike an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link"><code>InputStream</code></a>, a <code>ByteSource</code>
  is not an open, stateful stream for input that can be read and closed. Instead, it is an
@@ -289,7 +289,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>ByteSource</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-81">ByteSource</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">ByteSource</span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -306,7 +306,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="asCharSource(java.nio.charset.Charset)">
 <h3>asCharSource</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CharSource.html" title="class in com.google.common.io">CharSource</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-92">asCharSource</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CharSource.html" title="class in com.google.common.io">CharSource</a></span>&nbsp;<span class="element-name">asCharSource</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</span></div>
 <div class="block">Returns a <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a> view of this byte source that decodes bytes read from this source
  as characters using the given <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link"><code>Charset</code></a>.
 
@@ -321,7 +321,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="openStream()">
 <h3>openStream</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-104">openStream</a></span>()
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a></span>&nbsp;<span class="element-name">openStream</span>()
                                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Opens a new <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link"><code>InputStream</code></a> for reading from this source. This method returns a new,
  independent stream each time it is called.
@@ -338,7 +338,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="openBufferedStream()">
 <h3>openBufferedStream</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-118">openBufferedStream</a></span>()
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a></span>&nbsp;<span class="element-name">openBufferedStream</span>()
                                throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Opens a new buffered <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link"><code>InputStream</code></a> for reading from this source. The returned stream is
  not required to be a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/BufferedInputStream.html" title="class or interface in java.io" class="external-link"><code>BufferedInputStream</code></a> in order to allow implementations to simply
@@ -360,7 +360,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="slice(long,long)">
 <h3>slice</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-134">slice</a></span><wbr><span class="parameters">(long&nbsp;offset,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name">slice</span><wbr><span class="parameters">(long&nbsp;offset,
  long&nbsp;length)</span></div>
 <div class="block">Returns a view of a slice of this byte source that is at most <code>length</code> bytes long
  starting at the given <code>offset</code>. If <code>offset</code> is greater than the size of this
@@ -378,7 +378,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isEmpty()">
 <h3>isEmpty</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-151">isEmpty</a></span>()
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isEmpty</span>()
                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Returns whether the source has zero bytes. The default implementation first checks <a href="#sizeIfKnown()"><code>sizeIfKnown()</code></a>, returning true if it's known to be zero and false if it's known to be non-zero.
  If the size is not known, it falls back to opening a stream and checking for EOF.
@@ -400,7 +400,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="sizeIfKnown()">
 <h3>sizeIfKnown</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-181">sizeIfKnown</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html" title="class or interface in java.lang" class="external-link">Long</a>&gt;</span>&nbsp;<span class="element-name">sizeIfKnown</span>()</div>
 <div class="block">Returns the size of this source in bytes, if the size can be easily determined without actually
  opening the data stream.
 
@@ -422,7 +422,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="size()">
 <h3>size</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-204">size</a></span>()
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">size</span>()
           throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Returns the size of this source in bytes, even if doing so requires opening and traversing an
  entire stream. To avoid a potentially expensive operation, see <a href="#sizeIfKnown()"><code>sizeIfKnown()</code></a>.
@@ -450,7 +450,7 @@ loadScripts(document, 'script');</script>
 <h3>copyTo</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-249">copyTo</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;output)</span>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">copyTo</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;output)</span>
             throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Copies the contents of this byte source to the given <code>OutputStream</code>. Does not close
  <code>output</code>.</div>
@@ -469,7 +469,7 @@ loadScripts(document, 'script');</script>
 <h3>copyTo</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-271">copyTo</a></span><wbr><span class="parameters">(<a href="ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;sink)</span>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">copyTo</span><wbr><span class="parameters">(<a href="ByteSink.html" title="class in com.google.common.io">ByteSink</a>&nbsp;sink)</span>
             throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Copies the contents of this byte source to the given <code>ByteSink</code>.</div>
 <dl class="notes">
@@ -486,7 +486,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="read()">
 <h3>read</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-292">read</a></span>()
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">byte[]</span>&nbsp;<span class="element-name">read</span>()
             throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Reads the full contents of this byte source as a byte array.</div>
 <dl class="notes">
@@ -501,7 +501,7 @@ loadScripts(document, 'script');</script>
 <h3>read</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-316">read</a></span><wbr><span class="parameters">(<a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</span>
+</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">read</span><wbr><span class="parameters">(<a href="ByteProcessor.html" title="interface in com.google.common.io">ByteProcessor</a>&lt;T&gt;&nbsp;processor)</span>
                                     throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Reads the contents of this byte source using the given <code>processor</code> to process bytes as
  they are read. Stops when all bytes have been read or the consumer returns <code>false</code>.
@@ -520,7 +520,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hash(com.google.common.hash.HashFunction)">
 <h3>hash</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-337">hash</a></span><wbr><span class="parameters">(<a href="../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="../hash/HashCode.html" title="class in com.google.common.hash">HashCode</a></span>&nbsp;<span class="element-name">hash</span><wbr><span class="parameters">(<a href="../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)</span>
               throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Hashes the contents of this byte source using the given hash function.</div>
 <dl class="notes">
@@ -534,7 +534,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="contentEquals(com.google.common.io.ByteSource)">
 <h3>contentEquals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-349">contentEquals</a></span><wbr><span class="parameters">(<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;other)</span>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">contentEquals</span><wbr><span class="parameters">(<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&nbsp;other)</span>
                       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Checks that the contents of this byte source are equal to the contents of the given byte
  source.</div>
@@ -549,7 +549,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="concat(java.lang.Iterable)">
 <h3>concat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-374">concat</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</span></div>
 <div class="block">Concatenates multiple <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -570,7 +570,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="concat(java.util.Iterator)">
 <h3>concat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-396">concat</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;? extends <a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;? extends <a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>&gt;&nbsp;sources)</span></div>
 <div class="block">Concatenates multiple <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -599,7 +599,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="concat(com.google.common.io.ByteSource...)">
 <h3>concat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-412">concat</a></span><wbr><span class="parameters">(<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>...&nbsp;sources)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a>...&nbsp;sources)</span></div>
 <div class="block">Concatenates multiple <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> instances into a single source. Streams returned from
  the source will contain the concatenated data from the streams of the underlying sources.
 
@@ -622,7 +622,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="wrap(byte[])">
 <h3>wrap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-427">wrap</a></span><wbr><span class="parameters">(byte[]&nbsp;b)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name">wrap</span><wbr><span class="parameters">(byte[]&nbsp;b)</span></div>
 <div class="block">Returns a view of the given byte array as a <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a>. To view only a specific range
  in the array, use <code>ByteSource.wrap(b).slice(offset, length)</code>.
 
@@ -641,7 +641,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="empty()">
 <h3>empty</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/io/ByteSource.html#line-436">empty</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ByteSource.html" title="class in com.google.common.io">ByteSource</a></span>&nbsp;<span class="element-name">empty</span>()</div>
 <div class="block">Returns an immutable <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> that contains no bytes.</div>
 <dl class="notes">
 <dt>Since:</dt>

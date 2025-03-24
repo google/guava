@@ -91,7 +91,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/FunctionalInterface.html" title="class or interface in java.lang" class="external-link">@FunctionalInterface</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/cache/RemovalListener.html#line-35">RemovalListener</a>&lt;K,<wbr>V&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">RemovalListener&lt;K,<wbr>V&gt;</span></div>
 <div class="block">An object that can receive a notification when an entry is removed from a cache. The removal
  resulting in notification could have occurred to an entry being manually removed or replaced, or
  due to eviction resulting from timed expiration, exceeding a maximum size, or garbage collection.
@@ -143,7 +143,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="onRemoval(com.google.common.cache.RemovalNotification)">
 <h3>onRemoval</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/RemovalListener.html#line-46">onRemoval</a></span><wbr><span class="parameters">(<a href="RemovalNotification.html" title="class in com.google.common.cache">RemovalNotification</a>&lt;<a href="RemovalListener.html" title="type parameter in RemovalListener">K</a>,<wbr><a href="RemovalListener.html" title="type parameter in RemovalListener">V</a>&gt;&nbsp;notification)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">onRemoval</span><wbr><span class="parameters">(<a href="RemovalNotification.html" title="class in com.google.common.cache">RemovalNotification</a>&lt;<a href="RemovalListener.html" title="type parameter in RemovalListener">K</a>,<wbr><a href="RemovalListener.html" title="type parameter in RemovalListener">V</a>&gt;&nbsp;notification)</span></div>
 <div class="block">Notifies the listener that a removal occurred at some point in the past.
 
  <p>This does not always signify that the key is now absent from the cache, as it may have

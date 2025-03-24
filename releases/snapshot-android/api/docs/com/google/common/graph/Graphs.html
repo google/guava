@@ -94,7 +94,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-47">Graphs</a></span>
+</span><span class="modifiers">public final class </span><span class="element-name type-name-label">Graphs</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Static utility methods for <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>, <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, and <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> instances.</div>
 <dl class="notes">
@@ -214,7 +214,7 @@ V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="hasCycle(com.google.common.graph.Graph)">
 <h3>hasCycle</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-61">hasCycle</a></span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasCycle</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
 <div class="block">Returns true if <code>graph</code> has at least one cycle. A cycle is defined as a non-empty subset
  of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges) starting
  and ending with the same node.
@@ -227,7 +227,7 @@ V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="hasCycle(com.google.common.graph.Network)">
 <h3>hasCycle</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-87">hasCycle</a></span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,<wbr>?&gt;&nbsp;network)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasCycle</span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;?,<wbr>?&gt;&nbsp;network)</span></div>
 <div class="block">Returns true if <code>network</code> has at least one cycle. A cycle is defined as a non-empty
  subset of edges in a graph arranged to form a path (a sequence of adjacent outgoing edges)
  starting and ending with the same node.
@@ -240,7 +240,7 @@ V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="transitiveClosure(com.google.common.graph.Graph)">
 <h3>transitiveClosure</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-188">transitiveClosure</a></span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name">transitiveClosure</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
 <div class="block">Returns the transitive closure of <code>graph</code>. The transitive closure of a graph is another
  graph with an edge connecting node A to node B if node B is <a href="#reachableNodes(com.google.common.graph.Graph,N)"><code>reachable</code></a> from node A.
 
@@ -258,7 +258,7 @@ V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="reachableNodes(com.google.common.graph.Graph,N)">
 <h3 id="reachableNodes(com.google.common.graph.Graph,java.lang.Object)">reachableNodes</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;N&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-234">reachableNodes</a></span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;N&gt;</span>&nbsp;<span class="element-name">reachableNodes</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
  N&nbsp;node)</span></div>
 <div class="block">Returns the set of nodes that are reachable from <code>node</code>. Node B is defined as reachable
  from node A if there exists a path (a sequence of adjacent outgoing edges) starting at node A
@@ -280,7 +280,7 @@ V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph
 <section class="detail" id="transpose(com.google.common.graph.Graph)">
 <h3>transpose</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-247">transpose</a></span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;</span>&nbsp;<span class="element-name">transpose</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>graph</code> will be reflected in the view.</div>
 </div>
@@ -291,7 +291,7 @@ V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph
 <h3>transpose</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-263">transpose</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;&nbsp;graph)</span></div>
+V&gt;</span>&nbsp;<span class="return-type"><a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;</span>&nbsp;<span class="element-name">transpose</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;&nbsp;graph)</span></div>
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>graph</code> will be reflected in the view.</div>
 </div>
@@ -302,7 +302,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="ValueGraph.html" title="int
 <h3>transpose</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N,<wbr>
-E&gt;</span>&nbsp;<span class="return-type"><a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-279">transpose</a></span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network)</span></div>
+E&gt;</span>&nbsp;<span class="return-type"><a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name">transpose</span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network)</span></div>
 <div class="block">Returns a view of <code>network</code> with the direction (if any) of every edge reversed. All other
  properties remain intact, and further updates to <code>network</code> will be reflected in the view.</div>
 </div>
@@ -312,7 +312,7 @@ E&gt;</span>&nbsp;<span class="return-type"><a href="Network.html" title="interf
 <section class="detail" id="inducedSubgraph(com.google.common.graph.Graph,java.lang.Iterable)">
 <h3>inducedSubgraph</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-498">inducedSubgraph</a></span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name">inducedSubgraph</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</span></div>
 <div class="block">Returns the subgraph of <code>graph</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="Graph.html#edges()"><code>edges</code></a>
@@ -329,7 +329,7 @@ E&gt;</span>&nbsp;<span class="return-type"><a href="Network.html" title="interf
 <h3>inducedSubgraph</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-524">inducedSubgraph</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;&nbsp;graph,
+V&gt;</span>&nbsp;<span class="return-type"><a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,<wbr>V&gt;</span>&nbsp;<span class="element-name">inducedSubgraph</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;&nbsp;graph,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</span></div>
 <div class="block">Returns the subgraph of <code>graph</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="Graph.html#edges()"><code>edges</code></a>
@@ -347,7 +347,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="MutableValueGraph.html" tit
 <h3>inducedSubgraph</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N,<wbr>
-E&gt;</span>&nbsp;<span class="return-type"><a href="MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-555">inducedSubgraph</a></span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network,
+E&gt;</span>&nbsp;<span class="return-type"><a href="MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name">inducedSubgraph</span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends N&gt;&nbsp;nodes)</span></div>
 <div class="block">Returns the subgraph of <code>network</code> induced by <code>nodes</code>. This subgraph is a new graph
  that contains all of the nodes in <code>nodes</code>, and all of the <a href="Network.html#edges()"><code>edges</code></a>
@@ -364,7 +364,7 @@ E&gt;</span>&nbsp;<span class="return-type"><a href="MutableNetwork.html" title=
 <section class="detail" id="copyOf(com.google.common.graph.Graph)">
 <h3>copyOf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-576">copyOf</a></span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name">copyOf</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes and edges.</div>
 </div>
 </section>
@@ -374,7 +374,7 @@ E&gt;</span>&nbsp;<span class="return-type"><a href="MutableNetwork.html" title=
 <h3>copyOf</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N,<wbr>
-V&gt;</span>&nbsp;<span class="return-type"><a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,<wbr>V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-588">copyOf</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;&nbsp;graph)</span></div>
+V&gt;</span>&nbsp;<span class="return-type"><a href="MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a>&lt;N,<wbr>V&gt;</span>&nbsp;<span class="element-name">copyOf</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;&nbsp;graph)</span></div>
 <div class="block">Creates a mutable copy of <code>graph</code> with the same nodes, edges, and edge values.</div>
 </div>
 </section>
@@ -384,7 +384,7 @@ V&gt;</span>&nbsp;<span class="return-type"><a href="MutableValueGraph.html" tit
 <h3>copyOf</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N,<wbr>
-E&gt;</span>&nbsp;<span class="return-type"><a href="MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/Graphs.html#line-605">copyOf</a></span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network)</span></div>
+E&gt;</span>&nbsp;<span class="return-type"><a href="MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name">copyOf</span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network)</span></div>
 <div class="block">Creates a mutable copy of <code>network</code> with the same nodes and edges.</div>
 </div>
 </section>

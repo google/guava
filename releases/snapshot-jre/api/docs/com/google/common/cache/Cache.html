@@ -104,7 +104,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use CacheBuilder.newBuilder().build()")
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-43">Cache</a>&lt;K,<wbr>V&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">Cache&lt;K,<wbr>V&gt;</span></div>
 <div class="block">A semi-persistent mapping from keys to values. Cache entries are manually added using <a href="#get(K,java.util.concurrent.Callable)"><code>get(Object, Callable)</code></a> or <a href="#put(K,V)"><code>put(Object, Object)</code></a>, and are stored in the cache until either
  evicted or manually invalidated. The common way to build instances is using <a href="CacheBuilder.html" title="class in com.google.common.cache"><code>CacheBuilder</code></a>.
 
@@ -215,7 +215,7 @@ loadScripts(document, 'script');</script>
 <h3>getIfPresent</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Cache.html" title="type parameter in Cache">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-53">getIfPresent</a></span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("K")
+</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Cache.html" title="type parameter in Cache">V</a></span>&nbsp;<span class="element-name">getIfPresent</span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("K")
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, or <code>null</code> if there is no
  cached value for <code>key</code>.</div>
@@ -231,7 +231,7 @@ loadScripts(document, 'script');</script>
 <h3 id="get(java.lang.Object,java.util.concurrent.Callable)">get</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type"><a href="Cache.html" title="type parameter in Cache">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-102">get</a></span><wbr><span class="parameters">(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
+</span><span class="return-type"><a href="Cache.html" title="type parameter in Cache">V</a></span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;loader)</span>
 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, obtaining that value from <code>
@@ -286,7 +286,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="getAllPresent(java.lang.Iterable)">
 <h3>getAllPresent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,<wbr><a href="Cache.html" title="type parameter in Cache">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-115">getAllPresent</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
+<div class="member-signature"><span class="return-type"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,<wbr><a href="Cache.html" title="type parameter in Cache">V</a>&gt;</span>&nbsp;<span class="element-name">getAllPresent</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
 <div class="block">Returns a map of the values associated with <code>keys</code> in this cache. The returned map will
  only contain entries which are already present in the cache.</div>
 <dl class="notes">
@@ -300,7 +300,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="put(K,V)">
 <h3 id="put(java.lang.Object,java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-126">put</a></span><wbr><span class="parameters">(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="Cache.html" title="type parameter in Cache">K</a>&nbsp;key,
  <a href="Cache.html" title="type parameter in Cache">V</a>&nbsp;value)</span></div>
 <div class="block">Associates <code>value</code> with <code>key</code> in this cache. If the cache previously contained a
  value associated with <code>key</code>, the old value is replaced by <code>value</code>.
@@ -318,7 +318,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="putAll(java.util.Map)">
 <h3>putAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-136">putAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">K</a>,<wbr>? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">putAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;? extends <a href="Cache.html" title="type parameter in Cache">K</a>,<wbr>? extends <a href="Cache.html" title="type parameter in Cache">V</a>&gt;&nbsp;m)</span></div>
 <div class="block">Copies all of the mappings from the specified map to the cache. The effect of this call is
  equivalent to that of calling <code>put(k, v)</code> on this map once for each mapping from key
  <code>k</code> to value <code>v</code> in the specified map. The behavior of this operation is undefined
@@ -334,7 +334,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="invalidate(java.lang.Object)">
 <h3>invalidate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-139">invalidate</a></span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("K")
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">invalidate</span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("K")
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 </div>
@@ -344,7 +344,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="invalidateAll(java.lang.Iterable)">
 <h3>invalidateAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-147">invalidateAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">invalidateAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
 <div class="block">Discards any cached values for keys <code>keys</code>.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -357,7 +357,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="invalidateAll()">
 <h3>invalidateAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-150">invalidateAll</a></span>()</div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">invalidateAll</span>()</div>
 <div class="block">Discards all entries in the cache.</div>
 </div>
 </section>
@@ -366,7 +366,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="size()">
 <h3>size</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">long</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-153">size</a></span>()</div>
+<div class="member-signature"><span class="return-type">long</span>&nbsp;<span class="element-name">size</span>()</div>
 <div class="block">Returns the approximate number of entries in this cache.</div>
 </div>
 </section>
@@ -375,7 +375,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="stats()">
 <h3>stats</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="CacheStats.html" title="class in com.google.common.cache">CacheStats</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-166">stats</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="CacheStats.html" title="class in com.google.common.cache">CacheStats</a></span>&nbsp;<span class="element-name">stats</span>()</div>
 <div class="block">Returns a current snapshot of this cache's cumulative statistics, or a set of default values if
  the cache is not recording statistics. All statistics begin at zero and never decrease over the
  lifetime of the cache.
@@ -391,7 +391,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="asMap()">
 <h3>asMap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link">ConcurrentMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,<wbr><a href="Cache.html" title="type parameter in Cache">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-176">asMap</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ConcurrentMap.html" title="class or interface in java.util.concurrent" class="external-link">ConcurrentMap</a>&lt;<a href="Cache.html" title="type parameter in Cache">K</a>,<wbr><a href="Cache.html" title="type parameter in Cache">V</a>&gt;</span>&nbsp;<span class="element-name">asMap</span>()</div>
 <div class="block">Returns a view of the entries stored in this cache as a thread-safe map. Modifications made to
  the map directly affect the cache.
 
@@ -405,7 +405,7 @@ throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/
 <section class="detail" id="cleanUp()">
 <h3>cleanUp</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/Cache.html#line-182">cleanUp</a></span>()</div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">cleanUp</span>()</div>
 <div class="block">Performs any pending maintenance operations needed by the cache. Exactly which activities are
  performed -- if any -- is implementation-dependent.</div>
 </div>

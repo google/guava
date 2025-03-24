@@ -86,7 +86,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.html#line-41">MoreObjects</a></span>
+</span><span class="modifiers">public final class </span><span class="element-name type-name-label">MoreObjects</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Helper functions that operate on any <code>Object</code>, and are not already provided in <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Objects.html" title="class or interface in java.util" class="external-link"><code>Objects</code></a>.
 
@@ -174,7 +174,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="firstNonNull(T,T)">
 <h3 id="firstNonNull(java.lang.Object,java.lang.Object)">firstNonNull</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.html#line-63">firstNonNull</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&nbsp;first,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type">T</span>&nbsp;<span class="element-name">firstNonNull</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&nbsp;first,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> T&nbsp;second)</span></div>
 <div class="block">Returns the first of two given parameters that is not <code>null</code>, if either is, or otherwise
  throws a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link"><code>NullPointerException</code></a>.
@@ -204,7 +204,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toStringHelper(java.lang.Object)">
 <h3>toStringHelper</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.html#line-113">toStringHelper</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;self)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">toStringHelper</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;self)</span></div>
 <div class="block">Creates an instance of <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a>.
 
  <p>This is helpful for implementing <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a>. Specification by example:
@@ -256,7 +256,7 @@ MoreObjects.toStringHelper(this)
 <section class="detail" id="toStringHelper(java.lang.Class)">
 <h3>toStringHelper</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.html#line-127">toStringHelper</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;clazz)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">toStringHelper</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;?&gt;&nbsp;clazz)</span></div>
 <div class="block">Creates an instance of <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> in the same manner as <a href="#toStringHelper(java.lang.Object)"><code>toStringHelper(Object)</code></a>, but using the simple name of <code>clazz</code> instead of using an
  instance's <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link"><code>Object.getClass()</code></a>.
 
@@ -274,7 +274,7 @@ MoreObjects.toStringHelper(this)
 <section class="detail" id="toStringHelper(java.lang.String)">
 <h3>toStringHelper</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.html#line-139">toStringHelper</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;className)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">toStringHelper</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;className)</span></div>
 <div class="block">Creates an instance of <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> in the same manner as <a href="#toStringHelper(java.lang.Object)"><code>toStringHelper(Object)</code></a>, but using <code>className</code> instead of using an instance's <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link"><code>Object.getClass()</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>

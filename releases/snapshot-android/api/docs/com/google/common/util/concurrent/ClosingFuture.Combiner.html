@@ -99,7 +99,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use ClosingFuture.whenAllSucceed() or .whenAllComplete() instead.")
-</span><span class="modifiers">public static class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.html#line-1205">ClosingFuture.Combiner</a></span>
+</span><span class="modifiers">public static class </span><span class="element-name type-name-label">ClosingFuture.Combiner</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A builder of a <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> step that is derived from more than one input step.
 
@@ -216,7 +216,7 @@ ListenableFuture&lt;Integer&gt; numberOfDifferentLines =
 <section class="detail" id="inputs">
 <h3>inputs</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.Combiner.html#line-1250">inputs</a></span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="../../collect/ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;?&gt;&gt;</span>&nbsp;<span class="element-name">inputs</span></div>
 </div>
 </section>
 </li>
@@ -233,7 +233,7 @@ ListenableFuture&lt;Integer&gt; numberOfDifferentLines =
 <h3>call</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.Combiner.html#line-1274">call</a></span><wbr><span class="parameters">(<a href="ClosingFuture.Combiner.CombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.CombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
+<span class="return-type"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;</span>&nbsp;<span class="element-name">call</span><wbr><span class="parameters">(<a href="ClosingFuture.Combiner.CombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.CombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
  combining function to their values. The function can use a <a href="ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.DeferredCloser</code></a> to capture
@@ -255,7 +255,7 @@ ListenableFuture&lt;Integer&gt; numberOfDifferentLines =
 <h3>callAsync</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/ClosingFuture.Combiner.html#line-1330">callAsync</a></span><wbr><span class="parameters">(<a href="ClosingFuture.Combiner.AsyncCombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.AsyncCombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
+<span class="return-type"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;</span>&nbsp;<span class="element-name">callAsync</span><wbr><span class="parameters">(<a href="ClosingFuture.Combiner.AsyncCombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.AsyncCombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
  <code>ClosingFuture</code>-returning function to their values. The function can use a <a href="ClosingFuture.DeferredCloser.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture.DeferredCloser</code></a> to capture objects to be closed when the pipeline is done (other than those

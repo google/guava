@@ -98,7 +98,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-43">Equivalence</a>&lt;T&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">Equivalence&lt;T&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A strategy for determining whether two instances are considered equivalent, and for computing
  hash codes in a manner consistent with that equivalence. Two examples of equivalences are the
@@ -239,7 +239,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>Equivalence</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-50">Equivalence</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">Equivalence</span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -256,7 +256,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="equivalent(T,T)">
 <h3 id="equivalent(java.lang.Object,java.lang.Object)">equivalent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-69">equivalent</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equivalent</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</span></div>
 <div class="block">Returns <code>true</code> if the given objects are considered equivalent.
 
@@ -281,7 +281,7 @@ loadScripts(document, 'script');</script>
 <h3 id="doEquivalent(java.lang.Object,java.lang.Object)">doEquivalent</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@ForOverride</a>
-</span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-82">doEquivalent</a></span><wbr><span class="parameters">(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
+</span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">doEquivalent</span><wbr><span class="parameters">(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;a,
  <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;b)</span></div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -294,7 +294,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hash(T)">
 <h3 id="hash(java.lang.Object)">hash</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-102">hash</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hash</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</span></div>
 <div class="block">Returns a hash code for <code>t</code>.
 
  <p>The <code>hash</code> has the following properties:
@@ -318,7 +318,7 @@ loadScripts(document, 'script');</script>
 <h3 id="doHash(java.lang.Object)">doHash</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@ForOverride</a>
-</span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-118">doHash</a></span><wbr><span class="parameters">(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</span></div>
+</span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">doHash</span><wbr><span class="parameters">(<a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;t)</span></div>
 <div class="block">Implemented by the user to return a hash code for <code>t</code>, subject to the requirements
  specified in <a href="#hash(T)"><code>hash(T)</code></a>.
 
@@ -335,7 +335,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="onResultOf(com.google.common.base.Function)">
 <h3>onResultOf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;F&gt;</span>&nbsp;<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;F&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-144">onResultOf</a></span><wbr><span class="parameters">(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,<wbr>? extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;F&gt;</span>&nbsp;<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;F&gt;</span>&nbsp;<span class="element-name">onResultOf</span><wbr><span class="parameters">(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super F,<wbr>? extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;&nbsp;function)</span></div>
 <div class="block">Returns a new equivalence relation for <code>F</code> which evaluates equivalence by first applying
  <code>function</code> to the argument, then evaluating using <code>this</code>. That is, for any pair of
  non-null objects <code>x</code> and <code>y</code>, <code>equivalence.onResultOf(function).equivalent(a,
@@ -370,7 +370,7 @@ loadScripts(document, 'script');</script>
 <h3 id="wrap(java.lang.Object)">wrap</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>
-<span class="return-type"><a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-158">wrap</a></span><wbr><span class="parameters">(S&nbsp;reference)</span></div>
+<span class="return-type"><a href="Equivalence.Wrapper.html" title="class in com.google.common.base">Equivalence.Wrapper</a>&lt;S&gt;</span>&nbsp;<span class="element-name">wrap</span><wbr><span class="parameters">(S&nbsp;reference)</span></div>
 <div class="block">Returns a wrapper of <code>reference</code> that implements <a href="Equivalence.Wrapper.html#equals(java.lang.Object)"><code>Object.equals()</code></a> such that <code>wrap(a).equals(wrap(b))</code> if and only if <code>equivalent(a,
  b)</code>.
 
@@ -389,7 +389,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
 </span><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>
-<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;S&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-263">pairwise</a></span>()</div>
+<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;S&gt;&gt;</span>&nbsp;<span class="element-name">pairwise</span>()</div>
 <div class="block">Returns an equivalence over iterables based on the equivalence of their elements. More
  specifically, two iterables are considered equivalent if they both contain the same number of
  elements, and each pair of corresponding elements is equivalent according to <code>this</code>. Null
@@ -409,7 +409,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="equivalentTo(T)">
 <h3 id="equivalentTo(java.lang.Object)">equivalentTo</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-276">equivalentTo</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&gt;</span>&nbsp;<span class="element-name">equivalentTo</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Equivalence.html" title="type parameter in Equivalence">T</a>&nbsp;target)</span></div>
 <div class="block">Returns a predicate that evaluates to true if and only if the input is equivalent to <code>
  target</code> according to this equivalence relation.</div>
 <dl class="notes">
@@ -423,7 +423,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="equals()">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-331">equals</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">equals</span>()</div>
 <div class="block">Returns an equivalence that delegates to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a> and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link"><code>Object.hashCode()</code></a>.
  <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a> returns <code>true</code> if both values are null, or if neither
  value is null and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a> returns <code>true</code>. <a href="#hash(T)"><code>hash(T)</code></a> returns
@@ -439,7 +439,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="identity()">
 <h3>identity</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/Equivalence.html#line-343">identity</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Equivalence.html" title="class in com.google.common.base">Equivalence</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">identity</span>()</div>
 <div class="block">Returns an equivalence that uses <code>==</code> to compare values and <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/System.html#identityHashCode(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>System.identityHashCode(Object)</code></a> to compute the hash code. <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>
  returns <code>true</code> if <code>a == b</code>, including in the case that a and b are both null.</div>
 <dl class="notes">

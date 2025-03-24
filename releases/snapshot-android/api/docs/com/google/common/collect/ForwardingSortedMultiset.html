@@ -114,7 +114,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#emulated()">emulated</a>=true)
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-45">ForwardingSortedMultiset</a>&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">ForwardingSortedMultiset&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="extends-implements">extends <a href="ForwardingMultiset.html" title="class in com.google.common.collect">ForwardingMultiset</a>&lt;E&gt;
 implements <a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;E&gt;</span></div>
 <div class="block">A sorted multiset which forwards all its method calls to another sorted multiset. Subclasses
@@ -341,7 +341,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="&lt;init&gt;()">
 <h3>ForwardingSortedMultiset</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-49">ForwardingSortedMultiset</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">ForwardingSortedMultiset</span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -358,7 +358,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="delegate()">
 <h3>delegate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-51">delegate</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">delegate</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="ForwardingObject.html#delegate()">ForwardingObject</a></code></span></div>
 <div class="block">Returns the backing delegate instance that methods are forwarded to. Abstract subclasses
  generally override this method with an abstract method that has a more specific return type,
@@ -375,7 +375,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="elementSet()">
 <h3>elementSet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/NavigableSet.html" title="class or interface in java.util" class="external-link">NavigableSet</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-54">elementSet</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/NavigableSet.html" title="class or interface in java.util" class="external-link">NavigableSet</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">elementSet</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Multiset.html#elementSet()">Multiset</a></code></span></div>
 <div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
  the same data as the multiset, so any change to either is immediately reflected in the other.
@@ -404,7 +404,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="comparator()">
 <h3>comparator</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-79">comparator</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">comparator</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#comparator()">SortedMultiset</a></code></span></div>
 <div class="block">Returns the comparator that orders this multiset, or <a href="Ordering.html#natural()"><code>Ordering.natural()</code></a> if the natural
  ordering of the elements is used.</div>
@@ -419,7 +419,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="descendingMultiset()">
 <h3>descendingMultiset</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-84">descendingMultiset</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">descendingMultiset</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#descendingMultiset()">SortedMultiset</a></code></span></div>
 <div class="block">Returns a descending view of this multiset. Modifications made to either map will be reflected
  in the other.</div>
@@ -434,7 +434,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="firstEntry()">
 <h3>firstEntry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-111">firstEntry</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">firstEntry</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#firstEntry()">SortedMultiset</a></code></span></div>
 <div class="block">Returns the entry of the first element in this multiset, or <code>null</code> if this multiset is
  empty.</div>
@@ -449,7 +449,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="standardFirstEntry()">
 <h3>standardFirstEntry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-122">standardFirstEntry</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">standardFirstEntry</span>()</div>
 <div class="block">A sensible definition of <a href="#firstEntry()"><code>firstEntry()</code></a> in terms of <code>entrySet().iterator()</code>.
 
  <p>If you override <a href="ForwardingMultiset.html#entrySet()"><code>ForwardingMultiset.entrySet()</code></a>, you may wish to override <a href="#firstEntry()"><code>firstEntry()</code></a> to
@@ -461,7 +461,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="lastEntry()">
 <h3>lastEntry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-131">lastEntry</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">lastEntry</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#lastEntry()">SortedMultiset</a></code></span></div>
 <div class="block">Returns the entry of the last element in this multiset, or <code>null</code> if this multiset is
  empty.</div>
@@ -476,7 +476,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="standardLastEntry()">
 <h3>standardLastEntry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-143">standardLastEntry</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">standardLastEntry</span>()</div>
 <div class="block">A sensible definition of <a href="#lastEntry()"><code>lastEntry()</code></a> in terms of <code>
  descendingMultiset().entrySet().iterator()</code>.
 
@@ -489,7 +489,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="pollFirstEntry()">
 <h3>pollFirstEntry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-152">pollFirstEntry</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">pollFirstEntry</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#pollFirstEntry()">SortedMultiset</a></code></span></div>
 <div class="block">Returns and removes the entry associated with the lowest element in this multiset, or returns
  <code>null</code> if this multiset is empty.</div>
@@ -504,7 +504,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="standardPollFirstEntry()">
 <h3>standardPollFirstEntry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-163">standardPollFirstEntry</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">standardPollFirstEntry</span>()</div>
 <div class="block">A sensible definition of <a href="#pollFirstEntry()"><code>pollFirstEntry()</code></a> in terms of <code>entrySet().iterator()</code>.
 
  <p>If you override <a href="ForwardingMultiset.html#entrySet()"><code>ForwardingMultiset.entrySet()</code></a>, you may wish to override <a href="#pollFirstEntry()"><code>pollFirstEntry()</code></a> to
@@ -516,7 +516,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="pollLastEntry()">
 <h3>pollLastEntry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-174">pollLastEntry</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">pollLastEntry</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#pollLastEntry()">SortedMultiset</a></code></span></div>
 <div class="block">Returns and removes the entry associated with the greatest element in this multiset, or returns
  <code>null</code> if this multiset is empty.</div>
@@ -531,7 +531,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="standardPollLastEntry()">
 <h3>standardPollLastEntry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-186">standardPollLastEntry</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">standardPollLastEntry</span>()</div>
 <div class="block">A sensible definition of <a href="#pollLastEntry()"><code>pollLastEntry()</code></a> in terms of <code>
  descendingMultiset().entrySet().iterator()</code>.
 
@@ -544,7 +544,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="headMultiset(E,com.google.common.collect.BoundType)">
 <h3 id="headMultiset(java.lang.Object,com.google.common.collect.BoundType)">headMultiset</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-197">headMultiset</a></span><wbr><span class="parameters">(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;upperBound,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">headMultiset</span><wbr><span class="parameters">(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;upperBound,
  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#headMultiset(E,com.google.common.collect.BoundType)">SortedMultiset</a></code></span></div>
 <div class="block">Returns a view of this multiset restricted to the elements less than <code>upperBound</code>,
@@ -565,7 +565,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="subMultiset(E,com.google.common.collect.BoundType,E,com.google.common.collect.BoundType)">
 <h3 id="subMultiset(java.lang.Object,com.google.common.collect.BoundType,java.lang.Object,com.google.common.collect.BoundType)">subMultiset</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-202">subMultiset</a></span><wbr><span class="parameters">(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">subMultiset</span><wbr><span class="parameters">(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
  <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;upperBound,
  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</span></div>
@@ -591,7 +591,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="standardSubMultiset(E,com.google.common.collect.BoundType,E,com.google.common.collect.BoundType)">
 <h3 id="standardSubMultiset(java.lang.Object,com.google.common.collect.BoundType,java.lang.Object,com.google.common.collect.BoundType)">standardSubMultiset</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-219">standardSubMultiset</a></span><wbr><span class="parameters">(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">standardSubMultiset</span><wbr><span class="parameters">(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
  <a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;upperBound,
  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</span></div>
@@ -606,7 +606,7 @@ implements <a href="SortedMultiset.html" title="interface in com.google.common.c
 <section class="detail" id="tailMultiset(E,com.google.common.collect.BoundType)">
 <h3 id="tailMultiset(java.lang.Object,com.google.common.collect.BoundType)">tailMultiset</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/ForwardingSortedMultiset.html#line-227">tailMultiset</a></span><wbr><span class="parameters">(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="SortedMultiset.html" title="interface in com.google.common.collect">SortedMultiset</a>&lt;<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">tailMultiset</span><wbr><span class="parameters">(<a href="ForwardingSortedMultiset.html" title="type parameter in ForwardingSortedMultiset">E</a>&nbsp;lowerBound,
  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;boundType)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="SortedMultiset.html#tailMultiset(E,com.google.common.collect.BoundType)">SortedMultiset</a></code></span></div>
 <div class="block">Returns a view of this multiset restricted to the elements greater than <code>lowerBound</code>,

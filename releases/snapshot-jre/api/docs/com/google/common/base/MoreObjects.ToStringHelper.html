@@ -102,7 +102,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="MoreObjects.html" title="class in com.google.common.base">MoreObjects</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.html#line-149">MoreObjects.ToStringHelper</a></span>
+<div class="type-signature"><span class="modifiers">public static final class </span><span class="element-name type-name-label">MoreObjects.ToStringHelper</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Support class for <a href="MoreObjects.html#toStringHelper(java.lang.Object)"><code>MoreObjects.toStringHelper(java.lang.Object)</code></a>.</div>
 <dl class="notes">
@@ -242,7 +242,7 @@ loadScripts(document, 'script');</script>
 <h3>omitNullValues</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-168">omitNullValues</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">omitNullValues</span>()</div>
 <div class="block">Configures the <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> so <a href="#toString()"><code>toString()</code></a> will ignore properties with null
  value. The order of calling this method, relative to the <code>add()</code>/<code>addValue()</code>
  methods, is not significant.</div>
@@ -258,7 +258,7 @@ loadScripts(document, 'script');</script>
 <h3>omitEmptyValues</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-186">omitEmptyValues</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">omitEmptyValues</span>()</div>
 <div class="block">Configures the <a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base"><code>MoreObjects.ToStringHelper</code></a> so <a href="#toString()"><code>toString()</code></a> will ignore properties with
  empty values. The order of calling this method, relative to the <code>add()</code>/<code>
  addValue()</code> methods, is not significant.
@@ -279,7 +279,7 @@ loadScripts(document, 'script');</script>
 <h3>add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-197">add</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</span></div>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format. If <code>value</code>
  is <code>null</code>, the string <code>"null"</code> is used, unless <a href="#omitNullValues()"><code>omitNullValues()</code></a> is
@@ -292,7 +292,7 @@ loadScripts(document, 'script');</script>
 <h3>add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-207">add</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  boolean&nbsp;value)</span></div>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format.</div>
 <dl class="notes">
@@ -307,7 +307,7 @@ loadScripts(document, 'script');</script>
 <h3>add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-217">add</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  char&nbsp;value)</span></div>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format.</div>
 <dl class="notes">
@@ -322,7 +322,7 @@ loadScripts(document, 'script');</script>
 <h3>add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-227">add</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  double&nbsp;value)</span></div>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format.</div>
 <dl class="notes">
@@ -337,7 +337,7 @@ loadScripts(document, 'script');</script>
 <h3>add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-237">add</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  float&nbsp;value)</span></div>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format.</div>
 <dl class="notes">
@@ -352,7 +352,7 @@ loadScripts(document, 'script');</script>
 <h3>add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-247">add</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  int&nbsp;value)</span></div>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format.</div>
 <dl class="notes">
@@ -367,7 +367,7 @@ loadScripts(document, 'script');</script>
 <h3>add</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-257">add</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;name,
  long&nbsp;value)</span></div>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format.</div>
 <dl class="notes">
@@ -382,7 +382,7 @@ loadScripts(document, 'script');</script>
 <h3>addValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-268">addValue</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">addValue</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;value)</span></div>
 <div class="block">Adds an unnamed value to the formatted output.
 
  <p>It is strongly encouraged to use <a href="#add(java.lang.String,java.lang.Object)"><code>add(String, Object)</code></a> instead and give value a
@@ -395,7 +395,7 @@ loadScripts(document, 'script');</script>
 <h3>addValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-281">addValue</a></span><wbr><span class="parameters">(boolean&nbsp;value)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">addValue</span><wbr><span class="parameters">(boolean&nbsp;value)</span></div>
 <div class="block">Adds an unnamed value to the formatted output.
 
  <p>It is strongly encouraged to use <a href="#add(java.lang.String,boolean)"><code>add(String, boolean)</code></a> instead and give value a
@@ -412,7 +412,7 @@ loadScripts(document, 'script');</script>
 <h3>addValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-294">addValue</a></span><wbr><span class="parameters">(char&nbsp;value)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">addValue</span><wbr><span class="parameters">(char&nbsp;value)</span></div>
 <div class="block">Adds an unnamed value to the formatted output.
 
  <p>It is strongly encouraged to use <a href="#add(java.lang.String,char)"><code>add(String, char)</code></a> instead and give value a
@@ -429,7 +429,7 @@ loadScripts(document, 'script');</script>
 <h3>addValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-307">addValue</a></span><wbr><span class="parameters">(double&nbsp;value)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">addValue</span><wbr><span class="parameters">(double&nbsp;value)</span></div>
 <div class="block">Adds an unnamed value to the formatted output.
 
  <p>It is strongly encouraged to use <a href="#add(java.lang.String,double)"><code>add(String, double)</code></a> instead and give value a
@@ -446,7 +446,7 @@ loadScripts(document, 'script');</script>
 <h3>addValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-320">addValue</a></span><wbr><span class="parameters">(float&nbsp;value)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">addValue</span><wbr><span class="parameters">(float&nbsp;value)</span></div>
 <div class="block">Adds an unnamed value to the formatted output.
 
  <p>It is strongly encouraged to use <a href="#add(java.lang.String,float)"><code>add(String, float)</code></a> instead and give value a
@@ -463,7 +463,7 @@ loadScripts(document, 'script');</script>
 <h3>addValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-333">addValue</a></span><wbr><span class="parameters">(int&nbsp;value)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">addValue</span><wbr><span class="parameters">(int&nbsp;value)</span></div>
 <div class="block">Adds an unnamed value to the formatted output.
 
  <p>It is strongly encouraged to use <a href="#add(java.lang.String,int)"><code>add(String, int)</code></a> instead and give value a
@@ -480,7 +480,7 @@ loadScripts(document, 'script');</script>
 <h3>addValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-346">addValue</a></span><wbr><span class="parameters">(long&nbsp;value)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="MoreObjects.ToStringHelper.html" title="class in com.google.common.base">MoreObjects.ToStringHelper</a></span>&nbsp;<span class="element-name">addValue</span><wbr><span class="parameters">(long&nbsp;value)</span></div>
 <div class="block">Adds an unnamed value to the formatted output.
 
  <p>It is strongly encouraged to use <a href="#add(java.lang.String,long)"><code>add(String, long)</code></a> instead and give value a
@@ -496,7 +496,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/base/MoreObjects.ToStringHelper.html#line-383">toString</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">Returns a string in the format specified by <a href="MoreObjects.html#toStringHelper(java.lang.Object)"><code>MoreObjects.toStringHelper(Object)</code></a>.
 
  <p>After calling this method, you can keep adding more properties to later call toString()

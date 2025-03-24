@@ -93,7 +93,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line-32">MutableValueGraph</a>&lt;N,<wbr>V&gt;</span><span class="extends-implements">
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">MutableValueGraph&lt;N,<wbr>V&gt;</span><span class="extends-implements">
 extends <a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;</span></div>
 <div class="block">A subinterface of <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> which adds mutation methods. When mutation is not required,
  users should prefer the <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> interface.</div>
@@ -176,7 +176,7 @@ extends <a href="ValueGraph.html" title="interface in com.google.common.graph">V
 <h3 id="addNode(java.lang.Object)">addNode</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line-42">addNode</a></span><wbr><span class="parameters">(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">addNode</span><wbr><span class="parameters">(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</span></div>
 <div class="block">Adds <code>node</code> if it is not already present.
 
  <p><b>Nodes must be unique</b>, just as <code>Map</code> keys must be. They must also be non-null.</div>
@@ -192,7 +192,7 @@ extends <a href="ValueGraph.html" title="interface in com.google.common.graph">V
 <h3 id="putEdgeValue(java.lang.Object,java.lang.Object,java.lang.Object)">putEdgeValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line-62">putEdgeValue</a></span><wbr><span class="parameters">(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
+</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a></span>&nbsp;<span class="element-name">putEdgeValue</span><wbr><span class="parameters">(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
  <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeV,
  <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;value)</span></div>
 <div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present, and sets
@@ -220,7 +220,7 @@ extends <a href="ValueGraph.html" title="interface in com.google.common.graph">V
 <h3 id="putEdgeValue(com.google.common.graph.EndpointPair,java.lang.Object)">putEdgeValue</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line-86">putEdgeValue</a></span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints,
+</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a></span>&nbsp;<span class="element-name">putEdgeValue</span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints,
  <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a>&nbsp;value)</span></div>
 <div class="block">Adds an edge connecting <code>endpoints</code> if one is not already present, and sets a value for
  that edge to <code>value</code> (overwriting the existing value, if any).
@@ -252,7 +252,7 @@ extends <a href="ValueGraph.html" title="interface in com.google.common.graph">V
 <h3 id="removeNode(java.lang.Object)">removeNode</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line-94">removeNode</a></span><wbr><span class="parameters">(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</span></div>
+</span><span class="return-type">boolean</span>&nbsp;<span class="element-name">removeNode</span><wbr><span class="parameters">(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</span></div>
 <div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -266,7 +266,7 @@ extends <a href="ValueGraph.html" title="interface in com.google.common.graph">V
 <h3 id="removeEdge(java.lang.Object,java.lang.Object)">removeEdge</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line-103">removeEdge</a></span><wbr><span class="parameters">(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
+</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a></span>&nbsp;<span class="element-name">removeEdge</span><wbr><span class="parameters">(<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
  <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeV)</span></div>
 <div class="block">Removes the edge connecting <code>nodeU</code> to <code>nodeV</code>, if it is present.</div>
 <dl class="notes">
@@ -282,7 +282,7 @@ extends <a href="ValueGraph.html" title="interface in com.google.common.graph">V
 <h3>removeEdge</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/MutableValueGraph.html#line-115">removeEdge</a></span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints)</span></div>
+</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">V</a></span>&nbsp;<span class="element-name">removeEdge</span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="MutableValueGraph.html" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints)</span></div>
 <div class="block">Removes the edge connecting <code>endpoints</code>, if it is present.
 
  <p>If this graph is directed, <code>endpoints</code> must be ordered.</div>

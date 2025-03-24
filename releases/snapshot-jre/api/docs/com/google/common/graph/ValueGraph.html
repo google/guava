@@ -117,7 +117,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-110">ValueGraph</a>&lt;N,<wbr>V&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">ValueGraph&lt;N,<wbr>V&gt;</span></div>
 <div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
  whose edges have associated non-unique values.
 
@@ -360,7 +360,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="nodes()">
 <h3>nodes</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-117">nodes</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name">nodes</span>()</div>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="#nodeOrder()"><code>nodeOrder()</code></a>.</div>
 </div>
 </section>
@@ -369,7 +369,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="edges()">
 <h3>edges</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-121">edges</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name">edges</span>()</div>
 <div class="block">Returns all edges in this graph.</div>
 </div>
 </section>
@@ -378,7 +378,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="asGraph()">
 <h3>asGraph</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-128">asGraph</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name">asGraph</span>()</div>
 <div class="block">Returns a live view of this graph as a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>. The resulting <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will have an
  edge connecting node A to node B if this <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> has an edge connecting A to B.</div>
 </div>
@@ -388,7 +388,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isDirected()">
 <h3>isDirected</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-139">isDirected</a></span>()</div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">isDirected</span>()</div>
 <div class="block">Returns true if the edges in this graph are directed. Directed edges connect a <a href="EndpointPair.html#source()"><code>source node</code></a> to a <a href="EndpointPair.html#target()"><code>target node</code></a>, while
  undirected edges connect a pair of nodes to each other.</div>
 </div>
@@ -398,7 +398,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="allowsSelfLoops()">
 <h3>allowsSelfLoops</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-147">allowsSelfLoops</a></span>()</div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsSelfLoops</span>()</div>
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
  to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link"><code>IllegalArgumentException</code></a>.</div>
 </div>
@@ -408,7 +408,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="nodeOrder()">
 <h3>nodeOrder</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-151">nodeOrder</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name">nodeOrder</span>()</div>
 <div class="block">Returns the order of iteration for the elements of <a href="#nodes()"><code>nodes()</code></a>.</div>
 </div>
 </section>
@@ -417,7 +417,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="incidentEdgeOrder()">
 <h3>incidentEdgeOrder</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-161">incidentEdgeOrder</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name">incidentEdgeOrder</span>()</div>
 <div class="block">Returns an <a href="ElementOrder.html" title="class in com.google.common.graph"><code>ElementOrder</code></a> that specifies the order of iteration for the elements of
  <a href="#edges()"><code>edges()</code></a>, <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>, <a href="#predecessors(N)"><code>predecessors(Object)</code></a>, <a href="#successors(N)"><code>successors(Object)</code></a> and <a href="#incidentEdges(N)"><code>incidentEdges(Object)</code></a>.</div>
 <dl class="notes">
@@ -431,7 +431,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="adjacentNodes(N)">
 <h3 id="adjacentNodes(java.lang.Object)">adjacentNodes</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-188">adjacentNodes</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name">adjacentNodes</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
  this graph.
 
@@ -459,7 +459,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="predecessors(N)">
 <h3 id="predecessors(java.lang.Object)">predecessors</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-203">predecessors</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name">predecessors</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
@@ -481,7 +481,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="successors(N)">
 <h3 id="successors(java.lang.Object)">successors</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-229">successors</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;</span>&nbsp;<span class="element-name">successors</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
  traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
 
@@ -514,7 +514,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="incidentEdges(N)">
 <h3 id="incidentEdges(java.lang.Object)">incidentEdges</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-252">incidentEdges</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name">incidentEdges</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.
 
  <p>This is equal to the union of incoming and outgoing edges.
@@ -543,7 +543,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="degree(N)">
 <h3 id="degree(java.lang.Object)">degree</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-268">degree</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">degree</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns the count of <code>node</code>'s incident edges, counting self-loops twice (equivalently,
  the number of times an edge touches <code>node</code>).
 
@@ -564,7 +564,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="inDegree(N)">
 <h3 id="inDegree(java.lang.Object)">inDegree</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-279">inDegree</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">inDegree</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -580,7 +580,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="outDegree(N)">
 <h3 id="outDegree(java.lang.Object)">outDegree</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-290">outDegree</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">outDegree</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;node)</span></div>
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
  in a directed graph. In an undirected graph, returns the <a href="#degree(N)"><code>degree(Object)</code></a>.
 
@@ -596,7 +596,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasEdgeConnecting(N,N)">
 <h3 id="hasEdgeConnecting(java.lang.Object,java.lang.Object)">hasEdgeConnecting</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-301">hasEdgeConnecting</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">hasEdgeConnecting</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
  <a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</span></div>
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>. This is
  equivalent to <code>nodes().contains(nodeU) &amp;&amp; successors(nodeU).contains(nodeV)</code>.
@@ -613,7 +613,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasEdgeConnecting(com.google.common.graph.EndpointPair)">
 <h3>hasEdgeConnecting</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-317">hasEdgeConnecting</a></span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">hasEdgeConnecting</span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</span></div>
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
  any, specified by <code>endpoints</code>). This is equivalent to <code>
  edges().contains(endpoints)</code>.
@@ -634,7 +634,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="edgeValue(N,N)">
 <h3 id="edgeValue(java.lang.Object,java.lang.Object)">edgeValue</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-329">edgeValue</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&gt;</span>&nbsp;<span class="element-name">edgeValue</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
  <a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</span></div>
 <div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code> (in the order, if
  any, specified by <code>endpoints</code>), if one is present; otherwise, returns <code>
@@ -653,7 +653,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="edgeValue(com.google.common.graph.EndpointPair)">
 <h3>edgeValue</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-341">edgeValue</a></span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&gt;</span>&nbsp;<span class="element-name">edgeValue</span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</span></div>
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
  by <code>endpoints</code>), if one is present; otherwise, returns <code>Optional.empty()</code>.
 
@@ -672,7 +672,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="edgeValueOrDefault(N,N,V)">
 <h3 id="edgeValueOrDefault(java.lang.Object,java.lang.Object,java.lang.Object)">edgeValueOrDefault</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-353">edgeValueOrDefault</a></span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a></span>&nbsp;<span class="element-name">edgeValueOrDefault</span><wbr><span class="parameters">(<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
  <a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&nbsp;nodeV,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</span></div>
 <div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code>, if one is present;
@@ -692,7 +692,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="edgeValueOrDefault(com.google.common.graph.EndpointPair,V)">
 <h3 id="edgeValueOrDefault(com.google.common.graph.EndpointPair,java.lang.Object)">edgeValueOrDefault</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-365">edgeValueOrDefault</a></span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints,
+<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a></span>&nbsp;<span class="element-name">edgeValueOrDefault</span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="ValueGraph.html" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="ValueGraph.html" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</span></div>
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
  by <code>endpoints</code>), if one is present; otherwise, returns <code>defaultValue</code>.
@@ -712,7 +712,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-391">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
  the same structural relationships as those in this graph.
 
@@ -742,7 +742,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ValueGraph.html#line-401">hashCode</a></span>()</div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block">Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
  map from each of its <a href="#edges()"><code>edges</code></a> to the associated <a href="#edgeValue(N,N)"><code>edge
  value</code></a>.

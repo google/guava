@@ -124,7 +124,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-155">Ordering</a>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">Ordering&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;</span></div>
 <div class="block">A comparator, with additional methods to support common operations. This is an "enriched" version
@@ -488,7 +488,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="&lt;init&gt;()">
 <h3>Ordering</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-409">Ordering</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">Ordering</span>()</div>
 <div class="block">Constructs a new instance of this class (only invokable by the subclass constructor, typically
  implicit).</div>
 </div>
@@ -507,7 +507,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>natural</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;C&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-168">natural</a></span>()</div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;C&gt;</span>&nbsp;<span class="element-name">natural</span>()</div>
 <div class="block">Returns a serializable ordering that uses the natural order of the values. The ordering throws
  a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link"><code>NullPointerException</code></a> when passed a null parameter.
 
@@ -524,7 +524,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-193">from</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;&nbsp;comparator)</span></div>
+<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;T&gt;&nbsp;comparator)</span></div>
 <div class="block">Returns an ordering based on an <i>existing</i> comparator instance. Note that it is
  unnecessary to create a <i>new</i> anonymous inner class implementing <code>Comparator</code> just
  to pass it in here. Instead, simply subclass <code>Ordering</code> and implement its <code>compare</code>
@@ -553,7 +553,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-205">from</a></span><wbr><span class="parameters">(<a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</span></div>
+<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(<a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">no need to use this</div>
 </div>
@@ -566,7 +566,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>explicit</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-234">explicit</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;T&gt;&nbsp;valuesInOrder)</span></div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name">explicit</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;T&gt;&nbsp;valuesInOrder)</span></div>
 <div class="block">Returns an ordering that compares objects according to the order in which they appear in the
  given list. Only objects present in the list (according to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>) may be
  compared. This comparator imposes a "partial ordering" over the type <code>T</code>. Subsequent
@@ -596,7 +596,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3 id="explicit(java.lang.Object,java.lang.Object[])">explicit</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-260">explicit</a></span><wbr><span class="parameters">(T&nbsp;leastValue,
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name">explicit</span><wbr><span class="parameters">(T&nbsp;leastValue,
  T...&nbsp;remainingValuesInOrder)</span></div>
 <div class="block">Returns an ordering that compares objects according to the order in which they are given to
  this method. Only objects present in the argument list (according to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>) may
@@ -627,7 +627,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>allEqual</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-295">allEqual</a></span>()</div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">allEqual</span>()</div>
 <div class="block">Returns an ordering which treats all values as equal, indicating "no ordering." Passing this
  ordering to any <i>stable</i> sort algorithm results in no change to the order of elements.
  Note especially that <a href="#sortedCopy(java.lang.Iterable)"><code>sortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> and <a href="#immutableSortedCopy(java.lang.Iterable)"><code>immutableSortedCopy(java.lang.Iterable&lt;E&gt;)</code></a> are stable, and in
@@ -666,7 +666,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>usingToString</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-308">usingToString</a></span>()</div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">usingToString</span>()</div>
 <div class="block">Returns an ordering that compares objects by the natural ordering of their string
  representations as returned by <code>toString()</code>. It does not support null values.
 
@@ -680,7 +680,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="arbitrary()">
 <h3>arbitrary</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-329">arbitrary</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">arbitrary</span>()</div>
 <div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a, b) == 0</code> implies
  <code>a == b</code> (identity equality). There is no meaning whatsoever to the order imposed, but it
  is constant for the life of the VM.
@@ -701,7 +701,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>reverse</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-421">reverse</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;S&gt;</span>&nbsp;<span class="element-name">reverse</span>()</div>
 <div class="block">Returns the reverse of this ordering; the <code>Ordering</code> equivalent to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collections.html#reverseOrder(java.util.Comparator)" title="class or interface in java.util" class="external-link"><code>Collections.reverseOrder(Comparator)</code></a>.
 
  <p><b>Java 8+ users:</b> Use <code>thisComparator.reversed()</code> instead.</div>
@@ -713,7 +713,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>nullsFirst</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> S&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-436">nullsFirst</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> S&gt;</span>&nbsp;<span class="element-name">nullsFirst</span>()</div>
 <div class="block">Returns an ordering that treats <code>null</code> as less than all other values and uses <code>
  this</code> to compare non-null values.
 
@@ -728,7 +728,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>nullsLast</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> S&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-451">nullsLast</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> S&gt;</span>&nbsp;<span class="element-name">nullsLast</span>()</div>
 <div class="block">Returns an ordering that treats <code>null</code> as greater than all other values and uses this
  ordering to compare non-null values.
 
@@ -743,7 +743,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>onResultOf</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;F extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;F&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-469">onResultOf</a></span><wbr><span class="parameters">(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,<wbr>? extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;function)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;F extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;F&gt;</span>&nbsp;<span class="element-name">onResultOf</span><wbr><span class="parameters">(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;F,<wbr>? extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;function)</span></div>
 <div class="block">Returns a new ordering on <code>F</code> which orders elements by first applying a function to them,
  then comparing those results using <code>this</code>. For example, to compare objects by their
  string forms, in a case-insensitive manner, use:
@@ -766,7 +766,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>compound</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;U extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;U&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-494">compound</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;U extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;U&gt;</span>&nbsp;<span class="element-name">compound</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super U&gt;&nbsp;secondaryComparator)</span></div>
 <div class="block">Returns an ordering which first uses the ordering <code>this</code>, but which in the event of a
  "tie", then delegates to <code>secondaryComparator</code>. For example, to sort a bug list first by
  status and second by priority, you might use <code>byStatus.compound(byPriority)</code>. For a
@@ -790,7 +790,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-520">compound</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</span></div>
+<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name">compound</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super T&gt;&gt;&nbsp;comparators)</span></div>
 <div class="block">Returns an ordering which tries each given comparator in order until a non-zero result is
  found, returning that result, and returning zero only if all comparators return zero. The
  returned ordering is based on the state of the <code>comparators</code> iterable at the time it was
@@ -819,7 +819,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <h3>lexicographical</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
-</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;S&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-541">lexicographical</a></span>()</div>
+</span><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;S extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;S&gt;&gt;</span>&nbsp;<span class="element-name">lexicographical</span>()</div>
 <div class="block">Returns a new ordering which sorts iterables by comparing corresponding elements pairwise until
  a nonzero result is found; imposes "dictionary order". If the end of one iterable is reached,
  but not the other, the shorter iterable is considered to be less than the longer one. For
@@ -842,7 +842,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="compare(T,T)">
 <h3 id="compare(java.lang.Object,java.lang.Object)">compare</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-558">compare</a></span><wbr><span class="parameters">(<a href="Ordering.html" title="type parameter in Ordering">T</a>&nbsp;left,
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">compare</span><wbr><span class="parameters">(<a href="Ordering.html" title="type parameter in Ordering">T</a>&nbsp;left,
  <a href="Ordering.html" title="type parameter in Ordering">T</a>&nbsp;right)</span></div>
 <dl class="notes">
 <dt>Specified by:</dt>
@@ -855,7 +855,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="min(java.util.Iterator)">
 <h3>min</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-575">min</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;&nbsp;iterator)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name">min</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;&nbsp;iterator)</span></div>
 <div class="block">Returns the least of the specified values according to this ordering. If there are multiple
  least values, the first of those is returned. The iterator will be left exhausted: its <code>
  hasNext()</code> method will return <code>false</code>.
@@ -879,7 +879,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="min(java.lang.Iterable)">
 <h3>min</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-601">min</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name">min</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable)</span></div>
 <div class="block">Returns the least of the specified values according to this ordering. If there are multiple
  least values, the first of those is returned.
 
@@ -902,7 +902,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="min(E,E)">
 <h3 id="min(java.lang.Object,java.lang.Object)">min</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-621">min</a></span><wbr><span class="parameters">(E&nbsp;a,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name">min</span><wbr><span class="parameters">(E&nbsp;a,
  E&nbsp;b)</span></div>
 <div class="block">Returns the lesser of the two values according to this ordering. If the values compare as 0,
  the first is returned.
@@ -927,7 +927,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="min(E,E,E,E...)">
 <h3 id="min(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object[])">min</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-640">min</a></span><wbr><span class="parameters">(E&nbsp;a,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name">min</span><wbr><span class="parameters">(E&nbsp;a,
  E&nbsp;b,
  E&nbsp;c,
  E...&nbsp;rest)</span></div>
@@ -953,7 +953,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="max(java.util.Iterator)">
 <h3>max</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-666">max</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;&nbsp;iterator)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name">max</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;&nbsp;iterator)</span></div>
 <div class="block">Returns the greatest of the specified values according to this ordering. If there are multiple
  greatest values, the first of those is returned. The iterator will be left exhausted: its
  <code>hasNext()</code> method will return <code>false</code>.
@@ -977,7 +977,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="max(java.lang.Iterable)">
 <h3>max</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-692">max</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name">max</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable)</span></div>
 <div class="block">Returns the greatest of the specified values according to this ordering. If there are multiple
  greatest values, the first of those is returned.
 
@@ -1000,7 +1000,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="max(E,E)">
 <h3 id="max(java.lang.Object,java.lang.Object)">max</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-712">max</a></span><wbr><span class="parameters">(E&nbsp;a,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name">max</span><wbr><span class="parameters">(E&nbsp;a,
  E&nbsp;b)</span></div>
 <div class="block">Returns the greater of the two values according to this ordering. If the values compare as 0,
  the first is returned.
@@ -1025,7 +1025,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="max(E,E,E,E...)">
 <h3 id="max(java.lang.Object,java.lang.Object,java.lang.Object,java.lang.Object[])">max</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-731">max</a></span><wbr><span class="parameters">(E&nbsp;a,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type">E</span>&nbsp;<span class="element-name">max</span><wbr><span class="parameters">(E&nbsp;a,
  E&nbsp;b,
  E&nbsp;c,
  E...&nbsp;rest)</span></div>
@@ -1051,7 +1051,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="leastOf(java.lang.Iterable,int)">
 <h3>leastOf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-759">leastOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name">leastOf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable,
  int&nbsp;k)</span></div>
 <div class="block">Returns the <code>k</code> least elements of the given iterable according to this ordering, in order
  from least to greatest. If there are fewer than <code>k</code> elements present, all will be
@@ -1078,7 +1078,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="leastOf(java.util.Iterator,int)">
 <h3>leastOf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-795">leastOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;&nbsp;iterator,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name">leastOf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;&nbsp;iterator,
  int&nbsp;k)</span></div>
 <div class="block">Returns the <code>k</code> least elements from the given iterator according to this ordering, in
  order from least to greatest. If there are fewer than <code>k</code> elements present, all will be
@@ -1105,7 +1105,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="greatestOf(java.lang.Iterable,int)">
 <h3>greatestOf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-833">greatestOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name">greatestOf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable,
  int&nbsp;k)</span></div>
 <div class="block">Returns the <code>k</code> greatest elements of the given iterable according to this ordering, in
  order from greatest to least. If there are fewer than <code>k</code> elements present, all will be
@@ -1132,7 +1132,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="greatestOf(java.util.Iterator,int)">
 <h3>greatestOf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-855">greatestOf</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;&nbsp;iterator,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name">greatestOf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Iterator.html" title="class or interface in java.util" class="external-link">Iterator</a>&lt;E&gt;&nbsp;iterator,
  int&nbsp;k)</span></div>
 <div class="block">Returns the <code>k</code> greatest elements from the given iterator according to this ordering, in
  order from greatest to least. If there are fewer than <code>k</code> elements present, all will be
@@ -1159,7 +1159,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="sortedCopy(java.lang.Iterable)">
 <h3>sortedCopy</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-875">sortedCopy</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;elements)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;E&gt;</span>&nbsp;<span class="element-name">sortedCopy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;elements)</span></div>
 <div class="block">Returns a <b>mutable</b> list containing <code>elements</code> sorted by this ordering; use this
  only when the resulting list may need further modification, or may contain <code>null</code>. The
  input is not modified. The returned list is serializable and has random access.
@@ -1180,7 +1180,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="immutableSortedCopy(java.lang.Iterable)">
 <h3>immutableSortedCopy</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-898">immutableSortedCopy</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;elements)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</span>&nbsp;<span class="element-name">immutableSortedCopy</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;elements)</span></div>
 <div class="block">Returns an <b>immutable</b> list containing <code>elements</code> sorted by this ordering. The input
  is not modified.
 
@@ -1204,7 +1204,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="isOrdered(java.lang.Iterable)">
 <h3>isOrdered</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-911">isOrdered</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isOrdered</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</span></div>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is greater than or
  equal to the element that preceded it, according to this ordering. Note that this is always
  true when the iterable has fewer than two elements.
@@ -1219,7 +1219,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <section class="detail" id="isStrictlyOrdered(java.lang.Iterable)">
 <h3>isStrictlyOrdered</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-935">isStrictlyOrdered</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isStrictlyOrdered</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;iterable)</span></div>
 <div class="block">Returns <code>true</code> if each element in <code>iterable</code> after the first is <i>strictly</i>
  greater than the element that preceded it, according to this ordering. Note that this is always
  true when the iterable has fewer than two elements.
@@ -1236,7 +1236,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="Collections.binarySearch(sortedList, key, this)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#imports()" title="class or interface in com.google.errorprone.annotations" class="external-link">imports</a>="java.util.Collections")
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Ordering.html#line-958">binarySearch</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">binarySearch</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="Ordering.html" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
  <a href="Ordering.html" title="type parameter in Ordering">T</a>&nbsp;key)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collections.html#binarySearch(java.util.List,T,java.util.Comparator)" title="class or interface in java.util" class="external-link"><code>Collections.binarySearch(List, Object, Comparator)</code></a> directly.</div>

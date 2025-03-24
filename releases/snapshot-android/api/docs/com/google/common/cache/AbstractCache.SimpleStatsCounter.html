@@ -102,7 +102,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="AbstractCache.html" title="class in com.google.common.cache">AbstractCache</a>&lt;<a href="AbstractCache.html" title="type parameter in AbstractCache">K</a>,<wbr><a href="AbstractCache.html" title="type parameter in AbstractCache">V</a>&gt;</code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.html#line-209">AbstractCache.SimpleStatsCounter</a></span>
+<div class="type-signature"><span class="modifiers">public static final class </span><span class="element-name type-name-label">AbstractCache.SimpleStatsCounter</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="AbstractCache.StatsCounter.html" title="interface in com.google.common.cache">AbstractCache.StatsCounter</a></span></div>
 <div class="block">A thread-safe <a href="AbstractCache.StatsCounter.html" title="interface in com.google.common.cache"><code>AbstractCache.StatsCounter</code></a> implementation for use by <a href="Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> implementors.</div>
@@ -198,7 +198,7 @@ implements <a href="AbstractCache.StatsCounter.html" title="interface in com.goo
 <section class="detail" id="&lt;init&gt;()">
 <h3>SimpleStatsCounter</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.SimpleStatsCounter.html#line-218">SimpleStatsCounter</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">SimpleStatsCounter</span>()</div>
 <div class="block">Constructs an instance with all counts initialized to zero.</div>
 </div>
 </section>
@@ -215,7 +215,7 @@ implements <a href="AbstractCache.StatsCounter.html" title="interface in com.goo
 <section class="detail" id="recordHits(int)">
 <h3>recordHits</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.SimpleStatsCounter.html#line-223">recordHits</a></span><wbr><span class="parameters">(int&nbsp;count)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">recordHits</span><wbr><span class="parameters">(int&nbsp;count)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="AbstractCache.StatsCounter.html#recordHits(int)">AbstractCache.StatsCounter</a></code></span></div>
 <div class="block">Records cache hits. This should be called when a cache request returns a cached value.</div>
 <dl class="notes">
@@ -233,7 +233,7 @@ implements <a href="AbstractCache.StatsCounter.html" title="interface in com.goo
 <section class="detail" id="recordMisses(int)">
 <h3>recordMisses</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.SimpleStatsCounter.html#line-231">recordMisses</a></span><wbr><span class="parameters">(int&nbsp;count)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">recordMisses</span><wbr><span class="parameters">(int&nbsp;count)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="AbstractCache.StatsCounter.html#recordMisses(int)">AbstractCache.StatsCounter</a></code></span></div>
 <div class="block">Records cache misses. This should be called when a cache request returns a value that was not
  found in the cache. This method should be called by the loading thread, as well as by threads
@@ -256,7 +256,7 @@ implements <a href="AbstractCache.StatsCounter.html" title="interface in com.goo
 <section class="detail" id="recordLoadSuccess(long)">
 <h3>recordLoadSuccess</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.SimpleStatsCounter.html#line-236">recordLoadSuccess</a></span><wbr><span class="parameters">(long&nbsp;loadTime)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">recordLoadSuccess</span><wbr><span class="parameters">(long&nbsp;loadTime)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="AbstractCache.StatsCounter.html#recordLoadSuccess(long)">AbstractCache.StatsCounter</a></code></span></div>
 <div class="block">Records the successful load of a new entry. This should be called when a cache request causes
  an entry to be loaded, and the loading completes successfully. In contrast to <a href="AbstractCache.StatsCounter.html#recordMisses(int)"><code>AbstractCache.StatsCounter.recordMisses(int)</code></a>, this method should only be called by the loading thread.</div>
@@ -274,7 +274,7 @@ implements <a href="AbstractCache.StatsCounter.html" title="interface in com.goo
 <section class="detail" id="recordLoadException(long)">
 <h3>recordLoadException</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.SimpleStatsCounter.html#line-243">recordLoadException</a></span><wbr><span class="parameters">(long&nbsp;loadTime)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">recordLoadException</span><wbr><span class="parameters">(long&nbsp;loadTime)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="AbstractCache.StatsCounter.html#recordLoadException(long)">AbstractCache.StatsCounter</a></code></span></div>
 <div class="block">Records the failed load of a new entry. This should be called when a cache request causes an
  entry to be loaded, but an exception is thrown while loading the entry. In contrast to <a href="AbstractCache.StatsCounter.html#recordMisses(int)"><code>AbstractCache.StatsCounter.recordMisses(int)</code></a>, this method should only be called by the loading thread.</div>
@@ -292,7 +292,7 @@ implements <a href="AbstractCache.StatsCounter.html" title="interface in com.goo
 <section class="detail" id="recordEviction()">
 <h3>recordEviction</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.SimpleStatsCounter.html#line-250">recordEviction</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">recordEviction</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="AbstractCache.StatsCounter.html#recordEviction()">AbstractCache.StatsCounter</a></code></span></div>
 <div class="block">Records the eviction of an entry from the cache. This should only been called when an entry
  is evicted due to the cache's eviction strategy, and not as a result of manual <a href="Cache.html#invalidate(java.lang.Object)">invalidations</a>.</div>
@@ -307,7 +307,7 @@ implements <a href="AbstractCache.StatsCounter.html" title="interface in com.goo
 <section class="detail" id="snapshot()">
 <h3>snapshot</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CacheStats.html" title="class in com.google.common.cache">CacheStats</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.SimpleStatsCounter.html#line-255">snapshot</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CacheStats.html" title="class in com.google.common.cache">CacheStats</a></span>&nbsp;<span class="element-name">snapshot</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="AbstractCache.StatsCounter.html#snapshot()">AbstractCache.StatsCounter</a></code></span></div>
 <div class="block">Returns a snapshot of this counter's values. Note that this may be an inconsistent view, as
  it may be interleaved with update operations.</div>
@@ -322,7 +322,7 @@ implements <a href="AbstractCache.StatsCounter.html" title="interface in com.goo
 <section class="detail" id="incrementBy(com.google.common.cache.AbstractCache.StatsCounter)">
 <h3>incrementBy</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/cache/AbstractCache.SimpleStatsCounter.html#line-272">incrementBy</a></span><wbr><span class="parameters">(<a href="AbstractCache.StatsCounter.html" title="interface in com.google.common.cache">AbstractCache.StatsCounter</a>&nbsp;other)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">incrementBy</span><wbr><span class="parameters">(<a href="AbstractCache.StatsCounter.html" title="interface in com.google.common.cache">AbstractCache.StatsCounter</a>&nbsp;other)</span></div>
 <div class="block">Increments all counters by the values in <code>other</code>.</div>
 </div>
 </section>

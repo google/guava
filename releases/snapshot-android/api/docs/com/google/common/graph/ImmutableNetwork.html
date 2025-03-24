@@ -112,7 +112,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@Immutable</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html#containerOf()" title="class or interface in com.google.errorprone.annotations" class="external-link">containerOf</a>={"N","E"})
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/graph/ImmutableNetwork.html#line-47">ImmutableNetwork</a>&lt;N,<wbr>E&gt;</span>
+</span><span class="modifiers">public final class </span><span class="element-name type-name-label">ImmutableNetwork&lt;N,<wbr>E&gt;</span>
 <span class="extends-implements">extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a>&lt;N,<wbr>E&gt;</span></div>
 <div class="block">A <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose elements and structural relationships will never change. Instances of
  this class may be obtained with <a href="#copyOf(com.google.common.graph.Network)"><code>copyOf(Network)</code></a>.
@@ -286,7 +286,7 @@ E&gt;&nbsp;<a href="ImmutableNetwork.html" title="class in com.google.common.gra
 <h3>copyOf</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N,<wbr>
-E&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ImmutableNetwork.html#line-58">copyOf</a></span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network)</span></div>
+E&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name">copyOf</span><wbr><span class="parameters">(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network)</span></div>
 <div class="block">Returns an immutable copy of <code>network</code>.</div>
 </div>
 </section>
@@ -299,7 +299,7 @@ E&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableNetwork.html" titl
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N,<wbr>
-E&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ImmutableNetwork.html#line-69">copyOf</a></span><wbr><span class="parameters">(<a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,<wbr>E&gt;&nbsp;network)</span></div>
+E&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name">copyOf</span><wbr><span class="parameters">(<a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,<wbr>E&gt;&nbsp;network)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">no need to use this</div>
 </div>
@@ -311,7 +311,7 @@ E&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableNetwork.html" titl
 <section class="detail" id="asGraph()">
 <h3>asGraph</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;<a href="ImmutableNetwork.html" title="type parameter in ImmutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/graph/ImmutableNetwork.html#line-77">asGraph</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;<a href="ImmutableNetwork.html" title="type parameter in ImmutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">asGraph</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#asGraph()">Network</a></code></span></div>
 <div class="block">Returns a live view of this network as a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>. The resulting <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will have
  an edge connecting node A to node B if this <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> has an edge connecting A to B.

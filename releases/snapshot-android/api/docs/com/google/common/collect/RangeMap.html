@@ -97,7 +97,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use ImmutableRangeMap or TreeRangeMap")
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-37">RangeMap</a>&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>,<wbr>V&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">RangeMap&lt;K extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>,<wbr>V&gt;</span></div>
 <div class="block">A mapping from disjoint nonempty ranges to non-null values. Queries look up the value associated
  with the range (if any) that contains a specified key.
 
@@ -216,7 +216,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="get(K)">
 <h3 id="get(java.lang.Comparable)">get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-52">get</a></span><wbr><span class="parameters">(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="RangeMap.html" title="type parameter in RangeMap">V</a></span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</span></div>
 <div class="block">Returns the value associated with the specified key, or <code>null</code> if there is no such value.
 
  <p>Specifically, if any range in this range map contains the specified key, the value
@@ -228,7 +228,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="getEntry(K)">
 <h3 id="getEntry(java.lang.Comparable)">getEntry</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<wbr><a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-58">getEntry</a></span><wbr><span class="parameters">(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<wbr><a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</span>&nbsp;<span class="element-name">getEntry</span><wbr><span class="parameters">(<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&nbsp;key)</span></div>
 <div class="block">Returns the range containing this key and its associated value, if such a range is present in
  the range map, or <code>null</code> otherwise.</div>
 </div>
@@ -238,7 +238,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="span()">
 <h3>span</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-66">span</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;</span>&nbsp;<span class="element-name">span</span>()</div>
 <div class="block">Returns the minimal range <a href="Range.html#encloses(com.google.common.collect.Range)">enclosing</a> the ranges in this
  <code>RangeMap</code>.</div>
 <dl class="notes">
@@ -252,7 +252,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="put(com.google.common.collect.Range,V)">
 <h3 id="put(com.google.common.collect.Range,java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-77">put</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
  <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value)</span></div>
 <div class="block">Maps a range to a specified value (optional operation).
 
@@ -267,7 +267,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="putCoalescing(com.google.common.collect.Range,V)">
 <h3 id="putCoalescing(com.google.common.collect.Range,java.lang.Object)">putCoalescing</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-97">putCoalescing</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">putCoalescing</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range,
  <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&nbsp;value)</span></div>
 <div class="block">Maps a range to a specified value, coalescing this range with any existing ranges with the same
  value that are <a href="Range.html#isConnected(com.google.common.collect.Range)">connected</a> to this range.
@@ -294,7 +294,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="putAll(com.google.common.collect.RangeMap)">
 <h3>putAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-100">putAll</a></span><wbr><span class="parameters">(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,<wbr>? extends <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;rangeMap)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">putAll</span><wbr><span class="parameters">(<a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,<wbr>? extends <a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;&nbsp;rangeMap)</span></div>
 <div class="block">Puts all the associations from <code>rangeMap</code> into this range map (optional operation).</div>
 </div>
 </section>
@@ -303,7 +303,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="clear()">
 <h3>clear</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-103">clear</a></span>()</div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">clear</span>()</div>
 <div class="block">Removes all associations from this range map (optional operation).</div>
 </div>
 </section>
@@ -312,7 +312,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="remove(com.google.common.collect.Range)">
 <h3>remove</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-112">remove</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</span></div>
 <div class="block">Removes all associations from this range map in the specified range (optional operation).
 
  <p>If <code>!range.contains(k)</code>, <a href="#get(K)"><code>get(k)</code></a> will return the same result
@@ -325,7 +325,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="asMapOfRanges()">
 <h3>asMapOfRanges</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<wbr><a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-123">asMapOfRanges</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<wbr><a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</span>&nbsp;<span class="element-name">asMapOfRanges</span>()</div>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
 
@@ -340,7 +340,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="asDescendingMapOfRanges()">
 <h3>asDescendingMapOfRanges</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<wbr><a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-136">asDescendingMapOfRanges</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;,<wbr><a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</span>&nbsp;<span class="element-name">asDescendingMapOfRanges</span>()</div>
 <div class="block">Returns a view of this range map as an unmodifiable <code>Map&lt;Range&lt;K&gt;, V&gt;</code>. Modifications to
  this range map are guaranteed to read through to the returned <code>Map</code>.
 
@@ -359,7 +359,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="subRangeMap(com.google.common.collect.Range)">
 <h3>subRangeMap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,<wbr><a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-152">subRangeMap</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</span></div>
+<div class="member-signature"><span class="return-type"><a href="RangeMap.html" title="interface in com.google.common.collect">RangeMap</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>,<wbr><a href="RangeMap.html" title="type parameter in RangeMap">V</a>&gt;</span>&nbsp;<span class="element-name">subRangeMap</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeMap.html" title="type parameter in RangeMap">K</a>&gt;&nbsp;range)</span></div>
 <div class="block">Returns a view of the part of this range map that intersects with <code>range</code>.
 
  <p>For example, if <code>rangeMap</code> had the entries <code>[1, 5] =&gt; "foo", (6, 8) =&gt; "bar",
@@ -378,7 +378,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-158">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;o)</span></div>
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeMap</code> that has an equivalent <a href="#asMapOfRanges()"><code>asMapOfRanges()</code></a>.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
@@ -391,7 +391,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-162">hashCode</a></span>()</div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block">Returns <code>asMapOfRanges().hashCode()</code>.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
@@ -404,7 +404,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeMap.html#line-166">toString</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">Returns a readable string representation of this range map.</div>
 <dl class="notes">
 <dt>Overrides:</dt>

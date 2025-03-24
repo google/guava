@@ -98,7 +98,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line-64">AbstractIterator</a>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">AbstractIterator&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="extends-implements">extends <a href="UnmodifiableIterator.html" title="class in com.google.common.collect">UnmodifiableIterator</a>&lt;T&gt;</span></div>
 <div class="block">This class provides a skeletal implementation of the <code>Iterator</code> interface, to make this
  interface easier to implement for certain types of data sources.
@@ -221,7 +221,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;()">
 <h3>AbstractIterator</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line-69">AbstractIterator</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">AbstractIterator</span>()</div>
 <div class="block">Constructor for use by subclasses.</div>
 </div>
 </section>
@@ -238,7 +238,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="computeNext()">
 <h3>computeNext</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line-111">computeNext</a></span>()</div>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></span>&nbsp;<span class="element-name">computeNext</span>()</div>
 <div class="block">Returns the next element. <b>Note:</b> the implementation must call <a href="#endOfData()"><code>endOfData()</code></a> when
  there are no elements left in the iteration. Failure to do so could result in an infinite loop.
 
@@ -271,7 +271,7 @@ loadScripts(document, 'script');</script>
 <h3>endOfData</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line-120">endOfData</a></span>()</div>
+</span><span class="modifiers">protected final</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></span>&nbsp;<span class="element-name">endOfData</span>()</div>
 <div class="block">Implementations of <a href="#computeNext()"><code>computeNext()</code></a> <b>must</b> invoke this method when there are no
  elements left in the iteration.</div>
 <dl class="notes">
@@ -286,7 +286,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hasNext()">
 <h3>hasNext</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line-126">hasNext</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasNext</span>()</div>
 </div>
 </section>
 </li>
@@ -295,7 +295,7 @@ loadScripts(document, 'script');</script>
 <h3>next</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line-149">next</a></span>()</div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></span>&nbsp;<span class="element-name">next</span>()</div>
 </div>
 </section>
 </li>
@@ -303,7 +303,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="peek()">
 <h3>peek</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/AbstractIterator.html#line-170">peek</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="AbstractIterator.html" title="type parameter in AbstractIterator">T</a></span>&nbsp;<span class="element-name">peek</span>()</div>
 <div class="block">Returns the next element in the iteration without advancing the iteration, according to the
  contract of <a href="PeekingIterator.html#peek()"><code>PeekingIterator.peek()</code></a>.
 

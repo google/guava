@@ -105,7 +105,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use ImmutableRangeSet or TreeRangeSet")
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-51">RangeSet</a>&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">RangeSet&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&gt;</span></div>
 <div class="block">A set comprising zero or more <a href="Range.html#isEmpty()">nonempty</a>, <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges of type <code>C</code>.
 
  <p>Implementations that choose to support the <a href="#add(com.google.common.collect.Range)"><code>add(Range)</code></a> operation are required to
@@ -287,7 +287,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="contains(C)">
 <h3 id="contains(java.lang.Comparable)">contains</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-59">contains</a></span><wbr><span class="parameters">(<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">contains</span><wbr><span class="parameters">(<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&nbsp;value)</span></div>
 <div class="block">Determines whether any of this range set's member ranges contains <code>value</code>.</div>
 </div>
 </section>
@@ -296,7 +296,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="rangeContaining(C)">
 <h3 id="rangeContaining(java.lang.Comparable)">rangeContaining</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-65">rangeContaining</a></span><wbr><span class="parameters">(<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&nbsp;value)</span></div>
+<div class="member-signature"><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;</span>&nbsp;<span class="element-name">rangeContaining</span><wbr><span class="parameters">(<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&nbsp;value)</span></div>
 <div class="block">Returns the unique range from this range set that <a href="Range.html#contains(C)">contains</a> <code>
  value</code>, or <code>null</code> if this range set does not contain <code>value</code>.</div>
 </div>
@@ -306,7 +306,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="intersects(com.google.common.collect.Range)">
 <h3>intersects</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-74">intersects</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;otherRange)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">intersects</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;otherRange)</span></div>
 <div class="block">Returns <code>true</code> if there exists a non-empty range enclosed by both a member range in this
  range set and the specified range. This is equivalent to calling <code>
  subRangeSet(otherRange)</code> and testing whether the resulting range set is non-empty.</div>
@@ -321,7 +321,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="encloses(com.google.common.collect.Range)">
 <h3>encloses</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-80">encloses</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;otherRange)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">encloses</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;otherRange)</span></div>
 <div class="block">Returns <code>true</code> if there exists a member range in this range set which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> the specified range.</div>
 </div>
 </section>
@@ -330,7 +330,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="enclosesAll(com.google.common.collect.RangeSet)">
 <h3>enclosesAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-91">enclosesAll</a></span><wbr><span class="parameters">(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;other)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">enclosesAll</span><wbr><span class="parameters">(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;other)</span></div>
 <div class="block">Returns <code>true</code> if for each member range in <code>other</code> there exists a member range in
  this range set which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> it. It follows that <code>
  this.contains(value)</code> whenever <code>other.contains(value)</code>. Returns <code>true</code> if <code>
@@ -345,7 +345,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="enclosesAll(java.lang.Iterable)">
 <h3>enclosesAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-103">enclosesAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;&nbsp;other)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">enclosesAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;&nbsp;other)</span></div>
 <div class="block">Returns <code>true</code> if for each range in <code>other</code> there exists a member range in this
  range set which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> it. Returns <code>true</code> if <code>other</code>
  is empty.
@@ -363,7 +363,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="isEmpty()">
 <h3>isEmpty</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-106">isEmpty</a></span>()</div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">isEmpty</span>()</div>
 <div class="block">Returns <code>true</code> if this range set contains no ranges.</div>
 </div>
 </section>
@@ -372,7 +372,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="span()">
 <h3>span</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-114">span</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;</span>&nbsp;<span class="element-name">span</span>()</div>
 <div class="block">Returns the minimal range which <a href="Range.html#encloses(com.google.common.collect.Range)">encloses</a> all ranges in this
  range set.</div>
 <dl class="notes">
@@ -386,7 +386,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="asRanges()">
 <h3>asRanges</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-124">asRanges</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;</span>&nbsp;<span class="element-name">asRanges</span>()</div>
 <div class="block">Returns a view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make up this
  range set. The returned set may be empty. The iterators returned by its <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html#iterator()" title="class or interface in java.lang" class="external-link"><code>Iterable.iterator()</code></a> method return the ranges in increasing order of lower bound (equivalently,
  of upper bound).</div>
@@ -397,7 +397,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="asDescendingSetOfRanges()">
 <h3>asDescendingSetOfRanges</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-134">asDescendingSetOfRanges</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;</span>&nbsp;<span class="element-name">asDescendingSetOfRanges</span>()</div>
 <div class="block">Returns a descending view of the <a href="Range.html#isConnected(com.google.common.collect.Range)">disconnected</a> ranges that make
  up this range set. The returned set may be empty. The iterators returned by its <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html#iterator()" title="class or interface in java.lang" class="external-link"><code>Iterable.iterator()</code></a> method return the ranges in decreasing order of lower bound (equivalently,
  of upper bound).</div>
@@ -412,7 +412,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="complement()">
 <h3>complement</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-142">complement</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;</span>&nbsp;<span class="element-name">complement</span>()</div>
 <div class="block">Returns a view of the complement of this <code>RangeSet</code>.
 
  <p>The returned view supports the <a href="#add(com.google.common.collect.Range)"><code>add(com.google.common.collect.Range&lt;C&gt;)</code></a> operation if this <code>RangeSet</code> supports
@@ -424,7 +424,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="subRangeSet(com.google.common.collect.Range)">
 <h3>subRangeSet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-151">subRangeSet</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;view)</span></div>
+<div class="member-signature"><span class="return-type"><a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;</span>&nbsp;<span class="element-name">subRangeSet</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;view)</span></div>
 <div class="block">Returns a view of the intersection of this <code>RangeSet</code> with the specified range.
 
  <p>The returned view supports all optional operations supported by this <code>RangeSet</code>, with
@@ -436,7 +436,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="add(com.google.common.collect.Range)">
 <h3>add</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-167">add</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;range)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;range)</span></div>
 <div class="block">Adds the specified range to this <code>RangeSet</code> (optional operation). That is, for equal
  range sets a and b, the result of <code>a.add(range)</code> is that <code>a</code> will be the minimal
  range set for which both <code>a.enclosesAll(b)</code> and <code>a.encloses(range)</code>.
@@ -456,7 +456,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="remove(com.google.common.collect.Range)">
 <h3>remove</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-178">remove</a></span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;range)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;range)</span></div>
 <div class="block">Removes the specified range from this <code>RangeSet</code> (optional operation). After this
  operation, if <code>range.contains(c)</code>, <code>this.contains(c)</code> will return <code>false</code>.
 
@@ -473,7 +473,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="clear()">
 <h3>clear</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-189">clear</a></span>()</div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">clear</span>()</div>
 <div class="block">Removes all ranges from this <code>RangeSet</code> (optional operation). After this operation,
  <code>this.contains(c)</code> will return false for all <code>c</code>.
 
@@ -490,7 +490,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="addAll(com.google.common.collect.RangeSet)">
 <h3>addAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-201">addAll</a></span><wbr><span class="parameters">(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;other)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addAll</span><wbr><span class="parameters">(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;other)</span></div>
 <div class="block">Adds all of the ranges from the specified range set to this range set (optional operation).
  After this operation, this range set is the minimal range set that <a href="#enclosesAll(com.google.common.collect.RangeSet)">encloses</a> both the original range set and <code>other</code>.
 
@@ -507,7 +507,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="addAll(java.lang.Iterable)">
 <h3>addAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-214">addAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;&nbsp;ranges)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">addAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;&nbsp;ranges)</span></div>
 <div class="block">Adds all of the specified ranges to this range set (optional operation). After this operation,
  this range set is the minimal range set that <a href="#enclosesAll(com.google.common.collect.RangeSet)">encloses</a> both
  the original range set and each range in <code>other</code>.
@@ -527,7 +527,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="removeAll(com.google.common.collect.RangeSet)">
 <h3>removeAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-227">removeAll</a></span><wbr><span class="parameters">(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;other)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">removeAll</span><wbr><span class="parameters">(<a href="RangeSet.html" title="interface in com.google.common.collect">RangeSet</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&nbsp;other)</span></div>
 <div class="block">Removes all of the ranges from the specified range set from this range set (optional
  operation). After this operation, if <code>other.contains(c)</code>, <code>this.contains(c)</code> will
  return <code>false</code>.
@@ -546,7 +546,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="removeAll(java.lang.Iterable)">
 <h3>removeAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-239">removeAll</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;&nbsp;ranges)</span></div>
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">removeAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="Range.html" title="class in com.google.common.collect">Range</a>&lt;<a href="RangeSet.html" title="type parameter in RangeSet">C</a>&gt;&gt;&nbsp;ranges)</span></div>
 <div class="block">Removes all of the specified ranges from this range set (optional operation).
 
  <p>This is equivalent to calling <a href="#remove(com.google.common.collect.Range)"><code>remove(com.google.common.collect.Range&lt;C&gt;)</code></a> on each of the ranges in <code>other</code> in
@@ -565,7 +565,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="equals(java.lang.Object)">
 <h3>equals</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-247">equals</a></span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
 <div class="block">Returns <code>true</code> if <code>obj</code> is another <code>RangeSet</code> that contains the same ranges
  according to <a href="Range.html#equals(java.lang.Object)"><code>Range.equals(Object)</code></a>.</div>
 <dl class="notes">
@@ -579,7 +579,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="hashCode()">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-251">hashCode</a></span>()</div>
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
 <div class="block">Returns <code>asRanges().hashCode()</code>.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
@@ -592,7 +592,7 @@ rangeSet.remove(Range.open(5, 10)); // splits [1, 10]; {[1, 5], [10, 10], [11, 2
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/RangeSet.html#line-259">toString</a></span>()</div>
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">Returns a readable string representation of this range set. For example, if this <code>
  RangeSet</code> consisted of <code>Range.closed(1, 3)</code> and <code>Range.greaterThan(4)</code>, this might
  return <code>" [1..3](4..+∞)</code>"}.</div>

@@ -96,7 +96,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name"><a href="../../../../src-html/com/google/common/escape/ArrayBasedUnicodeEscaper.html#line-43">ArrayBasedUnicodeEscaper</a></span>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">ArrayBasedUnicodeEscaper</span>
 <span class="extends-implements">extends <a href="UnicodeEscaper.html" title="class in com.google.common.escape">UnicodeEscaper</a></span></div>
 <div class="block">A <a href="UnicodeEscaper.html" title="class in com.google.common.escape"><code>UnicodeEscaper</code></a> that uses an array to quickly look up replacement characters for a given
  code point. An additional safe range is provided that determines whether code points without
@@ -214,7 +214,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(java.util.Map,int,int,java.lang.String)">
 <h3>ArrayBasedUnicodeEscaper</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/ArrayBasedUnicodeEscaper.html#line-72">ArrayBasedUnicodeEscaper</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Character.html" title="class or interface in java.lang" class="external-link">Character</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;replacementMap,
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">ArrayBasedUnicodeEscaper</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Character.html" title="class or interface in java.lang" class="external-link">Character</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;&nbsp;replacementMap,
  int&nbsp;safeMin,
  int&nbsp;safeMax,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;unsafeReplacement)</span></div>
@@ -238,7 +238,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="&lt;init&gt;(com.google.common.escape.ArrayBasedEscaperMap,int,int,java.lang.String)">
 <h3>ArrayBasedUnicodeEscaper</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/ArrayBasedUnicodeEscaper.html#line-95">ArrayBasedUnicodeEscaper</a></span><wbr><span class="parameters">(<a href="ArrayBasedEscaperMap.html" title="class in com.google.common.escape">ArrayBasedEscaperMap</a>&nbsp;escaperMap,
+<div class="member-signature"><span class="modifiers">protected</span>&nbsp;<span class="element-name">ArrayBasedUnicodeEscaper</span><wbr><span class="parameters">(<a href="ArrayBasedEscaperMap.html" title="class in com.google.common.escape">ArrayBasedEscaperMap</a>&nbsp;escaperMap,
  int&nbsp;safeMin,
  int&nbsp;safeMax,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;unsafeReplacement)</span></div>
@@ -272,7 +272,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="escape(java.lang.String)">
 <h3>escape</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/ArrayBasedUnicodeEscaper.html#line-142">escape</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;s)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">escape</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;s)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="UnicodeEscaper.html#escape(java.lang.String)">UnicodeEscaper</a></code></span></div>
 <div class="block">Returns the escaped form of a given literal string.
 
@@ -299,7 +299,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="escape(int)">
 <h3>escape</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">char <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> []</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/ArrayBasedUnicodeEscaper.html#line-163">escape</a></span><wbr><span class="parameters">(int&nbsp;cp)</span></div>
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">char <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> []</span>&nbsp;<span class="element-name">escape</span><wbr><span class="parameters">(int&nbsp;cp)</span></div>
 <div class="block">Escapes a single Unicode code point using the replacement array and safe range values. If the
  given character does not have an explicit replacement and lies outside the safe range then
  <a href="#escapeUnsafe(int)"><code>escapeUnsafe(int)</code></a> is called.</div>
@@ -318,7 +318,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="nextEscapeIndex(java.lang.CharSequence,int,int)">
 <h3>nextEscapeIndex</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/ArrayBasedUnicodeEscaper.html#line-178">nextEscapeIndex</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;csq,
+<div class="member-signature"><span class="modifiers">protected final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">nextEscapeIndex</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;csq,
  int&nbsp;index,
  int&nbsp;end)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="UnicodeEscaper.html#nextEscapeIndex(java.lang.CharSequence,int,int)">UnicodeEscaper</a></code></span></div>
@@ -351,7 +351,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="escapeUnsafe(int)">
 <h3>escapeUnsafe</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">char <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> []</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/escape/ArrayBasedUnicodeEscaper.html#line-204">escapeUnsafe</a></span><wbr><span class="parameters">(int&nbsp;cp)</span></div>
+<div class="member-signature"><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">char <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> []</span>&nbsp;<span class="element-name">escapeUnsafe</span><wbr><span class="parameters">(int&nbsp;cp)</span></div>
 <div class="block">Escapes a code point that has no direct explicit value in the replacement array and lies
  outside the stated safe range. Subclasses should override this method to provide generalized
  escaping for code points if required.

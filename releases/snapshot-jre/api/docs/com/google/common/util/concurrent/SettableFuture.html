@@ -100,7 +100,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line-35">SettableFuture</a>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+</span><span class="modifiers">public final class </span><span class="element-name type-name-label">SettableFuture&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="extends-implements">extends <a href="AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a>&lt;V&gt;</span></div>
 <div class="block">A <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> whose result can be set by a <a href="#set(V)"><code>set(Object)</code></a>, <a href="#setException(java.lang.Throwable)"><code>setException(Throwable)</code></a> or <a href="#setFuture(com.google.common.util.concurrent.ListenableFuture)"><code>setFuture(ListenableFuture)</code></a> call. It can also, like any
  other <code>Future</code>, be <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html#cancel(boolean)" title="class or interface in java.util.concurrent" class="external-link">cancelled</a>.
@@ -213,7 +213,7 @@ loadScripts(document, 'script');</script>
 <h3>create</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line-41">create</a></span>()</div>
+<span class="return-type"><a href="SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a>&lt;V&gt;</span>&nbsp;<span class="element-name">create</span>()</div>
 <div class="block">Creates a new <code>SettableFuture</code> that can be completed or cancelled by a later method call.</div>
 </div>
 </section>
@@ -223,7 +223,7 @@ loadScripts(document, 'script');</script>
 <h3 id="set(java.lang.Object)">set</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line-45">set</a></span><wbr><span class="parameters">(<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a>&nbsp;value)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">set</span><wbr><span class="parameters">(<a href="SettableFuture.html" title="type parameter in SettableFuture">V</a>&nbsp;value)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="AbstractFuture.html#set(V)">AbstractFuture</a></code></span></div>
 <div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
  set (including <a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this method returns,
@@ -251,7 +251,7 @@ loadScripts(document, 'script');</script>
 <h3>setException</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line-51">setException</a></span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;throwable)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">setException</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;throwable)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="AbstractFuture.html#setException(java.lang.Throwable)">AbstractFuture</a></code></span></div>
 <div class="block">Sets the failed result of this <code>Future</code> unless this <code>Future</code> has already been
  cancelled or set (including <a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this
@@ -279,7 +279,7 @@ loadScripts(document, 'script');</script>
 <h3>setFuture</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name"><a href="../../../../../src-html/com/google/common/util/concurrent/SettableFuture.html#line-57">setFuture</a></span><wbr><span class="parameters">(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</span></div>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">setFuture</span><wbr><span class="parameters">(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="SettableFuture.html" title="type parameter in SettableFuture">V</a>&gt;&nbsp;future)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from class:&nbsp;<code><a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)">AbstractFuture</a></code></span></div>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
  supplied <code>Future</code> is done, unless this <code>Future</code> has already been cancelled or set

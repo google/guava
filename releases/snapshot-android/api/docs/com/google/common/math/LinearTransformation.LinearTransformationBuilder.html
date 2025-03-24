@@ -87,7 +87,7 @@ loadScripts(document, 'script');</script>
 <dd><code><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></code></dd>
 </dl>
 <hr>
-<div class="type-signature"><span class="modifiers">public static final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.html#line-66">LinearTransformation.LinearTransformationBuilder</a></span>
+<div class="type-signature"><span class="modifiers">public static final class </span><span class="element-name type-name-label">LinearTransformation.LinearTransformationBuilder</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">This is an intermediate stage in the construction process. It is returned by <a href="LinearTransformation.html#mapping(double,double)"><code>LinearTransformation.mapping(double, double)</code></a>. You almost certainly don't want to keep instances around, but
  instead use method chaining. This represents a single point mapping, i.e. a mapping between one
@@ -146,7 +146,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="and(double,double)">
 <h3>and</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#line-82">and</a></span><wbr><span class="parameters">(double&nbsp;x2,
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name">and</span><wbr><span class="parameters">(double&nbsp;x2,
  double&nbsp;y2)</span></div>
 <div class="block">Finish building an instance which also maps <code>x = x2</code> to <code>y = y2</code>. These values
  must not both be identical to the values given in the first mapping. If only the <code>x</code>
@@ -159,7 +159,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="withSlope(double)">
 <h3>withSlope</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/math/LinearTransformation.LinearTransformationBuilder.html#line-97">withSlope</a></span><wbr><span class="parameters">(double&nbsp;slope)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name">withSlope</span><wbr><span class="parameters">(double&nbsp;slope)</span></div>
 <div class="block">Finish building an instance with the given slope, i.e. the rate of change of <code>y</code> with
  respect to <code>x</code>. The slope must not be <code>NaN</code>. It may be infinite, in which case
  the transformation is vertical. (If it is zero, the transformation is horizontal.)</div>

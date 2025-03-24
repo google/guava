@@ -86,7 +86,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <hr>
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public final class </span><span class="element-name"><a href="../../../../src-html/com/google/common/collect/Interners.html#line-35">Interners</a></span>
+</span><span class="modifiers">public final class </span><span class="element-name type-name-label">Interners</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Contains static methods pertaining to instances of <a href="Interner.html" title="interface in com.google.common.collect"><code>Interner</code></a>.</div>
 <dl class="notes">
@@ -170,7 +170,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="newBuilder()">
 <h3>newBuilder</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Interners.InternerBuilder.html" title="class in com.google.common.collect">Interners.InternerBuilder</a></span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Interners.html#line-94">newBuilder</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Interners.InternerBuilder.html" title="class in com.google.common.collect">Interners.InternerBuilder</a></span>&nbsp;<span class="element-name">newBuilder</span>()</div>
 <div class="block">Returns a fresh <a href="Interners.InternerBuilder.html" title="class in com.google.common.collect"><code>Interners.InternerBuilder</code></a> instance.</div>
 </div>
 </section>
@@ -179,7 +179,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="newStrongInterner()">
 <h3>newStrongInterner</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Interners.html#line-103">newStrongInterner</a></span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;</span>&nbsp;<span class="element-name">newStrongInterner</span>()</div>
 <div class="block">Returns a new thread-safe interner which retains a strong reference to each instance it has
  interned, thus preventing these instances from being garbage-collected. If this retention is
  acceptable, this implementation may perform better than <a href="#newWeakInterner()"><code>newWeakInterner()</code></a>.</div>
@@ -191,7 +191,7 @@ loadScripts(document, 'script');</script>
 <h3>newWeakInterner</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>("java.lang.ref.WeakReference")
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Interners.html#line-113">newWeakInterner</a></span>()</div>
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;</span>&nbsp;<span class="element-name">newWeakInterner</span>()</div>
 <div class="block">Returns a new thread-safe interner which retains a weak reference to each instance it has
  interned, and so does not prevent these instances from being garbage-collected. This most
  likely does not perform as well as <a href="#newStrongInterner()"><code>newStrongInterner()</code></a>, but is the best alternative when
@@ -203,7 +203,7 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="asFunction(com.google.common.collect.Interner)">
 <h3>asFunction</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;E,<wbr>E&gt;</span>&nbsp;<span class="element-name"><a href="../../../../src-html/com/google/common/collect/Interners.html#line-165">asFunction</a></span><wbr><span class="parameters">(<a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;&nbsp;interner)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;E,<wbr>E&gt;</span>&nbsp;<span class="element-name">asFunction</span><wbr><span class="parameters">(<a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;&nbsp;interner)</span></div>
 <div class="block">Returns a function that delegates to the <a href="Interner.html#intern(E)"><code>Interner.intern(E)</code></a> method of the given interner.</div>
 <dl class="notes">
 <dt>Since:</dt>
