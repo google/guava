@@ -17,6 +17,9 @@ module com.google.common.testlib {
   requires java.logging;
   requires com.google.common;
   requires com.google.common.util.concurrent.internal;
+  requires static com.google.errorprone.annotations;
+  requires static com.google.j2objc.annotations;
+  requires static org.jspecify;
 
   exports com.google.common.collect.testing;
   exports com.google.common.collect.testing.features;
