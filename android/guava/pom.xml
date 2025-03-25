@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>33.4.5-android</version>
+    <version>33.4.6-android</version>
   </parent>
   <artifactId>guava</artifactId>
   <packaging>bundle</packaging>
