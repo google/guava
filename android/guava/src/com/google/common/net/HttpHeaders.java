@@ -376,13 +376,6 @@ public final class HttpHeaders {
   /** The HTTP {@code Expires} header field name. */
   public static final String EXPIRES = "Expires";
 
-  /**
-   * The HTTP {@code Identity-Digest} header field name.
-   *
-   * @since NEXT
-   */
-  public static final String IDENTITY_DIGEST = "Identity-Digest";
-
   /** The HTTP {@code Last-Modified} header field name. */
   public static final String LAST_MODIFIED = "Last-Modified";
 
