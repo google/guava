@@ -1,4 +1,1 @@
-OK: com.google.common.net.HttpHeaders Field ACCEPT_SIGNATURE
 OK: com.google.common.net.MediaType Field AVIF
-OK: com.google.common.net.HttpHeaders Field SIGNATURE
-OK: com.google.common.net.HttpHeaders Field SIGNATURE_INPUT

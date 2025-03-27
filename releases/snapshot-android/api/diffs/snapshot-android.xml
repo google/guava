@@ -52663,16 +52663,6 @@
       <![CDATA[The HTTP {@code Accept-Language} header field name.]]>
       </doc>
     </field>
-    <field name="ACCEPT_SIGNATURE" type="java.lang.String"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[The HTTP {@code Accept-Signature} header field name.
-
- @since NEXT]]>
-      </doc>
-    </field>
     <field name="ACCESS_CONTROL_REQUEST_HEADERS" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
@@ -53340,26 +53330,6 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[The HTTP {@code Set-Cookie2} header field name.]]>
-      </doc>
-    </field>
-    <field name="SIGNATURE" type="java.lang.String"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[The HTTP {@code Signature} header field name.
-
- @since NEXT]]>
-      </doc>
-    </field>
-    <field name="SIGNATURE_INPUT" type="java.lang.String"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[The HTTP {@code Signature-Input} header field name.
-
- @since NEXT]]>
       </doc>
     </field>
     <field name="SOURCE_MAP" type="java.lang.String"
