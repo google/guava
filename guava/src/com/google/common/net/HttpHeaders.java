@@ -71,13 +71,6 @@ public final class HttpHeaders {
   /** The HTTP {@code Accept-Language} header field name. */
   public static final String ACCEPT_LANGUAGE = "Accept-Language";
 
-  /**
-   * The HTTP {@code Accept-Signature} header field name.
-   *
-   * @since NEXT
-   */
-  public static final String ACCEPT_SIGNATURE = "Accept-Signature";
-
   /** The HTTP {@code Access-Control-Request-Headers} header field name. */
   public static final String ACCESS_CONTROL_REQUEST_HEADERS = "Access-Control-Request-Headers";
 
@@ -451,20 +444,6 @@ public final class HttpHeaders {
 
   /** The HTTP {@code Set-Cookie2} header field name. */
   public static final String SET_COOKIE2 = "Set-Cookie2";
-
-  /**
-   * The HTTP {@code Signature} header field name.
-   *
-   * @since NEXT
-   */
-  public static final String SIGNATURE = "Signature";
-
-  /**
-   * The HTTP {@code Signature-Input} header field name.
-   *
-   * @since NEXT
-   */
-  public static final String SIGNATURE_INPUT = "Signature-Input";
 
   /**
    * The HTTP <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/SourceMap">{@code
