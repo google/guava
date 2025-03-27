@@ -53198,16 +53198,6 @@
       <![CDATA[The HTTP {@code Expires} header field name.]]>
       </doc>
     </field>
-    <field name="IDENTITY_DIGEST" type="java.lang.String"
-      transient="false" volatile="false"
-      static="true" final="true" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[The HTTP {@code Identity-Digest} header field name.
-
- @since NEXT]]>
-      </doc>
-    </field>
     <field name="LAST_MODIFIED" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
