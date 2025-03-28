@@ -52,15 +52,15 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     implements ListenableFuture<V> {
   /**
    * Performs a {@linkplain java.lang.invoke.VarHandle#compareAndSet compare-and-set} operation on
-   * the {@link #listeners} field.
+   * {@link #listenersField}.
    */
   final boolean casListeners(@Nullable Listener expect, Listener update) {
     return ATOMIC_HELPER.casListeners(this, expect, update);
   }
 
   /**
-   * Performs a {@linkplain java.lang.invoke.VarHandle#getAndSet get-and-set} operation on the
-   * {@link #listeners} field..
+   * Performs a {@linkplain java.lang.invoke.VarHandle#getAndSet get-and-set} operation on {@link
+   * #listenersField}.
    */
   final @Nullable Listener gasListeners(Listener update) {
     return ATOMIC_HELPER.gasListeners(this, update);
@@ -68,7 +68,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
 
   /**
    * Performs a {@linkplain java.lang.invoke.VarHandle#compareAndSet compare-and-set} operation on
-   * the {@link #value} field of {@code future}.
+   * {@link #valueField} of {@code future}.
    */
   static boolean casValue(AbstractFutureState<?> future, @Nullable Object expect, Object update) {
     return ATOMIC_HELPER.casValue(future, expect, update);
@@ -76,15 +76,15 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
 
   /** Returns the value of the future, using a volatile read. */
   final @Nullable Object value() {
-    return value;
+    return valueField;
   }
 
   /** Returns the head of the listener stack, using a volatile read. */
   final @Nullable Listener listeners() {
-    return listeners;
+    return listenersField;
   }
 
-  /** Releases all threads in the {@link #waiters} list, and clears the list. */
+  /** Releases all threads in the {@link #waitersField} list, and clears the list. */
   final void releaseWaiters() {
     Waiter head = gasWaiters(Waiter.TOMBSTONE);
     for (Waiter currentWaiter = head; currentWaiter != null; currentWaiter = currentWaiter.next) {
@@ -95,10 +95,10 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
   // Gets and Timed Gets
   //
   // * Be responsive to interruption
-  // * Don't create Waiter nodes if you aren't going to park, this helps reduce contention on the
-  //   waiters field.
-  // * Future completion is defined by when #value becomes non-null/non DelegatingToFuture
-  // * Future completion can be observed if the waiters field contains a TOMBSTONE
+  // * Don't create Waiter nodes if you aren't going to park, this helps reduce contention on
+  //   waitersField.
+  // * Future completion is defined by when #valueField becomes non-null/non DelegatingToFuture
+  // * Future completion can be observed if the waitersField field contains a TOMBSTONE
 
   // Timed Get
   // There are a few design constraints to consider
@@ -130,7 +130,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     if (Thread.interrupted()) {
       throw new InterruptedException();
     }
-    @RetainedLocalRef Object localValue = value;
+    @RetainedLocalRef Object localValue = valueField;
     if (localValue != null & notInstanceOfDelegatingToFuture(localValue)) {
       return getDoneValue(localValue);
     }
@@ -138,7 +138,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     long endNanos = remainingNanos > 0 ? System.nanoTime() + remainingNanos : 0;
     long_wait_loop:
     if (remainingNanos >= SPIN_THRESHOLD_NANOS) {
-      Waiter oldHead = waiters;
+      Waiter oldHead = waitersField;
       if (oldHead != Waiter.TOMBSTONE) {
         Waiter node = new Waiter();
         do {
@@ -154,7 +154,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
 
               // Otherwise re-read and check doneness. If we loop then it must have been a spurious
               // wakeup
-              localValue = value;
+              localValue = valueField;
               if (localValue != null & notInstanceOfDelegatingToFuture(localValue)) {
                 return getDoneValue(localValue);
               }
@@ -168,18 +168,18 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
               }
             }
           }
-          oldHead = waiters; // re-read and loop.
+          oldHead = waitersField; // re-read and loop.
         } while (oldHead != Waiter.TOMBSTONE);
       }
-      // re-read value, if we get here then we must have observed a TOMBSTONE while trying to add a
-      // waiter.
-      // requireNonNull is safe because value is always set before TOMBSTONE.
-      return getDoneValue(requireNonNull(value));
+      // re-read valueField, if we get here then we must have observed a TOMBSTONE while trying to
+      // add a waiter.
+      // requireNonNull is safe because valueField is always set before TOMBSTONE.
+      return getDoneValue(requireNonNull(valueField));
     }
     // If we get here then we have remainingNanos < SPIN_THRESHOLD_NANOS and there is no node on the
     // waiters list
     while (remainingNanos > 0) {
-      localValue = value;
+      localValue = valueField;
       if (localValue != null & notInstanceOfDelegatingToFuture(localValue)) {
         return getDoneValue(localValue);
       }
@@ -229,11 +229,11 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     if (Thread.interrupted()) {
       throw new InterruptedException();
     }
-    @RetainedLocalRef Object localValue = value;
+    @RetainedLocalRef Object localValue = valueField;
     if (localValue != null & notInstanceOfDelegatingToFuture(localValue)) {
       return getDoneValue(localValue);
     }
-    Waiter oldHead = waiters;
+    Waiter oldHead = waitersField;
     if (oldHead != Waiter.TOMBSTONE) {
       Waiter node = new Waiter();
       do {
@@ -249,19 +249,19 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
             }
             // Otherwise re-read and check doneness. If we loop then it must have been a spurious
             // wakeup
-            localValue = value;
+            localValue = valueField;
             if (localValue != null & notInstanceOfDelegatingToFuture(localValue)) {
               return getDoneValue(localValue);
             }
           }
         }
-        oldHead = waiters; // re-read and loop.
+        oldHead = waitersField; // re-read and loop.
       } while (oldHead != Waiter.TOMBSTONE);
     }
-    // re-read value, if we get here then we must have observed a TOMBSTONE while trying to add a
-    // waiter.
-    // requireNonNull is safe because value is always set before TOMBSTONE.
-    return getDoneValue(requireNonNull(value));
+    // re-read valueField, if we get here then we must have observed a TOMBSTONE while trying to add
+    // a waiter.
+    // requireNonNull is safe because valueField is always set before TOMBSTONE.
+    return getDoneValue(requireNonNull(valueField));
   }
 
   /** Constructor for use by {@link AbstractFuture}. */
@@ -299,7 +299,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     GENERATE_CANCELLATION_CAUSES = generateCancellationCauses;
   }
 
-  /** Waiter links form a Treiber stack, in the {@link #waiters} field. */
+  /** Waiter links form a Treiber stack in {@link #waitersField}. */
   static final class Waiter {
     static final Waiter TOMBSTONE = new Waiter(false /* ignored param */);
 
@@ -313,12 +313,12 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     Waiter(boolean unused) {}
 
     Waiter() {
-      // avoid volatile write, write is made visible by subsequent CAS on waiters field
+      // avoid volatile write, write is made visible by subsequent CAS on waitersField field
       putThread(this, Thread.currentThread());
     }
 
-    // non-volatile write to the next field. Should be made visible by subsequent CAS on waiters
-    // field.
+    // non-volatile write to the next field. Should be made visible by a subsequent CAS on
+    // waitersField.
     void setNext(@Nullable Waiter next) {
       putNext(this, next);
     }
@@ -386,8 +386,8 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     }
   }
 
-  // TODO(lukes): investigate using the @Contended annotation on these fields when jdk8 is
-  // available.
+  // TODO(lukes): Investigate using a @Contended annotation on these fields once one is available.
+
   /**
    * This field encodes the current state of the future.
    *
@@ -403,13 +403,13 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    *       argument.
    * </ul>
    */
-  private volatile @Nullable Object value;
+  private volatile @Nullable Object valueField;
 
   /** All listeners. */
-  private volatile @Nullable Listener listeners;
+  private volatile @Nullable Listener listenersField;
 
   /** All waiting threads. */
-  private volatile @Nullable Waiter waiters;
+  private volatile @Nullable Waiter waitersField;
 
   /** Non-volatile write of the thread to the {@link Waiter#thread} field. */
   private static void putThread(Waiter waiter, Thread newValue) {
@@ -422,16 +422,16 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
   }
 
   /**
-   * Performs a {@linkplain java.lang.invoke.VarHandle#compareAndSet compare-and-set} operation on
-   * the {@link #waiters} field.
+   * Performs a {@linkplain java.lang.invoke.VarHandle#compareAndSet compare-and-set} operation
+   * {@link #waitersField}.
    */
   private boolean casWaiters(@Nullable Waiter expect, @Nullable Waiter update) {
     return ATOMIC_HELPER.casWaiters(this, expect, update);
   }
 
   /**
-   * Performs a {@linkplain java.lang.invoke.VarHandle#getAndSet get-and-set} operation on the
-   * {@link #waiters} field.
+   * Performs a {@linkplain java.lang.invoke.VarHandle#getAndSet get-and-set} operation on {@link
+   * #waitersField}.
    */
   private final @Nullable Waiter gasWaiters(Waiter update) {
     return ATOMIC_HELPER.gasWaiters(this, update);
@@ -453,7 +453,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     restart:
     while (true) {
       Waiter pred = null;
-      Waiter curr = waiters;
+      Waiter curr = waitersField;
       if (curr == Waiter.TOMBSTONE) {
         return; // give up if someone is calling complete
       }
@@ -521,21 +521,21 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     /** Non-volatile write of the waiter to the {@link Waiter#next} field. */
     abstract void putNext(Waiter waiter, @Nullable Waiter newValue);
 
-    /** Performs a CAS operation on the {@link AbstractFutureState#waiters} field. */
+    /** Performs a CAS operation on {@link AbstractFutureState#waitersField}. */
     abstract boolean casWaiters(
         AbstractFutureState<?> future, @Nullable Waiter expect, @Nullable Waiter update);
 
-    /** Performs a CAS operation on the {@link AbstractFutureState#listeners} field. */
+    /** Performs a CAS operation on {@link AbstractFutureState#listenersField}. */
     abstract boolean casListeners(
         AbstractFutureState<?> future, @Nullable Listener expect, Listener update);
 
-    /** Performs a GAS operation on the {@link AbstractFutureState#waiters} field. */
+    /** Performs a GAS operation on {@link AbstractFutureState#waitersField}. */
     abstract @Nullable Waiter gasWaiters(AbstractFutureState<?> future, Waiter update);
 
-    /** Performs a GAS operation on the {@link AbstractFutureState#listeners} field. */
+    /** Performs a GAS operation on {@link AbstractFutureState#listenersField}. */
     abstract @Nullable Listener gasListeners(AbstractFutureState<?> future, Listener update);
 
-    /** Performs a CAS operation on the {@link AbstractFutureState#value} field. */
+    /** Performs a CAS operation on {@link AbstractFutureState#valueField}. */
     abstract boolean casValue(
         AbstractFutureState<?> future, @Nullable Object expect, Object update);
   }
@@ -557,10 +557,11 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
       try {
         waiterThreadUpdater = lookup.findVarHandle(Waiter.class, "thread", Thread.class);
         waiterNextUpdater = lookup.findVarHandle(Waiter.class, "next", Waiter.class);
-        waitersUpdater = lookup.findVarHandle(AbstractFutureState.class, "waiters", Waiter.class);
+        waitersUpdater =
+            lookup.findVarHandle(AbstractFutureState.class, "waitersField", Waiter.class);
         listenersUpdater =
-            lookup.findVarHandle(AbstractFutureState.class, "listeners", Listener.class);
-        valueUpdater = lookup.findVarHandle(AbstractFutureState.class, "value", Object.class);
+            lookup.findVarHandle(AbstractFutureState.class, "listenersField", Listener.class);
+        valueUpdater = lookup.findVarHandle(AbstractFutureState.class, "valueField", Object.class);
       } catch (ReflectiveOperationException e) {
         // Those fields exist.
         throw newLinkageError(e);
@@ -672,10 +673,11 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
       }
       try {
         Class<?> abstractFutureState = AbstractFutureState.class;
-        WAITERS_OFFSET = unsafe.objectFieldOffset(abstractFutureState.getDeclaredField("waiters"));
+        WAITERS_OFFSET =
+            unsafe.objectFieldOffset(abstractFutureState.getDeclaredField("waitersField"));
         LISTENERS_OFFSET =
-            unsafe.objectFieldOffset(abstractFutureState.getDeclaredField("listeners"));
-        VALUE_OFFSET = unsafe.objectFieldOffset(abstractFutureState.getDeclaredField("value"));
+            unsafe.objectFieldOffset(abstractFutureState.getDeclaredField("listenersField"));
+        VALUE_OFFSET = unsafe.objectFieldOffset(abstractFutureState.getDeclaredField("valueField"));
         WAITER_THREAD_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("thread"));
         WAITER_NEXT_OFFSET = unsafe.objectFieldOffset(Waiter.class.getDeclaredField("next"));
         UNSAFE = unsafe;
@@ -786,7 +788,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    */
   private static AtomicReferenceFieldUpdater<? super AbstractFutureState<?>, @Nullable Waiter>
       waitersUpdaterFromWithinAbstractFutureState() {
-    return newUpdater(AbstractFutureState.class, Waiter.class, "waiters");
+    return newUpdater(AbstractFutureState.class, Waiter.class, "waitersField");
   }
 
   /**
@@ -797,7 +799,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    */
   private static AtomicReferenceFieldUpdater<? super AbstractFutureState<?>, @Nullable Listener>
       listenersUpdaterFromWithinAbstractFutureState() {
-    return newUpdater(AbstractFutureState.class, Listener.class, "listeners");
+    return newUpdater(AbstractFutureState.class, Listener.class, "listenersField");
   }
 
   /**
@@ -808,7 +810,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    */
   private static AtomicReferenceFieldUpdater<? super AbstractFutureState<?>, @Nullable Object>
       valueUpdaterFromWithinAbstractFutureState() {
-    return newUpdater(AbstractFutureState.class, Object.class, "value");
+    return newUpdater(AbstractFutureState.class, Object.class, "valueField");
   }
 
   /**
@@ -832,8 +834,8 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     boolean casWaiters(
         AbstractFutureState<?> future, @Nullable Waiter expect, @Nullable Waiter update) {
       synchronized (future) {
-        if (future.waiters == expect) {
-          future.waiters = update;
+        if (future.waitersField == expect) {
+          future.waitersField = update;
           return true;
         }
         return false;
@@ -844,8 +846,8 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     boolean casListeners(
         AbstractFutureState<?> future, @Nullable Listener expect, Listener update) {
       synchronized (future) {
-        if (future.listeners == expect) {
-          future.listeners = update;
+        if (future.listenersField == expect) {
+          future.listenersField = update;
           return true;
         }
         return false;
@@ -855,9 +857,9 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     @Override
     @Nullable Listener gasListeners(AbstractFutureState<?> future, Listener update) {
       synchronized (future) {
-        Listener old = future.listeners;
+        Listener old = future.listenersField;
         if (old != update) {
-          future.listeners = update;
+          future.listenersField = update;
         }
         return old;
       }
@@ -866,9 +868,9 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     @Override
     @Nullable Waiter gasWaiters(AbstractFutureState<?> future, Waiter update) {
       synchronized (future) {
-        Waiter old = future.waiters;
+        Waiter old = future.waitersField;
         if (old != update) {
-          future.waiters = update;
+          future.waitersField = update;
         }
         return old;
       }
@@ -877,8 +879,8 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     @Override
     boolean casValue(AbstractFutureState<?> future, @Nullable Object expect, Object update) {
       synchronized (future) {
-        if (future.value == expect) {
-          future.value = update;
+        if (future.valueField == expect) {
+          future.valueField = update;
           return true;
         }
         return false;
