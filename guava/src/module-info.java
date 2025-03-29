@@ -17,7 +17,7 @@
 /** Google Guava */
 module com.google.common {
   requires java.logging;
-  requires com.google.common.util.concurrent.internal;
+  requires transitive com.google.common.util.concurrent.internal;
   requires static jdk.unsupported;
   requires static com.google.errorprone.annotations;
   requires static com.google.j2objc.annotations;
