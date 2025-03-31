@@ -402,13 +402,13 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
     @GwtIncompatible
     @J2ktIncompatible
     @Override
-    Object writeReplace() {
+        Object writeReplace() {
       return new EntrySetSerializedForm<E>(ImmutableMultiset.this);
     }
 
     @GwtIncompatible
     @J2ktIncompatible
-    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+        private void readObject(ObjectInputStream stream) throws InvalidObjectException {
       throw new InvalidObjectException("Use EntrySetSerializedForm");
     }
 
@@ -424,7 +424,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
       this.multiset = multiset;
     }
 
-    Object readResolve() {
+        Object readResolve() {
       return multiset.entrySet();
     }
   }
@@ -432,11 +432,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializa
   @GwtIncompatible
   @J2ktIncompatible
   @Override
-  abstract Object writeReplace();
+    abstract Object writeReplace();
 
   @GwtIncompatible
   @J2ktIncompatible
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
