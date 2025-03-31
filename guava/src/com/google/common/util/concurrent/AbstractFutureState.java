@@ -388,6 +388,22 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
 
   // TODO(lukes): Investigate using a @Contended annotation on these fields once one is available.
 
+  /*
+   * The following fields are package-private, even though we intend never to use them outside this
+   * file. If they were instead private, then we wouldn't be able to access them reflectively from
+   * within VarHandleAtomicHelper.
+   *
+   * Package-private "shouldn't" be necessary: VarHandleAtomicHelper and AbstractFutureState
+   * "should" be nestmates, so a call to MethodHandles.lookup inside VarHandleAtomicHelper "should"
+   * have access to AbstractFutureState's private fields. However, our open-source build uses
+   * `-source 8 -target 8`, so the class files from that build can't express nestmates. Thus, when
+   * those class files are used from Java 9 or higher (i.e., high enough to trigger the VarHandle
+   * code path), such a lookup would fail with an IllegalAccessException.
+   *
+   * This same problem is one of the reasons for us to likewise keep the fields in Waiter as
+   * package-private instead of private.
+   */
+
   /**
    * This field encodes the current state of the future.
    *
@@ -403,13 +419,13 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    *       argument.
    * </ul>
    */
-  private volatile @Nullable Object valueField;
+  volatile @Nullable Object valueField;
 
   /** All listeners. */
-  private volatile @Nullable Listener listenersField;
+  volatile @Nullable Listener listenersField;
 
   /** All waiting threads. */
-  private volatile @Nullable Waiter waitersField;
+  volatile @Nullable Waiter waitersField;
 
   /** Non-volatile write of the thread to the {@link Waiter#thread} field. */
   private static void putThread(Waiter waiter, Thread newValue) {
@@ -553,7 +569,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     static final VarHandle valueUpdater;
 
     static {
-      MethodHandles.Lookup lookup = methodHandlesLookupFromWithinAbstractFutureState();
+      MethodHandles.Lookup lookup = MethodHandles.lookup();
       try {
         waiterThreadUpdater = lookup.findVarHandle(Waiter.class, "thread", Thread.class);
         waiterNextUpdater = lookup.findVarHandle(Waiter.class, "next", Waiter.class);
@@ -608,28 +624,6 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     private static LinkageError newLinkageError(Throwable cause) {
       return new LinkageError(cause.toString(), cause);
     }
-  }
-
-  /**
-   * Returns the result of calling {@link MethodHandles#lookup} from inside {@link
-   * AbstractFutureState}. By virtue of being created there, it has access to the private fields of
-   * {@link AbstractFutureState}, so that access is available to anyone who calls this
-   * method—specifically, to {@link VarHandleAtomicHelper}.
-   *
-   * <p>This "shouldn't" be necessary: {@link VarHandleAtomicHelper} and {@link AbstractFutureState}
-   * "should" be nestmates, so a call to {@link MethodHandles#lookup} inside {@link
-   * VarHandleAtomicHelper} "should" have access to each other's private fields. However, our
-   * open-source build uses {@code -source 8 -target 8}, so the class files from that build can't
-   * express nestmates. Thus, when those class files are used from Java 9 or higher (i.e., high
-   * enough to trigger the {@link VarHandle} code path), such a lookup would fail with an {@link
-   * IllegalAccessException}.
-   *
-   * <p>Note that we do not have a similar problem with the fields in {@link Waiter} because those
-   * fields are not private. (We could solve the problem with {@link AbstractFutureState} fields in
-   * the same way if we wanted.)
-   */
-  private static MethodHandles.Lookup methodHandlesLookupFromWithinAbstractFutureState() {
-    return MethodHandles.lookup();
   }
 
   /**
@@ -734,13 +728,13 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
             Waiter.class, Waiter.class, "next");
     private static final AtomicReferenceFieldUpdater<
             ? super AbstractFutureState<?>, @Nullable Waiter>
-        waitersUpdater = waitersUpdaterFromWithinAbstractFutureState();
+        waitersUpdater = newUpdater(AbstractFutureState.class, Waiter.class, "waitersField");
     private static final AtomicReferenceFieldUpdater<
             ? super AbstractFutureState<?>, @Nullable Listener>
-        listenersUpdater = listenersUpdaterFromWithinAbstractFutureState();
+        listenersUpdater = newUpdater(AbstractFutureState.class, Listener.class, "listenersField");
     private static final AtomicReferenceFieldUpdater<
             ? super AbstractFutureState<?>, @Nullable Object>
-        valueUpdater = valueUpdaterFromWithinAbstractFutureState();
+        valueUpdater = newUpdater(AbstractFutureState.class, Object.class, "valueField");
 
     @Override
     void putThread(Waiter waiter, Thread newValue) {
@@ -778,39 +772,6 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     boolean casValue(AbstractFutureState<?> future, @Nullable Object expect, Object update) {
       return valueUpdater.compareAndSet(future, expect, update);
     }
-  }
-
-  /**
-   * Returns an {@link AtomicReferenceFieldUpdater} for {@link #waiters}.
-   *
-   * <p>The creation of the updater has to happen directly inside {@link AbstractFutureState}, as
-   * discussed in {@link #methodHandlesLookupFromWithinAbstractFutureState}.
-   */
-  private static AtomicReferenceFieldUpdater<? super AbstractFutureState<?>, @Nullable Waiter>
-      waitersUpdaterFromWithinAbstractFutureState() {
-    return newUpdater(AbstractFutureState.class, Waiter.class, "waitersField");
-  }
-
-  /**
-   * Returns an {@link AtomicReferenceFieldUpdater} for {@link #listeners}.
-   *
-   * <p>The creation of the updater has to happen directly inside {@link AbstractFutureState}, as
-   * discussed in {@link #methodHandlesLookupFromWithinAbstractFutureState}.
-   */
-  private static AtomicReferenceFieldUpdater<? super AbstractFutureState<?>, @Nullable Listener>
-      listenersUpdaterFromWithinAbstractFutureState() {
-    return newUpdater(AbstractFutureState.class, Listener.class, "listenersField");
-  }
-
-  /**
-   * Returns an {@link AtomicReferenceFieldUpdater} for {@link #value}.
-   *
-   * <p>The creation of the updater has to happen directly inside {@link AbstractFutureState}, as
-   * discussed in {@link #methodHandlesLookupFromWithinAbstractFutureState}.
-   */
-  private static AtomicReferenceFieldUpdater<? super AbstractFutureState<?>, @Nullable Object>
-      valueUpdaterFromWithinAbstractFutureState() {
-    return newUpdater(AbstractFutureState.class, Object.class, "valueField");
   }
 
   /**
