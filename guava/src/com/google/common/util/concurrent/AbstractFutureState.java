@@ -24,6 +24,7 @@ import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater
 import static java.util.logging.Level.SEVERE;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.util.concurrent.AbstractFuture.Listener;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
@@ -496,6 +497,11 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
   // blocking. This value is what AbstractQueuedSynchronizer uses.
   private static final long SPIN_THRESHOLD_NANOS = 1000L;
 
+  @VisibleForTesting
+  static String atomicHelperTypeForTest() {
+    return ATOMIC_HELPER.atomicHelperTypeForTest();
+  }
+
   private enum VarHandleAtomicHelperMaker {
     INSTANCE {
       /**
@@ -554,6 +560,8 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     /** Performs a CAS operation on {@link AbstractFutureState#valueField}. */
     abstract boolean casValue(
         AbstractFutureState<?> future, @Nullable Object expect, Object update);
+
+    abstract String atomicHelperTypeForTest();
   }
 
   /** {@link AtomicHelper} based on {@link VarHandle}. */
@@ -623,6 +631,11 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
 
     private static LinkageError newLinkageError(Throwable cause) {
       return new LinkageError(cause.toString(), cause);
+    }
+
+    @Override
+    String atomicHelperTypeForTest() {
+      return "VarHandleAtomicHelper";
     }
   }
 
@@ -716,6 +729,11 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     boolean casValue(AbstractFutureState<?> future, @Nullable Object expect, Object update) {
       return UNSAFE.compareAndSwapObject(future, VALUE_OFFSET, expect, update);
     }
+
+    @Override
+    String atomicHelperTypeForTest() {
+      return "UnsafeAtomicHelper";
+    }
   }
 
   /** {@link AtomicHelper} based on {@link AtomicReferenceFieldUpdater}. */
@@ -771,6 +789,11 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     @Override
     boolean casValue(AbstractFutureState<?> future, @Nullable Object expect, Object update) {
       return valueUpdater.compareAndSet(future, expect, update);
+    }
+
+    @Override
+    String atomicHelperTypeForTest() {
+      return "AtomicReferenceFieldUpdaterAtomicHelper";
     }
   }
 
@@ -846,6 +869,11 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
         }
         return false;
       }
+    }
+
+    @Override
+    String atomicHelperTypeForTest() {
+      return "SynchronizedHelper";
     }
   }
 }

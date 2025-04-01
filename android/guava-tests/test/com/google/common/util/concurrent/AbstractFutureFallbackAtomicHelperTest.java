@@ -15,9 +15,9 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableSet;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URLClassLoader;
@@ -111,9 +111,9 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
       throws Exception {
     // Make sure we are actually running with the expected helper implementation
     Class<?> abstractFutureStateClass = classLoader.loadClass(AbstractFutureState.class.getName());
-    Field helperField = abstractFutureStateClass.getDeclaredField("ATOMIC_HELPER");
-    helperField.setAccessible(true);
-    assertEquals(expectedHelperClassName, helperField.get(null).getClass().getSimpleName());
+    Method helperMethod = abstractFutureStateClass.getDeclaredMethod("atomicHelperTypeForTest");
+    helperMethod.setAccessible(true);
+    assertThat(helperMethod.invoke(null)).isEqualTo(expectedHelperClassName);
   }
 
   private static ClassLoader getClassLoader(final Set<String> disallowedClassNames) {
