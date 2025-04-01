@@ -15,8 +15,8 @@
 /** Guava Testlib */
 module com.google.common.testlib {
   requires java.logging;
-  requires com.google.common;
-  requires com.google.common.util.concurrent.internal;
+  requires transitive com.google.common;
+  requires transitive junit;
   requires static com.google.errorprone.annotations;
   requires static com.google.j2objc.annotations;
   requires static org.jspecify;
