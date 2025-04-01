@@ -463,7 +463,20 @@ return Iterables.filter(classes, subtypeOf(Number.class));
 
  <p>This method can technically accept any <code>Collection&lt;?&gt;</code>, but using a typed collection
  helps prevent bugs. This approach doesn't block any potential users since it is always possible
- to use <code>Predicates.&lt;Object&gt;in()</code>.</div>
+ to use <code>Predicates.&lt;Object&gt;in()</code>.
+
+ <p>You may prefer to use a method reference (e.g., <code>target::contains</code>) instead of this
+ method. However, there are some subtle considerations:
+
+ <ul>
+   <li>The <a href="Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> returned by this method is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link"><code>Serializable</code></a>.
+   <li>The <a href="Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> returned by this method catches <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ClassCastException.html" title="class or interface in java.lang" class="external-link"><code>ClassCastException</code></a> and
+       <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link"><code>NullPointerException</code></a>.
+   <li>Code that chains multiple predicates together (especially negations) may be more readable
+       using this method. For example, <code>not(in(target))</code> is generally more readable than
+       <code>not(target::contains)</code>.
+   <li>This method's name conflicts with Kotlin's <code>in</code> operator.
+ </ul></div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>target</code> - the collection that may contain the function input</dd>

@@ -5483,6 +5483,19 @@
  helps prevent bugs. This approach doesn't block any potential users since it is always possible
  to use {@code Predicates.<Object>in()}.
 
+ <p>You may prefer to use a method reference (e.g., {@code target::contains}) instead of this
+ method. However, there are some subtle considerations:
+
+ <ul>
+   <li>The {@link Predicate} returned by this method is {@link Serializable}.
+   <li>The {@link Predicate} returned by this method catches {@link ClassCastException} and
+       {@link NullPointerException}.
+   <li>Code that chains multiple predicates together (especially negations) may be more readable
+       using this method. For example, {@code not(in(target))} is generally more readable than
+       {@code not(target::contains)}.
+   <li>This method's name conflicts with Kotlin's {@code in} operator.
+ </ul>
+
  @param target the collection that may contain the function input]]>
       </doc>
     </method>
