@@ -3,16 +3,16 @@
 # Used by AtomicReferenceFieldUpdater, sun.misc.Unsafe, and VarHandle.
 # We could be more precise about which classes these are defined in, but that feels error-prone.
 -keepclassmembers class com.google.common.util.concurrent.AbstractFuture** {
-  *** waiters;
-  *** value;
-  *** listeners;
+  *** waitersField;
+  *** valueField;
+  *** listenersField;
   *** thread;
   *** next;
 }
 -keepclassmembers class com.google.common.util.concurrent.AbstractFutureState** {
-  *** waiters;
-  *** value;
-  *** listeners;
+  *** waitersField;
+  *** valueField;
+  *** listenersField;
   *** thread;
   *** next;
 }
