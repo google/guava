@@ -27,8 +27,11 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.util.concurrent.AbstractFuture.Listener;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import com.google.j2objc.annotations.ReflectionSupport;
 import com.google.j2objc.annotations.RetainedLocalRef;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
@@ -345,21 +348,24 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     Throwable thrownUnsafeFailure = null;
     Throwable thrownAtomicReferenceFieldUpdaterFailure = null;
 
-    try {
-      helper = new UnsafeAtomicHelper();
-    } catch (Exception | Error unsafeFailure) { // sneaky checked exception
-      thrownUnsafeFailure = unsafeFailure;
-      // Catch absolutely everything and fall through to AtomicReferenceFieldUpdaterAtomicHelper.
+    helper = VarHandleAtomicHelperMaker.INSTANCE.tryMakeVarHandleAtomicHelper();
+    if (helper == null) {
       try {
-        helper = new AtomicReferenceFieldUpdaterAtomicHelper();
-      } catch (Exception // sneaky checked exception
-          | Error atomicReferenceFieldUpdaterFailure) {
-        // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
-        // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
-        // For these users fallback to a suboptimal implementation, based on synchronized. This
-        // will be a definite performance hit to those users.
-        thrownAtomicReferenceFieldUpdaterFailure = atomicReferenceFieldUpdaterFailure;
-        helper = new SynchronizedHelper();
+        helper = new UnsafeAtomicHelper();
+      } catch (Exception | Error unsafeFailure) { // sneaky checked exception
+        thrownUnsafeFailure = unsafeFailure;
+        // Catch absolutely everything and fall through to AtomicReferenceFieldUpdaterAtomicHelper.
+        try {
+          helper = new AtomicReferenceFieldUpdaterAtomicHelper();
+        } catch (Exception // sneaky checked exception
+            | Error atomicReferenceFieldUpdaterFailure) {
+          // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
+          // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
+          // For these users fallback to a suboptimal implementation, based on synchronized. This
+          // will be a definite performance hit to those users.
+          thrownAtomicReferenceFieldUpdaterFailure = atomicReferenceFieldUpdaterFailure;
+          helper = new SynchronizedHelper();
+        }
       }
     }
     ATOMIC_HELPER = helper;
@@ -496,6 +502,43 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     return ATOMIC_HELPER.atomicHelperTypeForTest();
   }
 
+  private enum VarHandleAtomicHelperMaker {
+    INSTANCE {
+      /**
+       * Implementation used by non-J2ObjC environments (aside, of course, from those that have
+       * supersource for the entirety of {@link AbstractFutureState}).
+       */
+      @Override
+      @J2ObjCIncompatible
+      @Nullable AtomicHelper tryMakeVarHandleAtomicHelper() {
+        if (mightBeAndroid()) {
+          return null;
+        }
+        try {
+          /*
+           * We first use reflection to check whether VarHandle exists. If we instead just tried to
+           * load our class directly (which would trigger non-reflective loading of VarHandle) from
+           * within a `try` block, then an error might be thrown even before we enter the `try`
+           * block: https://github.com/google/truth/issues/333#issuecomment-765652454
+           *
+           * Also, it's nice that this approach should let us catch *only* ClassNotFoundException
+           * instead of having to catch more broadly (potentially even including, say, a
+           * StackOverflowError).
+           */
+          Class.forName("java.lang.invoke.VarHandle");
+        } catch (ClassNotFoundException beforeJava9) {
+          return null;
+        }
+        return new VarHandleAtomicHelper();
+      }
+    };
+
+    /** Implementation used by J2ObjC environments, overridden for other environments. */
+    @Nullable AtomicHelper tryMakeVarHandleAtomicHelper() {
+      return null;
+    }
+  }
+
   private abstract static class AtomicHelper {
     /** Non-volatile write of the thread to the {@link Waiter#thread} field. */
     abstract void putThread(Waiter waiter, Thread newValue);
@@ -522,6 +565,81 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
         AbstractFutureState<?> future, @Nullable Object expect, Object update);
 
     abstract String atomicHelperTypeForTest();
+  }
+
+  /** {@link AtomicHelper} based on {@link VarHandle}. */
+  @J2ObjCIncompatible
+  // We use this class only after confirming that VarHandle is available at runtime.
+  @SuppressWarnings({"Java8ApiChecker", "Java7ApiChecker", "AndroidJdkLibsChecker"})
+  @IgnoreJRERequirement
+  private static final class VarHandleAtomicHelper extends AtomicHelper {
+    static final VarHandle waiterThreadUpdater;
+    static final VarHandle waiterNextUpdater;
+    static final VarHandle waitersUpdater;
+    static final VarHandle listenersUpdater;
+    static final VarHandle valueUpdater;
+
+    static {
+      MethodHandles.Lookup lookup = MethodHandles.lookup();
+      try {
+        waiterThreadUpdater = lookup.findVarHandle(Waiter.class, "thread", Thread.class);
+        waiterNextUpdater = lookup.findVarHandle(Waiter.class, "next", Waiter.class);
+        waitersUpdater =
+            lookup.findVarHandle(AbstractFutureState.class, "waitersField", Waiter.class);
+        listenersUpdater =
+            lookup.findVarHandle(AbstractFutureState.class, "listenersField", Listener.class);
+        valueUpdater = lookup.findVarHandle(AbstractFutureState.class, "valueField", Object.class);
+      } catch (ReflectiveOperationException e) {
+        // Those fields exist.
+        throw newLinkageError(e);
+      }
+    }
+
+    @Override
+    void putThread(Waiter waiter, Thread newValue) {
+      waiterThreadUpdater.setRelease(waiter, newValue);
+    }
+
+    @Override
+    void putNext(Waiter waiter, @Nullable Waiter newValue) {
+      waiterNextUpdater.setRelease(waiter, newValue);
+    }
+
+    @Override
+    boolean casWaiters(
+        AbstractFutureState<?> future, @Nullable Waiter expect, @Nullable Waiter update) {
+      return waitersUpdater.compareAndSet(future, expect, update);
+    }
+
+    @Override
+    boolean casListeners(
+        AbstractFutureState<?> future, @Nullable Listener expect, Listener update) {
+      return listenersUpdater.compareAndSet(future, expect, update);
+    }
+
+    @Override
+    @Nullable Listener gasListeners(AbstractFutureState<?> future, Listener update) {
+      return (Listener) listenersUpdater.getAndSet(future, update);
+    }
+
+    @Override
+    @Nullable Waiter gasWaiters(AbstractFutureState<?> future, Waiter update) {
+      return (Waiter) waitersUpdater.getAndSet(future, update);
+    }
+
+    @Override
+    boolean casValue(AbstractFutureState<?> future, @Nullable Object expect, Object update) {
+      return valueUpdater.compareAndSet(future, expect, update);
+    }
+
+    private static LinkageError newLinkageError(Throwable cause) {
+      return new LinkageError(cause.toString(), cause);
+    }
+
+    @Override
+    String atomicHelperTypeForTest() {
+      return "VarHandleAtomicHelper";
+    }
   }
 
   /**
@@ -776,5 +894,11 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     String atomicHelperTypeForTest() {
       return "SynchronizedHelper";
     }
+  }
+
+  private static boolean mightBeAndroid() {
+    String runtime = System.getProperty("java.runtime.name", "");
+    // I have no reason to believe that `null` is possible here, but let's make sure we don't crash:
+    return runtime == null || runtime.contains("Android");
   }
 }

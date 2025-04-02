@@ -30,7 +30,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class AbstractFutureDefaultAtomicHelperTest extends TestCase {
   public void testUsingExpectedAtomicHelper() throws Exception {
-    if (isJava8()) {
+    if (isJava8() || isAndroid()) {
       assertThat(AbstractFutureState.atomicHelperTypeForTest()).isEqualTo("UnsafeAtomicHelper");
     } else {
       assertThat(AbstractFutureState.atomicHelperTypeForTest()).isEqualTo("VarHandleAtomicHelper");
@@ -39,5 +39,9 @@ public class AbstractFutureDefaultAtomicHelperTest extends TestCase {
 
   private static boolean isJava8() {
     return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
+  }
+
+  private static boolean isAndroid() {
+    return System.getProperty("java.runtime.name", "").contains("Android");
   }
 }

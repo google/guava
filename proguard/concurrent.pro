@@ -49,3 +49,6 @@
 }
 
 -dontwarn java.lang.SafeVarargs
+
+# b/407533570
+-dontwarn com.google.common.util.concurrent.AbstractFutureState$VarHandleAtomicHelper

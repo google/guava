@@ -50,8 +50,9 @@ import org.jspecify.annotations.NullUnmarked;
 public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
 
   /**
-   * This classloader disallows AtomicReferenceFieldUpdater and AtomicIntegerFieldUpdate which will
-   * prevent us from selecting our {@code SafeAtomicHelper} strategy.
+   * This classloader disallows {@code AtomicReferenceFieldUpdater} and {@code
+   * AtomicIntegerFieldUpdater}, which will prevent us from selecting the {@code SafeAtomicHelper}
+   * strategy.
    *
    * <p>Stashing this in a static field avoids loading it over and over again and speeds up test
    * execution significantly.
@@ -89,24 +90,26 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
     checkHelperVersion(getClass().getClassLoader(), "SafeAtomicHelper");
     checkHelperVersion(NO_ATOMIC_FIELD_UPDATER, "SynchronizedAtomicHelper");
 
-    // Run the corresponding FuturesTest test method in a new classloader that disallows
-    // certain core jdk classes.
+    runTestMethod(NO_ATOMIC_FIELD_UPDATER);
+    // TODO(lukes): assert that the logs are full of errors
+  }
+
+  /**
+   * Runs the corresponding {@link FuturesTest} test method in a new classloader that disallows
+   * certain core JDK classes.
+   */
+  private void runTestMethod(ClassLoader classLoader) throws Exception {
     ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
-    Thread.currentThread().setContextClassLoader(NO_ATOMIC_FIELD_UPDATER);
+    Thread.currentThread().setContextClassLoader(classLoader);
     try {
-      runTestMethod(NO_ATOMIC_FIELD_UPDATER);
-      // TODO(lukes): assert that the logs are full of errors
+      Class<?> test = classLoader.loadClass(FuturesTest.class.getName());
+      Object testInstance = test.getDeclaredConstructor().newInstance();
+      test.getMethod("setUp").invoke(testInstance);
+      test.getMethod(getName()).invoke(testInstance);
+      test.getMethod("tearDown").invoke(testInstance);
     } finally {
       Thread.currentThread().setContextClassLoader(oldClassLoader);
     }
-  }
-
-  private void runTestMethod(ClassLoader classLoader) throws Exception {
-    Class<?> test = classLoader.loadClass(FuturesTest.class.getName());
-    Object testInstance = test.getDeclaredConstructor().newInstance();
-    test.getMethod("setUp").invoke(testInstance);
-    test.getMethod(getName()).invoke(testInstance);
-    test.getMethod("tearDown").invoke(testInstance);
   }
 
   private void checkHelperVersion(ClassLoader classLoader, String expectedHelperClassName)
