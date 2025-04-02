@@ -1,0 +1,6 @@
+# android_binary.proguard_specs needs to point to a file in order for AppReduce
+# to run at all on that binary. This is that file.
+#
+# If this test breaks someday, we might need to add some -keep rules here or
+# something. For possible leads, look at the Proguard configuration in
+# cl/742673748.
