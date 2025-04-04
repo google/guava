@@ -28,12 +28,13 @@
     /* Line height for continuous text blocks */
     --block-line-height: 1.4em;
     /* Text colors for body and block elements */
-    --body-text-color: #353833;
-    --block-text-color: #474747;
-    /* Background colors for various structural elements */
+    --body-text-color: #282828;
+    --block-text-color: #282828;
+    /* Background colors for various elements */
     --body-background-color: #ffffff;
     --section-background-color: #f8f8f8;
     --detail-background-color: #ffffff;
+    --mark-background-color: #f7f7f7;
     /* Colors for navigation bar and table captions */
     --navbar-background-color: #4D7A97;
     --navbar-text-color: #ffffff;
@@ -49,8 +50,11 @@
     /* Text color for page title */
     --title-color: #2c4557;
     /* Text colors for links */
-    --link-color: #4A6782;
+    --link-color: #437291;
     --link-color-active: #bb7a2a;
+    /* Table of contents */
+    --toc-background-color: var(--section-background-color);
+    --toc-link-color: #4a698a;
     /* Snippet colors */
     --snippet-background-color: #ebecee;
     --snippet-text-color: var(--block-text-color);
@@ -63,7 +67,7 @@
     --search-input-text-color: #000000;
     --search-input-placeholder-color: #909090;
     /* Highlight color for active search tag target */
-    --search-tag-highlight-color: #ffff00;
+    --search-tag-highlight-color: #ffff66;
     /* Adjustments for icon and active background colors of copy-to-clipboard buttons */
     --copy-icon-brightness: 100%;
     --copy-button-background-color-active: rgba(168, 168, 176, 0.3);
@@ -98,6 +102,9 @@ main [id] {
 a:link, a:visited {
     text-decoration:none;
     color:var(--link-color);
+}
+nav a:link, nav a:visited {
+    color: var(--toc-link-color);
 }
 a[href]:hover, a[href]:active {
     text-decoration:none;
@@ -135,8 +142,7 @@ ul {
 code, tt {
     font-family:var(--code-font-family);
 }
-:not(h1, h2, h3, h4, h5, h6) > code,
-:not(h1, h2, h3, h4, h5, h6) > tt {
+:not(h1, h2, h3, h4, h5, h6, sup, sub, small, big) > :is(code, tt) {
     font-size:var(--code-font-size);
     line-height:1.4em;
 }
@@ -150,9 +156,6 @@ dt code {
     font-size:1em;
     vertical-align:top;
     padding-top:4px;
-}
-sup {
-    font-size:8px;
 }
 button {
     font-family: var(--body-font-family);
@@ -307,7 +310,7 @@ ol.sub-nav-list a.current-selection {
  */
 .title {
     color:var(--title-color);
-    margin:10px 0;
+    margin:10px 0 12px 0;
 }
 .sub-title {
     margin:5px 0 0 0;
@@ -348,7 +351,7 @@ body.class-declaration-page .details h3 {
     flex-direction: row;
 }
 .main-grid main {
-    flex: 2.6 1 0;
+    flex: 3 1 0;
     min-width: 240px
 }
 .main-grid nav.toc {
@@ -360,8 +363,11 @@ main {
     padding:10px 20px;
     position:relative;
 }
-section[id$=-description] :is(dl, ol, ul, p, div, blockquote, pre):last-child,
-section[id$=-description] :is(dl, ol, ul):last-child > :is(li, dd):last-child {
+/* Compensate for non-collapsing margins between element description and summary tables */
+div.horizontal-scroll > section[id$=-description] > :is(dl, ol, ul, p, div, blockquote, pre):last-child,
+div.horizontal-scroll > section[id$=-description] > :last-child > :is(li, dd):last-child,
+section.class-description > div.horizontal-scroll > :is(dl, ol, ul, p, div, blockquote, pre):last-child,
+section.class-description > div.horizontal-scroll > :last-child > :is(li, dd):last-child {
     margin-bottom:4px;
 }
 dl.notes > dt {
@@ -395,7 +401,7 @@ dl.name-value > dd {
  * Styles for table of contents.
  */
 .main-grid nav.toc {
-    background-color: var(--section-background-color);
+    background-color: var(--toc-background-color);
     border-right: 1px solid var(--border-color);
     position: sticky;
     top: calc(var(--nav-height));
@@ -406,8 +412,6 @@ dl.name-value > dd {
     z-index: 1;
 }
 .main-grid nav.toc div.toc-header {
-    background-color: var(--section-background-color);
-    border-right: 1px solid var(--border-color);
     top: var(--nav-height);
     z-index: 1;
     padding: 15px 20px;
@@ -470,7 +474,6 @@ nav.toc div.toc-header {
     display: inline-flex;
     align-items: center;
     color: var(--body-text-color);
-    background-color: var(--body-background-color);
     font-size: 0.856em;
     font-weight: bold;
     white-space: nowrap;
@@ -790,7 +793,6 @@ div.block {
 .type-signature {
     margin-top: 0;
 }
-.member-signature .type-parameters-long,
 .member-signature .parameters,
 .member-signature .exceptions {
     display: inline-block;
@@ -816,6 +818,19 @@ div.block {
 .deprecated-label, .description-from-type-label, .implementation-label, .member-name-link,
 .package-hierarchy-label, .type-name-label, .type-name-link, .search-tag-link, .preview-label, .restricted-label {
     font-weight:bold;
+}
+sup.preview-mark,
+sup.restricted-mark {
+    font-family: var(--code-font-family);
+    font-weight: normal;
+    font-size: 8px;
+    background-color: var(--mark-background-color);
+    padding: 1px;
+    border-radius: 2px;
+}
+sup.preview-mark > a:link,
+sup.restricted-mark > a:link {
+    font-weight: normal;
 }
 .deprecation-comment, .help-footnote, .preview-comment, .restricted-comment {
     font-style:italic;
@@ -988,6 +1003,22 @@ input::placeholder {
 .search-tag-result:target {
     background-color:var(--search-tag-highlight-color);
 }
+dd > span:target,
+h1 > span:target {
+    animation: 2.4s ease-out highlight;
+}
+section.class-description dd > span:target,
+section.class-description h1 > span:target {
+    scroll-margin-top: 20em;
+}
+@keyframes highlight {
+    from {
+        background-color: var(--search-tag-highlight-color);
+    }
+    60% {
+        background-color: var(--search-tag-highlight-color);
+    }
+}
 details.page-search-details {
     display: inline-block;
 }
@@ -1040,7 +1071,7 @@ span#page-search-link {
     z-index: 5;
 }
 .inherited-list {
-    margin: 10px 0 10px 0;
+    margin: 10px 0;
 }
 .horizontal-scroll {
     overflow: auto hidden;

@@ -232,6 +232,20 @@ document.addEventListener("readystatechange", (e) => {
 });
 document.addEventListener("DOMContentLoaded", function(e) {
     setTopMargin();
+    // Reset animation for type parameter target highlight
+    document.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", (e) => {
+            const href = e.currentTarget.getAttribute("href");
+            if (href && href.startsWith("#") && href.indexOf("type-param-") > -1) {
+                const target = document.getElementById(decodeURI(href.substring(1)));
+                if (target) {
+                    target.style.animation = "none";
+                    void target.offsetHeight;
+                    target.style.removeProperty("animation");
+                }
+            }
+        })
+    });
     // Make sure current element is visible in breadcrumb navigation on small displays
     const subnav = document.querySelector("ol.sub-nav-list");
     if (subnav && subnav.lastElementChild) {
@@ -286,7 +300,8 @@ document.addEventListener("DOMContentLoaded", function(e) {
     });
     var expanded = false;
     var windowWidth;
-    function collapse() {
+    var bodyHeight;
+    function collapse(e) {
         if (expanded) {
             mainnav.removeAttribute("style");
             if (toc) {
@@ -336,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     document.querySelectorAll("h1, h2, h3, h4, h5, h6")
         .forEach((hdr, idx) => {
             // Create anchor links for headers with an associated id attribute
-            var id = hdr.getAttribute("id") || hdr.parentElement.getAttribute("id")
+            var id = hdr.parentElement.getAttribute("id") || hdr.getAttribute("id")
                 || (hdr.querySelector("a") && hdr.querySelector("a").getAttribute("id"));
             if (id) {
                 var template = document.createElement('template');
@@ -351,6 +366,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
     var scrollTimeoutNeeded;
     var prevHash;
     function initSectionData() {
+        bodyHeight = document.body.offsetHeight;
         sections = [{ id: "", top: 0 }].concat(Array.from(main.querySelectorAll("section[id], h2[id], h2 a[id], div[id]"))
             .filter((e) => {
                 return sidebar.querySelector("a[href=\"#" + encodeURI(e.getAttribute("id")) + "\"]") !== null
@@ -447,7 +463,7 @@ document.addEventListener("DOMContentLoaded", function(e) {
         })
     }
     // Resize handler
-    function handleResize(e) {
+    new ResizeObserver((entries) => {
         if (expanded) {
             if (windowWidth !== window.innerWidth) {
                 collapse();
@@ -455,13 +471,11 @@ document.addEventListener("DOMContentLoaded", function(e) {
                 expand();
             }
         }
-        if (sections) {
+        if (sections && document.body.offsetHeight !== bodyHeight) {
             initSectionData();
             prevHash = null;
             handleScroll();
         }
         setTopMargin();
-    }
-    window.addEventListener("orientationchange", handleResize);
-    window.addEventListener("resize", handleResize);
+    }).observe(document.body);
 });
