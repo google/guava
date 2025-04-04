@@ -1,5 +1,3 @@
--dontwarn java.lang.SafeVarargs
-
 # The nested FieldSettersHolder class looks these up.
 #
 # We use -keepclassmembernames because we want for ImmutableMultimap and its

@@ -48,8 +48,6 @@
   static *** getCurrentEnvironment (...);
 }
 
--dontwarn java.lang.SafeVarargs
-
 # b/407533570
 -dontwarn com.google.common.util.concurrent.AbstractFutureState$VarHandleAtomicHelper
 # See post-submit commentary on cl/743198569 about b/408047495.
