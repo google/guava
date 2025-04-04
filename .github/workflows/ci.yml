@@ -40,13 +40,13 @@ jobs:
       # When we specify multiple JDKs, the final one becomes the default, which is used to execute Maven itself.
       # Our Maven configuration then specifies different JDKs to use for some of the steps:
       # - 11 (sometimes) to *download* to support anyone who runs JDiff or our Gradle integration tests (including our doc snapshots and our Java 11 CI test run) but not to use directly
-      # - 23 for running Javadoc and javac (to help people who build Guava locally and might not use a recent JDK to run Maven)
+      # - 24 for running Javadoc and javac (to help people who build Guava locally and might not use a recent JDK to run Maven)
       - name: 'Set up JDKs'
         uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12 # v4.7.0
         with:
           java-version: |
             ${{ matrix.java }}
-            23
+            24
           distribution: 'temurin'
           cache: 'maven'
       - name: 'Install'
@@ -78,7 +78,7 @@ jobs:
         with:
           # For discussion, see the first setup-java block.
           # The publish-snapshot workflow doesn't run tests, so we don't have to care which version Maven would select for that step.
-          java-version: 23
+          java-version: 24
           distribution: 'temurin'
           server-id: sonatype-nexus-snapshots
           server-username: CI_DEPLOY_USERNAME
@@ -108,7 +108,7 @@ jobs:
           # But we need Java 11 for JDiff.
           java-version: |
             11
-            23
+            24
           distribution: 'temurin'
           cache: 'maven'
       - name: 'Generate latest docs'
