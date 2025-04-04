@@ -178,9 +178,9 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
       return super.writeReplace();
     }
   }
@@ -211,9 +211,9 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
       return super.writeReplace();
     }
   }
@@ -242,9 +242,9 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
       return super.writeReplace();
     }
   }
@@ -273,9 +273,9 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
       return super.writeReplace();
     }
   }
@@ -324,9 +324,9 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
   }
 
   @Override
-  @J2ktIncompatible // serialization
-  @GwtIncompatible // serialization
-  Object writeReplace() {
+  @J2ktIncompatible
+  @GwtIncompatible
+    Object writeReplace() {
     return SerializedForm.create(this, cellRowIndices, cellColumnIndices);
   }
 }

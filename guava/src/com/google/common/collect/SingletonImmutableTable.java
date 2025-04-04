@@ -78,9 +78,9 @@ class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   }
 
   @Override
-  @J2ktIncompatible // serialization
-  @GwtIncompatible // serialization
-  Object writeReplace() {
+  @J2ktIncompatible
+  @GwtIncompatible
+    Object writeReplace() {
     return SerializedForm.create(this, new int[] {0}, new int[] {0});
   }
 }

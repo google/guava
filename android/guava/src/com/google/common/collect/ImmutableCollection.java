@@ -377,9 +377,9 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
     return offset;
   }
 
-  @J2ktIncompatible // serialization
-  @GwtIncompatible // serialization
-  Object writeReplace() {
+  @J2ktIncompatible
+  @GwtIncompatible
+    Object writeReplace() {
     // We serialize by default to ImmutableList, the simplest thing that works.
     return new ImmutableList.SerializedForm(toArray());
   }

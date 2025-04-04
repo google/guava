@@ -403,13 +403,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   @Override
-  @J2ktIncompatible // serialization
-  Object writeReplace() {
+  @J2ktIncompatible
+    Object writeReplace() {
     return new SerializedForm(toArray());
   }
 
-  @J2ktIncompatible // serialization
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+  @J2ktIncompatible
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
@@ -484,8 +484,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
      * @return this {@code Builder} object
      * @throws NullPointerException if {@code element} is null
      */
-    @CanIgnoreReturnValue
     @Override
+    @CanIgnoreReturnValue
     public Builder<E> add(E element) {
       checkNotNull(element);
       if (hashTable != null && chooseTableSize(size) <= hashTable.length) {
