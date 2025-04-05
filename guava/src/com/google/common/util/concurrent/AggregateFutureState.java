@@ -20,6 +20,7 @@ import static java.util.concurrent.atomic.AtomicIntegerFieldUpdater.newUpdater;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.j2objc.annotations.ReflectionSupport;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicIntegerFieldUpdater;
@@ -143,6 +144,11 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
     seenExceptions = null;
   }
 
+  @VisibleForTesting
+  static String atomicHelperTypeForTest() {
+    return ATOMIC_HELPER.atomicHelperTypeForTest();
+  }
+
   private abstract static class AtomicHelper {
     /** Atomic compare-and-set of the {@link AggregateFutureState#seenExceptions} field. */
     abstract void compareAndSetSeenExceptions(
@@ -150,6 +156,8 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
 
     /** Atomic decrement-and-get of the {@link AggregateFutureState#remaining} field. */
     abstract int decrementAndGetRemainingCount(AggregateFutureState<?> state);
+
+    abstract String atomicHelperTypeForTest();
   }
 
   private static final class SafeAtomicHelper extends AtomicHelper {
@@ -170,6 +178,11 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
     int decrementAndGetRemainingCount(AggregateFutureState<?> state) {
       return remainingCountUpdater.decrementAndGet(state);
     }
+
+    @Override
+    String atomicHelperTypeForTest() {
+      return "SafeAtomicHelper";
+    }
   }
 
   private static final class SynchronizedAtomicHelper extends AtomicHelper {
@@ -188,6 +201,11 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
       synchronized (state) {
         return --state.remaining;
       }
+    }
+
+    @Override
+    String atomicHelperTypeForTest() {
+      return "SynchronizedAtomicHelper";
     }
   }
 
