@@ -392,17 +392,27 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
   /*
    * The following fields are package-private, even though we intend never to use them outside this
    * file. If they were instead private, then we wouldn't be able to access them reflectively from
-   * within VarHandleAtomicHelper.
+   * within VarHandleAtomicHelper and AtomicReferenceFieldUpdaterAtomicHelper.
    *
-   * Package-private "shouldn't" be necessary: VarHandleAtomicHelper and AbstractFutureState
-   * "should" be nestmates, so a call to MethodHandles.lookup inside VarHandleAtomicHelper "should"
-   * have access to AbstractFutureState's private fields. However, our open-source build uses
-   * `-source 8 -target 8`, so the class files from that build can't express nestmates. Thus, when
-   * those class files are used from Java 9 or higher (i.e., high enough to trigger the VarHandle
-   * code path), such a lookup would fail with an IllegalAccessException.
+   * Package-private "shouldn't" be necessary: The *AtomicHelper classes and AbstractFutureState
+   * "should" be nestmates, so a call to MethodHandles.lookup or
+   * AtomicReferenceFieldUpdater.newUpdater inside *AtomicHelper "should" have access to
+   * AbstractFutureState's private fields. However, our open-source build uses `-source 8 -target
+   * 8`, so the class files from that build can't express nestmates. Thus, when those class files
+   * are used from Java 9 or higher (i.e., high enough to trigger the VarHandle code path), such a
+   * lookup would fail with an IllegalAccessException. That may then trigger use of Unsafe (possibly
+   * with a warning under recent JVMs), or it may fall back even further to
+   * AtomicReferenceFieldUpdaterAtomicHelper, which would fail with a similar problem to
+   * VarHandleAtomicHelperMaker, forcing us all the way to SynchronizedAtomicHelper.
    *
-   * This same problem is one of the reasons for us to likewise keep the fields in Waiter as
-   * package-private instead of private.
+   * Additionally, it seems that nestmates do not help with runtime reflection under *Android*, even
+   * when we use a newer -source and -target. That doesn't normally matter for AbstractFutureState,
+   * since Android should normally succed in using UnsafeAtomicHelper and thus never even try the
+   * problematic AtomicReferenceFieldUpdaterAtomicHelper code path. However, the same problem *does*
+   * matter with AggregateFutureState, which does not have an Unsafe-based helper.
+   *
+   * This same problem is one of the reasons for us to likewise use package-private for the fields
+   * in Waiter.
    */
 
   /**

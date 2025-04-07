@@ -20,8 +20,8 @@
   *** value;
 }
 -keepclassmembers class com.google.common.util.concurrent.AggregateFutureState {
-  *** remaining;
-  *** seenExceptions;
+  *** remainingField;
+  *** seenExceptionsField;
 }
 
 # Since Unsafe is using the field offsets of these inner classes, we don't want
