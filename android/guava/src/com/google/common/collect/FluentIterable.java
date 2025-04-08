@@ -844,13 +844,4 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
   public final E get(int position) {
     return Iterables.get(getDelegate(), position);
   }
-
-  /** Function that transforms {@code Iterable<E>} into a fluent iterable. */
-  private static class FromIterableFunction<E extends @Nullable Object>
-      implements Function<Iterable<E>, FluentIterable<E>> {
-    @Override
-    public FluentIterable<E> apply(Iterable<E> fromObject) {
-      return FluentIterable.from(fromObject);
-    }
-  }
 }

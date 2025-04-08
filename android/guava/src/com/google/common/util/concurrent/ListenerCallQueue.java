@@ -39,7 +39,7 @@ import java.util.logging.Level;
  * <ul>
  *   <li>Multiple events for the same listener are never dispatched concurrently.
  *   <li>Events for the different listeners are dispatched concurrently.
- *   <li>All events for a given listener dispatch on the provided {@link #executor}.
+ *   <li>All events for a given listener dispatch on the provided executor.
  *   <li>It is easy for the user to ensure that listeners are never invoked while holding locks.
  * </ul>
  *

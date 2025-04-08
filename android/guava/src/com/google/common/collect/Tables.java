@@ -476,14 +476,13 @@ public final class Tables {
       return Maps.transformValues(fromTable.column(columnKey), function);
     }
 
-    Function<Cell<R, C, V1>, Cell<R, C, V2>> cellFunction() {
-      return cell ->
-          immutableCell(cell.getRowKey(), cell.getColumnKey(), function.apply(cell.getValue()));
+    Cell<R, C, V2> applyToValue(Cell<R, C, V1> cell) {
+      return immutableCell(cell.getRowKey(), cell.getColumnKey(), function.apply(cell.getValue()));
     }
 
     @Override
     Iterator<Cell<R, C, V2>> cellIterator() {
-      return Iterators.transform(fromTable.cellSet().iterator(), cellFunction());
+      return Iterators.transform(fromTable.cellSet().iterator(), this::applyToValue);
     }
 
     @Override
