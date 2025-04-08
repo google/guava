@@ -536,7 +536,7 @@ public class IntsTest extends TestCase {
     List<Short> shorts = Arrays.asList((short) 0, (short) 1, (short) 2);
     List<Integer> ints = Arrays.asList(0, 1, 2);
     List<Float> floats = Arrays.asList((float) 0, (float) 1, (float) 2);
-    List<Long> longs = Arrays.asList((long) 0, (long) 1, (long) 2);
+    List<Long> longs = Arrays.asList(0L, 1L, 2L);
     List<Double> doubles = Arrays.asList((double) 0, (double) 1, (double) 2);
 
     assertThat(Ints.toArray(bytes)).isEqualTo(array);

@@ -94,10 +94,10 @@ public class UnsignedLongsTest extends TestCase {
             new long[] {},
             new long[] {LEAST},
             new long[] {LEAST, LEAST},
-            new long[] {LEAST, (long) 1},
-            new long[] {(long) 1},
-            new long[] {(long) 1, LEAST},
-            new long[] {GREATEST, GREATEST - (long) 1},
+            new long[] {LEAST, 1L},
+            new long[] {1L},
+            new long[] {1L, LEAST},
+            new long[] {GREATEST, GREATEST - 1L},
             new long[] {GREATEST, GREATEST},
             new long[] {GREATEST, GREATEST, GREATEST});
 
