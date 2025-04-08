@@ -498,9 +498,9 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  @J2ktIncompatible // serialization
-  @GwtIncompatible // serialization
-  abstract Object writeReplace();
+  @J2ktIncompatible
+  @GwtIncompatible
+    abstract Object writeReplace();
 
   @GwtIncompatible // serialization
   @J2ktIncompatible

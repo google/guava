@@ -503,9 +503,9 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         // redeclare to help optimizers with b/310253115
         @SuppressWarnings("RedundantOverride")
         @Override
-        @J2ktIncompatible // serialization
-        @GwtIncompatible // serialization
-        Object writeReplace() {
+        @J2ktIncompatible
+        @GwtIncompatible
+                Object writeReplace() {
           return super.writeReplace();
         }
       };

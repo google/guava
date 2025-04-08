@@ -326,9 +326,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
       return super.writeReplace();
     }
   }
@@ -376,9 +376,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
         // redeclare to help optimizers with b/310253115
         @SuppressWarnings("RedundantOverride")
         @Override
-        @J2ktIncompatible // serialization
-        @GwtIncompatible // serialization
-        Object writeReplace() {
+        @J2ktIncompatible
+        @GwtIncompatible
+                Object writeReplace() {
           return super.writeReplace();
         }
       };
@@ -387,9 +387,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
       return super.writeReplace();
     }
   }
@@ -417,13 +417,13 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   @Override
-  @J2ktIncompatible // serialization
-  Object writeReplace() {
+  @J2ktIncompatible
+    Object writeReplace() {
     return new SerializedForm(toArray());
   }
 
-  @J2ktIncompatible // serialization
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+  @J2ktIncompatible
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 

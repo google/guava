@@ -74,9 +74,9 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
       return super.writeReplace();
     }
   }
@@ -108,9 +108,9 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
       return super.writeReplace();
     }
   }
@@ -205,7 +205,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
 
   // redeclare to satisfy our test for b/310253115
   @Override
-  @J2ktIncompatible // serialization
-  @GwtIncompatible // serialization
-  abstract Object writeReplace();
+  @J2ktIncompatible
+  @GwtIncompatible
+    abstract Object writeReplace();
 }

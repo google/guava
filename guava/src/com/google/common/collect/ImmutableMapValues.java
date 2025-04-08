@@ -95,15 +95,15 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
       // redeclare to help optimizers with b/310253115
       @SuppressWarnings("RedundantOverride")
       @Override
-      @J2ktIncompatible // serialization
-      @GwtIncompatible // serialization
-      Object writeReplace() {
+      @J2ktIncompatible
+      @GwtIncompatible
+            Object writeReplace() {
         return super.writeReplace();
       }
     };
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @Override
   public void forEach(Consumer<? super V> action) {
     checkNotNull(action);
@@ -113,15 +113,21 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
   // redeclare to help optimizers with b/310253115
   @SuppressWarnings("RedundantOverride")
   @Override
-  @J2ktIncompatible // serialization
-  @GwtIncompatible // serialization
-  Object writeReplace() {
+  @J2ktIncompatible
+  @GwtIncompatible
+    Object writeReplace() {
     return super.writeReplace();
   }
 
-  // No longer used for new writes, but kept so that old data can still be read.
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
+  /*
+   * The mainline copy of ImmutableMapValues doesn't produce this serialized form anymore, though
+   * the backport does. For now, we're keeping the class declaration in *both* flavors so that both
+   * flavors can read old data or data from the other flavor. However, we strongly discourage
+   * relying on this, as we have made incompatible changes to serialized forms in the past and
+   * expect to do so again, as discussed in https://github.com/google/guava#important-warnings.
+   */
   @SuppressWarnings("unused")
   private static class SerializedForm<V> implements Serializable {
     final ImmutableMap<?, V> map;
@@ -130,7 +136,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
       this.map = map;
     }
 
-    Object readResolve() {
+        Object readResolve() {
       return map.values();
     }
 

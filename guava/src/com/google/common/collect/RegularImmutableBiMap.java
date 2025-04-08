@@ -288,9 +288,9 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
           // redeclare to help optimizers with b/310253115
           @SuppressWarnings("RedundantOverride")
           @Override
-          @J2ktIncompatible // serialization
-          @GwtIncompatible // serialization
-          Object writeReplace() {
+          @J2ktIncompatible
+          @GwtIncompatible
+                    Object writeReplace() {
             return super.writeReplace();
           }
         };
@@ -299,9 +299,9 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       // redeclare to help optimizers with b/310253115
       @SuppressWarnings("RedundantOverride")
       @Override
-      @J2ktIncompatible // serialization
-      @GwtIncompatible // serialization
-      Object writeReplace() {
+      @J2ktIncompatible
+      @GwtIncompatible
+            Object writeReplace() {
         return super.writeReplace();
       }
     }
@@ -312,9 +312,9 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
 
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
       return new InverseSerializedForm<>(RegularImmutableBiMap.this);
     }
 
@@ -342,9 +342,9 @@ class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   // redeclare to help optimizers with b/310253115
   @SuppressWarnings("RedundantOverride")
   @Override
-  @J2ktIncompatible // serialization
-  @GwtIncompatible // serialization
-  Object writeReplace() {
+  @J2ktIncompatible
+  @GwtIncompatible
+    Object writeReplace() {
     return super.writeReplace();
   }
 }

@@ -1062,8 +1062,8 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   }
 
   @J2ktIncompatible
-  @GwtIncompatible // java.io.ObjectInputStream
-  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+  @GwtIncompatible
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     @SuppressWarnings("unchecked")
     // reading data stored by writeObject
