@@ -578,14 +578,14 @@ public class LongsTest extends TestCase {
 
   public void testStringConverter_convert() {
     Converter<String, Long> converter = Longs.stringConverter();
-    assertThat(converter.convert("1")).isEqualTo((Long) 1L);
-    assertThat(converter.convert("0")).isEqualTo((Long) 0L);
-    assertThat(converter.convert("-1")).isEqualTo((Long) (-1L));
-    assertThat(converter.convert("0xff")).isEqualTo((Long) 255L);
-    assertThat(converter.convert("0xFF")).isEqualTo((Long) 255L);
-    assertThat(converter.convert("-0xFF")).isEqualTo((Long) (-255L));
-    assertThat(converter.convert("#0000FF")).isEqualTo((Long) 255L);
-    assertThat(converter.convert("0666")).isEqualTo((Long) 438L);
+    assertThat(converter.convert("1")).isEqualTo(1L);
+    assertThat(converter.convert("0")).isEqualTo(0L);
+    assertThat(converter.convert("-1")).isEqualTo(-1L);
+    assertThat(converter.convert("0xff")).isEqualTo(255L);
+    assertThat(converter.convert("0xFF")).isEqualTo(255L);
+    assertThat(converter.convert("-0xFF")).isEqualTo(-255L);
+    assertThat(converter.convert("#0000FF")).isEqualTo(255L);
+    assertThat(converter.convert("0666")).isEqualTo(438L);
   }
 
   public void testStringConverter_convertError() {

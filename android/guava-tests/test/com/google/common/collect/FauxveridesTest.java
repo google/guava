@@ -231,7 +231,7 @@ public class FauxveridesTest extends TestCase {
 
     @Override
     public String toString() {
-      return (parameterSignatures.isEmpty())
+      return parameterSignatures.isEmpty()
           ? ""
           : "<" + Joiner.on(", ").join(parameterSignatures) + "> ";
     }
@@ -267,7 +267,7 @@ public class FauxveridesTest extends TestCase {
 
     @Override
     public String toString() {
-      return (bounds.equals(ImmutableList.of(Object.class)))
+      return bounds.equals(ImmutableList.of(Object.class))
           ? name
           : name + " extends " + getTypesString(bounds);
     }

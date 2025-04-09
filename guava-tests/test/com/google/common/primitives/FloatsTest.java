@@ -79,7 +79,7 @@ public class FloatsTest extends TestCase {
 
   public void testHashCode() {
     for (float value : VALUES) {
-      assertThat(Floats.hashCode(value)).isEqualTo(((Float) value).hashCode());
+      assertThat(Floats.hashCode(value)).isEqualTo(Float.hashCode(value));
     }
   }
 
@@ -718,14 +718,14 @@ public class FloatsTest extends TestCase {
   @GwtIncompatible // Float.toString returns different value in GWT.
   public void testStringConverter_convert() {
     Converter<String, Float> converter = Floats.stringConverter();
-    assertThat(converter.convert("1.0")).isEqualTo((Float) 1.0f);
-    assertThat(converter.convert("0.0")).isEqualTo((Float) 0.0f);
-    assertThat(converter.convert("-1.0")).isEqualTo((Float) (-1.0f));
-    assertThat(converter.convert("1")).isEqualTo((Float) 1.0f);
-    assertThat(converter.convert("0")).isEqualTo((Float) 0.0f);
-    assertThat(converter.convert("-1")).isEqualTo((Float) (-1.0f));
-    assertThat(converter.convert("1e6")).isEqualTo((Float) 1e6f);
-    assertThat(converter.convert("1e-6")).isEqualTo((Float) 1e-6f);
+    assertThat(converter.convert("1.0")).isEqualTo(1.0f);
+    assertThat(converter.convert("0.0")).isEqualTo(0.0f);
+    assertThat(converter.convert("-1.0")).isEqualTo(-1.0f);
+    assertThat(converter.convert("1")).isEqualTo(1.0f);
+    assertThat(converter.convert("0")).isEqualTo(0.0f);
+    assertThat(converter.convert("-1")).isEqualTo(-1.0f);
+    assertThat(converter.convert("1e6")).isEqualTo(1e6f);
+    assertThat(converter.convert("1e-6")).isEqualTo(1e-6f);
   }
 
   public void testStringConverter_convertError() {

@@ -3159,7 +3159,7 @@ public class FuturesTest extends TestCase {
      * a bug!), switch the second branch to call untimed future.get() instead of
      * pseudoTimedGet.
      */
-    return (inputs.hasDelayed(iFuture, jFuture))
+    return inputs.hasDelayed(iFuture, jFuture)
         ? pseudoTimedGetUninterruptibly(future, timeout, unit)
         : pseudoTimedGetUninterruptibly(future, 2500, MILLISECONDS);
   }

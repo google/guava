@@ -589,14 +589,14 @@ public class IntsTest extends TestCase {
 
   public void testStringConverter_convert() {
     Converter<String, Integer> converter = Ints.stringConverter();
-    assertThat(converter.convert("1")).isEqualTo((Integer) 1);
-    assertThat(converter.convert("0")).isEqualTo((Integer) 0);
-    assertThat(converter.convert("-1")).isEqualTo((Integer) (-1));
-    assertThat(converter.convert("0xff")).isEqualTo((Integer) 255);
-    assertThat(converter.convert("0xFF")).isEqualTo((Integer) 255);
-    assertThat(converter.convert("-0xFF")).isEqualTo((Integer) (-255));
-    assertThat(converter.convert("#0000FF")).isEqualTo((Integer) 255);
-    assertThat(converter.convert("0666")).isEqualTo((Integer) 438);
+    assertThat(converter.convert("1")).isEqualTo(1);
+    assertThat(converter.convert("0")).isEqualTo(0);
+    assertThat(converter.convert("-1")).isEqualTo(-1);
+    assertThat(converter.convert("0xff")).isEqualTo(255);
+    assertThat(converter.convert("0xFF")).isEqualTo(255);
+    assertThat(converter.convert("-0xFF")).isEqualTo(-255);
+    assertThat(converter.convert("#0000FF")).isEqualTo(255);
+    assertThat(converter.convert("0666")).isEqualTo(438);
   }
 
   public void testStringConverter_convertError() {

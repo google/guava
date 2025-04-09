@@ -84,7 +84,7 @@ public class DoublesTest extends TestCase {
 
   public void testHashCode() {
     for (double value : VALUES) {
-      assertThat(Doubles.hashCode(value)).isEqualTo(((Double) value).hashCode());
+      assertThat(Doubles.hashCode(value)).isEqualTo(Double.hashCode(value));
     }
   }
 
@@ -761,14 +761,14 @@ public class DoublesTest extends TestCase {
 
   public void testStringConverter_convert() {
     Converter<String, Double> converter = Doubles.stringConverter();
-    assertThat(converter.convert("1.0")).isEqualTo((Double) 1.0);
-    assertThat(converter.convert("0.0")).isEqualTo((Double) 0.0);
-    assertThat(converter.convert("-1.0")).isEqualTo((Double) (-1.0));
-    assertThat(converter.convert("1")).isEqualTo((Double) 1.0);
-    assertThat(converter.convert("0")).isEqualTo((Double) 0.0);
-    assertThat(converter.convert("-1")).isEqualTo((Double) (-1.0));
-    assertThat(converter.convert("1e6")).isEqualTo((Double) 1e6);
-    assertThat(converter.convert("1e-6")).isEqualTo((Double) 1e-6);
+    assertThat(converter.convert("1.0")).isEqualTo(1.0);
+    assertThat(converter.convert("0.0")).isEqualTo(0.0);
+    assertThat(converter.convert("-1.0")).isEqualTo(-1.0);
+    assertThat(converter.convert("1")).isEqualTo(1.0);
+    assertThat(converter.convert("0")).isEqualTo(0.0);
+    assertThat(converter.convert("-1")).isEqualTo(-1.0);
+    assertThat(converter.convert("1e6")).isEqualTo(1e6);
+    assertThat(converter.convert("1e-6")).isEqualTo(1e-6);
   }
 
   public void testStringConverter_convertError() {

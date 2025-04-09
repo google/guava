@@ -610,14 +610,14 @@ public class ShortsTest extends TestCase {
 
   public void testStringConverter_convert() {
     Converter<String, Short> converter = Shorts.stringConverter();
-    assertThat(converter.convert("1")).isEqualTo((Short) (short) 1);
-    assertThat(converter.convert("0")).isEqualTo((Short) (short) 0);
-    assertThat(converter.convert("-1")).isEqualTo((Short) (short) (-1));
-    assertThat(converter.convert("0xff")).isEqualTo((Short) (short) 255);
-    assertThat(converter.convert("0xFF")).isEqualTo((Short) (short) 255);
-    assertThat(converter.convert("-0xFF")).isEqualTo((Short) (short) (-255));
-    assertThat(converter.convert("#0000FF")).isEqualTo((Short) (short) 255);
-    assertThat(converter.convert("0666")).isEqualTo((Short) (short) 438);
+    assertThat(converter.convert("1")).isEqualTo(1);
+    assertThat(converter.convert("0")).isEqualTo(0);
+    assertThat(converter.convert("-1")).isEqualTo(-1);
+    assertThat(converter.convert("0xff")).isEqualTo(255);
+    assertThat(converter.convert("0xFF")).isEqualTo(255);
+    assertThat(converter.convert("-0xFF")).isEqualTo(-255);
+    assertThat(converter.convert("#0000FF")).isEqualTo(255);
+    assertThat(converter.convert("0666")).isEqualTo(438);
   }
 
   public void testStringConverter_convertError() {
