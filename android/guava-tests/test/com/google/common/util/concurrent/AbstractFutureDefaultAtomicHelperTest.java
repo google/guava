@@ -30,10 +30,11 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class AbstractFutureDefaultAtomicHelperTest extends TestCase {
   public void testUsingExpectedAtomicHelper() throws Exception {
-    if (isJava8() || isAndroid()) {
+    if (isAndroid()) {
       assertThat(AbstractFutureState.atomicHelperTypeForTest()).isEqualTo("UnsafeAtomicHelper");
     } else {
-      assertThat(AbstractFutureState.atomicHelperTypeForTest()).isEqualTo("VarHandleAtomicHelper");
+      assertThat(AbstractFutureState.atomicHelperTypeForTest())
+          .isEqualTo("AtomicReferenceFieldUpdaterAtomicHelper");
     }
   }
 
