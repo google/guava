@@ -89,8 +89,14 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   @Override
   public void runTest() throws Exception {
-    // First ensure that our classloaders are initializing the correct helper versions
-    if (isJava8() || isAndroid()) {
+    /*
+     * Note that we do not run this test under Android at the moment. For Android testing, see
+     * AbstractFutureDefaultAtomicHelperTest.
+     */
+
+    // First, ensure that our classloaders are initializing the correct helper versions:
+
+    if (isJava8()) {
       checkHelperVersion(getClass().getClassLoader(), "UnsafeAtomicHelper");
     } else {
       checkHelperVersion(getClass().getClassLoader(), "VarHandleAtomicHelper");
@@ -99,12 +105,14 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
     checkHelperVersion(NO_UNSAFE, "AtomicReferenceFieldUpdaterAtomicHelper");
     checkHelperVersion(NO_ATOMIC_REFERENCE_FIELD_UPDATER, "SynchronizedHelper");
 
+    // Then, run the actual tests under each alternative classloader:
+
     /*
-     * Under Java 8 or Android, there is no need to test the no-VarHandle case here: It's already
-     * tested by the main AbstractFutureTest, which uses the default AtomicHelper, which we verified
-     * above to be UnsafeAtomicHelper.
+     * Under Java 8, there is no need to test the no-VarHandle case here: It's already tested by the
+     * main AbstractFutureTest, which uses the default AtomicHelper, which we verified above to be
+     * UnsafeAtomicHelper.
      */
-    if (!isJava8() && !isAndroid()) {
+    if (!isJava8()) {
       runTestMethod(NO_VAR_HANDLE);
     }
 
@@ -163,9 +171,5 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   private static boolean isJava8() {
     return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
-  }
-
-  private static boolean isAndroid() {
-    return System.getProperty("java.runtime.name", "").contains("Android");
   }
 }

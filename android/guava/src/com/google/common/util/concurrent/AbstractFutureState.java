@@ -27,11 +27,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.util.concurrent.AbstractFuture.Listener;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
-import com.google.j2objc.annotations.J2ObjCIncompatible;
 import com.google.j2objc.annotations.ReflectionSupport;
 import com.google.j2objc.annotations.RetainedLocalRef;
-import java.lang.invoke.MethodHandles;
-import java.lang.invoke.VarHandle;
 import java.lang.reflect.Field;
 import java.security.PrivilegedActionException;
 import java.security.PrivilegedExceptionAction;
@@ -348,8 +345,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     Throwable thrownUnsafeFailure = null;
     Throwable thrownAtomicReferenceFieldUpdaterFailure = null;
 
-    helper = VarHandleAtomicHelperMaker.INSTANCE.tryMakeVarHandleAtomicHelper();
-    if (helper == null) {
+    if (mightBeAndroid()) {
       try {
         helper = new UnsafeAtomicHelper();
       } catch (Exception | Error unsafeFailure) { // sneaky checked exception
@@ -366,6 +362,39 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
           thrownAtomicReferenceFieldUpdaterFailure = atomicReferenceFieldUpdaterFailure;
           helper = new SynchronizedHelper();
         }
+      }
+    } else {
+      /*
+       * We avoid Unsafe, since newer JVMs produce warnings or even errors for attempts to use it.
+       *
+       * In guava-jre, we avoid Unsafe by using VarHandle instead. But if we have references to
+       * VarHandle in guava-android, even if they're unused under Android, we cause errors under
+       * AGP: https://github.com/google/guava/issues/7769.
+       *
+       * My impression is that an AtomicReferenceFieldUpdater in a static field is similarly fast to
+       * Unsafe on modern JVMs (if perhaps not quite as fast as VarHandle?). However, I'm not sure
+       * exactly what we've benchmarked, and we certainly haven't benchmarked as far back as JDK 8.
+       * (We also haven't benchmarked under Android. We continue to use UnsafeAtomicHelper there so
+       * that we don't change the performance there, for better or for worse.) Fortunately, JVM
+       * users will typically use guava-jre, not guava-android, and guava-jre uses the VarHandle
+       * implementation when possible.
+       */
+      try {
+        helper = new AtomicReferenceFieldUpdaterAtomicHelper();
+      } catch (NoClassDefFoundError fromAggregateFutureStateFallbackAtomicHelperTest) {
+        /*
+         * AtomicReferenceFieldUpdaterAtomicHelper should always work on the JVM. (I mean, it
+         * "should" always work on Android, too, but we know of a Samsung bug there :)) However, in
+         * AggregateFutureStateFallbackAtomicHelperTest, we test what happens to AggregateFuture in
+         * the case of the Samsung bug, and we do that by breaking AtomicReferenceFieldUpdater.
+         * Breaking AtomicReferenceFieldUpdater not only forces AggregateFutureState to fall back to
+         * another implementation but also forces AbstractFutureState to be able to do the
+         * same—hence the try-catch here.
+         *
+         * (Really, we're fortunate that breaking AtomicReferenceFieldUpdater doesn't break _even
+         * more_ things.)
+         */
+        helper = new SynchronizedHelper();
       }
     }
     ATOMIC_HELPER = helper;
@@ -403,7 +432,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    * lookup would fail with an IllegalAccessException. That may then trigger use of Unsafe (possibly
    * with a warning under recent JVMs), or it may fall back even further to
    * AtomicReferenceFieldUpdaterAtomicHelper, which would fail with a similar problem to
-   * VarHandleAtomicHelperMaker, forcing us all the way to SynchronizedAtomicHelper.
+   * VarHandleAtomicHelperMaker, forcing us all the way to SynchronizedHelper.
    *
    * Additionally, it seems that nestmates do not help with runtime reflection under *Android*, even
    * when we use a newer -source and -target. That doesn't normally matter for AbstractFutureState,
@@ -512,43 +541,6 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     return ATOMIC_HELPER.atomicHelperTypeForTest();
   }
 
-  private enum VarHandleAtomicHelperMaker {
-    INSTANCE {
-      /**
-       * Implementation used by non-J2ObjC environments (aside, of course, from those that have
-       * supersource for the entirety of {@link AbstractFutureState}).
-       */
-      @Override
-      @J2ObjCIncompatible
-      @Nullable AtomicHelper tryMakeVarHandleAtomicHelper() {
-        if (mightBeAndroid()) {
-          return null;
-        }
-        try {
-          /*
-           * We first use reflection to check whether VarHandle exists. If we instead just tried to
-           * load our class directly (which would trigger non-reflective loading of VarHandle) from
-           * within a `try` block, then an error might be thrown even before we enter the `try`
-           * block: https://github.com/google/truth/issues/333#issuecomment-765652454
-           *
-           * Also, it's nice that this approach should let us catch *only* ClassNotFoundException
-           * instead of having to catch more broadly (potentially even including, say, a
-           * StackOverflowError).
-           */
-          Class.forName("java.lang.invoke.VarHandle");
-        } catch (ClassNotFoundException beforeJava9) {
-          return null;
-        }
-        return new VarHandleAtomicHelper();
-      }
-    };
-
-    /** Implementation used by J2ObjC environments, overridden for other environments. */
-    @Nullable AtomicHelper tryMakeVarHandleAtomicHelper() {
-      return null;
-    }
-  }
-
   private abstract static class AtomicHelper {
     /** Non-volatile write of the thread to the {@link Waiter#thread} field. */
     abstract void putThread(Waiter waiter, Thread newValue);
@@ -575,81 +567,6 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
         AbstractFutureState<?> future, @Nullable Object expect, Object update);
 
     abstract String atomicHelperTypeForTest();
-  }
-
-  /** {@link AtomicHelper} based on {@link VarHandle}. */
-  @J2ObjCIncompatible
-  // We use this class only after confirming that VarHandle is available at runtime.
-  @SuppressWarnings({"Java8ApiChecker", "Java7ApiChecker", "AndroidJdkLibsChecker"})
-  @IgnoreJRERequirement
-  private static final class VarHandleAtomicHelper extends AtomicHelper {
-    static final VarHandle waiterThreadUpdater;
-    static final VarHandle waiterNextUpdater;
-    static final VarHandle waitersUpdater;
-    static final VarHandle listenersUpdater;
-    static final VarHandle valueUpdater;
-
-    static {
-      MethodHandles.Lookup lookup = MethodHandles.lookup();
-      try {
-        waiterThreadUpdater = lookup.findVarHandle(Waiter.class, "thread", Thread.class);
-        waiterNextUpdater = lookup.findVarHandle(Waiter.class, "next", Waiter.class);
-        waitersUpdater =
-            lookup.findVarHandle(AbstractFutureState.class, "waitersField", Waiter.class);
-        listenersUpdater =
-            lookup.findVarHandle(AbstractFutureState.class, "listenersField", Listener.class);
-        valueUpdater = lookup.findVarHandle(AbstractFutureState.class, "valueField", Object.class);
-      } catch (ReflectiveOperationException e) {
-        // Those fields exist.
-        throw newLinkageError(e);
-      }
-    }
-
-    @Override
-    void putThread(Waiter waiter, Thread newValue) {
-      waiterThreadUpdater.setRelease(waiter, newValue);
-    }
-
-    @Override
-    void putNext(Waiter waiter, @Nullable Waiter newValue) {
-      waiterNextUpdater.setRelease(waiter, newValue);
-    }
-
-    @Override
-    boolean casWaiters(
-        AbstractFutureState<?> future, @Nullable Waiter expect, @Nullable Waiter update) {
-      return waitersUpdater.compareAndSet(future, expect, update);
-    }
-
-    @Override
-    boolean casListeners(
-        AbstractFutureState<?> future, @Nullable Listener expect, Listener update) {
-      return listenersUpdater.compareAndSet(future, expect, update);
-    }
-
-    @Override
-    @Nullable Listener gasListeners(AbstractFutureState<?> future, Listener update) {
-      return (Listener) listenersUpdater.getAndSet(future, update);
-    }
-
-    @Override
-    @Nullable Waiter gasWaiters(AbstractFutureState<?> future, Waiter update) {
-      return (Waiter) waitersUpdater.getAndSet(future, update);
-    }
-
-    @Override
-    boolean casValue(AbstractFutureState<?> future, @Nullable Object expect, Object update) {
-      return valueUpdater.compareAndSet(future, expect, update);
-    }
-
-    private static LinkageError newLinkageError(Throwable cause) {
-      return new LinkageError(cause.toString(), cause);
-    }
-
-    @Override
-    String atomicHelperTypeForTest() {
-      return "VarHandleAtomicHelper";
-    }
   }
 
   /**
