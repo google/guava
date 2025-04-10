@@ -101,7 +101,7 @@ public class FloatArrayAsListTest extends TestCase {
   public static final class FloatsAsListTailSubListGenerator extends TestFloatListGenerator {
     @Override
     protected List<Float> create(Float[] elements) {
-      Float[] prefix = {(float) 86, (float) 99};
+      Float[] prefix = {86.0f, 99.0f};
       Float[] all = concat(prefix, elements);
       return asList(all).subList(2, elements.length + 2);
     }
@@ -111,7 +111,7 @@ public class FloatArrayAsListTest extends TestCase {
     @Override
     protected List<Float> create(Float[] elements) {
       Float[] prefix = {Float.MIN_VALUE, Float.MAX_VALUE};
-      Float[] suffix = {(float) 86, (float) 99};
+      Float[] suffix = {86.0f, 99.0f};
       Float[] all = concat(concat(prefix, elements), suffix);
       return asList(all).subList(2, elements.length + 2);
     }
@@ -160,7 +160,7 @@ public class FloatArrayAsListTest extends TestCase {
 
   public static class SampleFloats extends SampleElements<Float> {
     public SampleFloats() {
-      super((float) 0, (float) 1, (float) 2, (float) 3, (float) 4);
+      super(0.0f, 1.0f, 2.0f, 3.0f, 4.0f);
     }
   }
 }
