@@ -100,9 +100,7 @@ public class IntsTest extends TestCase {
     for (int x : VALUES) {
       for (int y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y)
-            .that(Ints.compare(x, y))
-            .isEqualTo(Integer.valueOf(x).compareTo(y));
+        assertWithMessage(x + ", " + y).that(Ints.compare(x, y)).isEqualTo(Integer.compare(x, y));
       }
     }
   }

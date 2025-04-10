@@ -101,9 +101,7 @@ public class DoublesTest extends TestCase {
     for (double x : VALUES) {
       for (double y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y)
-            .that(Doubles.compare(x, y))
-            .isEqualTo(Double.valueOf(x).compareTo(y));
+        assertWithMessage(x + ", " + y).that(Doubles.compare(x, y)).isEqualTo(Double.compare(x, y));
       }
     }
   }

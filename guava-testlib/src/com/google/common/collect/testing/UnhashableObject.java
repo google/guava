@@ -54,6 +54,6 @@ public class UnhashableObject implements Comparable<UnhashableObject> {
 
   @Override
   public int compareTo(UnhashableObject o) {
-    return (this.value < o.value) ? -1 : (this.value > o.value) ? 1 : 0;
+    return Integer.compare(this.value, o.value);
   }
 }

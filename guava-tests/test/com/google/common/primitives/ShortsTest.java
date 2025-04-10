@@ -98,8 +98,8 @@ public class ShortsTest extends TestCase {
   public void testCompare() {
     for (short x : VALUES) {
       for (short y : VALUES) {
-        // Only compare the sign of the result of compareTo().
-        int expected = Short.valueOf(x).compareTo(y);
+        // Only compare the sign of the result of compare().
+        int expected = Short.compare(x, y);
         int actual = Shorts.compare(x, y);
         if (expected == 0) {
           assertWithMessage(x + ", " + y).that(actual).isEqualTo(expected);

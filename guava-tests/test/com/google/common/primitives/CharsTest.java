@@ -99,7 +99,7 @@ public class CharsTest extends TestCase {
       for (char y : VALUES) {
         assertWithMessage(x + ", " + y)
             .that(Math.signum(Chars.compare(x, y)))
-            .isEqualTo(Math.signum(Character.valueOf(x).compareTo(y)));
+            .isEqualTo(Math.signum(Character.compare(x, y)));
       }
     }
   }

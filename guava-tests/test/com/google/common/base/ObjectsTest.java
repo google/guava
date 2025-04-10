@@ -32,7 +32,14 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class ObjectsTest extends TestCase {
 
-  @SuppressWarnings("YodaCondition") // test of reversed call
+  @SuppressWarnings({
+    "ObjectEqualsForPrimitives", // test of a trivial call
+    "EqualsInteger", // test of a trivial call
+    "EqualsLong", // b/273939864
+    "EqualsDouble", // b/273939864
+    "EqualsFloat", // b/273939864
+    "YodaCondition", // test of reversed call
+  })
   public void testEqual() throws Exception {
     assertTrue(Objects.equal(1, 1));
     assertTrue(Objects.equal(null, null));

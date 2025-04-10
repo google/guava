@@ -71,9 +71,7 @@ public class LongsTest extends TestCase {
     for (long x : VALUES) {
       for (long y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y)
-            .that(Longs.compare(x, y))
-            .isEqualTo(Long.valueOf(x).compareTo(y));
+        assertWithMessage(x + ", " + y).that(Longs.compare(x, y)).isEqualTo(Long.compare(x, y));
       }
     }
   }

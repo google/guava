@@ -96,9 +96,7 @@ public class FloatsTest extends TestCase {
     for (float x : VALUES) {
       for (float y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y)
-            .that(Floats.compare(x, y))
-            .isEqualTo(Float.valueOf(x).compareTo(y));
+        assertWithMessage(x + ", " + y).that(Floats.compare(x, y)).isEqualTo(Float.compare(x, y));
       }
     }
   }
