@@ -218,8 +218,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#hashCode(char)" class="member-name-link">hashCode</a><wbr>(char&nbsp;value)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking <code>((Character)
- value).hashCode()</code>.</div>
+<div class="block">Returns a hash code for <code>value</code>; obsolete alternative to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Character.html#hashCode(char)" title="class or interface in java.lang" class="external-link"><code>Character.hashCode(char)</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#indexOf(char%5B%5D,char)" class="member-name-link">indexOf</a><wbr>(char[]&nbsp;array,
@@ -371,11 +370,9 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="hashCode(char)">
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span><wbr><span class="parameters">(char&nbsp;value)</span></div>
-<div class="block">Returns a hash code for <code>value</code>; equal to the result of invoking <code>((Character)
- value).hashCode()</code>.
-
- <p><b>Java 8+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Character.html#hashCode(char)" title="class or interface in java.lang" class="external-link"><code>Character.hashCode(char)</code></a> instead.</div>
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="Character.hashCode(value)")
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span><wbr><span class="parameters">(char&nbsp;value)</span></div>
+<div class="block">Returns a hash code for <code>value</code>; obsolete alternative to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Character.html#hashCode(char)" title="class or interface in java.lang" class="external-link"><code>Character.hashCode(char)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>value</code> - a primitive <code>char</code> value</dd>

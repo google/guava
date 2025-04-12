@@ -57211,10 +57211,8 @@
       deprecated="not deprecated">
       <param name="value" type="boolean"/>
       <doc>
-      <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Boolean)
- value).hashCode()}.
-
- <p><b>Java 8+ users:</b> use {@link Boolean#hashCode(boolean)} instead.
+      <![CDATA[Returns a hash code for {@code value}; obsolete alternative to {@link
+ Boolean#hashCode(boolean)}.
 
  @param value a primitive {@code boolean} value
  @return a hash code for the value]]>
@@ -57520,10 +57518,7 @@
       deprecated="not deprecated">
       <param name="value" type="byte"/>
       <doc>
-      <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Byte)
- value).hashCode()}.
-
- <p><b>Java 8+ users:</b> use {@link Byte#hashCode(byte)} instead.
+      <![CDATA[Returns a hash code for {@code value}; obsolete alternative to {@link Byte#hashCode(byte)}.
 
  @param value a primitive {@code byte} value
  @return a hash code for the value]]>
@@ -57758,10 +57753,8 @@
       deprecated="not deprecated">
       <param name="value" type="char"/>
       <doc>
-      <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Character)
- value).hashCode()}.
-
- <p><b>Java 8+ users:</b> use {@link Character#hashCode(char)} instead.
+      <![CDATA[Returns a hash code for {@code value}; obsolete alternative to {@link
+ Character#hashCode(char)}.
 
  @param value a primitive {@code char} value
  @return a hash code for the value]]>
@@ -58205,10 +58198,7 @@
       deprecated="not deprecated">
       <param name="value" type="double"/>
       <doc>
-      <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Double)
- value).hashCode()}.
-
- <p><b>Java 8+ users:</b> use {@link Double#hashCode(double)} instead.
+      <![CDATA[Returns a hash code for {@code value}; obsolete alternative to {@link Double#hashCode(double)}.
 
  @param value a primitive {@code double} value
  @return a hash code for the value]]>
@@ -58655,10 +58645,7 @@
       deprecated="not deprecated">
       <param name="value" type="float"/>
       <doc>
-      <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Float)
- value).hashCode()}.
-
- <p><b>Java 8+ users:</b> use {@link Float#hashCode(float)} instead.
+      <![CDATA[Returns a hash code for {@code value}; obsolete alternative to {@link Float#hashCode(float)}.
 
  @param value a primitive {@code float} value
  @return a hash code for the value]]>
@@ -60468,10 +60455,7 @@
       deprecated="not deprecated">
       <param name="value" type="int"/>
       <doc>
-      <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Integer)
- value).hashCode()}.
-
- <p><b>Java 8+ users:</b> use {@link Integer#hashCode(int)} instead.
+      <![CDATA[Returns a hash code for {@code value}; obsolete alternative to {@link Integer#hashCode(int)}.
 
  @param value a primitive {@code int} value
  @return a hash code for the value]]>
@@ -60996,14 +60980,7 @@
       deprecated="not deprecated">
       <param name="value" type="long"/>
       <doc>
-      <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Long)
- value).hashCode()}.
-
- <p>This method always return the value specified by {@link Long#hashCode()} in java, which
- might be different from {@code ((Long) value).hashCode()} in GWT because {@link
- Long#hashCode()} in GWT does not obey the JRE contract.
-
- <p><b>Java 8+ users:</b> use {@link Long#hashCode(long)} instead.
+      <![CDATA[Returns a hash code for {@code value}; obsolete alternative to {@link Long#hashCode(long)}.
 
  @param value a primitive {@code long} value
  @return a hash code for the value]]>
@@ -61586,10 +61563,7 @@
       deprecated="not deprecated">
       <param name="value" type="short"/>
       <doc>
-      <![CDATA[Returns a hash code for {@code value}; equal to the result of invoking {@code ((Short)
- value).hashCode()}.
-
- <p><b>Java 8+ users:</b> use {@link Short#hashCode(short)} instead.
+      <![CDATA[Returns a hash code for {@code value}; obsolete alternative to {@link Short#hashCode(short)}.
 
  @param value a primitive {@code short} value
  @return a hash code for the value]]>
