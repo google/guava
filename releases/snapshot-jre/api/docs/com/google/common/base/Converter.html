@@ -142,9 +142,8 @@ implements <a href="Function.html" title="interface in com.google.common.base">F
    <li>Convert between specific preset values using <a href="../collect/Maps.html#asConverter(com.google.common.collect.BiMap)"><code>Maps.asConverter</code></a>. For example, use this to
        create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
        the <code>Converter</code> type using a mocking framework.
+   <li>Pass two lambda expressions or method references to the <a href="#from(com.google.common.base.Function,com.google.common.base.Function)"><code>from</code></a> factory method.
    <li>Extend this class and implement its <a href="#doForward(A)"><code>doForward(A)</code></a> and <a href="#doBackward(B)"><code>doBackward(B)</code></a> methods.
-   <li><b>Java 8+ users:</b> you may prefer to pass two lambda expressions or method references to
-       the <a href="#from(com.google.common.base.Function,com.google.common.base.Function)"><code>from</code></a> factory method.
  </ul>
 
  <p>Using a converter:
@@ -161,24 +160,30 @@ implements <a href="Function.html" title="interface in com.google.common.base">F
 
  <h3 id="example-heading">Example</h3>
 
- <pre>
-   return new Converter&lt;Integer, String&gt;() {
-     protected String doForward(Integer i) {
-       return Integer.toHexString(i);
-     }
-
-     protected Integer doBackward(String s) {
-       return parseUnsignedInt(s, 16);
-     }
-   };</pre>
-
- <p>An alternative using Java 8:
-
  
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-com.google.common.base.Converter1"><code class="language-java">return Converter.from(
     Integer::toHexString,
     s -&gt; parseUnsignedInt(s, 16));
+</code></pre>
+</div>
+
+
+ <p>An alternative using a subclass:
+
+ 
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.base.Converter2"><code class="language-java">return new Converter&lt;Integer, String&gt;() {
+  @Override
+  protected String doForward(Integer i) {
+    return Integer.toHexString(i);
+  }
+
+  @Override
+  protected Integer doBackward(String s) {
+    return parseUnsignedInt(s, 16);
+  }
+}
 </code></pre>
 </div>
 </div>

@@ -327,7 +327,7 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">BYTES</span></div>
 <div class="block">The number of bytes required to represent a primitive <code>float</code> value.
 
- <p><b>Java 8+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html#BYTES" title="class or interface in java.lang" class="external-link"><code>Float.BYTES</code></a> instead.</div>
+ <p>Prefer <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html#BYTES" title="class or interface in java.lang" class="external-link"><code>Float.BYTES</code></a> instead.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>
@@ -393,11 +393,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="isFinite(float)">
 <h3>isFinite</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isFinite</span><wbr><span class="parameters">(float&nbsp;value)</span></div>
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="Float.isFinite(value)")
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isFinite</span><wbr><span class="parameters">(float&nbsp;value)</span></div>
 <div class="block">Returns <code>true</code> if <code>value</code> represents a real number. This is equivalent to, but not
  necessarily implemented as, <code>!(Float.isInfinite(value) || Float.isNaN(value))</code>.
 
- <p><b>Java 8+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html#isFinite(float)" title="class or interface in java.lang" class="external-link"><code>Float.isFinite(float)</code></a> instead.</div>
+ <p>Prefer <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Float.html#isFinite(float)" title="class or interface in java.lang" class="external-link"><code>Float.isFinite(float)</code></a> instead.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>

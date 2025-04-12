@@ -158,8 +158,7 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Function.html" title="interface in com.google.common.base">Function</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toStringFunction()" class="member-name-link">toStringFunction</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">A function equivalent to the method reference <code>Object::toString</code>, for users not yet using
- Java 8.</div>
+<div class="block">A function equivalent to the method reference <code>Object::toString</code>.</div>
 </div>
 </div>
 </div>
@@ -183,9 +182,8 @@ loadScripts(document, 'script');</script>
 <h3>toStringFunction</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&gt;</span>&nbsp;<span class="element-name">toStringFunction</span>()</div>
-<div class="block">A function equivalent to the method reference <code>Object::toString</code>, for users not yet using
- Java 8. The function simply invokes <code>toString</code> on its argument and returns the result. It
- throws a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link"><code>NullPointerException</code></a> on null input.
+<div class="block">A function equivalent to the method reference <code>Object::toString</code>. The function simply
+ invokes <code>toString</code> on its argument and returns the result. It throws a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link"><code>NullPointerException</code></a> on null input.
 
  <p><b>Warning:</b> The returned function may not be <i>consistent with equals</i> (as
  documented at <a href="Function.html#apply(F)"><code>Function.apply(F)</code></a>). For example, this function yields different results for
@@ -195,9 +193,17 @@ loadScripts(document, 'script');</script>
  <code>equals</code>, <code>hashCode</code> or <code>toString</code> behavior of the returned function. A
  future migration to <code>java.util.function</code> will not preserve this behavior.
 
- <p><b>Java 8+ users:</b> use the method reference <code>Object::toString</code> instead. In the
- future, when this class requires Java 8, this method will be deprecated. See <a href="Function.html" title="interface in com.google.common.base"><code>Function</code></a>
- for more important information about the Java 8+ transition.</div>
+ <p>As discussed above, prefer to use the method reference <code>Object::toString</code> instead,
+ though note that it is not serializable unless you explicitly make it <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link"><code>Serializable</code></a>,
+ typically by writing <code>(Function&lt;Object, String&gt; &amp; Serializable) Object::toString</code>.
+
+ <p>For more important information about the transition from Guava's <a href="Function.html" title="interface in com.google.common.base"><code>Function</code></a> class to
+ the JDK 
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>java.util.functionFunction</code></pre>
+</details>
+ class, see <a href="Function.html" title="interface in com.google.common.base"><code>Function</code></a>.</div>
 </div>
 </section>
 </li>
@@ -226,9 +232,10 @@ loadScripts(document, 'script');</script>
  can use <a href="../collect/Maps.html#asConverter(com.google.common.collect.BiMap)"><code>Maps.asConverter</code></a> instead to get a
  function that also supports reverse conversion.
 
- <p><b>Java 8+ users:</b> if you are okay with <code>null</code> being returned for an unrecognized
- key (instead of an exception being thrown), you can use the method reference <code>map::get</code>
- instead.</div>
+ <p>If you are okay with <code>null</code> being returned for an unrecognized key (instead of an
+ exception being thrown), you can use the method reference <code>map::get</code> instead. Note that
+ it is not serializable unless you explicitly make it <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link"><code>Serializable</code></a>, typically by writing
+ <code>(Function&lt;K, V&gt; &amp; Serializable) map::get</code>.</div>
 </div>
 </section>
 </li>
@@ -243,8 +250,10 @@ loadScripts(document, 'script');</script>
  this method returns <code>defaultValue</code> for all inputs that do not belong to the map's key
  set. See also <a href="#forMap(java.util.Map)"><code>forMap(Map)</code></a>, which throws an exception in this case.
 
- <p><b>Java 8+ users:</b> you can just write the lambda expression <code>k -&gt;
- map.getOrDefault(k, defaultValue)</code> instead.</div>
+ <p>Prefer to write the lambda expression <code>k -&gt; map.getOrDefault(k, defaultValue)</code>
+ instead. Note that it is not serializable unless you explicitly make it <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link"><code>Serializable</code></a>,
+ typically by writing <code>(Function&lt;K, V&gt; &amp; Serializable) k -&gt; map.getOrDefault(k,
+ defaultValue)</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>map</code> - source map that determines the function behavior</dd>
@@ -266,8 +275,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns the composition of two functions. For <code>f: A-&gt;B</code> and <code>g: B-&gt;C</code>, composition
  is defined as the function h such that <code>h(a) == g(f(a))</code> for each <code>a</code>.
 
- <p><b>Java 8+ users:</b> use <code>g.compose(f)</code> or (probably clearer) <code>f.andThen(g)</code>
- instead.</div>
+ <p><b>JRE users and Android users who opt in to library desugaring:</b> use <code>
+ g.compose(f)</code> or (probably clearer) <code>f.andThen(g)</code> instead. Note that it is not
+ serializable.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>g</code> - the second function to apply</dd>
@@ -294,7 +304,9 @@ loadScripts(document, 'script');</script>
 
  <p>The returned function is <i>consistent with equals</i> (as documented at <a href="Function.html#apply(F)"><code>Function.apply(F)</code></a>) if and only if <code>predicate</code> is itself consistent with equals.
 
- <p><b>Java 8+ users:</b> use the method reference <code>predicate::test</code> instead.</div>
+ <p>Prefer to use the method reference <code>predicate::test</code> instead. Note that it is not
+ serializable unless you explicitly make it <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link"><code>Serializable</code></a>, typically by writing <code>
+ (Function&lt;T, Boolean&gt; &amp; Serializable) predicate::test</code>.</div>
 </div>
 </section>
 </li>
@@ -306,7 +318,9 @@ loadScripts(document, 'script');</script>
 <span class="return-type"><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>, E&gt;</span>&nbsp;<span class="element-name">constant</span><wbr><span class="parameters">(E&nbsp;value)</span></div>
 <div class="block">Returns a function that ignores its input and always returns <code>value</code>.
 
- <p><b>Java 8+ users:</b> use the lambda expression <code>o -&gt; value</code> instead.</div>
+ <p>Prefer to use the lambda expression <code>o -&gt; value</code> instead. Note that it is not
+ serializable unless you explicitly make it <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link"><code>Serializable</code></a>, typically by writing <code>
+ (Function&lt;Object, E&gt; &amp; Serializable) o -&gt; value</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>value</code> - the constant value for the function to return</dd>
@@ -324,7 +338,9 @@ loadScripts(document, 'script');</script>
 <span class="return-type"><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;F,<wbr>T&gt;</span>&nbsp;<span class="element-name">forSupplier</span><wbr><span class="parameters">(<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;&nbsp;supplier)</span></div>
 <div class="block">Returns a function that ignores its input and returns the result of <code>supplier.get()</code>.
 
- <p><b>Java 8+ users:</b> use the lambda expression <code>o -&gt; supplier.get()</code> instead.</div>
+ <p>Prefer to use the lambda expression <code>o -&gt; supplier.get()</code> instead. Note that it is not
+ serializable unless you explicitly make it <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link"><code>Serializable</code></a>, typically by writing <code>
+ (Function&lt;F, T&gt; &amp; Serializable) o -&gt; supplier.get()</code>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>

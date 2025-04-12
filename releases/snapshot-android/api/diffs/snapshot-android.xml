@@ -1768,9 +1768,8 @@
        com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to
        create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
        the {@code Converter} type using a mocking framework.
+   <li>Pass two lambda expressions or method references to the {@link #from from} factory method.
    <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
-   <li><b>Java 8+ users:</b> you may prefer to pass two lambda expressions or method references to
-       the {@link #from from} factory method.
  </ul>
 
  <p>Using a converter:
@@ -1789,23 +1788,26 @@
 
  <h3>Example</h3>
 
- <pre>
-   return new Converter&lt;Integer, String&gt;() {
-     protected String doForward(Integer i) {
-       return Integer.toHexString(i);
-     }
-
-     protected Integer doBackward(String s) {
-       return parseUnsignedInt(s, 16);
-     }
-   };</pre>
-
- <p>An alternative using Java 8:
-
  {@snippet :
  return Converter.from(
      Integer::toHexString,
      s -> parseUnsignedInt(s, 16));
+ }
+
+ <p>An alternative using a subclass:
+
+ {@snippet :
+ return new Converter<Integer, String>() {
+   @Override
+   protected String doForward(Integer i) {
+     return Integer.toHexString(i);
+   }
+
+   @Override
+   protected Integer doBackward(String s) {
+     return parseUnsignedInt(s, 16);
+   }
+ }
  }
 
  @author Mike Ward
@@ -2470,9 +2472,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[A function equivalent to the method reference {@code Object::toString}, for users not yet using
- Java 8. The function simply invokes {@code toString} on its argument and returns the result. It
- throws a {@link NullPointerException} on null input.
+      <![CDATA[A function equivalent to the method reference {@code Object::toString}. The function simply
+ invokes {@code toString} on its argument and returns the result. It throws a {@link
+ NullPointerException} on null input.
 
  <p><b>Warning:</b> The returned function may not be <i>consistent with equals</i> (as
  documented at {@link Function#apply}). For example, this function yields different results for
@@ -2482,9 +2484,12 @@
  {@code equals}, {@code hashCode} or {@code toString} behavior of the returned function. A
  future migration to {@code java.util.function} will not preserve this behavior.
 
- <p><b>Java 8+ users:</b> use the method reference {@code Object::toString} instead. In the
- future, when this class requires Java 8, this method will be deprecated. See {@link Function}
- for more important information about the Java 8+ transition.]]>
+ <p>As discussed above, prefer to use the method reference {@code Object::toString} instead,
+ though note that it is not serializable unless you explicitly make it {@link Serializable},
+ typically by writing {@code (Function<Object, String> & Serializable) Object::toString}.
+
+ <p>For more important information about the transition from Guava's {@link Function} class to
+ the JDK {@link java.util.functionFunction} class, see {@link Function}.]]>
       </doc>
     </method>
     <method name="identity" return="com.google.common.base.Function&lt;E, E&gt;"
@@ -2512,9 +2517,10 @@
  can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
  function that also supports reverse conversion.
 
- <p><b>Java 8+ users:</b> if you are okay with {@code null} being returned for an unrecognized
- key (instead of an exception being thrown), you can use the method reference {@code map::get}
- instead.]]>
+ <p>If you are okay with {@code null} being returned for an unrecognized key (instead of an
+ exception being thrown), you can use the method reference {@code map::get} instead. Note that
+ it is not serializable unless you explicitly make it {@link Serializable}, typically by writing
+ {@code (Function<K, V> & Serializable) map::get}.]]>
       </doc>
     </method>
     <method name="forMap" return="com.google.common.base.Function&lt;K, V&gt;"
@@ -2528,8 +2534,10 @@
  this method returns {@code defaultValue} for all inputs that do not belong to the map's key
  set. See also {@link #forMap(Map)}, which throws an exception in this case.
 
- <p><b>Java 8+ users:</b> you can just write the lambda expression {@code k ->
- map.getOrDefault(k, defaultValue)} instead.
+ <p>Prefer to write the lambda expression {@code k -> map.getOrDefault(k, defaultValue)}
+ instead. Note that it is not serializable unless you explicitly make it {@link Serializable},
+ typically by writing {@code (Function<K, V> & Serializable) k -> map.getOrDefault(k,
+ defaultValue)}.
 
  @param map source map that determines the function behavior
  @param defaultValue the value to return for inputs that aren't map keys
@@ -2547,8 +2555,9 @@
       <![CDATA[Returns the composition of two functions. For {@code f: A->B} and {@code g: B->C}, composition
  is defined as the function h such that {@code h(a) == g(f(a))} for each {@code a}.
 
- <p><b>Java 8+ users:</b> use {@code g.compose(f)} or (probably clearer) {@code f.andThen(g)}
- instead.
+ <p><b>JRE users and Android users who opt in to library desugaring:</b> use {@code
+ g.compose(f)} or (probably clearer) {@code f.andThen(g)} instead. Note that it is not
+ serializable.
 
  @param g the second function to apply
  @param f the first function to apply
@@ -2567,7 +2576,9 @@
  <p>The returned function is <i>consistent with equals</i> (as documented at {@link
  Function#apply}) if and only if {@code predicate} is itself consistent with equals.
 
- <p><b>Java 8+ users:</b> use the method reference {@code predicate::test} instead.]]>
+ <p>Prefer to use the method reference {@code predicate::test} instead. Note that it is not
+ serializable unless you explicitly make it {@link Serializable}, typically by writing {@code
+ (Function<T, Boolean> & Serializable) predicate::test}.]]>
       </doc>
     </method>
     <method name="constant" return="com.google.common.base.Function&lt;java.lang.Object, E&gt;"
@@ -2578,7 +2589,9 @@
       <doc>
       <![CDATA[Returns a function that ignores its input and always returns {@code value}.
 
- <p><b>Java 8+ users:</b> use the lambda expression {@code o -> value} instead.
+ <p>Prefer to use the lambda expression {@code o -> value} instead. Note that it is not
+ serializable unless you explicitly make it {@link Serializable}, typically by writing {@code
+ (Function<Object, E> & Serializable) o -> value}.
 
  @param value the constant value for the function to return
  @return a function that always returns {@code value}]]>
@@ -2592,7 +2605,9 @@
       <doc>
       <![CDATA[Returns a function that ignores its input and returns the result of {@code supplier.get()}.
 
- <p><b>Java 8+ users:</b> use the lambda expression {@code o -> supplier.get()} instead.
+ <p>Prefer to use the lambda expression {@code o -> supplier.get()} instead. Note that it is not
+ serializable unless you explicitly make it {@link Serializable}, typically by writing {@code
+ (Function<F, T> & Serializable) o -> supplier.get()}.
 
  @since 10.0]]>
       </doc>
@@ -6533,7 +6548,9 @@
       <![CDATA[Returns a function that accepts a supplier and returns the result of invoking {@link
  Supplier#get} on that supplier.
 
- <p><b>Java 8+ users:</b> use the method reference {@code Supplier::get} instead.
+ <p>Prefer to use the method reference {@code Supplier::get} instead, though note that it is not
+ serializable unless you explicitly make it {@link Serializable}, typically by writing {@code
+ (Function<Supplier<T>, T> & Serializable) Supplier::get}.
 
  @since 8.0]]>
       </doc>
@@ -57759,7 +57776,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code char} value.
 
- <p><b>Java 8+ users:</b> use {@link Character#BYTES} instead.]]>
+ <p>Prefer {@link Character#BYTES} instead.]]>
       </doc>
     </field>
     <doc>
@@ -57824,7 +57841,7 @@
       <![CDATA[Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
  necessarily implemented as, {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
 
- <p><b>Java 8+ users:</b> use {@link Double#isFinite(double)} instead.
+ <p>Prefer {@link Double#isFinite(double)} instead.
 
  @since 10.0]]>
       </doc>
@@ -58207,7 +58224,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code double} value.
 
- <p><b>Java 8+ users:</b> use {@link Double#BYTES} instead.
+ <p>Prefer {@link Double#BYTES} instead.
 
  @since 10.0]]>
       </doc>
@@ -58270,7 +58287,7 @@
       <![CDATA[Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
  necessarily implemented as, {@code !(Float.isInfinite(value) || Float.isNaN(value))}.
 
- <p><b>Java 8+ users:</b> use {@link Float#isFinite(float)} instead.
+ <p>Prefer {@link Float#isFinite(float)} instead.
 
  @since 10.0]]>
       </doc>
@@ -58650,7 +58667,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code float} value.
 
- <p><b>Java 8+ users:</b> use {@link Float#BYTES} instead.
+ <p>Prefer {@link Float#BYTES} instead.
 
  @since 10.0]]>
       </doc>
@@ -60534,7 +60551,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code int} value.
 
- <p><b>Java 8+ users:</b> use {@link Integer#BYTES} instead.]]>
+ <p>Prefer {@link Integer#BYTES} instead.]]>
       </doc>
     </field>
     <field name="MAX_POWER_OF_TWO" type="int"
@@ -61037,7 +61054,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code long} value.
 
- <p><b>Java 8+ users:</b> use {@link Long#BYTES} instead.]]>
+ <p>Prefer {@link Long#BYTES} instead.]]>
       </doc>
     </field>
     <field name="MAX_POWER_OF_TWO" type="long"
@@ -61585,7 +61602,7 @@
       <doc>
       <![CDATA[The number of bytes required to represent a primitive {@code short} value.
 
- <p><b>Java 8+ users:</b> use {@link Short#BYTES} instead.]]>
+ <p>Prefer {@link Short#BYTES} instead.]]>
       </doc>
     </field>
     <field name="MAX_POWER_OF_TWO" type="short"
@@ -61784,7 +61801,7 @@
       <![CDATA[Returns the value of the given byte as an integer, when treated as unsigned. That is, returns
  {@code value + 256} if {@code value} is negative; {@code value} itself otherwise.
 
- <p><b>Java 8+ users:</b> use {@link Byte#toUnsignedInt(byte)} instead.
+ <p>Prefer {@link Byte#toUnsignedInt(byte)} instead.
 
  @since 6.0]]>
       </doc>

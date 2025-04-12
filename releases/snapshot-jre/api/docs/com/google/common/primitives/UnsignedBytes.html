@@ -316,11 +316,12 @@ loadScripts(document, 'script');</script>
 <section class="detail" id="toInt(byte)">
 <h3>toInt</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">toInt</span><wbr><span class="parameters">(byte&nbsp;value)</span></div>
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="Byte.toUnsignedInt(value)")
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">toInt</span><wbr><span class="parameters">(byte&nbsp;value)</span></div>
 <div class="block">Returns the value of the given byte as an integer, when treated as unsigned. That is, returns
  <code>value + 256</code> if <code>value</code> is negative; <code>value</code> itself otherwise.
 
- <p><b>Java 8+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Byte.html#toUnsignedInt(byte)" title="class or interface in java.lang" class="external-link"><code>Byte.toUnsignedInt(byte)</code></a> instead.</div>
+ <p>Prefer <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Byte.html#toUnsignedInt(byte)" title="class or interface in java.lang" class="external-link"><code>Byte.toUnsignedInt(byte)</code></a> instead.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>6.0</dd>

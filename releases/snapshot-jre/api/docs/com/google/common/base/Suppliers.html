@@ -304,7 +304,9 @@ loadScripts(document, 'script');</script>
 <span class="return-type"><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;, T&gt;</span>&nbsp;<span class="element-name">supplierFunction</span>()</div>
 <div class="block">Returns a function that accepts a supplier and returns the result of invoking <a href="Supplier.html#get()"><code>Supplier.get()</code></a> on that supplier.
 
- <p><b>Java 8+ users:</b> use the method reference <code>Supplier::get</code> instead.</div>
+ <p>Prefer to use the method reference <code>Supplier::get</code> instead, though note that it is not
+ serializable unless you explicitly make it <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link"><code>Serializable</code></a>, typically by writing <code>
+ (Function&lt;Supplier&lt;T&gt;, T&gt; &amp; Serializable) Supplier::get</code>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>8.0</dd>
