@@ -99,16 +99,16 @@ public final class Booleans {
   }
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Boolean)
-   * value).hashCode()}.
-   *
-   * <p><b>Java 8+ users:</b> use {@link Boolean#hashCode(boolean)} instead.
+   * Returns a hash code for {@code value}; obsolete alternative to {@link
+   * Boolean#hashCode(boolean)}.
    *
    * @param value a primitive {@code boolean} value
    * @return a hash code for the value
    */
+  @SuppressWarnings("Java7ApiChecker") // What we actually want to test is Android: b/336133887
+  @InlineMe(replacement = "Boolean.hashCode(value)")
   public static int hashCode(boolean value) {
-    return value ? 1231 : 1237;
+    return Boolean.hashCode(value);
   }
 
   /**

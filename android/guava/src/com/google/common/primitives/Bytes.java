@@ -22,6 +22,8 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.errorprone.annotations.InlineMe;
+import com.google.errorprone.annotations.InlineMeValidationDisabled;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -50,14 +52,15 @@ public final class Bytes {
   private Bytes() {}
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Byte)
-   * value).hashCode()}.
-   *
-   * <p><b>Java 8+ users:</b> use {@link Byte#hashCode(byte)} instead.
+   * Returns a hash code for {@code value}; obsolete alternative to {@link Byte#hashCode(byte)}.
    *
    * @param value a primitive {@code byte} value
    * @return a hash code for the value
    */
+  @InlineMe(replacement = "Byte.hashCode(value)")
+  @InlineMeValidationDisabled(
+      "The hash code of a byte is the int version of the byte itself, so it's simplest to return"
+          + " that.")
   public static int hashCode(byte value) {
     return value;
   }

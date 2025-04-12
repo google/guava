@@ -46,9 +46,11 @@ public class BytesTest extends TestCase {
 
   private static final byte[] VALUES = {Byte.MIN_VALUE, -1, 0, 1, Byte.MAX_VALUE};
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
     for (byte value : VALUES) {
-      assertThat(Bytes.hashCode(value)).isEqualTo(((Byte) value).hashCode());
+      assertThat(Bytes.hashCode(value)).isEqualTo(Byte.hashCode(value));
     }
   }
 

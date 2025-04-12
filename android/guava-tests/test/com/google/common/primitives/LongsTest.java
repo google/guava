@@ -56,12 +56,13 @@ public class LongsTest extends TestCase {
 
   private static final long[] VALUES = {MIN_VALUE, -1L, 0L, 1L, MAX_VALUE};
 
-  @GwtIncompatible // Long.hashCode returns different values in GWT.
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
     for (long value : VALUES) {
       assertWithMessage("hashCode for " + value)
           .that(Longs.hashCode(value))
-          .isEqualTo(((Long) value).hashCode());
+          .isEqualTo(Long.hashCode(value));
     }
   }
 

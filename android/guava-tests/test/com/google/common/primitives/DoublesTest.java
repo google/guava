@@ -82,6 +82,8 @@ public class DoublesTest extends TestCase {
 
   private static final double[] VALUES = Doubles.concat(NUMBERS, new double[] {NaN});
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
     for (double value : VALUES) {
       assertThat(Doubles.hashCode(value)).isEqualTo(Double.hashCode(value));

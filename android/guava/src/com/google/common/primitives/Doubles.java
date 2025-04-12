@@ -63,19 +63,15 @@ public final class Doubles extends DoublesMethodsForWeb {
   public static final int BYTES = Double.SIZE / Byte.SIZE;
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Double)
-   * value).hashCode()}.
-   *
-   * <p><b>Java 8+ users:</b> use {@link Double#hashCode(double)} instead.
+   * Returns a hash code for {@code value}; obsolete alternative to {@link Double#hashCode(double)}.
    *
    * @param value a primitive {@code double} value
    * @return a hash code for the value
    */
+  @SuppressWarnings("Java7ApiChecker") // What we actually want to test is Android: b/336133887
+  @InlineMe(replacement = "Double.hashCode(value)")
   public static int hashCode(double value) {
-    return ((Double) value).hashCode();
-    // TODO(kevinb): do it this way when we can (GWT problem):
-    // long bits = Double.doubleToLongBits(value);
-    // return (int) (bits ^ (bits >>> 32));
+    return Double.hashCode(value);
   }
 
   /**

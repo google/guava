@@ -77,6 +77,8 @@ public class FloatsTest extends TestCase {
 
   private static final float[] VALUES = Floats.concat(NUMBERS, new float[] {NaN});
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
     for (float value : VALUES) {
       assertThat(Floats.hashCode(value)).isEqualTo(Float.hashCode(value));

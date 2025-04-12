@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.errorprone.annotations.InlineMe;
+import com.google.errorprone.annotations.InlineMeValidationDisabled;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -63,14 +64,15 @@ public final class Shorts extends ShortsMethodsForWeb {
   public static final short MAX_POWER_OF_TWO = 1 << (Short.SIZE - 2);
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Short)
-   * value).hashCode()}.
-   *
-   * <p><b>Java 8+ users:</b> use {@link Short#hashCode(short)} instead.
+   * Returns a hash code for {@code value}; obsolete alternative to {@link Short#hashCode(short)}.
    *
    * @param value a primitive {@code short} value
    * @return a hash code for the value
    */
+  @InlineMe(replacement = "Shorts.hashCode(value)")
+  @InlineMeValidationDisabled(
+      "The hash code of a short is the int version of the short itself, so it's simplest to return"
+          + " that.")
   public static int hashCode(short value) {
     return value;
   }

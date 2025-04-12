@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.errorprone.annotations.InlineMe;
+import com.google.errorprone.annotations.InlineMeValidationDisabled;
 import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
@@ -65,14 +66,14 @@ public final class Ints extends IntsMethodsForWeb {
   public static final int MAX_POWER_OF_TWO = 1 << (Integer.SIZE - 2);
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Integer)
-   * value).hashCode()}.
-   *
-   * <p><b>Java 8+ users:</b> use {@link Integer#hashCode(int)} instead.
+   * Returns a hash code for {@code value}; obsolete alternative to {@link Integer#hashCode(int)}.
    *
    * @param value a primitive {@code int} value
    * @return a hash code for the value
    */
+  @InlineMe(replacement = "Integer.hashCode(value)")
+  @InlineMeValidationDisabled(
+      "The hash code of a int is the int itself, so it's simplest to return that.")
   public static int hashCode(int value) {
     return value;
   }

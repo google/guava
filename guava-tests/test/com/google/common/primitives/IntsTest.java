@@ -57,9 +57,11 @@ public class IntsTest extends TestCase {
 
   private static final int[] VALUES = {LEAST, (int) -1, (int) 0, (int) 1, GREATEST};
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
     for (int value : VALUES) {
-      assertThat(Ints.hashCode(value)).isEqualTo(((Integer) value).hashCode());
+      assertThat(Ints.hashCode(value)).isEqualTo(Integer.hashCode(value));
     }
   }
 

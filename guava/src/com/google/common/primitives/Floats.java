@@ -61,17 +61,14 @@ public final class Floats extends FloatsMethodsForWeb {
   public static final int BYTES = Float.SIZE / Byte.SIZE;
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Float)
-   * value).hashCode()}.
-   *
-   * <p><b>Java 8+ users:</b> use {@link Float#hashCode(float)} instead.
+   * Returns a hash code for {@code value}; obsolete alternative to {@link Float#hashCode(float)}.
    *
    * @param value a primitive {@code float} value
    * @return a hash code for the value
    */
+  @InlineMe(replacement = "Float.hashCode(value)")
   public static int hashCode(float value) {
-    // TODO(kevinb): is there a better way, that's still gwt-safe?
-    return ((Float) value).hashCode();
+    return Float.hashCode(value);
   }
 
   /**

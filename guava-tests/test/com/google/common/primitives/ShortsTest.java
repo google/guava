@@ -56,9 +56,11 @@ public class ShortsTest extends TestCase {
 
   private static final short[] VALUES = {LEAST, (short) -1, (short) 0, (short) 1, GREATEST};
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
     for (short value : VALUES) {
-      assertThat(Shorts.hashCode(value)).isEqualTo(((Short) value).hashCode());
+      assertThat(Shorts.hashCode(value)).isEqualTo(Short.hashCode(value));
     }
   }
 

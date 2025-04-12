@@ -65,20 +65,15 @@ public final class Longs {
   public static final long MAX_POWER_OF_TWO = 1L << (Long.SIZE - 2);
 
   /**
-   * Returns a hash code for {@code value}; equal to the result of invoking {@code ((Long)
-   * value).hashCode()}.
-   *
-   * <p>This method always return the value specified by {@link Long#hashCode()} in java, which
-   * might be different from {@code ((Long) value).hashCode()} in GWT because {@link
-   * Long#hashCode()} in GWT does not obey the JRE contract.
-   *
-   * <p><b>Java 8+ users:</b> use {@link Long#hashCode(long)} instead.
+   * Returns a hash code for {@code value}; obsolete alternative to {@link Long#hashCode(long)}.
    *
    * @param value a primitive {@code long} value
    * @return a hash code for the value
    */
+  @SuppressWarnings("Java7ApiChecker") // What we actually want to test is Android: b/336133887
+  @InlineMe(replacement = "Long.hashCode(value)")
   public static int hashCode(long value) {
-    return (int) (value ^ (value >>> 32));
+    return Long.hashCode(value);
   }
 
   /**

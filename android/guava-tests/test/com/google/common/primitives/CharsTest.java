@@ -55,9 +55,11 @@ public class CharsTest extends TestCase {
 
   private static final char[] VALUES = {LEAST, 'a', '\u00e0', '\udcaa', GREATEST};
 
+  // We need to test that our method behaves like the JDK method.
+  @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
     for (char value : VALUES) {
-      assertThat(Chars.hashCode(value)).isEqualTo(((Character) value).hashCode());
+      assertThat(Chars.hashCode(value)).isEqualTo(Character.hashCode(value));
     }
   }
 
