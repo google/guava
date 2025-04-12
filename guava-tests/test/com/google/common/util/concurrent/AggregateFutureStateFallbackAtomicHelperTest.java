@@ -86,9 +86,17 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
 
   @Override
   public void runTest() throws Exception {
-    // First ensure that our classloaders are initializing the correct helper versions
+    /*
+     * Note that we do not run this test under Android at the moment. For Android testing, see
+     * AggregateFutureStateDefaultAtomicHelperTest.
+     */
+
+    // First, ensure that our classloaders are initializing the correct helper versions:
+
     checkHelperVersion(getClass().getClassLoader(), "SafeAtomicHelper");
     checkHelperVersion(NO_ATOMIC_FIELD_UPDATER, "SynchronizedAtomicHelper");
+
+    // Then, run the actual tests under each alternative classloader:
 
     runTestMethod(NO_ATOMIC_FIELD_UPDATER);
     // TODO(lukes): assert that the logs are full of errors

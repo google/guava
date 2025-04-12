@@ -403,7 +403,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    * lookup would fail with an IllegalAccessException. That may then trigger use of Unsafe (possibly
    * with a warning under recent JVMs), or it may fall back even further to
    * AtomicReferenceFieldUpdaterAtomicHelper, which would fail with a similar problem to
-   * VarHandleAtomicHelperMaker, forcing us all the way to SynchronizedAtomicHelper.
+   * VarHandleAtomicHelperMaker, forcing us all the way to SynchronizedHelper.
    *
    * Additionally, it seems that nestmates do not help with runtime reflection under *Android*, even
    * when we use a newer -source and -target. That doesn't normally matter for AbstractFutureState,

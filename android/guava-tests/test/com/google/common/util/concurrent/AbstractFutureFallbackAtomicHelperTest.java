@@ -89,26 +89,46 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   @Override
   public void runTest() throws Exception {
-    // First ensure that our classloaders are initializing the correct helper versions
-    if (isJava8() || isAndroid()) {
-      checkHelperVersion(getClass().getClassLoader(), "UnsafeAtomicHelper");
-    } else {
-      checkHelperVersion(getClass().getClassLoader(), "VarHandleAtomicHelper");
-    }
-    checkHelperVersion(NO_VAR_HANDLE, "UnsafeAtomicHelper");
+    /*
+     * Note that we do not run this test under Android at the moment. For Android testing, see
+     * AbstractFutureDefaultAtomicHelperTest.
+     */
+
+    // First, ensure that our classloaders are initializing the correct helper versions:
+
+    checkHelperVersion(getClass().getClassLoader(), "AtomicReferenceFieldUpdaterAtomicHelper");
+    /*
+     * Since we use AtomicReferenceFieldUpdaterAtomicHelper by default, we'll "obviously" use it
+     * even when Unsafe isn't available. But it's nice to have a check here to make sure that
+     * nothing somehow goes wrong as the JDK restricts access to Unsafe.
+     */
     checkHelperVersion(NO_UNSAFE, "AtomicReferenceFieldUpdaterAtomicHelper");
+    /*
+     * SynchronizedHelper is meant for Android, but our best way to test it is under the JVM.
+     *
+     * SynchronizedHelper also ends up getting used under the JVM during
+     * AggregateFutureStateFallbackAtomicHelperTest, as discussed in a comment in
+     * AggregateFutureState.
+     *
+     * Here, we check that we're able to force AbstractFutureState to select SynchronizedHelper, and
+     * below, we actually run the AbstractFutureTest methods under that scenario.
+     */
     checkHelperVersion(NO_ATOMIC_REFERENCE_FIELD_UPDATER, "SynchronizedHelper");
 
-    /*
-     * Under Java 8 or Android, there is no need to test the no-VarHandle case here: It's already
-     * tested by the main AbstractFutureTest, which uses the default AtomicHelper, which we verified
-     * above to be UnsafeAtomicHelper.
-     */
-    if (!isJava8() && !isAndroid()) {
-      runTestMethod(NO_VAR_HANDLE);
-    }
+    // Then, run the actual tests under each alternative classloader:
 
-    runTestMethod(NO_UNSAFE);
+    /*
+     * We don't need to test further under NO_UNSAFE: We verified that it selects
+     * AtomicReferenceFieldUpdaterAtomicHelper, which is the default, which means that it's used
+     * when we run AbstractFutureTest itself.
+     */
+
+    /*
+     * We don't test UnsafeAtomicHelper here, since guava-android doesn't provide a way to use it
+     * under the JVM. (We could arrange for one if we really wanted, but that will break once the
+     * JDK further restricts access to Unsafe.) But we have coverage under an Android emulator,
+     * which uses UnsafeAtomicHelper when it runs AbstractFutureTest itself.
+     */
 
     runTestMethod(NO_ATOMIC_REFERENCE_FIELD_UPDATER);
     // TODO(lukes): assert that the logs are full of errors
@@ -163,9 +183,5 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   private static boolean isJava8() {
     return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
-  }
-
-  private static boolean isAndroid() {
-    return System.getProperty("java.runtime.name", "").contains("Android");
   }
 }

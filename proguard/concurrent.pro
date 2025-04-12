@@ -47,10 +47,3 @@
 -keep class com.google.apphosting.api.ApiProxy {
   static *** getCurrentEnvironment (...);
 }
-
-# b/407533570
--dontwarn com.google.common.util.concurrent.AbstractFutureState$VarHandleAtomicHelper
-# See post-submit commentary on cl/743198569 about b/408047495.
--assumevalues class com.google.common.util.concurrent.AbstractFutureState {
-  boolean mightBeAndroid() return true;
-}
