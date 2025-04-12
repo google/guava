@@ -52,9 +52,11 @@ public final class Shorts extends ShortsMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code short} value.
    *
-   * <p><b>Java 8+ users:</b> use {@link Short#BYTES} instead.
+   * <p>Prefer {@link Short#BYTES} instead.
    */
-  public static final int BYTES = Short.SIZE / Byte.SIZE;
+  // The constants value gets inlined here.
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  public static final int BYTES = Short.BYTES;
 
   /**
    * The largest power of two that can be represented as a {@code short}.

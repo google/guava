@@ -24,6 +24,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.reflect.Field;
 import java.nio.ByteOrder;
@@ -75,12 +76,14 @@ public final class UnsignedBytes {
    * Returns the value of the given byte as an integer, when treated as unsigned. That is, returns
    * {@code value + 256} if {@code value} is negative; {@code value} itself otherwise.
    *
-   * <p><b>Java 8+ users:</b> use {@link Byte#toUnsignedInt(byte)} instead.
+   * <p>Prefer {@link Byte#toUnsignedInt(byte)} instead.
    *
    * @since 6.0
    */
+  @SuppressWarnings("Java7ApiChecker") // available under Android, which is what we care about
+  @InlineMe(replacement = "Byte.toUnsignedInt(value)")
   public static int toInt(byte value) {
-    return value & UNSIGNED_MASK;
+    return Byte.toUnsignedInt(value);
   }
 
   /**

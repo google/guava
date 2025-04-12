@@ -54,8 +54,9 @@ public final class Chars {
   /**
    * The number of bytes required to represent a primitive {@code char} value.
    *
-   * <p><b>Java 8+ users:</b> use {@link Character#BYTES} instead.
+   * <p>Prefer {@link Character#BYTES} instead.
    */
+  // We don't use Character.BYTES here because it's not available under J2KT.
   public static final int BYTES = Character.SIZE / Byte.SIZE;
 
   /**

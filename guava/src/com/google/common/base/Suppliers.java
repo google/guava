@@ -424,7 +424,9 @@ public final class Suppliers {
    * Returns a function that accepts a supplier and returns the result of invoking {@link
    * Supplier#get} on that supplier.
    *
-   * <p><b>Java 8+ users:</b> use the method reference {@code Supplier::get} instead.
+   * <p>Prefer to use the method reference {@code Supplier::get} instead, though note that it is not
+   * serializable unless you explicitly make it {@link Serializable}, typically by writing {@code
+   * (Function<Supplier<T>, T> & Serializable) Supplier::get}.
    *
    * @since 8.0
    */

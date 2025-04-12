@@ -53,9 +53,11 @@ public final class Longs {
   /**
    * The number of bytes required to represent a primitive {@code long} value.
    *
-   * <p><b>Java 8+ users:</b> use {@link Long#BYTES} instead.
+   * <p>Prefer {@link Long#BYTES} instead.
    */
-  public static final int BYTES = Long.SIZE / Byte.SIZE;
+  // The constants value gets inlined here.
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  public static final int BYTES = Long.BYTES;
 
   /**
    * The largest power of two that can be represented as a {@code long}.

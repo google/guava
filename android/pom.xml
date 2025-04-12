@@ -377,7 +377,7 @@
             <signature>
               <groupId>com.toasttab.android</groupId>
               <artifactId>gummy-bears-api-21</artifactId>
-              <version>0.8.0</version>
+              <version>0.12.0</version>
               <!-- TODO(cpovirk): In principle, it would make sense to *also* test compatibility with JDK 1.8, since guava-android also has JRE users. -->
             </signature>
             <ignores>

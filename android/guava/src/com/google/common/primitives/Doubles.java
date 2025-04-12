@@ -19,8 +19,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Strings.lenientFormat;
-import static java.lang.Double.NEGATIVE_INFINITY;
-import static java.lang.Double.POSITIVE_INFINITY;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -56,11 +54,13 @@ public final class Doubles extends DoublesMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code double} value.
    *
-   * <p><b>Java 8+ users:</b> use {@link Double#BYTES} instead.
+   * <p>Prefer {@link Double#BYTES} instead.
    *
    * @since 10.0
    */
-  public static final int BYTES = Double.SIZE / Byte.SIZE;
+  // The constants value gets inlined here.
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  public static final int BYTES = Double.BYTES;
 
   /**
    * Returns a hash code for {@code value}; obsolete alternative to {@link Double#hashCode(double)}.
@@ -97,12 +97,14 @@ public final class Doubles extends DoublesMethodsForWeb {
    * Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
    * necessarily implemented as, {@code !(Double.isInfinite(value) || Double.isNaN(value))}.
    *
-   * <p><b>Java 8+ users:</b> use {@link Double#isFinite(double)} instead.
+   * <p>Prefer {@link Double#isFinite(double)} instead.
    *
    * @since 10.0
    */
+  @SuppressWarnings("Java7ApiChecker") // available under Android, which is what we care about
+  @InlineMe(replacement = "Double.isFinite(value)")
   public static boolean isFinite(double value) {
-    return NEGATIVE_INFINITY < value && value < POSITIVE_INFINITY;
+    return Double.isFinite(value);
   }
 
   /**

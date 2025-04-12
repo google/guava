@@ -71,9 +71,8 @@ import org.jspecify.annotations.Nullable;
  *       com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to
  *       create a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i>
  *       the {@code Converter} type using a mocking framework.
+ *   <li>Pass two lambda expressions or method references to the {@link #from from} factory method.
  *   <li>Extend this class and implement its {@link #doForward} and {@link #doBackward} methods.
- *   <li><b>Java 8+ users:</b> you may prefer to pass two lambda expressions or method references to
- *       the {@link #from from} factory method.
  * </ul>
  *
  * <p>Using a converter:
@@ -92,23 +91,26 @@ import org.jspecify.annotations.Nullable;
  *
  * <h3>Example</h3>
  *
- * <pre>
- *   return new Converter&lt;Integer, String&gt;() {
- *     protected String doForward(Integer i) {
- *       return Integer.toHexString(i);
- *     }
- *
- *     protected Integer doBackward(String s) {
- *       return parseUnsignedInt(s, 16);
- *     }
- *   };</pre>
- *
- * <p>An alternative using Java 8:
- *
  * {@snippet :
  * return Converter.from(
  *     Integer::toHexString,
  *     s -> parseUnsignedInt(s, 16));
+ * }
+ *
+ * <p>An alternative using a subclass:
+ *
+ * {@snippet :
+ * return new Converter<Integer, String>() {
+ *   @Override
+ *   protected String doForward(Integer i) {
+ *     return Integer.toHexString(i);
+ *   }
+ *
+ *   @Override
+ *   protected Integer doBackward(String s) {
+ *     return parseUnsignedInt(s, 16);
+ *   }
+ * }
  * }
  *
  * @author Mike Ward

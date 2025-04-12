@@ -54,9 +54,11 @@ public final class Ints extends IntsMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code int} value.
    *
-   * <p><b>Java 8+ users:</b> use {@link Integer#BYTES} instead.
+   * <p>Prefer {@link Integer#BYTES} instead.
    */
-  public static final int BYTES = Integer.SIZE / Byte.SIZE;
+  // The constants value gets inlined here.
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  public static final int BYTES = Integer.BYTES;
 
   /**
    * The largest power of two that can be represented as an {@code int}.

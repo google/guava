@@ -19,8 +19,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Strings.lenientFormat;
-import static java.lang.Float.NEGATIVE_INFINITY;
-import static java.lang.Float.POSITIVE_INFINITY;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -54,11 +52,13 @@ public final class Floats extends FloatsMethodsForWeb {
   /**
    * The number of bytes required to represent a primitive {@code float} value.
    *
-   * <p><b>Java 8+ users:</b> use {@link Float#BYTES} instead.
+   * <p>Prefer {@link Float#BYTES} instead.
    *
    * @since 10.0
    */
-  public static final int BYTES = Float.SIZE / Byte.SIZE;
+  // The constants value gets inlined here.
+  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  public static final int BYTES = Float.BYTES;
 
   /**
    * Returns a hash code for {@code value}; obsolete alternative to {@link Float#hashCode(float)}.
@@ -94,12 +94,14 @@ public final class Floats extends FloatsMethodsForWeb {
    * Returns {@code true} if {@code value} represents a real number. This is equivalent to, but not
    * necessarily implemented as, {@code !(Float.isInfinite(value) || Float.isNaN(value))}.
    *
-   * <p><b>Java 8+ users:</b> use {@link Float#isFinite(float)} instead.
+   * <p>Prefer {@link Float#isFinite(float)} instead.
    *
    * @since 10.0
    */
+  @SuppressWarnings("Java7ApiChecker") // available under Android, which is what we care about
+  @InlineMe(replacement = "Float.isFinite(value)")
   public static boolean isFinite(float value) {
-    return NEGATIVE_INFINITY < value && value < POSITIVE_INFINITY;
+    return Float.isFinite(value);
   }
 
   /**
