@@ -91,6 +91,7 @@ public final class MoreCollectors {
    * This atrocity is here to let us report several of the elements in the stream if there were more
    * than one, not just two.
    */
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   private static final class ToOptionalState {
     static final int MAX_EXTRAS = 4;
 

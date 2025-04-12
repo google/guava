@@ -261,6 +261,8 @@ public class BytesTest extends TestCase {
     assertThat(Bytes.toArray(list.subList(2, 2))).isEqualTo(new byte[] {});
   }
 
+  // `primitives` can't depend on `collect`, so this is what the prod code has to return.
+  @SuppressWarnings("EmptyList")
   public void testAsListEmpty() {
     assertThat(Bytes.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }

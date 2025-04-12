@@ -258,10 +258,10 @@ public class IteratorTesterTest extends TestCase {
   }
 
   public void testSimilarException() {
-    List<Integer> emptyList = emptyList();
+    List<Integer> expectedElements = ImmutableList.of();
     IteratorTester<Integer> tester =
         new IteratorTester<Integer>(
-            1, MODIFIABLE, emptyList, IteratorTester.KnownOrder.KNOWN_ORDER) {
+            1, MODIFIABLE, expectedElements, IteratorTester.KnownOrder.KNOWN_ORDER) {
           @Override
           protected Iterator<Integer> newTargetIterator() {
             return new Iterator<Integer>() {
@@ -290,10 +290,10 @@ public class IteratorTesterTest extends TestCase {
   }
 
   public void testMismatchedException() {
-    List<Integer> emptyList = emptyList();
+    List<Integer> expectedElements = ImmutableList.of();
     IteratorTester<Integer> tester =
         new IteratorTester<Integer>(
-            1, MODIFIABLE, emptyList, IteratorTester.KnownOrder.KNOWN_ORDER) {
+            1, MODIFIABLE, expectedElements, IteratorTester.KnownOrder.KNOWN_ORDER) {
           @Override
           protected Iterator<Integer> newTargetIterator() {
             return new Iterator<Integer>() {

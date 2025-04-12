@@ -106,6 +106,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     return MoreObjects.firstNonNull(asMap().remove(key), unmodifiableEmptyCollection());
   }
 
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   Collection<V> unmodifiableEmptyCollection() {
     // These return false, rather than throwing a UOE, on remove calls.
     return (unfiltered instanceof SetMultimap)

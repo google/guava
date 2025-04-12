@@ -144,6 +144,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     assertThrows(NullPointerException.class, () -> multimap().putAll(null, singletonList(v3())));
   }
 
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllEmptyCollectionOnAbsentKey() {
     assertFalse(multimap().putAll(k3(), Collections.<V>emptyList()));
@@ -156,6 +157,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     expectUnchanged();
   }
 
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   @CollectionSize.Require(absent = ZERO)
   @MapFeature.Require(SUPPORTS_PUT)
   public void testPutAllEmptyIterableOnPresentKey() {

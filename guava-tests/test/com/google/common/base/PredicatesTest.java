@@ -23,6 +23,7 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
@@ -32,7 +33,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -425,14 +425,9 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testOr_applyIterable() {
-    Predicate<@Nullable Integer> vacuouslyFalse =
-        Predicates.or(Collections.<Predicate<@Nullable Integer>>emptyList());
-    Predicate<@Nullable Integer> troo = Predicates.or(Collections.singletonList(TRUE));
-    /*
-     * newLinkedList() takes varargs. TRUE and FALSE are both instances of
-     * Predicate<Integer>, so the call is safe.
-     */
-    Predicate<@Nullable Integer> trueAndFalse = Predicates.or(Arrays.asList(TRUE, FALSE));
+    Predicate<@Nullable Integer> vacuouslyFalse = Predicates.or(ImmutableList.of());
+    Predicate<@Nullable Integer> troo = Predicates.or(ImmutableList.of(TRUE));
+    Predicate<@Nullable Integer> trueAndFalse = Predicates.or(ImmutableList.of(TRUE, FALSE));
 
     assertEvalsToFalse(vacuouslyFalse);
     assertEvalsToTrue(troo);

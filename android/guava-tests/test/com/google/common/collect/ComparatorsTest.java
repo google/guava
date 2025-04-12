@@ -73,7 +73,7 @@ public class ComparatorsTest extends TestCase {
     assertTrue(isInOrder(asList(0, 0, 3, 3), Ordering.natural()));
     assertTrue(isInOrder(asList(0, 3), Ordering.natural()));
     assertTrue(isInOrder(singleton(1), Ordering.natural()));
-    assertTrue(isInOrder(Collections.<Integer>emptyList(), Ordering.natural()));
+    assertTrue(isInOrder(ImmutableList.of(), Ordering.natural()));
   }
 
   public void testIsInStrictOrder() {
@@ -83,7 +83,7 @@ public class ComparatorsTest extends TestCase {
     assertFalse(isInStrictOrder(asList(0, 0, 3, 3), Ordering.natural()));
     assertTrue(isInStrictOrder(asList(0, 3), Ordering.natural()));
     assertTrue(isInStrictOrder(singleton(1), Ordering.natural()));
-    assertTrue(isInStrictOrder(Collections.<Integer>emptyList(), Ordering.natural()));
+    assertTrue(isInStrictOrder(ImmutableList.of(), Ordering.natural()));
   }
 
   public void testEmptiesFirst() {

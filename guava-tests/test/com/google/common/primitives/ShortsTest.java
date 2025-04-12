@@ -598,6 +598,8 @@ public class ShortsTest extends TestCase {
     assertThat(Shorts.toArray(list.subList(2, 2))).isEqualTo(new short[] {});
   }
 
+  // `primitives` can't depend on `collect`, so this is what the prod code has to return.
+  @SuppressWarnings("EmptyList")
   public void testAsListEmpty() {
     assertThat(Shorts.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }

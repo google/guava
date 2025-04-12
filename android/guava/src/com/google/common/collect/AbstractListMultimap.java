@@ -51,6 +51,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
   @Override
   abstract List<V> createCollection();
 
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   @Override
   List<V> createUnmodifiableEmptyCollection() {
     return emptyList();

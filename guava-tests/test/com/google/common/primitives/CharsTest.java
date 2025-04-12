@@ -664,6 +664,8 @@ public class CharsTest extends TestCase {
     assertThat(Chars.toArray(list.subList(2, 2))).isEqualTo(new char[] {});
   }
 
+  // `primitives` can't depend on `collect`, so this is what the prod code has to return.
+  @SuppressWarnings("EmptyList")
   public void testAsListEmpty() {
     assertThat(Chars.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }

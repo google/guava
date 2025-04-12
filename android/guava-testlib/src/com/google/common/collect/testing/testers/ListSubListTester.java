@@ -75,6 +75,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
     }
   }
 
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   public void testSubList_empty() {
     assertEquals("subList(0, 0) should be empty", emptyList(), getList().subList(0, 0));
   }
@@ -173,6 +174,7 @@ public class ListSubListTester<E> extends AbstractListTester<E> {
         subList);
   }
 
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   public void testSubList_ofSubListEmpty() {
     List<E> subList = getList().subList(0, 0).subList(0, 0);
     assertEquals("subList(0, 0).subList(0, 0) should be an empty list", emptyList(), subList);

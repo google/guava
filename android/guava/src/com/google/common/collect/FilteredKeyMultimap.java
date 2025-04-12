@@ -81,6 +81,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
     return containsKey(key) ? unfiltered.removeAll(key) : unmodifiableEmptyCollection();
   }
 
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   Collection<V> unmodifiableEmptyCollection() {
     if (unfiltered instanceof SetMultimap) {
       return emptySet();
@@ -169,6 +170,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
       throw new IllegalArgumentException("Key does not satisfy predicate: " + key);
     }
 
+    @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
     @Override
     protected List<V> delegate() {
       return emptyList();

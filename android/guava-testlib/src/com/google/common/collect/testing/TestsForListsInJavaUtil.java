@@ -120,6 +120,7 @@ public class TestsForListsInJavaUtil {
     return emptySet();
   }
 
+  @SuppressWarnings("EmptyList") // We specifically want to test emptyList()
   public Test testsForEmptyList() {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {

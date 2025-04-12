@@ -24,7 +24,7 @@ import static com.google.common.collect.testing.Helpers.assertEmpty;
 import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
 import static com.google.common.collect.testing.Helpers.testComparator;
 import static java.util.Arrays.asList;
-import static java.util.Collections.emptyList;
+import static java.util.Collections.emptyIterator;
 import static java.util.Collections.singleton;
 
 import com.google.common.annotations.GwtCompatible;
@@ -50,13 +50,7 @@ public class HelpersTest extends TestCase {
   public void testIsEmpty_iterable() {
     List<Object> list = new ArrayList<>();
     assertEmpty(list);
-    assertEmpty(
-        new Iterable<Object>() {
-          @Override
-          public Iterator<Object> iterator() {
-            return emptyList().iterator();
-          }
-        });
+    assertEmpty(() -> emptyIterator());
 
     list.add("a");
     try {

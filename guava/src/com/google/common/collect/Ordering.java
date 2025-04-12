@@ -792,6 +792,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * @throws IllegalArgumentException if {@code k} is negative
    * @since 14.0
    */
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   public <E extends T> List<E> leastOf(Iterator<E> iterator, int k) {
     checkNotNull(iterator);
     checkNonnegative(k, "k");

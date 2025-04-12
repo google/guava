@@ -572,6 +572,8 @@ public class FloatsTest extends TestCase {
     assertThat(Floats.toArray(list.subList(2, 2))).isEmpty();
   }
 
+  // `primitives` can't depend on `collect`, so this is what the prod code has to return.
+  @SuppressWarnings("EmptyList")
   public void testAsListEmpty() {
     assertThat(Floats.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }

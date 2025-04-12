@@ -38,6 +38,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
    */
   @LazyInit private @Nullable List<@Nullable Present<V>> values;
 
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   CollectionFuture(
       ImmutableCollection<? extends ListenableFuture<? extends V>> futures,
       boolean allMustSucceed) {

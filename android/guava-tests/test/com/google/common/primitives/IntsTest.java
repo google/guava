@@ -575,6 +575,8 @@ public class IntsTest extends TestCase {
     assertThat(Ints.toArray(list.subList(2, 2))).isEqualTo(new int[] {});
   }
 
+  // `primitives` can't depend on `collect`, so this is what the prod code has to return.
+  @SuppressWarnings("EmptyList")
   public void testAsListEmpty() {
     assertThat(Ints.asList(EMPTY)).isSameInstanceAs(Collections.emptyList());
   }

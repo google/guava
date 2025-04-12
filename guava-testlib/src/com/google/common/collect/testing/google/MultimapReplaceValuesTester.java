@@ -72,6 +72,7 @@ public class MultimapReplaceValuesTester<K, V>
     assertEquals(size + values.size(), multimap().size());
   }
 
+  @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   @MapFeature.Require({SUPPORTS_PUT, SUPPORTS_REMOVE})
   public void testReplaceValuesWithEmpty() {
     int size = multimap().size();
