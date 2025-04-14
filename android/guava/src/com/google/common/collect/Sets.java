@@ -19,6 +19,8 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.math.IntMath.saturatedAdd;
+import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.util.Arrays.asList;
 
@@ -35,7 +37,6 @@ import com.google.errorprone.annotations.InlineMe;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.AbstractSet;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.Collections;
@@ -601,12 +602,11 @@ public final class Sets {
      */
     public ImmutableSet<@NonNull E> immutableCopy() {
       // Not using ImmutableSet.copyOf() to avoid iterating thrice (isEmpty, size, iterator).
-      int upperBoundSize = upperBoundSize();
-      if (upperBoundSize == 0) {
+      int maxSize = maxSize();
+      if (maxSize == 0) {
         return ImmutableSet.of();
       }
-      ImmutableSet.Builder<@NonNull E> builder =
-          ImmutableSet.builderWithExpectedSize(upperBoundSize);
+      ImmutableSet.Builder<@NonNull E> builder = ImmutableSet.builderWithExpectedSize(maxSize);
       for (E element : this) {
         builder.add(checkNotNull(element));
       }
@@ -719,16 +719,88 @@ public final class Sets {
     @Override
     public abstract UnmodifiableIterator<E> iterator();
 
-    /**
-     * Returns the upper bound on the size of this set view.
-     *
-     * <p>This method is used to presize the underlying collection when converting to an {@link
-     * ImmutableSet}.
-     */
-    abstract int upperBoundSize();
+    @Override
+    @SuppressWarnings("EqualsHashCode") // same semantics
+    public boolean equals(@Nullable Object object) {
+      if (object == this) {
+        return true;
+      }
+      if (!(object instanceof Set)) {
+        return false;
+      }
+      Set<?> that = (Set<?>) object;
 
-    static int upperBoundSize(Set<?> set) {
-      return set instanceof SetView ? ((SetView) set).upperBoundSize() : set.size();
+      int thatMaxSize = maxSize(that);
+      if (minSize() > thatMaxSize) {
+        return false; // this.size() > that.size()
+      }
+      int thatMinSize = minSize(that);
+      if (maxSize() < thatMinSize) {
+        return false; // this.size() < that.size()
+      }
+
+      // the base implementation from AbstractSet uses size() and containsAll()
+      // both require iterating over the entire SetView
+      // we avoid iterating twice by doing the equivalent of both in one iteration
+      int thisSize = 0;
+      for (E e : this) {
+        try {
+          if (!that.contains(e)) {
+            return false;
+          }
+        } catch (NullPointerException | ClassCastException ignored) {
+          return false;
+        }
+        thisSize++;
+      } // that.containsAll(this) so that.size() >= this.size()
+
+      if (thisSize == thatMaxSize) {
+        // this.size() == maxSize(that) >= that.size() >= this.size()
+        return true; // this.size() == that.size()
+      } else if (thisSize < thatMinSize) {
+        // this.size() < minSize(that) <= that.size()
+        return false; // this.size() < that.size()
+      } else { // that can only be a SetView at this point
+        int thatSize = 0;
+        for (Object unused : that) {
+          if (++thatSize > thisSize) {
+            return false;
+          }
+        }
+        return true; // that.size() == this.size()
+      }
+    }
+
+    /**
+     * Returns a lower bound for {@link #size()} based on the sizes of the backing sets.
+     *
+     * <p>This is more efficient than {@link #size()}, which iterates over the entire {@link
+     * SetView}.
+     */
+    abstract int minSize();
+
+    /**
+     * Returns the {@link #minSize()} of {@code set} if it is a {@link SetView}, or the exact {@link
+     * #size()} of {@code set} otherwise.
+     */
+    static int minSize(Set<?> set) {
+      return set instanceof SetView ? ((SetView<?>) set).minSize() : set.size();
+    }
+
+    /**
+     * Returns an upper bound for {@link #size()} based on the sizes of the backing sets.
+     *
+     * <p>This is more efficient than {@link #size()}, which iterates over the entire {@link
+     * SetView}.
+     */
+    abstract int maxSize();
+
+    /**
+     * Returns the {@link #maxSize()} of {@code set} if it is a {@link SetView}, or the exact {@link
+     * #size()} of {@code set} otherwise.
+     */
+    static int maxSize(Set<?> set) {
+      return set instanceof SetView ? ((SetView<?>) set).maxSize() : set.size();
     }
   }
 
@@ -799,8 +871,13 @@ public final class Sets {
       }
 
       @Override
-      int upperBoundSize() {
-        return upperBoundSize(set1) + upperBoundSize(set2);
+      int minSize() {
+        return max(minSize(set1), minSize(set2));
+      }
+
+      @Override
+      int maxSize() {
+        return saturatedAdd(maxSize(set1), maxSize(set2));
       }
     };
   }
@@ -882,8 +959,13 @@ public final class Sets {
       }
 
       @Override
-      int upperBoundSize() {
-        return min(upperBoundSize(set1), upperBoundSize(set2));
+      int minSize() {
+        return 0;
+      }
+
+      @Override
+      int maxSize() {
+        return min(maxSize(set1), maxSize(set2));
       }
     };
   }
@@ -943,8 +1025,13 @@ public final class Sets {
       }
 
       @Override
-      int upperBoundSize() {
-        return upperBoundSize(set1);
+      int minSize() {
+        return max(minSize(set1) - maxSize(set2), 0);
+      }
+
+      @Override
+      int maxSize() {
+        return maxSize(set1);
       }
     };
   }
@@ -1017,8 +1104,14 @@ public final class Sets {
       }
 
       @Override
-      int upperBoundSize() {
-        return upperBoundSize(set1) + upperBoundSize(set2);
+      int minSize() {
+        int difference = minSize(set1) - maxSize(set2);
+        return difference >= 0 ? difference : max(minSize(set2) - maxSize(set1), 0);
+      }
+
+      @Override
+      int maxSize() {
+        return saturatedAdd(maxSize(set1), maxSize(set2));
       }
     };
   }
