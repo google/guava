@@ -36086,6 +36086,12 @@
  @since 20.0 (present with return type {@link Iterator} since 2.0)]]>
       </doc>
     </method>
+    <method name="equals" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="object" type="Object"/>
+    </method>
     <doc>
     <![CDATA[An unmodifiable view of a set which may be backed by other sets; this view will change as the
  backing sets do. Contains methods to copy the data into a new set which will then remain

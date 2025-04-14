@@ -1,1 +1,2 @@
+NO DOC BLOCK: com.google.common.collect.Sets.SetView Method equals(Object)
 OK: com.google.common.net.MediaType Field AVIF
