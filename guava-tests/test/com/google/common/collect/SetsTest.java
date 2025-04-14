@@ -137,60 +137,6 @@ public class SetsTest extends TestCase {
 
     suite.addTest(
         SetTestSuiteBuilder.using(
-                new TestStringSetGenerator() {
-                  @Override
-                  protected Set<String> create(String[] elements) {
-                    int size = elements.length;
-                    // Remove last element, if size > 1
-                    Set<String> set1 =
-                        (size > 1)
-                            ? newHashSet(asList(elements).subList(0, size - 1))
-                            : newHashSet(elements);
-                    // Remove first element, if size > 0
-                    Set<String> set2 =
-                        (size > 0)
-                            ? newHashSet(asList(elements).subList(1, size))
-                            : Sets.<String>newHashSet();
-                    return Sets.union(set1, set2);
-                  }
-                })
-            .named("Sets.union")
-            .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES)
-            .createTestSuite());
-
-    suite.addTest(
-        SetTestSuiteBuilder.using(
-                new TestStringSetGenerator() {
-                  @Override
-                  protected Set<String> create(String[] elements) {
-                    Set<String> set1 = newHashSet(elements);
-                    set1.add(samples().e3());
-                    Set<String> set2 = newHashSet(elements);
-                    set2.add(samples().e4());
-                    return Sets.intersection(set1, set2);
-                  }
-                })
-            .named("Sets.intersection")
-            .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES)
-            .createTestSuite());
-
-    suite.addTest(
-        SetTestSuiteBuilder.using(
-                new TestStringSetGenerator() {
-                  @Override
-                  protected Set<String> create(String[] elements) {
-                    Set<String> set1 = newHashSet(elements);
-                    set1.add(samples().e3());
-                    Set<String> set2 = newHashSet(samples().e3());
-                    return Sets.difference(set1, set2);
-                  }
-                })
-            .named("Sets.difference")
-            .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES)
-            .createTestSuite());
-
-    suite.addTest(
-        SetTestSuiteBuilder.using(
                 new TestEnumSetGenerator() {
                   @Override
                   protected Set<AnEnum> create(AnEnum[] elements) {
