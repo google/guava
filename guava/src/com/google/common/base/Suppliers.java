@@ -268,7 +268,6 @@ public final class Suppliers {
    */
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
-  @SuppressWarnings("Java7ApiChecker") // no more dangerous that wherever the user got the Duration
   @IgnoreJRERequirement
   public static <T extends @Nullable Object> Supplier<T> memoizeWithExpiration(
       Supplier<T> delegate, Duration duration) {

@@ -59,7 +59,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    * @since 10.0
    */
   // The constants value gets inlined here.
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("AndroidJdkLibsChecker")
   public static final int BYTES = Double.BYTES;
 
   /**
@@ -100,7 +100,6 @@ public final class Doubles extends DoublesMethodsForWeb {
    *
    * @since 10.0
    */
-  @SuppressWarnings("Java7ApiChecker") // available under Android, which is what we care about
   @InlineMe(replacement = "Double.isFinite(value)")
   public static boolean isFinite(double value) {
     return Double.isFinite(value);

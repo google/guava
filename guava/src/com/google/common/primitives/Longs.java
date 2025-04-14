@@ -56,7 +56,7 @@ public final class Longs {
    * <p>Prefer {@link Long#BYTES} instead.
    */
   // The constants value gets inlined here.
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("AndroidJdkLibsChecker")
   public static final int BYTES = Long.BYTES;
 
   /**

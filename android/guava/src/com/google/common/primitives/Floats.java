@@ -57,7 +57,7 @@ public final class Floats extends FloatsMethodsForWeb {
    * @since 10.0
    */
   // The constants value gets inlined here.
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("AndroidJdkLibsChecker")
   public static final int BYTES = Float.BYTES;
 
   /**
@@ -98,7 +98,6 @@ public final class Floats extends FloatsMethodsForWeb {
    *
    * @since 10.0
    */
-  @SuppressWarnings("Java7ApiChecker") // available under Android, which is what we care about
   @InlineMe(replacement = "Float.isFinite(value)")
   public static boolean isFinite(float value) {
     return Float.isFinite(value);

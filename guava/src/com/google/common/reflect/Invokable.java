@@ -337,7 +337,6 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
 
   abstract Type[] getGenericParameterTypes();
 
-  @SuppressWarnings("Java7ApiChecker")
   abstract AnnotatedType[] getAnnotatedParameterTypes();
 
   /** This should never return a type that's not a subtype of Throwable. */
@@ -352,7 +351,6 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
    *
    * @since 14.0
    */
-  @SuppressWarnings("Java7ApiChecker")
   public abstract AnnotatedType getAnnotatedReturnType();
 
   static class MethodInvokable<T> extends Invokable<T, Object> {
@@ -381,13 +379,11 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
     }
 
     @Override
-    @SuppressWarnings("Java7ApiChecker")
     AnnotatedType[] getAnnotatedParameterTypes() {
       return method.getAnnotatedParameterTypes();
     }
 
     @Override
-    @SuppressWarnings("Java7ApiChecker")
     public AnnotatedType getAnnotatedReturnType() {
       return method.getAnnotatedReturnType();
     }
@@ -470,13 +466,11 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
     }
 
     @Override
-    @SuppressWarnings("Java7ApiChecker")
     AnnotatedType[] getAnnotatedParameterTypes() {
       return constructor.getAnnotatedParameterTypes();
     }
 
     @Override
-    @SuppressWarnings("Java7ApiChecker")
     public AnnotatedType getAnnotatedReturnType() {
       return constructor.getAnnotatedReturnType();
     }

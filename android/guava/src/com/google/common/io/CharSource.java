@@ -163,7 +163,6 @@ public abstract class CharSource {
     return reader.lines().onClose(() -> closeUnchecked(reader));
   }
 
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // helper for lines()
   /*
    * If we make these calls inline inside the lambda inside lines(), we get an Animal Sniffer error,

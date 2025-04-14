@@ -227,11 +227,7 @@ public class Joiner {
       if (i != toJoin.length) {
         toJoin = Arrays.copyOf(toJoin, i);
       }
-      // What we care about is Android, under which this method is always desugared:
-      // https://r8.googlesource.com/r8/+/05ba76883518bff06496d6d7df5f06b94a88fb00/src/main/java/com/android/tools/r8/ir/desugar/BackportedMethodRewriter.java#831
-      @SuppressWarnings("Java7ApiChecker")
-      String result = String.join(separator, toJoin);
-      return result;
+      return String.join(separator, toJoin);
     }
     return join(parts.iterator());
   }

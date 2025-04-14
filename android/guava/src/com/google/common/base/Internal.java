@@ -30,13 +30,8 @@ final class Internal {
    * {@link Long#MAX_VALUE} or {@link Long#MIN_VALUE}. This behavior can be useful when decomposing
    * a duration in order to call a legacy API which requires a {@code long, TimeUnit} pair.
    */
-  @SuppressWarnings({
-    // We use this method only for cases in which we need to decompose to primitives.
-    "GoodTime-ApiWithNumericTimeUnit",
-    "GoodTime-DecomposeToPrimitive",
-    // We use this method only from within APIs that require a Duration.
-    "Java7ApiChecker",
-  })
+  // We use this method only for cases in which we need to decompose to primitives.
+  @SuppressWarnings({"GoodTime-ApiWithNumericTimeUnit", "GoodTime-DecomposeToPrimitive"})
   @IgnoreJRERequirement
   static long toNanosSaturated(Duration duration) {
     // Using a try/catch seems lazy, but the catch block will rarely get invoked (except for

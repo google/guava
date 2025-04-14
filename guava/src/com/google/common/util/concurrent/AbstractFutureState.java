@@ -577,7 +577,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
   /** {@link AtomicHelper} based on {@link VarHandle}. */
   @J2ObjCIncompatible
   // We use this class only after confirming that VarHandle is available at runtime.
-  @SuppressWarnings({"Java8ApiChecker", "Java7ApiChecker", "AndroidJdkLibsChecker"})
+  @SuppressWarnings("Java8ApiChecker")
   @IgnoreJRERequirement
   private static final class VarHandleAtomicHelper extends AtomicHelper {
     static final VarHandle waiterThreadUpdater;

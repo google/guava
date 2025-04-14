@@ -132,7 +132,6 @@ public final class Parameter implements AnnotatedElement {
    *
    * @since 25.1 for guava-jre
    */
-  @SuppressWarnings("Java7ApiChecker")
   public AnnotatedType getAnnotatedType() {
     return requireNonNull((AnnotatedType) annotatedType);
   }

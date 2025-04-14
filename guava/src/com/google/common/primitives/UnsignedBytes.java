@@ -80,7 +80,6 @@ public final class UnsignedBytes {
    *
    * @since 6.0
    */
-  @SuppressWarnings("Java7ApiChecker") // available under Android, which is what we care about
   @InlineMe(replacement = "Byte.toUnsignedInt(value)")
   public static int toInt(byte value) {
     return Byte.toUnsignedInt(value);
@@ -372,8 +371,6 @@ public final class UnsignedBytes {
       }
 
       @Override
-      // Long.compareUnsigned is available under Android, which is what we really care about.
-      @SuppressWarnings("Java7ApiChecker")
       public int compare(byte[] left, byte[] right) {
         int stride = 8;
         int minLength = Math.min(left.length, right.length);

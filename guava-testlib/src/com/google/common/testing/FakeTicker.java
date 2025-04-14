@@ -70,7 +70,6 @@ public class FakeTicker extends Ticker {
   @GwtIncompatible
   @J2ktIncompatible
   @CanIgnoreReturnValue
-  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
   public FakeTicker advance(Duration duration) {
     return advance(duration.toNanos());
   }
@@ -100,7 +99,6 @@ public class FakeTicker extends Ticker {
   @GwtIncompatible
   @J2ktIncompatible
   @CanIgnoreReturnValue
-  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
   public FakeTicker setAutoIncrementStep(Duration autoIncrementStep) {
     return setAutoIncrementStep(autoIncrementStep.toNanos(), NANOSECONDS);
   }

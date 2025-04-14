@@ -55,7 +55,7 @@ public final class Shorts extends ShortsMethodsForWeb {
    * <p>Prefer {@link Short#BYTES} instead.
    */
   // The constants value gets inlined here.
-  @SuppressWarnings({"AndroidJdkLibsChecker", "Java7ApiChecker"})
+  @SuppressWarnings("AndroidJdkLibsChecker")
   public static final int BYTES = Short.BYTES;
 
   /**

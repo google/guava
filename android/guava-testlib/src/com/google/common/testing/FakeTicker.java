@@ -72,7 +72,6 @@ public class FakeTicker extends Ticker {
   @GwtIncompatible
   @J2ktIncompatible
   @CanIgnoreReturnValue
-  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
   @IgnoreJRERequirement // TODO: b/288085449 - Remove this once we use library-desugaring scents.
   @Beta // TODO: b/288085449 - Remove @Beta after we're sure that Java 8 APIs are safe for Android
   public FakeTicker advance(Duration duration) {
@@ -105,7 +104,6 @@ public class FakeTicker extends Ticker {
   @GwtIncompatible
   @J2ktIncompatible
   @CanIgnoreReturnValue
-  @SuppressWarnings("Java7ApiChecker") // guava-android can rely on library desugaring now.
   @IgnoreJRERequirement // TODO: b/288085449 - Remove this once we use library-desugaring scents.
   @Beta // TODO: b/288085449 - Remove @Beta after we're sure that Java 8 APIs are safe for Android
   public FakeTicker setAutoIncrementStep(Duration autoIncrementStep) {
