@@ -367,7 +367,6 @@ public final class Monitor {
    *     isSatisfied()})
    * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   // We have to rely on users not to call this, as NewApi won't flag BooleanSupplier creation.
   @IgnoreJRERequirement
   public Guard newGuard(BooleanSupplier isSatisfied) {
@@ -391,7 +390,6 @@ public final class Monitor {
    * @return whether the monitor was entered
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean enter(Duration time) {
     return enter(toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -443,7 +441,6 @@ public final class Monitor {
    * @throws InterruptedException if interrupted while waiting
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean enterInterruptibly(Duration time) throws InterruptedException {
     return enterInterruptibly(toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -506,7 +503,6 @@ public final class Monitor {
    * @throws InterruptedException if interrupted while waiting
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean enterWhen(Guard guard, Duration time) throws InterruptedException {
     return enterWhen(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -604,7 +600,6 @@ public final class Monitor {
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean enterWhenUninterruptibly(Guard guard, Duration time) {
     return enterWhenUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -707,7 +702,6 @@ public final class Monitor {
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean enterIf(Guard guard, Duration time) {
     return enterIf(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -769,7 +763,6 @@ public final class Monitor {
    * @return whether the monitor was entered, which guarantees that the guard is now satisfied
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean enterIfInterruptibly(Guard guard, Duration time) throws InterruptedException {
     return enterIfInterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -852,7 +845,6 @@ public final class Monitor {
    * @throws InterruptedException if interrupted while waiting
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean waitFor(Guard guard, Duration time) throws InterruptedException {
     return waitFor(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
@@ -900,7 +892,6 @@ public final class Monitor {
    * @return whether the guard is now satisfied
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean waitForUninterruptibly(Guard guard, Duration time) {
     return waitForUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);

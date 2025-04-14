@@ -126,10 +126,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
-  @SuppressWarnings({
-    "NullableOptional", // Null passthrough is reasonable for type conversions
-    "Java7ApiChecker",
-  })
+  @SuppressWarnings("NullableOptional") // Null passthrough is reasonable for type conversions
   @IgnoreJRERequirement // Users will use this only if they're already using Optional.
   public static <T> @Nullable Optional<T> fromJavaUtil(
       java.util.@Nullable Optional<T> javaUtilOptional) {
@@ -152,7 +149,6 @@ public abstract class Optional<T> implements Serializable {
   @SuppressWarnings({
     "AmbiguousMethodReference", // We chose the name despite knowing this risk.
     "NullableOptional", // Null passthrough is reasonable for type conversions
-    "Java7ApiChecker",
   })
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Optional calls
   @IgnoreJRERequirement
@@ -170,10 +166,7 @@ public abstract class Optional<T> implements Serializable {
    *
    * @since 33.4.0 (but since 21.0 in the JRE flavor)
    */
-  @SuppressWarnings({
-    "AmbiguousMethodReference", // We chose the name despite knowing this risk.
-    "Java7ApiChecker",
-  })
+  @SuppressWarnings("AmbiguousMethodReference") // We chose the name despite knowing this risk.
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Optional calls
   @IgnoreJRERequirement
   public java.util.Optional<T> toJavaUtil() {

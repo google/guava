@@ -52,7 +52,6 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 @NullMarked
-@SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // Users will use this only if they're already using Spliterator.
 public final class SpliteratorTester<E extends @Nullable Object> {
   /** Return type from "contains the following elements" assertions. */

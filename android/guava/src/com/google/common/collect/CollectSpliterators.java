@@ -37,7 +37,6 @@ import org.jspecify.annotations.Nullable;
 
 /** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
-@SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // used only from APIs that work with Stream
 final class CollectSpliterators {
   private CollectSpliterators() {}

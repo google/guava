@@ -326,7 +326,6 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * @return a {@code Collector} generating a {@code BloomFilter} of the received elements
    * @since 33.4.0 (but since 23.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object> Collector<T, ?, BloomFilter<T>> toBloomFilter(
       Funnel<? super T> funnel, long expectedInsertions) {
@@ -355,7 +354,6 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * @return a {@code Collector} generating a {@code BloomFilter} of the received elements
    * @since 33.4.0 (but since 23.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object> Collector<T, ?, BloomFilter<T>> toBloomFilter(
       Funnel<? super T> funnel, long expectedInsertions, double fpp) {

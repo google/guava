@@ -58,7 +58,6 @@ import org.jspecify.annotations.Nullable;
  * @since 33.4.0 (but since 21.0 in the JRE flavor)
  */
 @GwtCompatible
-@SuppressWarnings("Java7ApiChecker")
 /*
  * Users will use most of these methods only if they're already using Stream. For a few other
  * methods, like stream(Iterable), we have to rely on users not to call them without library

@@ -310,7 +310,6 @@ public final class ServiceManager implements ServiceManagerBridge {
    *     become {@linkplain #isHealthy() healthy}.
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public void awaitHealthy(Duration timeout) throws TimeoutException {
     awaitHealthy(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -364,7 +363,6 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @throws TimeoutException if not all of the services have stopped within the deadline
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public void awaitStopped(Duration timeout) throws TimeoutException {
     awaitStopped(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -432,7 +430,6 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @since 33.4.0 (but since 31.0 in the JRE flavor)
    */
   @J2ObjCIncompatible
-  @SuppressWarnings("Java7ApiChecker")
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Duration calls
   @IgnoreJRERequirement
   public ImmutableMap<Service, Duration> startupDurations() {

@@ -68,7 +68,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <E> Collector<E, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
       Comparator<? super E> comparator) {
@@ -86,7 +85,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    *
    * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, E>
       Collector<T, ?, ImmutableSortedMultiset<E>> toImmutableSortedMultiset(
@@ -106,7 +104,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
         (Multiset<E> multiset) -> copyOfSortedEntries(comparator, multiset.entrySet()));
   }
 
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // helper for toImmutableSortedMultiset
   /*
    * If we make these calls inline inside toImmutableSortedMultiset, we get an Animal Sniffer error,
@@ -757,7 +754,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    */
   @DoNotCall("Use toImmutableSortedMultiset.")
   @Deprecated
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <E> Collector<E, ?, ImmutableMultiset<E>> toImmutableMultiset() {
     throw new UnsupportedOperationException();
@@ -774,7 +770,6 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
    */
   @DoNotCall("Use toImmutableSortedMultiset.")
   @Deprecated
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, E>
       Collector<T, ?, ImmutableMultiset<E>> toImmutableMultiset(

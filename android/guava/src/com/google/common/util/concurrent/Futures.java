@@ -228,7 +228,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @J2ktIncompatible
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   // TODO(cpovirk): Return ListenableScheduledFuture?
   public static <O extends @Nullable Object> ListenableFuture<O> scheduleAsync(
@@ -385,7 +384,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    */
   @J2ktIncompatible
   @GwtIncompatible // java.util.concurrent.ScheduledExecutorService
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static <V extends @Nullable Object> ListenableFuture<V> withTimeout(
       ListenableFuture<V> delegate, Duration time, ScheduledExecutorService scheduledExecutor) {
@@ -1277,7 +1275,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @J2ktIncompatible
   @GwtIncompatible // reflection
   @ParametricNullness
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, Duration timeout) throws X {

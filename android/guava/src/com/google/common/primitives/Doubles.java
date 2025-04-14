@@ -68,7 +68,6 @@ public final class Doubles extends DoublesMethodsForWeb {
    * @param value a primitive {@code double} value
    * @return a hash code for the value
    */
-  @SuppressWarnings("Java7ApiChecker") // What we actually want to test is Android: b/336133887
   @InlineMe(replacement = "Double.hashCode(value)")
   public static int hashCode(double value) {
     return Double.hashCode(value);
@@ -616,7 +615,6 @@ public final class Doubles extends DoublesMethodsForWeb {
     }
 
     @Override
-    @SuppressWarnings("Java7ApiChecker")
     /*
      * This is an override that is not directly visible to callers, so NewApi will catch calls to
      * Collection.spliterator() where necessary.

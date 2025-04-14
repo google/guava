@@ -129,7 +129,6 @@ public abstract class CharSink {
    * @throws IOException if an I/O error occurs while writing to this sink
    * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Stream.
   public void writeLines(Stream<? extends CharSequence> lines) throws IOException {
     writeLines(lines, LINE_SEPARATOR.value());
@@ -142,7 +141,6 @@ public abstract class CharSink {
    * @throws IOException if an I/O error occurs while writing to this sink
    * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Stream.
   public void writeLines(Stream<? extends CharSequence> lines, String lineSeparator)
       throws IOException {

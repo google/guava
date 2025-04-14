@@ -21,7 +21,6 @@ import java.time.Duration;
 /** This class is for {@code com.google.common.util.concurrent} use only! */
 @J2ktIncompatible
 @GwtIncompatible // java.time.Duration
-@SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // We use this method only from within APIs that require a Duration.
 final class Internal {
 

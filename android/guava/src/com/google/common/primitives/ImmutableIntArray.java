@@ -170,7 +170,6 @@ public final class ImmutableIntArray implements Serializable {
    *
    * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static ImmutableIntArray copyOf(IntStream stream) {
     // Note this uses very different growth behavior from copyOf(Iterable) and the builder.
@@ -275,7 +274,6 @@ public final class ImmutableIntArray implements Serializable {
      *
      * @since 33.4.0 (but since 22.0 in the JRE flavor)
      */
-    @SuppressWarnings("Java7ApiChecker")
     @IgnoreJRERequirement // Users will use this only if they're already using streams.
     @CanIgnoreReturnValue
     public Builder addAll(IntStream stream) {
@@ -422,7 +420,6 @@ public final class ImmutableIntArray implements Serializable {
    *
    * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // We rely on users not to call this without library desugaring.
   public void forEach(IntConsumer consumer) {
     checkNotNull(consumer);
@@ -436,7 +433,6 @@ public final class ImmutableIntArray implements Serializable {
    *
    * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent stream calls
   @IgnoreJRERequirement
   public IntStream stream() {
@@ -462,7 +458,6 @@ public final class ImmutableIntArray implements Serializable {
         : new ImmutableIntArray(array, start + startIndex, start + endIndex);
   }
 
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // used only from APIs that use streams
   /*
    * We declare this as package-private, rather than private, to avoid generating a synthetic
@@ -529,7 +524,6 @@ public final class ImmutableIntArray implements Serializable {
 
     // The default List spliterator is not efficiently splittable
     @Override
-    @SuppressWarnings("Java7ApiChecker")
     /*
      * This is an override that is not directly visible to callers, so NewApi will catch calls to
      * Collection.spliterator() where necessary.

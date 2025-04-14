@@ -162,7 +162,6 @@ public abstract class RateLimiter {
    *     warmupPeriod} is negative
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static RateLimiter create(double permitsPerSecond, Duration warmupPeriod) {
     return create(permitsPerSecond, toNanosSaturated(warmupPeriod), TimeUnit.NANOSECONDS);
@@ -333,7 +332,6 @@ public abstract class RateLimiter {
    * @throws IllegalArgumentException if the requested number of permits is negative or zero
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean tryAcquire(Duration timeout) {
     return tryAcquire(1, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
@@ -394,7 +392,6 @@ public abstract class RateLimiter {
    * @throws IllegalArgumentException if the requested number of permits is negative or zero
    * @since 33.4.0 (but since 28.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public boolean tryAcquire(int permits, Duration timeout) {
     return tryAcquire(permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);

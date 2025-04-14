@@ -633,7 +633,6 @@ public final class NullPointerTester {
    * don't know that anyone uses it there, anyway.
    */
   private enum NullnessAnnotationReader {
-    @SuppressWarnings("Java7ApiChecker")
     FROM_DECLARATION_AND_TYPE_USE_ANNOTATIONS {
       @Override
       boolean isNullable(Invokable<?, ?> invokable) {

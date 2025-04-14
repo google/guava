@@ -105,7 +105,6 @@ public final class Booleans {
    * @param value a primitive {@code boolean} value
    * @return a hash code for the value
    */
-  @SuppressWarnings("Java7ApiChecker") // What we actually want to test is Android: b/336133887
   @InlineMe(replacement = "Boolean.hashCode(value)")
   public static int hashCode(boolean value) {
     return Boolean.hashCode(value);

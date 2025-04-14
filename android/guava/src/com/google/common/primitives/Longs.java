@@ -72,7 +72,6 @@ public final class Longs {
    * @param value a primitive {@code long} value
    * @return a hash code for the value
    */
-  @SuppressWarnings("Java7ApiChecker") // What we actually want to test is Android: b/336133887
   @InlineMe(replacement = "Long.hashCode(value)")
   public static int hashCode(long value) {
     return Long.hashCode(value);
@@ -750,7 +749,6 @@ public final class Longs {
     }
 
     @Override
-    @SuppressWarnings("Java7ApiChecker")
     /*
      * This is an override that is not directly visible to callers, so NewApi will catch calls to
      * Collection.spliterator() where necessary.

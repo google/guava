@@ -271,7 +271,6 @@ public abstract class FluentFuture<V extends @Nullable Object>
    */
   @J2ktIncompatible
   @GwtIncompatible // ScheduledExecutorService
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public final FluentFuture<V> withTimeout(
       Duration timeout, ScheduledExecutorService scheduledExecutor) {

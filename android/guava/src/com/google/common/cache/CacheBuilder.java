@@ -722,10 +722,7 @@ public final class CacheBuilder<K, V> {
    */
   @J2ObjCIncompatible
   @GwtIncompatible // Duration
-  @SuppressWarnings({
-    "GoodTime", // Duration decomposition
-    "Java7ApiChecker",
-  })
+  @SuppressWarnings("GoodTime") // Duration decomposition
   @IgnoreJRERequirement // No more dangerous than wherever the caller got the Duration from
   @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterWrite(Duration duration) {
@@ -799,10 +796,7 @@ public final class CacheBuilder<K, V> {
    */
   @J2ObjCIncompatible
   @GwtIncompatible // Duration
-  @SuppressWarnings({
-    "GoodTime", // Duration decomposition
-    "Java7ApiChecker",
-  })
+  @SuppressWarnings("GoodTime") // Duration decomposition
   @IgnoreJRERequirement // No more dangerous than wherever the caller got the Duration from
   @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterAccess(Duration duration) {
@@ -885,10 +879,7 @@ public final class CacheBuilder<K, V> {
    */
   @J2ObjCIncompatible
   @GwtIncompatible // Duration
-  @SuppressWarnings({
-    "GoodTime", // Duration decomposition
-    "Java7ApiChecker",
-  })
+  @SuppressWarnings("GoodTime") // Duration decomposition
   @IgnoreJRERequirement // No more dangerous than wherever the caller got the Duration from
   @CanIgnoreReturnValue
   public CacheBuilder<K, V> refreshAfterWrite(Duration duration) {
@@ -1132,10 +1123,7 @@ public final class CacheBuilder<K, V> {
    * a duration in order to call a legacy API which requires a {@code long, TimeUnit} pair.
    */
   @GwtIncompatible // Duration
-  @SuppressWarnings({
-    "GoodTime", // Duration decomposition
-    "Java7ApiChecker",
-  })
+  @SuppressWarnings("GoodTime") // Duration decomposition
   @IgnoreJRERequirement // No more dangerous than wherever the caller got the Duration from
   private static long toNanosSaturated(Duration duration) {
     // Using a try/catch seems lazy, but the catch block will rarely get invoked (except for

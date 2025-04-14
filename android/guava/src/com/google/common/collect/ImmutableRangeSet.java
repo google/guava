@@ -69,7 +69,6 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
    *
    * @since 33.2.0 (available since 23.1 in guava-jre)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <E extends Comparable<? super E>>
       Collector<Range<E>, ?, ImmutableRangeSet<E>> toImmutableRangeSet() {

@@ -30,7 +30,6 @@ import org.jspecify.annotations.Nullable;
 
 /** Collectors utilities for {@code common.collect.Table} internals. */
 @GwtCompatible
-@SuppressWarnings("Java7ApiChecker")
 @IgnoreJRERequirement // used only from APIs with Java 8 types in them
 final class TableCollectors {
 

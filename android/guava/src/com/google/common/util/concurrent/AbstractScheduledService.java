@@ -126,7 +126,6 @@ public abstract class AbstractScheduledService implements Service {
      *     next
      * @since 33.4.0 (but since 28.0 in the JRE flavor)
      */
-    @SuppressWarnings("Java7ApiChecker")
     @IgnoreJRERequirement // Users will use this only if they're already using Duration
     public static Scheduler newFixedDelaySchedule(Duration initialDelay, Duration delay) {
       return newFixedDelaySchedule(
@@ -164,7 +163,6 @@ public abstract class AbstractScheduledService implements Service {
      * @param period the period between successive executions of the task
      * @since 33.4.0 (but since 28.0 in the JRE flavor)
      */
-    @SuppressWarnings("Java7ApiChecker")
     @IgnoreJRERequirement // Users will use this only if they're already using Duration
     public static Scheduler newFixedRateSchedule(Duration initialDelay, Duration period) {
       return newFixedRateSchedule(
@@ -736,7 +734,6 @@ public abstract class AbstractScheduledService implements Service {
        * @param delay the time from now to delay execution
        * @since 33.4.0 (but since 31.1 in the JRE flavor)
        */
-      @SuppressWarnings("Java7ApiChecker")
       @IgnoreJRERequirement // Users will use this only if they're already using Duration
       public Schedule(Duration delay) {
         this(toNanosSaturated(delay), NANOSECONDS);

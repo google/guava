@@ -84,7 +84,6 @@ public final class Multisets {
    *
    * @since 33.2.0 (available since 22.0 in guava-jre)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <T extends @Nullable Object, E extends @Nullable Object, M extends Multiset<E>>
       Collector<T, ?, M> toMultiset(

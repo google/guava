@@ -155,7 +155,6 @@ public abstract class CharSource {
    * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
   @MustBeClosed
-  @SuppressWarnings("Java7ApiChecker")
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Stream calls.
   @IgnoreJRERequirement
   public Stream<String> lines() throws IOException {
@@ -395,7 +394,6 @@ public abstract class CharSource {
    *     throws an {@code UncheckedIOException}
    * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   /*
    * We have to rely on users not to call this without library desugaring, as NewApi won't flag
    * Consumer creation.
@@ -599,7 +597,6 @@ public abstract class CharSource {
     }
 
     @Override
-    @SuppressWarnings("Java7ApiChecker")
     // If users use this when they shouldn't, we hope that NewApi will catch subsequent Stream calls
     @IgnoreJRERequirement
     public Stream<String> lines() {

@@ -291,7 +291,6 @@ public final class Queues {
   @CanIgnoreReturnValue
   @J2ktIncompatible
   @GwtIncompatible // BlockingQueue
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration
   public static <E> int drain(
       BlockingQueue<E> q, Collection<? super E> buffer, int numElements, Duration timeout)
@@ -363,7 +362,6 @@ public final class Queues {
   @CanIgnoreReturnValue
   @J2ktIncompatible
   @GwtIncompatible // BlockingQueue
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration
   public static <E> int drainUninterruptibly(
       BlockingQueue<E> q, Collection<? super E> buffer, int numElements, Duration timeout) {

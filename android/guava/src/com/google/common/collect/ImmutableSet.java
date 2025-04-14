@@ -52,6 +52,8 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible(serializable = true, emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements Set<E> {
+  // @IgnoreJRERequirement is not necessary because this compiles down to a constant.
+  // (which is fortunate because Animal Sniffer doesn't look for @IgnoreJRERequirement on fields)
 
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
@@ -61,7 +63,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public static <E> Collector<E, ?, ImmutableSet<E>> toImmutableSet() {
     return CollectCollectors.toImmutableSet();

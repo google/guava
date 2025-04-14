@@ -174,16 +174,7 @@ public final class MoreFiles {
         // overload taking OpenOptions, meaning we can't guarantee the same behavior w.r.t. things
         // like following/not following symlinks.)
         return new AsCharSource(charset) {
-          @SuppressWarnings({
-            "FilesLinesLeak", // the user needs to close it in this case
-            /*
-             * If users use this when they shouldn't, we hope that NewApi will catch subsequent
-             * Stream calls.
-             *
-             * Anyway, this is just an override that is no more dangerous than the supermethod.
-             */
-            "Java7ApiChecker",
-          })
+          @SuppressWarnings("FilesLinesLeak") // the user needs to close it in this case
           @Override
           public Stream<String> lines() throws IOException {
             return Files.lines(path, charset);

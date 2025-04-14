@@ -139,7 +139,6 @@ public final class StatsAccumulator {
    * @param values a series of values
    * @since 33.4.0 (but since 28.2 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public void addAll(DoubleStream values) {
     addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));
@@ -151,7 +150,6 @@ public final class StatsAccumulator {
    * @param values a series of values
    * @since 33.4.0 (but since 28.2 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public void addAll(IntStream values) {
     addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));
@@ -164,7 +162,6 @@ public final class StatsAccumulator {
    *     cause loss of precision for longs of magnitude over 2^53 (slightly over 9e15))
    * @since 33.4.0 (but since 28.2 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using streams.
   public void addAll(LongStream values) {
     addAll(values.collect(StatsAccumulator::new, StatsAccumulator::add, StatsAccumulator::addAll));

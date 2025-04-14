@@ -228,7 +228,6 @@ public final class Stopwatch {
    *
    * @since 33.4.0 (but since 22.0 in the JRE flavor)
    */
-  @SuppressWarnings("Java7ApiChecker")
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Duration calls
   @IgnoreJRERequirement
   @J2ktIncompatible

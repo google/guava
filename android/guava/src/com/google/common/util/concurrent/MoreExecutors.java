@@ -81,7 +81,6 @@ public final class MoreExecutors {
    */
   @J2ktIncompatible
   @GwtIncompatible // TODO
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor, Duration terminationTimeout) {
@@ -144,7 +143,6 @@ public final class MoreExecutors {
    */
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor, Duration terminationTimeout) {
@@ -207,7 +205,6 @@ public final class MoreExecutors {
    */
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static void addDelayedShutdownHook(ExecutorService service, Duration terminationTimeout) {
     addDelayedShutdownHook(service, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);
@@ -661,7 +658,6 @@ public final class MoreExecutors {
   @J2ktIncompatible
   @GwtIncompatible
   @ParametricNullness
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   static <T extends @Nullable Object> T invokeAnyImpl(
       ListeningExecutorService executorService,
@@ -965,7 +961,6 @@ public final class MoreExecutors {
   @CanIgnoreReturnValue
   @J2ktIncompatible
   @GwtIncompatible // java.time.Duration
-  @SuppressWarnings("Java7ApiChecker")
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static boolean shutdownAndAwaitTermination(ExecutorService service, Duration timeout) {
     return shutdownAndAwaitTermination(service, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
