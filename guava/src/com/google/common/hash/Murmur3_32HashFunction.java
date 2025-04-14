@@ -27,7 +27,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.primitives.UnsignedBytes.toInt;
+import static java.lang.Byte.toUnsignedInt;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.primitives.Chars;
@@ -231,7 +231,7 @@ final class Murmur3_32HashFunction extends AbstractHashFunction implements Seria
 
     int k1 = 0;
     for (int shift = 0; i < len; i++, shift += 8) {
-      k1 ^= toInt(input[off + i]) << shift;
+      k1 ^= toUnsignedInt(input[off + i]) << shift;
     }
     h1 ^= mixK1(k1);
     return fmix(h1, len);

@@ -590,7 +590,7 @@ public final class ImmutableLongArray implements Serializable {
     int hash = 1;
     for (int i = start; i < end; i++) {
       hash *= 31;
-      hash += Longs.hashCode(array[i]);
+      hash += Long.hashCode(array[i]);
     }
     return hash;
   }

@@ -24,6 +24,7 @@ import static com.google.common.io.TestOption.READ_THROWS;
 import static com.google.common.io.TestOption.SKIP_THROWS;
 import static com.google.common.io.TestOption.WRITE_THROWS;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Byte.toUnsignedInt;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.nio.charset.StandardCharsets.US_ASCII;
@@ -34,7 +35,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.hash.Hashing;
-import com.google.common.primitives.UnsignedBytes;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -271,7 +271,7 @@ public class ByteSourceTest extends IoTestCase {
       @Override
       public int read() throws IOException {
         byte[] b = new byte[1];
-        return read(b) == -1 ? -1 : UnsignedBytes.toInt(b[0]);
+        return read(b) == -1 ? -1 : toUnsignedInt(b[0]);
       }
 
       @Override

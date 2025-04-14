@@ -21,6 +21,7 @@ import static com.google.common.primitives.UnsignedBytes.max;
 import static com.google.common.primitives.UnsignedBytes.min;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.lang.Byte.toUnsignedInt;
 import static java.lang.Math.signum;
 import static org.junit.Assert.assertThrows;
 
@@ -48,6 +49,7 @@ public class UnsignedBytesTest extends TestCase {
   // Only in this class, VALUES must be strictly ascending
   private static final byte[] VALUES = {LEAST, 127, (byte) 128, (byte) 129, GREATEST};
 
+  @SuppressWarnings("InlineMeInliner") // We need to test our method.
   public void testToInt() {
     assertThat(UnsignedBytes.toInt((byte) 0)).isEqualTo(0);
     assertThat(UnsignedBytes.toInt((byte) 1)).isEqualTo(1);
@@ -59,7 +61,7 @@ public class UnsignedBytesTest extends TestCase {
 
   public void testCheckedCast() {
     for (byte value : VALUES) {
-      assertThat(UnsignedBytes.checkedCast(UnsignedBytes.toInt(value))).isEqualTo(value);
+      assertThat(UnsignedBytes.checkedCast(toUnsignedInt(value))).isEqualTo(value);
     }
     assertCastFails(256L);
     assertCastFails(-1L);
@@ -69,7 +71,7 @@ public class UnsignedBytesTest extends TestCase {
 
   public void testSaturatedCast() {
     for (byte value : VALUES) {
-      assertThat(UnsignedBytes.saturatedCast(UnsignedBytes.toInt(value))).isEqualTo(value);
+      assertThat(UnsignedBytes.saturatedCast(toUnsignedInt(value))).isEqualTo(value);
     }
     assertThat(UnsignedBytes.saturatedCast(256L)).isEqualTo(GREATEST);
     assertThat(UnsignedBytes.saturatedCast(-1L)).isEqualTo(LEAST);

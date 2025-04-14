@@ -51,6 +51,7 @@ public class BooleansTest extends TestCase {
 
   private static final boolean[] VALUES = {false, true};
 
+  @SuppressWarnings("InlineMeInliner") // We need to test our method.
   public void testHashCode() {
     assertThat(Booleans.hashCode(true)).isEqualTo(Boolean.TRUE.hashCode());
     assertThat(Booleans.hashCode(false)).isEqualTo(Boolean.FALSE.hashCode());

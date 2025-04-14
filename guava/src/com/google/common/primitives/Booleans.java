@@ -494,7 +494,7 @@ public final class Booleans {
     public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
-        result = 31 * result + Booleans.hashCode(array[i]);
+        result = 31 * result + Boolean.hashCode(array[i]);
       }
       return result;
     }

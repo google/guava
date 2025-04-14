@@ -360,7 +360,7 @@ public final class Bytes {
     public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
-        result = 31 * result + Bytes.hashCode(array[i]);
+        result = 31 * result + Byte.hashCode(array[i]);
       }
       return result;
     }

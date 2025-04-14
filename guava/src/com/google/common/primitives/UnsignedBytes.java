@@ -17,6 +17,7 @@ package com.google.common.primitives;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
+import static java.lang.Byte.toUnsignedInt;
 import static java.security.AccessController.doPrivileged;
 import static java.util.Objects.requireNonNull;
 
@@ -108,7 +109,7 @@ public final class UnsignedBytes {
    *     {@code value} cast to {@code byte} otherwise
    */
   public static byte saturatedCast(long value) {
-    if (value > toInt(MAX_VALUE)) {
+    if (value > toUnsignedInt(MAX_VALUE)) {
       return MAX_VALUE; // -1
     }
     if (value < 0) {
@@ -128,7 +129,7 @@ public final class UnsignedBytes {
    *     greater than {@code b}; or zero if they are equal
    */
   public static int compare(byte a, byte b) {
-    return toInt(a) - toInt(b);
+    return toUnsignedInt(a) - toUnsignedInt(b);
   }
 
   /**
@@ -141,9 +142,9 @@ public final class UnsignedBytes {
    */
   public static byte min(byte... array) {
     checkArgument(array.length > 0);
-    int min = toInt(array[0]);
+    int min = toUnsignedInt(array[0]);
     for (int i = 1; i < array.length; i++) {
-      int next = toInt(array[i]);
+      int next = toUnsignedInt(array[i]);
       if (next < min) {
         min = next;
       }
@@ -161,9 +162,9 @@ public final class UnsignedBytes {
    */
   public static byte max(byte... array) {
     checkArgument(array.length > 0);
-    int max = toInt(array[0]);
+    int max = toUnsignedInt(array[0]);
     for (int i = 1; i < array.length; i++) {
-      int next = toInt(array[i]);
+      int next = toUnsignedInt(array[i]);
       if (next > max) {
         max = next;
       }
@@ -196,7 +197,7 @@ public final class UnsignedBytes {
         "radix (%s) must be between Character.MIN_RADIX and Character.MAX_RADIX",
         radix);
     // Benchmarks indicate this is probably not worth optimizing.
-    return Integer.toString(toInt(x), radix);
+    return Integer.toString(toUnsignedInt(x), radix);
   }
 
   /**
@@ -253,7 +254,7 @@ public final class UnsignedBytes {
 
     // For pre-sizing a builder, just get the right order of magnitude
     StringBuilder builder = new StringBuilder(array.length * (3 + separator.length()));
-    builder.append(toInt(array[0]));
+    builder.append(toUnsignedInt(array[0]));
     for (int i = 1; i < array.length; i++) {
       builder.append(separator).append(toString(array[i]));
     }

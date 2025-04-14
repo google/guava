@@ -90,10 +90,10 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("InlineMeInliner") // We need to test our method.
   public void testIsFinite() {
     for (double value : NUMBERS) {
-      assertThat(Doubles.isFinite(value))
-          .isEqualTo(!(Double.isNaN(value) || Double.isInfinite(value)));
+      assertThat(Doubles.isFinite(value)).isEqualTo(Double.isFinite(value));
     }
   }
 

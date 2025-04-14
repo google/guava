@@ -682,7 +682,7 @@ public final class Floats extends FloatsMethodsForWeb {
     public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
-        result = 31 * result + Floats.hashCode(array[i]);
+        result = 31 * result + Float.hashCode(array[i]);
       }
       return result;
     }

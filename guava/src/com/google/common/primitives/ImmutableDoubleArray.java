@@ -598,7 +598,7 @@ public final class ImmutableDoubleArray implements Serializable {
     int hash = 1;
     for (int i = start; i < end; i++) {
       hash *= 31;
-      hash += Doubles.hashCode(array[i]);
+      hash += Double.hashCode(array[i]);
     }
     return hash;
   }

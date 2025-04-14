@@ -827,7 +827,7 @@ public final class Longs {
     public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
-        result = 31 * result + Longs.hashCode(array[i]);
+        result = 31 * result + Long.hashCode(array[i]);
       }
       return result;
     }

@@ -694,7 +694,7 @@ public final class Doubles extends DoublesMethodsForWeb {
     public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
-        result = 31 * result + Doubles.hashCode(array[i]);
+        result = 31 * result + Double.hashCode(array[i]);
       }
       return result;
     }

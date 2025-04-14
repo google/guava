@@ -20,7 +20,6 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.SkipThisScenarioException;
-import com.google.common.primitives.Doubles;
 import java.util.Random;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -82,7 +81,7 @@ public class StatsBenchmark {
 
     @Override
     public int hashCode() {
-      return Doubles.hashCode(mean) * 31 + Doubles.hashCode(variance);
+      return Double.hashCode(mean) * 31 + Double.hashCode(variance);
     }
   }
 

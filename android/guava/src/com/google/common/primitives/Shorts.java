@@ -71,7 +71,7 @@ public final class Shorts extends ShortsMethodsForWeb {
    * @param value a primitive {@code short} value
    * @return a hash code for the value
    */
-  @InlineMe(replacement = "Shorts.hashCode(value)")
+  @InlineMe(replacement = "Short.hashCode(value)")
   @InlineMeValidationDisabled(
       "The hash code of a short is the int version of the short itself, so it's simplest to return"
           + " that.")
@@ -731,7 +731,7 @@ public final class Shorts extends ShortsMethodsForWeb {
     public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
-        result = 31 * result + Shorts.hashCode(array[i]);
+        result = 31 * result + Short.hashCode(array[i]);
       }
       return result;
     }

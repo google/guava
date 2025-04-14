@@ -85,10 +85,10 @@ public class FloatsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("InlineMeInliner") // We need to test our method.
   public void testIsFinite() {
     for (float value : NUMBERS) {
-      assertThat(Floats.isFinite(value))
-          .isEqualTo(!(Float.isInfinite(value) || Float.isNaN(value)));
+      assertThat(Floats.isFinite(value)).isEqualTo(Float.isFinite(value));
     }
   }
 

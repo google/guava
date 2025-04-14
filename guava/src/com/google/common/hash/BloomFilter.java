@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Byte.toUnsignedInt;
 import static java.lang.Math.max;
 
 import com.google.common.annotations.Beta;
@@ -628,7 +629,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       // add non-stateless strategies (for which we've reserved negative ordinals; see
       // Strategy.ordinal()).
       strategyOrdinal = din.readByte();
-      numHashFunctions = UnsignedBytes.toInt(din.readByte());
+      numHashFunctions = toUnsignedInt(din.readByte());
       dataLength = din.readInt();
 
       /*

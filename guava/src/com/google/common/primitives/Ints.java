@@ -771,7 +771,7 @@ public final class Ints extends IntsMethodsForWeb {
     public int hashCode() {
       int result = 1;
       for (int i = start; i < end; i++) {
-        result = 31 * result + Ints.hashCode(array[i]);
+        result = 31 * result + Integer.hashCode(array[i]);
       }
       return result;
     }
