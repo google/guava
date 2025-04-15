@@ -413,7 +413,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   // These constants allow the deserialization code to set final fields. This
   // holder class makes sure they are not initialized unless an instance is
   // deserialized.
-  @GwtIncompatible // java serialization is not supported
+  @GwtIncompatible
   @J2ktIncompatible
   static class FieldSettersHolder {
     static final Serialization.FieldSetter<? super ImmutableMultimap<?, ?>> MAP_FIELD_SETTER =

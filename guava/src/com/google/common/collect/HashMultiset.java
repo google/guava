@@ -77,16 +77,16 @@ public final class HashMultiset<E extends @Nullable Object> extends AbstractMapB
    * @serialData the number of distinct elements, the first element, its count, the second element,
    *     its count, and so on
    */
-  @GwtIncompatible // java.io.ObjectOutputStream
+  @GwtIncompatible
   @J2ktIncompatible
-  private void writeObject(ObjectOutputStream stream) throws IOException {
+    private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     Serialization.writeMultiset(this, stream);
   }
 
-  @GwtIncompatible // java.io.ObjectInputStream
+  @GwtIncompatible
   @J2ktIncompatible
-  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     int distinctElements = Serialization.readCount(stream);
     setBackingMap(Maps.<E, Count>newHashMap());

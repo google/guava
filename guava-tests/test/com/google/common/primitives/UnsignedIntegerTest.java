@@ -274,9 +274,9 @@ public class UnsignedIntegerTest extends TestCase {
     }
   }
 
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // serialization
-  public void testSerialization() {
+    public void testSerialization() {
     for (int a : TEST_INTS) {
       SerializableTester.reserializeAndAssert(UnsignedInteger.fromIntBits(a));
     }

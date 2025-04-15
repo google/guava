@@ -97,9 +97,9 @@ class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     // redeclare to help optimizers with b/310253115
     @SuppressWarnings("RedundantOverride")
     @Override
-    @J2ktIncompatible // serialization
-    @GwtIncompatible // serialization
-    Object writeReplace() {
+    @GwtIncompatible
+    @J2ktIncompatible
+        Object writeReplace() {
       return super.writeReplace();
     }
   }

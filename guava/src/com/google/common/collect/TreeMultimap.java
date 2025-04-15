@@ -205,18 +205,18 @@ public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object
    * @serialData key comparator, value comparator, number of distinct keys, and then for each
    *     distinct key: the key, number of values for that key, and key values
    */
-  @GwtIncompatible // java.io.ObjectOutputStream
+  @GwtIncompatible
   @J2ktIncompatible
-  private void writeObject(ObjectOutputStream stream) throws IOException {
+    private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(keyComparator());
     stream.writeObject(valueComparator());
     Serialization.writeMultimap(this, stream);
   }
 
-  @GwtIncompatible // java.io.ObjectInputStream
+  @GwtIncompatible
   @J2ktIncompatible
-  @SuppressWarnings("unchecked") // reading data stored by writeObject
+    @SuppressWarnings("unchecked") // reading data stored by writeObject
   private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyComparator = requireNonNull((Comparator<? super K>) stream.readObject());

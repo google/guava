@@ -486,16 +486,16 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     /**
      * @serialData the forward bimap
      */
-    @GwtIncompatible // java.io.ObjectOutputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    private void writeObject(ObjectOutputStream stream) throws IOException {
+        private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(inverse());
     }
 
-    @GwtIncompatible // java.io.ObjectInputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    @SuppressWarnings("unchecked") // reading data stored by writeObject
+        @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
       setInverse((AbstractBiMap<V, K>) requireNonNull(stream.readObject()));

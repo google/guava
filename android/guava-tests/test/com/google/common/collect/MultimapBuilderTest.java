@@ -93,9 +93,9 @@ public class MultimapBuilderTest extends TestCase {
     return (SortedSetMultimapBuilder) setMultimapBuilder;
   }
 
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // serialization
-  public void testSerialization() throws Exception {
+    public void testSerialization() throws Exception {
     for (MultimapBuilderWithKeys<?> builderWithKeys :
         ImmutableList.of(
             MultimapBuilder.hashKeys(),
@@ -118,17 +118,17 @@ public class MultimapBuilderTest extends TestCase {
     }
   }
 
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // serialization
-  private static void reserializeAndAssert(Object object) throws Exception {
+    private static void reserializeAndAssert(Object object) throws Exception {
     Object copy = reserialize(object);
     assertEquals(object, copy);
     assertEquals(object.getClass(), copy.getClass());
   }
 
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // serialization
-  private static Object reserialize(Object object) throws Exception {
+    private static Object reserialize(Object object) throws Exception {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     new ObjectOutputStream(bytes).writeObject(object);
     return new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray())).readObject();

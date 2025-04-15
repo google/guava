@@ -145,7 +145,7 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     return 0;
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
   private static final class SerializedForm<C extends Comparable> implements Serializable {
     private final DiscreteDomain<C> domain;
@@ -161,16 +161,16 @@ final class EmptyContiguousSet<C extends Comparable> extends ContiguousSet<C> {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
-  @Override
+    @Override
   Object writeReplace() {
     return new SerializedForm<>(domain);
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 

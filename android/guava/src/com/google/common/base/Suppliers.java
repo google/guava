@@ -159,9 +159,9 @@ public final class Suppliers {
           + ")";
     }
 
-    @GwtIncompatible // serialization
-    @J2ktIncompatible // serialization
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    @GwtIncompatible
+    @J2ktIncompatible
+        private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       lock = new Object();
     }
@@ -332,9 +332,9 @@ public final class Suppliers {
       return "Suppliers.memoizeWithExpiration(" + delegate + ", " + durationNanos + ", NANOS)";
     }
 
-    @GwtIncompatible // serialization
-    @J2ktIncompatible // serialization
-    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    @GwtIncompatible
+    @J2ktIncompatible
+        private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       lock = new Object();
     }

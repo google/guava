@@ -860,9 +860,9 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    *     number of values for that key, and the key's values, followed by successive keys and values
    *     from the entries() ordering
    */
-  @GwtIncompatible // java.io.ObjectOutputStream
+  @GwtIncompatible
   @J2ktIncompatible
-  private void writeObject(ObjectOutputStream stream) throws IOException {
+    private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(size());
     for (Entry<K, V> entry : entries()) {
@@ -871,9 +871,9 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
   }
 
-  @GwtIncompatible // java.io.ObjectInputStream
+  @GwtIncompatible
   @J2ktIncompatible
-  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     keyToKeyList = Maps.newLinkedHashMap();
     int size = stream.readInt();

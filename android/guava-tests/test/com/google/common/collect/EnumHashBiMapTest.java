@@ -225,9 +225,9 @@ public class EnumHashBiMapTest extends TestCase {
     assertEquals(3, uniqueEntries.size());
   }
 
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // serialize
-  public void testSerializable() {
+    public void testSerializable() {
     SerializableTester.reserializeAndAssert(EnumHashBiMap.create(Currency.class));
   }
 

@@ -590,9 +590,9 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
    * @serialData the expected values per key, the number of distinct keys, the number of entries,
    *     and the entries in order
    */
-  @GwtIncompatible // java.io.ObjectOutputStream
+  @GwtIncompatible
   @J2ktIncompatible
-  private void writeObject(ObjectOutputStream stream) throws IOException {
+    private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeInt(keySet().size());
     for (K key : keySet()) {
@@ -605,9 +605,9 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     }
   }
 
-  @GwtIncompatible // java.io.ObjectInputStream
+  @GwtIncompatible
   @J2ktIncompatible
-  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     multimapHeaderEntry = ValueEntry.newHeader();
     succeedsInMultimap(multimapHeaderEntry, multimapHeaderEntry);

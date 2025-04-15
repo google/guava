@@ -1053,9 +1053,9 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
    * @serialData the comparator, the number of distinct elements, the first element, its count, the
    *     second element, its count, and so on
    */
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // java.io.ObjectOutputStream
-  private void writeObject(ObjectOutputStream stream) throws IOException {
+    private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(elementSet().comparator());
     Serialization.writeMultiset(this, stream);

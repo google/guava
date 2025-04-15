@@ -467,9 +467,9 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
     new NullPointerTester().testAllPublicInstanceMethods(create());
   }
 
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // serialize
-  public void testSerializable() {
+    public void testSerializable() {
     SerializableTester.reserializeAndAssert(create());
   }
 }

@@ -350,9 +350,9 @@ public class SetsTest extends TestCase {
     assertThat(two).containsExactly(SomeEnum.B, SomeEnum.D).inOrder();
   }
 
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // java serialization not supported in GWT.
-  public void testImmutableEnumSet_deserializationMakesDefensiveCopy() throws Exception {
+    public void testImmutableEnumSet_deserializationMakesDefensiveCopy() throws Exception {
     ImmutableSet<SomeEnum> original = Sets.immutableEnumSet(SomeEnum.A, SomeEnum.B);
     int handleOffset = 6;
     byte[] serializedForm = serializeWithBackReference(original, handleOffset);
@@ -366,9 +366,9 @@ public class SetsTest extends TestCase {
     assertTrue(deserialized.contains(SomeEnum.A));
   }
 
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // java serialization not supported in GWT.
-  private static byte[] serializeWithBackReference(Object original, int handleOffset)
+    private static byte[] serializeWithBackReference(Object original, int handleOffset)
       throws IOException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     ObjectOutputStream out = new ObjectOutputStream(bos);

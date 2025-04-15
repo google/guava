@@ -96,9 +96,9 @@ final class Synchronized {
     // they don't contain any non-transient member variables, while the
     // following writeObject() handles the SynchronizedObject members.
 
-    @GwtIncompatible // java.io.ObjectOutputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    private void writeObject(ObjectOutputStream stream) throws IOException {
+        private void writeObject(ObjectOutputStream stream) throws IOException {
       synchronized (mutex) {
         stream.defaultWriteObject();
       }

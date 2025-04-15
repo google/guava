@@ -664,9 +664,9 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * @serialData number of distinct keys, and then for each distinct key: the key, the number of
    *     values for that key, and the key's values
    */
-  @GwtIncompatible // java.io.ObjectOutputStream
+  @GwtIncompatible
   @J2ktIncompatible
-  private void writeObject(ObjectOutputStream stream) throws IOException {
+    private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(valueComparator());
     Serialization.writeMultimap(this, stream);
@@ -678,7 +678,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
         : null;
   }
 
-  @GwtIncompatible // java serialization
+  @GwtIncompatible
   @J2ktIncompatible
   private static final class SetFieldSettersHolder {
     static final Serialization.FieldSetter<? super ImmutableSetMultimap<?, ?>>
@@ -686,7 +686,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
             Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");
   }
 
-  @GwtIncompatible // java.io.ObjectInputStream
+  @GwtIncompatible
   @J2ktIncompatible
   // Serialization type safety is at the caller's mercy.
   @SuppressWarnings("unchecked")

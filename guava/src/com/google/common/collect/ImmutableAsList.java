@@ -59,7 +59,7 @@ abstract class ImmutableAsList<E> extends ImmutableList<E> {
   }
 
   /** Serialized form that leads to the same performance as the original list. */
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
   static class SerializedForm implements Serializable {
     final ImmutableCollection<?> collection;
@@ -75,15 +75,15 @@ abstract class ImmutableAsList<E> extends ImmutableList<E> {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
-  @Override
+    @Override
   Object writeReplace() {
     return new SerializedForm(delegateCollection());
   }

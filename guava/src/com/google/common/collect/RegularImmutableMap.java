@@ -352,7 +352,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
 
     // No longer used for new writes, but kept so that old data can still be read.
-    @GwtIncompatible // serialization
+    @GwtIncompatible
     @J2ktIncompatible
     @SuppressWarnings("unused")
     private static class SerializedForm<K> implements Serializable {
@@ -408,7 +408,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
 
     // No longer used for new writes, but kept so that old data can still be read.
-    @GwtIncompatible // serialization
+    @GwtIncompatible
     @J2ktIncompatible
     @SuppressWarnings("unused")
     private static class SerializedForm<V> implements Serializable {

@@ -239,7 +239,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     return Sets.hashCodeImpl(this);
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
   private static final class SerializedForm<C extends Comparable> implements Serializable {
     final Range<C> range;
@@ -255,16 +255,16 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     }
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
-  @Override
+    @Override
   Object writeReplace() {
     return new SerializedForm<>(range, domain);
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 

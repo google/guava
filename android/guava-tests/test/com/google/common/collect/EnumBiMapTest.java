@@ -291,9 +291,9 @@ public class EnumBiMapTest extends TestCase {
     assertEquals(3, uniqueEntries.size());
   }
 
+  @GwtIncompatible
   @J2ktIncompatible
-  @GwtIncompatible // serialization
-  public void testSerializable() {
+    public void testSerializable() {
     SerializableTester.reserializeAndAssert(
         EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CANADA)));
   }

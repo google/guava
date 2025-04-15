@@ -498,9 +498,9 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   @GwtIncompatible
     abstract Object writeReplace();
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 

@@ -86,7 +86,7 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   }
 
   // No longer used for new writes, but kept so that old data can still be read.
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
   @SuppressWarnings("unused")
   private static class KeySetSerializedForm<K> implements Serializable {

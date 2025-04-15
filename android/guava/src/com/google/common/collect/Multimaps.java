@@ -273,17 +273,17 @@ public final class Multimaps {
     /**
      * @serialData the factory and the backing map
      */
-    @GwtIncompatible // java.io.ObjectOutputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    private void writeObject(ObjectOutputStream stream) throws IOException {
+        private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
       stream.writeObject(backingMap());
     }
 
-    @GwtIncompatible // java.io.ObjectInputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    @SuppressWarnings("unchecked") // reading data stored by writeObject
+        @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
       factory = (Supplier<? extends Collection<V>>) requireNonNull(stream.readObject());
@@ -359,17 +359,17 @@ public final class Multimaps {
     /**
      * @serialData the factory and the backing map
      */
-    @GwtIncompatible // java.io.ObjectOutputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    private void writeObject(ObjectOutputStream stream) throws IOException {
+        private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
       stream.writeObject(backingMap());
     }
 
-    @GwtIncompatible // java.io.ObjectInputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    @SuppressWarnings("unchecked") // reading data stored by writeObject
+        @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
       factory = (Supplier<? extends List<V>>) requireNonNull(stream.readObject());
@@ -467,17 +467,17 @@ public final class Multimaps {
     /**
      * @serialData the factory and the backing map
      */
-    @GwtIncompatible // java.io.ObjectOutputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    private void writeObject(ObjectOutputStream stream) throws IOException {
+        private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
       stream.writeObject(backingMap());
     }
 
-    @GwtIncompatible // java.io.ObjectInputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    @SuppressWarnings("unchecked") // reading data stored by writeObject
+        @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
       factory = (Supplier<? extends Set<V>>) requireNonNull(stream.readObject());
@@ -558,17 +558,17 @@ public final class Multimaps {
     /**
      * @serialData the factory and the backing map
      */
-    @GwtIncompatible // java.io.ObjectOutputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    private void writeObject(ObjectOutputStream stream) throws IOException {
+        private void writeObject(ObjectOutputStream stream) throws IOException {
       stream.defaultWriteObject();
       stream.writeObject(factory);
       stream.writeObject(backingMap());
     }
 
-    @GwtIncompatible // java.io.ObjectInputStream
+    @GwtIncompatible
     @J2ktIncompatible
-    @SuppressWarnings("unchecked") // reading data stored by writeObject
+        @SuppressWarnings("unchecked") // reading data stored by writeObject
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
       stream.defaultReadObject();
       factory = (Supplier<? extends SortedSet<V>>) requireNonNull(stream.readObject());

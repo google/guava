@@ -343,9 +343,9 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   // Don't allow default serialization.
-  @GwtIncompatible // java.io.ObjectStreamException
+  @GwtIncompatible
   @J2ktIncompatible
-  private void readObjectNoData() throws ObjectStreamException {
+    private void readObjectNoData() throws ObjectStreamException {
     throw new InvalidObjectException("Stream data required");
   }
 

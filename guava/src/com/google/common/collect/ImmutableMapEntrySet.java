@@ -124,20 +124,20 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet.CachingAsList<Ent
     return map().hashCode();
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
-  @Override
+    @Override
   Object writeReplace() {
     return new EntrySetSerializedForm<>(map());
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use EntrySetSerializedForm");
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @J2ktIncompatible
   private static class EntrySetSerializedForm<K, V> implements Serializable {
     final ImmutableMap<K, V> map;
