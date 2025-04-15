@@ -441,7 +441,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 <div class="block">Indicates whether another object is equal to this predicate.
 
  <p>Most implementations will have no reason to override the behavior of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>.
- However, an implementation may also choose to return <code>true</code> whenever <code>object</code> is a
+ However, an implementation may also choose to return <code>true</code> whenever <code>obj</code> is a
  <a href="../base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> that it considers <i>interchangeable</i> with this one. "Interchangeable"
  <i>typically</i> means that <code>this.apply(t) == that.apply(t)</code> for all <code>t</code> of type
  <code>T</code>). Note that a <code>false</code> result from this method does not imply that the

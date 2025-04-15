@@ -2436,10 +2436,10 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="obj" type="Object"/>
       <doc>
-      <![CDATA[<i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically
- to this function.
+      <![CDATA[<i>May</i> return {@code true} if {@code obj} is a {@code Function} that behaves identically to
+ this function.
 
  <p><b>Warning: do not depend</b> on the behavior of this method.
 
@@ -5268,12 +5268,12 @@
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
-      <param name="object" type="Object"/>
+      <param name="obj" type="Object"/>
       <doc>
       <![CDATA[Indicates whether another object is equal to this predicate.
 
  <p>Most implementations will have no reason to override the behavior of {@link Object#equals}.
- However, an implementation may also choose to return {@code true} whenever {@code object} is a
+ However, an implementation may also choose to return {@code true} whenever {@code obj} is a
  {@link Predicate} that it considers <i>interchangeable</i> with this one. "Interchangeable"
  <i>typically</i> means that {@code this.apply(t) == that.apply(t)} for all {@code t} of type
  {@code T}). Note that a {@code false} result from this method does not imply that the
