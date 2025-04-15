@@ -47,8 +47,8 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
   T apply(@ParametricNullness F input);
 
   /**
-   * <i>May</i> return {@code true} if {@code object} is a {@code Function} that behaves identically
-   * to this function.
+   * <i>May</i> return {@code true} if {@code obj} is a {@code Function} that behaves identically to
+   * this function.
    *
    * <p><b>Warning: do not depend</b> on the behavior of this method.
    *
@@ -58,5 +58,5 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
    * disappear. It is best not to depend on it.
    */
   @Override
-  boolean equals(@Nullable Object object);
+  boolean equals(@Nullable Object obj);
 }

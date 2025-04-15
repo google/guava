@@ -132,9 +132,9 @@ public final class Enums {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
-      if (object instanceof StringConverter) {
-        StringConverter<?> that = (StringConverter<?>) object;
+    public boolean equals(@Nullable Object obj) {
+      if (obj instanceof StringConverter) {
+        StringConverter<?> that = (StringConverter<?>) obj;
         return this.enumClass.equals(that.enumClass);
       }
       return false;

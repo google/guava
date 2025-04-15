@@ -79,9 +79,9 @@ final class Present<T> extends Optional<T> {
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
-    if (object instanceof Present) {
-      Present<?> other = (Present<?>) object;
+  public boolean equals(@Nullable Object obj) {
+    if (obj instanceof Present) {
+      Present<?> other = (Present<?>) obj;
       return reference.equals(other.reference);
     }
     return false;
