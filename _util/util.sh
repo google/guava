@@ -278,7 +278,6 @@ function latest_release {
   local seen_ceiling=false
   for release in $releases; do
     release="${release%/}"
-
     if $seen_ceiling; then
       release_expanded="$(expand_release "$release")"
       release_clean="$(echo "$release_expanded" | grep -oE '^[0-9]+\.[0-9]+\.[0-9]+')"
@@ -287,8 +286,10 @@ function latest_release {
       if (( release_major < ceiling_major ||
             (release_major == ceiling_major && release_minor < ceiling_minor) ||
             (release_major == ceiling_major && release_minor == ceiling_minor && release_patch < ceiling_patch)
-         )); then
-        echo "$release"
+      )); then
+        release="${release%/}"
+        clean_release="$(echo "$release" | sed 's/\.100\(-[a-z]*\)\?//')"
+        echo "$clean_release"
         return
       fi
     elif [[ "$release" == "$ceiling" ]]; then
