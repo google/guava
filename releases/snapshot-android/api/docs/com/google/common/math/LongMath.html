@@ -89,6 +89,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#mean(long,long)" tabindex="0">mean(long, long)</a></li>
 <li><a href="#isPrime(long)" tabindex="0">isPrime(long)</a></li>
 <li><a href="#roundToDouble(long,java.math.RoundingMode)" tabindex="0">roundToDouble(long, RoundingMode)</a></li>
+<li><a href="#saturatedAbs(long)" tabindex="0">saturatedAbs(long)</a></li>
 </ol>
 </li>
 </ol>
@@ -251,37 +252,42 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns <code>x</code>, rounded to a <code>double</code> with the specified rounding mode.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedAdd(long,long)" class="member-name-link">saturatedAdd</a><wbr>(long&nbsp;a,
- long&nbsp;b)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedAbs(long)" class="member-name-link">saturatedAbs</a><wbr>(long&nbsp;x)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns the closest representable <code>long</code> to the absolute value of <code>x</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedAdd(long,long)" class="member-name-link">saturatedAdd</a><wbr>(long&nbsp;a,
+ long&nbsp;b)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the sum of <code>a</code> and <code>b</code> unless it would overflow or underflow in which case
  <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedMultiply(long,long)" class="member-name-link">saturatedMultiply</a><wbr>(long&nbsp;a,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedMultiply(long,long)" class="member-name-link">saturatedMultiply</a><wbr>(long&nbsp;a,
  long&nbsp;b)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in which
  case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedPow(long,int)" class="member-name-link">saturatedPow</a><wbr>(long&nbsp;b,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedPow(long,int)" class="member-name-link">saturatedPow</a><wbr>(long&nbsp;b,
  int&nbsp;k)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in which
  case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedSubtract(long,long)" class="member-name-link">saturatedSubtract</a><wbr>(long&nbsp;a,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedSubtract(long,long)" class="member-name-link">saturatedSubtract</a><wbr>(long&nbsp;a,
  long&nbsp;b)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the difference of <code>a</code> and <code>b</code> unless it would overflow or underflow in
  which case <code>Long.MAX_VALUE</code> or <code>Long.MIN_VALUE</code> is returned, respectively.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sqrt(long,java.math.RoundingMode)" class="member-name-link">sqrt</a><wbr>(long&nbsp;x,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static long</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sqrt(long,java.math.RoundingMode)" class="member-name-link">sqrt</a><wbr>(long&nbsp;x,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/RoundingMode.html" title="class or interface in java.math" class="external-link">RoundingMode</a>&nbsp;mode)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the square root of <code>x</code>, rounded with the specified rounding mode.</div>
 </div>
 </div>
@@ -726,6 +732,39 @@ mod(8, 4) == 0
      is not precisely representable as a <code>double</code></dd>
 <dt>Since:</dt>
 <dd>30.0</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="saturatedAbs(long)">
+<h3>saturatedAbs</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">saturatedAbs</span><wbr><span class="parameters">(long&nbsp;x)</span></div>
+<div class="block">Returns the closest representable <code>long</code> to the absolute value of <code>x</code>.
+
+ <p>This is the same thing as the true absolute value of <code>x</code> except in the case when
+ <code>x</code> is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html#MIN_VALUE" title="class or interface in java.lang" class="external-link"><code>Long.MIN_VALUE</code></a>, in which case this returns <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Long.html#MAX_VALUE" title="class or interface in java.lang" class="external-link"><code>Long.MAX_VALUE</code></a>. (Note
+ that <code>Long.MAX_VALUE</code> is mathematically equal to <code>-Long.MIN_VALUE - 1</code>.)
+
+ <p>There are three common APIs for determining the absolute value of a long, all of which
+ behave identically except when passed <code>Long.MIN_VALUE</code>. Those methods are:
+
+ <ul>
+   <li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#abs(long)" title="class or interface in java.lang" class="external-link"><code>Math.abs(long)</code></a>, which returns <code>Long.MIN_VALUE</code> when passed <code>
+       Long.MIN_VALUE</code>
+   <li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#absExact(long)" title="class or interface in java.lang" class="external-link"><code>Math.absExact(long)</code></a>, which throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link"><code>ArithmeticException</code></a> when passed <code>
+       Long.MIN_VALUE</code>
+   <li>this method, <code>LongMath.saturatedAbs(long)</code>, which returns <code>Long.MAX_VALUE</code>
+       when passed <code>Long.MIN_VALUE</code>
+ </ul>
+
+ <p>Note that if your only goal is to turn a well-distributed `long` (such as a random number)
+ into a well-distributed nonnegative number, the most even distribution is achieved not by this
+ method or other absolute value methods, but by <code>x &amp; Long.MAX_VALUE</code>.</div>
+<dl class="notes">
+<dt>Since:</dt>
+<dd>NEXT</dd>
 </dl>
 </div>
 </section>

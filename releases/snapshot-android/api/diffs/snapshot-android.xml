@@ -50238,6 +50238,38 @@
  @since 20.0]]>
       </doc>
     </method>
+    <method name="saturatedAbs" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="x" type="int"/>
+      <doc>
+      <![CDATA[Returns the closest representable {@code int} to the absolute value of {@code x}.
+
+ <p>This is the same thing as the true absolute value of {@code x} except in the case when
+ {@code x} is {@link Integer#MIN_VALUE}, in which case this returns {@link Integer#MAX_VALUE}.
+ (Note that {@code Integer.MAX_VALUE} is mathematically equal to {@code -Integer.MIN_VALUE -
+ 1}.)
+
+ <p>There are three common APIs for determining the absolute value of an integer, all of which
+ behave identically except when passed {@code Integer.MIN_VALUE}. Those methods are:
+
+ <ul>
+   <li>{@link Math#abs(int)}, which returns {@code Integer.MIN_VALUE} when passed {@code
+       Integer.MIN_VALUE}
+   <li>{@link Math#absExact(int)}, which throws {@link ArithmeticException} when passed {@code
+       Integer.MIN_VALUE}
+   <li>this method, {@code IntMath.saturatedAbs(int)}, which returns {@code Integer.MAX_VALUE}
+       when passed {@code Integer.MIN_VALUE}
+ </ul>
+
+ <p>Note that if your only goal is to turn a well-distributed `int` (such as a random number or
+ hash code) into a well-distributed nonnegative number, the most even distribution is achieved
+ not by this method or other absolute value methods, but by {@code x & Integer.MAX_VALUE}.
+
+ @since NEXT]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[A class for arithmetic on values of type {@code int}. Where possible, methods are defined and
  named analogously to their {@code BigInteger} counterparts.
@@ -50770,6 +50802,37 @@
  @throws ArithmeticException if {@code mode} is {@link RoundingMode#UNNECESSARY} and {@code x}
      is not precisely representable as a {@code double}
  @since 30.0]]>
+      </doc>
+    </method>
+    <method name="saturatedAbs" return="long"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="x" type="long"/>
+      <doc>
+      <![CDATA[Returns the closest representable {@code long} to the absolute value of {@code x}.
+
+ <p>This is the same thing as the true absolute value of {@code x} except in the case when
+ {@code x} is {@link Long#MIN_VALUE}, in which case this returns {@link Long#MAX_VALUE}. (Note
+ that {@code Long.MAX_VALUE} is mathematically equal to {@code -Long.MIN_VALUE - 1}.)
+
+ <p>There are three common APIs for determining the absolute value of a long, all of which
+ behave identically except when passed {@code Long.MIN_VALUE}. Those methods are:
+
+ <ul>
+   <li>{@link Math#abs(long)}, which returns {@code Long.MIN_VALUE} when passed {@code
+       Long.MIN_VALUE}
+   <li>{@link Math#absExact(long)}, which throws {@link ArithmeticException} when passed {@code
+       Long.MIN_VALUE}
+   <li>this method, {@code LongMath.saturatedAbs(long)}, which returns {@code Long.MAX_VALUE}
+       when passed {@code Long.MIN_VALUE}
+ </ul>
+
+ <p>Note that if your only goal is to turn a well-distributed `long` (such as a random number)
+ into a well-distributed nonnegative number, the most even distribution is achieved not by this
+ method or other absolute value methods, but by {@code x & Long.MAX_VALUE}.
+
+ @since NEXT]]>
       </doc>
     </method>
     <doc>

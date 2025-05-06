@@ -87,6 +87,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#binomial(int,int)" tabindex="0">binomial(int, int)</a></li>
 <li><a href="#mean(int,int)" tabindex="0">mean(int, int)</a></li>
 <li><a href="#isPrime(int)" tabindex="0">isPrime(int)</a></li>
+<li><a href="#saturatedAbs(int)" tabindex="0">saturatedAbs(int)</a></li>
 </ol>
 </li>
 </ol>
@@ -237,37 +238,42 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns <code>b</code> to the <code>k</code>th power.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedAdd(int,int)" class="member-name-link">saturatedAdd</a><wbr>(int&nbsp;a,
- int&nbsp;b)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedAbs(int)" class="member-name-link">saturatedAbs</a><wbr>(int&nbsp;x)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns the closest representable <code>int</code> to the absolute value of <code>x</code>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedAdd(int,int)" class="member-name-link">saturatedAdd</a><wbr>(int&nbsp;a,
+ int&nbsp;b)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the sum of <code>a</code> and <code>b</code> unless it would overflow or underflow in which case
  <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedMultiply(int,int)" class="member-name-link">saturatedMultiply</a><wbr>(int&nbsp;a,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedMultiply(int,int)" class="member-name-link">saturatedMultiply</a><wbr>(int&nbsp;a,
  int&nbsp;b)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the product of <code>a</code> and <code>b</code> unless it would overflow or underflow in which
  case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedPow(int,int)" class="member-name-link">saturatedPow</a><wbr>(int&nbsp;b,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedPow(int,int)" class="member-name-link">saturatedPow</a><wbr>(int&nbsp;b,
  int&nbsp;k)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, unless it would overflow or underflow in which
  case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedSubtract(int,int)" class="member-name-link">saturatedSubtract</a><wbr>(int&nbsp;a,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#saturatedSubtract(int,int)" class="member-name-link">saturatedSubtract</a><wbr>(int&nbsp;a,
  int&nbsp;b)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the difference of <code>a</code> and <code>b</code> unless it would overflow or underflow in
  which case <code>Integer.MAX_VALUE</code> or <code>Integer.MIN_VALUE</code> is returned, respectively.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sqrt(int,java.math.RoundingMode)" class="member-name-link">sqrt</a><wbr>(int&nbsp;x,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sqrt(int,java.math.RoundingMode)" class="member-name-link">sqrt</a><wbr>(int&nbsp;x,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/RoundingMode.html" title="class or interface in java.math" class="external-link">RoundingMode</a>&nbsp;mode)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the square root of <code>x</code>, rounded with the specified rounding mode.</div>
 </div>
 </div>
@@ -649,6 +655,40 @@ mod(8, 4) == 0
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>n</code> is negative</dd>
 <dt>Since:</dt>
 <dd>20.0</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="saturatedAbs(int)">
+<h3>saturatedAbs</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">saturatedAbs</span><wbr><span class="parameters">(int&nbsp;x)</span></div>
+<div class="block">Returns the closest representable <code>int</code> to the absolute value of <code>x</code>.
+
+ <p>This is the same thing as the true absolute value of <code>x</code> except in the case when
+ <code>x</code> is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html#MIN_VALUE" title="class or interface in java.lang" class="external-link"><code>Integer.MIN_VALUE</code></a>, in which case this returns <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Integer.html#MAX_VALUE" title="class or interface in java.lang" class="external-link"><code>Integer.MAX_VALUE</code></a>.
+ (Note that <code>Integer.MAX_VALUE</code> is mathematically equal to <code>-Integer.MIN_VALUE -
+ 1</code>.)
+
+ <p>There are three common APIs for determining the absolute value of an integer, all of which
+ behave identically except when passed <code>Integer.MIN_VALUE</code>. Those methods are:
+
+ <ul>
+   <li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#abs(int)" title="class or interface in java.lang" class="external-link"><code>Math.abs(int)</code></a>, which returns <code>Integer.MIN_VALUE</code> when passed <code>
+       Integer.MIN_VALUE</code>
+   <li><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#absExact(int)" title="class or interface in java.lang" class="external-link"><code>Math.absExact(int)</code></a>, which throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link"><code>ArithmeticException</code></a> when passed <code>
+       Integer.MIN_VALUE</code>
+   <li>this method, <code>IntMath.saturatedAbs(int)</code>, which returns <code>Integer.MAX_VALUE</code>
+       when passed <code>Integer.MIN_VALUE</code>
+ </ul>
+
+ <p>Note that if your only goal is to turn a well-distributed `int` (such as a random number or
+ hash code) into a well-distributed nonnegative number, the most even distribution is achieved
+ not by this method or other absolute value methods, but by <code>x &amp; Integer.MAX_VALUE</code>.</div>
+<dl class="notes">
+<dt>Since:</dt>
+<dd>NEXT</dd>
 </dl>
 </div>
 </section>
