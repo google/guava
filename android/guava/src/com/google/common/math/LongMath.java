@@ -1345,5 +1345,34 @@ public final class LongMath {
     throw new AssertionError("impossible");
   }
 
+  /**
+   * Returns the closest representable {@code long} to the absolute value of {@code x}.
+   *
+   * <p>This is the same thing as the true absolute value of {@code x} except in the case when
+   * {@code x} is {@link Long#MIN_VALUE}, in which case this returns {@link Long#MAX_VALUE}. (Note
+   * that {@code Long.MAX_VALUE} is mathematically equal to {@code -Long.MIN_VALUE - 1}.)
+   *
+   * <p>There are three common APIs for determining the absolute value of a long, all of which
+   * behave identically except when passed {@code Long.MIN_VALUE}. Those methods are:
+   *
+   * <ul>
+   *   <li>{@link Math#abs(long)}, which returns {@code Long.MIN_VALUE} when passed {@code
+   *       Long.MIN_VALUE}
+   *   <li>{@link Math#absExact(long)}, which throws {@link ArithmeticException} when passed {@code
+   *       Long.MIN_VALUE}
+   *   <li>this method, {@code LongMath.saturatedAbs(long)}, which returns {@code Long.MAX_VALUE}
+   *       when passed {@code Long.MIN_VALUE}
+   * </ul>
+   *
+   * <p>Note that if your only goal is to turn a well-distributed `long` (such as a random number)
+   * into a well-distributed nonnegative number, the most even distribution is achieved not by this
+   * method or other absolute value methods, but by {@code x & Long.MAX_VALUE}.
+   *
+   * @since NEXT
+   */
+  public static long saturatedAbs(long x) {
+    return (x == Long.MIN_VALUE) ? Long.MAX_VALUE : Math.abs(x);
+  }
+
   private LongMath() {}
 }

@@ -923,6 +923,17 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  public void testSaturatedAbs() {
+    assertEquals(Long.MAX_VALUE, LongMath.saturatedAbs(Long.MIN_VALUE));
+    assertEquals(Long.MAX_VALUE, LongMath.saturatedAbs(Long.MAX_VALUE));
+    assertEquals(Long.MAX_VALUE, LongMath.saturatedAbs(-Long.MAX_VALUE));
+    assertEquals(0, LongMath.saturatedAbs(0));
+    assertEquals(1, LongMath.saturatedAbs(1));
+    assertEquals(1, LongMath.saturatedAbs(-1));
+    assertEquals(10, LongMath.saturatedAbs(10));
+    assertEquals(10, LongMath.saturatedAbs(-10));
+  }
+
   private static void failFormat(String template, Object... args) {
     assertWithMessage(template, args).fail();
   }

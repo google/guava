@@ -692,6 +692,17 @@ public class IntMathTest extends TestCase {
     }
   }
 
+  public void testSaturatedAbs() {
+    assertEquals(Integer.MAX_VALUE, IntMath.saturatedAbs(Integer.MIN_VALUE));
+    assertEquals(Integer.MAX_VALUE, IntMath.saturatedAbs(Integer.MAX_VALUE));
+    assertEquals(Integer.MAX_VALUE, IntMath.saturatedAbs(-Integer.MAX_VALUE));
+    assertEquals(0, IntMath.saturatedAbs(0));
+    assertEquals(1, IntMath.saturatedAbs(1));
+    assertEquals(1, IntMath.saturatedAbs(-1));
+    assertEquals(10, IntMath.saturatedAbs(10));
+    assertEquals(10, IntMath.saturatedAbs(-10));
+  }
+
   private static int force32(int value) {
     // GWT doesn't consistently overflow values to make them 32-bit, so we need to force it.
     return value & 0xffffffff;

@@ -717,5 +717,35 @@ public final class IntMath {
     return LongMath.isPrime(n);
   }
 
+  /**
+   * Returns the closest representable {@code int} to the absolute value of {@code x}.
+   *
+   * <p>This is the same thing as the true absolute value of {@code x} except in the case when
+   * {@code x} is {@link Integer#MIN_VALUE}, in which case this returns {@link Integer#MAX_VALUE}.
+   * (Note that {@code Integer.MAX_VALUE} is mathematically equal to {@code -Integer.MIN_VALUE -
+   * 1}.)
+   *
+   * <p>There are three common APIs for determining the absolute value of an integer, all of which
+   * behave identically except when passed {@code Integer.MIN_VALUE}. Those methods are:
+   *
+   * <ul>
+   *   <li>{@link Math#abs(int)}, which returns {@code Integer.MIN_VALUE} when passed {@code
+   *       Integer.MIN_VALUE}
+   *   <li>{@link Math#absExact(int)}, which throws {@link ArithmeticException} when passed {@code
+   *       Integer.MIN_VALUE}
+   *   <li>this method, {@code IntMath.saturatedAbs(int)}, which returns {@code Integer.MAX_VALUE}
+   *       when passed {@code Integer.MIN_VALUE}
+   * </ul>
+   *
+   * <p>Note that if your only goal is to turn a well-distributed `int` (such as a random number or
+   * hash code) into a well-distributed nonnegative number, the most even distribution is achieved
+   * not by this method or other absolute value methods, but by {@code x & Integer.MAX_VALUE}.
+   *
+   * @since NEXT
+   */
+  public static int saturatedAbs(int x) {
+    return (x == Integer.MIN_VALUE) ? Integer.MAX_VALUE : Math.abs(x);
+  }
+
   private IntMath() {}
 }
