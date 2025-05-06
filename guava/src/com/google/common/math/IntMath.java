@@ -385,8 +385,7 @@ public final class IntMath {
     if (m <= 0) {
       throw new ArithmeticException("Modulus " + m + " must be > 0");
     }
-    int result = x % m;
-    return (result >= 0) ? result : result + m;
+    return Math.floorMod(x, m);
   }
 
   /**

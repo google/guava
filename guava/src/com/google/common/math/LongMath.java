@@ -473,8 +473,7 @@ public final class LongMath {
     if (m <= 0) {
       throw new ArithmeticException("Modulus must be positive");
     }
-    long result = x % m;
-    return (result >= 0) ? result : result + m;
+    return Math.floorMod(x, m);
   }
 
   /**

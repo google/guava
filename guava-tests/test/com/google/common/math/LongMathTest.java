@@ -448,7 +448,7 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible // TODO
-  public void testModNegativeModulusFails() {
+  public void testModNegativeModulus() {
     for (long x : ALL_LONG_CANDIDATES) {
       for (long m : NEGATIVE_LONG_CANDIDATES) {
         assertThrows(ArithmeticException.class, () -> LongMath.mod(x, m));
