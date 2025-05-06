@@ -657,10 +657,9 @@ public class IntMathTest extends TestCase {
   private static int computeMeanSafely(int x, int y) {
     BigInteger bigX = BigInteger.valueOf(x);
     BigInteger bigY = BigInteger.valueOf(y);
-    BigDecimal bigMean =
-        new BigDecimal(bigX.add(bigY)).divide(BigDecimal.valueOf(2), BigDecimal.ROUND_FLOOR);
-    // parseInt blows up on overflow as opposed to intValue() which does not.
-    return Integer.parseInt(bigMean.toString());
+    BigDecimal two = BigDecimal.valueOf(2); // .TWO constant is absent in j2cl
+    BigDecimal bigMean = new BigDecimal(bigX.add(bigY)).divide(two, RoundingMode.FLOOR);
+    return bigMean.intValueExact();
   }
 
   private static boolean fitsInInt(BigInteger big) {

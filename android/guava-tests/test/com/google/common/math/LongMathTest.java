@@ -131,7 +131,7 @@ public class LongMathTest extends TestCase {
     }
     BigInteger nextBigger =
         BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * LongMath.halfPowersOf10.length + 1), FLOOR);
-    assertTrue(nextBigger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0);
+    assertThat(nextBigger).isGreaterThan(BigInteger.valueOf(Long.MAX_VALUE));
   }
 
   @GwtIncompatible // TODO
@@ -696,7 +696,7 @@ public class LongMathTest extends TestCase {
   public void testSqrtOfPerfectSquareAsDoubleIsPerfect() {
     // This takes just over a minute on my machine.
     for (long n = 0; n <= LongMath.FLOOR_SQRT_MAX_LONG; n++) {
-      long actual = (long) Math.sqrt(n * n);
+      long actual = (long) Math.sqrt((double) (n * n));
       assertTrue(actual == n);
     }
   }
@@ -768,10 +768,9 @@ public class LongMathTest extends TestCase {
   private static long computeMeanSafely(long x, long y) {
     BigInteger bigX = BigInteger.valueOf(x);
     BigInteger bigY = BigInteger.valueOf(y);
-    BigDecimal bigMean =
-        new BigDecimal(bigX.add(bigY)).divide(BigDecimal.valueOf(2), BigDecimal.ROUND_FLOOR);
-    // parseInt blows up on overflow as opposed to intValue() which does not.
-    return Long.parseLong(bigMean.toString());
+    BigDecimal two = BigDecimal.valueOf(2); // .TWO constant is absent in j2cl
+    BigDecimal bigMean = new BigDecimal(bigX.add(bigY)).divide(two, RoundingMode.FLOOR);
+    return bigMean.longValueExact();
   }
 
   private static boolean fitsInLong(BigInteger big) {
