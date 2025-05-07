@@ -768,7 +768,7 @@ public class LongMathTest extends TestCase {
   private static long computeMeanSafely(long x, long y) {
     BigInteger bigX = BigInteger.valueOf(x);
     BigInteger bigY = BigInteger.valueOf(y);
-    BigDecimal two = BigDecimal.valueOf(2); // .TWO constant is absent in j2cl
+    BigDecimal two = BigDecimal.valueOf(2); // Android doesn't have BigDecimal.TWO yet
     BigDecimal bigMean = new BigDecimal(bigX.add(bigY)).divide(two, RoundingMode.FLOOR);
     return bigMean.longValueExact();
   }
