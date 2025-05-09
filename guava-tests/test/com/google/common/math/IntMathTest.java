@@ -25,6 +25,7 @@ import static com.google.common.math.MathTesting.NONZERO_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_INTEGER_CANDIDATES;
 import static com.google.common.math.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.math.TestPlatform.intsCanGoOutOfRange;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.lang.Math.min;
 import static java.math.BigInteger.valueOf;
 import static java.math.RoundingMode.FLOOR;
@@ -373,12 +374,14 @@ public class IntMathTest extends TestCase {
   public void testMod() {
     for (int x : ALL_INTEGER_CANDIDATES) {
       for (int m : POSITIVE_INTEGER_CANDIDATES) {
-        assertEquals(valueOf(x).mod(valueOf(m)).intValue(), IntMath.mod(x, m));
+        assertWithMessage("%s mod %s", x, m)
+            .that(IntMath.mod(x, m))
+            .isEqualTo(valueOf(x).mod(valueOf(m)).intValue());
       }
     }
   }
 
-  public void testModNegativeModulusFails() {
+  public void testModNegativeModulus() {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
       for (int m : NEGATIVE_INTEGER_CANDIDATES) {
         assertThrows(ArithmeticException.class, () -> IntMath.mod(x, m));
