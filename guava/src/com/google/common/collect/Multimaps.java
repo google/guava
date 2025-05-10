@@ -1725,6 +1725,62 @@ public final class Multimaps {
     }
     return builder.build();
   }
+  
+  /**
+   * Creates an index {@code ImmutableSetMultimap} that contains the results of
+   * applying a specified function to each item in an {@code Iterator} of
+   * values. Each value will be stored as a value in the resulting multimap,
+   * yielding a multimap with the same size as the input iterator. The key used
+   * to store that value in the multimap will be the result of calling the
+   * function on that value. The resulting multimap is created as an immutable
+   * snapshot. In the returned multimap, keys appear in the order they are first
+   * encountered, and the values corresponding to each key appear in the same
+   * order as they are encountered.
+   *
+   * <p>For example, <pre>   {@code
+   *
+   *   Set<String> badGuys = 
+   *       new HashSet<String>(Arrays.asList("Inky", "Blinky", "Pinky", "Clyde"));
+   *   Function<String, Integer> stringLengthFunction = ...;
+   *   Multimap<Integer, String> index =
+   *       Multimaps.indexSet(badGuys, stringLengthFunction);
+   *   System.out.println(index);}</pre>
+   *
+   * <p>prints <pre>   {@code
+   *
+   *   {4=[Inky], 5=[Pinky, Clyde], 6=[Blinky]}}</pre>
+   *
+   * <p>The returned multimap is serializable if its keys and values are all
+   * serializable.
+   *
+   * @param values the values to use when constructing the {@code
+   *     ImmutableSetMultimap}
+   * @param keyFunction the function used to produce the key for each value
+   * @return {@code ImmutableSetMultimap} mapping the result of evaluating the
+   *     function {@code keyFunction} on each value in the input collection to
+   *     that value
+   * @throws NullPointerException if any of the following cases is true:
+   *     <ul>
+   *     <li>{@code values} is null
+   *     <li>{@code keyFunction} is null
+   *     <li>An element in {@code values} is null
+   *     <li>{@code keyFunction} returns {@code null} for any element of {@code
+   *         values}
+   *     </ul>
+   * @since 10.0
+   */
+  public static <K, V> ImmutableSetMultimap<K, V> indexSet(
+      Set<V> values, Function<? super V, K> keyFunction){
+    checkNotNull(keyFunction);
+	checkNotNull(values);
+	ImmutableSetMultimap.Builder<K, V> builder = ImmutableSetMultimap.builder();
+	for (V s : values){
+	  V value = s;
+	  checkNotNull(value, values);
+      builder.put(keyFunction.apply(value), value);
+    } 
+	return builder.build();
+  }  
 
   static class Keys<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMultiset<K> {
