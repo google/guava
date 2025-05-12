@@ -27,6 +27,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.EqualsTester;
 import java.util.Collections;
 import java.util.List;
@@ -561,6 +562,7 @@ public class RangeTest extends TestCase {
   }
 
   @GwtIncompatible // TODO(b/148207871): Restore once Eclipse compiler no longer flakes for this.
+  @J2ktIncompatible // TODO(b/148207871): Likewise, or once J2KT uses javac instead of Eclipse.
   public void testLegacyComparable() {
     Range<LegacyComparable> unused = Range.closed(LegacyComparable.X, LegacyComparable.Y);
   }
