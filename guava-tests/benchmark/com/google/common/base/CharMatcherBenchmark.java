@@ -20,7 +20,7 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.base.BenchmarkHelpers.SampleMatcherConfig;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.BitSet;
 import java.util.Collections;
 import java.util.List;
@@ -121,7 +121,7 @@ public class CharMatcherBenchmark {
     }
     // Use a shuffled index array to ensure constant percentage of matching
     // characters
-    List<Integer> list = Lists.newArrayList();
+    List<Integer> list = new ArrayList<>();
     for (int i = 0; i < length; i++) {
       list.add(i);
     }

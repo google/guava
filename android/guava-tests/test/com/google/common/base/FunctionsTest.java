@@ -22,12 +22,12 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.io.Serializable;
+import java.util.HashMap;
 import java.util.Map;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
@@ -90,7 +90,7 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testForMapWithoutDefault() {
-    Map<String, @Nullable Integer> map = Maps.newHashMap();
+    Map<String, @Nullable Integer> map = new HashMap<>();
     map.put("One", 1);
     map.put("Three", 3);
     map.put("Null", null);
@@ -115,7 +115,7 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testForMapWithDefault() {
-    Map<String, @Nullable Integer> map = Maps.newHashMap();
+    Map<String, @Nullable Integer> map = new HashMap<>();
     map.put("One", 1);
     map.put("Three", 3);
     map.put("Null", null);
@@ -137,7 +137,7 @@ public class FunctionsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testForMapWithDefault_includeSerializable() {
-    Map<String, Integer> map = Maps.newHashMap();
+    Map<String, Integer> map = new HashMap<>();
     map.put("One", 1);
     map.put("Three", 3);
     Function<String, Integer> function = Functions.forMap(map, 42);
@@ -192,7 +192,7 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testForMapWildCardWithDefault() {
-    Map<String, Integer> map = Maps.newHashMap();
+    Map<String, Integer> map = new HashMap<>();
     map.put("One", 1);
     map.put("Three", 3);
     Number number = Double.valueOf(42);
@@ -204,13 +204,13 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testComposition() {
-    Map<String, Integer> mJapaneseToInteger = Maps.newHashMap();
+    Map<String, Integer> mJapaneseToInteger = new HashMap<>();
     mJapaneseToInteger.put("Ichi", 1);
     mJapaneseToInteger.put("Ni", 2);
     mJapaneseToInteger.put("San", 3);
     Function<String, Integer> japaneseToInteger = Functions.forMap(mJapaneseToInteger);
 
-    Map<Integer, String> mIntegerToSpanish = Maps.newHashMap();
+    Map<Integer, String> mIntegerToSpanish = new HashMap<>();
     mIntegerToSpanish.put(1, "Uno");
     mIntegerToSpanish.put(3, "Tres");
     mIntegerToSpanish.put(4, "Cuatro");
@@ -235,13 +235,13 @@ public class FunctionsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testComposition_includeReserializabled() {
-    Map<String, Integer> mJapaneseToInteger = Maps.newHashMap();
+    Map<String, Integer> mJapaneseToInteger = new HashMap<>();
     mJapaneseToInteger.put("Ichi", 1);
     mJapaneseToInteger.put("Ni", 2);
     mJapaneseToInteger.put("San", 3);
     Function<String, Integer> japaneseToInteger = Functions.forMap(mJapaneseToInteger);
 
-    Map<Integer, String> mIntegerToSpanish = Maps.newHashMap();
+    Map<Integer, String> mIntegerToSpanish = new HashMap<>();
     mIntegerToSpanish.put(1, "Uno");
     mIntegerToSpanish.put(3, "Tres");
     mIntegerToSpanish.put(4, "Cuatro");
@@ -262,7 +262,7 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testCompositionWildcard() {
-    Map<String, Integer> mapJapaneseToInteger = Maps.newHashMap();
+    Map<String, Integer> mapJapaneseToInteger = new HashMap<>();
     Function<String, Integer> japaneseToInteger = Functions.forMap(mapJapaneseToInteger);
 
     Function<Object, String> numberToSpanish = Functions.constant("Yo no se");

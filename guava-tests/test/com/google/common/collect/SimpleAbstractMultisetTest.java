@@ -27,6 +27,7 @@ import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -97,7 +98,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
 
   private static class NoRemoveMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
       implements Serializable {
-    final Map<E, Integer> backingMap = Maps.newHashMap();
+    final Map<E, Integer> backingMap = new HashMap<>();
 
     @Override
     public int size() {

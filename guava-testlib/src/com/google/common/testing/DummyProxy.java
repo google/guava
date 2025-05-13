@@ -22,7 +22,6 @@ import static com.google.common.testing.NullPointerTester.isNullable;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Sets;
 import com.google.common.reflect.AbstractInvocationHandler;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
@@ -30,6 +29,7 @@ import com.google.common.reflect.TypeToken;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -49,7 +49,7 @@ abstract class DummyProxy {
    * other if the {@link DummyProxy} instance that created the proxies are equal.
    */
   final <T> T newProxy(TypeToken<T> interfaceType) {
-    Set<Class<?>> interfaceClasses = Sets.newLinkedHashSet();
+    Set<Class<?>> interfaceClasses = new LinkedHashSet<>();
     interfaceClasses.addAll(interfaceType.getTypes().interfaces().rawTypes());
     // Make the proxy serializable to work with SerializableTester
     interfaceClasses.add(Serializable.class);

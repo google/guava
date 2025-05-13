@@ -22,7 +22,6 @@ import static com.google.common.collect.Iterators.emptyIterator;
 import static com.google.common.collect.Sets.difference;
 import static com.google.common.collect.Sets.intersection;
 import static com.google.common.collect.Sets.newHashSet;
-import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.Sets.symmetricDifference;
 import static com.google.common.collect.Sets.union;
 import static com.google.common.truth.Truth.assertThat;
@@ -42,6 +41,7 @@ import com.google.common.testing.EqualsTester;
 import java.util.AbstractSet;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -121,8 +121,8 @@ public class SetViewTest extends TestCase {
                   protected Set<String> create(String[] elements) {
                     // Put the sets in different orders for the hell of it
                     return union(
-                        newLinkedHashSet(asList(elements[0], elements[1], elements[2])),
-                        newLinkedHashSet(asList(elements[1], elements[0], elements[2])));
+                        new LinkedHashSet<>(asList(elements[0], elements[1], elements[2])),
+                        new LinkedHashSet<>(asList(elements[1], elements[0], elements[2])));
                   }
                 })
             .named("set U itself")

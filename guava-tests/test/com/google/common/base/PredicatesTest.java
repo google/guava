@@ -17,7 +17,6 @@
 package com.google.common.base;
 
 import static com.google.common.base.CharMatcher.whitespace;
-import static com.google.common.collect.Lists.newArrayList;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
@@ -311,7 +310,7 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testAnd_listDefensivelyCopied() {
-    List<Predicate<Object>> list = newArrayList();
+    List<Predicate<Object>> list = new ArrayList<>();
     Predicate<Object> predicate = Predicates.and(list);
     assertTrue(predicate.apply(1));
     list.add(Predicates.alwaysFalse());
@@ -319,7 +318,7 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testAnd_iterableDefensivelyCopied() {
-    final List<Predicate<Object>> list = newArrayList();
+    final List<Predicate<Object>> list = new ArrayList<>();
     Iterable<Predicate<Object>> iterable =
         new Iterable<Predicate<Object>>() {
           @Override
@@ -463,7 +462,7 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testOr_listDefensivelyCopied() {
-    List<Predicate<Object>> list = newArrayList();
+    List<Predicate<Object>> list = new ArrayList<>();
     Predicate<Object> predicate = Predicates.or(list);
     assertFalse(predicate.apply(1));
     list.add(Predicates.alwaysTrue());
@@ -471,7 +470,7 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testOr_iterableDefensivelyCopied() {
-    final List<Predicate<Object>> list = newArrayList();
+    final List<Predicate<Object>> list = new ArrayList<>();
     Iterable<Predicate<Object>> iterable =
         new Iterable<Predicate<Object>>() {
           @Override

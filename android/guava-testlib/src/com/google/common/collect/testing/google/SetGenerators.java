@@ -17,7 +17,6 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.collect.Sets.newTreeSet;
 import static com.google.common.collect.testing.SampleElements.Strings.AFTER_LAST;
@@ -38,7 +37,6 @@ import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Range;
-import com.google.common.collect.Sets;
 import com.google.common.collect.testing.TestCollidingSetGenerator;
 import com.google.common.collect.testing.TestIntegerSortedSetGenerator;
 import com.google.common.collect.testing.TestSetGenerator;
@@ -47,8 +45,10 @@ import com.google.common.collect.testing.TestStringSetGenerator;
 import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
@@ -318,13 +318,13 @@ public class SetGenerators {
   private static Ordering<String> createExplicitComparator(String[] elements) {
     // Collapse equal elements, which Ordering.explicit() doesn't support, while
     // maintaining the ordering by first occurrence.
-    Set<String> elementsPlus = Sets.newLinkedHashSet();
+    Set<String> elementsPlus = new LinkedHashSet<>();
     elementsPlus.add(BEFORE_FIRST);
     elementsPlus.add(BEFORE_FIRST_2);
     elementsPlus.addAll(asList(elements));
     elementsPlus.add(AFTER_LAST);
     elementsPlus.add(AFTER_LAST_2);
-    return Ordering.explicit(Lists.newArrayList(elementsPlus));
+    return Ordering.explicit(new ArrayList<>(elementsPlus));
   }
 
   /*
@@ -413,7 +413,7 @@ public class SetGenerators {
   private abstract static class AbstractContiguousSetGenerator
       extends TestIntegerSortedSetGenerator {
     protected final ContiguousSet<Integer> checkedCreate(SortedSet<Integer> elementsSet) {
-      List<Integer> elements = newArrayList(elementsSet);
+      List<Integer> elements = new ArrayList<>(elementsSet);
       /*
        * A ContiguousSet can't have holes. If a test demands a hole, it should be changed so that it
        * doesn't need one, or it should be suppressed for ContiguousSet.

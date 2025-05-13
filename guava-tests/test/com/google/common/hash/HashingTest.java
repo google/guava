@@ -23,7 +23,6 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Table.Cell;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
@@ -32,6 +31,7 @@ import com.google.common.util.concurrent.AtomicLongMap;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -292,7 +292,7 @@ public class HashingTest extends TestCase {
 
   public void testCombineOrdered_randomHashCodes() {
     Random random = new Random(7);
-    List<HashCode> hashCodes = Lists.newArrayList();
+    List<HashCode> hashCodes = new ArrayList<>();
     for (int i = 0; i < 10; i++) {
       hashCodes.add(HashCode.fromLong(random.nextLong()));
     }
@@ -333,7 +333,7 @@ public class HashingTest extends TestCase {
 
   public void testCombineUnordered_randomHashCodes() {
     Random random = new Random(RANDOM_SEED);
-    List<HashCode> hashCodes = Lists.newArrayList();
+    List<HashCode> hashCodes = new ArrayList<>();
     for (int i = 0; i < 10; i++) {
       hashCodes.add(HashCode.fromLong(random.nextLong()));
     }

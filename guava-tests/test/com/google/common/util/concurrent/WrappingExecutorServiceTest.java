@@ -26,7 +26,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -144,7 +144,7 @@ public class WrappingExecutorServiceTest extends TestCase {
   }
 
   private static List<Callable<String>> createTasks(int n) {
-    List<Callable<String>> callables = Lists.newArrayList();
+    List<Callable<String>> callables = new ArrayList<>();
     for (int i = 0; i < n; i++) {
       callables.add(Callables.returning(RESULT_VALUE + i));
     }

@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.collect.testing.SpliteratorTester;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Spliterator;
@@ -102,7 +103,7 @@ public class CollectSpliteratorsTest extends TestCase {
     multiset.add("b", 1);
     multiset.add("c", 2);
 
-    List<String> actualValues = Lists.newArrayList();
+    List<String> actualValues = new ArrayList<>();
     multiset.spliterator().forEachRemaining(actualValues::add);
     assertThat(multiset).containsExactly("a", "a", "a", "b", "c", "c").inOrder();
   }

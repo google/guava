@@ -22,7 +22,7 @@ import com.google.common.cache.AbstractCache.SimpleStatsCounter;
 import com.google.common.cache.AbstractCache.StatsCounter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
@@ -83,7 +83,7 @@ public class AbstractCacheTest extends TestCase {
   }
 
   public void testInvalidateAll() {
-    final List<Object> invalidated = Lists.newArrayList();
+    final List<Object> invalidated = new ArrayList<>();
     Cache<Integer, Integer> cache =
         new AbstractCache<Integer, Integer>() {
           @Override

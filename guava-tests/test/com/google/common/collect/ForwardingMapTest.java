@@ -39,7 +39,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -149,7 +151,7 @@ public class ForwardingMapTest extends TestCase {
 
                   @Override
                   protected Map<String, String> create(Entry<String, String>[] entries) {
-                    Map<String, String> map = Maps.newLinkedHashMap();
+                    Map<String, String> map = new LinkedHashMap<>();
                     for (Entry<String, String> entry : entries) {
                       map.put(entry.getKey(), entry.getValue());
                     }
@@ -301,12 +303,12 @@ public class ForwardingMapTest extends TestCase {
   }
 
   public void testToStringWithNullKeys() throws Exception {
-    Map<String, String> hashmap = Maps.newHashMap();
+    Map<String, String> hashmap = new HashMap<>();
     hashmap.put("foo", "bar");
     hashmap.put(null, "baz");
 
     StandardImplForwardingMap<String, String> forwardingMap =
-        new StandardImplForwardingMap<>(Maps.<String, String>newHashMap());
+        new StandardImplForwardingMap<>(new HashMap<>());
     forwardingMap.put("foo", "bar");
     forwardingMap.put(null, "baz");
 
@@ -314,12 +316,12 @@ public class ForwardingMapTest extends TestCase {
   }
 
   public void testToStringWithNullValues() throws Exception {
-    Map<String, String> hashmap = Maps.newHashMap();
+    Map<String, String> hashmap = new HashMap<>();
     hashmap.put("foo", "bar");
     hashmap.put("baz", null);
 
     StandardImplForwardingMap<String, String> forwardingMap =
-        new StandardImplForwardingMap<>(Maps.<String, String>newHashMap());
+        new StandardImplForwardingMap<>(new HashMap<>());
     forwardingMap.put("foo", "bar");
     forwardingMap.put("baz", null);
 

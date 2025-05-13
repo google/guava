@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -70,7 +69,7 @@ public class TearDownStack implements TearDownAccepter {
     List<Throwable> exceptions = new ArrayList<>();
     List<TearDown> stackCopy;
     synchronized (lock) {
-      stackCopy = Lists.newArrayList(stack);
+      stackCopy = new ArrayList<>(stack);
       stack.clear();
     }
     for (TearDown tearDown : stackCopy) {

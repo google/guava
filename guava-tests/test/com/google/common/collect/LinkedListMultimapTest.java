@@ -19,8 +19,6 @@ package com.google.common.collect;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
-import static com.google.common.collect.Sets.newHashSet;
-import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.IteratorFeature.SUPPORTS_SET;
@@ -39,9 +37,12 @@ import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.ListMultimapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.testing.EqualsTester;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map.Entry;
@@ -387,7 +388,7 @@ public class LinkedListMultimapTest extends TestCase {
 
       @Override
       protected void verify(List<String> elements) {
-        assertEquals(elements, Lists.newArrayList(multimap.keys()));
+        assertEquals(elements, new ArrayList<>(multimap.keys()));
       }
     }.test();
   }
@@ -428,7 +429,7 @@ public class LinkedListMultimapTest extends TestCase {
     new IteratorTester<String>(
         6,
         MODIFIABLE,
-        newLinkedHashSet(asList("foo", "bar", "baz", "dog", "cat")),
+        new LinkedHashSet<>(asList("foo", "bar", "baz", "dog", "cat")),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
       private @Nullable Multimap<String, Integer> multimap;
 
@@ -447,7 +448,7 @@ public class LinkedListMultimapTest extends TestCase {
 
       @Override
       protected void verify(List<String> elements) {
-        assertEquals(newHashSet(elements), multimap.keySet());
+        assertEquals(new HashSet<>(elements), multimap.keySet());
       }
     }.test();
   }
@@ -455,7 +456,7 @@ public class LinkedListMultimapTest extends TestCase {
   @GwtIncompatible // unreasonably slow
   public void testAsSetIteration() {
     Set<Entry<String, Collection<Integer>>> set =
-        Sets.newLinkedHashSet(
+        new LinkedHashSet<>(
             asList(
                 immutableEntry("foo", (Collection<Integer>) asList(2, 3, 6)),
                 immutableEntry("bar", (Collection<Integer>) asList(4, 5, 10, 11)),
@@ -482,7 +483,7 @@ public class LinkedListMultimapTest extends TestCase {
 
       @Override
       protected void verify(List<Entry<String, Collection<Integer>>> elements) {
-        assertEquals(newHashSet(elements), multimap.asMap().entrySet());
+        assertEquals(new HashSet<>(elements), multimap.asMap().entrySet());
       }
     }.test();
   }

@@ -23,6 +23,7 @@ import static java.util.Collections.emptyList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -216,7 +217,7 @@ public class IteratorTesterTest extends TestCase {
   }
 
   public void testMissingException() {
-    List<Integer> emptyList = newArrayList();
+    List<Integer> emptyList = new ArrayList<>();
 
     IteratorTester<Integer> tester =
         new IteratorTester<Integer>(

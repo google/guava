@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.collect.Iterables.unmodifiableIterable;
-import static com.google.common.collect.Sets.newHashSet;
 import static com.google.common.reflect.Reflection.newProxy;
 import static java.util.Arrays.asList;
 
@@ -27,6 +26,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -159,7 +159,7 @@ public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
 
           final Iterator<ListFrobber> remainingActions = actionsToPerformConcurrently.iterator();
 
-          final Set<List<Integer>> allStates = newHashSet();
+          final Set<List<Integer>> allStates = new HashSet<>();
 
           @Override
           public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {

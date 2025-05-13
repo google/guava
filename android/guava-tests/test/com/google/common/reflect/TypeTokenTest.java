@@ -23,7 +23,6 @@ import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.primitives.Primitives;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -42,6 +41,7 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import junit.framework.TestCase;
@@ -550,7 +550,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testGetGenericInterfaces_withInterfaces() {
-    Map<Class<?>, Type> interfaceMap = Maps.newHashMap();
+    Map<Class<?>, Type> interfaceMap = new HashMap<>();
     for (TypeToken<?> interfaceType :
         new TypeToken<Implementation<Integer, String>>() {}.getGenericInterfaces()) {
       interfaceMap.put(interfaceType.getRawType(), interfaceType.getType());

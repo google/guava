@@ -149,7 +149,7 @@ public final class Lists {
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayList(
       Iterator<? extends E> elements) {
-    ArrayList<E> list = newArrayList();
+    ArrayList<E> list = new ArrayList<>();
     Iterators.addAll(list, elements);
     return list;
   }
@@ -256,7 +256,7 @@ public final class Lists {
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList(
       Iterable<? extends E> elements) {
-    LinkedList<E> list = newLinkedList();
+    LinkedList<E> list = new LinkedList<>();
     Iterables.addAll(list, elements);
     return list;
   }

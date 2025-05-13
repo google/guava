@@ -30,6 +30,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -111,7 +112,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     private final List<Entry<Range<K>, V>> entries;
 
     public Builder() {
-      this.entries = Lists.newArrayList();
+      this.entries = new ArrayList<>();
     }
 
     /**

@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.CharBuffer;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.jspecify.annotations.NullUnmarked;
@@ -85,7 +86,7 @@ public class LineBufferTest extends IoTestCase {
   }
 
   private static List<String> bufferHelper(String input, int chunk) throws IOException {
-    final List<String> lines = Lists.newArrayList();
+    List<String> lines = new ArrayList<>();
     LineBuffer lineBuf =
         new LineBuffer() {
           @Override
@@ -106,7 +107,7 @@ public class LineBufferTest extends IoTestCase {
 
   private static List<String> readUsingJava(String input, int chunk) throws IOException {
     BufferedReader r = new BufferedReader(getChunkedReader(input, chunk));
-    List<String> lines = Lists.newArrayList();
+    List<String> lines = new ArrayList<>();
     String line;
     while ((line = r.readLine()) != null) {
       lines.add(line);
@@ -120,7 +121,7 @@ public class LineBufferTest extends IoTestCase {
     Readable readable =
         asReader ? getChunkedReader(input, chunk) : getChunkedReadable(input, chunk);
     LineReader r = new LineReader(readable);
-    List<String> lines = Lists.newArrayList();
+    List<String> lines = new ArrayList<>();
     String line;
     while ((line = r.readLine()) != null) {
       lines.add(line);

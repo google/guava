@@ -16,7 +16,7 @@ package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.Callable;
@@ -66,7 +66,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
    */
   @Override
   public ImmutableMap<K, V> getAllPresent(Iterable<? extends Object> keys) {
-    Map<K, V> result = Maps.newLinkedHashMap();
+    Map<K, V> result = new LinkedHashMap<>();
     for (Object key : keys) {
       if (!result.containsKey(key)) {
         @SuppressWarnings("unchecked")

@@ -42,7 +42,7 @@ public class IteratorBenchmark {
   void setUp() {
     array = new Object[size];
     arrayList = Lists.newArrayListWithCapacity(size);
-    linkedList = Lists.newLinkedList();
+    linkedList = new LinkedList<>();
 
     for (int i = 0; i < size; i++) {
       Object value = new Object();

@@ -41,6 +41,9 @@ import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
 import com.google.common.io.BaseEncoding;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -118,7 +121,7 @@ public class MapsCollectionTest extends TestCase {
 
                   @Override
                   public Map<String, Integer> create(Object... elements) {
-                    Set<String> set = Sets.newLinkedHashSet();
+                    Set<String> set = new LinkedHashSet<>();
                     for (Object e : elements) {
                       Entry<?, ?> entry = (Entry<?, ?>) e;
                       checkNotNull(entry.getValue());
@@ -317,7 +320,7 @@ public class MapsCollectionTest extends TestCase {
                 new TestStringMapGenerator() {
                   @Override
                   protected Map<String, String> create(Entry<String, String>[] entries) {
-                    Map<String, String> map = Maps.newHashMap();
+                    Map<String, String> map = new HashMap<>();
                     putEntries(map, entries);
                     map.putAll(ENTRIES_TO_FILTER);
                     return Maps.filterKeys(map, FILTER_KEYS);
@@ -336,7 +339,7 @@ public class MapsCollectionTest extends TestCase {
                 new TestStringMapGenerator() {
                   @Override
                   protected Map<String, String> create(Entry<String, String>[] entries) {
-                    Map<String, String> map = Maps.newHashMap();
+                    Map<String, String> map = new HashMap<>();
                     putEntries(map, entries);
                     map.putAll(ENTRIES_TO_FILTER);
                     return Maps.filterValues(map, FILTER_VALUES);
@@ -355,7 +358,7 @@ public class MapsCollectionTest extends TestCase {
                 new TestStringMapGenerator() {
                   @Override
                   protected Map<String, String> create(Entry<String, String>[] entries) {
-                    Map<String, String> map = Maps.newHashMap();
+                    Map<String, String> map = new HashMap<>();
                     putEntries(map, entries);
                     map.putAll(ENTRIES_TO_FILTER);
                     return Maps.filterEntries(map, FILTER_ENTRIES);
@@ -374,7 +377,7 @@ public class MapsCollectionTest extends TestCase {
                 new TestStringMapGenerator() {
                   @Override
                   protected Map<String, String> create(Entry<String, String>[] entries) {
-                    Map<String, String> map = Maps.newHashMap();
+                    Map<String, String> map = new HashMap<>();
                     putEntries(map, entries);
                     map.putAll(ENTRIES_TO_FILTER);
                     map = Maps.filterEntries(map, FILTER_ENTRIES_1);
@@ -669,7 +672,7 @@ public class MapsCollectionTest extends TestCase {
                 new TestStringMapGenerator() {
                   @Override
                   protected Map<String, String> create(Entry<String, String>[] entries) {
-                    Map<String, String> map = Maps.newLinkedHashMap();
+                    Map<String, String> map = new LinkedHashMap<>();
                     for (Entry<String, String> entry : entries) {
                       map.put(entry.getKey(), encode(entry.getValue()));
                     }
@@ -690,7 +693,7 @@ public class MapsCollectionTest extends TestCase {
                 new TestStringMapGenerator() {
                   @Override
                   protected Map<String, String> create(Entry<String, String>[] entries) {
-                    Map<String, String> map = Maps.newLinkedHashMap();
+                    Map<String, String> map = new LinkedHashMap<>();
                     for (Entry<String, String> entry : entries) {
                       map.put(entry.getKey(), encode(entry.getValue()));
                     }

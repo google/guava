@@ -21,7 +21,6 @@ import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.cartesianProduct;
 import static com.google.common.collect.Sets.newEnumSet;
 import static com.google.common.collect.Sets.newHashSet;
-import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.Sets.powerSet;
 import static com.google.common.collect.Sets.unmodifiableNavigableSet;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
@@ -180,7 +179,7 @@ public class SetsTest extends TestCase {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                Set<String> unfiltered = Sets.newLinkedHashSet();
+                Set<String> unfiltered = new LinkedHashSet<>();
                 unfiltered.add("yyy");
                 Collections.addAll(unfiltered, elements);
                 unfiltered.add("zzz");
@@ -207,7 +206,7 @@ public class SetsTest extends TestCase {
                 new TestStringSetGenerator() {
                   @Override
                   public Set<String> create(String[] elements) {
-                    Set<String> unfiltered = Sets.newLinkedHashSet();
+                    Set<String> unfiltered = new LinkedHashSet<>();
                     unfiltered.add("yyy");
                     unfiltered.addAll(ImmutableList.copyOf(elements));
                     unfiltered.add("zzz");
@@ -258,7 +257,7 @@ public class SetsTest extends TestCase {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                Set<String> unfiltered = Sets.newLinkedHashSet();
+                Set<String> unfiltered = new LinkedHashSet<>();
                 unfiltered.add("yyy");
                 unfiltered.addAll(ImmutableList.copyOf(elements));
                 unfiltered.add("zzz");
@@ -381,6 +380,7 @@ public class SetsTest extends TestCase {
   }
 
   public void testNewHashSetEmpty() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     HashSet<Integer> set = newHashSet();
     verifySetContents(set, EMPTY_COLLECTION);
   }
@@ -391,6 +391,7 @@ public class SetsTest extends TestCase {
   }
 
   public void testNewHashSetFromCollection() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     HashSet<Integer> set = newHashSet(SOME_COLLECTION);
     verifySetContents(set, SOME_COLLECTION);
   }
@@ -426,11 +427,13 @@ public class SetsTest extends TestCase {
   }
 
   public void testNewLinkedHashSetEmpty() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     LinkedHashSet<Integer> set = Sets.newLinkedHashSet();
     verifyLinkedHashSetContents(set, EMPTY_COLLECTION);
   }
 
   public void testNewLinkedHashSetFromCollection() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     LinkedHashSet<Integer> set = Sets.newLinkedHashSet(LONGER_LIST);
     verifyLinkedHashSetContents(set, LONGER_LIST);
   }
@@ -774,7 +777,7 @@ public class SetsTest extends TestCase {
     assertEquals(8, powerSet.size());
     assertEquals(4 * 1 + 4 * 2 + 4 * 3, powerSet.hashCode());
 
-    Set<Set<Integer>> expected = newHashSet();
+    Set<Set<Integer>> expected = new HashSet<>();
     expected.add(ImmutableSet.<Integer>of());
     expected.add(ImmutableSet.of(1));
     expected.add(ImmutableSet.of(2));
@@ -784,7 +787,7 @@ public class SetsTest extends TestCase {
     expected.add(ImmutableSet.of(2, 3));
     expected.add(ImmutableSet.of(1, 2, 3));
 
-    Set<Set<Integer>> almostPowerSet = newHashSet(expected);
+    Set<Set<Integer>> almostPowerSet = new HashSet<>(expected);
     almostPowerSet.remove(ImmutableSet.of(1, 2, 3));
     almostPowerSet.add(ImmutableSet.of(1, 2, 4));
 
@@ -824,7 +827,7 @@ public class SetsTest extends TestCase {
   public void testPowerSetIteration_iteratorTester() {
     ImmutableSet<Integer> elements = ImmutableSet.of(1, 2);
 
-    Set<Set<Integer>> expected = newLinkedHashSet();
+    Set<Set<Integer>> expected = new LinkedHashSet<>();
     expected.add(ImmutableSet.<Integer>of());
     expected.add(ImmutableSet.of(1));
     expected.add(ImmutableSet.of(2));
@@ -842,7 +845,7 @@ public class SetsTest extends TestCase {
   public void testPowerSetIteration_iteratorTester_fast() {
     ImmutableSet<Integer> elements = ImmutableSet.of(1, 2);
 
-    Set<Set<Integer>> expected = newLinkedHashSet();
+    Set<Set<Integer>> expected = new LinkedHashSet<>();
     expected.add(ImmutableSet.<Integer>of());
     expected.add(ImmutableSet.of(1));
     expected.add(ImmutableSet.of(2));
@@ -895,7 +898,7 @@ public class SetsTest extends TestCase {
             4233352, 3284593, 3794208, 3849533, 4013967, 2902658, 1886275, 2131109, 985872,
             1843868);
     for (int i = 0; i < allElements.size(); i++) {
-      Set<Integer> elements = newHashSet(allElements.subList(0, i));
+      Set<Integer> elements = new HashSet<>(allElements.subList(0, i));
       Set<Set<Integer>> powerSet1 = powerSet(elements);
       Set<Set<Integer>> powerSet2 = powerSet(elements);
       new EqualsTester()
@@ -943,16 +946,11 @@ public class SetsTest extends TestCase {
   }
 
   private static Set<Integer> makeSetOfZeroToTwentyNine() {
-    // TODO: use Range once it's publicly available
-    Set<Integer> zeroToTwentyNine = newHashSet();
-    for (int i = 0; i < 30; i++) {
-      zeroToTwentyNine.add(i);
-    }
-    return zeroToTwentyNine;
+    return ContiguousSet.closedOpen(0, 30);
   }
 
   private static <E> Set<Set<E>> toHashSets(Set<Set<E>> powerSet) {
-    Set<Set<E>> result = newHashSet();
+    Set<Set<E>> result = new HashSet<>();
     for (Set<E> subset : powerSet) {
       result.add(new HashSet<E>(subset));
     }
@@ -978,7 +976,7 @@ public class SetsTest extends TestCase {
   }
 
   private static void checkHashCode(Set<?> set) {
-    assertEquals(newHashSet(set).hashCode(), set.hashCode());
+    assertEquals(new HashSet<>(set).hashCode(), set.hashCode());
   }
 
   public void testCombinations() {

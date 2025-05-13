@@ -19,8 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Queues;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -134,10 +134,10 @@ final class ListenerCallQueue<L> {
     final Executor executor;
 
     @GuardedBy("this")
-    final Queue<ListenerCallQueue.Event<L>> waitQueue = Queues.newArrayDeque();
+    final Queue<ListenerCallQueue.Event<L>> waitQueue = new ArrayDeque<>();
 
     @GuardedBy("this")
-    final Queue<Object> labelQueue = Queues.newArrayDeque();
+    final Queue<Object> labelQueue = new ArrayDeque<>();
 
     @GuardedBy("this")
     boolean isThreadScheduled;

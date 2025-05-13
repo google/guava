@@ -27,6 +27,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.ForwardingWrapperTester;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.Set;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -125,7 +126,7 @@ public class ForwardingSetTest extends TestCase {
                 new TestStringSetGenerator() {
                   @Override
                   protected Set<String> create(String[] elements) {
-                    return new StandardImplForwardingSet<>(Sets.newLinkedHashSet(asList(elements)));
+                    return new StandardImplForwardingSet<>(new LinkedHashSet<>(asList(elements)));
                   }
                 })
             .named("ForwardingSet[LinkedHashSet] with standard implementations")

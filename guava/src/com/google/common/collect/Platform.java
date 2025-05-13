@@ -19,6 +19,7 @@ package com.google.common.collect;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -71,7 +72,7 @@ final class Platform {
    */
   static <K extends @Nullable Object, V extends @Nullable Object>
       Map<K, V> preservesInsertionOrderOnPutsMap() {
-    return Maps.newLinkedHashMap();
+    return new LinkedHashMap<>();
   }
 
   /**

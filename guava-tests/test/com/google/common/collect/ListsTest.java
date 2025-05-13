@@ -96,7 +96,7 @@ public class ListsTest extends TestCase {
 
   private static final List<Integer> SOME_LIST = Lists.newArrayList(1, 2, 3, 4);
 
-  private static final List<Integer> SOME_SEQUENTIAL_LIST = Lists.newLinkedList(asList(1, 2, 3, 4));
+  private static final List<Integer> SOME_SEQUENTIAL_LIST = new LinkedList<>(asList(1, 2, 3, 4));
 
   private static final List<String> SOME_STRING_LIST = asList("1", "2", "3", "4");
 
@@ -160,7 +160,7 @@ public class ListsTest extends TestCase {
                 new TestStringListGenerator() {
                   @Override
                   protected List<String> create(String[] elements) {
-                    List<String> fromList = Lists.newArrayList();
+                    List<String> fromList = new ArrayList<>();
                     for (String element : elements) {
                       fromList.add("q" + checkNotNull(element));
                     }
@@ -180,7 +180,7 @@ public class ListsTest extends TestCase {
                 new TestStringListGenerator() {
                   @Override
                   protected List<String> create(String[] elements) {
-                    List<String> fromList = Lists.newLinkedList();
+                    List<String> fromList = new LinkedList<>();
                     for (String element : elements) {
                       fromList.add("q" + checkNotNull(element));
                     }
@@ -217,7 +217,7 @@ public class ListsTest extends TestCase {
                 new TestStringListGenerator() {
                   @Override
                   protected List<String> create(String[] elements) {
-                    List<String> fromList = Lists.newLinkedList(asList(elements));
+                    List<String> fromList = new LinkedList<>(asList(elements));
                     return transform(fromList, Functions.<String>identity());
                   }
                 })
@@ -234,7 +234,7 @@ public class ListsTest extends TestCase {
                 new TestStringListGenerator() {
                   @Override
                   protected List<String> create(String[] elements) {
-                    List<String> list = Lists.newArrayList();
+                    List<String> list = new ArrayList<>();
                     for (int i = elements.length - 1; i >= 0; i--) {
                       list.add(elements[i]);
                     }
@@ -270,7 +270,7 @@ public class ListsTest extends TestCase {
                 new TestStringListGenerator() {
                   @Override
                   protected List<String> create(String[] elements) {
-                    List<String> list = Lists.newLinkedList();
+                    List<String> list = new LinkedList<>();
                     for (int i = elements.length - 1; i >= 0; i--) {
                       list.add(elements[i]);
                     }
@@ -329,6 +329,7 @@ public class ListsTest extends TestCase {
   }
 
   public void testNewArrayListEmpty() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     ArrayList<Integer> list = Lists.newArrayList();
     assertEquals(emptyList(), list);
   }
@@ -371,6 +372,7 @@ public class ListsTest extends TestCase {
   }
 
   public void testNewArrayListFromCollection() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     ArrayList<Integer> list = Lists.newArrayList(SOME_COLLECTION);
     assertEquals(SOME_COLLECTION, list);
   }
@@ -386,11 +388,13 @@ public class ListsTest extends TestCase {
   }
 
   public void testNewLinkedListEmpty() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     LinkedList<Integer> list = Lists.newLinkedList();
     assertEquals(emptyList(), list);
   }
 
   public void testNewLinkedListFromCollection() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     LinkedList<Integer> list = Lists.newLinkedList(SOME_COLLECTION);
     assertEquals(SOME_COLLECTION, list);
   }
@@ -533,13 +537,13 @@ public class ListsTest extends TestCase {
   }
 
   public void testReverseViewRandomAccess() {
-    List<Integer> fromList = Lists.newArrayList(SOME_LIST);
+    List<Integer> fromList = new ArrayList<>(SOME_LIST);
     List<Integer> toList = Lists.reverse(fromList);
     assertReverseView(fromList, toList);
   }
 
   public void testReverseViewSequential() {
-    List<Integer> fromList = Lists.newLinkedList(SOME_SEQUENTIAL_LIST);
+    List<Integer> fromList = new LinkedList<>(SOME_SEQUENTIAL_LIST);
     List<Integer> toList = Lists.reverse(fromList);
     assertReverseView(fromList, toList);
   }
@@ -669,13 +673,13 @@ public class ListsTest extends TestCase {
   }
 
   public void testTransformModifiableRandomAccess() {
-    List<Integer> fromList = Lists.newArrayList(SOME_LIST);
+    List<Integer> fromList = new ArrayList<>(SOME_LIST);
     List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformModifiable(list);
   }
 
   public void testTransformModifiableSequential() {
-    List<Integer> fromList = Lists.newLinkedList(SOME_SEQUENTIAL_LIST);
+    List<Integer> fromList = new LinkedList<>(SOME_SEQUENTIAL_LIST);
     List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformModifiable(list);
   }
@@ -700,13 +704,13 @@ public class ListsTest extends TestCase {
   }
 
   public void testTransformViewRandomAccess() {
-    List<Integer> fromList = Lists.newArrayList(SOME_LIST);
+    List<Integer> fromList = new ArrayList<>(SOME_LIST);
     List<String> toList = transform(fromList, SOME_FUNCTION);
     assertTransformView(fromList, toList);
   }
 
   public void testTransformViewSequential() {
-    List<Integer> fromList = Lists.newLinkedList(SOME_SEQUENTIAL_LIST);
+    List<Integer> fromList = new LinkedList<>(SOME_SEQUENTIAL_LIST);
     List<String> toList = transform(fromList, SOME_FUNCTION);
     assertTransformView(fromList, toList);
   }
@@ -752,13 +756,13 @@ public class ListsTest extends TestCase {
   }
 
   public void testTransformListIteratorRandomAccess() {
-    List<Integer> fromList = Lists.newArrayList(SOME_LIST);
+    List<Integer> fromList = new ArrayList<>(SOME_LIST);
     List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformListIterator(list);
   }
 
   public void testTransformListIteratorSequential() {
-    List<Integer> fromList = Lists.newLinkedList(SOME_SEQUENTIAL_LIST);
+    List<Integer> fromList = new LinkedList<>(SOME_SEQUENTIAL_LIST);
     List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformListIterator(list);
   }
@@ -821,13 +825,13 @@ public class ListsTest extends TestCase {
   }
 
   public void testTransformIteratorRandomAccess() {
-    List<Integer> fromList = Lists.newArrayList(SOME_LIST);
+    List<Integer> fromList = new ArrayList<>(SOME_LIST);
     List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformIterator(list);
   }
 
   public void testTransformIteratorSequential() {
-    List<Integer> fromList = Lists.newLinkedList(SOME_SEQUENTIAL_LIST);
+    List<Integer> fromList = new LinkedList<>(SOME_SEQUENTIAL_LIST);
     List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformIterator(list);
   }
@@ -838,7 +842,7 @@ public class ListsTest extends TestCase {
    * behavior is clearly documented so it's not expected to change.
    */
   public void testTransformedSequentialIterationUsesBackingListIterationOnly() {
-    List<Integer> randomAccessList = Lists.newArrayList(SOME_SEQUENTIAL_LIST);
+    List<Integer> randomAccessList = new ArrayList<>(SOME_SEQUENTIAL_LIST);
     List<Integer> listIteratorOnlyList = new ListIterationOnlyList<>(randomAccessList);
     List<String> transform = transform(listIteratorOnlyList, SOME_FUNCTION);
     assertTrue(elementsEqual(transform, transform(randomAccessList, SOME_FUNCTION)));
@@ -950,7 +954,7 @@ public class ListsTest extends TestCase {
   }
 
   public void testPartitionRandomAccessFalse() {
-    List<Integer> source = Lists.newLinkedList(asList(1, 2, 3));
+    List<Integer> source = new LinkedList<>(asList(1, 2, 3));
     List<List<Integer>> partitions = partition(source, 2);
     assertFalse(partitions instanceof RandomAccess);
     assertFalse(partitions.get(0) instanceof RandomAccess);

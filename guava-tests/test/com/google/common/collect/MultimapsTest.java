@@ -61,6 +61,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -467,7 +468,7 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testForMap() {
-    Map<String, Integer> map = Maps.newHashMap();
+    Map<String, Integer> map = new HashMap<>();
     map.put("foo", 1);
     map.put("bar", 2);
     Multimap<String, Integer> multimap = HashMultimap.create();
@@ -522,7 +523,7 @@ public class MultimapsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testForMapSerialization() {
-    Map<String, Integer> map = Maps.newHashMap();
+    Map<String, Integer> map = new HashMap<>();
     map.put("foo", 1);
     map.put("bar", 2);
     Multimap<String, Integer> multimapView = Multimaps.forMap(map);
@@ -530,7 +531,7 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testForMapRemoveAll() {
-    Map<String, Integer> map = Maps.newHashMap();
+    Map<String, Integer> map = new HashMap<>();
     map.put("foo", 1);
     map.put("bar", 2);
     map.put("cow", 3);
@@ -545,7 +546,7 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testForMapAsMap() {
-    Map<String, Integer> map = Maps.newHashMap();
+    Map<String, Integer> map = new HashMap<>();
     map.put("foo", 1);
     map.put("bar", 2);
     Map<String, Collection<Integer>> asMap = Multimaps.forMap(map).asMap();
@@ -559,8 +560,8 @@ public class MultimapsTest extends TestCase {
     assertFalse(entries.remove((Object) 4.5));
     assertFalse(entries.contains(Maps.immutableEntry("foo", singletonList(1))));
     assertFalse(entries.remove(Maps.immutableEntry("foo", singletonList(1))));
-    assertFalse(entries.contains(Maps.immutableEntry("foo", Sets.newLinkedHashSet(asList(1, 2)))));
-    assertFalse(entries.remove(Maps.immutableEntry("foo", Sets.newLinkedHashSet(asList(1, 2)))));
+    assertFalse(entries.contains(Maps.immutableEntry("foo", new LinkedHashSet<>(asList(1, 2)))));
+    assertFalse(entries.remove(Maps.immutableEntry("foo", new LinkedHashSet<>(asList(1, 2)))));
     assertFalse(entries.contains(Maps.immutableEntry("foo", singleton(2))));
     assertFalse(entries.remove(Maps.immutableEntry("foo", singleton(2))));
     assertTrue(map.containsKey("foo"));
@@ -577,7 +578,7 @@ public class MultimapsTest extends TestCase {
 
           @Override
           protected Iterator<Integer> newTargetIterator() {
-            Map<String, Integer> map = Maps.newHashMap();
+            Map<String, Integer> map = new HashMap<>();
             map.put("foo", 1);
             map.put("bar", 2);
             multimap = Multimaps.forMap(map);
@@ -586,7 +587,7 @@ public class MultimapsTest extends TestCase {
 
           @Override
           protected void verify(List<Integer> elements) {
-            assertEquals(newHashSet(elements), multimap.get("foo"));
+            assertEquals(new HashSet<>(elements), multimap.get("foo"));
           }
         };
 
@@ -758,7 +759,7 @@ public class MultimapsTest extends TestCase {
 
   public void testNewSetMultimap() {
     CountingSupplier<Set<Integer>> factory = new SetSupplier();
-    Map<Color, Collection<Integer>> map = Maps.newHashMap();
+    Map<Color, Collection<Integer>> map = new HashMap<>();
     SetMultimap<Color, Integer> multimap = Multimaps.newSetMultimap(map, factory);
     assertEquals(0, factory.count);
     multimap.putAll(Color.BLUE, asList(3, 1, 4));
@@ -772,7 +773,7 @@ public class MultimapsTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testNewSetMultimapSerialization() {
     CountingSupplier<Set<Integer>> factory = new SetSupplier();
-    Map<Color, Collection<Integer>> map = Maps.newHashMap();
+    Map<Color, Collection<Integer>> map = new HashMap<>();
     SetMultimap<Color, Integer> multimap = Multimaps.newSetMultimap(map, factory);
     multimap.putAll(Color.BLUE, asList(3, 1, 4));
     multimap.putAll(Color.RED, asList(2, 7, 1, 8));

@@ -28,7 +28,6 @@ import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -45,6 +44,7 @@ import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -1379,7 +1379,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
     ImmutableList<K> collectTypes(Iterable<? extends K> types) {
       // type -> order number. 1 for Object, 2 for anything directly below, so on so forth.
-      Map<K, Integer> map = Maps.newHashMap();
+      Map<K, Integer> map = new HashMap<>();
       for (K type : types) {
         collectTypes(type, map);
       }

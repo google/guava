@@ -41,6 +41,7 @@ import com.google.common.collect.testing.google.SetGenerators.ImmutableSetUnsize
 import com.google.common.collect.testing.google.SetGenerators.ImmutableSetWithBadHashesGenerator;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.EqualsTester;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
@@ -229,7 +230,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
   public void testCreation_allDuplicates() {
     ImmutableSet<String> set = ImmutableSet.copyOf(Lists.newArrayList("a", "a"));
     assertTrue(set instanceof SingletonImmutableSet);
-    assertEquals(Lists.newArrayList("a"), Lists.newArrayList(set));
+    assertEquals(Lists.newArrayList("a"), new ArrayList<>(set));
   }
 
   public void testCreation_oneDuplicate() {
@@ -239,7 +240,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
         ImmutableSet.of("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "a");
     assertEquals(
         Lists.newArrayList("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m"),
-        Lists.newArrayList(set));
+        new ArrayList<>(set));
   }
 
   public void testCreation_manyDuplicates() {

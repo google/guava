@@ -21,7 +21,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeoutException;
@@ -148,7 +148,7 @@ public class AbstractIdleServiceTest extends TestCase {
   private static class TestService extends AbstractIdleService {
     int startUpCalled = 0;
     int shutDownCalled = 0;
-    final List<State> transitionStates = Lists.newArrayList();
+    final List<State> transitionStates = new ArrayList<>();
 
     @Override
     protected void startUp() throws Exception {

@@ -39,6 +39,7 @@ import com.google.common.collect.testing.google.SortedMapGenerators.ImmutableSor
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -697,8 +698,8 @@ public class ImmutableSortedMapTest extends TestCase {
     SerializableTester.reserializeAndAssert(map.entrySet());
     SerializableTester.reserializeAndAssert(map.keySet());
     assertEquals(
-        Lists.newArrayList(map.values()),
-        Lists.newArrayList(SerializableTester.reserialize(map.values())));
+        new ArrayList<>(map.values()),
+        new ArrayList<>(SerializableTester.reserialize(map.values())));
   }
 
   public void testHeadMapInclusive() {

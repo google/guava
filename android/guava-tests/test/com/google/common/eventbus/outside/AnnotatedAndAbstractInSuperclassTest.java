@@ -18,9 +18,9 @@ package com.google.common.eventbus.outside;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.eventbus.outside.AnnotatedAndAbstractInSuperclassTest.SubClass;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnnotatedAndAbstractInSuperclassTest extends AbstractEventBusTest<SubClass> {
@@ -33,8 +33,8 @@ public class AnnotatedAndAbstractInSuperclassTest extends AbstractEventBusTest<S
   }
 
   static class SubClass extends SuperClass {
-    final List<Object> overriddenAndAnnotatedInSubclassEvents = Lists.newArrayList();
-    final List<Object> overriddenInSubclassEvents = Lists.newArrayList();
+    final List<Object> overriddenAndAnnotatedInSubclassEvents = new ArrayList<>();
+    final List<Object> overriddenInSubclassEvents = new ArrayList<>();
 
     @Subscribe
     @Override

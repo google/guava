@@ -35,6 +35,7 @@ import java.util.AbstractSequentialList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
@@ -875,7 +876,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   @J2ktIncompatible
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    keyToKeyList = Maps.newLinkedHashMap();
+    keyToKeyList = new LinkedHashMap<>();
     int size = stream.readInt();
     for (int i = 0; i < size; i++) {
       @SuppressWarnings("unchecked") // reading data stored by writeObject

@@ -18,18 +18,18 @@ package com.google.common.eventbus.outside;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.eventbus.outside.AnnotatedNotAbstractInSuperclassTest.SubClass;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AnnotatedNotAbstractInSuperclassTest extends AbstractEventBusTest<SubClass> {
   static class SuperClass {
-    final List<Object> notOverriddenInSubclassEvents = Lists.newArrayList();
-    final List<Object> overriddenNotAnnotatedInSubclassEvents = Lists.newArrayList();
-    final List<Object> overriddenAndAnnotatedInSubclassEvents = Lists.newArrayList();
-    final List<Object> differentlyOverriddenNotAnnotatedInSubclassBadEvents = Lists.newArrayList();
-    final List<Object> differentlyOverriddenAnnotatedInSubclassBadEvents = Lists.newArrayList();
+    final List<Object> notOverriddenInSubclassEvents = new ArrayList<>();
+    final List<Object> overriddenNotAnnotatedInSubclassEvents = new ArrayList<>();
+    final List<Object> overriddenAndAnnotatedInSubclassEvents = new ArrayList<>();
+    final List<Object> differentlyOverriddenNotAnnotatedInSubclassBadEvents = new ArrayList<>();
+    final List<Object> differentlyOverriddenAnnotatedInSubclassBadEvents = new ArrayList<>();
 
     @Subscribe
     public void notOverriddenInSubclass(Object o) {
@@ -60,8 +60,8 @@ public class AnnotatedNotAbstractInSuperclassTest extends AbstractEventBusTest<S
   }
 
   static class SubClass extends SuperClass {
-    final List<Object> differentlyOverriddenNotAnnotatedInSubclassGoodEvents = Lists.newArrayList();
-    final List<Object> differentlyOverriddenAnnotatedInSubclassGoodEvents = Lists.newArrayList();
+    final List<Object> differentlyOverriddenNotAnnotatedInSubclassGoodEvents = new ArrayList<>();
+    final List<Object> differentlyOverriddenAnnotatedInSubclassGoodEvents = new ArrayList<>();
 
     @Override
     public void overriddenNotAnnotatedInSubclass(Object o) {

@@ -41,6 +41,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.nio.charset.Charset;
 import java.nio.charset.IllegalCharsetNameException;
 import java.nio.charset.UnsupportedCharsetException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import org.jspecify.annotations.Nullable;
@@ -102,7 +103,7 @@ public final class MediaType {
 
   private static final String WILDCARD = "*";
 
-  private static final Map<MediaType, MediaType> knownTypes = Maps.newHashMap();
+  private static final Map<MediaType, MediaType> knownTypes = new HashMap<>();
 
   private static MediaType createConstant(String type, String subtype) {
     MediaType mediaType =

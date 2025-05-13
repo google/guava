@@ -75,6 +75,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.Callable;
@@ -1823,8 +1824,8 @@ public class FuturesTest extends TestCase {
   }
 
   public void testSubmit_runnable_completesAfterRun() throws Exception {
-    final List<Runnable> pendingRunnables = newArrayList();
-    final List<Runnable> executedRunnables = newArrayList();
+    final List<Runnable> pendingRunnables = new ArrayList<>();
+    final List<Runnable> executedRunnables = new ArrayList<>();
     Runnable runnable =
         new Runnable() {
           @Override

@@ -33,12 +33,12 @@ import com.google.common.cache.LocalCache.ValueReference;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.FakeTicker;
 import java.lang.ref.Reference;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -317,7 +317,7 @@ class CacheTesting {
 
   static <K, V> Map<K, V> segmentTable(Segment<K, V> segment) {
     AtomicReferenceArray<? extends ReferenceEntry<K, V>> table = segment.table;
-    Map<K, V> map = Maps.newLinkedHashMap();
+    Map<K, V> map = new LinkedHashMap<>();
     for (int i = 0; i < table.length(); i++) {
       for (ReferenceEntry<K, V> entry = table.get(i); entry != null; entry = entry.getNext()) {
         K key = entry.getKey();

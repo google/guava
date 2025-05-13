@@ -19,6 +19,7 @@ package com.google.common.collect;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Queue;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -40,7 +41,7 @@ public class SynchronizedQueueTest extends TestCase {
   }
 
   private static final class TestQueue<E> implements Queue<E> {
-    private final Queue<E> delegate = Lists.newLinkedList();
+    private final Queue<E> delegate = new LinkedList<>();
     public final Object mutex = new Object[0]; // something Serializable
 
     @Override

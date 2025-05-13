@@ -40,7 +40,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -517,7 +519,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
         new IteratorTester<T>(
             steps,
             IteratorFeature.MODIFIABLE,
-            Lists.newLinkedList(values),
+            new LinkedList<>(values),
             IteratorTester.KnownOrder.UNKNOWN_ORDER) {
           private @Nullable MinMaxPriorityQueue<T> mmHeap;
 
@@ -529,7 +531,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
           @Override
           protected void verify(List<T> elements) {
-            assertEquals(newHashSet(elements), newHashSet(mmHeap.iterator()));
+            assertEquals(new HashSet<>(elements), newHashSet(mmHeap.iterator()));
             assertIntact(mmHeap);
           }
         };
@@ -538,7 +540,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   public void testIteratorTester() throws Exception {
     Random random = new Random(0);
-    List<Integer> list = Lists.newArrayList();
+    List<Integer> list = new ArrayList<>();
     for (int i = 0; i < 3; i++) {
       list.add(random.nextInt());
     }
@@ -715,7 +717,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     int size = 8;
     List<Integer> expected = createOrderedList(size);
     MinMaxPriorityQueue<Integer> q = MinMaxPriorityQueue.create(expected);
-    List<Integer> contents = Lists.newArrayList(expected);
+    List<Integer> contents = new ArrayList<>(expected);
     List<Integer> elements = Lists.newArrayListWithCapacity(size);
     while (!q.isEmpty()) {
       assertThat(q).containsExactlyElementsIn(contents);

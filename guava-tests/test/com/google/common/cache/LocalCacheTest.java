@@ -52,8 +52,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -73,6 +71,7 @@ import java.lang.ref.ReferenceQueue;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -646,8 +645,8 @@ public class LocalCacheTest extends TestCase {
     for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
       LocalCache<Object, Object> map = makeLocalCache(builder.concurrencyLevel(1));
       Segment<Object, Object> segment = map.segments[0];
-      List<ReferenceEntry<Object, Object>> writeOrder = Lists.newLinkedList();
-      List<ReferenceEntry<Object, Object>> readOrder = Lists.newLinkedList();
+      List<ReferenceEntry<Object, Object>> writeOrder = new LinkedList<>();
+      List<ReferenceEntry<Object, Object>> readOrder = new LinkedList<>();
       for (int i = 0; i < SMALL_MAX_SIZE; i++) {
         Object key = new Object();
         int hash = map.hash(key);
@@ -1460,7 +1459,7 @@ public class LocalCacheTest extends TestCase {
 
     // manually add elements to avoid eviction
     int originalCount = 1024;
-    LinkedHashMap<Object, Object> originalMap = Maps.newLinkedHashMap();
+    LinkedHashMap<Object, Object> originalMap = new LinkedHashMap<>();
     for (int i = 0; i < originalCount; i++) {
       Object key = new Object();
       Object value = new Object();
@@ -2208,8 +2207,8 @@ public class LocalCacheTest extends TestCase {
     for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
       LocalCache<Object, Object> map = makeLocalCache(builder.concurrencyLevel(1));
       Segment<Object, Object> segment = map.segments[0];
-      List<ReferenceEntry<Object, Object>> writeOrder = Lists.newLinkedList();
-      List<ReferenceEntry<Object, Object>> readOrder = Lists.newLinkedList();
+      List<ReferenceEntry<Object, Object>> writeOrder = new LinkedList<>();
+      List<ReferenceEntry<Object, Object>> readOrder = new LinkedList<>();
       for (int i = 0; i < DRAIN_THRESHOLD * 2; i++) {
         Object key = new Object();
         int hash = map.hash(key);
@@ -2249,8 +2248,8 @@ public class LocalCacheTest extends TestCase {
     for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
       LocalCache<Object, Object> map = makeLocalCache(builder.concurrencyLevel(1));
       Segment<Object, Object> segment = map.segments[0];
-      List<ReferenceEntry<Object, Object>> writeOrder = Lists.newLinkedList();
-      List<ReferenceEntry<Object, Object>> readOrder = Lists.newLinkedList();
+      List<ReferenceEntry<Object, Object>> writeOrder = new LinkedList<>();
+      List<ReferenceEntry<Object, Object>> readOrder = new LinkedList<>();
       for (int i = 0; i < DRAIN_THRESHOLD * 2; i++) {
         Object key = new Object();
         int hash = map.hash(key);
@@ -2292,7 +2291,7 @@ public class LocalCacheTest extends TestCase {
     for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
       LocalCache<Object, Object> map = makeLocalCache(builder.concurrencyLevel(1));
       Segment<Object, Object> segment = map.segments[0];
-      List<ReferenceEntry<Object, Object>> writeOrder = Lists.newLinkedList();
+      List<ReferenceEntry<Object, Object>> writeOrder = new LinkedList<>();
       for (int i = 0; i < DRAIN_THRESHOLD * 2; i++) {
         Object key = new Object();
         int hash = map.hash(key);
@@ -2497,7 +2496,7 @@ public class LocalCacheTest extends TestCase {
     // manually add elements to avoid eviction
     int originalCount = 1024;
     ReferenceEntry<Object, Object> entry = null;
-    LinkedHashMap<Object, Object> originalMap = Maps.newLinkedHashMap();
+    LinkedHashMap<Object, Object> originalMap = new LinkedHashMap<>();
     for (int i = 0; i < originalCount; i++) {
       Object key = new Object();
       Object value = new Object();

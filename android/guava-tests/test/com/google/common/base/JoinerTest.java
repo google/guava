@@ -27,10 +27,10 @@ import com.google.common.base.Joiner.MapJoiner;
 import com.google.common.collect.ForwardingList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Maps;
 import com.google.common.testing.NullPointerTester;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -275,7 +275,7 @@ public class JoinerTest extends TestCase {
     assertEquals("", j.join(ImmutableMap.of()));
     assertEquals(":", j.join(ImmutableMap.of("", "")));
 
-    Map<@Nullable String, @Nullable String> mapWithNulls = Maps.newLinkedHashMap();
+    Map<@Nullable String, @Nullable String> mapWithNulls = new LinkedHashMap<>();
     mapWithNulls.put("a", null);
     mapWithNulls.put(null, "b");
 
@@ -297,7 +297,7 @@ public class JoinerTest extends TestCase {
     assertEquals("1:a;1:b", j.join(ImmutableMultimap.of("1", "a", "1", "b").entries()));
     assertEquals("1:a;1:b", j.join(ImmutableMultimap.of("1", "a", "1", "b").entries().iterator()));
 
-    Map<@Nullable String, @Nullable String> mapWithNulls = Maps.newLinkedHashMap();
+    Map<@Nullable String, @Nullable String> mapWithNulls = new LinkedHashMap<>();
     mapWithNulls.put("a", null);
     mapWithNulls.put(null, "b");
     Set<Entry<String, String>> entriesWithNulls = mapWithNulls.entrySet();

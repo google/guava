@@ -16,11 +16,11 @@
 
 package com.google.common.io;
 
-import com.google.common.collect.Lists;
 import java.io.ByteArrayInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.jspecify.annotations.NullUnmarked;
@@ -70,7 +70,7 @@ public class MultiInputStreamTest extends IoTestCase {
   }
 
   private void joinHelper(Integer... spans) throws Exception {
-    List<ByteSource> sources = Lists.newArrayList();
+    List<ByteSource> sources = new ArrayList<>();
     int start = 0;
     for (Integer span : spans) {
       sources.add(newByteSource(start, span));

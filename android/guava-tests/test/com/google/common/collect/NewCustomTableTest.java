@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Supplier;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.TreeMap;
 import org.jspecify.annotations.NullMarked;
@@ -44,7 +45,7 @@ public class NewCustomTableTest extends AbstractTableTest<Character> {
             return Maps.newTreeMap();
           }
         };
-    Map<String, Map<Integer, Character>> backingMap = Maps.newLinkedHashMap();
+    Map<String, Map<Integer, Character>> backingMap = new LinkedHashMap<>();
     Table<String, Integer, Character> table = newCustomTable(backingMap, factory);
     populate(table, data);
     return table;

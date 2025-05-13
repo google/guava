@@ -486,7 +486,7 @@ public final class Collections2 {
     final Comparator<? super E> comparator;
 
     OrderedPermutationIterator(List<E> list, Comparator<? super E> comparator) {
-      this.nextPermutation = Lists.newArrayList(list);
+      this.nextPermutation = new ArrayList<>(list);
       this.comparator = comparator;
     }
 

@@ -25,6 +25,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.ForwardingWrapperTester;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.Queue;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -130,7 +131,7 @@ public class ForwardingQueueTest extends TestCase {
 
                   @Override
                   protected Queue<String> create(String[] elements) {
-                    return new StandardImplForwardingQueue<>(Lists.newLinkedList(asList(elements)));
+                    return new StandardImplForwardingQueue<>(new LinkedList<>(asList(elements)));
                   }
                 })
             .named("ForwardingQueue[LinkedList] with standard implementations")

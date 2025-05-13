@@ -23,7 +23,6 @@ import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
-import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.Math.ceil;
 import static java.util.Collections.singletonMap;
 import static java.util.Objects.requireNonNull;
@@ -54,6 +53,7 @@ import java.util.Comparator;
 import java.util.EnumMap;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -532,10 +532,10 @@ public final class Maps {
           Equivalence<? super @NonNull V> valueEquivalence) {
     Preconditions.checkNotNull(valueEquivalence);
 
-    Map<K, V> onlyOnLeft = newLinkedHashMap();
+    Map<K, V> onlyOnLeft = new LinkedHashMap<>();
     Map<K, V> onlyOnRight = new LinkedHashMap<>(right); // will whittle it down
-    Map<K, V> onBoth = newLinkedHashMap();
-    Map<K, MapDifference.ValueDifference<V>> differences = newLinkedHashMap();
+    Map<K, V> onBoth = new LinkedHashMap<>();
+    Map<K, MapDifference.ValueDifference<V>> differences = new LinkedHashMap<>();
     doDifference(left, right, valueEquivalence, onlyOnLeft, onlyOnRight, onBoth, differences);
     return new MapDifferenceImpl<>(onlyOnLeft, onlyOnRight, onBoth, differences);
   }
@@ -4149,7 +4149,7 @@ public final class Maps {
       try {
         return super.removeAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
-        Set<K> toRemove = newHashSet();
+        Set<K> toRemove = new HashSet<>();
         for (Entry<K, V> entry : map().entrySet()) {
           if (c.contains(entry.getValue())) {
             toRemove.add(entry.getKey());
@@ -4164,7 +4164,7 @@ public final class Maps {
       try {
         return super.retainAll(checkNotNull(c));
       } catch (UnsupportedOperationException e) {
-        Set<K> toRetain = newHashSet();
+        Set<K> toRetain = new HashSet<>();
         for (Entry<K, V> entry : map().entrySet()) {
           if (c.contains(entry.getValue())) {
             toRetain.add(entry.getKey());

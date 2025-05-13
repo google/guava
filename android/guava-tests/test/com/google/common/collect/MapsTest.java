@@ -54,6 +54,7 @@ import java.util.HashMap;
 import java.util.IdentityHashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -84,6 +85,7 @@ public class MapsTest extends TestCase {
   private static final Comparator<Integer> SOME_COMPARATOR = Collections.reverseOrder();
 
   public void testHashMap() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     HashMap<Integer, Integer> map = Maps.newHashMap();
     assertEquals(emptyMap(), map);
   }
@@ -93,6 +95,7 @@ public class MapsTest extends TestCase {
     original.put("a", 1);
     original.put("b", 2);
     original.put("c", 3);
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     HashMap<String, Integer> map = Maps.newHashMap(original);
     assertEquals(original, map);
   }
@@ -102,6 +105,7 @@ public class MapsTest extends TestCase {
     original.put("a", 1);
     original.put("b", 2);
     original.put("c", 3);
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     HashMap<Object, Object> map = Maps.newHashMap(original);
     assertEquals(original, map);
   }
@@ -221,6 +225,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testLinkedHashMap() {
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     LinkedHashMap<Integer, Integer> map = Maps.newLinkedHashMap();
     assertEquals(emptyMap(), map);
   }
@@ -234,6 +239,7 @@ public class MapsTest extends TestCase {
                 "polygene", "lubricants",
                 "alpha", "betical"));
 
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     LinkedHashMap<String, String> copy = Maps.newLinkedHashMap(map);
 
     Iterator<Entry<String, String>> iter = copy.entrySet().iterator();
@@ -264,6 +270,7 @@ public class MapsTest extends TestCase {
     original.put("a", 1);
     original.put("b", 2);
     original.put("c", 3);
+    @SuppressWarnings("UseCollectionConstructor") // test of factory method
     HashMap<Object, Object> map = Maps.<Object, Object>newLinkedHashMap(original);
     assertEquals(original, map);
   }
@@ -356,19 +363,19 @@ public class MapsTest extends TestCase {
   }
 
   public void testEnumMapWithInitialMap() {
-    HashMap<SomeEnum, Integer> original = Maps.newHashMap();
+    HashMap<SomeEnum, Integer> original = new HashMap<>();
     original.put(SomeEnum.SOME_INSTANCE, 0);
     EnumMap<SomeEnum, Integer> copy = Maps.newEnumMap(original);
     assertEquals(original, copy);
   }
 
   public void testEnumMapWithInitialEmptyMap() {
-    Map<SomeEnum, Integer> original = Maps.newHashMap();
+    Map<SomeEnum, Integer> original = new HashMap<>();
     assertThrows(IllegalArgumentException.class, () -> Maps.newEnumMap(original));
   }
 
   public void testToStringImplWithNullKeys() throws Exception {
-    Map<@Nullable String, String> hashmap = Maps.newHashMap();
+    Map<@Nullable String, String> hashmap = new HashMap<>();
     hashmap.put("foo", "bar");
     hashmap.put(null, "baz");
 
@@ -376,7 +383,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testToStringImplWithNullValues() throws Exception {
-    Map<String, @Nullable String> hashmap = Maps.newHashMap();
+    Map<String, @Nullable String> hashmap = new HashMap<>();
     hashmap.put("foo", "bar");
     hashmap.put("baz", null);
 
@@ -663,7 +670,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testAsMapReadsThrough() {
-    Set<String> strings = Sets.newLinkedHashSet();
+    Set<String> strings = new LinkedHashSet<>();
     Collections.addAll(strings, "one", "two", "three");
     Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);
@@ -674,7 +681,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testAsMapWritesThrough() {
-    Set<String> strings = Sets.newLinkedHashSet();
+    Set<String> strings = new LinkedHashSet<>();
     Collections.addAll(strings, "one", "two", "three");
     Map<String, Integer> map = Maps.asMap(strings, LENGTH_FUNCTION);
     assertEquals(ImmutableMap.of("one", 3, "two", 3, "three", 5), map);

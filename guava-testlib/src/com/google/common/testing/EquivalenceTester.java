@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import com.google.common.testing.RelationshipTester.ItemReporter;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayList;
 import java.util.List;
 import org.jspecify.annotations.NullMarked;
 
@@ -57,7 +58,7 @@ public final class EquivalenceTester<T> {
 
   private final Equivalence<? super T> equivalence;
   private final RelationshipTester<T> delegate;
-  private final List<T> items = Lists.newArrayList();
+  private final List<T> items = new ArrayList<>();
 
   private EquivalenceTester(Equivalence<? super T> equivalence) {
     this.equivalence = checkNotNull(equivalence);

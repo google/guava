@@ -28,7 +28,6 @@ import com.google.common.base.Predicate;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.graph.SuccessorsFunction;
 import com.google.common.graph.Traverser;
 import com.google.common.hash.HashCode;
@@ -548,7 +547,7 @@ public final class Files {
     return asCharSource(file, charset)
         .readLines(
             new LineProcessor<List<String>>() {
-              final List<String> result = Lists.newArrayList();
+              final List<String> result = new ArrayList<>();
 
               @Override
               public boolean processLine(String line) {

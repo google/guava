@@ -511,7 +511,7 @@ public class ImmutableBiMapTest extends TestCase {
   }
 
   public void testFromHashMap() {
-    Map<String, Integer> hashMap = Maps.newLinkedHashMap();
+    Map<String, Integer> hashMap = new LinkedHashMap<>();
     hashMap.put("one", 1);
     hashMap.put("two", 2);
     ImmutableBiMap<String, Integer> bimap = ImmutableBiMap.copyOf(hashMap);

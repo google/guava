@@ -21,7 +21,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Optional;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.io.SourceSinkFactory.ByteSourceFactory;
 import com.google.common.io.SourceSinkFactory.CharSourceFactory;
 import java.io.BufferedReader;
@@ -29,6 +28,7 @@ import java.io.IOException;
 import java.io.Reader;
 import java.io.StringWriter;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.stream.Stream;
@@ -183,7 +183,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
     List<String> list =
         source.readLines(
             new LineProcessor<List<String>>() {
-              List<String> list = Lists.newArrayList();
+              final List<String> list = new ArrayList<>();
 
               @Override
               public boolean processLine(String line) throws IOException {
@@ -204,7 +204,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
     List<String> list =
         source.readLines(
             new LineProcessor<List<String>>() {
-              List<String> list = Lists.newArrayList();
+              final List<String> list = new ArrayList<>();
 
               @Override
               public boolean processLine(String line) throws IOException {

@@ -14,12 +14,12 @@
 
 package com.google.common.reflect;
 
-import com.google.common.collect.Sets;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
+import java.util.HashSet;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
 
@@ -56,7 +56,7 @@ import org.jspecify.annotations.Nullable;
  */
 abstract class TypeVisitor {
 
-  private final Set<Type> visited = Sets.newHashSet();
+  private final Set<Type> visited = new HashSet<>();
 
   /**
    * Visits the given types. Null types are ignored. This allows subclasses to call {@code

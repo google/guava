@@ -29,10 +29,11 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.testing.EqualsTester;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -196,7 +197,7 @@ public class PopulatedCachesTest extends TestCase {
       Set<Object> keys = cache.asMap().keySet();
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
-      Set<Object> expected = Maps.newHashMap(cache.asMap()).keySet();
+      Set<Object> expected = new HashMap<>(cache.asMap()).keySet();
       assertThat(keys).containsExactlyElementsIn(expected);
       assertThat(keys.toArray()).asList().containsExactlyElementsIn(expected);
       assertThat(keys.toArray(new Object[0])).asList().containsExactlyElementsIn(expected);
@@ -223,7 +224,7 @@ public class PopulatedCachesTest extends TestCase {
       Collection<Object> values = cache.asMap().values();
       List<Entry<Object, Object>> warmed = warmUp(cache);
 
-      Collection<Object> expected = Maps.newHashMap(cache.asMap()).values();
+      Collection<Object> expected = new HashMap<>(cache.asMap()).values();
       assertThat(values).containsExactlyElementsIn(expected);
       assertThat(values.toArray()).asList().containsExactlyElementsIn(expected);
       assertThat(values.toArray(new Object[0])).asList().containsExactlyElementsIn(expected);
@@ -247,7 +248,7 @@ public class PopulatedCachesTest extends TestCase {
       Set<Entry<Object, Object>> entries = cache.asMap().entrySet();
       List<Entry<Object, Object>> warmed = warmUp(cache, WARMUP_MIN, WARMUP_MAX);
 
-      Set<?> expected = Maps.newHashMap(cache.asMap()).entrySet();
+      Set<?> expected = new HashMap<>(cache.asMap()).entrySet();
       assertThat(entries).containsExactlyElementsIn(expected);
       assertThat(entries.toArray()).asList().containsExactlyElementsIn(expected);
       assertThat(entries.toArray(new Object[0])).asList().containsExactlyElementsIn(expected);
@@ -341,7 +342,7 @@ public class PopulatedCachesTest extends TestCase {
   private List<Entry<Object, Object>> warmUp(
       LoadingCache<Object, Object> cache, int minimum, int maximum) {
 
-    List<Entry<Object, Object>> entries = Lists.newArrayList();
+    List<Entry<Object, Object>> entries = new ArrayList<>();
     for (int i = minimum; i < maximum; i++) {
       Object key = i;
       Object value = cache.getUnchecked(key);

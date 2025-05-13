@@ -35,7 +35,6 @@ import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.testing.FakeTicker;
 import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.Callables;
@@ -44,6 +43,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -434,7 +434,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
-            Map<Object, Object> result = Maps.newHashMap();
+            Map<Object, Object> result = new HashMap<>();
             for (Object key : keys) {
               Object value = new Object();
               result.put(key, value);
@@ -471,7 +471,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
-            Map<Object, Object> result = Maps.newHashMap();
+            Map<Object, Object> result = new HashMap<>();
             for (Object key : keys) {
               Object value = new Object();
               result.put(key, value);
@@ -509,7 +509,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
-            Map<Object, Object> result = Maps.newHashMap();
+            Map<Object, Object> result = new HashMap<>();
             for (Object key : keys) {
               Object value = new Object();
               result.put(key, value);
@@ -545,7 +545,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
-            Map<Object, Object> result = Maps.newHashMap();
+            Map<Object, Object> result = new HashMap<>();
             for (Object key : keys) {
               Object value = new Object();
               result.put(key, value);
@@ -581,7 +581,7 @@ public class CacheLoadingTest extends TestCase {
 
           @Override
           public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
-            Map<Object, Object> result = Maps.newHashMap();
+            Map<Object, Object> result = new HashMap<>();
             // ignore request keys
             result.put(extraKey, extraValue);
             return result;

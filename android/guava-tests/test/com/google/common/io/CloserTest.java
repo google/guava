@@ -24,9 +24,9 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -324,7 +324,7 @@ public class CloserTest extends TestCase {
   /** Suppressor that records suppressions. */
   private static class TestSuppressor implements Closer.Suppressor {
 
-    private final List<Suppression> suppressions = Lists.newArrayList();
+    private final List<Suppression> suppressions = new ArrayList<>();
 
     @Override
     public void suppress(Closeable closeable, Throwable thrown, Throwable suppressed) {

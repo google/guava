@@ -50,7 +50,6 @@ import static org.mockito.Mockito.when;
 import com.google.common.base.Suppliers;
 import com.google.common.base.Throwables;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.util.concurrent.MoreExecutors.Application;
 import java.lang.Thread.State;
@@ -660,7 +659,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   }
 
   private static class TestApplication extends Application {
-    private final List<Thread> hooks = Lists.newArrayList();
+    private final List<Thread> hooks = new ArrayList<>();
 
     @Override
     synchronized void addShutdownHook(Thread hook) {

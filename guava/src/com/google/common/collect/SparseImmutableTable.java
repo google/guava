@@ -49,11 +49,11 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
       ImmutableSet<R> rowSpace,
       ImmutableSet<C> columnSpace) {
     Map<R, Integer> rowIndex = Maps.indexMap(rowSpace);
-    Map<R, Map<C, V>> rows = Maps.newLinkedHashMap();
+    Map<R, Map<C, V>> rows = new LinkedHashMap<>();
     for (R row : rowSpace) {
       rows.put(row, new LinkedHashMap<C, V>());
     }
-    Map<C, Map<R, V>> columns = Maps.newLinkedHashMap();
+    Map<C, Map<R, V>> columns = new LinkedHashMap<>();
     for (C col : columnSpace) {
       columns.put(col, new LinkedHashMap<R, V>());
     }

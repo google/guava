@@ -22,13 +22,14 @@ import static java.util.Collections.singleton;
 import static java.util.Collections.singletonMap;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.Maps;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.testing.EqualsTester;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -75,7 +76,7 @@ public class SetMultimapAsMapTester<K extends @Nullable Object, V extends @Nulla
   @CollectionSize.Require(SEVERAL)
   public void testEquals() {
     resetContainer(mapEntry(k0(), v0()), mapEntry(k1(), v0()), mapEntry(k0(), v3()));
-    Map<K, Collection<V>> expected = Maps.newHashMap();
+    Map<K, Collection<V>> expected = new HashMap<>();
     expected.put(k0(), newHashSet(v0(), v3()));
     expected.put(k1(), newHashSet(v0()));
     new EqualsTester().addEqualityGroup(expected, multimap().asMap()).testEquals();
@@ -84,7 +85,7 @@ public class SetMultimapAsMapTester<K extends @Nullable Object, V extends @Nulla
   @CollectionSize.Require(SEVERAL)
   public void testEntrySetEquals() {
     resetContainer(mapEntry(k0(), v0()), mapEntry(k1(), v0()), mapEntry(k0(), v3()));
-    Set<Entry<K, Collection<V>>> expected = newHashSet();
+    Set<Entry<K, Collection<V>>> expected = new HashSet<>();
     expected.add(mapEntry(k0(), (Collection<V>) newHashSet(v0(), v3())));
     expected.add(mapEntry(k1(), (Collection<V>) newHashSet(v0())));
     new EqualsTester().addEqualityGroup(expected, multimap().asMap().entrySet()).testEquals();

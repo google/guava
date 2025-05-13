@@ -20,8 +20,8 @@ import static com.google.common.util.concurrent.Futures.immediateFuture;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ListenableFuture;
+import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Map;
 import java.util.concurrent.Executor;
@@ -39,7 +39,7 @@ import org.jspecify.annotations.NullUnmarked;
 public class CacheLoaderTest extends TestCase {
 
   private static class QueuingExecutor implements Executor {
-    private final Deque<Runnable> tasks = Queues.newArrayDeque();
+    private final Deque<Runnable> tasks = new ArrayDeque<>();
 
     @Override
     public void execute(Runnable task) {

@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import junit.framework.TestCase;
@@ -124,7 +125,7 @@ public class ObjectArraysTest extends TestCase {
   }
 
   public void testToArrayImpl1() {
-    doTestToArrayImpl1(Lists.<Integer>newArrayList());
+    doTestToArrayImpl1(new ArrayList<Integer>());
     doTestToArrayImpl1(Lists.newArrayList(1));
     doTestToArrayImpl1(Lists.<@Nullable Integer>newArrayList(1, null, 3));
   }
@@ -137,8 +138,8 @@ public class ObjectArraysTest extends TestCase {
   }
 
   public void testToArrayImpl2() {
-    doTestToArrayImpl2(Lists.<Integer>newArrayList(), new Integer[0], false);
-    doTestToArrayImpl2(Lists.<Integer>newArrayList(), new Integer[1], true);
+    doTestToArrayImpl2(new ArrayList<Integer>(), new Integer[0], false);
+    doTestToArrayImpl2(new ArrayList<Integer>(), new Integer[1], true);
 
     doTestToArrayImpl2(Lists.newArrayList(1), new Integer[0], false);
     doTestToArrayImpl2(Lists.newArrayList(1), new Integer[1], true);

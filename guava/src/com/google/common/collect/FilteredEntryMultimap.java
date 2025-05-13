@@ -29,9 +29,11 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.j2objc.annotations.WeakOuter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -201,7 +203,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
       }
       @SuppressWarnings("unchecked") // it's definitely equal to a K
       K k = (K) key;
-      List<V> result = Lists.newArrayList();
+      List<V> result = new ArrayList<>();
       Iterator<V> itr = collection.iterator();
       while (itr.hasNext()) {
         V v = itr.next();
@@ -213,7 +215,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
       if (result.isEmpty()) {
         return null;
       } else if (unfiltered instanceof SetMultimap) {
-        return unmodifiableSet(Sets.newLinkedHashSet(result));
+        return unmodifiableSet(new LinkedHashSet<>(result));
       } else {
         return unmodifiableList(result);
       }

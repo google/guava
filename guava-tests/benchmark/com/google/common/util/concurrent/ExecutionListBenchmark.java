@@ -26,9 +26,9 @@ import com.google.caliper.Param;
 import com.google.caliper.api.Footprint;
 import com.google.caliper.api.VmOptions;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.OldAbstractFuture;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
+import java.util.LinkedList;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.CountDownLatch;
@@ -355,7 +355,7 @@ public class ExecutionListBenchmark {
   // This is the old implementation of ExecutionList using a LinkedList.
   private static final class OldExecutionList {
     static final Logger log = Logger.getLogger(OldExecutionList.class.getName());
-    final Queue<OldExecutionList.RunnableExecutorPair> runnables = Lists.newLinkedList();
+    final Queue<OldExecutionList.RunnableExecutorPair> runnables = new LinkedList<>();
     boolean executed = false;
 
     public void add(Runnable runnable, Executor executor) {

@@ -244,7 +244,7 @@ public final class Sets {
    */
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> HashSet<E> newHashSet(Iterator<? extends E> elements) {
-    HashSet<E> set = newHashSet();
+    HashSet<E> set = new HashSet<>();
     Iterators.addAll(set, elements);
     return set;
   }
@@ -341,7 +341,7 @@ public final class Sets {
     if (elements instanceof Collection) {
       return new LinkedHashSet<>((Collection<? extends E>) elements);
     }
-    LinkedHashSet<E> set = newLinkedHashSet();
+    LinkedHashSet<E> set = new LinkedHashSet<>();
     Iterables.addAll(set, elements);
     return set;
   }

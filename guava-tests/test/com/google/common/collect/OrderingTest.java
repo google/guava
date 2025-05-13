@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterators.singletonIterator;
-import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.testComparator;
 import static com.google.common.testing.SerializableTester.reserialize;
@@ -41,6 +40,7 @@ import com.google.common.collect.Ordering.IncomparableValueException;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -90,7 +90,7 @@ public class OrderingTest extends TestCase {
             .lexicographical()
             .reverse()
             .<Iterable<@Nullable Integer>>nullsLast();
-    List<@Nullable Integer> list1 = Lists.newArrayList();
+    List<@Nullable Integer> list1 = new ArrayList<>();
     List<@Nullable Integer> list2 = Lists.newArrayList(1);
     List<@Nullable Integer> list3 = Lists.newArrayList(1, 1);
     List<@Nullable Integer> list4 = Lists.newArrayList(1, 2);
@@ -112,7 +112,7 @@ public class OrderingTest extends TestCase {
             Lists.newArrayList(1, 2),
             Lists.newArrayList(1),
             Lists.newArrayList(2),
-            Lists.newArrayList(),
+            new ArrayList<>(),
             null)
         .inOrder();
   }
@@ -202,7 +202,7 @@ public class OrderingTest extends TestCase {
   // actual public API.
   @J2ktIncompatible // Ordering.arbitrary
   public void testArbitrary_withoutCollisions() {
-    List<Object> list = Lists.newArrayList();
+    List<Object> list = new ArrayList<>();
     for (int i = 0; i < 50; i++) {
       list.add(new Object());
     }
@@ -219,7 +219,7 @@ public class OrderingTest extends TestCase {
 
   @J2ktIncompatible // ArbitraryOrdering
   public void testArbitrary_withCollisions() {
-    List<Integer> list = Lists.newArrayList();
+    List<Integer> list = new ArrayList<>();
     for (int i = 0; i < 50; i++) {
       list.add(i);
     }
@@ -697,7 +697,7 @@ public class OrderingTest extends TestCase {
     Ordering<Integer> ordering = Ordering.natural();
 
     for (int i = 0; i < iterations; i++) {
-      List<Integer> list = Lists.newArrayList();
+      List<Integer> list = new ArrayList<>();
       for (int j = 0; j < elements; j++) {
         list.add(random.nextInt(10 * i + j + 1));
       }
@@ -943,7 +943,7 @@ public class OrderingTest extends TestCase {
 
     // generic arrays and unchecked cast
     void testMinAndMax() {
-      List<T> shuffledList = Lists.newArrayList(strictlyOrderedList);
+      List<T> shuffledList = new ArrayList<>(strictlyOrderedList);
       shuffledList = shuffledCopy(shuffledList, new Random(5));
 
       T min = strictlyOrderedList.get(0);
@@ -972,13 +972,13 @@ public class OrderingTest extends TestCase {
       for (int i = 0; i < strictlyOrderedList.size(); i++) {
         assertEquals(i, ordering.binarySearch(strictlyOrderedList, strictlyOrderedList.get(i)));
       }
-      List<T> newList = Lists.newArrayList(strictlyOrderedList);
+      List<T> newList = new ArrayList<>(strictlyOrderedList);
       T valueNotInList = newList.remove(1);
       assertEquals(-2, ordering.binarySearch(newList, valueNotInList));
     }
 
     void testSortedCopy() {
-      List<T> shuffledList = Lists.newArrayList(strictlyOrderedList);
+      List<T> shuffledList = new ArrayList<>(strictlyOrderedList);
       shuffledList = shuffledCopy(shuffledList, new Random(5));
 
       assertEquals(strictlyOrderedList, ordering.sortedCopy(shuffledList));
@@ -999,7 +999,7 @@ public class OrderingTest extends TestCase {
     REVERSE {
       @Override
       <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
-        List<T> newList = Lists.newArrayList(scenario.strictlyOrderedList);
+        List<T> newList = new ArrayList<>(scenario.strictlyOrderedList);
         Collections.reverse(newList);
         return new Scenario<T>(scenario.ordering.reverse(), newList, scenario.emptyArray);
       }
@@ -1019,7 +1019,7 @@ public class OrderingTest extends TestCase {
     NULLS_LAST {
       @Override
       <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
-        List<T> newList = Lists.newArrayList();
+        List<T> newList = new ArrayList<>();
         for (T t : scenario.strictlyOrderedList) {
           if (t != null) {
             newList.add(t);
@@ -1040,7 +1040,7 @@ public class OrderingTest extends TestCase {
                     return scenario.strictlyOrderedList.get(from);
                   }
                 });
-        List<Integer> list = Lists.newArrayList();
+        List<Integer> list = new ArrayList<>();
         for (int i = 0; i < scenario.strictlyOrderedList.size(); i++) {
           list.add(i);
         }
@@ -1051,7 +1051,7 @@ public class OrderingTest extends TestCase {
       @SuppressWarnings("unchecked") // generic arrays
       @Override
       <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
-        List<Composite<T>> composites = Lists.newArrayList();
+        List<Composite<T>> composites = new ArrayList<>();
         for (T t : scenario.strictlyOrderedList) {
           composites.add(new Composite<T>(t, 1));
           composites.add(new Composite<T>(t, 2));
@@ -1069,7 +1069,7 @@ public class OrderingTest extends TestCase {
       @SuppressWarnings("unchecked") // generic arrays
       @Override
       <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
-        List<Composite<T>> composites = Lists.newArrayList();
+        List<Composite<T>> composites = new ArrayList<>();
         for (T t : scenario.strictlyOrderedList) {
           composites.add(new Composite<T>(t, 1));
         }
@@ -1087,7 +1087,7 @@ public class OrderingTest extends TestCase {
       @SuppressWarnings("unchecked") // generic arrays
       @Override
       <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
-        List<Iterable<T>> words = Lists.newArrayList();
+        List<Iterable<T>> words = new ArrayList<>();
         words.add(Collections.<T>emptyList());
         for (T t : scenario.strictlyOrderedList) {
           words.add(asList(t));
@@ -1145,8 +1145,8 @@ public class OrderingTest extends TestCase {
   }
 
   private static <T extends @Nullable Object> List<T> shuffledCopy(List<T> in, Random random) {
-    List<T> mutable = newArrayList(in);
-    List<T> out = newArrayList();
+    List<T> mutable = new ArrayList<>(in);
+    List<T> out = new ArrayList<>();
     while (!mutable.isEmpty()) {
       out.add(mutable.remove(random.nextInt(mutable.size())));
     }

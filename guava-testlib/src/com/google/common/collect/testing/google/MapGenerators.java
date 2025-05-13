@@ -37,6 +37,8 @@ import com.google.common.collect.testing.TestUnhashableCollectionGenerator;
 import com.google.common.collect.testing.UnhashableObject;
 import java.util.Collection;
 import java.util.EnumMap;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -65,7 +67,7 @@ public class MapGenerators {
   public static class ImmutableMapCopyOfGenerator extends TestStringMapGenerator {
     @Override
     protected Map<String, String> create(Entry<String, String>[] entries) {
-      Map<String, String> builder = Maps.newLinkedHashMap();
+      Map<String, String> builder = new LinkedHashMap<>();
       for (Entry<String, String> entry : entries) {
         builder.put(entry.getKey(), entry.getValue());
       }
@@ -155,7 +157,7 @@ public class MapGenerators {
   public static class ImmutableEnumMapGenerator extends TestEnumMapGenerator {
     @Override
     protected Map<AnEnum, String> create(Entry<AnEnum, String>[] entries) {
-      Map<AnEnum, String> map = Maps.newHashMap();
+      Map<AnEnum, String> map = new HashMap<>();
       for (Entry<AnEnum, String> entry : entries) {
         checkNotNull(entry);
         map.put(entry.getKey(), entry.getValue());

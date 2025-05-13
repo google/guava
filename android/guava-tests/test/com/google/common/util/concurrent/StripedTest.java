@@ -22,12 +22,12 @@ import com.google.common.base.Functions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.Sets;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.NullPointerTester;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -168,7 +168,7 @@ public class StripedTest extends TestCase {
 
   public void testBulkGetReturnsSorted() {
     for (Striped<?> striped : allImplementations()) {
-      Map<Object, Integer> indexByLock = Maps.newHashMap();
+      Map<Object, Integer> indexByLock = new HashMap<>();
       for (int i = 0; i < striped.size(); i++) {
         indexByLock.put(striped.getAt(i), i);
       }

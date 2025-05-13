@@ -32,7 +32,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MutableClassToInstanceMap;
 import com.google.common.collect.Ordering;
-import com.google.common.collect.Sets;
 import com.google.common.reflect.Invokable;
 import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
@@ -46,7 +45,9 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -310,10 +311,10 @@ public final class ClassSanityTester {
       return;
     }
     int numberOfParameters = factories.get(0).getParameters().size();
-    List<ParameterNotInstantiableException> paramErrors = Lists.newArrayList();
-    List<ParameterHasNoDistinctValueException> distinctValueErrors = Lists.newArrayList();
-    List<InvocationTargetException> instantiationExceptions = Lists.newArrayList();
-    List<FactoryMethodReturnsNullException> nullErrors = Lists.newArrayList();
+    List<ParameterNotInstantiableException> paramErrors = new ArrayList<>();
+    List<ParameterHasNoDistinctValueException> distinctValueErrors = new ArrayList<>();
+    List<InvocationTargetException> instantiationExceptions = new ArrayList<>();
+    List<FactoryMethodReturnsNullException> nullErrors = new ArrayList<>();
     // Try factories with the greatest number of parameters.
     for (Invokable<?, ?> factory : factories) {
       if (factory.getParameters().size() == numberOfParameters) {
@@ -358,9 +359,9 @@ public final class ClassSanityTester {
       }
     }
     TypeToken<T> type = TypeToken.of(cls);
-    List<ParameterNotInstantiableException> paramErrors = Lists.newArrayList();
-    List<InvocationTargetException> instantiationExceptions = Lists.newArrayList();
-    List<FactoryMethodReturnsNullException> nullErrors = Lists.newArrayList();
+    List<ParameterNotInstantiableException> paramErrors = new ArrayList<>();
+    List<InvocationTargetException> instantiationExceptions = new ArrayList<>();
+    List<FactoryMethodReturnsNullException> nullErrors = new ArrayList<>();
     for (Invokable<?, ? extends T> factory : getFactories(type)) {
       T instance;
       try {
@@ -417,7 +418,7 @@ public final class ClassSanityTester {
 
   /** Runs sanity tests against return values of static factory methods declared by a class. */
   public final class FactoryMethodReturnValueTester {
-    private final Set<String> packagesToTest = Sets.newHashSet();
+    private final Set<String> packagesToTest = new HashSet<>();
     private final Class<?> declaringClass;
     private final ImmutableList<Invokable<?, ?>> factories;
     private final String factoryMethodsDescription;
@@ -587,7 +588,7 @@ public final class ClassSanityTester {
     Object instance = createInstance(factory, args);
     List<Object> equalArgs = generateEqualFactoryArguments(factory, params, args);
     // Each group is a List of items, each item has a list of factory args.
-    List<List<List<Object>>> argGroups = Lists.newArrayList();
+    List<List<List<Object>>> argGroups = new ArrayList<>();
     argGroups.add(ImmutableList.of(args, equalArgs));
     EqualsTester tester =
         new EqualsTester(
@@ -603,7 +604,7 @@ public final class ClassSanityTester {
             });
     tester.addEqualityGroup(instance, createInstance(factory, equalArgs));
     for (int i = 0; i < params.size(); i++) {
-      List<Object> newArgs = Lists.newArrayList(args);
+      List<Object> newArgs = new ArrayList<>(args);
       Object newArg = argGenerators.get(i).generateFresh(params.get(i).getType());
 
       if (newArg == null || Objects.equal(args.get(i), newArg)) {
@@ -629,7 +630,7 @@ public final class ClassSanityTester {
           FactoryMethodReturnsNullException,
           InvocationTargetException,
           IllegalAccessException {
-    List<Object> equalArgs = Lists.newArrayList(args);
+    List<Object> equalArgs = new ArrayList<>(args);
     for (int i = 0; i < args.size(); i++) {
       Parameter param = params.get(i);
       Object arg = args.get(i);
@@ -653,7 +654,7 @@ public final class ClassSanityTester {
   private static boolean hashCodeInsensitiveToArgReference(
       Invokable<?, ?> factory, List<Object> args, int i, Object alternateArg)
       throws FactoryMethodReturnsNullException, InvocationTargetException, IllegalAccessException {
-    List<Object> tentativeArgs = Lists.newArrayList(args);
+    List<Object> tentativeArgs = new ArrayList<>(args);
     tentativeArgs.set(i, alternateArg);
     return createInstance(factory, tentativeArgs).hashCode()
         == createInstance(factory, args).hashCode();
@@ -696,7 +697,7 @@ public final class ClassSanityTester {
 
   /** Factories with the least number of parameters are listed first. */
   private static <T> ImmutableList<Invokable<?, ? extends T>> getFactories(TypeToken<T> type) {
-    List<Invokable<?, ? extends T>> factories = Lists.newArrayList();
+    List<Invokable<?, ? extends T>> factories = new ArrayList<>();
     for (Method method : type.getRawType().getDeclaredMethods()) {
       Invokable<?, ?> invokable = type.method(method);
       if (!invokable.isPrivate()
@@ -730,7 +731,7 @@ public final class ClassSanityTester {
 
   private List<Object> getDummyArguments(Invokable<?, ?> invokable)
       throws ParameterNotInstantiableException {
-    List<Object> args = Lists.newArrayList();
+    List<Object> args = new ArrayList<>();
     for (Parameter param : invokable.getParameters()) {
       if (isNullable(param)) {
         args.add(null);

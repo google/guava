@@ -27,11 +27,11 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -496,7 +496,7 @@ public class RateLimiterTest extends TestCase {
    */
   static class FakeStopwatch extends SleepingStopwatch {
     long instant = 0L;
-    final List<String> events = Lists.newArrayList();
+    final List<String> events = new ArrayList<>();
 
     @Override
     public long readMicros() {

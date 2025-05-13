@@ -16,7 +16,7 @@
 
 package com.google.common.eventbus;
 
-import com.google.common.collect.Lists;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Executor;
 import junit.framework.TestCase;
@@ -70,7 +70,7 @@ public class AsyncEventBusTest extends TestCase {
    * @author cbiffle
    */
   public static class FakeExecutor implements Executor {
-    List<Runnable> tasks = Lists.newArrayList();
+    List<Runnable> tasks = new ArrayList<>();
 
     @Override
     public void execute(Runnable task) {

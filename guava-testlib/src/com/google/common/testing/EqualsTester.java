@@ -23,7 +23,6 @@ import static junit.framework.Assert.assertTrue;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.List;
@@ -81,7 +80,7 @@ import org.jspecify.annotations.Nullable;
 public final class EqualsTester {
   private static final int REPETITIONS = 3;
 
-  private final List<List<Object>> equalityGroups = Lists.newArrayList();
+  private final List<List<Object>> equalityGroups = new ArrayList<>();
   private final RelationshipTester.ItemReporter itemReporter;
 
   /** Constructs an empty EqualsTester instance */

@@ -18,9 +18,9 @@ package com.google.common.eventbus.outside;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.eventbus.outside.AbstractNotAnnotatedInSuperclassTest.SubClass;
+import java.util.ArrayList;
 import java.util.List;
 
 public class AbstractNotAnnotatedInSuperclassTest extends AbstractEventBusTest<SubClass> {
@@ -31,8 +31,8 @@ public class AbstractNotAnnotatedInSuperclassTest extends AbstractEventBusTest<S
   }
 
   static class SubClass extends SuperClass {
-    final List<Object> overriddenInSubclassNowhereAnnotatedEvents = Lists.newArrayList();
-    final List<Object> overriddenAndAnnotatedInSubclassEvents = Lists.newArrayList();
+    final List<Object> overriddenInSubclassNowhereAnnotatedEvents = new ArrayList<>();
+    final List<Object> overriddenAndAnnotatedInSubclassEvents = new ArrayList<>();
 
     @Override
     public void overriddenInSubclassNowhereAnnotated(Object o) {

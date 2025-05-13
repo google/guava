@@ -19,9 +19,9 @@ import static com.google.common.util.concurrent.Futures.immediateFuture;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.jspecify.annotations.NullUnmarked;
@@ -50,7 +50,7 @@ class TestingCacheLoaders {
 
       @Override
       public Map<K, V> loadAll(Iterable<? extends K> keys) throws Exception {
-        Map<K, V> result = Maps.newHashMap(); // allow nulls
+        Map<K, V> result = new HashMap<>(); // allow nulls
         for (K key : keys) {
           result.put(key, load(key));
         }

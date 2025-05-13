@@ -20,9 +20,9 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 import java.util.Set;
@@ -520,7 +520,7 @@ public class AtomicLongMapTest extends TestCase {
 
   public void testRemoveZeros() {
     AtomicLongMap<Object> map = AtomicLongMap.create();
-    Set<Object> nonZeroKeys = Sets.newHashSet();
+    Set<Object> nonZeroKeys = new HashSet<>();
     for (int i = 0; i < ITERATIONS; i++) {
       Object key = new Object();
       long value = i % 2;

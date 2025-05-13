@@ -27,7 +27,6 @@ import com.google.common.collect.FluentIterable;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.io.ByteSource;
 import com.google.common.io.CharSource;
 import com.google.common.io.Resources;
@@ -603,7 +602,7 @@ public final class ClassPath {
 
   @VisibleForTesting
   static ImmutableMap<File, ClassLoader> getClassPathEntries(ClassLoader classloader) {
-    LinkedHashMap<File, ClassLoader> entries = Maps.newLinkedHashMap();
+    LinkedHashMap<File, ClassLoader> entries = new LinkedHashMap<>();
     // Search parent first, since it's the order ClassLoader#loadClass() uses.
     ClassLoader parent = classloader.getParent();
     if (parent != null) {

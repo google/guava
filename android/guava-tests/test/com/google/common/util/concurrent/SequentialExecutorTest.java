@@ -23,8 +23,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Queues;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.CountDownLatch;
@@ -49,7 +49,7 @@ import org.jspecify.annotations.NullUnmarked;
 public class SequentialExecutorTest extends TestCase {
 
   private static class FakeExecutor implements Executor {
-    Queue<Runnable> tasks = Queues.newArrayDeque();
+    final Queue<Runnable> tasks = new ArrayDeque<>();
 
     @Override
     public void execute(Runnable command) {
@@ -121,7 +121,7 @@ public class SequentialExecutorTest extends TestCase {
   }
 
   public void testOrdering() {
-    final List<Integer> callOrder = Lists.newArrayList();
+    final List<Integer> callOrder = new ArrayList<>();
 
     class FakeOp implements Runnable {
       final int op;

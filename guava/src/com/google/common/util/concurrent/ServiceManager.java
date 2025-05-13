@@ -56,6 +56,7 @@ import com.google.j2objc.annotations.J2ObjCIncompatible;
 import com.google.j2objc.annotations.WeakOuter;
 import java.lang.ref.WeakReference;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.IdentityHashMap;
 import java.util.List;
@@ -559,7 +560,7 @@ public final class ServiceManager implements ServiceManagerBridge {
           ready = true;
         } else {
           // This should be an extremely rare race condition.
-          List<Service> servicesInBadStates = Lists.newArrayList();
+          List<Service> servicesInBadStates = new ArrayList<>();
           for (Service service : servicesByState().values()) {
             if (service.state() != NEW) {
               servicesInBadStates.add(service);

@@ -265,7 +265,7 @@ public class MultisetsCollectionTest extends TestCase {
 
       @Override
       public List<String> order(List<String> insertionOrder) {
-        return Lists.newArrayList(LinkedHashMultiset.create(insertionOrder));
+        return new ArrayList<>(LinkedHashMultiset.create(insertionOrder));
       }
     };
   }

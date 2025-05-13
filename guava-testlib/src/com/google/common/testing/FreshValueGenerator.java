@@ -676,14 +676,14 @@ class FreshValueGenerator {
 
   @Generates
   static <E> ArrayList<E> generateArrayList(@Nullable E freshElement) {
-    ArrayList<E> list = Lists.newArrayList();
+    ArrayList<E> list = new ArrayList<>();
     list.add(freshElement);
     return list;
   }
 
   @Generates
   static <E> LinkedList<E> generateLinkedList(@Nullable E freshElement) {
-    LinkedList<E> list = Lists.newLinkedList();
+    LinkedList<E> list = new LinkedList<>();
     list.add(freshElement);
     return list;
   }
@@ -710,7 +710,7 @@ class FreshValueGenerator {
 
   @Generates
   static <E> LinkedHashSet<E> generateLinkedHashSet(@Nullable E freshElement) {
-    LinkedHashSet<E> set = Sets.newLinkedHashSet();
+    LinkedHashSet<E> set = new LinkedHashSet<>();
     set.add(freshElement);
     return set;
   }
@@ -797,7 +797,7 @@ class FreshValueGenerator {
 
   @Generates
   static <K, V> LinkedHashMap<K, V> generateLinkedHashMap(@Nullable K key, @Nullable V value) {
-    LinkedHashMap<K, V> map = Maps.newLinkedHashMap();
+    LinkedHashMap<K, V> map = new LinkedHashMap<>();
     map.put(key, value);
     return map;
   }

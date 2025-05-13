@@ -23,6 +23,7 @@ import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -155,9 +156,9 @@ public class CompactLinkedHashMapTest extends TestCase {
   }
 
   private void testHasMapEntriesInOrder(Map<?, ?> map, Object... alternatingKeysAndValues) {
-    List<? extends Entry<?, ?>> entries = Lists.newArrayList(map.entrySet());
-    List<Object> keys = Lists.newArrayList(map.keySet());
-    List<Object> values = Lists.newArrayList(map.values());
+    List<? extends Entry<?, ?>> entries = new ArrayList<>(map.entrySet());
+    List<Object> keys = new ArrayList<>(map.keySet());
+    List<Object> values = new ArrayList<>(map.values());
     assertEquals(2 * entries.size(), alternatingKeysAndValues.length);
     assertEquals(2 * keys.size(), alternatingKeysAndValues.length);
     assertEquals(2 * values.size(), alternatingKeysAndValues.length);

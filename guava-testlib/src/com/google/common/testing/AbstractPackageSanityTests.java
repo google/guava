@@ -28,15 +28,14 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
-import com.google.common.collect.Sets;
 import com.google.common.reflect.ClassPath;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -345,7 +344,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     }
     // Foo.class -> [FooTest.class, FooTests.class, FooTestSuite.class, ...]
     Multimap<Class<?>, Class<?>> testClasses = HashMultimap.create();
-    LinkedHashSet<Class<?>> candidateClasses = Sets.newLinkedHashSet();
+    LinkedHashSet<Class<?>> candidateClasses = new LinkedHashSet<>();
     for (Class<?> cls : classes) {
       Optional<String> testedClassName = TEST_SUFFIX.chop(cls.getName());
       if (testedClassName.isPresent()) {
@@ -357,7 +356,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
         candidateClasses.add(cls);
       }
     }
-    List<Class<?>> result = Lists.newArrayList();
+    List<Class<?>> result = new ArrayList<>();
     NEXT_CANDIDATE:
     for (Class<?> candidate : Iterables.filter(candidateClasses, classFilter)) {
       for (Class<?> testClass : testClasses.get(candidate)) {
@@ -372,7 +371,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
   }
 
   private List<Class<?>> loadClassesInPackage() throws IOException {
-    List<Class<?>> classes = Lists.newArrayList();
+    List<Class<?>> classes = new ArrayList<>();
     String packageName = getClass().getPackage().getName();
     for (ClassPath.ClassInfo classInfo :
         ClassPath.from(getClass().getClassLoader()).getTopLevelClasses(packageName)) {

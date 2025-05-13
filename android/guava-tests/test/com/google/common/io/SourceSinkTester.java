@@ -20,12 +20,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.io.Reader;
 import java.io.StringReader;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -113,7 +113,7 @@ public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends T
   }
 
   static ImmutableList<Method> getTestMethods(Class<?> testClass) {
-    List<Method> result = Lists.newArrayList();
+    List<Method> result = new ArrayList<>();
     for (Method method : testClass.getDeclaredMethods()) {
       if (Modifier.isPublic(method.getModifiers())
           && method.getReturnType() == void.class

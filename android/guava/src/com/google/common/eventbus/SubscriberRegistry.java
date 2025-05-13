@@ -37,6 +37,7 @@ import com.google.j2objc.annotations.Weak;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -191,7 +192,7 @@ final class SubscriberRegistry {
 
   private static ImmutableList<Method> getAnnotatedMethodsNotCached(Class<?> clazz) {
     Set<? extends Class<?>> supertypes = TypeToken.of(clazz).getTypes().rawTypes();
-    Map<MethodIdentifier, Method> identifiers = Maps.newHashMap();
+    Map<MethodIdentifier, Method> identifiers = new HashMap<>();
     for (Class<?> supertype : supertypes) {
       for (Method method : supertype.getDeclaredMethods()) {
         if (method.isAnnotationPresent(Subscribe.class) && !method.isSynthetic()) {

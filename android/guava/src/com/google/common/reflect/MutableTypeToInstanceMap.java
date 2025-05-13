@@ -20,9 +20,9 @@ import com.google.common.collect.ForwardingMap;
 import com.google.common.collect.ForwardingMapEntry;
 import com.google.common.collect.ForwardingSet;
 import com.google.common.collect.Iterators;
-import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
@@ -40,7 +40,7 @@ public final class MutableTypeToInstanceMap<B extends @Nullable Object>
   /** Creates a new map. */
   public MutableTypeToInstanceMap() {}
 
-  private final Map<TypeToken<? extends @NonNull B>, B> backingMap = Maps.newHashMap();
+  private final Map<TypeToken<? extends @NonNull B>, B> backingMap = new HashMap<>();
 
   @Override
   public <T extends @NonNull B> @Nullable T getInstance(Class<T> type) {

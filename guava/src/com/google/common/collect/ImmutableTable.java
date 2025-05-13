@@ -30,6 +30,7 @@ import com.google.errorprone.annotations.DoNotMock;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -188,7 +189,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    */
   @DoNotMock
   public static final class Builder<R, C, V> {
-    private final List<Cell<R, C, V>> cells = Lists.newArrayList();
+    private final List<Cell<R, C, V>> cells = new ArrayList<>();
     private @Nullable Comparator<? super R> rowComparator;
     private @Nullable Comparator<? super C> columnComparator;
 

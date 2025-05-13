@@ -17,7 +17,7 @@ package com.google.common.eventbus;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.collect.Queues;
+import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -81,7 +81,7 @@ abstract class Dispatcher {
         new ThreadLocal<Queue<Event>>() {
           @Override
           protected Queue<Event> initialValue() {
-            return Queues.newArrayDeque();
+            return new ArrayDeque<>();
           }
         };
 
@@ -152,8 +152,7 @@ abstract class Dispatcher {
     // in some cases.
 
     /** Global event queue. */
-    private final ConcurrentLinkedQueue<EventWithSubscriber> queue =
-        Queues.newConcurrentLinkedQueue();
+    private final ConcurrentLinkedQueue<EventWithSubscriber> queue = new ConcurrentLinkedQueue<>();
 
     @Override
     void dispatch(Object event, Iterator<Subscriber> subscribers) {

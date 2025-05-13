@@ -28,7 +28,6 @@ import static java.util.Collections.sort;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.BoundType;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.SortedMultiset;
 import com.google.common.collect.testing.AbstractTester;
@@ -115,7 +114,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
   }
 
   List<TestSuite> createDerivedSuites(SortedMultisetTestSuiteBuilder<E> parentBuilder) {
-    List<TestSuite> derivedSuites = Lists.newArrayList();
+    List<TestSuite> derivedSuites = new ArrayList<>();
 
     if (!parentBuilder.getFeatures().contains(NoRecurse.DESCENDING)) {
       derivedSuites.add(createDescendingSuite(parentBuilder));

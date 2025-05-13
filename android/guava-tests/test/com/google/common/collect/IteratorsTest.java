@@ -64,6 +64,7 @@ import java.util.Collections;
 import java.util.ConcurrentModificationException;
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
@@ -302,7 +303,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testAny() {
-    List<String> list = Lists.newArrayList();
+    List<String> list = new ArrayList<>();
     Predicate<String> predicate = equalTo("pants");
 
     assertFalse(any(list.iterator(), predicate));
@@ -313,7 +314,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testAll() {
-    List<String> list = Lists.newArrayList();
+    List<String> list = new ArrayList<>();
     Predicate<String> predicate = equalTo("cool");
 
     assertTrue(all(list.iterator(), predicate));
@@ -817,7 +818,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testAddAllToSet() {
-    Set<String> alreadyThere = Sets.newLinkedHashSet(asList("already", "there"));
+    Set<String> alreadyThere = new LinkedHashSet<>(asList("already", "there"));
     List<String> oneMore = Lists.newArrayList("there");
 
     boolean changed = Iterators.addAll(alreadyThere, oneMore.iterator());
@@ -863,7 +864,7 @@ public class IteratorsTest extends TestCase {
     Iterable<?> b;
 
     // Base case.
-    a = Lists.newArrayList();
+    a = new ArrayList<>();
     b = emptySet();
     assertTrue(elementsEqual(a.iterator(), b.iterator()));
 
@@ -1183,7 +1184,7 @@ public class IteratorsTest extends TestCase {
 
   @SuppressWarnings("JUnitIncompatibleType") // Fails with j2kt.
   public void testLimit() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     assertThrows(IllegalArgumentException.class, () -> Iterators.limit(list.iterator(), -1));
 
     assertFalse(Iterators.limit(list.iterator(), 0).hasNext());
@@ -1202,7 +1203,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testLimitRemove() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("cool");
     list.add("pants");
     Iterator<String> iterator = Iterators.limit(list.iterator(), 1);
@@ -1220,7 +1221,7 @@ public class IteratorsTest extends TestCase {
         5, MODIFIABLE, newArrayList(1, 2, 3), IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<Integer> newTargetIterator() {
-        return Iterators.limit(Lists.newArrayList(list).iterator(), 3);
+        return Iterators.limit(new ArrayList<>(list).iterator(), 3);
       }
     }.test();
   }
@@ -1246,14 +1247,14 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testGetLast_basic() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     assertEquals("b", getLast(list.iterator()));
   }
 
   public void testGetLast_exception() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     assertThrows(NoSuchElementException.class, () -> getLast(list.iterator()));
   }
 
@@ -1278,7 +1279,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testGet_basic() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
@@ -1287,7 +1288,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testGet_atSize() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
@@ -1296,7 +1297,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testGet_pastEnd() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
@@ -1305,7 +1306,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testGet_empty() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     Iterator<String> iterator = list.iterator();
     assertThrows(IndexOutOfBoundsException.class, () -> get(iterator, 0));
     assertFalse(iterator.hasNext());
@@ -1318,7 +1319,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testGet_withDefault_basic() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
@@ -1327,7 +1328,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testGet_withDefault_atSize() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
@@ -1336,7 +1337,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testGet_withDefault_pastEnd() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
@@ -1345,7 +1346,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testGet_withDefault_negativeIndex() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
@@ -1354,7 +1355,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testAdvance_basic() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();
@@ -1363,7 +1364,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testAdvance_pastEnd() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     list.add("a");
     list.add("b");
     Iterator<String> iterator = list.iterator();

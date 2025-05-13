@@ -21,6 +21,7 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.SerializableTester;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NavigableMap;
 import org.jspecify.annotations.NullUnmarked;
@@ -88,7 +89,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
   private static final ImmutableList<Cut<Integer>> CUTS_TO_TEST;
 
   static {
-    List<Cut<Integer>> cutsToTest = Lists.newArrayList();
+    List<Cut<Integer>> cutsToTest = new ArrayList<>();
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       cutsToTest.add(Cut.belowValue(i));
       cutsToTest.add(Cut.aboveValue(i));

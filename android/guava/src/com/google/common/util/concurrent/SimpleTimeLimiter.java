@@ -21,12 +21,12 @@ import static com.google.common.util.concurrent.Uninterruptibles.getUninterrupti
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ObjectArrays;
-import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -239,7 +239,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
   }
 
   private static Set<Method> findInterruptibleMethods(Class<?> interfaceType) {
-    Set<Method> set = Sets.newHashSet();
+    Set<Method> set = new HashSet<>();
     for (Method m : interfaceType.getMethods()) {
       if (declaresInterruptedEx(m)) {
         set.add(m);

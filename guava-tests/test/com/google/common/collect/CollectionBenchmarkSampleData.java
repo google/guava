@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Collections.shuffle;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import org.jspecify.annotations.NullUnmarked;
@@ -76,7 +77,7 @@ class CollectionBenchmarkSampleData {
       for (int i = 0; i < minCopiesOfEachGoodQuery; i++) {
         queryList.addAll(elementsInSet);
       }
-      List<Element> tmp = Lists.newArrayList(elementsInSet);
+      List<Element> tmp = new ArrayList<>(elementsInSet);
       shuffle(tmp, random);
       queryList.addAll(tmp.subList(0, extras));
     }

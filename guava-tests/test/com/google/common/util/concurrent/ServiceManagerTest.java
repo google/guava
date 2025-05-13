@@ -28,13 +28,13 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TestLogHandler;
 import com.google.common.util.concurrent.Service.State;
 import com.google.common.util.concurrent.ServiceManager.Listener;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -630,7 +630,7 @@ public class ServiceManagerTest extends TestCase {
    */
   public void testTransitionRace() throws TimeoutException {
     for (int k = 0; k < 1000; k++) {
-      List<Service> services = Lists.newArrayList();
+      List<Service> services = new ArrayList<>();
       for (int i = 0; i < 5; i++) {
         services.add(new SnappyShutdownService(i));
       }

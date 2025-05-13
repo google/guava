@@ -18,9 +18,9 @@ package com.google.common.eventbus.outside;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.common.collect.Lists;
 import com.google.common.eventbus.Subscribe;
 import com.google.common.eventbus.outside.DeepInterfaceTest.SubscriberClass;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DeepInterfaceTest extends AbstractEventBusTest<SubscriberClass> {
@@ -61,14 +61,14 @@ public class DeepInterfaceTest extends AbstractEventBusTest<SubscriberClass> {
   }
 
   static class SubscriberClass implements Interface2 {
-    final List<Object> annotatedIn1Events = Lists.newArrayList();
-    final List<Object> annotatedIn1And2Events = Lists.newArrayList();
-    final List<Object> annotatedIn1And2AndClassEvents = Lists.newArrayList();
-    final List<Object> declaredIn1AnnotatedIn2Events = Lists.newArrayList();
-    final List<Object> declaredIn1AnnotatedInClassEvents = Lists.newArrayList();
-    final List<Object> declaredIn2AnnotatedInClassEvents = Lists.newArrayList();
-    final List<Object> annotatedIn2Events = Lists.newArrayList();
-    final List<Object> nowhereAnnotatedEvents = Lists.newArrayList();
+    final List<Object> annotatedIn1Events = new ArrayList<>();
+    final List<Object> annotatedIn1And2Events = new ArrayList<>();
+    final List<Object> annotatedIn1And2AndClassEvents = new ArrayList<>();
+    final List<Object> declaredIn1AnnotatedIn2Events = new ArrayList<>();
+    final List<Object> declaredIn1AnnotatedInClassEvents = new ArrayList<>();
+    final List<Object> declaredIn2AnnotatedInClassEvents = new ArrayList<>();
+    final List<Object> annotatedIn2Events = new ArrayList<>();
+    final List<Object> nowhereAnnotatedEvents = new ArrayList<>();
 
     @Override
     public void annotatedIn1(Object o) {

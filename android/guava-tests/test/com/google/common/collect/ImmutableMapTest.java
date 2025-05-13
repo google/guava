@@ -49,6 +49,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -895,7 +896,7 @@ public class ImmutableMapTest extends TestCase {
     LenientSerializableTester.reserializeAndAssertLenient(map.keySet());
 
     Collection<Integer> reserializedValues = reserialize(map.values());
-    assertEquals(Lists.newArrayList(map.values()), Lists.newArrayList(reserializedValues));
+    assertEquals(new ArrayList<>(map.values()), new ArrayList<>(reserializedValues));
     assertTrue(reserializedValues instanceof ImmutableCollection);
   }
 

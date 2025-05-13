@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Long.MAX_VALUE;
 import static java.lang.Thread.currentThread;
@@ -27,6 +26,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Stopwatch;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -115,7 +115,7 @@ public class QueuesTest extends TestCase {
       @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError4 = threadPool.submit(new Producer(q, 20));
 
-      List<Object> buf = newArrayList();
+      List<Object> buf = new ArrayList<>();
       int elements = drain(q, buf, 100, MAX_VALUE, NANOSECONDS, interruptibly);
       assertEquals(100, elements);
       assertEquals(100, buf.size());
@@ -141,7 +141,7 @@ public class QueuesTest extends TestCase {
       // make sure we time out
       Stopwatch timer = Stopwatch.createStarted();
 
-      int drained = drain(q, newArrayList(), 2, 10, MILLISECONDS, interruptibly);
+      int drained = drain(q, new ArrayList<>(), 2, 10, MILLISECONDS, interruptibly);
       assertThat(drained).isAtMost(1);
 
       assertThat(timer.elapsed(MILLISECONDS)).isAtLeast(10L);
@@ -188,7 +188,7 @@ public class QueuesTest extends TestCase {
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError = threadPool.submit(new Producer(q, 1));
 
-    List<Object> buf = newArrayList();
+    List<Object> buf = new ArrayList<>();
     int elements = Queues.drain(q, buf, -1, MAX_VALUE, NANOSECONDS);
     assertEquals(0, elements);
     assertThat(buf).isEmpty();
@@ -233,7 +233,7 @@ public class QueuesTest extends TestCase {
                 return null;
               }
             });
-    List<Object> buf = newArrayList();
+    List<Object> buf = new ArrayList<>();
     int elements = Queues.drainUninterruptibly(q, buf, 100, MAX_VALUE, NANOSECONDS);
     // so when this drains all elements, we know the thread has also been interrupted in between
     assertTrue(Thread.interrupted());
@@ -273,7 +273,7 @@ public class QueuesTest extends TestCase {
     Future<?> possiblyIgnoredError = threadPool.submit(new Interrupter(currentThread()));
     try {
       // if waiting works, this should get stuck
-      Queues.drain(q, newArrayList(), 1, MAX_VALUE, NANOSECONDS);
+      Queues.drain(q, new ArrayList<>(), 1, MAX_VALUE, NANOSECONDS);
       fail();
     } catch (InterruptedException expected) {
       // we indeed waited; a slow thread had enough time to interrupt us
@@ -290,7 +290,7 @@ public class QueuesTest extends TestCase {
     Future<?> possiblyIgnoredError = threadPool.submit(new Interrupter(currentThread()));
 
     Stopwatch timer = Stopwatch.createStarted();
-    Queues.drainUninterruptibly(q, newArrayList(), 1, 10, MILLISECONDS);
+    Queues.drainUninterruptibly(q, new ArrayList<>(), 1, 10, MILLISECONDS);
     assertThat(timer.elapsed(MILLISECONDS)).isAtLeast(10L);
     // wait for interrupted status and clear it
     while (!Thread.interrupted()) {

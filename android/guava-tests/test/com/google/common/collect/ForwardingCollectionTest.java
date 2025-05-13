@@ -26,6 +26,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.ForwardingWrapperTester;
 import java.util.Collection;
+import java.util.LinkedList;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -114,7 +115,7 @@ public class ForwardingCollectionTest extends TestCase {
                   @Override
                   protected Collection<String> create(String[] elements) {
                     return new StandardImplForwardingCollection<>(
-                        Lists.newLinkedList(asList(elements)));
+                        new LinkedList<>(asList(elements)));
                   }
                 })
             .named("ForwardingCollection[LinkedList] with standard implementations")

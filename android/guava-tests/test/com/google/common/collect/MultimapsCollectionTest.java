@@ -19,7 +19,6 @@ package com.google.common.collect;
 import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Maps.immutableEntry;
-import static com.google.common.collect.Maps.newHashMap;
 import static com.google.common.collect.Multimaps.filterKeys;
 import static com.google.common.collect.Multimaps.filterValues;
 import static com.google.common.collect.Multimaps.synchronizedListMultimap;
@@ -61,6 +60,7 @@ import com.google.common.collect.testing.google.TestStringMultisetGenerator;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -147,7 +147,7 @@ public class MultimapsCollectionTest extends TestCase {
 
     @SuppressWarnings("unchecked") // all methods throw immediately
     PopulatableMapAsMultimap() {
-      this.map = newHashMap();
+      this.map = new HashMap<>();
       this.unusableDelegate =
           (SetMultimap<K, V>)
               newProxyInstance(

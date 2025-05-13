@@ -30,6 +30,7 @@ import com.google.common.collect.Iterators;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
@@ -107,10 +108,10 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
     if (values.size() == 0) {
       expectUnchanged();
       // Be extra thorough in case internal state was corrupted by the expected null.
-      assertEquals(newArrayList(), newArrayList(values));
+      assertEquals(new ArrayList<>(), new ArrayList<>(values));
       assertEquals(size, multimap().size());
     } else {
-      assertEquals(newArrayList(v3()), newArrayList(values));
+      assertEquals(newArrayList(v3()), new ArrayList<>(values));
       assertEquals(size + 1, multimap().size());
     }
   }
@@ -129,7 +130,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
      */
     expectUnchanged();
     // Be extra thorough in case internal state was corrupted by the expected null.
-    assertEquals(newArrayList(), newArrayList(multimap().get(k3())));
+    assertEquals(new ArrayList<>(), new ArrayList<>(multimap().get(k3())));
     assertEquals(size, multimap().size());
   }
 

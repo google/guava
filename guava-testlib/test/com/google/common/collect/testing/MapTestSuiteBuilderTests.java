@@ -21,7 +21,6 @@ import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUES;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
@@ -68,7 +67,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
   private abstract static class WrappedHashMapGenerator extends TestStringMapGenerator {
     @Override
     protected final Map<String, String> create(Entry<String, String>[] entries) {
-      HashMap<String, String> map = Maps.newHashMap();
+      HashMap<String, String> map = new HashMap<>();
       for (Entry<String, String> entry : entries) {
         map.put(entry.getKey(), entry.getValue());
       }

@@ -27,6 +27,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetFeature;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
+import java.util.ArrayList;
 import java.util.List;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -74,7 +75,7 @@ public class LinkedHashMultisetTest extends TestCase {
 
       @Override
       public List<String> order(List<String> insertionOrder) {
-        List<String> order = Lists.newArrayList();
+        List<String> order = new ArrayList<>();
         for (String s : insertionOrder) {
           int index = order.indexOf(s);
           if (index == -1) {

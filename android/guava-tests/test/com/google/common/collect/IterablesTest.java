@@ -31,7 +31,6 @@ import static com.google.common.collect.Iterables.tryFind;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.Sets.newHashSet;
-import static com.google.common.collect.Sets.newLinkedHashSet;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.collect.testing.IteratorFeature.UNMODIFIABLE;
 import static com.google.common.truth.Truth.assertThat;
@@ -56,7 +55,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.ConcurrentModificationException;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Queue;
@@ -220,7 +222,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testAny() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     Predicate<String> predicate = equalTo("pants");
 
     assertFalse(any(list, predicate));
@@ -231,7 +233,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testAll() {
-    List<String> list = newArrayList();
+    List<String> list = new ArrayList<>();
     Predicate<String> predicate = equalTo("cool");
 
     assertTrue(all(list, predicate));
@@ -456,7 +458,7 @@ public class IterablesTest extends TestCase {
   @J2ktIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in J2KT.
   @GwtIncompatible // Arrays.asList(...).subList() doesn't implement RandomAccess in GWT
   public void testPartitionNonRandomAccessInput() {
-    Iterable<Integer> source = Lists.newLinkedList(asList(1, 2, 3));
+    Iterable<Integer> source = new LinkedList<>(asList(1, 2, 3));
     Iterable<List<Integer>> partitions = Iterables.partition(source, 2);
     Iterator<List<Integer>> iterator = partitions.iterator();
     // Even though the input list doesn't implement RandomAccess, the output
@@ -481,7 +483,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testPaddedPartitionNonRandomAccessInput() {
-    Iterable<Integer> source = Lists.newLinkedList(asList(1, 2, 3));
+    Iterable<Integer> source = new LinkedList<>(asList(1, 2, 3));
     Iterable<List<Integer>> partitions = Iterables.paddedPartition(source, 2);
     Iterator<List<Integer>> iterator = partitions.iterator();
     // Even though the input list doesn't implement RandomAccess, the output
@@ -632,7 +634,7 @@ public class IterablesTest extends TestCase {
         5, MODIFIABLE, newArrayList(2, 3), IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<Integer> newTargetIterator() {
-        return skip(newLinkedHashSet(asList(1, 2, 3)), 1).iterator();
+        return skip(new LinkedHashSet<>(asList(1, 2, 3)), 1).iterator();
       }
     }.test();
   }
@@ -659,7 +661,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testSkip_structurallyModifiedSkipSome() throws Exception {
-    Collection<String> set = newLinkedHashSet(asList("a", "b", "c"));
+    Collection<String> set = new LinkedHashSet<>(asList("a", "b", "c"));
     Iterable<String> tail = skip(set, 1);
     set.remove("b");
     set.addAll(newArrayList("A", "B", "C"));
@@ -675,7 +677,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testSkip_structurallyModifiedSkipAll() throws Exception {
-    Collection<String> set = newLinkedHashSet(asList("a", "b", "c"));
+    Collection<String> set = new LinkedHashSet<>(asList("a", "b", "c"));
     Iterable<String> tail = skip(set, 2);
     set.remove("a");
     set.remove("b");
@@ -744,7 +746,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testGet_emptyIterable() {
-    testGetOnEmpty(Sets.<String>newHashSet());
+    testGetOnEmpty(new HashSet<String>());
   }
 
   public void testGet_withDefault_negativePosition() {
@@ -866,7 +868,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testGetLast_emptyIterable() {
-    Set<String> set = newHashSet();
+    Set<String> set = new HashSet<>();
     assertThrows(NoSuchElementException.class, () -> Iterables.getLast(set));
   }
 
@@ -1052,7 +1054,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testRemoveIf_noRandomAccess() {
-    List<String> list = Lists.newLinkedList(asList("a", "b", "c", "d", "e"));
+    List<String> list = new LinkedList<>(asList("a", "b", "c", "d", "e"));
     assertTrue(
         removeIf(
             list,
@@ -1076,7 +1078,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testRemoveIf_iterable() {
-    final List<String> list = Lists.newLinkedList(asList("a", "b", "c", "d", "e"));
+    final List<String> list = new LinkedList<>(asList("a", "b", "c", "d", "e"));
     Iterable<String> iterable =
         new Iterable<String>() {
           @Override
@@ -1113,7 +1115,7 @@ public class IterablesTest extends TestCase {
 
   public void testConsumingIterable() {
     // Test data
-    List<String> list = Lists.newArrayList(asList("a", "b"));
+    List<String> list = new ArrayList<>(asList("a", "b"));
 
     // Test & Verify
     Iterable<String> consumingIterable = Iterables.consumingIterable(list);
@@ -1138,7 +1140,7 @@ public class IterablesTest extends TestCase {
   // TODO: Figure out why this is failing in GWT.
   public void testConsumingIterable_duelingIterators() {
     // Test data
-    List<String> list = Lists.newArrayList(asList("a", "b"));
+    List<String> list = new ArrayList<>(asList("a", "b"));
 
     // Test & Verify
     Iterator<String> i1 = Iterables.consumingIterable(list).iterator();
@@ -1153,13 +1155,13 @@ public class IterablesTest extends TestCase {
     new IteratorTester<Integer>(3, UNMODIFIABLE, items, IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<Integer> newTargetIterator() {
-        return Iterables.consumingIterable(Lists.newLinkedList(items)).iterator();
+        return Iterables.consumingIterable(new LinkedList<>(items)).iterator();
       }
     }.test();
   }
 
   public void testConsumingIterable_queue_removesFromQueue() {
-    Queue<Integer> queue = Lists.newLinkedList(asList(5, 14));
+    Queue<Integer> queue = new LinkedList<>(asList(5, 14));
 
     Iterator<Integer> consumingIterator = Iterables.consumingIterable(queue).iterator();
 
@@ -1172,7 +1174,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testConsumingIterable_noIteratorCall() {
-    Queue<Integer> queue = new UnIterableQueue<>(Lists.newLinkedList(asList(5, 14)));
+    Queue<Integer> queue = new UnIterableQueue<>(new LinkedList<>(asList(5, 14)));
 
     Iterator<Integer> consumingIterator = Iterables.consumingIterable(queue).iterator();
     /*
@@ -1236,7 +1238,7 @@ public class IterablesTest extends TestCase {
 
   @SuppressWarnings("UnnecessaryStringBuilder") // false positive in a weird case
   public void testIndexOf_genericPredicate() {
-    List<CharSequence> sequences = Lists.newArrayList();
+    List<CharSequence> sequences = new ArrayList<>();
     sequences.add("bob");
     sequences.add(new StringBuilder("charlie"));
     sequences.add(new StringBuilder("henry"));
@@ -1283,12 +1285,12 @@ public class IterablesTest extends TestCase {
   }
 
   public void testMergeSorted_pyramid() {
-    List<Iterable<Integer>> iterables = Lists.newLinkedList();
-    List<Integer> allIntegers = Lists.newArrayList();
+    List<Iterable<Integer>> iterables = new LinkedList<>();
+    List<Integer> allIntegers = new ArrayList<>();
 
     // Creates iterators like: {{}, {0}, {0, 1}, {0, 1, 2}, ...}
     for (int i = 0; i < 10; i++) {
-      List<Integer> list = Lists.newLinkedList();
+      List<Integer> list = new LinkedList<>();
       for (int j = 0; j < i; j++) {
         list.add(j);
         allIntegers.add(j);
@@ -1301,11 +1303,11 @@ public class IterablesTest extends TestCase {
 
   // Like the pyramid, but creates more unique values, along with repeated ones.
   public void testMergeSorted_skipping_pyramid() {
-    List<Iterable<Integer>> iterables = Lists.newLinkedList();
-    List<Integer> allIntegers = Lists.newArrayList();
+    List<Iterable<Integer>> iterables = new LinkedList<>();
+    List<Integer> allIntegers = new ArrayList<>();
 
     for (int i = 0; i < 20; i++) {
-      List<Integer> list = Lists.newLinkedList();
+      List<Integer> list = new LinkedList<>();
       for (int j = 0; j < i; j++) {
         list.add(j * i);
         allIntegers.add(j * i);

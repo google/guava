@@ -43,6 +43,7 @@ import com.google.common.collect.testing.TestStringSortedSetGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.Feature;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -279,7 +280,7 @@ public class TableCollectionTest extends TestCase {
                 new TestStringCollectionGenerator() {
                   @Override
                   protected Collection<String> create(String[] elements) {
-                    List<Integer> rowKeys = Lists.newArrayList();
+                    List<Integer> rowKeys = new ArrayList<>();
                     for (int i = 0; i < elements.length; i++) {
                       rowKeys.add(i);
                     }
@@ -403,7 +404,7 @@ public class TableCollectionTest extends TestCase {
 
                   @Override
                   public Set<Cell<String, Integer, Character>> create(Object... elements) {
-                    List<Integer> columnKeys = Lists.newArrayList();
+                    List<Integer> columnKeys = new ArrayList<>();
                     for (Object element : elements) {
                       @SuppressWarnings("unchecked")
                       Cell<String, Integer, Character> cell =

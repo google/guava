@@ -207,7 +207,7 @@ public class SuppliersTest extends TestCase {
         new Function<List<Integer>, List<Integer>>() {
           @Override
           public List<Integer> apply(List<Integer> list) {
-            ArrayList<Integer> result = Lists.newArrayList(list);
+            ArrayList<Integer> result = new ArrayList<>(list);
             result.add(1);
             return result;
           }

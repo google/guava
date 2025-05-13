@@ -36,6 +36,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -758,7 +759,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     private final List<Range<C>> ranges;
 
     public Builder() {
-      this.ranges = Lists.newArrayList();
+      this.ranges = new ArrayList<>();
     }
 
     // TODO(lowasser): consider adding union, in addition to add, that does allow overlap

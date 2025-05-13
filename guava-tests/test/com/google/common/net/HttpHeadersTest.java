@@ -24,8 +24,8 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableBiMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -96,7 +96,7 @@ public class HttpHeadersTest extends TestCase {
     if (specialCases.containsKey(constantName)) {
       return specialCases.get(constantName);
     }
-    List<String> parts = Lists.newArrayList();
+    List<String> parts = new ArrayList<>();
     for (String part : Splitter.on('_').split(constantName)) {
       if (!uppercaseAcronyms.contains(part)) {
         part = part.charAt(0) + Ascii.toLowerCase(part.substring(1));

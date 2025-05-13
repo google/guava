@@ -877,7 +877,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
     @SuppressWarnings("unchecked") // does not escape, and contains only E's
     E[] array = (E[]) Iterables.toArray(elements);
     sort(array, this);
-    return Lists.newArrayList(asList(array));
+    return new ArrayList<>(asList(array));
   }
 
   /**

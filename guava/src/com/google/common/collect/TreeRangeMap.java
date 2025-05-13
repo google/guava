@@ -31,6 +31,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -720,7 +721,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
       }
 
       private boolean removeEntryIf(Predicate<? super Entry<Range<K>, V>> predicate) {
-        List<Range<K>> toRemove = Lists.newArrayList();
+        List<Range<K>> toRemove = new ArrayList<>();
         for (Entry<Range<K>, V> entry : entrySet()) {
           if (predicate.apply(entry)) {
             toRemove.add(entry.getKey());

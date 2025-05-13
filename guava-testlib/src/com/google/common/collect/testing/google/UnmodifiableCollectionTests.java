@@ -26,7 +26,6 @@ import static junit.framework.TestCase.fail;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.LinkedHashMultiset;
-import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import java.util.ArrayList;
@@ -277,7 +276,7 @@ public class UnmodifiableCollectionTests {
    */
   public static <K extends @Nullable Object, V extends @Nullable Object>
       void assertMultimapIsUnmodifiable(Multimap<K, V> multimap, K sampleKey, V sampleValue) {
-    List<Entry<K, V>> originalEntries = unmodifiableList(Lists.newArrayList(multimap.entries()));
+    List<Entry<K, V>> originalEntries = unmodifiableList(new ArrayList<>(multimap.entries()));
 
     assertMultimapRemainsUnmodified(multimap, originalEntries);
 

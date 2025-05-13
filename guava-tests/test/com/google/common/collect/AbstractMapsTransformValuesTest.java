@@ -25,7 +25,9 @@ import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.collect.testing.MapInterfaceTest;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -72,7 +74,7 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
   public void testTransformEmptyMapEquality() {
     Map<String, String> map =
         transformValues(ImmutableMap.<String, Integer>of(), Functions.toStringFunction());
-    assertMapsEqual(Maps.newHashMap(), map);
+    assertMapsEqual(new HashMap<>(), map);
   }
 
   public void testTransformSingletonMapEquality() {
@@ -102,7 +104,7 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
   }
 
   public void testTransformRemoveEntry() {
-    Map<String, Integer> underlying = Maps.newHashMap();
+    Map<String, Integer> underlying = new HashMap<>();
     underlying.put("a", 1);
     Map<String, String> map = transformValues(underlying, Functions.toStringFunction());
     assertEquals("1", map.remove("a"));
@@ -110,7 +112,7 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
   }
 
   public void testTransformEqualityOfMapsWithNullValues() {
-    Map<String, @Nullable String> underlying = Maps.newHashMap();
+    Map<String, @Nullable String> underlying = new HashMap<>();
     underlying.put("a", null);
     underlying.put("b", "");
 
@@ -134,7 +136,7 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
   }
 
   public void testTransformReflectsUnderlyingMap() {
-    Map<String, Integer> underlying = Maps.newHashMap();
+    Map<String, Integer> underlying = new HashMap<>();
     underlying.put("a", 1);
     underlying.put("b", 2);
     underlying.put("c", 3);
@@ -154,7 +156,7 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
   }
 
   public void testTransformChangesAreReflectedInUnderlyingMap() {
-    Map<String, Integer> underlying = Maps.newLinkedHashMap();
+    Map<String, Integer> underlying = new LinkedHashMap<>();
     underlying.put("a", 1);
     underlying.put("b", 2);
     underlying.put("c", 3);
@@ -226,7 +228,7 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
   }
 
   public void testTransformEntrySetContains() {
-    Map<@Nullable String, @Nullable Boolean> underlying = Maps.newHashMap();
+    Map<@Nullable String, @Nullable Boolean> underlying = new HashMap<>();
     underlying.put("a", null);
     underlying.put("b", true);
     underlying.put(null, true);

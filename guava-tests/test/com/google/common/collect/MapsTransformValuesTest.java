@@ -21,6 +21,7 @@ import static com.google.common.collect.Maps.transformValues;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import java.util.HashMap;
 import java.util.Map;
 import org.jspecify.annotations.NullMarked;
 
@@ -34,12 +35,12 @@ import org.jspecify.annotations.NullMarked;
 public class MapsTransformValuesTest extends AbstractMapsTransformValuesTest {
   @Override
   protected Map<String, String> makeEmptyMap() {
-    return transformValues(Maps.<String, String>newHashMap(), Functions.<String>identity());
+    return transformValues(new HashMap<String, String>(), Functions.<String>identity());
   }
 
   @Override
   protected Map<String, String> makePopulatedMap() {
-    Map<String, Integer> underlying = Maps.newHashMap();
+    Map<String, Integer> underlying = new HashMap<>();
     underlying.put("a", 1);
     underlying.put("b", 2);
     underlying.put("c", 3);

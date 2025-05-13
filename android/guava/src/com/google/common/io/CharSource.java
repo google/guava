@@ -24,7 +24,6 @@ import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.MustBeClosed;
 import java.io.BufferedReader;
@@ -36,6 +35,7 @@ import java.io.StringReader;
 import java.io.UncheckedIOException;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.function.Consumer;
@@ -338,7 +338,7 @@ public abstract class CharSource {
     Closer closer = Closer.create();
     try {
       BufferedReader reader = closer.register(openBufferedStream());
-      List<String> result = Lists.newArrayList();
+      List<String> result = new ArrayList<>();
       String line;
       while ((line = reader.readLine()) != null) {
         result.add(line);

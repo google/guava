@@ -30,6 +30,7 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -165,7 +166,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
   @Override
   public void testRow() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<Integer, @Nullable Character> expected = Maps.newHashMap();
+    Map<Integer, @Nullable Character> expected = new HashMap<>();
     expected.put(1, 'a');
     expected.put(3, 'c');
     expected.put(2, null);
@@ -175,7 +176,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
   @Override
   public void testColumn() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    Map<String, @Nullable Character> expected = Maps.newHashMap();
+    Map<String, @Nullable Character> expected = new HashMap<>();
     expected.put("foo", 'a');
     expected.put("bar", 'b');
     expected.put("cat", null);

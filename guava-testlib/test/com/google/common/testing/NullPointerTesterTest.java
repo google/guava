@@ -31,7 +31,6 @@ import com.google.common.collect.ImmutableMultiset;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Multimap;
 import com.google.common.collect.Multiset;
 import com.google.common.collect.Table;
@@ -41,6 +40,7 @@ import com.google.common.testing.anotherpackage.SomeClassThatDoesNotUseNullable;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -961,7 +961,7 @@ public class NullPointerTesterTest extends TestCase {
 
   private abstract static class DefaultValueChecker {
 
-    private final Map<Integer, Object> arguments = Maps.newHashMap();
+    private final Map<Integer, Object> arguments = new HashMap<>();
 
     @CanIgnoreReturnValue
     final DefaultValueChecker runTester() {

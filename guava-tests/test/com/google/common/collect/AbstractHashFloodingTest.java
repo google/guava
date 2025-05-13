@@ -24,6 +24,7 @@ import static java.util.Collections.nCopies;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -177,7 +178,7 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
     assertEquals(str1.hashCode(), str2.hashCode());
     List<String> haveSameHashes2 = asList(str1, str2);
     List<CountsHashCodeAndEquals> result =
-        Lists.newArrayList(
+        new ArrayList<>(
             transform(
                 cartesianProduct(nCopies(power, haveSameHashes2)),
                 strs ->

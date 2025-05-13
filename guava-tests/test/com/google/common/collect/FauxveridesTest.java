@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Lists.transform;
 import static com.google.common.collect.Sets.difference;
-import static com.google.common.collect.Sets.newHashSet;
 import static java.lang.reflect.Modifier.isPublic;
 import static java.lang.reflect.Modifier.isStatic;
 import static java.util.Arrays.asList;
@@ -30,6 +29,7 @@ import com.google.common.base.Objects;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -122,7 +122,7 @@ public class FauxveridesTest extends TestCase {
 
   private static Set<MethodSignature> getPublicStaticMethodsBetween(
       Class<?> descendant, Class<?> ancestor) {
-    Set<MethodSignature> methods = newHashSet();
+    Set<MethodSignature> methods = new HashSet<>();
     for (Class<?> clazz : getClassesBetween(descendant, ancestor)) {
       methods.addAll(getPublicStaticMethods(clazz));
     }
@@ -130,7 +130,7 @@ public class FauxveridesTest extends TestCase {
   }
 
   private static Set<MethodSignature> getPublicStaticMethods(Class<?> clazz) {
-    Set<MethodSignature> publicStaticMethods = newHashSet();
+    Set<MethodSignature> publicStaticMethods = new HashSet<>();
 
     for (Method method : clazz.getDeclaredMethods()) {
       int modifiers = method.getModifiers();
@@ -144,7 +144,7 @@ public class FauxveridesTest extends TestCase {
 
   /** [descendant, ancestor) */
   private static Set<Class<?>> getClassesBetween(Class<?> descendant, Class<?> ancestor) {
-    Set<Class<?>> classes = newHashSet();
+    Set<Class<?>> classes = new HashSet<>();
 
     while (!descendant.equals(ancestor)) {
       classes.add(descendant);

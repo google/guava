@@ -25,11 +25,11 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.Service.Listener;
 import com.google.common.util.concurrent.Service.State;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.lang.Thread.UncaughtExceptionHandler;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -790,7 +790,7 @@ public class AbstractServiceTest extends TestCase {
     }
 
     @GuardedBy("this")
-    final List<State> stateHistory = Lists.newArrayList();
+    final List<State> stateHistory = new ArrayList<>();
 
     final CountDownLatch completionLatch = new CountDownLatch(1);
 

@@ -19,7 +19,6 @@ package com.google.common.eventbus;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.Uninterruptibles;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.CountDownLatch;
@@ -53,8 +52,7 @@ public class DispatcherTest extends TestCase {
           subscriber(bus, s1, "handleString", String.class),
           subscriber(bus, s2, "handleString", String.class));
 
-  private final ConcurrentLinkedQueue<Object> dispatchedSubscribers =
-      Queues.newConcurrentLinkedQueue();
+  private final ConcurrentLinkedQueue<Object> dispatchedSubscribers = new ConcurrentLinkedQueue<>();
 
   private Dispatcher dispatcher;
 

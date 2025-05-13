@@ -20,11 +20,11 @@ import static java.nio.charset.StandardCharsets.UTF_16LE;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.Iterables;
-import com.google.common.collect.Lists;
 import com.google.common.hash.HashTestUtils.RandomHasherAction;
 import java.io.ByteArrayOutputStream;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -131,7 +131,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     Random random = new Random(0); // will iteratively make more debuggable, each time it breaks
     for (int totalInsertions = 0; totalInsertions < 200; totalInsertions++) {
 
-      List<Sink> sinks = Lists.newArrayList();
+      List<Sink> sinks = new ArrayList<>();
       for (int chunkSize = 4; chunkSize <= 32; chunkSize++) {
         for (int bufferSize = chunkSize; bufferSize <= chunkSize * 4; bufferSize += chunkSize) {
           // yes, that's a lot of sinks!

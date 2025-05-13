@@ -22,7 +22,6 @@ import static java.util.Arrays.asList;
 import com.google.common.base.Joiner;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -30,6 +29,7 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -110,7 +110,7 @@ public final class TypeResolver {
    *     corresponding mappings exist in the current {@code TypeResolver} instance.
    */
   public TypeResolver where(Type formal, Type actual) {
-    Map<TypeVariableKey, Type> mappings = Maps.newHashMap();
+    Map<TypeVariableKey, Type> mappings = new HashMap<>();
     populateTypeMappings(mappings, checkNotNull(formal), checkNotNull(actual));
     return where(mappings);
   }
@@ -371,7 +371,7 @@ public final class TypeResolver {
 
   private static final class TypeMappingIntrospector extends TypeVisitor {
 
-    private final Map<TypeVariableKey, Type> mappings = Maps.newHashMap();
+    private final Map<TypeVariableKey, Type> mappings = new HashMap<>();
 
     /**
      * Returns type mappings using type parameters and type arguments found in the generic
