@@ -94,16 +94,16 @@ public class MoreExecutorsTest extends JSR166TestCase {
       };
 
   public void testDirectExecutorServiceServiceInThreadExecution() throws Exception {
-    final ListeningExecutorService executor = newDirectExecutorService();
-    final ThreadLocal<Integer> threadLocalCount =
+    ListeningExecutorService executor = newDirectExecutorService();
+    ThreadLocal<Integer> threadLocalCount =
         new ThreadLocal<Integer>() {
           @Override
           protected Integer initialValue() {
             return 0;
           }
         };
-    final AtomicReference<Throwable> throwableFromOtherThread = new AtomicReference<>(null);
-    final Runnable incrementTask =
+    AtomicReference<Throwable> throwableFromOtherThread = new AtomicReference<>(null);
+    Runnable incrementTask =
         new Runnable() {
           @Override
           public void run() {
@@ -142,8 +142,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
   }
 
   public void testDirectExecutorServiceInvokeAll() throws Exception {
-    final ExecutorService executor = newDirectExecutorService();
-    final ThreadLocal<Integer> threadLocalCount =
+    ExecutorService executor = newDirectExecutorService();
+    ThreadLocal<Integer> threadLocalCount =
         new ThreadLocal<Integer>() {
           @Override
           protected Integer initialValue() {
@@ -151,7 +151,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
           }
         };
 
-    final Callable<Integer> incrementTask =
+    Callable<Integer> incrementTask =
         new Callable<Integer>() {
           @Override
           public Integer call() {
@@ -173,10 +173,10 @@ public class MoreExecutorsTest extends JSR166TestCase {
   }
 
   public void testDirectExecutorServiceServiceTermination() throws Exception {
-    final ExecutorService executor = newDirectExecutorService();
-    final CyclicBarrier barrier = new CyclicBarrier(2);
-    final AtomicReference<Throwable> throwableFromOtherThread = new AtomicReference<>(null);
-    final Runnable doNothingRunnable =
+    ExecutorService executor = newDirectExecutorService();
+    CyclicBarrier barrier = new CyclicBarrier(2);
+    AtomicReference<Throwable> throwableFromOtherThread = new AtomicReference<>(null);
+    Runnable doNothingRunnable =
         new Runnable() {
           @Override
           public void run() {}
@@ -253,7 +253,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
    * completed.
    */
   public void testDirectExecutorService_awaitTermination_missedSignal() {
-    final ExecutorService service = newDirectExecutorService();
+    ExecutorService service = newDirectExecutorService();
     Thread waiter =
         new Thread() {
           @Override
@@ -344,7 +344,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   }
 
   public void testListeningDecorator_scheduleSuccess() throws Exception {
-    final CountDownLatch completed = new CountDownLatch(1);
+    CountDownLatch completed = new CountDownLatch(1);
     ScheduledThreadPoolExecutor delegate =
         new ScheduledThreadPoolExecutor(1) {
           @Override
@@ -722,13 +722,13 @@ public class MoreExecutorsTest extends JSR166TestCase {
 
   @AndroidIncompatible // Mocking ExecutorService is forbidden there. TODO(b/218700094): Don't mock.
   public void testShutdownAndAwaitTermination_interruptedInternal() throws Exception {
-    final ExecutorService service = mock(ExecutorService.class);
+    ExecutorService service = mock(ExecutorService.class);
     when(service.awaitTermination(HALF_SECOND_NANOS, NANOSECONDS))
         .thenThrow(new InterruptedException());
 
-    final AtomicBoolean terminated = new AtomicBoolean();
+    AtomicBoolean terminated = new AtomicBoolean();
     // we need to keep this in a flag because t.isInterrupted() returns false after t.join()
-    final AtomicBoolean interrupted = new AtomicBoolean();
+    AtomicBoolean interrupted = new AtomicBoolean();
     // we need to use another thread because it will be interrupted and thus using
     // the current one, owned by JUnit, would make the test fail
     Thread thread =

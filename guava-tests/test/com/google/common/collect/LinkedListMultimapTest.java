@@ -339,7 +339,7 @@ public class LinkedListMultimapTest extends TestCase {
         ImmutableList.of(
             immutableEntry("foo", 99), immutableEntry("foo", 88), immutableEntry("bar", 77));
 
-    for (final int startIndex : new int[] {0, 3, 5}) {
+    for (int startIndex : new int[] {0, 3, 5}) {
       List<Entry<String, Integer>> list =
           Lists.newArrayList(
               immutableEntry("foo", 2),
@@ -397,7 +397,7 @@ public class LinkedListMultimapTest extends TestCase {
   public void testValuesIteration() {
     List<Integer> addItems = ImmutableList.of(99, 88, 77);
 
-    for (final int startIndex : new int[] {0, 3, 5}) {
+    for (int startIndex : new int[] {0, 3, 5}) {
       new ListIteratorTester<Integer>(
           3,
           addItems,

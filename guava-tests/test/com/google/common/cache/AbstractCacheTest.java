@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
 public class AbstractCacheTest extends TestCase {
 
   public void testGetIfPresent() {
-    final AtomicReference<Object> valueRef = new AtomicReference<>();
+    AtomicReference<Object> valueRef = new AtomicReference<>();
     Cache<Object, Object> cache =
         new AbstractCache<Object, Object>() {
           @Override
@@ -67,8 +67,8 @@ public class AbstractCacheTest extends TestCase {
   }
 
   public void testGetAllPresent_cached() {
-    final Object cachedKey = new Object();
-    final Object cachedValue = new Object();
+    Object cachedKey = new Object();
+    Object cachedValue = new Object();
     Cache<Object, Object> cache =
         new AbstractCache<Object, Object>() {
           @Override
@@ -83,7 +83,7 @@ public class AbstractCacheTest extends TestCase {
   }
 
   public void testInvalidateAll() {
-    final List<Object> invalidated = new ArrayList<>();
+    List<Object> invalidated = new ArrayList<>();
     Cache<Integer, Integer> cache =
         new AbstractCache<Integer, Integer>() {
           @Override

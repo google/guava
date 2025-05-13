@@ -493,14 +493,14 @@ public class GeneratedMonitorTest extends TestCase {
 
   @Override
   protected void runTest() throws Throwable {
-    final Runnable runChosenTest =
+    Runnable runChosenTest =
         new Runnable() {
           @Override
           public void run() {
             runChosenTest();
           }
         };
-    final FutureTask<@Nullable Void> task = new FutureTask<>(runChosenTest, null);
+    FutureTask<@Nullable Void> task = new FutureTask<>(runChosenTest, null);
     startThread(
         new Runnable() {
           @Override
@@ -697,7 +697,7 @@ public class GeneratedMonitorTest extends TestCase {
   }
 
   private void enterSatisfyGuardAndLeaveInAnotherThread() {
-    final CountDownLatch startedLatch = new CountDownLatch(1);
+    CountDownLatch startedLatch = new CountDownLatch(1);
     startThread(
         new Runnable() {
           @Override
@@ -710,7 +710,7 @@ public class GeneratedMonitorTest extends TestCase {
   }
 
   private void enterAndRemainOccupyingInAnotherThread() {
-    final CountDownLatch enteredLatch = new CountDownLatch(1);
+    CountDownLatch enteredLatch = new CountDownLatch(1);
     startThread(
         new Runnable() {
           @Override
@@ -741,8 +741,8 @@ public class GeneratedMonitorTest extends TestCase {
    * with a guard that doesn't match the monitor produces an IllegalMonitorStateException.
    */
   private static TestCase generateGuardWithWrongMonitorTestCase(
-      final Method method, final boolean fair1, final boolean fair2) {
-    final boolean timed = isTimed(method); // Not going to bother with all timeouts, just 0ms.
+      Method method, boolean fair1, boolean fair2) {
+    boolean timed = isTimed(method); // Not going to bother with all timeouts, just 0ms.
     return new TestCase(method.getName() + (timed ? "(0ms)" : "()") + "/WrongMonitor->IMSE") {
       @Override
       protected void runTest() throws Throwable {
@@ -782,9 +782,8 @@ public class GeneratedMonitorTest extends TestCase {
    * Generates a test case verifying that calling any waitForXxx method when not occupying the
    * monitor produces an IllegalMonitorStateException.
    */
-  private static TestCase generateWaitForWhenNotOccupyingTestCase(
-      final Method method, final boolean fair) {
-    final boolean timed = isTimed(method); // Not going to bother with all timeouts, just 0ms.
+  private static TestCase generateWaitForWhenNotOccupyingTestCase(Method method, boolean fair) {
+    boolean timed = isTimed(method); // Not going to bother with all timeouts, just 0ms.
     String testName =
         method.getName()
             + (fair ? "(fair)" : "(nonfair)")

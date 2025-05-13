@@ -102,9 +102,9 @@ public class CharStreamsCopyBenchmark {
   @Benchmark
   public long timeCopy(int reps) throws IOException {
     long r = 0;
-    final String localData = data;
-    final TargetSupplier localTarget = target;
-    final CopyStrategy localStrategy = strategy;
+    String localData = data;
+    TargetSupplier localTarget = target;
+    CopyStrategy localStrategy = strategy;
     for (int i = 0; i < reps; i++) {
       Appendable appendable = localTarget.get(localData.length());
       r += localStrategy.copy(new StringReader(localData), appendable);

@@ -129,7 +129,7 @@ public class ClosingFutureFinishToValueAndCloserTest extends AbstractClosingFutu
   }
 
   private <V> ValueAndCloser<V> finishToValueAndCloser(ClosingFuture<V> closingFuture) {
-    final CountDownLatch valueAndCloserSet = new CountDownLatch(1);
+    CountDownLatch valueAndCloserSet = new CountDownLatch(1);
     closingFuture.finishToValueAndCloser(
         new ValueAndCloserConsumer<V>() {
           @Override

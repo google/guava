@@ -328,7 +328,7 @@ public class ForwardingNavigableMapTest extends TestCase {
         .testEquals();
   }
 
-  private static <K, V> NavigableMap<K, V> wrap(final NavigableMap<K, V> delegate) {
+  private static <K, V> NavigableMap<K, V> wrap(NavigableMap<K, V> delegate) {
     return new ForwardingNavigableMap<K, V>() {
       @Override
       protected NavigableMap<K, V> delegate() {

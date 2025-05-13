@@ -127,7 +127,7 @@ public class JdkFutureAdaptersTest extends TestCase {
   }
 
   public void testListenInPoolThreadCustomExecutorInterrupted() throws Exception {
-    final CountDownLatch submitSuccessful = new CountDownLatch(1);
+    CountDownLatch submitSuccessful = new CountDownLatch(1);
     ExecutorService executorService =
         new ThreadPoolExecutor(
             0,

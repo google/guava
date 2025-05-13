@@ -55,7 +55,7 @@ public class CallablesTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible
   public void testAsAsyncCallable() throws Exception {
-    final String expected = "MyCallableString";
+    String expected = "MyCallableString";
     Callable<String> callable =
         new Callable<String>() {
           @Override
@@ -74,7 +74,7 @@ public class CallablesTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible
   public void testAsAsyncCallable_exception() throws Exception {
-    final Exception expected = new IllegalArgumentException();
+    Exception expected = new IllegalArgumentException();
     Callable<String> callable =
         new Callable<String>() {
           @Override
@@ -95,7 +95,7 @@ public class CallablesTest extends TestCase {
   @GwtIncompatible // threads
   public void testRenaming() throws Exception {
     String oldName = Thread.currentThread().getName();
-    final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
+    Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
     Callable<@Nullable Void> callable =
         new Callable<@Nullable Void>() {
           @Override
@@ -112,7 +112,7 @@ public class CallablesTest extends TestCase {
   @GwtIncompatible // threads
   public void testRenaming_exceptionalReturn() throws Exception {
     String oldName = Thread.currentThread().getName();
-    final Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
+    Supplier<String> newName = Suppliers.ofInstance("MyCrazyThreadName");
     Callable<@Nullable Void> callable =
         new Callable<@Nullable Void>() {
           @Override

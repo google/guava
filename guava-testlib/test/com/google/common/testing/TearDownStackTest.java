@@ -33,9 +33,9 @@ public class TearDownStackTest extends TestCase {
   private TearDownStack tearDownStack = new TearDownStack();
 
   public void testSingleTearDown() throws Exception {
-    final TearDownStack stack = buildTearDownStack();
+    TearDownStack stack = buildTearDownStack();
 
-    final SimpleTearDown tearDown = new SimpleTearDown();
+    SimpleTearDown tearDown = new SimpleTearDown();
     stack.addTearDown(tearDown);
 
     assertEquals(false, tearDown.ran);
@@ -46,12 +46,12 @@ public class TearDownStackTest extends TestCase {
   }
 
   public void testMultipleTearDownsHappenInOrder() throws Exception {
-    final TearDownStack stack = buildTearDownStack();
+    TearDownStack stack = buildTearDownStack();
 
-    final SimpleTearDown tearDownOne = new SimpleTearDown();
+    SimpleTearDown tearDownOne = new SimpleTearDown();
     stack.addTearDown(tearDownOne);
 
-    final Callback callback =
+    Callback callback =
         new Callback() {
           @Override
           public void run() {
@@ -60,7 +60,7 @@ public class TearDownStackTest extends TestCase {
           }
         };
 
-    final SimpleTearDown tearDownTwo = new SimpleTearDown(callback);
+    SimpleTearDown tearDownTwo = new SimpleTearDown(callback);
     stack.addTearDown(tearDownTwo);
 
     assertEquals(false, tearDownOne.ran);
@@ -73,12 +73,12 @@ public class TearDownStackTest extends TestCase {
   }
 
   public void testThrowingTearDown() throws Exception {
-    final TearDownStack stack = buildTearDownStack();
+    TearDownStack stack = buildTearDownStack();
 
-    final ThrowingTearDown tearDownOne = new ThrowingTearDown("one");
+    ThrowingTearDown tearDownOne = new ThrowingTearDown("one");
     stack.addTearDown(tearDownOne);
 
-    final ThrowingTearDown tearDownTwo = new ThrowingTearDown("two");
+    ThrowingTearDown tearDownTwo = new ThrowingTearDown("two");
     stack.addTearDown(tearDownTwo);
 
     assertEquals(false, tearDownOne.ran);
@@ -115,7 +115,7 @@ public class TearDownStackTest extends TestCase {
 
   /** Builds a {@link TearDownStack} that makes sure it's clear by the end of this test. */
   private TearDownStack buildTearDownStack() {
-    final TearDownStack result = new TearDownStack();
+    TearDownStack result = new TearDownStack();
     tearDownStack.addTearDown(
         new TearDown() {
 

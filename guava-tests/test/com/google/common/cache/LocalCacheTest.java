@@ -797,12 +797,12 @@ public class LocalCacheTest extends TestCase {
   }
 
   public void testCopyEntry_computing() {
-    final CountDownLatch startSignal = new CountDownLatch(1);
-    final CountDownLatch computingSignal = new CountDownLatch(1);
-    final CountDownLatch doneSignal = new CountDownLatch(2);
-    final Object computedObject = new Object();
+    CountDownLatch startSignal = new CountDownLatch(1);
+    CountDownLatch computingSignal = new CountDownLatch(1);
+    CountDownLatch doneSignal = new CountDownLatch(2);
+    Object computedObject = new Object();
 
-    final CacheLoader<Object, Object> loader =
+    CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
           public Object load(Object key) throws Exception {
@@ -815,12 +815,12 @@ public class LocalCacheTest extends TestCase {
     QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
     CacheBuilder<Object, Object> builder =
         createCacheBuilder().concurrencyLevel(1).removalListener(listener);
-    final LocalCache<Object, Object> map = makeLocalCache(builder);
+    LocalCache<Object, Object> map = makeLocalCache(builder);
     Segment<Object, Object> segment = map.segments[0];
     AtomicReferenceArray<ReferenceEntry<Object, Object>> table = segment.table;
     assertTrue(listener.isEmpty());
 
-    final Object one = new Object();
+    Object one = new Object();
     int hash = map.hash(one);
     int index = hash & (table.length() - 1);
 
@@ -878,7 +878,7 @@ public class LocalCacheTest extends TestCase {
   }
 
   public void testRemovalListenerCheckedException() {
-    final RuntimeException e = new RuntimeException();
+    RuntimeException e = new RuntimeException();
     RemovalListener<Object, Object> listener =
         new RemovalListener<Object, Object>() {
           @Override
@@ -888,7 +888,7 @@ public class LocalCacheTest extends TestCase {
         };
 
     CacheBuilder<Object, Object> builder = createCacheBuilder().removalListener(listener);
-    final LocalCache<Object, Object> cache = makeLocalCache(builder);
+    LocalCache<Object, Object> cache = makeLocalCache(builder);
     Object key = new Object();
     cache.put(key, new Object());
     checkNothingLogged();
@@ -898,12 +898,12 @@ public class LocalCacheTest extends TestCase {
   }
 
   public void testRemovalListener_replaced_computing() {
-    final CountDownLatch startSignal = new CountDownLatch(1);
-    final CountDownLatch computingSignal = new CountDownLatch(1);
-    final CountDownLatch doneSignal = new CountDownLatch(1);
-    final Object computedObject = new Object();
+    CountDownLatch startSignal = new CountDownLatch(1);
+    CountDownLatch computingSignal = new CountDownLatch(1);
+    CountDownLatch doneSignal = new CountDownLatch(1);
+    Object computedObject = new Object();
 
-    final CacheLoader<Object, Object> loader =
+    CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
           public Object load(Object key) throws Exception {
@@ -915,11 +915,11 @@ public class LocalCacheTest extends TestCase {
 
     QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
     CacheBuilder<Object, Object> builder = createCacheBuilder().removalListener(listener);
-    final LocalCache<Object, Object> map = makeLocalCache(builder);
+    LocalCache<Object, Object> map = makeLocalCache(builder);
     assertTrue(listener.isEmpty());
 
-    final Object one = new Object();
-    final Object two = new Object();
+    Object one = new Object();
+    Object two = new Object();
 
     new Thread() {
       @Override
@@ -1680,7 +1680,7 @@ public class LocalCacheTest extends TestCase {
 
       for (int i = 0; i < count; i++) {
         Object key = new Object();
-        final Object value = new Object();
+        Object value = new Object();
         segment.get(
             key,
             key.hashCode(),

@@ -228,7 +228,7 @@ public class ForwardingSortedMultisetTest extends TestCase {
         .testEquals();
   }
 
-  private static <T> SortedMultiset<T> wrap(final SortedMultiset<T> delegate) {
+  private static <T> SortedMultiset<T> wrap(SortedMultiset<T> delegate) {
     return new ForwardingSortedMultiset<T>() {
       @Override
       protected SortedMultiset<T> delegate() {

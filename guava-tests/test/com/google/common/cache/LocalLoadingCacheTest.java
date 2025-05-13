@@ -297,7 +297,7 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testRecursiveComputation() throws InterruptedException {
-    final AtomicReference<LoadingCache<Integer, String>> cacheRef = new AtomicReference<>();
+    AtomicReference<LoadingCache<Integer, String>> cacheRef = new AtomicReference<>();
     CacheLoader<Integer, String> recursiveLoader =
         new CacheLoader<Integer, String>() {
           @Override
@@ -327,7 +327,7 @@ public class LocalLoadingCacheTest extends TestCase {
     cacheRef.set(recursiveCache);
 
     // tells the test when the computation has completed
-    final CountDownLatch doneSignal = new CountDownLatch(1);
+    CountDownLatch doneSignal = new CountDownLatch(1);
 
     Thread thread =
         new Thread() {

@@ -821,7 +821,7 @@ public abstract class AbstractNetworkTest {
 
     int threadCount = 20;
     ExecutorService executor = newFixedThreadPool(threadCount);
-    final CyclicBarrier barrier = new CyclicBarrier(threadCount);
+    CyclicBarrier barrier = new CyclicBarrier(threadCount);
     ImmutableList.Builder<Future<?>> futures = ImmutableList.builder();
     for (int i = 0; i < threadCount; i++) {
       futures.add(

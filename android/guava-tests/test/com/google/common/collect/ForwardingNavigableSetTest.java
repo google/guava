@@ -239,7 +239,7 @@ public class ForwardingNavigableSetTest extends TestCase {
         .testEquals();
   }
 
-  private static <T> NavigableSet<T> wrap(final NavigableSet<T> delegate) {
+  private static <T> NavigableSet<T> wrap(NavigableSet<T> delegate) {
     return new ForwardingNavigableSet<T>() {
       @Override
       protected NavigableSet<T> delegate() {

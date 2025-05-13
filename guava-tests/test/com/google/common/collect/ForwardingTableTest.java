@@ -52,7 +52,7 @@ public class ForwardingTableTest extends TestCase {
         .testEquals();
   }
 
-  private static <R, C, V> Table<R, C, V> wrap(final Table<R, C, V> delegate) {
+  private static <R, C, V> Table<R, C, V> wrap(Table<R, C, V> delegate) {
     return new ForwardingTable<R, C, V>() {
       @Override
       protected Table<R, C, V> delegate() {

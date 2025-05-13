@@ -67,7 +67,7 @@ public class ByteSinkTester extends SourceSinkTester<ByteSink, byte[], ByteSinkF
   private static TestSuite suiteForBytes(
       String name, ByteSinkFactory factory, String desc, byte[] bytes) {
     TestSuite suite = new TestSuite(name + " [" + desc + "]");
-    for (final Method method : testMethods) {
+    for (Method method : testMethods) {
       suite.addTest(new ByteSinkTester(factory, bytes, name, desc, method));
     }
     return suite;

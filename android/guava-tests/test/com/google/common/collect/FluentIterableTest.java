@@ -854,9 +854,9 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testCopyInto_nonCollection() {
-    final ArrayList<Integer> list = Lists.newArrayList(1, 2, 3);
+    ArrayList<Integer> list = Lists.newArrayList(1, 2, 3);
 
-    final ArrayList<Integer> iterList = Lists.newArrayList(9, 8, 7);
+    ArrayList<Integer> iterList = Lists.newArrayList(9, 8, 7);
     Iterable<Integer> iterable =
         new Iterable<Integer>() {
           @Override
@@ -905,7 +905,7 @@ public class FluentIterableTest extends TestCase {
   }
 
   private static Iterable<String> iterable(String... elements) {
-    final List<String> list = asList(elements);
+    List<String> list = asList(elements);
     return new Iterable<String>() {
       @Override
       public Iterator<String> iterator() {

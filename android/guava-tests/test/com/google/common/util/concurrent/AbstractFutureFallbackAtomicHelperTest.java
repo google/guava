@@ -159,8 +159,8 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
     assertThat(helperMethod.invoke(null)).isEqualTo(expectedHelperClassName);
   }
 
-  private static ClassLoader getClassLoader(final Set<String> disallowedClassNames) {
-    final String concurrentPackage = SettableFuture.class.getPackage().getName();
+  private static ClassLoader getClassLoader(Set<String> disallowedClassNames) {
+    String concurrentPackage = SettableFuture.class.getPackage().getName();
     ClassLoader classLoader = AbstractFutureFallbackAtomicHelperTest.class.getClassLoader();
     // we delegate to the current classloader so both loaders agree on classes like TestCase
     return new URLClassLoader(ClassPathUtil.getClassPathUrls(), classLoader) {

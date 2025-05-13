@@ -202,7 +202,7 @@ public class ForwardingMultisetTest extends TestCase {
                    */
                   @Override
                   protected Set<String> create(String[] elements) {
-                    final Multiset<String> inner = LinkedHashMultiset.create(asList(elements));
+                    Multiset<String> inner = LinkedHashMultiset.create(asList(elements));
                     return new ForwardingMultiset<String>() {
                       @Override
                       protected Multiset<String> delegate() {
@@ -226,7 +226,7 @@ public class ForwardingMultisetTest extends TestCase {
 
                       @Override
                       public Set<Entry<String>> entrySet() {
-                        final Set<Entry<String>> backingSet = super.entrySet();
+                        Set<Entry<String>> backingSet = super.entrySet();
                         return new ForwardingSet<Entry<String>>() {
                           @Override
                           protected Set<Entry<String>> delegate() {
@@ -359,7 +359,7 @@ public class ForwardingMultisetTest extends TestCase {
         .testEquals();
   }
 
-  private static <T> Multiset<T> wrap(final Multiset<T> delegate) {
+  private static <T> Multiset<T> wrap(Multiset<T> delegate) {
     return new ForwardingMultiset<T>() {
       @Override
       protected Multiset<T> delegate() {

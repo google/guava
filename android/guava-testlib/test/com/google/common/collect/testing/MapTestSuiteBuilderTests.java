@@ -96,7 +96,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
     return wrappedHashMapTests(
         new WrappedHashMapGenerator() {
           @Override
-          Map<String, String> wrap(final HashMap<String, String> map) {
+          Map<String, String> wrap(HashMap<String, String> map) {
             if (map.containsKey(null)) {
               throw new NullPointerException();
             }
@@ -122,7 +122,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
     return wrappedHashMapTests(
         new WrappedHashMapGenerator() {
           @Override
-          Map<String, String> wrap(final HashMap<String, String> map) {
+          Map<String, String> wrap(HashMap<String, String> map) {
             if (map.containsValue(null)) {
               throw new NullPointerException();
             }
@@ -175,7 +175,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
                       return transform(iterator.next());
                     }
 
-                    private Entry<String, String> transform(final Entry<String, String> next) {
+                    private Entry<String, String> transform(Entry<String, String> next) {
                       return new Entry<String, String>() {
 
                         @Override
@@ -311,7 +311,7 @@ public final class MapTestSuiteBuilderTests extends TestCase {
 
   /** Verifies that {@code setUp} and {@code tearDown} are called in all map test cases. */
   private static Test testsForSetUpTearDown() {
-    final AtomicBoolean setUpRan = new AtomicBoolean();
+    AtomicBoolean setUpRan = new AtomicBoolean();
     Runnable setUp =
         new Runnable() {
           @Override

@@ -1031,7 +1031,7 @@ public class OrderingTest extends TestCase {
     },
     ON_RESULT_OF {
       @Override
-      <T extends @Nullable Object> Scenario<?> mutate(final Scenario<T> scenario) {
+      <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
         Ordering<Integer> ordering =
             scenario.ordering.onResultOf(
                 new Function<Integer, T>() {

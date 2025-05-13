@@ -155,7 +155,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
   }
 
   public void testCopyTo_byteSink() throws IOException {
-    final ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
     // HERESY! but it's ok just for this I guess
     source.copyTo(
         new ByteSink() {

@@ -108,7 +108,7 @@ public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
     void perform(List<Integer> list);
   }
 
-  static ListFrobber add(final int element) {
+  static ListFrobber add(int element) {
     return new ListFrobber() {
       @Override
       public void perform(List<Integer> list) {
@@ -147,8 +147,7 @@ public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
    * modifications. The mutations occur in the same thread as the triggering method call.
    */
   private static ConcurrentlyMutatedList<Integer> newConcurrentlyMutatedList(
-      final Collection<Integer> initialContents,
-      final Iterable<ListFrobber> actionsToPerformConcurrently) {
+      Collection<Integer> initialContents, Iterable<ListFrobber> actionsToPerformConcurrently) {
     InvocationHandler invocationHandler =
         new InvocationHandler() {
           final CopyOnWriteArrayList<Integer> delegate =

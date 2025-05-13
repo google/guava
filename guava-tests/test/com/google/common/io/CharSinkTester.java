@@ -51,7 +51,7 @@ public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkF
   static TestSuite suiteForString(
       String name, CharSinkFactory factory, String string, String desc) {
     TestSuite stringSuite = new TestSuite(name + " [" + desc + "]");
-    for (final Method method : testMethods) {
+    for (Method method : testMethods) {
       stringSuite.addTest(new CharSinkTester(factory, string, name, desc, method));
     }
     return stringSuite;

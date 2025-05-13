@@ -72,7 +72,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
         Runnable.class,
         new Function<Runnable, Runnable>() {
           @Override
-          public Runnable apply(final Runnable runnable) {
+          public Runnable apply(Runnable runnable) {
             return new ForwardingRunnable(runnable);
           }
         });
@@ -83,7 +83,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
         Runnable.class,
         new Function<Runnable, Runnable>() {
           @Override
-          public Runnable apply(final Runnable runnable) {
+          public Runnable apply(Runnable runnable) {
             return new ForwardingRunnable(runnable) {
               @Override
               public String toString() {
@@ -99,7 +99,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
         Runnable.class,
         new Function<Runnable, Runnable>() {
           @Override
-          public Runnable apply(final Runnable runnable) {
+          public Runnable apply(Runnable runnable) {
             return new ForwardingRunnable(runnable) {
               @Override
               public String toString() {
@@ -117,7 +117,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
         Runnable.class,
         new Function<Runnable, Runnable>() {
           @Override
-          public Runnable apply(final Runnable runnable) {
+          public Runnable apply(Runnable runnable) {
             return new ForwardingRunnable(runnable) {
 
               @SuppressWarnings("EqualsHashCode")
@@ -141,7 +141,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
         Runnable.class,
         new Function<Runnable, Runnable>() {
           @Override
-          public Runnable apply(final Runnable runnable) {
+          public Runnable apply(Runnable runnable) {
             return new ForwardingRunnable(runnable) {
               @Override
               public boolean equals(@Nullable Object o) {
@@ -167,7 +167,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
         Runnable.class,
         new Function<Runnable, Runnable>() {
           @Override
-          public Runnable apply(final Runnable runnable) {
+          public Runnable apply(Runnable runnable) {
             return new ForwardingRunnable(runnable) {
               @Override
               public int hashCode() {
@@ -200,7 +200,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
         Runnable.class,
         new Function<Runnable, Runnable>() {
           @Override
-          public Runnable apply(final Runnable runnable) {
+          public Runnable apply(Runnable runnable) {
             return new Runnable() {
               @Override
               public void run() {

@@ -263,7 +263,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testPublicSuffix() {
     for (String name : PS) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertTrue(name, domain.isPublicSuffix());
       assertTrue(name, domain.hasPublicSuffix());
       assertFalse(name, domain.isUnderPublicSuffix());
@@ -272,7 +272,7 @@ public final class InternetDomainNameTest extends TestCase {
     }
 
     for (String name : NO_PS) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isPublicSuffix());
       assertFalse(name, domain.hasPublicSuffix());
       assertFalse(name, domain.isUnderPublicSuffix());
@@ -281,7 +281,7 @@ public final class InternetDomainNameTest extends TestCase {
     }
 
     for (String name : NON_PS) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isPublicSuffix());
       assertTrue(name, domain.hasPublicSuffix());
       assertTrue(name, domain.isUnderPublicSuffix());
@@ -290,7 +290,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testUnderPublicSuffix() {
     for (String name : SOMEWHERE_UNDER_PS) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isPublicSuffix());
       assertTrue(name, domain.hasPublicSuffix());
       assertTrue(name, domain.isUnderPublicSuffix());
@@ -299,7 +299,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testTopPrivateDomain() {
     for (String name : TOP_PRIVATE_DOMAIN) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isPublicSuffix());
       assertTrue(name, domain.hasPublicSuffix());
       assertTrue(name, domain.isUnderPublicSuffix());
@@ -310,7 +310,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testUnderPrivateDomain() {
     for (String name : UNDER_PRIVATE_DOMAIN) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isPublicSuffix());
       assertTrue(name, domain.hasPublicSuffix());
       assertTrue(name, domain.isUnderPublicSuffix());
@@ -320,7 +320,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testRegistrySuffix() {
     for (String name : RS) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertTrue(name, domain.isRegistrySuffix());
       assertTrue(name, domain.hasRegistrySuffix());
       assertFalse(name, domain.isUnderRegistrySuffix());
@@ -329,7 +329,7 @@ public final class InternetDomainNameTest extends TestCase {
     }
 
     for (String name : NO_RS) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isRegistrySuffix());
       assertFalse(name, domain.hasRegistrySuffix());
       assertFalse(name, domain.isUnderRegistrySuffix());
@@ -338,7 +338,7 @@ public final class InternetDomainNameTest extends TestCase {
     }
 
     for (String name : NON_RS) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isRegistrySuffix());
       assertTrue(name, domain.hasRegistrySuffix());
       assertTrue(name, domain.isUnderRegistrySuffix());
@@ -347,7 +347,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testUnderRegistrySuffix() {
     for (String name : SOMEWHERE_UNDER_RS) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isRegistrySuffix());
       assertTrue(name, domain.hasRegistrySuffix());
       assertTrue(name, domain.isUnderRegistrySuffix());
@@ -356,7 +356,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testTopDomainUnderRegistrySuffix() {
     for (String name : TOP_UNDER_REGISTRY_SUFFIX) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isRegistrySuffix());
       assertTrue(name, domain.hasRegistrySuffix());
       assertTrue(name, domain.isUnderRegistrySuffix());
@@ -367,7 +367,7 @@ public final class InternetDomainNameTest extends TestCase {
 
   public void testUnderTopDomainUnderRegistrySuffix() {
     for (String name : UNDER_TOP_UNDER_REGISTRY_SUFFIX) {
-      final InternetDomainName domain = InternetDomainName.from(name);
+      InternetDomainName domain = InternetDomainName.from(name);
       assertFalse(name, domain.isRegistrySuffix());
       assertTrue(name, domain.hasRegistrySuffix());
       assertTrue(name, domain.isUnderRegistrySuffix());
@@ -420,8 +420,8 @@ public final class InternetDomainNameTest extends TestCase {
   }
 
   public void testIsValid() {
-    final Iterable<String> validCases = Iterables.concat(VALID_NAME, PS, NO_PS, NON_PS);
-    final Iterable<String> invalidCases =
+    Iterable<String> validCases = Iterables.concat(VALID_NAME, PS, NO_PS, NON_PS);
+    Iterable<String> invalidCases =
         Iterables.concat(INVALID_NAME, VALID_IP_ADDRS, INVALID_IP_ADDRS);
 
     for (String valid : validCases) {
@@ -508,7 +508,7 @@ public final class InternetDomainNameTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNulls() {
-    final NullPointerTester tester = new NullPointerTester();
+    NullPointerTester tester = new NullPointerTester();
 
     tester.testAllPublicStaticMethods(InternetDomainName.class);
     tester.testAllPublicInstanceMethods(InternetDomainName.from("google.com"));

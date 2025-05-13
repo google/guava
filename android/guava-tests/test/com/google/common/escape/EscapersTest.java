@@ -86,7 +86,7 @@ public class EscapersTest extends TestCase {
   }
 
   // A trivial non-optimized escaper for testing.
-  static CharEscaper createSimpleCharEscaper(final ImmutableMap<Character, char[]> replacementMap) {
+  static CharEscaper createSimpleCharEscaper(ImmutableMap<Character, char[]> replacementMap) {
     return new CharEscaper() {
       @Override
       protected char[] escape(char c) {
@@ -96,8 +96,7 @@ public class EscapersTest extends TestCase {
   }
 
   // A trivial non-optimized escaper for testing.
-  static UnicodeEscaper createSimpleUnicodeEscaper(
-      final ImmutableMap<Integer, char[]> replacementMap) {
+  static UnicodeEscaper createSimpleUnicodeEscaper(ImmutableMap<Integer, char[]> replacementMap) {
     return new UnicodeEscaper() {
       @Override
       protected char[] escape(int cp) {

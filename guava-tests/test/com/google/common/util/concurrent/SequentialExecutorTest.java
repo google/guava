@@ -86,7 +86,7 @@ public class SequentialExecutorTest extends TestCase {
   }
 
   public void testBasics() {
-    final AtomicInteger totalCalls = new AtomicInteger();
+    AtomicInteger totalCalls = new AtomicInteger();
     Runnable intCounter =
         new Runnable() {
           @Override
@@ -121,7 +121,7 @@ public class SequentialExecutorTest extends TestCase {
   }
 
   public void testOrdering() {
-    final List<Integer> callOrder = new ArrayList<>();
+    List<Integer> callOrder = new ArrayList<>();
 
     class FakeOp implements Runnable {
       final int op;
@@ -146,7 +146,7 @@ public class SequentialExecutorTest extends TestCase {
 
   public void testRuntimeException_doesNotStopExecution() {
 
-    final AtomicInteger numCalls = new AtomicInteger();
+    AtomicInteger numCalls = new AtomicInteger();
 
     Runnable runMe =
         new Runnable() {
@@ -220,7 +220,7 @@ public class SequentialExecutorTest extends TestCase {
 
   public void testInterrupt_doesNotStopExecution() {
 
-    final AtomicInteger numCalls = new AtomicInteger();
+    AtomicInteger numCalls = new AtomicInteger();
 
     Runnable runMe =
         new Runnable() {
@@ -242,9 +242,9 @@ public class SequentialExecutorTest extends TestCase {
   }
 
   public void testDelegateRejection() {
-    final AtomicInteger numCalls = new AtomicInteger();
-    final AtomicBoolean reject = new AtomicBoolean(true);
-    final SequentialExecutor executor =
+    AtomicInteger numCalls = new AtomicInteger();
+    AtomicBoolean reject = new AtomicBoolean(true);
+    SequentialExecutor executor =
         new SequentialExecutor(
             new Executor() {
               @Override
@@ -279,11 +279,11 @@ public class SequentialExecutorTest extends TestCase {
   @AndroidIncompatible
   public void testTaskThrowsError() throws Exception {
     class MyError extends Error {}
-    final CyclicBarrier barrier = new CyclicBarrier(2);
+    CyclicBarrier barrier = new CyclicBarrier(2);
     // we need to make sure the error gets thrown on a different thread.
     ExecutorService service = Executors.newSingleThreadExecutor();
     try {
-      final SequentialExecutor executor = new SequentialExecutor(service);
+      SequentialExecutor executor = new SequentialExecutor(service);
       Runnable errorTask =
           new Runnable() {
             @Override
@@ -316,9 +316,9 @@ public class SequentialExecutorTest extends TestCase {
   }
 
   public void testRejectedExecutionThrownWithMultipleCalls() throws Exception {
-    final CountDownLatch latch = new CountDownLatch(1);
-    final SettableFuture<?> future = SettableFuture.create();
-    final Executor delegate =
+    CountDownLatch latch = new CountDownLatch(1);
+    SettableFuture<?> future = SettableFuture.create();
+    Executor delegate =
         new Executor() {
           @Override
           public void execute(Runnable task) {
@@ -328,8 +328,8 @@ public class SequentialExecutorTest extends TestCase {
             throw new RejectedExecutionException();
           }
         };
-    final SequentialExecutor executor = new SequentialExecutor(delegate);
-    final ExecutorService blocked = Executors.newCachedThreadPool();
+    SequentialExecutor executor = new SequentialExecutor(delegate);
+    ExecutorService blocked = Executors.newCachedThreadPool();
     Future<?> first =
         blocked.submit(
             new Runnable() {
@@ -347,8 +347,8 @@ public class SequentialExecutorTest extends TestCase {
   }
 
   public void testToString() {
-    final Runnable[] currentTask = new Runnable[1];
-    final Executor delegate =
+    Runnable[] currentTask = new Runnable[1];
+    Executor delegate =
         new Executor() {
           @Override
           public void execute(Runnable task) {
@@ -366,7 +366,7 @@ public class SequentialExecutorTest extends TestCase {
     Executor sequential2 = newSequentialExecutor(delegate);
     assertThat(sequential1.toString()).contains("theDelegate");
     assertThat(sequential1.toString()).isNotEqualTo(sequential2.toString());
-    final String[] whileRunningToString = new String[1];
+    String[] whileRunningToString = new String[1];
     sequential1.execute(
         new Runnable() {
           @Override

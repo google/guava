@@ -131,7 +131,7 @@ public class ByteSourceTest extends IoTestCase {
   }
 
   public void testRead_withProcessor() throws IOException {
-    final byte[] processedBytes = new byte[bytes.length];
+    byte[] processedBytes = new byte[bytes.length];
     ByteProcessor<byte[]> processor =
         new ByteProcessor<byte[]>() {
           int pos;

@@ -74,7 +74,7 @@ public class FinalizableReferenceQueueClassLoaderUnloadingTest {
   }
 
   private WeakReference<ClassLoader> useFrqInSeparateLoader() throws Exception {
-    final ClassLoader myLoader = getClass().getClassLoader();
+    ClassLoader myLoader = getClass().getClassLoader();
     URLClassLoader sepLoader = new URLClassLoader(getClassPathUrls(), myLoader.getParent());
     // sepLoader is the loader that we will use to load the parallel FinalizableReferenceQueue (FRQ)
     // and friends, and that we will eventually expect to see garbage-collected. The assumption

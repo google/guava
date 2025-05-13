@@ -40,7 +40,7 @@ class TestingCacheLoaders {
    * Returns a {@link CacheLoader} that implements a naive {@link CacheLoader#loadAll}, delegating
    * {@link CacheLoader#load} calls to {@code loader}.
    */
-  static <K, V> CacheLoader<K, V> bulkLoader(final CacheLoader<K, V> loader) {
+  static <K, V> CacheLoader<K, V> bulkLoader(CacheLoader<K, V> loader) {
     checkNotNull(loader);
     return new CacheLoader<K, V>() {
       @Override
@@ -70,7 +70,7 @@ class TestingCacheLoaders {
   }
 
   /** Returns a {@link CacheLoader} that throws the given error for every request. */
-  static <K, V> CacheLoader<K, V> errorLoader(final Error e) {
+  static <K, V> CacheLoader<K, V> errorLoader(Error e) {
     checkNotNull(e);
     return new CacheLoader<K, V>() {
       @Override
@@ -81,7 +81,7 @@ class TestingCacheLoaders {
   }
 
   /** Returns a {@link CacheLoader} that throws the given exception for every request. */
-  static <K, V> CacheLoader<K, V> exceptionLoader(final Exception e) {
+  static <K, V> CacheLoader<K, V> exceptionLoader(Exception e) {
     checkNotNull(e);
     return new CacheLoader<K, V>() {
       @Override

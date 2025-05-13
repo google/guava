@@ -87,7 +87,7 @@ public final class HostSpecifierTest extends TestCase {
   }
 
   public void testNulls() {
-    final NullPointerTester tester = new NullPointerTester();
+    NullPointerTester tester = new NullPointerTester();
 
     tester.testAllPublicStaticMethods(HostSpecifier.class);
     tester.testAllPublicInstanceMethods(HostSpecifier.fromValid("google.com"));

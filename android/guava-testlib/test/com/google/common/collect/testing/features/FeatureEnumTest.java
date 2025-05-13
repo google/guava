@@ -35,7 +35,7 @@ public class FeatureEnumTest extends TestCase {
     assertNotNull(
         rootLocaleFormat("%s must be annotated with @TesterAnnotation.", annotationClass),
         annotationClass.getAnnotation(TesterAnnotation.class));
-    final Retention retentionPolicy = annotationClass.getAnnotation(Retention.class);
+    Retention retentionPolicy = annotationClass.getAnnotation(Retention.class);
     assertNotNull(
         rootLocaleFormat("%s must have a @Retention annotation.", annotationClass),
         retentionPolicy);
@@ -54,7 +54,7 @@ public class FeatureEnumTest extends TestCase {
       } catch (NoSuchMethodException e) {
         throw new AssertionError("Annotation is missing required method", e);
       }
-      final Class<?> returnType = method.getReturnType();
+      Class<?> returnType = method.getReturnType();
       assertTrue(
           rootLocaleFormat("%s.%s() must return an array.", annotationClass, propertyName),
           returnType.isArray());
@@ -71,7 +71,7 @@ public class FeatureEnumTest extends TestCase {
   // can reuse it.
   public static <E extends Enum<?> & Feature<?>> void assertGoodFeatureEnum(
       Class<E> featureEnumClass) {
-    final Class<?>[] classes = featureEnumClass.getDeclaredClasses();
+    Class<?>[] classes = featureEnumClass.getDeclaredClasses();
     for (Class<?> containedClass : classes) {
       if (containedClass.getSimpleName().equals("Require")) {
         if (containedClass.isAnnotation()) {

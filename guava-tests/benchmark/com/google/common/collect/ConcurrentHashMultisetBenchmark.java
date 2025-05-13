@@ -73,7 +73,7 @@ public class ConcurrentHashMultisetBenchmark {
   }
 
   @Benchmark
-  long add(final int reps) throws ExecutionException, InterruptedException {
+  long add(int reps) throws ExecutionException, InterruptedException {
     return doMultithreadedLoop(
         new Callable<Long>() {
           @Override
@@ -84,7 +84,7 @@ public class ConcurrentHashMultisetBenchmark {
   }
 
   @Benchmark
-  long addRemove(final int reps) throws ExecutionException, InterruptedException {
+  long addRemove(int reps) throws ExecutionException, InterruptedException {
     return doMultithreadedLoop(
         new Callable<Long>() {
           @Override
@@ -423,7 +423,7 @@ public class ConcurrentHashMultisetBenchmark {
 
     @Override
     Set<E> createElementSet() {
-      final Set<E> delegate = countMap.keySet();
+      Set<E> delegate = countMap.keySet();
       return new ForwardingSet<E>() {
         @Override
         protected Set<E> delegate() {
@@ -469,7 +469,7 @@ public class ConcurrentHashMultisetBenchmark {
 
     @Override
     Iterator<Entry<E>> entryIterator() {
-      final Iterator<Map.Entry<E, Integer>> backingIterator = countMap.entrySet().iterator();
+      Iterator<Map.Entry<E, Integer>> backingIterator = countMap.entrySet().iterator();
       return new Iterator<Entry<E>>() {
         @Override
         public boolean hasNext() {

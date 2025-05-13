@@ -157,7 +157,7 @@ public class ForwardingQueueTest extends TestCase {
             });
   }
 
-  private static <T> Queue<T> wrap(final Queue<T> delegate) {
+  private static <T> Queue<T> wrap(Queue<T> delegate) {
     return new ForwardingQueue<T>() {
       @Override
       protected Queue<T> delegate() {

@@ -47,8 +47,8 @@ public class MultiInputStreamTest extends IoTestCase {
   }
 
   public void testOnlyOneOpen() throws Exception {
-    final ByteSource source = newByteSource(0, 50);
-    final int[] counter = new int[1];
+    ByteSource source = newByteSource(0, 50);
+    int[] counter = new int[1];
     ByteSource checker =
         new ByteSource() {
           @Override
@@ -135,7 +135,7 @@ public class MultiInputStreamTest extends IoTestCase {
     return new MultiInputStream(Collections.nCopies(10_000_000, ByteSource.empty()).iterator());
   }
 
-  private static ByteSource newByteSource(final int start, final int size) {
+  private static ByteSource newByteSource(int start, int size) {
     return new ByteSource() {
       @Override
       public InputStream openStream() {

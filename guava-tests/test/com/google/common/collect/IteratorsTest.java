@@ -285,8 +285,8 @@ public class IteratorsTest extends TestCase {
 
   @GwtIncompatible // unreasonably slow
   public void testFilterUsingIteratorTester() {
-    final List<Integer> list = asList(1, 2, 3, 4, 5);
-    final Predicate<Integer> isEven =
+    List<Integer> list = asList(1, 2, 3, 4, 5);
+    Predicate<Integer> isEven =
         new Predicate<Integer>() {
           @Override
           public boolean apply(Integer integer) {
@@ -782,7 +782,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testConcatNested_appendToEnd() {
-    final int nestingDepth = 128;
+    int nestingDepth = 128;
     Iterator<Integer> iterator = iterateOver();
     for (int i = 0; i < nestingDepth; i++) {
       iterator = Iterators.concat(iterator, iterateOver(1));
@@ -791,7 +791,7 @@ public class IteratorsTest extends TestCase {
   }
 
   public void testConcatNested_appendToBeginning() {
-    final int nestingDepth = 128;
+    int nestingDepth = 128;
     Iterator<Integer> iterator = iterateOver();
     for (int i = 0; i < nestingDepth; i++) {
       iterator = Iterators.concat(iterateOver(1), iterator);
@@ -1216,7 +1216,7 @@ public class IteratorsTest extends TestCase {
 
   @GwtIncompatible // fairly slow (~30s)
   public void testLimitUsingIteratorTester() {
-    final List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5);
+    List<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5);
     new IteratorTester<Integer>(
         5, MODIFIABLE, newArrayList(1, 2, 3), IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
@@ -1445,8 +1445,8 @@ public class IteratorsTest extends TestCase {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {
               @Override
-              public List<String> create(final String[] elements) {
-                final List<String> delegate = newArrayList(elements);
+              public List<String> create(String[] elements) {
+                List<String> delegate = newArrayList(elements);
                 return new ForwardingList<String>() {
                   @Override
                   protected List<String> delegate() {

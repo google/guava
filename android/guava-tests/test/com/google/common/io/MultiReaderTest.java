@@ -32,8 +32,8 @@ public class MultiReaderTest extends TestCase {
 
   public void testOnlyOneOpen() throws Exception {
     String testString = "abcdefgh";
-    final CharSource source = newCharSource(testString);
-    final int[] counter = new int[1];
+    CharSource source = newCharSource(testString);
+    int[] counter = new int[1];
     CharSource reader =
         new CharSource() {
           @Override
@@ -76,7 +76,7 @@ public class MultiReaderTest extends TestCase {
     assertEquals(expectedString, CharStreams.toString(joinedReader));
   }
 
-  private static CharSource newCharSource(final String text) {
+  private static CharSource newCharSource(String text) {
     return new CharSource() {
       @Override
       public Reader openStream() {

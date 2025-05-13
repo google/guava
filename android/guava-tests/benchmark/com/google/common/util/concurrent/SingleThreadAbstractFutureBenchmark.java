@@ -51,7 +51,7 @@ public class SingleThreadAbstractFutureBenchmark {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<>(reps);
     for (int i = 0; i < reps; i++) {
-      final Facade<Integer> localFuture = impl.newFacade();
+      Facade<Integer> localFuture = impl.newFacade();
       list.add(localFuture);
       localFuture.set(i);
     }
@@ -66,7 +66,7 @@ public class SingleThreadAbstractFutureBenchmark {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<>(reps);
     for (int i = 0; i < reps; i++) {
-      final Facade<Integer> localFuture = impl.newFacade();
+      Facade<Integer> localFuture = impl.newFacade();
       list.add(localFuture);
       localFuture.setException(exception);
     }
@@ -87,7 +87,7 @@ public class SingleThreadAbstractFutureBenchmark {
     long r = 0;
     List<Facade<Integer>> list = new ArrayList<>(reps);
     for (int i = 0; i < reps; i++) {
-      final Facade<Integer> localFuture = impl.newFacade();
+      Facade<Integer> localFuture = impl.newFacade();
       list.add(localFuture);
       localFuture.cancel(false);
     }

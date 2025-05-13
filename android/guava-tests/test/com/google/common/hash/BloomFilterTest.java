@@ -523,7 +523,7 @@ public class BloomFilterTest extends TestCase {
 
 
   public void testNoRaceConditions() throws Exception {
-    final BloomFilter<Integer> bloomFilter =
+    BloomFilter<Integer> bloomFilter =
         BloomFilter.create(Funnels.integerFunnel(), 15_000_000, 0.01);
 
     // This check has to be BEFORE the loop because the random insertions can
@@ -536,8 +536,8 @@ public class BloomFilterTest extends TestCase {
     bloomFilter.put(GOLDEN_PRESENT_KEY);
 
     int numThreads = 12;
-    final double safetyFalsePositiveRate = 0.1;
-    final Stopwatch stopwatch = Stopwatch.createStarted();
+    double safetyFalsePositiveRate = 0.1;
+    Stopwatch stopwatch = Stopwatch.createStarted();
 
     Runnable task =
         new Runnable() {
@@ -573,7 +573,7 @@ public class BloomFilterTest extends TestCase {
 
   private static List<Throwable> runThreadsAndReturnExceptions(int numThreads, Runnable task) {
     List<Thread> threads = new ArrayList<>(numThreads);
-    final List<Throwable> exceptions = new ArrayList<>(numThreads);
+    List<Throwable> exceptions = new ArrayList<>(numThreads);
     for (int i = 0; i < numThreads; i++) {
       Thread thread = new Thread(task);
       thread.setUncaughtExceptionHandler(

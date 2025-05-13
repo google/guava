@@ -51,7 +51,7 @@ public class UninterruptibleFutureTest extends TestCase {
 
   @Override
   protected void setUp() {
-    final ExecutorService executor = Executors.newSingleThreadExecutor();
+    ExecutorService executor = Executors.newSingleThreadExecutor();
     tearDownStack.addTearDown(
         new TearDown() {
           @Override
@@ -247,7 +247,7 @@ public class UninterruptibleFutureTest extends TestCase {
   }
 
   private static FutureTask<Boolean> untimedInterruptReporter(
-      final Future<?> future, final boolean allowInterruption) {
+      Future<?> future, boolean allowInterruption) {
     return new FutureTask<>(
         new Callable<Boolean>() {
           @Override
@@ -264,7 +264,7 @@ public class UninterruptibleFutureTest extends TestCase {
         });
   }
 
-  private static FutureTask<Boolean> timedInterruptReporter(final Future<?> future) {
+  private static FutureTask<Boolean> timedInterruptReporter(Future<?> future) {
     return new FutureTask<>(
         new Callable<Boolean>() {
           @Override

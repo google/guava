@@ -69,7 +69,7 @@ public class ImmutableRangeMapTest extends TestCase {
 
   public void testBuilderRejectsEmptyRanges() {
     for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
-      final int ii = i;
+      int ii = i;
       ImmutableRangeMap.Builder<Integer, Integer> builder = ImmutableRangeMap.builder();
       assertThrows(IllegalArgumentException.class, () -> builder.put(Range.closedOpen(ii, ii), 1));
       assertThrows(IllegalArgumentException.class, () -> builder.put(Range.openClosed(ii, ii), 1));

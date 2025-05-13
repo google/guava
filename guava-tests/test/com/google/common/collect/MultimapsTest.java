@@ -632,7 +632,7 @@ public class MultimapsTest extends TestCase {
         new SetSupplier() {
           @Override
           public Set<Integer> getImpl() {
-            final Set<Integer> backing = super.getImpl();
+            Set<Integer> backing = super.getImpl();
             return new ForwardingSet<Integer>() {
               @Override
               protected Set<Integer> delegate() {
@@ -816,7 +816,7 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testIndex() {
-    final Multimap<String, Object> stringToObject =
+    Multimap<String, Object> stringToObject =
         new ImmutableMultimap.Builder<String, Object>()
             .put("1", 1)
             .put("1", 1L)
@@ -831,7 +831,7 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testIndexIterator() {
-    final Multimap<String, Object> stringToObject =
+    Multimap<String, Object> stringToObject =
         new ImmutableMultimap.Builder<String, Object>()
             .put("1", 1)
             .put("1", 1L)
@@ -846,7 +846,7 @@ public class MultimapsTest extends TestCase {
   }
 
   public void testIndex_ordering() {
-    final Multimap<Integer, String> expectedIndex =
+    Multimap<Integer, String> expectedIndex =
         new ImmutableListMultimap.Builder<Integer, String>()
             .put(4, "Inky")
             .put(6, "Blinky")
@@ -855,8 +855,8 @@ public class MultimapsTest extends TestCase {
             .put(5, "Clyde")
             .build();
 
-    final List<String> badGuys = Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
-    final Function<String, Integer> stringLengthFunction =
+    List<String> badGuys = Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
+    Function<String, Integer> stringLengthFunction =
         new Function<String, Integer>() {
           @Override
           public Integer apply(String input) {

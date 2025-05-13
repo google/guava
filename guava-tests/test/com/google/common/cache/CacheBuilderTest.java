@@ -348,8 +348,8 @@ public class CacheBuilderTest extends TestCase {
     // If a clear() happens while a computation is pending, we should not get a removal
     // notification.
 
-    final AtomicBoolean shouldWait = new AtomicBoolean(false);
-    final CountDownLatch computingLatch = new CountDownLatch(1);
+    AtomicBoolean shouldWait = new AtomicBoolean(false);
+    CountDownLatch computingLatch = new CountDownLatch(1);
     CacheLoader<String, String> computingFunction =
         new CacheLoader<String, String>() {
           @Override
@@ -362,7 +362,7 @@ public class CacheBuilderTest extends TestCase {
         };
     QueuingRemovalListener<String, String> listener = queuingRemovalListener();
 
-    final LoadingCache<String, String> cache =
+    LoadingCache<String, String> cache =
         CacheBuilder.newBuilder()
             .concurrencyLevel(1)
             .removalListener(listener)
@@ -372,8 +372,8 @@ public class CacheBuilderTest extends TestCase {
     cache.getUnchecked("a");
     shouldWait.set(true);
 
-    final CountDownLatch computationStarted = new CountDownLatch(1);
-    final CountDownLatch computationComplete = new CountDownLatch(1);
+    CountDownLatch computationStarted = new CountDownLatch(1);
+    CountDownLatch computationComplete = new CountDownLatch(1);
     new Thread(
             new Runnable() {
               @Override
@@ -424,7 +424,7 @@ public class CacheBuilderTest extends TestCase {
     AtomicBoolean computationShouldWait = new AtomicBoolean();
     CountDownLatch computationLatch = new CountDownLatch(1);
     QueuingRemovalListener<String, String> listener = queuingRemovalListener();
-    final LoadingCache<String, String> cache =
+    LoadingCache<String, String> cache =
         CacheBuilder.newBuilder()
             .removalListener(listener)
             .concurrencyLevel(20)
@@ -443,11 +443,11 @@ public class CacheBuilderTest extends TestCase {
     }
     computationShouldWait.set(true);
 
-    final AtomicInteger computedCount = new AtomicInteger();
+    AtomicInteger computedCount = new AtomicInteger();
     ExecutorService threadPool = Executors.newFixedThreadPool(nThreads);
-    final CountDownLatch tasksFinished = new CountDownLatch(nTasks);
+    CountDownLatch tasksFinished = new CountDownLatch(nTasks);
     for (int i = 0; i < nTasks; i++) {
-      final String s = "a" + i;
+      String s = "a" + i;
       @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =
           threadPool.submit(
@@ -505,14 +505,14 @@ public class CacheBuilderTest extends TestCase {
   public void testRemovalNotification_get_basher() throws InterruptedException {
     int nTasks = 1000;
     int nThreads = 100;
-    final int getsPerTask = 1000;
-    final int nUniqueKeys = 10000;
-    final Random random = new Random(); // Randoms.insecureRandom();
+    int getsPerTask = 1000;
+    int nUniqueKeys = 10000;
+    Random random = new Random(); // Randoms.insecureRandom();
 
     QueuingRemovalListener<String, String> removalListener = queuingRemovalListener();
-    final AtomicInteger computeCount = new AtomicInteger();
-    final AtomicInteger exceptionCount = new AtomicInteger();
-    final AtomicInteger computeNullCount = new AtomicInteger();
+    AtomicInteger computeCount = new AtomicInteger();
+    AtomicInteger exceptionCount = new AtomicInteger();
+    AtomicInteger computeNullCount = new AtomicInteger();
     @SuppressWarnings("CacheLoaderNull") // test of handling of erroneous implementation
     CacheLoader<String, String> countingIdentityLoader =
         new CacheLoader<String, String>() {
@@ -535,7 +535,7 @@ public class CacheBuilderTest extends TestCase {
             }
           }
         };
-    final LoadingCache<String, String> cache =
+    LoadingCache<String, String> cache =
         CacheBuilder.newBuilder()
             .recordStats()
             .concurrencyLevel(2)

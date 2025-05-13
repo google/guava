@@ -98,8 +98,8 @@ public class HashStringBenchmark {
    */
   @BeforeExperiment
   void setUp() {
-    final long seed = 99;
-    final Random rnd = new Random(seed);
+    long seed = 99;
+    Random rnd = new Random(seed);
     strings = new String[SAMPLES];
     for (int i = 0; i < SAMPLES; i++) {
       StringBuilder sb = new StringBuilder();

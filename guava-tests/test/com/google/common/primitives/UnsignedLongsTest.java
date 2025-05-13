@@ -257,7 +257,7 @@ public class UnsignedLongsTest extends TestCase {
     BigInteger max = BigInteger.ZERO.setBit(64).subtract(ONE);
     // loops through all legal radix values.
     for (int r = Character.MIN_RADIX; r <= Character.MAX_RADIX; r++) {
-      final int radix = r;
+      int radix = r;
       // tests can successfully parse a number string with this radix.
       String maxAsString = max.toString(radix);
       assertThat(UnsignedLongs.parseUnsignedLong(maxAsString, radix)).isEqualTo(max.longValue());

@@ -856,8 +856,8 @@ public class UninterruptiblesTest extends TestCase {
   }
 
   @CanIgnoreReturnValue
-  private static Thread acquireFor(final Lock lock, final long duration, final TimeUnit unit) {
-    final CountDownLatch latch = new CountDownLatch(1);
+  private static Thread acquireFor(Lock lock, long duration, TimeUnit unit) {
+    CountDownLatch latch = new CountDownLatch(1);
     Thread thread =
         new Thread() {
           @Override
@@ -889,7 +889,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     static TestCondition createAndSignalAfter(long delay, TimeUnit unit) {
-      final TestCondition testCondition = create();
+      TestCondition testCondition = create();
 
       ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(1);
       // If signal() fails somehow, we should see a failed test, even without looking at the Future.

@@ -69,9 +69,9 @@ final class InterruptionUtil {
   }
 
   /** Interrupts the current thread after sleeping for the specified delay. */
-  static void requestInterruptIn(final long time, final TimeUnit unit) {
+  static void requestInterruptIn(long time, TimeUnit unit) {
     checkNotNull(unit);
-    final Thread interruptee = Thread.currentThread();
+    Thread interruptee = Thread.currentThread();
     new Thread(
             new Runnable() {
               @Override
@@ -89,9 +89,9 @@ final class InterruptionUtil {
 
   static void repeatedlyInterruptTestThread(
       long interruptPeriodMillis, TearDownAccepter tearDownAccepter) {
-    final Interruptenator interruptingTask =
+    Interruptenator interruptingTask =
         new Interruptenator(Thread.currentThread(), interruptPeriodMillis);
-    final Thread interruptingThread = new Thread(interruptingTask);
+    Thread interruptingThread = new Thread(interruptingTask);
     interruptingThread.start();
     tearDownAccepter.addTearDown(
         new TearDown() {

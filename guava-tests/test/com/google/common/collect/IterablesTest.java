@@ -115,7 +115,7 @@ public class IterablesTest extends TestCase {
   }
 
   private static <T extends @Nullable Object> Iterable<T> iterable(T... elements) {
-    final List<T> list = asList(elements);
+    List<T> list = asList(elements);
     return new Iterable<T>() {
       @Override
       public Iterator<T> iterator() {
@@ -968,7 +968,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testRemoveAll_iterable() {
-    final List<String> list = newArrayList("a", "b", "c", "d", "e");
+    List<String> list = newArrayList("a", "b", "c", "d", "e");
     Iterable<String> iterable =
         new Iterable<String>() {
           @Override
@@ -991,7 +991,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testRetainAll_iterable() {
-    final List<String> list = newArrayList("a", "b", "c", "d", "e");
+    List<String> list = newArrayList("a", "b", "c", "d", "e");
     Iterable<String> iterable =
         new Iterable<String>() {
           @Override
@@ -1115,7 +1115,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testRemoveIf_iterable() {
-    final List<String> list = new LinkedList<>(asList("a", "b", "c", "d", "e"));
+    List<String> list = new LinkedList<>(asList("a", "b", "c", "d", "e"));
     Iterable<String> iterable =
         new Iterable<String>() {
           @Override
@@ -1188,7 +1188,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testConsumingIterable_queue_iterator() {
-    final List<Integer> items = ImmutableList.of(4, 8, 15, 16, 23, 42);
+    List<Integer> items = ImmutableList.of(4, 8, 15, 16, 23, 42);
     new IteratorTester<Integer>(3, UNMODIFIABLE, items, IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
       protected Iterator<Integer> newTargetIterator() {

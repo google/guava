@@ -229,7 +229,7 @@ public class ExecutionListBenchmark {
             SECONDS,
             new ArrayBlockingQueue<Runnable>(1000));
     executorService.prestartAllCoreThreads();
-    final AtomicInteger integer = new AtomicInteger();
+    AtomicInteger integer = new AtomicInteger();
     // Execute a bunch of tasks to ensure that our threads are allocated and hot
     for (int i = 0; i < NUM_THREADS * 10; i++) {
       @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
@@ -299,7 +299,7 @@ public class ExecutionListBenchmark {
       };
 
   @Benchmark
-  int addThenExecute_multiThreaded(final int reps) throws InterruptedException {
+  int addThenExecute_multiThreaded(int reps) throws InterruptedException {
     Runnable addTask =
         new Runnable() {
           @Override
@@ -326,7 +326,7 @@ public class ExecutionListBenchmark {
   }
 
   @Benchmark
-  int executeThenAdd_multiThreaded(final int reps) throws InterruptedException {
+  int executeThenAdd_multiThreaded(int reps) throws InterruptedException {
     Runnable addTask =
         new Runnable() {
           @Override

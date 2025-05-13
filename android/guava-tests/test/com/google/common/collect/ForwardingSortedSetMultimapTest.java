@@ -52,7 +52,7 @@ public class ForwardingSortedSetMultimapTest extends TestCase {
         .testEquals();
   }
 
-  private static <K, V> SortedSetMultimap<K, V> wrap(final SortedSetMultimap<K, V> delegate) {
+  private static <K, V> SortedSetMultimap<K, V> wrap(SortedSetMultimap<K, V> delegate) {
     return new ForwardingSortedSetMultimap<K, V>() {
       @Override
       protected SortedSetMultimap<K, V> delegate() {

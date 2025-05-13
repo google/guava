@@ -94,7 +94,7 @@ public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends T
     return super.getName() + " [" + suiteName + " [" + caseDesc + "]]";
   }
 
-  protected static ImmutableList<String> getLines(final String string) {
+  protected static ImmutableList<String> getLines(String string) {
     try {
       return new CharSource() {
         @Override

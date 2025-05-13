@@ -535,8 +535,8 @@ public class InvokableTest extends TestCase {
   }
 
   public void testAnonymousClassDefaultConstructor() {
-    final int i = 1;
-    final String s = "hello world";
+    int i = 1;
+    String s = "hello world";
     Class<?> anonymous =
         new Runnable() {
           @Override
@@ -559,8 +559,8 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassDefaultConstructor() {
-    final int i = 1;
-    final String s = "hello world";
+    int i = 1;
+    String s = "hello world";
     class LocalWithDefaultConstructor implements Runnable {
       @Override
       public void run() {
@@ -576,8 +576,8 @@ public class InvokableTest extends TestCase {
   }
 
   private static void doTestStaticAnonymousClassDefaultConstructor() {
-    final int i = 1;
-    final String s = "hello world";
+    int i = 1;
+    String s = "hello world";
     Class<?> anonymous =
         new Runnable() {
           @Override
@@ -595,8 +595,8 @@ public class InvokableTest extends TestCase {
 
   private static class AnonymousClassInConstructor {
     AnonymousClassInConstructor() {
-      final int i = 1;
-      final String s = "hello world";
+      int i = 1;
+      String s = "hello world";
       Class<?> anonymous =
           new Runnable() {
             @Override
@@ -655,8 +655,8 @@ public class InvokableTest extends TestCase {
   }
 
   public void testLocalClassWithOneParameterConstructor() throws Exception {
-    final int i = 1;
-    final String s = "hello world";
+    int i = 1;
+    String s = "hello world";
     class LocalWithOneParameterConstructor {
       @SuppressWarnings("unused") // called by reflection
       public LocalWithOneParameterConstructor(String x) {

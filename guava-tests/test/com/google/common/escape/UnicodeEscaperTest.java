@@ -93,13 +93,13 @@ public class UnicodeEscaperTest extends TestCase {
     UnicodeEscaper e = SIMPLE_ESCAPER;
 
     // Build up a range of surrogate pair characters to test
-    final int min = Character.MIN_SUPPLEMENTARY_CODE_POINT;
-    final int max = Character.MAX_CODE_POINT;
-    final int range = max - min;
-    final int s1 = min + (1 * range) / 4;
-    final int s2 = min + (2 * range) / 4;
-    final int s3 = min + (3 * range) / 4;
-    final char[] dst = new char[12];
+    int min = Character.MIN_SUPPLEMENTARY_CODE_POINT;
+    int max = Character.MAX_CODE_POINT;
+    int range = max - min;
+    int s1 = min + (1 * range) / 4;
+    int s2 = min + (2 * range) / 4;
+    int s3 = min + (3 * range) / 4;
+    char[] dst = new char[12];
 
     // Put surrogate pairs at odd indices so they can be split easily
     dst[0] = 'x';

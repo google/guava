@@ -53,8 +53,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testLoader() throws ExecutionException {
-
-    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
 
     Callable<Integer> loader =
         new Callable<Integer>() {
@@ -81,7 +80,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testSizeConstraint() {
-    final Cache<Integer, Integer> cache = CacheBuilder.newBuilder().maximumSize(4).build();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().maximumSize(4).build();
 
     cache.put(1, 10);
     cache.put(2, 20);
@@ -132,7 +131,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testExpireAfterAccess() {
-    final Cache<Integer, Integer> cache =
+    Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder().expireAfterAccess(1000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(0, 10);
@@ -147,7 +146,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testExpireAfterWrite() {
-    final Cache<Integer, Integer> cache =
+    Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
 
     cache.put(10, 100);
@@ -172,7 +171,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testExpireAfterWriteAndAccess() {
-    final Cache<Integer, Integer> cache =
+    Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder()
             .expireAfterWrite(1000, MILLISECONDS)
             .expireAfterAccess(500, MILLISECONDS)
@@ -246,7 +245,7 @@ public class CacheBuilderGwtTest extends TestCase {
   }
 
   public void testRemovalListener() {
-    final int[] stats = new int[4];
+    int[] stats = new int[4];
 
     RemovalListener<Integer, Integer> countingListener =
         new RemovalListener<Integer, Integer>() {

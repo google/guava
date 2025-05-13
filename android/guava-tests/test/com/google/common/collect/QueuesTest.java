@@ -219,8 +219,8 @@ public class QueuesTest extends TestCase {
     }
   }
 
-  private void testDrainUninterruptiblyDoesNotThrow(final BlockingQueue<Object> q) {
-    final Thread mainThread = currentThread();
+  private void testDrainUninterruptiblyDoesNotThrow(BlockingQueue<Object> q) {
+    Thread mainThread = currentThread();
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError =
         threadPool.submit(

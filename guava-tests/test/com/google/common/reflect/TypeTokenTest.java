@@ -1068,7 +1068,7 @@ public class TypeTokenTest extends TestCase {
     assertThat(parameterizedType.getOwnerType()).isEqualTo(javacReturnType.getOwnerType());
   }
 
-  public static <T> GenericClass<T> getStaticAnonymousClass(final T value) {
+  public static <T> GenericClass<T> getStaticAnonymousClass(T value) {
     return new GenericClass<T>() {
       @SuppressWarnings("unused")
       public T innerValue = value;

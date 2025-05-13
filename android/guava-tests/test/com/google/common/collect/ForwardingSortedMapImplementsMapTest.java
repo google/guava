@@ -58,7 +58,7 @@ public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest
 
   @Override
   protected SortedMap<String, Integer> makePopulatedMap() {
-    final SortedMap<String, Integer> sortedMap = makeEmptyMap();
+    SortedMap<String, Integer> sortedMap = makeEmptyMap();
     sortedMap.put("one", 1);
     sortedMap.put("two", 2);
     sortedMap.put("three", 3);

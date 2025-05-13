@@ -92,7 +92,7 @@ public class TopKSelectorTest extends TestCase {
   public void testWorstCase() {
     int n = 2000000;
     int k = 200000;
-    final long[] compareCalls = {0};
+    long[] compareCalls = {0};
     Comparator<Integer> cmp =
         new Comparator<Integer>() {
           @Override

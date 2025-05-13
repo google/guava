@@ -128,7 +128,7 @@ public class Fingerprint2011Test extends TestCase {
         .putBoolean(false)
         .putBoolean(false)
         .putBoolean(false);
-    final long hashCode = hasher.hash().asLong();
+    long hashCode = hasher.hash().asLong();
 
     hasher = HASH_FN.newHasher();
     hasher

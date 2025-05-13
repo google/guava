@@ -350,7 +350,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   /** Tests a failure caused by fix to childless uncle issue. */
   public void testIteratorRegressionChildlessUncle() {
-    final ArrayList<Integer> initial = Lists.newArrayList(1, 15, 13, 8, 9, 10, 11, 14);
+    ArrayList<Integer> initial = Lists.newArrayList(1, 15, 13, 8, 9, 10, 11, 14);
     MinMaxPriorityQueue<Integer> q = MinMaxPriorityQueue.create(initial);
     assertIntact(q);
     q.remove(9);
@@ -513,8 +513,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     assertEquals(0, (int) mmHeap.peekLast());
   }
 
-  private <T extends Comparable<T>> void runIterator(final List<T> values, int steps)
-      throws Exception {
+  private <T extends Comparable<T>> void runIterator(List<T> values, int steps) throws Exception {
     IteratorTester<T> tester =
         new IteratorTester<T>(
             steps,

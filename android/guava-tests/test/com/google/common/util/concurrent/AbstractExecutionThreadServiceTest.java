@@ -317,7 +317,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
   }
 
   public void testStopWhileStarting_runNotCalled() throws Exception {
-    final CountDownLatch started = new CountDownLatch(1);
+    CountDownLatch started = new CountDownLatch(1);
     FakeService service =
         new FakeService() {
           @Override

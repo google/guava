@@ -833,7 +833,7 @@ public class SetsTest extends TestCase {
     expected.add(ImmutableSet.of(2));
     expected.add(ImmutableSet.of(1, 2));
 
-    final Set<Set<Integer>> powerSet = powerSet(elements);
+    Set<Set<Integer>> powerSet = powerSet(elements);
     new IteratorTester<Set<Integer>>(6, UNMODIFIABLE, expected, KNOWN_ORDER) {
       @Override
       protected Iterator<Set<Integer>> newTargetIterator() {
@@ -851,7 +851,7 @@ public class SetsTest extends TestCase {
     expected.add(ImmutableSet.of(2));
     expected.add(ImmutableSet.of(1, 2));
 
-    final Set<Set<Integer>> powerSet = powerSet(elements);
+    Set<Set<Integer>> powerSet = powerSet(elements);
     new IteratorTester<Set<Integer>>(4, UNMODIFIABLE, expected, KNOWN_ORDER) {
       @Override
       protected Iterator<Set<Integer>> newTargetIterator() {
@@ -957,7 +957,7 @@ public class SetsTest extends TestCase {
     return result;
   }
 
-  private static Object objectWithHashCode(final int hashCode) {
+  private static Object objectWithHashCode(int hashCode) {
     return new Object() {
       @Override
       public int hashCode() {
@@ -987,7 +987,7 @@ public class SetsTest extends TestCase {
             ImmutableSet.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10));
     for (Set<Integer> sampleSet : sampleSets) {
       for (int k = 0; k <= sampleSet.size(); k++) {
-        final int size = k;
+        int size = k;
         Set<Set<Integer>> expected =
             Sets.filter(
                 Sets.powerSet(sampleSet),

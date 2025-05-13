@@ -190,7 +190,7 @@ public class IteratorTesterTest extends TestCase {
   }
 
   public void testVerifyCanThrowAssertionThatFailsTest() {
-    final String message = "Important info about why verify failed";
+    String message = "Important info about why verify failed";
     IteratorTester<Integer> tester =
         new IteratorTester<Integer>(
             1, MODIFIABLE, newArrayList(1, 2, 3), IteratorTester.KnownOrder.KNOWN_ORDER) {

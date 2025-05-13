@@ -178,9 +178,9 @@ public class CacheExpirationTest extends TestCase {
 
   public void testRemovalListener_expireAfterWrite() {
     FakeTicker ticker = new FakeTicker();
-    final AtomicInteger evictionCount = new AtomicInteger();
-    final AtomicInteger applyCount = new AtomicInteger();
-    final AtomicInteger totalSum = new AtomicInteger();
+    AtomicInteger evictionCount = new AtomicInteger();
+    AtomicInteger applyCount = new AtomicInteger();
+    AtomicInteger totalSum = new AtomicInteger();
 
     RemovalListener<Integer, AtomicInteger> removalListener =
         new RemovalListener<Integer, AtomicInteger>() {

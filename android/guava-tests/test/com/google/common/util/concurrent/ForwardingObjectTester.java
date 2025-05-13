@@ -55,7 +55,7 @@ final class ForwardingObjectTester {
    * Ensures that all interface methods of {@code forwarderClass} are forwarded to the {@link
    * ForwardingObject#delegate}. {@code forwarderClass} is assumed to only implement one interface.
    */
-  static <T extends ForwardingObject> void testForwardingObject(final Class<T> forwarderClass) {
+  static <T extends ForwardingObject> void testForwardingObject(Class<T> forwarderClass) {
     List<Class<?>> interfaces = new ArrayList<>(Arrays.asList(forwarderClass.getInterfaces()));
     // Desugaring may introduce AutoCloseable as an extra interface.
     interfaces.remove(AutoCloseable.class);

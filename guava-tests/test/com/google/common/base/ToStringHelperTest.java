@@ -206,7 +206,7 @@ public class ToStringHelperTest extends TestCase {
             .add("field2", Arrays.asList("abc", "def", "ghi"))
             .add("field3", map)
             .toString();
-    final String expected =
+    String expected =
         "TestClass{"
             + "field1=This is string., field2=[abc, def, ghi], field3={abc=1, def=2, ghi=3}}";
 
@@ -222,7 +222,7 @@ public class ToStringHelperTest extends TestCase {
             .add("field2", Arrays.asList("abc", "def", "ghi"))
             .add("field3", map)
             .toString();
-    final String expectedRegex =
+    String expectedRegex =
         ".*\\{"
             + "field1\\=This is string\\., "
             + "field2\\=\\[abc, def, ghi\\], "
@@ -238,13 +238,13 @@ public class ToStringHelperTest extends TestCase {
 
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_addWithNullValue() {
-    final String result = MoreObjects.toStringHelper(new TestClass()).add("Hello", null).toString();
+    String result = MoreObjects.toStringHelper(new TestClass()).add("Hello", null).toString();
 
     assertEquals("TestClass{Hello=null}", result);
   }
 
   public void testToStringLenient_addWithNullValue() {
-    final String result = MoreObjects.toStringHelper(new TestClass()).add("Hello", null).toString();
+    String result = MoreObjects.toStringHelper(new TestClass()).add("Hello", null).toString();
     assertTrue(result, result.matches(".*\\{Hello\\=null\\}"));
   }
 
@@ -255,14 +255,14 @@ public class ToStringHelperTest extends TestCase {
             .add("field1", 1)
             .addValue("value1")
             .add("field2", "value2");
-    final String expected = "TestClass{field1=1, value1, field2=value2}";
+    String expected = "TestClass{field1=1, value1, field2=value2}";
 
     assertEquals(expected, helper.toString());
     // Call toString again
     assertEquals(expected, helper.toString());
 
     // Make sure the cached value is reset when we modify the helper at all
-    final String expected2 = "TestClass{field1=1, value1, field2=value2, 2}";
+    String expected2 = "TestClass{field1=1, value1, field2=value2, 2}";
     helper.addValue(2);
     assertEquals(expected2, helper.toString());
   }
@@ -276,7 +276,7 @@ public class ToStringHelperTest extends TestCase {
             .add("field2", "value2")
             .addValue(2)
             .toString();
-    final String expected = "TestClass{field1=1, value1, field2=value2, 2}";
+    String expected = "TestClass{field1=1, value1, field2=value2, 2}";
 
     assertEquals(expected, toTest);
   }
@@ -289,32 +289,32 @@ public class ToStringHelperTest extends TestCase {
             .add("field2", "value2")
             .addValue(2)
             .toString();
-    final String expected = ".*\\{field1\\=1, value1, field2\\=value2, 2\\}";
+    String expected = ".*\\{field1\\=1, value1, field2\\=value2, 2\\}";
 
     assertTrue(toTest, toTest.matches(expected));
   }
 
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToString_addValueWithNullValue() {
-    final String result =
+    String result =
         MoreObjects.toStringHelper(new TestClass())
             .addValue(null)
             .addValue("Hello")
             .addValue(null)
             .toString();
-    final String expected = "TestClass{null, Hello, null}";
+    String expected = "TestClass{null, Hello, null}";
 
     assertEquals(expected, result);
   }
 
   public void testToStringLenient_addValueWithNullValue() {
-    final String result =
+    String result =
         MoreObjects.toStringHelper(new TestClass())
             .addValue(null)
             .addValue("Hello")
             .addValue(null)
             .toString();
-    final String expected = ".*\\{null, Hello, null\\}";
+    String expected = ".*\\{null, Hello, null\\}";
 
     assertTrue(result, result.matches(expected));
   }

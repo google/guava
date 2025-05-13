@@ -131,7 +131,7 @@ public class LineBufferTest extends IoTestCase {
 
   // Returns a Readable that is *not* a Reader.
   private static Readable getChunkedReadable(String input, int chunk) {
-    final Reader reader = getChunkedReader(input, chunk);
+    Reader reader = getChunkedReader(input, chunk);
     return new Readable() {
       @Override
       public int read(CharBuffer cbuf) throws IOException {
@@ -140,7 +140,7 @@ public class LineBufferTest extends IoTestCase {
     };
   }
 
-  private static Reader getChunkedReader(String input, final int chunk) {
+  private static Reader getChunkedReader(String input, int chunk) {
     return new FilterReader(new StringReader(input)) {
       @Override
       public int read(char[] cbuf, int off, int len) throws IOException {

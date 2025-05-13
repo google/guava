@@ -216,7 +216,7 @@ public class ForwardingMapTest extends TestCase {
 
   public void testStandardEntrySet() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
-    final Map<String, Boolean> map = mock(Map.class);
+    Map<String, Boolean> map = mock(Map.class);
 
     Map<String, Boolean> forward =
         new ForwardingMap<String, Boolean>() {
@@ -249,7 +249,7 @@ public class ForwardingMapTest extends TestCase {
 
   public void testStandardKeySet() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
-    final Map<String, Boolean> map = mock(Map.class);
+    Map<String, Boolean> map = mock(Map.class);
 
     Map<String, Boolean> forward =
         new ForwardingMap<String, Boolean>() {
@@ -277,7 +277,7 @@ public class ForwardingMapTest extends TestCase {
 
   public void testStandardValues() throws InvocationTargetException {
     @SuppressWarnings("unchecked")
-    final Map<String, Boolean> map = mock(Map.class);
+    Map<String, Boolean> map = mock(Map.class);
 
     Map<String, Boolean> forward =
         new ForwardingMap<String, Boolean>() {
@@ -328,7 +328,7 @@ public class ForwardingMapTest extends TestCase {
     assertEquals(hashmap.toString(), forwardingMap.toString());
   }
 
-  private static <K, V> Map<K, V> wrap(final Map<K, V> delegate) {
+  private static <K, V> Map<K, V> wrap(Map<K, V> delegate) {
     return new ForwardingMap<K, V>() {
       @Override
       protected Map<K, V> delegate() {
@@ -337,7 +337,7 @@ public class ForwardingMapTest extends TestCase {
     };
   }
 
-  private static @Nullable Object getDefaultValue(final TypeToken<?> type) {
+  private static @Nullable Object getDefaultValue(TypeToken<?> type) {
     Class<?> rawType = type.getRawType();
     Object defaultValue = ArbitraryInstances.get(rawType);
     if (defaultValue != null) {

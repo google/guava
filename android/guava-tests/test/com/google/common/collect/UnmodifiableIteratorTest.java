@@ -35,7 +35,7 @@ public class UnmodifiableIteratorTest extends TestCase {
 
   @SuppressWarnings("DoNotCall")
   public void testRemove() {
-    final String[] array = {"a", "b", "c"};
+    String[] array = {"a", "b", "c"};
 
     Iterator<String> iterator =
         new UnmodifiableIterator<String>() {

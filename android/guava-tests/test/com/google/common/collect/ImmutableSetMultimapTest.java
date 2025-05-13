@@ -206,7 +206,7 @@ public class ImmutableSetMultimapTest extends TestCase {
 
   public void testBuilder_withMutableEntry() {
     ImmutableSetMultimap.Builder<String, Integer> builder = new Builder<>();
-    final StringHolder holder = new StringHolder();
+    StringHolder holder = new StringHolder();
     holder.string = "one";
     Entry<String, Integer> entry =
         new AbstractMapEntry<String, Integer>() {

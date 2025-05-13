@@ -65,7 +65,7 @@ public class UnmodifiableListIteratorTest extends TestCase {
   }
 
   UnmodifiableListIterator<String> create() {
-    final String[] array = {"a", "b", "c"};
+    String[] array = {"a", "b", "c"};
 
     return new UnmodifiableListIterator<String>() {
       int i;

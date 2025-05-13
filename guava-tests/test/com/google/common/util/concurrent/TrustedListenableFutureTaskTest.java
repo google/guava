@@ -64,7 +64,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   }
 
   public void testFailed() throws Exception {
-    final Exception e = new Exception();
+    Exception e = new Exception();
     TrustedListenableFutureTask<Integer> task =
         TrustedListenableFutureTask.create(
             new Callable<Integer>() {
@@ -84,10 +84,10 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // blocking wait
   public void testCancel_interrupted() throws Exception {
-    final AtomicBoolean interruptedExceptionThrown = new AtomicBoolean();
-    final CountDownLatch enterLatch = new CountDownLatch(1);
-    final CountDownLatch exitLatch = new CountDownLatch(1);
-    final TrustedListenableFutureTask<Integer> task =
+    AtomicBoolean interruptedExceptionThrown = new AtomicBoolean();
+    CountDownLatch enterLatch = new CountDownLatch(1);
+    CountDownLatch exitLatch = new CountDownLatch(1);
+    TrustedListenableFutureTask<Integer> task =
         TrustedListenableFutureTask.create(
             new Callable<Integer>() {
               @Override
@@ -131,11 +131,11 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // blocking wait
   public void testRunIdempotency() throws Exception {
-    final int numThreads = 10;
-    final ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+    int numThreads = 10;
+    ExecutorService executor = Executors.newFixedThreadPool(numThreads);
     for (int i = 0; i < 1000; i++) {
-      final AtomicInteger counter = new AtomicInteger();
-      final TrustedListenableFutureTask<Integer> task =
+      AtomicInteger counter = new AtomicInteger();
+      TrustedListenableFutureTask<Integer> task =
           TrustedListenableFutureTask.create(
               new Callable<Integer>() {
                 @Override
@@ -143,7 +143,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
                   return counter.incrementAndGet();
                 }
               });
-      final CyclicBarrier barrier = new CyclicBarrier(numThreads + 1);
+      CyclicBarrier barrier = new CyclicBarrier(numThreads + 1);
       Runnable wrapper =
           new Runnable() {
             @Override
@@ -167,9 +167,9 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // blocking wait
   public void testToString() throws Exception {
-    final CountDownLatch enterLatch = new CountDownLatch(1);
-    final CountDownLatch exitLatch = new CountDownLatch(1);
-    final TrustedListenableFutureTask<@Nullable Void> task =
+    CountDownLatch enterLatch = new CountDownLatch(1);
+    CountDownLatch exitLatch = new CountDownLatch(1);
+    TrustedListenableFutureTask<@Nullable Void> task =
         TrustedListenableFutureTask.create(
             new Callable<@Nullable Void>() {
               @Override

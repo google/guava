@@ -213,7 +213,7 @@ public class ForwardingListTest extends TestCase {
         .testEquals();
   }
 
-  private static <T> List<T> wrap(final List<T> delegate) {
+  private static <T> List<T> wrap(List<T> delegate) {
     return new ForwardingList<T>() {
       @Override
       protected List<T> delegate() {

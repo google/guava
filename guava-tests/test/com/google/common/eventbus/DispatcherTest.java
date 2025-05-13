@@ -78,8 +78,8 @@ public class DispatcherTest extends TestCase {
   public void testLegacyAsyncDispatcher() {
     dispatcher = Dispatcher.legacyAsync();
 
-    final CyclicBarrier barrier = new CyclicBarrier(2);
-    final CountDownLatch latch = new CountDownLatch(2);
+    CyclicBarrier barrier = new CyclicBarrier(2);
+    CountDownLatch latch = new CountDownLatch(2);
 
     new Thread(
             new Runnable() {

@@ -50,7 +50,7 @@ public class AbstractFutureCancellationCauseTest extends TestCase {
     // cause system property.  This allows us to run with both settings of the property in one jvm
     // without resorting to even crazier hacks to reset static final boolean fields.
     System.setProperty("guava.concurrent.generate_cancellation_cause", "true");
-    final String concurrentPackage = SettableFuture.class.getPackage().getName();
+    String concurrentPackage = SettableFuture.class.getPackage().getName();
     classReloader =
         new URLClassLoader(ClassPathUtil.getClassPathUrls()) {
           @GuardedBy("loadedClasses")

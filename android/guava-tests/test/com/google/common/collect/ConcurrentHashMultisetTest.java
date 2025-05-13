@@ -120,7 +120,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   public void testCount_elementPresent() {
-    final int COUNT = 12;
+    int COUNT = 12;
     when(backingMap.get(KEY)).thenReturn(new AtomicInteger(COUNT));
 
     assertEquals(COUNT, multiset.count(KEY));
@@ -133,14 +133,14 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   public void testAdd_zero() {
-    final int INITIAL_COUNT = 32;
+    int INITIAL_COUNT = 32;
 
     when(backingMap.get(KEY)).thenReturn(new AtomicInteger(INITIAL_COUNT));
     assertEquals(INITIAL_COUNT, multiset.add(KEY, 0));
   }
 
   public void testAdd_firstFewWithSuccess() {
-    final int COUNT = 400;
+    int COUNT = 400;
 
     when(backingMap.get(KEY)).thenReturn(null);
     when(backingMap.putIfAbsent(eq(KEY), isA(AtomicInteger.class))).thenReturn(null);
@@ -160,8 +160,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   public void testAdd_laterFewWithOverflow() {
-    final int INITIAL_COUNT = 92384930;
-    final int COUNT_TO_ADD = Integer.MAX_VALUE - INITIAL_COUNT + 1;
+    int INITIAL_COUNT = 92384930;
+    int COUNT_TO_ADD = Integer.MAX_VALUE - INITIAL_COUNT + 1;
 
     when(backingMap.get(KEY)).thenReturn(new AtomicInteger(INITIAL_COUNT));
 
@@ -202,7 +202,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
   }
 
   public void testRemove_zeroFromSome() {
-    final int INITIAL_COUNT = 14;
+    int INITIAL_COUNT = 14;
     when(backingMap.get(KEY)).thenReturn(new AtomicInteger(INITIAL_COUNT));
 
     assertEquals(INITIAL_COUNT, multiset.remove(KEY, 0));

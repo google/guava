@@ -849,7 +849,7 @@ abstract class JSR166TestCase extends TestCase {
     }
   }
 
-  public Callable<String> latchAwaitingStringTask(final CountDownLatch latch) {
+  public Callable<String> latchAwaitingStringTask(CountDownLatch latch) {
     return new CheckedCallable<String>() {
       @Override
       protected String realCall() {
@@ -862,7 +862,7 @@ abstract class JSR166TestCase extends TestCase {
     };
   }
 
-  public Runnable awaiter(final CountDownLatch latch) {
+  public Runnable awaiter(CountDownLatch latch) {
     return new CheckedRunnable() {
       @Override
       public void realRun() throws InterruptedException {
@@ -973,7 +973,7 @@ abstract class JSR166TestCase extends TestCase {
     }
   }
 
-  public Runnable possiblyInterruptedRunnable(final long timeoutMillis) {
+  public Runnable possiblyInterruptedRunnable(long timeoutMillis) {
     return new CheckedRunnable() {
       @Override
       protected void realRun() {
@@ -1017,7 +1017,7 @@ abstract class JSR166TestCase extends TestCase {
     boolean isDone();
   }
 
-  public static TrackedRunnable trackedRunnable(final long timeoutMillis) {
+  public static TrackedRunnable trackedRunnable(long timeoutMillis) {
     return new TrackedRunnable() {
       private volatile boolean done = false;
 

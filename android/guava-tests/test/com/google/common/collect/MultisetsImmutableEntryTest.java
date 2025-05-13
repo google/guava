@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
 public class MultisetsImmutableEntryTest extends TestCase {
   private static final @Nullable String NE = null;
 
-  private static <E extends @Nullable Object> Entry<E> entry(final E element, final int count) {
+  private static <E extends @Nullable Object> Entry<E> entry(E element, int count) {
     return Multisets.immutableEntry(element, count);
   }
 

@@ -121,7 +121,7 @@ public class FakeTickerTest extends TestCase {
   @GwtIncompatible // concurrency
 
   public void testConcurrentAdvance() throws Exception {
-    final FakeTicker ticker = new FakeTicker();
+    FakeTicker ticker = new FakeTicker();
 
     int numberOfThreads = 64;
     runConcurrentTest(
@@ -144,7 +144,7 @@ public class FakeTickerTest extends TestCase {
 
   public void testConcurrentAutoIncrementStep() throws Exception {
     int incrementByNanos = 3;
-    final FakeTicker ticker = new FakeTicker().setAutoIncrementStep(incrementByNanos, NANOSECONDS);
+    FakeTicker ticker = new FakeTicker().setAutoIncrementStep(incrementByNanos, NANOSECONDS);
 
     int numberOfThreads = 64;
     runConcurrentTest(
@@ -162,11 +162,11 @@ public class FakeTickerTest extends TestCase {
 
   /** Runs {@code callable} concurrently {@code numberOfThreads} times. */
   @GwtIncompatible // concurrency
-  private void runConcurrentTest(int numberOfThreads, final Callable<@Nullable Void> callable)
+  private void runConcurrentTest(int numberOfThreads, Callable<@Nullable Void> callable)
       throws Exception {
     ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
-    final CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
-    final CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
+    CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
+    CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
     for (int i = numberOfThreads; i > 0; i--) {
       @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =

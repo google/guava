@@ -100,7 +100,7 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
   public void testBuilder_withMutableCell() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
 
-    final StringHolder holder = new StringHolder();
+    StringHolder holder = new StringHolder();
     holder.string = "foo";
     Table.Cell<Character, Integer, String> mutableCell =
         new Tables.AbstractCell<Character, Integer, String>() {

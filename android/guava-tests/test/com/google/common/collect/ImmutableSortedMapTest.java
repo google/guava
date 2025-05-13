@@ -180,7 +180,7 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testBuilder_withMutableEntry() {
     ImmutableSortedMap.Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
-    final StringHolder holder = new StringHolder();
+    StringHolder holder = new StringHolder();
     holder.string = "one";
     Entry<String, Integer> entry =
         new AbstractMapEntry<String, Integer>() {

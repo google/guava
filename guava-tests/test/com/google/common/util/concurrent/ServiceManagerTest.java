@@ -162,7 +162,7 @@ public class ServiceManagerTest extends TestCase {
     // 1. service times are accurate when the service is started by the manager
     // 2. service times are recorded when the service is not started by the manager (but they may
     // not be accurate).
-    final Service b =
+    Service b =
         new NoOpDelayedService(353) {
           @Override
           protected void doStart() {
@@ -328,7 +328,7 @@ public class ServiceManagerTest extends TestCase {
   public void testFailStart_stopOthers() throws TimeoutException {
     Service a = new FailStartService();
     Service b = new NoOpService();
-    final ServiceManager manager = new ServiceManager(asList(a, b));
+    ServiceManager manager = new ServiceManager(asList(a, b));
     manager.addListener(
         new Listener() {
           @Override
@@ -361,7 +361,7 @@ public class ServiceManagerTest extends TestCase {
           }
         };
 
-    final ServiceManager manager = new ServiceManager(asList(a));
+    ServiceManager manager = new ServiceManager(asList(a));
     manager.startAsync();
     manager.stopAsync();
     manager.awaitStopped(10, MILLISECONDS);
@@ -382,7 +382,7 @@ public class ServiceManagerTest extends TestCase {
             notifyStopped();
           }
         };
-    final ServiceManager manager = new ServiceManager(asList(a));
+    ServiceManager manager = new ServiceManager(asList(a));
     manager.startAsync();
     manager.awaitStopped(10, MILLISECONDS);
     assertThat(manager.servicesByState().keySet()).containsExactly(Service.State.FAILED);
@@ -473,9 +473,9 @@ public class ServiceManagerTest extends TestCase {
    * even permanently blocked.
    */
   public void testListenerDeadlock() throws InterruptedException {
-    final CountDownLatch failEnter = new CountDownLatch(1);
-    final CountDownLatch failLeave = new CountDownLatch(1);
-    final CountDownLatch afterStarted = new CountDownLatch(1);
+    CountDownLatch failEnter = new CountDownLatch(1);
+    CountDownLatch failLeave = new CountDownLatch(1);
+    CountDownLatch afterStarted = new CountDownLatch(1);
     Service failRunService =
         new AbstractService() {
           @Override
@@ -498,8 +498,7 @@ public class ServiceManagerTest extends TestCase {
             notifyStopped();
           }
         };
-    final ServiceManager manager =
-        new ServiceManager(Arrays.asList(failRunService, new NoOpService()));
+    ServiceManager manager = new ServiceManager(Arrays.asList(failRunService, new NoOpService()));
     manager.addListener(
         new ServiceManager.Listener() {
           @Override
@@ -554,7 +553,7 @@ public class ServiceManagerTest extends TestCase {
   public void testPartiallyConstructedManager_transitionAfterAddListenerBeforeStateIsReady() {
     // The implementation of this test is pretty sensitive to the implementation :( but we want to
     // ensure that if weird things happen during construction then we get exceptions.
-    final NoOpService service1 = new NoOpService();
+    NoOpService service1 = new NoOpService();
     // This service will start service1 when addListener is called.  This simulates service1 being
     // started asynchronously.
     Service service2 =

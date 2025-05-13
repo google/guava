@@ -59,7 +59,7 @@ public class ByteStreamsTest extends IoTestCase {
 
 
   public void testCopyFileChannel() throws IOException {
-    final int chunkSize = 14407; // Random prime, unlikely to match any internal chunk size
+    int chunkSize = 14407; // Random prime, unlikely to match any internal chunk size
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     WritableByteChannel outChannel = Channels.newChannel(out);
 
@@ -472,7 +472,7 @@ public class ByteStreamsTest extends IoTestCase {
   }
 
   public void testReadBytes() throws IOException {
-    final byte[] array = newPreFilledByteArray(1000);
+    byte[] array = newPreFilledByteArray(1000);
     assertThat(ByteStreams.readBytes(new ByteArrayInputStream(array), new TestByteProcessor()))
         .isEqualTo(array);
   }

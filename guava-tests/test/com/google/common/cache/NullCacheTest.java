@@ -110,7 +110,7 @@ public class NullCacheTest extends TestCase {
   }
 
   public void testGet_runtimeException() {
-    final RuntimeException e = new RuntimeException();
+    RuntimeException e = new RuntimeException();
     LoadingCache<Object, Object> map =
         CacheBuilder.newBuilder()
             .maximumSize(0)

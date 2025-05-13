@@ -87,7 +87,7 @@ public class WhitespaceMatcherBenchmark {
   }
 
   private static String allMatchingChars(BitSet bitSet) {
-    final char[] result = new char[bitSet.cardinality()];
+    char[] result = new char[bitSet.cardinality()];
     for (int j = 0, c = bitSet.nextSetBit(0); j < result.length; ++j) {
       result[j] = (char) c;
       c = bitSet.nextSetBit(c + 1);
@@ -96,8 +96,8 @@ public class WhitespaceMatcherBenchmark {
   }
 
   private static String newTestString(Random random, BitSet bitSet, int percentMatching) {
-    final String allMatchingChars = allMatchingChars(bitSet);
-    final char[] result = new char[STRING_LENGTH];
+    String allMatchingChars = allMatchingChars(bitSet);
+    char[] result = new char[STRING_LENGTH];
     // Fill with matching chars.
     for (int i = 0; i < result.length; i++) {
       result[i] = allMatchingChars.charAt(random.nextInt(allMatchingChars.length()));
@@ -105,9 +105,9 @@ public class WhitespaceMatcherBenchmark {
     // Replace some of chars by non-matching.
     int remaining = (int) ((100 - percentMatching) * result.length / 100.0 + 0.5);
     while (remaining > 0) {
-      final char c = (char) random.nextInt();
+      char c = (char) random.nextInt();
       if (bitSet.get(c)) {
-        final int pos = random.nextInt(result.length);
+        int pos = random.nextInt(result.length);
         if (bitSet.get(result[pos])) {
           result[pos] = c;
           remaining--;

@@ -105,8 +105,8 @@ public class MoreExecutorsDirectExecutorBenchmark {
 
   @Benchmark
   int timeUncontendedExecute(int reps) {
-    final Executor executor = this.executor;
-    final CountingRunnable countingRunnable = this.countingRunnable;
+    Executor executor = this.executor;
+    CountingRunnable countingRunnable = this.countingRunnable;
     for (int i = 0; i < reps; i++) {
       executor.execute(countingRunnable);
     }
@@ -115,13 +115,13 @@ public class MoreExecutorsDirectExecutorBenchmark {
 
   @Benchmark
   int timeContendedExecute(int reps) {
-    final Executor executor = this.executor;
+    Executor executor = this.executor;
     for (Thread thread : threads) {
       if (!thread.isAlive()) {
         thread.start();
       }
     }
-    final CountingRunnable countingRunnable = this.countingRunnable;
+    CountingRunnable countingRunnable = this.countingRunnable;
     for (int i = 0; i < reps; i++) {
       executor.execute(countingRunnable);
     }

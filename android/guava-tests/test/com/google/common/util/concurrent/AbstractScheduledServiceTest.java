@@ -118,8 +118,8 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   public void testFailOnErrorFromStartUpListener() throws InterruptedException {
-    final Error error = new Error();
-    final CountDownLatch latch = new CountDownLatch(1);
+    Error error = new Error();
+    CountDownLatch latch = new CountDownLatch(1);
     TestService service = new TestService();
     service.addListener(
         new Service.Listener() {
@@ -189,7 +189,7 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   public void testDefaultExecutorIsShutdownWhenServiceIsStopped() throws Exception {
-    final AtomicReference<ScheduledExecutorService> executor = Atomics.newReference();
+    AtomicReference<ScheduledExecutorService> executor = Atomics.newReference();
     AbstractScheduledService service =
         new AbstractScheduledService() {
           @Override
@@ -216,7 +216,7 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   public void testDefaultExecutorIsShutdownWhenServiceFails() throws Exception {
-    final AtomicReference<ScheduledExecutorService> executor = Atomics.newReference();
+    AtomicReference<ScheduledExecutorService> executor = Atomics.newReference();
     AbstractScheduledService service =
         new AbstractScheduledService() {
           @Override
@@ -478,9 +478,9 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   public void testCustomSchedule_startStop() throws Exception {
-    final CyclicBarrier firstBarrier = new CyclicBarrier(2);
-    final CyclicBarrier secondBarrier = new CyclicBarrier(2);
-    final AtomicBoolean shouldWait = new AtomicBoolean(true);
+    CyclicBarrier firstBarrier = new CyclicBarrier(2);
+    CyclicBarrier secondBarrier = new CyclicBarrier(2);
+    AtomicBoolean shouldWait = new AtomicBoolean(true);
     Runnable task =
         new Runnable() {
           @Override
@@ -521,7 +521,7 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   public void testCustomScheduler_deadlock() throws InterruptedException, BrokenBarrierException {
-    final CyclicBarrier inGetNextSchedule = new CyclicBarrier(2);
+    CyclicBarrier inGetNextSchedule = new CyclicBarrier(2);
     // This will flakily deadlock, so run it multiple times to increase the flake likelihood
     for (int i = 0; i < 1000; i++) {
       Service service =

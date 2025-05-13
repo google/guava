@@ -70,7 +70,7 @@ import org.jspecify.annotations.Nullable;
 @NullUnmarked
 public class AbstractFutureTest extends TestCase {
   public void testSuccess() throws ExecutionException, InterruptedException {
-    final Object value = new Object();
+    Object value = new Object();
     assertSame(
         value,
         new AbstractFuture<Object>() {
@@ -81,7 +81,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testException() throws InterruptedException {
-    final Throwable failure = new Throwable();
+    Throwable failure = new Throwable();
     AbstractFuture<String> future =
         new AbstractFuture<String>() {
           {
@@ -147,7 +147,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testEvilFuture_setFuture() throws Exception {
-    final RuntimeException exception = new RuntimeException("you didn't say the magic word!");
+    RuntimeException exception = new RuntimeException("you didn't say the magic word!");
     AbstractFuture<String> evilFuture =
         new AbstractFuture<String>() {
           @Override
@@ -163,7 +163,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testRemoveWaiter_interruption() throws Exception {
-    final AbstractFuture<String> future = new AbstractFuture<String>() {};
+    AbstractFuture<String> future = new AbstractFuture<String>() {};
     WaiterThread waiter1 = new WaiterThread(future);
     waiter1.start();
     waiter1.awaitWaiting();
@@ -187,7 +187,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testRemoveWaiter_polling() throws Exception {
-    final AbstractFuture<String> future = new AbstractFuture<String>() {};
+    AbstractFuture<String> future = new AbstractFuture<String>() {};
     WaiterThread waiter = new WaiterThread(future);
     waiter.start();
     waiter.awaitWaiting();
@@ -379,8 +379,8 @@ public class AbstractFutureTest extends TestCase {
   public void testCompletionFinishesWithDone() {
     ExecutorService executor = Executors.newFixedThreadPool(10);
     for (int i = 0; i < 50000; i++) {
-      final AbstractFuture<String> future = new AbstractFuture<String>() {};
-      final AtomicReference<String> errorMessage = Atomics.newReference();
+      AbstractFuture<String> future = new AbstractFuture<String>() {};
+      AtomicReference<String> errorMessage = Atomics.newReference();
       executor.execute(
           new Runnable() {
             @Override
@@ -431,15 +431,15 @@ public class AbstractFutureTest extends TestCase {
     if (isWindows()) {
       return; // TODO: b/136041958 - Running very slowly on Windows CI.
     }
-    final CyclicBarrier barrier =
+    CyclicBarrier barrier =
         new CyclicBarrier(
             6 // for the setter threads
                 + 50 // for the listeners
                 + 50 // for the blocking get threads,
                 + 1); // for the main thread
-    final ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
-    final AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
-    final AtomicInteger numSuccessfulSetCalls = new AtomicInteger();
+    ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
+    AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
+    AtomicInteger numSuccessfulSetCalls = new AtomicInteger();
     Callable<@Nullable Void> completeSuccessfullyRunnable =
         new Callable<@Nullable Void>() {
           @Override
@@ -514,7 +514,7 @@ public class AbstractFutureTest extends TestCase {
             return null;
           }
         };
-    final Set<Object> finalResults = Collections.synchronizedSet(Sets.newIdentityHashSet());
+    Set<Object> finalResults = Collections.synchronizedSet(Sets.newIdentityHashSet());
     Runnable collectResultsRunnable =
         new Runnable() {
           @Override
@@ -565,8 +565,7 @@ public class AbstractFutureTest extends TestCase {
       // For each listener we add a task that submits it to the executor directly for the blocking
       // get use case and another task that adds it as a listener to the future to exercise both
       // racing addListener calls and addListener calls completing after the future completes.
-      final Runnable listener =
-          k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;
+      Runnable listener = k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;
       allTasks.add(Executors.callable(listener));
       allTasks.add(
           new Callable<@Nullable Void>() {
@@ -580,7 +579,7 @@ public class AbstractFutureTest extends TestCase {
     assertEquals(allTasks.size() + 1, barrier.getParties());
     for (int i = 0; i < 1000; i++) {
       Collections.shuffle(allTasks);
-      final AbstractFuture<String> future = new AbstractFuture<String>() {};
+      AbstractFuture<String> future = new AbstractFuture<String>() {};
       currentFuture.set(future);
       for (Callable<?> task : allTasks) {
         @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
@@ -614,19 +613,19 @@ public class AbstractFutureTest extends TestCase {
     if (isWindows()) {
       return; // TODO: b/136041958 - Running very slowly on Windows CI.
     }
-    final int size = 50;
-    final CyclicBarrier barrier =
+    int size = 50;
+    CyclicBarrier barrier =
         new CyclicBarrier(
             2 // for the setter threads
                 + size // for the listeners
                 + size // for the get threads,
                 + 1); // for the main thread
-    final ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
-    final AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
-    final AtomicReference<AbstractFuture<String>> setFutureFuture = Atomics.newReference();
-    final AtomicBoolean setFutureSetSuccess = new AtomicBoolean();
-    final AtomicBoolean setFutureCompletionSuccess = new AtomicBoolean();
-    final AtomicBoolean cancellationSuccess = new AtomicBoolean();
+    ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
+    AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
+    AtomicReference<AbstractFuture<String>> setFutureFuture = Atomics.newReference();
+    AtomicBoolean setFutureSetSuccess = new AtomicBoolean();
+    AtomicBoolean setFutureCompletionSuccess = new AtomicBoolean();
+    AtomicBoolean cancellationSuccess = new AtomicBoolean();
     Runnable cancelRunnable =
         new Runnable() {
           @Override
@@ -645,7 +644,7 @@ public class AbstractFutureTest extends TestCase {
             awaitUnchecked(barrier);
           }
         };
-    final Set<Object> finalResults = Collections.synchronizedSet(Sets.newIdentityHashSet());
+    Set<Object> finalResults = Collections.synchronizedSet(Sets.newIdentityHashSet());
     Runnable collectResultsRunnable =
         new Runnable() {
           @Override
@@ -692,8 +691,7 @@ public class AbstractFutureTest extends TestCase {
       // For each listener we add a task that submits it to the executor directly for the blocking
       // get use case and another task that adds it as a listener to the future to exercise both
       // racing addListener calls and addListener calls completing after the future completes.
-      final Runnable listener =
-          k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;
+      Runnable listener = k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;
       allTasks.add(listener);
       allTasks.add(
           new Runnable() {
@@ -706,8 +704,8 @@ public class AbstractFutureTest extends TestCase {
     assertEquals(allTasks.size() + 1, barrier.getParties()); // sanity check
     for (int i = 0; i < 1000; i++) {
       Collections.shuffle(allTasks);
-      final AbstractFuture<String> future = new AbstractFuture<String>() {};
-      final AbstractFuture<String> setFuture = new AbstractFuture<String>() {};
+      AbstractFuture<String> future = new AbstractFuture<String>() {};
+      AbstractFuture<String> setFuture = new AbstractFuture<String>() {};
       currentFuture.set(future);
       setFutureFuture.set(setFuture);
       for (Runnable task : allTasks) {
@@ -749,15 +747,15 @@ public class AbstractFutureTest extends TestCase {
   // Test to ensure that when calling setFuture with a done future only setFuture or cancel can
   // return true.
   public void testSetFutureCancelBash_withDoneFuture() {
-    final CyclicBarrier barrier =
+    CyclicBarrier barrier =
         new CyclicBarrier(
             2 // for the setter threads
                 + 1 // for the blocking get thread,
                 + 1); // for the main thread
-    final ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
-    final AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
-    final AtomicBoolean setFutureSuccess = new AtomicBoolean();
-    final AtomicBoolean cancellationSuccess = new AtomicBoolean();
+    ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
+    AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
+    AtomicBoolean setFutureSuccess = new AtomicBoolean();
+    AtomicBoolean cancellationSuccess = new AtomicBoolean();
     Callable<@Nullable Void> cancelRunnable =
         new Callable<@Nullable Void>() {
           @Override
@@ -778,8 +776,8 @@ public class AbstractFutureTest extends TestCase {
             return null;
           }
         };
-    final Set<Object> finalResults = Collections.synchronizedSet(Sets.newIdentityHashSet());
-    final Runnable collectResultsRunnable =
+    Set<Object> finalResults = Collections.synchronizedSet(Sets.newIdentityHashSet());
+    Runnable collectResultsRunnable =
         new Runnable() {
           @Override
           public void run() {
@@ -802,7 +800,7 @@ public class AbstractFutureTest extends TestCase {
     assertEquals(allTasks.size() + 1, barrier.getParties()); // sanity check
     for (int i = 0; i < 1000; i++) {
       Collections.shuffle(allTasks);
-      final AbstractFuture<String> future = new AbstractFuture<String>() {};
+      AbstractFuture<String> future = new AbstractFuture<String>() {};
       currentFuture.set(future);
       for (Callable<?> task : allTasks) {
         @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
@@ -991,7 +989,7 @@ public class AbstractFutureTest extends TestCase {
 
   @AndroidIncompatible // b/391667564: crashes from stack overflows
   public void testSetIndirectSelf_toString() {
-    final SettableFuture<Object> orig = SettableFuture.create();
+    SettableFuture<Object> orig = SettableFuture.create();
     // unlike the above this indirection defeats the trivial cycle detection and causes a SOE
     orig.setFuture(
         new ForwardingListenableFuture<Object>() {
@@ -1011,7 +1009,7 @@ public class AbstractFutureTest extends TestCase {
         new AbstractFuture<String>() {
           @Override
           protected void afterDone() {
-            final AtomicBoolean ranImmediately = new AtomicBoolean();
+            AtomicBoolean ranImmediately = new AtomicBoolean();
             addListener(
                 new Runnable() {
                   @Override
@@ -1029,7 +1027,7 @@ public class AbstractFutureTest extends TestCase {
   // Regression test for a case where we would fail to execute listeners immediately on done futures
   // this would be observable from a waiter that was just unblocked.
   public void testListenersExecuteImmediately_afterWaiterWakesUp() throws Exception {
-    final AbstractFuture<String> f =
+    AbstractFuture<String> f =
         new AbstractFuture<String>() {
           @Override
           protected void afterDone() {
@@ -1050,7 +1048,7 @@ public class AbstractFutureTest extends TestCase {
         };
     t.start();
     f.get();
-    final AtomicBoolean ranImmediately = new AtomicBoolean();
+    AtomicBoolean ranImmediately = new AtomicBoolean();
     f.addListener(
         new Runnable() {
           @Override
@@ -1105,7 +1103,7 @@ public class AbstractFutureTest extends TestCase {
 
   public void testGetFailure_failed() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
-    final Throwable failure = new Throwable();
+    Throwable failure = new Throwable();
     future.setException(failure);
     assertThat(future.tryInternalFastPathGetFailure()).isNull();
   }
@@ -1167,7 +1165,7 @@ public class AbstractFutureTest extends TestCase {
       }
     }
 
-    final RuntimeException exception = new RuntimeException("you still didn't say the magic word!");
+    RuntimeException exception = new RuntimeException("you still didn't say the magic word!");
     SettableFuture<String> normalFuture = SettableFuture.create();
     normalFuture.setFuture(new FailFuture(exception));
     assertTrue(normalFuture.isDone());
@@ -1175,7 +1173,7 @@ public class AbstractFutureTest extends TestCase {
     assertSame(exception, e.getCause());
   }
 
-  private static void awaitUnchecked(final CyclicBarrier barrier) {
+  private static void awaitUnchecked(CyclicBarrier barrier) {
     try {
       barrier.await();
     } catch (Exception e) {

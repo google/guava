@@ -1326,7 +1326,7 @@ public class MapsTest extends TestCase {
   }
 
   // Logically this would accept a NavigableMap, but that won't work under GWT.
-  private static <K, V> SortedMap<K, V> sortedNotNavigable(final SortedMap<K, V> map) {
+  private static <K, V> SortedMap<K, V> sortedNotNavigable(SortedMap<K, V> map) {
     return new ForwardingSortedMap<K, V>() {
       @Override
       protected SortedMap<K, V> delegate() {

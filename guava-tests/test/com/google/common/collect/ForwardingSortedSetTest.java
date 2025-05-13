@@ -172,7 +172,7 @@ public class ForwardingSortedSetTest extends TestCase {
         .testEquals();
   }
 
-  private static <T> SortedSet<T> wrap(final SortedSet<T> delegate) {
+  private static <T> SortedSet<T> wrap(SortedSet<T> delegate) {
     return new ForwardingSortedSet<T>() {
       @Override
       protected SortedSet<T> delegate() {

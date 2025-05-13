@@ -124,7 +124,7 @@ public class AbstractSequentialIteratorTest extends TestCase {
     assertThrows(SomeUncheckedException.class, broken::next);
   }
 
-  private static Iterator<Integer> newDoubler(int first, final int last) {
+  private static Iterator<Integer> newDoubler(int first, int last) {
     return new AbstractSequentialIterator<Integer>(first) {
       @Override
       protected @Nullable Integer computeNext(Integer previous) {

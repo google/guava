@@ -43,11 +43,11 @@ public class AtomicLongMapBasherTest extends TestCase {
   public void testModify_basher() throws Exception {
     int nTasks = 3000;
     int nThreads = 100;
-    final int getsPerTask = 1000;
-    final int deltaRange = 10000;
-    final String key = "key";
+    int getsPerTask = 1000;
+    int deltaRange = 10000;
+    String key = "key";
 
-    final AtomicLongMap<String> map = AtomicLongMap.create();
+    AtomicLongMap<String> map = AtomicLongMap.create();
 
     ExecutorService threadPool = Executors.newFixedThreadPool(nThreads);
     ArrayList<Future<Long>> futures = new ArrayList<>();

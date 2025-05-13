@@ -32,7 +32,7 @@ import org.jspecify.annotations.NullUnmarked;
 public class ForwardingObjectTest extends TestCase {
 
   public void testEqualsReflexive() {
-    final Object delegate = new Object();
+    Object delegate = new Object();
     ForwardingObject forward =
         new ForwardingObject() {
           @Override
@@ -44,7 +44,7 @@ public class ForwardingObjectTest extends TestCase {
   }
 
   public void testEqualsSymmetric() {
-    final Set<String> delegate = newHashSet("foo");
+    Set<String> delegate = newHashSet("foo");
     ForwardingObject forward =
         new ForwardingObject() {
           @Override

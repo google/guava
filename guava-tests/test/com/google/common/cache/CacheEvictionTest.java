@@ -260,7 +260,7 @@ public class CacheEvictionTest extends TestCase {
 
   public void testUpdateRecency_onGet() {
     IdentityLoader<Integer> loader = identityLoader();
-    final LoadingCache<Integer, Integer> cache =
+    LoadingCache<Integer, Integer> cache =
         CacheBuilder.newBuilder().maximumSize(MAX_SIZE).build(loader);
     CacheTesting.checkRecency(
         cache,
@@ -275,7 +275,7 @@ public class CacheEvictionTest extends TestCase {
 
   public void testUpdateRecency_onInvalidate() {
     IdentityLoader<Integer> loader = identityLoader();
-    final LoadingCache<Integer, Integer> cache =
+    LoadingCache<Integer, Integer> cache =
         CacheBuilder.newBuilder().maximumSize(MAX_SIZE).concurrencyLevel(1).build(loader);
     CacheTesting.checkRecency(
         cache,
@@ -418,7 +418,7 @@ public class CacheEvictionTest extends TestCase {
     }
   }
 
-  private Object objectWithHash(final int hash) {
+  private Object objectWithHash(int hash) {
     return new Object() {
       @Override
       public int hashCode() {

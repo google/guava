@@ -64,7 +64,7 @@ public class FluentFutureTest extends TestCase {
 
   public void testAddCallback() {
     FluentFuture<String> f = FluentFuture.from(immediateFuture("a"));
-    final boolean[] called = new boolean[1];
+    boolean[] called = new boolean[1];
     f.addCallback(
         new FutureCallback<String>() {
           @Override

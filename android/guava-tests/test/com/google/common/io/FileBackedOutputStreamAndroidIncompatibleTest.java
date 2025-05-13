@@ -36,7 +36,7 @@ public class FileBackedOutputStreamAndroidIncompatibleTest extends IoTestCase {
     FileBackedOutputStream out = new FileBackedOutputStream(0, true);
 
     write(out, data, 0, 100, true);
-    final File file = out.getFile();
+    File file = out.getFile();
     assertEquals(100, file.length());
     assertTrue(file.exists());
     out.close();

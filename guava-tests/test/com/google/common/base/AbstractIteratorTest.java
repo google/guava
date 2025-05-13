@@ -104,7 +104,7 @@ public class AbstractIteratorTest extends TestCase {
   }
 
   public void testException() {
-    final SomeUncheckedException exception = new SomeUncheckedException();
+    SomeUncheckedException exception = new SomeUncheckedException();
     Iterator<Integer> iter =
         new AbstractIterator<Integer>() {
           @Override

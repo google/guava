@@ -55,8 +55,8 @@ public class StringsRepeatBenchmark {
   private static String oldRepeat(String string, int count) {
     // If this multiplication overflows, a NegativeArraySizeException or
     // OutOfMemoryError is not far behind
-    final int len = string.length();
-    final int size = len * count;
+    int len = string.length();
+    int size = len * count;
     char[] array = new char[size];
     for (int i = 0; i < size; i += len) {
       string.getChars(0, len, array, i);
@@ -75,7 +75,7 @@ public class StringsRepeatBenchmark {
   }
 
   private static String mikeRepeat(String string, int count) {
-    final int len = string.length();
+    int len = string.length();
     char[] strCopy = new char[len * Integer.highestOneBit(count)];
     string.getChars(0, len, strCopy, 0);
 
@@ -108,9 +108,9 @@ public class StringsRepeatBenchmark {
   }
 
   private static String martinRepeat(String string, int count) {
-    final int len = string.length();
-    final int size = len * count;
-    final char[] array = new char[size];
+    int len = string.length();
+    int size = len * count;
+    char[] array = new char[size];
     string.getChars(0, len, array, 0);
     int n;
     for (n = len; n < size - n; n <<= 1) {

@@ -175,9 +175,9 @@ public class ThreadFactoryBuilderTest extends TestCase {
   }
 
   public void testThreadFactory() throws InterruptedException {
-    final String THREAD_NAME = "ludicrous speed";
-    final int THREAD_PRIORITY = 1;
-    final boolean THREAD_DAEMON = false;
+    String THREAD_NAME = "ludicrous speed";
+    int THREAD_PRIORITY = 1;
+    boolean THREAD_DAEMON = false;
     ThreadFactory backingThreadFactory =
         new ThreadFactory() {
           @Override

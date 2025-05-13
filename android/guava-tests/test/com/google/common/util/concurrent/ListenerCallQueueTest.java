@@ -138,7 +138,7 @@ public class ListenerCallQueueTest extends TestCase {
     try {
       queue.addListener(listener, service);
 
-      final CountDownLatch latch = new CountDownLatch(1);
+      CountDownLatch latch = new CountDownLatch(1);
       Multiset<Object> counters = ConcurrentHashMultiset.create();
       queue.enqueue(incrementingEvent(counters, listener, 1));
       queue.enqueue(incrementingEvent(counters, listener, 2));
@@ -162,7 +162,7 @@ public class ListenerCallQueueTest extends TestCase {
     try {
       queue.addListener(listener, service);
 
-      final CountDownLatch latch = new CountDownLatch(1);
+      CountDownLatch latch = new CountDownLatch(1);
       Multiset<Object> counters = ConcurrentHashMultiset.create();
       queue.enqueue(incrementingEvent(counters, listener, 1));
       queue.enqueue(THROWING_EVENT);
@@ -188,7 +188,7 @@ public class ListenerCallQueueTest extends TestCase {
   }
 
   private ListenerCallQueue.Event<Object> incrementingEvent(
-      final Multiset<Object> counters, final Multiset<Object> expected) {
+      Multiset<Object> counters, Multiset<Object> expected) {
     return new ListenerCallQueue.Event<Object>() {
       @Override
       public void call(Object listener) {
@@ -219,7 +219,7 @@ public class ListenerCallQueueTest extends TestCase {
     return builder.build();
   }
 
-  private ListenerCallQueue.Event<Object> countDownEvent(final CountDownLatch latch) {
+  private ListenerCallQueue.Event<Object> countDownEvent(CountDownLatch latch) {
     return new ListenerCallQueue.Event<Object>() {
       @Override
       public void call(Object listener) {

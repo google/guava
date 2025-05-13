@@ -332,7 +332,7 @@ public class TableCollectionTest extends TestCase {
             .withFeatures(CollectionFeature.SUPPORTS_ITERATOR_REMOVE)
             .createTestSuite());
 
-    final Function<String, String> removeFirstCharacter =
+    Function<String, String> removeFirstCharacter =
         new Function<String, String>() {
           @Override
           public String apply(String input) {
@@ -847,13 +847,13 @@ public class TableCollectionTest extends TestCase {
      */
     @Override
     public void testRemove() {
-      final Map<String, Map<Integer, Character>> map;
+      Map<String, Map<Integer, Character>> map;
       try {
         map = makePopulatedMap();
       } catch (UnsupportedOperationException e) {
         return;
       }
-      final String keyToRemove = map.keySet().iterator().next();
+      String keyToRemove = map.keySet().iterator().next();
       if (supportsRemove) {
         int initialSize = map.size();
         map.get(keyToRemove);

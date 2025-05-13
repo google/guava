@@ -67,13 +67,13 @@ public abstract class AbstractMultimapAsMapImplementsMapTest
    */
   @Override
   public void testRemove() {
-    final Map<String, Collection<Integer>> map;
+    Map<String, Collection<Integer>> map;
     try {
       map = makePopulatedMap();
     } catch (UnsupportedOperationException e) {
       return;
     }
-    final String keyToRemove = map.keySet().iterator().next();
+    String keyToRemove = map.keySet().iterator().next();
     if (supportsRemove) {
       int initialSize = map.size();
       map.get(keyToRemove);

@@ -101,7 +101,7 @@ public class SourceSinkFactories {
     return new UrlCharSourceFactory();
   }
 
-  public static ByteSourceFactory asByteSourceFactory(final CharSourceFactory factory) {
+  public static ByteSourceFactory asByteSourceFactory(CharSourceFactory factory) {
     checkNotNull(factory);
     return new ByteSourceFactory() {
       @Override
@@ -121,7 +121,7 @@ public class SourceSinkFactories {
     };
   }
 
-  public static CharSourceFactory asCharSourceFactory(final ByteSourceFactory factory) {
+  public static CharSourceFactory asCharSourceFactory(ByteSourceFactory factory) {
     checkNotNull(factory);
     return new CharSourceFactory() {
       @Override
@@ -141,7 +141,7 @@ public class SourceSinkFactories {
     };
   }
 
-  public static CharSinkFactory asCharSinkFactory(final ByteSinkFactory factory) {
+  public static CharSinkFactory asCharSinkFactory(ByteSinkFactory factory) {
     checkNotNull(factory);
     return new CharSinkFactory() {
       @Override
@@ -172,7 +172,7 @@ public class SourceSinkFactories {
   }
 
   public static ByteSourceFactory asSlicedByteSourceFactory(
-      final ByteSourceFactory factory, final long off, final long len) {
+      ByteSourceFactory factory, long off, long len) {
     checkNotNull(factory);
     return new ByteSourceFactory() {
       @Override

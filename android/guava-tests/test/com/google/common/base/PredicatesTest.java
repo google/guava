@@ -318,7 +318,7 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testAnd_iterableDefensivelyCopied() {
-    final List<Predicate<Object>> list = new ArrayList<>();
+    List<Predicate<Object>> list = new ArrayList<>();
     Iterable<Predicate<Object>> iterable =
         new Iterable<Predicate<Object>>() {
           @Override
@@ -470,7 +470,7 @@ public class PredicatesTest extends TestCase {
   }
 
   public void testOr_iterableDefensivelyCopied() {
-    final List<Predicate<Object>> list = new ArrayList<>();
+    List<Predicate<Object>> list = new ArrayList<>();
     Iterable<Predicate<Object>> iterable =
         new Iterable<Predicate<Object>>() {
           @Override

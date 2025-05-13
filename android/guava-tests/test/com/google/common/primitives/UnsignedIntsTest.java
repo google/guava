@@ -282,7 +282,7 @@ public class UnsignedIntsTest extends TestCase {
   public void testParseIntWithRadixLimits() {
     // loops through all legal radix values.
     for (int r = Character.MIN_RADIX; r <= Character.MAX_RADIX; r++) {
-      final int radix = r;
+      int radix = r;
       // tests can successfully parse a number string with this radix.
       String maxAsString = Long.toString((1L << 32) - 1, radix);
       assertThat(UnsignedInts.parseUnsignedInt(maxAsString, radix)).isEqualTo(-1);

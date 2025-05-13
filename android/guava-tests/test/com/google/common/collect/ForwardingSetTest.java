@@ -172,7 +172,7 @@ public class ForwardingSetTest extends TestCase {
         .testEquals();
   }
 
-  private static <T> Set<T> wrap(final Set<T> delegate) {
+  private static <T> Set<T> wrap(Set<T> delegate) {
     return new ForwardingSet<T>() {
       @Override
       protected Set<T> delegate() {

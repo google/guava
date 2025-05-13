@@ -161,8 +161,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReload() throws ExecutionException {
-    final Object one = new Object();
-    final Object two = new Object();
+    Object one = new Object();
+    Object two = new Object();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -208,8 +208,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testRefresh() {
-    final Object one = new Object();
-    final Object two = new Object();
+    Object one = new Object();
+    Object two = new Object();
     FakeTicker ticker = new FakeTicker();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
@@ -270,8 +270,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testRefresh_getIfPresent() {
-    final Object one = new Object();
-    final Object two = new Object();
+    Object one = new Object();
+    Object two = new Object();
     FakeTicker ticker = new FakeTicker();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
@@ -460,8 +460,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testBulkLoad_clobber() throws ExecutionException {
-    final Object extraKey = new Object();
-    final Object extraValue = new Object();
+    Object extraKey = new Object();
+    Object extraValue = new Object();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -498,8 +498,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testBulkLoad_clobberNullValue() throws ExecutionException {
-    final Object extraKey = new Object();
-    final Object extraValue = new Object();
+    Object extraKey = new Object();
+    Object extraValue = new Object();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -534,8 +534,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testBulkLoad_clobberNullKey() throws ExecutionException {
-    final Object extraKey = new Object();
-    final Object extraValue = new Object();
+    Object extraKey = new Object();
+    Object extraValue = new Object();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -570,8 +570,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testBulkLoad_partial() throws ExecutionException {
-    final Object extraKey = new Object();
-    final Object extraValue = new Object();
+    Object extraKey = new Object();
+    Object extraValue = new Object();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -642,7 +642,7 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReloadNull() throws ExecutionException {
-    final Object one = new Object();
+    Object one = new Object();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -688,7 +688,7 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReloadNullFuture() throws ExecutionException {
-    final Object one = new Object();
+    Object one = new Object();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -734,7 +734,7 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testRefreshNull() {
-    final Object one = new Object();
+    Object one = new Object();
     FakeTicker ticker = new FakeTicker();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
@@ -877,7 +877,7 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(3, stats.loadExceptionCount());
     assertEquals(0, stats.hitCount());
 
-    final Error callableError = new Error();
+    Error callableError = new Error();
     expected =
         assertThrows(
             ExecutionError.class,
@@ -907,8 +907,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReloadError() throws ExecutionException {
-    final Object one = new Object();
-    final Error e = new Error();
+    Object one = new Object();
+    Error e = new Error();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -954,8 +954,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReloadFutureError() throws ExecutionException {
-    final Object one = new Object();
-    final Error e = new Error();
+    Object one = new Object();
+    Error e = new Error();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -1001,8 +1001,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testRefreshError() {
-    final Object one = new Object();
-    final Error e = new Error();
+    Object one = new Object();
+    Error e = new Error();
     FakeTicker ticker = new FakeTicker();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
@@ -1203,8 +1203,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReloadCheckedException() {
-    final Object one = new Object();
-    final Exception e = new Exception();
+    Object one = new Object();
+    Exception e = new Exception();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -1250,8 +1250,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReloadFutureCheckedException() {
-    final Object one = new Object();
-    final Exception e = new Exception();
+    Object one = new Object();
+    Exception e = new Exception();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -1297,8 +1297,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testRefreshCheckedException() {
-    final Object one = new Object();
-    final Exception e = new Exception();
+    Object one = new Object();
+    Exception e = new Exception();
     FakeTicker ticker = new FakeTicker();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
@@ -1461,8 +1461,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReloadUncheckedException() throws ExecutionException {
-    final Object one = new Object();
-    final Exception e = new RuntimeException();
+    Object one = new Object();
+    Exception e = new RuntimeException();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -1508,8 +1508,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReloadFutureUncheckedException() throws ExecutionException {
-    final Object one = new Object();
-    final Exception e = new RuntimeException();
+    Object one = new Object();
+    Exception e = new RuntimeException();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
@@ -1555,8 +1555,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testRefreshUncheckedException() {
-    final Object one = new Object();
-    final Exception e = new RuntimeException();
+    Object one = new Object();
+    Exception e = new RuntimeException();
     FakeTicker ticker = new FakeTicker();
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
@@ -1639,8 +1639,8 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testReloadAfterFailure() throws ExecutionException {
-    final AtomicInteger count = new AtomicInteger();
-    final Exception e = new IllegalStateException("exception to trigger failure on first load()");
+    AtomicInteger count = new AtomicInteger();
+    Exception e = new IllegalStateException("exception to trigger failure on first load()");
     CacheLoader<Integer, String> failOnceFunction =
         new CacheLoader<Integer, String>() {
 
@@ -1758,9 +1758,9 @@ public class CacheLoadingTest extends TestCase {
    * Make sure LoadingCache correctly wraps ExecutionExceptions and UncheckedExecutionExceptions.
    */
   public void testLoadingExceptionWithCause() {
-    final Exception cause = new Exception();
-    final UncheckedExecutionException uee = new UncheckedExecutionException(cause);
-    final ExecutionException ee = new ExecutionException(cause);
+    Exception cause = new Exception();
+    UncheckedExecutionException uee = new UncheckedExecutionException(cause);
+    ExecutionException ee = new ExecutionException(cause);
 
     LoadingCache<Object, Object> cacheUnchecked =
         CacheBuilder.newBuilder().build(exceptionLoader(uee));
@@ -1802,9 +1802,9 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testBulkLoadingExceptionWithCause() {
-    final Exception cause = new Exception();
-    final UncheckedExecutionException uee = new UncheckedExecutionException(cause);
-    final ExecutionException ee = new ExecutionException(cause);
+    Exception cause = new Exception();
+    UncheckedExecutionException uee = new UncheckedExecutionException(cause);
+    ExecutionException ee = new ExecutionException(cause);
 
     LoadingCache<Object, Object> cacheUnchecked =
         CacheBuilder.newBuilder().build(bulkLoader(exceptionLoader(uee)));
@@ -1847,9 +1847,9 @@ public class CacheLoadingTest extends TestCase {
       throws InterruptedException {
 
     int count = 10;
-    final AtomicInteger callCount = new AtomicInteger();
-    final CountDownLatch startSignal = new CountDownLatch(count + 1);
-    final Object result = new Object();
+    AtomicInteger callCount = new AtomicInteger();
+    CountDownLatch startSignal = new CountDownLatch(count + 1);
+    Object result = new Object();
 
     LoadingCache<String, Object> cache =
         builder.build(
@@ -1879,8 +1879,8 @@ public class CacheLoadingTest extends TestCase {
       throws InterruptedException {
 
     int count = 10;
-    final AtomicInteger callCount = new AtomicInteger();
-    final CountDownLatch startSignal = new CountDownLatch(count + 1);
+    AtomicInteger callCount = new AtomicInteger();
+    CountDownLatch startSignal = new CountDownLatch(count + 1);
 
     LoadingCache<String, String> cache =
         builder.build(
@@ -1919,9 +1919,9 @@ public class CacheLoadingTest extends TestCase {
       throws InterruptedException {
 
     int count = 10;
-    final AtomicInteger callCount = new AtomicInteger();
-    final CountDownLatch startSignal = new CountDownLatch(count + 1);
-    final RuntimeException e = new RuntimeException();
+    AtomicInteger callCount = new AtomicInteger();
+    CountDownLatch startSignal = new CountDownLatch(count + 1);
+    RuntimeException e = new RuntimeException();
 
     LoadingCache<String, String> cache =
         builder.build(
@@ -1962,9 +1962,9 @@ public class CacheLoadingTest extends TestCase {
       throws InterruptedException {
 
     int count = 10;
-    final AtomicInteger callCount = new AtomicInteger();
-    final CountDownLatch startSignal = new CountDownLatch(count + 1);
-    final IOException e = new IOException();
+    AtomicInteger callCount = new AtomicInteger();
+    CountDownLatch startSignal = new CountDownLatch(count + 1);
+    IOException e = new IOException();
 
     LoadingCache<String, String> cache =
         builder.build(
@@ -2015,16 +2015,13 @@ public class CacheLoadingTest extends TestCase {
    */
   @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   private static <K> List<Object> doConcurrentGet(
-      final LoadingCache<K, ?> cache,
-      final K key,
-      int nThreads,
-      final CountDownLatch gettersStartedSignal)
+      LoadingCache<K, ?> cache, K key, int nThreads, CountDownLatch gettersStartedSignal)
       throws InterruptedException {
 
-    final AtomicReferenceArray<Object> result = new AtomicReferenceArray<>(nThreads);
-    final CountDownLatch gettersComplete = new CountDownLatch(nThreads);
+    AtomicReferenceArray<Object> result = new AtomicReferenceArray<>(nThreads);
+    CountDownLatch gettersComplete = new CountDownLatch(nThreads);
     for (int i = 0; i < nThreads; i++) {
-      final int index = i;
+      int index = i;
       Thread thread =
           new Thread(
               new Runnable() {
@@ -2067,12 +2064,12 @@ public class CacheLoadingTest extends TestCase {
   }
 
   public void testAsMapDuringLoading() throws InterruptedException, ExecutionException {
-    final CountDownLatch getStartedSignal = new CountDownLatch(2);
-    final CountDownLatch letGetFinishSignal = new CountDownLatch(1);
-    final CountDownLatch getFinishedSignal = new CountDownLatch(2);
-    final String getKey = "get";
-    final String refreshKey = "refresh";
-    final String suffix = "Suffix";
+    CountDownLatch getStartedSignal = new CountDownLatch(2);
+    CountDownLatch letGetFinishSignal = new CountDownLatch(1);
+    CountDownLatch getFinishedSignal = new CountDownLatch(2);
+    String getKey = "get";
+    String refreshKey = "refresh";
+    String suffix = "Suffix";
 
     CacheLoader<String, String> computeFunction =
         new CacheLoader<String, String>() {
@@ -2084,7 +2081,7 @@ public class CacheLoadingTest extends TestCase {
           }
         };
 
-    final LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
+    LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
     ConcurrentMap<String, String> map = cache.asMap();
     map.put(refreshKey, refreshKey);
     assertEquals(1, map.size());
@@ -2126,12 +2123,12 @@ public class CacheLoadingTest extends TestCase {
 
   public void testInvalidateDuringLoading() throws InterruptedException, ExecutionException {
     // computation starts; invalidate() is called on the key being computed, computation finishes
-    final CountDownLatch computationStarted = new CountDownLatch(2);
-    final CountDownLatch letGetFinishSignal = new CountDownLatch(1);
-    final CountDownLatch getFinishedSignal = new CountDownLatch(2);
-    final String getKey = "get";
-    final String refreshKey = "refresh";
-    final String suffix = "Suffix";
+    CountDownLatch computationStarted = new CountDownLatch(2);
+    CountDownLatch letGetFinishSignal = new CountDownLatch(1);
+    CountDownLatch getFinishedSignal = new CountDownLatch(2);
+    String getKey = "get";
+    String refreshKey = "refresh";
+    String suffix = "Suffix";
 
     CacheLoader<String, String> computeFunction =
         new CacheLoader<String, String>() {
@@ -2143,7 +2140,7 @@ public class CacheLoadingTest extends TestCase {
           }
         };
 
-    final LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
+    LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
     ConcurrentMap<String, String> map = cache.asMap();
     map.put(refreshKey, refreshKey);
 
@@ -2183,12 +2180,12 @@ public class CacheLoadingTest extends TestCase {
   public void testInvalidateAndReloadDuringLoading()
       throws InterruptedException, ExecutionException {
     // computation starts; clear() is called, computation finishes
-    final CountDownLatch computationStarted = new CountDownLatch(2);
-    final CountDownLatch letGetFinishSignal = new CountDownLatch(1);
-    final CountDownLatch getFinishedSignal = new CountDownLatch(4);
-    final String getKey = "get";
-    final String refreshKey = "refresh";
-    final String suffix = "Suffix";
+    CountDownLatch computationStarted = new CountDownLatch(2);
+    CountDownLatch letGetFinishSignal = new CountDownLatch(1);
+    CountDownLatch getFinishedSignal = new CountDownLatch(4);
+    String getKey = "get";
+    String refreshKey = "refresh";
+    String suffix = "Suffix";
 
     CacheLoader<String, String> computeFunction =
         new CacheLoader<String, String>() {
@@ -2200,7 +2197,7 @@ public class CacheLoadingTest extends TestCase {
           }
         };
 
-    final LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
+    LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
     ConcurrentMap<String, String> map = cache.asMap();
     map.put(refreshKey, refreshKey);
 
@@ -2254,18 +2251,18 @@ public class CacheLoadingTest extends TestCase {
 
   @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
   public void testExpandDuringLoading() throws InterruptedException {
-    final int count = 3;
-    final AtomicInteger callCount = new AtomicInteger();
+    int count = 3;
+    AtomicInteger callCount = new AtomicInteger();
     // tells the computing thread when to start computing
-    final CountDownLatch computeSignal = new CountDownLatch(1);
+    CountDownLatch computeSignal = new CountDownLatch(1);
     // tells the main thread when computation is pending
-    final CountDownLatch secondSignal = new CountDownLatch(1);
+    CountDownLatch secondSignal = new CountDownLatch(1);
     // tells the main thread when the second get has started
-    final CountDownLatch thirdSignal = new CountDownLatch(1);
+    CountDownLatch thirdSignal = new CountDownLatch(1);
     // tells the main thread when the third get has started
-    final CountDownLatch fourthSignal = new CountDownLatch(1);
+    CountDownLatch fourthSignal = new CountDownLatch(1);
     // tells the test when all gets have returned
-    final CountDownLatch doneSignal = new CountDownLatch(count);
+    CountDownLatch doneSignal = new CountDownLatch(count);
 
     CacheLoader<String, String> computeFunction =
         new CacheLoader<String, String>() {
@@ -2278,12 +2275,12 @@ public class CacheLoadingTest extends TestCase {
           }
         };
 
-    final LoadingCache<String, String> cache =
+    LoadingCache<String, String> cache =
         CacheBuilder.newBuilder().weakKeys().build(computeFunction);
 
-    final AtomicReferenceArray<String> result = new AtomicReferenceArray<>(count);
+    AtomicReferenceArray<String> result = new AtomicReferenceArray<>(count);
 
-    final String key = "bar";
+    String key = "bar";
 
     // start computing thread
     new Thread() {
@@ -2346,18 +2343,18 @@ public class CacheLoadingTest extends TestCase {
   public void
       ignoreTestExpandDuringRefresh()
       throws InterruptedException, ExecutionException {
-    final AtomicInteger callCount = new AtomicInteger();
+    AtomicInteger callCount = new AtomicInteger();
     // tells the computing thread when to start computing
-    final CountDownLatch computeSignal = new CountDownLatch(1);
+    CountDownLatch computeSignal = new CountDownLatch(1);
     // tells the main thread when computation is pending
-    final CountDownLatch secondSignal = new CountDownLatch(1);
+    CountDownLatch secondSignal = new CountDownLatch(1);
     // tells the main thread when the second get has started
-    final CountDownLatch thirdSignal = new CountDownLatch(1);
+    CountDownLatch thirdSignal = new CountDownLatch(1);
     // tells the main thread when the third get has started
-    final CountDownLatch fourthSignal = new CountDownLatch(1);
+    CountDownLatch fourthSignal = new CountDownLatch(1);
     // tells the test when all gets have returned
-    final CountDownLatch doneSignal = new CountDownLatch(3);
-    final String suffix = "Suffix";
+    CountDownLatch doneSignal = new CountDownLatch(3);
+    String suffix = "Suffix";
 
     CacheLoader<String, String> computeFunction =
         new CacheLoader<String, String>() {
@@ -2370,10 +2367,10 @@ public class CacheLoadingTest extends TestCase {
           }
         };
 
-    final AtomicReferenceArray<String> result = new AtomicReferenceArray<>(2);
+    AtomicReferenceArray<String> result = new AtomicReferenceArray<>(2);
 
-    final LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
-    final String key = "bar";
+    LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
+    String key = "bar";
     cache.asMap().put(key, key);
 
     // start computing thread
@@ -2432,7 +2429,7 @@ public class CacheLoadingTest extends TestCase {
     assertEquals(key + suffix, cache.getUnchecked(key));
   }
 
-  static <T> Callable<T> throwing(final Exception exception) {
+  static <T> Callable<T> throwing(Exception exception) {
     return new Callable<T>() {
       @Override
       public T call() throws Exception {

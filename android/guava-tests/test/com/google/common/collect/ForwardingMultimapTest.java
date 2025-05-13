@@ -52,7 +52,7 @@ public class ForwardingMultimapTest extends TestCase {
         .testEquals();
   }
 
-  private static <K, V> Multimap<K, V> wrap(final Multimap<K, V> delegate) {
+  private static <K, V> Multimap<K, V> wrap(Multimap<K, V> delegate) {
     return new ForwardingMultimap<K, V>() {
       @Override
       protected Multimap<K, V> delegate() {

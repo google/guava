@@ -712,10 +712,10 @@ public abstract class AbstractClosingFutureTest extends TestCase {
   }
 
   public void testWhenAllComplete_call() throws Exception {
-    final ClosingFuture<String> input1 = ClosingFuture.from(immediateFuture("value1"));
-    final ClosingFuture<Object> input2Failed = failedClosingFuture();
-    final ClosingFuture<String> nonInput = ClosingFuture.from(immediateFuture("value3"));
-    final AtomicReference<ClosingFuture.Peeker> capturedPeeker = new AtomicReference<>();
+    ClosingFuture<String> input1 = ClosingFuture.from(immediateFuture("value1"));
+    ClosingFuture<Object> input2Failed = failedClosingFuture();
+    ClosingFuture<String> nonInput = ClosingFuture.from(immediateFuture("value3"));
+    AtomicReference<ClosingFuture.Peeker> capturedPeeker = new AtomicReference<>();
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllComplete(ImmutableList.of(input1, input2Failed))
             .call(
@@ -793,10 +793,10 @@ public abstract class AbstractClosingFutureTest extends TestCase {
   }
 
   public void testWhenAllComplete_callAsync() throws Exception {
-    final ClosingFuture<String> input1 = ClosingFuture.from(immediateFuture("value1"));
-    final ClosingFuture<Object> input2Failed = failedClosingFuture();
-    final ClosingFuture<String> nonInput = ClosingFuture.from(immediateFuture("value3"));
-    final AtomicReference<ClosingFuture.Peeker> capturedPeeker = new AtomicReference<>();
+    ClosingFuture<String> input1 = ClosingFuture.from(immediateFuture("value1"));
+    ClosingFuture<Object> input2Failed = failedClosingFuture();
+    ClosingFuture<String> nonInput = ClosingFuture.from(immediateFuture("value3"));
+    AtomicReference<ClosingFuture.Peeker> capturedPeeker = new AtomicReference<>();
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllComplete(ImmutableList.of(input1, input2Failed))
             .callAsync(
@@ -1792,7 +1792,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
       return waitFor(closingFunction5, ClosingFunction5.class);
     }
 
-    <T> T waitFor(final T delegate, final Class<T> type) {
+    <T> T waitFor(T delegate, Class<T> type) {
       checkState(proxy == null);
       T proxyObject =
           Reflection.newProxy(

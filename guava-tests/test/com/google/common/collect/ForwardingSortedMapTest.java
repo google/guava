@@ -227,7 +227,7 @@ public class ForwardingSortedMapTest extends TestCase {
         .testEquals();
   }
 
-  private static <K, V> SortedMap<K, V> wrap(final SortedMap<K, V> delegate) {
+  private static <K, V> SortedMap<K, V> wrap(SortedMap<K, V> delegate) {
     return new ForwardingSortedMap<K, V>() {
       @Override
       protected SortedMap<K, V> delegate() {

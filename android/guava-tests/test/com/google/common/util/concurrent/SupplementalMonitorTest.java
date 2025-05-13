@@ -101,14 +101,14 @@ public class SupplementalMonitorTest extends TestCase {
   }
 
   private static void verifyOccupiedMethodsInAnotherThread(
-      final Monitor monitor,
+      Monitor monitor,
       boolean expectedIsOccupied,
       boolean expectedIsOccupiedByCurrentThread,
       int expectedOccupiedDepth) {
-    final AtomicBoolean actualIsOccupied = new AtomicBoolean();
-    final AtomicBoolean actualIsOccupiedByCurrentThread = new AtomicBoolean();
-    final AtomicInteger actualOccupiedDepth = new AtomicInteger();
-    final AtomicReference<Throwable> thrown = new AtomicReference<>();
+    AtomicBoolean actualIsOccupied = new AtomicBoolean();
+    AtomicBoolean actualIsOccupiedByCurrentThread = new AtomicBoolean();
+    AtomicInteger actualOccupiedDepth = new AtomicInteger();
+    AtomicReference<Throwable> thrown = new AtomicReference<>();
     joinUninterruptibly(
         startThread(
             new Runnable() {

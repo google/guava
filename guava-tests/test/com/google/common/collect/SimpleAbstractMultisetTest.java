@@ -74,7 +74,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
 
   @SuppressWarnings("ModifiedButNotUsed")
   public void testFastAddAllMultiset() {
-    final AtomicInteger addCalls = new AtomicInteger();
+    AtomicInteger addCalls = new AtomicInteger();
     Multiset<String> multiset =
         new NoRemoveMultiset<String>() {
           @Override
@@ -139,7 +139,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
 
     @Override
     Iterator<Entry<E>> entryIterator() {
-      final Iterator<Map.Entry<E, Integer>> backingEntries = backingMap.entrySet().iterator();
+      Iterator<Map.Entry<E, Integer>> backingEntries = backingMap.entrySet().iterator();
       return new UnmodifiableIterator<Multiset.Entry<E>>() {
         @Override
         public boolean hasNext() {
@@ -148,7 +148,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
 
         @Override
         public Multiset.Entry<E> next() {
-          final Map.Entry<E, Integer> mapEntry = backingEntries.next();
+          Map.Entry<E, Integer> mapEntry = backingEntries.next();
           return new Multisets.AbstractEntry<E>() {
             @Override
             public E getElement() {

@@ -53,7 +53,7 @@ public class ExecutionListTest extends TestCase {
   }
 
   public void testExecute_idempotent() {
-    final AtomicInteger runCalled = new AtomicInteger();
+    AtomicInteger runCalled = new AtomicInteger();
     list.add(
         new Runnable() {
           @Override
@@ -69,8 +69,8 @@ public class ExecutionListTest extends TestCase {
   }
 
   public void testExecute_idempotentConcurrently() throws InterruptedException {
-    final CountDownLatch okayToRun = new CountDownLatch(1);
-    final AtomicInteger runCalled = new AtomicInteger();
+    CountDownLatch okayToRun = new CountDownLatch(1);
+    AtomicInteger runCalled = new AtomicInteger();
     list.add(
         new Runnable() {
           @Override
@@ -114,9 +114,9 @@ public class ExecutionListTest extends TestCase {
   }
 
   public void testOrdering() throws Exception {
-    final AtomicInteger integer = new AtomicInteger();
+    AtomicInteger integer = new AtomicInteger();
     for (int i = 0; i < 10; i++) {
-      final int expectedCount = i;
+      int expectedCount = i;
       list.add(
           new Runnable() {
             @Override

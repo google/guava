@@ -201,7 +201,7 @@ public class ConverterTest extends TestCase {
     assertEquals(null, nullsAreHandled.reverse().convert(null));
   }
 
-  private static Converter<String, String> sillyConverter(final boolean handleNullAutomatically) {
+  private static Converter<String, String> sillyConverter(boolean handleNullAutomatically) {
     return new Converter<String, String>(handleNullAutomatically) {
       @Override
       protected String doForward(String string) {

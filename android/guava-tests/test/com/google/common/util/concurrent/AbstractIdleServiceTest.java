@@ -46,7 +46,7 @@ public class AbstractIdleServiceTest extends TestCase {
   }
 
   public void testStart_failed() {
-    final Exception exception = new Exception("deliberate");
+    Exception exception = new Exception("deliberate");
     TestService service =
         new TestService() {
           @Override
@@ -88,7 +88,7 @@ public class AbstractIdleServiceTest extends TestCase {
   }
 
   public void testStop_failed() {
-    final Exception exception = new Exception("deliberate");
+    Exception exception = new Exception("deliberate");
     TestService service =
         new TestService() {
           @Override
@@ -193,7 +193,7 @@ public class AbstractIdleServiceTest extends TestCase {
   }
 
   public void testFunctionalStart_failed() {
-    final Exception exception = new Exception("deliberate");
+    Exception exception = new Exception("deliberate");
     AbstractIdleService service =
         new DefaultService() {
           @Override
@@ -208,7 +208,7 @@ public class AbstractIdleServiceTest extends TestCase {
   }
 
   public void testFunctionalStop_failed() {
-    final Exception exception = new Exception("deliberate");
+    Exception exception = new Exception("deliberate");
     AbstractIdleService service =
         new DefaultService() {
           @Override

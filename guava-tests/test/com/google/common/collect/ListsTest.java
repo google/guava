@@ -153,7 +153,7 @@ public class ListsTest extends TestCase {
                 CollectionFeature.ALLOWS_NULL_VALUES)
             .createTestSuite());
 
-    final Function<String, String> removeFirst = new RemoveFirstFunction();
+    Function<String, String> removeFirst = new RemoveFirstFunction();
 
     suite.addTest(
         ListTestSuiteBuilder.using(

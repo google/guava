@@ -34,7 +34,7 @@ public final class InterruptibleTaskTest extends TestCase {
   // Regression test for a deadlock where a task could be stuck busy waiting for the task to
   // transition to DONE
   public void testInterruptThrows() throws Exception {
-    final CountDownLatch isInterruptibleRegistered = new CountDownLatch(1);
+    CountDownLatch isInterruptibleRegistered = new CountDownLatch(1);
     SettableFuture<String> taskResult = SettableFuture.create();
     InterruptibleTask<String> task =
         new InterruptibleTask<String>() {
@@ -110,9 +110,9 @@ public final class InterruptibleTaskTest extends TestCase {
    */
   @AndroidIncompatible
   public void testInterruptIsSlow() throws Exception {
-    final CountDownLatch isInterruptibleRegistered = new CountDownLatch(1);
-    final SlowChannel slowChannel = new SlowChannel();
-    final InterruptibleTask<@Nullable Void> task =
+    CountDownLatch isInterruptibleRegistered = new CountDownLatch(1);
+    SlowChannel slowChannel = new SlowChannel();
+    InterruptibleTask<@Nullable Void> task =
         new InterruptibleTask<@Nullable Void>() {
           @Override
           @Nullable Void runInterruptibly() throws Exception {

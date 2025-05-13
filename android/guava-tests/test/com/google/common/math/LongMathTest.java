@@ -172,7 +172,7 @@ public class LongMathTest extends TestCase {
   @GwtIncompatible // TODO
   public void testConstantsBiggestSimpleBinomials() {
     for (int i = 0; i < LongMath.biggestSimpleBinomials.length; i++) {
-      final int k = i;
+      int k = i;
       assertTrue(LongMath.biggestSimpleBinomials[k] <= LongMath.biggestBinomials[k]);
       long unused = simpleBinomial(LongMath.biggestSimpleBinomials[k], k); // mustn't throw
       if (LongMath.biggestSimpleBinomials[k] < Integer.MAX_VALUE) {
@@ -678,14 +678,14 @@ public class LongMathTest extends TestCase {
 
   public void testBinomialOutside() {
     for (int i = 0; i <= 50; i++) {
-      final int n = i;
+      int n = i;
       assertThrows(IllegalArgumentException.class, () -> LongMath.binomial(n, -1));
       assertThrows(IllegalArgumentException.class, () -> LongMath.binomial(n, n + 1));
     }
   }
 
   public void testBinomialNegative() {
-    for (final int n : NEGATIVE_INTEGER_CANDIDATES) {
+    for (int n : NEGATIVE_INTEGER_CANDIDATES) {
       assertThrows(IllegalArgumentException.class, () -> LongMath.binomial(n, 0));
     }
   }

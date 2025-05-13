@@ -1192,7 +1192,7 @@ public class TraverserTest {
         graphMapBuilder.put(node2, node1);
       }
     }
-    final ImmutableMultimap<Character, Character> graphMap = graphMapBuilder.build();
+    ImmutableMultimap<Character, Character> graphMap = graphMapBuilder.build();
 
     return new SuccessorsFunction<Character>() {
       @Override
@@ -1233,7 +1233,7 @@ public class TraverserTest {
     }
   }
 
-  private static <N> SuccessorsFunction<N> fixedSuccessors(final Iterable<N> successors) {
+  private static <N> SuccessorsFunction<N> fixedSuccessors(Iterable<N> successors) {
     return new SuccessorsFunction<N>() {
       @Override
       public Iterable<N> successors(N n) {

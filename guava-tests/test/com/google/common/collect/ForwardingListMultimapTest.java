@@ -52,7 +52,7 @@ public class ForwardingListMultimapTest extends TestCase {
         .testEquals();
   }
 
-  private static <K, V> ListMultimap<K, V> wrap(final ListMultimap<K, V> delegate) {
+  private static <K, V> ListMultimap<K, V> wrap(ListMultimap<K, V> delegate) {
     return new ForwardingListMultimap<K, V>() {
       @Override
       protected ListMultimap<K, V> delegate() {

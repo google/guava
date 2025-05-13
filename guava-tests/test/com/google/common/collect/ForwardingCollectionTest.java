@@ -152,7 +152,7 @@ public class ForwardingCollectionTest extends TestCase {
             });
   }
 
-  private static <T> Collection<T> wrap(final Collection<T> delegate) {
+  private static <T> Collection<T> wrap(Collection<T> delegate) {
     return new ForwardingCollection<T>() {
       @Override
       protected Collection<T> delegate() {

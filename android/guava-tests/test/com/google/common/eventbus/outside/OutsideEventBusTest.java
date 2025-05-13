@@ -35,8 +35,8 @@ public class OutsideEventBusTest extends TestCase {
    * it can fail here.
    */
   public void testAnonymous() {
-    final AtomicReference<String> holder = new AtomicReference<>();
-    final AtomicInteger deliveries = new AtomicInteger();
+    AtomicReference<String> holder = new AtomicReference<>();
+    AtomicInteger deliveries = new AtomicInteger();
     EventBus bus = new EventBus();
     bus.register(
         new Object() {

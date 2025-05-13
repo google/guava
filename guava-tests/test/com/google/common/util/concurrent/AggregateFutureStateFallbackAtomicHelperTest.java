@@ -130,8 +130,8 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
     assertEquals(expectedHelperClassName, helperField.get(null).getClass().getSimpleName());
   }
 
-  private static ClassLoader getClassLoader(final Set<String> blocklist) {
-    final String concurrentPackage = SettableFuture.class.getPackage().getName();
+  private static ClassLoader getClassLoader(Set<String> blocklist) {
+    String concurrentPackage = SettableFuture.class.getPackage().getName();
     ClassLoader classLoader = AggregateFutureStateFallbackAtomicHelperTest.class.getClassLoader();
     // we delegate to the current classloader so both loaders agree on classes like TestCase
     return new URLClassLoader(ClassPathUtil.getClassPathUrls(), classLoader) {

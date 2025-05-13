@@ -78,7 +78,7 @@ public class PeekingIteratorTest extends TestCase {
     }
   }
 
-  private <T extends @Nullable Object> void actsLikeIteratorHelper(final List<T> list) {
+  private <T extends @Nullable Object> void actsLikeIteratorHelper(List<T> list) {
     // Check with modifiable copies of the list
     new PeekingIteratorTester<T>(list).test();
 

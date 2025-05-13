@@ -583,14 +583,14 @@ public class IntMathTest extends TestCase {
 
   public void testBinomialOutside() {
     for (int i = 0; i <= 50; i++) {
-      final int n = i;
+      int n = i;
       assertThrows(IllegalArgumentException.class, () -> IntMath.binomial(n, -1));
       assertThrows(IllegalArgumentException.class, () -> IntMath.binomial(n, n + 1));
     }
   }
 
   public void testBinomialNegative() {
-    for (final int n : NEGATIVE_INTEGER_CANDIDATES) {
+    for (int n : NEGATIVE_INTEGER_CANDIDATES) {
       assertThrows(IllegalArgumentException.class, () -> IntMath.binomial(n, 0));
     }
   }

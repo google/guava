@@ -67,7 +67,7 @@ public class AbstractFutureFootprintBenchmark {
       thread.interrupt();
     }
     blockedThreads.clear();
-    final Facade<Object> f = impl.newFacade();
+    Facade<Object> f = impl.newFacade();
     for (int i = 0; i < numThreads; i++) {
       Thread thread =
           new Thread() {

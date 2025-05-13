@@ -99,7 +99,7 @@ public class CharStreamsTest extends IoTestCase {
 
     // Test a LineProcessor that is conditional.
     r = new StringReader(text);
-    final StringBuilder sb = new StringBuilder();
+    StringBuilder sb = new StringBuilder();
     LineProcessor<Integer> conditional =
         new LineProcessor<Integer>() {
           int seen;
@@ -300,7 +300,7 @@ public class CharStreamsTest extends IoTestCase {
   }
 
   /** Wrap an appendable in an appendable to defeat any type specific optimizations. */
-  private static Appendable wrapAsGenericAppendable(final Appendable a) {
+  private static Appendable wrapAsGenericAppendable(Appendable a) {
     return new Appendable() {
 
       @Override
@@ -324,7 +324,7 @@ public class CharStreamsTest extends IoTestCase {
   }
 
   /** Wrap a readable in a readable to defeat any type specific optimizations. */
-  private static Readable wrapAsGenericReadable(final Readable a) {
+  private static Readable wrapAsGenericReadable(Readable a) {
     return new Readable() {
       @Override
       public int read(CharBuffer cb) throws IOException {

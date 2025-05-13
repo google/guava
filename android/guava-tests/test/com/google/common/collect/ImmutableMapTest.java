@@ -301,7 +301,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilder_withMutableEntry() {
     ImmutableMap.Builder<String, Integer> builder = new Builder<>();
-    final StringHolder holder = new StringHolder();
+    StringHolder holder = new StringHolder();
     holder.string = "one";
     Entry<String, Integer> entry =
         new AbstractMapEntry<String, Integer>() {

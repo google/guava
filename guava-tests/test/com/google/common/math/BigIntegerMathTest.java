@@ -496,7 +496,7 @@ public class BigIntegerMathTest extends TestCase {
 
   public void testBinomialOutside() {
     for (int i = 0; i <= 50; i++) {
-      final int n = i;
+      int n = i;
       assertThrows(IllegalArgumentException.class, () -> BigIntegerMath.binomial(n, -1));
       assertThrows(IllegalArgumentException.class, () -> BigIntegerMath.binomial(n, n + 1));
     }

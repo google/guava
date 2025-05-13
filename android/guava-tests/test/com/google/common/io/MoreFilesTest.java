@@ -639,7 +639,7 @@ public class MoreFilesTest extends TestCase {
    */
   @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
   private static void startDirectorySymlinkSwitching(
-      final Path file, final Path target, ExecutorService executor) {
+      Path file, Path target, ExecutorService executor) {
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError =
         executor.submit(
