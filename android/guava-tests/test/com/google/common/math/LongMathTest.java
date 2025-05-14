@@ -29,6 +29,7 @@ import static com.google.common.math.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static java.math.BigInteger.valueOf;
+import static java.math.RoundingMode.DOWN;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
 
@@ -368,6 +369,12 @@ public class LongMathTest extends TestCase {
           long actual = LongMath.divide(p, q, mode);
           if (expected != actual) {
             failFormat("expected divide(%s, %s, %s) = %s; got %s", p, q, mode, expected, actual);
+          }
+          // Check the assertions we make in the javadoc.
+          if (mode == DOWN) {
+            assertEquals(p / q, LongMath.divide(p, q, mode));
+          } else if (mode == FLOOR) {
+            assertEquals(Math.floorDiv(p, q), LongMath.divide(p, q, mode));
           }
         }
       }

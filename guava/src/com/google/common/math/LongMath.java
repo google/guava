@@ -366,7 +366,9 @@ public final class LongMath {
 
   /**
    * Returns the result of dividing {@code p} by {@code q}, rounding using the specified {@code
-   * RoundingMode}.
+   * RoundingMode}. If the {@code RoundingMode} is {@link RoundingMode#DOWN}, then this method is
+   * equivalent to regular Java division, {@code p / q}; and if it is {@link RoundingMode#FLOOR},
+   * then this method is equivalent to {@link Math#floorDiv(long,long) Math.floorDiv}{@code (p, q)}.
    *
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}
@@ -473,8 +475,7 @@ public final class LongMath {
     if (m <= 0) {
       throw new ArithmeticException("Modulus must be positive");
     }
-    long result = x % m;
-    return (result >= 0) ? result : result + m;
+    return Math.floorMod(x, m);
   }
 
   /**

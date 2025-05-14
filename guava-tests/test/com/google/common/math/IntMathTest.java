@@ -27,6 +27,7 @@ import static com.google.common.math.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.math.TestPlatform.intsCanGoOutOfRange;
 import static java.lang.Math.min;
 import static java.math.BigInteger.valueOf;
+import static java.math.RoundingMode.DOWN;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
 
@@ -318,6 +319,7 @@ public class IntMathTest extends TestCase {
   }
 
   @AndroidIncompatible // slow
+  @GwtIncompatible // Math.floorDiv gets wrong answers for negative divisors
   public void testDivNonZero() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
@@ -330,6 +332,12 @@ public class IntMathTest extends TestCase {
           int expected =
               new BigDecimal(valueOf(p)).divide(new BigDecimal(valueOf(q)), 0, mode).intValue();
           assertEquals(p + "/" + q, force32(expected), IntMath.divide(p, q, mode));
+          // Check the assertions we make in the javadoc.
+          if (mode == DOWN) {
+            assertEquals(p + "/" + q, p / q, IntMath.divide(p, q, mode));
+          } else if (mode == FLOOR) {
+            assertEquals("⌊" + p + "/" + q + "⌋", Math.floorDiv(p, q), IntMath.divide(p, q, mode));
+          }
         }
       }
     }

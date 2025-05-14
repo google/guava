@@ -300,7 +300,9 @@ public final class IntMath {
 
   /**
    * Returns the result of dividing {@code p} by {@code q}, rounding using the specified {@code
-   * RoundingMode}.
+   * RoundingMode}. If the {@code RoundingMode} is {@link RoundingMode#DOWN}, then this method is
+   * equivalent to regular Java division, {@code p / q}; and if it is {@link RoundingMode#FLOOR},
+   * then this method is equivalent to {@link Math#floorDiv(int,int) Math.floorDiv}{@code (p, q)}.
    *
    * @throws ArithmeticException if {@code q == 0}, or if {@code mode == UNNECESSARY} and {@code a}
    *     is not an integer multiple of {@code b}
@@ -365,7 +367,9 @@ public final class IntMath {
 
   /**
    * Returns {@code x mod m}, a non-negative value less than {@code m}. This differs from {@code x %
-   * m}, which might be negative.
+   * m}, which might be negative. This method is equivalent to {@code Math.floorMod(x, m)} except
+   * that that method also allows negative {@code m}. {@code Math.floorMod} should be preferred when
+   * {@code m} is known to be positive.
    *
    * <p>For example:
    *
@@ -385,8 +389,7 @@ public final class IntMath {
     if (m <= 0) {
       throw new ArithmeticException("Modulus " + m + " must be > 0");
     }
-    int result = x % m;
-    return (result >= 0) ? result : result + m;
+    return Math.floorMod(x, m);
   }
 
   /**
