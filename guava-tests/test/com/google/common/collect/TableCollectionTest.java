@@ -887,7 +887,8 @@ public class TableCollectionTest extends TestCase {
       return table.rowMap();
     }
 
-    void populateTable(Table<String, Integer, Character> table) {
+    // `protected` to work around b/320650932 / KT-67447 runtime crash
+    protected final void populateTable(Table<String, Integer, Character> table) {
       table.put("foo", 1, 'a');
       table.put("bar", 1, 'b');
       table.put("foo", 3, 'c');
