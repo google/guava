@@ -429,7 +429,9 @@ loadScripts(document, 'script');</script>
  long&nbsp;q,
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/RoundingMode.html" title="class or interface in java.math" class="external-link">RoundingMode</a>&nbsp;mode)</span></div>
 <div class="block">Returns the result of dividing <code>p</code> by <code>q</code>, rounding using the specified <code>
- RoundingMode</code>.</div>
+ RoundingMode</code>. If the <code>RoundingMode</code> is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/RoundingMode.html#DOWN" title="class or interface in java.math" class="external-link"><code>RoundingMode.DOWN</code></a>, then this method is
+ equivalent to regular Java division, <code>p / q</code>; and if it is <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/math/RoundingMode.html#FLOOR" title="class or interface in java.math" class="external-link"><code>RoundingMode.FLOOR</code></a>,
+ then this method is equivalent to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#floorDiv(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.floorDiv</code></a><code>(p, q)</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link">ArithmeticException</a></code> - if <code>q == 0</code>, or if <code>mode == UNNECESSARY</code> and <code>a</code>
