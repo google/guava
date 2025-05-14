@@ -362,7 +362,7 @@ public class Helpers {
     // iteration would work, but that would not be GWT-compatible.
     // We are not "just" inheriting from ArrayList here as this doesn't work for J2kt.
     return new AbstractList<T>() {
-      ArrayList<T> data = new ArrayList<>();
+      final ArrayList<T> data = new ArrayList<>();
 
       @Override
       public int size() {

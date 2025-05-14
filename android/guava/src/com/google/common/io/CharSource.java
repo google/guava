@@ -580,7 +580,7 @@ public abstract class CharSource {
      */
     private Iterator<String> linesIterator() {
       return new AbstractIterator<String>() {
-        Iterator<String> lines = LINE_SPLITTER.split(seq).iterator();
+        final Iterator<String> lines = LINE_SPLITTER.split(seq).iterator();
 
         @Override
         protected @Nullable String computeNext() {

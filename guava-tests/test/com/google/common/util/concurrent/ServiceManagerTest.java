@@ -76,7 +76,7 @@ public class ServiceManagerTest extends TestCase {
    * of time.
    */
   private static class NoOpDelayedService extends NoOpService {
-    private long delay;
+    private final long delay;
 
     public NoOpDelayedService(long delay) {
       this.delay = delay;

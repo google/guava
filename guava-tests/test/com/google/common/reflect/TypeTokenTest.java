@@ -1071,7 +1071,7 @@ public class TypeTokenTest extends TestCase {
   public static <T> GenericClass<T> getStaticAnonymousClass(T value) {
     return new GenericClass<T>() {
       @SuppressWarnings("unused")
-      public T innerValue = value;
+      public final T innerValue = value;
     };
   }
 

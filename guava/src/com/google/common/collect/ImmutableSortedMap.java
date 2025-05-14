@@ -759,7 +759,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
 
   private final transient RegularImmutableSortedSet<K> keySet;
   private final transient ImmutableList<V> valueList;
-  private transient @Nullable ImmutableSortedMap<K, V> descendingMap;
+  private final transient @Nullable ImmutableSortedMap<K, V> descendingMap;
 
   ImmutableSortedMap(RegularImmutableSortedSet<K> keySet, ImmutableList<V> valueList) {
     this(keySet, valueList, null);

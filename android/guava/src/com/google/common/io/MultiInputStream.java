@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
 @GwtIncompatible
 final class MultiInputStream extends InputStream {
 
-  private Iterator<? extends ByteSource> it;
+  private final Iterator<? extends ByteSource> it;
   private @Nullable InputStream in;
 
   /**

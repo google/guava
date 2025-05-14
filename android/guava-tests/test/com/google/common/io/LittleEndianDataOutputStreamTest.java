@@ -35,8 +35,8 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class LittleEndianDataOutputStreamTest extends TestCase {
 
-  private ByteArrayOutputStream baos = new ByteArrayOutputStream();
-  private LittleEndianDataOutputStream out = new LittleEndianDataOutputStream(baos);
+  private final ByteArrayOutputStream baos = new ByteArrayOutputStream();
+  private final LittleEndianDataOutputStream out = new LittleEndianDataOutputStream(baos);
 
   public void testWriteLittleEndian() throws IOException {
 

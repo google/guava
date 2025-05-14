@@ -48,7 +48,7 @@ public class SynchronizedMapTest extends TestCase {
 
   static class TestMap<K, V> extends ForwardingMap<K, V> implements Serializable {
     public final Object mutex;
-    private Map<K, V> delegate;
+    private final Map<K, V> delegate;
 
     public TestMap(Map<K, V> delegate, Object mutex) {
       checkNotNull(mutex);

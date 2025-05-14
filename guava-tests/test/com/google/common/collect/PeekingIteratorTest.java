@@ -55,7 +55,7 @@ public class PeekingIteratorTest extends TestCase {
    * remove()}.
    */
   private static class PeekingIteratorTester<T extends @Nullable Object> extends IteratorTester<T> {
-    private Iterable<T> master;
+    private final Iterable<T> master;
     private @Nullable List<T> targetList;
 
     public PeekingIteratorTester(Collection<T> master) {

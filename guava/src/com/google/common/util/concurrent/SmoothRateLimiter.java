@@ -213,7 +213,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
     private double slope;
 
     private double thresholdPermits;
-    private double coldFactor;
+    private final double coldFactor;
 
     SmoothWarmingUp(
         SleepingStopwatch stopwatch, long warmupPeriod, TimeUnit timeUnit, double coldFactor) {

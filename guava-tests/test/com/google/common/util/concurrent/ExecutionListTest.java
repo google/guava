@@ -131,7 +131,7 @@ public class ExecutionListTest extends TestCase {
   }
 
   private class MockRunnable implements Runnable {
-    CountDownLatch countDownLatch;
+    final CountDownLatch countDownLatch;
 
     MockRunnable(CountDownLatch countDownLatch) {
       this.countDownLatch = countDownLatch;

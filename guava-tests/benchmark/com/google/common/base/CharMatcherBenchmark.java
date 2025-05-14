@@ -201,7 +201,7 @@ public class CharMatcherBenchmark {
       }
     }
 
-    private int sum = 69552218;
+    private final int sum = 69552218;
     private static int[] prob;
 
     private static void populateProb1() {

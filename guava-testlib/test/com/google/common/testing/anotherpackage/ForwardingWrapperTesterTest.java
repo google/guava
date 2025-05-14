@@ -545,7 +545,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
 
   private static class NoDelegateToEquals implements Equals {
 
-    private static Function<Equals, Equals> WRAPPER =
+    private static final Function<Equals, Equals> WRAPPER =
         new Function<Equals, Equals>() {
           @Override
           public NoDelegateToEquals apply(Equals delegate) {

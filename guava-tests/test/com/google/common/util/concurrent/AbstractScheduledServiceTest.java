@@ -293,14 +293,14 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   private class TestService extends AbstractScheduledService {
-    CyclicBarrier runFirstBarrier = new CyclicBarrier(2);
-    CyclicBarrier runSecondBarrier = new CyclicBarrier(2);
+    final CyclicBarrier runFirstBarrier = new CyclicBarrier(2);
+    final CyclicBarrier runSecondBarrier = new CyclicBarrier(2);
 
     volatile boolean startUpCalled = false;
     volatile boolean shutDownCalled = false;
-    AtomicInteger numberOfTimesRunCalled = new AtomicInteger(0);
-    AtomicInteger numberOfTimesExecutorCalled = new AtomicInteger(0);
-    AtomicInteger numberOfTimesSchedulerCalled = new AtomicInteger(0);
+    final AtomicInteger numberOfTimesRunCalled = new AtomicInteger(0);
+    final AtomicInteger numberOfTimesExecutorCalled = new AtomicInteger(0);
+    final AtomicInteger numberOfTimesSchedulerCalled = new AtomicInteger(0);
     volatile @Nullable Exception runException = null;
     volatile @Nullable Exception startUpException = null;
     volatile @Nullable Exception shutDownException = null;
@@ -468,7 +468,7 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   private static class TestCustomScheduler extends AbstractScheduledService.CustomScheduler {
-    public AtomicInteger scheduleCounter = new AtomicInteger(0);
+    public final AtomicInteger scheduleCounter = new AtomicInteger(0);
 
     @Override
     protected Schedule getNextSchedule() throws Exception {

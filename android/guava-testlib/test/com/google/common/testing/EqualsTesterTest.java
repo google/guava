@@ -285,8 +285,8 @@ public class EqualsTesterTest extends TestCase {
    * should always pass.
    */
   private static class ValidTestObject {
-    private int aspect1;
-    private int aspect2;
+    private final int aspect1;
+    private final int aspect2;
 
     ValidTestObject(int aspect1, int aspect2) {
       this.aspect1 = aspect1;
@@ -319,8 +319,8 @@ public class EqualsTesterTest extends TestCase {
 
   /** Test class with invalid hashCode method. */
   private static class InvalidHashCodeObject {
-    private int aspect1;
-    private int aspect2;
+    private final int aspect1;
+    private final int aspect2;
 
     InvalidHashCodeObject(int aspect1, int aspect2) {
       this.aspect1 = aspect1;

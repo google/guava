@@ -468,7 +468,7 @@ public class ExecutionListBenchmark {
     private static final class RunnableExecutorPair {
       final Runnable runnable;
       final Executor executor;
-      @Nullable RunnableExecutorPair next;
+      @Nullable final RunnableExecutorPair next;
 
       RunnableExecutorPair(Runnable runnable, Executor executor, RunnableExecutorPair next) {
         this.runnable = runnable;
@@ -541,8 +541,8 @@ public class ExecutionListBenchmark {
     }
 
     private static final class RunnableExecutorPair {
-      Runnable runnable;
-      Executor executor;
+      final Runnable runnable;
+      final Executor executor;
       @Nullable RunnableExecutorPair next;
 
       RunnableExecutorPair(Runnable runnable, Executor executor) {

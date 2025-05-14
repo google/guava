@@ -147,7 +147,7 @@ public class StatsBenchmark {
   @Param MeanAlgorithm meanAlgorithm;
   @Param VarianceAlgorithm varianceAlgorithm;
 
-  private double[][] values = new double[0x100][];
+  private final double[][] values = new double[0x100][];
 
   @BeforeExperiment
   void setUp() {

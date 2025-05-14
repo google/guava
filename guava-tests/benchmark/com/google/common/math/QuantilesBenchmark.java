@@ -38,7 +38,7 @@ public class QuantilesBenchmark {
 
   @Param QuantilesAlgorithm algorithm;
 
-  private double[][] datasets = new double[0x100][];
+  private final double[][] datasets = new double[0x100][];
 
   @BeforeExperiment
   void setUp() {

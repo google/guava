@@ -34,9 +34,9 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @NullUnmarked
 public class IntMathBenchmark {
-  private static int[] exponent = new int[ARRAY_SIZE];
-  private static int[] factorial = new int[ARRAY_SIZE];
-  private static int[] binomial = new int[ARRAY_SIZE];
+  private static final int[] exponent = new int[ARRAY_SIZE];
+  private static final int[] factorial = new int[ARRAY_SIZE];
+  private static final int[] binomial = new int[ARRAY_SIZE];
   private static final int[] positive = new int[ARRAY_SIZE];
   private static final int[] nonnegative = new int[ARRAY_SIZE];
   private static final int[] ints = new int[ARRAY_SIZE];

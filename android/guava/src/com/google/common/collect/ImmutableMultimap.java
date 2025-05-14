@@ -782,7 +782,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   @Override
   UnmodifiableIterator<V> valueIterator() {
     return new UnmodifiableIterator<V>() {
-      Iterator<? extends ImmutableCollection<V>> valueCollectionItr = map.values().iterator();
+      final Iterator<? extends ImmutableCollection<V>> valueCollectionItr = map.values().iterator();
       Iterator<V> valueItr = emptyIterator();
 
       @Override

@@ -453,7 +453,7 @@ public class AbstractFutureTest extends TestCase {
         };
     Callable<@Nullable Void> completeExceptionallyRunnable =
         new Callable<@Nullable Void>() {
-          Exception failureCause = new Exception("setException");
+          final Exception failureCause = new Exception("setException");
 
           @Override
           public @Nullable Void call() {
@@ -477,7 +477,7 @@ public class AbstractFutureTest extends TestCase {
         };
     Callable<@Nullable Void> setFutureCompleteSuccessfullyRunnable =
         new Callable<@Nullable Void>() {
-          ListenableFuture<String> future = immediateFuture("setFuture");
+          final ListenableFuture<String> future = immediateFuture("setFuture");
 
           @Override
           public @Nullable Void call() {
@@ -490,7 +490,7 @@ public class AbstractFutureTest extends TestCase {
         };
     Callable<@Nullable Void> setFutureCompleteExceptionallyRunnable =
         new Callable<@Nullable Void>() {
-          ListenableFuture<String> future = immediateFailedFuture(new Exception("setFuture"));
+          final ListenableFuture<String> future = immediateFailedFuture(new Exception("setFuture"));
 
           @Override
           public @Nullable Void call() {
@@ -503,7 +503,7 @@ public class AbstractFutureTest extends TestCase {
         };
     Callable<@Nullable Void> setFutureCancelRunnable =
         new Callable<@Nullable Void>() {
-          ListenableFuture<String> future = immediateCancelledFuture();
+          final ListenableFuture<String> future = immediateCancelledFuture();
 
           @Override
           public @Nullable Void call() {
@@ -1122,7 +1122,7 @@ public class AbstractFutureTest extends TestCase {
 
   public void testForwardExceptionFastPath() throws Exception {
     class FailFuture extends InternalFutureFailureAccess implements ListenableFuture<String> {
-      Throwable failure;
+      final Throwable failure;
 
       FailFuture(Throwable throwable) {
         failure = throwable;

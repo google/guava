@@ -31,7 +31,7 @@ import org.jspecify.annotations.NullUnmarked;
 public class TestLogHandlerTest extends TestCase {
 
   private TestLogHandler handler;
-  private TearDownStack stack = new TearDownStack();
+  private final TearDownStack stack = new TearDownStack();
 
   @Override
   protected void setUp() throws Exception {

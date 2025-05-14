@@ -51,7 +51,7 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 @NullMarked
 abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iterator<E>> {
-  private Stimulus<E, ? super I>[] stimuli;
+  private final Stimulus<E, ? super I>[] stimuli;
   private final Iterator<E> elementsToInsert;
   private final Set<IteratorFeature> features;
   private final List<E> expectedElements;

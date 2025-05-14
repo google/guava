@@ -80,7 +80,7 @@ public class ResourcesTest extends IoTestCase {
     URL resource = getClass().getResource("testdata/alice_in_wonderland.txt");
     LineProcessor<List<String>> collectAndLowercaseAndTrim =
         new LineProcessor<List<String>>() {
-          List<String> collector = new ArrayList<>();
+          final List<String> collector = new ArrayList<>();
 
           @Override
           public boolean processLine(String line) {

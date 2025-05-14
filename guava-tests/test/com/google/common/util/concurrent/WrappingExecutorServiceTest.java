@@ -197,7 +197,7 @@ public class WrappingExecutorServiceTest extends TestCase {
   private static final class MockExecutor implements ExecutorService {
     private String lastMethodCalled = "";
     private long lastTimeoutInMillis = -1;
-    private ExecutorService inline = newDirectExecutorService();
+    private final ExecutorService inline = newDirectExecutorService();
 
     public void assertLastMethodCalled(String method) {
       assertEquals(method, lastMethodCalled);

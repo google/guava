@@ -36,7 +36,7 @@ public class AppendableWriterTest extends IoTestCase {
   private static class SpyAppendable implements Appendable, Flushable, Closeable {
     boolean flushed;
     boolean closed;
-    StringBuilder result = new StringBuilder();
+    final StringBuilder result = new StringBuilder();
 
     @Override
     public Appendable append(CharSequence csq) {

@@ -109,7 +109,7 @@ public class HashMultisetTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // Only used by @GwtIncompatible code
   private static class MultisetHolder implements Serializable {
-    public Multiset<?> member;
+    public final Multiset<?> member;
 
     MultisetHolder(Multiset<?> multiset) {
       this.member = multiset;

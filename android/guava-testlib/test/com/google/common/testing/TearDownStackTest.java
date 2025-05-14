@@ -30,7 +30,7 @@ import org.jspecify.annotations.Nullable;
 @NullUnmarked
 public class TearDownStackTest extends TestCase {
 
-  private TearDownStack tearDownStack = new TearDownStack();
+  private final TearDownStack tearDownStack = new TearDownStack();
 
   public void testSingleTearDown() throws Exception {
     TearDownStack stack = buildTearDownStack();

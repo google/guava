@@ -326,7 +326,7 @@ public class EventBusTest extends TestCase {
    * @author cbiffle
    */
   public static class GhostCatcher {
-    private List<DeadEvent> events = new ArrayList<>();
+    private final List<DeadEvent> events = new ArrayList<>();
 
     @Subscribe
     public void ohNoesIHaveDied(DeadEvent event) {

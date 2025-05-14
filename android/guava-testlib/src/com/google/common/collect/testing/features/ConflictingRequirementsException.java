@@ -28,8 +28,8 @@ import java.util.Set;
  */
 @GwtCompatible
 public class ConflictingRequirementsException extends Exception {
-  private Set<Feature<?>> conflicts;
-  private Object source;
+  private final Set<Feature<?>> conflicts;
+  private final Object source;
 
   public ConflictingRequirementsException(
       String message, Set<Feature<?>> conflicts, Object source) {
