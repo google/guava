@@ -44,10 +44,11 @@ import org.jspecify.annotations.Nullable;
  * </pre>
  *
  * @author Louis Wasserman
- * @since 21.0 (but since 33.5.0 in the Android flavor)
+ * @since NEXT (but since 21.0 in the JRE flavor)
  */
 @GwtCompatible
 @NullMarked
+@IgnoreJRERequirement // Users will use this only if they're already using Collector.
 public final class CollectorTester<
     T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object> {
   /**
@@ -82,6 +83,7 @@ public final class CollectorTester<
    * Different orderings for combining the elements of an input array, which must all produce the
    * same result.
    */
+  @IgnoreJRERequirement // *should* be redundant with the one on CollectorTester
   enum CollectStrategy {
     /** Get one accumulator and accumulate the elements into it sequentially. */
     SEQUENTIAL {
