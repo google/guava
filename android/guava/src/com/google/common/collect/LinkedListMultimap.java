@@ -25,6 +25,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -109,9 +110,9 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     @ParametricNullness final K key;
     @ParametricNullness V value;
     @Nullable Node<K, V> next; // the next node (with any key)
-    @Nullable Node<K, V> previous; // the previous node (with any key)
+    @Weak @Nullable Node<K, V> previous; // the previous node (with any key)
     @Nullable Node<K, V> nextSibling; // the next node with the same key
-    @Nullable Node<K, V> previousSibling; // the previous node with the same key
+    @Weak @Nullable Node<K, V> previousSibling; // the previous node with the same key
 
     Node(@ParametricNullness K key, @ParametricNullness V value) {
       this.key = key;
