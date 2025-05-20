@@ -16,6 +16,8 @@
 
 package com.google.common.hash;
 
+import static com.google.common.hash.BloomFilter.toBloomFilter;
+import static com.google.common.hash.Funnels.unencodedCharsFunnel;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -37,6 +39,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Stream;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
@@ -602,5 +605,14 @@ public class BloomFilterTest extends TestCase {
       key = random.get().nextInt();
     } while (key == GOLDEN_PRESENT_KEY);
     return key;
+  }
+
+  public void testToBloomFilter() {
+    BloomFilter<String> bf1 = BloomFilter.create(unencodedCharsFunnel(), 2);
+    bf1.put("1");
+    bf1.put("2");
+
+    assertEquals(bf1, Stream.of("1", "2").collect(toBloomFilter(unencodedCharsFunnel(), 2)));
+    assertEquals(bf1, Stream.of("2", "1").collect(toBloomFilter(unencodedCharsFunnel(), 2)));
   }
 }

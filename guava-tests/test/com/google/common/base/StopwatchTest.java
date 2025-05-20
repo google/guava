@@ -22,8 +22,10 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.FakeTicker;
+import java.time.Duration;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -32,7 +34,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible
+@GwtCompatible(emulated = true)
 @NullUnmarked
 public class StopwatchTest extends TestCase {
 
@@ -192,5 +194,15 @@ public class StopwatchTest extends TestCase {
     stopwatch.start();
     ticker.advance((long) (7.25 * 24 * 60 * 60 * 1000000000L));
     assertEquals("7.250 d", stopwatch.toString());
+  }
+
+  @GwtIncompatible
+  @J2ktIncompatible
+  public void testElapsed_duration() {
+    stopwatch.start();
+    ticker.advance(999999);
+    assertEquals(Duration.ofNanos(999999), stopwatch.elapsed());
+    ticker.advance(1);
+    assertEquals(Duration.ofMillis(1), stopwatch.elapsed());
   }
 }
