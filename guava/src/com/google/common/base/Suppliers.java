@@ -342,7 +342,13 @@ public final class Suppliers {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  /** Returns a supplier that always supplies {@code instance}. */
+  /**
+   * Returns a supplier that always supplies {@code instance}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code () -> instance}, but note that lambdas do not have
+   * human-readable {@link #toString()} representations and are not serializable. If you need a
+   * supplier that is serializable, use {@code (Supplier<T> & Serializable) () -> instance}.
+   */
   public static <T extends @Nullable Object> Supplier<T> ofInstance(
       @ParametricNullness T instance) {
     return new SupplierOfInstance<>(instance);
