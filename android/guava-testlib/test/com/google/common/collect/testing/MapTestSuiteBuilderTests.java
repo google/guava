@@ -341,8 +341,6 @@ public final class MapTestSuiteBuilderTests extends TestCase {
   }
 
   private static LinkageError newLinkageError(Throwable cause) {
-    LinkageError error = new LinkageError(cause.toString());
-    error.initCause(cause);
-    return error;
+    return new LinkageError(cause.toString(), cause);
   }
 }
