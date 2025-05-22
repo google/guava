@@ -281,7 +281,11 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="Supplier.html" title="interface in com.google.common.base">Supplier</a>&lt;T&gt;</span>&nbsp;<span class="element-name">ofInstance</span><wbr><span class="parameters">(T&nbsp;instance)</span></div>
-<div class="block">Returns a supplier that always supplies <code>instance</code>.</div>
+<div class="block">Returns a supplier that always supplies <code>instance</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>() -&gt; instance</code>, but note that lambdas do not have
+ human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations and are not serializable. If you need a
+ supplier that is serializable, use <code>(Supplier&lt;T&gt; &amp; Serializable) () -&gt; instance</code>.</div>
 </div>
 </section>
 </li>

@@ -6529,7 +6529,11 @@
       deprecated="not deprecated">
       <param name="instance" type="T extends java.lang.Object"/>
       <doc>
-      <![CDATA[Returns a supplier that always supplies {@code instance}.]]>
+      <![CDATA[Returns a supplier that always supplies {@code instance}.
+
+ <p><b>Discouraged:</b> Prefer using {@code () -> instance}, but note that lambdas do not have
+ human-readable {@link #toString()} representations and are not serializable. If you need a
+ supplier that is serializable, use {@code (Supplier<T> & Serializable) () -> instance}.]]>
       </doc>
     </method>
     <method name="synchronizedSupplier" return="com.google.common.base.Supplier&lt;T&gt;"
