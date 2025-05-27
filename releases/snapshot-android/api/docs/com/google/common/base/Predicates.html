@@ -259,7 +259,10 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">alwaysTrue</span>()</div>
-<div class="block">Returns a predicate that always evaluates to <code>true</code>.</div>
+<div class="block">Returns a predicate that always evaluates to <code>true</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>x -&gt; true</code>, but note that lambdas do not have
+ human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations and are not serializable.</div>
 </div>
 </section>
 </li>
@@ -270,7 +273,10 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>(<a href="../annotations/GwtCompatible.html#serializable()">serializable</a>=true)
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">alwaysFalse</span>()</div>
-<div class="block">Returns a predicate that always evaluates to <code>false</code>.</div>
+<div class="block">Returns a predicate that always evaluates to <code>false</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>x -&gt; false</code>, but note that lambdas do not have
+ human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations and are not serializable.</div>
 </div>
 </section>
 </li>
@@ -282,7 +288,10 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">isNull</span>()</div>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the object reference being tested is
- null.</div>
+ null.
+
+ <p><b>Discouraged:</b> Prefer using <code>x -&gt; x == null</code>, but note that lambdas do not have
+ human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations and are not serializable.</div>
 </div>
 </section>
 </li>
@@ -294,7 +303,10 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">notNull</span>()</div>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the object reference being tested is not
- null.</div>
+ null.
+
+ <p><b>Discouraged:</b> Prefer using <code>x -&gt; x != null</code>, but note that lambdas do not have
+ human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations and are not serializable.</div>
 </div>
 </section>
 </li>
@@ -305,7 +317,9 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">not</span><wbr><span class="parameters">(<a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;&nbsp;predicate)</span></div>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the given predicate evaluates to <code>
- false</code>.</div>
+ false</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>predicate.negate()</code>.</div>
 </div>
 </section>
 </li>
@@ -319,7 +333,9 @@ loadScripts(document, 'script');</script>
  <code>true</code>. The components are evaluated in order, and evaluation will be "short-circuited"
  as soon as a false predicate is found. It defensively copies the iterable passed in, so future
  changes to it won't alter the behavior of this predicate. If <code>components</code> is empty, the
- returned predicate will always evaluate to <code>true</code>.</div>
+ returned predicate will always evaluate to <code>true</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>first.and(second).and(third).and(...)</code>.</div>
 </div>
 </section>
 </li>
@@ -334,7 +350,9 @@ loadScripts(document, 'script');</script>
  <code>true</code>. The components are evaluated in order, and evaluation will be "short-circuited"
  as soon as a false predicate is found. It defensively copies the array passed in, so future
  changes to it won't alter the behavior of this predicate. If <code>components</code> is empty, the
- returned predicate will always evaluate to <code>true</code>.</div>
+ returned predicate will always evaluate to <code>true</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>first.and(second).and(third).and(...)</code>.</div>
 </div>
 </section>
 </li>
@@ -347,7 +365,9 @@ loadScripts(document, 'script');</script>
  <a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;second)</span></div>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if both of its components evaluate to <code>
  true</code>. The components are evaluated in order, and evaluation will be "short-circuited" as soon
- as a false predicate is found.</div>
+ as a false predicate is found.
+
+ <p><b>Discouraged:</b> Prefer using <code>first.and(second)</code>.</div>
 </div>
 </section>
 </li>
@@ -361,7 +381,9 @@ loadScripts(document, 'script');</script>
  <code>true</code>. The components are evaluated in order, and evaluation will be "short-circuited"
  as soon as a true predicate is found. It defensively copies the iterable passed in, so future
  changes to it won't alter the behavior of this predicate. If <code>components</code> is empty, the
- returned predicate will always evaluate to <code>false</code>.</div>
+ returned predicate will always evaluate to <code>false</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>first.or(second).or(third).or(...)</code>.</div>
 </div>
 </section>
 </li>
@@ -376,7 +398,9 @@ loadScripts(document, 'script');</script>
  <code>true</code>. The components are evaluated in order, and evaluation will be "short-circuited"
  as soon as a true predicate is found. It defensively copies the array passed in, so future
  changes to it won't alter the behavior of this predicate. If <code>components</code> is empty, the
- returned predicate will always evaluate to <code>false</code>.</div>
+ returned predicate will always evaluate to <code>false</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>first.or(second).or(third).or(...)</code>.</div>
 </div>
 </section>
 </li>
@@ -389,7 +413,9 @@ loadScripts(document, 'script');</script>
  <a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;second)</span></div>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if either of its components evaluates to
  <code>true</code>. The components are evaluated in order, and evaluation will be "short-circuited"
- as soon as a true predicate is found.</div>
+ as soon as a true predicate is found.
+
+ <p><b>Discouraged:</b> Prefer using <code>first.or(second)</code>.</div>
 </div>
 </section>
 </li>
@@ -400,7 +426,11 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;T&gt;</span>&nbsp;<span class="element-name">equalTo</span><wbr><span class="parameters">(T&nbsp;target)</span></div>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the object being tested <code>equals()</code>
- the given target or both are null.</div>
+ the given target or both are null.
+
+ <p><b>Discouraged:</b> Prefer using <code>x -&gt; Objects.equals(x, target)</code>, but note that
+ lambdas do not have human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations and are not
+ serializable.</div>
 </div>
 </section>
 </li>
@@ -420,7 +450,11 @@ loadScripts(document, 'script');</script>
  <p><b>Warning:</b> contrary to the typical assumptions about predicates (as documented at
  <a href="Predicate.html#apply(T)"><code>Predicate.apply(T)</code></a>), the returned predicate may not be <i>consistent with equals</i>. For
  example, <code>instanceOf(ArrayList.class)</code> will yield different results for the two equal
- instances <code>Lists.newArrayList(1)</code> and <code>Arrays.asList(1)</code>.</div>
+ instances <code>Lists.newArrayList(1)</code> and <code>Arrays.asList(1)</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>clazz::isInstance</code> or <code>x -&gt; x instanceof
+ Clazz</code>, but note that lambdas do not have human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations
+ and are not serializable.</div>
 </div>
 </section>
 </li>
@@ -442,7 +476,10 @@ return Iterables.filter(classes, subtypeOf(Number.class));
 </div>
 
 
- The code above returns an iterable containing <code>Number.class</code> and <code>Long.class</code>.</div>
+ The code above returns an iterable containing <code>Number.class</code> and <code>Long.class</code>.
+
+ <p><b>Discouraged:</b> Prefer using <code>clazz::isAssignableFrom</code> or <code>x -&gt;
+ clazz.isAssignableFrom(x)</code>, but note that lambdas do not have human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations and are not serializable.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0 (since 10.0 under the incorrect name <code>assignableFrom</code>)</dd>
@@ -475,7 +512,11 @@ return Iterables.filter(classes, subtypeOf(Number.class));
        using this method. For example, <code>not(in(target))</code> is generally more readable than
        <code>not(target::contains)</code>.
    <li>This method's name conflicts with Kotlin's <code>in</code> operator.
- </ul></div>
+ </ul>
+
+ <p><b>Discouraged:</b> Prefer using either <code>target::contains</code> or <code>x -&gt;
+ target.contains(x)</code>, but note that lambdas do not have human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a>
+ representations and are not serializable.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>target</code> - the collection that may contain the function input</dd>

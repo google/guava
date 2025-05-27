@@ -5307,7 +5307,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a predicate that always evaluates to {@code true}.]]>
+      <![CDATA[Returns a predicate that always evaluates to {@code true}.
+
+ <p><b>Discouraged:</b> Prefer using {@code x -> true}, but note that lambdas do not have
+ human-readable {@link #toString()} representations and are not serializable.]]>
       </doc>
     </method>
     <method name="alwaysFalse" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5315,7 +5318,10 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a predicate that always evaluates to {@code false}.]]>
+      <![CDATA[Returns a predicate that always evaluates to {@code false}.
+
+ <p><b>Discouraged:</b> Prefer using {@code x -> false}, but note that lambdas do not have
+ human-readable {@link #toString()} representations and are not serializable.]]>
       </doc>
     </method>
     <method name="isNull" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5324,7 +5330,10 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a predicate that evaluates to {@code true} if the object reference being tested is
- null.]]>
+ null.
+
+ <p><b>Discouraged:</b> Prefer using {@code x -> x == null}, but note that lambdas do not have
+ human-readable {@link #toString()} representations and are not serializable.]]>
       </doc>
     </method>
     <method name="notNull" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5333,7 +5342,10 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a predicate that evaluates to {@code true} if the object reference being tested is not
- null.]]>
+ null.
+
+ <p><b>Discouraged:</b> Prefer using {@code x -> x != null}, but note that lambdas do not have
+ human-readable {@link #toString()} representations and are not serializable.]]>
       </doc>
     </method>
     <method name="not" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5343,7 +5355,9 @@
       <param name="predicate" type="com.google.common.base.Predicate&lt;T&gt;"/>
       <doc>
       <![CDATA[Returns a predicate that evaluates to {@code true} if the given predicate evaluates to {@code
- false}.]]>
+ false}.
+
+ <p><b>Discouraged:</b> Prefer using {@code predicate.negate()}.]]>
       </doc>
     </method>
     <method name="and" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5356,7 +5370,9 @@
  {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
  as soon as a false predicate is found. It defensively copies the iterable passed in, so future
  changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
- returned predicate will always evaluate to {@code true}.]]>
+ returned predicate will always evaluate to {@code true}.
+
+ <p><b>Discouraged:</b> Prefer using {@code first.and(second).and(third).and(...)}.]]>
       </doc>
     </method>
     <method name="and" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5369,7 +5385,9 @@
  {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
  as soon as a false predicate is found. It defensively copies the array passed in, so future
  changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
- returned predicate will always evaluate to {@code true}.]]>
+ returned predicate will always evaluate to {@code true}.
+
+ <p><b>Discouraged:</b> Prefer using {@code first.and(second).and(third).and(...)}.]]>
       </doc>
     </method>
     <method name="and" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5381,7 +5399,9 @@
       <doc>
       <![CDATA[Returns a predicate that evaluates to {@code true} if both of its components evaluate to {@code
  true}. The components are evaluated in order, and evaluation will be "short-circuited" as soon
- as a false predicate is found.]]>
+ as a false predicate is found.
+
+ <p><b>Discouraged:</b> Prefer using {@code first.and(second)}.]]>
       </doc>
     </method>
     <method name="or" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5394,7 +5414,9 @@
  {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
  as soon as a true predicate is found. It defensively copies the iterable passed in, so future
  changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
- returned predicate will always evaluate to {@code false}.]]>
+ returned predicate will always evaluate to {@code false}.
+
+ <p><b>Discouraged:</b> Prefer using {@code first.or(second).or(third).or(...)}.]]>
       </doc>
     </method>
     <method name="or" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5407,7 +5429,9 @@
  {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
  as soon as a true predicate is found. It defensively copies the array passed in, so future
  changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
- returned predicate will always evaluate to {@code false}.]]>
+ returned predicate will always evaluate to {@code false}.
+
+ <p><b>Discouraged:</b> Prefer using {@code first.or(second).or(third).or(...)}.]]>
       </doc>
     </method>
     <method name="or" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5419,7 +5443,9 @@
       <doc>
       <![CDATA[Returns a predicate that evaluates to {@code true} if either of its components evaluates to
  {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
- as soon as a true predicate is found.]]>
+ as soon as a true predicate is found.
+
+ <p><b>Discouraged:</b> Prefer using {@code first.or(second)}.]]>
       </doc>
     </method>
     <method name="equalTo" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5429,7 +5455,11 @@
       <param name="target" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[Returns a predicate that evaluates to {@code true} if the object being tested {@code equals()}
- the given target or both are null.]]>
+ the given target or both are null.
+
+ <p><b>Discouraged:</b> Prefer using {@code x -> Objects.equals(x, target)}, but note that
+ lambdas do not have human-readable {@link #toString()} representations and are not
+ serializable.]]>
       </doc>
     </method>
     <method name="instanceOf" return="com.google.common.base.Predicate&lt;T&gt;"
@@ -5448,7 +5478,11 @@
  <p><b>Warning:</b> contrary to the typical assumptions about predicates (as documented at
  {@link Predicate#apply}), the returned predicate may not be <i>consistent with equals</i>. For
  example, {@code instanceOf(ArrayList.class)} will yield different results for the two equal
- instances {@code Lists.newArrayList(1)} and {@code Arrays.asList(1)}.]]>
+ instances {@code Lists.newArrayList(1)} and {@code Arrays.asList(1)}.
+
+ <p><b>Discouraged:</b> Prefer using {@code clazz::isInstance} or {@code x -> x instanceof
+ Clazz}, but note that lambdas do not have human-readable {@link #toString()} representations
+ and are not serializable.]]>
       </doc>
     </method>
     <method name="subtypeOf" return="com.google.common.base.Predicate&lt;java.lang.Class&lt;?&gt;&gt;"
@@ -5467,6 +5501,10 @@
  }
 
  The code above returns an iterable containing {@code Number.class} and {@code Long.class}.
+
+ <p><b>Discouraged:</b> Prefer using {@code clazz::isAssignableFrom} or {@code x ->
+ clazz.isAssignableFrom(x)}, but note that lambdas do not have human-readable {@link
+ #toString()} representations and are not serializable.
 
  @since 20.0 (since 10.0 under the incorrect name {@code assignableFrom})]]>
       </doc>
@@ -5497,6 +5535,10 @@
        {@code not(target::contains)}.
    <li>This method's name conflicts with Kotlin's {@code in} operator.
  </ul>
+
+ <p><b>Discouraged:</b> Prefer using either {@code target::contains} or {@code x ->
+ target.contains(x)}, but note that lambdas do not have human-readable {@link #toString()}
+ representations and are not serializable.
 
  @param target the collection that may contain the function input]]>
       </doc>
