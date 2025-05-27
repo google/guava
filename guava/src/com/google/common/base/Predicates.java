@@ -40,18 +40,24 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible(emulated = true)
 public final class Predicates {
-  private Predicates() {}
 
-  // TODO(kevinb): considering having these implement a VisitablePredicate
-  // interface which specifies an accept(PredicateVisitor) method.
-
-  /** Returns a predicate that always evaluates to {@code true}. */
+  /**
+   * Returns a predicate that always evaluates to {@code true}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code x -> true}, but note that lambdas do not have
+   * human-readable {@link #toString()} representations and are not serializable.
+   */
   @GwtCompatible(serializable = true)
   public static <T extends @Nullable Object> Predicate<T> alwaysTrue() {
     return ObjectPredicate.ALWAYS_TRUE.withNarrowedType();
   }
 
-  /** Returns a predicate that always evaluates to {@code false}. */
+  /**
+   * Returns a predicate that always evaluates to {@code false}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code x -> false}, but note that lambdas do not have
+   * human-readable {@link #toString()} representations and are not serializable.
+   */
   @GwtCompatible(serializable = true)
   public static <T extends @Nullable Object> Predicate<T> alwaysFalse() {
     return ObjectPredicate.ALWAYS_FALSE.withNarrowedType();
@@ -60,6 +66,9 @@ public final class Predicates {
   /**
    * Returns a predicate that evaluates to {@code true} if the object reference being tested is
    * null.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code x -> x == null}, but note that lambdas do not have
+   * human-readable {@link #toString()} representations and are not serializable.
    */
   @GwtCompatible(serializable = true)
   public static <T extends @Nullable Object> Predicate<T> isNull() {
@@ -69,6 +78,9 @@ public final class Predicates {
   /**
    * Returns a predicate that evaluates to {@code true} if the object reference being tested is not
    * null.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code x -> x != null}, but note that lambdas do not have
+   * human-readable {@link #toString()} representations and are not serializable.
    */
   @GwtCompatible(serializable = true)
   public static <T extends @Nullable Object> Predicate<T> notNull() {
@@ -78,6 +90,8 @@ public final class Predicates {
   /**
    * Returns a predicate that evaluates to {@code true} if the given predicate evaluates to {@code
    * false}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code predicate.negate()}.
    */
   public static <T extends @Nullable Object> Predicate<T> not(Predicate<T> predicate) {
     return new NotPredicate<>(predicate);
@@ -89,6 +103,8 @@ public final class Predicates {
    * as soon as a false predicate is found. It defensively copies the iterable passed in, so future
    * changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
    * returned predicate will always evaluate to {@code true}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code first.and(second).and(third).and(...)}.
    */
   public static <T extends @Nullable Object> Predicate<T> and(
       Iterable<? extends Predicate<? super T>> components) {
@@ -101,6 +117,8 @@ public final class Predicates {
    * as soon as a false predicate is found. It defensively copies the array passed in, so future
    * changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
    * returned predicate will always evaluate to {@code true}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code first.and(second).and(third).and(...)}.
    */
   @SafeVarargs
   public static <T extends @Nullable Object> Predicate<T> and(Predicate<? super T>... components) {
@@ -111,6 +129,8 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if both of its components evaluate to {@code
    * true}. The components are evaluated in order, and evaluation will be "short-circuited" as soon
    * as a false predicate is found.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code first.and(second)}.
    */
   public static <T extends @Nullable Object> Predicate<T> and(
       Predicate<? super T> first, Predicate<? super T> second) {
@@ -123,6 +143,8 @@ public final class Predicates {
    * as soon as a true predicate is found. It defensively copies the iterable passed in, so future
    * changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
    * returned predicate will always evaluate to {@code false}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code first.or(second).or(third).or(...)}.
    */
   public static <T extends @Nullable Object> Predicate<T> or(
       Iterable<? extends Predicate<? super T>> components) {
@@ -135,6 +157,8 @@ public final class Predicates {
    * as soon as a true predicate is found. It defensively copies the array passed in, so future
    * changes to it won't alter the behavior of this predicate. If {@code components} is empty, the
    * returned predicate will always evaluate to {@code false}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code first.or(second).or(third).or(...)}.
    */
   @SafeVarargs
   public static <T extends @Nullable Object> Predicate<T> or(Predicate<? super T>... components) {
@@ -145,6 +169,8 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if either of its components evaluates to
    * {@code true}. The components are evaluated in order, and evaluation will be "short-circuited"
    * as soon as a true predicate is found.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code first.or(second)}.
    */
   public static <T extends @Nullable Object> Predicate<T> or(
       Predicate<? super T> first, Predicate<? super T> second) {
@@ -154,6 +180,10 @@ public final class Predicates {
   /**
    * Returns a predicate that evaluates to {@code true} if the object being tested {@code equals()}
    * the given target or both are null.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code x -> Objects.equals(x, target)}, but note that
+   * lambdas do not have human-readable {@link #toString()} representations and are not
+   * serializable.
    */
   public static <T extends @Nullable Object> Predicate<T> equalTo(@ParametricNullness T target) {
     return (target == null)
@@ -173,6 +203,10 @@ public final class Predicates {
    * {@link Predicate#apply}), the returned predicate may not be <i>consistent with equals</i>. For
    * example, {@code instanceOf(ArrayList.class)} will yield different results for the two equal
    * instances {@code Lists.newArrayList(1)} and {@code Arrays.asList(1)}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code clazz::isInstance} or {@code x -> x instanceof
+   * Clazz}, but note that lambdas do not have human-readable {@link #toString()} representations
+   * and are not serializable.
    */
   @GwtIncompatible // Class.isInstance
   public static <T extends @Nullable Object> Predicate<T> instanceOf(Class<?> clazz) {
@@ -190,6 +224,10 @@ public final class Predicates {
    * }
    *
    * The code above returns an iterable containing {@code Number.class} and {@code Long.class}.
+   *
+   * <p><b>Discouraged:</b> Prefer using {@code clazz::isAssignableFrom} or {@code x ->
+   * clazz.isAssignableFrom(x)}, but note that lambdas do not have human-readable {@link
+   * #toString()} representations and are not serializable.
    *
    * @since 20.0 (since 10.0 under the incorrect name {@code assignableFrom})
    */
@@ -220,6 +258,10 @@ public final class Predicates {
    *       {@code not(target::contains)}.
    *   <li>This method's name conflicts with Kotlin's {@code in} operator.
    * </ul>
+   *
+   * <p><b>Discouraged:</b> Prefer using either {@code target::contains} or {@code x ->
+   * target.contains(x)}, but note that lambdas do not have human-readable {@link #toString()}
+   * representations and are not serializable.
    *
    * @param target the collection that may contain the function input
    */
@@ -766,4 +808,6 @@ public final class Predicates {
     }
     return list;
   }
+
+  private Predicates() {}
 }
