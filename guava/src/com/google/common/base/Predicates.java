@@ -67,8 +67,9 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if the object reference being tested is
    * null.
    *
-   * <p><b>Discouraged:</b> Prefer using {@code x -> x == null}, but note that lambdas do not have
-   * human-readable {@link #toString()} representations and are not serializable.
+   * <p><b>Discouraged:</b> Prefer using either {@code x -> x == null} or {@code Objects::isNull},
+   * but note that lambdas and method references do not have human-readable {@link #toString()}
+   * representations and are not serializable.
    */
   @GwtCompatible(serializable = true)
   public static <T extends @Nullable Object> Predicate<T> isNull() {
@@ -79,8 +80,9 @@ public final class Predicates {
    * Returns a predicate that evaluates to {@code true} if the object reference being tested is not
    * null.
    *
-   * <p><b>Discouraged:</b> Prefer using {@code x -> x != null}, but note that lambdas do not have
-   * human-readable {@link #toString()} representations and are not serializable.
+   * <p><b>Discouraged:</b> Prefer using either {@code x -> x != null} or {@code Objects::nonNull},
+   * but note that lambdas and method references do not have human-readable {@link #toString()}
+   * representations and are not serializable.
    */
   @GwtCompatible(serializable = true)
   public static <T extends @Nullable Object> Predicate<T> notNull() {
