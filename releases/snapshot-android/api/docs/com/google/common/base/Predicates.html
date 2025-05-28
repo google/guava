@@ -290,8 +290,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the object reference being tested is
  null.
 
- <p><b>Discouraged:</b> Prefer using <code>x -&gt; x == null</code>, but note that lambdas do not have
- human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations and are not serializable.</div>
+ <p><b>Discouraged:</b> Prefer using either <code>x -&gt; x == null</code> or <code>Objects::isNull</code>,
+ but note that lambdas and method references do not have human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a>
+ representations and are not serializable.</div>
 </div>
 </section>
 </li>
@@ -305,8 +306,9 @@ loadScripts(document, 'script');</script>
 <div class="block">Returns a predicate that evaluates to <code>true</code> if the object reference being tested is not
  null.
 
- <p><b>Discouraged:</b> Prefer using <code>x -&gt; x != null</code>, but note that lambdas do not have
- human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a> representations and are not serializable.</div>
+ <p><b>Discouraged:</b> Prefer using either <code>x -&gt; x != null</code> or <code>Objects::nonNull</code>,
+ but note that lambdas and method references do not have human-readable <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link"><code>Object.toString()</code></a>
+ representations and are not serializable.</div>
 </div>
 </section>
 </li>
