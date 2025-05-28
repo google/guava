@@ -549,7 +549,29 @@ public final class NullPointerTester {
   }
 
   private boolean isIgnored(Member member) {
-    return member.isSynthetic() || ignoredMembers.contains(member) || isEquals(member);
+    return member.isSynthetic()
+        || ignoredMembers.contains(member)
+        || isEquals(member)
+        /*
+         * We can assume that Kotlin code is performing the null checks that we want, since kotlinc
+         * inserts checks automatically for non-private functions (which are the only kind that we
+         * check).
+         *
+         * We *would* just check such functions redundantly, but kotlinc emits its nullness
+         * annotations in the form of JetBrains annotations, which have only class retention and
+         * thus are invisible at runtime. Thus, we conclude that the parameter types are
+         * *non*-nullable, even when they are declared as `Foo?`.
+         */
+        || hasAutomaticNullChecksFromKotlin(member);
+  }
+
+  private static boolean hasAutomaticNullChecksFromKotlin(Member member) {
+    for (Annotation annotation : member.getDeclaringClass().getAnnotations()) {
+      if (annotation.annotationType().getName().equals("kotlin.Metadata")) {
+        return true;
+      }
+    }
+    return false;
   }
 
   /**
