@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.JdkFutureAdapters.listenInPoolThread;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
@@ -235,18 +236,18 @@ public class JdkFutureAdaptersTest extends TestCase {
     }
   }
 
-  @SuppressWarnings("IsInstanceIncompatibleType") // intentional.
   public void testListenInPoolThreadRunsListenerAfterRuntimeException() throws Exception {
     RuntimeExceptionThrowingFuture<String> input = new RuntimeExceptionThrowingFuture<>();
     /*
-     * The compiler recognizes that "input instanceof ListenableFuture" is
-     * impossible. We want the test, though, in case that changes in the future,
-     * so we use isInstance instead.
+     * RuntimeExceptionThrowingFuture is provably not a ListenableFuture at compile time, so this
+     * code may someday upset Error Prone. We want the test, though, in case that changes in the
+     * future, so we will suppress any such future Error Prone reports.
      */
-    assertFalse(
-        "Can't test the main listenInPoolThread path "
-            + "if the input is already a ListenableFuture",
-        ListenableFuture.class.isInstance(input));
+    assertWithMessage(
+            "Can't test the main listenInPoolThread path "
+                + "if the input is already a ListenableFuture")
+        .that(input)
+        .isNotInstanceOf(ListenableFuture.class);
     ListenableFuture<String> listenable = listenInPoolThread(input);
     /*
      * This will occur before the waiting get() in the
