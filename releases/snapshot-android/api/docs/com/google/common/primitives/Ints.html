@@ -428,7 +428,9 @@ loadScripts(document, 'script');</script>
 <h3>checkedCast</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">checkedCast</span><wbr><span class="parameters">(long&nbsp;value)</span></div>
-<div class="block">Returns the <code>int</code> value that is equal to <code>value</code>, if possible.</div>
+<div class="block">Returns the <code>int</code> value that is equal to <code>value</code>, if possible.
+
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#toIntExact(long)" title="class or interface in java.lang" class="external-link"><code>Math.toIntExact(long)</code></a> instead, but be aware that that method throws <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link"><code>ArithmeticException</code></a> rather than <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link"><code>IllegalArgumentException</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>value</code> - any value in the range of the <code>int</code> type</dd>
