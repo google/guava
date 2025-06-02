@@ -83,6 +83,10 @@ public final class Ints extends IntsMethodsForWeb {
   /**
    * Returns the {@code int} value that is equal to {@code value}, if possible.
    *
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Use {@link
+   * Math#toIntExact(long)} instead, but be aware that that method throws {@link
+   * ArithmeticException} rather than {@link IllegalArgumentException}.
+   *
    * @param value any value in the range of the {@code int} type
    * @return the {@code int} value that equals {@code value}
    * @throws IllegalArgumentException if {@code value} is greater than {@link Integer#MAX_VALUE} or
