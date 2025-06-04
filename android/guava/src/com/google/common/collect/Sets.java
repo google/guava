@@ -1627,7 +1627,7 @@ public final class Sets {
    * @see <a href="http://en.wikipedia.org/wiki/Power_set">Power set article at Wikipedia</a>
    * @since 4.0
    */
-  @GwtCompatible(serializable = false)
+  @GwtCompatible
   public static <E> Set<Set<E>> powerSet(Set<E> set) {
     return new PowerSet<E>(set);
   }
