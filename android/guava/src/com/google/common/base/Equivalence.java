@@ -260,7 +260,7 @@ public abstract class Equivalence<T> {
    *
    * @since 10.0
    */
-  @GwtCompatible(serializable = true)
+  @GwtCompatible
   public final <S extends @Nullable T> Equivalence<Iterable<S>> pairwise() {
     // Ideally, the returned equivalence would support Iterable<? extends T>. However,
     // the need for this is so rare that it's not worth making callers deal with the ugly wildcard.

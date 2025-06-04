@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 import org.jspecify.annotations.Nullable;
 
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class PairwiseEquivalence<E, T extends @Nullable E> extends Equivalence<Iterable<T>>
     implements Serializable {
   final Equivalence<E> elementEquivalence;

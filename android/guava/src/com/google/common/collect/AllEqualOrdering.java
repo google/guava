@@ -28,7 +28,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Emily Soldal
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class AllEqualOrdering extends Ordering<@Nullable Object> implements Serializable {
   static final AllEqualOrdering INSTANCE = new AllEqualOrdering();
 

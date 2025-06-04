@@ -25,7 +25,7 @@ import java.io.Serializable;
 import java.util.Iterator;
 
 /** An ordering that uses the reverse of the natural order of the values. */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class ReverseNaturalOrdering extends Ordering<Comparable<?>> implements Serializable {
   static final ReverseNaturalOrdering INSTANCE = new ReverseNaturalOrdering();
 

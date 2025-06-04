@@ -24,7 +24,7 @@ import java.util.List;
 import org.jspecify.annotations.Nullable;
 
 /** An ordering that compares objects according to a given order. */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class ExplicitOrdering<T> extends Ordering<T> implements Serializable {
   final ImmutableMap<T, Integer> rankMap;
 

@@ -36,7 +36,7 @@ import org.jspecify.annotations.Nullable;
  * @author Colin Evans
  * @since 11.0
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 public final class UnsignedLong extends Number implements Comparable<UnsignedLong> {
 
   private static final long UNSIGNED_MASK = 0x7fffffffffffffffL;

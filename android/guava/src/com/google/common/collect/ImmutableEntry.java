@@ -27,7 +27,7 @@ import org.jspecify.annotations.Nullable;
  * com.google.common.collect.Maps#immutableEntry(Object, Object)} and by other parts of {@code
  * common.collect} as a superclass.
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 class ImmutableEntry<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMapEntry<K, V> implements Serializable {
   @ParametricNullness final K key;

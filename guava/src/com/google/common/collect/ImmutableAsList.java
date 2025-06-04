@@ -31,7 +31,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial")
 abstract class ImmutableAsList<E> extends ImmutableList<E> {
   abstract ImmutableCollection<E> delegateCollection();

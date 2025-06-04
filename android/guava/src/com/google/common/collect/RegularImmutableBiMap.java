@@ -27,7 +27,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY = new RegularImmutableBiMap<>();

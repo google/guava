@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   private static final byte ABSENT = -1;
 

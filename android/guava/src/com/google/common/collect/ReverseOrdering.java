@@ -26,7 +26,7 @@ import java.util.Iterator;
 import org.jspecify.annotations.Nullable;
 
 /** An ordering that uses the reverse of a given order. */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class ReverseOrdering<T extends @Nullable Object> extends Ordering<T>
     implements Serializable {
   final Ordering<? super T> forwardOrder;

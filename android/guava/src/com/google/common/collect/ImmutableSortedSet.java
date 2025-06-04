@@ -59,7 +59,7 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0 (implements {@code NavigableSet} since 12.0)
  */
 // TODO(benyu): benchmark and optimize all creation paths, which are a mess now
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
     implements NavigableSet<E>, SortedIterable<E> {

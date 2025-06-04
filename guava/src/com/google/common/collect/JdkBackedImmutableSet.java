@@ -27,7 +27,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class JdkBackedImmutableSet<E> extends IndexedImmutableSet<E> {
   private final Set<?> delegate;
   private final ImmutableList<E> delegateList;

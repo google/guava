@@ -26,7 +26,7 @@ import java.util.Collection;
  *
  * @author Mike Ward
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 class EmptyImmutableSetMultimap extends ImmutableSetMultimap<Object, Object> {
   static final EmptyImmutableSetMultimap INSTANCE = new EmptyImmutableSetMultimap();
 

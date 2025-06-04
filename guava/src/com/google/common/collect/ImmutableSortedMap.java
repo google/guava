@@ -62,7 +62,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 2.0 (implements {@code NavigableMap} since 12.0)
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
     implements NavigableMap<K, V> {
   /**

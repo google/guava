@@ -31,7 +31,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class RegularImmutableSet<E> extends ImmutableSet.CachingAsList<E> {
   private static final Object[] EMPTY_ARRAY = new Object[0];

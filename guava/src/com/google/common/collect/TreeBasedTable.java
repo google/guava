@@ -70,7 +70,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 7.0
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
 

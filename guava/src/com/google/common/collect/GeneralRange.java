@@ -36,7 +36,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class GeneralRange<T extends @Nullable Object> implements Serializable {
   /** Converts a Range to a GeneralRange. */
   @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989

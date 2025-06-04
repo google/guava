@@ -25,7 +25,7 @@ import java.util.Comparator;
 import org.jspecify.annotations.Nullable;
 
 /** An ordering that tries several comparators in order. */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class CompoundOrdering<T extends @Nullable Object> extends Ordering<T>
     implements Serializable {
   final Comparator<? super T>[] comparators;

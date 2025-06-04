@@ -59,7 +59,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 public final class ArrayListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ArrayListMultimapGwtSerializationDependencies<K, V> {
   // Default from ArrayList

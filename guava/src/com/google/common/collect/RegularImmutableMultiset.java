@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true, serializable = true)
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   private static final ImmutableEntry<?>[] EMPTY_ARRAY = new ImmutableEntry<?>[0];

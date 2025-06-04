@@ -85,7 +85,7 @@ import org.jspecify.annotations.Nullable;
  * @since 10.0
  */
 @DoNotMock("Use Optional.of(value) or Optional.absent()")
-@GwtCompatible(serializable = true)
+@GwtCompatible
 public abstract class Optional<T> implements Serializable {
   /**
    * Returns an {@code Optional} instance with no contained reference.

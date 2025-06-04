@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 @SuppressWarnings({"serial", "rawtypes"})
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =

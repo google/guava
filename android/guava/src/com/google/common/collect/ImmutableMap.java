@@ -65,7 +65,7 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @DoNotMock("Use ImmutableMap.of or another implementation")
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 

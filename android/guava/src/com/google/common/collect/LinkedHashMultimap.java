@@ -78,7 +78,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends LinkedHashMultimapGwtSerializationDependencies<K, V> {
 

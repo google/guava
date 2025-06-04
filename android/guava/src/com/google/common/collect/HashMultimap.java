@@ -49,7 +49,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 public final class HashMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends HashMultimapGwtSerializationDependencies<K, V> {
   private static final int DEFAULT_VALUES_PER_KEY = 2;

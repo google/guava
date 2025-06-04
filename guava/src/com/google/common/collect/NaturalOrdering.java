@@ -26,7 +26,7 @@ import java.io.Serializable;
 import org.jspecify.annotations.Nullable;
 
 /** An ordering that uses the natural order of the values. */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class NaturalOrdering extends Ordering<Comparable<?>> implements Serializable {
   static final NaturalOrdering INSTANCE = new NaturalOrdering();
 

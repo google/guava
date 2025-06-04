@@ -24,7 +24,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 /** An ordering that treats {@code null} as less than all other values. */
-@GwtCompatible(serializable = true)
+@GwtCompatible
 final class NullsFirstOrdering<T extends @Nullable Object> extends Ordering<@Nullable T>
     implements Serializable {
   final Ordering<? super T> ordering;
