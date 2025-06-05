@@ -1,0 +1,124 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2007 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.base;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import org.jspecify.annotations.Nullable;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">/**</a>
+<span class="sourceLineNo">021</span><a id="line.21"> * Legacy version of {@link java.util.function.Supplier java.util.function.Supplier}. Semantically,</a>
+<span class="sourceLineNo">022</span><a id="line.22"> * this could be a factory, generator, builder, closure, or something else entirely. No guarantees</a>
+<span class="sourceLineNo">023</span><a id="line.23"> * are implied by this interface.</a>
+<span class="sourceLineNo">024</span><a id="line.24"> *</a>
+<span class="sourceLineNo">025</span><a id="line.25"> * &lt;p&gt;The {@link Suppliers} class provides common suppliers and related utilities.</a>
+<span class="sourceLineNo">026</span><a id="line.26"> *</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * &lt;p&gt;As this interface extends {@code java.util.function.Supplier}, an instance of this type can be</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * used as a {@code java.util.function.Supplier} directly. To use a {@code</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * java.util.function.Supplier} in a context where a {@code com.google.common.base.Supplier} is</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * needed, use {@code supplier::get}.</a>
+<span class="sourceLineNo">031</span><a id="line.31"> *</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * &lt;p&gt;See the Guava User Guide article on &lt;a</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * href="https://github.com/google/guava/wiki/FunctionalExplained"&gt;the use of {@code Function}&lt;/a&gt;.</a>
+<span class="sourceLineNo">034</span><a id="line.34"> *</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * @author Harry Heymann</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * @since 2.0</a>
+<span class="sourceLineNo">037</span><a id="line.37"> */</a>
+<span class="sourceLineNo">038</span><a id="line.38">@GwtCompatible</a>
+<span class="sourceLineNo">039</span><a id="line.39">@FunctionalInterface</a>
+<span class="sourceLineNo">040</span><a id="line.40">public interface Supplier&lt;T extends @Nullable Object&gt; extends java.util.function.Supplier&lt;T&gt; {</a>
+<span class="sourceLineNo">041</span><a id="line.41">  /**</a>
+<span class="sourceLineNo">042</span><a id="line.42">   * Retrieves an instance of the appropriate type. The returned object may or may not be a new</a>
+<span class="sourceLineNo">043</span><a id="line.43">   * instance, depending on the implementation.</a>
+<span class="sourceLineNo">044</span><a id="line.44">   *</a>
+<span class="sourceLineNo">045</span><a id="line.45">   * @return an instance of the appropriate type</a>
+<span class="sourceLineNo">046</span><a id="line.46">   */</a>
+<span class="sourceLineNo">047</span><a id="line.47">  @Override</a>
+<span class="sourceLineNo">048</span><a id="line.48">  @ParametricNullness</a>
+<span class="sourceLineNo">049</span><a id="line.49">  T get();</a>
+<span class="sourceLineNo">050</span><a id="line.50">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

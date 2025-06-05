@@ -1,0 +1,136 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2010 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package com.google.common.collect;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.util.List;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import org.jspecify.annotations.Nullable;</a>
+<span class="sourceLineNo">023</span><a id="line.23"></a>
+<span class="sourceLineNo">024</span><a id="line.24">/**</a>
+<span class="sourceLineNo">025</span><a id="line.25"> * A list multimap which forwards all its method calls to another list multimap. Subclasses should</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * override one or more methods to modify the behavior of the backing multimap as desired per the &lt;a</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * href="http://en.wikipedia.org/wiki/Decorator_pattern"&gt;decorator pattern&lt;/a&gt;.</a>
+<span class="sourceLineNo">028</span><a id="line.28"> *</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * &lt;p&gt;&lt;b&gt;{@code default} method warning:&lt;/b&gt; This class does &lt;i&gt;not&lt;/i&gt; forward calls to {@code</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * default} methods. Instead, it inherits their default implementations. When those implementations</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * invoke methods, they invoke methods on the {@code ForwardingListMultimap}.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> *</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * @author Kurt Alfred Kluever</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * @since 3.0</a>
+<span class="sourceLineNo">035</span><a id="line.35"> */</a>
+<span class="sourceLineNo">036</span><a id="line.36">@GwtCompatible</a>
+<span class="sourceLineNo">037</span><a id="line.37">public abstract class ForwardingListMultimap&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">038</span><a id="line.38">    extends ForwardingMultimap&lt;K, V&gt; implements ListMultimap&lt;K, V&gt; {</a>
+<span class="sourceLineNo">039</span><a id="line.39"></a>
+<span class="sourceLineNo">040</span><a id="line.40">  /** Constructor for use by subclasses. */</a>
+<span class="sourceLineNo">041</span><a id="line.41">  protected ForwardingListMultimap() {}</a>
+<span class="sourceLineNo">042</span><a id="line.42"></a>
+<span class="sourceLineNo">043</span><a id="line.43">  @Override</a>
+<span class="sourceLineNo">044</span><a id="line.44">  protected abstract ListMultimap&lt;K, V&gt; delegate();</a>
+<span class="sourceLineNo">045</span><a id="line.45"></a>
+<span class="sourceLineNo">046</span><a id="line.46">  @Override</a>
+<span class="sourceLineNo">047</span><a id="line.47">  public List&lt;V&gt; get(@ParametricNullness K key) {</a>
+<span class="sourceLineNo">048</span><a id="line.48">    return delegate().get(key);</a>
+<span class="sourceLineNo">049</span><a id="line.49">  }</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">052</span><a id="line.52">  @Override</a>
+<span class="sourceLineNo">053</span><a id="line.53">  public List&lt;V&gt; removeAll(@Nullable Object key) {</a>
+<span class="sourceLineNo">054</span><a id="line.54">    return delegate().removeAll(key);</a>
+<span class="sourceLineNo">055</span><a id="line.55">  }</a>
+<span class="sourceLineNo">056</span><a id="line.56"></a>
+<span class="sourceLineNo">057</span><a id="line.57">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">058</span><a id="line.58">  @Override</a>
+<span class="sourceLineNo">059</span><a id="line.59">  public List&lt;V&gt; replaceValues(@ParametricNullness K key, Iterable&lt;? extends V&gt; values) {</a>
+<span class="sourceLineNo">060</span><a id="line.60">    return delegate().replaceValues(key, values);</a>
+<span class="sourceLineNo">061</span><a id="line.61">  }</a>
+<span class="sourceLineNo">062</span><a id="line.62">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

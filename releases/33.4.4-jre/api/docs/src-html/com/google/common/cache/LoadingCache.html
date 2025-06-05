@@ -1,0 +1,240 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2011 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.cache;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import com.google.common.base.Function;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.collect.ImmutableMap;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.util.concurrent.ExecutionError;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.util.concurrent.UncheckedExecutionException;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.util.concurrent.ConcurrentMap;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.util.concurrent.ExecutionException;</a>
+<span class="sourceLineNo">025</span><a id="line.25"></a>
+<span class="sourceLineNo">026</span><a id="line.26">/**</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * A semi-persistent mapping from keys to values. Values are automatically loaded by the cache, and</a>
+<span class="sourceLineNo">028</span><a id="line.28"> * are stored in the cache until either evicted or manually invalidated. The common way to build</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * instances is using {@link CacheBuilder}.</a>
+<span class="sourceLineNo">030</span><a id="line.30"> *</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * &lt;p&gt;Implementations of this interface are expected to be thread-safe, and can be safely accessed</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * by multiple concurrent threads.</a>
+<span class="sourceLineNo">033</span><a id="line.33"> *</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * &lt;p&gt;When evaluated as a {@link Function}, a cache yields the same result as invoking {@link</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * #getUnchecked}.</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * @param &lt;K&gt; the type of the cache's keys, which are not permitted to be null</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * @param &lt;V&gt; the type of the cache's values, which are not permitted to be null</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * @author Charles Fry</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * @since 11.0</a>
+<span class="sourceLineNo">041</span><a id="line.41"> */</a>
+<span class="sourceLineNo">042</span><a id="line.42">@GwtCompatible</a>
+<span class="sourceLineNo">043</span><a id="line.43">public interface LoadingCache&lt;K, V&gt; extends Cache&lt;K, V&gt;, Function&lt;K, V&gt; {</a>
+<span class="sourceLineNo">044</span><a id="line.44"></a>
+<span class="sourceLineNo">045</span><a id="line.45">  /**</a>
+<span class="sourceLineNo">046</span><a id="line.46">   * Returns the value associated with {@code key} in this cache, first loading that value if</a>
+<span class="sourceLineNo">047</span><a id="line.47">   * necessary. No observable state associated with this cache is modified until loading completes.</a>
+<span class="sourceLineNo">048</span><a id="line.48">   *</a>
+<span class="sourceLineNo">049</span><a id="line.49">   * &lt;p&gt;If another call to {@link #get} or {@link #getUnchecked} is currently loading the value for</a>
+<span class="sourceLineNo">050</span><a id="line.50">   * {@code key}, simply waits for that thread to finish and returns its loaded value. Note that</a>
+<span class="sourceLineNo">051</span><a id="line.51">   * multiple threads can concurrently load values for distinct keys.</a>
+<span class="sourceLineNo">052</span><a id="line.52">   *</a>
+<span class="sourceLineNo">053</span><a id="line.53">   * &lt;p&gt;Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#load} to load new values</a>
+<span class="sourceLineNo">054</span><a id="line.54">   * into the cache. Newly loaded values are added to the cache using {@code</a>
+<span class="sourceLineNo">055</span><a id="line.55">   * Cache.asMap().putIfAbsent} after loading has completed; if another value was associated with</a>
+<span class="sourceLineNo">056</span><a id="line.56">   * {@code key} while the new value was loading then a removal notification will be sent for the</a>
+<span class="sourceLineNo">057</span><a id="line.57">   * new value.</a>
+<span class="sourceLineNo">058</span><a id="line.58">   *</a>
+<span class="sourceLineNo">059</span><a id="line.59">   * &lt;p&gt;If the cache loader associated with this cache is known not to throw checked exceptions,</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * then prefer {@link #getUnchecked} over this method.</a>
+<span class="sourceLineNo">061</span><a id="line.61">   *</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * @throws ExecutionException if a checked exception was thrown while loading the value. ({@code</a>
+<span class="sourceLineNo">063</span><a id="line.63">   *     ExecutionException} is thrown &lt;a</a>
+<span class="sourceLineNo">064</span><a id="line.64">   *     href="https://github.com/google/guava/wiki/CachesExplained#interruption"&gt;even if</a>
+<span class="sourceLineNo">065</span><a id="line.65">   *     computation was interrupted by an {@code InterruptedException}&lt;/a&gt;.)</a>
+<span class="sourceLineNo">066</span><a id="line.66">   * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the</a>
+<span class="sourceLineNo">067</span><a id="line.67">   *     value</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * @throws ExecutionError if an error was thrown while loading the value</a>
+<span class="sourceLineNo">069</span><a id="line.69">   */</a>
+<span class="sourceLineNo">070</span><a id="line.70">  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?</a>
+<span class="sourceLineNo">071</span><a id="line.71">  V get(K key) throws ExecutionException;</a>
+<span class="sourceLineNo">072</span><a id="line.72"></a>
+<span class="sourceLineNo">073</span><a id="line.73">  /**</a>
+<span class="sourceLineNo">074</span><a id="line.74">   * Returns the value associated with {@code key} in this cache, first loading that value if</a>
+<span class="sourceLineNo">075</span><a id="line.75">   * necessary. No observable state associated with this cache is modified until loading completes.</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * Unlike {@link #get}, this method does not throw a checked exception, and thus should only be</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * used in situations where checked exceptions are not thrown by the cache loader.</a>
+<span class="sourceLineNo">078</span><a id="line.78">   *</a>
+<span class="sourceLineNo">079</span><a id="line.79">   * &lt;p&gt;If another call to {@link #get} or {@link #getUnchecked} is currently loading the value for</a>
+<span class="sourceLineNo">080</span><a id="line.80">   * {@code key}, simply waits for that thread to finish and returns its loaded value. Note that</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * multiple threads can concurrently load values for distinct keys.</a>
+<span class="sourceLineNo">082</span><a id="line.82">   *</a>
+<span class="sourceLineNo">083</span><a id="line.83">   * &lt;p&gt;Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#load} to load new values</a>
+<span class="sourceLineNo">084</span><a id="line.84">   * into the cache. Newly loaded values are added to the cache using {@code</a>
+<span class="sourceLineNo">085</span><a id="line.85">   * Cache.asMap().putIfAbsent} after loading has completed; if another value was associated with</a>
+<span class="sourceLineNo">086</span><a id="line.86">   * {@code key} while the new value was loading then a removal notification will be sent for the</a>
+<span class="sourceLineNo">087</span><a id="line.87">   * new value.</a>
+<span class="sourceLineNo">088</span><a id="line.88">   *</a>
+<span class="sourceLineNo">089</span><a id="line.89">   * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; this method silently converts checked exceptions to unchecked exceptions,</a>
+<span class="sourceLineNo">090</span><a id="line.90">   * and should not be used with cache loaders which throw checked exceptions. In such cases use</a>
+<span class="sourceLineNo">091</span><a id="line.91">   * {@link #get} instead.</a>
+<span class="sourceLineNo">092</span><a id="line.92">   *</a>
+<span class="sourceLineNo">093</span><a id="line.93">   * @throws UncheckedExecutionException if an exception was thrown while loading the value. (As</a>
+<span class="sourceLineNo">094</span><a id="line.94">   *     explained in the last paragraph above, this should be an unchecked exception only.)</a>
+<span class="sourceLineNo">095</span><a id="line.95">   * @throws ExecutionError if an error was thrown while loading the value</a>
+<span class="sourceLineNo">096</span><a id="line.96">   */</a>
+<span class="sourceLineNo">097</span><a id="line.97">  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this?</a>
+<span class="sourceLineNo">098</span><a id="line.98">  V getUnchecked(K key);</a>
+<span class="sourceLineNo">099</span><a id="line.99"></a>
+<span class="sourceLineNo">100</span><a id="line.100">  /**</a>
+<span class="sourceLineNo">101</span><a id="line.101">   * Returns a map of the values associated with {@code keys}, creating or retrieving those values</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * if necessary. The returned map contains entries that were already cached, combined with newly</a>
+<span class="sourceLineNo">103</span><a id="line.103">   * loaded entries; it will never contain null keys or values.</a>
+<span class="sourceLineNo">104</span><a id="line.104">   *</a>
+<span class="sourceLineNo">105</span><a id="line.105">   * &lt;p&gt;Caches loaded by a {@link CacheLoader} will issue a single request to {@link</a>
+<span class="sourceLineNo">106</span><a id="line.106">   * CacheLoader#loadAll} for all keys which are not already present in the cache. All entries</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * returned by {@link CacheLoader#loadAll} will be stored in the cache, over-writing any</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * previously cached values. This method will throw an exception if {@link CacheLoader#loadAll}</a>
+<span class="sourceLineNo">109</span><a id="line.109">   * returns {@code null}, returns a map containing null keys or values, or fails to return an entry</a>
+<span class="sourceLineNo">110</span><a id="line.110">   * for each requested key.</a>
+<span class="sourceLineNo">111</span><a id="line.111">   *</a>
+<span class="sourceLineNo">112</span><a id="line.112">   * &lt;p&gt;Note that duplicate elements in {@code keys}, as determined by {@link Object#equals}, will</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * be ignored.</a>
+<span class="sourceLineNo">114</span><a id="line.114">   *</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * @throws ExecutionException if a checked exception was thrown while loading the value. ({@code</a>
+<span class="sourceLineNo">116</span><a id="line.116">   *     ExecutionException} is thrown &lt;a</a>
+<span class="sourceLineNo">117</span><a id="line.117">   *     href="https://github.com/google/guava/wiki/CachesExplained#interruption"&gt;even if</a>
+<span class="sourceLineNo">118</span><a id="line.118">   *     computation was interrupted by an {@code InterruptedException}&lt;/a&gt;.)</a>
+<span class="sourceLineNo">119</span><a id="line.119">   * @throws UncheckedExecutionException if an unchecked exception was thrown while loading the</a>
+<span class="sourceLineNo">120</span><a id="line.120">   *     values</a>
+<span class="sourceLineNo">121</span><a id="line.121">   * @throws ExecutionError if an error was thrown while loading the values</a>
+<span class="sourceLineNo">122</span><a id="line.122">   * @since 11.0</a>
+<span class="sourceLineNo">123</span><a id="line.123">   */</a>
+<span class="sourceLineNo">124</span><a id="line.124">  @CanIgnoreReturnValue // TODO(b/27479612): consider removing this</a>
+<span class="sourceLineNo">125</span><a id="line.125">  ImmutableMap&lt;K, V&gt; getAll(Iterable&lt;? extends K&gt; keys) throws ExecutionException;</a>
+<span class="sourceLineNo">126</span><a id="line.126"></a>
+<span class="sourceLineNo">127</span><a id="line.127">  /**</a>
+<span class="sourceLineNo">128</span><a id="line.128">   * @deprecated Provided to satisfy the {@code Function} interface; use {@link #get} or {@link</a>
+<span class="sourceLineNo">129</span><a id="line.129">   *     #getUnchecked} instead.</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * @throws UncheckedExecutionException if an exception was thrown while loading the value. (As</a>
+<span class="sourceLineNo">131</span><a id="line.131">   *     described in the documentation for {@link #getUnchecked}, {@code LoadingCache} should be</a>
+<span class="sourceLineNo">132</span><a id="line.132">   *     used as a {@code Function} only with cache loaders that throw only unchecked exceptions.)</a>
+<span class="sourceLineNo">133</span><a id="line.133">   */</a>
+<span class="sourceLineNo">134</span><a id="line.134">  @Deprecated</a>
+<span class="sourceLineNo">135</span><a id="line.135">  @Override</a>
+<span class="sourceLineNo">136</span><a id="line.136">  V apply(K key);</a>
+<span class="sourceLineNo">137</span><a id="line.137"></a>
+<span class="sourceLineNo">138</span><a id="line.138">  /**</a>
+<span class="sourceLineNo">139</span><a id="line.139">   * Loads a new value for {@code key}, possibly asynchronously. While the new value is loading the</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * previous value (if any) will continue to be returned by {@code get(key)} unless it is evicted.</a>
+<span class="sourceLineNo">141</span><a id="line.141">   * If the new value is loaded successfully it will replace the previous value in the cache; if an</a>
+<span class="sourceLineNo">142</span><a id="line.142">   * exception is thrown while refreshing the previous value will remain, &lt;i&gt;and the exception will</a>
+<span class="sourceLineNo">143</span><a id="line.143">   * be logged (using {@link java.util.logging.Logger}) and swallowed&lt;/i&gt;.</a>
+<span class="sourceLineNo">144</span><a id="line.144">   *</a>
+<span class="sourceLineNo">145</span><a id="line.145">   * &lt;p&gt;Caches loaded by a {@link CacheLoader} will call {@link CacheLoader#reload} if the cache</a>
+<span class="sourceLineNo">146</span><a id="line.146">   * currently contains a value for {@code key}, and {@link CacheLoader#load} otherwise. Loading is</a>
+<span class="sourceLineNo">147</span><a id="line.147">   * asynchronous only if {@link CacheLoader#reload} was overridden with an asynchronous</a>
+<span class="sourceLineNo">148</span><a id="line.148">   * implementation.</a>
+<span class="sourceLineNo">149</span><a id="line.149">   *</a>
+<span class="sourceLineNo">150</span><a id="line.150">   * &lt;p&gt;Returns without doing anything if another thread is currently loading the value for {@code</a>
+<span class="sourceLineNo">151</span><a id="line.151">   * key}. If the cache loader associated with this cache performs refresh asynchronously then this</a>
+<span class="sourceLineNo">152</span><a id="line.152">   * method may return before refresh completes.</a>
+<span class="sourceLineNo">153</span><a id="line.153">   *</a>
+<span class="sourceLineNo">154</span><a id="line.154">   * @since 11.0</a>
+<span class="sourceLineNo">155</span><a id="line.155">   */</a>
+<span class="sourceLineNo">156</span><a id="line.156">  void refresh(K key);</a>
+<span class="sourceLineNo">157</span><a id="line.157"></a>
+<span class="sourceLineNo">158</span><a id="line.158">  /**</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * {@inheritDoc}</a>
+<span class="sourceLineNo">160</span><a id="line.160">   *</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * &lt;p&gt;&lt;b&gt;Note that although the view &lt;i&gt;is&lt;/i&gt; modifiable, no method on the returned map will ever</a>
+<span class="sourceLineNo">162</span><a id="line.162">   * cause entries to be automatically loaded.&lt;/b&gt;</a>
+<span class="sourceLineNo">163</span><a id="line.163">   */</a>
+<span class="sourceLineNo">164</span><a id="line.164">  @Override</a>
+<span class="sourceLineNo">165</span><a id="line.165">  ConcurrentMap&lt;K, V&gt; asMap();</a>
+<span class="sourceLineNo">166</span><a id="line.166">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2007 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.io;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkArgument;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import static com.google.common.base.Preconditions.checkNotNull;</a>
+<span class="sourceLineNo">019</span><a id="line.19"></a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.base.MoreObjects;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.common.collect.Lists;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.io.IOException;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.io.InputStream;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.io.OutputStream;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.net.URL;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.nio.charset.Charset;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.nio.charset.StandardCharsets;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.util.List;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">033</span><a id="line.33"></a>
+<span class="sourceLineNo">034</span><a id="line.34">/**</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * Provides utility methods for working with resources in the classpath. Note that even though these</a>
+<span class="sourceLineNo">036</span><a id="line.36"> * methods use {@link URL} parameters, they are usually not appropriate for HTTP or other</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * non-classpath resources.</a>
+<span class="sourceLineNo">038</span><a id="line.38"> *</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * @author Chris Nokleberg</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * @author Ben Yu</a>
+<span class="sourceLineNo">041</span><a id="line.41"> * @author Colin Decker</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * @since 1.0</a>
+<span class="sourceLineNo">043</span><a id="line.43"> */</a>
+<span class="sourceLineNo">044</span><a id="line.44">@J2ktIncompatible</a>
+<span class="sourceLineNo">045</span><a id="line.45">@GwtIncompatible</a>
+<span class="sourceLineNo">046</span><a id="line.46">public final class Resources {</a>
+<span class="sourceLineNo">047</span><a id="line.47">  private Resources() {}</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">  /**</a>
+<span class="sourceLineNo">050</span><a id="line.50">   * Returns a {@link ByteSource} that reads from the given URL.</a>
+<span class="sourceLineNo">051</span><a id="line.51">   *</a>
+<span class="sourceLineNo">052</span><a id="line.52">   * @since 14.0</a>
+<span class="sourceLineNo">053</span><a id="line.53">   */</a>
+<span class="sourceLineNo">054</span><a id="line.54">  public static ByteSource asByteSource(URL url) {</a>
+<span class="sourceLineNo">055</span><a id="line.55">    return new UrlByteSource(url);</a>
+<span class="sourceLineNo">056</span><a id="line.56">  }</a>
+<span class="sourceLineNo">057</span><a id="line.57"></a>
+<span class="sourceLineNo">058</span><a id="line.58">  /** A byte source that reads from a URL using {@link URL#openStream()}. */</a>
+<span class="sourceLineNo">059</span><a id="line.59">  private static final class UrlByteSource extends ByteSource {</a>
+<span class="sourceLineNo">060</span><a id="line.60"></a>
+<span class="sourceLineNo">061</span><a id="line.61">    private final URL url;</a>
+<span class="sourceLineNo">062</span><a id="line.62"></a>
+<span class="sourceLineNo">063</span><a id="line.63">    private UrlByteSource(URL url) {</a>
+<span class="sourceLineNo">064</span><a id="line.64">      this.url = checkNotNull(url);</a>
+<span class="sourceLineNo">065</span><a id="line.65">    }</a>
+<span class="sourceLineNo">066</span><a id="line.66"></a>
+<span class="sourceLineNo">067</span><a id="line.67">    @Override</a>
+<span class="sourceLineNo">068</span><a id="line.68">    public InputStream openStream() throws IOException {</a>
+<span class="sourceLineNo">069</span><a id="line.69">      return url.openStream();</a>
+<span class="sourceLineNo">070</span><a id="line.70">    }</a>
+<span class="sourceLineNo">071</span><a id="line.71"></a>
+<span class="sourceLineNo">072</span><a id="line.72">    @Override</a>
+<span class="sourceLineNo">073</span><a id="line.73">    public String toString() {</a>
+<span class="sourceLineNo">074</span><a id="line.74">      return "Resources.asByteSource(" + url + ")";</a>
+<span class="sourceLineNo">075</span><a id="line.75">    }</a>
+<span class="sourceLineNo">076</span><a id="line.76">  }</a>
+<span class="sourceLineNo">077</span><a id="line.77"></a>
+<span class="sourceLineNo">078</span><a id="line.78">  /**</a>
+<span class="sourceLineNo">079</span><a id="line.79">   * Returns a {@link CharSource} that reads from the given URL using the given character set.</a>
+<span class="sourceLineNo">080</span><a id="line.80">   *</a>
+<span class="sourceLineNo">081</span><a id="line.81">   * @since 14.0</a>
+<span class="sourceLineNo">082</span><a id="line.82">   */</a>
+<span class="sourceLineNo">083</span><a id="line.83">  public static CharSource asCharSource(URL url, Charset charset) {</a>
+<span class="sourceLineNo">084</span><a id="line.84">    return asByteSource(url).asCharSource(charset);</a>
+<span class="sourceLineNo">085</span><a id="line.85">  }</a>
+<span class="sourceLineNo">086</span><a id="line.86"></a>
+<span class="sourceLineNo">087</span><a id="line.87">  /**</a>
+<span class="sourceLineNo">088</span><a id="line.88">   * Reads all bytes from a URL into a byte array.</a>
+<span class="sourceLineNo">089</span><a id="line.89">   *</a>
+<span class="sourceLineNo">090</span><a id="line.90">   * @param url the URL to read from</a>
+<span class="sourceLineNo">091</span><a id="line.91">   * @return a byte array containing all the bytes from the URL</a>
+<span class="sourceLineNo">092</span><a id="line.92">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">093</span><a id="line.93">   */</a>
+<span class="sourceLineNo">094</span><a id="line.94">  public static byte[] toByteArray(URL url) throws IOException {</a>
+<span class="sourceLineNo">095</span><a id="line.95">    return asByteSource(url).read();</a>
+<span class="sourceLineNo">096</span><a id="line.96">  }</a>
+<span class="sourceLineNo">097</span><a id="line.97"></a>
+<span class="sourceLineNo">098</span><a id="line.98">  /**</a>
+<span class="sourceLineNo">099</span><a id="line.99">   * Reads all characters from a URL into a {@link String}, using the given character set.</a>
+<span class="sourceLineNo">100</span><a id="line.100">   *</a>
+<span class="sourceLineNo">101</span><a id="line.101">   * @param url the URL to read from</a>
+<span class="sourceLineNo">102</span><a id="line.102">   * @param charset the charset used to decode the input stream; see {@link StandardCharsets} for</a>
+<span class="sourceLineNo">103</span><a id="line.103">   *     helpful predefined constants</a>
+<span class="sourceLineNo">104</span><a id="line.104">   * @return a string containing all the characters from the URL</a>
+<span class="sourceLineNo">105</span><a id="line.105">   * @throws IOException if an I/O error occurs.</a>
+<span class="sourceLineNo">106</span><a id="line.106">   */</a>
+<span class="sourceLineNo">107</span><a id="line.107">  public static String toString(URL url, Charset charset) throws IOException {</a>
+<span class="sourceLineNo">108</span><a id="line.108">    return asCharSource(url, charset).read();</a>
+<span class="sourceLineNo">109</span><a id="line.109">  }</a>
+<span class="sourceLineNo">110</span><a id="line.110"></a>
+<span class="sourceLineNo">111</span><a id="line.111">  /**</a>
+<span class="sourceLineNo">112</span><a id="line.112">   * Streams lines from a URL, stopping when our callback returns false, or we have read all of the</a>
+<span class="sourceLineNo">113</span><a id="line.113">   * lines.</a>
+<span class="sourceLineNo">114</span><a id="line.114">   *</a>
+<span class="sourceLineNo">115</span><a id="line.115">   * @param url the URL to read from</a>
+<span class="sourceLineNo">116</span><a id="line.116">   * @param charset the charset used to decode the input stream; see {@link StandardCharsets} for</a>
+<span class="sourceLineNo">117</span><a id="line.117">   *     helpful predefined constants</a>
+<span class="sourceLineNo">118</span><a id="line.118">   * @param callback the LineProcessor to use to handle the lines</a>
+<span class="sourceLineNo">119</span><a id="line.119">   * @return the output of processing the lines</a>
+<span class="sourceLineNo">120</span><a id="line.120">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">121</span><a id="line.121">   */</a>
+<span class="sourceLineNo">122</span><a id="line.122">  @CanIgnoreReturnValue // some processors won't return a useful result</a>
+<span class="sourceLineNo">123</span><a id="line.123">  @ParametricNullness</a>
+<span class="sourceLineNo">124</span><a id="line.124">  public static &lt;T extends @Nullable Object&gt; T readLines(</a>
+<span class="sourceLineNo">125</span><a id="line.125">      URL url, Charset charset, LineProcessor&lt;T&gt; callback) throws IOException {</a>
+<span class="sourceLineNo">126</span><a id="line.126">    return asCharSource(url, charset).readLines(callback);</a>
+<span class="sourceLineNo">127</span><a id="line.127">  }</a>
+<span class="sourceLineNo">128</span><a id="line.128"></a>
+<span class="sourceLineNo">129</span><a id="line.129">  /**</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * Reads all of the lines from a URL. The lines do not include line-termination characters, but do</a>
+<span class="sourceLineNo">131</span><a id="line.131">   * include other leading and trailing whitespace.</a>
+<span class="sourceLineNo">132</span><a id="line.132">   *</a>
+<span class="sourceLineNo">133</span><a id="line.133">   * &lt;p&gt;This method returns a mutable {@code List}. For an {@code ImmutableList}, use {@code</a>
+<span class="sourceLineNo">134</span><a id="line.134">   * Resources.asCharSource(url, charset).readLines()}.</a>
+<span class="sourceLineNo">135</span><a id="line.135">   *</a>
+<span class="sourceLineNo">136</span><a id="line.136">   * @param url the URL to read from</a>
+<span class="sourceLineNo">137</span><a id="line.137">   * @param charset the charset used to decode the input stream; see {@link StandardCharsets} for</a>
+<span class="sourceLineNo">138</span><a id="line.138">   *     helpful predefined constants</a>
+<span class="sourceLineNo">139</span><a id="line.139">   * @return a mutable {@link List} containing all the lines</a>
+<span class="sourceLineNo">140</span><a id="line.140">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">141</span><a id="line.141">   */</a>
+<span class="sourceLineNo">142</span><a id="line.142">  public static List&lt;String&gt; readLines(URL url, Charset charset) throws IOException {</a>
+<span class="sourceLineNo">143</span><a id="line.143">    // don't use asCharSource(url, charset).readLines() because that returns</a>
+<span class="sourceLineNo">144</span><a id="line.144">    // an immutable list, which would change the behavior of this method</a>
+<span class="sourceLineNo">145</span><a id="line.145">    return readLines(</a>
+<span class="sourceLineNo">146</span><a id="line.146">        url,</a>
+<span class="sourceLineNo">147</span><a id="line.147">        charset,</a>
+<span class="sourceLineNo">148</span><a id="line.148">        new LineProcessor&lt;List&lt;String&gt;&gt;() {</a>
+<span class="sourceLineNo">149</span><a id="line.149">          final List&lt;String&gt; result = Lists.newArrayList();</a>
+<span class="sourceLineNo">150</span><a id="line.150"></a>
+<span class="sourceLineNo">151</span><a id="line.151">          @Override</a>
+<span class="sourceLineNo">152</span><a id="line.152">          public boolean processLine(String line) {</a>
+<span class="sourceLineNo">153</span><a id="line.153">            result.add(line);</a>
+<span class="sourceLineNo">154</span><a id="line.154">            return true;</a>
+<span class="sourceLineNo">155</span><a id="line.155">          }</a>
+<span class="sourceLineNo">156</span><a id="line.156"></a>
+<span class="sourceLineNo">157</span><a id="line.157">          @Override</a>
+<span class="sourceLineNo">158</span><a id="line.158">          public List&lt;String&gt; getResult() {</a>
+<span class="sourceLineNo">159</span><a id="line.159">            return result;</a>
+<span class="sourceLineNo">160</span><a id="line.160">          }</a>
+<span class="sourceLineNo">161</span><a id="line.161">        });</a>
+<span class="sourceLineNo">162</span><a id="line.162">  }</a>
+<span class="sourceLineNo">163</span><a id="line.163"></a>
+<span class="sourceLineNo">164</span><a id="line.164">  /**</a>
+<span class="sourceLineNo">165</span><a id="line.165">   * Copies all bytes from a URL to an output stream.</a>
+<span class="sourceLineNo">166</span><a id="line.166">   *</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * @param from the URL to read from</a>
+<span class="sourceLineNo">168</span><a id="line.168">   * @param to the output stream</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * @throws IOException if an I/O error occurs</a>
+<span class="sourceLineNo">170</span><a id="line.170">   */</a>
+<span class="sourceLineNo">171</span><a id="line.171">  public static void copy(URL from, OutputStream to) throws IOException {</a>
+<span class="sourceLineNo">172</span><a id="line.172">    asByteSource(from).copyTo(to);</a>
+<span class="sourceLineNo">173</span><a id="line.173">  }</a>
+<span class="sourceLineNo">174</span><a id="line.174"></a>
+<span class="sourceLineNo">175</span><a id="line.175">  /**</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * Returns a {@code URL} pointing to {@code resourceName} if the resource is found using the</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * {@linkplain Thread#getContextClassLoader() context class loader}. In simple environments, the</a>
+<span class="sourceLineNo">178</span><a id="line.178">   * context class loader will find resources from the class path. In environments where different</a>
+<span class="sourceLineNo">179</span><a id="line.179">   * threads can have different class loaders, for example app servers, the context class loader</a>
+<span class="sourceLineNo">180</span><a id="line.180">   * will typically have been set to an appropriate loader for the current thread.</a>
+<span class="sourceLineNo">181</span><a id="line.181">   *</a>
+<span class="sourceLineNo">182</span><a id="line.182">   * &lt;p&gt;In the unusual case where the context class loader is null, the class loader that loaded</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * this class ({@code Resources}) will be used instead.</a>
+<span class="sourceLineNo">184</span><a id="line.184">   *</a>
+<span class="sourceLineNo">185</span><a id="line.185">   * @throws IllegalArgumentException if the resource is not found</a>
+<span class="sourceLineNo">186</span><a id="line.186">   */</a>
+<span class="sourceLineNo">187</span><a id="line.187">  @CanIgnoreReturnValue // being used to check if a resource exists</a>
+<span class="sourceLineNo">188</span><a id="line.188">  // TODO(cgdecker): maybe add a better way to check if a resource exists</a>
+<span class="sourceLineNo">189</span><a id="line.189">  // e.g. Optional&lt;URL&gt; tryGetResource or boolean resourceExists</a>
+<span class="sourceLineNo">190</span><a id="line.190">  public static URL getResource(String resourceName) {</a>
+<span class="sourceLineNo">191</span><a id="line.191">    ClassLoader loader =</a>
+<span class="sourceLineNo">192</span><a id="line.192">        MoreObjects.firstNonNull(</a>
+<span class="sourceLineNo">193</span><a id="line.193">            Thread.currentThread().getContextClassLoader(), Resources.class.getClassLoader());</a>
+<span class="sourceLineNo">194</span><a id="line.194">    URL url = loader.getResource(resourceName);</a>
+<span class="sourceLineNo">195</span><a id="line.195">    checkArgument(url != null, "resource %s not found.", resourceName);</a>
+<span class="sourceLineNo">196</span><a id="line.196">    return url;</a>
+<span class="sourceLineNo">197</span><a id="line.197">  }</a>
+<span class="sourceLineNo">198</span><a id="line.198"></a>
+<span class="sourceLineNo">199</span><a id="line.199">  /**</a>
+<span class="sourceLineNo">200</span><a id="line.200">   * Given a {@code resourceName} that is relative to {@code contextClass}, returns a {@code URL}</a>
+<span class="sourceLineNo">201</span><a id="line.201">   * pointing to the named resource.</a>
+<span class="sourceLineNo">202</span><a id="line.202">   *</a>
+<span class="sourceLineNo">203</span><a id="line.203">   * @throws IllegalArgumentException if the resource is not found</a>
+<span class="sourceLineNo">204</span><a id="line.204">   */</a>
+<span class="sourceLineNo">205</span><a id="line.205">  @CanIgnoreReturnValue // being used to check if a resource exists</a>
+<span class="sourceLineNo">206</span><a id="line.206">  public static URL getResource(Class&lt;?&gt; contextClass, String resourceName) {</a>
+<span class="sourceLineNo">207</span><a id="line.207">    URL url = contextClass.getResource(resourceName);</a>
+<span class="sourceLineNo">208</span><a id="line.208">    checkArgument(</a>
+<span class="sourceLineNo">209</span><a id="line.209">        url != null, "resource %s relative to %s not found.", resourceName, contextClass.getName());</a>
+<span class="sourceLineNo">210</span><a id="line.210">    return url;</a>
+<span class="sourceLineNo">211</span><a id="line.211">  }</a>
+<span class="sourceLineNo">212</span><a id="line.212">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

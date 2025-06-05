@@ -66,11 +66,16 @@ consult the
 ## Snapshots and Documentation
 
 Snapshots of Guava built from the `master` branch are available through Maven
-using version `HEAD-jre-SNAPSHOT`, or `HEAD-android-SNAPSHOT` for the Android
-flavor.
+using version `999.0.0-HEAD-jre-SNAPSHOT`, or `999.0.0-HEAD-android-SNAPSHOT`
+for the Android flavor.
 
 [Snapshot API Javadoc][guava-snapshot-api-docs] as well as
 [Snapshot API Diffs][guava-snapshot-api-diffs] are also available.
+
+Another easy way to get to the Javadoc is to open
+[guava.dev/api](https://guava.dev/api). You can also jump right to a specific
+class by appending the class name to guava.dev. For example,
+[guava.dev/ImmutableList](https://guava.dev/ImmutableList)!
 
 ## Learn about Guava
 
@@ -103,7 +108,7 @@ flavor.
     options open in case of surprises (like, say, a serious security problem).
 
 3.  Guava has one dependency that is needed for linkage at runtime:
-    `com.google.guava:failureaccess:1.0.2`. It also has
+    `com.google.guava:failureaccess:1.0.3`. It also has
     [some annotation-only dependencies][guava-deps], which we discuss in more
     detail at that link.
 

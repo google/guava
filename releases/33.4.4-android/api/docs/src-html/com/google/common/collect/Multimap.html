@@ -1,0 +1,446 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2007 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License");</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * you may not use this file except in compliance with the License.</a>
+<span class="sourceLineNo">006</span><a id="line.6"> * You may obtain a copy of the License at</a>
+<span class="sourceLineNo">007</span><a id="line.7"> *</a>
+<span class="sourceLineNo">008</span><a id="line.8"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">009</span><a id="line.9"> *</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * Unless required by applicable law or agreed to in writing, software</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * distributed under the License is distributed on an "AS IS" BASIS,</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> * See the License for the specific language governing permissions and</a>
+<span class="sourceLineNo">014</span><a id="line.14"> * limitations under the License.</a>
+<span class="sourceLineNo">015</span><a id="line.15"> */</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">package com.google.common.collect;</a>
+<span class="sourceLineNo">018</span><a id="line.18"></a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.errorprone.annotations.CompatibleWith;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.errorprone.annotations.DoNotMock;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import java.util.Collection;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import java.util.List;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import java.util.Map;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import java.util.Map.Entry;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import java.util.Set;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import org.jspecify.annotations.Nullable;</a>
+<span class="sourceLineNo">029</span><a id="line.29"></a>
+<span class="sourceLineNo">030</span><a id="line.30">/**</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * A collection that maps keys to values, similar to {@link Map}, but in which each key may be</a>
+<span class="sourceLineNo">032</span><a id="line.32"> * associated with &lt;i&gt;multiple&lt;/i&gt; values. You can visualize the contents of a multimap either as a</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * map from keys to &lt;i&gt;nonempty&lt;/i&gt; collections of values:</a>
+<span class="sourceLineNo">034</span><a id="line.34"> *</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *   &lt;li&gt;a → 1, 2</a>
+<span class="sourceLineNo">037</span><a id="line.37"> *   &lt;li&gt;b → 3</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">039</span><a id="line.39"> *</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * ... or as a single "flattened" collection of key-value pairs:</a>
+<span class="sourceLineNo">041</span><a id="line.41"> *</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">043</span><a id="line.43"> *   &lt;li&gt;a → 1</a>
+<span class="sourceLineNo">044</span><a id="line.44"> *   &lt;li&gt;a → 2</a>
+<span class="sourceLineNo">045</span><a id="line.45"> *   &lt;li&gt;b → 3</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">047</span><a id="line.47"> *</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * &lt;p&gt;&lt;b&gt;Important:&lt;/b&gt; although the first interpretation resembles how most multimaps are</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * &lt;i&gt;implemented&lt;/i&gt;, the design of the {@code Multimap} API is based on the &lt;i&gt;second&lt;/i&gt; form.</a>
+<span class="sourceLineNo">050</span><a id="line.50"> * So, using the multimap shown above as an example, the {@link #size} is {@code 3}, not {@code 2},</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * and the {@link #values} collection is {@code [1, 2, 3]}, not {@code [[1, 2], [3]]}. For those</a>
+<span class="sourceLineNo">052</span><a id="line.52"> * times when the first style is more useful, use the multimap's {@link #asMap} view (or create a</a>
+<span class="sourceLineNo">053</span><a id="line.53"> * {@code Map&lt;K, Collection&lt;V&gt;&gt;} in the first place).</a>
+<span class="sourceLineNo">054</span><a id="line.54"> *</a>
+<span class="sourceLineNo">055</span><a id="line.55"> * &lt;h3&gt;Example&lt;/h3&gt;</a>
+<span class="sourceLineNo">056</span><a id="line.56"> *</a>
+<span class="sourceLineNo">057</span><a id="line.57"> * &lt;p&gt;The following code:</a>
+<span class="sourceLineNo">058</span><a id="line.58"> *</a>
+<span class="sourceLineNo">059</span><a id="line.59"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">060</span><a id="line.60"> * ListMultimap&lt;String, String&gt; multimap = ArrayListMultimap.create();</a>
+<span class="sourceLineNo">061</span><a id="line.61"> * for (President pres : US_PRESIDENTS_IN_ORDER) {</a>
+<span class="sourceLineNo">062</span><a id="line.62"> *   multimap.put(pres.firstName(), pres.lastName());</a>
+<span class="sourceLineNo">063</span><a id="line.63"> * }</a>
+<span class="sourceLineNo">064</span><a id="line.64"> * for (String firstName : multimap.keySet()) {</a>
+<span class="sourceLineNo">065</span><a id="line.65"> *   List&lt;String&gt; lastNames = multimap.get(firstName);</a>
+<span class="sourceLineNo">066</span><a id="line.66"> *   out.println(firstName + ": " + lastNames);</a>
+<span class="sourceLineNo">067</span><a id="line.67"> * }</a>
+<span class="sourceLineNo">068</span><a id="line.68"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">069</span><a id="line.69"> *</a>
+<span class="sourceLineNo">070</span><a id="line.70"> * ... produces output such as:</a>
+<span class="sourceLineNo">071</span><a id="line.71"> *</a>
+<span class="sourceLineNo">072</span><a id="line.72"> * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">073</span><a id="line.73"> * Zachary: [Taylor]</a>
+<span class="sourceLineNo">074</span><a id="line.74"> * John: [Adams, Adams, Tyler, Kennedy]  // Remember, Quincy!</a>
+<span class="sourceLineNo">075</span><a id="line.75"> * George: [Washington, Bush, Bush]</a>
+<span class="sourceLineNo">076</span><a id="line.76"> * Grover: [Cleveland, Cleveland]        // Two, non-consecutive terms, rep'ing NJ!</a>
+<span class="sourceLineNo">077</span><a id="line.77"> * ...</a>
+<span class="sourceLineNo">078</span><a id="line.78"> * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">079</span><a id="line.79"> *</a>
+<span class="sourceLineNo">080</span><a id="line.80"> * &lt;h3&gt;Views&lt;/h3&gt;</a>
+<span class="sourceLineNo">081</span><a id="line.81"> *</a>
+<span class="sourceLineNo">082</span><a id="line.82"> * &lt;p&gt;Much of the power of the multimap API comes from the &lt;i&gt;view collections&lt;/i&gt; it provides.</a>
+<span class="sourceLineNo">083</span><a id="line.83"> * These always reflect the latest state of the multimap itself. When they support modification, the</a>
+<span class="sourceLineNo">084</span><a id="line.84"> * changes are &lt;i&gt;write-through&lt;/i&gt; (they automatically update the backing multimap). These view</a>
+<span class="sourceLineNo">085</span><a id="line.85"> * collections are:</a>
+<span class="sourceLineNo">086</span><a id="line.86"> *</a>
+<span class="sourceLineNo">087</span><a id="line.87"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">088</span><a id="line.88"> *   &lt;li&gt;{@link #asMap}, mentioned above</a>
+<span class="sourceLineNo">089</span><a id="line.89"> *   &lt;li&gt;{@link #keys}, {@link #keySet}, {@link #values}, {@link #entries}, which are similar to the</a>
+<span class="sourceLineNo">090</span><a id="line.90"> *       corresponding view collections of {@link Map}</a>
+<span class="sourceLineNo">091</span><a id="line.91"> *   &lt;li&gt;and, notably, even the collection returned by {@link #get get(key)} is an active view of</a>
+<span class="sourceLineNo">092</span><a id="line.92"> *       the values corresponding to {@code key}</a>
+<span class="sourceLineNo">093</span><a id="line.93"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">094</span><a id="line.94"> *</a>
+<span class="sourceLineNo">095</span><a id="line.95"> * &lt;p&gt;The collections returned by the {@link #replaceValues replaceValues} and {@link #removeAll</a>
+<span class="sourceLineNo">096</span><a id="line.96"> * removeAll} methods, which contain values that have just been removed from the multimap, are</a>
+<span class="sourceLineNo">097</span><a id="line.97"> * naturally &lt;i&gt;not&lt;/i&gt; views.</a>
+<span class="sourceLineNo">098</span><a id="line.98"> *</a>
+<span class="sourceLineNo">099</span><a id="line.99"> * &lt;h3&gt;Subinterfaces&lt;/h3&gt;</a>
+<span class="sourceLineNo">100</span><a id="line.100"> *</a>
+<span class="sourceLineNo">101</span><a id="line.101"> * &lt;p&gt;Instead of using the {@code Multimap} interface directly, prefer the subinterfaces {@link</a>
+<span class="sourceLineNo">102</span><a id="line.102"> * ListMultimap} and {@link SetMultimap}. These take their names from the fact that the collections</a>
+<span class="sourceLineNo">103</span><a id="line.103"> * they return from {@code get} behave like (and, of course, implement) {@link List} and {@link</a>
+<span class="sourceLineNo">104</span><a id="line.104"> * Set}, respectively.</a>
+<span class="sourceLineNo">105</span><a id="line.105"> *</a>
+<span class="sourceLineNo">106</span><a id="line.106"> * &lt;p&gt;For example, the "presidents" code snippet above used a {@code ListMultimap}; if it had used a</a>
+<span class="sourceLineNo">107</span><a id="line.107"> * {@code SetMultimap} instead, two presidents would have vanished, and last names might or might</a>
+<span class="sourceLineNo">108</span><a id="line.108"> * not appear in chronological order.</a>
+<span class="sourceLineNo">109</span><a id="line.109"> *</a>
+<span class="sourceLineNo">110</span><a id="line.110"> * &lt;p&gt;&lt;b&gt;Warning:&lt;/b&gt; instances of type {@code Multimap} may not implement {@link Object#equals} in</a>
+<span class="sourceLineNo">111</span><a id="line.111"> * the way you expect. Multimaps containing the same key-value pairs, even in the same order, may or</a>
+<span class="sourceLineNo">112</span><a id="line.112"> * may not be equal and may or may not have the same {@code hashCode}. The recommended subinterfaces</a>
+<span class="sourceLineNo">113</span><a id="line.113"> * provide much stronger guarantees.</a>
+<span class="sourceLineNo">114</span><a id="line.114"> *</a>
+<span class="sourceLineNo">115</span><a id="line.115"> * &lt;h3&gt;Comparison to a map of collections&lt;/h3&gt;</a>
+<span class="sourceLineNo">116</span><a id="line.116"> *</a>
+<span class="sourceLineNo">117</span><a id="line.117"> * &lt;p&gt;Multimaps are commonly used in places where a {@code Map&lt;K, Collection&lt;V&gt;&gt;} would otherwise</a>
+<span class="sourceLineNo">118</span><a id="line.118"> * have appeared. The differences include:</a>
+<span class="sourceLineNo">119</span><a id="line.119"> *</a>
+<span class="sourceLineNo">120</span><a id="line.120"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">121</span><a id="line.121"> *   &lt;li&gt;There is no need to populate an empty collection before adding an entry with {@link #put</a>
+<span class="sourceLineNo">122</span><a id="line.122"> *       put}.</a>
+<span class="sourceLineNo">123</span><a id="line.123"> *   &lt;li&gt;{@code get} never returns {@code null}, only an empty collection.</a>
+<span class="sourceLineNo">124</span><a id="line.124"> *   &lt;li&gt;A key is contained in the multimap if and only if it maps to at least one value. Any</a>
+<span class="sourceLineNo">125</span><a id="line.125"> *       operation that causes a key to have zero associated values has the effect of</a>
+<span class="sourceLineNo">126</span><a id="line.126"> *       &lt;i&gt;removing&lt;/i&gt; that key from the multimap.</a>
+<span class="sourceLineNo">127</span><a id="line.127"> *   &lt;li&gt;The total entry count is available as {@link #size}.</a>
+<span class="sourceLineNo">128</span><a id="line.128"> *   &lt;li&gt;Many complex operations become easier; for example, {@code</a>
+<span class="sourceLineNo">129</span><a id="line.129"> *       Collections.min(multimap.values())} finds the smallest value across all keys.</a>
+<span class="sourceLineNo">130</span><a id="line.130"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">131</span><a id="line.131"> *</a>
+<span class="sourceLineNo">132</span><a id="line.132"> * &lt;h3&gt;Implementations&lt;/h3&gt;</a>
+<span class="sourceLineNo">133</span><a id="line.133"> *</a>
+<span class="sourceLineNo">134</span><a id="line.134"> * &lt;ul&gt;</a>
+<span class="sourceLineNo">135</span><a id="line.135"> *   &lt;li&gt;{@link ImmutableListMultimap}</a>
+<span class="sourceLineNo">136</span><a id="line.136"> *   &lt;li&gt;{@link ImmutableSetMultimap}</a>
+<span class="sourceLineNo">137</span><a id="line.137"> *   &lt;li&gt;Configure your own mutable multimap with {@link MultimapBuilder}</a>
+<span class="sourceLineNo">138</span><a id="line.138"> *   &lt;li&gt;{@link LinkedListMultimap} (for one unusual kind of mutable {@code Multimap})</a>
+<span class="sourceLineNo">139</span><a id="line.139"> * &lt;/ul&gt;</a>
+<span class="sourceLineNo">140</span><a id="line.140"> *</a>
+<span class="sourceLineNo">141</span><a id="line.141"> * Guava contains a number of other multimap implementations, such as {@link ArrayListMultimap}. In</a>
+<span class="sourceLineNo">142</span><a id="line.142"> * new code, we recommend using {@link MultimapBuilder} instead: It provides better control of how</a>
+<span class="sourceLineNo">143</span><a id="line.143"> * keys and values are stored.</a>
+<span class="sourceLineNo">144</span><a id="line.144"> *</a>
+<span class="sourceLineNo">145</span><a id="line.145"> * &lt;h3&gt;Other Notes&lt;/h3&gt;</a>
+<span class="sourceLineNo">146</span><a id="line.146"> *</a>
+<span class="sourceLineNo">147</span><a id="line.147"> * &lt;p&gt;As with {@code Map}, the behavior of a {@code Multimap} is not specified if key objects</a>
+<span class="sourceLineNo">148</span><a id="line.148"> * already present in the multimap change in a manner that affects {@code equals} comparisons. Use</a>
+<span class="sourceLineNo">149</span><a id="line.149"> * caution if mutable objects are used as keys in a {@code Multimap}.</a>
+<span class="sourceLineNo">150</span><a id="line.150"> *</a>
+<span class="sourceLineNo">151</span><a id="line.151"> * &lt;p&gt;All methods that modify the multimap are optional. The view collections returned by the</a>
+<span class="sourceLineNo">152</span><a id="line.152"> * multimap may or may not be modifiable. Any modification method that is not supported will throw</a>
+<span class="sourceLineNo">153</span><a id="line.153"> * {@link UnsupportedOperationException}.</a>
+<span class="sourceLineNo">154</span><a id="line.154"> *</a>
+<span class="sourceLineNo">155</span><a id="line.155"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
+<span class="sourceLineNo">156</span><a id="line.156"> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#multimap"&gt;{@code Multimap}&lt;/a&gt;.</a>
+<span class="sourceLineNo">157</span><a id="line.157"> *</a>
+<span class="sourceLineNo">158</span><a id="line.158"> * @author Jared Levy</a>
+<span class="sourceLineNo">159</span><a id="line.159"> * @since 2.0</a>
+<span class="sourceLineNo">160</span><a id="line.160"> */</a>
+<span class="sourceLineNo">161</span><a id="line.161">@DoNotMock("Use ImmutableMultimap, HashMultimap, or another implementation")</a>
+<span class="sourceLineNo">162</span><a id="line.162">@GwtCompatible</a>
+<span class="sourceLineNo">163</span><a id="line.163">public interface Multimap&lt;K extends @Nullable Object, V extends @Nullable Object&gt; {</a>
+<span class="sourceLineNo">164</span><a id="line.164">  // Query Operations</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">  /**</a>
+<span class="sourceLineNo">167</span><a id="line.167">   * Returns the number of key-value pairs in this multimap.</a>
+<span class="sourceLineNo">168</span><a id="line.168">   *</a>
+<span class="sourceLineNo">169</span><a id="line.169">   * &lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; this method does not return the number of &lt;i&gt;distinct keys&lt;/i&gt; in the multimap,</a>
+<span class="sourceLineNo">170</span><a id="line.170">   * which is given by {@code keySet().size()} or {@code asMap().size()}. See the opening section of</a>
+<span class="sourceLineNo">171</span><a id="line.171">   * the {@link Multimap} class documentation for clarification.</a>
+<span class="sourceLineNo">172</span><a id="line.172">   */</a>
+<span class="sourceLineNo">173</span><a id="line.173">  int size();</a>
+<span class="sourceLineNo">174</span><a id="line.174"></a>
+<span class="sourceLineNo">175</span><a id="line.175">  /**</a>
+<span class="sourceLineNo">176</span><a id="line.176">   * Returns {@code true} if this multimap contains no key-value pairs. Equivalent to {@code size()</a>
+<span class="sourceLineNo">177</span><a id="line.177">   * == 0}, but can in some cases be more efficient.</a>
+<span class="sourceLineNo">178</span><a id="line.178">   */</a>
+<span class="sourceLineNo">179</span><a id="line.179">  boolean isEmpty();</a>
+<span class="sourceLineNo">180</span><a id="line.180"></a>
+<span class="sourceLineNo">181</span><a id="line.181">  /**</a>
+<span class="sourceLineNo">182</span><a id="line.182">   * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code</a>
+<span class="sourceLineNo">183</span><a id="line.183">   * key}.</a>
+<span class="sourceLineNo">184</span><a id="line.184">   */</a>
+<span class="sourceLineNo">185</span><a id="line.185">  boolean containsKey(@CompatibleWith("K") @Nullable Object key);</a>
+<span class="sourceLineNo">186</span><a id="line.186"></a>
+<span class="sourceLineNo">187</span><a id="line.187">  /**</a>
+<span class="sourceLineNo">188</span><a id="line.188">   * Returns {@code true} if this multimap contains at least one key-value pair with the value</a>
+<span class="sourceLineNo">189</span><a id="line.189">   * {@code value}.</a>
+<span class="sourceLineNo">190</span><a id="line.190">   */</a>
+<span class="sourceLineNo">191</span><a id="line.191">  boolean containsValue(@CompatibleWith("V") @Nullable Object value);</a>
+<span class="sourceLineNo">192</span><a id="line.192"></a>
+<span class="sourceLineNo">193</span><a id="line.193">  /**</a>
+<span class="sourceLineNo">194</span><a id="line.194">   * Returns {@code true} if this multimap contains at least one key-value pair with the key {@code</a>
+<span class="sourceLineNo">195</span><a id="line.195">   * key} and the value {@code value}.</a>
+<span class="sourceLineNo">196</span><a id="line.196">   */</a>
+<span class="sourceLineNo">197</span><a id="line.197">  boolean containsEntry(</a>
+<span class="sourceLineNo">198</span><a id="line.198">      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);</a>
+<span class="sourceLineNo">199</span><a id="line.199"></a>
+<span class="sourceLineNo">200</span><a id="line.200">  // Modification Operations</a>
+<span class="sourceLineNo">201</span><a id="line.201"></a>
+<span class="sourceLineNo">202</span><a id="line.202">  /**</a>
+<span class="sourceLineNo">203</span><a id="line.203">   * Stores a key-value pair in this multimap.</a>
+<span class="sourceLineNo">204</span><a id="line.204">   *</a>
+<span class="sourceLineNo">205</span><a id="line.205">   * &lt;p&gt;Some multimap implementations allow duplicate key-value pairs, in which case {@code put}</a>
+<span class="sourceLineNo">206</span><a id="line.206">   * always adds a new key-value pair and increases the multimap size by 1. Other implementations</a>
+<span class="sourceLineNo">207</span><a id="line.207">   * prohibit duplicates, and storing a key-value pair that's already in the multimap has no effect.</a>
+<span class="sourceLineNo">208</span><a id="line.208">   *</a>
+<span class="sourceLineNo">209</span><a id="line.209">   * @return {@code true} if the method increased the size of the multimap, or {@code false} if the</a>
+<span class="sourceLineNo">210</span><a id="line.210">   *     multimap already contained the key-value pair and doesn't allow duplicates</a>
+<span class="sourceLineNo">211</span><a id="line.211">   */</a>
+<span class="sourceLineNo">212</span><a id="line.212">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">213</span><a id="line.213">  boolean put(@ParametricNullness K key, @ParametricNullness V value);</a>
+<span class="sourceLineNo">214</span><a id="line.214"></a>
+<span class="sourceLineNo">215</span><a id="line.215">  /**</a>
+<span class="sourceLineNo">216</span><a id="line.216">   * Removes a single key-value pair with the key {@code key} and the value {@code value} from this</a>
+<span class="sourceLineNo">217</span><a id="line.217">   * multimap, if such exists. If multiple key-value pairs in the multimap fit this description,</a>
+<span class="sourceLineNo">218</span><a id="line.218">   * which one is removed is unspecified.</a>
+<span class="sourceLineNo">219</span><a id="line.219">   *</a>
+<span class="sourceLineNo">220</span><a id="line.220">   * @return {@code true} if the multimap changed</a>
+<span class="sourceLineNo">221</span><a id="line.221">   */</a>
+<span class="sourceLineNo">222</span><a id="line.222">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">223</span><a id="line.223">  boolean remove(</a>
+<span class="sourceLineNo">224</span><a id="line.224">      @CompatibleWith("K") @Nullable Object key, @CompatibleWith("V") @Nullable Object value);</a>
+<span class="sourceLineNo">225</span><a id="line.225"></a>
+<span class="sourceLineNo">226</span><a id="line.226">  // Bulk Operations</a>
+<span class="sourceLineNo">227</span><a id="line.227"></a>
+<span class="sourceLineNo">228</span><a id="line.228">  /**</a>
+<span class="sourceLineNo">229</span><a id="line.229">   * Stores a key-value pair in this multimap for each of {@code values}, all using the same key,</a>
+<span class="sourceLineNo">230</span><a id="line.230">   * {@code key}. Equivalent to (but expected to be more efficient than):</a>
+<span class="sourceLineNo">231</span><a id="line.231">   *</a>
+<span class="sourceLineNo">232</span><a id="line.232">   * &lt;pre&gt;{@code</a>
+<span class="sourceLineNo">233</span><a id="line.233">   * for (V value : values) {</a>
+<span class="sourceLineNo">234</span><a id="line.234">   *   put(key, value);</a>
+<span class="sourceLineNo">235</span><a id="line.235">   * }</a>
+<span class="sourceLineNo">236</span><a id="line.236">   * }&lt;/pre&gt;</a>
+<span class="sourceLineNo">237</span><a id="line.237">   *</a>
+<span class="sourceLineNo">238</span><a id="line.238">   * &lt;p&gt;In particular, this is a no-op if {@code values} is empty.</a>
+<span class="sourceLineNo">239</span><a id="line.239">   *</a>
+<span class="sourceLineNo">240</span><a id="line.240">   * @return {@code true} if the multimap changed</a>
+<span class="sourceLineNo">241</span><a id="line.241">   */</a>
+<span class="sourceLineNo">242</span><a id="line.242">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">243</span><a id="line.243">  boolean putAll(@ParametricNullness K key, Iterable&lt;? extends V&gt; values);</a>
+<span class="sourceLineNo">244</span><a id="line.244"></a>
+<span class="sourceLineNo">245</span><a id="line.245">  /**</a>
+<span class="sourceLineNo">246</span><a id="line.246">   * Stores all key-value pairs of {@code multimap} in this multimap, in the order returned by</a>
+<span class="sourceLineNo">247</span><a id="line.247">   * {@code multimap.entries()}.</a>
+<span class="sourceLineNo">248</span><a id="line.248">   *</a>
+<span class="sourceLineNo">249</span><a id="line.249">   * @return {@code true} if the multimap changed</a>
+<span class="sourceLineNo">250</span><a id="line.250">   */</a>
+<span class="sourceLineNo">251</span><a id="line.251">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">252</span><a id="line.252">  boolean putAll(Multimap&lt;? extends K, ? extends V&gt; multimap);</a>
+<span class="sourceLineNo">253</span><a id="line.253"></a>
+<span class="sourceLineNo">254</span><a id="line.254">  /**</a>
+<span class="sourceLineNo">255</span><a id="line.255">   * Stores a collection of values with the same key, replacing any existing values for that key.</a>
+<span class="sourceLineNo">256</span><a id="line.256">   *</a>
+<span class="sourceLineNo">257</span><a id="line.257">   * &lt;p&gt;If {@code values} is empty, this is equivalent to {@link #removeAll(Object) removeAll(key)}.</a>
+<span class="sourceLineNo">258</span><a id="line.258">   *</a>
+<span class="sourceLineNo">259</span><a id="line.259">   * @return the collection of replaced values, or an empty collection if no values were previously</a>
+<span class="sourceLineNo">260</span><a id="line.260">   *     associated with the key. The collection &lt;i&gt;may&lt;/i&gt; be modifiable, but updating it will have</a>
+<span class="sourceLineNo">261</span><a id="line.261">   *     no effect on the multimap.</a>
+<span class="sourceLineNo">262</span><a id="line.262">   */</a>
+<span class="sourceLineNo">263</span><a id="line.263">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">264</span><a id="line.264">  Collection&lt;V&gt; replaceValues(@ParametricNullness K key, Iterable&lt;? extends V&gt; values);</a>
+<span class="sourceLineNo">265</span><a id="line.265"></a>
+<span class="sourceLineNo">266</span><a id="line.266">  /**</a>
+<span class="sourceLineNo">267</span><a id="line.267">   * Removes all values associated with the key {@code key}.</a>
+<span class="sourceLineNo">268</span><a id="line.268">   *</a>
+<span class="sourceLineNo">269</span><a id="line.269">   * &lt;p&gt;Once this method returns, {@code key} will not be mapped to any values, so it will not</a>
+<span class="sourceLineNo">270</span><a id="line.270">   * appear in {@link #keySet()}, {@link #asMap()}, or any other views.</a>
+<span class="sourceLineNo">271</span><a id="line.271">   *</a>
+<span class="sourceLineNo">272</span><a id="line.272">   * @return the values that were removed (possibly empty). The returned collection &lt;i&gt;may&lt;/i&gt; be</a>
+<span class="sourceLineNo">273</span><a id="line.273">   *     modifiable, but updating it will have no effect on the multimap.</a>
+<span class="sourceLineNo">274</span><a id="line.274">   */</a>
+<span class="sourceLineNo">275</span><a id="line.275">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">276</span><a id="line.276">  Collection&lt;V&gt; removeAll(@CompatibleWith("K") @Nullable Object key);</a>
+<span class="sourceLineNo">277</span><a id="line.277"></a>
+<span class="sourceLineNo">278</span><a id="line.278">  /** Removes all key-value pairs from the multimap, leaving it {@linkplain #isEmpty empty}. */</a>
+<span class="sourceLineNo">279</span><a id="line.279">  void clear();</a>
+<span class="sourceLineNo">280</span><a id="line.280"></a>
+<span class="sourceLineNo">281</span><a id="line.281">  // Views</a>
+<span class="sourceLineNo">282</span><a id="line.282"></a>
+<span class="sourceLineNo">283</span><a id="line.283">  /**</a>
+<span class="sourceLineNo">284</span><a id="line.284">   * Returns a view collection of the values associated with {@code key} in this multimap, if any.</a>
+<span class="sourceLineNo">285</span><a id="line.285">   * Note that when {@code containsKey(key)} is false, this returns an empty collection, not {@code</a>
+<span class="sourceLineNo">286</span><a id="line.286">   * null}.</a>
+<span class="sourceLineNo">287</span><a id="line.287">   *</a>
+<span class="sourceLineNo">288</span><a id="line.288">   * &lt;p&gt;Changes to the returned collection will update the underlying multimap, and vice versa.</a>
+<span class="sourceLineNo">289</span><a id="line.289">   */</a>
+<span class="sourceLineNo">290</span><a id="line.290">  Collection&lt;V&gt; get(@ParametricNullness K key);</a>
+<span class="sourceLineNo">291</span><a id="line.291"></a>
+<span class="sourceLineNo">292</span><a id="line.292">  /**</a>
+<span class="sourceLineNo">293</span><a id="line.293">   * Returns a view collection of all &lt;i&gt;distinct&lt;/i&gt; keys contained in this multimap. Note that the</a>
+<span class="sourceLineNo">294</span><a id="line.294">   * key set contains a key if and only if this multimap maps that key to at least one value.</a>
+<span class="sourceLineNo">295</span><a id="line.295">   *</a>
+<span class="sourceLineNo">296</span><a id="line.296">   * &lt;p&gt;Changes to the returned set will update the underlying multimap, and vice versa. However,</a>
+<span class="sourceLineNo">297</span><a id="line.297">   * &lt;i&gt;adding&lt;/i&gt; to the returned set is not possible.</a>
+<span class="sourceLineNo">298</span><a id="line.298">   */</a>
+<span class="sourceLineNo">299</span><a id="line.299">  Set&lt;K&gt; keySet();</a>
+<span class="sourceLineNo">300</span><a id="line.300"></a>
+<span class="sourceLineNo">301</span><a id="line.301">  /**</a>
+<span class="sourceLineNo">302</span><a id="line.302">   * Returns a view collection containing the key from each key-value pair in this multimap,</a>
+<span class="sourceLineNo">303</span><a id="line.303">   * &lt;i&gt;without&lt;/i&gt; collapsing duplicates. This collection has the same size as this multimap, and</a>
+<span class="sourceLineNo">304</span><a id="line.304">   * {@code keys().count(k) == get(k).size()} for all {@code k}.</a>
+<span class="sourceLineNo">305</span><a id="line.305">   *</a>
+<span class="sourceLineNo">306</span><a id="line.306">   * &lt;p&gt;Changes to the returned multiset will update the underlying multimap, and vice versa.</a>
+<span class="sourceLineNo">307</span><a id="line.307">   * However, &lt;i&gt;adding&lt;/i&gt; to the returned collection is not possible.</a>
+<span class="sourceLineNo">308</span><a id="line.308">   */</a>
+<span class="sourceLineNo">309</span><a id="line.309">  Multiset&lt;K&gt; keys();</a>
+<span class="sourceLineNo">310</span><a id="line.310"></a>
+<span class="sourceLineNo">311</span><a id="line.311">  /**</a>
+<span class="sourceLineNo">312</span><a id="line.312">   * Returns a view collection containing the &lt;i&gt;value&lt;/i&gt; from each key-value pair contained in</a>
+<span class="sourceLineNo">313</span><a id="line.313">   * this multimap, without collapsing duplicates (so {@code values().size() == size()}).</a>
+<span class="sourceLineNo">314</span><a id="line.314">   *</a>
+<span class="sourceLineNo">315</span><a id="line.315">   * &lt;p&gt;Changes to the returned collection will update the underlying multimap, and vice versa.</a>
+<span class="sourceLineNo">316</span><a id="line.316">   * However, &lt;i&gt;adding&lt;/i&gt; to the returned collection is not possible.</a>
+<span class="sourceLineNo">317</span><a id="line.317">   */</a>
+<span class="sourceLineNo">318</span><a id="line.318">  Collection&lt;V&gt; values();</a>
+<span class="sourceLineNo">319</span><a id="line.319"></a>
+<span class="sourceLineNo">320</span><a id="line.320">  /**</a>
+<span class="sourceLineNo">321</span><a id="line.321">   * Returns a view collection of all key-value pairs contained in this multimap, as {@link Entry}</a>
+<span class="sourceLineNo">322</span><a id="line.322">   * instances.</a>
+<span class="sourceLineNo">323</span><a id="line.323">   *</a>
+<span class="sourceLineNo">324</span><a id="line.324">   * &lt;p&gt;Changes to the returned collection or the entries it contains will update the underlying</a>
+<span class="sourceLineNo">325</span><a id="line.325">   * multimap, and vice versa. However, &lt;i&gt;adding&lt;/i&gt; to the returned collection is not possible.</a>
+<span class="sourceLineNo">326</span><a id="line.326">   */</a>
+<span class="sourceLineNo">327</span><a id="line.327">  Collection&lt;Entry&lt;K, V&gt;&gt; entries();</a>
+<span class="sourceLineNo">328</span><a id="line.328"></a>
+<span class="sourceLineNo">329</span><a id="line.329">  /**</a>
+<span class="sourceLineNo">330</span><a id="line.330">   * Returns a view of this multimap as a {@code Map} from each distinct key to the nonempty</a>
+<span class="sourceLineNo">331</span><a id="line.331">   * collection of that key's associated values. Note that {@code this.asMap().get(k)} is equivalent</a>
+<span class="sourceLineNo">332</span><a id="line.332">   * to {@code this.get(k)} only when {@code k} is a key contained in the multimap; otherwise it</a>
+<span class="sourceLineNo">333</span><a id="line.333">   * returns {@code null} as opposed to an empty collection.</a>
+<span class="sourceLineNo">334</span><a id="line.334">   *</a>
+<span class="sourceLineNo">335</span><a id="line.335">   * &lt;p&gt;Changes to the returned map or the collections that serve as its values will update the</a>
+<span class="sourceLineNo">336</span><a id="line.336">   * underlying multimap, and vice versa. The map does not support {@code put} or {@code putAll},</a>
+<span class="sourceLineNo">337</span><a id="line.337">   * nor do its entries support {@link Entry#setValue setValue}.</a>
+<span class="sourceLineNo">338</span><a id="line.338">   */</a>
+<span class="sourceLineNo">339</span><a id="line.339">  Map&lt;K, Collection&lt;V&gt;&gt; asMap();</a>
+<span class="sourceLineNo">340</span><a id="line.340"></a>
+<span class="sourceLineNo">341</span><a id="line.341">  // Comparison and hashing</a>
+<span class="sourceLineNo">342</span><a id="line.342"></a>
+<span class="sourceLineNo">343</span><a id="line.343">  /**</a>
+<span class="sourceLineNo">344</span><a id="line.344">   * Compares the specified object with this multimap for equality. Two multimaps are equal when</a>
+<span class="sourceLineNo">345</span><a id="line.345">   * their map views, as returned by {@link #asMap}, are also equal.</a>
+<span class="sourceLineNo">346</span><a id="line.346">   *</a>
+<span class="sourceLineNo">347</span><a id="line.347">   * &lt;p&gt;In general, two multimaps with identical key-value mappings may or may not be equal,</a>
+<span class="sourceLineNo">348</span><a id="line.348">   * depending on the implementation. For example, two {@link SetMultimap} instances with the same</a>
+<span class="sourceLineNo">349</span><a id="line.349">   * key-value mappings are equal, but equality of two {@link ListMultimap} instances depends on the</a>
+<span class="sourceLineNo">350</span><a id="line.350">   * ordering of the values for each key.</a>
+<span class="sourceLineNo">351</span><a id="line.351">   *</a>
+<span class="sourceLineNo">352</span><a id="line.352">   * &lt;p&gt;A non-empty {@link SetMultimap} cannot be equal to a non-empty {@link ListMultimap}, since</a>
+<span class="sourceLineNo">353</span><a id="line.353">   * their {@link #asMap} views contain unequal collections as values. However, any two empty</a>
+<span class="sourceLineNo">354</span><a id="line.354">   * multimaps are equal, because they both have empty {@link #asMap} views.</a>
+<span class="sourceLineNo">355</span><a id="line.355">   */</a>
+<span class="sourceLineNo">356</span><a id="line.356">  @Override</a>
+<span class="sourceLineNo">357</span><a id="line.357">  boolean equals(@Nullable Object obj);</a>
+<span class="sourceLineNo">358</span><a id="line.358"></a>
+<span class="sourceLineNo">359</span><a id="line.359">  /**</a>
+<span class="sourceLineNo">360</span><a id="line.360">   * Returns the hash code for this multimap.</a>
+<span class="sourceLineNo">361</span><a id="line.361">   *</a>
+<span class="sourceLineNo">362</span><a id="line.362">   * &lt;p&gt;The hash code of a multimap is defined as the hash code of the map view, as returned by</a>
+<span class="sourceLineNo">363</span><a id="line.363">   * {@link Multimap#asMap}.</a>
+<span class="sourceLineNo">364</span><a id="line.364">   *</a>
+<span class="sourceLineNo">365</span><a id="line.365">   * &lt;p&gt;In general, two multimaps with identical key-value mappings may or may not have the same</a>
+<span class="sourceLineNo">366</span><a id="line.366">   * hash codes, depending on the implementation. For example, two {@link SetMultimap} instances</a>
+<span class="sourceLineNo">367</span><a id="line.367">   * with the same key-value mappings will have the same {@code hashCode}, but the {@code hashCode}</a>
+<span class="sourceLineNo">368</span><a id="line.368">   * of {@link ListMultimap} instances depends on the ordering of the values for each key.</a>
+<span class="sourceLineNo">369</span><a id="line.369">   */</a>
+<span class="sourceLineNo">370</span><a id="line.370">  @Override</a>
+<span class="sourceLineNo">371</span><a id="line.371">  int hashCode();</a>
+<span class="sourceLineNo">372</span><a id="line.372">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

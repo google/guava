@@ -155,6 +155,7 @@ generate_jdiff_xml() {
   # Generate JDiff XML file for the release.
   echo -n "Generating JDiff XML for Guava $version..."
   ${JAVA_11_HOME}/bin/javadoc \
+    -source 8 \
     -sourcepath "$TEMPDIR/$flavor/src" \
     -classpath "$classpath" \
     -subpackages com.google.common \
@@ -369,7 +370,7 @@ generate_snapshot_javadoc_shortlinks() {
   # Creates 2 sub-folders for each non-nested class inside javadocshortcuts.
   # This ensures that each class documentation is accessible using  https://guava.dev/ClassName
   # or https://guava.dev/classname.
-  for F in $(find releases/snapshot-jre/api/docs/com/google/common -name '[A-Z]*.html' -not -path '*/class-use/*' -not -name '*.*.*'); do
+  for F in $(find releases/snapshot-jre/api/docs/com/google/common -name '[A-Z]*.html' -not -path '*/class-use/*' -not -name '*.*.*' | sort); do
     SHORT=$(basename $F .html)
 
     # Lowercases the 2nd sub-folder's name

@@ -1,0 +1,1212 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2007 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.collect;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import static com.google.common.base.Preconditions.checkArgument;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import static com.google.common.collect.NullnessCasts.unsafeNull;</a>
+<span class="sourceLineNo">020</span><a id="line.20"></a>
+<span class="sourceLineNo">021</span><a id="line.21">import com.google.common.annotations.GwtCompatible;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">024</span><a id="line.24">import com.google.common.base.Objects;</a>
+<span class="sourceLineNo">025</span><a id="line.25">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">026</span><a id="line.26">import com.google.errorprone.annotations.concurrent.LazyInit;</a>
+<span class="sourceLineNo">027</span><a id="line.27">import com.google.j2objc.annotations.RetainedWith;</a>
+<span class="sourceLineNo">028</span><a id="line.28">import java.io.IOException;</a>
+<span class="sourceLineNo">029</span><a id="line.29">import java.io.ObjectInputStream;</a>
+<span class="sourceLineNo">030</span><a id="line.30">import java.io.ObjectOutputStream;</a>
+<span class="sourceLineNo">031</span><a id="line.31">import java.io.Serializable;</a>
+<span class="sourceLineNo">032</span><a id="line.32">import java.util.AbstractMap;</a>
+<span class="sourceLineNo">033</span><a id="line.33">import java.util.AbstractSet;</a>
+<span class="sourceLineNo">034</span><a id="line.34">import java.util.Arrays;</a>
+<span class="sourceLineNo">035</span><a id="line.35">import java.util.ConcurrentModificationException;</a>
+<span class="sourceLineNo">036</span><a id="line.36">import java.util.Iterator;</a>
+<span class="sourceLineNo">037</span><a id="line.37">import java.util.Map;</a>
+<span class="sourceLineNo">038</span><a id="line.38">import java.util.NoSuchElementException;</a>
+<span class="sourceLineNo">039</span><a id="line.39">import java.util.Set;</a>
+<span class="sourceLineNo">040</span><a id="line.40">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">041</span><a id="line.41"></a>
+<span class="sourceLineNo">042</span><a id="line.42">/**</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * A {@link BiMap} backed by two hash tables. This implementation allows null keys and values. A</a>
+<span class="sourceLineNo">044</span><a id="line.44"> * {@code HashBiMap} and its inverse are both serializable.</a>
+<span class="sourceLineNo">045</span><a id="line.45"> *</a>
+<span class="sourceLineNo">046</span><a id="line.46"> * &lt;p&gt;This implementation guarantees insertion-based iteration order of its keys.</a>
+<span class="sourceLineNo">047</span><a id="line.47"> *</a>
+<span class="sourceLineNo">048</span><a id="line.48"> * &lt;p&gt;See the Guava User Guide article on &lt;a href=</a>
+<span class="sourceLineNo">049</span><a id="line.49"> * "https://github.com/google/guava/wiki/NewCollectionTypesExplained#bimap"&gt;{@code BiMap} &lt;/a&gt;.</a>
+<span class="sourceLineNo">050</span><a id="line.50"> *</a>
+<span class="sourceLineNo">051</span><a id="line.51"> * @author Louis Wasserman</a>
+<span class="sourceLineNo">052</span><a id="line.52"> * @author Mike Bostock</a>
+<span class="sourceLineNo">053</span><a id="line.53"> * @since 2.0</a>
+<span class="sourceLineNo">054</span><a id="line.54"> */</a>
+<span class="sourceLineNo">055</span><a id="line.55">@GwtCompatible</a>
+<span class="sourceLineNo">056</span><a id="line.56">public final class HashBiMap&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">057</span><a id="line.57">    extends AbstractMap&lt;K, V&gt; implements BiMap&lt;K, V&gt;, Serializable {</a>
+<span class="sourceLineNo">058</span><a id="line.58"></a>
+<span class="sourceLineNo">059</span><a id="line.59">  /** Returns a new, empty {@code HashBiMap} with the default initial capacity (16). */</a>
+<span class="sourceLineNo">060</span><a id="line.60">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt; HashBiMap&lt;K, V&gt; create() {</a>
+<span class="sourceLineNo">061</span><a id="line.61">    return create(16);</a>
+<span class="sourceLineNo">062</span><a id="line.62">  }</a>
+<span class="sourceLineNo">063</span><a id="line.63"></a>
+<span class="sourceLineNo">064</span><a id="line.64">  /**</a>
+<span class="sourceLineNo">065</span><a id="line.65">   * Constructs a new, empty bimap with the specified expected size.</a>
+<span class="sourceLineNo">066</span><a id="line.66">   *</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * @param expectedSize the expected number of entries</a>
+<span class="sourceLineNo">068</span><a id="line.68">   * @throws IllegalArgumentException if the specified expected size is negative</a>
+<span class="sourceLineNo">069</span><a id="line.69">   */</a>
+<span class="sourceLineNo">070</span><a id="line.70">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt; HashBiMap&lt;K, V&gt; create(</a>
+<span class="sourceLineNo">071</span><a id="line.71">      int expectedSize) {</a>
+<span class="sourceLineNo">072</span><a id="line.72">    return new HashBiMap&lt;&gt;(expectedSize);</a>
+<span class="sourceLineNo">073</span><a id="line.73">  }</a>
+<span class="sourceLineNo">074</span><a id="line.74"></a>
+<span class="sourceLineNo">075</span><a id="line.75">  /**</a>
+<span class="sourceLineNo">076</span><a id="line.76">   * Constructs a new bimap containing initial values from {@code map}. The bimap is created with an</a>
+<span class="sourceLineNo">077</span><a id="line.77">   * initial capacity sufficient to hold the mappings in the specified map.</a>
+<span class="sourceLineNo">078</span><a id="line.78">   */</a>
+<span class="sourceLineNo">079</span><a id="line.79">  public static &lt;K extends @Nullable Object, V extends @Nullable Object&gt; HashBiMap&lt;K, V&gt; create(</a>
+<span class="sourceLineNo">080</span><a id="line.80">      Map&lt;? extends K, ? extends V&gt; map) {</a>
+<span class="sourceLineNo">081</span><a id="line.81">    HashBiMap&lt;K, V&gt; bimap = create(map.size());</a>
+<span class="sourceLineNo">082</span><a id="line.82">    bimap.putAll(map);</a>
+<span class="sourceLineNo">083</span><a id="line.83">    return bimap;</a>
+<span class="sourceLineNo">084</span><a id="line.84">  }</a>
+<span class="sourceLineNo">085</span><a id="line.85"></a>
+<span class="sourceLineNo">086</span><a id="line.86">  private static final int ABSENT = -1;</a>
+<span class="sourceLineNo">087</span><a id="line.87">  private static final int ENDPOINT = -2;</a>
+<span class="sourceLineNo">088</span><a id="line.88"></a>
+<span class="sourceLineNo">089</span><a id="line.89">  /** Maps an "entry" to the key of that entry. */</a>
+<span class="sourceLineNo">090</span><a id="line.90">  transient @Nullable K[] keys;</a>
+<span class="sourceLineNo">091</span><a id="line.91">  /** Maps an "entry" to the value of that entry. */</a>
+<span class="sourceLineNo">092</span><a id="line.92">  transient @Nullable V[] values;</a>
+<span class="sourceLineNo">093</span><a id="line.93"></a>
+<span class="sourceLineNo">094</span><a id="line.94">  transient int size;</a>
+<span class="sourceLineNo">095</span><a id="line.95">  transient int modCount;</a>
+<span class="sourceLineNo">096</span><a id="line.96">  /** Maps a bucket to the "entry" of its first element. */</a>
+<span class="sourceLineNo">097</span><a id="line.97">  private transient int[] hashTableKToV;</a>
+<span class="sourceLineNo">098</span><a id="line.98">  /** Maps a bucket to the "entry" of its first element. */</a>
+<span class="sourceLineNo">099</span><a id="line.99">  private transient int[] hashTableVToK;</a>
+<span class="sourceLineNo">100</span><a id="line.100">  /** Maps an "entry" to the "entry" that follows it in its bucket. */</a>
+<span class="sourceLineNo">101</span><a id="line.101">  private transient int[] nextInBucketKToV;</a>
+<span class="sourceLineNo">102</span><a id="line.102">  /** Maps an "entry" to the "entry" that follows it in its bucket. */</a>
+<span class="sourceLineNo">103</span><a id="line.103">  private transient int[] nextInBucketVToK;</a>
+<span class="sourceLineNo">104</span><a id="line.104">  /** The "entry" of the first element in insertion order. */</a>
+<span class="sourceLineNo">105</span><a id="line.105">  private transient int firstInInsertionOrder;</a>
+<span class="sourceLineNo">106</span><a id="line.106">  /** The "entry" of the last element in insertion order. */</a>
+<span class="sourceLineNo">107</span><a id="line.107">  private transient int lastInInsertionOrder;</a>
+<span class="sourceLineNo">108</span><a id="line.108">  /** Maps an "entry" to the "entry" that precedes it in insertion order. */</a>
+<span class="sourceLineNo">109</span><a id="line.109">  private transient int[] prevInInsertionOrder;</a>
+<span class="sourceLineNo">110</span><a id="line.110">  /** Maps an "entry" to the "entry" that follows it in insertion order. */</a>
+<span class="sourceLineNo">111</span><a id="line.111">  private transient int[] nextInInsertionOrder;</a>
+<span class="sourceLineNo">112</span><a id="line.112"></a>
+<span class="sourceLineNo">113</span><a id="line.113">  private HashBiMap(int expectedSize) {</a>
+<span class="sourceLineNo">114</span><a id="line.114">    init(expectedSize);</a>
+<span class="sourceLineNo">115</span><a id="line.115">  }</a>
+<span class="sourceLineNo">116</span><a id="line.116"></a>
+<span class="sourceLineNo">117</span><a id="line.117">  @SuppressWarnings("unchecked")</a>
+<span class="sourceLineNo">118</span><a id="line.118">  void init(int expectedSize) {</a>
+<span class="sourceLineNo">119</span><a id="line.119">    CollectPreconditions.checkNonnegative(expectedSize, "expectedSize");</a>
+<span class="sourceLineNo">120</span><a id="line.120">    int tableSize = Hashing.closedTableSize(expectedSize, 1.0);</a>
+<span class="sourceLineNo">121</span><a id="line.121">    size = 0;</a>
+<span class="sourceLineNo">122</span><a id="line.122"></a>
+<span class="sourceLineNo">123</span><a id="line.123">    keys = (K[]) new Object[expectedSize];</a>
+<span class="sourceLineNo">124</span><a id="line.124">    values = (V[]) new Object[expectedSize];</a>
+<span class="sourceLineNo">125</span><a id="line.125"></a>
+<span class="sourceLineNo">126</span><a id="line.126">    hashTableKToV = createFilledWithAbsent(tableSize);</a>
+<span class="sourceLineNo">127</span><a id="line.127">    hashTableVToK = createFilledWithAbsent(tableSize);</a>
+<span class="sourceLineNo">128</span><a id="line.128">    nextInBucketKToV = createFilledWithAbsent(expectedSize);</a>
+<span class="sourceLineNo">129</span><a id="line.129">    nextInBucketVToK = createFilledWithAbsent(expectedSize);</a>
+<span class="sourceLineNo">130</span><a id="line.130"></a>
+<span class="sourceLineNo">131</span><a id="line.131">    firstInInsertionOrder = ENDPOINT;</a>
+<span class="sourceLineNo">132</span><a id="line.132">    lastInInsertionOrder = ENDPOINT;</a>
+<span class="sourceLineNo">133</span><a id="line.133"></a>
+<span class="sourceLineNo">134</span><a id="line.134">    prevInInsertionOrder = createFilledWithAbsent(expectedSize);</a>
+<span class="sourceLineNo">135</span><a id="line.135">    nextInInsertionOrder = createFilledWithAbsent(expectedSize);</a>
+<span class="sourceLineNo">136</span><a id="line.136">  }</a>
+<span class="sourceLineNo">137</span><a id="line.137"></a>
+<span class="sourceLineNo">138</span><a id="line.138">  /** Returns an int array of the specified size, filled with ABSENT. */</a>
+<span class="sourceLineNo">139</span><a id="line.139">  private static int[] createFilledWithAbsent(int size) {</a>
+<span class="sourceLineNo">140</span><a id="line.140">    int[] array = new int[size];</a>
+<span class="sourceLineNo">141</span><a id="line.141">    Arrays.fill(array, ABSENT);</a>
+<span class="sourceLineNo">142</span><a id="line.142">    return array;</a>
+<span class="sourceLineNo">143</span><a id="line.143">  }</a>
+<span class="sourceLineNo">144</span><a id="line.144"></a>
+<span class="sourceLineNo">145</span><a id="line.145">  /** Equivalent to {@code Arrays.copyOf(array, newSize)}, save that the new elements are ABSENT. */</a>
+<span class="sourceLineNo">146</span><a id="line.146">  private static int[] expandAndFillWithAbsent(int[] array, int newSize) {</a>
+<span class="sourceLineNo">147</span><a id="line.147">    int oldSize = array.length;</a>
+<span class="sourceLineNo">148</span><a id="line.148">    int[] result = Arrays.copyOf(array, newSize);</a>
+<span class="sourceLineNo">149</span><a id="line.149">    Arrays.fill(result, oldSize, newSize, ABSENT);</a>
+<span class="sourceLineNo">150</span><a id="line.150">    return result;</a>
+<span class="sourceLineNo">151</span><a id="line.151">  }</a>
+<span class="sourceLineNo">152</span><a id="line.152"></a>
+<span class="sourceLineNo">153</span><a id="line.153">  @Override</a>
+<span class="sourceLineNo">154</span><a id="line.154">  public int size() {</a>
+<span class="sourceLineNo">155</span><a id="line.155">    return size;</a>
+<span class="sourceLineNo">156</span><a id="line.156">  }</a>
+<span class="sourceLineNo">157</span><a id="line.157"></a>
+<span class="sourceLineNo">158</span><a id="line.158">  /**</a>
+<span class="sourceLineNo">159</span><a id="line.159">   * Ensures that all of the internal structures in the HashBiMap are ready for this many elements.</a>
+<span class="sourceLineNo">160</span><a id="line.160">   */</a>
+<span class="sourceLineNo">161</span><a id="line.161">  private void ensureCapacity(int minCapacity) {</a>
+<span class="sourceLineNo">162</span><a id="line.162">    if (nextInBucketKToV.length &lt; minCapacity) {</a>
+<span class="sourceLineNo">163</span><a id="line.163">      int oldCapacity = nextInBucketKToV.length;</a>
+<span class="sourceLineNo">164</span><a id="line.164">      int newCapacity = ImmutableCollection.Builder.expandedCapacity(oldCapacity, minCapacity);</a>
+<span class="sourceLineNo">165</span><a id="line.165"></a>
+<span class="sourceLineNo">166</span><a id="line.166">      keys = Arrays.copyOf(keys, newCapacity);</a>
+<span class="sourceLineNo">167</span><a id="line.167">      values = Arrays.copyOf(values, newCapacity);</a>
+<span class="sourceLineNo">168</span><a id="line.168">      nextInBucketKToV = expandAndFillWithAbsent(nextInBucketKToV, newCapacity);</a>
+<span class="sourceLineNo">169</span><a id="line.169">      nextInBucketVToK = expandAndFillWithAbsent(nextInBucketVToK, newCapacity);</a>
+<span class="sourceLineNo">170</span><a id="line.170">      prevInInsertionOrder = expandAndFillWithAbsent(prevInInsertionOrder, newCapacity);</a>
+<span class="sourceLineNo">171</span><a id="line.171">      nextInInsertionOrder = expandAndFillWithAbsent(nextInInsertionOrder, newCapacity);</a>
+<span class="sourceLineNo">172</span><a id="line.172">    }</a>
+<span class="sourceLineNo">173</span><a id="line.173"></a>
+<span class="sourceLineNo">174</span><a id="line.174">    if (hashTableKToV.length &lt; minCapacity) {</a>
+<span class="sourceLineNo">175</span><a id="line.175">      int newTableSize = Hashing.closedTableSize(minCapacity, 1.0);</a>
+<span class="sourceLineNo">176</span><a id="line.176">      hashTableKToV = createFilledWithAbsent(newTableSize);</a>
+<span class="sourceLineNo">177</span><a id="line.177">      hashTableVToK = createFilledWithAbsent(newTableSize);</a>
+<span class="sourceLineNo">178</span><a id="line.178"></a>
+<span class="sourceLineNo">179</span><a id="line.179">      for (int entryToRehash = 0; entryToRehash &lt; size; entryToRehash++) {</a>
+<span class="sourceLineNo">180</span><a id="line.180">        int keyHash = Hashing.smearedHash(keys[entryToRehash]);</a>
+<span class="sourceLineNo">181</span><a id="line.181">        int keyBucket = bucket(keyHash);</a>
+<span class="sourceLineNo">182</span><a id="line.182">        nextInBucketKToV[entryToRehash] = hashTableKToV[keyBucket];</a>
+<span class="sourceLineNo">183</span><a id="line.183">        hashTableKToV[keyBucket] = entryToRehash;</a>
+<span class="sourceLineNo">184</span><a id="line.184"></a>
+<span class="sourceLineNo">185</span><a id="line.185">        int valueHash = Hashing.smearedHash(values[entryToRehash]);</a>
+<span class="sourceLineNo">186</span><a id="line.186">        int valueBucket = bucket(valueHash);</a>
+<span class="sourceLineNo">187</span><a id="line.187">        nextInBucketVToK[entryToRehash] = hashTableVToK[valueBucket];</a>
+<span class="sourceLineNo">188</span><a id="line.188">        hashTableVToK[valueBucket] = entryToRehash;</a>
+<span class="sourceLineNo">189</span><a id="line.189">      }</a>
+<span class="sourceLineNo">190</span><a id="line.190">    }</a>
+<span class="sourceLineNo">191</span><a id="line.191">  }</a>
+<span class="sourceLineNo">192</span><a id="line.192"></a>
+<span class="sourceLineNo">193</span><a id="line.193">  /**</a>
+<span class="sourceLineNo">194</span><a id="line.194">   * Returns the bucket (in either the K-to-V or V-to-K tables) where elements with the specified</a>
+<span class="sourceLineNo">195</span><a id="line.195">   * hash could be found, if present, or could be inserted.</a>
+<span class="sourceLineNo">196</span><a id="line.196">   */</a>
+<span class="sourceLineNo">197</span><a id="line.197">  private int bucket(int hash) {</a>
+<span class="sourceLineNo">198</span><a id="line.198">    return hash &amp; (hashTableKToV.length - 1);</a>
+<span class="sourceLineNo">199</span><a id="line.199">  }</a>
+<span class="sourceLineNo">200</span><a id="line.200"></a>
+<span class="sourceLineNo">201</span><a id="line.201">  /** Given a key, returns the index of the entry in the tables, or ABSENT if not found. */</a>
+<span class="sourceLineNo">202</span><a id="line.202">  int findEntryByKey(@Nullable Object key) {</a>
+<span class="sourceLineNo">203</span><a id="line.203">    return findEntryByKey(key, Hashing.smearedHash(key));</a>
+<span class="sourceLineNo">204</span><a id="line.204">  }</a>
+<span class="sourceLineNo">205</span><a id="line.205"></a>
+<span class="sourceLineNo">206</span><a id="line.206">  /**</a>
+<span class="sourceLineNo">207</span><a id="line.207">   * Given a key and its hash, returns the index of the entry in the tables, or ABSENT if not found.</a>
+<span class="sourceLineNo">208</span><a id="line.208">   */</a>
+<span class="sourceLineNo">209</span><a id="line.209">  int findEntryByKey(@Nullable Object key, int keyHash) {</a>
+<span class="sourceLineNo">210</span><a id="line.210">    return findEntry(key, keyHash, hashTableKToV, nextInBucketKToV, keys);</a>
+<span class="sourceLineNo">211</span><a id="line.211">  }</a>
+<span class="sourceLineNo">212</span><a id="line.212"></a>
+<span class="sourceLineNo">213</span><a id="line.213">  /** Given a value, returns the index of the entry in the tables, or ABSENT if not found. */</a>
+<span class="sourceLineNo">214</span><a id="line.214">  int findEntryByValue(@Nullable Object value) {</a>
+<span class="sourceLineNo">215</span><a id="line.215">    return findEntryByValue(value, Hashing.smearedHash(value));</a>
+<span class="sourceLineNo">216</span><a id="line.216">  }</a>
+<span class="sourceLineNo">217</span><a id="line.217"></a>
+<span class="sourceLineNo">218</span><a id="line.218">  /**</a>
+<span class="sourceLineNo">219</span><a id="line.219">   * Given a value and its hash, returns the index of the entry in the tables, or ABSENT if not</a>
+<span class="sourceLineNo">220</span><a id="line.220">   * found.</a>
+<span class="sourceLineNo">221</span><a id="line.221">   */</a>
+<span class="sourceLineNo">222</span><a id="line.222">  int findEntryByValue(@Nullable Object value, int valueHash) {</a>
+<span class="sourceLineNo">223</span><a id="line.223">    return findEntry(value, valueHash, hashTableVToK, nextInBucketVToK, values);</a>
+<span class="sourceLineNo">224</span><a id="line.224">  }</a>
+<span class="sourceLineNo">225</span><a id="line.225"></a>
+<span class="sourceLineNo">226</span><a id="line.226">  int findEntry(</a>
+<span class="sourceLineNo">227</span><a id="line.227">      @Nullable Object o,</a>
+<span class="sourceLineNo">228</span><a id="line.228">      int oHash,</a>
+<span class="sourceLineNo">229</span><a id="line.229">      int[] hashTable,</a>
+<span class="sourceLineNo">230</span><a id="line.230">      int[] nextInBucket,</a>
+<span class="sourceLineNo">231</span><a id="line.231">      @Nullable Object[] array) {</a>
+<span class="sourceLineNo">232</span><a id="line.232">    for (int entry = hashTable[bucket(oHash)]; entry != ABSENT; entry = nextInBucket[entry]) {</a>
+<span class="sourceLineNo">233</span><a id="line.233">      if (Objects.equal(array[entry], o)) {</a>
+<span class="sourceLineNo">234</span><a id="line.234">        return entry;</a>
+<span class="sourceLineNo">235</span><a id="line.235">      }</a>
+<span class="sourceLineNo">236</span><a id="line.236">    }</a>
+<span class="sourceLineNo">237</span><a id="line.237">    return ABSENT;</a>
+<span class="sourceLineNo">238</span><a id="line.238">  }</a>
+<span class="sourceLineNo">239</span><a id="line.239"></a>
+<span class="sourceLineNo">240</span><a id="line.240">  @Override</a>
+<span class="sourceLineNo">241</span><a id="line.241">  public boolean containsKey(@Nullable Object key) {</a>
+<span class="sourceLineNo">242</span><a id="line.242">    return findEntryByKey(key) != ABSENT;</a>
+<span class="sourceLineNo">243</span><a id="line.243">  }</a>
+<span class="sourceLineNo">244</span><a id="line.244"></a>
+<span class="sourceLineNo">245</span><a id="line.245">  /**</a>
+<span class="sourceLineNo">246</span><a id="line.246">   * Returns {@code true} if this BiMap contains an entry whose value is equal to {@code value} (or,</a>
+<span class="sourceLineNo">247</span><a id="line.247">   * equivalently, if this inverse view contains a key that is equal to {@code value}).</a>
+<span class="sourceLineNo">248</span><a id="line.248">   *</a>
+<span class="sourceLineNo">249</span><a id="line.249">   * &lt;p&gt;Due to the property that values in a BiMap are unique, this will tend to execute in</a>
+<span class="sourceLineNo">250</span><a id="line.250">   * faster-than-linear time.</a>
+<span class="sourceLineNo">251</span><a id="line.251">   *</a>
+<span class="sourceLineNo">252</span><a id="line.252">   * @param value the object to search for in the values of this BiMap</a>
+<span class="sourceLineNo">253</span><a id="line.253">   * @return true if a mapping exists from a key to the specified value</a>
+<span class="sourceLineNo">254</span><a id="line.254">   */</a>
+<span class="sourceLineNo">255</span><a id="line.255">  @Override</a>
+<span class="sourceLineNo">256</span><a id="line.256">  public boolean containsValue(@Nullable Object value) {</a>
+<span class="sourceLineNo">257</span><a id="line.257">    return findEntryByValue(value) != ABSENT;</a>
+<span class="sourceLineNo">258</span><a id="line.258">  }</a>
+<span class="sourceLineNo">259</span><a id="line.259"></a>
+<span class="sourceLineNo">260</span><a id="line.260">  @Override</a>
+<span class="sourceLineNo">261</span><a id="line.261">  public @Nullable V get(@Nullable Object key) {</a>
+<span class="sourceLineNo">262</span><a id="line.262">    int entry = findEntryByKey(key);</a>
+<span class="sourceLineNo">263</span><a id="line.263">    return (entry == ABSENT) ? null : values[entry];</a>
+<span class="sourceLineNo">264</span><a id="line.264">  }</a>
+<span class="sourceLineNo">265</span><a id="line.265"></a>
+<span class="sourceLineNo">266</span><a id="line.266">  @Nullable K getInverse(@Nullable Object value) {</a>
+<span class="sourceLineNo">267</span><a id="line.267">    int entry = findEntryByValue(value);</a>
+<span class="sourceLineNo">268</span><a id="line.268">    return (entry == ABSENT) ? null : keys[entry];</a>
+<span class="sourceLineNo">269</span><a id="line.269">  }</a>
+<span class="sourceLineNo">270</span><a id="line.270"></a>
+<span class="sourceLineNo">271</span><a id="line.271">  @Override</a>
+<span class="sourceLineNo">272</span><a id="line.272">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">273</span><a id="line.273">  public @Nullable V put(@ParametricNullness K key, @ParametricNullness V value) {</a>
+<span class="sourceLineNo">274</span><a id="line.274">    return put(key, value, false);</a>
+<span class="sourceLineNo">275</span><a id="line.275">  }</a>
+<span class="sourceLineNo">276</span><a id="line.276"></a>
+<span class="sourceLineNo">277</span><a id="line.277">  @Nullable V put(@ParametricNullness K key, @ParametricNullness V value, boolean force) {</a>
+<span class="sourceLineNo">278</span><a id="line.278">    int keyHash = Hashing.smearedHash(key);</a>
+<span class="sourceLineNo">279</span><a id="line.279">    int entryForKey = findEntryByKey(key, keyHash);</a>
+<span class="sourceLineNo">280</span><a id="line.280">    if (entryForKey != ABSENT) {</a>
+<span class="sourceLineNo">281</span><a id="line.281">      V oldValue = values[entryForKey];</a>
+<span class="sourceLineNo">282</span><a id="line.282">      if (Objects.equal(oldValue, value)) {</a>
+<span class="sourceLineNo">283</span><a id="line.283">        return value;</a>
+<span class="sourceLineNo">284</span><a id="line.284">      } else {</a>
+<span class="sourceLineNo">285</span><a id="line.285">        replaceValueInEntry(entryForKey, value, force);</a>
+<span class="sourceLineNo">286</span><a id="line.286">        return oldValue;</a>
+<span class="sourceLineNo">287</span><a id="line.287">      }</a>
+<span class="sourceLineNo">288</span><a id="line.288">    }</a>
+<span class="sourceLineNo">289</span><a id="line.289"></a>
+<span class="sourceLineNo">290</span><a id="line.290">    int valueHash = Hashing.smearedHash(value);</a>
+<span class="sourceLineNo">291</span><a id="line.291">    int valueEntry = findEntryByValue(value, valueHash);</a>
+<span class="sourceLineNo">292</span><a id="line.292">    if (force) {</a>
+<span class="sourceLineNo">293</span><a id="line.293">      if (valueEntry != ABSENT) {</a>
+<span class="sourceLineNo">294</span><a id="line.294">        removeEntryValueHashKnown(valueEntry, valueHash);</a>
+<span class="sourceLineNo">295</span><a id="line.295">      }</a>
+<span class="sourceLineNo">296</span><a id="line.296">    } else {</a>
+<span class="sourceLineNo">297</span><a id="line.297">      checkArgument(valueEntry == ABSENT, "Value already present: %s", value);</a>
+<span class="sourceLineNo">298</span><a id="line.298">    }</a>
+<span class="sourceLineNo">299</span><a id="line.299"></a>
+<span class="sourceLineNo">300</span><a id="line.300">    ensureCapacity(size + 1);</a>
+<span class="sourceLineNo">301</span><a id="line.301">    keys[size] = key;</a>
+<span class="sourceLineNo">302</span><a id="line.302">    values[size] = value;</a>
+<span class="sourceLineNo">303</span><a id="line.303"></a>
+<span class="sourceLineNo">304</span><a id="line.304">    insertIntoTableKToV(size, keyHash);</a>
+<span class="sourceLineNo">305</span><a id="line.305">    insertIntoTableVToK(size, valueHash);</a>
+<span class="sourceLineNo">306</span><a id="line.306"></a>
+<span class="sourceLineNo">307</span><a id="line.307">    setSucceeds(lastInInsertionOrder, size);</a>
+<span class="sourceLineNo">308</span><a id="line.308">    setSucceeds(size, ENDPOINT);</a>
+<span class="sourceLineNo">309</span><a id="line.309">    size++;</a>
+<span class="sourceLineNo">310</span><a id="line.310">    modCount++;</a>
+<span class="sourceLineNo">311</span><a id="line.311">    return null;</a>
+<span class="sourceLineNo">312</span><a id="line.312">  }</a>
+<span class="sourceLineNo">313</span><a id="line.313"></a>
+<span class="sourceLineNo">314</span><a id="line.314">  @Override</a>
+<span class="sourceLineNo">315</span><a id="line.315">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">316</span><a id="line.316">  public @Nullable V forcePut(@ParametricNullness K key, @ParametricNullness V value) {</a>
+<span class="sourceLineNo">317</span><a id="line.317">    return put(key, value, true);</a>
+<span class="sourceLineNo">318</span><a id="line.318">  }</a>
+<span class="sourceLineNo">319</span><a id="line.319"></a>
+<span class="sourceLineNo">320</span><a id="line.320">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">321</span><a id="line.321">  @Nullable K putInverse(@ParametricNullness V value, @ParametricNullness K key, boolean force) {</a>
+<span class="sourceLineNo">322</span><a id="line.322">    int valueHash = Hashing.smearedHash(value);</a>
+<span class="sourceLineNo">323</span><a id="line.323">    int entryForValue = findEntryByValue(value, valueHash);</a>
+<span class="sourceLineNo">324</span><a id="line.324">    if (entryForValue != ABSENT) {</a>
+<span class="sourceLineNo">325</span><a id="line.325">      K oldKey = keys[entryForValue];</a>
+<span class="sourceLineNo">326</span><a id="line.326">      if (Objects.equal(oldKey, key)) {</a>
+<span class="sourceLineNo">327</span><a id="line.327">        return key;</a>
+<span class="sourceLineNo">328</span><a id="line.328">      } else {</a>
+<span class="sourceLineNo">329</span><a id="line.329">        replaceKeyInEntry(entryForValue, key, force);</a>
+<span class="sourceLineNo">330</span><a id="line.330">        return oldKey;</a>
+<span class="sourceLineNo">331</span><a id="line.331">      }</a>
+<span class="sourceLineNo">332</span><a id="line.332">    }</a>
+<span class="sourceLineNo">333</span><a id="line.333"></a>
+<span class="sourceLineNo">334</span><a id="line.334">    int predecessor = lastInInsertionOrder;</a>
+<span class="sourceLineNo">335</span><a id="line.335">    int keyHash = Hashing.smearedHash(key);</a>
+<span class="sourceLineNo">336</span><a id="line.336">    int keyEntry = findEntryByKey(key, keyHash);</a>
+<span class="sourceLineNo">337</span><a id="line.337">    if (force) {</a>
+<span class="sourceLineNo">338</span><a id="line.338">      if (keyEntry != ABSENT) {</a>
+<span class="sourceLineNo">339</span><a id="line.339">        predecessor = prevInInsertionOrder[keyEntry];</a>
+<span class="sourceLineNo">340</span><a id="line.340">        removeEntryKeyHashKnown(keyEntry, keyHash);</a>
+<span class="sourceLineNo">341</span><a id="line.341">      }</a>
+<span class="sourceLineNo">342</span><a id="line.342">    } else {</a>
+<span class="sourceLineNo">343</span><a id="line.343">      checkArgument(keyEntry == ABSENT, "Key already present: %s", key);</a>
+<span class="sourceLineNo">344</span><a id="line.344">    }</a>
+<span class="sourceLineNo">345</span><a id="line.345"></a>
+<span class="sourceLineNo">346</span><a id="line.346">    // insertion point for new entry is after predecessor</a>
+<span class="sourceLineNo">347</span><a id="line.347">    // note predecessor must still be a valid entry: either we deleted an entry that was *not*</a>
+<span class="sourceLineNo">348</span><a id="line.348">    // predecessor, or we didn't delete anything</a>
+<span class="sourceLineNo">349</span><a id="line.349"></a>
+<span class="sourceLineNo">350</span><a id="line.350">    ensureCapacity(size + 1);</a>
+<span class="sourceLineNo">351</span><a id="line.351">    keys[size] = key;</a>
+<span class="sourceLineNo">352</span><a id="line.352">    values[size] = value;</a>
+<span class="sourceLineNo">353</span><a id="line.353"></a>
+<span class="sourceLineNo">354</span><a id="line.354">    insertIntoTableKToV(size, keyHash);</a>
+<span class="sourceLineNo">355</span><a id="line.355">    insertIntoTableVToK(size, valueHash);</a>
+<span class="sourceLineNo">356</span><a id="line.356"></a>
+<span class="sourceLineNo">357</span><a id="line.357">    int successor =</a>
+<span class="sourceLineNo">358</span><a id="line.358">        (predecessor == ENDPOINT) ? firstInInsertionOrder : nextInInsertionOrder[predecessor];</a>
+<span class="sourceLineNo">359</span><a id="line.359">    setSucceeds(predecessor, size);</a>
+<span class="sourceLineNo">360</span><a id="line.360">    setSucceeds(size, successor);</a>
+<span class="sourceLineNo">361</span><a id="line.361">    size++;</a>
+<span class="sourceLineNo">362</span><a id="line.362">    modCount++;</a>
+<span class="sourceLineNo">363</span><a id="line.363">    return null;</a>
+<span class="sourceLineNo">364</span><a id="line.364">  }</a>
+<span class="sourceLineNo">365</span><a id="line.365"></a>
+<span class="sourceLineNo">366</span><a id="line.366">  /**</a>
+<span class="sourceLineNo">367</span><a id="line.367">   * Updates the pointers of the insertion order linked list so that {@code next} follows {@code</a>
+<span class="sourceLineNo">368</span><a id="line.368">   * prev}. {@code ENDPOINT} represents either the first or last entry in the entire map (as</a>
+<span class="sourceLineNo">369</span><a id="line.369">   * appropriate).</a>
+<span class="sourceLineNo">370</span><a id="line.370">   */</a>
+<span class="sourceLineNo">371</span><a id="line.371">  private void setSucceeds(int prev, int next) {</a>
+<span class="sourceLineNo">372</span><a id="line.372">    if (prev == ENDPOINT) {</a>
+<span class="sourceLineNo">373</span><a id="line.373">      firstInInsertionOrder = next;</a>
+<span class="sourceLineNo">374</span><a id="line.374">    } else {</a>
+<span class="sourceLineNo">375</span><a id="line.375">      nextInInsertionOrder[prev] = next;</a>
+<span class="sourceLineNo">376</span><a id="line.376">    }</a>
+<span class="sourceLineNo">377</span><a id="line.377">    if (next == ENDPOINT) {</a>
+<span class="sourceLineNo">378</span><a id="line.378">      lastInInsertionOrder = prev;</a>
+<span class="sourceLineNo">379</span><a id="line.379">    } else {</a>
+<span class="sourceLineNo">380</span><a id="line.380">      prevInInsertionOrder[next] = prev;</a>
+<span class="sourceLineNo">381</span><a id="line.381">    }</a>
+<span class="sourceLineNo">382</span><a id="line.382">  }</a>
+<span class="sourceLineNo">383</span><a id="line.383"></a>
+<span class="sourceLineNo">384</span><a id="line.384">  /**</a>
+<span class="sourceLineNo">385</span><a id="line.385">   * Updates the K-to-V hash table to include the entry at the specified index, which is assumed to</a>
+<span class="sourceLineNo">386</span><a id="line.386">   * have not yet been added.</a>
+<span class="sourceLineNo">387</span><a id="line.387">   */</a>
+<span class="sourceLineNo">388</span><a id="line.388">  private void insertIntoTableKToV(int entry, int keyHash) {</a>
+<span class="sourceLineNo">389</span><a id="line.389">    checkArgument(entry != ABSENT);</a>
+<span class="sourceLineNo">390</span><a id="line.390">    int keyBucket = bucket(keyHash);</a>
+<span class="sourceLineNo">391</span><a id="line.391">    nextInBucketKToV[entry] = hashTableKToV[keyBucket];</a>
+<span class="sourceLineNo">392</span><a id="line.392">    hashTableKToV[keyBucket] = entry;</a>
+<span class="sourceLineNo">393</span><a id="line.393">  }</a>
+<span class="sourceLineNo">394</span><a id="line.394"></a>
+<span class="sourceLineNo">395</span><a id="line.395">  /**</a>
+<span class="sourceLineNo">396</span><a id="line.396">   * Updates the V-to-K hash table to include the entry at the specified index, which is assumed to</a>
+<span class="sourceLineNo">397</span><a id="line.397">   * have not yet been added.</a>
+<span class="sourceLineNo">398</span><a id="line.398">   */</a>
+<span class="sourceLineNo">399</span><a id="line.399">  private void insertIntoTableVToK(int entry, int valueHash) {</a>
+<span class="sourceLineNo">400</span><a id="line.400">    checkArgument(entry != ABSENT);</a>
+<span class="sourceLineNo">401</span><a id="line.401">    int valueBucket = bucket(valueHash);</a>
+<span class="sourceLineNo">402</span><a id="line.402">    nextInBucketVToK[entry] = hashTableVToK[valueBucket];</a>
+<span class="sourceLineNo">403</span><a id="line.403">    hashTableVToK[valueBucket] = entry;</a>
+<span class="sourceLineNo">404</span><a id="line.404">  }</a>
+<span class="sourceLineNo">405</span><a id="line.405"></a>
+<span class="sourceLineNo">406</span><a id="line.406">  /**</a>
+<span class="sourceLineNo">407</span><a id="line.407">   * Updates the K-to-V hash table to remove the entry at the specified index, which is assumed to</a>
+<span class="sourceLineNo">408</span><a id="line.408">   * be present. Does not update any other data structures.</a>
+<span class="sourceLineNo">409</span><a id="line.409">   */</a>
+<span class="sourceLineNo">410</span><a id="line.410">  private void deleteFromTableKToV(int entry, int keyHash) {</a>
+<span class="sourceLineNo">411</span><a id="line.411">    checkArgument(entry != ABSENT);</a>
+<span class="sourceLineNo">412</span><a id="line.412">    int keyBucket = bucket(keyHash);</a>
+<span class="sourceLineNo">413</span><a id="line.413"></a>
+<span class="sourceLineNo">414</span><a id="line.414">    if (hashTableKToV[keyBucket] == entry) {</a>
+<span class="sourceLineNo">415</span><a id="line.415">      hashTableKToV[keyBucket] = nextInBucketKToV[entry];</a>
+<span class="sourceLineNo">416</span><a id="line.416">      nextInBucketKToV[entry] = ABSENT;</a>
+<span class="sourceLineNo">417</span><a id="line.417">      return;</a>
+<span class="sourceLineNo">418</span><a id="line.418">    }</a>
+<span class="sourceLineNo">419</span><a id="line.419"></a>
+<span class="sourceLineNo">420</span><a id="line.420">    int prevInBucket = hashTableKToV[keyBucket];</a>
+<span class="sourceLineNo">421</span><a id="line.421">    for (int entryInBucket = nextInBucketKToV[prevInBucket];</a>
+<span class="sourceLineNo">422</span><a id="line.422">        entryInBucket != ABSENT;</a>
+<span class="sourceLineNo">423</span><a id="line.423">        entryInBucket = nextInBucketKToV[entryInBucket]) {</a>
+<span class="sourceLineNo">424</span><a id="line.424">      if (entryInBucket == entry) {</a>
+<span class="sourceLineNo">425</span><a id="line.425">        nextInBucketKToV[prevInBucket] = nextInBucketKToV[entry];</a>
+<span class="sourceLineNo">426</span><a id="line.426">        nextInBucketKToV[entry] = ABSENT;</a>
+<span class="sourceLineNo">427</span><a id="line.427">        return;</a>
+<span class="sourceLineNo">428</span><a id="line.428">      }</a>
+<span class="sourceLineNo">429</span><a id="line.429">      prevInBucket = entryInBucket;</a>
+<span class="sourceLineNo">430</span><a id="line.430">    }</a>
+<span class="sourceLineNo">431</span><a id="line.431">    throw new AssertionError("Expected to find entry with key " + keys[entry]);</a>
+<span class="sourceLineNo">432</span><a id="line.432">  }</a>
+<span class="sourceLineNo">433</span><a id="line.433"></a>
+<span class="sourceLineNo">434</span><a id="line.434">  /**</a>
+<span class="sourceLineNo">435</span><a id="line.435">   * Updates the V-to-K hash table to remove the entry at the specified index, which is assumed to</a>
+<span class="sourceLineNo">436</span><a id="line.436">   * be present. Does not update any other data structures.</a>
+<span class="sourceLineNo">437</span><a id="line.437">   */</a>
+<span class="sourceLineNo">438</span><a id="line.438">  private void deleteFromTableVToK(int entry, int valueHash) {</a>
+<span class="sourceLineNo">439</span><a id="line.439">    checkArgument(entry != ABSENT);</a>
+<span class="sourceLineNo">440</span><a id="line.440">    int valueBucket = bucket(valueHash);</a>
+<span class="sourceLineNo">441</span><a id="line.441"></a>
+<span class="sourceLineNo">442</span><a id="line.442">    if (hashTableVToK[valueBucket] == entry) {</a>
+<span class="sourceLineNo">443</span><a id="line.443">      hashTableVToK[valueBucket] = nextInBucketVToK[entry];</a>
+<span class="sourceLineNo">444</span><a id="line.444">      nextInBucketVToK[entry] = ABSENT;</a>
+<span class="sourceLineNo">445</span><a id="line.445">      return;</a>
+<span class="sourceLineNo">446</span><a id="line.446">    }</a>
+<span class="sourceLineNo">447</span><a id="line.447"></a>
+<span class="sourceLineNo">448</span><a id="line.448">    int prevInBucket = hashTableVToK[valueBucket];</a>
+<span class="sourceLineNo">449</span><a id="line.449">    for (int entryInBucket = nextInBucketVToK[prevInBucket];</a>
+<span class="sourceLineNo">450</span><a id="line.450">        entryInBucket != ABSENT;</a>
+<span class="sourceLineNo">451</span><a id="line.451">        entryInBucket = nextInBucketVToK[entryInBucket]) {</a>
+<span class="sourceLineNo">452</span><a id="line.452">      if (entryInBucket == entry) {</a>
+<span class="sourceLineNo">453</span><a id="line.453">        nextInBucketVToK[prevInBucket] = nextInBucketVToK[entry];</a>
+<span class="sourceLineNo">454</span><a id="line.454">        nextInBucketVToK[entry] = ABSENT;</a>
+<span class="sourceLineNo">455</span><a id="line.455">        return;</a>
+<span class="sourceLineNo">456</span><a id="line.456">      }</a>
+<span class="sourceLineNo">457</span><a id="line.457">      prevInBucket = entryInBucket;</a>
+<span class="sourceLineNo">458</span><a id="line.458">    }</a>
+<span class="sourceLineNo">459</span><a id="line.459">    throw new AssertionError("Expected to find entry with value " + values[entry]);</a>
+<span class="sourceLineNo">460</span><a id="line.460">  }</a>
+<span class="sourceLineNo">461</span><a id="line.461"></a>
+<span class="sourceLineNo">462</span><a id="line.462">  /**</a>
+<span class="sourceLineNo">463</span><a id="line.463">   * Updates the specified entry to point to the new value: removes the old value from the V-to-K</a>
+<span class="sourceLineNo">464</span><a id="line.464">   * mapping and puts the new one in. The entry does not move in the insertion order of the bimap.</a>
+<span class="sourceLineNo">465</span><a id="line.465">   */</a>
+<span class="sourceLineNo">466</span><a id="line.466">  private void replaceValueInEntry(int entry, @ParametricNullness V newValue, boolean force) {</a>
+<span class="sourceLineNo">467</span><a id="line.467">    checkArgument(entry != ABSENT);</a>
+<span class="sourceLineNo">468</span><a id="line.468">    int newValueHash = Hashing.smearedHash(newValue);</a>
+<span class="sourceLineNo">469</span><a id="line.469">    int newValueIndex = findEntryByValue(newValue, newValueHash);</a>
+<span class="sourceLineNo">470</span><a id="line.470">    if (newValueIndex != ABSENT) {</a>
+<span class="sourceLineNo">471</span><a id="line.471">      if (force) {</a>
+<span class="sourceLineNo">472</span><a id="line.472">        removeEntryValueHashKnown(newValueIndex, newValueHash);</a>
+<span class="sourceLineNo">473</span><a id="line.473">        if (entry == size) { // this entry got moved to newValueIndex</a>
+<span class="sourceLineNo">474</span><a id="line.474">          entry = newValueIndex;</a>
+<span class="sourceLineNo">475</span><a id="line.475">        }</a>
+<span class="sourceLineNo">476</span><a id="line.476">      } else {</a>
+<span class="sourceLineNo">477</span><a id="line.477">        throw new IllegalArgumentException("Value already present in map: " + newValue);</a>
+<span class="sourceLineNo">478</span><a id="line.478">      }</a>
+<span class="sourceLineNo">479</span><a id="line.479">    }</a>
+<span class="sourceLineNo">480</span><a id="line.480">    // we do *not* update insertion order, and it isn't a structural modification!</a>
+<span class="sourceLineNo">481</span><a id="line.481">    deleteFromTableVToK(entry, Hashing.smearedHash(values[entry]));</a>
+<span class="sourceLineNo">482</span><a id="line.482">    values[entry] = newValue;</a>
+<span class="sourceLineNo">483</span><a id="line.483">    insertIntoTableVToK(entry, newValueHash);</a>
+<span class="sourceLineNo">484</span><a id="line.484">  }</a>
+<span class="sourceLineNo">485</span><a id="line.485"></a>
+<span class="sourceLineNo">486</span><a id="line.486">  /**</a>
+<span class="sourceLineNo">487</span><a id="line.487">   * Updates the specified entry to point to the new value: removes the old value from the V-to-K</a>
+<span class="sourceLineNo">488</span><a id="line.488">   * mapping and puts the new one in. The entry is moved to the end of the insertion order, or to</a>
+<span class="sourceLineNo">489</span><a id="line.489">   * the position of the new key if it was previously present.</a>
+<span class="sourceLineNo">490</span><a id="line.490">   */</a>
+<span class="sourceLineNo">491</span><a id="line.491">  private void replaceKeyInEntry(int entry, @ParametricNullness K newKey, boolean force) {</a>
+<span class="sourceLineNo">492</span><a id="line.492">    checkArgument(entry != ABSENT);</a>
+<span class="sourceLineNo">493</span><a id="line.493">    int newKeyHash = Hashing.smearedHash(newKey);</a>
+<span class="sourceLineNo">494</span><a id="line.494">    int newKeyIndex = findEntryByKey(newKey, newKeyHash);</a>
+<span class="sourceLineNo">495</span><a id="line.495"></a>
+<span class="sourceLineNo">496</span><a id="line.496">    int newPredecessor = lastInInsertionOrder;</a>
+<span class="sourceLineNo">497</span><a id="line.497">    int newSuccessor = ENDPOINT;</a>
+<span class="sourceLineNo">498</span><a id="line.498">    if (newKeyIndex != ABSENT) {</a>
+<span class="sourceLineNo">499</span><a id="line.499">      if (force) {</a>
+<span class="sourceLineNo">500</span><a id="line.500">        newPredecessor = prevInInsertionOrder[newKeyIndex];</a>
+<span class="sourceLineNo">501</span><a id="line.501">        newSuccessor = nextInInsertionOrder[newKeyIndex];</a>
+<span class="sourceLineNo">502</span><a id="line.502">        removeEntryKeyHashKnown(newKeyIndex, newKeyHash);</a>
+<span class="sourceLineNo">503</span><a id="line.503">        if (entry == size) { // this entry got moved to newKeyIndex</a>
+<span class="sourceLineNo">504</span><a id="line.504">          entry = newKeyIndex;</a>
+<span class="sourceLineNo">505</span><a id="line.505">        }</a>
+<span class="sourceLineNo">506</span><a id="line.506">      } else {</a>
+<span class="sourceLineNo">507</span><a id="line.507">        throw new IllegalArgumentException("Key already present in map: " + newKey);</a>
+<span class="sourceLineNo">508</span><a id="line.508">      }</a>
+<span class="sourceLineNo">509</span><a id="line.509">    }</a>
+<span class="sourceLineNo">510</span><a id="line.510">    if (newPredecessor == entry) {</a>
+<span class="sourceLineNo">511</span><a id="line.511">      newPredecessor = prevInInsertionOrder[entry];</a>
+<span class="sourceLineNo">512</span><a id="line.512">    } else if (newPredecessor == size) {</a>
+<span class="sourceLineNo">513</span><a id="line.513">      newPredecessor = newKeyIndex;</a>
+<span class="sourceLineNo">514</span><a id="line.514">    }</a>
+<span class="sourceLineNo">515</span><a id="line.515"></a>
+<span class="sourceLineNo">516</span><a id="line.516">    if (newSuccessor == entry) {</a>
+<span class="sourceLineNo">517</span><a id="line.517">      newSuccessor = nextInInsertionOrder[entry];</a>
+<span class="sourceLineNo">518</span><a id="line.518">    } else if (newSuccessor == size) {</a>
+<span class="sourceLineNo">519</span><a id="line.519">      newSuccessor = newKeyIndex;</a>
+<span class="sourceLineNo">520</span><a id="line.520">    }</a>
+<span class="sourceLineNo">521</span><a id="line.521"></a>
+<span class="sourceLineNo">522</span><a id="line.522">    int oldPredecessor = prevInInsertionOrder[entry];</a>
+<span class="sourceLineNo">523</span><a id="line.523">    int oldSuccessor = nextInInsertionOrder[entry];</a>
+<span class="sourceLineNo">524</span><a id="line.524">    setSucceeds(oldPredecessor, oldSuccessor); // remove from insertion order linked list</a>
+<span class="sourceLineNo">525</span><a id="line.525"></a>
+<span class="sourceLineNo">526</span><a id="line.526">    deleteFromTableKToV(entry, Hashing.smearedHash(keys[entry]));</a>
+<span class="sourceLineNo">527</span><a id="line.527">    keys[entry] = newKey;</a>
+<span class="sourceLineNo">528</span><a id="line.528">    insertIntoTableKToV(entry, Hashing.smearedHash(newKey));</a>
+<span class="sourceLineNo">529</span><a id="line.529"></a>
+<span class="sourceLineNo">530</span><a id="line.530">    // insert into insertion order linked list, usually at the end</a>
+<span class="sourceLineNo">531</span><a id="line.531">    setSucceeds(newPredecessor, entry);</a>
+<span class="sourceLineNo">532</span><a id="line.532">    setSucceeds(entry, newSuccessor);</a>
+<span class="sourceLineNo">533</span><a id="line.533">  }</a>
+<span class="sourceLineNo">534</span><a id="line.534"></a>
+<span class="sourceLineNo">535</span><a id="line.535">  @Override</a>
+<span class="sourceLineNo">536</span><a id="line.536">  @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">537</span><a id="line.537">  public @Nullable V remove(@Nullable Object key) {</a>
+<span class="sourceLineNo">538</span><a id="line.538">    int keyHash = Hashing.smearedHash(key);</a>
+<span class="sourceLineNo">539</span><a id="line.539">    int entry = findEntryByKey(key, keyHash);</a>
+<span class="sourceLineNo">540</span><a id="line.540">    if (entry == ABSENT) {</a>
+<span class="sourceLineNo">541</span><a id="line.541">      return null;</a>
+<span class="sourceLineNo">542</span><a id="line.542">    } else {</a>
+<span class="sourceLineNo">543</span><a id="line.543">      V value = values[entry];</a>
+<span class="sourceLineNo">544</span><a id="line.544">      removeEntryKeyHashKnown(entry, keyHash);</a>
+<span class="sourceLineNo">545</span><a id="line.545">      return value;</a>
+<span class="sourceLineNo">546</span><a id="line.546">    }</a>
+<span class="sourceLineNo">547</span><a id="line.547">  }</a>
+<span class="sourceLineNo">548</span><a id="line.548"></a>
+<span class="sourceLineNo">549</span><a id="line.549">  @Nullable K removeInverse(@Nullable Object value) {</a>
+<span class="sourceLineNo">550</span><a id="line.550">    int valueHash = Hashing.smearedHash(value);</a>
+<span class="sourceLineNo">551</span><a id="line.551">    int entry = findEntryByValue(value, valueHash);</a>
+<span class="sourceLineNo">552</span><a id="line.552">    if (entry == ABSENT) {</a>
+<span class="sourceLineNo">553</span><a id="line.553">      return null;</a>
+<span class="sourceLineNo">554</span><a id="line.554">    } else {</a>
+<span class="sourceLineNo">555</span><a id="line.555">      K key = keys[entry];</a>
+<span class="sourceLineNo">556</span><a id="line.556">      removeEntryValueHashKnown(entry, valueHash);</a>
+<span class="sourceLineNo">557</span><a id="line.557">      return key;</a>
+<span class="sourceLineNo">558</span><a id="line.558">    }</a>
+<span class="sourceLineNo">559</span><a id="line.559">  }</a>
+<span class="sourceLineNo">560</span><a id="line.560"></a>
+<span class="sourceLineNo">561</span><a id="line.561">  /** Removes the entry at the specified index with no additional data. */</a>
+<span class="sourceLineNo">562</span><a id="line.562">  void removeEntry(int entry) {</a>
+<span class="sourceLineNo">563</span><a id="line.563">    removeEntryKeyHashKnown(entry, Hashing.smearedHash(keys[entry]));</a>
+<span class="sourceLineNo">564</span><a id="line.564">  }</a>
+<span class="sourceLineNo">565</span><a id="line.565"></a>
+<span class="sourceLineNo">566</span><a id="line.566">  /** Removes the entry at the specified index, given the hash of its key and value. */</a>
+<span class="sourceLineNo">567</span><a id="line.567">  private void removeEntry(int entry, int keyHash, int valueHash) {</a>
+<span class="sourceLineNo">568</span><a id="line.568">    checkArgument(entry != ABSENT);</a>
+<span class="sourceLineNo">569</span><a id="line.569">    deleteFromTableKToV(entry, keyHash);</a>
+<span class="sourceLineNo">570</span><a id="line.570">    deleteFromTableVToK(entry, valueHash);</a>
+<span class="sourceLineNo">571</span><a id="line.571"></a>
+<span class="sourceLineNo">572</span><a id="line.572">    int oldPredecessor = prevInInsertionOrder[entry];</a>
+<span class="sourceLineNo">573</span><a id="line.573">    int oldSuccessor = nextInInsertionOrder[entry];</a>
+<span class="sourceLineNo">574</span><a id="line.574">    setSucceeds(oldPredecessor, oldSuccessor);</a>
+<span class="sourceLineNo">575</span><a id="line.575"></a>
+<span class="sourceLineNo">576</span><a id="line.576">    moveEntryToIndex(size - 1, entry);</a>
+<span class="sourceLineNo">577</span><a id="line.577">    keys[size - 1] = null;</a>
+<span class="sourceLineNo">578</span><a id="line.578">    values[size - 1] = null;</a>
+<span class="sourceLineNo">579</span><a id="line.579">    size--;</a>
+<span class="sourceLineNo">580</span><a id="line.580">    modCount++;</a>
+<span class="sourceLineNo">581</span><a id="line.581">  }</a>
+<span class="sourceLineNo">582</span><a id="line.582"></a>
+<span class="sourceLineNo">583</span><a id="line.583">  /** Removes the entry at the specified index, given the hash of its key. */</a>
+<span class="sourceLineNo">584</span><a id="line.584">  void removeEntryKeyHashKnown(int entry, int keyHash) {</a>
+<span class="sourceLineNo">585</span><a id="line.585">    removeEntry(entry, keyHash, Hashing.smearedHash(values[entry]));</a>
+<span class="sourceLineNo">586</span><a id="line.586">  }</a>
+<span class="sourceLineNo">587</span><a id="line.587"></a>
+<span class="sourceLineNo">588</span><a id="line.588">  /** Removes the entry at the specified index, given the hash of its value. */</a>
+<span class="sourceLineNo">589</span><a id="line.589">  void removeEntryValueHashKnown(int entry, int valueHash) {</a>
+<span class="sourceLineNo">590</span><a id="line.590">    removeEntry(entry, Hashing.smearedHash(keys[entry]), valueHash);</a>
+<span class="sourceLineNo">591</span><a id="line.591">  }</a>
+<span class="sourceLineNo">592</span><a id="line.592"></a>
+<span class="sourceLineNo">593</span><a id="line.593">  /**</a>
+<span class="sourceLineNo">594</span><a id="line.594">   * Moves the entry previously positioned at {@code src} to {@code dest}. Assumes the entry</a>
+<span class="sourceLineNo">595</span><a id="line.595">   * previously at {@code src} has already been removed from the data structures.</a>
+<span class="sourceLineNo">596</span><a id="line.596">   */</a>
+<span class="sourceLineNo">597</span><a id="line.597">  private void moveEntryToIndex(int src, int dest) {</a>
+<span class="sourceLineNo">598</span><a id="line.598">    if (src == dest) {</a>
+<span class="sourceLineNo">599</span><a id="line.599">      return;</a>
+<span class="sourceLineNo">600</span><a id="line.600">    }</a>
+<span class="sourceLineNo">601</span><a id="line.601">    int predecessor = prevInInsertionOrder[src];</a>
+<span class="sourceLineNo">602</span><a id="line.602">    int successor = nextInInsertionOrder[src];</a>
+<span class="sourceLineNo">603</span><a id="line.603">    setSucceeds(predecessor, dest);</a>
+<span class="sourceLineNo">604</span><a id="line.604">    setSucceeds(dest, successor);</a>
+<span class="sourceLineNo">605</span><a id="line.605"></a>
+<span class="sourceLineNo">606</span><a id="line.606">    K key = keys[src];</a>
+<span class="sourceLineNo">607</span><a id="line.607">    V value = values[src];</a>
+<span class="sourceLineNo">608</span><a id="line.608"></a>
+<span class="sourceLineNo">609</span><a id="line.609">    keys[dest] = key;</a>
+<span class="sourceLineNo">610</span><a id="line.610">    values[dest] = value;</a>
+<span class="sourceLineNo">611</span><a id="line.611"></a>
+<span class="sourceLineNo">612</span><a id="line.612">    // update pointers in hashTableKToV</a>
+<span class="sourceLineNo">613</span><a id="line.613">    int keyHash = Hashing.smearedHash(key);</a>
+<span class="sourceLineNo">614</span><a id="line.614">    int keyBucket = bucket(keyHash);</a>
+<span class="sourceLineNo">615</span><a id="line.615">    if (hashTableKToV[keyBucket] == src) {</a>
+<span class="sourceLineNo">616</span><a id="line.616">      hashTableKToV[keyBucket] = dest;</a>
+<span class="sourceLineNo">617</span><a id="line.617">    } else {</a>
+<span class="sourceLineNo">618</span><a id="line.618">      int prevInBucket = hashTableKToV[keyBucket];</a>
+<span class="sourceLineNo">619</span><a id="line.619">      for (int entryInBucket = nextInBucketKToV[prevInBucket];</a>
+<span class="sourceLineNo">620</span><a id="line.620">          /* should never reach end */ ;</a>
+<span class="sourceLineNo">621</span><a id="line.621">          entryInBucket = nextInBucketKToV[entryInBucket]) {</a>
+<span class="sourceLineNo">622</span><a id="line.622">        if (entryInBucket == src) {</a>
+<span class="sourceLineNo">623</span><a id="line.623">          nextInBucketKToV[prevInBucket] = dest;</a>
+<span class="sourceLineNo">624</span><a id="line.624">          break;</a>
+<span class="sourceLineNo">625</span><a id="line.625">        }</a>
+<span class="sourceLineNo">626</span><a id="line.626">        prevInBucket = entryInBucket;</a>
+<span class="sourceLineNo">627</span><a id="line.627">      }</a>
+<span class="sourceLineNo">628</span><a id="line.628">    }</a>
+<span class="sourceLineNo">629</span><a id="line.629">    nextInBucketKToV[dest] = nextInBucketKToV[src];</a>
+<span class="sourceLineNo">630</span><a id="line.630">    nextInBucketKToV[src] = ABSENT;</a>
+<span class="sourceLineNo">631</span><a id="line.631"></a>
+<span class="sourceLineNo">632</span><a id="line.632">    // update pointers in hashTableVToK</a>
+<span class="sourceLineNo">633</span><a id="line.633">    int valueHash = Hashing.smearedHash(value);</a>
+<span class="sourceLineNo">634</span><a id="line.634">    int valueBucket = bucket(valueHash);</a>
+<span class="sourceLineNo">635</span><a id="line.635">    if (hashTableVToK[valueBucket] == src) {</a>
+<span class="sourceLineNo">636</span><a id="line.636">      hashTableVToK[valueBucket] = dest;</a>
+<span class="sourceLineNo">637</span><a id="line.637">    } else {</a>
+<span class="sourceLineNo">638</span><a id="line.638">      int prevInBucket = hashTableVToK[valueBucket];</a>
+<span class="sourceLineNo">639</span><a id="line.639">      for (int entryInBucket = nextInBucketVToK[prevInBucket];</a>
+<span class="sourceLineNo">640</span><a id="line.640">          /* should never reach end*/ ;</a>
+<span class="sourceLineNo">641</span><a id="line.641">          entryInBucket = nextInBucketVToK[entryInBucket]) {</a>
+<span class="sourceLineNo">642</span><a id="line.642">        if (entryInBucket == src) {</a>
+<span class="sourceLineNo">643</span><a id="line.643">          nextInBucketVToK[prevInBucket] = dest;</a>
+<span class="sourceLineNo">644</span><a id="line.644">          break;</a>
+<span class="sourceLineNo">645</span><a id="line.645">        }</a>
+<span class="sourceLineNo">646</span><a id="line.646">        prevInBucket = entryInBucket;</a>
+<span class="sourceLineNo">647</span><a id="line.647">      }</a>
+<span class="sourceLineNo">648</span><a id="line.648">    }</a>
+<span class="sourceLineNo">649</span><a id="line.649">    nextInBucketVToK[dest] = nextInBucketVToK[src];</a>
+<span class="sourceLineNo">650</span><a id="line.650">    nextInBucketVToK[src] = ABSENT;</a>
+<span class="sourceLineNo">651</span><a id="line.651">  }</a>
+<span class="sourceLineNo">652</span><a id="line.652"></a>
+<span class="sourceLineNo">653</span><a id="line.653">  @Override</a>
+<span class="sourceLineNo">654</span><a id="line.654">  public void clear() {</a>
+<span class="sourceLineNo">655</span><a id="line.655">    Arrays.fill(keys, 0, size, null);</a>
+<span class="sourceLineNo">656</span><a id="line.656">    Arrays.fill(values, 0, size, null);</a>
+<span class="sourceLineNo">657</span><a id="line.657">    Arrays.fill(hashTableKToV, ABSENT);</a>
+<span class="sourceLineNo">658</span><a id="line.658">    Arrays.fill(hashTableVToK, ABSENT);</a>
+<span class="sourceLineNo">659</span><a id="line.659">    Arrays.fill(nextInBucketKToV, 0, size, ABSENT);</a>
+<span class="sourceLineNo">660</span><a id="line.660">    Arrays.fill(nextInBucketVToK, 0, size, ABSENT);</a>
+<span class="sourceLineNo">661</span><a id="line.661">    Arrays.fill(prevInInsertionOrder, 0, size, ABSENT);</a>
+<span class="sourceLineNo">662</span><a id="line.662">    Arrays.fill(nextInInsertionOrder, 0, size, ABSENT);</a>
+<span class="sourceLineNo">663</span><a id="line.663">    size = 0;</a>
+<span class="sourceLineNo">664</span><a id="line.664">    firstInInsertionOrder = ENDPOINT;</a>
+<span class="sourceLineNo">665</span><a id="line.665">    lastInInsertionOrder = ENDPOINT;</a>
+<span class="sourceLineNo">666</span><a id="line.666">    modCount++;</a>
+<span class="sourceLineNo">667</span><a id="line.667">  }</a>
+<span class="sourceLineNo">668</span><a id="line.668"></a>
+<span class="sourceLineNo">669</span><a id="line.669">  /** Shared supertype of keySet, values, entrySet, and inverse.entrySet. */</a>
+<span class="sourceLineNo">670</span><a id="line.670">  abstract static class View&lt;</a>
+<span class="sourceLineNo">671</span><a id="line.671">          K extends @Nullable Object, V extends @Nullable Object, T extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">672</span><a id="line.672">      extends AbstractSet&lt;T&gt; {</a>
+<span class="sourceLineNo">673</span><a id="line.673">    final HashBiMap&lt;K, V&gt; biMap;</a>
+<span class="sourceLineNo">674</span><a id="line.674"></a>
+<span class="sourceLineNo">675</span><a id="line.675">    View(HashBiMap&lt;K, V&gt; biMap) {</a>
+<span class="sourceLineNo">676</span><a id="line.676">      this.biMap = biMap;</a>
+<span class="sourceLineNo">677</span><a id="line.677">    }</a>
+<span class="sourceLineNo">678</span><a id="line.678"></a>
+<span class="sourceLineNo">679</span><a id="line.679">    @ParametricNullness</a>
+<span class="sourceLineNo">680</span><a id="line.680">    abstract T forEntry(int entry);</a>
+<span class="sourceLineNo">681</span><a id="line.681"></a>
+<span class="sourceLineNo">682</span><a id="line.682">    @Override</a>
+<span class="sourceLineNo">683</span><a id="line.683">    public Iterator&lt;T&gt; iterator() {</a>
+<span class="sourceLineNo">684</span><a id="line.684">      return new Iterator&lt;T&gt;() {</a>
+<span class="sourceLineNo">685</span><a id="line.685">        private int index = biMap.firstInInsertionOrder;</a>
+<span class="sourceLineNo">686</span><a id="line.686">        private int indexToRemove = ABSENT;</a>
+<span class="sourceLineNo">687</span><a id="line.687">        private int expectedModCount = biMap.modCount;</a>
+<span class="sourceLineNo">688</span><a id="line.688"></a>
+<span class="sourceLineNo">689</span><a id="line.689">        // Calls to setValue on inverse entries can move already-visited entries to the end.</a>
+<span class="sourceLineNo">690</span><a id="line.690">        // Make sure we don't visit those.</a>
+<span class="sourceLineNo">691</span><a id="line.691">        private int remaining = biMap.size;</a>
+<span class="sourceLineNo">692</span><a id="line.692"></a>
+<span class="sourceLineNo">693</span><a id="line.693">        private void checkForComodification() {</a>
+<span class="sourceLineNo">694</span><a id="line.694">          if (biMap.modCount != expectedModCount) {</a>
+<span class="sourceLineNo">695</span><a id="line.695">            throw new ConcurrentModificationException();</a>
+<span class="sourceLineNo">696</span><a id="line.696">          }</a>
+<span class="sourceLineNo">697</span><a id="line.697">        }</a>
+<span class="sourceLineNo">698</span><a id="line.698"></a>
+<span class="sourceLineNo">699</span><a id="line.699">        @Override</a>
+<span class="sourceLineNo">700</span><a id="line.700">        public boolean hasNext() {</a>
+<span class="sourceLineNo">701</span><a id="line.701">          checkForComodification();</a>
+<span class="sourceLineNo">702</span><a id="line.702">          return index != ENDPOINT &amp;&amp; remaining &gt; 0;</a>
+<span class="sourceLineNo">703</span><a id="line.703">        }</a>
+<span class="sourceLineNo">704</span><a id="line.704"></a>
+<span class="sourceLineNo">705</span><a id="line.705">        @Override</a>
+<span class="sourceLineNo">706</span><a id="line.706">        @ParametricNullness</a>
+<span class="sourceLineNo">707</span><a id="line.707">        public T next() {</a>
+<span class="sourceLineNo">708</span><a id="line.708">          if (!hasNext()) {</a>
+<span class="sourceLineNo">709</span><a id="line.709">            throw new NoSuchElementException();</a>
+<span class="sourceLineNo">710</span><a id="line.710">          }</a>
+<span class="sourceLineNo">711</span><a id="line.711">          T result = forEntry(index);</a>
+<span class="sourceLineNo">712</span><a id="line.712">          indexToRemove = index;</a>
+<span class="sourceLineNo">713</span><a id="line.713">          index = biMap.nextInInsertionOrder[index];</a>
+<span class="sourceLineNo">714</span><a id="line.714">          remaining--;</a>
+<span class="sourceLineNo">715</span><a id="line.715">          return result;</a>
+<span class="sourceLineNo">716</span><a id="line.716">        }</a>
+<span class="sourceLineNo">717</span><a id="line.717"></a>
+<span class="sourceLineNo">718</span><a id="line.718">        @Override</a>
+<span class="sourceLineNo">719</span><a id="line.719">        public void remove() {</a>
+<span class="sourceLineNo">720</span><a id="line.720">          checkForComodification();</a>
+<span class="sourceLineNo">721</span><a id="line.721">          CollectPreconditions.checkRemove(indexToRemove != ABSENT);</a>
+<span class="sourceLineNo">722</span><a id="line.722">          biMap.removeEntry(indexToRemove);</a>
+<span class="sourceLineNo">723</span><a id="line.723">          if (index == biMap.size) {</a>
+<span class="sourceLineNo">724</span><a id="line.724">            index = indexToRemove;</a>
+<span class="sourceLineNo">725</span><a id="line.725">          }</a>
+<span class="sourceLineNo">726</span><a id="line.726">          indexToRemove = ABSENT;</a>
+<span class="sourceLineNo">727</span><a id="line.727">          expectedModCount = biMap.modCount;</a>
+<span class="sourceLineNo">728</span><a id="line.728">        }</a>
+<span class="sourceLineNo">729</span><a id="line.729">      };</a>
+<span class="sourceLineNo">730</span><a id="line.730">    }</a>
+<span class="sourceLineNo">731</span><a id="line.731"></a>
+<span class="sourceLineNo">732</span><a id="line.732">    @Override</a>
+<span class="sourceLineNo">733</span><a id="line.733">    public int size() {</a>
+<span class="sourceLineNo">734</span><a id="line.734">      return biMap.size;</a>
+<span class="sourceLineNo">735</span><a id="line.735">    }</a>
+<span class="sourceLineNo">736</span><a id="line.736"></a>
+<span class="sourceLineNo">737</span><a id="line.737">    @Override</a>
+<span class="sourceLineNo">738</span><a id="line.738">    public void clear() {</a>
+<span class="sourceLineNo">739</span><a id="line.739">      biMap.clear();</a>
+<span class="sourceLineNo">740</span><a id="line.740">    }</a>
+<span class="sourceLineNo">741</span><a id="line.741">  }</a>
+<span class="sourceLineNo">742</span><a id="line.742"></a>
+<span class="sourceLineNo">743</span><a id="line.743">  @LazyInit private transient Set&lt;K&gt; keySet;</a>
+<span class="sourceLineNo">744</span><a id="line.744"></a>
+<span class="sourceLineNo">745</span><a id="line.745">  @Override</a>
+<span class="sourceLineNo">746</span><a id="line.746">  public Set&lt;K&gt; keySet() {</a>
+<span class="sourceLineNo">747</span><a id="line.747">    Set&lt;K&gt; result = keySet;</a>
+<span class="sourceLineNo">748</span><a id="line.748">    return (result == null) ? keySet = new KeySet() : result;</a>
+<span class="sourceLineNo">749</span><a id="line.749">  }</a>
+<span class="sourceLineNo">750</span><a id="line.750"></a>
+<span class="sourceLineNo">751</span><a id="line.751">  final class KeySet extends View&lt;K, V, K&gt; {</a>
+<span class="sourceLineNo">752</span><a id="line.752">    KeySet() {</a>
+<span class="sourceLineNo">753</span><a id="line.753">      super(HashBiMap.this);</a>
+<span class="sourceLineNo">754</span><a id="line.754">    }</a>
+<span class="sourceLineNo">755</span><a id="line.755"></a>
+<span class="sourceLineNo">756</span><a id="line.756">    @Override</a>
+<span class="sourceLineNo">757</span><a id="line.757">    @ParametricNullness</a>
+<span class="sourceLineNo">758</span><a id="line.758">    K forEntry(int entry) {</a>
+<span class="sourceLineNo">759</span><a id="line.759">      // The cast is safe because we call forEntry only for indexes that contain entries.</a>
+<span class="sourceLineNo">760</span><a id="line.760">      return uncheckedCastNullableTToT(keys[entry]);</a>
+<span class="sourceLineNo">761</span><a id="line.761">    }</a>
+<span class="sourceLineNo">762</span><a id="line.762"></a>
+<span class="sourceLineNo">763</span><a id="line.763">    @Override</a>
+<span class="sourceLineNo">764</span><a id="line.764">    public boolean contains(@Nullable Object o) {</a>
+<span class="sourceLineNo">765</span><a id="line.765">      return HashBiMap.this.containsKey(o);</a>
+<span class="sourceLineNo">766</span><a id="line.766">    }</a>
+<span class="sourceLineNo">767</span><a id="line.767"></a>
+<span class="sourceLineNo">768</span><a id="line.768">    @Override</a>
+<span class="sourceLineNo">769</span><a id="line.769">    public boolean remove(@Nullable Object o) {</a>
+<span class="sourceLineNo">770</span><a id="line.770">      int oHash = Hashing.smearedHash(o);</a>
+<span class="sourceLineNo">771</span><a id="line.771">      int entry = findEntryByKey(o, oHash);</a>
+<span class="sourceLineNo">772</span><a id="line.772">      if (entry != ABSENT) {</a>
+<span class="sourceLineNo">773</span><a id="line.773">        removeEntryKeyHashKnown(entry, oHash);</a>
+<span class="sourceLineNo">774</span><a id="line.774">        return true;</a>
+<span class="sourceLineNo">775</span><a id="line.775">      } else {</a>
+<span class="sourceLineNo">776</span><a id="line.776">        return false;</a>
+<span class="sourceLineNo">777</span><a id="line.777">      }</a>
+<span class="sourceLineNo">778</span><a id="line.778">    }</a>
+<span class="sourceLineNo">779</span><a id="line.779">  }</a>
+<span class="sourceLineNo">780</span><a id="line.780"></a>
+<span class="sourceLineNo">781</span><a id="line.781">  @LazyInit private transient Set&lt;V&gt; valueSet;</a>
+<span class="sourceLineNo">782</span><a id="line.782"></a>
+<span class="sourceLineNo">783</span><a id="line.783">  @Override</a>
+<span class="sourceLineNo">784</span><a id="line.784">  public Set&lt;V&gt; values() {</a>
+<span class="sourceLineNo">785</span><a id="line.785">    Set&lt;V&gt; result = valueSet;</a>
+<span class="sourceLineNo">786</span><a id="line.786">    return (result == null) ? valueSet = new ValueSet() : result;</a>
+<span class="sourceLineNo">787</span><a id="line.787">  }</a>
+<span class="sourceLineNo">788</span><a id="line.788"></a>
+<span class="sourceLineNo">789</span><a id="line.789">  final class ValueSet extends View&lt;K, V, V&gt; {</a>
+<span class="sourceLineNo">790</span><a id="line.790">    ValueSet() {</a>
+<span class="sourceLineNo">791</span><a id="line.791">      super(HashBiMap.this);</a>
+<span class="sourceLineNo">792</span><a id="line.792">    }</a>
+<span class="sourceLineNo">793</span><a id="line.793"></a>
+<span class="sourceLineNo">794</span><a id="line.794">    @Override</a>
+<span class="sourceLineNo">795</span><a id="line.795">    @ParametricNullness</a>
+<span class="sourceLineNo">796</span><a id="line.796">    V forEntry(int entry) {</a>
+<span class="sourceLineNo">797</span><a id="line.797">      // The cast is safe because we call forEntry only for indexes that contain entries.</a>
+<span class="sourceLineNo">798</span><a id="line.798">      return uncheckedCastNullableTToT(values[entry]);</a>
+<span class="sourceLineNo">799</span><a id="line.799">    }</a>
+<span class="sourceLineNo">800</span><a id="line.800"></a>
+<span class="sourceLineNo">801</span><a id="line.801">    @Override</a>
+<span class="sourceLineNo">802</span><a id="line.802">    public boolean contains(@Nullable Object o) {</a>
+<span class="sourceLineNo">803</span><a id="line.803">      return HashBiMap.this.containsValue(o);</a>
+<span class="sourceLineNo">804</span><a id="line.804">    }</a>
+<span class="sourceLineNo">805</span><a id="line.805"></a>
+<span class="sourceLineNo">806</span><a id="line.806">    @Override</a>
+<span class="sourceLineNo">807</span><a id="line.807">    public boolean remove(@Nullable Object o) {</a>
+<span class="sourceLineNo">808</span><a id="line.808">      int oHash = Hashing.smearedHash(o);</a>
+<span class="sourceLineNo">809</span><a id="line.809">      int entry = findEntryByValue(o, oHash);</a>
+<span class="sourceLineNo">810</span><a id="line.810">      if (entry != ABSENT) {</a>
+<span class="sourceLineNo">811</span><a id="line.811">        removeEntryValueHashKnown(entry, oHash);</a>
+<span class="sourceLineNo">812</span><a id="line.812">        return true;</a>
+<span class="sourceLineNo">813</span><a id="line.813">      } else {</a>
+<span class="sourceLineNo">814</span><a id="line.814">        return false;</a>
+<span class="sourceLineNo">815</span><a id="line.815">      }</a>
+<span class="sourceLineNo">816</span><a id="line.816">    }</a>
+<span class="sourceLineNo">817</span><a id="line.817">  }</a>
+<span class="sourceLineNo">818</span><a id="line.818"></a>
+<span class="sourceLineNo">819</span><a id="line.819">  @LazyInit private transient Set&lt;Entry&lt;K, V&gt;&gt; entrySet;</a>
+<span class="sourceLineNo">820</span><a id="line.820"></a>
+<span class="sourceLineNo">821</span><a id="line.821">  @Override</a>
+<span class="sourceLineNo">822</span><a id="line.822">  public Set&lt;Entry&lt;K, V&gt;&gt; entrySet() {</a>
+<span class="sourceLineNo">823</span><a id="line.823">    Set&lt;Entry&lt;K, V&gt;&gt; result = entrySet;</a>
+<span class="sourceLineNo">824</span><a id="line.824">    return (result == null) ? entrySet = new EntrySet() : result;</a>
+<span class="sourceLineNo">825</span><a id="line.825">  }</a>
+<span class="sourceLineNo">826</span><a id="line.826"></a>
+<span class="sourceLineNo">827</span><a id="line.827">  final class EntrySet extends View&lt;K, V, Entry&lt;K, V&gt;&gt; {</a>
+<span class="sourceLineNo">828</span><a id="line.828">    EntrySet() {</a>
+<span class="sourceLineNo">829</span><a id="line.829">      super(HashBiMap.this);</a>
+<span class="sourceLineNo">830</span><a id="line.830">    }</a>
+<span class="sourceLineNo">831</span><a id="line.831"></a>
+<span class="sourceLineNo">832</span><a id="line.832">    @Override</a>
+<span class="sourceLineNo">833</span><a id="line.833">    public boolean contains(@Nullable Object o) {</a>
+<span class="sourceLineNo">834</span><a id="line.834">      if (o instanceof Entry) {</a>
+<span class="sourceLineNo">835</span><a id="line.835">        Entry&lt;?, ?&gt; e = (Entry&lt;?, ?&gt;) o;</a>
+<span class="sourceLineNo">836</span><a id="line.836">        Object k = e.getKey();</a>
+<span class="sourceLineNo">837</span><a id="line.837">        Object v = e.getValue();</a>
+<span class="sourceLineNo">838</span><a id="line.838">        int eIndex = findEntryByKey(k);</a>
+<span class="sourceLineNo">839</span><a id="line.839">        return eIndex != ABSENT &amp;&amp; Objects.equal(v, values[eIndex]);</a>
+<span class="sourceLineNo">840</span><a id="line.840">      }</a>
+<span class="sourceLineNo">841</span><a id="line.841">      return false;</a>
+<span class="sourceLineNo">842</span><a id="line.842">    }</a>
+<span class="sourceLineNo">843</span><a id="line.843"></a>
+<span class="sourceLineNo">844</span><a id="line.844">    @Override</a>
+<span class="sourceLineNo">845</span><a id="line.845">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">846</span><a id="line.846">    public boolean remove(@Nullable Object o) {</a>
+<span class="sourceLineNo">847</span><a id="line.847">      if (o instanceof Entry) {</a>
+<span class="sourceLineNo">848</span><a id="line.848">        Entry&lt;?, ?&gt; e = (Entry&lt;?, ?&gt;) o;</a>
+<span class="sourceLineNo">849</span><a id="line.849">        Object k = e.getKey();</a>
+<span class="sourceLineNo">850</span><a id="line.850">        Object v = e.getValue();</a>
+<span class="sourceLineNo">851</span><a id="line.851">        int kHash = Hashing.smearedHash(k);</a>
+<span class="sourceLineNo">852</span><a id="line.852">        int eIndex = findEntryByKey(k, kHash);</a>
+<span class="sourceLineNo">853</span><a id="line.853">        if (eIndex != ABSENT &amp;&amp; Objects.equal(v, values[eIndex])) {</a>
+<span class="sourceLineNo">854</span><a id="line.854">          removeEntryKeyHashKnown(eIndex, kHash);</a>
+<span class="sourceLineNo">855</span><a id="line.855">          return true;</a>
+<span class="sourceLineNo">856</span><a id="line.856">        }</a>
+<span class="sourceLineNo">857</span><a id="line.857">      }</a>
+<span class="sourceLineNo">858</span><a id="line.858">      return false;</a>
+<span class="sourceLineNo">859</span><a id="line.859">    }</a>
+<span class="sourceLineNo">860</span><a id="line.860"></a>
+<span class="sourceLineNo">861</span><a id="line.861">    @Override</a>
+<span class="sourceLineNo">862</span><a id="line.862">    Entry&lt;K, V&gt; forEntry(int entry) {</a>
+<span class="sourceLineNo">863</span><a id="line.863">      return new EntryForKey(entry);</a>
+<span class="sourceLineNo">864</span><a id="line.864">    }</a>
+<span class="sourceLineNo">865</span><a id="line.865">  }</a>
+<span class="sourceLineNo">866</span><a id="line.866"></a>
+<span class="sourceLineNo">867</span><a id="line.867">  /**</a>
+<span class="sourceLineNo">868</span><a id="line.868">   * An {@code Entry} implementation that attempts to follow its key around the map -- that is, if</a>
+<span class="sourceLineNo">869</span><a id="line.869">   * the key is moved, deleted, or reinserted, it will account for that -- while not doing any extra</a>
+<span class="sourceLineNo">870</span><a id="line.870">   * work if the key has not moved. One quirk: The {@link #getValue()} method can return {@code</a>
+<span class="sourceLineNo">871</span><a id="line.871">   * null} even for a map which supposedly does not contain null elements, if the key is not present</a>
+<span class="sourceLineNo">872</span><a id="line.872">   * when {@code getValue()} is called.</a>
+<span class="sourceLineNo">873</span><a id="line.873">   */</a>
+<span class="sourceLineNo">874</span><a id="line.874">  final class EntryForKey extends AbstractMapEntry&lt;K, V&gt; {</a>
+<span class="sourceLineNo">875</span><a id="line.875">    @ParametricNullness final K key;</a>
+<span class="sourceLineNo">876</span><a id="line.876">    int index;</a>
+<span class="sourceLineNo">877</span><a id="line.877"></a>
+<span class="sourceLineNo">878</span><a id="line.878">    EntryForKey(int index) {</a>
+<span class="sourceLineNo">879</span><a id="line.879">      // The cast is safe because we call forEntry only for indexes that contain entries.</a>
+<span class="sourceLineNo">880</span><a id="line.880">      this.key = uncheckedCastNullableTToT(keys[index]);</a>
+<span class="sourceLineNo">881</span><a id="line.881">      this.index = index;</a>
+<span class="sourceLineNo">882</span><a id="line.882">    }</a>
+<span class="sourceLineNo">883</span><a id="line.883"></a>
+<span class="sourceLineNo">884</span><a id="line.884">    void updateIndex() {</a>
+<span class="sourceLineNo">885</span><a id="line.885">      if (index == ABSENT || index &gt; size || !Objects.equal(keys[index], key)) {</a>
+<span class="sourceLineNo">886</span><a id="line.886">        index = findEntryByKey(key);</a>
+<span class="sourceLineNo">887</span><a id="line.887">      }</a>
+<span class="sourceLineNo">888</span><a id="line.888">    }</a>
+<span class="sourceLineNo">889</span><a id="line.889"></a>
+<span class="sourceLineNo">890</span><a id="line.890">    @Override</a>
+<span class="sourceLineNo">891</span><a id="line.891">    @ParametricNullness</a>
+<span class="sourceLineNo">892</span><a id="line.892">    public K getKey() {</a>
+<span class="sourceLineNo">893</span><a id="line.893">      return key;</a>
+<span class="sourceLineNo">894</span><a id="line.894">    }</a>
+<span class="sourceLineNo">895</span><a id="line.895"></a>
+<span class="sourceLineNo">896</span><a id="line.896">    @Override</a>
+<span class="sourceLineNo">897</span><a id="line.897">    @ParametricNullness</a>
+<span class="sourceLineNo">898</span><a id="line.898">    public V getValue() {</a>
+<span class="sourceLineNo">899</span><a id="line.899">      updateIndex();</a>
+<span class="sourceLineNo">900</span><a id="line.900">      /*</a>
+<span class="sourceLineNo">901</span><a id="line.901">       * If the entry has been removed from the map, we return null, even though that might not be a</a>
+<span class="sourceLineNo">902</span><a id="line.902">       * valid value. That's the best we can do, short of holding a reference to the most recently</a>
+<span class="sourceLineNo">903</span><a id="line.903">       * seen value. And while we *could* do that, we aren't required to: Map.Entry explicitly says</a>
+<span class="sourceLineNo">904</span><a id="line.904">       * that behavior is undefined when the backing map is modified through another API. (It even</a>
+<span class="sourceLineNo">905</span><a id="line.905">       * permits us to throw IllegalStateException. Maybe we should have done that, but we probably</a>
+<span class="sourceLineNo">906</span><a id="line.906">       * shouldn't change now for fear of breaking people.)</a>
+<span class="sourceLineNo">907</span><a id="line.907">       *</a>
+<span class="sourceLineNo">908</span><a id="line.908">       * If the entry is still in the map, then updateIndex ensured that `index` points to the right</a>
+<span class="sourceLineNo">909</span><a id="line.909">       * element. Because that element is present, uncheckedCastNullableTToT is safe.</a>
+<span class="sourceLineNo">910</span><a id="line.910">       */</a>
+<span class="sourceLineNo">911</span><a id="line.911">      return (index == ABSENT) ? unsafeNull() : uncheckedCastNullableTToT(values[index]);</a>
+<span class="sourceLineNo">912</span><a id="line.912">    }</a>
+<span class="sourceLineNo">913</span><a id="line.913"></a>
+<span class="sourceLineNo">914</span><a id="line.914">    @Override</a>
+<span class="sourceLineNo">915</span><a id="line.915">    @ParametricNullness</a>
+<span class="sourceLineNo">916</span><a id="line.916">    public V setValue(@ParametricNullness V value) {</a>
+<span class="sourceLineNo">917</span><a id="line.917">      updateIndex();</a>
+<span class="sourceLineNo">918</span><a id="line.918">      if (index == ABSENT) {</a>
+<span class="sourceLineNo">919</span><a id="line.919">        HashBiMap.this.put(key, value);</a>
+<span class="sourceLineNo">920</span><a id="line.920">        return unsafeNull(); // See the discussion in getValue().</a>
+<span class="sourceLineNo">921</span><a id="line.921">      }</a>
+<span class="sourceLineNo">922</span><a id="line.922">      /*</a>
+<span class="sourceLineNo">923</span><a id="line.923">       * The cast is safe because updateIndex found the entry for this key. (If it hadn't, then we</a>
+<span class="sourceLineNo">924</span><a id="line.924">       * would have returned above.) Thus, we know that it and its corresponding value are in</a>
+<span class="sourceLineNo">925</span><a id="line.925">       * position `index`.</a>
+<span class="sourceLineNo">926</span><a id="line.926">       */</a>
+<span class="sourceLineNo">927</span><a id="line.927">      V oldValue = uncheckedCastNullableTToT(values[index]);</a>
+<span class="sourceLineNo">928</span><a id="line.928">      if (Objects.equal(oldValue, value)) {</a>
+<span class="sourceLineNo">929</span><a id="line.929">        return value;</a>
+<span class="sourceLineNo">930</span><a id="line.930">      }</a>
+<span class="sourceLineNo">931</span><a id="line.931">      replaceValueInEntry(index, value, false);</a>
+<span class="sourceLineNo">932</span><a id="line.932">      return oldValue;</a>
+<span class="sourceLineNo">933</span><a id="line.933">    }</a>
+<span class="sourceLineNo">934</span><a id="line.934">  }</a>
+<span class="sourceLineNo">935</span><a id="line.935"></a>
+<span class="sourceLineNo">936</span><a id="line.936">  @LazyInit @RetainedWith private transient @Nullable BiMap&lt;V, K&gt; inverse;</a>
+<span class="sourceLineNo">937</span><a id="line.937"></a>
+<span class="sourceLineNo">938</span><a id="line.938">  @Override</a>
+<span class="sourceLineNo">939</span><a id="line.939">  public BiMap&lt;V, K&gt; inverse() {</a>
+<span class="sourceLineNo">940</span><a id="line.940">    BiMap&lt;V, K&gt; result = inverse;</a>
+<span class="sourceLineNo">941</span><a id="line.941">    return (result == null) ? inverse = new Inverse&lt;K, V&gt;(this) : result;</a>
+<span class="sourceLineNo">942</span><a id="line.942">  }</a>
+<span class="sourceLineNo">943</span><a id="line.943"></a>
+<span class="sourceLineNo">944</span><a id="line.944">  static class Inverse&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">945</span><a id="line.945">      extends AbstractMap&lt;V, K&gt; implements BiMap&lt;V, K&gt;, Serializable {</a>
+<span class="sourceLineNo">946</span><a id="line.946">    private final HashBiMap&lt;K, V&gt; forward;</a>
+<span class="sourceLineNo">947</span><a id="line.947"></a>
+<span class="sourceLineNo">948</span><a id="line.948">    Inverse(HashBiMap&lt;K, V&gt; forward) {</a>
+<span class="sourceLineNo">949</span><a id="line.949">      this.forward = forward;</a>
+<span class="sourceLineNo">950</span><a id="line.950">    }</a>
+<span class="sourceLineNo">951</span><a id="line.951"></a>
+<span class="sourceLineNo">952</span><a id="line.952">    @Override</a>
+<span class="sourceLineNo">953</span><a id="line.953">    public int size() {</a>
+<span class="sourceLineNo">954</span><a id="line.954">      return forward.size;</a>
+<span class="sourceLineNo">955</span><a id="line.955">    }</a>
+<span class="sourceLineNo">956</span><a id="line.956"></a>
+<span class="sourceLineNo">957</span><a id="line.957">    @Override</a>
+<span class="sourceLineNo">958</span><a id="line.958">    public boolean containsKey(@Nullable Object key) {</a>
+<span class="sourceLineNo">959</span><a id="line.959">      return forward.containsValue(key);</a>
+<span class="sourceLineNo">960</span><a id="line.960">    }</a>
+<span class="sourceLineNo">961</span><a id="line.961"></a>
+<span class="sourceLineNo">962</span><a id="line.962">    @Override</a>
+<span class="sourceLineNo">963</span><a id="line.963">    public @Nullable K get(@Nullable Object key) {</a>
+<span class="sourceLineNo">964</span><a id="line.964">      return forward.getInverse(key);</a>
+<span class="sourceLineNo">965</span><a id="line.965">    }</a>
+<span class="sourceLineNo">966</span><a id="line.966"></a>
+<span class="sourceLineNo">967</span><a id="line.967">    @Override</a>
+<span class="sourceLineNo">968</span><a id="line.968">    public boolean containsValue(@Nullable Object value) {</a>
+<span class="sourceLineNo">969</span><a id="line.969">      return forward.containsKey(value);</a>
+<span class="sourceLineNo">970</span><a id="line.970">    }</a>
+<span class="sourceLineNo">971</span><a id="line.971"></a>
+<span class="sourceLineNo">972</span><a id="line.972">    @Override</a>
+<span class="sourceLineNo">973</span><a id="line.973">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">974</span><a id="line.974">    public @Nullable K put(@ParametricNullness V value, @ParametricNullness K key) {</a>
+<span class="sourceLineNo">975</span><a id="line.975">      return forward.putInverse(value, key, false);</a>
+<span class="sourceLineNo">976</span><a id="line.976">    }</a>
+<span class="sourceLineNo">977</span><a id="line.977"></a>
+<span class="sourceLineNo">978</span><a id="line.978">    @Override</a>
+<span class="sourceLineNo">979</span><a id="line.979">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">980</span><a id="line.980">    public @Nullable K forcePut(@ParametricNullness V value, @ParametricNullness K key) {</a>
+<span class="sourceLineNo">981</span><a id="line.981">      return forward.putInverse(value, key, true);</a>
+<span class="sourceLineNo">982</span><a id="line.982">    }</a>
+<span class="sourceLineNo">983</span><a id="line.983"></a>
+<span class="sourceLineNo">984</span><a id="line.984">    @Override</a>
+<span class="sourceLineNo">985</span><a id="line.985">    public BiMap&lt;K, V&gt; inverse() {</a>
+<span class="sourceLineNo">986</span><a id="line.986">      return forward;</a>
+<span class="sourceLineNo">987</span><a id="line.987">    }</a>
+<span class="sourceLineNo">988</span><a id="line.988"></a>
+<span class="sourceLineNo">989</span><a id="line.989">    @Override</a>
+<span class="sourceLineNo">990</span><a id="line.990">    @CanIgnoreReturnValue</a>
+<span class="sourceLineNo">991</span><a id="line.991">    public @Nullable K remove(@Nullable Object value) {</a>
+<span class="sourceLineNo">992</span><a id="line.992">      return forward.removeInverse(value);</a>
+<span class="sourceLineNo">993</span><a id="line.993">    }</a>
+<span class="sourceLineNo">994</span><a id="line.994"></a>
+<span class="sourceLineNo">995</span><a id="line.995">    @Override</a>
+<span class="sourceLineNo">996</span><a id="line.996">    public void clear() {</a>
+<span class="sourceLineNo">997</span><a id="line.997">      forward.clear();</a>
+<span class="sourceLineNo">998</span><a id="line.998">    }</a>
+<span class="sourceLineNo">999</span><a id="line.999"></a>
+<span class="sourceLineNo">1000</span><a id="line.1000">    @Override</a>
+<span class="sourceLineNo">1001</span><a id="line.1001">    public Set&lt;V&gt; keySet() {</a>
+<span class="sourceLineNo">1002</span><a id="line.1002">      return forward.values();</a>
+<span class="sourceLineNo">1003</span><a id="line.1003">    }</a>
+<span class="sourceLineNo">1004</span><a id="line.1004"></a>
+<span class="sourceLineNo">1005</span><a id="line.1005">    @Override</a>
+<span class="sourceLineNo">1006</span><a id="line.1006">    public Set&lt;K&gt; values() {</a>
+<span class="sourceLineNo">1007</span><a id="line.1007">      return forward.keySet();</a>
+<span class="sourceLineNo">1008</span><a id="line.1008">    }</a>
+<span class="sourceLineNo">1009</span><a id="line.1009"></a>
+<span class="sourceLineNo">1010</span><a id="line.1010">    private transient Set&lt;Entry&lt;V, K&gt;&gt; inverseEntrySet;</a>
+<span class="sourceLineNo">1011</span><a id="line.1011"></a>
+<span class="sourceLineNo">1012</span><a id="line.1012">    @Override</a>
+<span class="sourceLineNo">1013</span><a id="line.1013">    public Set&lt;Entry&lt;V, K&gt;&gt; entrySet() {</a>
+<span class="sourceLineNo">1014</span><a id="line.1014">      Set&lt;Entry&lt;V, K&gt;&gt; result = inverseEntrySet;</a>
+<span class="sourceLineNo">1015</span><a id="line.1015">      return (result == null) ? inverseEntrySet = new InverseEntrySet&lt;K, V&gt;(forward) : result;</a>
+<span class="sourceLineNo">1016</span><a id="line.1016">    }</a>
+<span class="sourceLineNo">1017</span><a id="line.1017"></a>
+<span class="sourceLineNo">1018</span><a id="line.1018">    @GwtIncompatible("serialization")</a>
+<span class="sourceLineNo">1019</span><a id="line.1019">    private void readObject(ObjectInputStream in) throws ClassNotFoundException, IOException {</a>
+<span class="sourceLineNo">1020</span><a id="line.1020">      in.defaultReadObject();</a>
+<span class="sourceLineNo">1021</span><a id="line.1021">      this.forward.inverse = this;</a>
+<span class="sourceLineNo">1022</span><a id="line.1022">    }</a>
+<span class="sourceLineNo">1023</span><a id="line.1023">  }</a>
+<span class="sourceLineNo">1024</span><a id="line.1024"></a>
+<span class="sourceLineNo">1025</span><a id="line.1025">  static class InverseEntrySet&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">1026</span><a id="line.1026">      extends View&lt;K, V, Entry&lt;V, K&gt;&gt; {</a>
+<span class="sourceLineNo">1027</span><a id="line.1027">    InverseEntrySet(HashBiMap&lt;K, V&gt; biMap) {</a>
+<span class="sourceLineNo">1028</span><a id="line.1028">      super(biMap);</a>
+<span class="sourceLineNo">1029</span><a id="line.1029">    }</a>
+<span class="sourceLineNo">1030</span><a id="line.1030"></a>
+<span class="sourceLineNo">1031</span><a id="line.1031">    @Override</a>
+<span class="sourceLineNo">1032</span><a id="line.1032">    public boolean contains(@Nullable Object o) {</a>
+<span class="sourceLineNo">1033</span><a id="line.1033">      if (o instanceof Entry) {</a>
+<span class="sourceLineNo">1034</span><a id="line.1034">        Entry&lt;?, ?&gt; e = (Entry&lt;?, ?&gt;) o;</a>
+<span class="sourceLineNo">1035</span><a id="line.1035">        Object v = e.getKey();</a>
+<span class="sourceLineNo">1036</span><a id="line.1036">        Object k = e.getValue();</a>
+<span class="sourceLineNo">1037</span><a id="line.1037">        int eIndex = biMap.findEntryByValue(v);</a>
+<span class="sourceLineNo">1038</span><a id="line.1038">        return eIndex != ABSENT &amp;&amp; Objects.equal(biMap.keys[eIndex], k);</a>
+<span class="sourceLineNo">1039</span><a id="line.1039">      }</a>
+<span class="sourceLineNo">1040</span><a id="line.1040">      return false;</a>
+<span class="sourceLineNo">1041</span><a id="line.1041">    }</a>
+<span class="sourceLineNo">1042</span><a id="line.1042"></a>
+<span class="sourceLineNo">1043</span><a id="line.1043">    @Override</a>
+<span class="sourceLineNo">1044</span><a id="line.1044">    public boolean remove(@Nullable Object o) {</a>
+<span class="sourceLineNo">1045</span><a id="line.1045">      if (o instanceof Entry) {</a>
+<span class="sourceLineNo">1046</span><a id="line.1046">        Entry&lt;?, ?&gt; e = (Entry&lt;?, ?&gt;) o;</a>
+<span class="sourceLineNo">1047</span><a id="line.1047">        Object v = e.getKey();</a>
+<span class="sourceLineNo">1048</span><a id="line.1048">        Object k = e.getValue();</a>
+<span class="sourceLineNo">1049</span><a id="line.1049">        int vHash = Hashing.smearedHash(v);</a>
+<span class="sourceLineNo">1050</span><a id="line.1050">        int eIndex = biMap.findEntryByValue(v, vHash);</a>
+<span class="sourceLineNo">1051</span><a id="line.1051">        if (eIndex != ABSENT &amp;&amp; Objects.equal(biMap.keys[eIndex], k)) {</a>
+<span class="sourceLineNo">1052</span><a id="line.1052">          biMap.removeEntryValueHashKnown(eIndex, vHash);</a>
+<span class="sourceLineNo">1053</span><a id="line.1053">          return true;</a>
+<span class="sourceLineNo">1054</span><a id="line.1054">        }</a>
+<span class="sourceLineNo">1055</span><a id="line.1055">      }</a>
+<span class="sourceLineNo">1056</span><a id="line.1056">      return false;</a>
+<span class="sourceLineNo">1057</span><a id="line.1057">    }</a>
+<span class="sourceLineNo">1058</span><a id="line.1058"></a>
+<span class="sourceLineNo">1059</span><a id="line.1059">    @Override</a>
+<span class="sourceLineNo">1060</span><a id="line.1060">    Entry&lt;V, K&gt; forEntry(int entry) {</a>
+<span class="sourceLineNo">1061</span><a id="line.1061">      return new EntryForValue&lt;K, V&gt;(biMap, entry);</a>
+<span class="sourceLineNo">1062</span><a id="line.1062">    }</a>
+<span class="sourceLineNo">1063</span><a id="line.1063">  }</a>
+<span class="sourceLineNo">1064</span><a id="line.1064"></a>
+<span class="sourceLineNo">1065</span><a id="line.1065">  /**</a>
+<span class="sourceLineNo">1066</span><a id="line.1066">   * An {@code Entry} implementation that attempts to follow its value around the map -- that is, if</a>
+<span class="sourceLineNo">1067</span><a id="line.1067">   * the value is moved, deleted, or reinserted, it will account for that -- while not doing any</a>
+<span class="sourceLineNo">1068</span><a id="line.1068">   * extra work if the value has not moved.</a>
+<span class="sourceLineNo">1069</span><a id="line.1069">   */</a>
+<span class="sourceLineNo">1070</span><a id="line.1070">  static final class EntryForValue&lt;K extends @Nullable Object, V extends @Nullable Object&gt;</a>
+<span class="sourceLineNo">1071</span><a id="line.1071">      extends AbstractMapEntry&lt;V, K&gt; {</a>
+<span class="sourceLineNo">1072</span><a id="line.1072">    final HashBiMap&lt;K, V&gt; biMap;</a>
+<span class="sourceLineNo">1073</span><a id="line.1073">    @ParametricNullness final V value;</a>
+<span class="sourceLineNo">1074</span><a id="line.1074">    int index;</a>
+<span class="sourceLineNo">1075</span><a id="line.1075"></a>
+<span class="sourceLineNo">1076</span><a id="line.1076">    EntryForValue(HashBiMap&lt;K, V&gt; biMap, int index) {</a>
+<span class="sourceLineNo">1077</span><a id="line.1077">      this.biMap = biMap;</a>
+<span class="sourceLineNo">1078</span><a id="line.1078">      // The cast is safe because we call forEntry only for indexes that contain entries.</a>
+<span class="sourceLineNo">1079</span><a id="line.1079">      this.value = uncheckedCastNullableTToT(biMap.values[index]);</a>
+<span class="sourceLineNo">1080</span><a id="line.1080">      this.index = index;</a>
+<span class="sourceLineNo">1081</span><a id="line.1081">    }</a>
+<span class="sourceLineNo">1082</span><a id="line.1082"></a>
+<span class="sourceLineNo">1083</span><a id="line.1083">    private void updateIndex() {</a>
+<span class="sourceLineNo">1084</span><a id="line.1084">      if (index == ABSENT || index &gt; biMap.size || !Objects.equal(value, biMap.values[index])) {</a>
+<span class="sourceLineNo">1085</span><a id="line.1085">        index = biMap.findEntryByValue(value);</a>
+<span class="sourceLineNo">1086</span><a id="line.1086">      }</a>
+<span class="sourceLineNo">1087</span><a id="line.1087">    }</a>
+<span class="sourceLineNo">1088</span><a id="line.1088"></a>
+<span class="sourceLineNo">1089</span><a id="line.1089">    @Override</a>
+<span class="sourceLineNo">1090</span><a id="line.1090">    @ParametricNullness</a>
+<span class="sourceLineNo">1091</span><a id="line.1091">    public V getKey() {</a>
+<span class="sourceLineNo">1092</span><a id="line.1092">      return value;</a>
+<span class="sourceLineNo">1093</span><a id="line.1093">    }</a>
+<span class="sourceLineNo">1094</span><a id="line.1094"></a>
+<span class="sourceLineNo">1095</span><a id="line.1095">    @Override</a>
+<span class="sourceLineNo">1096</span><a id="line.1096">    @ParametricNullness</a>
+<span class="sourceLineNo">1097</span><a id="line.1097">    public K getValue() {</a>
+<span class="sourceLineNo">1098</span><a id="line.1098">      updateIndex();</a>
+<span class="sourceLineNo">1099</span><a id="line.1099">      // For discussion of unsafeNull() and uncheckedCastNullableTToT(), see EntryForKey.getValue().</a>
+<span class="sourceLineNo">1100</span><a id="line.1100">      return (index == ABSENT) ? unsafeNull() : uncheckedCastNullableTToT(biMap.keys[index]);</a>
+<span class="sourceLineNo">1101</span><a id="line.1101">    }</a>
+<span class="sourceLineNo">1102</span><a id="line.1102"></a>
+<span class="sourceLineNo">1103</span><a id="line.1103">    @Override</a>
+<span class="sourceLineNo">1104</span><a id="line.1104">    @ParametricNullness</a>
+<span class="sourceLineNo">1105</span><a id="line.1105">    public K setValue(@ParametricNullness K key) {</a>
+<span class="sourceLineNo">1106</span><a id="line.1106">      updateIndex();</a>
+<span class="sourceLineNo">1107</span><a id="line.1107">      if (index == ABSENT) {</a>
+<span class="sourceLineNo">1108</span><a id="line.1108">        biMap.putInverse(value, key, false);</a>
+<span class="sourceLineNo">1109</span><a id="line.1109">        return unsafeNull(); // see EntryForKey.setValue()</a>
+<span class="sourceLineNo">1110</span><a id="line.1110">      }</a>
+<span class="sourceLineNo">1111</span><a id="line.1111">      K oldKey = uncheckedCastNullableTToT(biMap.keys[index]); // see EntryForKey.setValue()</a>
+<span class="sourceLineNo">1112</span><a id="line.1112">      if (Objects.equal(oldKey, key)) {</a>
+<span class="sourceLineNo">1113</span><a id="line.1113">        return key;</a>
+<span class="sourceLineNo">1114</span><a id="line.1114">      }</a>
+<span class="sourceLineNo">1115</span><a id="line.1115">      biMap.replaceKeyInEntry(index, key, false);</a>
+<span class="sourceLineNo">1116</span><a id="line.1116">      return oldKey;</a>
+<span class="sourceLineNo">1117</span><a id="line.1117">    }</a>
+<span class="sourceLineNo">1118</span><a id="line.1118">  }</a>
+<span class="sourceLineNo">1119</span><a id="line.1119"></a>
+<span class="sourceLineNo">1120</span><a id="line.1120">  /**</a>
+<span class="sourceLineNo">1121</span><a id="line.1121">   * @serialData the number of entries, first key, first value, second key, second value, and so on.</a>
+<span class="sourceLineNo">1122</span><a id="line.1122">   */</a>
+<span class="sourceLineNo">1123</span><a id="line.1123">  @GwtIncompatible // java.io.ObjectOutputStream</a>
+<span class="sourceLineNo">1124</span><a id="line.1124">  @J2ktIncompatible</a>
+<span class="sourceLineNo">1125</span><a id="line.1125">  private void writeObject(ObjectOutputStream stream) throws IOException {</a>
+<span class="sourceLineNo">1126</span><a id="line.1126">    stream.defaultWriteObject();</a>
+<span class="sourceLineNo">1127</span><a id="line.1127">    Serialization.writeMap(this, stream);</a>
+<span class="sourceLineNo">1128</span><a id="line.1128">  }</a>
+<span class="sourceLineNo">1129</span><a id="line.1129"></a>
+<span class="sourceLineNo">1130</span><a id="line.1130">  @GwtIncompatible // java.io.ObjectInputStream</a>
+<span class="sourceLineNo">1131</span><a id="line.1131">  @J2ktIncompatible</a>
+<span class="sourceLineNo">1132</span><a id="line.1132">  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {</a>
+<span class="sourceLineNo">1133</span><a id="line.1133">    stream.defaultReadObject();</a>
+<span class="sourceLineNo">1134</span><a id="line.1134">    int size = Serialization.readCount(stream);</a>
+<span class="sourceLineNo">1135</span><a id="line.1135">    init(16); // resist hostile attempts to allocate gratuitous heap</a>
+<span class="sourceLineNo">1136</span><a id="line.1136">    Serialization.populateMap(this, stream, size);</a>
+<span class="sourceLineNo">1137</span><a id="line.1137">  }</a>
+<span class="sourceLineNo">1138</span><a id="line.1138">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>

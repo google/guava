@@ -1,0 +1,244 @@
+<!DOCTYPE HTML>
+<html lang>
+<head>
+<title>Source code</title>
+<link rel="stylesheet" type="text/css" href="../../../../../stylesheet.css" title="Style">
+</head>
+<body>
+<main role="main">
+<div class="sourceContainer">
+<pre><span class="sourceLineNo">001</span><a id="line.1">/*</a>
+<span class="sourceLineNo">002</span><a id="line.2"> * Copyright (C) 2009 The Guava Authors</a>
+<span class="sourceLineNo">003</span><a id="line.3"> *</a>
+<span class="sourceLineNo">004</span><a id="line.4"> * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except</a>
+<span class="sourceLineNo">005</span><a id="line.5"> * in compliance with the License. You may obtain a copy of the License at</a>
+<span class="sourceLineNo">006</span><a id="line.6"> *</a>
+<span class="sourceLineNo">007</span><a id="line.7"> * http://www.apache.org/licenses/LICENSE-2.0</a>
+<span class="sourceLineNo">008</span><a id="line.8"> *</a>
+<span class="sourceLineNo">009</span><a id="line.9"> * Unless required by applicable law or agreed to in writing, software distributed under the License</a>
+<span class="sourceLineNo">010</span><a id="line.10"> * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express</a>
+<span class="sourceLineNo">011</span><a id="line.11"> * or implied. See the License for the specific language governing permissions and limitations under</a>
+<span class="sourceLineNo">012</span><a id="line.12"> * the License.</a>
+<span class="sourceLineNo">013</span><a id="line.13"> */</a>
+<span class="sourceLineNo">014</span><a id="line.14"></a>
+<span class="sourceLineNo">015</span><a id="line.15">package com.google.common.net;</a>
+<span class="sourceLineNo">016</span><a id="line.16"></a>
+<span class="sourceLineNo">017</span><a id="line.17">import com.google.common.annotations.GwtIncompatible;</a>
+<span class="sourceLineNo">018</span><a id="line.18">import com.google.common.annotations.J2ktIncompatible;</a>
+<span class="sourceLineNo">019</span><a id="line.19">import com.google.common.base.Preconditions;</a>
+<span class="sourceLineNo">020</span><a id="line.20">import com.google.errorprone.annotations.CanIgnoreReturnValue;</a>
+<span class="sourceLineNo">021</span><a id="line.21">import java.net.InetAddress;</a>
+<span class="sourceLineNo">022</span><a id="line.22">import java.text.ParseException;</a>
+<span class="sourceLineNo">023</span><a id="line.23">import org.checkerframework.checker.nullness.qual.Nullable;</a>
+<span class="sourceLineNo">024</span><a id="line.24"></a>
+<span class="sourceLineNo">025</span><a id="line.25">/**</a>
+<span class="sourceLineNo">026</span><a id="line.26"> * A syntactically valid host specifier, suitable for use in a URI. This may be either a numeric IP</a>
+<span class="sourceLineNo">027</span><a id="line.27"> * address in IPv4 or IPv6 notation, or a domain name.</a>
+<span class="sourceLineNo">028</span><a id="line.28"> *</a>
+<span class="sourceLineNo">029</span><a id="line.29"> * &lt;p&gt;Because this class is intended to represent host specifiers which can reasonably be used in a</a>
+<span class="sourceLineNo">030</span><a id="line.30"> * URI, the domain name case is further restricted to include only those domain names which end in a</a>
+<span class="sourceLineNo">031</span><a id="line.31"> * recognized public suffix; see {@link InternetDomainName#isPublicSuffix()} for details.</a>
+<span class="sourceLineNo">032</span><a id="line.32"> *</a>
+<span class="sourceLineNo">033</span><a id="line.33"> * &lt;p&gt;Note that no network lookups are performed by any {@code HostSpecifier} methods. No attempt is</a>
+<span class="sourceLineNo">034</span><a id="line.34"> * made to verify that a provided specifier corresponds to a real or accessible host. Only syntactic</a>
+<span class="sourceLineNo">035</span><a id="line.35"> * and pattern-based checks are performed.</a>
+<span class="sourceLineNo">036</span><a id="line.36"> *</a>
+<span class="sourceLineNo">037</span><a id="line.37"> * &lt;p&gt;If you know that a given string represents a numeric IP address, use {@link InetAddresses} to</a>
+<span class="sourceLineNo">038</span><a id="line.38"> * obtain and manipulate a {@link java.net.InetAddress} instance from it rather than using this</a>
+<span class="sourceLineNo">039</span><a id="line.39"> * class. Similarly, if you know that a given string represents a domain name, use {@link</a>
+<span class="sourceLineNo">040</span><a id="line.40"> * InternetDomainName} rather than this class.</a>
+<span class="sourceLineNo">041</span><a id="line.41"> *</a>
+<span class="sourceLineNo">042</span><a id="line.42"> * @author Craig Berry</a>
+<span class="sourceLineNo">043</span><a id="line.43"> * @since 5.0</a>
+<span class="sourceLineNo">044</span><a id="line.44"> */</a>
+<span class="sourceLineNo">045</span><a id="line.45">@J2ktIncompatible</a>
+<span class="sourceLineNo">046</span><a id="line.46">@GwtIncompatible</a>
+<span class="sourceLineNo">047</span><a id="line.47">public final class HostSpecifier {</a>
+<span class="sourceLineNo">048</span><a id="line.48"></a>
+<span class="sourceLineNo">049</span><a id="line.49">  private final String canonicalForm;</a>
+<span class="sourceLineNo">050</span><a id="line.50"></a>
+<span class="sourceLineNo">051</span><a id="line.51">  private HostSpecifier(String canonicalForm) {</a>
+<span class="sourceLineNo">052</span><a id="line.52">    this.canonicalForm = canonicalForm;</a>
+<span class="sourceLineNo">053</span><a id="line.53">  }</a>
+<span class="sourceLineNo">054</span><a id="line.54"></a>
+<span class="sourceLineNo">055</span><a id="line.55">  /**</a>
+<span class="sourceLineNo">056</span><a id="line.56">   * Returns a {@code HostSpecifier} built from the provided {@code specifier}, which is already</a>
+<span class="sourceLineNo">057</span><a id="line.57">   * known to be valid. If the {@code specifier} might be invalid, use {@link #from(String)}</a>
+<span class="sourceLineNo">058</span><a id="line.58">   * instead.</a>
+<span class="sourceLineNo">059</span><a id="line.59">   *</a>
+<span class="sourceLineNo">060</span><a id="line.60">   * &lt;p&gt;The specifier must be in one of these formats:</a>
+<span class="sourceLineNo">061</span><a id="line.61">   *</a>
+<span class="sourceLineNo">062</span><a id="line.62">   * &lt;ul&gt;</a>
+<span class="sourceLineNo">063</span><a id="line.63">   *   &lt;li&gt;A domain name, like {@code google.com}</a>
+<span class="sourceLineNo">064</span><a id="line.64">   *   &lt;li&gt;A IPv4 address string, like {@code 127.0.0.1}</a>
+<span class="sourceLineNo">065</span><a id="line.65">   *   &lt;li&gt;An IPv6 address string with or without brackets, like {@code [2001:db8::1]} or {@code</a>
+<span class="sourceLineNo">066</span><a id="line.66">   *       2001:db8::1}</a>
+<span class="sourceLineNo">067</span><a id="line.67">   * &lt;/ul&gt;</a>
+<span class="sourceLineNo">068</span><a id="line.68">   *</a>
+<span class="sourceLineNo">069</span><a id="line.69">   * @throws IllegalArgumentException if the specifier is not valid.</a>
+<span class="sourceLineNo">070</span><a id="line.70">   */</a>
+<span class="sourceLineNo">071</span><a id="line.71">  public static HostSpecifier fromValid(String specifier) {</a>
+<span class="sourceLineNo">072</span><a id="line.72">    // Verify that no port was specified, and strip optional brackets from</a>
+<span class="sourceLineNo">073</span><a id="line.73">    // IPv6 literals.</a>
+<span class="sourceLineNo">074</span><a id="line.74">    HostAndPort parsedHost = HostAndPort.fromString(specifier);</a>
+<span class="sourceLineNo">075</span><a id="line.75">    Preconditions.checkArgument(!parsedHost.hasPort());</a>
+<span class="sourceLineNo">076</span><a id="line.76">    String host = parsedHost.getHost();</a>
+<span class="sourceLineNo">077</span><a id="line.77"></a>
+<span class="sourceLineNo">078</span><a id="line.78">    // Try to interpret the specifier as an IP address. Note we build</a>
+<span class="sourceLineNo">079</span><a id="line.79">    // the address rather than using the .is* methods because we want to</a>
+<span class="sourceLineNo">080</span><a id="line.80">    // use InetAddresses.toUriString to convert the result to a string in</a>
+<span class="sourceLineNo">081</span><a id="line.81">    // canonical form.</a>
+<span class="sourceLineNo">082</span><a id="line.82">    InetAddress addr = null;</a>
+<span class="sourceLineNo">083</span><a id="line.83">    try {</a>
+<span class="sourceLineNo">084</span><a id="line.84">      addr = InetAddresses.forString(host);</a>
+<span class="sourceLineNo">085</span><a id="line.85">    } catch (IllegalArgumentException e) {</a>
+<span class="sourceLineNo">086</span><a id="line.86">      // It is not an IPv4 or IPv6 literal</a>
+<span class="sourceLineNo">087</span><a id="line.87">    }</a>
+<span class="sourceLineNo">088</span><a id="line.88"></a>
+<span class="sourceLineNo">089</span><a id="line.89">    if (addr != null) {</a>
+<span class="sourceLineNo">090</span><a id="line.90">      return new HostSpecifier(InetAddresses.toUriString(addr));</a>
+<span class="sourceLineNo">091</span><a id="line.91">    }</a>
+<span class="sourceLineNo">092</span><a id="line.92"></a>
+<span class="sourceLineNo">093</span><a id="line.93">    // It is not any kind of IP address; must be a domain name or invalid.</a>
+<span class="sourceLineNo">094</span><a id="line.94"></a>
+<span class="sourceLineNo">095</span><a id="line.95">    // TODO(user): different versions of this for different factories?</a>
+<span class="sourceLineNo">096</span><a id="line.96">    InternetDomainName domain = InternetDomainName.from(host);</a>
+<span class="sourceLineNo">097</span><a id="line.97"></a>
+<span class="sourceLineNo">098</span><a id="line.98">    if (domain.hasPublicSuffix()) {</a>
+<span class="sourceLineNo">099</span><a id="line.99">      return new HostSpecifier(domain.toString());</a>
+<span class="sourceLineNo">100</span><a id="line.100">    }</a>
+<span class="sourceLineNo">101</span><a id="line.101"></a>
+<span class="sourceLineNo">102</span><a id="line.102">    throw new IllegalArgumentException(</a>
+<span class="sourceLineNo">103</span><a id="line.103">        "Domain name does not have a recognized public suffix: " + host);</a>
+<span class="sourceLineNo">104</span><a id="line.104">  }</a>
+<span class="sourceLineNo">105</span><a id="line.105"></a>
+<span class="sourceLineNo">106</span><a id="line.106">  /**</a>
+<span class="sourceLineNo">107</span><a id="line.107">   * Attempts to return a {@code HostSpecifier} for the given string, throwing an exception if</a>
+<span class="sourceLineNo">108</span><a id="line.108">   * parsing fails. Always use this method in preference to {@link #fromValid(String)} for a</a>
+<span class="sourceLineNo">109</span><a id="line.109">   * specifier that is not already known to be valid.</a>
+<span class="sourceLineNo">110</span><a id="line.110">   *</a>
+<span class="sourceLineNo">111</span><a id="line.111">   * @throws ParseException if the specifier is not valid.</a>
+<span class="sourceLineNo">112</span><a id="line.112">   */</a>
+<span class="sourceLineNo">113</span><a id="line.113">  @CanIgnoreReturnValue // TODO(b/219820829): consider removing</a>
+<span class="sourceLineNo">114</span><a id="line.114">  public static HostSpecifier from(String specifier) throws ParseException {</a>
+<span class="sourceLineNo">115</span><a id="line.115">    try {</a>
+<span class="sourceLineNo">116</span><a id="line.116">      return fromValid(specifier);</a>
+<span class="sourceLineNo">117</span><a id="line.117">    } catch (IllegalArgumentException e) {</a>
+<span class="sourceLineNo">118</span><a id="line.118">      // Since the IAE can originate at several different points inside</a>
+<span class="sourceLineNo">119</span><a id="line.119">      // fromValid(), we implement this method in terms of that one rather</a>
+<span class="sourceLineNo">120</span><a id="line.120">      // than the reverse.</a>
+<span class="sourceLineNo">121</span><a id="line.121"></a>
+<span class="sourceLineNo">122</span><a id="line.122">      ParseException parseException = new ParseException("Invalid host specifier: " + specifier, 0);</a>
+<span class="sourceLineNo">123</span><a id="line.123">      parseException.initCause(e);</a>
+<span class="sourceLineNo">124</span><a id="line.124">      throw parseException;</a>
+<span class="sourceLineNo">125</span><a id="line.125">    }</a>
+<span class="sourceLineNo">126</span><a id="line.126">  }</a>
+<span class="sourceLineNo">127</span><a id="line.127"></a>
+<span class="sourceLineNo">128</span><a id="line.128">  /**</a>
+<span class="sourceLineNo">129</span><a id="line.129">   * Determines whether {@code specifier} represents a valid {@link HostSpecifier} as described in</a>
+<span class="sourceLineNo">130</span><a id="line.130">   * the documentation for {@link #fromValid(String)}.</a>
+<span class="sourceLineNo">131</span><a id="line.131">   */</a>
+<span class="sourceLineNo">132</span><a id="line.132">  public static boolean isValid(String specifier) {</a>
+<span class="sourceLineNo">133</span><a id="line.133">    try {</a>
+<span class="sourceLineNo">134</span><a id="line.134">      HostSpecifier unused = fromValid(specifier);</a>
+<span class="sourceLineNo">135</span><a id="line.135">      return true;</a>
+<span class="sourceLineNo">136</span><a id="line.136">    } catch (IllegalArgumentException e) {</a>
+<span class="sourceLineNo">137</span><a id="line.137">      return false;</a>
+<span class="sourceLineNo">138</span><a id="line.138">    }</a>
+<span class="sourceLineNo">139</span><a id="line.139">  }</a>
+<span class="sourceLineNo">140</span><a id="line.140"></a>
+<span class="sourceLineNo">141</span><a id="line.141">  @Override</a>
+<span class="sourceLineNo">142</span><a id="line.142">  public boolean equals(@Nullable Object other) {</a>
+<span class="sourceLineNo">143</span><a id="line.143">    if (this == other) {</a>
+<span class="sourceLineNo">144</span><a id="line.144">      return true;</a>
+<span class="sourceLineNo">145</span><a id="line.145">    }</a>
+<span class="sourceLineNo">146</span><a id="line.146"></a>
+<span class="sourceLineNo">147</span><a id="line.147">    if (other instanceof HostSpecifier) {</a>
+<span class="sourceLineNo">148</span><a id="line.148">      HostSpecifier that = (HostSpecifier) other;</a>
+<span class="sourceLineNo">149</span><a id="line.149">      return this.canonicalForm.equals(that.canonicalForm);</a>
+<span class="sourceLineNo">150</span><a id="line.150">    }</a>
+<span class="sourceLineNo">151</span><a id="line.151"></a>
+<span class="sourceLineNo">152</span><a id="line.152">    return false;</a>
+<span class="sourceLineNo">153</span><a id="line.153">  }</a>
+<span class="sourceLineNo">154</span><a id="line.154"></a>
+<span class="sourceLineNo">155</span><a id="line.155">  @Override</a>
+<span class="sourceLineNo">156</span><a id="line.156">  public int hashCode() {</a>
+<span class="sourceLineNo">157</span><a id="line.157">    return canonicalForm.hashCode();</a>
+<span class="sourceLineNo">158</span><a id="line.158">  }</a>
+<span class="sourceLineNo">159</span><a id="line.159"></a>
+<span class="sourceLineNo">160</span><a id="line.160">  /**</a>
+<span class="sourceLineNo">161</span><a id="line.161">   * Returns a string representation of the host specifier suitable for inclusion in a URI. If the</a>
+<span class="sourceLineNo">162</span><a id="line.162">   * host specifier is a domain name, the string will be normalized to all lower case. If the</a>
+<span class="sourceLineNo">163</span><a id="line.163">   * specifier was an IPv6 address without brackets, brackets are added so that the result will be</a>
+<span class="sourceLineNo">164</span><a id="line.164">   * usable in the host part of a URI.</a>
+<span class="sourceLineNo">165</span><a id="line.165">   */</a>
+<span class="sourceLineNo">166</span><a id="line.166">  @Override</a>
+<span class="sourceLineNo">167</span><a id="line.167">  public String toString() {</a>
+<span class="sourceLineNo">168</span><a id="line.168">    return canonicalForm;</a>
+<span class="sourceLineNo">169</span><a id="line.169">  }</a>
+<span class="sourceLineNo">170</span><a id="line.170">}</a>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</pre>
+</div>
+</main>
+</body>
+</html>
