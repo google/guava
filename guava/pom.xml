@@ -89,7 +89,7 @@
             </Export-Package>
             <Import-Package>
               com.google.common.util.concurrent.internal,
-              javax.annotation;resolution:=optional,
+              org.jspecify.annotations;resolution:=optional,
               javax.crypto.*;resolution:=optional,
               sun.misc.*;resolution:=optional
             </Import-Package>
