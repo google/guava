@@ -37,3 +37,4 @@
 <inherits name="com.google.gwt.junit.JUnit" />
 <inherits name="com.google.gwt.user.User" />
 </module>
+
