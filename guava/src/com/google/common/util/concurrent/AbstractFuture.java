@@ -150,6 +150,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
 
   /** A special value to represent failure, when {@link #setException} is called successfully. */
   private static final class Failure {
+    /** The default fallback failure instance. */
     static final Failure FALLBACK_INSTANCE =
         new Failure(
             new Throwable("Failure occurred while trying to finish a future.") {
@@ -158,6 +159,17 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
                 return this; // no stack trace
               }
             });
+
+    /** A special fallback instance for the case where `Failure.exception` is unexpectedly null. */
+    static final Failure FALLBACK_NULL_EXCEPTION_INSTANCE =
+        new Failure(
+            new Throwable("Failure.exception is unexpectedly null.") {
+              @Override
+              public Throwable fillInStackTrace() {
+                return this; // no stack trace
+              }
+            });
+
     final Throwable exception;
 
     Failure(Throwable exception) {
@@ -278,7 +290,10 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
 
   /** Unboxes {@code obj}. Assumes that obj is not {@code null} or a {@link DelegatingToFuture}. */
   @ParametricNullness
-  @SuppressWarnings("TypeParameterUnusedInFormals") // sorry not sorry
+  @SuppressWarnings({
+    "TypeParameterUnusedInFormals", // sorry not sorry
+    "RethrowException", // may help in the "impossible" case discussed below
+  })
   static <V extends @Nullable Object> V getDoneValue(Object obj) throws ExecutionException {
     // While this seems like it might be too branch-y, simple benchmarking proves it to be
     // unmeasurable (comparing done AbstractFutures with immediateFuture)
@@ -287,9 +302,21 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
       Throwable cause = cancellation.cause;
       throw cancellationExceptionWithCause("Task was cancelled.", cause);
     } else if (obj instanceof Failure) {
-      Failure failure = (Failure) obj;
-      Throwable exception = failure.exception;
-      throw new ExecutionException(exception);
+      Throwable throwable;
+      try {
+        Failure failure = (Failure) obj;
+        throwable = failure.exception;
+        // This guard should not be needed since `Failure.exception` is expected to be nonnull.
+        // However, errors have been observed in some environments indicating that this may not
+        // always be the case.
+        if (throwable == null) {
+          log.get().log(SEVERE, "Failure.exception is unexpectedly null.");
+          throw new ExecutionException(Failure.FALLBACK_NULL_EXCEPTION_INSTANCE.exception);
+        }
+      } catch (Exception | Error oomMostLikely) { // sneaky checked exception
+        throw oomMostLikely;
+      }
+      throw new ExecutionException(throwable);
     } else if (obj == NULL) {
       /*
        * It's safe to return null because we would only have stored it in the first place if it were
