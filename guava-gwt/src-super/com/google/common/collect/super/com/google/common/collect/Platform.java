@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
@@ -33,19 +35,21 @@ import org.jspecify.annotations.Nullable;
  * @author Hayward Chan
  */
 final class Platform {
-  static <K, V> Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> newHashMapWithExpectedSize(int expectedSize) {
     return Maps.newHashMapWithExpectedSize(expectedSize);
   }
 
-  static <K, V> Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> newLinkedHashMapWithExpectedSize(int expectedSize) {
     return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
   }
 
-  static <E> Set<E> newHashSetWithExpectedSize(int expectedSize) {
+  static <E extends @Nullable Object> Set<E> newHashSetWithExpectedSize(int expectedSize) {
     return Sets.newHashSetWithExpectedSize(expectedSize);
   }
 
-  static <E> Set<E> newConcurrentHashSet() {
+  static <E extends @Nullable Object> Set<E> newConcurrentHashSet() {
     // GWT's ConcurrentHashMap is a wrapper around HashMap, but it rejects null keys, which matches
     // the behaviour of the non-GWT implementation of newConcurrentHashSet().
     // On the other hand HashSet might be better for code size if apps aren't
@@ -53,7 +57,7 @@ final class Platform {
     return Collections.newSetFromMap(new ConcurrentHashMap<E, Boolean>());
   }
 
-  static <E> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
+  static <E extends @Nullable Object> Set<E> newLinkedHashSetWithExpectedSize(int expectedSize) {
     return Sets.newLinkedHashSetWithExpectedSize(expectedSize);
   }
 
@@ -61,15 +65,17 @@ final class Platform {
    * Returns the platform preferred map implementation that preserves insertion order when used only
    * for insertions.
    */
-  static <K, V> Map<K, V> preservesInsertionOrderOnPutsMap() {
-    return Maps.newLinkedHashMap();
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> preservesInsertionOrderOnPutsMap() {
+    return new LinkedHashMap<>();
   }
 
   /**
    * Returns the platform preferred map implementation that preserves insertion order when used only
    * for insertions, with a hint for how many entries to expect.
    */
-  static <K, V> Map<K, V> preservesInsertionOrderOnPutsMapWithExpectedSize(int expectedSize) {
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      Map<K, V> preservesInsertionOrderOnPutsMapWithExpectedSize(int expectedSize) {
     return Maps.newLinkedHashMapWithExpectedSize(expectedSize);
   }
 
@@ -77,17 +83,17 @@ final class Platform {
    * Returns the platform preferred set implementation that preserves insertion order when used only
    * for insertions.
    */
-  static <E> Set<E> preservesInsertionOrderOnAddsSet() {
-    return Sets.newLinkedHashSet();
+  static <E extends @Nullable Object> Set<E> preservesInsertionOrderOnAddsSet() {
+    return new LinkedHashSet<>();
   }
 
-  static <T> T[] newArray(T[] reference, int length) {
+  static <T extends @Nullable Object> T[] newArray(T[] reference, int length) {
     T[] empty = reference.length == 0 ? reference : Arrays.copyOf(reference, 0);
     return Arrays.copyOf(empty, length);
   }
 
   /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
-  static <T> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
+  static <T extends @Nullable Object> T[] copy(Object[] source, int from, int to, T[] arrayOfType) {
     T[] result = newArray(arrayOfType, to - from);
     System.arraycopy(source, from, result, 0, to - from);
     return result;
