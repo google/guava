@@ -736,7 +736,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
   /** Unblocks all threads and runs all listeners. */
   private static void complete(AbstractFuture<?> param, boolean callInterruptTask) {
     // Declare a "true" local variable so that the Checker Framework will infer nullness.
-    AbstractFuture<?> future = param;
+    @RetainedLocalRef AbstractFuture<?> future = param;
 
     @RetainedLocalRef Listener next = null;
     outer:
@@ -764,7 +764,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
       next = future.clearListeners(next);
       future = null;
       while (next != null) {
-        Listener curr = next;
+        @RetainedLocalRef Listener curr = next;
         next = next.next;
         /*
          * requireNonNull is safe because the listener stack never contains TOMBSTONE until after
