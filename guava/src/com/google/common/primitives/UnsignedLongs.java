@@ -405,7 +405,7 @@ public final class UnsignedLongs {
     static final int[] maxSafeDigits = new int[Character.MAX_RADIX + 1];
 
     static {
-      BigInteger overflow = new BigInteger("10000000000000000", 16);
+      BigInteger overflow = BigInteger.ONE.shiftLeft(64);
       for (int i = Character.MIN_RADIX; i <= Character.MAX_RADIX; i++) {
         maxValueDivs[i] = divide(MAX_VALUE, i);
         maxValueMods[i] = (int) remainder(MAX_VALUE, i);
