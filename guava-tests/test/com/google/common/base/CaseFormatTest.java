@@ -19,6 +19,7 @@ package com.google.common.base;
 import static com.google.common.base.CaseFormat.LOWER_CAMEL;
 import static com.google.common.base.CaseFormat.LOWER_HYPHEN;
 import static com.google.common.base.CaseFormat.LOWER_UNDERSCORE;
+import static com.google.common.base.CaseFormat.LOWER_DOT;
 import static com.google.common.base.CaseFormat.UPPER_CAMEL;
 import static com.google.common.base.CaseFormat.UPPER_UNDERSCORE;
 import static com.google.common.truth.Truth.assertThat;
@@ -86,6 +87,11 @@ public class CaseFormatTest extends TestCase {
     assertThat(LOWER_HYPHEN.to(UPPER_UNDERSCORE, "foo-bar")).isEqualTo("FOO_BAR");
   }
 
+  public void testLowerHyphenToLowerDot() {
+    assertEquals("foo", LOWER_HYPHEN.to(LOWER_DOT, "foo"));
+    assertEquals("foo.bar", LOWER_HYPHEN.to(LOWER_DOT, "foo-bar"));
+  }
+
   public void testLowerUnderscoreToLowerHyphen() {
     assertThat(LOWER_UNDERSCORE.to(LOWER_HYPHEN, "foo")).isEqualTo("foo");
     assertThat(LOWER_UNDERSCORE.to(LOWER_HYPHEN, "foo_bar")).isEqualTo("foo-bar");
@@ -109,6 +115,11 @@ public class CaseFormatTest extends TestCase {
   public void testLowerUnderscoreToUpperUnderscore() {
     assertThat(LOWER_UNDERSCORE.to(UPPER_UNDERSCORE, "foo")).isEqualTo("FOO");
     assertThat(LOWER_UNDERSCORE.to(UPPER_UNDERSCORE, "foo_bar")).isEqualTo("FOO_BAR");
+  }
+
+  public void testLowerUnderscoreToLowerDot() {
+    assertEquals("foo", LOWER_UNDERSCORE.to(LOWER_DOT, "foo"));
+    assertEquals("foo.bar", LOWER_UNDERSCORE.to(LOWER_DOT, "foo_bar"));
   }
 
   public void testLowerCamelToLowerHyphen() {
@@ -139,6 +150,11 @@ public class CaseFormatTest extends TestCase {
     assertThat(LOWER_CAMEL.to(UPPER_UNDERSCORE, "fooBar")).isEqualTo("FOO_BAR");
   }
 
+  public void testLowerCamelToLowerDot() {
+    assertEquals("foo", LOWER_CAMEL.to(LOWER_DOT, "foo"));
+    assertEquals("foo.bar", LOWER_CAMEL.to(LOWER_DOT, "fooBar"));
+  }
+
   public void testUpperCamelToLowerHyphen() {
     assertThat(UPPER_CAMEL.to(LOWER_HYPHEN, "Foo")).isEqualTo("foo");
     assertThat(UPPER_CAMEL.to(LOWER_HYPHEN, "FooBar")).isEqualTo("foo-bar");
@@ -167,6 +183,12 @@ public class CaseFormatTest extends TestCase {
     assertThat(UPPER_CAMEL.to(UPPER_UNDERSCORE, "H_T_T_P")).isEqualTo("H__T__T__P");
   }
 
+  public void testUpperCamelToLowerDot() {
+    assertEquals("foo", UPPER_CAMEL.to(LOWER_DOT, "Foo"));
+    assertEquals("foo.bar", UPPER_CAMEL.to(LOWER_DOT, "FooBar"));
+    assertEquals("h.t.t.p", UPPER_CAMEL.to(LOWER_DOT, "HTTP"));
+  }
+
   public void testUpperUnderscoreToLowerHyphen() {
     assertThat(UPPER_UNDERSCORE.to(LOWER_HYPHEN, "FOO")).isEqualTo("foo");
     assertThat(UPPER_UNDERSCORE.to(LOWER_HYPHEN, "FOO_BAR")).isEqualTo("foo-bar");
@@ -191,6 +213,41 @@ public class CaseFormatTest extends TestCase {
   public void testUpperUnderscoreToUpperUnderscore() {
     assertThat(UPPER_UNDERSCORE.to(UPPER_UNDERSCORE, "FOO")).isEqualTo("FOO");
     assertThat(UPPER_UNDERSCORE.to(UPPER_UNDERSCORE, "FOO_BAR")).isEqualTo("FOO_BAR");
+  }
+
+  public void testUpperUnderscoreToLowerDot() {
+    assertEquals("foo", UPPER_UNDERSCORE.to(LOWER_DOT, "FOO"));
+    assertEquals("foo.bar", UPPER_UNDERSCORE.to(LOWER_DOT, "FOO_BAR"));
+  }
+
+  public void testLowerDotToLowerHyphen() {
+    assertEquals("foo", LOWER_DOT.to(LOWER_HYPHEN, "foo"));
+    assertEquals("foo-bar", LOWER_DOT.to(LOWER_HYPHEN, "foo.bar"));
+  }
+
+  public void testLowerDotToLowerUnderscore() {
+    assertEquals("foo", LOWER_DOT.to(LOWER_UNDERSCORE, "foo"));
+    assertEquals("foo_bar", LOWER_DOT.to(LOWER_UNDERSCORE, "foo.bar"));
+  }
+
+  public void testLowerDotToLowerCamel() {
+    assertEquals("foo", LOWER_DOT.to(LOWER_CAMEL, "foo"));
+    assertEquals("fooBar", LOWER_DOT.to(LOWER_CAMEL, "foo.bar"));
+  }
+
+  public void testLowerDotToUpperCamel() {
+    assertEquals("Foo", LOWER_DOT.to(UPPER_CAMEL, "foo"));
+    assertEquals("FooBar", LOWER_DOT.to(UPPER_CAMEL, "foo.bar"));
+  }
+
+  public void testLowerDotToUpperUnderscore() {
+    assertEquals("FOO", LOWER_DOT.to(UPPER_UNDERSCORE, "foo"));
+    assertEquals("FOO_BAR", LOWER_DOT.to(UPPER_UNDERSCORE, "foo.bar"));
+  }
+
+  public void testLowerDotToLowerDot() {
+    assertEquals("foo", LOWER_DOT.to(LOWER_DOT, "foo"));
+    assertEquals("foo.bar", LOWER_DOT.to(LOWER_DOT, "foo.bar"));
   }
 
   public void testConverterToForward() {
