@@ -261,7 +261,8 @@ implements <a href="Function.html" title="interface in com.google.common.base">F
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Indicates whether another object is equal to this converter.</div>
+<div class="block"><i>May</i> return <code>true</code> if <code>object</code> is a <code>Converter</code> that behaves
+ identically to this converter.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;A,<wbr>B&gt;&nbsp;<a href="Converter.html" title="class in com.google.common.base">Converter</a><wbr>&lt;A,<wbr>B&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#from(com.google.common.base.Function,com.google.common.base.Function)" class="member-name-link">from</a><wbr>(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;? super A, ? extends B&gt;&nbsp;forwardFunction,
@@ -439,15 +440,15 @@ implements <a href="Function.html" title="interface in com.google.common.base">F
 <h3>equals</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
-<div class="block">Indicates whether another object is equal to this converter.
+<div class="block"><i>May</i> return <code>true</code> if <code>object</code> is a <code>Converter</code> that behaves
+ identically to this converter.
 
- <p>Most implementations will have no reason to override the behavior of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>.
- However, an implementation may also choose to return <code>true</code> whenever <code>object</code> is a
- <a href="Converter.html" title="class in com.google.common.base"><code>Converter</code></a> that it considers <i>interchangeable</i> with this one. "Interchangeable"
- <i>typically</i> means that <code>Objects.equal(this.convert(a), that.convert(a))</code> is true for
- all <code>a</code> of type <code>A</code> (and similarly for <code>reverse</code>). Note that a <code>false</code>
- result from this method does not imply that the converters are known <i>not</i> to be
- interchangeable.</div>
+ <p><b>Warning: do not depend</b> on the behavior of this method.
+
+ <p>Historically, <code>Converter</code> instances in this library have implemented this method to
+ recognize certain cases where distinct <code>Converter</code> instances would in fact behave
+ identically. However, this is not true of <code>Converter</code> implementations in general. It is
+ best not to depend on it.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="Function.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;<a href="#type-param-A" title="type parameter in Converter">A</a>,<wbr><a href="#type-param-B" title="type parameter in Converter">B</a>&gt;</code></dd>
