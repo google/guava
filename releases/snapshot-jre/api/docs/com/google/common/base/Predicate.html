@@ -193,12 +193,12 @@ extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/ja
 <div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;obj)</span></div>
 <div class="block">Indicates whether another object is equal to this predicate.
 
- <p>Most implementations will have no reason to override the behavior of <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(java.lang.Object)</code></a>.
- However, an implementation may also choose to return <code>true</code> whenever <code>obj</code> is a
- <a href="Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> that it considers <i>interchangeable</i> with this one. "Interchangeable"
- <i>typically</i> means that <code>this.apply(t) == that.apply(t)</code> for all <code>t</code> of type
- <code>T</code>). Note that a <code>false</code> result from this method does not imply that the
- predicates are known <i>not</i> to be interchangeable.</div>
+ <p><b>Warning: do not depend</b> on the behavior of this method.
+
+ <p>Historically, <code>Predicate</code> instances in this library have implemented this method to
+ recognize certain cases where distinct <code>Predicate</code> instances would in fact behave
+ identically. However, as code migrates to <code>java.util.function</code>, that behavior will
+ disappear. It is best not to depend on it.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
