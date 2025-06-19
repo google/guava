@@ -54,4 +54,18 @@ public interface Supplier<T extends @Nullable Object> {
    */
   @ParametricNullness
   T get();
+
+  /**
+   * <i>May</i> return {@code true} if {@code object} is a {@code Supplier} that behaves identically
+   * to this supplier.
+   *
+   * <p><b>Warning: do not depend</b> on the behavior of this method.
+   *
+   * <p>Historically, {@code Supplier} instances in this library have implemented this method to
+   * recognize certain cases where distinct {@code Supplier} instances would in fact behave
+   * identically. However, as code migrates to {@code java.util.function}, that behavior will
+   * disappear. It is best not to depend on it.
+   */
+  @Override
+  boolean equals(@Nullable Object object);
 }
