@@ -6440,6 +6440,23 @@
  @return an instance of the appropriate type]]>
       </doc>
     </method>
+    <method name="equals" return="boolean"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="object" type="Object"/>
+      <doc>
+      <![CDATA[<i>May</i> return {@code true} if {@code object} is a {@code Supplier} that behaves identically
+ to this supplier.
+
+ <p><b>Warning: do not depend</b> on the behavior of this method.
+
+ <p>Historically, {@code Supplier} instances in this library have implemented this method to
+ recognize certain cases where distinct {@code Supplier} instances would in fact behave
+ identically. However, as code migrates to {@code java.util.function}, that behavior will
+ disappear. It is best not to depend on it.]]>
+      </doc>
+    </method>
     <doc>
     <![CDATA[A class that can supply objects of a single type; a pre-Java-8 version of {@link
  java.util.function.Supplier java.util.function.Supplier}. Semantically, this could be a factory,
