@@ -45,6 +45,7 @@ import org.jspecify.annotations.Nullable;
  * The type parameter is <T> rather than <T extends @Nullable> so that we can use T in the
  * doEquivalent and doHash methods to indicate that the parameter cannot be null.
  */
+@SuppressWarnings("UngroupedOverloads")
 public abstract class Equivalence<T> {
   /** Constructor for use by subclasses. */
   protected Equivalence() {}
@@ -81,6 +82,22 @@ public abstract class Equivalence<T> {
    */
   @ForOverride
   protected abstract boolean doEquivalent(T a, T b);
+
+  /**
+   * <i>May</i> return {@code true} if {@code object} is a {@code Equivalence} that behaves
+   * identically to this equivalence.
+   *
+   * <p><b>Warning: do not depend</b> on the behavior of this method.
+   *
+   * <p>Historically, {@code Equivalence} instances in this library have implemented this method to
+   * recognize certain cases where distinct {@code Equivalence} instances would in fact behave
+   * identically. However, as code migrates to {@code java.util.function}, that behavior will
+   * disappear. It is best not to depend on it.
+   */
+  @Override
+  public boolean equals(@Nullable Object object) {
+    return super.equals(object);
+  }
 
   /**
    * Returns a hash code for {@code t}.
