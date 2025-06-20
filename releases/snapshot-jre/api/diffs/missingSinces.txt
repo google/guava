@@ -1,3 +1,4 @@
+MISSING @SINCE TAG: com.google.common.base.Equivalence Method equals(Object)
 MISSING @SINCE TAG: com.google.common.base.Supplier Method equals(Object)
 NO DOC BLOCK: com.google.common.collect.Sets.SetView Method equals(Object)
 OK: com.google.common.math.IntMath Method saturatedAbs(int)

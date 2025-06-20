@@ -1974,6 +1974,23 @@
  @since 10.0 (previously, subclasses would override equivalent())]]>
       </doc>
     </method>
+    <method name="equals" return="boolean"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="object" type="Object"/>
+      <doc>
+      <![CDATA[<i>May</i> return {@code true} if {@code object} is a {@code Equivalence} that behaves
+ identically to this equivalence.
+
+ <p><b>Warning: do not depend</b> on the behavior of this method.
+
+ <p>Historically, {@code Equivalence} instances in this library have implemented this method to
+ recognize certain cases where distinct {@code Equivalence} instances would in fact behave
+ identically. However, as code migrates to {@code java.util.function}, that behavior will
+ disappear. It is best not to depend on it.]]>
+      </doc>
+    </method>
     <method name="hash" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="true" visibility="public"
