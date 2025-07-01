@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -33,7 +34,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible // unnecessary
-class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
+class ImmutableMapEntry<K, V> extends SimpleImmutableEntry<K, V> {
   /**
    * Creates an {@code ImmutableMapEntry} array to hold parameterized entries. The result must never
    * be upcast back to ImmutableMapEntry[] (or Object[], etc.), or allowed to escape the class.
@@ -53,9 +54,24 @@ class ImmutableMapEntry<K, V> extends ImmutableEntry<K, V> {
     checkEntryNotNull(key, value);
   }
 
-  ImmutableMapEntry(ImmutableMapEntry<K, V> contents) {
-    super(contents.getKey(), contents.getValue());
-    // null check would be redundant
+  // Redeclare methods to make them `final`, just to be extra-safe.
+
+  @Override
+  @ParametricNullness
+  public final K getKey() {
+    return super.getKey();
+  }
+
+  @Override
+  @ParametricNullness
+  public final V getValue() {
+    return super.getValue();
+  }
+
+  @Override
+  @ParametricNullness
+  public final V setValue(@ParametricNullness V value) {
+    return super.setValue(value);
   }
 
   @Nullable ImmutableMapEntry<K, V> getNextInKeyBucket() {

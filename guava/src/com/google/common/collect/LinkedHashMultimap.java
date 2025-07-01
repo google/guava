@@ -31,6 +31,7 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -162,7 +163,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
    */
   @VisibleForTesting
   static final class ValueEntry<K extends @Nullable Object, V extends @Nullable Object>
-      extends ImmutableEntry<K, V> implements ValueSetLink<K, V> {
+      extends SimpleImmutableEntry<K, V> implements ValueSetLink<K, V> {
     final int smearedValueHash;
 
     @Nullable ValueEntry<K, V> nextInValueBucket;

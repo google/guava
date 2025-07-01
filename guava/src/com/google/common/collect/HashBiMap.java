@@ -34,6 +34,7 @@ import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -89,7 +90,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   static final class BiEntry<K extends @Nullable Object, V extends @Nullable Object>
-      extends ImmutableEntry<K, V> {
+      extends SimpleImmutableEntry<K, V> {
     final int keyHash;
     final int valueHash;
 
@@ -241,7 +242,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     for (BiEntry<K, V> entry = hashTableKToV[keyHash & mask];
         entry != null;
         entry = entry.nextInKToVBucket) {
-      if (keyHash == entry.keyHash && Objects.equal(key, entry.key)) {
+      if (keyHash == entry.keyHash && Objects.equal(key, entry.getKey())) {
         return entry;
       }
     }
@@ -252,7 +253,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     for (BiEntry<K, V> entry = hashTableVToK[valueHash & mask];
         entry != null;
         entry = entry.nextInVToKBucket) {
-      if (valueHash == entry.valueHash && Objects.equal(value, entry.value)) {
+      if (valueHash == entry.valueHash && Objects.equal(value, entry.getValue())) {
         return entry;
       }
     }
@@ -297,7 +298,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
     if (oldEntryForKey != null
         && valueHash == oldEntryForKey.valueHash
-        && Objects.equal(value, oldEntryForKey.value)) {
+        && Objects.equal(value, oldEntryForKey.getValue())) {
       return value;
     }
 
@@ -316,7 +317,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       insert(newEntry, oldEntryForKey);
       oldEntryForKey.prevInKeyInsertionOrder = null;
       oldEntryForKey.nextInKeyInsertionOrder = null;
-      return oldEntryForKey.value;
+      return oldEntryForKey.getValue();
     } else {
       insert(newEntry, null);
       rehashIfNecessary();
@@ -340,7 +341,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
     if (oldEntryForValue != null
         && keyHash == oldEntryForValue.keyHash
-        && Objects.equal(key, oldEntryForValue.key)) {
+        && Objects.equal(key, oldEntryForValue.getKey())) {
       return key;
     } else if (oldEntryForKey != null && !force) {
       throw new IllegalArgumentException("key already present: " + key);
@@ -410,7 +411,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       delete(entry);
       entry.prevInKeyInsertionOrder = null;
       entry.nextInKeyInsertionOrder = null;
-      return entry.value;
+      return entry.getValue();
     }
   }
 
@@ -489,7 +490,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         @Override
         @ParametricNullness
         K output(BiEntry<K, V> entry) {
-          return entry.key;
+          return entry.getKey();
         }
       };
     }
@@ -531,26 +532,27 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         @Override
         @ParametricNullness
         public K getKey() {
-          return delegate.key;
+          return delegate.getKey();
         }
 
         @Override
         @ParametricNullness
         public V getValue() {
-          return delegate.value;
+          return delegate.getValue();
         }
 
         @Override
         @ParametricNullness
         public V setValue(@ParametricNullness V value) {
-          V oldValue = delegate.value;
+          V oldValue = delegate.getValue();
           int valueHash = smearedHash(value);
           if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
             return value;
           }
           checkArgument(seekByValue(value, valueHash) == null, "value already present: %s", value);
           delete(delegate);
-          BiEntry<K, V> newEntry = new BiEntry<>(delegate.key, delegate.keyHash, value, valueHash);
+          BiEntry<K, V> newEntry =
+              new BiEntry<>(delegate.getKey(), delegate.keyHash, value, valueHash);
           insert(newEntry, delegate);
           delegate.prevInKeyInsertionOrder = null;
           delegate.nextInKeyInsertionOrder = null;
@@ -571,7 +573,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
         entry != null;
         entry = entry.nextInKeyInsertionOrder) {
-      action.accept(entry.key, entry.value);
+      action.accept(entry.getKey(), entry.getValue());
     }
   }
 
@@ -581,7 +583,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
     clear();
     for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
-      put(entry.key, function.apply(entry.key, entry.value));
+      put(entry.getKey(), function.apply(entry.getKey(), entry.getValue()));
     }
   }
 
@@ -639,7 +641,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         delete(entry);
         entry.prevInKeyInsertionOrder = null;
         entry.nextInKeyInsertionOrder = null;
-        return entry.key;
+        return entry.getKey();
       }
     }
 
@@ -675,7 +677,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
           @Override
           @ParametricNullness
           V output(BiEntry<K, V> entry) {
-            return entry.value;
+            return entry.getValue();
           }
         };
       }
@@ -704,19 +706,19 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
           @Override
           @ParametricNullness
           public V getKey() {
-            return delegate.value;
+            return delegate.getValue();
           }
 
           @Override
           @ParametricNullness
           public K getValue() {
-            return delegate.key;
+            return delegate.getKey();
           }
 
           @Override
           @ParametricNullness
           public K setValue(@ParametricNullness K key) {
-            K oldKey = delegate.key;
+            K oldKey = delegate.getKey();
             int keyHash = smearedHash(key);
             if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {
               return key;
@@ -724,7 +726,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
             checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);
             delete(delegate);
             BiEntry<K, V> newEntry =
-                new BiEntry<>(key, keyHash, delegate.value, delegate.valueHash);
+                new BiEntry<>(key, keyHash, delegate.getValue(), delegate.valueHash);
             delegate = newEntry;
             insert(newEntry, null);
             expectedModCount = modCount;
@@ -746,7 +748,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
       clear();
       for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
-        put(entry.value, function.apply(entry.value, entry.key));
+        put(entry.getValue(), function.apply(entry.getValue(), entry.getKey()));
       }
     }
 
