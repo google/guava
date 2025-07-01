@@ -10133,7 +10133,7 @@
   </class>
   <!-- end class com.google.common.collect.AbstractSequentialIterator -->
   <!-- start class com.google.common.collect.ArrayListMultimap -->
-  <class name="ArrayListMultimap" extends="com.google.common.collect.ArrayListMultimapGwtSerializationDependencies&lt;K, V&gt;"
+  <class name="ArrayListMultimap" extends="com.google.common.collect.AbstractListMultimap&lt;K, V&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -16851,7 +16851,7 @@
   </class>
   <!-- end class com.google.common.collect.HashBiMap -->
   <!-- start class com.google.common.collect.HashMultimap -->
-  <class name="HashMultimap" extends="com.google.common.collect.HashMultimapGwtSerializationDependencies&lt;K, V&gt;"
+  <class name="HashMultimap" extends="com.google.common.collect.AbstractSetMultimap&lt;K, V&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -20180,7 +20180,7 @@
   </class>
   <!-- end class com.google.common.collect.ImmutableMultimap.Builder -->
   <!-- start class com.google.common.collect.ImmutableMultiset -->
-  <class name="ImmutableMultiset" extends="com.google.common.collect.ImmutableMultisetGwtSerializationDependencies&lt;E&gt;"
+  <class name="ImmutableMultiset" extends="com.google.common.collect.ImmutableCollection&lt;E&gt;"
     abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
@@ -26588,7 +26588,7 @@
   </class>
   <!-- end class com.google.common.collect.Iterators -->
   <!-- start class com.google.common.collect.LinkedHashMultimap -->
-  <class name="LinkedHashMultimap" extends="com.google.common.collect.LinkedHashMultimapGwtSerializationDependencies&lt;K, V&gt;"
+  <class name="LinkedHashMultimap" extends="com.google.common.collect.AbstractSetMultimap&lt;K, V&gt;"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
@@ -33636,7 +33636,7 @@
   </class>
   <!-- end class com.google.common.collect.Queues -->
   <!-- start class com.google.common.collect.Range -->
-  <class name="Range" extends="com.google.common.collect.RangeGwtSerializationDependencies"
+  <class name="Range" extends="java.lang.Object"
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
