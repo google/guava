@@ -57,8 +57,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
-public abstract class ImmutableMultiset<E> extends ImmutableMultisetGwtSerializationDependencies<E>
-    implements Multiset<E> {
+public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implements Multiset<E> {
 
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code

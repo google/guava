@@ -51,7 +51,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible(emulated = true)
 public final class HashMultimap<K extends @Nullable Object, V extends @Nullable Object>
-    extends HashMultimapGwtSerializationDependencies<K, V> {
+    extends AbstractSetMultimap<K, V> {
   private static final int DEFAULT_VALUES_PER_KEY = 2;
 
   @VisibleForTesting transient int expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;

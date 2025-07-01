@@ -61,7 +61,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible(emulated = true)
 public final class ArrayListMultimap<K extends @Nullable Object, V extends @Nullable Object>
-    extends ArrayListMultimapGwtSerializationDependencies<K, V> {
+    extends AbstractListMultimap<K, V> {
   // Default from ArrayList
   private static final int DEFAULT_VALUES_PER_KEY = 3;
 

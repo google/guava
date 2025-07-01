@@ -123,8 +123,7 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @Immutable(containerOf = "C")
-public final class Range<C extends Comparable> extends RangeGwtSerializationDependencies
-    implements Predicate<C>, Serializable {
+public final class Range<C extends Comparable> implements Predicate<C>, Serializable {
   @SuppressWarnings("unchecked")
   static <C extends Comparable<?>> Ordering<Range<C>> rangeLexOrdering() {
     return (Ordering<Range<C>>) RangeLexOrdering.INSTANCE;

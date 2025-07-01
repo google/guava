@@ -64,9 +64,6 @@ public class WriteReplaceOverridesTest extends TestCase {
       if (!GUAVA_PACKAGES.contains(info.getPackageName())) {
         continue;
       }
-      if (info.getName().endsWith("GwtSerializationDependencies")) {
-        continue; // These classes exist only for the GWT compiler, not to be used.
-      }
       if (
       /*
        * At least one of the classes nested inside TypeResolverTest triggers a bug under older JDKs:

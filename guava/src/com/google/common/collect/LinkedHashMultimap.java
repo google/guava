@@ -84,7 +84,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible(emulated = true)
 public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nullable Object>
-    extends LinkedHashMultimapGwtSerializationDependencies<K, V> {
+    extends AbstractSetMultimap<K, V> {
 
   /** Creates a new, empty {@code LinkedHashMultimap} with the default initial capacities. */
   public static <K extends @Nullable Object, V extends @Nullable Object>
