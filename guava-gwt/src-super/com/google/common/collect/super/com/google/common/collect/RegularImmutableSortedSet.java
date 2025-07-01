@@ -16,9 +16,7 @@
 
 package com.google.common.collect;
 
-import java.util.Comparator;
 import java.util.SortedSet;
-import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulation of {@link RegularImmutableSortedSet}.
@@ -26,12 +24,8 @@ import org.jspecify.annotations.Nullable;
  * @author Hayward Chan
  */
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
-
   /** true if this set is a subset of another immutable sorted set. */
   final boolean isSubset;
-
-  private @Nullable Comparator<E> unusedComparatorForSerialization;
-  private @Nullable E unusedElementForSerialization;
 
   RegularImmutableSortedSet(SortedSet<E> delegate, boolean isSubset) {
     super(delegate);
@@ -40,6 +34,6 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
 
   @Override
   ImmutableList<E> createAsList() {
-    return new ImmutableSortedAsList<E>(this, ImmutableList.<E>asImmutableList(toArray()));
+    return new ImmutableSortedAsList<>(this, ImmutableList.asImmutableList(toArray()));
   }
 }

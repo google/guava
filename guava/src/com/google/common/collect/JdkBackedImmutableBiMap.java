@@ -18,7 +18,6 @@ package com.google.common.collect;
 import static com.google.common.collect.Maps.immutableEntry;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -31,7 +30,7 @@ import org.jspecify.annotations.Nullable;
  * Implementation of ImmutableBiMap backed by a pair of JDK HashMaps, which have smartness
  * protecting against hash flooding.
  */
-@GwtCompatible(emulated = true)
+@GwtIncompatible
 final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static <K, V> ImmutableBiMap<K, V> create(int n, @Nullable Entry<K, V>[] entryArray) {
     Map<K, V> forwardDelegate = Maps.newHashMapWithExpectedSize(n);
@@ -106,7 +105,6 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     @SuppressWarnings("RedundantOverride")
     @Override
     @J2ktIncompatible
-    @GwtIncompatible
         Object writeReplace() {
       return super.writeReplace();
     }
@@ -136,7 +134,6 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   @SuppressWarnings("RedundantOverride")
   @Override
   @J2ktIncompatible
-  @GwtIncompatible
     Object writeReplace() {
     return super.writeReplace();
   }
