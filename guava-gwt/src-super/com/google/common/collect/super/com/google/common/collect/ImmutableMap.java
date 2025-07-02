@@ -276,7 +276,16 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @CanIgnoreReturnValue
     public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
-      return put(entry.getKey(), entry.getValue());
+      if (entry instanceof ImmutableEntry) {
+        checkNotNull(entry.getKey());
+        checkNotNull(entry.getValue());
+        @SuppressWarnings("unchecked") // all supported methods are covariant
+        Entry<K, V> immutableEntry = (Entry<K, V>) entry;
+        entries.add(immutableEntry);
+      } else {
+        entries.add(entryOf((K) entry.getKey(), (V) entry.getValue()));
+      }
+      return this;
     }
 
     @CanIgnoreReturnValue

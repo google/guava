@@ -47,7 +47,6 @@ import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
-import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
@@ -1441,7 +1440,7 @@ public final class Maps {
   @GwtCompatible
   public static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> immutableEntry(
       @ParametricNullness K key, @ParametricNullness V value) {
-    return new SimpleImmutableEntry<>(key, value);
+    return new ImmutableEntry<>(key, value);
   }
 
   /**
