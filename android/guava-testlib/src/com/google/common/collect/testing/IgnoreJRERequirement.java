@@ -15,6 +15,7 @@
 package com.google.common.collect.testing;
 
 import static java.lang.annotation.ElementType.CONSTRUCTOR;
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 
@@ -26,6 +27,6 @@ import org.jspecify.annotations.NullMarked;
  *
  * <p>Each package's copy of this annotation needs to be listed in our {@code pom.xml}.
  */
-@Target({METHOD, CONSTRUCTOR, TYPE})
+@Target({METHOD, CONSTRUCTOR, TYPE, FIELD})
 @NullMarked
 @interface IgnoreJRERequirement {}
