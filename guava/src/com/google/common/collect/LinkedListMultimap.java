@@ -32,6 +32,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.AbstractSequentialList;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -109,37 +110,14 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
    */
 
   static final class Node<K extends @Nullable Object, V extends @Nullable Object>
-      extends AbstractMapEntry<K, V> {
-    @ParametricNullness final K key;
-    @ParametricNullness V value;
+      extends SimpleEntry<K, V> {
     @Nullable Node<K, V> next; // the next node (with any key)
     @Weak @Nullable Node<K, V> previous; // the previous node (with any key)
     @Nullable Node<K, V> nextSibling; // the next node with the same key
     @Weak @Nullable Node<K, V> previousSibling; // the previous node with the same key
 
     Node(@ParametricNullness K key, @ParametricNullness V value) {
-      this.key = key;
-      this.value = value;
-    }
-
-    @Override
-    @ParametricNullness
-    public K getKey() {
-      return key;
-    }
-
-    @Override
-    @ParametricNullness
-    public V getValue() {
-      return value;
-    }
-
-    @Override
-    @ParametricNullness
-    public V setValue(@ParametricNullness V newValue) {
-      V result = value;
-      this.value = newValue;
-      return result;
+      super(key, value);
     }
   }
 
@@ -291,12 +269,12 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
        * Multimap. This should be the case (except in case of concurrent modification, when all bets
        * are off).
        */
-      KeyList<K, V> keyList = requireNonNull(keyToKeyList.remove(node.key));
+      KeyList<K, V> keyList = requireNonNull(keyToKeyList.remove(node.getKey()));
       keyList.count = 0;
       modCount++;
     } else {
       // requireNonNull is safe (under the conditions listed in the comment in the branch above).
-      KeyList<K, V> keyList = requireNonNull(keyToKeyList.get(node.key));
+      KeyList<K, V> keyList = requireNonNull(keyToKeyList.get(node.getKey()));
       keyList.count--;
 
       if (node.previousSibling == null) {
@@ -428,7 +406,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
 
     void setValue(@ParametricNullness V value) {
       checkState(current != null);
-      current.value = value;
+      current.setValue(value);
     }
   }
 
@@ -459,18 +437,18 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
         throw new NoSuchElementException();
       }
       current = next;
-      seenKeys.add(current.key);
+      seenKeys.add(current.getKey());
       do { // skip ahead to next unseen key
         next = next.next;
-      } while ((next != null) && !seenKeys.add(next.key));
-      return current.key;
+      } while ((next != null) && !seenKeys.add(next.getKey()));
+      return current.getKey();
     }
 
     @Override
     public void remove() {
       checkForConcurrentModification();
       checkState(current != null, "no calls to next() since the last call to remove()");
-      removeAllNodes(current.key);
+      removeAllNodes(current.getKey());
       current = null;
       expectedModCount = modCount;
     }
@@ -534,7 +512,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
       previous = current = next;
       next = next.nextSibling;
       nextIndex++;
-      return current.value;
+      return current.getValue();
     }
 
     @Override
@@ -552,7 +530,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
       next = current = previous;
       previous = previous.previousSibling;
       nextIndex--;
-      return current.value;
+      return current.getValue();
     }
 
     @Override
@@ -581,7 +559,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     @Override
     public void set(@ParametricNullness V value) {
       checkState(current != null);
-      current.value = value;
+      current.setValue(value);
     }
 
     @Override

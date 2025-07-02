@@ -31,6 +31,7 @@ import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -94,39 +95,25 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   }
 
   private static final class RangeMapEntry<K extends Comparable, V>
-      extends AbstractMapEntry<Range<K>, V> {
-    private final Range<K> range;
-    private final V value;
-
+      extends SimpleImmutableEntry<Range<K>, V> {
     RangeMapEntry(Cut<K> lowerBound, Cut<K> upperBound, V value) {
       this(Range.create(lowerBound, upperBound), value);
     }
 
     RangeMapEntry(Range<K> range, V value) {
-      this.range = range;
-      this.value = value;
+      super(range, value);
     }
 
-    @Override
-    public Range<K> getKey() {
-      return range;
-    }
-
-    @Override
-    public V getValue() {
-      return value;
-    }
-
-    public boolean contains(K value) {
-      return range.contains(value);
+    boolean contains(K value) {
+      return getKey().contains(value);
     }
 
     Cut<K> getLowerBound() {
-      return range.lowerBound;
+      return getKey().lowerBound;
     }
 
     Cut<K> getUpperBound() {
-      return range.upperBound;
+      return getKey().upperBound;
     }
   }
 

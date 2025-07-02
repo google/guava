@@ -39,6 +39,7 @@ import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
 import java.util.AbstractSet;
 import java.util.Collection;
 import java.util.Iterator;
@@ -2646,46 +2647,20 @@ class MapMakerInternalMap<
    * Custom Entry class used by EntryIterator.next(), that relays setValue changes to the underlying
    * map.
    */
-  final class WriteThroughEntry extends AbstractMapEntry<K, V> {
-    final K key; // non-null
-    V value; // non-null
-
+  final class WriteThroughEntry extends SimpleEntry<K, V> {
     WriteThroughEntry(K key, V value) {
-      this.key = key;
-      this.value = value;
+      super(key, value);
     }
 
-    @Override
-    public K getKey() {
-      return key;
-    }
-
-    @Override
-    public V getValue() {
-      return value;
-    }
-
-    @Override
-    public boolean equals(@Nullable Object object) {
-      // Cannot use key and value equivalence
-      if (object instanceof Entry) {
-        Entry<?, ?> that = (Entry<?, ?>) object;
-        return key.equals(that.getKey()) && value.equals(that.getValue());
-      }
-      return false;
-    }
-
-    @Override
-    public int hashCode() {
-      // Cannot use key and value equivalence
-      return key.hashCode() ^ value.hashCode();
-    }
+    /*
+     * We inherit equals() and hashCode() instead of overriding them to use keyEquivalence and
+     * valueEquivalence.
+     */
 
     @Override
     public V setValue(V newValue) {
-      V oldValue = put(key, newValue);
-      value = newValue; // only if put succeeds
-      return oldValue;
+      put(getKey(), newValue);
+      return super.setValue(newValue); // done after put() so that it happens only if put() succeeds
     }
   }
 
