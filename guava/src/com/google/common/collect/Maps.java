@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.compose;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
-import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static java.lang.Math.ceil;
 import static java.util.Collections.singletonMap;
@@ -155,7 +154,6 @@ public final class Maps {
    * @return an immutable map containing those entries
    * @since 14.0
    */
-  @GwtCompatible
   public static <K extends Enum<K>, V> ImmutableMap<K, V> immutableEnumMap(
       Map<K, ? extends V> map) {
     if (map instanceof ImmutableEnumMap) {
@@ -1468,7 +1466,6 @@ public final class Maps {
    * @param key the key to be associated with the returned entry
    * @param value the value to be associated with the returned entry
    */
-  @GwtCompatible
   public static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> immutableEntry(
       @ParametricNullness K key, @ParametricNullness V value) {
     return new SimpleImmutableEntry<>(key, value);
@@ -3702,7 +3699,6 @@ public final class Maps {
    * {@code AbstractMap} extension that makes it easy to cache customized keySet, values, and
    * entrySet views.
    */
-  @GwtCompatible
   abstract static class ViewCachingAbstractMap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMap<K, V> {

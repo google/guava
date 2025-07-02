@@ -16,7 +16,6 @@
 
 package com.google.common.collect.testing;
 
-import static com.google.common.collect.testing.Helpers.entryComparator;
 import static java.lang.Math.max;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonMap;

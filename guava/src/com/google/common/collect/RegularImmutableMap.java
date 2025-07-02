@@ -314,7 +314,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return new KeySet<>(this);
   }
 
-  @GwtCompatible(emulated = true)
   private static final class KeySet<K> extends IndexedImmutableSet<K> {
     private final RegularImmutableMap<K, ?> map;
 
@@ -375,7 +374,6 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return new Values<>(this);
   }
 
-  @GwtCompatible(emulated = true)
   private static final class Values<K, V> extends ImmutableList<V> {
     final RegularImmutableMap<K, V> map;
 

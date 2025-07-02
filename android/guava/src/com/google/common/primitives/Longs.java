@@ -715,7 +715,6 @@ public final class Longs {
     return new LongArrayAsList(backingArray);
   }
 
-  @GwtCompatible
   private static class LongArrayAsList extends AbstractList<Long>
       implements RandomAccess, Serializable {
     final long[] array;

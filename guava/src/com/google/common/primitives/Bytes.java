@@ -253,7 +253,6 @@ public final class Bytes {
     return new ByteArrayAsList(backingArray);
   }
 
-  @GwtCompatible
   private static class ByteArrayAsList extends AbstractList<Byte>
       implements RandomAccess, Serializable {
     final byte[] array;

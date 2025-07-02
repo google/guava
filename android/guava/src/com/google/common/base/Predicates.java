@@ -47,7 +47,6 @@ public final class Predicates {
    * <p><b>Discouraged:</b> Prefer using {@code x -> true}, but note that lambdas do not have
    * human-readable {@link #toString()} representations and are not serializable.
    */
-  @GwtCompatible
   public static <T extends @Nullable Object> Predicate<T> alwaysTrue() {
     return ObjectPredicate.ALWAYS_TRUE.withNarrowedType();
   }
@@ -58,7 +57,6 @@ public final class Predicates {
    * <p><b>Discouraged:</b> Prefer using {@code x -> false}, but note that lambdas do not have
    * human-readable {@link #toString()} representations and are not serializable.
    */
-  @GwtCompatible
   public static <T extends @Nullable Object> Predicate<T> alwaysFalse() {
     return ObjectPredicate.ALWAYS_FALSE.withNarrowedType();
   }
@@ -71,7 +69,6 @@ public final class Predicates {
    * but note that lambdas and method references do not have human-readable {@link #toString()}
    * representations and are not serializable.
    */
-  @GwtCompatible
   public static <T extends @Nullable Object> Predicate<T> isNull() {
     return ObjectPredicate.IS_NULL.withNarrowedType();
   }
@@ -84,7 +81,6 @@ public final class Predicates {
    * but note that lambdas and method references do not have human-readable {@link #toString()}
    * representations and are not serializable.
    */
-  @GwtCompatible
   public static <T extends @Nullable Object> Predicate<T> notNull() {
     return ObjectPredicate.NOT_NULL.withNarrowedType();
   }

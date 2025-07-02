@@ -103,7 +103,6 @@ public final class Sets {
    * @param otherElements the rest of the elements the set should contain
    * @return an immutable set containing those elements, minus duplicates
    */
-  @GwtCompatible
   public static <E extends Enum<E>> ImmutableSet<E> immutableEnumSet(
       E anElement, E... otherElements) {
     return ImmutableEnumSet.asImmutable(EnumSet.of(anElement, otherElements));
@@ -119,7 +118,6 @@ public final class Sets {
    * @param elements the elements, all of the same {@code enum} type, that the set should contain
    * @return an immutable set containing those elements, minus duplicates
    */
-  @GwtCompatible
   public static <E extends Enum<E>> ImmutableSet<E> immutableEnumSet(Iterable<E> elements) {
     if (elements instanceof ImmutableEnumSet) {
       return (ImmutableEnumSet<E>) elements;
@@ -1672,7 +1670,6 @@ public final class Sets {
    * @see <a href="http://en.wikipedia.org/wiki/Power_set">Power set article at Wikipedia</a>
    * @since 4.0
    */
-  @GwtCompatible
   public static <E> Set<Set<E>> powerSet(Set<E> set) {
     return new PowerSet<E>(set);
   }

@@ -82,7 +82,6 @@ public final class Lists {
    * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
    * syntax</a>.
    */
-  @GwtCompatible
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayList() {
     return new ArrayList<>();
@@ -103,7 +102,6 @@ public final class Lists {
    * not actually very useful and will likely be deprecated in the future.
    */
   @SafeVarargs
-  @GwtCompatible
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayList(E... elements) {
     checkNotNull(elements); // for GWT
@@ -128,7 +126,6 @@ public final class Lists {
    * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
    * syntax</a>.
    */
-  @GwtCompatible
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayList(
       Iterable<? extends E> elements) {
@@ -146,7 +143,6 @@ public final class Lists {
    * <p><b>Note:</b> if mutability is not required and the elements are non-null, use {@link
    * ImmutableList#copyOf(Iterator)} instead.
    */
-  @GwtCompatible
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayList(
       Iterator<? extends E> elements) {
@@ -180,7 +176,6 @@ public final class Lists {
    *     reaches {@code initialArraySize + 1}
    * @throws IllegalArgumentException if {@code initialArraySize} is negative
    */
-  @GwtCompatible
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayListWithCapacity(
       int initialArraySize) {
@@ -201,7 +196,6 @@ public final class Lists {
    *     elements
    * @throws IllegalArgumentException if {@code estimatedSize} is negative
    */
-  @GwtCompatible
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> ArrayList<E> newArrayListWithExpectedSize(
       int estimatedSize) {
@@ -226,7 +220,6 @@ public final class Lists {
    * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
    * syntax</a>.
    */
-  @GwtCompatible
   @SuppressWarnings({
     "NonApiType", // acts as a direct substitute for a constructor call
     "JdkObsolete", // We recommend against this method but need to keep it for compatibility.
@@ -253,7 +246,6 @@ public final class Lists {
    * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
    * syntax</a>.
    */
-  @GwtCompatible
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList(
       Iterable<? extends E> elements) {

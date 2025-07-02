@@ -624,7 +624,6 @@ public final class Shorts extends ShortsMethodsForWeb {
     return new ShortArrayAsList(backingArray);
   }
 
-  @GwtCompatible
   private static class ShortArrayAsList extends AbstractList<Short>
       implements RandomAccess, Serializable {
     final short[] array;

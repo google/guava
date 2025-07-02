@@ -573,7 +573,6 @@ public final class Chars {
     return new CharArrayAsList(backingArray);
   }
 
-  @GwtCompatible
   private static class CharArrayAsList extends AbstractList<Character>
       implements RandomAccess, Serializable {
     final char[] array;

@@ -386,7 +386,6 @@ public final class Booleans {
     return new BooleanArrayAsList(backingArray);
   }
 
-  @GwtCompatible
   private static class BooleanArrayAsList extends AbstractList<Boolean>
       implements RandomAccess, Serializable {
     final boolean[] array;

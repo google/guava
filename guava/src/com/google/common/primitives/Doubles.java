@@ -581,7 +581,6 @@ public final class Doubles extends DoublesMethodsForWeb {
     return new DoubleArrayAsList(backingArray);
   }
 
-  @GwtCompatible
   private static class DoubleArrayAsList extends AbstractList<Double>
       implements RandomAccess, Serializable {
     final double[] array;
