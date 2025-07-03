@@ -16,17 +16,30 @@
 
 package com.google.common.graph;
 
+import static com.google.common.graph.TestUtil.assertEdgeNotInGraphErrorMessage;
+import static com.google.common.graph.TestUtil.assertEdgeRemovedFromGraphErrorMessage;
+import static com.google.common.graph.TestUtil.assertNodeNotInGraphErrorMessage;
+import static com.google.common.graph.TestUtil.assertNodeRemovedFromGraphErrorMessage;
 import static com.google.common.graph.TestUtil.assertStronglyEquivalent;
 import static com.google.common.graph.TestUtil.sanityCheckSet;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.TruthJUnit.assume;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
-import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -40,15 +53,24 @@ import org.junit.Test;
  * graph. The following test cases are left for the subclasses to handle:
  *
  * <ul>
- * <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
- * <li>Test cases related to the specific implementation of the {@link Network} interface.
+ *   <li>Test cases related to whether the graph is directed, undirected, mutable, or immutable.
+ *   <li>Test cases related to the specific implementation of the {@link Network} interface.
  * </ul>
  *
  * TODO(user): Make this class generic (using <N, E>) for all node and edge types.
  * TODO(user): Differentiate between directed and undirected edge strings.
  */
+@NullUnmarked
 public abstract class AbstractNetworkTest {
-  MutableNetwork<Integer, String> network;
+
+  Network<Integer, String> network;
+
+  /**
+   * The same reference as {@link #network}, except as a mutable network. This field is null in case
+   * {@link #createGraph()} didn't return a mutable network.
+   */
+  MutableNetwork<Integer, String> networkAsMutableNetwork;
+
   static final Integer N1 = 1;
   static final Integer N2 = 2;
   static final Integer N3 = 3;
@@ -76,16 +98,11 @@ public abstract class AbstractNetworkTest {
   // here to provide error messages.
   // TODO(user): Some Strings used in the subclasses can be added as static Strings
   // here too.
-  static final String ERROR_ELEMENT_NOT_IN_GRAPH = "not an element of this graph";
-  static final String NODE_STRING = "Node";
-  static final String EDGE_STRING = "Edge";
   static final String ERROR_PARALLEL_EDGE = "connected by a different edge";
   static final String ERROR_REUSE_EDGE = "it cannot be reused to connect";
   static final String ERROR_MODIFIABLE_COLLECTION =
       "Collection returned is unexpectedly modifiable";
   static final String ERROR_SELF_LOOP = "self-loops are not allowed";
-  static final String ERROR_NODE_NOT_IN_GRAPH =
-      "Should not be allowed to pass a node that is not an element of the graph.";
   static final String ERROR_EDGE_NOT_IN_GRAPH =
       "Should not be allowed to pass an edge that is not an element of the graph.";
   static final String ERROR_ADDED_SELF_LOOP = "Should not be allowed to add a self-loop edge.";
@@ -94,46 +111,32 @@ public abstract class AbstractNetworkTest {
       "Reusing an existing edge to connect different nodes succeeded";
 
   /** Creates and returns an instance of the graph to be tested. */
-  public abstract MutableNetwork<Integer, String> createGraph();
+  abstract Network<Integer, String> createGraph();
 
   /**
    * A proxy method that adds the node {@code n} to the graph being tested. In case of Immutable
-   * graph implementations, this method should add {@code n} to the graph builder and build a new
-   * graph with the current builder state.
-   *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * graph implementations, this method should replace {@link #network} with a new graph that
+   * includes this node.
    */
-  @CanIgnoreReturnValue
-  protected boolean addNode(Integer n) {
-    return network.addNode(n);
-  }
+  abstract void addNode(Integer n);
 
   /**
    * A proxy method that adds the edge {@code e} to the graph being tested. In case of Immutable
-   * graph implementations, this method should add {@code e} to the graph builder and build a new
-   * graph with the current builder state.
-   *
-   * <p>This method should be used in tests of specific implementations if you want to ensure
-   * uniform behavior (including side effects) with how edges are added elsewhere in the tests. For
-   * example, the existing implementations of this method explicitly add the supplied nodes to the
-   * graph, and then call {@code graph.addEdge()} to connect the edge to the nodes; this is not part
-   * of the contract of {@code graph.addEdge()} and is done for convenience. In cases where you want
-   * to avoid such side effects (e.g., if you're testing what happens in your implementation if you
-   * add an edge whose end-points don't already exist in the graph), you should <b>not</b> use this
-   * method.
-   *
-   * @return {@code true} iff the graph was modified as a result of this call
+   * graph implementations, this method should replace {@link #network} with a new graph that
+   * includes this edge.
    */
-  @CanIgnoreReturnValue
-  protected boolean addEdge(Integer n1, Integer n2, String e) {
-    network.addNode(n1);
-    network.addNode(n2);
-    return network.addEdge(n1, n2, e);
+  abstract void addEdge(Integer n1, Integer n2, String e);
+
+  final boolean graphIsMutable() {
+    return networkAsMutableNetwork != null;
   }
 
   @Before
   public void init() {
     network = createGraph();
+    if (network instanceof MutableNetwork) {
+      networkAsMutableNetwork = (MutableNetwork<Integer, String>) network;
+    }
   }
 
   @After
@@ -217,6 +220,32 @@ public abstract class AbstractNetworkTest {
 
       for (N otherNode : network.nodes()) {
         Set<E> edgesConnecting = sanityCheckSet(network.edgesConnecting(node, otherNode));
+        switch (edgesConnecting.size()) {
+          case 0:
+            assertThat(network.edgeConnectingOrNull(node, otherNode)).isNull();
+            assertThat(network.edgeConnecting(node, otherNode).isPresent()).isFalse();
+            assertThat(network.hasEdgeConnecting(node, otherNode)).isFalse();
+            break;
+          case 1:
+            E edge = edgesConnecting.iterator().next();
+            assertThat(network.edgeConnectingOrNull(node, otherNode)).isEqualTo(edge);
+            assertThat(network.edgeConnecting(node, otherNode).get()).isEqualTo(edge);
+            assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
+            break;
+          default:
+            assertThat(network.hasEdgeConnecting(node, otherNode)).isTrue();
+            try {
+              network.edgeConnectingOrNull(node, otherNode);
+              fail();
+            } catch (IllegalArgumentException expected) {
+            }
+            try {
+              network.edgeConnecting(node, otherNode);
+              fail();
+            } catch (IllegalArgumentException expected) {
+            }
+        }
+
         boolean isSelfLoop = node.equals(otherNode);
         boolean connected = !edgesConnecting.isEmpty();
         if (network.isDirected() || !isSelfLoop) {
@@ -229,6 +258,7 @@ public abstract class AbstractNetworkTest {
         if (!network.allowsSelfLoops() && isSelfLoop) {
           assertThat(connected).isFalse();
         }
+
         assertThat(network.successors(node).contains(otherNode)).isEqualTo(connected);
         assertThat(network.predecessors(otherNode).contains(node)).isEqualTo(connected);
         for (E edge : edgesConnecting) {
@@ -397,12 +427,9 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void incidentEdges_nodeNotInGraph() {
-    try {
-      network.incidentEdges(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(
+            IllegalArgumentException.class, () -> network.incidentEdges(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -413,12 +440,9 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void incidentNodes_edgeNotInGraph() {
-    try {
-      network.incidentNodes(EDGE_NOT_IN_GRAPH);
-      fail(ERROR_EDGE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertEdgeNotInGraphErrorMessage(e);
-    }
+    assertEdgeNotInGraphErrorMessage(
+        assertThrows(
+            IllegalArgumentException.class, () -> network.incidentNodes(EDGE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -436,12 +460,9 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void adjacentNodes_nodeNotInGraph() {
-    try {
-      network.adjacentNodes(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(
+            IllegalArgumentException.class, () -> network.adjacentNodes(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -462,12 +483,21 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void adjacentEdges_edgeNotInGraph() {
-    try {
-      network.adjacentEdges(EDGE_NOT_IN_GRAPH);
-      fail(ERROR_EDGE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertEdgeNotInGraphErrorMessage(e);
-    }
+    assertEdgeNotInGraphErrorMessage(
+        assertThrows(
+            IllegalArgumentException.class, () -> network.adjacentEdges(EDGE_NOT_IN_GRAPH)));
+  }
+
+  @Test
+  public void adjacentEdges_parallelEdges() {
+    assume().that(network.allowsParallelEdges()).isTrue();
+
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+    addEdge(N1, N2, E12_B);
+    addEdge(N3, N4, E34);
+
+    assertThat(network.adjacentEdges(E12)).containsExactly(E12_A, E12_B);
   }
 
   @Test
@@ -481,24 +511,70 @@ public abstract class AbstractNetworkTest {
   public void edgesConnecting_nodesNotInGraph() {
     addNode(N1);
     addNode(N2);
-    try {
-      network.edgesConnecting(N1, NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-    try {
-      network.edgesConnecting(NODE_NOT_IN_GRAPH, N2);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
-    try {
-      network.edgesConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(
+            IllegalArgumentException.class, () -> network.edgesConnecting(N1, NODE_NOT_IN_GRAPH)));
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(
+            IllegalArgumentException.class, () -> network.edgesConnecting(NODE_NOT_IN_GRAPH, N2)));
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> network.edgesConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH)));
+  }
+
+  @Test
+  public void edgesConnecting_parallelEdges_directed() {
+    assume().that(network.allowsParallelEdges()).isTrue();
+    assume().that(network.isDirected()).isTrue();
+
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A);
+    // Passed nodes should be in the correct edge direction, first is the
+    // source node and the second is the target node
+    assertThat(network.edgesConnecting(N2, N1)).isEmpty();
+  }
+
+  @Test
+  public void edgesConnecting_parallelEdges_undirected() {
+    assume().that(network.allowsParallelEdges()).isTrue();
+    assume().that(network.isDirected()).isFalse();
+
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+    addEdge(N2, N1, E21);
+
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12, E12_A, E21);
+    assertThat(network.edgesConnecting(N2, N1)).containsExactly(E12, E12_A, E21);
+  }
+
+  @Test
+  public void edgesConnecting_parallelSelfLoopEdges() {
+    assume().that(network.allowsParallelEdges()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    addEdge(N1, N1, E11_A);
+
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11, E11_A);
+  }
+
+  @Test
+  public void hasEdgeConnecting_disconnectedNodes() {
+    addNode(N1);
+    addNode(N2);
+    assertThat(network.hasEdgeConnecting(N1, N2)).isFalse();
+  }
+
+  @Test
+  public void hasEdgesConnecting_nodesNotInGraph() {
+    addNode(N1);
+    addNode(N2);
+    assertThat(network.hasEdgeConnecting(N1, NODE_NOT_IN_GRAPH)).isFalse();
+    assertThat(network.hasEdgeConnecting(NODE_NOT_IN_GRAPH, N2)).isFalse();
+    assertThat(network.hasEdgeConnecting(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH)).isFalse();
   }
 
   @Test
@@ -509,12 +585,8 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void inEdges_nodeNotInGraph() {
-    try {
-      network.inEdges(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> network.inEdges(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -525,12 +597,8 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void outEdges_nodeNotInGraph() {
-    try {
-      network.outEdges(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> network.outEdges(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -541,12 +609,9 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void predecessors_nodeNotInGraph() {
-    try {
-      network.predecessors(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(
+            IllegalArgumentException.class, () -> network.predecessors(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
@@ -557,109 +622,254 @@ public abstract class AbstractNetworkTest {
 
   @Test
   public void successors_nodeNotInGraph() {
-    try {
-      network.successors(NODE_NOT_IN_GRAPH);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> network.successors(NODE_NOT_IN_GRAPH)));
   }
 
   @Test
   public void addNode_newNode() {
-    assertTrue(addNode(N1));
-    assertThat(network.nodes()).contains(N1);
+    assume().that(graphIsMutable()).isTrue();
+
+    assertTrue(networkAsMutableNetwork.addNode(N1));
+    assertThat(networkAsMutableNetwork.nodes()).contains(N1);
   }
 
   @Test
   public void addNode_existingNode() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
-    ImmutableSet<Integer> nodes = ImmutableSet.copyOf(network.nodes());
-    assertFalse(addNode(N1));
-    assertThat(network.nodes()).containsExactlyElementsIn(nodes);
+    ImmutableSet<Integer> nodes = ImmutableSet.copyOf(networkAsMutableNetwork.nodes());
+    assertFalse(networkAsMutableNetwork.addNode(N1));
+    assertThat(networkAsMutableNetwork.nodes()).containsExactlyElementsIn(nodes);
   }
 
   @Test
   public void removeNode_existingNode() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N2, E12);
     addEdge(N4, N1, E41);
-    assertTrue(network.removeNode(N1));
-    assertFalse(network.removeNode(N1));
-    assertThat(network.nodes()).containsExactly(N2, N4);
-    assertThat(network.edges()).doesNotContain(E12);
-    assertThat(network.edges()).doesNotContain(E41);
+    assertTrue(networkAsMutableNetwork.removeNode(N1));
+    assertFalse(networkAsMutableNetwork.removeNode(N1));
+    assertThat(networkAsMutableNetwork.nodes()).containsExactly(N2, N4);
+    assertThat(networkAsMutableNetwork.edges()).doesNotContain(E12);
+    assertThat(networkAsMutableNetwork.edges()).doesNotContain(E41);
+
+    assertThat(network.adjacentNodes(N2)).isEmpty();
+    assertThat(network.predecessors(N2)).isEmpty();
+    assertThat(network.successors(N2)).isEmpty();
+    assertThat(network.incidentEdges(N2)).isEmpty();
+    assertThat(network.inEdges(N2)).isEmpty();
+    assertThat(network.outEdges(N2)).isEmpty();
+    assertThat(network.adjacentNodes(N4)).isEmpty();
+    assertThat(network.predecessors(N4)).isEmpty();
+    assertThat(network.successors(N4)).isEmpty();
+    assertThat(network.incidentEdges(N4)).isEmpty();
+    assertThat(network.inEdges(N4)).isEmpty();
+    assertThat(network.outEdges(N4)).isEmpty();
+
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> network.adjacentNodes(N1)));
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> network.predecessors(N1)));
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> network.successors(N1)));
+    assertNodeNotInGraphErrorMessage(
+        assertThrows(IllegalArgumentException.class, () -> network.incidentEdges(N1)));
   }
 
   @Test
   public void removeNode_nodeNotPresent() {
+    assume().that(graphIsMutable()).isTrue();
+
     addNode(N1);
-    ImmutableSet<Integer> nodes = ImmutableSet.copyOf(network.nodes());
-    assertFalse(network.removeNode(NODE_NOT_IN_GRAPH));
-    assertThat(network.nodes()).containsExactlyElementsIn(nodes);
+    ImmutableSet<Integer> nodes = ImmutableSet.copyOf(networkAsMutableNetwork.nodes());
+    assertFalse(networkAsMutableNetwork.removeNode(NODE_NOT_IN_GRAPH));
+    assertThat(networkAsMutableNetwork.nodes()).containsExactlyElementsIn(nodes);
   }
 
   @Test
-  public void removeNode_queryAfterRemoval() {
-    addNode(N1);
-    @SuppressWarnings("unused")
-    Set<Integer> unused = network.adjacentNodes(N1); // ensure cache (if any) is populated
-    assertTrue(network.removeNode(N1));
-    try {
-      network.adjacentNodes(N1);
-      fail(ERROR_NODE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertNodeNotInGraphErrorMessage(e);
-    }
+  public void queryAccessorSetAfterElementRemoval() {
+    assume().that(graphIsMutable()).isTrue();
+
+    addEdge(N1, N2, E12);
+    Set<Integer> n1AdjacentNodes = network.adjacentNodes(N1);
+    Set<Integer> n2AdjacentNodes = network.adjacentNodes(N2);
+    Set<Integer> n1Predecessors = network.predecessors(N1);
+    Set<Integer> n2Predecessors = network.predecessors(N2);
+    Set<Integer> n1Successors = network.successors(N1);
+    Set<Integer> n2Successors = network.successors(N2);
+    Set<String> n1IncidentEdges = network.incidentEdges(N1);
+    Set<String> n2IncidentEdges = network.incidentEdges(N2);
+    Set<String> n1InEdges = network.inEdges(N1);
+    Set<String> n2InEdges = network.inEdges(N2);
+    Set<String> n1OutEdges = network.outEdges(N1);
+    Set<String> n2OutEdges = network.outEdges(N2);
+    Set<String> e12AdjacentEdges = network.adjacentEdges(E12);
+    Set<String> n12EdgesConnecting = network.edgesConnecting(N1, N2);
+    assertThat(networkAsMutableNetwork.removeNode(N1)).isTrue();
+
+    // The choice of the size() method to call here is arbitrary.  We assume that if any of the Set
+    // methods executes the validation check, they all will, and thus we only need to test one of
+    // them to ensure that the validation check happens and has the expected behavior.
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1AdjacentNodes::size));
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1Predecessors::size));
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1Successors::size));
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1IncidentEdges::size));
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1InEdges::size));
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n1OutEdges::size));
+    assertEdgeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, e12AdjacentEdges::size));
+    assertNodeRemovedFromGraphErrorMessage(
+        assertThrows(IllegalStateException.class, n12EdgesConnecting::size));
+
+    assertThat(n2AdjacentNodes).isEmpty();
+    assertThat(n2Predecessors).isEmpty();
+    assertThat(n2Successors).isEmpty();
+    assertThat(n2IncidentEdges).isEmpty();
+    assertThat(n2InEdges).isEmpty();
+    assertThat(n2OutEdges).isEmpty();
   }
 
   @Test
   public void removeEdge_existingEdge() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N2, E12);
-    assertTrue(network.removeEdge(E12));
-    assertFalse(network.removeEdge(E12));
-    assertThat(network.edges()).doesNotContain(E12);
-    assertThat(network.edgesConnecting(N1, N2)).isEmpty();
+    assertTrue(networkAsMutableNetwork.removeEdge(E12));
+    assertFalse(networkAsMutableNetwork.removeEdge(E12));
+    assertThat(networkAsMutableNetwork.edges()).doesNotContain(E12);
+    assertThat(networkAsMutableNetwork.edgesConnecting(N1, N2)).isEmpty();
   }
 
   @Test
   public void removeEdge_oneOfMany() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N2, E12);
     addEdge(N1, N3, E13);
     addEdge(N1, N4, E14);
-    assertThat(network.edges()).containsExactly(E12, E13, E14);
-    assertTrue(network.removeEdge(E13));
-    assertThat(network.edges()).containsExactly(E12, E14);
+    assertThat(networkAsMutableNetwork.edges()).containsExactly(E12, E13, E14);
+    assertTrue(networkAsMutableNetwork.removeEdge(E13));
+    assertThat(networkAsMutableNetwork.edges()).containsExactly(E12, E14);
   }
 
   @Test
   public void removeEdge_edgeNotPresent() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N2, E12);
-    ImmutableSet<String> edges = ImmutableSet.copyOf(network.edges());
-    assertFalse(network.removeEdge(EDGE_NOT_IN_GRAPH));
-    assertThat(network.edges()).containsExactlyElementsIn(edges);
+    ImmutableSet<String> edges = ImmutableSet.copyOf(networkAsMutableNetwork.edges());
+    assertFalse(networkAsMutableNetwork.removeEdge(EDGE_NOT_IN_GRAPH));
+    assertThat(networkAsMutableNetwork.edges()).containsExactlyElementsIn(edges);
   }
 
   @Test
   public void removeEdge_queryAfterRemoval() {
+    assume().that(graphIsMutable()).isTrue();
+
     addEdge(N1, N2, E12);
     @SuppressWarnings("unused")
-    EndpointPair<Integer> unused = network.incidentNodes(E12); // ensure cache (if any) is populated
-    assertTrue(network.removeEdge(E12));
-    try {
-      network.incidentNodes(E12);
-      fail(ERROR_EDGE_NOT_IN_GRAPH);
-    } catch (IllegalArgumentException e) {
-      assertEdgeNotInGraphErrorMessage(e);
+    EndpointPair<Integer> unused =
+        networkAsMutableNetwork.incidentNodes(E12); // ensure cache (if any) is populated
+    assertTrue(networkAsMutableNetwork.removeEdge(E12));
+    assertEdgeNotInGraphErrorMessage(
+        assertThrows(
+            IllegalArgumentException.class, () -> networkAsMutableNetwork.incidentNodes(E12)));
+  }
+
+  @Test
+  public void removeEdge_parallelEdge() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsParallelEdges()).isTrue();
+
+    addEdge(N1, N2, E12);
+    addEdge(N1, N2, E12_A);
+    assertTrue(networkAsMutableNetwork.removeEdge(E12_A));
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
+  }
+
+  @Test
+  public void removeEdge_parallelSelfLoopEdge() {
+    assume().that(graphIsMutable()).isTrue();
+    assume().that(network.allowsParallelEdges()).isTrue();
+    assume().that(network.allowsSelfLoops()).isTrue();
+
+    addEdge(N1, N1, E11);
+    addEdge(N1, N1, E11_A);
+    addEdge(N1, N2, E12);
+    assertTrue(networkAsMutableNetwork.removeEdge(E11_A));
+    assertThat(network.edgesConnecting(N1, N1)).containsExactly(E11);
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
+    assertTrue(networkAsMutableNetwork.removeEdge(E11));
+    assertThat(network.edgesConnecting(N1, N1)).isEmpty();
+    assertThat(network.edgesConnecting(N1, N2)).containsExactly(E12);
+  }
+
+  @Test
+  public void concurrentIteration() throws Exception {
+    addEdge(1, 2, "foo");
+    addEdge(3, 4, "bar");
+    addEdge(5, 6, "baz");
+
+    int threadCount = 20;
+    ExecutorService executor = newFixedThreadPool(threadCount);
+    CyclicBarrier barrier = new CyclicBarrier(threadCount);
+    ImmutableList.Builder<Future<?>> futures = ImmutableList.builder();
+    for (int i = 0; i < threadCount; i++) {
+      futures.add(
+          executor.submit(
+              new Callable<@Nullable Void>() {
+                @Override
+                public @Nullable Void call() throws Exception {
+                  barrier.await();
+                  Integer first = network.nodes().iterator().next();
+                  for (Integer node : network.nodes()) {
+                    Set<Integer> unused = network.successors(node);
+                  }
+                  /*
+                   * Also look up an earlier node so that, if the graph is using MapRetrievalCache,
+                   * we read one of the fields declared in that class.
+                   */
+                  Set<Integer> unused = network.successors(first);
+                  return null;
+                }
+              }));
     }
-  }
 
-  static void assertNodeNotInGraphErrorMessage(Throwable throwable) {
-    assertThat(throwable.getMessage()).startsWith(NODE_STRING);
-    assertThat(throwable.getMessage()).contains(ERROR_ELEMENT_NOT_IN_GRAPH);
-  }
-
-  static void assertEdgeNotInGraphErrorMessage(Throwable throwable) {
-    assertThat(throwable.getMessage()).startsWith(EDGE_STRING);
-    assertThat(throwable.getMessage()).contains(ERROR_ELEMENT_NOT_IN_GRAPH);
+    /*
+     * It's unlikely that any operations would fail by throwing an exception, but let's check them
+     * just to be safe.
+     *
+     * The real purpose of this test is to produce a TSAN failure if MapIteratorCache is unsafe for
+     * reads from multiple threads -- unsafe, in fact, even in the absence of a concurrent write.
+     * The specific problem we had was unsafe reads of lastEntryReturnedBySomeIterator. (To fix the
+     * problem, we've since marked that field as volatile.)
+     *
+     * When MapIteratorCache is used from Immutable* classes, the TSAN failure doesn't indicate a
+     * real problem: The Entry objects are ImmutableMap entries, whose fields are all final and thus
+     * safe to read even when the Entry object is unsafely published. But with a mutable graph, the
+     * Entry object is likely to have a non-final value field, which is not safe to read when
+     * unsafely published. (The Entry object might even be newly created by each iterator.next()
+     * call, so we can't assume that writes to the Entry have been safely published by some other
+     * synchronization actions.)
+     *
+     * All that said: I haven't actually managed to make this particular test produce a TSAN error
+     * for the field accesses in MapIteratorCache. This test *has* found other TSAN errors,
+     * including in MapRetrievalCache, so I'm not sure why this one is different. I did at least
+     * confirm that my change to MapIteratorCache fixes the TSAN error in the (larger) test it was
+     * originally reported in.
+     */
+    for (Future<?> future : futures.build()) {
+      future.get();
+    }
+    executor.shutdown();
   }
 }

@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <!-- do_not_remove: published-with-gradle-metadata -->
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava-parent</artifactId>
+    <version>999.0.0-HEAD-android-SNAPSHOT</version>
+  </parent>
+  <artifactId>guava</artifactId>
+  <packaging>bundle</packaging>
+  <name>Guava: Google Core Libraries for Java</name>
+  <url>https://github.com/google/guava</url>
+  <description>
+    Guava is a suite of core and expanded libraries that include
+    utility classes, Google's collections, I/O classes, and
+    much more.
+  </description>
+  <dependencies>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>failureaccess</artifactId>
+      <version>1.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.guava</groupId>
+      <artifactId>listenablefuture</artifactId>
+      <version>9999.0-empty-to-avoid-conflict-with-guava</version>
+    </dependency>
+    <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.errorprone</groupId>
+      <artifactId>error_prone_annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.google.j2objc</groupId>
+      <artifactId>j2objc-annotations</artifactId>
+    </dependency>
+  </dependencies>
+  <build>
+    <resources>
+      <resource>
+        <directory>..</directory>
+        <includes>
+          <include>LICENSE</include> <!-- copied from the parent pom because I couldn't figure out a way to make combine.children="append" work -->
+          <include>proguard/*</include>
+        </includes>
+        <targetPath>META-INF</targetPath>
+      </resource>
+    </resources>
+    <plugins>
+      <plugin>
+        <groupId>org.mvnsearch</groupId>
+        <artifactId>toolchains-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-toolchains-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Automatic-Module-Name>com.google.common</Automatic-Module-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <extensions>true</extensions>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>5.1.9</version>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <instructions>
+            <!-- Silence a warning that claims that META-INF/versions/9/... is the "wrong directory" for our classes. -->
+            <_fixupmessages>^Classes found in the wrong directory: .*</_fixupmessages>
+            <Export-Package>
+              !com.google.common.base.internal,
+              !com.google.common.util.concurrent.internal,
+              !META-INF.*,
+              com.google.common.*
+            </Export-Package>
+            <Import-Package>
+              com.google.common.util.concurrent.internal,
+              org.jspecify.annotations;resolution:=optional,
+              javax.crypto.*;resolution:=optional,
+              sun.misc.*;resolution:=optional
+            </Import-Package>
+            <Bundle-DocURL>https://github.com/google/guava/</Bundle-DocURL>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <compilerArgs combine.children="append" combine.self="append">
+                <arg>-XDignore.symbol.file</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>compile-java9</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>9</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
+              </compileSourceRoots>
+              <includes>
+                <include>module-info.java</include>
+              </includes>
+
+              <!--
+                JPMS needs access to the module sources to complete a modular Java build. We also need to override the
+                base compile settings (in the root `pom.xml`) to enable MRJAR output.
+              -->
+              <compilerArgs combine.self="override">
+                <arg>-sourcepath</arg>
+                <arg>${project.basedir}/src</arg>
+                <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
+                <!-- https://errorprone.info/docs/installation#maven -->
+                <arg>-XDcompilePolicy=simple</arg>
+              </compilerArgs>
+              <multiReleaseOutput>true</multiReleaseOutput>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <!-- Passing `-subpackages com.google.common` breaks things, so we explicitly exclude everything else instead. -->
+          <!-- excludePackageNames requires specification of packages separately from "all subpackages".
+               https://issues.apache.org/jira/browse/MJAVADOC-584 -->
+          <excludePackageNames>
+            com.azul.tooling.in,com.google.common.base.internal,com.google.common.base.internal.*,com.google.thirdparty.publicsuffix,com.google.thirdparty.publicsuffix.*,com.oracle.*,com.sun.*,java.*,javax.*,jdk,jdk.*,org.*,sun.*
+          </excludePackageNames>
+          <!-- Ignore some tags that are found in Java 11 sources but not recognized... under -source 8, I think it was? I can no longer reproduce the failure. -->
+          <tags>
+            <tag>
+              <name>apiNote</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>implNote</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>implSpec</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>jls</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>revised</name>
+              <placement>X</placement>
+            </tag>
+            <tag>
+              <name>spec</name>
+              <placement>X</placement>
+            </tag>
+          </tags>
+
+          <!-- TODO(cpovirk): Move this to the parent after making the package-list files available there. -->
+          <!-- We add the link ourselves so that we can choose Java 21 over the version that -source suggests. -->
+          <detectJavaApiLink>false</detectJavaApiLink>
+          <offlineLinks>
+            <!-- We need local copies of some of these for 2 reasons: a User-Agent problem (https://stackoverflow.com/a/47891403/28465) and an SSL problem (https://issues.apache.org/jira/browse/MJAVADOC-507). If we choose to work around the User-Agent problem, we can go back to <links>, sidestepping the SSL problem. -->
+            <offlineLink>
+              <url>https://javadoc.io/doc/com.google.j2objc/j2objc-annotations/latest/</url>
+              <location>${project.basedir}/javadoc-link/j2objc-annotations</location>
+            </offlineLink>
+          </offlineLinks>
+          <links>
+            <link>https://docs.oracle.com/en/java/javase/21/docs/api/</link>
+            <link>https://errorprone.info/api/latest/</link>
+            <link>https://jspecify.dev/docs/api/</link>
+          </links>
+          <overview>../../overview.html</overview>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>gradle-module-metadata</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>target/publish</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>../../guava</directory>
+                  <includes>
+                    <include>module.json</include>
+                  </includes>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-gradle-module-metadata</id>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <artifacts>
+                <artifact>
+                  <file>target/publish/module.json</file>
+                  <type>module</type>
+                </artifact>
+              </artifacts>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+</project>

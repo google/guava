@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
 import java.util.List;
@@ -26,6 +27,8 @@ import java.util.List;
  * @author Hayward Chan
  */
 class RegularImmutableList<E> extends ForwardingImmutableList<E> {
+  static final ImmutableList<Object> EMPTY = new RegularImmutableList<Object>(emptyList());
+
   private final List<E> delegate;
 
   RegularImmutableList(List<E> delegate) {
@@ -33,7 +36,8 @@ class RegularImmutableList<E> extends ForwardingImmutableList<E> {
     this.delegate = unmodifiableList(delegate);
   }
 
-  @Override List<E> delegateList() {
+  @Override
+  List<E> delegateList() {
     return delegate;
   }
 }

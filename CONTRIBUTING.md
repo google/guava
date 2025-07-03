@@ -4,10 +4,10 @@ How to contribute
 Thank you so much for wanting to contribute to Guava! Here are a few important
 things you should know about contributing:
 
-  1. API changes require discussion, use cases, etc. Code comes later.
-  2. Pull requests are great for small fixes for bugs, documentation, etc.
-  3. Pull requests are not merged directly into the master branch.
-  3. Code contributions require signing a Google CLA.
+1.  API changes require discussion, use cases, etc. Code comes later.
+2.  Pull requests are great for small fixes for bugs, documentation, etc.
+3.  Pull requests are not merged directly into the master branch.
+4.  Code contributions require signing a Google CLA.
 
 API changes
 -----------
@@ -21,7 +21,7 @@ for it.
 If the feature has merit, it will go through a thorough process of API design
 and review. Any code should come after this.
 
-[APIs]: http://en.wikipedia.org/wiki/Application_programming_interface
+[APIs]: https://en.wikipedia.org/wiki/Application_programming_interface
 [issue]: https://github.com/google/guava/issues
 
 Pull requests
@@ -42,8 +42,8 @@ Some examples of types of pull requests that are immediately helpful:
 Guidelines for any code contributions:
 
   1. Any significant changes should be accompanied by tests. The project already
-     has good test coverage, so look at some of the existing tests if you're
-     unsure how to go about it.
+     has good test coverage, so look at some existing tests if you're unsure
+     how to go about it.
   2. All contributions must be licensed Apache 2.0 and all files must have a
      copy of the boilerplate license comment (can be copied from an existing
      file).
@@ -53,7 +53,7 @@ Guidelines for any code contributions:
      [well-formed commit message][] for the change.
 
 [Java style guide]: https://google.github.io/styleguide/javaguide.html
-[well-formed commit message]: http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+[well-formed commit message]: https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
 
 #### Merging pull requests ####
 

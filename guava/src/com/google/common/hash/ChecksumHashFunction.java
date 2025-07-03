@@ -16,22 +16,31 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.hash.SneakyThrows.sneakyThrow;
 
-import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.Immutable;
+import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.Serializable;
+import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.nio.ByteBuffer;
 import java.util.zip.Checksum;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@link HashFunction} adapter for {@link Checksum} instances.
  *
  * @author Colin Decker
  */
-final class ChecksumHashFunction extends AbstractStreamingHashFunction implements Serializable {
-  private final Supplier<? extends Checksum> checksumSupplier;
+@Immutable
+final class ChecksumHashFunction extends AbstractHashFunction implements Serializable {
+  private final ImmutableSupplier<? extends Checksum> checksumSupplier;
   private final int bits;
   private final String toString;
 
-  ChecksumHashFunction(Supplier<? extends Checksum> checksumSupplier, int bits, String toString) {
+  ChecksumHashFunction(
+      ImmutableSupplier<? extends Checksum> checksumSupplier, int bits, String toString) {
     this.checksumSupplier = checkNotNull(checksumSupplier);
     checkArgument(bits == 32 || bits == 64, "bits (%s) must be either 32 or 64", bits);
     this.bits = bits;
@@ -53,9 +62,7 @@ final class ChecksumHashFunction extends AbstractStreamingHashFunction implement
     return toString;
   }
 
-  /**
-   * Hasher that updates a checksum.
-   */
+  /** Hasher that updates a checksum. */
   private final class ChecksumHasher extends AbstractByteHasher {
     private final Checksum checksum;
 
@@ -74,6 +81,14 @@ final class ChecksumHashFunction extends AbstractStreamingHashFunction implement
     }
 
     @Override
+    @J2ObjCIncompatible
+    protected void update(ByteBuffer b) {
+      if (!ChecksumMethodHandles.updateByteBuffer(checksum, b)) {
+        super.update(b);
+      }
+    }
+
+    @Override
     public HashCode hash() {
       long value = checksum.getValue();
       if (bits == 32) {
@@ -86,6 +101,47 @@ final class ChecksumHashFunction extends AbstractStreamingHashFunction implement
       } else {
         return HashCode.fromLong(value);
       }
+    }
+  }
+
+  @J2ObjCIncompatible
+  @SuppressWarnings("unused")
+  private static final class ChecksumMethodHandles {
+    private static final @Nullable MethodHandle UPDATE_BB = updateByteBuffer();
+
+    @IgnoreJRERequirement // https://github.com/mojohaus/animal-sniffer/issues/67
+    static boolean updateByteBuffer(Checksum cs, ByteBuffer bb) {
+      if (UPDATE_BB != null) {
+        try {
+          UPDATE_BB.invokeExact(cs, bb);
+        } catch (Throwable e) {
+          // `update` has no `throws` clause.
+          sneakyThrow(e);
+        }
+        return true;
+      } else {
+        return false;
+      }
+    }
+
+    private static @Nullable MethodHandle updateByteBuffer() {
+      try {
+        Class<?> clazz = Class.forName("java.util.zip.Checksum");
+        return MethodHandles.lookup()
+            .findVirtual(clazz, "update", MethodType.methodType(void.class, ByteBuffer.class));
+      } catch (ClassNotFoundException e) {
+        throw new AssertionError(e);
+      } catch (IllegalAccessException e) {
+        // That API is public.
+        throw newLinkageError(e);
+      } catch (NoSuchMethodException e) {
+        // Only introduced in Java 9.
+        return null;
+      }
+    }
+
+    private static LinkageError newLinkageError(Throwable cause) {
+      return new LinkageError(cause.toString(), cause);
     }
   }
 

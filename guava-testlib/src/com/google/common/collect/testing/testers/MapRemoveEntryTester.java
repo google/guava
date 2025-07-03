@@ -20,20 +20,25 @@ import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_VALUE_QUERIES;
 import static com.google.common.collect.testing.features.MapFeature.SUPPORTS_REMOVE;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map;
+import org.junit.Ignore;
 
 /**
- * Tester for {@link Map#remove(Object, Object)}.  Can't be invoked directly; please see 
- * {@link com.google.common.collect.testing.MapTestSuiteBuilder}. 
+ * Tester for {@link Map#remove(Object, Object)}. Can't be invoked directly; please see {@link
+ * com.google.common.collect.testing.MapTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MapRemoveEntryTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
@@ -59,7 +64,7 @@ public class MapRemoveEntryTester<K, V> extends AbstractMapTester<K, V> {
     assertFalse(getMap().remove(k3(), v3()));
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(value = SUPPORTS_REMOVE, absent = ALLOWS_NULL_KEY_QUERIES)
   public void testRemove_nullKeyQueriesUnsupported() {
     try {
@@ -67,9 +72,9 @@ public class MapRemoveEntryTester<K, V> extends AbstractMapTester<K, V> {
     } catch (NullPointerException tolerated) {
       // since the operation would be a no-op, the exception is not required
     }
-    expectUnchanged();    
+    expectUnchanged();
   }
-  
+
   @MapFeature.Require(value = SUPPORTS_REMOVE, absent = ALLOWS_NULL_VALUE_QUERIES)
   public void testRemove_nullValueQueriesUnsupported() {
     try {
@@ -77,19 +82,16 @@ public class MapRemoveEntryTester<K, V> extends AbstractMapTester<K, V> {
     } catch (NullPointerException tolerated) {
       // since the operation would be a no-op, the exception is not required
     }
-    expectUnchanged();    
+    expectUnchanged();
   }
-  
+
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemove_unsupportedPresent() {
-    try {
-      getMap().remove(k0(), v0());
-      fail("Expected UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {}
+    assertThrows(UnsupportedOperationException.class, () -> getMap().remove(k0(), v0()));
     expectUnchanged();
   }
-  
+
   @MapFeature.Require(absent = SUPPORTS_REMOVE)
   public void testRemove_unsupportedAbsent() {
     try {

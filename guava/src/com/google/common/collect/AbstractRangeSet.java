@@ -15,13 +15,14 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtIncompatible;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A skeletal implementation of {@code RangeSet}.
  *
  * @author Louis Wasserman
  */
+@SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
 @GwtIncompatible
 abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
   AbstractRangeSet() {}
@@ -32,7 +33,7 @@ abstract class AbstractRangeSet<C extends Comparable> implements RangeSet<C> {
   }
 
   @Override
-  public abstract Range<C> rangeContaining(C value);
+  public abstract @Nullable Range<C> rangeContaining(C value);
 
   @Override
   public boolean isEmpty() {

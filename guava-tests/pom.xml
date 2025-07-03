@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>21.0-SNAPSHOT</version>
+    <version>999.0.0-HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava-tests</artifactId>
   <name>Guava Unit Tests</name>
@@ -22,8 +22,8 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
@@ -32,34 +32,49 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.easymock</groupId>
-      <artifactId>easymock</artifactId>
+      <version>4.13.2</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>org.mockito</groupId>
       <artifactId>mockito-core</artifactId>
+      <version>4.11.0</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
+      <version>${truth.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.truth.extensions</groupId>
       <artifactId>truth-java8-extension</artifactId>
+      <version>${truth.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.jimfs</groupId>
       <artifactId>jimfs</artifactId>
+      <version>1.3.0</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.caliper</groupId>
       <artifactId>caliper</artifactId>
+      <version>1.0-beta-3</version>
+      <scope>test</scope>
     </dependency>
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.mvnsearch</groupId>
+        <artifactId>toolchains-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-toolchains-plugin</artifactId>
+      </plugin>
       <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
       </plugin>
@@ -75,12 +90,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <redirectTestOutputToFile>true</redirectTestOutputToFile>
-          <!-- Set max heap for tests. -->
-          <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-          <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN</argLine>
-        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
@@ -92,8 +101,18 @@
         </executions>
       </plugin>
       <plugin>
+        <artifactId>maven-deploy-plugin</artifactId>
+        <version>2.8.2</version>
+        <configuration>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>animal-sniffer-maven-plugin</artifactId>
+        <configuration>
+          <checkTestClasses>false</checkTestClasses> <!-- TODO(cpovirk): Consider checking them. -->
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>

@@ -25,18 +25,25 @@ import static com.google.common.math.MathTesting.NEGATIVE_LONG_CANDIDATES;
 import static com.google.common.math.MathTesting.NONZERO_LONG_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_INTEGER_CANDIDATES;
 import static com.google.common.math.MathTesting.POSITIVE_LONG_CANDIDATES;
+import static com.google.common.math.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.math.BigInteger.valueOf;
+import static java.math.RoundingMode.DOWN;
 import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
+import java.util.EnumSet;
 import java.util.Random;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests for LongMath.
@@ -44,6 +51,7 @@ import junit.framework.TestCase;
  * @author Louis Wasserman
  */
 @GwtCompatible(emulated = true)
+@NullUnmarked
 public class LongMathTest extends TestCase {
   @SuppressWarnings("ConstantOverflow")
   public void testMaxSignedPowerOfTwo() {
@@ -57,11 +65,7 @@ public class LongMathTest extends TestCase {
       if (fitsInLong(expectedResult)) {
         assertEquals(expectedResult.longValue(), LongMath.ceilingPowerOfTwo(x));
       } else {
-        try {
-          LongMath.ceilingPowerOfTwo(x);
-          fail("Expected ArithmeticException");
-        } catch (ArithmeticException expected) {
-        }
+        assertThrows(ArithmeticException.class, () -> LongMath.ceilingPowerOfTwo(x));
       }
     }
   }
@@ -75,44 +79,30 @@ public class LongMathTest extends TestCase {
 
   public void testCeilingPowerOfTwoNegative() {
     for (long x : NEGATIVE_LONG_CANDIDATES) {
-      try {
-        LongMath.ceilingPowerOfTwo(x);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(IllegalArgumentException.class, () -> LongMath.ceilingPowerOfTwo(x));
     }
   }
 
   public void testFloorPowerOfTwoNegative() {
     for (long x : NEGATIVE_LONG_CANDIDATES) {
-      try {
-        LongMath.floorPowerOfTwo(x);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {
-      }
+      assertThrows(IllegalArgumentException.class, () -> LongMath.floorPowerOfTwo(x));
     }
   }
 
   public void testCeilingPowerOfTwoZero() {
-    try {
-      LongMath.ceilingPowerOfTwo(0L);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> LongMath.ceilingPowerOfTwo(0L));
   }
 
   public void testFloorPowerOfTwoZero() {
-    try {
-      LongMath.floorPowerOfTwo(0L);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> LongMath.floorPowerOfTwo(0L));
   }
 
   @GwtIncompatible // TODO
   public void testConstantMaxPowerOfSqrt2Unsigned() {
-    assertEquals(BigIntegerMath.sqrt(BigInteger.ZERO.setBit(2 * Long.SIZE - 1), FLOOR).longValue(),
-        LongMath.MAX_POWER_OF_SQRT2_UNSIGNED);
+    assertEquals(
+        /* expected= */ BigIntegerMath.sqrt(BigInteger.ZERO.setBit(2 * Long.SIZE - 1), FLOOR)
+            .longValue(),
+        /* actual= */ LongMath.MAX_POWER_OF_SQRT2_UNSIGNED);
   }
 
   @GwtIncompatible // BigIntegerMath // TODO(cpovirk): GWT-enable BigIntegerMath
@@ -129,16 +119,15 @@ public class LongMathTest extends TestCase {
     for (int i = 0; i < LongMath.powersOf10.length; i++) {
       assertEquals(LongMath.checkedPow(10, i), LongMath.powersOf10[i]);
     }
-    try {
-      LongMath.checkedPow(10, LongMath.powersOf10.length);
-      fail("Expected ArithmeticException");
-    } catch (ArithmeticException expected) {}
+    assertThrows(
+        ArithmeticException.class, () -> LongMath.checkedPow(10, LongMath.powersOf10.length));
   }
 
   @GwtIncompatible // TODO
   public void testConstantsHalfPowersOf10() {
     for (int i = 0; i < LongMath.halfPowersOf10.length; i++) {
-      assertEquals(BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * i + 1), FLOOR),
+      assertEquals(
+          BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * i + 1), FLOOR),
           BigInteger.valueOf(LongMath.halfPowersOf10[i]));
     }
     BigInteger nextBigger =
@@ -148,7 +137,9 @@ public class LongMathTest extends TestCase {
 
   @GwtIncompatible // TODO
   public void testConstantsSqrtMaxLong() {
-    assertEquals(LongMath.sqrt(Long.MAX_VALUE, FLOOR), LongMath.FLOOR_SQRT_MAX_LONG);
+    assertEquals(
+        /* expected= */ LongMath.sqrt(Long.MAX_VALUE, FLOOR),
+        /* actual= */ LongMath.FLOOR_SQRT_MAX_LONG);
   }
 
   @GwtIncompatible // TODO
@@ -157,19 +148,20 @@ public class LongMathTest extends TestCase {
     for (int i = 0; i < LongMath.factorials.length; i++, expected *= i) {
       assertEquals(expected, LongMath.factorials[i]);
     }
-    try {
-      LongMath.checkedMultiply(
-          LongMath.factorials[LongMath.factorials.length - 1], LongMath.factorials.length);
-      fail("Expected ArithmeticException");
-    } catch (ArithmeticException expect) {}
+    assertThrows(
+        ArithmeticException.class,
+        () ->
+            LongMath.checkedMultiply(
+                LongMath.factorials[LongMath.factorials.length - 1], LongMath.factorials.length));
   }
 
   @GwtIncompatible // TODO
   public void testConstantsBiggestBinomials() {
     for (int k = 0; k < LongMath.biggestBinomials.length; k++) {
       assertTrue(fitsInLong(BigIntegerMath.binomial(LongMath.biggestBinomials[k], k)));
-      assertTrue(LongMath.biggestBinomials[k] == Integer.MAX_VALUE
-          || !fitsInLong(BigIntegerMath.binomial(LongMath.biggestBinomials[k] + 1, k)));
+      assertTrue(
+          LongMath.biggestBinomials[k] == Integer.MAX_VALUE
+              || !fitsInLong(BigIntegerMath.binomial(LongMath.biggestBinomials[k] + 1, k)));
       // In the first case, any long is valid; in the second, we want to test that the next-bigger
       // long overflows.
     }
@@ -180,23 +172,19 @@ public class LongMathTest extends TestCase {
 
   @GwtIncompatible // TODO
   public void testConstantsBiggestSimpleBinomials() {
-    for (int k = 0; k < LongMath.biggestSimpleBinomials.length; k++) {
+    for (int i = 0; i < LongMath.biggestSimpleBinomials.length; i++) {
+      int k = i;
       assertTrue(LongMath.biggestSimpleBinomials[k] <= LongMath.biggestBinomials[k]);
       long unused = simpleBinomial(LongMath.biggestSimpleBinomials[k], k); // mustn't throw
       if (LongMath.biggestSimpleBinomials[k] < Integer.MAX_VALUE) {
         // unless all n are fair game with this k
-        try {
-          simpleBinomial(LongMath.biggestSimpleBinomials[k] + 1, k);
-          fail("Expected ArithmeticException");
-        } catch (ArithmeticException expected) {}
+        assertThrows(
+            ArithmeticException.class,
+            () -> simpleBinomial(LongMath.biggestSimpleBinomials[k] + 1, k));
       }
     }
-    try {
-      int k = LongMath.biggestSimpleBinomials.length;
-      simpleBinomial(2 * k, k);
-      // 2 * k is the smallest value for which we don't replace k with (n-k).
-      fail("Expected ArithmeticException");
-    } catch (ArithmeticException expected) {}
+    int k = LongMath.biggestSimpleBinomials.length;
+    assertThrows(ArithmeticException.class, () -> simpleBinomial(2 * k, k));
   }
 
   @AndroidIncompatible // slow
@@ -236,20 +224,14 @@ public class LongMathTest extends TestCase {
 
   public void testLog2ZeroAlwaysThrows() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
-      try {
-        LongMath.log2(0L, mode);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
+      assertThrows(IllegalArgumentException.class, () -> LongMath.log2(0L, mode));
     }
   }
 
   public void testLog2NegativeAlwaysThrows() {
     for (long x : NEGATIVE_LONG_CANDIDATES) {
       for (RoundingMode mode : ALL_ROUNDING_MODES) {
-        try {
-          LongMath.log2(x, mode);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {}
+        assertThrows(IllegalArgumentException.class, () -> LongMath.log2(x, mode));
       }
     }
   }
@@ -281,10 +263,7 @@ public class LongMathTest extends TestCase {
   @GwtIncompatible // TODO
   public void testLog10ZeroAlwaysThrows() {
     for (RoundingMode mode : ALL_ROUNDING_MODES) {
-      try {
-        LongMath.log10(0L, mode);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
+      assertThrows(IllegalArgumentException.class, () -> LongMath.log10(0L, mode));
     }
   }
 
@@ -292,10 +271,7 @@ public class LongMathTest extends TestCase {
   public void testLog10NegativeAlwaysThrows() {
     for (long x : NEGATIVE_LONG_CANDIDATES) {
       for (RoundingMode mode : ALL_ROUNDING_MODES) {
-        try {
-          LongMath.log10(x, mode);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {}
+        assertThrows(IllegalArgumentException.class, () -> LongMath.log10(x, mode));
       }
     }
   }
@@ -339,10 +315,7 @@ public class LongMathTest extends TestCase {
   public void testSqrtNegativeAlwaysThrows() {
     for (long x : NEGATIVE_LONG_CANDIDATES) {
       for (RoundingMode mode : ALL_ROUNDING_MODES) {
-        try {
-          LongMath.sqrt(x, mode);
-          fail("Expected IllegalArgumentException");
-        } catch (IllegalArgumentException expected) {}
+        assertThrows(IllegalArgumentException.class, () -> LongMath.sqrt(x, mode));
       }
     }
   }
@@ -379,13 +352,12 @@ public class LongMathTest extends TestCase {
   public void testPow() {
     for (long i : ALL_LONG_CANDIDATES) {
       for (int exp : EXPONENTS) {
-        assertEquals(LongMath.pow(i, exp), valueOf(i)
-            .pow(exp)
-            .longValue());
+        assertEquals(LongMath.pow(i, exp), valueOf(i).pow(exp).longValue());
       }
     }
   }
 
+  @J2ktIncompatible // J2kt BigDecimal.divide also has the rounding bug
   @GwtIncompatible // TODO
   @AndroidIncompatible // TODO(cpovirk): File BigDecimal.divide() rounding bug.
   public void testDivNonZero() {
@@ -397,6 +369,12 @@ public class LongMathTest extends TestCase {
           long actual = LongMath.divide(p, q, mode);
           if (expected != actual) {
             failFormat("expected divide(%s, %s, %s) = %s; got %s", p, q, mode, expected, actual);
+          }
+          // Check the assertions we make in the javadoc.
+          if (mode == DOWN) {
+            assertEquals(p / q, LongMath.divide(p, q, mode));
+          } else if (mode == FLOOR) {
+            assertEquals(Math.floorDiv(p, q), LongMath.divide(p, q, mode));
           }
         }
       }
@@ -436,10 +414,7 @@ public class LongMathTest extends TestCase {
   public void testDivByZeroAlwaysFails() {
     for (long p : ALL_LONG_CANDIDATES) {
       for (RoundingMode mode : ALL_ROUNDING_MODES) {
-        try {
-          LongMath.divide(p, 0L, mode);
-          fail("Expected ArithmeticException");
-        } catch (ArithmeticException expected) {}
+        assertThrows(ArithmeticException.class, () -> LongMath.divide(p, 0L, mode));
       }
     }
   }
@@ -448,9 +423,7 @@ public class LongMathTest extends TestCase {
   public void testIntMod() {
     for (long x : ALL_LONG_CANDIDATES) {
       for (int m : POSITIVE_INTEGER_CANDIDATES) {
-        assertEquals(valueOf(x)
-            .mod(valueOf(m))
-            .intValue(), LongMath.mod(x, m));
+        assertEquals(valueOf(x).mod(valueOf(m)).intValue(), LongMath.mod(x, m));
       }
     }
   }
@@ -459,10 +432,7 @@ public class LongMathTest extends TestCase {
   public void testIntModNegativeModulusFails() {
     for (long x : ALL_LONG_CANDIDATES) {
       for (int m : NEGATIVE_INTEGER_CANDIDATES) {
-        try {
-          LongMath.mod(x, m);
-          fail("Expected ArithmeticException");
-        } catch (ArithmeticException expected) {}
+        assertThrows(ArithmeticException.class, () -> LongMath.mod(x, m));
       }
     }
   }
@@ -470,10 +440,7 @@ public class LongMathTest extends TestCase {
   @GwtIncompatible // TODO
   public void testIntModZeroModulusFails() {
     for (long x : ALL_LONG_CANDIDATES) {
-      try {
-        LongMath.mod(x, 0);
-        fail("Expected AE");
-      } catch (ArithmeticException expected) {}
+      assertThrows(ArithmeticException.class, () -> LongMath.mod(x, 0));
     }
   }
 
@@ -482,9 +449,7 @@ public class LongMathTest extends TestCase {
   public void testMod() {
     for (long x : ALL_LONG_CANDIDATES) {
       for (long m : POSITIVE_LONG_CANDIDATES) {
-        assertEquals(valueOf(x)
-            .mod(valueOf(m))
-            .longValue(), LongMath.mod(x, m));
+        assertEquals(valueOf(x).mod(valueOf(m)).longValue(), LongMath.mod(x, m));
       }
     }
   }
@@ -493,10 +458,7 @@ public class LongMathTest extends TestCase {
   public void testModNegativeModulusFails() {
     for (long x : ALL_LONG_CANDIDATES) {
       for (long m : NEGATIVE_LONG_CANDIDATES) {
-        try {
-          LongMath.mod(x, m);
-          fail("Expected ArithmeticException");
-        } catch (ArithmeticException expected) {}
+        assertThrows(ArithmeticException.class, () -> LongMath.mod(x, m));
       }
     }
   }
@@ -521,33 +483,20 @@ public class LongMathTest extends TestCase {
   @GwtIncompatible // TODO
   public void testGCDNegativePositiveThrows() {
     for (long a : NEGATIVE_LONG_CANDIDATES) {
-      try {
-        LongMath.gcd(a, 3);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
-      try {
-        LongMath.gcd(3, a);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
+      assertThrows(IllegalArgumentException.class, () -> LongMath.gcd(a, 3));
+      assertThrows(IllegalArgumentException.class, () -> LongMath.gcd(3, a));
     }
   }
 
   @GwtIncompatible // TODO
   public void testGCDNegativeZeroThrows() {
     for (long a : NEGATIVE_LONG_CANDIDATES) {
-      try {
-        LongMath.gcd(a, 0);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
-      try {
-        LongMath.gcd(0, a);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
+      assertThrows(IllegalArgumentException.class, () -> LongMath.gcd(a, 0));
+      assertThrows(IllegalArgumentException.class, () -> LongMath.gcd(0, a));
     }
   }
 
   @AndroidIncompatible // slow
-  @GwtIncompatible // TODO
   public void testCheckedAdd() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
@@ -566,7 +515,6 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  @GwtIncompatible // TODO
   @AndroidIncompatible // slow
   public void testCheckedSubtract() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -580,19 +528,16 @@ public class LongMathTest extends TestCase {
           if (expectedSuccess) {
             failFormat(
                 "expected checkedSubtract(%s, %s) = %s; got ArithmeticException",
-                a,
-                b,
-                expectedResult);
+                a, b, expectedResult);
           }
         }
       }
     }
   }
 
-  @GwtIncompatible // TODO
   @AndroidIncompatible // slow
   public void testCheckedMultiply() {
-    boolean isAndroid = System.getProperties().getProperty("java.runtime.name").contains("Android");
+    boolean isAndroid = TestPlatform.isAndroid();
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
         if (isAndroid && a == -4294967296L && b == 2147483648L) {
@@ -614,9 +559,7 @@ public class LongMathTest extends TestCase {
           if (expectedSuccess) {
             failFormat(
                 "expected checkedMultiply(%s, %s) = %s; got ArithmeticException",
-                a,
-                b,
-                expectedResult);
+                a, b, expectedResult);
           }
         }
       }
@@ -636,9 +579,7 @@ public class LongMathTest extends TestCase {
           if (expectedSuccess) {
             failFormat(
                 "expected checkedPow(%s, %s) = %s; got ArithmeticException",
-                b,
-                exp,
-                expectedResult);
+                b, exp, expectedResult);
           }
         }
       }
@@ -715,10 +656,7 @@ public class LongMathTest extends TestCase {
   @GwtIncompatible // TODO
   public void testFactorialNegative() {
     for (int n : NEGATIVE_INTEGER_CANDIDATES) {
-      try {
-        LongMath.factorial(n);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
+      assertThrows(IllegalArgumentException.class, () -> LongMath.factorial(n));
     }
   }
 
@@ -733,6 +671,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
+
   @GwtIncompatible // Slow
   public void testBinomial_exhaustiveNotOverflowing() {
     // Tests all of the inputs to LongMath.binomial that won't cause it to overflow, that weren't
@@ -745,32 +684,26 @@ public class LongMathTest extends TestCase {
   }
 
   public void testBinomialOutside() {
-    for (int n = 0; n <= 50; n++) {
-      try {
-        LongMath.binomial(n, -1);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
-      try {
-        LongMath.binomial(n, n + 1);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
+    for (int i = 0; i <= 50; i++) {
+      int n = i;
+      assertThrows(IllegalArgumentException.class, () -> LongMath.binomial(n, -1));
+      assertThrows(IllegalArgumentException.class, () -> LongMath.binomial(n, n + 1));
     }
   }
 
   public void testBinomialNegative() {
     for (int n : NEGATIVE_INTEGER_CANDIDATES) {
-      try {
-        LongMath.binomial(n, 0);
-        fail("Expected IllegalArgumentException");
-      } catch (IllegalArgumentException expected) {}
+      assertThrows(IllegalArgumentException.class, () -> LongMath.binomial(n, 0));
     }
   }
 
+
+  @J2ktIncompatible // slow enough to cause flakiness
   @GwtIncompatible // far too slow
   public void testSqrtOfPerfectSquareAsDoubleIsPerfect() {
     // This takes just over a minute on my machine.
     for (long n = 0; n <= LongMath.FLOOR_SQRT_MAX_LONG; n++) {
-      long actual = (long) Math.sqrt(n * n);
+      long actual = (long) Math.sqrt((double) (n * n));
       assertTrue(actual == n);
     }
   }
@@ -815,38 +748,36 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  /**
-   * Helper method that asserts the arithmetic mean of x and y is equal
-   * to the expectedMean.
-   */
+  /** Helper method that asserts the arithmetic mean of x and y is equal to the expectedMean. */
   private static void assertMean(long expectedMean, long x, long y) {
-    assertEquals("The expectedMean should be the same as computeMeanSafely",
-        expectedMean, computeMeanSafely(x, y));
+    assertEquals(
+        "The expectedMean should be the same as computeMeanSafely",
+        expectedMean,
+        computeMeanSafely(x, y));
     assertMean(x, y);
   }
 
   /**
-   * Helper method that asserts the arithmetic mean of x and y is equal
-   *to the result of computeMeanSafely.
+   * Helper method that asserts the arithmetic mean of x and y is equal to the result of
+   * computeMeanSafely.
    */
   private static void assertMean(long x, long y) {
     long expectedMean = computeMeanSafely(x, y);
     assertEquals(expectedMean, LongMath.mean(x, y));
-    assertEquals("The mean of x and y should equal the mean of y and x",
-        expectedMean, LongMath.mean(y, x));
+    assertEquals(
+        "The mean of x and y should equal the mean of y and x", expectedMean, LongMath.mean(y, x));
   }
 
   /**
-   * Computes the mean in a way that is obvious and resilient to
-   * overflow by using BigInteger arithmetic.
+   * Computes the mean in a way that is obvious and resilient to overflow by using BigInteger
+   * arithmetic.
    */
   private static long computeMeanSafely(long x, long y) {
     BigInteger bigX = BigInteger.valueOf(x);
     BigInteger bigY = BigInteger.valueOf(y);
-    BigDecimal bigMean = new BigDecimal(bigX.add(bigY))
-        .divide(BigDecimal.valueOf(2), BigDecimal.ROUND_FLOOR);
-    // parseInt blows up on overflow as opposed to intValue() which does not.
-    return Long.parseLong(bigMean.toString());
+    BigDecimal two = BigDecimal.valueOf(2); // Android doesn't have BigDecimal.TWO yet
+    BigDecimal bigMean = new BigDecimal(bigX.add(bigY)).divide(two, RoundingMode.FLOOR);
+    return bigMean.longValueExact();
   }
 
   private static boolean fitsInLong(BigInteger big) {
@@ -866,6 +797,7 @@ public class LongMathTest extends TestCase {
     return big.longValue();
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     NullPointerTester tester = new NullPointerTester();
@@ -928,14 +860,87 @@ public class LongMathTest extends TestCase {
 
   @GwtIncompatible // isPrime is GWT-incompatible
   public void testIsPrimeThrowsOnNegative() {
-    try {
-      LongMath.isPrime(-1);
-      fail("Expected IllegalArgumentException");
-    } catch (IllegalArgumentException expected) {}
+    assertThrows(IllegalArgumentException.class, () -> LongMath.isPrime(-1));
   }
 
-  @GwtIncompatible // String.format
+  private static final long[] roundToDoubleTestCandidates = {
+    0,
+    16,
+    1L << 53,
+    (1L << 53) + 1,
+    (1L << 53) + 2,
+    (1L << 53) + 3,
+    (1L << 53) + 4,
+    1L << 54,
+    (1L << 54) + 1,
+    (1L << 54) + 2,
+    (1L << 54) + 3,
+    (1L << 54) + 4,
+    0x7ffffffffffffe00L, // halfway between 2^63 and next-lower double
+    0x7ffffffffffffe01L, // above + 1
+    0x7ffffffffffffdffL, // above - 1
+    Long.MAX_VALUE - (1L << 11) + 1,
+    Long.MAX_VALUE - 2,
+    Long.MAX_VALUE - 1,
+    Long.MAX_VALUE,
+    -16,
+    -1L << 53,
+    -(1L << 53) - 1,
+    -(1L << 53) - 2,
+    -(1L << 53) - 3,
+    -(1L << 53) - 4,
+    -1L << 54,
+    -(1L << 54) - 1,
+    -(1L << 54) - 2,
+    -(1L << 54) - 3,
+    -(1L << 54) - 4,
+    Long.MIN_VALUE + 2,
+    Long.MIN_VALUE + 1,
+    Long.MIN_VALUE
+  };
+
+  @J2ktIncompatible // EnumSet.complementOf
+  @GwtIncompatible
+  public void testRoundToDoubleAgainstBigInteger() {
+    for (RoundingMode roundingMode : EnumSet.complementOf(EnumSet.of(UNNECESSARY))) {
+      for (long candidate : roundToDoubleTestCandidates) {
+        assertThat(LongMath.roundToDouble(candidate, roundingMode))
+            .isEqualTo(BigIntegerMath.roundToDouble(BigInteger.valueOf(candidate), roundingMode));
+      }
+    }
+  }
+
+  @GwtIncompatible
+  public void testRoundToDoubleAgainstBigIntegerUnnecessary() {
+    for (long candidate : roundToDoubleTestCandidates) {
+      Double expectedDouble = null;
+      try {
+        expectedDouble = BigIntegerMath.roundToDouble(BigInteger.valueOf(candidate), UNNECESSARY);
+      } catch (ArithmeticException expected) {
+        // do nothing
+      }
+
+      if (expectedDouble != null) {
+        assertThat(LongMath.roundToDouble(candidate, UNNECESSARY)).isEqualTo(expectedDouble);
+      } else {
+        assertThrows(
+            ArithmeticException.class, () -> LongMath.roundToDouble(candidate, UNNECESSARY));
+      }
+    }
+  }
+
+  public void testSaturatedAbs() {
+    assertEquals(Long.MAX_VALUE, LongMath.saturatedAbs(Long.MIN_VALUE));
+    assertEquals(Long.MAX_VALUE, LongMath.saturatedAbs(Long.MAX_VALUE));
+    assertEquals(Long.MAX_VALUE, LongMath.saturatedAbs(-Long.MAX_VALUE));
+    assertEquals(0, LongMath.saturatedAbs(0));
+    assertEquals(1, LongMath.saturatedAbs(1));
+    assertEquals(1, LongMath.saturatedAbs(-1));
+    assertEquals(10, LongMath.saturatedAbs(10));
+    assertEquals(10, LongMath.saturatedAbs(-10));
+  }
+
   private static void failFormat(String template, Object... args) {
-    fail(String.format(template, args));
+    assertWithMessage(template, args).fail();
   }
 }

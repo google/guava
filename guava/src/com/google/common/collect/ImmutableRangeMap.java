@@ -17,20 +17,28 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Maps.immutableEntry;
+import static java.util.Collections.sort;
 
-import com.google.common.annotations.Beta;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.SortedLists.KeyAbsentBehavior;
 import com.google.common.collect.SortedLists.KeyPresentBehavior;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
+import com.google.errorprone.annotations.DoNotMock;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
-
-import javax.annotation.Nullable;
+import java.util.function.BiFunction;
+import java.util.function.Function;
+import java.util.stream.Collector;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A {@link RangeMap} whose contents will never change, with many other important properties
@@ -39,27 +47,38 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  * @since 14.0
  */
-@Beta
 @GwtIncompatible // NavigableMap
 public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V>, Serializable {
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
-      new ImmutableRangeMap<Comparable<?>, Object>(
-          ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
+      new ImmutableRangeMap<>(ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
+
+  /**
+   * Returns a {@code Collector} that accumulates the input elements into a new {@code
+   * ImmutableRangeMap}. As in {@link Builder}, overlapping ranges are not permitted.
+   *
+   * @since 23.1
+   */
+  public static <T extends @Nullable Object, K extends Comparable<? super K>, V>
+      Collector<T, ?, ImmutableRangeMap<K, V>> toImmutableRangeMap(
+          Function<? super T, Range<K>> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableRangeMap(keyFunction, valueFunction);
+  }
 
   /**
    * Returns an empty immutable range map.
+   *
+   * <p><b>Performance note:</b> the instance returned is a singleton.
    */
   @SuppressWarnings("unchecked")
   public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of() {
     return (ImmutableRangeMap<K, V>) EMPTY;
   }
 
-  /**
-   * Returns an immutable range map mapping a single range to a single value.
-   */
+  /** Returns an immutable range map mapping a single range to a single value. */
   public static <K extends Comparable<?>, V> ImmutableRangeMap<K, V> of(Range<K> range, V value) {
-    return new ImmutableRangeMap<K, V>(ImmutableList.of(range), ImmutableList.of(value));
+    return new ImmutableRangeMap<>(ImmutableList.of(range), ImmutableList.of(value));
   }
 
   @SuppressWarnings("unchecked")
@@ -69,30 +88,31 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return (ImmutableRangeMap<K, V>) rangeMap;
     }
     Map<Range<K>, ? extends V> map = rangeMap.asMapOfRanges();
-    ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<Range<K>>(map.size());
-    ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<V>(map.size());
+    ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<>(map.size());
+    ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<>(map.size());
     for (Entry<Range<K>, ? extends V> entry : map.entrySet()) {
       rangesBuilder.add(entry.getKey());
       valuesBuilder.add(entry.getValue());
     }
-    return new ImmutableRangeMap<K, V>(rangesBuilder.build(), valuesBuilder.build());
+    return new ImmutableRangeMap<>(rangesBuilder.build(), valuesBuilder.build());
   }
 
-  /**
-   * Returns a new builder for an immutable range map.
-   */
+  /** Returns a new builder for an immutable range map. */
   public static <K extends Comparable<?>, V> Builder<K, V> builder() {
-    return new Builder<K, V>();
+    return new Builder<>();
   }
 
   /**
    * A builder for immutable range maps. Overlapping ranges are prohibited.
+   *
+   * @since 14.0
    */
+  @DoNotMock
   public static final class Builder<K extends Comparable<?>, V> {
-    private final List<Map.Entry<Range<K>, V>> entries;
+    private final List<Entry<Range<K>, V>> entries;
 
     public Builder() {
-      this.entries = Lists.newArrayList();
+      this.entries = new ArrayList<>();
     }
 
     /**
@@ -105,18 +125,22 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       checkNotNull(range);
       checkNotNull(value);
       checkArgument(!range.isEmpty(), "Range must not be empty, but was %s", range);
-      entries.add(Maps.immutableEntry(range, value));
+      entries.add(immutableEntry(range, value));
       return this;
     }
 
-    /**
-     * Copies all associations from the specified range map into this builder.
-     */
+    /** Copies all associations from the specified range map into this builder. */
     @CanIgnoreReturnValue
     public Builder<K, V> putAll(RangeMap<K, ? extends V> rangeMap) {
       for (Entry<Range<K>, ? extends V> entry : rangeMap.asMapOfRanges().entrySet()) {
         put(entry.getKey(), entry.getValue());
       }
+      return this;
+    }
+
+    @CanIgnoreReturnValue
+    Builder<K, V> combine(Builder<K, V> builder) {
+      entries.addAll(builder.entries);
       return this;
     }
 
@@ -127,10 +151,9 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
      * @throws IllegalArgumentException if any two ranges inserted into this builder overlap
      */
     public ImmutableRangeMap<K, V> build() {
-      Collections.sort(entries, Range.RANGE_LEX_ORDERING.onKeys());
-      ImmutableList.Builder<Range<K>> rangesBuilder =
-          new ImmutableList.Builder<Range<K>>(entries.size());
-      ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<V>(entries.size());
+      sort(entries, Range.<K>rangeLexOrdering().onKeys());
+      ImmutableList.Builder<Range<K>> rangesBuilder = new ImmutableList.Builder<>(entries.size());
+      ImmutableList.Builder<V> valuesBuilder = new ImmutableList.Builder<>(entries.size());
       for (int i = 0; i < entries.size(); i++) {
         Range<K> range = entries.get(i).getKey();
         if (i > 0) {
@@ -143,7 +166,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
         rangesBuilder.add(range);
         valuesBuilder.add(entries.get(i).getValue());
       }
-      return new ImmutableRangeMap<K, V>(rangesBuilder.build(), valuesBuilder.build());
+      return new ImmutableRangeMap<>(rangesBuilder.build(), valuesBuilder.build());
     }
   }
 
@@ -156,12 +179,11 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @Nullable
-  public V get(K key) {
+  public @Nullable V get(K key) {
     int index =
         SortedLists.binarySearch(
             ranges,
-            Range.<K>lowerBoundFn(),
+            Range::lowerBound,
             Cut.belowValue(key),
             KeyPresentBehavior.ANY_PRESENT,
             KeyAbsentBehavior.NEXT_LOWER);
@@ -174,12 +196,11 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   @Override
-  @Nullable
-  public Map.Entry<Range<K>, V> getEntry(K key) {
+  public @Nullable Entry<Range<K>, V> getEntry(K key) {
     int index =
         SortedLists.binarySearch(
             ranges,
-            Range.<K>lowerBoundFn(),
+            Range::lowerBound,
             Cut.belowValue(key),
             KeyPresentBehavior.ANY_PRESENT,
             KeyAbsentBehavior.NEXT_LOWER);
@@ -187,7 +208,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return null;
     } else {
       Range<K> range = ranges.get(index);
-      return range.contains(key) ? Maps.immutableEntry(range, values.get(index)) : null;
+      return range.contains(key) ? immutableEntry(range, values.get(index)) : null;
     }
   }
 
@@ -209,7 +230,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void put(Range<K> range, V value) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void put(Range<K> range, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -221,7 +243,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void putAll(RangeMap<K, V> rangeMap) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void putCoalescing(Range<K> range, V value) {
     throw new UnsupportedOperationException();
   }
 
@@ -233,7 +256,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void clear() {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void putAll(RangeMap<K, ? extends V> rangeMap) {
     throw new UnsupportedOperationException();
   }
 
@@ -245,7 +269,38 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    */
   @Deprecated
   @Override
-  public void remove(Range<K> range) {
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void clear() {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   */
+  @Deprecated
+  @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void remove(Range<K> range) {
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * Guaranteed to throw an exception and leave the {@code RangeMap} unmodified.
+   *
+   * @throws UnsupportedOperationException always
+   * @deprecated Unsupported operation.
+   * @since 28.1
+   */
+  @Deprecated
+  @Override
+  @DoNotCall("Always throws UnsupportedOperationException")
+  public final void merge(
+      Range<K> range,
+      @Nullable V value,
+      BiFunction<? super V, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
     throw new UnsupportedOperationException();
   }
 
@@ -255,8 +310,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<Range<K>>(ranges, Range.RANGE_LEX_ORDERING);
-    return new ImmutableSortedMap<Range<K>, V>(rangeSet, values);
+        new RegularImmutableSortedSet<>(ranges, Range.<K>rangeLexOrdering());
+    return new ImmutableSortedMap<>(rangeSet, values);
   }
 
   @Override
@@ -265,13 +320,12 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<Range<K>>(
-            ranges.reverse(), Range.RANGE_LEX_ORDERING.reverse());
-    return new ImmutableSortedMap<Range<K>, V>(rangeSet, values.reverse());
+        new RegularImmutableSortedSet<>(ranges.reverse(), Range.<K>rangeLexOrdering().reverse());
+    return new ImmutableSortedMap<>(rangeSet, values.reverse());
   }
 
   @Override
-  public ImmutableRangeMap<K, V> subRangeMap(final Range<K> range) {
+  public ImmutableRangeMap<K, V> subRangeMap(Range<K> range) {
     if (checkNotNull(range).isEmpty()) {
       return ImmutableRangeMap.of();
     } else if (ranges.isEmpty() || range.encloses(span())) {
@@ -280,22 +334,22 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     int lowerIndex =
         SortedLists.binarySearch(
             ranges,
-            Range.<K>upperBoundFn(),
+            Range::upperBound,
             range.lowerBound,
             KeyPresentBehavior.FIRST_AFTER,
             KeyAbsentBehavior.NEXT_HIGHER);
     int upperIndex =
         SortedLists.binarySearch(
             ranges,
-            Range.<K>lowerBoundFn(),
+            Range::lowerBound,
             range.upperBound,
             KeyPresentBehavior.ANY_PRESENT,
             KeyAbsentBehavior.NEXT_HIGHER);
     if (lowerIndex >= upperIndex) {
       return ImmutableRangeMap.of();
     }
-    final int off = lowerIndex;
-    final int len = upperIndex - lowerIndex;
+    int off = lowerIndex;
+    int len = upperIndex - lowerIndex;
     ImmutableList<Range<K>> subRanges =
         new ImmutableList<Range<K>>() {
           @Override
@@ -317,8 +371,16 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
           boolean isPartialView() {
             return true;
           }
+
+          // redeclare to help optimizers with b/310253115
+          @SuppressWarnings("RedundantOverride")
+          @Override
+          @J2ktIncompatible // serialization
+          Object writeReplace() {
+            return super.writeReplace();
+          }
         };
-    final ImmutableRangeMap<K, V> outer = this;
+    ImmutableRangeMap<K, V> outer = this;
     return new ImmutableRangeMap<K, V>(subRanges, values.subList(lowerIndex, upperIndex)) {
       @Override
       public ImmutableRangeMap<K, V> subRangeMap(Range<K> subRange) {
@@ -327,6 +389,14 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
         } else {
           return ImmutableRangeMap.of();
         }
+      }
+
+      // redeclare to help optimizers with b/310253115
+      @SuppressWarnings("RedundantOverride")
+      @Override
+      @J2ktIncompatible // serialization
+      Object writeReplace() {
+        return super.writeReplace();
       }
     };
   }
@@ -351,8 +421,8 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   }
 
   /**
-   * This class is used to serialize ImmutableRangeMap instances.
-   * Serializes the {@link #asMapOfRanges()} form.
+   * This class is used to serialize ImmutableRangeMap instances. Serializes the {@link
+   * #asMapOfRanges()} form.
    */
   private static class SerializedForm<K extends Comparable<?>, V> implements Serializable {
 
@@ -371,19 +441,24 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
     }
 
     Object createRangeMap() {
-      Builder<K, V> builder = new Builder<K, V>();
+      Builder<K, V> builder = new Builder<>();
       for (Entry<Range<K>, V> entry : mapOfRanges.entrySet()) {
         builder.put(entry.getKey(), entry.getValue());
       }
       return builder.build();
     }
 
-    private static final long serialVersionUID = 0;
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   Object writeReplace() {
-    return new SerializedForm<K, V>(asMapOfRanges());
+    return new SerializedForm<>(asMapOfRanges());
   }
 
-  private static final long serialVersionUID = 0;
+  @J2ktIncompatible // java.io.ObjectInputStream
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use SerializedForm");
+  }
+
+  @J2ktIncompatible private static final long serialVersionUID = 0;
 }

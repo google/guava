@@ -20,104 +20,251 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableMapEntry.NonTerminalImmutableMapEntry;
-import com.google.j2objc.annotations.Weak;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
+import java.util.IdentityHashMap;
 import java.util.function.BiConsumer;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
- * Implementation of {@link ImmutableMap} with two or more entries.
+ * Implementation of {@link ImmutableMap} used for 0 entries and for 2+ entries. Additional
+ * implementations exist for particular cases, like {@link ImmutableTable} views and hash flooding.
+ * (This doc discusses {@link ImmutableMap} subclasses only for the JRE flavor; the Android flavor
+ * differs.)
  *
  * @author Jesse Wilson
  * @author Kevin Bourrillion
  * @author Gregory Kick
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
+  @SuppressWarnings("unchecked")
+  static final ImmutableMap<Object, Object> EMPTY =
+      new RegularImmutableMap<>((Entry<Object, Object>[]) ImmutableMap.EMPTY_ENTRY_ARRAY, null, 0);
+
+  /**
+   * Closed addressing tends to perform well even with high load factors. Being conservative here
+   * ensures that the table is still likely to be relatively sparse (hence it misses fast) while
+   * saving space.
+   */
+  @VisibleForTesting static final double MAX_LOAD_FACTOR = 1.2;
+
+  /**
+   * Maximum allowed false positive probability of detecting a hash flooding attack given random
+   * input.
+   */
+  @VisibleForTesting static final double HASH_FLOODING_FPP = 0.001;
+
+  /**
+   * Maximum allowed length of a hash table bucket before falling back to a j.u.HashMap based
+   * implementation. Experimentally determined.
+   */
+  static final int MAX_HASH_BUCKET_LENGTH = 8;
 
   // entries in insertion order
-  private final transient Entry<K, V>[] entries;
+  @VisibleForTesting final transient Entry<K, V>[] entries;
   // array of linked lists of entries
-  private final transient ImmutableMapEntry<K, V>[] table;
+  private final transient @Nullable ImmutableMapEntry<K, V> @Nullable [] table;
   // 'and' with an int to get a table index
   private final transient int mask;
 
-  static <K, V> RegularImmutableMap<K, V> fromEntries(Entry<K, V>... entries) {
-    return fromEntryArray(entries.length, entries);
+  static <K, V> ImmutableMap<K, V> fromEntries(Entry<K, V>... entries) {
+    return fromEntryArray(entries.length, entries, /* throwIfDuplicateKeys= */ true);
   }
 
   /**
-   * Creates a RegularImmutableMap from the first n entries in entryArray.  This implementation
-   * may replace the entries in entryArray with its own entry objects (though they will have the
-   * same key/value contents), and may take ownership of entryArray.
+   * Creates an ImmutableMap from the first n entries in entryArray. This implementation may replace
+   * the entries in entryArray with its own entry objects (though they will have the same key/value
+   * contents), and may take ownership of entryArray.
    */
-  static <K, V> RegularImmutableMap<K, V> fromEntryArray(int n, Entry<K, V>[] entryArray) {
+  static <K, V> ImmutableMap<K, V> fromEntryArray(
+      int n, @Nullable Entry<K, V>[] entryArray, boolean throwIfDuplicateKeys) {
     checkPositionIndex(n, entryArray.length);
-    Entry<K, V>[] entries;
-    if (n == entryArray.length) {
-      entries = entryArray;
-    } else {
-      entries = createEntryArray(n);
+    if (n == 0) {
+      @SuppressWarnings("unchecked") // it has no entries so the type variables don't matter
+      ImmutableMap<K, V> empty = (ImmutableMap<K, V>) EMPTY;
+      return empty;
     }
+    try {
+      return fromEntryArrayCheckingBucketOverflow(n, entryArray, throwIfDuplicateKeys);
+    } catch (BucketOverflowException e) {
+      // probable hash flooding attack, fall back to j.u.HM based implementation and use its
+      // implementation of hash flooding protection
+      return JdkBackedImmutableMap.create(n, entryArray, throwIfDuplicateKeys);
+    }
+  }
+
+  private static <K, V> ImmutableMap<K, V> fromEntryArrayCheckingBucketOverflow(
+      int n, @Nullable Entry<K, V>[] entryArray, boolean throwIfDuplicateKeys)
+      throws BucketOverflowException {
+    /*
+     * The cast is safe: n==entryArray.length means that we have filled the whole array with Entry
+     * instances, in which case it is safe to cast it from an array of nullable entries to an array
+     * of non-null entries.
+     */
+    @SuppressWarnings("nullness")
+    Entry<K, V>[] entries =
+        (n == entryArray.length) ? (Entry<K, V>[]) entryArray : createEntryArray(n);
     int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
-    ImmutableMapEntry<K, V>[] table = createEntryArray(tableSize);
+    @Nullable ImmutableMapEntry<K, V>[] table = createEntryArray(tableSize);
     int mask = tableSize - 1;
-    for (int entryIndex = 0; entryIndex < n; entryIndex++) {
-      Entry<K, V> entry = entryArray[entryIndex];
+    // If duplicates are allowed, this IdentityHashMap will record the final Entry for each
+    // duplicated key. We will use this final Entry to overwrite earlier slots in the entries array
+    // that have the same key. Then a second pass will remove all but the first of the slots that
+    // have this Entry. The value in the map becomes false when this first entry has been copied, so
+    // we know not to copy the remaining ones.
+    IdentityHashMap<Entry<K, V>, Boolean> duplicates = null;
+    int dupCount = 0;
+    for (int entryIndex = n - 1; entryIndex >= 0; entryIndex--) {
+      // requireNonNull is safe because the first `n` elements have been filled in.
+      Entry<K, V> entry = requireNonNull(entryArray[entryIndex]);
       K key = entry.getKey();
       V value = entry.getValue();
       checkEntryNotNull(key, value);
       int tableIndex = Hashing.smear(key.hashCode()) & mask;
-      @Nullable ImmutableMapEntry<K, V> existing = table[tableIndex];
-      // prepend, not append, so the entries can be immutable
-      ImmutableMapEntry<K, V> newEntry;
-      if (existing == null) {
-        boolean reusable =
-            entry instanceof ImmutableMapEntry && ((ImmutableMapEntry<K, V>) entry).isReusable();
-        newEntry =
-            reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
+      ImmutableMapEntry<K, V> keyBucketHead = table[tableIndex];
+      ImmutableMapEntry<K, V> effectiveEntry =
+          checkNoConflictInKeyBucket(key, value, keyBucketHead, throwIfDuplicateKeys);
+      if (effectiveEntry == null) {
+        // prepend, not append, so the entries can be immutable
+        effectiveEntry =
+            (keyBucketHead == null)
+                ? makeImmutable(entry, key, value)
+                : new NonTerminalImmutableMapEntry<K, V>(key, value, keyBucketHead);
+        table[tableIndex] = effectiveEntry;
       } else {
-        newEntry = new NonTerminalImmutableMapEntry<K, V>(key, value, existing);
+        // We already saw this key, and the first value we saw (going backwards) is the one we are
+        // keeping. So we won't touch table[], but we do still want to add the existing entry that
+        // we found to entries[] so that we will see this key in the right place when iterating.
+        if (duplicates == null) {
+          duplicates = new IdentityHashMap<>();
+        }
+        duplicates.put(effectiveEntry, true);
+        dupCount++;
+        // Make sure we are not overwriting the original entries array, in case we later do
+        // buildOrThrow(). We would want an exception to include two values for the duplicate key.
+        if (entries == entryArray) {
+          // Temporary variable is necessary to defeat bad smartcast (entries adopting the type of
+          // entryArray) in the Kotlin translation.
+          Entry<K, V>[] originalEntries = entries;
+          entries = originalEntries.clone();
+        }
       }
-      table[tableIndex] = newEntry;
-      entries[entryIndex] = newEntry;
-      checkNoConflictInKeyBucket(key, newEntry, existing);
+      entries[entryIndex] = effectiveEntry;
     }
-    return new RegularImmutableMap<K, V>(entries, table, mask);
+    if (duplicates != null) {
+      // Explicit type parameters needed here to avoid a problem with nullness inference.
+      entries = RegularImmutableMap.<K, V>removeDuplicates(entries, n, n - dupCount, duplicates);
+      int newTableSize = Hashing.closedTableSize(entries.length, MAX_LOAD_FACTOR);
+      if (newTableSize != tableSize) {
+        return fromEntryArrayCheckingBucketOverflow(
+            entries.length, entries, /* throwIfDuplicateKeys= */ true);
+      }
+    }
+    return new RegularImmutableMap<>(entries, table, mask);
   }
 
-  private RegularImmutableMap(Entry<K, V>[] entries, ImmutableMapEntry<K, V>[] table, int mask) {
+  /**
+   * Constructs a new entry array where each duplicated key from the original appears only once, at
+   * its first position but with its final value. The {@code duplicates} map is modified.
+   *
+   * @param entries the original array of entries including duplicates
+   * @param n the number of valid entries in {@code entries}
+   * @param newN the expected number of entries once duplicates are removed
+   * @param duplicates a map of canonical {@link Entry} objects for each duplicate key. This map
+   *     will be updated by the method, setting each value to false as soon as the {@link Entry} has
+   *     been included in the new entry array.
+   * @return an array of {@code newN} entries where no key appears more than once.
+   */
+  static <K, V> Entry<K, V>[] removeDuplicates(
+      Entry<K, V>[] entries, int n, int newN, IdentityHashMap<Entry<K, V>, Boolean> duplicates) {
+    Entry<K, V>[] newEntries = createEntryArray(newN);
+    for (int in = 0, out = 0; in < n; in++) {
+      Entry<K, V> entry = entries[in];
+      Boolean status = duplicates.get(entry);
+      // null=>not dup'd; true=>dup'd, first; false=>dup'd, not first
+      if (status != null) {
+        if (status) {
+          duplicates.put(entry, false);
+        } else {
+          continue; // delete this entry; we already copied an earlier one for the same key
+        }
+      }
+      newEntries[out++] = entry;
+    }
+    return newEntries;
+  }
+
+  /** Makes an entry usable internally by a new ImmutableMap without rereading its contents. */
+  static <K, V> ImmutableMapEntry<K, V> makeImmutable(Entry<K, V> entry, K key, V value) {
+    boolean reusable =
+        entry instanceof ImmutableMapEntry && ((ImmutableMapEntry<K, V>) entry).isReusable();
+    return reusable ? (ImmutableMapEntry<K, V>) entry : new ImmutableMapEntry<K, V>(key, value);
+  }
+
+  /** Makes an entry usable internally by a new ImmutableMap. */
+  static <K, V> ImmutableMapEntry<K, V> makeImmutable(Entry<K, V> entry) {
+    return makeImmutable(entry, entry.getKey(), entry.getValue());
+  }
+
+  private RegularImmutableMap(
+      Entry<K, V>[] entries, @Nullable ImmutableMapEntry<K, V> @Nullable [] table, int mask) {
     this.entries = entries;
     this.table = table;
     this.mask = mask;
   }
 
-  static void checkNoConflictInKeyBucket(
-      Object key, Entry<?, ?> entry, @Nullable ImmutableMapEntry<?, ?> keyBucketHead) {
+  /**
+   * Checks if the given key already appears in the hash chain starting at {@code keyBucketHead}. If
+   * it does not, then null is returned. If it does, then if {@code throwIfDuplicateKeys} is true an
+   * {@code IllegalArgumentException} is thrown, and otherwise the existing {@link Entry} is
+   * returned.
+   *
+   * @throws IllegalArgumentException if another entry in the bucket has the same key and {@code
+   *     throwIfDuplicateKeys} is true
+   * @throws BucketOverflowException if this bucket has too many entries, which may indicate a hash
+   *     flooding attack
+   */
+  @CanIgnoreReturnValue
+  static <K, V> @Nullable ImmutableMapEntry<K, V> checkNoConflictInKeyBucket(
+      Object key,
+      Object newValue,
+      @Nullable ImmutableMapEntry<K, V> keyBucketHead,
+      boolean throwIfDuplicateKeys)
+      throws BucketOverflowException {
+    int bucketSize = 0;
     for (; keyBucketHead != null; keyBucketHead = keyBucketHead.getNextInKeyBucket()) {
-      checkNoConflict(!key.equals(keyBucketHead.getKey()), "key", entry, keyBucketHead);
+      if (keyBucketHead.getKey().equals(key)) {
+        if (throwIfDuplicateKeys) {
+          checkNoConflict(/* safe= */ false, "key", keyBucketHead, key + "=" + newValue);
+        } else {
+          return keyBucketHead;
+        }
+      }
+      if (++bucketSize > MAX_HASH_BUCKET_LENGTH) {
+        throw new BucketOverflowException();
+      }
     }
+    return null;
   }
 
-  /**
-   * Closed addressing tends to perform well even with high load factors.
-   * Being conservative here ensures that the table is still likely to be
-   * relatively sparse (hence it misses fast) while saving space.
-   */
-  private static final double MAX_LOAD_FACTOR = 1.2;
+  static class BucketOverflowException extends Exception {}
 
   @Override
-  public V get(@Nullable Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return get(key, table, mask);
   }
 
-  @Nullable
-  static <V> V get(@Nullable Object key, ImmutableMapEntry<?, V>[] keyTable, int mask) {
-    if (key == null) {
+  static <V> @Nullable V get(
+      @Nullable Object key, @Nullable ImmutableMapEntry<?, V> @Nullable [] keyTable, int mask) {
+    if (key == null || keyTable == null) {
       return null;
     }
     int index = Hashing.smear(key.hashCode()) & mask;
@@ -159,19 +306,18 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    return new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
+    return new ImmutableMapEntrySet.RegularEntrySet<>(this, entries);
   }
 
   @Override
   ImmutableSet<K> createKeySet() {
-    return new KeySet<K, V>(this);
+    return new KeySet<>(this);
   }
 
-  @GwtCompatible(emulated = true)
-  private static final class KeySet<K, V> extends ImmutableSet.Indexed<K> {
-    @Weak private final RegularImmutableMap<K, V> map;
+  private static final class KeySet<K> extends IndexedImmutableSet<K> {
+    private final RegularImmutableMap<K, ?> map;
 
-    KeySet(RegularImmutableMap<K, V> map) {
+    KeySet(RegularImmutableMap<K, ?> map) {
       this.map = map;
     }
 
@@ -181,7 +327,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
 
     @Override
-    public boolean contains(Object object) {
+    public boolean contains(@Nullable Object object) {
       return map.containsKey(object);
     }
 
@@ -195,13 +341,19 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return map.size();
     }
 
-    @GwtIncompatible // serialization
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
     @Override
-    Object writeReplace() {
-      return new SerializedForm<K>(map);
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
+      return super.writeReplace();
     }
 
-    @GwtIncompatible // serialization
+    // No longer used for new writes, but kept so that old data can still be read.
+    @GwtIncompatible
+    @J2ktIncompatible
+    @SuppressWarnings("unused")
     private static class SerializedForm<K> implements Serializable {
       final ImmutableMap<K, ?> map;
 
@@ -213,18 +365,17 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         return map.keySet();
       }
 
-      private static final long serialVersionUID = 0;
+      @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
     }
   }
 
   @Override
   ImmutableCollection<V> createValues() {
-    return new Values<K, V>(this);
+    return new Values<>(this);
   }
 
-  @GwtCompatible(emulated = true)
   private static final class Values<K, V> extends ImmutableList<V> {
-    @Weak final RegularImmutableMap<K, V> map;
+    final RegularImmutableMap<K, V> map;
 
     Values(RegularImmutableMap<K, V> map) {
       this.map = map;
@@ -245,13 +396,19 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       return true;
     }
 
-    @GwtIncompatible // serialization
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
     @Override
-    Object writeReplace() {
-      return new SerializedForm<V>(map);
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
+      return super.writeReplace();
     }
 
-    @GwtIncompatible // serialization
+    // No longer used for new writes, but kept so that old data can still be read.
+    @GwtIncompatible
+    @J2ktIncompatible
+    @SuppressWarnings("unused")
     private static class SerializedForm<V> implements Serializable {
       final ImmutableMap<?, V> map;
 
@@ -263,11 +420,20 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         return map.values();
       }
 
-      private static final long serialVersionUID = 0;
+      @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
     }
+  }
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible
+  @GwtIncompatible
+    Object writeReplace() {
+    return super.writeReplace();
   }
 
   // This class is never actually serialized directly, but we have to make the
   // warning go away (and suppressing would suppress for all nested classes too)
-  private static final long serialVersionUID = 0;
+  @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
 }

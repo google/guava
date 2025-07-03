@@ -18,12 +18,13 @@ package com.google.common.collect;
 
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
 
-import com.google.common.annotations.Beta;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.function.Function;
 import java.util.stream.Collector;
+import org.jspecify.annotations.Nullable;
 
 /**
  * GWT emulation of {@link com.google.common.collect.ImmutableBiMap}.
@@ -32,10 +33,10 @@ import java.util.stream.Collector;
  */
 public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     implements BiMap<K, V> {
-  @Beta
-  public static <T, K, V> Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
-      Function<? super T, ? extends K> keyFunction,
-      Function<? super T, ? extends V> valueFunction) {
+  public static <T extends @Nullable Object, K, V>
+      Collector<T, ?, ImmutableBiMap<K, V>> toImmutableBiMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
     return CollectCollectors.toImmutableBiMap(keyFunction, valueFunction);
   }
 
@@ -54,22 +55,104 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
     return new RegularImmutableBiMap<K, V>(ImmutableMap.of(k1, v1, k2, v2));
   }
 
-  public static <K, V> ImmutableBiMap<K, V> of(
-      K k1, V v1, K k2, V v2, K k3, V v3) {
-    return new RegularImmutableBiMap<K, V>(ImmutableMap.of(
-        k1, v1, k2, v2, k3, v3));
+  public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3) {
+    return new RegularImmutableBiMap<K, V>(ImmutableMap.of(k1, v1, k2, v2, k3, v3));
   }
 
-  public static <K, V> ImmutableBiMap<K, V> of(
-      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
-    return new RegularImmutableBiMap<K, V>(ImmutableMap.of(
-        k1, v1, k2, v2, k3, v3, k4, v4));
+  public static <K, V> ImmutableBiMap<K, V> of(K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4) {
+    return new RegularImmutableBiMap<K, V>(ImmutableMap.of(k1, v1, k2, v2, k3, v3, k4, v4));
   }
 
   public static <K, V> ImmutableBiMap<K, V> of(
       K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5) {
-    return new RegularImmutableBiMap<K, V>(ImmutableMap.of(
-        k1, v1, k2, v2, k3, v3, k4, v4, k5, v5));
+    return new RegularImmutableBiMap<K, V>(ImmutableMap.of(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5));
+  }
+
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6) {
+    return new RegularImmutableBiMap<K, V>(
+        ImmutableMap.of(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6));
+  }
+
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1, V v1, K k2, V v2, K k3, V v3, K k4, V v4, K k5, V v5, K k6, V v6, K k7, V v7) {
+    return new RegularImmutableBiMap<K, V>(
+        ImmutableMap.of(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7));
+  }
+
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8) {
+    return new RegularImmutableBiMap<K, V>(
+        ImmutableMap.of(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8));
+  }
+
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9) {
+    return new RegularImmutableBiMap<K, V>(
+        ImmutableMap.of(k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9));
+  }
+
+  public static <K, V> ImmutableBiMap<K, V> of(
+      K k1,
+      V v1,
+      K k2,
+      V v2,
+      K k3,
+      V v3,
+      K k4,
+      V v4,
+      K k5,
+      V v5,
+      K k6,
+      V v6,
+      K k7,
+      V v7,
+      K k8,
+      V v8,
+      K k9,
+      V v9,
+      K k10,
+      V v10) {
+    return new RegularImmutableBiMap<K, V>(
+        ImmutableMap.of(
+            k1, v1, k2, v2, k3, v3, k4, v4, k5, v5, k6, v6, k7, v7, k8, v8, k9, v9, k10, v10));
+  }
+
+  @SafeVarargs
+  public static <K, V> ImmutableBiMap<K, V> ofEntries(Entry<? extends K, ? extends V>... entries) {
+    return new RegularImmutableBiMap<K, V>(ImmutableMap.ofEntries(entries));
   }
 
   public static <K, V> Builder<K, V> builder() {
@@ -84,48 +167,67 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
       super(initCapacity);
     }
 
-    @Override public Builder<K, V> put(K key, V value) {
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<K, V> put(K key, V value) {
       super.put(key, value);
       return this;
     }
 
-    @Override public Builder<K, V> put(Map.Entry<? extends K, ? extends V> entry) {
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<K, V> put(Entry<? extends K, ? extends V> entry) {
       super.put(entry);
       return this;
     }
 
-    @Override public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
       super.putAll(map);
       return this;
     }
 
-    @Override public Builder<K, V> putAll(
-        Iterable<? extends Entry<? extends K, ? extends V>> entries) {
+    @CanIgnoreReturnValue
+    @Override
+    public Builder<K, V> putAll(Iterable<? extends Entry<? extends K, ? extends V>> entries) {
       super.putAll(entries);
       return this;
     }
 
+    @CanIgnoreReturnValue
     public Builder<K, V> orderEntriesByValue(Comparator<? super V> valueComparator) {
       super.orderEntriesByValue(valueComparator);
       return this;
     }
 
+    @CanIgnoreReturnValue
     Builder<K, V> combine(Builder<K, V> other) {
       super.combine(other);
       return this;
     }
 
-    @Override public ImmutableBiMap<K, V> build() {
-      ImmutableMap<K, V> map = super.build();
+    @Override
+    public ImmutableBiMap<K, V> build() {
+      return buildOrThrow();
+    }
+
+    @Override
+    public ImmutableBiMap<K, V> buildOrThrow() {
+      ImmutableMap<K, V> map = super.buildOrThrow();
       if (map.isEmpty()) {
         return of();
       }
-      return new RegularImmutableBiMap<K, V>(super.build());
+      return new RegularImmutableBiMap<K, V>(super.buildOrThrow());
+    }
+
+    @Override
+    ImmutableBiMap<K, V> buildJdkBacked() {
+      return build();
     }
   }
 
-  public static <K, V> ImmutableBiMap<K, V> copyOf(
-      Map<? extends K, ? extends V> map) {
+  public static <K, V> ImmutableBiMap<K, V> copyOf(Map<? extends K, ? extends V> map) {
     if (map instanceof ImmutableBiMap) {
       @SuppressWarnings("unchecked") // safe since map is not writable
       ImmutableBiMap<K, V> bimap = (ImmutableBiMap<K, V>) map;
@@ -151,11 +253,12 @@ public abstract class ImmutableBiMap<K, V> extends ForwardingImmutableMap<K, V>
 
   public abstract ImmutableBiMap<V, K> inverse();
 
-  @Override public ImmutableSet<V> values() {
+  @Override
+  public ImmutableSet<V> values() {
     return inverse().keySet();
   }
 
-  public final V forcePut(K key, V value) {
+  public final @Nullable V forcePut(K key, V value) {
     throw new UnsupportedOperationException();
   }
 }

@@ -18,57 +18,61 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
+import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.j2objc.annotations.Weak;
 import java.util.Comparator;
 import java.util.Spliterator;
 import java.util.function.Consumer;
+import java.util.function.DoubleConsumer;
 import java.util.function.Function;
+import java.util.function.IntConsumer;
 import java.util.function.IntFunction;
+import java.util.function.LongConsumer;
 import java.util.function.Predicate;
 import java.util.stream.IntStream;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
-/**
- * Spliterator utilities for {@code common.collect} internals.
- */
+/** Spliterator utilities for {@code common.collect} internals. */
 @GwtCompatible
 final class CollectSpliterators {
   private CollectSpliterators() {}
 
-  static <T> Spliterator<T> indexed(int size, int extraCharacteristics, IntFunction<T> function) {
+  static <T extends @Nullable Object> Spliterator<T> indexed(
+      int size, int extraCharacteristics, IntFunction<T> function) {
     return indexed(size, extraCharacteristics, function, null);
   }
 
-  static <T> Spliterator<T> indexed(
+  static <T extends @Nullable Object> Spliterator<T> indexed(
       int size,
       int extraCharacteristics,
       IntFunction<T> function,
-      Comparator<? super T> comparator) {
+      @Nullable Comparator<? super T> comparator) {
     if (comparator != null) {
-      checkArgument((extraCharacteristics & (Spliterator.SORTED)) != 0);
+      checkArgument((extraCharacteristics & Spliterator.SORTED) != 0);
     }
     class WithCharacteristics implements Spliterator<T> {
-      private final Spliterator<T> delegate;
+      private final Spliterator.OfInt delegate;
 
-      WithCharacteristics(Spliterator<T> delegate) {
+      WithCharacteristics(Spliterator.OfInt delegate) {
         this.delegate = delegate;
       }
 
       @Override
       public boolean tryAdvance(Consumer<? super T> action) {
-        return delegate.tryAdvance(action);
+        return delegate.tryAdvance((IntConsumer) i -> action.accept(function.apply(i)));
       }
 
       @Override
       public void forEachRemaining(Consumer<? super T> action) {
-        delegate.forEachRemaining(action);
+        delegate.forEachRemaining((IntConsumer) i -> action.accept(function.apply(i)));
       }
 
       @Override
-      @Nullable
-      public Spliterator<T> trySplit() {
-        Spliterator<T> split = delegate.trySplit();
+      public @Nullable Spliterator<T> trySplit() {
+        Spliterator.OfInt split = delegate.trySplit();
         return (split == null) ? null : new WithCharacteristics(split);
       }
 
@@ -79,11 +83,14 @@ final class CollectSpliterators {
 
       @Override
       public int characteristics() {
-        return delegate.characteristics() | extraCharacteristics;
+        return Spliterator.ORDERED
+            | Spliterator.SIZED
+            | Spliterator.SUBSIZED
+            | extraCharacteristics;
       }
 
       @Override
-      public Comparator<? super T> getComparator() {
+      public @Nullable Comparator<? super T> getComparator() {
         if (hasCharacteristics(Spliterator.SORTED)) {
           return comparator;
         } else {
@@ -91,33 +98,35 @@ final class CollectSpliterators {
         }
       }
     }
-    return new WithCharacteristics(IntStream.range(0, size).mapToObj(function).spliterator());
+    return new WithCharacteristics(IntStream.range(0, size).spliterator());
   }
-  
+
   /**
    * Returns a {@code Spliterator} over the elements of {@code fromSpliterator} mapped by {@code
    * function}.
    */
-  static <F, T> Spliterator<T> map(
-      Spliterator<F> fromSpliterator, Function<? super F, ? extends T> function) {
+  static <InElementT extends @Nullable Object, OutElementT extends @Nullable Object>
+      Spliterator<OutElementT> map(
+          Spliterator<InElementT> fromSpliterator,
+          Function<? super InElementT, ? extends OutElementT> function) {
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    return new Spliterator<T>() {
+    return new Spliterator<OutElementT>() {
 
       @Override
-      public boolean tryAdvance(Consumer<? super T> action) {
+      public boolean tryAdvance(Consumer<? super OutElementT> action) {
         return fromSpliterator.tryAdvance(
             fromElement -> action.accept(function.apply(fromElement)));
       }
 
       @Override
-      public void forEachRemaining(Consumer<? super T> action) {
+      public void forEachRemaining(Consumer<? super OutElementT> action) {
         fromSpliterator.forEachRemaining(fromElement -> action.accept(function.apply(fromElement)));
       }
 
       @Override
-      public Spliterator<T> trySplit() {
-        Spliterator<F> fromSplit = fromSpliterator.trySplit();
+      public @Nullable Spliterator<OutElementT> trySplit() {
+        Spliterator<InElementT> fromSplit = fromSpliterator.trySplit();
         return (fromSplit != null) ? map(fromSplit, function) : null;
       }
 
@@ -133,16 +142,17 @@ final class CollectSpliterators {
       }
     };
   }
-  
+
   /** Returns a {@code Spliterator} filtered by the specified predicate. */
-  static <T> Spliterator<T> filter(Spliterator<T> fromSpliterator, Predicate<? super T> predicate) {
+  static <T extends @Nullable Object> Spliterator<T> filter(
+      Spliterator<T> fromSpliterator, Predicate<? super T> predicate) {
     checkNotNull(fromSpliterator);
     checkNotNull(predicate);
     class Splitr implements Spliterator<T>, Consumer<T> {
-      T holder = null;
+      @Nullable T holder = null;
 
       @Override
-      public void accept(T t) {
+      public void accept(@ParametricNullness T t) {
         this.holder = t;
       }
 
@@ -150,8 +160,10 @@ final class CollectSpliterators {
       public boolean tryAdvance(Consumer<? super T> action) {
         while (fromSpliterator.tryAdvance(this)) {
           try {
-            if (predicate.test(holder)) {
-              action.accept(holder);
+            // The cast is safe because tryAdvance puts a T into `holder`.
+            T next = uncheckedCastNullableTToT(holder);
+            if (predicate.test(next)) {
+              action.accept(next);
               return true;
             }
           } finally {
@@ -162,7 +174,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      public Spliterator<T> trySplit() {
+      public @Nullable Spliterator<T> trySplit() {
         Spliterator<T> fromSplit = fromSpliterator.trySplit();
         return (fromSplit == null) ? null : filter(fromSplit, predicate);
       }
@@ -173,7 +185,7 @@ final class CollectSpliterators {
       }
 
       @Override
-      public Comparator<? super T> getComparator() {
+      public @Nullable Comparator<? super T> getComparator() {
         return fromSpliterator.getComparator();
       }
 
@@ -193,9 +205,32 @@ final class CollectSpliterators {
    * Returns a {@code Spliterator} that iterates over the elements of the spliterators generated by
    * applying {@code function} to the elements of {@code fromSpliterator}.
    */
-  static <F, T> Spliterator<T> flatMap(
-      Spliterator<F> fromSpliterator,
-      Function<? super F, Spliterator<T>> function,
+  static <InElementT extends @Nullable Object, OutElementT extends @Nullable Object>
+      Spliterator<OutElementT> flatMap(
+          Spliterator<InElementT> fromSpliterator,
+          Function<? super InElementT, @Nullable Spliterator<OutElementT>> function,
+          int topCharacteristics,
+          long topSize) {
+    checkArgument(
+        (topCharacteristics & Spliterator.SUBSIZED) == 0,
+        "flatMap does not support SUBSIZED characteristic");
+    checkArgument(
+        (topCharacteristics & Spliterator.SORTED) == 0,
+        "flatMap does not support SORTED characteristic");
+    checkNotNull(fromSpliterator);
+    checkNotNull(function);
+    return new FlatMapSpliteratorOfObject<>(
+        null, fromSpliterator, function, topCharacteristics, topSize);
+  }
+
+  /**
+   * Returns a {@code Spliterator.OfInt} that iterates over the elements of the spliterators
+   * generated by applying {@code function} to the elements of {@code fromSpliterator}. (If {@code
+   * function} returns {@code null} for an input, it is replaced with an empty stream.)
+   */
+  static <InElementT extends @Nullable Object> Spliterator.OfInt flatMapToInt(
+      Spliterator<InElementT> fromSpliterator,
+      Function<? super InElementT, Spliterator.@Nullable OfInt> function,
       int topCharacteristics,
       long topSize) {
     checkArgument(
@@ -206,83 +241,304 @@ final class CollectSpliterators {
         "flatMap does not support SORTED characteristic");
     checkNotNull(fromSpliterator);
     checkNotNull(function);
-    class FlatMapSpliterator implements Spliterator<T> {
-      @Nullable Spliterator<T> prefix;
-      final Spliterator<F> from;
-      final int characteristics;
-      long estimatedSize;
+    return new FlatMapSpliteratorOfInt<>(
+        null, fromSpliterator, function, topCharacteristics, topSize);
+  }
 
-      FlatMapSpliterator(
-          Spliterator<T> prefix, Spliterator<F> from, int characteristics, long estimatedSize) {
-        this.prefix = prefix;
-        this.from = from;
-        this.characteristics = characteristics;
-        this.estimatedSize = estimatedSize;
-      }
+  /**
+   * Returns a {@code Spliterator.OfLong} that iterates over the elements of the spliterators
+   * generated by applying {@code function} to the elements of {@code fromSpliterator}. (If {@code
+   * function} returns {@code null} for an input, it is replaced with an empty stream.)
+   */
+  static <InElementT extends @Nullable Object> Spliterator.OfLong flatMapToLong(
+      Spliterator<InElementT> fromSpliterator,
+      Function<? super InElementT, Spliterator.@Nullable OfLong> function,
+      int topCharacteristics,
+      long topSize) {
+    checkArgument(
+        (topCharacteristics & Spliterator.SUBSIZED) == 0,
+        "flatMap does not support SUBSIZED characteristic");
+    checkArgument(
+        (topCharacteristics & Spliterator.SORTED) == 0,
+        "flatMap does not support SORTED characteristic");
+    checkNotNull(fromSpliterator);
+    checkNotNull(function);
+    return new FlatMapSpliteratorOfLong<>(
+        null, fromSpliterator, function, topCharacteristics, topSize);
+  }
 
-      @Override
-      public boolean tryAdvance(Consumer<? super T> action) {
-        while (true) {
-          if (prefix != null && prefix.tryAdvance(action)) {
-            if (estimatedSize != Long.MAX_VALUE) {
-              estimatedSize--;
-            }
-            return true;
-          } else {
-            prefix = null;
+  /**
+   * Returns a {@code Spliterator.OfDouble} that iterates over the elements of the spliterators
+   * generated by applying {@code function} to the elements of {@code fromSpliterator}. (If {@code
+   * function} returns {@code null} for an input, it is replaced with an empty stream.)
+   */
+  static <InElementT extends @Nullable Object> Spliterator.OfDouble flatMapToDouble(
+      Spliterator<InElementT> fromSpliterator,
+      Function<? super InElementT, Spliterator.@Nullable OfDouble> function,
+      int topCharacteristics,
+      long topSize) {
+    checkArgument(
+        (topCharacteristics & Spliterator.SUBSIZED) == 0,
+        "flatMap does not support SUBSIZED characteristic");
+    checkArgument(
+        (topCharacteristics & Spliterator.SORTED) == 0,
+        "flatMap does not support SORTED characteristic");
+    checkNotNull(fromSpliterator);
+    checkNotNull(function);
+    return new FlatMapSpliteratorOfDouble<>(
+        null, fromSpliterator, function, topCharacteristics, topSize);
+  }
+
+  /**
+   * Implements the {@link Stream#flatMap} operation on spliterators.
+   *
+   * @param <InElementT> the element type of the input spliterator
+   * @param <OutElementT> the element type of the output spliterators
+   * @param <OutSpliteratorT> the type of the output spliterators
+   */
+  abstract static class FlatMapSpliterator<
+          InElementT extends @Nullable Object,
+          OutElementT extends @Nullable Object,
+          OutSpliteratorT extends Spliterator<OutElementT>>
+      implements Spliterator<OutElementT> {
+    /** Factory for constructing {@link FlatMapSpliterator} instances. */
+    interface Factory<InElementT extends @Nullable Object, OutSpliteratorT extends Spliterator<?>> {
+      OutSpliteratorT newFlatMapSpliterator(
+          @Nullable OutSpliteratorT prefix,
+          Spliterator<InElementT> fromSplit,
+          Function<? super InElementT, @Nullable OutSpliteratorT> function,
+          int splitCharacteristics,
+          long estSplitSize);
+    }
+
+    @Weak @Nullable OutSpliteratorT prefix;
+    final Spliterator<InElementT> from;
+    final Function<? super InElementT, @Nullable OutSpliteratorT> function;
+    final Factory<InElementT, OutSpliteratorT> factory;
+    int characteristics;
+    long estimatedSize;
+
+    FlatMapSpliterator(
+        @Nullable OutSpliteratorT prefix,
+        Spliterator<InElementT> from,
+        Function<? super InElementT, @Nullable OutSpliteratorT> function,
+        Factory<InElementT, OutSpliteratorT> factory,
+        int characteristics,
+        long estimatedSize) {
+      this.prefix = prefix;
+      this.from = from;
+      this.function = function;
+      this.factory = factory;
+      this.characteristics = characteristics;
+      this.estimatedSize = estimatedSize;
+    }
+
+    /*
+     * The tryAdvance and forEachRemaining in FlatMapSpliteratorOfPrimitive are overloads of these
+     * methods, not overrides. They are annotated @Override because they implement methods from
+     * Spliterator.OfPrimitive (and override default implementations from Spliterator.OfPrimitive or
+     * a subtype like Spliterator.OfInt).
+     */
+
+    @Override
+    public /*non-final for J2KT*/ boolean tryAdvance(Consumer<? super OutElementT> action) {
+      while (true) {
+        if (prefix != null && prefix.tryAdvance(action)) {
+          if (estimatedSize != Long.MAX_VALUE) {
+            estimatedSize--;
           }
-          if (!from.tryAdvance(fromElement -> prefix = function.apply(fromElement))) {
-            return false;
-          }
-        }
-      }
-
-      @Override
-      public void forEachRemaining(Consumer<? super T> action) {
-        if (prefix != null) {
-          prefix.forEachRemaining(action);
+          return true;
+        } else {
           prefix = null;
         }
-        from.forEachRemaining(fromElement -> function.apply(fromElement).forEachRemaining(action));
-        estimatedSize = 0;
-      }
-
-      @Override
-      public Spliterator<T> trySplit() {
-        Spliterator<F> fromSplit = from.trySplit();
-        if (fromSplit != null) {
-          int splitCharacteristics = characteristics & ~Spliterator.SIZED;
-          long estSplitSize = estimateSize();
-          if (estSplitSize < Long.MAX_VALUE) {
-            estSplitSize /= 2;
-            this.estimatedSize -= estSplitSize;
-          }
-          Spliterator<T> result =
-              new FlatMapSpliterator(this.prefix, fromSplit, splitCharacteristics, estSplitSize);
-          this.prefix = null;
-          return result;
-        } else if (prefix != null) {
-          Spliterator<T> result = prefix;
-          this.prefix = null;
-          return result;
-        } else {
-          return null;
+        if (!from.tryAdvance(fromElement -> prefix = function.apply(fromElement))) {
+          return false;
         }
-      }
-
-      @Override
-      public long estimateSize() {
-        if (prefix != null) {
-          estimatedSize = Math.max(estimatedSize, prefix.estimateSize());
-        }
-        return Math.max(estimatedSize, 0);
-      }
-
-      @Override
-      public int characteristics() {
-        return characteristics;
       }
     }
-    return new FlatMapSpliterator(null, fromSpliterator, topCharacteristics, topSize);
+
+    @Override
+    public /*non-final for J2KT*/ void forEachRemaining(Consumer<? super OutElementT> action) {
+      if (prefix != null) {
+        prefix.forEachRemaining(action);
+        prefix = null;
+      }
+      from.forEachRemaining(
+          fromElement -> {
+            Spliterator<OutElementT> elements = function.apply(fromElement);
+            if (elements != null) {
+              elements.forEachRemaining(action);
+            }
+          });
+      estimatedSize = 0;
+    }
+
+    @Override
+    public final @Nullable OutSpliteratorT trySplit() {
+      Spliterator<InElementT> fromSplit = from.trySplit();
+      if (fromSplit != null) {
+        int splitCharacteristics = characteristics & ~Spliterator.SIZED;
+        long estSplitSize = estimateSize();
+        if (estSplitSize < Long.MAX_VALUE) {
+          estSplitSize /= 2;
+          this.estimatedSize -= estSplitSize;
+          this.characteristics = splitCharacteristics;
+        }
+        OutSpliteratorT result =
+            factory.newFlatMapSpliterator(
+                this.prefix, fromSplit, function, splitCharacteristics, estSplitSize);
+        this.prefix = null;
+        return result;
+      } else if (prefix != null) {
+        OutSpliteratorT result = prefix;
+        this.prefix = null;
+        return result;
+      } else {
+        return null;
+      }
+    }
+
+    @Override
+    public final long estimateSize() {
+      if (prefix != null) {
+        estimatedSize = max(estimatedSize, prefix.estimateSize());
+      }
+      return max(estimatedSize, 0);
+    }
+
+    @Override
+    public final int characteristics() {
+      return characteristics;
+    }
+  }
+
+  /**
+   * Implementation of {@link Stream#flatMap} with an object spliterator output type.
+   *
+   * <p>To avoid having this type, we could use {@code FlatMapSpliterator} directly. The main
+   * advantages to having the type are the ability to use its constructor reference below and the
+   * parallelism with the primitive version. In short, it makes its caller ({@code flatMap})
+   * simpler.
+   *
+   * @param <InElementT> the element type of the input spliterator
+   * @param <OutElementT> the element type of the output spliterators
+   */
+  static final class FlatMapSpliteratorOfObject<
+          InElementT extends @Nullable Object, OutElementT extends @Nullable Object>
+      extends FlatMapSpliterator<InElementT, OutElementT, Spliterator<OutElementT>> {
+    FlatMapSpliteratorOfObject(
+        @Nullable Spliterator<OutElementT> prefix,
+        Spliterator<InElementT> from,
+        Function<? super InElementT, @Nullable Spliterator<OutElementT>> function,
+        int characteristics,
+        long estimatedSize) {
+      super(
+          prefix, from, function, FlatMapSpliteratorOfObject::new, characteristics, estimatedSize);
+    }
+  }
+
+  /**
+   * Implementation of {@link Stream#flatMap} with a primitive spliterator output type.
+   *
+   * @param <InElementT> the element type of the input spliterator
+   * @param <OutElementT> the (boxed) element type of the output spliterators
+   * @param <OutConsumerT> the specialized consumer type for the primitive output type
+   * @param <OutSpliteratorT> the primitive spliterator type associated with {@code OutElementT}
+   */
+  abstract static class FlatMapSpliteratorOfPrimitive<
+          InElementT extends @Nullable Object,
+          OutElementT extends @Nullable Object,
+          OutConsumerT,
+          OutSpliteratorT extends
+              Spliterator.OfPrimitive<OutElementT, OutConsumerT, OutSpliteratorT>>
+      extends FlatMapSpliterator<InElementT, OutElementT, OutSpliteratorT>
+      implements Spliterator.OfPrimitive<OutElementT, OutConsumerT, OutSpliteratorT> {
+
+    FlatMapSpliteratorOfPrimitive(
+        @Nullable OutSpliteratorT prefix,
+        Spliterator<InElementT> from,
+        Function<? super InElementT, @Nullable OutSpliteratorT> function,
+        Factory<InElementT, OutSpliteratorT> factory,
+        int characteristics,
+        long estimatedSize) {
+      super(prefix, from, function, factory, characteristics, estimatedSize);
+    }
+
+    @Override
+    public final boolean tryAdvance(OutConsumerT action) {
+      while (true) {
+        if (prefix != null && prefix.tryAdvance(action)) {
+          if (estimatedSize != Long.MAX_VALUE) {
+            estimatedSize--;
+          }
+          return true;
+        } else {
+          prefix = null;
+        }
+        if (!from.tryAdvance(fromElement -> prefix = function.apply(fromElement))) {
+          return false;
+        }
+      }
+    }
+
+    @Override
+    public final void forEachRemaining(OutConsumerT action) {
+      if (prefix != null) {
+        prefix.forEachRemaining(action);
+        prefix = null;
+      }
+      from.forEachRemaining(
+          fromElement -> {
+            OutSpliteratorT elements = function.apply(fromElement);
+            if (elements != null) {
+              elements.forEachRemaining(action);
+            }
+          });
+      estimatedSize = 0;
+    }
+  }
+
+  /** Implementation of {@link #flatMapToInt}. */
+  static final class FlatMapSpliteratorOfInt<InElementT extends @Nullable Object>
+      extends FlatMapSpliteratorOfPrimitive<InElementT, Integer, IntConsumer, Spliterator.OfInt>
+      implements Spliterator.OfInt {
+    FlatMapSpliteratorOfInt(
+        Spliterator.@Nullable OfInt prefix,
+        Spliterator<InElementT> from,
+        Function<? super InElementT, Spliterator.@Nullable OfInt> function,
+        int characteristics,
+        long estimatedSize) {
+      super(prefix, from, function, FlatMapSpliteratorOfInt::new, characteristics, estimatedSize);
+    }
+  }
+
+  /** Implementation of {@link #flatMapToLong}. */
+  static final class FlatMapSpliteratorOfLong<InElementT extends @Nullable Object>
+      extends FlatMapSpliteratorOfPrimitive<InElementT, Long, LongConsumer, Spliterator.OfLong>
+      implements Spliterator.OfLong {
+    FlatMapSpliteratorOfLong(
+        Spliterator.@Nullable OfLong prefix,
+        Spliterator<InElementT> from,
+        Function<? super InElementT, Spliterator.@Nullable OfLong> function,
+        int characteristics,
+        long estimatedSize) {
+      super(prefix, from, function, FlatMapSpliteratorOfLong::new, characteristics, estimatedSize);
+    }
+  }
+
+  /** Implementation of {@link #flatMapToDouble}. */
+  static final class FlatMapSpliteratorOfDouble<InElementT extends @Nullable Object>
+      extends FlatMapSpliteratorOfPrimitive<
+          InElementT, Double, DoubleConsumer, Spliterator.OfDouble>
+      implements Spliterator.OfDouble {
+    FlatMapSpliteratorOfDouble(
+        Spliterator.@Nullable OfDouble prefix,
+        Spliterator<InElementT> from,
+        Function<? super InElementT, Spliterator.@Nullable OfDouble> function,
+        int characteristics,
+        long estimatedSize) {
+      super(
+          prefix, from, function, FlatMapSpliteratorOfDouble::new, characteristics, estimatedSize);
+    }
   }
 }

@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.features.CollectionFeature.SUPPO
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
+import static com.google.common.collect.testing.testers.ReflectionFreeAssertThrows.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
@@ -30,15 +31,18 @@ import java.util.Collection;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.function.Predicate;
+import org.junit.Ignore;
 
 /**
- * A generic JUnit test which tests {@link Collection#removeIf}. Can't be invoked directly;
- * please see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
+ * A generic JUnit test which tests {@link Collection#removeIf}. Can't be invoked directly; please
+ * see {@link com.google.common.collect.testing.CollectionTestSuiteBuilder}.
  *
  * @author Louis Wasserman
  */
 @GwtCompatible
-@SuppressWarnings("unchecked") // too many "unchecked generic array creations"
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   public void testRemoveIf_alwaysFalse() {
@@ -49,7 +53,8 @@ public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveIf_sometimesTrue() {
-    assertTrue("removeIf(isEqual(present)) should return true",
+    assertTrue(
+        "removeIf(isEqual(present)) should return true",
         collection.removeIf(Predicate.isEqual(samples.e0())));
     expectMissing(samples.e0());
   }
@@ -64,25 +69,25 @@ public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require({SUPPORTS_ITERATOR_REMOVE, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(SEVERAL)
   public void testRemoveIfSomeMatchesConcurrentWithIteration() {
-    try {
-      Iterator<E> iterator = collection.iterator();
-      assertTrue(collection.removeIf(Predicate.isEqual(samples.e0())));
-      iterator.next();
-      fail("Expected ConcurrentModificationException");
-    } catch (ConcurrentModificationException expected) {
-      // success
-    }
+    assertThrows(
+        ConcurrentModificationException.class,
+        () -> {
+          Iterator<E> iterator = collection.iterator();
+          assertTrue(collection.removeIf(Predicate.isEqual(samples.e0())));
+          iterator.next();
+        });
   }
 
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(ZERO)
   public void testRemoveIf_unsupportedEmptyCollection() {
     try {
-      assertFalse("removeIf(Predicate) should return false or throw "
-          + "UnsupportedOperationException",
-        collection.removeIf(x -> {
-          throw new AssertionError("predicate should never be called");
-        }));
+      assertFalse(
+          "removeIf(Predicate) should return false or throw " + "UnsupportedOperationException",
+          collection.removeIf(
+              x -> {
+                throw new AssertionError("predicate should never be called");
+              }));
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();
@@ -91,12 +96,7 @@ public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(absent = SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveIf_alwaysTrueUnsupported() {
-    try {
-      collection.removeIf(x -> true);
-      fail("removeIf(x -> true) should throw "
-          + "UnsupportedOperationException");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> collection.removeIf(x -> true));
     expectUnchanged();
     assertTrue(collection.contains(samples.e0()));
   }

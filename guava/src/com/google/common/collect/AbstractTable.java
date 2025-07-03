@@ -14,9 +14,12 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.Maps.safeGet;
+
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.collect.Table.Cell;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
@@ -25,7 +28,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Skeletal, implementation-agnostic implementation of the {@link Table} interface.
@@ -33,7 +36,9 @@ import javax.annotation.Nullable;
  * @author Louis Wasserman
  */
 @GwtCompatible
-abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
+abstract class AbstractTable<
+        R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
+    implements Table<R, C, V> {
 
   @Override
   public boolean containsRow(@Nullable Object rowKey) {
@@ -67,14 +72,14 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
 
   @Override
   public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
-    Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
+    Map<C, V> row = safeGet(rowMap(), rowKey);
     return row != null && Maps.safeContainsKey(row, columnKey);
   }
 
   @Override
-  public V get(@Nullable Object rowKey, @Nullable Object columnKey) {
-    Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
-    return (row == null) ? null : Maps.safeGet(row, columnKey);
+  public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {
+    Map<C, V> row = safeGet(rowMap(), rowKey);
+    return (row == null) ? null : safeGet(row, columnKey);
   }
 
   @Override
@@ -89,14 +94,15 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
 
   @CanIgnoreReturnValue
   @Override
-  public V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
-    Map<C, V> row = Maps.safeGet(rowMap(), rowKey);
+  public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
+    Map<C, V> row = safeGet(rowMap(), rowKey);
     return (row == null) ? null : Maps.safeRemove(row, columnKey);
   }
 
   @CanIgnoreReturnValue
   @Override
-  public V put(R rowKey, C columnKey, V value) {
+  public @Nullable V put(
+      @ParametricNullness R rowKey, @ParametricNullness C columnKey, @ParametricNullness V value) {
     return row(rowKey).put(columnKey, value);
   }
 
@@ -107,7 +113,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
   }
 
-  private transient Set<Cell<R, C, V>> cellSet;
+  @LazyInit private transient @Nullable Set<Cell<R, C, V>> cellSet;
 
   @Override
   public Set<Cell<R, C, V>> cellSet() {
@@ -120,19 +126,19 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   }
 
   abstract Iterator<Table.Cell<R, C, V>> cellIterator();
-  
+
   abstract Spliterator<Table.Cell<R, C, V>> cellSpliterator();
 
   @WeakOuter
   class CellSet extends AbstractSet<Cell<R, C, V>> {
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       if (o instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
-        Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
+        Map<C, V> row = safeGet(rowMap(), cell.getRowKey());
         return row != null
             && Collections2.safeContains(
-                row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
+                row.entrySet(), immutableEntry(cell.getColumnKey(), cell.getValue()));
       }
       return false;
     }
@@ -141,10 +147,10 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     public boolean remove(@Nullable Object o) {
       if (o instanceof Cell) {
         Cell<?, ?, ?> cell = (Cell<?, ?, ?>) o;
-        Map<C, V> row = Maps.safeGet(rowMap(), cell.getRowKey());
+        Map<C, V> row = safeGet(rowMap(), cell.getRowKey());
         return row != null
             && Collections2.safeRemove(
-                row.entrySet(), Maps.immutableEntry(cell.getColumnKey(), cell.getValue()));
+                row.entrySet(), immutableEntry(cell.getColumnKey(), cell.getValue()));
       }
       return false;
     }
@@ -170,7 +176,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
   }
 
-  private transient Collection<V> values;
+  @LazyInit private transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
@@ -185,12 +191,13 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
   Iterator<V> valuesIterator() {
     return new TransformedIterator<Cell<R, C, V>, V>(cellSet().iterator()) {
       @Override
+      @ParametricNullness
       V transform(Cell<R, C, V> cell) {
         return cell.getValue();
       }
     };
   }
-  
+
   Spliterator<V> valuesSpliterator() {
     return CollectSpliterators.map(cellSpliterator(), Table.Cell::getValue);
   }
@@ -203,7 +210,12 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public Spliterator<V> spliterator() {
+      return valuesSpliterator();
+    }
+
+    @Override
+    public boolean contains(@Nullable Object o) {
       return containsValue(o);
     }
 
@@ -228,9 +240,7 @@ abstract class AbstractTable<R, C, V> implements Table<R, C, V> {
     return cellSet().hashCode();
   }
 
-  /**
-   * Returns the string representation {@code rowMap().toString()}.
-   */
+  /** Returns the string representation {@code rowMap().toString()}. */
   @Override
   public String toString() {
     return rowMap().toString();

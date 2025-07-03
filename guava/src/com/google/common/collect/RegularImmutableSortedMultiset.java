@@ -19,10 +19,12 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.collect.BoundType.CLOSED;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
 import java.util.Comparator;
 import java.util.function.ObjIntConsumer;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * An immutable sorted multiset with one or more distinct elements.
@@ -32,19 +34,19 @@ import javax.annotation.Nullable;
 @SuppressWarnings("serial") // uses writeReplace, not default serialization
 @GwtIncompatible
 final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E> {
-  private static final long[] ZERO_CUMULATIVE_COUNTS = {0};
+  private static final long[] zeroCumulativeCounts = {0};
 
-  static final ImmutableSortedMultiset<Comparable> NATURAL_EMPTY_MULTISET =
-      new RegularImmutableSortedMultiset<Comparable>(Ordering.natural());
+  static final ImmutableSortedMultiset<?> NATURAL_EMPTY_MULTISET =
+      new RegularImmutableSortedMultiset<>(Ordering.natural());
 
-  private final transient RegularImmutableSortedSet<E> elementSet;
+  @VisibleForTesting final transient RegularImmutableSortedSet<E> elementSet;
   private final transient long[] cumulativeCounts;
   private final transient int offset;
   private final transient int length;
 
   RegularImmutableSortedMultiset(Comparator<? super E> comparator) {
     this.elementSet = ImmutableSortedSet.emptySet(comparator);
-    this.cumulativeCounts = ZERO_CUMULATIVE_COUNTS;
+    this.cumulativeCounts = zeroCumulativeCounts;
     this.offset = 0;
     this.length = 0;
   }
@@ -69,18 +71,18 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
   @Override
   public void forEachEntry(ObjIntConsumer<? super E> action) {
     checkNotNull(action);
-    for (int i = 0; i < size(); i++) {
+    for (int i = 0; i < length; i++) {
       action.accept(elementSet.asList().get(i), getCount(i));
     }
   }
 
   @Override
-  public Entry<E> firstEntry() {
+  public @Nullable Entry<E> firstEntry() {
     return isEmpty() ? null : getEntry(0);
   }
 
   @Override
-  public Entry<E> lastEntry() {
+  public @Nullable Entry<E> lastEntry() {
     return isEmpty() ? null : getEntry(length - 1);
   }
 
@@ -120,7 +122,7 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
       return this;
     } else {
       RegularImmutableSortedSet<E> subElementSet = elementSet.getSubSet(from, to);
-      return new RegularImmutableSortedMultiset<E>(
+      return new RegularImmutableSortedMultiset<>(
           subElementSet, cumulativeCounts, offset + from, to - from);
     }
   }
@@ -128,5 +130,13 @@ final class RegularImmutableSortedMultiset<E> extends ImmutableSortedMultiset<E>
   @Override
   boolean isPartialView() {
     return offset > 0 || length < cumulativeCounts.length - 1;
+  }
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible // serialization
+  Object writeReplace() {
+    return super.writeReplace();
   }
 }

@@ -18,11 +18,13 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.function.Consumer;
+import org.jspecify.annotations.Nullable;
 
 /**
- * An {@link ImmutableAsList} implementation specialized for when the delegate collection is
- * already backed by an {@code ImmutableList} or array.
+ * An {@link ImmutableAsList} implementation specialized for when the delegate collection is already
+ * backed by an {@code ImmutableList} or array.
  *
  * @author Louis Wasserman
  */
@@ -64,12 +66,36 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
 
   @GwtIncompatible // not present in emulated superclass
   @Override
-  int copyIntoArray(Object[] dst, int offset) {
+  int copyIntoArray(@Nullable Object[] dst, int offset) {
     return delegateList.copyIntoArray(dst, offset);
+  }
+
+  @Override
+  Object @Nullable [] internalArray() {
+    return delegateList.internalArray();
+  }
+
+  @Override
+  int internalArrayStart() {
+    return delegateList.internalArrayStart();
+  }
+
+  @Override
+  int internalArrayEnd() {
+    return delegateList.internalArrayEnd();
   }
 
   @Override
   public E get(int index) {
     return delegateList.get(index);
+  }
+
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
+  @Override
+  @J2ktIncompatible
+  @GwtIncompatible
+    Object writeReplace() {
+    return super.writeReplace();
   }
 }

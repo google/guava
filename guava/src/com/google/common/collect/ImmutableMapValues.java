@@ -20,12 +20,12 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.j2objc.annotations.Weak;
+import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.Map.Entry;
 import java.util.Spliterator;
 import java.util.function.Consumer;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
  * {@code values()} implementation for {@link ImmutableMap}.
@@ -35,7 +35,7 @@ import javax.annotation.Nullable;
  */
 @GwtCompatible(emulated = true)
 final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
-  @Weak private final ImmutableMap<K, V> map;
+  private final ImmutableMap<K, V> map;
 
   ImmutableMapValues(ImmutableMap<K, V> map) {
     this.map = map;
@@ -63,7 +63,8 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
     };
   }
 
-  @Override public Spliterator<V> spliterator() {
+  @Override
+  public Spliterator<V> spliterator() {
     return CollectSpliterators.map(map.entrySet().spliterator(), Entry::getValue);
   }
 
@@ -79,7 +80,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
 
   @Override
   public ImmutableList<V> asList() {
-    final ImmutableList<Entry<K, V>> entryList = map.entrySet().asList();
+    ImmutableList<Entry<K, V>> entryList = map.entrySet().asList();
     return new ImmutableAsList<V>() {
       @Override
       public V get(int index) {
@@ -90,23 +91,44 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
       ImmutableCollection<V> delegateCollection() {
         return ImmutableMapValues.this;
       }
+
+      // redeclare to help optimizers with b/310253115
+      @SuppressWarnings("RedundantOverride")
+      @Override
+      @J2ktIncompatible
+      @GwtIncompatible
+            Object writeReplace() {
+        return super.writeReplace();
+      }
     };
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
   @Override
   public void forEach(Consumer<? super V> action) {
     checkNotNull(action);
     map.forEach((k, v) -> action.accept(v));
   }
 
-  @GwtIncompatible // serialization
+  // redeclare to help optimizers with b/310253115
+  @SuppressWarnings("RedundantOverride")
   @Override
-  Object writeReplace() {
-    return new SerializedForm<V>(map);
+  @J2ktIncompatible
+  @GwtIncompatible
+    Object writeReplace() {
+    return super.writeReplace();
   }
 
-  @GwtIncompatible // serialization
+  @GwtIncompatible
+  @J2ktIncompatible
+  /*
+   * The mainline copy of ImmutableMapValues doesn't produce this serialized form anymore, though
+   * the backport does. For now, we're keeping the class declaration in *both* flavors so that both
+   * flavors can read old data or data from the other flavor. However, we strongly discourage
+   * relying on this, as we have made incompatible changes to serialized forms in the past and
+   * expect to do so again, as discussed in https://github.com/google/guava#important-warnings.
+   */
+  @SuppressWarnings("unused")
   private static class SerializedForm<V> implements Serializable {
     final ImmutableMap<?, V> map;
 
@@ -114,10 +136,10 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
       this.map = map;
     }
 
-    Object readResolve() {
+        Object readResolve() {
       return map.values();
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 }

@@ -15,8 +15,8 @@
 package com.google.common.util.concurrent;
 
 import com.google.common.base.Function;
-
 import java.util.concurrent.Executor;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Hidden superclass of {@link Futures} that provides us a place to declare special GWT versions of
@@ -30,14 +30,7 @@ abstract class GwtFuturesCatchingSpecialization {
    * your own instanceof tests.
    */
 
-  public static <V> ListenableFuture<V> catching(
-      ListenableFuture<? extends V> input,
-      Class<Throwable> exceptionType,
-      Function<? super Throwable, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback);
-  }
-
-  public static <V> ListenableFuture<V> catching(
+  public static <V extends @Nullable Object> ListenableFuture<V> catching(
       ListenableFuture<? extends V> input,
       Class<Throwable> exceptionType,
       Function<? super Throwable, ? extends V> fallback,
@@ -45,18 +38,11 @@ abstract class GwtFuturesCatchingSpecialization {
     return AbstractCatchingFuture.create(input, exceptionType, fallback, executor);
   }
 
-  public static <V> ListenableFuture<V> catchingAsync(
-      ListenableFuture<? extends V> input,
-      Class<Throwable> exceptionType,
-      AsyncFunction<? super Throwable, ? extends V> fallback) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback);
-  }
-
-  public static <V> ListenableFuture<V> catchingAsync(
+  public static <V extends @Nullable Object> ListenableFuture<V> catchingAsync(
       ListenableFuture<? extends V> input,
       Class<Throwable> exceptionType,
       AsyncFunction<? super Throwable, ? extends V> fallback,
       Executor executor) {
-    return AbstractCatchingFuture.create(input, exceptionType, fallback, executor);
+    return AbstractCatchingFuture.createAsync(input, exceptionType, fallback, executor);
   }
 }

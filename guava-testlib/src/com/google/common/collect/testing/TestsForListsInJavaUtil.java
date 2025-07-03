@@ -23,6 +23,10 @@ import static com.google.common.collect.testing.testers.ListSubListTester.getSub
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListOriginalListSetAffectsSubListMethod;
 import static com.google.common.collect.testing.testers.ListSubListTester.getSubListSubListRemoveAffectsOriginalLargeListMethod;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -32,7 +36,6 @@ import java.lang.reflect.Method;
 import java.util.AbstractList;
 import java.util.AbstractSequentialList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -44,9 +47,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Generates a test suite covering the {@link List} implementations in the
- * {@link java.util} package. Can be subclassed to specify tests that should
- * be suppressed.
+ * Generates a test suite covering the {@link List} implementations in the {@link java.util}
+ * package. Can be subclassed to specify tests that should be suppressed.
  *
  * @author Kevin Bourrillion
  */
@@ -73,23 +75,23 @@ public class TestsForListsInJavaUtil {
   }
 
   protected Collection<Method> suppressForEmptyList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForSingletonList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForArraysAsList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForArrayList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCopyOnWriteArrayList() {
@@ -103,31 +105,32 @@ public class TestsForListsInJavaUtil {
   }
 
   protected Collection<Method> suppressForUnmodifiableList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCheckedList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForAbstractList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForAbstractSequentialList() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForVector() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
+  @SuppressWarnings("EmptyList") // We specifically want to test emptyList()
   public Test testsForEmptyList() {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Collections.emptyList();
+                return emptyList();
               }
             })
         .named("emptyList")
@@ -141,7 +144,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Collections.singletonList(elements[0]);
+                return singletonList(elements[0]);
               }
             })
         .named("singletonList")
@@ -158,7 +161,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return Arrays.asList(elements.clone());
+                return asList(elements.clone());
               }
             })
         .named("Arrays.asList")
@@ -176,7 +179,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return new ArrayList<String>(MinimalCollection.of(elements));
+                return new ArrayList<>(MinimalCollection.of(elements));
               }
             })
         .named("ArrayList")
@@ -190,12 +193,14 @@ public class TestsForListsInJavaUtil {
         .createTestSuite();
   }
 
+  // We are testing LinkedList / testing our tests on LinkedList.
+  @SuppressWarnings("JdkObsolete")
   public Test testsForLinkedList() {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return new LinkedList<String>(MinimalCollection.of(elements));
+                return new LinkedList<>(MinimalCollection.of(elements));
               }
             })
         .named("LinkedList")
@@ -214,7 +219,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                return new CopyOnWriteArrayList<String>(MinimalCollection.of(elements));
+                return new CopyOnWriteArrayList<>(MinimalCollection.of(elements));
               }
             })
         .named("CopyOnWriteArrayList")
@@ -236,9 +241,9 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                List<String> innerList = new ArrayList<String>();
+                List<String> innerList = new ArrayList<>();
                 Collections.addAll(innerList, elements);
-                return Collections.unmodifiableList(innerList);
+                return unmodifiableList(innerList);
               }
             })
         .named("unmodifiableList/ArrayList")
@@ -255,7 +260,7 @@ public class TestsForListsInJavaUtil {
             new TestStringListGenerator() {
               @Override
               public List<String> create(String[] elements) {
-                List<String> innerList = new ArrayList<String>();
+                List<String> innerList = new ArrayList<>();
                 Collections.addAll(innerList, elements);
                 return Collections.checkedList(innerList, String.class);
               }
@@ -275,7 +280,7 @@ public class TestsForListsInJavaUtil {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {
               @Override
-              protected List<String> create(final String[] elements) {
+              protected List<String> create(String[] elements) {
                 return new AbstractList<String>() {
                   @Override
                   public int size() {
@@ -300,9 +305,9 @@ public class TestsForListsInJavaUtil {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {
               @Override
-              protected List<String> create(final String[] elements) {
+              protected List<String> create(String[] elements) {
                 // For this test we trust ArrayList works
-                final List<String> list = new ArrayList<String>();
+                List<String> list = new ArrayList<>();
                 Collections.addAll(list, elements);
                 return new AbstractSequentialList<String>() {
                   @Override
@@ -324,14 +329,16 @@ public class TestsForListsInJavaUtil {
         .createTestSuite();
   }
 
+  // We are testing Vector / testing our tests on Vector.
+  @SuppressWarnings("JdkObsolete")
   private Test testsForVector() {
-    return ListTestSuiteBuilder
-        .using(new TestStringListGenerator() {
-          @Override
-          protected List<String> create(String[] elements) {
-            return new Vector<String>(MinimalCollection.of(elements));
-          }
-        })
+    return ListTestSuiteBuilder.using(
+            new TestStringListGenerator() {
+              @Override
+              protected List<String> create(String[] elements) {
+                return new Vector<>(MinimalCollection.of(elements));
+              }
+            })
         .named("Vector")
         .withFeatures(
             ListFeature.GENERAL_PURPOSE,
@@ -341,5 +348,4 @@ public class TestsForListsInJavaUtil {
             CollectionSize.ANY)
         .createTestSuite();
   }
-
 }

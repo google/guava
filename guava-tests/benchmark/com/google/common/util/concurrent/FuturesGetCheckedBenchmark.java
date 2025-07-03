@@ -17,7 +17,6 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.FuturesGetChecked.checkExceptionClassValidity;
@@ -34,7 +33,8 @@ import com.google.common.util.concurrent.FuturesGetChecked.GetCheckedTypeValidat
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.security.GeneralSecurityException;
-import java.security.acl.NotOwnerException;
+import java.security.KeyException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.TooManyListenersException;
 import java.util.concurrent.BrokenBarrierException;
@@ -45,20 +45,21 @@ import java.util.prefs.BackingStoreException;
 import java.util.prefs.InvalidPreferencesFormatException;
 import java.util.zip.DataFormatException;
 import javax.security.auth.RefreshFailedException;
+import org.jspecify.annotations.NullUnmarked;
 
-/**
- * Microbenchmark for {@link Futures#getChecked}.
- */
+/** Microbenchmark for {@link Futures#getChecked}. */
+@NullUnmarked
 public class FuturesGetCheckedBenchmark {
   private enum Validator {
     NON_CACHING_WITH_CONSTRUCTOR_CHECK(nonCachingWithConstructorCheckValidator()),
     NON_CACHING_WITHOUT_CONSTRUCTOR_CHECK(nonCachingWithoutConstructorCheckValidator()),
     WEAK_SET(weakSetValidator()),
-    CLASS_VALUE(classValueValidator());
+    CLASS_VALUE(classValueValidator()),
+    ;
 
     final GetCheckedTypeValidator validator;
 
-    private Validator(GetCheckedTypeValidator validator) {
+    Validator(GetCheckedTypeValidator validator) {
       this.validator = validator;
     }
   }
@@ -69,7 +70,7 @@ public class FuturesGetCheckedBenchmark {
 
     final Future<Object> future;
 
-    private Result(Future<Object> result) {
+    Result(Future<Object> result) {
       this.future = result;
     }
   }
@@ -80,7 +81,7 @@ public class FuturesGetCheckedBenchmark {
 
     final Class<? extends Exception> exceptionType;
 
-    private ExceptionType(Class<? extends Exception> exceptionType) {
+    ExceptionType(Class<? extends Exception> exceptionType) {
       this.exceptionType = exceptionType;
     }
   }
@@ -94,18 +95,16 @@ public class FuturesGetCheckedBenchmark {
           ExecutionException.class,
           GeneralSecurityException.class,
           InvalidPreferencesFormatException.class,
-          NotOwnerException.class,
+          KeyException.class,
           RefreshFailedException.class,
           TimeoutException.class,
           TooManyListenersException.class,
           URISyntaxException.class);
 
-  @Param
-  Validator validator;
-  @Param
-  Result result;
-  @Param
-  ExceptionType exceptionType;
+  @Param Validator validator;
+  @Param Result result;
+  @Param ExceptionType exceptionType;
+
   /**
    * The number of other exception types in the cache of known-good exceptions and the number of
    * other {@code ClassValue} entries for the exception type to be tested. This lets us evaluate
@@ -116,7 +115,7 @@ public class FuturesGetCheckedBenchmark {
   @Param({"0", "1", "12"})
   int otherEntriesInDataStructure;
 
-  final List<ClassValue<?>> retainedReferencesToOtherClassValues = newArrayList();
+  final List<ClassValue<?>> retainedReferencesToOtherClassValues = new ArrayList<>();
 
   @BeforeExperiment
   void addOtherEntries() throws Exception {
@@ -124,7 +123,7 @@ public class FuturesGetCheckedBenchmark {
     Class<? extends Exception> exceptionType = this.exceptionType.exceptionType;
 
     for (Class<? extends Exception> exceptionClass :
-          OTHER_EXCEPTION_TYPES.asList().subList(0, otherEntriesInDataStructure)) {
+        OTHER_EXCEPTION_TYPES.asList().subList(0, otherEntriesInDataStructure)) {
       getChecked(validator, immediateFuture(""), exceptionClass);
     }
 
@@ -166,8 +165,10 @@ public class FuturesGetCheckedBenchmark {
 
     @Override
     public void validateClass(Class<? extends Exception> exceptionClass) {
-      checkArgument(isCheckedException(exceptionClass),
-          "Futures.getChecked exception type (%s) must not be a RuntimeException", exceptionClass);
+      checkArgument(
+          isCheckedException(exceptionClass),
+          "Futures.getChecked exception type (%s) must not be a RuntimeException",
+          exceptionClass);
     }
   }
 

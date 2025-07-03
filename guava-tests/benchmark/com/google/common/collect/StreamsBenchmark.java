@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.MoreCollectors.onlyElement;
+
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
@@ -26,23 +28,27 @@ import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Test stream operation speed.
  *
  * @author Louis Wasserman
  */
+@NullUnmarked
 public class StreamsBenchmark {
   @Param({"1", "10", "100", "1000", "10000"})
   private int size;
 
+  // This is a benchmark of streams, including those from LinkedList.
+  @SuppressWarnings("JdkObsolete")
   enum CollectionType {
     ARRAY_LIST(ArrayList::new),
     LINKED_LIST(LinkedList::new);
 
     final Supplier<Collection<Object>> supplier;
 
-    private CollectionType(Supplier<Collection<Object>> supplier) {
+    CollectionType(Supplier<Collection<Object>> supplier) {
       this.supplier = supplier;
     }
   }
@@ -60,7 +66,7 @@ public class StreamsBenchmark {
       @Override
       Object operate(Stream<?> stream) {
         try {
-          return stream.collect(MoreCollectors.onlyElement());
+          return stream.collect(onlyElement());
         } catch (IllegalArgumentException | NoSuchElementException e) {
           throw new SkipThisScenarioException();
         }

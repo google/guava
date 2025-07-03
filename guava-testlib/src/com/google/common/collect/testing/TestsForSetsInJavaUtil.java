@@ -19,6 +19,9 @@ package com.google.common.collect.testing;
 import static com.google.common.collect.testing.testers.CollectionSpliteratorTester.getSpliteratorNotImmutableCollectionAllowsAddMethod;
 import static com.google.common.collect.testing.testers.CollectionSpliteratorTester.getSpliteratorNotImmutableCollectionAllowsRemoveMethod;
 import static java.util.Arrays.asList;
+import static java.util.Collections.emptySet;
+import static java.util.Collections.singleton;
+import static java.util.Collections.unmodifiableSet;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -44,9 +47,8 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 /**
- * Generates a test suite covering the {@link Set} implementations in the
- * {@link java.util} package. Can be subclassed to specify tests that should
- * be suppressed.
+ * Generates a test suite covering the {@link Set} implementations in the {@link java.util} package.
+ * Can be subclassed to specify tests that should be suppressed.
  *
  * @author Kevin Bourrillion
  */
@@ -66,6 +68,7 @@ public class TestsForSetsInJavaUtil {
     suite.addTest(testsForHashSet());
     suite.addTest(testsForLinkedHashSet());
     suite.addTest(testsForEnumSet());
+    suite.addTest(testsForSynchronizedNavigableSet());
     suite.addTest(testsForTreeSetNatural());
     suite.addTest(testsForTreeSetWithComparator());
     suite.addTest(testsForCopyOnWriteArraySet());
@@ -82,43 +85,47 @@ public class TestsForSetsInJavaUtil {
   }
 
   protected Collection<Method> suppressForCheckedNavigableSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForEmptySet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForEmptyNavigableSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForEmptySortedSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForSingletonSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForHashSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForLinkedHashSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForEnumSet() {
-    return Collections.emptySet();
+    return emptySet();
+  }
+
+  protected Collection<Method> suppressForSynchronizedNavigableSet() {
+    return emptySet();
   }
 
   protected Collection<Method> suppressForTreeSetNatural() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForTreeSetWithComparator() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCopyOnWriteArraySet() {
@@ -128,42 +135,43 @@ public class TestsForSetsInJavaUtil {
   }
 
   protected Collection<Method> suppressForUnmodifiableSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForUnmodifiableNavigableSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForCheckedSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
+
   protected Collection<Method> suppressForCheckedSortedSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForAbstractSet() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForConcurrentSkipListSetNatural() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   protected Collection<Method> suppressForConcurrentSkipListSetWithComparator() {
-    return Collections.emptySet();
+    return emptySet();
   }
 
   public Test testsForCheckedNavigableSet() {
     return SortedSetTestSuiteBuilder.using(
-        new TestStringSortedSetGenerator() {
-          @Override
-          public NavigableSet<String> create(String[] elements) {
-            NavigableSet<String> innerSet = new TreeSet<String>();
-            Collections.addAll(innerSet, elements);
-            return Collections.checkedNavigableSet(innerSet, String.class);
-          }
-        })
+            new TestStringSortedSetGenerator() {
+              @Override
+              public NavigableSet<String> create(String[] elements) {
+                NavigableSet<String> innerSet = new TreeSet<>();
+                Collections.addAll(innerSet, elements);
+                return Collections.checkedNavigableSet(innerSet, String.class);
+              }
+            })
         .named("checkedNavigableSet/TreeSet, natural")
         .withFeatures(
             SetFeature.GENERAL_PURPOSE,
@@ -181,7 +189,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                return Collections.emptySet();
+                return emptySet();
               }
             })
         .named("emptySet")
@@ -192,12 +200,12 @@ public class TestsForSetsInJavaUtil {
 
   public Test testsForEmptyNavigableSet() {
     return SetTestSuiteBuilder.using(
-        new TestStringSortedSetGenerator() {
-          @Override
-          public NavigableSet<String> create(String[] elements) {
-            return Collections.emptyNavigableSet();
-          }
-        })
+            new TestStringSortedSetGenerator() {
+              @Override
+              public NavigableSet<String> create(String[] elements) {
+                return Collections.emptyNavigableSet();
+              }
+            })
         .named("emptyNavigableSet")
         .withFeatures(CollectionFeature.SERIALIZABLE, CollectionSize.ZERO)
         .suppressing(suppressForEmptyNavigableSet())
@@ -206,12 +214,12 @@ public class TestsForSetsInJavaUtil {
 
   public Test testsForEmptySortedSet() {
     return SetTestSuiteBuilder.using(
-        new TestStringSortedSetGenerator() {
-          @Override
-          public SortedSet<String> create(String[] elements) {
-            return Collections.emptySortedSet();
-          }
-        })
+            new TestStringSortedSetGenerator() {
+              @Override
+              public SortedSet<String> create(String[] elements) {
+                return Collections.emptySortedSet();
+              }
+            })
         .named("emptySortedSet")
         .withFeatures(CollectionFeature.SERIALIZABLE, CollectionSize.ZERO)
         .suppressing(suppressForEmptySortedSet())
@@ -223,7 +231,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                return Collections.singleton(elements[0]);
+                return singleton(elements[0]);
               }
             })
         .named("singleton")
@@ -240,7 +248,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                return new HashSet<String>(MinimalCollection.of(elements));
+                return new HashSet<>(MinimalCollection.of(elements));
               }
             })
         .named("HashSet")
@@ -259,7 +267,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                return new LinkedHashSet<String>(MinimalCollection.of(elements));
+                return new LinkedHashSet<>(MinimalCollection.of(elements));
               }
             })
         .named("LinkedHashSet")
@@ -295,12 +303,36 @@ public class TestsForSetsInJavaUtil {
         .createTestSuite();
   }
 
+  /**
+   * Tests regular NavigableSet behavior of synchronizedNavigableSet(treeSet); does not test the
+   * fact that it's synchronized.
+   */
+  public Test testsForSynchronizedNavigableSet() {
+    return NavigableSetTestSuiteBuilder.using(
+            new TestStringSortedSetGenerator() {
+              @Override
+              public SortedSet<String> create(String[] elements) {
+                NavigableSet<String> delegate = new TreeSet<>(MinimalCollection.of(elements));
+                return Collections.synchronizedNavigableSet(delegate);
+              }
+            })
+        .named("synchronizedNavigableSet/TreeSet, natural")
+        .withFeatures(
+            SetFeature.GENERAL_PURPOSE,
+            CollectionFeature.SERIALIZABLE,
+            CollectionFeature.KNOWN_ORDER,
+            CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+            CollectionSize.ANY)
+        .suppressing(suppressForSynchronizedNavigableSet())
+        .createTestSuite();
+  }
+
   public Test testsForTreeSetNatural() {
     return NavigableSetTestSuiteBuilder.using(
             new TestStringSortedSetGenerator() {
               @Override
               public SortedSet<String> create(String[] elements) {
-                return new TreeSet<String>(MinimalCollection.of(elements));
+                return new TreeSet<>(MinimalCollection.of(elements));
               }
             })
         .named("TreeSet, natural")
@@ -319,7 +351,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSortedSetGenerator() {
               @Override
               public SortedSet<String> create(String[] elements) {
-                SortedSet<String> set = new TreeSet<String>(arbitraryNullFriendlyComparator());
+                SortedSet<String> set = new TreeSet<>(arbitraryNullFriendlyComparator());
                 Collections.addAll(set, elements);
                 return set;
               }
@@ -341,7 +373,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                return new CopyOnWriteArraySet<String>(MinimalCollection.of(elements));
+                return new CopyOnWriteArraySet<>(MinimalCollection.of(elements));
               }
             })
         .named("CopyOnWriteArraySet")
@@ -361,9 +393,9 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                Set<String> innerSet = new HashSet<String>();
+                Set<String> innerSet = new HashSet<>();
                 Collections.addAll(innerSet, elements);
-                return Collections.unmodifiableSet(innerSet);
+                return unmodifiableSet(innerSet);
               }
             })
         .named("unmodifiableSet/HashSet")
@@ -378,14 +410,14 @@ public class TestsForSetsInJavaUtil {
 
   public Test testsForUnmodifiableNavigableSet() {
     return SetTestSuiteBuilder.using(
-        new TestStringSortedSetGenerator() {
-          @Override
-          public NavigableSet<String> create(String[] elements) {
-            NavigableSet<String> innerSet = new TreeSet<String>();
-            Collections.addAll(innerSet, elements);
-            return Collections.unmodifiableNavigableSet(innerSet);
-          }
-        })
+            new TestStringSortedSetGenerator() {
+              @Override
+              public NavigableSet<String> create(String[] elements) {
+                NavigableSet<String> innerSet = new TreeSet<>();
+                Collections.addAll(innerSet, elements);
+                return Collections.unmodifiableNavigableSet(innerSet);
+              }
+            })
         .named("unmodifiableNavigableSet/TreeSet, natural")
         .withFeatures(
             CollectionFeature.KNOWN_ORDER,
@@ -401,7 +433,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               public Set<String> create(String[] elements) {
-                Set<String> innerSet = new HashSet<String>();
+                Set<String> innerSet = new HashSet<>();
                 Collections.addAll(innerSet, elements);
                 return Collections.checkedSet(innerSet, String.class);
               }
@@ -419,14 +451,14 @@ public class TestsForSetsInJavaUtil {
 
   public Test testsForCheckedSortedSet() {
     return SortedSetTestSuiteBuilder.using(
-        new TestStringSortedSetGenerator() {
-          @Override
-          public SortedSet<String> create(String[] elements) {
-            SortedSet<String> innerSet = new TreeSet<String>();
-            Collections.addAll(innerSet, elements);
-            return Collections.checkedSortedSet(innerSet, String.class);
-          }
-        })
+            new TestStringSortedSetGenerator() {
+              @Override
+              public SortedSet<String> create(String[] elements) {
+                SortedSet<String> innerSet = new TreeSet<>();
+                Collections.addAll(innerSet, elements);
+                return Collections.checkedSortedSet(innerSet, String.class);
+              }
+            })
         .named("checkedSortedSet/TreeSet, natural")
         .withFeatures(
             SetFeature.GENERAL_PURPOSE,
@@ -444,7 +476,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSetGenerator() {
               @Override
               protected Set<String> create(String[] elements) {
-                final String[] deduped = dedupe(elements);
+                String[] deduped = dedupe(elements);
                 return new AbstractSet<String>() {
                   @Override
                   public int size() {
@@ -473,7 +505,7 @@ public class TestsForSetsInJavaUtil {
             new TestCollidingSetGenerator() {
               @Override
               public Set<Object> create(Object... elements) {
-                return new HashSet<Object>(MinimalCollection.of(elements));
+                return new HashSet<>(MinimalCollection.of(elements));
               }
             })
         .named("badly colliding HashSet")
@@ -490,7 +522,7 @@ public class TestsForSetsInJavaUtil {
             new TestStringSortedSetGenerator() {
               @Override
               public SortedSet<String> create(String[] elements) {
-                return new ConcurrentSkipListSet<String>(MinimalCollection.of(elements));
+                return new ConcurrentSkipListSet<>(MinimalCollection.of(elements));
               }
             })
         .named("ConcurrentSkipListSet, natural")
@@ -509,7 +541,7 @@ public class TestsForSetsInJavaUtil {
               @Override
               public SortedSet<String> create(String[] elements) {
                 SortedSet<String> set =
-                    new ConcurrentSkipListSet<String>(arbitraryNullFriendlyComparator());
+                    new ConcurrentSkipListSet<>(arbitraryNullFriendlyComparator());
                 Collections.addAll(set, elements);
                 return set;
               }
@@ -525,13 +557,13 @@ public class TestsForSetsInJavaUtil {
   }
 
   private static String[] dedupe(String[] elements) {
-    Set<String> tmp = new LinkedHashSet<String>();
+    Set<String> tmp = new LinkedHashSet<>();
     Collections.addAll(tmp, elements);
     return tmp.toArray(new String[0]);
   }
 
   static <T> Comparator<T> arbitraryNullFriendlyComparator() {
-    return new NullFriendlyComparator<T>();
+    return new NullFriendlyComparator<>();
   }
 
   private static final class NullFriendlyComparator<T> implements Comparator<T>, Serializable {

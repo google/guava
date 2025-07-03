@@ -1,0 +1,117 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
+    name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }} on ${{ matrix.os }}"
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+        java: [ 8, 11, 17, 21 ]
+        root-pom: [ 'pom.xml', 'android/pom.xml' ]
+        include:
+          - os: windows-latest
+            java: 21
+            root-pom: pom.xml
+    runs-on: ${{ matrix.os }}
+    env:
+      ROOT_POM: ${{ matrix.root-pom }}
+    steps:
+      # Cancel any previous runs for the same branch that are still running.
+      - name: 'Cancel previous runs'
+        uses: styfle/cancel-workflow-action@85880fa0301c86cca9da44039ee3bb12d3bedbfa # 0.12.1
+        with:
+          access_token: ${{ github.token }}
+      - name: 'Check out repository'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      # When we specify multiple JDKs, the final one becomes the default, which is used to execute Maven itself.
+      # Our Maven configuration then specifies different JDKs to use for some of the steps:
+      # - 11 (sometimes) to *download* to support anyone who runs JDiff or our Gradle integration tests (including our doc snapshots and our Java 11 CI test run) but not to use directly
+      # - 24 for running Javadoc and javac (to help people who build Guava locally and might not use a recent JDK to run Maven)
+      - name: 'Set up JDKs'
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          java-version: |
+            ${{ matrix.java }}
+            24
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: 'Install'
+        shell: bash
+        run: ./mvnw -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dtoolchain.skip install -U -DskipTests=true -f $ROOT_POM
+      - name: 'Test'
+        shell: bash
+        run: ./mvnw -B -P!standard-with-extra-repos -Dtoolchain.skip verify -U -Dmaven.javadoc.skip=true -Dsurefire.toolchain.version=${{ matrix.java }} -f $ROOT_POM
+      - name: 'Print Surefire reports'
+        # Note: Normally a step won't run if the job has failed, but this causes it to
+        if: ${{ failure() }}
+        shell: bash
+        run: ./util/print_surefire_reports.sh
+      - name: 'Integration Test'
+        if: matrix.java == 11
+        shell: bash
+        run: util/gradle_integration_tests.sh
+
+  publish_snapshot:
+    name: 'Publish snapshot'
+    needs: test
+    if: github.event_name == 'push' && github.repository == 'google/guava'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: 'Set up JDKs'
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          # For discussion, see the first setup-java block.
+          # The publish-snapshot workflow doesn't run tests, so we don't have to care which version Maven would select for that step.
+          java-version: 24
+          distribution: 'temurin'
+          server-id: sonatype-nexus-snapshots
+          server-username: CI_DEPLOY_USERNAME
+          server-password: CI_DEPLOY_PASSWORD
+          cache: 'maven'
+      - name: 'Publish'
+        env:
+          CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
+          CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
+        run: ./util/deploy_snapshot.sh
+
+  generate_docs:
+    permissions:
+      contents: write
+    name: 'Generate latest docs'
+    needs: test
+    if: github.event_name == 'push' && github.repository == 'google/guava'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Check out repository'
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - name: 'Set up JDKs'
+        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        with:
+          # For discussion, see the first setup-java block.
+          # The generate-docs workflow doesn't run tests, so we don't have to care which version Maven would select for that step.
+          # But we need Java 11 for JDiff.
+          java-version: |
+            11
+            24
+          distribution: 'temurin'
+          cache: 'maven'
+      - name: 'Generate latest docs'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: ./util/update_snapshot_docs.sh

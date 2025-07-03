@@ -25,6 +25,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
+import org.junit.Ignore;
 
 /**
  * Tests for {@link Multimap#forEach}.
@@ -32,6 +33,9 @@ import java.util.Map.Entry;
  * @author Louis Wasserman
  */
 @GwtCompatible
+@Ignore("test runners must not instantiate and run this directly, only via suites we build")
+// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
+@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MultimapForEachTester<K, V> extends AbstractMultimapTester<K, V, Multimap<K, V>> {
   public void testForEach() {
     List<Entry<K, V>> entries = new ArrayList<>();

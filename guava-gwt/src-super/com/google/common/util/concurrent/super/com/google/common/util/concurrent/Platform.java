@@ -16,9 +16,14 @@
 
 package com.google.common.util.concurrent;
 
-/**
- * Methods factored out so that they can be emulated differently in GWT.
- */
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
+import org.jspecify.annotations.Nullable;
+
+/** Methods factored out so that they can be emulated differently in GWT. */
 final class Platform {
   static boolean isInstanceOfThrowableClass(Throwable t, Class<? extends Throwable> expectedClass) {
     /*
@@ -26,6 +31,28 @@ final class Platform {
      * under GWT.
      */
     return true;
+  }
+
+  static void restoreInterruptIfIsInterruptedException(Throwable t) {}
+
+  static void interruptCurrentThread() {}
+
+  static void rethrowIfErrorOtherThanStackOverflow(Throwable t) {
+    if (t instanceof Error) {
+      // There is no StackOverflowError under GWT/J2CL.
+      throw (Error) t;
+    }
+  }
+
+  static <V extends @Nullable Object> V get(AbstractFuture<V> future)
+      throws InterruptedException, ExecutionException {
+    return future.getFromAlreadyDoneTrustedFuture();
+  }
+
+  static <V extends @Nullable Object> V get(AbstractFuture<V> future, long timeout, TimeUnit unit)
+      throws InterruptedException, ExecutionException, TimeoutException {
+    checkNotNull(unit);
+    return future.getFromAlreadyDoneTrustedFuture();
   }
 
   private Platform() {}

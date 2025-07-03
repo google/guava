@@ -15,10 +15,9 @@
 package com.google.common.eventbus;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
-import com.google.common.annotations.Beta;
 import com.google.common.base.MoreObjects;
-import com.google.common.util.concurrent.MoreExecutors;
 import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Locale;
@@ -28,6 +27,65 @@ import java.util.logging.Logger;
 
 /**
  * Dispatches events to listeners, and provides ways for listeners to register themselves.
+
+ *
+ * <h2>Avoid EventBus</h2>
+ *
+ * <p><b>We recommend against using EventBus.</b> It was designed many years ago, and newer
+ * libraries offer better ways to decouple components and react to events.
+ *
+ * <p>To decouple components, we recommend a dependency-injection framework. For Android code, most
+ * apps use <a href="https://dagger.dev">Dagger</a>. For server code, common options include <a
+ * href="https://github.com/google/guice/wiki/Motivation">Guice</a> and <a
+ * href="https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-introduction">Spring</a>.
+ * Frameworks typically offer a way to register multiple listeners independently and then request
+ * them together as a set (<a href="https://dagger.dev/dev-guide/multibindings">Dagger</a>, <a
+ * href="https://github.com/google/guice/wiki/Multibindings">Guice</a>, <a
+ * href="https://docs.spring.io/spring-framework/docs/current/reference/html/core.html#beans-autowired-annotation">Spring</a>).
+ *
+ * <p>To react to events, we recommend a reactive-streams framework like <a
+ * href="https://github.com/ReactiveX/RxJava/wiki">RxJava</a> (supplemented with its <a
+ * href="https://github.com/ReactiveX/RxAndroid">RxAndroid</a> extension if you are building for
+ * Android) or <a href="https://projectreactor.io/">Project Reactor</a>. (For the basics of
+ * translating code from using an event bus to using a reactive-streams framework, see these two
+ * guides: <a href="https://blog.jkl.gg/implementing-an-event-bus-with-rxjava-rxbus/">1</a>, <a
+ * href="https://lorentzos.com/rxjava-as-event-bus-the-right-way-10a36bdd49ba">2</a>.) Some usages
+ * of EventBus may be better written using <a
+ * href="https://kotlinlang.org/docs/coroutines-guide.html">Kotlin coroutines</a>, including <a
+ * href="https://kotlinlang.org/docs/flow.html">Flow</a> and <a
+ * href="https://kotlinlang.org/docs/channels.html">Channels</a>. Yet other usages are better served
+ * by individual libraries that provide specialized support for particular use cases.
+ *
+ * <p>Disadvantages of EventBus include:
+ *
+ * <ul>
+ *   <li>It makes the cross-references between producer and subscriber harder to find. This can
+ *       complicate debugging, lead to unintentional reentrant calls, and force apps to eagerly
+ *       initialize all possible subscribers at startup time.
+ *   <li>It uses reflection in ways that break when code is processed by optimizers/minimizers like
+ *       <a href="https://developer.android.com/studio/build/shrink-code">R8 and Proguard</a>.
+ *   <li>It doesn't offer a way to wait for multiple events before taking action. For example, it
+ *       doesn't offer a way to wait for multiple producers to all report that they're "ready," nor
+ *       does it offer a way to batch multiple events from a single producer together.
+ *   <li>It doesn't support backpressure and other features needed for resilience.
+ *   <li>It doesn't provide much control of threading.
+ *   <li>It doesn't offer much monitoring.
+ *   <li>It doesn't propagate exceptions, so apps don't have a way to react to them.
+ *   <li>It doesn't interoperate well with RxJava, coroutines, and other more commonly used
+ *       alternatives.
+ *   <li>It imposes requirements on the lifecycle of its subscribers. For example, if an event
+ *       occurs between when one subscriber is removed and the next subscriber is added, the event
+ *       is dropped.
+ *   <li>Its performance is suboptimal, especially under Android.
+ *   <li>It <a href="https://github.com/google/guava/issues/1431">doesn't support parameterized
+ *       types</a>.
+ *   <li>With the introduction of lambdas in Java 8, EventBus went from less verbose than listeners
+ *       to <a href="https://github.com/google/guava/issues/3311">more verbose</a>.
+ * </ul>
+ *
+
+ *
+ * <h2>EventBus Summary</h2>
  *
  * <p>The EventBus allows publish-subscribe-style communication between components without requiring
  * the components to explicitly register with one another (and thus be aware of each other). It is
@@ -38,11 +96,12 @@ import java.util.logging.Logger;
  * <h2>Receiving Events</h2>
  *
  * <p>To receive events, an object should:
+ *
  * <ol>
- * <li>Expose a public method, known as the <i>event subscriber</i>, which accepts a single argument
- *     of the type of event desired;
- * <li>Mark it with a {@link Subscribe} annotation;
- * <li>Pass itself to an EventBus instance's {@link #register(Object)} method.
+ *   <li>Expose a public method, known as the <i>event subscriber</i>, which accepts a single
+ *       argument of the type of event desired;
+ *   <li>Mark it with a {@link Subscribe} annotation;
+ *   <li>Pass itself to an EventBus instance's {@link #register(Object)} method.
  * </ol>
  *
  * <h2>Posting Events</h2>
@@ -68,9 +127,9 @@ import java.util.logging.Logger;
  * is intended solely to help find problems during development.
  *
  * <p>The EventBus guarantees that it will not call a subscriber method from multiple threads
- * simultaneously, unless the method explicitly allows it by bearing the
- * {@link AllowConcurrentEvents} annotation. If this annotation is not present, subscriber methods
- * need not worry about being reentrant, unless also called from outside the EventBus.
+ * simultaneously, unless the method explicitly allows it by bearing the {@link
+ * AllowConcurrentEvents} annotation. If this annotation is not present, subscriber methods need not
+ * worry about being reentrant, unless also called from outside the EventBus.
  *
  * <h2>Dead Events</h2>
  *
@@ -85,13 +144,12 @@ import java.util.logging.Logger;
  *
  * <p>This class is safe for concurrent use.
  *
- * <p>See the Guava User Guide article on
- * <a href="https://github.com/google/guava/wiki/EventBusExplained">{@code EventBus}</a>.
+ * <p>See the Guava User Guide article on <a
+ * href="https://github.com/google/guava/wiki/EventBusExplained">{@code EventBus}</a>.
  *
  * @author Cliff Biffle
  * @since 10.0
  */
-@Beta
 public class EventBus {
 
   private static final Logger logger = Logger.getLogger(EventBus.class.getName());
@@ -103,9 +161,7 @@ public class EventBus {
   private final SubscriberRegistry subscribers = new SubscriberRegistry(this);
   private final Dispatcher dispatcher;
 
-  /**
-   * Creates a new EventBus named "default".
-   */
+  /** Creates a new EventBus named "default". */
   public EventBus() {
     this("default");
   }
@@ -118,10 +174,7 @@ public class EventBus {
    */
   public EventBus(String identifier) {
     this(
-        identifier,
-        MoreExecutors.directExecutor(),
-        Dispatcher.perThreadDispatchQueue(),
-        LoggingHandler.INSTANCE);
+        identifier, directExecutor(), Dispatcher.perThreadDispatchQueue(), LoggingHandler.INSTANCE);
   }
 
   /**
@@ -131,11 +184,7 @@ public class EventBus {
    * @since 16.0
    */
   public EventBus(SubscriberExceptionHandler exceptionHandler) {
-    this(
-        "default",
-        MoreExecutors.directExecutor(),
-        Dispatcher.perThreadDispatchQueue(),
-        exceptionHandler);
+    this("default", directExecutor(), Dispatcher.perThreadDispatchQueue(), exceptionHandler);
   }
 
   EventBus(
@@ -158,16 +207,12 @@ public class EventBus {
     return identifier;
   }
 
-  /**
-   * Returns the default executor this event bus uses for dispatching events to subscribers.
-   */
+  /** Returns the default executor this event bus uses for dispatching events to subscribers. */
   final Executor executor() {
     return executor;
   }
 
-  /**
-   * Handles the given exception thrown by a subscriber with the given context.
-   */
+  /** Handles the given exception thrown by a subscriber with the given context. */
   void handleSubscriberException(Throwable e, SubscriberExceptionContext context) {
     checkNotNull(e);
     checkNotNull(context);
@@ -226,9 +271,7 @@ public class EventBus {
     return MoreObjects.toStringHelper(this).addValue(identifier).toString();
   }
 
-  /**
-   * Simple logging handler for subscriber exceptions.
-   */
+  /** Simple logging handler for subscriber exceptions. */
   static final class LoggingHandler implements SubscriberExceptionHandler {
     static final LoggingHandler INSTANCE = new LoggingHandler();
 

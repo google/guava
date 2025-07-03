@@ -13,25 +13,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Iterables.getOnlyElement;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap.IteratorBasedImmutableMap;
+import java.io.InvalidObjectException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
-import javax.annotation.Nullable;
+import org.jspecify.annotations.Nullable;
 
 /**
- * Implementation of {@link ImmutableMap} backed by a non-empty {@link
- * java.util.EnumMap}.
+ * Implementation of {@link ImmutableMap} backed by a non-empty {@link java.util.EnumMap}.
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(serializable = true, emulated = true)
+@GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // we're overriding default serialization
 final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutableMap<K, V> {
   static <K extends Enum<K>, V> ImmutableMap<K, V> asImmutable(EnumMap<K, V> map) {
@@ -39,10 +44,10 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
       case 0:
         return ImmutableMap.of();
       case 1:
-        Entry<K, V> entry = Iterables.getOnlyElement(map.entrySet());
+        Entry<K, V> entry = getOnlyElement(map.entrySet());
         return ImmutableMap.of(entry.getKey(), entry.getValue());
       default:
-        return new ImmutableEnumMap<K, V>(map);
+        return new ImmutableEnumMap<>(map);
     }
   }
 
@@ -74,12 +79,12 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   }
 
   @Override
-  public V get(Object key) {
+  public @Nullable V get(@Nullable Object key) {
     return delegate.get(key);
   }
 
   @Override
-  public boolean equals(Object object) {
+  public boolean equals(@Nullable Object object) {
     if (object == this) {
       return true;
     }
@@ -98,8 +103,9 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   Spliterator<Entry<K, V>> entrySpliterator() {
     return CollectSpliterators.map(delegate.entrySet().spliterator(), Maps::unmodifiableEntry);
   }
-  
-  @Override public void forEach(BiConsumer<? super K, ? super V> action) {
+
+  @Override
+  public void forEach(BiConsumer<? super K, ? super V> action) {
     delegate.forEach(action);
   }
 
@@ -110,13 +116,20 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
 
   // All callers of the constructor are restricted to <K extends Enum<K>>.
   @Override
+  @J2ktIncompatible // serialization
   Object writeReplace() {
-    return new EnumSerializedForm<K, V>(delegate);
+    return new EnumSerializedForm<>(delegate);
+  }
+
+  @J2ktIncompatible // serialization
+  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    throw new InvalidObjectException("Use EnumSerializedForm");
   }
 
   /*
    * This class is used to serialize ImmutableEnumMap instances.
    */
+  @J2ktIncompatible // serialization
   private static class EnumSerializedForm<K extends Enum<K>, V> implements Serializable {
     final EnumMap<K, V> delegate;
 
@@ -125,9 +138,9 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
     }
 
     Object readResolve() {
-      return new ImmutableEnumMap<K, V>(delegate);
+      return new ImmutableEnumMap<>(delegate);
     }
 
-    private static final long serialVersionUID = 0;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 }

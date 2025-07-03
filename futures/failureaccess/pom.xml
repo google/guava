@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.google.guava</groupId>
+    <artifactId>guava-parent</artifactId>
+    <version>33.4.0-android</version>
+  </parent>
+  <artifactId>failureaccess</artifactId>
+  <version>1.0.3</version>
+  <packaging>jar</packaging>
+  <name>Guava InternalFutureFailureAccess and InternalFutures</name>
+  <description>
+    Contains
+    com.google.common.util.concurrent.internal.InternalFutureFailureAccess and
+    InternalFutures. Most users will never need to use this artifact. Its
+    classes are conceptually a part of Guava, but they're in this separate
+    artifact so that Android libraries can use them without pulling in all of
+    Guava (just as they can use ListenableFuture by depending on the
+    listenablefuture artifact).
+  </description>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>8</release>
+              <excludes>
+                <exclude>module-info.java</exclude>
+              </excludes>
+              <compilerArgs>
+                <!--
+                    Make includes/excludes fully work:
+                    https://issues.apache.org/jira/browse/MCOMPILER-174
+                    (Compare what guava-gwt has to do for maven-javadoc-plugin.)
+                -->
+                <arg>-sourcepath</arg>
+                <arg>doesnotexist</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>compile-java9</id>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>9</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
+              </compileSourceRoots>
+
+              <!-- JPMS needs access to the module sources to complete a modular Java build. -->
+              <compilerArgs>
+                <arg>-sourcepath</arg>
+                <arg>${project.basedir}/src</arg>
+                <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
+                <!-- https://errorprone.info/docs/installation#maven -->
+                <arg>-XDcompilePolicy=simple</arg>
+              </compilerArgs>
+              <multiReleaseOutput>true</multiReleaseOutput>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifestFile>${project.build.outputDirectory}/META-INF/MANIFEST.MF</manifestFile>
+            <manifestEntries>
+              <Multi-Release>true</Multi-Release>
+            </manifestEntries>
+          </archive>
+          <excludes>
+            <exclude>/module-info.class</exclude>
+            <exclude>META-INF/versions/9/com/google/common/util/concurrent/internal/*.class</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-source-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>animal-sniffer-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <extensions>true</extensions>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>5.1.8</version>
+        <executions>
+          <execution>
+            <id>bundle-manifest</id>
+            <phase>process-classes</phase>
+            <goals>
+              <goal>manifest</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <instructions>
+            <!-- Silence a warning that claims that META-INF/versions/9/... is the "wrong directory" for our classes. -->
+            <_fixupmessages>^Classes found in the wrong directory: .*</_fixupmessages>
+            <Export-Package>com.google.common.util.concurrent.internal,!META-INF.*</Export-Package>
+            <Bundle-DocURL>https://github.com/google/guava/</Bundle-DocURL>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-docs</id>
+          </execution>
+          <execution>
+            <id>generate-javadoc-site-report</id>
+            <phase>site</phase>
+            <goals><goal>javadoc</goal></goals>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+        <id>sonatype-oss-release</id>
+        <build>
+          <plugins>
+            <plugin>
+              <artifactId>maven-gpg-plugin</artifactId>
+              <version>3.0.1</version>
+              <executions>
+                <execution>
+                  <id>sign-artifacts</id>
+                  <phase>verify</phase>
+                  <goals>
+                    <goal>sign</goal>
+                  </goals>
+                </execution>
+              </executions>
+            </plugin>
+          </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

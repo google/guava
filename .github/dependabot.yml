@@ -1,0 +1,31 @@
+version: 2
+updates:
+# TODO(b/170636568): Enable Maven updates? Perhaps wait until we can more
+# easily import the generated PRs into our internal repo.
+#  - package-ecosystem: "maven"
+#    directory: "/"
+#    schedule:
+#      interval: "weekly"
+#    groups:
+#      dependencies:
+#        applies-to: version-updates
+#        patterns:
+#          - "*"
+#  - package-ecosystem: "maven"
+#    directory: "/android"
+#    schedule:
+#      interval: "weekly"
+#    groups:
+#      dependencies:
+#        applies-to: version-updates
+#        patterns:
+#          - "*"
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"

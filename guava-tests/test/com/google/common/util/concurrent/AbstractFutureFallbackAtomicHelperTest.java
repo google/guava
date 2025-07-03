@@ -14,8 +14,10 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.collect.ImmutableSet;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URLClassLoader;
@@ -23,46 +25,53 @@ import java.util.Set;
 import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+import org.jspecify.annotations.NullUnmarked;
 
 /**
  * Tests our AtomicHelper fallback strategies in AbstractFuture.
  *
  * <p>On different platforms AbstractFuture uses different strategies for its core synchronization
- * primitives.  The strategies are all implemented as subtypes of AtomicHelper and the strategy is
- * selected in the static initializer of AbstractFuture.  This is convenient and performant but
- * introduces some testing difficulties.   This test exercises the two fallback strategies in
- * abstract future.
- * <ul>
- *     <li>SafeAtomicHelper: uses AtomicReferenceFieldsUpdaters to implement synchronization
- *     <li>SynchronizedHelper: uses {@code synchronized} blocks for synchronization
- * </ul>
+ * primitives. The strategies are all implemented as subtypes of AtomicHelper and the strategy is
+ * selected in the static initializer of AbstractFuture. This is convenient and performant but
+ * introduces some testing difficulties. This test exercises the fallback strategies.
  *
- * To force selection of our fallback strategies we load {@link AbstractFuture} (and all of
- * {@code com.google.common.util.concurrent} in degenerate class loaders which make certain platform
- * classes unavailable.  Then we construct a test suite so we can run the normal AbstractFutureTest
- * test methods in these degenerate classloaders.
+ * <p>To force selection of our fallback strategies, we load {@link AbstractFuture} (and all of
+ * {@code com.google.common.util.concurrent}) in degenerate class loaders which make certain
+ * platform classes unavailable. Then we construct a test suite so we can run the normal
+ * AbstractFutureTest test methods in these degenerate classloaders.
  */
 
+@NullUnmarked
 public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   // stash these in static fields to avoid loading them over and over again (speeds up test
   // execution significantly)
 
   /**
-   * This classloader blacklists sun.misc.Unsafe which will prevent us from selecting our preferred
-   * strategy {@code UnsafeAtomicHelper}.
+   * This classloader disallows {@link java.lang.invoke.VarHandle}, which will prevent us from
+   * selecting the {@code VarHandleAtomicHelper} strategy.
    */
-  private static final ClassLoader NO_UNSAFE =
-      getClassLoader(ImmutableSet.of(sun.misc.Unsafe.class.getName()));
+  private static final ClassLoader NO_VAR_HANDLE =
+      getClassLoader(ImmutableSet.of("java.lang.invoke.VarHandle"));
 
   /**
-   * This classloader blacklists sun.misc.Unsafe and AtomicReferenceFieldUpdater which will prevent
-   * us from selecting our {@code SafeAtomicHelper} strategy.
+   * This classloader disallows {@link java.lang.invoke.VarHandle} and {@link sun.misc.Unsafe},
+   * which will prevent us from selecting the {@code UnsafeAtomicHelper} strategy.
+   */
+  private static final ClassLoader NO_UNSAFE =
+      getClassLoader(ImmutableSet.of("java.lang.invoke.VarHandle", "sun.misc.Unsafe"));
+
+  /**
+   * This classloader disallows {@link java.lang.invoke.VarHandle}, {@link sun.misc.Unsafe} and
+   * {@link AtomicReferenceFieldUpdater}, which will prevent us from selecting the {@code
+   * AtomicReferenceFieldUpdaterAtomicHelper} strategy.
    */
   private static final ClassLoader NO_ATOMIC_REFERENCE_FIELD_UPDATER =
       getClassLoader(
           ImmutableSet.of(
-              sun.misc.Unsafe.class.getName(), AtomicReferenceFieldUpdater.class.getName()));
+              "java.lang.invoke.VarHandle",
+              "sun.misc.Unsafe",
+              AtomicReferenceFieldUpdater.class.getName()));
 
   public static TestSuite suite() {
     // we create a test suite containing a test for every AbstractFutureTest test method and we
@@ -80,53 +89,72 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   @Override
   public void runTest() throws Exception {
-    // First ensure that our classloaders are intializing the correct helper versions
-    checkHelperVersion(getClass().getClassLoader(), "UnsafeAtomicHelper");
-    checkHelperVersion(NO_UNSAFE, "SafeAtomicHelper");
+    /*
+     * Note that we do not run this test under Android at the moment. For Android testing, see
+     * AbstractFutureDefaultAtomicHelperTest.
+     */
+
+    // First, ensure that our classloaders are initializing the correct helper versions:
+
+    if (isJava8()) {
+      checkHelperVersion(getClass().getClassLoader(), "UnsafeAtomicHelper");
+    } else {
+      checkHelperVersion(getClass().getClassLoader(), "VarHandleAtomicHelper");
+    }
+    checkHelperVersion(NO_VAR_HANDLE, "UnsafeAtomicHelper");
+    checkHelperVersion(NO_UNSAFE, "AtomicReferenceFieldUpdaterAtomicHelper");
     checkHelperVersion(NO_ATOMIC_REFERENCE_FIELD_UPDATER, "SynchronizedHelper");
 
-    // Run the corresponding AbstractFutureTest test method in a new classloader that blacklists
-    // certain core jdk classes.
-    ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
-    Thread.currentThread().setContextClassLoader(NO_UNSAFE);
-    try {
-      runTestMethod(NO_UNSAFE);
-    } finally {
-      Thread.currentThread().setContextClassLoader(oldClassLoader);
+    // Then, run the actual tests under each alternative classloader:
+
+    /*
+     * Under Java 8, there is no need to test the no-VarHandle case here: It's already tested by the
+     * main AbstractFutureTest, which uses the default AtomicHelper, which we verified above to be
+     * UnsafeAtomicHelper.
+     */
+    if (!isJava8()) {
+      runTestMethod(NO_VAR_HANDLE);
     }
 
-    Thread.currentThread().setContextClassLoader(NO_ATOMIC_REFERENCE_FIELD_UPDATER);
-    try {
-      runTestMethod(NO_ATOMIC_REFERENCE_FIELD_UPDATER);
-      // TODO(lukes): assert that the logs are full of errors
-    } finally {
-      Thread.currentThread().setContextClassLoader(oldClassLoader);
-    }
+    runTestMethod(NO_UNSAFE);
+
+    runTestMethod(NO_ATOMIC_REFERENCE_FIELD_UPDATER);
+    // TODO(lukes): assert that the logs are full of errors
   }
 
+  /**
+   * Runs the corresponding {@link AbstractFutureTest} test method in a new classloader that
+   * disallows certain core JDK classes.
+   */
   private void runTestMethod(ClassLoader classLoader) throws Exception {
-    Class<?> test = classLoader.loadClass(AbstractFutureTest.class.getName());
-    test.getMethod(getName()).invoke(test.newInstance());
+    ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
+
+    Thread.currentThread().setContextClassLoader(classLoader);
+    try {
+      Class<?> test = classLoader.loadClass(AbstractFutureTest.class.getName());
+      test.getMethod(getName()).invoke(test.getDeclaredConstructor().newInstance());
+    } finally {
+      Thread.currentThread().setContextClassLoader(oldClassLoader);
+    }
   }
 
   private void checkHelperVersion(ClassLoader classLoader, String expectedHelperClassName)
       throws Exception {
     // Make sure we are actually running with the expected helper implementation
-    Class<?> abstractFutureClass = classLoader.loadClass(AbstractFuture.class.getName());
-    Field helperField = abstractFutureClass.getDeclaredField("ATOMIC_HELPER");
-    helperField.setAccessible(true);
-    assertEquals(expectedHelperClassName, helperField.get(null).getClass().getSimpleName());
+    Class<?> abstractFutureStateClass = classLoader.loadClass(AbstractFutureState.class.getName());
+    Method helperMethod = abstractFutureStateClass.getDeclaredMethod("atomicHelperTypeForTest");
+    helperMethod.setAccessible(true);
+    assertThat(helperMethod.invoke(null)).isEqualTo(expectedHelperClassName);
   }
 
-  private static ClassLoader getClassLoader(final Set<String> blacklist) {
-    final String concurrentPackage = SettableFuture.class.getPackage().getName();
+  private static ClassLoader getClassLoader(Set<String> disallowedClassNames) {
+    String concurrentPackage = SettableFuture.class.getPackage().getName();
     ClassLoader classLoader = AbstractFutureFallbackAtomicHelperTest.class.getClassLoader();
-    return
     // we delegate to the current classloader so both loaders agree on classes like TestCase
-    new URLClassLoader(((URLClassLoader) classLoader).getURLs(), classLoader) {
+    return new URLClassLoader(ClassPathUtil.getClassPathUrls(), classLoader) {
       @Override
       public Class<?> loadClass(String name) throws ClassNotFoundException {
-        if (blacklist.contains(name)) {
+        if (disallowedClassNames.contains(name)) {
           throw new ClassNotFoundException("I'm sorry Dave, I'm afraid I can't do that.");
         }
         if (name.startsWith(concurrentPackage)) {
@@ -139,5 +167,9 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
         return super.loadClass(name);
       }
     };
+  }
+
+  private static boolean isJava8() {
+    return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
   }
 }

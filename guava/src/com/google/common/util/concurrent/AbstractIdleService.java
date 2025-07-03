@@ -14,11 +14,14 @@
 
 package com.google.common.util.concurrent;
 
-import com.google.common.annotations.Beta;
+import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
+
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
+import java.time.Duration;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -26,13 +29,13 @@ import java.util.concurrent.TimeoutException;
 /**
  * Base class for services that do not need a thread while "running" but may need one during startup
  * and shutdown. Subclasses can implement {@link #startUp} and {@link #shutDown} methods, each which
- * run in a executor which by default uses a separate thread for each method.
+ * run in an executor which by default uses a separate thread for each method.
  *
  * @author Chris Nokleberg
  * @since 1.0
  */
-@Beta
 @GwtIncompatible
+@J2ktIncompatible
 public abstract class AbstractIdleService implements Service {
 
   /* Thread names will look like {@code "MyService STARTING"}. */
@@ -55,15 +58,13 @@ public abstract class AbstractIdleService implements Service {
     protected final void doStart() {
       MoreExecutors.renamingDecorator(executor(), threadNameSupplier)
           .execute(
-              new Runnable() {
-                @Override
-                public void run() {
-                  try {
-                    startUp();
-                    notifyStarted();
-                  } catch (Throwable t) {
-                    notifyFailed(t);
-                  }
+              () -> {
+                try {
+                  startUp();
+                  notifyStarted();
+                } catch (Throwable t) {
+                  restoreInterruptIfIsInterruptedException(t);
+                  notifyFailed(t);
                 }
               });
     }
@@ -72,15 +73,13 @@ public abstract class AbstractIdleService implements Service {
     protected final void doStop() {
       MoreExecutors.renamingDecorator(executor(), threadNameSupplier)
           .execute(
-              new Runnable() {
-                @Override
-                public void run() {
-                  try {
-                    shutDown();
-                    notifyStopped();
-                  } catch (Throwable t) {
-                    notifyFailed(t);
-                  }
+              () -> {
+                try {
+                  shutDown();
+                  notifyStopped();
+                } catch (Throwable t) {
+                  restoreInterruptIfIsInterruptedException(t);
+                  notifyFailed(t);
                 }
               });
     }
@@ -108,12 +107,7 @@ public abstract class AbstractIdleService implements Service {
    * stopped, and should return promptly.
    */
   protected Executor executor() {
-    return new Executor() {
-      @Override
-      public void execute(Runnable command) {
-        MoreExecutors.newThread(threadNameSupplier.get(), command).start();
-      }
-    };
+    return command -> MoreExecutors.newThread(threadNameSupplier.get(), command).start();
   }
 
   @Override
@@ -176,6 +170,14 @@ public abstract class AbstractIdleService implements Service {
   }
 
   /**
+   * @since 28.0
+   */
+  @Override
+  public final void awaitRunning(Duration timeout) throws TimeoutException {
+    Service.super.awaitRunning(timeout);
+  }
+
+  /**
    * @since 15.0
    */
   @Override
@@ -189,6 +191,14 @@ public abstract class AbstractIdleService implements Service {
   @Override
   public final void awaitTerminated() {
     delegate.awaitTerminated();
+  }
+
+  /**
+   * @since 28.0
+   */
+  @Override
+  public final void awaitTerminated(Duration timeout) throws TimeoutException {
+    Service.super.awaitTerminated(timeout);
   }
 
   /**

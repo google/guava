@@ -1,0 +1,108 @@
+name: Feature Enhancement Request
+description: I want to make an existing feature better
+labels: ["type=enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: >
+        Filing feature requests is one of the most popular ways to contribute to Guava.
+
+
+        Be aware, though: most feature requests are not accepted, even if they're suggested by
+        a full-time Guava team member. [Feedback](https://stackoverflow.com/a/4543114) from our
+        users indicates that they really appreciate Guava's high power-to-weight ratio. It's
+        important to us to keep Guava as easy to use and understand as we can. That means boiling
+        features down to compact but powerful abstractions, and controlling feature bloat carefully.
+
+  - type: textarea
+    attributes:
+      label: API(s)
+      description: Which existing classes or methods do you want to improve?
+      placeholder: e.g., `com.google.common.collect.ImmutableList::of`
+      render: java
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: How do you want it to be improved?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Why do we need it to be improved?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Example
+      description: >
+        Please provide an example usage of the feature that would be different with the improvement.
+      render: java
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Current Behavior
+      description: What does the feature currently do?
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: Desired Behavior
+      description: What do you want it to do instead?
+    validations:
+      required: true
+
+  - type: markdown
+    attributes:
+      value: >
+        Did you *actually* encounter the need for this enhancement in a real-world scenario, or does
+        it just seem like a sensible behavior for the feature to have?
+
+
+        Before we make significant changes to existing features in Guava, we really want to be sure
+        that it's for a use case that actually comes up in the real world. We want to hear the
+        real-world use case so the community can discuss and debate whether this feature is actually
+        the *best* way to address the real use case, or whether or not a different approach might be
+        more appropriate.
+
+
+        It's okay if you can't provide complete context on a use case. We understand if you are not
+        able to discuss the full details of what you're working on.
+
+
+        But Guava aims to provide functionality that is useful across boundaries of projects,
+        companies, or even industries &mdash; utilities useful for a sizable proportion of all Java
+        programmers everywhere. If you can give enough detail such that any of us can imagine coming
+        across a similar need in our own work, that's extremely helpful in studying how broadly
+        useful the proposed change will be.
+
+  - type: textarea
+    attributes:
+      label: Concrete Use Cases
+      description: Please provide use cases that actually came up in the real world.
+    validations:
+      required: true
+
+  - type: checkboxes
+    attributes:
+      label: Checklist
+      options:
+        - label: >
+            I agree to follow the
+            [code of conduct](https://github.com/google/.github/blob/master/CODE_OF_CONDUCT.md).
+          required: true
+        - label: >
+            I have read and understood the [contribution
+            guidelines](https://github.com/google/guava/wiki/HowToContribute#feature-requests).
+          required: true
+        - label: >
+            I have read and understood
+            [Guava's philosophy](https://github.com/google/guava/wiki/PhilosophyExplained), and
+            I strongly believe that this proposal aligns with it.
+          required: true

@@ -20,11 +20,9 @@ import com.google.common.reflect.ClassPath;
 import com.google.common.reflect.ClassPath.ClassInfo;
 import com.google.gwt.junit.client.GWTTestCase;
 import com.google.gwt.junit.tools.GWTTestSuite;
-
+import java.io.IOException;
 import junit.framework.Test;
 import junit.framework.TestCase;
-
-import java.io.IOException;
 
 /**
  * Runs all _gwt tests. Grouping them into a suite is much faster than running each as a one-test
@@ -33,8 +31,8 @@ import java.io.IOException;
 public class GwtTestSuite extends TestCase {
   public static Test suite() throws IOException {
     GWTTestSuite suite = new GWTTestSuite();
-    for (ClassInfo info
-        : ClassPath.from(GwtTestSuite.class.getClassLoader()).getTopLevelClasses()) {
+    for (ClassInfo info :
+        ClassPath.from(GwtTestSuite.class.getClassLoader()).getTopLevelClasses()) {
       if (info.getName().endsWith("_gwt")) {
         Class<?> clazz = info.load();
         // TODO(cpovirk): why does asSubclass() throw? Is it something about ClassLoaders?

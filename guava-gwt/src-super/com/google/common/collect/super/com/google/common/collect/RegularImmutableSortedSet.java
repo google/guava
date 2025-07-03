@@ -24,7 +24,6 @@ import java.util.SortedSet;
  * @author Hayward Chan
  */
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
-
   /** true if this set is a subset of another immutable sorted set. */
   final boolean isSubset;
 
@@ -33,7 +32,8 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     this.isSubset = isSubset;
   }
 
-  @Override ImmutableList<E> createAsList() {
-    return new ImmutableSortedAsList<E>(this, ImmutableList.<E>asImmutableList(toArray()));
+  @Override
+  ImmutableList<E> createAsList() {
+    return new ImmutableSortedAsList<>(this, ImmutableList.asImmutableList(toArray()));
   }
 }

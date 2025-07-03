@@ -27,6 +27,7 @@ import static com.google.common.base.CharMatcher.whitespace;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Sets;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
@@ -36,6 +37,7 @@ import java.util.Random;
 import java.util.Set;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
+import org.jspecify.annotations.NullMarked;
 
 /**
  * Unit test for {@link CharMatcher}.
@@ -43,8 +45,10 @@ import junit.framework.TestCase;
  * @author Kevin Bourrillion
  */
 @GwtCompatible(emulated = true)
+@NullMarked
 public class CharMatcherTest extends TestCase {
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testStaticNullPointers() throws Exception {
     NullPointerTester tester = new NullPointerTester();
@@ -53,12 +57,13 @@ public class CharMatcherTest extends TestCase {
     tester.testAllPublicInstanceMethods(CharMatcher.anyOf("abc"));
   }
 
-  private static final CharMatcher WHATEVER = new CharMatcher() {
-    @Override public boolean matches(char c) {
-      throw new AssertionFailedError(
-          "You weren't supposed to actually invoke me!");
-    }
-  };
+  private static final CharMatcher WHATEVER =
+      new CharMatcher() {
+        @Override
+        public boolean matches(char c) {
+          throw new AssertionFailedError("You weren't supposed to actually invoke me!");
+        }
+      };
 
   public void testAnyAndNone_logicalOps() throws Exception {
     // These are testing behavior that's never promised by the API, but since
@@ -89,11 +94,12 @@ public class CharMatcherTest extends TestCase {
   // The next tests require ICU4J and have, at least for now, been sliced out
   // of the open-source view of the tests.
 
+  @J2ktIncompatible
   @GwtIncompatible // Character.isISOControl
   public void testJavaIsoControl() {
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
-      assertEquals("" + c, Character.isISOControl(c),
-          CharMatcher.javaIsoControl().matches((char) c));
+      assertEquals(
+          "" + c, Character.isISOControl(c), CharMatcher.javaIsoControl().matches((char) c));
     }
   }
 
@@ -150,6 +156,7 @@ public class CharMatcherTest extends TestCase {
     doTestEmpty(forPredicate(Predicates.equalTo('c')));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNull() throws Exception {
     doTestNull(CharMatcher.any());
@@ -195,6 +202,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(0, matcher.countIn(""));
   }
 
+  @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   private static void doTestNull(CharMatcher matcher) throws Exception {
     NullPointerTester tester = new NullPointerTester();
@@ -285,6 +293,7 @@ public class CharMatcherTest extends TestCase {
     assertEquals(0, matcher.countIn(s));
   }
 
+  @SuppressWarnings("InlineMeInliner") // String.repeat unavailable under Java 8
   private void reallyTestAllMatches(CharMatcher matcher, CharSequence s) {
     assertTrue(matcher.matches(s.charAt(0)));
     assertEquals(0, matcher.indexIn(s));
@@ -296,14 +305,14 @@ public class CharMatcherTest extends TestCase {
     assertTrue(matcher.matchesAllOf(s));
     assertFalse(matcher.matchesNoneOf(s));
     assertEquals("", matcher.removeFrom(s));
-    assertEquals(Strings.repeat("z", s.length()),
-        matcher.replaceFrom(s, 'z'));
-    assertEquals(Strings.repeat("ZZ", s.length()),
-        matcher.replaceFrom(s, "ZZ"));
+    assertEquals(Strings.repeat("z", s.length()), matcher.replaceFrom(s, 'z'));
+    assertEquals(Strings.repeat("ZZ", s.length()), matcher.replaceFrom(s, "ZZ"));
     assertEquals("", matcher.trimFrom(s));
     assertEquals(s.length(), matcher.countIn(s));
   }
 
+  // Kotlin subSequence()/replace() always return new strings, violating expectations of this test
+  @J2ktIncompatible
   public void testGeneral() {
     doTestGeneral(is('a'), 'a', 'b');
     doTestGeneral(isNot('a'), 'b', 'a');
@@ -353,10 +362,15 @@ public class CharMatcherTest extends TestCase {
     reallyTestMatchThenNoMatch(matcher.precomputed().negate(), s);
   }
 
-  @SuppressWarnings("deprecation") // intentionally testing apply() method
+  // intentionally testing apply() and test() methods
+  @SuppressWarnings({
+    "deprecation",
+    "InlineMeInliner",
+  })
   private void reallyTestOneCharMatch(CharMatcher matcher, String s) {
     assertTrue(matcher.matches(s.charAt(0)));
     assertTrue(matcher.apply(s.charAt(0)));
+    assertTrue(matcher.test(s.charAt(0)));
     assertEquals(0, matcher.indexIn(s));
     assertEquals(0, matcher.indexIn(s, 0));
     assertEquals(-1, matcher.indexIn(s, 1));
@@ -371,10 +385,15 @@ public class CharMatcherTest extends TestCase {
     assertEquals(1, matcher.countIn(s));
   }
 
-  @SuppressWarnings("deprecation") // intentionally testing apply() method
+  // intentionally testing apply() and test() methods
+  @SuppressWarnings({
+    "deprecation",
+    "InlineMeInliner",
+  })
   private void reallyTestOneCharNoMatch(CharMatcher matcher, String s) {
     assertFalse(matcher.matches(s.charAt(0)));
     assertFalse(matcher.apply(s.charAt(0)));
+    assertFalse(matcher.test(s.charAt(0)));
     assertEquals(-1, matcher.indexIn(s));
     assertEquals(-1, matcher.indexIn(s, 0));
     assertEquals(-1, matcher.indexIn(s, 1));
@@ -387,7 +406,7 @@ public class CharMatcherTest extends TestCase {
     assertSame(s, matcher.replaceFrom(s, 'z'));
     assertSame(s, matcher.replaceFrom(s, "ZZ"));
     assertSame(s, matcher.trimFrom(s));
-    assertSame(0, matcher.countIn(s));
+    assertEquals(0, matcher.countIn(s));
   }
 
   private void reallyTestMatchThenNoMatch(CharMatcher matcher, String s) {
@@ -423,9 +442,8 @@ public class CharMatcherTest extends TestCase {
   }
 
   /**
-   * Checks that expected is equals to out, and further, if in is
-   * equals to expected, then out is successfully optimized to be
-   * identical to in, i.e. that "in" is simply returned.
+   * Checks that expected is equals to out, and further, if in is equals to expected, then out is
+   * successfully optimized to be identical to in, i.e. that "in" is simply returned.
    */
   private void assertEqualsSame(String expected, String in, String out) {
     if (expected.equals(in)) {
@@ -466,7 +484,7 @@ public class CharMatcherTest extends TestCase {
   private void doTestCollapse(String in, String out) {
     // Try a few different matchers which all match '-' and not 'x'
     // Try replacement chars that both do and do not change the value.
-    for (char replacement : new char[] { '_', '-' }) {
+    for (char replacement : new char[] {'_', '-'}) {
       String expected = out.replace('_', replacement);
       assertEqualsSame(expected, in, is('-').collapseFrom(in, replacement));
       assertEqualsSame(expected, in, is('-').collapseFrom(in, replacement));
@@ -626,7 +644,7 @@ public class CharMatcherTest extends TestCase {
 
   private void doTestTrimAndCollapse(String in, String out) {
     // Try a few different matchers which all match '-' and not 'x'
-    for (char replacement : new char[] { '_', '-' }) {
+    for (char replacement : new char[] {'_', '-'}) {
       String expected = out.replace('_', replacement);
       assertEqualsSame(expected, in, is('-').trimAndCollapseFrom(in, replacement));
       assertEqualsSame(expected, in, is('-').or(is('#')).trimAndCollapseFrom(in, replacement));
@@ -644,6 +662,14 @@ public class CharMatcherTest extends TestCase {
     assertEquals("yoho", is('a').replaceFrom("yaha", "o"));
     assertEquals("yoohoo", is('a').replaceFrom("yaha", "oo"));
     assertEquals("12 &gt; 5", is('>').replaceFrom("12 > 5", "&gt;"));
+  }
+
+  public void testRetainFrom() {
+    assertEquals("aaa", is('a').retainFrom("bazaar"));
+    assertEquals("z", is('z').retainFrom("bazaar"));
+    assertEquals("!", is('!').retainFrom("!@#$%^&*()-="));
+    assertEquals("", is('x').retainFrom("bazaar"));
+    assertEquals("", is('a').retainFrom(""));
   }
 
   public void testPrecomputedOptimizations() {
@@ -721,20 +747,17 @@ public class CharMatcherTest extends TestCase {
       positive.add(c);
     }
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
-      assertFalse(positive.contains(new Character((char) c)) ^ m.matches((char) c));
+      assertFalse(positive.contains(Character.valueOf((char) c)) ^ m.matches((char) c));
     }
   }
 
   static char[] randomChars(Random rand, int size) {
-    Set<Character> chars = new HashSet<Character>(size);
+    Set<Character> chars = new HashSet<>(size);
     for (int i = 0; i < size; i++) {
       char c;
-      while (true) {
+      do {
         c = (char) rand.nextInt(Character.MAX_VALUE - Character.MIN_VALUE + 1);
-        if (!chars.contains(c)) {
-          break;
-        }
-      }
+      } while (chars.contains(c));
       chars.add(c);
     }
     char[] retValue = new char[chars.size()];
@@ -751,10 +774,8 @@ public class CharMatcherTest extends TestCase {
     assertToStringWorks("CharMatcher.is('\\u0031')", CharMatcher.anyOf("1"));
     assertToStringWorks("CharMatcher.isNot('\\u0031')", CharMatcher.isNot('1'));
     assertToStringWorks("CharMatcher.anyOf(\"\\u0031\\u0032\")", CharMatcher.anyOf("12"));
-    assertToStringWorks("CharMatcher.anyOf(\"\\u0031\\u0032\\u0033\")",
-        CharMatcher.anyOf("321"));
-    assertToStringWorks("CharMatcher.inRange('\\u0031', '\\u0033')",
-        CharMatcher.inRange('1', '3'));
+    assertToStringWorks("CharMatcher.anyOf(\"\\u0031\\u0032\\u0033\")", CharMatcher.anyOf("321"));
+    assertToStringWorks("CharMatcher.inRange('\\u0031', '\\u0033')", CharMatcher.inRange('1', '3'));
   }
 
   private static void assertToStringWorks(String expected, CharMatcher matcher) {

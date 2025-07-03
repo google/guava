@@ -16,19 +16,21 @@
 
 package com.google.common.graph;
 
-import static com.google.common.base.Preconditions.checkArgument;
-import static com.google.common.graph.GraphConstants.EDGE_CONNECTING_NOT_IN_GRAPH;
-import static com.google.common.graph.GraphConstants.GRAPH_STRING_FORMAT;
-import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Function;
 import com.google.common.collect.Maps;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import org.jspecify.annotations.Nullable;
 
 /**
  * This class provides a skeletal implementation of {@link ValueGraph}. It is recommended to extend
  * this class rather than implement {@link ValueGraph} directly.
+ *
+ * <p>The methods implemented in this class should not be overridden unless the subclass admits a
+ * more efficient implementation.
  *
  * @author James Sexton
  * @param <N> Node parameter type
@@ -36,36 +38,124 @@ import java.util.Map;
  * @since 20.0
  */
 @Beta
-public abstract class AbstractValueGraph<N, V> extends AbstractGraph<N>
+public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
     implements ValueGraph<N, V> {
+  /** Constructor for use by subclasses. */
+  public AbstractValueGraph() {}
 
   @Override
-  public V edgeValue(Object nodeU, Object nodeV) {
-    V value = edgeValueOrDefault(nodeU, nodeV, null);
-    if (value == null) {
-      checkArgument(nodes().contains(nodeU), NODE_NOT_IN_GRAPH, nodeU);
-      checkArgument(nodes().contains(nodeV), NODE_NOT_IN_GRAPH, nodeV);
-      throw new IllegalArgumentException(String.format(EDGE_CONNECTING_NOT_IN_GRAPH, nodeU, nodeV));
+  public Graph<N> asGraph() {
+    return new AbstractGraph<N>() {
+      @Override
+      public Set<N> nodes() {
+        return AbstractValueGraph.this.nodes();
+      }
+
+      @Override
+      public Set<EndpointPair<N>> edges() {
+        return AbstractValueGraph.this.edges();
+      }
+
+      @Override
+      public boolean isDirected() {
+        return AbstractValueGraph.this.isDirected();
+      }
+
+      @Override
+      public boolean allowsSelfLoops() {
+        return AbstractValueGraph.this.allowsSelfLoops();
+      }
+
+      @Override
+      public ElementOrder<N> nodeOrder() {
+        return AbstractValueGraph.this.nodeOrder();
+      }
+
+      @Override
+      public ElementOrder<N> incidentEdgeOrder() {
+        return AbstractValueGraph.this.incidentEdgeOrder();
+      }
+
+      @Override
+      public Set<N> adjacentNodes(N node) {
+        return AbstractValueGraph.this.adjacentNodes(node);
+      }
+
+      @Override
+      public Set<N> predecessors(N node) {
+        return AbstractValueGraph.this.predecessors(node);
+      }
+
+      @Override
+      public Set<N> successors(N node) {
+        return AbstractValueGraph.this.successors(node);
+      }
+
+      @Override
+      public int degree(N node) {
+        return AbstractValueGraph.this.degree(node);
+      }
+
+      @Override
+      public int inDegree(N node) {
+        return AbstractValueGraph.this.inDegree(node);
+      }
+
+      @Override
+      public int outDegree(N node) {
+        return AbstractValueGraph.this.outDegree(node);
+      }
+    };
+  }
+
+  @Override
+  public Optional<V> edgeValue(N nodeU, N nodeV) {
+    return Optional.ofNullable(edgeValueOrDefault(nodeU, nodeV, null));
+  }
+
+  @Override
+  public Optional<V> edgeValue(EndpointPair<N> endpoints) {
+    return Optional.ofNullable(edgeValueOrDefault(endpoints, null));
+  }
+
+  @Override
+  public final boolean equals(@Nullable Object obj) {
+    if (obj == this) {
+      return true;
     }
-    return value;
+    if (!(obj instanceof ValueGraph)) {
+      return false;
+    }
+    ValueGraph<?, ?> other = (ValueGraph<?, ?>) obj;
+
+    return isDirected() == other.isDirected()
+        && nodes().equals(other.nodes())
+        && edgeValueMap(this).equals(edgeValueMap(other));
+  }
+
+  @Override
+  public final int hashCode() {
+    return edgeValueMap(this).hashCode();
   }
 
   /** Returns a string representation of this graph. */
   @Override
   public String toString() {
-    String propertiesString =
-        String.format("isDirected: %s, allowsSelfLoops: %s", isDirected(), allowsSelfLoops());
-    return String.format(GRAPH_STRING_FORMAT, propertiesString, nodes(), edgeValueMap());
+    return "isDirected: "
+        + isDirected()
+        + ", allowsSelfLoops: "
+        + allowsSelfLoops()
+        + ", nodes: "
+        + nodes()
+        + ", edges: "
+        + edgeValueMap(this);
   }
 
-  private Map<EndpointPair<N>, V> edgeValueMap() {
-    Function<EndpointPair<N>, V> edgeToValueFn =
-        new Function<EndpointPair<N>, V>() {
-          @Override
-          public V apply(EndpointPair<N> edge) {
-            return edgeValue(edge.nodeU(), edge.nodeV());
-          }
-        };
-    return Maps.asMap(edges(), edgeToValueFn);
+  private static <N, V> Map<EndpointPair<N>, V> edgeValueMap(ValueGraph<N, V> graph) {
+    return Maps.asMap(
+        graph.edges(),
+        edge ->
+            // requireNonNull is safe because the endpoint pair comes from the graph.
+            requireNonNull(graph.edgeValueOrDefault(edge.nodeU(), edge.nodeV(), null)));
   }
 }

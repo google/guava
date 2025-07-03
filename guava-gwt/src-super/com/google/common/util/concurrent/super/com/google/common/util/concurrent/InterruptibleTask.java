@@ -16,17 +16,42 @@
 
 package com.google.common.util.concurrent;
 
-/**
- * Emulation for InterruptibleTask in GWT.
- */
-abstract class InterruptibleTask implements Runnable {
-  @Override public void run() {
-    runInterruptibly();
+import static com.google.common.util.concurrent.NullnessCasts.uncheckedCastNullableTToT;
+
+import org.jspecify.annotations.Nullable;
+
+/** Emulation for InterruptibleTask in GWT. */
+abstract class InterruptibleTask<T extends @Nullable Object> implements Runnable {
+
+  @Override
+  public void run() {
+    T result = null;
+    Throwable error = null;
+    if (isDone()) {
+      return;
+    }
+    try {
+      result = runInterruptibly();
+    } catch (Throwable t) {
+      error = t;
+    }
+    if (error == null) {
+      // The cast is safe because of the `run` and `error` checks.
+      afterRanInterruptiblySuccess(uncheckedCastNullableTToT(result));
+    } else {
+      afterRanInterruptiblyFailure(error);
+    }
   }
 
-  abstract void runInterruptibly();
+  abstract boolean isDone();
 
-  abstract boolean wasInterrupted();
+  abstract T runInterruptibly() throws Exception;
+
+  abstract void afterRanInterruptiblySuccess(T result);
+
+  abstract void afterRanInterruptiblyFailure(Throwable error);
 
   final void interruptTask() {}
+
+  abstract String toPendingString();
 }

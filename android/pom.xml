@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.google.guava</groupId>
+  <artifactId>guava-parent</artifactId>
+  <version>999.0.0-HEAD-android-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <name>Guava Maven Parent</name>
+  <description>Parent for guava artifacts</description>
+  <url>https://github.com/google/guava</url>
+  <properties>
+    <!--
+    When building Guava, you can pass (e.g.) `-Dsurefire.toolchain.version=21` to change which version to run tests under.
+    You may find that you need to use Java 11+ to *build* Guava, but it continues to work under Java 8, and you can run tests to verify that, as we do.
+    -->
+    <surefire.toolchain.version>${java.specification.version}</surefire.toolchain.version>
+    <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
+    <test.include>%regex[.*.class]</test.include>
+    <truth.version>1.4.4</truth.version>
+    <jspecify.version>1.0.0</jspecify.version>
+    <errorprone.version>2.36.0</errorprone.version>
+    <j2objc.version>3.0.0</j2objc.version>
+    <project.build.outputTimestamp>2025-01-02T00:00:00Z</project.build.outputTimestamp>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <!--
+    Some tests need reflective access to the internals of these packages. It is only the
+    tests themselves and not the code being tested that needs that access, though there's no
+    obvious way to ensure that.
+
+    We could consider arranging things so that only the tests we know need this would get
+    the add-opens. Right now that doesn't seem worth the effort, though.
+    -->
+    <test.add.opens>
+      --add-opens java.base/java.lang=ALL-UNNAMED
+      --add-opens java.base/java.util=ALL-UNNAMED
+      --add-opens java.base/sun.security.jca=ALL-UNNAMED
+    </test.add.opens>
+    <test.add.args></test.add.args>
+    <module.status>integration</module.status>
+    <variant.jvmEnvironment>android</variant.jvmEnvironment>
+    <variant.jvmEnvironmentVariantName>android</variant.jvmEnvironmentVariantName>
+    <otherVariant.version>999.0.0-HEAD-jre-SNAPSHOT</otherVariant.version>
+    <otherVariant.jvmEnvironment>standard-jvm</otherVariant.jvmEnvironment>
+    <otherVariant.jvmEnvironmentVariantName>jre</otherVariant.jvmEnvironmentVariantName>
+  </properties>
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/google/guava/issues</url>
+  </issueManagement>
+  <inceptionYear>2010</inceptionYear>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <scm>
+    <connection>scm:git:https://github.com/google/guava.git</connection>
+    <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
+    <url>https://github.com/google/guava</url>
+  </scm>
+  <developers>
+    <developer>
+      <id>kevinb9n</id>
+      <name>Kevin Bourrillion</name>
+      <email>kevinb@google.com</email>
+      <organization>Google</organization>
+      <organizationUrl>http://www.google.com</organizationUrl>
+      <roles>
+        <role>owner</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+  </developers>
+  <ciManagement>
+    <system>GitHub Actions</system>
+    <url>https://github.com/google/guava/actions</url>
+  </ciManagement>
+  <modules>
+    <module>guava</module>
+    <module>guava-bom</module>
+    <module>guava-testlib</module>
+    <module>guava-tests</module>
+  </modules>
+  <build>
+    <!-- Handle where Guava deviates from Maven defaults -->
+    <sourceDirectory>src</sourceDirectory>
+    <testSourceDirectory>test</testSourceDirectory>
+    <resources>
+      <resource>
+        <directory>../..</directory>
+        <includes>
+          <include>LICENSE</include>
+        </includes>
+        <targetPath>META-INF</targetPath>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>test</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
+    <plugins>
+      <plugin>
+        <artifactId>maven-enforcer-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>enforce-versions</id>
+            <goals>
+              <goal>enforce</goal>
+            </goals>
+            <configuration>
+              <rules>
+                <requireMavenVersion>
+                  <version>3.0.5</version>
+                </requireMavenVersion>
+                <requireJavaVersion>
+                  <version>1.8.0</version>
+                </requireJavaVersion>
+              </rules>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-antrun-plugin</artifactId>
+          <version>1.6</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>3.13.0</version>
+          <configuration>
+            <source>1.8</source>
+            <target>1.8</target>
+            <encoding>UTF-8</encoding>
+            <parameters>true</parameters>
+            <compilerArgs combine.children="override">
+              <!-- https://errorprone.info/docs/installation#maven -->
+              <arg>-XDcompilePolicy=simple</arg>
+              <arg>--should-stop=ifError=FLOW</arg>
+
+              <!-- https://errorprone.info/docs/installation#maven -->
+              <!-- TODO(cpovirk): Enable NullArgumentForNonNullParameter for
+                   prod code. It's disabled automatically for "test code"
+                   (which is good: our tests have intentional violations), but
+                   Error Prone doesn't know it's building test code unless we
+                   pass -XepCompilingTestOnlyCode, and that argument needs to
+                   be passed as part of the same <arg> as -Xplugin:ErrorProne,
+                   and I gave up trying to figure out how to do that for test
+                   compilation only. -->
+              <arg>-Xplugin:ErrorProne -Xep:NullArgumentForNonNullParameter:OFF -Xep:Java8ApiChecker:ERROR</arg>
+              <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-16 -->
+              <!-- TODO(cpovirk): Use .mvn/jvm.config instead (per
+                   https://errorprone.info/docs/installation#maven). -->
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.api=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.file=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.main=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.model=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.parser=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.processing=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.tree=ALL-UNNAMED</arg>
+              <arg>-J--add-exports=jdk.compiler/com.sun.tools.javac.util=ALL-UNNAMED</arg>
+              <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED</arg>
+              <arg>-J--add-opens=jdk.compiler/com.sun.tools.javac.comp=ALL-UNNAMED</arg>
+              <arg>-Xlint:-removal,-options</arg>
+            </compilerArgs>
+            <annotationProcessorPaths>
+              <path>
+                <groupId>com.google.errorprone</groupId>
+                <artifactId>error_prone_core</artifactId>
+                <version>2.36.0</version>
+              </path>
+            </annotationProcessorPaths>
+            <!-- Fork because we need args like add-exports. (But see the TODO above about .mvn/jvm.config.) -->
+            <fork>true</fork>
+          </configuration>
+          <executions>
+            <execution>
+              <id>default-compile</id>
+              <configuration>
+                <source>1.8</source>
+                <target>1.8</target>
+                <excludes>
+                  <exclude>module-info.java</exclude>
+                </excludes>
+                <compilerArgs>
+                  <!--
+                      Make includes/excludes fully work:
+                      https://issues.apache.org/jira/browse/MCOMPILER-174
+                      (Compare what guava-gwt has to do for maven-javadoc-plugin.)
+                  -->
+                  <arg>-sourcepath</arg>
+                  <arg>doesnotexist</arg>
+                </compilerArgs>
+              </configuration>
+            </execution>
+            <execution>
+              <id>default-testCompile</id>
+              <configuration>
+                <compilerArgs>
+                  <compilerArg>-Xlint:-removal</compilerArg>
+                </compilerArgs>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-dependency-plugin</artifactId>
+          <version>3.1.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>3.1.3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-enforcer-plugin</artifactId>
+          <version>3.0.0-M3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-install-plugin</artifactId>
+          <version>3.1.3</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-jar-plugin</artifactId>
+          <version>3.4.2</version>
+          <configuration>
+            <!-- Warning: Guava (at least the main module) uses maven-bundle-plugin, not maven-jar-plugin, so the configuration does not apply to it. That configuration may or may not apply to guava-testlib or other modules. -->
+            <excludes>
+              <!-- The root module (where applicable) is withheld because it is provided at `META-INF/versions/9/`. -->
+              <exclude>/module-info.class</exclude>
+              <!-- Avoid duplicating compiled classes within the `META-INF/versions/9/` root. -->
+              <exclude>META-INF/versions/9/com/**/*.class</exclude>
+            </excludes>
+            <archive>
+              <manifestEntries>
+                <Multi-Release>true</Multi-Release>
+              </manifestEntries>
+            </archive>
+          </configuration>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.plexus</groupId>
+              <artifactId>plexus-io</artifactId>
+              <!-- We need at least 3.5.1 to avoid https://github.com/codehaus-plexus/plexus-io/issues/109. Once we upgrade maven-jar-plugin itself to a version new enough to depend on 3.5.1 or higher, we can remove this override. -->
+              <version>3.5.1</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>3.11.2</version>
+          <configuration>
+            <quiet>true</quiet>
+            <notimestamp>true</notimestamp>
+            <encoding>UTF-8</encoding>
+            <docencoding>UTF-8</docencoding>
+            <charset>UTF-8</charset>
+            <additionalOptions>
+              <additionalOption>-XDignore.symbol.file</additionalOption>
+              <additionalOption>-Xdoclint:-html</additionalOption>
+            </additionalOptions>
+            <source>8</source>
+          </configuration>
+          <executions>
+            <execution>
+              <id>attach-docs</id>
+              <goals><goal>jar</goal></goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <artifactId>maven-resources-plugin</artifactId>
+          <version>3.3.1</version>
+        </plugin>
+        <plugin>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>3.3.1</version>
+          <executions>
+            <execution>
+              <id>attach-sources</id>
+              <goals>
+                <goal>jar-no-fork</goal>
+              </goals>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>org.codehaus.plexus</groupId>
+              <artifactId>plexus-io</artifactId>
+              <!-- We need at least 3.5.1 to avoid https://github.com/codehaus-plexus/plexus-io/issues/109. Once we upgrade maven-source-plugin itself to a version new enough to depend on 3.5.1 or higher, we can remove this override. -->
+              <version>3.5.1</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <version>3.3.1</version>
+          <configuration>
+            <jdkToolchain>
+              <version>${surefire.toolchain.version}</version>
+            </jdkToolchain>
+            <includes>
+              <include>${test.include}</include>
+            </includes>
+            <!-- By having our own entries here, we also override the default exclusion filter, which excludes all nested classes. -->
+            <excludes>
+              <!-- https://github.com/google/guava/issues/2840 -->
+              <exclude>%regex[.*PackageSanityTests.*.class]</exclude>
+              <!-- FeatureUtilTest.*ExampleDerivedInterfaceTester, com.google.common.io.*Tester, incidentally FeatureSpecificTestSuiteBuilderTest.MyAbstractTester (but we don't care either way because it's not meant to run on its own but works OK if it does)... but not NullPointerTesterTest, etc. -->
+              <exclude>%regex[.*Tester.class]</exclude>
+              <!-- Anonymous TestCase subclasses in GeneratedMonitorTest -->
+              <exclude>%regex[.*[$]\d+.class]</exclude>
+            </excludes>
+            <redirectTestOutputToFile>true</redirectTestOutputToFile>
+            <runOrder>alphabetical</runOrder>
+            <!-- Set max heap for tests. -->
+            <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
+          </configuration>
+        </plugin>
+        <plugin>
+          <artifactId>maven-toolchains-plugin</artifactId>
+          <version>3.2.0</version>
+          <executions>
+            <execution>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+            </execution>
+          </executions>
+          <configuration>
+            <toolchains>
+              <jdk>
+                <version>24</version>
+              </jdk>
+            </toolchains>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>animal-sniffer-maven-plugin</artifactId>
+          <version>1.23</version>
+          <dependencies>
+            <dependency>
+              <groupId>org.ow2.asm</groupId>
+              <artifactId>asm</artifactId>
+              <version>9.6</version>
+            </dependency>
+          </dependencies>
+          <configuration>
+            <annotations>
+              <annotation>com.google.common.base.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.cache.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.collect.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.collect.testing.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.collect.testing.testers.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.hash.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.io.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.math.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.primitives.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.reflect.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.testing.IgnoreJRERequirement</annotation>
+              <annotation>com.google.common.util.concurrent.IgnoreJRERequirement</annotation>
+            </annotations>
+            <checkTestClasses>true</checkTestClasses>
+            <signature>
+              <groupId>com.toasttab.android</groupId>
+              <artifactId>gummy-bears-api-21</artifactId>
+              <version>0.12.0</version>
+              <!-- TODO(cpovirk): In principle, it would make sense to *also* test compatibility with JDK 1.8, since guava-android also has JRE users. -->
+            </signature>
+            <ignores>
+              <!-- Unsafe isn't part of the documented Android API, but it is available.
+                   And in cases where it's not, we have fallbacks (except maybe Striped64 (b/307807965)?). -->
+              <ignore>sun.misc.Unsafe</ignore>
+            </ignores>
+          </configuration>
+          <executions>
+            <execution>
+              <id>check-java-version-compatibility</id>
+              <phase>test</phase>
+              <goals>
+                <goal>check</goal>
+              </goals>
+            </execution>
+          </executions>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>build-helper-maven-plugin</artifactId>
+          <version>3.4.0</version>
+        </plugin>
+        <plugin>
+          <groupId>org.mvnsearch</groupId>
+          <artifactId>toolchains-maven-plugin</artifactId>
+          <version>4.5.0</version>
+          <executions>
+            <!--
+            We can apparently have only one <jdk> per execution: Others are silently ignored :(
+            To properly test this, you need to remove existing toolchains:
+            rm -rf ~/.m2/jdks/ ~/.m2/toolchains.xml
+            (But don't run that if you have put something into ~/.m2/toolchains.xml yourself.)
+            -->
+            <execution>
+              <id>download-24-and-surefire-version</id>
+              <goals>
+                <goal>toolchain</goal>
+              </goals>
+              <configuration>
+                <toolchains>
+                  <jdk>
+                    <version>24</version>
+                    <vendor>temurin</vendor>
+                  </jdk>
+                  <testJdk>
+                    <version>${surefire.toolchain.version}</version>
+                    <vendor>temurin</vendor>
+                  </testJdk>
+                </toolchains>
+              </configuration>
+            </execution>
+          </executions>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <name>Sonatype Nexus Snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
+    <repository>
+      <id>sonatype-nexus-staging</id>
+      <name>Nexus Release Repository</name>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <site>
+      <id>guava-site</id>
+      <name>Guava Documentation Site</name>
+      <url>scp://dummy.server/dontinstall/usestaging</url>
+    </site>
+  </distributionManagement>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>${jspecify.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.errorprone</groupId>
+        <artifactId>error_prone_annotations</artifactId>
+        <version>${errorprone.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.j2objc</groupId>
+        <artifactId>j2objc-annotations</artifactId>
+        <version>${j2objc.version}</version>
+      </dependency>
+      <!--
+      We moved away from using dependencyManagement for test-only deps because of https://github.com/google/guava/issues/6654.
+      We could probably have resumed it after https://github.com/google/guava/pull/6664.
+      But it's always weird that published poms reference test-only libraries at all, so I'm not in any rush to do so.
+      -->
+    </dependencies>
+  </dependencyManagement>
+  <profiles>
+    <profile>
+      <id>sonatype-oss-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.0.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    <profile>
+      <id>suppress-open-jre-modules-for-toolchain-1.8</id>
+      <activation>
+        <property>
+          <name>surefire.toolchain.version</name>
+          <!-- the value provided by java.specification.version -->
+          <value>1.8</value>
+        </property>
+      </activation>
+      <properties>
+        <test.add.opens></test.add.opens>
+      </properties>
+    </profile>
+    <profile>
+      <id>suppress-open-jre-modules-for-toolchain-8</id>
+      <activation>
+        <property>
+          <name>surefire.toolchain.version</name>
+          <!-- the value provided by GitHub CI (which maybe we could even change, but supporting "8" seems nice for any users who try pass that value manually) -->
+          <value>8</value>
+        </property>
+      </activation>
+      <properties>
+        <test.add.opens></test.add.opens>
+      </properties>
+    </profile>
+    <!-- JDiff and the Gradle integration tests need Java 11 to be installed, and they need to know where it's located so that they can set JAVA_HOME to point to it. The following profile downloads a temurin Java 11 (if one isn't already available) and writes its location to target/java_11_home. This lets our JDiff and Gradle-integration-test scripts invoke the `print-java-11-home` profile and then read that file. -->
+    <profile>
+      <id>print-java-11-home</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.mvnsearch</groupId>
+            <artifactId>toolchains-maven-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>download-11</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>toolchain</goal>
+                </goals>
+                <configuration>
+                  <toolchains>
+                    <jdk>
+                      <version>11</version>
+                      <vendor>temurin</vendor>
+                    </jdk>
+                  </toolchains>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <artifactId>maven-toolchains-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>select-java-11</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>toolchain</goal>
+                </goals>
+              </execution>
+            </executions>
+            <configuration>
+              <toolchains>
+                <jdk>
+                  <version>11</version>
+                </jdk>
+              </toolchains>
+            </configuration>
+          </plugin>
+          <plugin>
+            <groupId>com.diamondq.maven</groupId>
+            <artifactId>javahome-resolver-maven-plugin</artifactId>
+            <version>1.0.2</version>
+            <executions>
+              <execution>
+                <id>resolve-java-11</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>resolve</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.5.0</version>
+            <executions>
+              <execution>
+                <id>print-java-11-home</id>
+                <phase>initialize</phase>
+                <goals>
+                  <goal>exec</goal>
+                </goals>
+                <configuration>
+                  <executable>echo</executable>
+                  <arguments>
+                    <argument>${javaHome}</argument>
+                  </arguments>
+                  <outputFile>${project.build.directory}/java_11_home</outputFile>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

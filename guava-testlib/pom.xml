@@ -5,7 +5,7 @@
   <parent>
     <groupId>com.google.guava</groupId>
     <artifactId>guava-parent</artifactId>
-    <version>21.0-SNAPSHOT</version>
+    <version>999.0.0-HEAD-jre-SNAPSHOT</version>
   </parent>
   <artifactId>guava-testlib</artifactId>
   <name>Guava Testing Library</name>
@@ -15,8 +15,14 @@
   </description>
   <dependencies>
     <dependency>
+      <groupId>org.jspecify</groupId>
+      <artifactId>jspecify</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
+      <version>3.0.2</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.google.errorprone</groupId>
@@ -25,7 +31,6 @@
     <dependency>
       <groupId>com.google.j2objc</groupId>
       <artifactId>j2objc-annotations</artifactId>
-      <optional>true</optional><!-- needed only for annotations -->
     </dependency>
     <dependency>
       <groupId>${project.groupId}</groupId>
@@ -35,7 +40,8 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <scope>compile</scope><!-- testlib must carry these transitively -->
+      <!-- *not* <scope>test</scope>; <scope>compile</scope> is right so that guava-testlib users get junit transitively. -->
+      <version>4.13.2</version>
     </dependency>
     <dependency>
       <!--
@@ -43,13 +49,67 @@
       -->
       <groupId>com.google.truth</groupId>
       <artifactId>truth</artifactId>
+      <version>${truth.version}</version>
       <scope>test</scope>
+      <exclusions>
+        <exclusion>
+          <!-- use the guava we're building. -->
+          <groupId>com.google.guava</groupId>
+          <artifactId>guava</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
   </dependencies>
   <build>
     <plugins>
       <plugin>
+        <groupId>org.mvnsearch</groupId>
+        <artifactId>toolchains-maven-plugin</artifactId>
+      </plugin>
+      <plugin>
+        <artifactId>maven-toolchains-plugin</artifactId>
+      </plugin>
+      <plugin>
         <artifactId>maven-compiler-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>default-compile</id>
+            <configuration>
+              <compilerArgs combine.children="append" combine.self="append">
+                <arg>-XDignore.symbol.file</arg>
+              </compilerArgs>
+            </configuration>
+          </execution>
+          <execution>
+            <id>compile-java9</id>
+            <phase>compile</phase>
+            <goals>
+              <goal>compile</goal>
+            </goals>
+            <configuration>
+              <release>9</release>
+              <compileSourceRoots>
+                <compileSourceRoot>${project.basedir}/src</compileSourceRoot>
+              </compileSourceRoots>
+
+              <!--
+                JPMS needs access to the module sources to complete a modular Java build. We also need to override
+                the base compiler settings (in the root `pom.xml`) to enable MRJAR output.
+              -->
+              <compilerArgs combine.self="override">
+                <arg>-sourcepath</arg>
+                <arg>${project.basedir}/src</arg>
+                <arg>--add-reads=com.google.common=ALL-UNNAMED</arg>
+                <arg>--add-reads=com.google.common.testlib=ALL-UNNAMED</arg>
+                <!-- https://errorprone.info/docs/installation#maven -->
+                <arg>-XDcompilePolicy=simple</arg>
+                <arg>-Xlint:-removal</arg>
+                <arg>-Xlint:-options</arg>
+              </compilerArgs>
+              <multiReleaseOutput>true</multiReleaseOutput>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <artifactId>maven-source-plugin</artifactId>
@@ -79,9 +139,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <redirectTestOutputToFile>true</redirectTestOutputToFile>
-        </configuration>
       </plugin>
     </plugins>
   </build>
