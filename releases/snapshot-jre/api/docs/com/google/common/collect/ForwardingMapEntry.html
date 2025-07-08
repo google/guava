@@ -114,7 +114,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  should override <code>equals</code> as well, either providing your own implementation, or delegating
  to the provided <code>standardEquals</code> method.
 
- <p>Each of the <code>standard</code> methods, where appropriate, use <a href="../base/Objects.html#equal(java.lang.Object,java.lang.Object)"><code>Objects.equal(java.lang.Object, java.lang.Object)</code></a> to test
+ <p>Each of the <code>standard</code> methods, where appropriate, use 
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>Objects#equal</code></pre>
+</details>
+ to test
  equality for both keys and values. This may not be the desired behavior for map implementations
  that use non-standard notions of key equality, such as the entry of a <code>SortedMap</code> whose
  comparator is not consistent with <code>equals</code>.

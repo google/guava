@@ -138,7 +138,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
  default</code> methods. Instead, it inherits their default implementations. When those implementations
  invoke methods, they invoke methods on the <code>ForwardingMap</code>.
 
- <p>Each of the <code>standard</code> methods, where appropriate, use <a href="../base/Objects.html#equal(java.lang.Object,java.lang.Object)"><code>Objects.equal(java.lang.Object, java.lang.Object)</code></a> to test
+ <p>Each of the <code>standard</code> methods, where appropriate, use 
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>Objects#equal</code></pre>
+</details>
+ to test
  equality for both keys and values. This may not be the desired behavior for map implementations
  that use non-standard notions of key equality, such as a <code>SortedMap</code> whose comparator is
  not consistent with <code>equals</code>.

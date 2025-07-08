@@ -29533,7 +29533,7 @@
    <li>Its execution does not cause any observable side effects.
    <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
        Objects.equal}{@code (k1, k2) &&} {@link Objects#equal}{@code (v1, v2)} implies that
-       {@code Objects.equal(transformer.transform(k1, v1), transformer.transform(k2, v2))}.
+       {@code Objects.equals(transformer.transform(k1, v1), transformer.transform(k2, v2))}.
  </ul>
 
  @throws NullPointerException if the key or value is null and this transformer does not accept
@@ -32173,7 +32173,7 @@
  if:
 
  {@snippet :
- Objects.equal(a.getElement(), b.getElement())
+ Objects.equals(a.getElement(), b.getElement())
      && a.getCount() == b.getCount()
  }]]>
       </doc>
@@ -40227,7 +40227,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),
+      <![CDATA[The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hash(source(),
  target())}. The hashcode of an unordered {@link EndpointPair} is equal to {@code
  nodeU().hashCode() + nodeV().hashCode()}.]]>
       </doc>

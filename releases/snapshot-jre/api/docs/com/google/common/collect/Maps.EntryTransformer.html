@@ -149,8 +149,18 @@ loadScripts(document, 'script');</script>
 
  <ul>
    <li>Its execution does not cause any observable side effects.
-   <li>The computation is <i>consistent with equals</i>; that is, <a href="../base/Objects.html#equal(java.lang.Object,java.lang.Object)"><code>Objects.equal</code></a><code>(k1, k2) &amp;&amp;</code> <a href="../base/Objects.html#equal(java.lang.Object,java.lang.Object)"><code>Objects.equal(java.lang.Object, java.lang.Object)</code></a><code>(v1, v2)</code> implies that
-       <code>Objects.equal(transformer.transform(k1, v1), transformer.transform(k2, v2))</code>.
+   <li>The computation is <i>consistent with equals</i>; that is, 
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>Objects.equal</code></pre>
+</details>
+<code>(k1, k2) &amp;&amp;</code> 
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>Objects#equal</code></pre>
+</details>
+<code>(v1, v2)</code> implies that
+       <code>Objects.equals(transformer.transform(k1, v1), transformer.transform(k2, v2))</code>.
  </ul></div>
 <dl class="notes">
 <dt>Throws:</dt>
