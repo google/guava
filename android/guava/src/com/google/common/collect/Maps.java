@@ -32,7 +32,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -61,6 +60,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
@@ -672,7 +672,7 @@ public final class Maps {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(
+      return Objects.hash(
           entriesOnlyOnLeft(), entriesOnlyOnRight(), entriesInCommon(), entriesDiffering());
     }
 
@@ -727,15 +727,15 @@ public final class Maps {
     public boolean equals(@Nullable Object object) {
       if (object instanceof MapDifference.ValueDifference) {
         MapDifference.ValueDifference<?> that = (MapDifference.ValueDifference<?>) object;
-        return Objects.equal(this.left, that.leftValue())
-            && Objects.equal(this.right, that.rightValue());
+        return Objects.equals(this.left, that.leftValue())
+            && Objects.equals(this.right, that.rightValue());
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(left, right);
+      return Objects.hash(left, right);
     }
 
     @Override
@@ -2009,7 +2009,7 @@ public final class Maps {
      *   <li>Its execution does not cause any observable side effects.
      *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
      *       Objects.equal}{@code (k1, k2) &&} {@link Objects#equal}{@code (v1, v2)} implies that
-     *       {@code Objects.equal(transformer.transform(k1, v1), transformer.transform(k2, v2))}.
+     *       {@code Objects.equals(transformer.transform(k1, v1), transformer.transform(k2, v2))}.
      * </ul>
      *
      * @throws NullPointerException if the key or value is null and this transformer does not accept
@@ -2817,7 +2817,7 @@ public final class Maps {
       Iterator<Entry<K, V>> entryItr = unfiltered.entrySet().iterator();
       while (entryItr.hasNext()) {
         Entry<K, V> entry = entryItr.next();
-        if (predicate.apply(entry) && Objects.equal(entry.getValue(), o)) {
+        if (predicate.apply(entry) && Objects.equals(entry.getValue(), o)) {
           entryItr.remove();
           return true;
         }
@@ -3937,7 +3937,7 @@ public final class Maps {
         return super.remove(o);
       } catch (UnsupportedOperationException e) {
         for (Entry<K, V> entry : map().entrySet()) {
-          if (Objects.equal(o, entry.getValue())) {
+          if (Objects.equals(o, entry.getValue())) {
             map().remove(entry.getKey());
             return true;
           }
@@ -4017,7 +4017,7 @@ public final class Maps {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         Object key = entry.getKey();
         V value = Maps.safeGet(map(), key);
-        return Objects.equal(value, entry.getValue()) && (value != null || map().containsKey(key));
+        return Objects.equals(value, entry.getValue()) && (value != null || map().containsKey(key));
       }
       return false;
     }

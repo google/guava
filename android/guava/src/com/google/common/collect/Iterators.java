@@ -29,7 +29,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
@@ -46,6 +45,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import org.jspecify.annotations.NonNull;
@@ -276,7 +276,7 @@ public final class Iterators {
       }
       Object o1 = iterator1.next();
       Object o2 = iterator2.next();
-      if (!Objects.equal(o1, o2)) {
+      if (!Objects.equals(o1, o2)) {
         return false;
       }
     }

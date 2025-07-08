@@ -20,7 +20,6 @@ import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.Objects;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
@@ -30,6 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -113,7 +113,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     @Override
     public int count(@Nullable Object element) {
       for (Entry<E> entry : entrySet()) {
-        if (Objects.equal(entry.getElement(), element)) {
+        if (Objects.equals(entry.getElement(), element)) {
           return entry.getCount();
         }
       }

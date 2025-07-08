@@ -24,7 +24,6 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.Objects;
 import com.google.common.collect.Table.Cell;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -32,6 +31,7 @@ import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -156,10 +156,10 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
     table.put("bar", 1, 'b');
     table.put("foo", 3, 'c');
     int expected =
-        Objects.hashCode("foo", 1, 'a')
-            + Objects.hashCode("bar", 1, 'b')
-            + Objects.hashCode("foo", 3, 'c')
-            + Objects.hashCode("bar", 3, 0);
+        Objects.hash("foo", 1, 'a')
+            + Objects.hash("bar", 1, 'b')
+            + Objects.hash("foo", 3, 'c')
+            + Objects.hash("bar", 3, 0);
     assertEquals(expected, table.hashCode());
   }
 

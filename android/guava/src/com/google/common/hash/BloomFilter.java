@@ -21,7 +21,6 @@ import static java.lang.Math.max;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.math.DoubleMath;
@@ -39,6 +38,7 @@ import java.io.ObjectInputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 import java.math.RoundingMode;
+import java.util.Objects;
 import java.util.stream.Collector;
 import org.jspecify.annotations.Nullable;
 
@@ -303,7 +303,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(numHashFunctions, funnel, strategy, bits);
+    return Objects.hash(numHashFunctions, funnel, strategy, bits);
   }
 
   /**

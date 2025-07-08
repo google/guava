@@ -24,7 +24,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
@@ -36,6 +35,7 @@ import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
 
@@ -137,7 +137,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     checkKey(key);
     checkValue(value);
     boolean containedKey = containsKey(key);
-    if (containedKey && Objects.equal(value, get(key))) {
+    if (containedKey && Objects.equals(value, get(key))) {
       return value;
     }
     if (force) {
@@ -317,12 +317,12 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
       // Preconditions keep the map and inverse consistent.
       checkState(entrySet().contains(this), "entry no longer in map");
       // similar to putInBothMaps, but set via entry
-      if (Objects.equal(value, getValue())) {
+      if (Objects.equals(value, getValue())) {
         return value;
       }
       checkArgument(!containsValue(value), "value already present: %s", value);
       V oldValue = delegate.setValue(value);
-      checkState(Objects.equal(value, get(getKey())), "entry no longer in map");
+      checkState(Objects.equals(value, get(getKey())), "entry no longer in map");
       updateInverseMap(getKey(), true, oldValue, value);
       return oldValue;
     }

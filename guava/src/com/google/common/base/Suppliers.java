@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.Nullable;
 
@@ -81,7 +82,7 @@ public final class Suppliers {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(function, supplier);
+      return Objects.hash(function, supplier);
     }
 
     @Override
@@ -372,14 +373,14 @@ public final class Suppliers {
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SupplierOfInstance) {
         SupplierOfInstance<?> that = (SupplierOfInstance<?>) obj;
-        return Objects.equal(instance, that.instance);
+        return Objects.equals(instance, that.instance);
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(instance);
+      return Objects.hash(instance);
     }
 
     @Override

@@ -300,7 +300,7 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
      * if:
      *
      * {@snippet :
-     * Objects.equal(a.getElement(), b.getElement())
+     * Objects.equals(a.getElement(), b.getElement())
      *     && a.getCount() == b.getCount()
      * }
      */

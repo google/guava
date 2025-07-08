@@ -49,7 +49,7 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible(emulated = true)
 @NullMarked
 public class Helpers {
-  // Clone of Objects.equal
+  // Clone of Objects.equals
   static boolean equal(@Nullable Object a, @Nullable Object b) {
     return a == b || (a != null && a.equals(b));
   }

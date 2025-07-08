@@ -26,7 +26,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Table.Cell;
 import java.io.Serializable;
@@ -34,6 +33,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -180,16 +180,16 @@ public final class Tables {
       }
       if (obj instanceof Cell) {
         Cell<?, ?, ?> other = (Cell<?, ?, ?>) obj;
-        return Objects.equal(getRowKey(), other.getRowKey())
-            && Objects.equal(getColumnKey(), other.getColumnKey())
-            && Objects.equal(getValue(), other.getValue());
+        return Objects.equals(getRowKey(), other.getRowKey())
+            && Objects.equals(getColumnKey(), other.getColumnKey())
+            && Objects.equals(getValue(), other.getValue());
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(getRowKey(), getColumnKey(), getValue());
+      return Objects.hash(getRowKey(), getColumnKey(), getValue());
     }
 
     @Override

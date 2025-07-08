@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
@@ -39,6 +38,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -214,7 +214,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     }
 
     boolean matchesValue(@Nullable Object v, int smearedVHash) {
-      return smearedValueHash == smearedVHash && Objects.equal(getValue(), v);
+      return smearedValueHash == smearedVHash && Objects.equals(getValue(), v);
     }
 
     @Override

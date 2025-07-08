@@ -16,7 +16,6 @@ package com.google.common.cache;
 
 import com.google.common.base.Function;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.base.Optional;
 import com.google.common.base.Preconditions;
 import com.google.common.cache.LocalCache.Strength;
@@ -26,6 +25,7 @@ import com.google.common.collect.Sets;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.NullUnmarked;
@@ -221,7 +221,7 @@ class CacheBuilderFactory {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(duration, unit);
+      return Objects.hash(duration, unit);
     }
 
     @Override

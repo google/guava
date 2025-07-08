@@ -25,7 +25,6 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -33,6 +32,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -185,7 +185,7 @@ public class FauxveridesTest extends TestCase {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(name, parameterTypes, typeSignature);
+      return Objects.hash(name, parameterTypes, typeSignature);
     }
 
     @Override

@@ -25,7 +25,6 @@ import static java.util.Collections.emptyMap;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -37,6 +36,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
 
@@ -419,7 +419,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   public boolean containsValue(@Nullable Object value) {
     for (@Nullable V[] row : array) {
       for (V element : row) {
-        if (Objects.equal(value, element)) {
+        if (Objects.equals(value, element)) {
           return true;
         }
       }

@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Arrays.asList;
 
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.lang.reflect.GenericArrayType;
@@ -33,6 +32,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.jspecify.annotations.Nullable;
@@ -557,7 +557,7 @@ public final class TypeResolver {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(var.getGenericDeclaration(), var.getName());
+      return Objects.hash(var.getGenericDeclaration(), var.getName());
     }
 
     @Override

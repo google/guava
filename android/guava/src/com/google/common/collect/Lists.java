@@ -32,7 +32,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import java.io.Serializable;
@@ -48,6 +47,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
 import org.jspecify.annotations.Nullable;
@@ -1021,7 +1021,7 @@ public final class Lists {
     if (thisList instanceof RandomAccess && otherList instanceof RandomAccess) {
       // avoid allocation and use the faster loop
       for (int i = 0; i < size; i++) {
-        if (!Objects.equal(thisList.get(i), otherList.get(i))) {
+        if (!Objects.equals(thisList.get(i), otherList.get(i))) {
           return false;
         }
       }
@@ -1050,7 +1050,7 @@ public final class Lists {
     } else {
       ListIterator<?> listIterator = list.listIterator();
       while (listIterator.hasNext()) {
-        if (Objects.equal(element, listIterator.next())) {
+        if (Objects.equals(element, listIterator.next())) {
           return listIterator.previousIndex();
         }
       }
@@ -1083,7 +1083,7 @@ public final class Lists {
     } else {
       ListIterator<?> listIterator = list.listIterator(list.size());
       while (listIterator.hasPrevious()) {
-        if (Objects.equal(element, listIterator.previous())) {
+        if (Objects.equals(element, listIterator.previous())) {
           return listIterator.nextIndex();
         }
       }
