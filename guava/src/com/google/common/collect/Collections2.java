@@ -82,8 +82,6 @@ public final class Collections2 {
    *
    * <p><b>{@code Stream} equivalent:</b> {@link java.util.stream.Stream#filter Stream.filter}.
    */
-  // TODO(kevinb): how can we omit that Iterables link when building gwt
-  // javadoc?
   public static <E extends @Nullable Object> Collection<E> filter(
       Collection<E> unfiltered, Predicate<? super E> predicate) {
     if (unfiltered instanceof FilteredCollection) {
