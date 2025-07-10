@@ -25,7 +25,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
@@ -50,6 +49,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import junit.framework.Assert;
 import junit.framework.AssertionFailedError;
@@ -164,7 +164,7 @@ public final class ClassSanityTester {
     checkNotNull(type);
     checkNotNull(value1);
     checkNotNull(value2);
-    checkArgument(!Objects.equal(value1, value2), "Duplicate value provided.");
+    checkArgument(!Objects.equals(value1, value2), "Duplicate value provided.");
     distinctValues.replaceValues(type, ImmutableList.of(value1, value2));
     setDefault(type, value1);
     return this;
@@ -607,7 +607,7 @@ public final class ClassSanityTester {
       List<Object> newArgs = new ArrayList<>(args);
       Object newArg = argGenerators.get(i).generateFresh(params.get(i).getType());
 
-      if (newArg == null || Objects.equal(args.get(i), newArg)) {
+      if (newArg == null || Objects.equals(args.get(i), newArg)) {
         if (params.get(i).getType().getRawType().isEnum()) {
           continue; // Nothing better we can do if it's single-value enum
         }
@@ -638,7 +638,7 @@ public final class ClassSanityTester {
       // Two newFreshValueGenerator() instances should normally generate equal value sequence.
       Object shouldBeEqualArg = generateDummyArg(param, newFreshValueGenerator());
       if (arg != shouldBeEqualArg
-          && Objects.equal(arg, shouldBeEqualArg)
+          && Objects.equals(arg, shouldBeEqualArg)
           && hashCodeInsensitiveToArgReference(factory, args, i, shouldBeEqualArg)
           && hashCodeInsensitiveToArgReference(
               factory, args, i, generateDummyArg(param, newFreshValueGenerator()))) {
