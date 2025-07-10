@@ -2435,7 +2435,11 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">checkPositionIndex</span><wbr><span class="parameters">(int&nbsp;index,
  int&nbsp;size)</span></div>
 <div class="block">Ensures that <code>index</code> specifies a valid <i>position</i> in an array, list or string of
- size <code>size</code>. A position index may range from zero to <code>size</code>, inclusive.</div>
+ size <code>size</code>. A position index may range from zero to <code>size</code>, inclusive.
+
+ <p><b>Java 9 users:</b> consider using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Objects.html#checkIndex(long,long)" title="class or interface in java.util" class="external-link"><code>Objects.checkIndex(index, size)</code></a>
+ instead. However, note that <code>checkIndex()</code> throws <code>IndexOutOfBoundsException</code> when
+ <code>size</code> is negative, while this method throws <code>IllegalArgumentException</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - a user-supplied index identifying a position in an array, list or string</dd>

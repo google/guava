@@ -5115,6 +5115,10 @@
       <![CDATA[Ensures that {@code index} specifies a valid <i>position</i> in an array, list or string of
  size {@code size}. A position index may range from zero to {@code size}, inclusive.
 
+ <p><b>Java 9 users:</b> consider using {@link java.util.Objects#checkIndex(index, size)}
+ instead. However, note that {@code checkIndex()} throws {@code IndexOutOfBoundsException} when
+ {@code size} is negative, while this method throws {@code IllegalArgumentException}.
+
  @param index a user-supplied index identifying a position in an array, list or string
  @param size the size of that array, list or string
  @return the value of {@code index}
