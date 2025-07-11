@@ -24,6 +24,7 @@ import static com.google.common.cache.TestingRemovalListeners.nullRemovalListene
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -43,7 +44,6 @@ import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -445,7 +445,7 @@ public class CacheBuilderTest extends TestCase {
     computationShouldWait.set(true);
 
     AtomicInteger computedCount = new AtomicInteger();
-    ExecutorService threadPool = Executors.newFixedThreadPool(nThreads);
+    ExecutorService threadPool = newFixedThreadPool(nThreads);
     CountDownLatch tasksFinished = new CountDownLatch(nTasks);
     for (int i = 0; i < nTasks; i++) {
       String s = "a" + i;
@@ -545,7 +545,7 @@ public class CacheBuilderTest extends TestCase {
             .maximumSize(5000)
             .build(countingIdentityLoader);
 
-    ExecutorService threadPool = Executors.newFixedThreadPool(nThreads);
+    ExecutorService threadPool = newFixedThreadPool(nThreads);
     for (int i = 0; i < nTasks; i++) {
       @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =

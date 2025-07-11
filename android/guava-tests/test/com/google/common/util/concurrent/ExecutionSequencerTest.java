@@ -18,6 +18,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.allAsList;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.Executors.newCachedThreadPool;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -33,7 +35,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
@@ -52,7 +53,7 @@ public class ExecutionSequencerTest extends TestCase {
 
   @Override
   public void setUp() throws Exception {
-    executor = Executors.newCachedThreadPool();
+    executor = newCachedThreadPool();
     serializer = ExecutionSequencer.create();
     firstFuture = SettableFuture.create();
     firstCallable = new TestCallable(firstFuture);
@@ -336,7 +337,7 @@ public class ExecutionSequencerTest extends TestCase {
     ArrayList<ListenableFuture<Integer>> lengthChecks = new ArrayList<>();
     List<Integer> completeLengthChecks;
     int baseStackDepth;
-    ExecutorService service = Executors.newFixedThreadPool(5);
+    ExecutorService service = newFixedThreadPool(5);
     try {
       // Avoid counting frames from the executor itself, or the ExecutionSequencer
       baseStackDepth =

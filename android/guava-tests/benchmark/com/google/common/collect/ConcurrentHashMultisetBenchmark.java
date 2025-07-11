@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 
 import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
@@ -36,7 +37,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
@@ -68,8 +68,7 @@ public class ConcurrentHashMultisetBenchmark {
       builder.add(i);
     }
     keys = builder.build();
-    threadPool =
-        Executors.newFixedThreadPool(threads, new ThreadFactoryBuilder().setDaemon(true).build());
+    threadPool = newFixedThreadPool(threads, new ThreadFactoryBuilder().setDaemon(true).build());
   }
 
   @Benchmark

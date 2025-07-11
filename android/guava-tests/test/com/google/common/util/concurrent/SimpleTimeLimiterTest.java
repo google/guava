@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
@@ -26,7 +27,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -87,7 +87,7 @@ public class SimpleTimeLimiterTest extends TestCase {
 
   private TimeLimiter service;
 
-  private static final ExecutorService executor = Executors.newFixedThreadPool(1);
+  private static final ExecutorService executor = newFixedThreadPool(1);
 
   @Override
   protected void setUp() throws Exception {

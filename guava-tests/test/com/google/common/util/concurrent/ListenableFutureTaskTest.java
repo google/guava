@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
@@ -24,7 +25,6 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -62,7 +62,7 @@ public class ListenableFutureTaskTest extends TestCase {
   protected void setUp() throws Exception {
     super.setUp();
 
-    exec = Executors.newCachedThreadPool();
+    exec = newCachedThreadPool();
 
     task.addListener(
         new Runnable() {

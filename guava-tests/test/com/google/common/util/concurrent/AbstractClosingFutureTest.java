@@ -25,6 +25,7 @@ import static com.google.common.util.concurrent.Futures.immediateCancelledFuture
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static com.google.common.util.concurrent.MoreExecutors.listeningDecorator;
 import static com.google.common.util.concurrent.MoreExecutors.shutdownAndAwaitTermination;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
@@ -97,8 +98,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
             }
           });
 
-  final ListeningExecutorService executor =
-      MoreExecutors.listeningDecorator(newSingleThreadExecutor());
+  final ListeningExecutorService executor = listeningDecorator(newSingleThreadExecutor());
   final ExecutorService closingExecutor = newSingleThreadExecutor();
 
   final TestCloseable closeable1 = new TestCloseable("closeable1");

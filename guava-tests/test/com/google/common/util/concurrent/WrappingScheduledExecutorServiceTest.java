@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.Executors.callable;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -24,7 +25,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -50,13 +50,10 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
 
-    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
-    Future<?> possiblyIgnoredError = testExecutor.schedule(DO_NOTHING, 10, MINUTES);
+    Future<?> unused1 = testExecutor.schedule(DO_NOTHING, 10, MINUTES);
     mock.assertLastMethodCalled("scheduleRunnable", 10, MINUTES);
 
-    @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
-    Future<?> possiblyIgnoredError1 =
-        testExecutor.schedule(Executors.callable(DO_NOTHING), 5, SECONDS);
+    Future<?> unused2 = testExecutor.schedule(callable(DO_NOTHING), 5, SECONDS);
     mock.assertLastMethodCalled("scheduleCallable", 5, SECONDS);
   }
 

@@ -15,11 +15,11 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.concurrent.Executors.callable;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.j2objc.annotations.WeakOuter;
 import java.util.concurrent.Callable;
-import java.util.concurrent.Executors;
 import java.util.concurrent.RunnableFuture;
 import org.jspecify.annotations.Nullable;
 
@@ -53,7 +53,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
    */
   static <V extends @Nullable Object> TrustedListenableFutureTask<V> create(
       Runnable runnable, @ParametricNullness V result) {
-    return new TrustedListenableFutureTask<>(Executors.callable(runnable, result));
+    return new TrustedListenableFutureTask<>(callable(runnable, result));
   }
 
   /*

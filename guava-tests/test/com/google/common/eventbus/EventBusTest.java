@@ -16,6 +16,7 @@
 
 package com.google.common.eventbus;
 
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -24,7 +25,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
@@ -233,7 +233,7 @@ public class EventBusTest extends TestCase {
   public void testRegisterThreadSafety() throws Exception {
     List<StringCatcher> catchers = new CopyOnWriteArrayList<>();
     List<Future<?>> futures = new ArrayList<>();
-    ExecutorService executor = Executors.newFixedThreadPool(10);
+    ExecutorService executor = newFixedThreadPool(10);
     int numberOfCatchers = 10000;
     for (int i = 0; i < numberOfCatchers; i++) {
       futures.add(executor.submit(new Registrator(bus, catchers)));

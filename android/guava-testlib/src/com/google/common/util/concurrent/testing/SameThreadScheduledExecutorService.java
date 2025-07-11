@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent.testing;
 
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import static java.util.concurrent.Executors.callable;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Preconditions;
@@ -31,7 +32,6 @@ import java.util.concurrent.AbstractExecutorService;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -136,7 +136,7 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   public ListenableScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
     Preconditions.checkNotNull(command, "command must not be null");
     Preconditions.checkNotNull(unit, "unit must not be null!");
-    return schedule(Executors.callable(command), delay, unit);
+    return schedule(callable(command), delay, unit);
   }
 
   @Override
