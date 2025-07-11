@@ -22,12 +22,12 @@ import static com.google.common.collect.Hashing.smearedHash;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.Multisets.AbstractEntry;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
+import java.util.Objects;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
@@ -228,7 +228,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     void updateLastKnownIndex() {
       if (lastKnownIndex == -1
           || lastKnownIndex >= size()
-          || !Objects.equal(key, keys[lastKnownIndex])) {
+          || !Objects.equals(key, keys[lastKnownIndex])) {
         lastKnownIndex = indexOf(key);
       }
     }
@@ -298,7 +298,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
       do {
         last = next;
         entry = entries[next];
-        if (getHash(entry) == hash && Objects.equal(key, keys[next])) {
+        if (getHash(entry) == hash && Objects.equals(key, keys[next])) {
           int oldValue = values[next];
 
           values[next] = value;
@@ -391,7 +391,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     int next = table[hash & hashTableMask()];
     while (next != UNSET) {
       long entry = entries[next];
-      if (getHash(entry) == hash && Objects.equal(key, keys[next])) {
+      if (getHash(entry) == hash && Objects.equals(key, keys[next])) {
         return next;
       }
       next = getNext(entry);
@@ -422,7 +422,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     int last = UNSET;
     do {
       if (getHash(entries[next]) == hash) {
-        if (Objects.equal(key, keys[next])) {
+        if (Objects.equals(key, keys[next])) {
           int oldValue = values[next];
 
           if (last == UNSET) {

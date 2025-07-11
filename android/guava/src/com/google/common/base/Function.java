@@ -15,6 +15,7 @@
 package com.google.common.base;
 
 import com.google.common.annotations.GwtCompatible;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -50,8 +51,8 @@ public interface Function<F extends @Nullable Object, T extends @Nullable Object
    *
    * <ul>
    *   <li>Its execution does not cause any observable side effects.
-   *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
-   *       Objects.equal}{@code (a, b)} implies that {@code Objects.equal(function.apply(a),
+   *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equals
+   *       Objects.equals}{@code (a, b)} implies that {@code Objects.equals(function.apply(a),
    *       function.apply(b))}.
    * </ul>
    *
