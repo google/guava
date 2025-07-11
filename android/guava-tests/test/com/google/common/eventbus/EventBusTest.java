@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -230,7 +231,7 @@ public class EventBusTest extends TestCase {
   // NOTE: This test will always pass if register() is thread-safe but may also
   // pass if it isn't, though this is unlikely.
   public void testRegisterThreadSafety() throws Exception {
-    List<StringCatcher> catchers = Lists.newCopyOnWriteArrayList();
+    List<StringCatcher> catchers = new CopyOnWriteArrayList<>();
     List<Future<?>> futures = new ArrayList<>();
     ExecutorService executor = Executors.newFixedThreadPool(10);
     int numberOfCatchers = 10000;

@@ -34,6 +34,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.AbstractList;
@@ -264,6 +265,9 @@ public final class Lists {
    */
   @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
+  @InlineMe(
+      replacement = "new CopyOnWriteArrayList<>()",
+      imports = {"java.util.concurrent.CopyOnWriteArrayList"})
   public static <E extends @Nullable Object> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
     return new CopyOnWriteArrayList<>();
   }
