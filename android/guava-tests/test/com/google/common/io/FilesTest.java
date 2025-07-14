@@ -106,7 +106,7 @@ public class FilesTest extends IoTestCase {
 
     private final long badLength;
 
-    public BadLengthFile(File delegate, long badLength) {
+    BadLengthFile(File delegate, long badLength) {
       super(delegate.getPath());
       this.badLength = badLength;
     }
@@ -389,7 +389,7 @@ public class FilesTest extends IoTestCase {
     private final boolean canRename;
     private final boolean canDelete;
 
-    public UnmovableFile(File file, boolean canRename, boolean canDelete) {
+    UnmovableFile(File file, boolean canRename, boolean canDelete) {
       super(file.getPath());
       this.canRename = canRename;
       this.canDelete = canDelete;

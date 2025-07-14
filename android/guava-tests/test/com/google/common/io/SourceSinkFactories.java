@@ -265,13 +265,13 @@ public class SourceSinkFactories {
 
     private final ThreadLocal<File> fileThreadLocal = new ThreadLocal<>();
 
-    protected File createFile() throws IOException {
+    File createFile() throws IOException {
       File file = File.createTempFile("SinkSourceFile", "txt");
       fileThreadLocal.set(file);
       return file;
     }
 
-    protected File getFile() {
+    File getFile() {
       return fileThreadLocal.get();
     }
 

@@ -69,7 +69,7 @@ public class MessageDigestAlgorithmBenchmark {
     };
     ;
 
-    public abstract byte[] hash(Algorithm algorithm, byte[] input);
+    abstract byte[] hash(Algorithm algorithm, byte[] input);
   }
 
   private enum Algorithm {
@@ -87,7 +87,7 @@ public class MessageDigestAlgorithmBenchmark {
       this.hashFn = hashFn;
     }
 
-    public MessageDigest getMessageDigest() {
+    MessageDigest getMessageDigest() {
       try {
         return MessageDigest.getInstance(algorithmName);
       } catch (NoSuchAlgorithmException e) {
@@ -95,7 +95,7 @@ public class MessageDigestAlgorithmBenchmark {
       }
     }
 
-    public HashFunction getHashFunction() {
+    HashFunction getHashFunction() {
       return hashFn;
     }
   }

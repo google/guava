@@ -837,11 +837,11 @@ public final class Hashing {
   private static final class LinearCongruentialGenerator {
     private long state;
 
-    public LinearCongruentialGenerator(long seed) {
+    LinearCongruentialGenerator(long seed) {
       this.state = seed;
     }
 
-    public double nextDouble() {
+    double nextDouble() {
       state = 2862933555777941757L * state + 1;
       return ((double) ((int) (state >>> 33) + 1)) / 0x1.0p31;
     }

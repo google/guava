@@ -720,9 +720,9 @@ public class MoreFilesTest extends TestCase {
       }
     };
 
-    public abstract void delete(Path path, RecursiveDeleteOption... options) throws IOException;
+    abstract void delete(Path path, RecursiveDeleteOption... options) throws IOException;
 
-    public abstract void assertDeleteSucceeded(Path path) throws IOException;
+    abstract void assertDeleteSucceeded(Path path) throws IOException;
   }
 
   private static boolean isWindows() {

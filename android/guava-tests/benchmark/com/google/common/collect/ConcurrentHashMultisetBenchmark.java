@@ -175,7 +175,7 @@ public class ConcurrentHashMultisetBenchmark {
      * Creates a new, empty {@code OldConcurrentHashMultiset} using the default initial capacity,
      * load factor, and concurrency settings.
      */
-    public static <E> OldConcurrentHashMultiset<E> create() {
+    static <E> OldConcurrentHashMultiset<E> create() {
       return new OldConcurrentHashMultiset<E>(new ConcurrentHashMap<E, Integer>());
     }
 
@@ -351,7 +351,7 @@ public class ConcurrentHashMultisetBenchmark {
      * @param occurrences the number of occurrences of {@code element} to remove
      * @return {@code true} if the removal was possible (including if {@code occurrences} is zero)
      */
-    public boolean removeExactly(@Nullable Object element, int occurrences) {
+    boolean removeExactly(@Nullable Object element, int occurrences) {
       if (occurrences == 0) {
         return true;
       }

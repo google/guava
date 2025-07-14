@@ -438,15 +438,15 @@ public class ExecutionSequencerTest extends TestCase {
       return null;
     }
 
-    public void waitForStart() throws InterruptedException {
+    void waitForStart() throws InterruptedException {
       startLatch.await();
     }
 
-    public void stop() {
+    void stop() {
       stopLatch.countDown();
     }
 
-    public boolean isRunning() {
+    boolean isRunning() {
       return running;
     }
   }
