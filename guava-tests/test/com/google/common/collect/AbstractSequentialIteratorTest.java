@@ -135,7 +135,7 @@ public class AbstractSequentialIteratorTest extends TestCase {
 
   private static class EmptyAbstractSequentialIterator<T> extends AbstractSequentialIterator<T> {
 
-    public EmptyAbstractSequentialIterator() {
+    EmptyAbstractSequentialIterator() {
       super(null);
     }
 
@@ -147,7 +147,7 @@ public class AbstractSequentialIteratorTest extends TestCase {
 
   private static class BrokenAbstractSequentialIterator extends AbstractSequentialIterator<Object> {
 
-    public BrokenAbstractSequentialIterator() {
+    BrokenAbstractSequentialIterator() {
       super("UNUSED");
     }
 

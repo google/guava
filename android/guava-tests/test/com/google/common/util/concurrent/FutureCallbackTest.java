@@ -188,7 +188,7 @@ public class FutureCallbackTest extends TestCase {
       this.value = expectedValue;
     }
 
-    public MockCallback(Throwable expectedFailure) {
+    MockCallback(Throwable expectedFailure) {
       this.failure = expectedFailure;
     }
 

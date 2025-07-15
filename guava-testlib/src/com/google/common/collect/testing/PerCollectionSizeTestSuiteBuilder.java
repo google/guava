@@ -126,7 +126,7 @@ public abstract class PerCollectionSizeTestSuiteBuilder<
     private final List<Class<? extends AbstractTester>> testers;
 
     @SuppressWarnings("rawtypes") // class literals
-    public OneSizeTestSuiteBuilder(List<Class<? extends AbstractTester>> testers) {
+    OneSizeTestSuiteBuilder(List<Class<? extends AbstractTester>> testers) {
       this.testers = testers;
     }
 

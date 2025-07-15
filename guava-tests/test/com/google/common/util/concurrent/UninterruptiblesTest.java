@@ -26,6 +26,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.takeUninterrupt
 import static com.google.common.util.concurrent.Uninterruptibles.tryAcquireUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.tryLockUninterruptibly;
 import static java.util.concurrent.Executors.newFixedThreadPool;
+import static java.util.concurrent.Executors.newScheduledThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -41,7 +42,6 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Semaphore;
@@ -891,7 +891,7 @@ public class UninterruptiblesTest extends TestCase {
     static TestCondition createAndSignalAfter(long delay, TimeUnit unit) {
       TestCondition testCondition = create();
 
-      ScheduledExecutorService scheduledPool = Executors.newScheduledThreadPool(1);
+      ScheduledExecutorService scheduledPool = newScheduledThreadPool(1);
       // If signal() fails somehow, we should see a failed test, even without looking at the Future.
       Future<?> unused =
           scheduledPool.schedule(

@@ -25,6 +25,7 @@ import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.errorprone.annotations.Keep;
 import java.io.Serializable;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
@@ -404,18 +405,22 @@ final class Types {
       this.bounds = ImmutableList.copyOf(bounds);
     }
 
+    @Keep
     public Type[] getBounds() {
       return toArray(bounds);
     }
 
+    @Keep
     public D getGenericDeclaration() {
       return genericDeclaration;
     }
 
+    @Keep
     public String getName() {
       return name;
     }
 
+    @Keep
     public String getTypeName() {
       return name;
     }

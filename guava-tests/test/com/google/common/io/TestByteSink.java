@@ -63,7 +63,7 @@ public class TestByteSink extends ByteSink implements TestStreamSupplier {
 
   private final class Out extends TestOutputStream {
 
-    public Out() throws IOException {
+    Out() throws IOException {
       super(bytes, options);
     }
 

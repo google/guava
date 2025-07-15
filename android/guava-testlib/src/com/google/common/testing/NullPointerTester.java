@@ -631,7 +631,7 @@ public final class NullPointerTester {
       }
     };
 
-    public abstract boolean isExpectedType(Throwable cause);
+    abstract boolean isExpectedType(Throwable cause);
   }
 
   private static boolean annotatedTypeExists() {

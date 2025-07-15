@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.testing.ReflectionFreeAssertThrows.assertThrows;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -27,7 +28,6 @@ import java.time.Duration;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
@@ -164,7 +164,7 @@ public class FakeTickerTest extends TestCase {
   @GwtIncompatible // concurrency
   private void runConcurrentTest(int numberOfThreads, Callable<@Nullable Void> callable)
       throws Exception {
-    ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+    ExecutorService executorService = newFixedThreadPool(numberOfThreads);
     CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
     CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
     for (int i = numberOfThreads; i > 0; i--) {

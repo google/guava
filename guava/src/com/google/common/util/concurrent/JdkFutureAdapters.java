@@ -16,11 +16,11 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
+import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -107,8 +107,7 @@ public final class JdkFutureAdapters {
             .setDaemon(true)
             .setNameFormat("ListenableFutureAdapter-thread-%d")
             .build();
-    private static final Executor defaultAdapterExecutor =
-        Executors.newCachedThreadPool(threadFactory);
+    private static final Executor defaultAdapterExecutor = newCachedThreadPool(threadFactory);
 
     private final Executor adapterExecutor;
 

@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.newSequentialExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
+import static java.util.concurrent.Executors.newCachedThreadPool;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
@@ -32,7 +34,6 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -281,7 +282,7 @@ public class SequentialExecutorTest extends TestCase {
     class MyError extends Error {}
     CyclicBarrier barrier = new CyclicBarrier(2);
     // we need to make sure the error gets thrown on a different thread.
-    ExecutorService service = Executors.newSingleThreadExecutor();
+    ExecutorService service = newSingleThreadExecutor();
     try {
       SequentialExecutor executor = new SequentialExecutor(service);
       Runnable errorTask =
@@ -329,7 +330,7 @@ public class SequentialExecutorTest extends TestCase {
           }
         };
     SequentialExecutor executor = new SequentialExecutor(delegate);
-    ExecutorService blocked = Executors.newCachedThreadPool();
+    ExecutorService blocked = newCachedThreadPool();
     Future<?> first =
         blocked.submit(
             new Runnable() {

@@ -17,12 +17,12 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.Executors.defaultThreadFactory;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.NullPointerTester;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
-import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -64,7 +64,7 @@ public class ThreadFactoryBuilderTest extends TestCase {
     Thread thread = threadFactory.newThread(monitoredRunnable);
     checkThreadPoolName(thread, 1);
 
-    Thread defaultThread = Executors.defaultThreadFactory().newThread(monitoredRunnable);
+    Thread defaultThread = defaultThreadFactory().newThread(monitoredRunnable);
     assertEquals(defaultThread.isDaemon(), thread.isDaemon());
     assertEquals(defaultThread.getPriority(), thread.getPriority());
     assertSame(defaultThread.getThreadGroup(), thread.getThreadGroup());

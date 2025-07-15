@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.Executors.defaultThreadFactory;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -168,7 +169,7 @@ public final class ThreadFactoryBuilder {
     ThreadFactory backingThreadFactory =
         (builder.backingThreadFactory != null)
             ? builder.backingThreadFactory
-            : Executors.defaultThreadFactory();
+            : defaultThreadFactory();
     AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
     return new ThreadFactory() {
       @Override

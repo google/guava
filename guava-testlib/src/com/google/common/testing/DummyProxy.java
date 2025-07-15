@@ -29,6 +29,7 @@ import com.google.common.reflect.TypeToken;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
+import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.jspecify.annotations.NullMarked;
@@ -50,7 +51,22 @@ abstract class DummyProxy {
    */
   final <T> T newProxy(TypeToken<T> interfaceType) {
     Set<Class<?>> interfaceClasses = new LinkedHashSet<>();
-    interfaceClasses.addAll(interfaceType.getTypes().interfaces().rawTypes());
+    Set<Class<? super T>> allInterfaceClasses = interfaceType.getTypes().interfaces().rawTypes();
+    for (Class<? super T> itf : allInterfaceClasses) {
+      Iterator<Class<?>> iterator = interfaceClasses.iterator();
+      boolean addToSet = true;
+      while (iterator.hasNext()) {
+        Class<?> current = iterator.next();
+        if (current == itf || itf.isAssignableFrom(current)) {
+          // Skip any super interface of the ones that are already included.
+          addToSet = false;
+          break;
+        }
+      }
+      if (addToSet) {
+        interfaceClasses.add(itf);
+      }
+    }
     // Make the proxy serializable to work with SerializableTester
     interfaceClasses.add(Serializable.class);
     Object dummy =

@@ -1184,7 +1184,7 @@ public final class Iterators {
     private boolean hasPeeked;
     private @Nullable E peekedElement;
 
-    public PeekingImpl(Iterator<? extends E> iterator) {
+    PeekingImpl(Iterator<? extends E> iterator) {
       this.iterator = checkNotNull(iterator);
     }
 
@@ -1319,7 +1319,7 @@ public final class Iterators {
   private static class MergingIterator<T extends @Nullable Object> extends UnmodifiableIterator<T> {
     final Queue<PeekingIterator<T>> queue;
 
-    public MergingIterator(
+    MergingIterator(
         Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> itemComparator) {
       // A comparator that's used by the heap, allowing the heap
       // to be sorted based on the top of each iterator.

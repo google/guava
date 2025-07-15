@@ -1736,7 +1736,7 @@ public abstract class CharMatcher implements Predicate<Character> {
 
     private final char[] chars;
 
-    public AnyOf(CharSequence chars) {
+    AnyOf(CharSequence chars) {
       this.chars = chars.toString().toCharArray();
       Arrays.sort(this.chars);
     }

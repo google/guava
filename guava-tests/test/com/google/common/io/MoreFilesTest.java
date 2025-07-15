@@ -23,6 +23,7 @@ import static com.google.common.jimfs.Feature.SYMBOLIC_LINKS;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.LinkOption.NOFOLLOW_LINKS;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ObjectArrays;
@@ -43,7 +44,6 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.nio.file.attribute.FileTime;
 import java.util.EnumSet;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -601,7 +601,7 @@ public class MoreFilesTest extends TestCase {
         Path changingFile = dirToDelete.resolve("j/l");
         Path symlinkTarget = fs.getPath("/dontdelete");
 
-        ExecutorService executor = Executors.newSingleThreadExecutor();
+        ExecutorService executor = newSingleThreadExecutor();
         startDirectorySymlinkSwitching(changingFile, symlinkTarget, executor);
 
         try {
@@ -720,9 +720,9 @@ public class MoreFilesTest extends TestCase {
       }
     };
 
-    public abstract void delete(Path path, RecursiveDeleteOption... options) throws IOException;
+    abstract void delete(Path path, RecursiveDeleteOption... options) throws IOException;
 
-    public abstract void assertDeleteSucceeded(Path path) throws IOException;
+    abstract void assertDeleteSucceeded(Path path) throws IOException;
   }
 
   private static boolean isWindows() {

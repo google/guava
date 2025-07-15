@@ -154,7 +154,7 @@ public class WrappingExecutorServiceTest extends TestCase {
   private static final class WrappedCallable<T> implements Callable<T> {
     private final Callable<T> delegate;
 
-    public WrappedCallable(Callable<T> delegate) {
+    WrappedCallable(Callable<T> delegate) {
       this.delegate = delegate;
     }
 
@@ -167,7 +167,7 @@ public class WrappingExecutorServiceTest extends TestCase {
   private static final class WrappedRunnable implements Runnable {
     private final Runnable delegate;
 
-    public WrappedRunnable(Runnable delegate) {
+    WrappedRunnable(Runnable delegate) {
       this.delegate = delegate;
     }
 
@@ -178,7 +178,7 @@ public class WrappingExecutorServiceTest extends TestCase {
   }
 
   private static final class TestExecutor extends WrappingExecutorService {
-    public TestExecutor(MockExecutor mock) {
+    TestExecutor(MockExecutor mock) {
       super(mock);
     }
 
@@ -199,11 +199,11 @@ public class WrappingExecutorServiceTest extends TestCase {
     private long lastTimeoutInMillis = -1;
     private final ExecutorService inline = newDirectExecutorService();
 
-    public void assertLastMethodCalled(String method) {
+    void assertLastMethodCalled(String method) {
       assertEquals(method, lastMethodCalled);
     }
 
-    public void assertMethodWithTimeout(String method, long timeout, TimeUnit unit) {
+    void assertMethodWithTimeout(String method, long timeout, TimeUnit unit) {
       assertLastMethodCalled(method + "Timeout");
       assertEquals(unit.toMillis(timeout), lastTimeoutInMillis);
     }

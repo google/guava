@@ -62,12 +62,12 @@ public class BigDecimalMathTest extends TestCase {
     }
 
     @CanIgnoreReturnValue
-    public RoundToDoubleTester roundUnnecessaryShouldThrow() {
+    RoundToDoubleTester roundUnnecessaryShouldThrow() {
       unnecessaryShouldThrow = true;
       return this;
     }
 
-    public void test() {
+    void test() {
       assertThat(expectedValues.keySet())
           .containsAtLeastElementsIn(EnumSet.complementOf(EnumSet.of(UNNECESSARY)));
       for (Map.Entry<RoundingMode, Double> entry : expectedValues.entrySet()) {

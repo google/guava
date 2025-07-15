@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 import static com.google.common.collect.Lists.transform;
 import static java.lang.Math.min;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 
 import com.google.common.base.Function;
 import com.google.common.primitives.Ints;
@@ -30,7 +31,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ConcurrentSkipListMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
@@ -70,7 +70,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
     int nThreads = 20;
     int tasksPerThread = 10;
     int nTasks = nThreads * tasksPerThread;
-    ExecutorService pool = Executors.newFixedThreadPool(nThreads);
+    ExecutorService pool = newFixedThreadPool(nThreads);
     ImmutableList<String> keys = ImmutableList.of("a", "b", "c");
     try {
       List<Future<int[]>> futures = newArrayListWithExpectedSize(nTasks);

@@ -249,7 +249,7 @@ public class ListsImplTest extends TestCase {
 
   private static final class ArrayListExample extends ListExample {
 
-    protected ArrayListExample(String name) {
+    ArrayListExample(String name) {
       super(name, Modifiability.ALL);
     }
 
@@ -261,7 +261,7 @@ public class ListsImplTest extends TestCase {
 
   private static final class LinkedListExample extends ListExample {
 
-    protected LinkedListExample(String name) {
+    LinkedListExample(String name) {
       super(name, Modifiability.ALL);
     }
 
@@ -276,7 +276,7 @@ public class ListsImplTest extends TestCase {
   @GwtIncompatible // Iterables.toArray
   private static final class ArraysAsListExample extends ListExample {
 
-    protected ArraysAsListExample(String name) {
+    ArraysAsListExample(String name) {
       super(name, Modifiability.BY_ELEMENT);
     }
 
@@ -289,7 +289,7 @@ public class ListsImplTest extends TestCase {
 
   private static final class ImmutableListExample extends ListExample {
 
-    protected ImmutableListExample(String name) {
+    ImmutableListExample(String name) {
       super(name, Modifiability.NONE);
     }
 
@@ -303,7 +303,7 @@ public class ListsImplTest extends TestCase {
   @GwtIncompatible // CopyOnWriteArrayList
   private static final class CopyOnWriteListExample extends ListExample {
 
-    protected CopyOnWriteListExample(String name) {
+    CopyOnWriteListExample(String name) {
       super(name, Modifiability.DIRECT_ONLY);
     }
 

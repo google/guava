@@ -19,6 +19,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.AbstractScheduledService.Scheduler.newFixedDelaySchedule;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.Executors.newScheduledThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -33,7 +34,6 @@ import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.Delayed;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -496,7 +496,7 @@ public class AbstractScheduledServiceTest extends TestCase {
           }
         };
     TestCustomScheduler scheduler = new TestCustomScheduler();
-    Cancellable future = scheduler.schedule(null, Executors.newScheduledThreadPool(10), task);
+    Cancellable future = scheduler.schedule(null, newScheduledThreadPool(10), task);
     firstBarrier.await();
     assertEquals(1, scheduler.scheduleCounter.get());
     secondBarrier.await();
@@ -597,7 +597,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     @Override
     protected ScheduledExecutorService executor() {
       // use a bunch of threads so that weird overlapping schedules are more likely to happen.
-      return Executors.newScheduledThreadPool(10);
+      return newScheduledThreadPool(10);
     }
 
     @Override
@@ -640,7 +640,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     @Override
     protected ScheduledExecutorService executor() {
       // use a bunch of threads so that weird overlapping schedules are more likely to happen.
-      return Executors.newScheduledThreadPool(10);
+      return newScheduledThreadPool(10);
     }
 
     @Override

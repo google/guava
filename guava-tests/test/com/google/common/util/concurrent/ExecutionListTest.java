@@ -17,12 +17,12 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.testing.NullPointerTester;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -39,7 +39,7 @@ public class ExecutionListTest extends TestCase {
   private final ExecutionList list = new ExecutionList();
 
   public void testRunOnPopulatedList() throws Exception {
-    Executor exec = Executors.newCachedThreadPool();
+    Executor exec = newCachedThreadPool();
     CountDownLatch countDownLatch = new CountDownLatch(3);
     list.add(new MockRunnable(countDownLatch), exec);
     list.add(new MockRunnable(countDownLatch), exec);
@@ -109,7 +109,7 @@ public class ExecutionListTest extends TestCase {
 
     // If it passed, then verify an Add will be executed without calling run
     CountDownLatch countDownLatch = new CountDownLatch(1);
-    list.add(new MockRunnable(countDownLatch), Executors.newCachedThreadPool());
+    list.add(new MockRunnable(countDownLatch), newCachedThreadPool());
     assertTrue(countDownLatch.await(1L, SECONDS));
   }
 

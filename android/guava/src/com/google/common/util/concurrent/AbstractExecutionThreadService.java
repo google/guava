@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.MoreExecutors.newThread;
+import static com.google.common.util.concurrent.MoreExecutors.renamingDecorator;
 import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -39,7 +41,7 @@ public abstract class AbstractExecutionThreadService implements Service {
       new AbstractService() {
         @Override
         protected final void doStart() {
-          Executor executor = MoreExecutors.renamingDecorator(executor(), () -> serviceName());
+          Executor executor = renamingDecorator(executor(), () -> serviceName());
           executor.execute(
               () -> {
                 try {
@@ -142,7 +144,7 @@ public abstract class AbstractExecutionThreadService implements Service {
    * to the string returned by {@link #serviceName}
    */
   protected Executor executor() {
-    return command -> MoreExecutors.newThread(serviceName(), command).start();
+    return command -> newThread(serviceName(), command).start();
   }
 
   @Override

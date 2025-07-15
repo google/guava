@@ -112,7 +112,7 @@ public class ConverterTest extends TestCase {
   private static class StringWrapper {
     private final String value;
 
-    public StringWrapper(String value) {
+    StringWrapper(String value) {
       this.value = value;
     }
   }

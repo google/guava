@@ -62,7 +62,7 @@ public final class TestByteSource extends ByteSource implements TestStreamSuppli
 
   private final class In extends TestInputStream {
 
-    public In() throws IOException {
+    In() throws IOException {
       super(new ByteArrayInputStream(bytes), options);
     }
 
