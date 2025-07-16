@@ -531,9 +531,12 @@ mod(8, 4) == 0
 <section class="detail" id="checkedAdd(long,long)">
 <h3>checkedAdd</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">checkedAdd</span><wbr><span class="parameters">(long&nbsp;a,
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="Math.addExact(a, b)")
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">checkedAdd</span><wbr><span class="parameters">(long&nbsp;a,
  long&nbsp;b)</span></div>
-<div class="block">Returns the sum of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
+<div class="block">Returns the sum of <code>a</code> and <code>b</code>, provided it does not overflow.
+
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#addExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.addExact(long, long)</code></a> instead.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link">ArithmeticException</a></code> - if <code>a + b</code> overflows in signed <code>long</code> arithmetic</dd>
@@ -545,9 +548,12 @@ mod(8, 4) == 0
 <section class="detail" id="checkedSubtract(long,long)">
 <h3>checkedSubtract</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">checkedSubtract</span><wbr><span class="parameters">(long&nbsp;a,
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="Math.subtractExact(a, b)")
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">checkedSubtract</span><wbr><span class="parameters">(long&nbsp;a,
  long&nbsp;b)</span></div>
-<div class="block">Returns the difference of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
+<div class="block">Returns the difference of <code>a</code> and <code>b</code>, provided it does not overflow.
+
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#subtractExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.subtractExact(long, long)</code></a> instead.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link">ArithmeticException</a></code> - if <code>a - b</code> overflows in signed <code>long</code> arithmetic</dd>
@@ -559,9 +565,12 @@ mod(8, 4) == 0
 <section class="detail" id="checkedMultiply(long,long)">
 <h3>checkedMultiply</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">checkedMultiply</span><wbr><span class="parameters">(long&nbsp;a,
+<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="Math.multiplyExact(a, b)")
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">checkedMultiply</span><wbr><span class="parameters">(long&nbsp;a,
  long&nbsp;b)</span></div>
-<div class="block">Returns the product of <code>a</code> and <code>b</code>, provided it does not overflow.</div>
+<div class="block">Returns the product of <code>a</code> and <code>b</code>, provided it does not overflow.
+
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#multiplyExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.multiplyExact(long, long)</code></a> instead.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link">ArithmeticException</a></code> - if <code>a * b</code> overflows in signed <code>long</code> arithmetic</dd>
