@@ -84,7 +84,7 @@ public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
   public void testRemoveIf_unsupportedEmptyCollection() {
     try {
       assertFalse(
-          "removeIf(Predicate) should return false or throw " + "UnsupportedOperationException",
+          "removeIf(Predicate) should return false or throw UnsupportedOperationException",
           collection.removeIf(
               x -> {
                 throw new AssertionError("predicate should never be called");

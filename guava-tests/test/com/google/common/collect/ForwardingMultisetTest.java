@@ -174,7 +174,7 @@ public class ForwardingMultisetTest extends TestCase {
                         LinkedHashMultiset.create(asList(elements)));
                   }
                 })
-            .named("ForwardingMultiset[LinkedHashMultiset] with standard " + "implementations")
+            .named("ForwardingMultiset[LinkedHashMultiset] with standard implementations")
             .withFeatures(
                 CollectionSize.ANY,
                 CollectionFeature.ALLOWS_NULL_VALUES,
@@ -189,7 +189,7 @@ public class ForwardingMultisetTest extends TestCase {
                     return new StandardImplForwardingMultiset<>(ImmutableMultiset.copyOf(elements));
                   }
                 })
-            .named("ForwardingMultiset[ImmutableMultiset] with standard " + "implementations")
+            .named("ForwardingMultiset[ImmutableMultiset] with standard implementations")
             .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_QUERIES)
             .createTestSuite());
     suite.addTest(

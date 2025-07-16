@@ -549,7 +549,7 @@ public class ImmutableListTest extends TestCase {
     assertEquals(0x003300, (int) webSafeColors.get(6));
     ImmutableList<Integer> addedColor = webSafeColorsBuilder.add(0x00BFFF).build();
     assertEquals(
-        "Modifying the builder should not have changed any already" + " built sets",
+        "Modifying the builder should not have changed any already built sets",
         216,
         webSafeColors.size());
     assertEquals("the new array should be one bigger than webSafeColors", 217, addedColor.size());

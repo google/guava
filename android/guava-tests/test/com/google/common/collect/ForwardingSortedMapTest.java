@@ -195,7 +195,7 @@ public class ForwardingSortedMapTest extends TestCase {
                     return new StandardImplForwardingSortedMap<>(builder.build());
                   }
                 })
-            .named("ForwardingSortedMap[ImmutableSortedMap] with standard " + "implementations")
+            .named("ForwardingSortedMap[ImmutableSortedMap] with standard implementations")
             .withFeatures(
                 CollectionSize.ANY,
                 MapFeature.REJECTS_DUPLICATES_AT_CREATION,

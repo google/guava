@@ -891,7 +891,7 @@ public class OrderingTest extends TestCase {
       Ordering<? super T> ordering, T... strictlyOrderedElements) {
     checkArgument(
         strictlyOrderedElements.length >= 3,
-        "strictlyOrderedElements " + "requires at least 3 elements");
+        "strictlyOrderedElements requires at least 3 elements");
     List<T> list = asList(strictlyOrderedElements);
 
     // for use calling Collection.toArray later

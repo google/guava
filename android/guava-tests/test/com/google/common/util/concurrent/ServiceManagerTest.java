@@ -452,8 +452,7 @@ public class ServiceManagerTest extends TestCase {
         assertThrows(IllegalStateException.class, () -> manager.awaitHealthy());
     assertThat(e)
         .hasMessageThat()
-        .contains(
-            "Expected to be healthy after starting. The following services are not " + "running:");
+        .contains("Expected to be healthy after starting. The following services are not running:");
 
     Throwable[] suppressed = e.getSuppressed();
     assertThat(suppressed).hasLength(2);

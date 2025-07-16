@@ -161,8 +161,7 @@ public class SplitterTest extends TestCase {
   }
 
   public void testCharacterSplitWithTrim() {
-    String jacksons =
-        "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, " + "ofar(Jemaine), aff(Tito)";
+    String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, ofar(Jemaine), aff(Tito)";
     Iterable<String> family =
         COMMA_SPLITTER
             .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.whitespace()))
@@ -281,8 +280,7 @@ public class SplitterTest extends TestCase {
   }
 
   public void testStringSplitWithTrim() {
-    String jacksons =
-        "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, " + "ofar(Jemaine), aff(Tito)";
+    String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, ofar(Jemaine), aff(Tito)";
     Iterable<String> family =
         Splitter.on(",")
             .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.whitespace()))
@@ -452,8 +450,7 @@ public class SplitterTest extends TestCase {
 
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWithTrim() {
-    String jacksons =
-        "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, " + "ofar(Jemaine), aff(Tito)";
+    String jacksons = "arfo(Marlon)aorf, (Michael)orfa, afro(Jackie)orfa, ofar(Jemaine), aff(Tito)";
     Iterable<String> family =
         Splitter.on(Pattern.compile(","))
             .trimResults(CharMatcher.anyOf("afro").or(CharMatcher.whitespace()))
