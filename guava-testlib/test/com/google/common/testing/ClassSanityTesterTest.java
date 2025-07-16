@@ -679,6 +679,7 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   private static class SetWrapper extends Wrapper {
+    @Keep
     public SetWrapper(Set<NotInstantiable> wrapped) {
       super(wrapped);
     }
