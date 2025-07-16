@@ -310,6 +310,8 @@ public class SourceSinkFactories {
       return fileThreadLocal.get();
     }
 
+    // acts as an override in subclasses that implement SourceSinkFactory
+    @SuppressWarnings("EffectivelyPrivate")
     public final void tearDown() throws IOException {
       if (!fileThreadLocal.get().delete()) {
         logger.warning("Unable to delete file: " + fileThreadLocal.get());
@@ -490,6 +492,8 @@ public class SourceSinkFactories {
       return fileThreadLocal.get();
     }
 
+    // acts as an override in subclasses that implement SourceSinkFactory
+    @SuppressWarnings("EffectivelyPrivate")
     public final void tearDown() throws IOException {
       try {
         java.nio.file.Files.delete(fileThreadLocal.get());

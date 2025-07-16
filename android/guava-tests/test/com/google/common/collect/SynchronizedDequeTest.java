@@ -42,7 +42,7 @@ public class SynchronizedDequeTest extends TestCase {
 
   private static final class TestDeque<E> implements Deque<E> {
     private final Deque<E> delegate = new LinkedList<>();
-    public final Object mutex = new Object[0]; // something Serializable
+    private final Object mutex = new Object[0]; // something Serializable
 
     @Override
     public boolean offer(E o) {

@@ -255,7 +255,7 @@ public class Helpers {
       implements Comparator<Entry<K, V>> {
     final @Nullable Comparator<? super K> keyComparator;
 
-    public EntryComparator(@Nullable Comparator<? super K> keyComparator) {
+    EntryComparator(@Nullable Comparator<? super K> keyComparator) {
       this.keyComparator = keyComparator;
     }
 

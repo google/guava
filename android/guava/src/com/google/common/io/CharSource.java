@@ -543,9 +543,9 @@ public abstract class CharSource {
 
     private static final Splitter LINE_SPLITTER = Splitter.onPattern("\r\n|\n|\r");
 
-    protected final CharSequence seq;
+    final CharSequence seq;
 
-    protected CharSequenceCharSource(CharSequence seq) {
+    CharSequenceCharSource(CharSequence seq) {
       this.seq = checkNotNull(seq);
     }
 
@@ -648,7 +648,7 @@ public abstract class CharSource {
    * </ul>
    */
   private static class StringCharSource extends CharSequenceCharSource {
-    protected StringCharSource(String seq) {
+    StringCharSource(String seq) {
       super(seq);
     }
 

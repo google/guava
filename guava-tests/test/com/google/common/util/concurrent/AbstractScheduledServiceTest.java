@@ -468,7 +468,7 @@ public class AbstractScheduledServiceTest extends TestCase {
   }
 
   private static class TestCustomScheduler extends AbstractScheduledService.CustomScheduler {
-    public final AtomicInteger scheduleCounter = new AtomicInteger(0);
+    private final AtomicInteger scheduleCounter = new AtomicInteger(0);
 
     @Override
     protected Schedule getNextSchedule() throws Exception {

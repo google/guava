@@ -563,11 +563,11 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   private static final class Reference<T> {
     private @Nullable T value;
 
-    public @Nullable T get() {
+    @Nullable T get() {
       return value;
     }
 
-    public void checkAndSet(@Nullable T expected, @Nullable T newValue) {
+    void checkAndSet(@Nullable T expected, @Nullable T newValue) {
       if (value != expected) {
         throw new ConcurrentModificationException();
       }

@@ -757,7 +757,7 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
         return Integer.compare(a, o.a);
       }
 
-      public boolean fullEquals(@Nullable TypeWithDuplicates other) {
+      boolean fullEquals(@Nullable TypeWithDuplicates other) {
         return other != null && a == other.a && b == other.b;
       }
     }

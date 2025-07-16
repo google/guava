@@ -413,18 +413,23 @@ public final class ArbitraryInstances {
   // Internal implementations of some classes, with public default constructor that get() needs.
   private static final class Dummies {
 
+    @Keep
     public static final class InMemoryPrintStream extends PrintStream {
+      @Keep
       public InMemoryPrintStream() {
         super(new ByteArrayOutputStream());
       }
     }
 
+    @Keep
     public static final class InMemoryPrintWriter extends PrintWriter {
+      @Keep
       public InMemoryPrintWriter() {
         super(new StringWriter());
       }
     }
 
+    @Keep
     public static final class DeterministicRandom extends Random {
       @Keep
       public DeterministicRandom() {
@@ -432,23 +437,29 @@ public final class ArbitraryInstances {
       }
     }
 
+    @Keep
     public static final class DummyScheduledThreadPoolExecutor extends ScheduledThreadPoolExecutor {
+      @Keep
       public DummyScheduledThreadPoolExecutor() {
         super(1);
       }
     }
 
+    @Keep
     public static final class DummyCountDownLatch extends CountDownLatch {
+      @Keep
       public DummyCountDownLatch() {
         super(0);
       }
     }
 
+    @Keep
     public static final class DummyRunnable implements Runnable, Serializable {
       @Override
       public void run() {}
     }
 
+    @Keep
     public static final class DummyThreadFactory implements ThreadFactory, Serializable {
       @Override
       public Thread newThread(Runnable r) {
@@ -456,6 +467,7 @@ public final class ArbitraryInstances {
       }
     }
 
+    @Keep
     public static final class DummyExecutor implements Executor, Serializable {
       @Override
       public void execute(Runnable command) {}

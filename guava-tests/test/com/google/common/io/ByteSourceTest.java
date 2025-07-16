@@ -250,7 +250,7 @@ public class ByteSourceTest extends IoTestCase {
   private static class AppendableByteSource extends ByteSource {
     private byte[] bytes;
 
-    public AppendableByteSource(byte[] initialBytes) {
+    AppendableByteSource(byte[] initialBytes) {
       this.bytes = initialBytes.clone();
     }
 
@@ -259,7 +259,7 @@ public class ByteSourceTest extends IoTestCase {
       return new In();
     }
 
-    public void append(byte[] b) {
+    void append(byte[] b) {
       byte[] newBytes = Arrays.copyOf(bytes, bytes.length + b.length);
       System.arraycopy(b, 0, newBytes, bytes.length, b.length);
       bytes = newBytes;

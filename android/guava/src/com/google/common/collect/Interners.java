@@ -170,7 +170,7 @@ public final class Interners {
 
     private final Interner<E> interner;
 
-    public InternerFunction(Interner<E> interner) {
+    InternerFunction(Interner<E> interner) {
       this.interner = interner;
     }
 

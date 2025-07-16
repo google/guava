@@ -230,8 +230,7 @@ public class MapTestSuiteBuilder<K, V>
   private static class ReserializedMapGenerator<K, V> implements TestMapGenerator<K, V> {
     private final OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator;
 
-    public ReserializedMapGenerator(
-        OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
+    ReserializedMapGenerator(OneSizeTestContainerGenerator<Map<K, V>, Entry<K, V>> mapGenerator) {
       this.mapGenerator = mapGenerator;
     }
 

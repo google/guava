@@ -856,7 +856,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     private class WrappedListIterator extends WrappedIterator implements ListIterator<V> {
       WrappedListIterator() {}
 
-      public WrappedListIterator(int index) {
+      WrappedListIterator(int index) {
         super(getListDelegate().listIterator(index));
       }
 

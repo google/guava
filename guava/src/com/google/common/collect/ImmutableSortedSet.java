@@ -860,7 +860,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     final Comparator<? super E> comparator;
     final Object[] elements;
 
-    public SerializedForm(Comparator<? super E> comparator, Object[] elements) {
+    SerializedForm(Comparator<? super E> comparator, Object[] elements) {
       this.comparator = comparator;
       this.elements = elements;
     }

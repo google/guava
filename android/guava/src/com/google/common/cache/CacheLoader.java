@@ -161,7 +161,7 @@ public abstract class CacheLoader<K, V> {
       implements Serializable {
     private final Function<K, V> computingFunction;
 
-    public FunctionToCacheLoader(Function<K, V> computingFunction) {
+    FunctionToCacheLoader(Function<K, V> computingFunction) {
       this.computingFunction = checkNotNull(computingFunction);
     }
 
@@ -212,7 +212,7 @@ public abstract class CacheLoader<K, V> {
       implements Serializable {
     private final Supplier<V> computingSupplier;
 
-    public SupplierToCacheLoader(Supplier<V> computingSupplier) {
+    SupplierToCacheLoader(Supplier<V> computingSupplier) {
       this.computingSupplier = checkNotNull(computingSupplier);
     }
 

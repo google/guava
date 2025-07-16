@@ -195,7 +195,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
   private enum LinkedListSupplier implements Supplier<List<?>> {
     INSTANCE;
 
-    public static <V extends @Nullable Object> Supplier<List<V>> instance() {
+    static <V extends @Nullable Object> Supplier<List<V>> instance() {
       // Each call generates a fresh LinkedList, which can serve as a List<V> for any V.
       @SuppressWarnings({"rawtypes", "unchecked"})
       Supplier<List<V>> result = (Supplier) INSTANCE;

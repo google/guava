@@ -256,7 +256,7 @@ public final class Functions {
     private final Function<B, C> g;
     private final Function<A, ? extends B> f;
 
-    public FunctionComposition(Function<B, C> g, Function<A, ? extends B> f) {
+    FunctionComposition(Function<B, C> g, Function<A, ? extends B> f) {
       this.g = checkNotNull(g);
       this.f = checkNotNull(f);
     }
@@ -362,7 +362,7 @@ public final class Functions {
       implements Function<@Nullable Object, E>, Serializable {
     @ParametricNullness private final E value;
 
-    public ConstantFunction(@ParametricNullness E value) {
+    ConstantFunction(@ParametricNullness E value) {
       this.value = value;
     }
 

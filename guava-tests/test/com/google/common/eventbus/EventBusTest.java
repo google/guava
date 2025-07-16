@@ -74,7 +74,6 @@ public class EventBusTest extends TestCase {
     List<Object> objectEvents = new ArrayList<>();
     Object objCatcher =
         new Object() {
-          @SuppressWarnings("unused")
           @Subscribe
           public void eat(Object food) {
             objectEvents.add(food);
@@ -84,7 +83,6 @@ public class EventBusTest extends TestCase {
     List<Comparable<?>> compEvents = new ArrayList<>();
     Object compCatcher =
         new Object() {
-          @SuppressWarnings("unused")
           @Subscribe
           public void eat(Comparable<?> food) {
             compEvents.add(food);
@@ -292,9 +290,8 @@ public class EventBusTest extends TestCase {
   /** Records thrown exception information. */
   private static final class RecordingSubscriberExceptionHandler
       implements SubscriberExceptionHandler {
-
-    public SubscriberExceptionContext context;
-    public Throwable exception;
+    private SubscriberExceptionContext context;
+    private Throwable exception;
 
     @Override
     public void handleException(Throwable exception, SubscriberExceptionContext context) {

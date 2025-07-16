@@ -391,7 +391,7 @@ public class CloserTest extends TestCase {
       this.throwOnClose = throwOnClose;
     }
 
-    public boolean isClosed() {
+    boolean isClosed() {
       return closed;
     }
 

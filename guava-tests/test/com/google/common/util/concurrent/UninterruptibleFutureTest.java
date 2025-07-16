@@ -138,7 +138,7 @@ public class UninterruptibleFutureTest extends TestCase {
     final int millis;
     volatile boolean completed;
 
-    public SleepingRunnable(int millis) {
+    SleepingRunnable(int millis) {
       this.millis = millis;
     }
 

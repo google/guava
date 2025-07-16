@@ -474,7 +474,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
      *
      * @throws IndexOutOfBoundsException if index is invalid
      */
-    public ValueForKeyIterator(@ParametricNullness K key, int index) {
+    ValueForKeyIterator(@ParametricNullness K key, int index) {
       KeyList<K, V> keyList = keyToKeyList.get(key);
       int size = (keyList == null) ? 0 : keyList.count;
       checkPositionIndex(index, size);

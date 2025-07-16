@@ -693,7 +693,7 @@ public class UninterruptiblesTest extends TestCase {
   private abstract static class DelayedActionRunnable implements Runnable {
     private final long tMinus;
 
-    protected DelayedActionRunnable(long tMinus) {
+    DelayedActionRunnable(long tMinus) {
       this.tMinus = tMinus;
     }
 
@@ -707,13 +707,13 @@ public class UninterruptiblesTest extends TestCase {
       doAction();
     }
 
-    protected abstract void doAction();
+    abstract void doAction();
   }
 
   private static class CountDown extends DelayedActionRunnable {
     private final CountDownLatch latch;
 
-    public CountDown(CountDownLatch latch, long tMinus) {
+    CountDown(CountDownLatch latch, long tMinus) {
       super(tMinus);
       this.latch = latch;
     }
@@ -727,7 +727,7 @@ public class UninterruptiblesTest extends TestCase {
   private static class EnableWrites extends DelayedActionRunnable {
     private final BlockingQueue<String> queue;
 
-    public EnableWrites(BlockingQueue<String> queue, long tMinus) {
+    EnableWrites(BlockingQueue<String> queue, long tMinus) {
       super(tMinus);
       assertFalse(queue.isEmpty());
       assertFalse(queue.offer("shouldBeRejected"));
@@ -743,7 +743,7 @@ public class UninterruptiblesTest extends TestCase {
   private static class EnableReads extends DelayedActionRunnable {
     private final BlockingQueue<String> queue;
 
-    public EnableReads(BlockingQueue<String> queue, long tMinus) {
+    EnableReads(BlockingQueue<String> queue, long tMinus) {
       super(tMinus);
       assertTrue(queue.isEmpty());
       this.queue = queue;
@@ -789,7 +789,7 @@ public class UninterruptiblesTest extends TestCase {
   }
 
   private static class JoinTarget extends DelayedActionRunnable {
-    public JoinTarget(long tMinus) {
+    JoinTarget(long tMinus) {
       super(tMinus);
     }
 
@@ -800,7 +800,7 @@ public class UninterruptiblesTest extends TestCase {
   private static class Release extends DelayedActionRunnable {
     private final Semaphore semaphore;
 
-    public Release(Semaphore semaphore, long tMinus) {
+    Release(Semaphore semaphore, long tMinus) {
       super(tMinus);
       this.semaphore = semaphore;
     }

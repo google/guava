@@ -111,7 +111,7 @@ public class SetMultimapTestSuiteBuilder<K, V>
       extends MultimapTestSuiteBuilder.EntriesGenerator<K, V, SetMultimap<K, V>>
       implements TestSetGenerator<Entry<K, V>> {
 
-    public EntriesGenerator(
+    EntriesGenerator(
         OneSizeTestContainerGenerator<SetMultimap<K, V>, Entry<K, V>> multimapGenerator) {
       super(multimapGenerator);
     }

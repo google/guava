@@ -488,21 +488,21 @@ public class CacheExpirationTest extends TestCase {
     String keyPrefix = KEY_PREFIX;
     int valuePrefix = VALUE_PREFIX;
 
-    public WatchedCreatorLoader() {}
+    WatchedCreatorLoader() {}
 
-    public void reset() {
+    void reset() {
       wasCalled = false;
     }
 
-    public boolean wasCalled() {
+    boolean wasCalled() {
       return wasCalled;
     }
 
-    public void setKeyPrefix(String keyPrefix) {
+    void setKeyPrefix(String keyPrefix) {
       this.keyPrefix = keyPrefix;
     }
 
-    public void setValuePrefix(int valuePrefix) {
+    void setValuePrefix(int valuePrefix) {
       this.valuePrefix = valuePrefix;
     }
 

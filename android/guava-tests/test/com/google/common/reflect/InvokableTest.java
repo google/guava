@@ -161,6 +161,7 @@ public class InvokableTest extends TestCase {
   }
 
   @Retention(RetentionPolicy.RUNTIME)
+  @Keep
   private @interface Tested {}
 
   private abstract static class A {

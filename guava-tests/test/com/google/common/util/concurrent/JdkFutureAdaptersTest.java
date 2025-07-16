@@ -63,16 +63,16 @@ public class JdkFutureAdaptersTest extends TestCase {
       calledCountDown.countDown();
     }
 
-    public void expectCall() {
+    void expectCall() {
       assertFalse("expectCall is already true", expectCall);
       expectCall = true;
     }
 
-    public boolean wasCalled() {
+    boolean wasCalled() {
       return calledCountDown.getCount() == 0;
     }
 
-    public void waitForCall() throws InterruptedException {
+    void waitForCall() throws InterruptedException {
       assertTrue("expectCall is false", expectCall);
       calledCountDown.await();
     }

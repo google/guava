@@ -591,7 +591,7 @@ public abstract class AbstractScheduledService implements Service {
        * #cancellationDelegate}.
        */
       @CanIgnoreReturnValue
-      public Cancellable reschedule() {
+      Cancellable reschedule() {
         // invoke the callback outside the lock, prevents some shenanigans.
         Schedule schedule;
         try {

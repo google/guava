@@ -27,6 +27,7 @@ import com.google.common.testing.ClassSanityTester.FactoryMethodReturnsNullExcep
 import com.google.common.testing.ClassSanityTester.ParameterHasNoDistinctValueException;
 import com.google.common.testing.ClassSanityTester.ParameterNotInstantiableException;
 import com.google.common.testing.NullPointerTester.Visibility;
+import com.google.errorprone.annotations.Keep;
 import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.util.AbstractList;
@@ -113,7 +114,7 @@ public class ClassSanityTesterTest extends TestCase {
 
   private static class BadEqualsFactory {
     /** oneConstantOnly matters now since it can be either null or the constant. */
-    @SuppressWarnings("unused") // Called by reflection
+    @Keep
     public static Object bad(String a, int b, @Nullable OneConstantEnum oneConstantOnly) {
       return new GoodEquals(a, b);
     }
@@ -124,7 +125,7 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   private static class GoodNullsFactory {
-    @SuppressWarnings("unused") // Called by reflection
+    @Keep
     public static Object good(String s) {
       return new GoodNulls(s);
     }
@@ -190,8 +191,7 @@ public class ClassSanityTesterTest extends TestCase {
   public static class BadSerializableFactory {
     public static Object bad() {
       return new Serializable() {
-        @SuppressWarnings("unused")
-        private final Object notSerializable = new Object();
+        @Keep private final Object notSerializable = new Object();
       };
     }
   }
@@ -588,7 +588,7 @@ public class ClassSanityTesterTest extends TestCase {
 
   /** String doesn't check nulls as we expect. But the framework should ignore. */
   private static class JdkObjectFactory {
-    @SuppressWarnings("unused") // Called by reflection
+    @Keep
     public static Object create() {
       return new ArrayList<>();
     }
@@ -725,7 +725,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     // keep trying
-    @SuppressWarnings("unused")
+    @Keep
     static GoodEquals create(int a, int b) {
       throw new RuntimeException();
     }
@@ -736,7 +736,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     // keep trying
-    @SuppressWarnings("unused")
+    @Keep
     public static @Nullable GoodEquals createMayReturnNull(int a, int b) {
       return null;
     }
@@ -1147,15 +1147,15 @@ public class ClassSanityTesterTest extends TestCase {
       checkNotNull(x);
     }
 
-    @SuppressWarnings("unused") // reflected
+    @Keep
     void primitiveOnly(int i) {}
 
-    @SuppressWarnings("unused") // reflected
+    @Keep
     void nullableOnly(@Nullable String s) {}
 
     public void noParameter() {}
 
-    @SuppressWarnings("unused") // reflected
+    @Keep
     void primitiveAndNullable(@Nullable String s, int i) {}
   }
 
@@ -1319,22 +1319,22 @@ public class ClassSanityTesterTest extends TestCase {
   private enum EnumFailsToCheckNull {
     A;
 
-    @SuppressWarnings("unused")
+    @Keep
     public void failToCheckNull(String s) {}
   }
 
   private interface AnInterface {}
 
   private abstract static class AnAbstractClass {
-    @SuppressWarnings("unused")
+    @Keep
     public AnAbstractClass(String s) {}
 
-    @SuppressWarnings("unused")
+    @Keep
     public void failsToCheckNull(String s) {}
   }
 
   private static class NoPublicStaticMethods {
-    @SuppressWarnings("unused") // To test non-public factory isn't used.
+    @Keep // To test non-public factory isn't used.
     static String notPublic() {
       return "";
     }

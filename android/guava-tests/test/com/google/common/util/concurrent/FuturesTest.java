@@ -797,7 +797,7 @@ public class FuturesTest extends TestCase {
     private int applyCount;
     private final Function<I, O> delegate;
 
-    public FunctionSpy(Function<I, O> delegate) {
+    FunctionSpy(Function<I, O> delegate) {
       this.delegate = delegate;
     }
 
@@ -825,7 +825,7 @@ public class FuturesTest extends TestCase {
     private int count;
     private final AsyncFunction<X, V> delegate;
 
-    public AsyncFunctionSpy(AsyncFunction<X, V> delegate) {
+    AsyncFunctionSpy(AsyncFunction<X, V> delegate) {
       this.delegate = delegate;
     }
 
@@ -1985,12 +1985,12 @@ public class FuturesTest extends TestCase {
       called.set(true);
     }
 
-    public void expectCall() {
+    void expectCall() {
       assertFalse("expectCall is already true", expectCall);
       expectCall = true;
     }
 
-    public boolean wasCalled() {
+    boolean wasCalled() {
       return called.get();
     }
   }

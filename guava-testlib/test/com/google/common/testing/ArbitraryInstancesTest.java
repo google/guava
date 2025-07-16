@@ -62,6 +62,7 @@ import com.google.common.io.CharSource;
 import com.google.common.primitives.UnsignedInteger;
 import com.google.common.primitives.UnsignedLong;
 import com.google.common.util.concurrent.AtomicDouble;
+import com.google.errorprone.annotations.Keep;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -451,7 +452,7 @@ public class ArbitraryInstancesTest extends TestCase {
   }
 
   private static class WithPrivateConstructor {
-    public static final WithPrivateConstructor INSTANCE = new WithPrivateConstructor();
+    @Keep public static final WithPrivateConstructor INSTANCE = new WithPrivateConstructor();
   }
 
   public static class NoDefaultConstructor {
@@ -470,7 +471,7 @@ public class ArbitraryInstancesTest extends TestCase {
   }
 
   private static class WithPublicConstant {
-    public static final WithPublicConstant INSTANCE = new WithPublicConstant();
+    @Keep public static final WithPublicConstant INSTANCE = new WithPublicConstant();
   }
 
   private static class ParentClassHasConstant extends WithPublicConstant {}
@@ -495,19 +496,17 @@ public class ArbitraryInstancesTest extends TestCase {
   }
 
   private static class WithPublicConstants {
-    public static final WithPublicConstants FIRST = new WithPublicConstants();
+    @Keep public static final WithPublicConstants FIRST = new WithPublicConstants();
 
     // To test that we pick the first constant alphabetically
-    @SuppressWarnings("unused")
-    public static final WithPublicConstants SECOND = new WithPublicConstants();
+    @Keep public static final WithPublicConstants SECOND = new WithPublicConstants();
   }
 
   private static class FirstConstantIsNull {
     // To test that null constant is ignored
-    @SuppressWarnings("unused")
-    public static final @Nullable FirstConstantIsNull FIRST = null;
+    @Keep public static final @Nullable FirstConstantIsNull FIRST = null;
 
-    public static final FirstConstantIsNull SECOND = new FirstConstantIsNull();
+    @Keep public static final FirstConstantIsNull SECOND = new FirstConstantIsNull();
   }
 
   public static class NonFinalFieldIgnored {

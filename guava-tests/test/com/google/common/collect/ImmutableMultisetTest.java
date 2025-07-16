@@ -357,7 +357,7 @@ public class ImmutableMultisetTest extends TestCase {
         return obj instanceof TypeWithDuplicates && ((TypeWithDuplicates) obj).a == a;
       }
 
-      public boolean fullEquals(@Nullable TypeWithDuplicates other) {
+      boolean fullEquals(@Nullable TypeWithDuplicates other) {
         return other != null && a == other.a && b == other.b;
       }
     }
