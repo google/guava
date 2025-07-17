@@ -265,7 +265,7 @@ public final class ClassSanityTester {
    * <pre>
    * public class FooTest {
    *
-   *   private static class FooFactoryForTest {
+   *   private static final class FooFactoryForTest {
    *     public static Foo create(String a, String b, int c, boolean d) {
    *       return Foo.builder()
    *           .setA(a)

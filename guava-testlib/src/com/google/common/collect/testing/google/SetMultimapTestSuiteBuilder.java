@@ -107,7 +107,7 @@ public class SetMultimapTestSuiteBuilder<K, V>
         .createTestSuite();
   }
 
-  private static class EntriesGenerator<K, V>
+  private static final class EntriesGenerator<K, V>
       extends MultimapTestSuiteBuilder.EntriesGenerator<K, V, SetMultimap<K, V>>
       implements TestSetGenerator<Entry<K, V>> {
 

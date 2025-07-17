@@ -99,7 +99,7 @@ public final class JdkFutureAdapters {
    * <p>If the delegate future is interrupted or throws an unexpected unchecked exception, the
    * listeners will not be invoked.
    */
-  private static class ListenableFutureAdapter<V extends @Nullable Object>
+  private static final class ListenableFutureAdapter<V extends @Nullable Object>
       extends ForwardingFuture<V> implements ListenableFuture<V> {
 
     private static final ThreadFactory threadFactory =

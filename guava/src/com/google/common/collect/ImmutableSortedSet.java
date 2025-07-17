@@ -856,7 +856,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
    * implementation type is an implementation detail.
    */
   @J2ktIncompatible // serialization
-  private static class SerializedForm<E> implements Serializable {
+  private static final class SerializedForm<E> implements Serializable {
     final Comparator<? super E> comparator;
     final Object[] elements;
 

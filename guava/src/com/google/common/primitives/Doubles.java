@@ -581,7 +581,7 @@ public final class Doubles extends DoublesMethodsForWeb {
     return new DoubleArrayAsList(backingArray);
   }
 
-  private static class DoubleArrayAsList extends AbstractList<Double>
+  private static final class DoubleArrayAsList extends AbstractList<Double>
       implements RandomAccess, Serializable {
     final double[] array;
     final int start;

@@ -980,7 +980,7 @@ public final class Maps {
     };
   }
 
-  private static class SortedAsMapView<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class SortedAsMapView<K extends @Nullable Object, V extends @Nullable Object>
       extends AsMapView<K, V> implements SortedMap<K, V> {
 
     SortedAsMapView(SortedSet<K> set, Function<? super K, V> function) {
@@ -1700,7 +1700,8 @@ public final class Maps {
   /**
    * @see Maps#unmodifiableBiMap(BiMap)
    */
-  private static class UnmodifiableBiMap<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class UnmodifiableBiMap<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
@@ -2262,7 +2263,7 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  private static class TransformedEntriesNavigableMap<
+  private static final class TransformedEntriesNavigableMap<
           K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       extends TransformedEntriesSortedMap<K, V1, V2> implements NavigableMap<K, V2> {
 
@@ -2967,7 +2968,7 @@ public final class Maps {
     }
   }
 
-  private static class FilteredKeyMap<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class FilteredKeyMap<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractFilteredMap<K, V> {
     final Predicate<? super K> keyPredicate;
 
@@ -3118,7 +3119,7 @@ public final class Maps {
     }
   }
 
-  private static class FilteredEntrySortedMap<
+  private static final class FilteredEntrySortedMap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends FilteredEntryMap<K, V> implements SortedMap<K, V> {
 
@@ -3221,7 +3222,7 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  private static class FilteredEntryNavigableMap<
+  private static final class FilteredEntryNavigableMap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractNavigableMap<K, V> {
     /*

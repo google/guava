@@ -129,7 +129,7 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
    * expect to do so again, as discussed in https://github.com/google/guava#important-warnings.
    */
   @SuppressWarnings("unused")
-  private static class SerializedForm<V> implements Serializable {
+  private static final class SerializedForm<V> implements Serializable {
     final ImmutableMap<?, V> map;
 
     SerializedForm(ImmutableMap<?, V> map) {

@@ -562,7 +562,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     throw new InvalidObjectException("Use SerializedForm");
   }
 
-  private static class SerialForm<T extends @Nullable Object> implements Serializable {
+  private static final class SerialForm<T extends @Nullable Object> implements Serializable {
     final long[] data;
     final int numHashFunctions;
     final Funnel<? super T> funnel;

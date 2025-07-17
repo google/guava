@@ -573,7 +573,7 @@ public final class Chars {
     return new CharArrayAsList(backingArray);
   }
 
-  private static class CharArrayAsList extends AbstractList<Character>
+  private static final class CharArrayAsList extends AbstractList<Character>
       implements RandomAccess, Serializable {
     final char[] array;
     final int start;

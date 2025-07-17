@@ -140,7 +140,7 @@ public class SampleElements<E extends @Nullable Object> implements Iterable<E> {
     }
   }
 
-  private static class Collider {
+  private static final class Collider {
     final int value;
 
     Collider(int value) {

@@ -310,7 +310,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
     return derivedFeatures;
   }
 
-  private static class AsMapGenerator<K, V, M extends Multimap<K, V>>
+  private static final class AsMapGenerator<K, V, M extends Multimap<K, V>>
       implements TestMapGenerator<K, Collection<V>>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<M, Entry<K, V>> multimapGenerator;
 
@@ -634,7 +634,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
     }
   }
 
-  private static class ReserializedMultimapGenerator<K, V, M extends Multimap<K, V>>
+  private static final class ReserializedMultimapGenerator<K, V, M extends Multimap<K, V>>
       implements TestMultimapGenerator<K, V, M> {
     private final OneSizeTestContainerGenerator<M, Entry<K, V>> multimapGenerator;
 

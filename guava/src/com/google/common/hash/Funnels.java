@@ -87,7 +87,7 @@ public final class Funnels {
     return new StringCharsetFunnel(charset);
   }
 
-  private static class StringCharsetFunnel implements Funnel<CharSequence> {
+  private static final class StringCharsetFunnel implements Funnel<CharSequence> {
     private final Charset charset;
 
     StringCharsetFunnel(Charset charset) {
@@ -126,7 +126,7 @@ public final class Funnels {
       throw new InvalidObjectException("Use SerializedForm");
     }
 
-    private static class SerializedForm implements Serializable {
+    private static final class SerializedForm implements Serializable {
       private final String charsetCanonicalName;
 
       SerializedForm(Charset charset) {
@@ -175,7 +175,7 @@ public final class Funnels {
     return new SequentialFunnel<>(elementFunnel);
   }
 
-  private static class SequentialFunnel<E extends @Nullable Object>
+  private static final class SequentialFunnel<E extends @Nullable Object>
       implements Funnel<Iterable<? extends E>> {
     private final Funnel<E> elementFunnel;
 
@@ -247,7 +247,7 @@ public final class Funnels {
     return new SinkAsStream(sink);
   }
 
-  private static class SinkAsStream extends OutputStream {
+  private static final class SinkAsStream extends OutputStream {
     final PrimitiveSink sink;
 
     SinkAsStream(PrimitiveSink sink) {

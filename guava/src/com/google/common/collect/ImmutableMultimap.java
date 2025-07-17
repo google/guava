@@ -617,7 +617,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     return new EntryCollection<>(this);
   }
 
-  private static class EntryCollection<K, V> extends ImmutableCollection<Entry<K, V>> {
+  private static final class EntryCollection<K, V> extends ImmutableCollection<Entry<K, V>> {
     @Weak final ImmutableMultimap<K, V> multimap;
 
     EntryCollection(ImmutableMultimap<K, V> multimap) {

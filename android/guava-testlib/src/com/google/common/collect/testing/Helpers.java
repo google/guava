@@ -251,7 +251,7 @@ public class Helpers {
     return iterator.next();
   }
 
-  private static class EntryComparator<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class EntryComparator<K extends @Nullable Object, V extends @Nullable Object>
       implements Comparator<Entry<K, V>> {
     final @Nullable Comparator<? super K> keyComparator;
 

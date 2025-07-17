@@ -386,7 +386,7 @@ public final class Booleans {
     return new BooleanArrayAsList(backingArray);
   }
 
-  private static class BooleanArrayAsList extends AbstractList<Boolean>
+  private static final class BooleanArrayAsList extends AbstractList<Boolean>
       implements RandomAccess, Serializable {
     final boolean[] array;
     final int start;

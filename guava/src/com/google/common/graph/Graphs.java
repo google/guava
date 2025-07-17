@@ -298,7 +298,7 @@ public final class Graphs extends GraphsBridgeMethods {
 
   // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
   // AbstractGraph) derives its behavior from calling successors().
-  private static class TransposedGraph<N> extends ForwardingGraph<N> {
+  private static final class TransposedGraph<N> extends ForwardingGraph<N> {
     private final Graph<N> graph;
 
     TransposedGraph(Graph<N> graph) {
@@ -355,7 +355,7 @@ public final class Graphs extends GraphsBridgeMethods {
 
   // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
   // AbstractValueGraph) derives its behavior from calling successors().
-  private static class TransposedValueGraph<N, V> extends ForwardingValueGraph<N, V> {
+  private static final class TransposedValueGraph<N, V> extends ForwardingValueGraph<N, V> {
     private final ValueGraph<N, V> graph;
 
     TransposedValueGraph(ValueGraph<N, V> graph) {
@@ -418,7 +418,7 @@ public final class Graphs extends GraphsBridgeMethods {
     }
   }
 
-  private static class TransposedNetwork<N, E> extends ForwardingNetwork<N, E> {
+  private static final class TransposedNetwork<N, E> extends ForwardingNetwork<N, E> {
     private final Network<N, E> network;
 
     TransposedNetwork(Network<N, E> network) {

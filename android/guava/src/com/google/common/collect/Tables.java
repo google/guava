@@ -218,7 +218,7 @@ public final class Tables {
         : new TransposeTable<C, R, V>(table);
   }
 
-  private static class TransposeTable<
+  private static final class TransposeTable<
           C extends @Nullable Object, R extends @Nullable Object, V extends @Nullable Object>
       extends AbstractTable<C, R, V> {
     final Table<R, C, V> original;
@@ -404,7 +404,7 @@ public final class Tables {
     return new TransformedTable<>(fromTable, function);
   }
 
-  private static class TransformedTable<
+  private static final class TransformedTable<
           R extends @Nullable Object,
           C extends @Nullable Object,
           V1 extends @Nullable Object,

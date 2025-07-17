@@ -326,7 +326,7 @@ public final class BigIntegerMath {
   }
 
   @GwtIncompatible
-  private static class BigIntegerToDoubleRounder extends ToDoubleRounder<BigInteger> {
+  private static final class BigIntegerToDoubleRounder extends ToDoubleRounder<BigInteger> {
     static final BigIntegerToDoubleRounder INSTANCE = new BigIntegerToDoubleRounder();
 
     private BigIntegerToDoubleRounder() {}

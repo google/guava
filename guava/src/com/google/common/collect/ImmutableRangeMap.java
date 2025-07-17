@@ -424,7 +424,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
    * This class is used to serialize ImmutableRangeMap instances. Serializes the {@link
    * #asMapOfRanges()} form.
    */
-  private static class SerializedForm<K extends Comparable<?>, V> implements Serializable {
+  private static final class SerializedForm<K extends Comparable<?>, V> implements Serializable {
 
     private final ImmutableMap<Range<K>, V> mapOfRanges;
 

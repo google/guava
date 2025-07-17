@@ -401,7 +401,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * particular implementation type is an implementation detail.
    */
   @J2ktIncompatible // serialization
-  private static class SerializedForm implements Serializable {
+  private static final class SerializedForm implements Serializable {
     final Object[] elements;
 
     SerializedForm(Object[] elements) {

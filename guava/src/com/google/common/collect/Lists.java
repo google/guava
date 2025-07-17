@@ -335,7 +335,7 @@ public final class Lists {
   /**
    * @see Lists#asList(Object, Object[])
    */
-  private static class OnePlusArrayList<E extends @Nullable Object> extends AbstractList<E>
+  private static final class OnePlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
     @ParametricNullness final E first;
     final E[] rest;
@@ -364,7 +364,7 @@ public final class Lists {
   /**
    * @see Lists#asList(Object, Object, Object[])
    */
-  private static class TwoPlusArrayList<E extends @Nullable Object> extends AbstractList<E>
+  private static final class TwoPlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
     @ParametricNullness final E first;
     @ParametricNullness final E second;
@@ -560,7 +560,7 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingSequentialList<
+  private static final class TransformingSequentialList<
           F extends @Nullable Object, T extends @Nullable Object>
       extends AbstractSequentialList<T> implements Serializable {
     final List<F> fromList;
@@ -617,7 +617,7 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingRandomAccessList<
+  private static final class TransformingRandomAccessList<
           F extends @Nullable Object, T extends @Nullable Object>
       extends AbstractList<T> implements RandomAccess, Serializable {
     final List<F> fromList;
@@ -734,7 +734,7 @@ public final class Lists {
     }
   }
 
-  private static class RandomAccessPartition<T extends @Nullable Object> extends Partition<T>
+  private static final class RandomAccessPartition<T extends @Nullable Object> extends Partition<T>
       implements RandomAccess {
     RandomAccessPartition(List<T> list, int size) {
       super(list, size);
@@ -1003,8 +1003,8 @@ public final class Lists {
     }
   }
 
-  private static class RandomAccessReverseList<T extends @Nullable Object> extends ReverseList<T>
-      implements RandomAccess {
+  private static final class RandomAccessReverseList<T extends @Nullable Object>
+      extends ReverseList<T> implements RandomAccess {
     RandomAccessReverseList(List<T> forwardList) {
       super(forwardList);
     }

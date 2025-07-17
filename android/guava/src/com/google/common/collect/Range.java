@@ -703,7 +703,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   }
 
   /** Needed to serialize sorted collections of Ranges. */
-  private static class RangeLexOrdering extends Ordering<Range<?>> implements Serializable {
+  private static final class RangeLexOrdering extends Ordering<Range<?>> implements Serializable {
     static final Ordering<?> INSTANCE = new RangeLexOrdering();
 
     @Override

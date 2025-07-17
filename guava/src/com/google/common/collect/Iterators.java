@@ -1178,7 +1178,7 @@ public final class Iterators {
   }
 
   /** Implementation of PeekingIterator that avoids peeking unless necessary. */
-  private static class PeekingImpl<E extends @Nullable Object> implements PeekingIterator<E> {
+  private static final class PeekingImpl<E extends @Nullable Object> implements PeekingIterator<E> {
 
     private final Iterator<? extends E> iterator;
     private boolean hasPeeked;
@@ -1316,7 +1316,8 @@ public final class Iterators {
    * iterators. (Retrieving all elements takes approximately O(N*log(M)) time, where N is the total
    * number of elements.)
    */
-  private static class MergingIterator<T extends @Nullable Object> extends UnmodifiableIterator<T> {
+  private static final class MergingIterator<T extends @Nullable Object>
+      extends UnmodifiableIterator<T> {
     final Queue<PeekingIterator<T>> queue;
 
     MergingIterator(
@@ -1353,7 +1354,8 @@ public final class Iterators {
     }
   }
 
-  private static class ConcatenatedIterator<T extends @Nullable Object> implements Iterator<T> {
+  private static final class ConcatenatedIterator<T extends @Nullable Object>
+      implements Iterator<T> {
     /* The last iterator to return an element.  Calls to remove() go to this iterator. */
     private @Nullable Iterator<? extends T> toRemove;
 

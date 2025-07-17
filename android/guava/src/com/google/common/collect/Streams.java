@@ -415,7 +415,7 @@ public final class Streams {
   }
 
   // Use this carefully - it doesn't implement value semantics
-  private static class TemporaryPair<A extends @Nullable Object, B extends @Nullable Object> {
+  private static final class TemporaryPair<A extends @Nullable Object, B extends @Nullable Object> {
     @ParametricNullness final A a;
     @ParametricNullness final B b;
 

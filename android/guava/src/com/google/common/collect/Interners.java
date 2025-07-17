@@ -166,7 +166,7 @@ public final class Interners {
     return new InternerFunction<>(checkNotNull(interner));
   }
 
-  private static class InternerFunction<E> implements Function<E, E> {
+  private static final class InternerFunction<E> implements Function<E, E> {
 
     private final Interner<E> interner;
 

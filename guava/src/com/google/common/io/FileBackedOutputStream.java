@@ -80,7 +80,7 @@ public final class FileBackedOutputStream extends OutputStream {
   private @Nullable File file;
 
   /** ByteArrayOutputStream that exposes its internals. */
-  private static class MemoryOutput extends ByteArrayOutputStream {
+  private static final class MemoryOutput extends ByteArrayOutputStream {
     byte[] getBuffer() {
       return buf;
     }

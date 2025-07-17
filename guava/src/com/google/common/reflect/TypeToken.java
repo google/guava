@@ -1061,7 +1061,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     return new Bounds(bounds, true);
   }
 
-  private static class Bounds {
+  private static final class Bounds {
     private final Type[] bounds;
     private final boolean target;
 

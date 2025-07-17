@@ -325,7 +325,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   }
 
   @J2ktIncompatible // MapMaker
-  private static class ArbitraryOrderingHolder {
+  private static final class ArbitraryOrderingHolder {
     static final Ordering<@Nullable Object> ARBITRARY_ORDERING = new ArbitraryOrdering();
   }
 

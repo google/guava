@@ -604,7 +604,7 @@ public final class Collections2 {
     }
   }
 
-  private static class PermutationIterator<E> extends AbstractIterator<List<E>> {
+  private static final class PermutationIterator<E> extends AbstractIterator<List<E>> {
     final List<E> list;
     final int[] c;
     final int[] o;

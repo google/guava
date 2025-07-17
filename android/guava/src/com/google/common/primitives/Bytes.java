@@ -253,7 +253,7 @@ public final class Bytes {
     return new ByteArrayAsList(backingArray);
   }
 
-  private static class ByteArrayAsList extends AbstractList<Byte>
+  private static final class ByteArrayAsList extends AbstractList<Byte>
       implements RandomAccess, Serializable {
     final byte[] array;
     final int start;

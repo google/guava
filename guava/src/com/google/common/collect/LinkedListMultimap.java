@@ -121,7 +121,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
     }
   }
 
-  private static class KeyList<K extends @Nullable Object, V extends @Nullable Object> {
+  private static final class KeyList<K extends @Nullable Object, V extends @Nullable Object> {
     Node<K, V> head;
     Node<K, V> tail;
     int count;

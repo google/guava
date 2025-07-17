@@ -600,7 +600,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return (size() <= 1) ? this : new ReverseImmutableList<E>(this);
   }
 
-  private static class ReverseImmutableList<E> extends ImmutableList<E> {
+  private static final class ReverseImmutableList<E> extends ImmutableList<E> {
     private final transient ImmutableList<E> forwardList;
 
     ReverseImmutableList(ImmutableList<E> backingList) {

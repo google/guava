@@ -55,7 +55,8 @@ public final class Suppliers {
     return new SupplierComposition<>(function, supplier);
   }
 
-  private static class SupplierComposition<F extends @Nullable Object, T extends @Nullable Object>
+  private static final class SupplierComposition<
+          F extends @Nullable Object, T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     final Function<? super F, T> function;
     final Supplier<F> supplier;
@@ -355,7 +356,7 @@ public final class Suppliers {
     return new SupplierOfInstance<>(instance);
   }
 
-  private static class SupplierOfInstance<T extends @Nullable Object>
+  private static final class SupplierOfInstance<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     @ParametricNullness final T instance;
 
@@ -402,7 +403,7 @@ public final class Suppliers {
   }
 
   @J2ktIncompatible
-  private static class ThreadSafeSupplier<T extends @Nullable Object>
+  private static final class ThreadSafeSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
 

@@ -720,7 +720,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
   }
 
-  private static class AsSetSerializedForm<C extends Comparable> implements Serializable {
+  private static final class AsSetSerializedForm<C extends Comparable> implements Serializable {
     private final ImmutableList<Range<C>> ranges;
     private final DiscreteDomain<C> domain;
 

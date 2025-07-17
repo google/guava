@@ -308,7 +308,7 @@ final class CollectCollectors {
         EnumMapAccumulator::toImmutableMap);
   }
 
-  private static class EnumMapAccumulator<K extends Enum<K>, V> {
+  private static final class EnumMapAccumulator<K extends Enum<K>, V> {
     private final BinaryOperator<V> mergeFunction;
     private @Nullable EnumMap<K, V> map = null;
 
