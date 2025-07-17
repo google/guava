@@ -171,4 +171,11 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   public static Method getSetValueWithNullValuesAbsentMethod() {
     return getMethod(MapEntrySetTester.class, "testSetValueWithNullValuesAbsent");
   }
+  public void testEntrySetStream() {
+    Set<Entry<K, V>> entrySet = getMap().entrySet();
+    long count = entrySet.stream().count();
+
+    // This assertion checks if the count of entries in stream matches the map size
+    assertEquals(getMap().size(), count);
+  }
 }
