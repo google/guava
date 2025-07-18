@@ -71,8 +71,8 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializable {
-  @GwtTransient final Map<R, Map<C, V>> backingMap;
-  @GwtTransient final Supplier<? extends Map<C, V>> factory;
+  final Map<R, Map<C, V>> backingMap;
+  final Supplier<? extends Map<C, V>> factory;
 
   StandardTable(Map<R, Map<C, V>> backingMap, Supplier<? extends Map<C, V>> factory) {
     this.backingMap = backingMap;
