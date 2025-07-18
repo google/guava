@@ -197,7 +197,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
    * retrieve the Map.Entry<E, Count> entry, which can then be used for
    * a more efficient remove() call.
    */
-  private class MapBasedMultisetIterator implements Iterator<E> {
+  private final class MapBasedMultisetIterator implements Iterator<E> {
     final Iterator<Map.Entry<E, Count>> entryIterator;
     Map.@Nullable Entry<E, Count> currentEntry;
     int occurrencesLeft;

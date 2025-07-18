@@ -93,7 +93,7 @@ class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
   }
 
   @WeakOuter
-  private class RowSortedMap extends RowMap implements SortedMap<R, Map<C, V>> {
+  private final class RowSortedMap extends RowMap implements SortedMap<R, Map<C, V>> {
     @Override
     public SortedSet<R> keySet() {
       return (SortedSet<R>) super.keySet();

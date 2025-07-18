@@ -3018,7 +3018,7 @@ public final class Maps {
     }
 
     @WeakOuter
-    private class EntrySet extends ForwardingSet<Entry<K, V>> {
+    private final class EntrySet extends ForwardingSet<Entry<K, V>> {
       @Override
       protected Set<Entry<K, V>> delegate() {
         return filteredEntrySet;

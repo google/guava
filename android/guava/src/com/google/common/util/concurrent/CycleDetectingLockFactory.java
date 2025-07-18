@@ -858,7 +858,7 @@ public class CycleDetectingLockFactory {
     }
   }
 
-  private class CycleDetectingReentrantReadLock extends ReentrantReadWriteLock.ReadLock {
+  private final class CycleDetectingReentrantReadLock extends ReentrantReadWriteLock.ReadLock {
 
     @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;
 
@@ -917,7 +917,7 @@ public class CycleDetectingLockFactory {
     }
   }
 
-  private class CycleDetectingReentrantWriteLock extends ReentrantReadWriteLock.WriteLock {
+  private final class CycleDetectingReentrantWriteLock extends ReentrantReadWriteLock.WriteLock {
 
     @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;
 

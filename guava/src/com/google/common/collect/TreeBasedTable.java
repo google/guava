@@ -183,7 +183,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     return new TreeRow(rowKey);
   }
 
-  private class TreeRow extends Row implements SortedMap<C, V> {
+  private final class TreeRow extends Row implements SortedMap<C, V> {
     final @Nullable C lowerBound;
     final @Nullable C upperBound;
 

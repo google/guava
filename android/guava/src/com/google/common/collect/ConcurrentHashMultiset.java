@@ -561,7 +561,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   @WeakOuter
-  private class EntrySet extends AbstractMultiset<E>.EntrySet {
+  private final class EntrySet extends AbstractMultiset<E>.EntrySet {
     @Override
     ConcurrentHashMultiset<E> multiset() {
       return ConcurrentHashMultiset.this;

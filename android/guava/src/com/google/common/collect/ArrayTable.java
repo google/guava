@@ -600,7 +600,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
   }
 
-  private class Column extends ArrayMap<R, @Nullable V> {
+  private final class Column extends ArrayMap<R, @Nullable V> {
     final int columnIndex;
 
     Column(int columnIndex) {
@@ -644,7 +644,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   }
 
   @WeakOuter
-  private class ColumnMap extends ArrayMap<C, Map<R, @Nullable V>> {
+  private final class ColumnMap extends ArrayMap<C, Map<R, @Nullable V>> {
     private ColumnMap() {
       super(columnKeyToIndex);
     }
@@ -692,7 +692,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
   }
 
-  private class Row extends ArrayMap<C, @Nullable V> {
+  private final class Row extends ArrayMap<C, @Nullable V> {
     final int rowIndex;
 
     Row(int rowIndex) {
@@ -736,7 +736,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   }
 
   @WeakOuter
-  private class RowMap extends ArrayMap<R, Map<C, @Nullable V>> {
+  private final class RowMap extends ArrayMap<R, Map<C, @Nullable V>> {
     private RowMap() {
       super(rowKeyToIndex);
     }

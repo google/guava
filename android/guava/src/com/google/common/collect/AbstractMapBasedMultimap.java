@@ -853,7 +853,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     /** ListIterator decorator. */
-    private class WrappedListIterator extends WrappedIterator implements ListIterator<V> {
+    private final class WrappedListIterator extends WrappedIterator implements ListIterator<V> {
       WrappedListIterator() {}
 
       WrappedListIterator(int index) {
@@ -906,7 +906,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
    * List decorator that stays in sync with the multimap values for a key and supports rapid random
    * access.
    */
-  private class RandomAccessWrappedList extends WrappedList implements RandomAccess {
+  private final class RandomAccessWrappedList extends WrappedList implements RandomAccess {
     RandomAccessWrappedList(
         @ParametricNullness K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);

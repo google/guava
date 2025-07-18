@@ -82,7 +82,7 @@ abstract class DummyProxy {
   /** Returns the dummy return value for {@code returnType}. */
   abstract <R> @Nullable R dummyReturnValue(TypeToken<R> returnType);
 
-  private class DummyHandler extends AbstractInvocationHandler implements Serializable {
+  private final class DummyHandler extends AbstractInvocationHandler implements Serializable {
     private final TypeToken<?> interfaceType;
 
     DummyHandler(TypeToken<?> interfaceType) {

@@ -236,7 +236,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @WeakOuter
-  private class KeySet extends ForwardingSet<K> {
+  private final class KeySet extends ForwardingSet<K> {
     @Override
     protected Set<K> delegate() {
       return delegate.keySet();
@@ -285,7 +285,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @WeakOuter
-  private class ValueSet extends ForwardingSet<V> {
+  private final class ValueSet extends ForwardingSet<V> {
     final Set<V> valuesDelegate = inverse.keySet();
 
     @Override
@@ -382,7 +382,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @WeakOuter
-  private class EntrySet extends ForwardingSet<Entry<K, V>> {
+  private final class EntrySet extends ForwardingSet<Entry<K, V>> {
     final Set<Entry<K, V>> esDelegate = delegate.entrySet();
 
     @Override

@@ -242,7 +242,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return new CellIterator();
   }
 
-  private class CellIterator implements Iterator<Cell<R, C, V>> {
+  private final class CellIterator implements Iterator<Cell<R, C, V>> {
     final Iterator<Entry<R, Map<C, V>>> rowIterator = backingMap.entrySet().iterator();
     @Nullable Entry<R, Map<C, V>> rowEntry;
     Iterator<Entry<C, V>> columnIterator = Iterators.emptyModifiableIterator();
@@ -456,7 +456,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return new Column(columnKey);
   }
 
-  private class Column extends ViewCachingAbstractMap<R, V> {
+  private final class Column extends ViewCachingAbstractMap<R, V> {
     final C columnKey;
 
     Column(C columnKey) {
@@ -509,7 +509,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @WeakOuter
-    private class EntrySet extends ImprovedAbstractSet<Entry<R, V>> {
+    private final class EntrySet extends ImprovedAbstractSet<Entry<R, V>> {
       @Override
       public Iterator<Entry<R, V>> iterator() {
         return new EntrySetIterator();
@@ -560,7 +560,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       }
     }
 
-    private class EntrySetIterator extends AbstractIterator<Entry<R, V>> {
+    private final class EntrySetIterator extends AbstractIterator<Entry<R, V>> {
       final Iterator<Entry<R, Map<C, V>>> iterator = backingMap.entrySet().iterator();
 
       @Override
@@ -613,7 +613,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @WeakOuter
-    private class KeySet extends Maps.KeySet<R, V> {
+    private final class KeySet extends Maps.KeySet<R, V> {
       KeySet() {
         super(Column.this);
       }
@@ -640,7 +640,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @WeakOuter
-    private class Values extends Maps.Values<R, V> {
+    private final class Values extends Maps.Values<R, V> {
       Values() {
         super(Column.this);
       }
@@ -684,7 +684,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   }
 
   @WeakOuter
-  private class ColumnKeySet extends TableSet<C> {
+  private final class ColumnKeySet extends TableSet<C> {
     @Override
     public Iterator<C> iterator() {
       return createColumnKeyIterator();
@@ -761,7 +761,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return new ColumnKeyIterator();
   }
 
-  private class ColumnKeyIterator extends AbstractIterator<C> {
+  private final class ColumnKeyIterator extends AbstractIterator<C> {
     // Use the same map type to support TreeMaps with comparators that aren't
     // consistent with equals().
     final Map<C, V> seen = factory.get();
@@ -879,7 +879,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   }
 
   @WeakOuter
-  private class ColumnMap extends ViewCachingAbstractMap<C, Map<R, V>> {
+  private final class ColumnMap extends ViewCachingAbstractMap<C, Map<R, V>> {
     // The cast to C occurs only when the key is in the map, implying that it
     // has the correct type.
     @SuppressWarnings("unchecked")
@@ -979,7 +979,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @WeakOuter
-    private class ColumnMapValues extends Maps.Values<C, Map<R, V>> {
+    private final class ColumnMapValues extends Maps.Values<C, Map<R, V>> {
       ColumnMapValues() {
         super(ColumnMap.this);
       }

@@ -300,7 +300,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   /** An {@code Iterator} over all nodes. */
-  private class NodeIterator implements ListIterator<Entry<K, V>> {
+  private final class NodeIterator implements ListIterator<Entry<K, V>> {
     int nextIndex;
     @Nullable Node<K, V> next;
     @Nullable Node<K, V> current;
@@ -411,7 +411,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   /** An {@code Iterator} over distinct keys in key head order. */
-  private class DistinctKeyIterator implements Iterator<K> {
+  private final class DistinctKeyIterator implements Iterator<K> {
     final Set<K> seenKeys = Sets.<K>newHashSetWithExpectedSize(keySet().size());
     @Nullable Node<K, V> next = head;
     @Nullable Node<K, V> current;
@@ -455,7 +455,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   /** A {@code ListIterator} over values for a specified key. */
-  private class ValueForKeyIterator implements ListIterator<V> {
+  private final class ValueForKeyIterator implements ListIterator<V> {
     @ParametricNullness final K key;
     int nextIndex;
     @Nullable Node<K, V> next;

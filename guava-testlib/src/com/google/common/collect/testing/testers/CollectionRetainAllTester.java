@@ -46,7 +46,7 @@ import org.junit.Ignore;
 public class CollectionRetainAllTester<E> extends AbstractCollectionTester<E> {
 
   /** A collection of elements to retain, along with a description for use in failure messages. */
-  private class Target {
+  private final class Target {
     private final Collection<E> toRetain;
     private final String description;
 
