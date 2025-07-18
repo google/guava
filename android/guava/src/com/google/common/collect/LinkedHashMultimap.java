@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.NullnessCasts.unsafeNull;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -169,23 +170,10 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
      *
      * The exception is the *InValueSet fields of multimapHeaderEntry, which are never set. (That
      * works out fine as long as we continue to be careful not to try to delete them or iterate
-     * past them.)
-     *
-     * We could consider "lying" and omitting @CheckNotNull from all these fields. Normally, I'm not
-     * a fan of that: What if we someday implement (presumably to be enabled during tests only)
-     * bytecode rewriting that checks for any null value that passes through an API with a
-     * known-non-null type? But that particular problem might not arise here, since we're not
-     * actually reading from the fields in any case in which they might be null (as proven by the
-     * requireNonNull checks below). Plus, we're *already* lying here, since newHeader passes a null
-     * key and value, which we pass to the superconstructor, even though the key and value type for
-     * a given entry might not include null. The right fix for the header problems is probably to
-     * define a separate MultimapLink interface with a separate "header" implementation, which
-     * hopefully could avoid implementing Entry or ValueSetLink at all. (But note that that approach
-     * requires us to define extra classes -- unfortunate under Android.) *Then* we could consider
-     * lying about the fields below on the grounds that we always initialize them just after the
-     * constructor -- an example of the kind of lying that our hypothetical bytecode rewriter would
-     * already have to deal with, thanks to DI frameworks that perform field and method injection,
-     * frameworks like Android that define post-construct hooks like Activity.onCreate, etc.
+     * past them.) The right fix for that problem is probably to define a separate MultimapLink
+     * interface with a separate "header" implementation, which hopefully could avoid implementing
+     * Entry or ValueSetLink at all. (But note that that approach requires us to define extra
+     * classes -- unfortunate under Android.)
      */
 
     private @Nullable ValueSetLink<K, V> predecessorInValueSet;
@@ -204,9 +192,13 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
       this.nextInValueBucket = nextInValueBucket;
     }
 
-    @SuppressWarnings("nullness") // see the comment on the class fields, especially about newHeader
     static <K extends @Nullable Object, V extends @Nullable Object> ValueEntry<K, V> newHeader() {
-      return new ValueEntry<>(null, null, 0, null);
+      /*
+       * We pass a null key and value, even though the key and value type for this multimap might
+       * not include null. That's likely to be safe as long as no one tries to operate on the key
+       * and value of a header entry. (But who knows if Valhalla will someday change that.)
+       */
+      return new ValueEntry<>(unsafeNull(), unsafeNull(), 0, null);
     }
 
     boolean matchesValue(@Nullable Object v, int smearedVHash) {
