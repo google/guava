@@ -46,8 +46,8 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
    * java.util.Objects#equals} instead.
-   *
    */
+  @SuppressWarnings("InlineMeSuggester") // would introduce fully qualified references to Objects
   public static boolean equal(@Nullable Object a, @Nullable Object b) {
     return java.util.Objects.equals(a, b);
   }
@@ -72,9 +72,11 @@ public final class Objects extends ExtraObjectsMethodsForWeb {
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
    * java.util.Objects#hash} instead.
-   *
    */
-  @SuppressWarnings("nullness") // https://github.com/jspecify/jdk/pull/127
+  @SuppressWarnings({
+    "nullness", // https://github.com/jspecify/jdk/pull/127
+    "InlineMeSuggester", // would introduce fully qualified references to Objects
+  })
   public static int hashCode(@Nullable Object @Nullable ... objects) {
     return java.util.Objects.hash(objects);
   }
