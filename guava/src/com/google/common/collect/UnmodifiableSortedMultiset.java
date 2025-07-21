@@ -63,6 +63,10 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
 
   @LazyInit private transient @Nullable UnmodifiableSortedMultiset<E> descendingMultiset;
 
+  // TODO(b/418181860): This method creates retain cycles in J2ObjC. In order to break the cycle,
+  // there needs to be separate classes for primary and descending multiset, where the primary one
+  // would hold {@code @LazyInit @RetainedWith @Nullable} reference to its descending multiset, and
+  // the other {@code final} reference.
   @Override
   public SortedMultiset<E> descendingMultiset() {
     UnmodifiableSortedMultiset<E> result = descendingMultiset;
