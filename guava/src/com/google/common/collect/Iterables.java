@@ -767,7 +767,9 @@ public final class Iterables {
     checkNotNull(iterable);
     return (iterable instanceof List)
         ? ((List<T>) iterable).get(position)
-        : Iterators.get(iterable.iterator(), position);
+        : ((iterable instanceof ImmutableCollection)
+            ? ((ImmutableCollection<T>)iterable).asList().get(position)
+            : Iterators.get(iterable.iterator(), position));
   }
 
   /**
