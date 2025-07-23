@@ -220,10 +220,6 @@
           <version>3.1.1</version>
         </plugin>
         <plugin>
-          <artifactId>maven-deploy-plugin</artifactId>
-          <version>3.1.3</version>
-        </plugin>
-        <plugin>
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>3.0.0-M3</version>
         </plugin>
@@ -440,10 +436,6 @@
       <id>sonatype-nexus-snapshots</id>
       <url>https://central.sonatype.com/repository/maven-snapshots/</url>
     </snapshotRepository>
-    <repository>
-      <id>sonatype-nexus-staging</id>
-      <name>Nexus Release Repository</name>
-    </repository>
     <site>
       <id>guava-site</id>
       <name>Guava Documentation Site</name>
