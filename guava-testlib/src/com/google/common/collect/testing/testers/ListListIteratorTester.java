@@ -102,7 +102,7 @@ public class ListListIteratorTester<E extends @Nullable Object> extends Abstract
   }
 
   public void testListIterator_atSize() {
-    getList().listIterator(getNumElements());
+    assertNotNull(getList().listIterator(getNumElements()));
     // TODO: run the iterator through ListIteratorTester
   }
 
