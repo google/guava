@@ -60,6 +60,9 @@ jobs:
         if: ${{ failure() }}
         shell: bash
         run: ./util/print_surefire_reports.sh
+      - name: 'Set up Gradle'
+        if: matrix.java == 11 # used only by the integration tests below
+        uses: gradle/actions/setup-gradle@ac638b010cf58a27ee6c972d7336334ccaf61c96 # v4.4.1
       - name: 'Integration Test'
         if: matrix.java == 11
         shell: bash
