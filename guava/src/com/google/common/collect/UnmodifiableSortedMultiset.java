@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Multisets.UnmodifiableMultiset;
 import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.RetainedWith;
 import java.util.Comparator;
 import java.util.NavigableSet;
 import org.jspecify.annotations.Nullable;
@@ -38,16 +37,8 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible(emulated = true)
 final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends UnmodifiableMultiset<E>
     implements SortedMultiset<E> {
-  private final transient @Nullable SortedMultiset<E> descendingMultiset;
-
   UnmodifiableSortedMultiset(SortedMultiset<E> delegate) {
-    this(delegate, /* descendingMultiset= */ null);
-  }
-
-  UnmodifiableSortedMultiset(
-      SortedMultiset<E> delegate, @Nullable SortedMultiset<E> descendingMultiset) {
     super(delegate);
-    this.descendingMultiset = descendingMultiset;
   }
 
   @Override
@@ -70,20 +61,21 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
     return (NavigableSet<E>) super.elementSet();
   }
 
+  @LazyInit private transient @Nullable UnmodifiableSortedMultiset<E> descendingMultiset;
+
+  // TODO(b/418181860): This method creates retain cycles in J2ObjC. In order to break the cycle,
+  // there needs to be separate classes for primary and descending multiset, where the primary one
+  // would hold {@code @LazyInit @RetainedWith @Nullable} reference to its descending multiset, and
+  // the other {@code final} reference.
   @Override
   public SortedMultiset<E> descendingMultiset() {
-    return descendingMultiset != null ? descendingMultiset : lazyDescendingMultiset();
-  }
-
-  @LazyInit @RetainedWith private transient @Nullable SortedMultiset<E> lazyDescendingMultiset;
-
-  private SortedMultiset<E> lazyDescendingMultiset() {
-    SortedMultiset<E> result = lazyDescendingMultiset;
-    return result == null
-        ? lazyDescendingMultiset =
-            new UnmodifiableSortedMultiset<>(
-                delegate().descendingMultiset(), /* descendingMultiset= */ this)
-        : result;
+    UnmodifiableSortedMultiset<E> result = descendingMultiset;
+    if (result == null) {
+      result = new UnmodifiableSortedMultiset<>(delegate().descendingMultiset());
+      result.descendingMultiset = this;
+      return descendingMultiset = result;
+    }
+    return result;
   }
 
   @Override
