@@ -220,10 +220,9 @@ public final class Suppliers {
   }
 
   /**
-   * Returns a supplier that caches the instance supplied by the delegate and removes the cached
-   * value after the specified time has passed. Subsequent calls to {@code get()} return the cached
-   * value if the expiration time has not passed. After the expiration time, a new value is
-   * retrieved, cached, and returned. See: <a
+   * Returns a supplier that caches the instance supplied by the delegate. Subsequent calls to
+   * {@code get()} return the cached value if the expiration time has not passed. When called
+   * after the expiration time, a new value is retrieved, cached, and returned. See: <a
    * href="http://en.wikipedia.org/wiki/Memoization">memoization</a>
    *
    * <p>The returned supplier is thread-safe. The supplier's serialized form does not contain the
