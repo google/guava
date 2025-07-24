@@ -311,7 +311,7 @@ final class CollectCollectors {
   }
 
   @IgnoreJRERequirement // see enclosing class (whose annotation Animal Sniffer ignores here...)
-  private static class EnumMapAccumulator<K extends Enum<K>, V> {
+  private static final class EnumMapAccumulator<K extends Enum<K>, V> {
     private final BinaryOperator<V> mergeFunction;
     private @Nullable EnumMap<K, V> map = null;
 

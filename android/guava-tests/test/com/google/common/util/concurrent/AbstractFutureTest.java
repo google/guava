@@ -25,6 +25,8 @@ import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.SneakyThrows.sneakyThrow;
+import static java.util.concurrent.Executors.callable;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -49,7 +51,6 @@ import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -377,7 +378,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   public void testCompletionFinishesWithDone() {
-    ExecutorService executor = Executors.newFixedThreadPool(10);
+    ExecutorService executor = newFixedThreadPool(10);
     for (int i = 0; i < 50000; i++) {
       AbstractFuture<String> future = new AbstractFuture<String>() {};
       AtomicReference<String> errorMessage = Atomics.newReference();
@@ -437,7 +438,7 @@ public class AbstractFutureTest extends TestCase {
                 + 50 // for the listeners
                 + 50 // for the blocking get threads,
                 + 1); // for the main thread
-    ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
+    ExecutorService executor = newFixedThreadPool(barrier.getParties());
     AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
     AtomicInteger numSuccessfulSetCalls = new AtomicInteger();
     Callable<@Nullable Void> completeSuccessfullyRunnable =
@@ -566,7 +567,7 @@ public class AbstractFutureTest extends TestCase {
       // get use case and another task that adds it as a listener to the future to exercise both
       // racing addListener calls and addListener calls completing after the future completes.
       Runnable listener = k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;
-      allTasks.add(Executors.callable(listener));
+      allTasks.add(callable(listener));
       allTasks.add(
           new Callable<@Nullable Void>() {
             @Override
@@ -620,7 +621,7 @@ public class AbstractFutureTest extends TestCase {
                 + size // for the listeners
                 + size // for the get threads,
                 + 1); // for the main thread
-    ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
+    ExecutorService executor = newFixedThreadPool(barrier.getParties());
     AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
     AtomicReference<AbstractFuture<String>> setFutureFuture = Atomics.newReference();
     AtomicBoolean setFutureSetSuccess = new AtomicBoolean();
@@ -752,7 +753,7 @@ public class AbstractFutureTest extends TestCase {
             2 // for the setter threads
                 + 1 // for the blocking get thread,
                 + 1); // for the main thread
-    ExecutorService executor = Executors.newFixedThreadPool(barrier.getParties());
+    ExecutorService executor = newFixedThreadPool(barrier.getParties());
     AtomicReference<AbstractFuture<String>> currentFuture = Atomics.newReference();
     AtomicBoolean setFutureSuccess = new AtomicBoolean();
     AtomicBoolean cancellationSuccess = new AtomicBoolean();
@@ -796,7 +797,7 @@ public class AbstractFutureTest extends TestCase {
     List<Callable<?>> allTasks = new ArrayList<>();
     allTasks.add(cancelRunnable);
     allTasks.add(setFutureCompleteSuccessfullyRunnable);
-    allTasks.add(Executors.callable(collectResultsRunnable));
+    allTasks.add(callable(collectResultsRunnable));
     assertEquals(allTasks.size() + 1, barrier.getParties()); // sanity check
     for (int i = 0; i < 1000; i++) {
       Collections.shuffle(allTasks);

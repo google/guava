@@ -17,11 +17,11 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
 
@@ -161,7 +161,7 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
     Iterator<Entry<K, V>> entryIterator = entrySet().iterator();
     while (entryIterator.hasNext()) {
       Entry<K, V> entry = entryIterator.next();
-      if (Objects.equal(entry.getKey(), key)) {
+      if (Objects.equals(entry.getKey(), key)) {
         V value = entry.getValue();
         entryIterator.remove();
         return value;

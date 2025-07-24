@@ -213,7 +213,7 @@ public final class Multimaps {
     return new CustomMultimap<>(map, factory);
   }
 
-  private static class CustomMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class CustomMultimap<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMapBasedMultimap<K, V> {
     transient Supplier<? extends Collection<V>> factory;
 
@@ -333,7 +333,8 @@ public final class Multimaps {
     return new CustomListMultimap<>(map, factory);
   }
 
-  private static class CustomListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class CustomListMultimap<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractListMultimap<K, V> {
     transient Supplier<? extends List<V>> factory;
 
@@ -418,7 +419,8 @@ public final class Multimaps {
     return new CustomSetMultimap<>(map, factory);
   }
 
-  private static class CustomSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class CustomSetMultimap<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractSetMultimap<K, V> {
     transient Supplier<? extends Set<V>> factory;
 
@@ -524,7 +526,7 @@ public final class Multimaps {
     return new CustomSortedSetMultimap<>(map, factory);
   }
 
-  private static class CustomSortedSetMultimap<
+  private static final class CustomSortedSetMultimap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractSortedSetMultimap<K, V> {
     transient Supplier<? extends SortedSet<V>> factory;
@@ -787,7 +789,7 @@ public final class Multimaps {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  private static class UnmodifiableListMultimap<
+  private static final class UnmodifiableListMultimap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableMultimap<K, V> implements ListMultimap<K, V> {
     UnmodifiableListMultimap(ListMultimap<K, V> delegate) {
@@ -856,7 +858,7 @@ public final class Multimaps {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  private static class UnmodifiableSortedSetMultimap<
+  private static final class UnmodifiableSortedSetMultimap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableSetMultimap<K, V> implements SortedSetMultimap<K, V> {
     UnmodifiableSortedSetMultimap(SortedSetMultimap<K, V> delegate) {
@@ -1134,7 +1136,7 @@ public final class Multimaps {
   /**
    * @see Multimaps#forMap
    */
-  private static class MapMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class MapMultimap<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMultimap<K, V> implements SetMultimap<K, V>, Serializable {
     final Map<K, V> map;
 

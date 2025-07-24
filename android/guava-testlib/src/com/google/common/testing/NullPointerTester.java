@@ -25,7 +25,6 @@ import static java.util.stream.Stream.concat;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Converter;
-import com.google.common.base.Objects;
 import com.google.common.collect.ClassToInstanceMap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -48,6 +47,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentMap;
 import junit.framework.Assert;
 import org.jspecify.annotations.NullMarked;
@@ -365,7 +365,7 @@ public final class NullPointerTester {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(name, parameterTypes);
+      return Objects.hash(name, parameterTypes);
     }
   }
 
@@ -631,7 +631,7 @@ public final class NullPointerTester {
       }
     };
 
-    public abstract boolean isExpectedType(Throwable cause);
+    abstract boolean isExpectedType(Throwable cause);
   }
 
   private static boolean annotatedTypeExists() {

@@ -382,6 +382,10 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
   }
 
+  // TODO(b/418181860): This method creates retain cycles in J2ObjC. In order to break the cycle,
+  // there needs to be separate classes for primary and complement range set, where the primary one
+  // would hold {@code @LazyInit @RetainedWith @Nullable} reference to its complement, and the other
+  // {@code final} reference.
   @Override
   public ImmutableRangeSet<C> complement() {
     ImmutableRangeSet<C> result = complement;
@@ -721,7 +725,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
   }
 
-  private static class AsSetSerializedForm<C extends Comparable> implements Serializable {
+  private static final class AsSetSerializedForm<C extends Comparable> implements Serializable {
     private final ImmutableList<Range<C>> ranges;
     private final DiscreteDomain<C> domain;
 

@@ -354,7 +354,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @GwtIncompatible
     @J2ktIncompatible
     @SuppressWarnings("unused")
-    private static class SerializedForm<K> implements Serializable {
+    private static final class SerializedForm<K> implements Serializable {
       final ImmutableMap<K, ?> map;
 
       SerializedForm(ImmutableMap<K, ?> map) {
@@ -409,7 +409,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @GwtIncompatible
     @J2ktIncompatible
     @SuppressWarnings("unused")
-    private static class SerializedForm<V> implements Serializable {
+    private static final class SerializedForm<V> implements Serializable {
       final ImmutableMap<?, V> map;
 
       SerializedForm(ImmutableMap<?, V> map) {

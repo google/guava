@@ -663,7 +663,7 @@ public final class Ints extends IntsMethodsForWeb {
     return new IntArrayAsList(backingArray);
   }
 
-  private static class IntArrayAsList extends AbstractList<Integer>
+  private static final class IntArrayAsList extends AbstractList<Integer>
       implements RandomAccess, Serializable {
     final int[] array;
     final int start;

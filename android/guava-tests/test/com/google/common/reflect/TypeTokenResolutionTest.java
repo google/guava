@@ -21,6 +21,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
+import com.google.errorprone.annotations.Keep;
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -224,9 +225,7 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   private static class ParameterizedOuter<T> {
-
-    @SuppressWarnings("unused") // used by reflection
-    public Inner field;
+    @Keep public Inner field;
 
     class Inner {}
   }
@@ -418,20 +417,20 @@ public class TypeTokenResolutionTest extends TestCase {
 
   private abstract class WithGenericBound<A> {
 
-    @SuppressWarnings("unused")
+    @Keep
     public <B extends A> void withTypeVariable(List<B> list) {}
 
-    @SuppressWarnings("unused")
+    @Keep
     public <E extends Enum<E>> void withRecursiveBound(List<E> list) {}
 
-    @SuppressWarnings("unused")
+    @Keep
     public <K extends List<V>, V extends List<K>> void withMutualRecursiveBound(
         List<Map<K, V>> list) {}
 
-    @SuppressWarnings("unused")
+    @Keep
     void withWildcardLowerBound(List<? super A> list) {}
 
-    @SuppressWarnings("unused")
+    @Keep
     void withWildcardUpperBound(List<? extends A> list) {}
 
     Type getTargetType(String methodName) throws Exception {

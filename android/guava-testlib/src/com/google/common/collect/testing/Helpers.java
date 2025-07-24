@@ -49,7 +49,7 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible(emulated = true)
 @NullMarked
 public class Helpers {
-  // Clone of Objects.equal
+  // Clone of Objects.equals
   static boolean equal(@Nullable Object a, @Nullable Object b) {
     return a == b || (a != null && a.equals(b));
   }
@@ -251,11 +251,11 @@ public class Helpers {
     return iterator.next();
   }
 
-  private static class EntryComparator<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class EntryComparator<K extends @Nullable Object, V extends @Nullable Object>
       implements Comparator<Entry<K, V>> {
     final @Nullable Comparator<? super K> keyComparator;
 
-    public EntryComparator(@Nullable Comparator<? super K> keyComparator) {
+    EntryComparator(@Nullable Comparator<? super K> keyComparator) {
       this.keyComparator = keyComparator;
     }
 
@@ -471,23 +471,13 @@ public class Helpers {
   }
 
   /**
-   * Private replacement for {@link com.google.gwt.user.client.rpc.GwtTransient} to work around
-   * build-system quirks.
-   */
-  private @interface GwtTransient {}
-
-  /**
    * Compares strings in natural order except that null comes immediately before a given value. This
    * works better than Ordering.natural().nullsFirst() because, if null comes before all other
    * values, it lies outside the submap/submultiset ranges we test, and the variety of tests that
    * exercise null handling fail on those subcollections.
    */
   public abstract static class NullsBefore implements Comparator<@Nullable String>, Serializable {
-    /*
-     * We don't serialize this class in GWT, so we don't care about whether GWT will serialize this
-     * field.
-     */
-    @GwtTransient private final String justAfterNull;
+    private final String justAfterNull;
 
     protected NullsBefore(String justAfterNull) {
       if (justAfterNull == null) {

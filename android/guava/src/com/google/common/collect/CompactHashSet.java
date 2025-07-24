@@ -26,7 +26,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Objects;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -43,6 +42,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
 
@@ -322,7 +322,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
         entryIndex = next - 1;
         entry = entries[entryIndex];
         if (CompactHashing.getHashPrefix(entry, mask) == hashPrefix
-            && Objects.equal(object, elements[entryIndex])) {
+            && Objects.equals(object, elements[entryIndex])) {
           return false;
         }
         next = CompactHashing.getNext(entry, mask);
@@ -433,7 +433,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
       int entryIndex = next - 1;
       int entry = entry(entryIndex);
       if (CompactHashing.getHashPrefix(entry, mask) == hashPrefix
-          && Objects.equal(object, element(entryIndex))) {
+          && Objects.equals(object, element(entryIndex))) {
         return true;
       }
       next = CompactHashing.getNext(entry, mask);

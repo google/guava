@@ -575,7 +575,7 @@ public final class Floats extends FloatsMethodsForWeb {
     return new FloatArrayAsList(backingArray);
   }
 
-  private static class FloatArrayAsList extends AbstractList<Float>
+  private static final class FloatArrayAsList extends AbstractList<Float>
       implements RandomAccess, Serializable {
     final float[] array;
     final int start;

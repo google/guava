@@ -88,8 +88,7 @@ public class FeatureEnumTest extends TestCase {
     }
     fail(
         rootLocaleFormat(
-            "Feature enum %s should contain an " + "annotation named 'Require'.",
-            featureEnumClass));
+            "Feature enum %s should contain an annotation named 'Require'.", featureEnumClass));
   }
 
   @SuppressWarnings("unchecked")

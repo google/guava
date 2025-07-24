@@ -26,7 +26,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Table.Cell;
 import java.io.Serializable;
@@ -34,6 +33,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -180,16 +180,16 @@ public final class Tables {
       }
       if (obj instanceof Cell) {
         Cell<?, ?, ?> other = (Cell<?, ?, ?>) obj;
-        return Objects.equal(getRowKey(), other.getRowKey())
-            && Objects.equal(getColumnKey(), other.getColumnKey())
-            && Objects.equal(getValue(), other.getValue());
+        return Objects.equals(getRowKey(), other.getRowKey())
+            && Objects.equals(getColumnKey(), other.getColumnKey())
+            && Objects.equals(getValue(), other.getValue());
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(getRowKey(), getColumnKey(), getValue());
+      return Objects.hash(getRowKey(), getColumnKey(), getValue());
     }
 
     @Override
@@ -217,7 +217,7 @@ public final class Tables {
         : new TransposeTable<C, R, V>(table);
   }
 
-  private static class TransposeTable<
+  private static final class TransposeTable<
           C extends @Nullable Object, R extends @Nullable Object, V extends @Nullable Object>
       extends AbstractTable<C, R, V> {
     final Table<R, C, V> original;
@@ -408,7 +408,7 @@ public final class Tables {
     return new TransformedTable<>(fromTable, function);
   }
 
-  private static class TransformedTable<
+  private static final class TransformedTable<
           R extends @Nullable Object,
           C extends @Nullable Object,
           V1 extends @Nullable Object,
@@ -644,7 +644,7 @@ public final class Tables {
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableTable<R, C, V> implements RowSortedTable<R, C, V> {
 
-    public UnmodifiableRowSortedMap(RowSortedTable<R, ? extends C, ? extends V> delegate) {
+    UnmodifiableRowSortedMap(RowSortedTable<R, ? extends C, ? extends V> delegate) {
       super(delegate);
     }
 

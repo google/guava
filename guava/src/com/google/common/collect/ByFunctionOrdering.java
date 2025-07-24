@@ -22,8 +22,8 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import java.io.Serializable;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -60,7 +60,7 @@ final class ByFunctionOrdering<F extends @Nullable Object, T extends @Nullable O
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(function, ordering);
+    return Objects.hash(function, ordering);
   }
 
   @Override

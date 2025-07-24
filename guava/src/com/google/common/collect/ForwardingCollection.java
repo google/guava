@@ -17,10 +17,10 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -170,7 +170,7 @@ public abstract class ForwardingCollection<E extends @Nullable Object> extends F
   protected boolean standardRemove(@Nullable Object object) {
     Iterator<E> iterator = iterator();
     while (iterator.hasNext()) {
-      if (Objects.equal(iterator.next(), object)) {
+      if (Objects.equals(iterator.next(), object)) {
         iterator.remove();
         return true;
       }

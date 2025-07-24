@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Pattern;
 import org.jspecify.annotations.Nullable;
 
@@ -374,7 +375,7 @@ public final class Predicates {
   /**
    * @see Predicates#not(Predicate)
    */
-  private static class NotPredicate<T extends @Nullable Object>
+  private static final class NotPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     final Predicate<T> predicate;
 
@@ -412,7 +413,7 @@ public final class Predicates {
   /**
    * @see Predicates#and(Iterable)
    */
-  private static class AndPredicate<T extends @Nullable Object>
+  private static final class AndPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
 
@@ -457,7 +458,7 @@ public final class Predicates {
   /**
    * @see Predicates#or(Iterable)
    */
-  private static class OrPredicate<T extends @Nullable Object>
+  private static final class OrPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final List<? extends Predicate<? super T>> components;
 
@@ -515,7 +516,8 @@ public final class Predicates {
   /**
    * @see Predicates#equalTo(Object)
    */
-  private static class IsEqualToPredicate implements Predicate<@Nullable Object>, Serializable {
+  private static final class IsEqualToPredicate
+      implements Predicate<@Nullable Object>, Serializable {
     private final Object target;
 
     private IsEqualToPredicate(Object target) {
@@ -558,7 +560,7 @@ public final class Predicates {
    * @see Predicates#instanceOf(Class)
    */
   @GwtIncompatible // Class.isInstance
-  private static class InstanceOfPredicate<T extends @Nullable Object>
+  private static final class InstanceOfPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final Class<?> clazz;
 
@@ -598,7 +600,7 @@ public final class Predicates {
    */
   @J2ktIncompatible
   @GwtIncompatible // Class.isAssignableFrom
-  private static class SubtypeOfPredicate implements Predicate<Class<?>>, Serializable {
+  private static final class SubtypeOfPredicate implements Predicate<Class<?>>, Serializable {
     private final Class<?> clazz;
 
     private SubtypeOfPredicate(Class<?> clazz) {
@@ -635,7 +637,7 @@ public final class Predicates {
   /**
    * @see Predicates#in(Collection)
    */
-  private static class InPredicate<T extends @Nullable Object>
+  private static final class InPredicate<T extends @Nullable Object>
       implements Predicate<T>, Serializable {
     private final Collection<?> target;
 
@@ -683,7 +685,8 @@ public final class Predicates {
   /**
    * @see Predicates#compose(Predicate, Function)
    */
-  private static class CompositionPredicate<A extends @Nullable Object, B extends @Nullable Object>
+  private static final class CompositionPredicate<
+          A extends @Nullable Object, B extends @Nullable Object>
       implements Predicate<A>, Serializable {
     final Predicate<B> p;
     final Function<A, ? extends B> f;
@@ -741,8 +744,7 @@ public final class Predicates {
     public int hashCode() {
       // Pattern uses Object.hashCode, so we have to reach
       // inside to build a hashCode consistent with equals.
-
-      return Objects.hashCode(pattern.pattern(), pattern.flags());
+      return Objects.hash(pattern.pattern(), pattern.flags());
     }
 
     @Override
@@ -752,7 +754,7 @@ public final class Predicates {
 
         // Pattern uses Object (identity) equality, so we have to reach
         // inside to compare individual fields.
-        return Objects.equal(pattern.pattern(), that.pattern.pattern())
+        return Objects.equals(pattern.pattern(), that.pattern.pattern())
             && pattern.flags() == that.pattern.flags();
       }
       return false;
@@ -775,7 +777,7 @@ public final class Predicates {
    * @see Predicates#containsPattern(String)
    */
   @GwtIncompatible // Only used by other GWT-incompatible code.
-  private static class ContainsPatternFromStringPredicate extends ContainsPatternPredicate {
+  private static final class ContainsPatternFromStringPredicate extends ContainsPatternPredicate {
 
     ContainsPatternFromStringPredicate(String string) {
       super(Platform.compilePattern(string));

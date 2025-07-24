@@ -78,7 +78,7 @@ public class ServiceManagerTest extends TestCase {
   private static class NoOpDelayedService extends NoOpService {
     private final long delay;
 
-    public NoOpDelayedService(long delay) {
+    NoOpDelayedService(long delay) {
       this.delay = delay;
     }
 
@@ -452,8 +452,7 @@ public class ServiceManagerTest extends TestCase {
         assertThrows(IllegalStateException.class, () -> manager.awaitHealthy());
     assertThat(e)
         .hasMessageThat()
-        .contains(
-            "Expected to be healthy after starting. The following services are not " + "running:");
+        .contains("Expected to be healthy after starting. The following services are not running:");
 
     Throwable[] suppressed = e.getSuppressed();
     assertThat(suppressed).hasLength(2);

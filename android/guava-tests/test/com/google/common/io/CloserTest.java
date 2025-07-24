@@ -21,13 +21,13 @@ import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
@@ -357,7 +357,7 @@ public class CloserTest extends TestCase {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(closeable, thrown, suppressed);
+      return Objects.hash(closeable, thrown, suppressed);
     }
 
     @Override
@@ -391,7 +391,7 @@ public class CloserTest extends TestCase {
       this.throwOnClose = throwOnClose;
     }
 
-    public boolean isClosed() {
+    boolean isClosed() {
       return closed;
     }
 

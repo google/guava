@@ -29,6 +29,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.InlineMe;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
@@ -446,34 +447,40 @@ public final class IntMath {
   /**
    * Returns the sum of {@code a} and {@code b}, provided it does not overflow.
    *
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
+   * Math#addExact(int, int)} instead.
+   *
    * @throws ArithmeticException if {@code a + b} overflows in signed {@code int} arithmetic
    */
+  @InlineMe(replacement = "Math.addExact(a, b)")
   public static int checkedAdd(int a, int b) {
-    long result = (long) a + b;
-    checkNoOverflow(result == (int) result, "checkedAdd", a, b);
-    return (int) result;
+    return Math.addExact(a, b);
   }
 
   /**
    * Returns the difference of {@code a} and {@code b}, provided it does not overflow.
    *
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
+   * Math#subtractExact(int, int)} instead.
+   *
    * @throws ArithmeticException if {@code a - b} overflows in signed {@code int} arithmetic
    */
+  @InlineMe(replacement = "Math.subtractExact(a, b)")
   public static int checkedSubtract(int a, int b) {
-    long result = (long) a - b;
-    checkNoOverflow(result == (int) result, "checkedSubtract", a, b);
-    return (int) result;
+    return Math.subtractExact(a, b);
   }
 
   /**
    * Returns the product of {@code a} and {@code b}, provided it does not overflow.
    *
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
+   * Math#multiplyExact(int, int)} instead.
+   *
    * @throws ArithmeticException if {@code a * b} overflows in signed {@code int} arithmetic
    */
+  @InlineMe(replacement = "Math.multiplyExact(a, b)")
   public static int checkedMultiply(int a, int b) {
-    long result = (long) a * b;
-    checkNoOverflow(result == (int) result, "checkedMultiply", a, b);
-    return (int) result;
+    return Math.multiplyExact(a, b);
   }
 
   /**

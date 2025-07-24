@@ -856,7 +856,7 @@ public class TableCollectionTest extends TestCase {
       String keyToRemove = map.keySet().iterator().next();
       if (supportsRemove) {
         int initialSize = map.size();
-        map.get(keyToRemove);
+        // var oldValue = map.get(keyToRemove);
         map.remove(keyToRemove);
         // This line doesn't hold - see the Javadoc comments above.
         // assertEquals(expectedValue, oldValue);

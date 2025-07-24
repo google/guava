@@ -578,7 +578,7 @@ public class CycleDetectingLockFactory {
    * A {@code LockGraphNode} associated with each lock instance keeps track of the directed edges in
    * the lock acquisition graph.
    */
-  private static class LockGraphNode {
+  private static final class LockGraphNode {
 
     /**
      * The map tracking the locks that are known to be acquired before this lock, each associated
@@ -858,7 +858,7 @@ public class CycleDetectingLockFactory {
     }
   }
 
-  private class CycleDetectingReentrantReadLock extends ReentrantReadWriteLock.ReadLock {
+  private final class CycleDetectingReentrantReadLock extends ReentrantReadWriteLock.ReadLock {
 
     @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;
 
@@ -917,7 +917,7 @@ public class CycleDetectingLockFactory {
     }
   }
 
-  private class CycleDetectingReentrantWriteLock extends ReentrantReadWriteLock.WriteLock {
+  private final class CycleDetectingReentrantWriteLock extends ReentrantReadWriteLock.WriteLock {
 
     @Weak final CycleDetectingReentrantReadWriteLock readWriteLock;
 

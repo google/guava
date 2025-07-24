@@ -21,11 +21,11 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
-import com.google.common.base.Objects;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
+import com.google.errorprone.annotations.Keep;
 import java.io.Serializable;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
@@ -43,6 +43,7 @@ import java.security.AccessControlException;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.concurrent.atomic.AtomicReference;
 import org.jspecify.annotations.Nullable;
 
@@ -239,7 +240,7 @@ final class Types {
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof GenericArrayType) {
         GenericArrayType that = (GenericArrayType) obj;
-        return Objects.equal(getGenericComponentType(), that.getGenericComponentType());
+        return Objects.equals(getGenericComponentType(), that.getGenericComponentType());
       }
       return false;
     }
@@ -305,7 +306,7 @@ final class Types {
       }
       ParameterizedType that = (ParameterizedType) other;
       return getRawType().equals(that.getRawType())
-          && Objects.equal(getOwnerType(), that.getOwnerType())
+          && Objects.equals(getOwnerType(), that.getOwnerType())
           && Arrays.equals(getActualTypeArguments(), that.getActualTypeArguments());
     }
 
@@ -404,18 +405,22 @@ final class Types {
       this.bounds = ImmutableList.copyOf(bounds);
     }
 
+    @Keep
     public Type[] getBounds() {
       return toArray(bounds);
     }
 
+    @Keep
     public D getGenericDeclaration() {
       return genericDeclaration;
     }
 
+    @Keep
     public String getName() {
       return name;
     }
 
+    @Keep
     public String getTypeName() {
       return name;
     }

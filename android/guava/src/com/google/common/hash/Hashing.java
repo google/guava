@@ -223,7 +223,7 @@ public final class Hashing {
     return Md5Holder.MD5;
   }
 
-  private static class Md5Holder {
+  private static final class Md5Holder {
     static final HashFunction MD5 = new MessageDigestHashFunction("MD5", "Hashing.md5()");
   }
 
@@ -244,7 +244,7 @@ public final class Hashing {
     return Sha1Holder.SHA_1;
   }
 
-  private static class Sha1Holder {
+  private static final class Sha1Holder {
     static final HashFunction SHA_1 = new MessageDigestHashFunction("SHA-1", "Hashing.sha1()");
   }
 
@@ -253,7 +253,7 @@ public final class Hashing {
     return Sha256Holder.SHA_256;
   }
 
-  private static class Sha256Holder {
+  private static final class Sha256Holder {
     static final HashFunction SHA_256 =
         new MessageDigestHashFunction("SHA-256", "Hashing.sha256()");
   }
@@ -267,7 +267,7 @@ public final class Hashing {
     return Sha384Holder.SHA_384;
   }
 
-  private static class Sha384Holder {
+  private static final class Sha384Holder {
     static final HashFunction SHA_384 =
         new MessageDigestHashFunction("SHA-384", "Hashing.sha384()");
   }
@@ -277,7 +277,7 @@ public final class Hashing {
     return Sha512Holder.SHA_512;
   }
 
-  private static class Sha512Holder {
+  private static final class Sha512Holder {
     static final HashFunction SHA_512 =
         new MessageDigestHashFunction("SHA-512", "Hashing.sha512()");
   }
@@ -742,11 +742,11 @@ public final class Hashing {
   private static final class LinearCongruentialGenerator {
     private long state;
 
-    public LinearCongruentialGenerator(long seed) {
+    LinearCongruentialGenerator(long seed) {
       this.state = seed;
     }
 
-    public double nextDouble() {
+    double nextDouble() {
       state = 2862933555777941757L * state + 1;
       return ((double) ((int) (state >>> 33) + 1)) / 0x1.0p31;
     }

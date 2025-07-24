@@ -20,10 +20,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.NOT_AVAILABLE_ON_UNDIRECTED;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Objects;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.UnmodifiableIterator;
 import com.google.errorprone.annotations.Immutable;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -136,7 +136,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
   public abstract boolean equals(@Nullable Object obj);
 
   /**
-   * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hashCode(source(),
+   * The hashcode of an ordered {@link EndpointPair} is equal to {@code Objects.hash(source(),
    * target())}. The hashcode of an unordered {@link EndpointPair} is equal to {@code
    * nodeU().hashCode() + nodeV().hashCode()}.
    */
@@ -182,7 +182,7 @@ public abstract class EndpointPair<N> implements Iterable<N> {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(source(), target());
+      return Objects.hash(source(), target());
     }
 
     @Override

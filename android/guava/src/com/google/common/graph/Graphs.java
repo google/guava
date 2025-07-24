@@ -21,7 +21,6 @@ import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
-import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
@@ -33,6 +32,7 @@ import java.util.Deque;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Queue;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
@@ -165,7 +165,7 @@ public final class Graphs extends GraphsBridgeMethods {
    */
   private static boolean canTraverseWithoutReusingEdge(
       Graph<?> graph, Object nextNode, @Nullable Object previousNode) {
-    if (graph.isDirected() || !Objects.equal(previousNode, nextNode)) {
+    if (graph.isDirected() || !Objects.equals(previousNode, nextNode)) {
       return true;
     }
     // This falls into the undirected A->B->A case. The Graph interface does not support parallel
@@ -297,7 +297,7 @@ public final class Graphs extends GraphsBridgeMethods {
 
   // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
   // AbstractGraph) derives its behavior from calling successors().
-  private static class TransposedGraph<N> extends ForwardingGraph<N> {
+  private static final class TransposedGraph<N> extends ForwardingGraph<N> {
     private final Graph<N> graph;
 
     TransposedGraph(Graph<N> graph) {
@@ -354,7 +354,7 @@ public final class Graphs extends GraphsBridgeMethods {
 
   // NOTE: this should work as long as the delegate graph's implementation of edges() (like that of
   // AbstractValueGraph) derives its behavior from calling successors().
-  private static class TransposedValueGraph<N, V> extends ForwardingValueGraph<N, V> {
+  private static final class TransposedValueGraph<N, V> extends ForwardingValueGraph<N, V> {
     private final ValueGraph<N, V> graph;
 
     TransposedValueGraph(ValueGraph<N, V> graph) {
@@ -407,7 +407,7 @@ public final class Graphs extends GraphsBridgeMethods {
     }
   }
 
-  private static class TransposedNetwork<N, E> extends ForwardingNetwork<N, E> {
+  private static final class TransposedNetwork<N, E> extends ForwardingNetwork<N, E> {
     private final Network<N, E> network;
 
     TransposedNetwork(Network<N, E> network) {

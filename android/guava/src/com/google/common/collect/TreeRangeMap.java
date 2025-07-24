@@ -383,7 +383,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
         }
       };
 
-  private class SubRangeMap implements RangeMap<K, V> {
+  private final class SubRangeMap implements RangeMap<K, V> {
 
     private final Range<K> subRange;
 

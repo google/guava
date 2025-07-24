@@ -108,8 +108,7 @@ public class PercentEscaperTest extends TestCase {
    * IllegalArgumentException}.
    */
   public void testBadArguments_badchars() {
-    String msg =
-        "Alphanumeric characters are always 'safe' " + "and should not be explicitly specified";
+    String msg = "Alphanumeric characters are always 'safe' and should not be explicitly specified";
     IllegalArgumentException expected =
         assertThrows(IllegalArgumentException.class, () -> new PercentEscaper("-+#abc.!", false));
     assertThat(expected).hasMessageThat().isEqualTo(msg);

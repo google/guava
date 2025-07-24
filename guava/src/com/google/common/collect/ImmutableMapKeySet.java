@@ -89,7 +89,7 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   @GwtIncompatible
   @J2ktIncompatible
   @SuppressWarnings("unused")
-  private static class KeySetSerializedForm<K> implements Serializable {
+  private static final class KeySetSerializedForm<K> implements Serializable {
     final ImmutableMap<K, ?> map;
 
     KeySetSerializedForm(ImmutableMap<K, ?> map) {

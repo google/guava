@@ -27,6 +27,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.time.Duration;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.Nullable;
 
@@ -54,7 +55,8 @@ public final class Suppliers {
     return new SupplierComposition<>(function, supplier);
   }
 
-  private static class SupplierComposition<F extends @Nullable Object, T extends @Nullable Object>
+  private static final class SupplierComposition<
+          F extends @Nullable Object, T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     final Function<? super F, T> function;
     final Supplier<F> supplier;
@@ -81,7 +83,7 @@ public final class Suppliers {
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(function, supplier);
+      return Objects.hash(function, supplier);
     }
 
     @Override
@@ -354,7 +356,7 @@ public final class Suppliers {
     return new SupplierOfInstance<>(instance);
   }
 
-  private static class SupplierOfInstance<T extends @Nullable Object>
+  private static final class SupplierOfInstance<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     @ParametricNullness final T instance;
 
@@ -372,14 +374,14 @@ public final class Suppliers {
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SupplierOfInstance) {
         SupplierOfInstance<?> that = (SupplierOfInstance<?>) obj;
-        return Objects.equal(instance, that.instance);
+        return Objects.equals(instance, that.instance);
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(instance);
+      return Objects.hash(instance);
     }
 
     @Override
@@ -401,7 +403,7 @@ public final class Suppliers {
   }
 
   @J2ktIncompatible
-  private static class ThreadSafeSupplier<T extends @Nullable Object>
+  private static final class ThreadSafeSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     final Supplier<T> delegate;
 

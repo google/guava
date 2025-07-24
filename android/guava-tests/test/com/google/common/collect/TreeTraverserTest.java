@@ -45,7 +45,7 @@ public class TreeTraverserTest extends TestCase {
   private static final class Tree extends Node {
     final List<Tree> children;
 
-    public Tree(char value, Tree... children) {
+    Tree(char value, Tree... children) {
       super(value);
       this.children = asList(children);
     }

@@ -835,21 +835,21 @@ public class IteratorsTest extends TestCase {
 
   @GwtIncompatible // Only used by @GwtIncompatible code
   private abstract static class EmptyIteratorTester extends IteratorTester<Integer> {
-    protected EmptyIteratorTester() {
+    EmptyIteratorTester() {
       super(3, MODIFIABLE, Collections.<Integer>emptySet(), IteratorTester.KnownOrder.KNOWN_ORDER);
     }
   }
 
   @GwtIncompatible // Only used by @GwtIncompatible code
   private abstract static class SingletonIteratorTester extends IteratorTester<Integer> {
-    protected SingletonIteratorTester() {
+    SingletonIteratorTester() {
       super(3, MODIFIABLE, singleton(1), IteratorTester.KnownOrder.KNOWN_ORDER);
     }
   }
 
   @GwtIncompatible // Only used by @GwtIncompatible code
   private abstract static class DoubletonIteratorTester extends IteratorTester<Integer> {
-    protected DoubletonIteratorTester() {
+    DoubletonIteratorTester() {
       super(5, MODIFIABLE, newArrayList(1, 2), IteratorTester.KnownOrder.KNOWN_ORDER);
     }
   }

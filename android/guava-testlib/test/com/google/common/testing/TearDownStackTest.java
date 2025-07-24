@@ -153,9 +153,9 @@ public class TearDownStackTest extends TestCase {
     boolean ran = false;
     @Nullable Callback callback = null;
 
-    public SimpleTearDown() {}
+    SimpleTearDown() {}
 
-    public SimpleTearDown(Callback callback) {
+    SimpleTearDown(Callback callback) {
       this.callback = callback;
     }
 

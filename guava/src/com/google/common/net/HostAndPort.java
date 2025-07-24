@@ -22,11 +22,11 @@ import static com.google.common.base.Strings.isNullOrEmpty;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.Objects;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import java.io.Serializable;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -281,14 +281,14 @@ public final class HostAndPort implements Serializable {
     }
     if (other instanceof HostAndPort) {
       HostAndPort that = (HostAndPort) other;
-      return Objects.equal(this.host, that.host) && this.port == that.port;
+      return Objects.equals(this.host, that.host) && this.port == that.port;
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(host, port);
+    return Objects.hash(host, port);
   }
 
   /** Rebuild the host:port string, including brackets if necessary. */

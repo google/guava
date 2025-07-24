@@ -112,10 +112,10 @@ public class ListMultimapTestSuiteBuilder<K, V>
     return derivedFeatures;
   }
 
-  private static class MultimapGetGenerator<K, V>
+  private static final class MultimapGetGenerator<K, V>
       extends MultimapTestSuiteBuilder.MultimapGetGenerator<K, V, ListMultimap<K, V>>
       implements TestListGenerator<V> {
-    public MultimapGetGenerator(
+    MultimapGetGenerator(
         OneSizeTestContainerGenerator<ListMultimap<K, V>, Entry<K, V>> multimapGenerator) {
       super(multimapGenerator);
     }
@@ -126,10 +126,10 @@ public class ListMultimapTestSuiteBuilder<K, V>
     }
   }
 
-  private static class MultimapAsMapGetGenerator<K, V>
+  private static final class MultimapAsMapGetGenerator<K, V>
       extends MultimapTestSuiteBuilder.MultimapAsMapGetGenerator<K, V, ListMultimap<K, V>>
       implements TestListGenerator<V> {
-    public MultimapAsMapGetGenerator(
+    MultimapAsMapGetGenerator(
         OneSizeTestContainerGenerator<ListMultimap<K, V>, Entry<K, V>> multimapGenerator) {
       super(multimapGenerator);
     }

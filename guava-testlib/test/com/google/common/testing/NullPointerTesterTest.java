@@ -38,6 +38,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.anotherpackage.SomeClassThatDoesNotUseNullable;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.Keep;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -178,24 +179,28 @@ public class NullPointerTesterTest extends TestCase {
       ImmutableSet.of("oneArgThrowsOtherThanNpe", "oneArgShouldThrowNpeButDoesnt");
 
   private static class ThrowsIae {
+    @Keep
     public static void christenPoodle(String name) {
       checkArgument(name != null);
     }
   }
 
   private static class ThrowsNpe {
+    @Keep
     public static void christenPoodle(String name) {
       checkNotNull(name);
     }
   }
 
   private static class ThrowsUoe {
+    @Keep
     public static void christenPoodle(String unused) {
       throw new UnsupportedOperationException();
     }
   }
 
   private static class ThrowsSomethingElse {
+    @Keep
     public static void christenPoodle(String unused) {
       throw new RuntimeException();
     }
@@ -394,25 +399,21 @@ public class NullPointerTesterTest extends TestCase {
     }
 
     /** Two-arg method with no Nullable params. */
-    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void normalNormal(String first, Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the second param Nullable. */
-    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void normalNullable(String first, @Nullable Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the first param Nullable. */
-    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void nullableNormal(@Nullable String first, Integer second) {
       reactToNullParameters(first, second);
     }
 
     /** Two-arg method with the both params Nullable. */
-    @SuppressWarnings("GoodTime") // false positive; b/122617528
     public void nullableNullable(@Nullable String first, @Nullable Integer second) {
       reactToNullParameters(first, second);
     }
@@ -507,14 +508,17 @@ public class NullPointerTesterTest extends TestCase {
   /** Lots of well-behaved methods. */
   @SuppressWarnings("unused") // used by reflection
   private static class PassObject extends SomeClassThatDoesNotUseNullable {
+    @Keep
     public static void doThrow(Object arg) {
       if (arg == null) {
         throw new FooException();
       }
     }
 
+    @Keep
     public void noArg() {}
 
+    @Keep
     public void oneArg(String s) {
       checkNotNull(s);
     }
@@ -523,55 +527,69 @@ public class NullPointerTesterTest extends TestCase {
       checkNotNull(s);
     }
 
+    @Keep
     protected void protectedOneArg(String s) {
       checkNotNull(s);
     }
 
+    @Keep
     public void oneNullableArg(@Nullable String s) {}
 
+    @Keep
     public void oneNullableArgThrows(@Nullable String s) {
       doThrow(s);
     }
 
+    @Keep
     public void twoArg(String s, Integer i) {
       checkNotNull(s);
       i.intValue();
     }
 
+    @Keep
     public void twoMixedArgs(String s, @Nullable Integer i) {
       checkNotNull(s);
     }
 
+    @Keep
     public void twoMixedArgs(@Nullable Integer i, String s) {
       checkNotNull(s);
     }
 
+    @Keep
     public void twoMixedArgsThrows(String s, @Nullable Integer i) {
       checkNotNull(s);
       doThrow(i);
     }
 
+    @Keep
     public void twoMixedArgsThrows(@Nullable Integer i, String s) {
       checkNotNull(s);
       doThrow(i);
     }
 
+    @Keep
     public void twoNullableArgs(@Nullable String s, @javax.annotation.Nullable Integer i) {}
 
+    @Keep
     public void twoNullableArgsThrowsFirstArg(@Nullable String s, @Nullable Integer i) {
       doThrow(s);
     }
 
+    @Keep
     public void twoNullableArgsThrowsSecondArg(@Nullable String s, @Nullable Integer i) {
       doThrow(i);
     }
 
+    @Keep
     public static void staticOneArg(String s) {
       checkNotNull(s);
     }
 
+    @Keep
     public static void staticOneNullableArg(@Nullable String s) {}
 
+    @Keep
     public static void staticOneNullableArgThrows(@Nullable String s) {
       doThrow(s);
     }
@@ -787,6 +805,7 @@ public class NullPointerTesterTest extends TestCase {
 
   @SuppressWarnings("unused") // for NullPointerTester
   private abstract static class BaseClassThatFailsToThrow {
+    @Keep
     public void oneArg(String s) {}
   }
 
@@ -810,6 +829,7 @@ public class NullPointerTesterTest extends TestCase {
 
   @SuppressWarnings("unused") // for NullPointerTester
   private abstract static class BaseClassThatFailsToThrowForProtected {
+    @Keep
     protected void protectedOneArg(String s) {}
   }
 
@@ -831,6 +851,7 @@ public class NullPointerTesterTest extends TestCase {
 
   @SuppressWarnings("unused") // for NullPointerTester
   private static class SubclassOverridesTheWrongMethod extends BaseClassThatFailsToThrow {
+    @Keep
     public void oneArg(@Nullable CharSequence s) {}
   }
 
@@ -868,6 +889,7 @@ public class NullPointerTesterTest extends TestCase {
 
   @SuppressWarnings("unused") // used by reflection
   private static class CanCreateDefault {
+    @Keep
     public void foo(@Nullable HardToCreate ignored, String required) {
       checkNotNull(required);
     }
@@ -879,6 +901,7 @@ public class NullPointerTesterTest extends TestCase {
 
   @SuppressWarnings("unused") // used by reflection
   private static class CannotCreateDefault {
+    @Keep
     public void foo(HardToCreate ignored, String required) {
       checkNotNull(ignored);
       checkNotNull(required);
@@ -1000,6 +1023,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class AllDefaultValuesChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkDefaultValuesForTheseTypes(
         Gender gender,
         Integer integer,
@@ -1074,6 +1098,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class ObjectArrayDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(Object[] array, String s) {
       calledWith(array, s);
     }
@@ -1092,6 +1117,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class StringArrayDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(String[] array, String s) {
       calledWith(array, s);
     }
@@ -1110,6 +1136,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class IntArrayDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(int[] array, String s) {
       calledWith(array, s);
     }
@@ -1130,6 +1157,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class EmptyEnumDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(EmptyEnum object, String s) {
       calledWith(object, s);
     }
@@ -1151,6 +1179,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class GenericClassTypeDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(Class<? extends List<?>> cls, String s) {
       calledWith(cls, s);
     }
@@ -1169,6 +1198,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class NonGenericClassTypeDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(@SuppressWarnings("rawtypes") Class cls, String s) {
       calledWith(cls, s);
     }
@@ -1187,6 +1217,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class GenericTypeTokenDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(TypeToken<? extends List<? super Number>> type, String s) {
       calledWith(type, s);
     }
@@ -1205,6 +1236,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class NonGenericTypeTokenDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(@SuppressWarnings("rawtypes") TypeToken type, String s) {
       calledWith(type, s);
     }
@@ -1225,6 +1257,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class GenericInterfaceDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(FromTo<String, Integer> f, String s) {
       calledWith(f, s);
     }
@@ -1248,6 +1281,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class NullRejectingInterfaceDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(NullRejectingFromTo<String, Integer> f, String s) {
       calledWith(f, s);
     }
@@ -1272,6 +1306,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class MultipleInterfacesDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public <T extends FromTo<String, Integer> & Supplier<Long>> void checkArray(T f, String s) {
       calledWith(f, s);
     }
@@ -1292,6 +1327,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class GenericInterface2DefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(FromTo<String, FromTo<Integer, String>> f, String s) {
       calledWith(f, s);
     }
@@ -1311,6 +1347,7 @@ public class NullPointerTesterTest extends TestCase {
   private abstract static class AbstractGenericDefaultValueChecker<T> extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkGeneric(T value, String s) {
       calledWith(value, s);
     }
@@ -1352,6 +1389,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class ConverterDefaultValueChecker extends DefaultValueChecker {
 
     @SuppressWarnings("unused") // called by NullPointerTester
+    @Keep
     public void checkArray(Converter<String, Integer> c, String s) {
       calledWith(c, s);
     }
@@ -1374,16 +1412,14 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class VisibilityMethods {
 
-    @SuppressWarnings("unused") // Called by reflection
     private void privateMethod() {}
 
-    @SuppressWarnings("unused") // Called by reflection
     void packagePrivateMethod() {}
 
-    @SuppressWarnings("unused") // Called by reflection
+    @Keep
     protected void protectedMethod() {}
 
-    @SuppressWarnings("unused") // Called by reflection
+    @Keep
     public void publicMethod() {}
   }
 
@@ -1425,6 +1461,7 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   private class Inner {
+    @Keep
     public Inner(String s) {
       checkNotNull(s);
     }
@@ -1462,10 +1499,10 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   private static final class FailOnOneOfTwoConstructors {
-    @SuppressWarnings("unused") // Called by reflection
+    @Keep
     public FailOnOneOfTwoConstructors(String s) {}
 
-    @SuppressWarnings("unused") // Called by reflection
+    @Keep
     public FailOnOneOfTwoConstructors(Object o) {
       checkNotNull(o);
     }
@@ -1489,30 +1526,25 @@ public class NullPointerTesterTest extends TestCase {
   public static class NullBounds<T extends @Nullable Object, U extends T, X> {
     boolean xWasCalled;
 
-    @SuppressWarnings("unused") // Called by reflection
     public void x(X x) {
       xWasCalled = true;
       checkNotNull(x);
     }
 
-    @SuppressWarnings("unused") // Called by reflection
     public void t(T t) {
       fail("Method with parameter <T extends @Nullable Object> should not be called");
     }
 
-    @SuppressWarnings("unused") // Called by reflection
     public void u(U u) {
       fail(
           "Method with parameter <U extends T> where <T extends @Nullable Object> should not be"
               + " called");
     }
 
-    @SuppressWarnings("unused") // Called by reflection
     public <A extends @Nullable Object> void a(A a) {
       fail("Method with parameter <A extends @Nullable Object> should not be called");
     }
 
-    @SuppressWarnings("unused") // Called by reflection
     public <A extends B, B extends @Nullable Object> void b(A a) {
       fail(
           "Method with parameter <A extends B> where <B extends @Nullable Object> should not be"

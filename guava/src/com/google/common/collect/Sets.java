@@ -1343,8 +1343,8 @@ public final class Sets {
   }
 
   @GwtIncompatible // NavigableSet
-  private static class FilteredNavigableSet<E extends @Nullable Object> extends FilteredSortedSet<E>
-      implements NavigableSet<E> {
+  private static final class FilteredNavigableSet<E extends @Nullable Object>
+      extends FilteredSortedSet<E> implements NavigableSet<E> {
     FilteredNavigableSet(NavigableSet<E> unfiltered, Predicate<? super E> predicate) {
       super(unfiltered, predicate);
     }

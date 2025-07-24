@@ -74,7 +74,7 @@ import org.jspecify.annotations.Nullable;
 public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
 
-  private static class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {
+  private static final class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {
     final Comparator<? super C> comparator;
 
     Factory(Comparator<? super C> comparator) {
@@ -183,7 +183,7 @@ public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
     return new TreeRow(rowKey);
   }
 
-  private class TreeRow extends Row implements SortedMap<C, V> {
+  private final class TreeRow extends Row implements SortedMap<C, V> {
     final @Nullable C lowerBound;
     final @Nullable C upperBound;
 

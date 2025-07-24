@@ -132,7 +132,7 @@ public class ForwardingCollectionTest extends TestCase {
                     return new StandardImplForwardingCollection<>(MinimalCollection.of(elements));
                   }
                 })
-            .named("ForwardingCollection[MinimalCollection] with standard" + " implementations")
+            .named("ForwardingCollection[MinimalCollection] with standard implementations")
             .withFeatures(CollectionSize.ANY, CollectionFeature.ALLOWS_NULL_VALUES)
             .createTestSuite());
 

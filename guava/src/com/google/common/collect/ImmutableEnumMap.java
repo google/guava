@@ -130,7 +130,7 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
    * This class is used to serialize ImmutableEnumMap instances.
    */
   @J2ktIncompatible // serialization
-  private static class EnumSerializedForm<K extends Enum<K>, V> implements Serializable {
+  private static final class EnumSerializedForm<K extends Enum<K>, V> implements Serializable {
     final EnumMap<K, V> delegate;
 
     EnumSerializedForm(EnumMap<K, V> delegate) {

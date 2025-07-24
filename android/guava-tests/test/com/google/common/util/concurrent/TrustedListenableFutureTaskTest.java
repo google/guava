@@ -21,6 +21,7 @@ import static com.google.common.util.concurrent.Callables.returning;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.util.concurrent.TestPlatform.verifyThreadWasNotInterrupted;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -31,7 +32,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
@@ -132,7 +132,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   @GwtIncompatible // blocking wait
   public void testRunIdempotency() throws Exception {
     int numThreads = 10;
-    ExecutorService executor = Executors.newFixedThreadPool(numThreads);
+    ExecutorService executor = newFixedThreadPool(numThreads);
     for (int i = 0; i < 1000; i++) {
       AtomicInteger counter = new AtomicInteger();
       TrustedListenableFutureTask<Integer> task =

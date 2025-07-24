@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.io.Serializable;
 import java.util.Map;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -148,7 +149,7 @@ public final class Functions {
     return new ForMapWithDefault<>(map, defaultValue);
   }
 
-  private static class FunctionForMapNoDefault<
+  private static final class FunctionForMapNoDefault<
           K extends @Nullable Object, V extends @Nullable Object>
       implements Function<K, V>, Serializable {
     final Map<K, V> map;
@@ -188,7 +189,8 @@ public final class Functions {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  private static class ForMapWithDefault<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class ForMapWithDefault<
+          K extends @Nullable Object, V extends @Nullable Object>
       implements Function<K, V>, Serializable {
     final Map<K, ? extends V> map;
     @ParametricNullness final V defaultValue;
@@ -212,14 +214,14 @@ public final class Functions {
     public boolean equals(@Nullable Object o) {
       if (o instanceof ForMapWithDefault) {
         ForMapWithDefault<?, ?> that = (ForMapWithDefault<?, ?>) o;
-        return map.equals(that.map) && Objects.equal(defaultValue, that.defaultValue);
+        return map.equals(that.map) && Objects.equals(defaultValue, that.defaultValue);
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(map, defaultValue);
+      return Objects.hash(map, defaultValue);
     }
 
     @Override
@@ -249,13 +251,13 @@ public final class Functions {
     return new FunctionComposition<>(g, f);
   }
 
-  private static class FunctionComposition<
+  private static final class FunctionComposition<
           A extends @Nullable Object, B extends @Nullable Object, C extends @Nullable Object>
       implements Function<A, C>, Serializable {
     private final Function<B, C> g;
     private final Function<A, ? extends B> f;
 
-    public FunctionComposition(Function<B, C> g, Function<A, ? extends B> f) {
+    FunctionComposition(Function<B, C> g, Function<A, ? extends B> f) {
       this.g = checkNotNull(g);
       this.f = checkNotNull(f);
     }
@@ -307,7 +309,7 @@ public final class Functions {
   /**
    * @see Functions#forPredicate
    */
-  private static class PredicateFunction<T extends @Nullable Object>
+  private static final class PredicateFunction<T extends @Nullable Object>
       implements Function<T, Boolean>, Serializable {
     private final Predicate<T> predicate;
 
@@ -357,11 +359,11 @@ public final class Functions {
     return new ConstantFunction<>(value);
   }
 
-  private static class ConstantFunction<E extends @Nullable Object>
+  private static final class ConstantFunction<E extends @Nullable Object>
       implements Function<@Nullable Object, E>, Serializable {
     @ParametricNullness private final E value;
 
-    public ConstantFunction(@ParametricNullness E value) {
+    ConstantFunction(@ParametricNullness E value) {
       this.value = value;
     }
 
@@ -375,7 +377,7 @@ public final class Functions {
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof ConstantFunction) {
         ConstantFunction<?> that = (ConstantFunction<?>) obj;
-        return Objects.equal(value, that.value);
+        return Objects.equals(value, that.value);
       }
       return false;
     }
@@ -410,7 +412,8 @@ public final class Functions {
   /**
    * @see Functions#forSupplier
    */
-  private static class SupplierFunction<F extends @Nullable Object, T extends @Nullable Object>
+  private static final class SupplierFunction<
+          F extends @Nullable Object, T extends @Nullable Object>
       implements Function<F, T>, Serializable {
 
     private final Supplier<T> supplier;

@@ -139,7 +139,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet.CachingAsList<Ent
 
   @GwtIncompatible
   @J2ktIncompatible
-  private static class EntrySetSerializedForm<K, V> implements Serializable {
+  private static final class EntrySetSerializedForm<K, V> implements Serializable {
     final ImmutableMap<K, V> map;
 
     EntrySetSerializedForm(ImmutableMap<K, V> map) {

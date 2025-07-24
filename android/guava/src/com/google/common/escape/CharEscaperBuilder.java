@@ -38,7 +38,7 @@ public final class CharEscaperBuilder {
    * Simple decorator that turns an array of replacement char[]s into a CharEscaper, this results in
    * a very fast escape method.
    */
-  private static class CharArrayDecorator extends CharEscaper {
+  private static final class CharArrayDecorator extends CharEscaper {
     private final char[] @Nullable [] replacements;
     private final int replaceLength;
 

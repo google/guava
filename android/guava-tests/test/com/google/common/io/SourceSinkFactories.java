@@ -265,16 +265,18 @@ public class SourceSinkFactories {
 
     private final ThreadLocal<File> fileThreadLocal = new ThreadLocal<>();
 
-    protected File createFile() throws IOException {
+    File createFile() throws IOException {
       File file = File.createTempFile("SinkSourceFile", "txt");
       fileThreadLocal.set(file);
       return file;
     }
 
-    protected File getFile() {
+    File getFile() {
       return fileThreadLocal.get();
     }
 
+    // acts as an override in subclasses that implement SourceSinkFactory
+    @SuppressWarnings("EffectivelyPrivate")
     public final void tearDown() throws IOException {
       if (!fileThreadLocal.get().delete()) {
         logger.warning("Unable to delete file: " + fileThreadLocal.get());

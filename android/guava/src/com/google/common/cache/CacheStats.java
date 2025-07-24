@@ -21,7 +21,7 @@ import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
+import java.util.Objects;
 import java.util.concurrent.Callable;
 import org.jspecify.annotations.Nullable;
 
@@ -272,7 +272,7 @@ public final class CacheStats {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(
+    return Objects.hash(
         hitCount, missCount, loadSuccessCount, loadExceptionCount, totalLoadTime, evictionCount);
   }
 

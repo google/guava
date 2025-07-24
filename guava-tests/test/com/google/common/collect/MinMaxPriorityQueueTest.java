@@ -16,7 +16,6 @@
 
 package com.google.common.collect;
 
-import static com.google.common.base.Objects.equal;
 import static com.google.common.collect.Platform.reduceExponentIfGwt;
 import static com.google.common.collect.Platform.reduceIterationsIfGwt;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
@@ -46,6 +45,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.PriorityQueue;
 import java.util.Queue;
 import java.util.Random;
@@ -945,7 +945,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   private static void assertEqualsUsingSeed(
       long seed, @Nullable Object expected, @Nullable Object actual) {
-    if (!equal(actual, expected)) {
+    if (!Objects.equals(actual, expected)) {
       // fail(), but with the JUnit-supplied message.
       assertEquals("Using seed " + seed, expected, actual);
     }
@@ -953,7 +953,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
 
   private static void assertEqualsUsingStartedWith(
       Collection<?> startedWith, @Nullable Object expected, @Nullable Object actual) {
-    if (!equal(actual, expected)) {
+    if (!Objects.equals(actual, expected)) {
       // fail(), but with the JUnit-supplied message.
       assertEquals("Started with " + startedWith, expected, actual);
     }

@@ -152,7 +152,7 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
    * This class is used to serialize ImmutableEnumSet instances.
    */
   @J2ktIncompatible // serialization
-  private static class EnumSerializedForm<E extends Enum<E>> implements Serializable {
+  private static final class EnumSerializedForm<E extends Enum<E>> implements Serializable {
     final EnumSet<E> delegate;
 
     EnumSerializedForm(EnumSet<E> delegate) {

@@ -27,11 +27,11 @@ import static java.lang.Double.isNaN;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import java.io.Serializable;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.stream.Collector;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -439,7 +439,7 @@ public final class Stats implements Serializable {
    */
   @Override
   public int hashCode() {
-    return Objects.hashCode(count, mean, sumOfSquaresOfDeltas, min, max);
+    return Objects.hash(count, mean, sumOfSquaresOfDeltas, min, max);
   }
 
   @Override

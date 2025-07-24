@@ -619,7 +619,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * bimap and its inverse in sync during serialization, the way AbstractBiMap does.
    */
   @J2ktIncompatible // serialization
-  private static class SerializedForm<K, V> extends ImmutableMap.SerializedForm<K, V> {
+  private static final class SerializedForm<K, V> extends ImmutableMap.SerializedForm<K, V> {
     SerializedForm(ImmutableBiMap<K, V> bimap) {
       super(bimap);
     }

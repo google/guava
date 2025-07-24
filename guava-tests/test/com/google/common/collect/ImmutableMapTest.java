@@ -873,9 +873,9 @@ public class ImmutableMapTest extends TestCase {
   }
 
   private static class IntHolder implements Serializable {
-    public int value;
+    private int value;
 
-    public IntHolder(int value) {
+    IntHolder(int value) {
       this.value = value;
     }
 

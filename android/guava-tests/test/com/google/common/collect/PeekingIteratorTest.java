@@ -58,7 +58,7 @@ public class PeekingIteratorTest extends TestCase {
     private final Iterable<T> master;
     private @Nullable List<T> targetList;
 
-    public PeekingIteratorTester(Collection<T> master) {
+    PeekingIteratorTester(Collection<T> master) {
       super(master.size() + 3, MODIFIABLE, master, IteratorTester.KnownOrder.KNOWN_ORDER);
       this.master = master;
     }

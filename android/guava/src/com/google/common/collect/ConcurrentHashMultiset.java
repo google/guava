@@ -77,7 +77,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   // This constant allows the deserialization code to set a final field. This holder class
   // makes sure it is not initialized unless an instance is deserialized.
-  private static class FieldSettersHolder {
+  private static final class FieldSettersHolder {
     static final FieldSetter<? super ConcurrentHashMultiset<?>> COUNT_MAP_FIELD_SETTER =
         Serialization.getFieldSetter(ConcurrentHashMultiset.class, "countMap");
   }
@@ -561,7 +561,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   @WeakOuter
-  private class EntrySet extends AbstractMultiset<E>.EntrySet {
+  private final class EntrySet extends AbstractMultiset<E>.EntrySet {
     @Override
     ConcurrentHashMultiset<E> multiset() {
       return ConcurrentHashMultiset.this;

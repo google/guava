@@ -21,6 +21,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.ForOverride;
 import java.io.Serializable;
+import java.util.Objects;
 import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
@@ -316,14 +317,14 @@ public abstract class Equivalence<T> {
       }
       if (obj instanceof EquivalentToPredicate) {
         EquivalentToPredicate<?> that = (EquivalentToPredicate<?>) obj;
-        return equivalence.equals(that.equivalence) && Objects.equal(target, that.target);
+        return equivalence.equals(that.equivalence) && Objects.equals(target, that.target);
       }
       return false;
     }
 
     @Override
     public int hashCode() {
-      return Objects.hashCode(equivalence, target);
+      return Objects.hash(equivalence, target);
     }
 
     @Override

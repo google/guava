@@ -59,7 +59,7 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
     assertSame(copy.forward, copy.backward.inverse());
   }
 
-  private static class BiMapPair<K, V> implements Serializable {
+  private static final class BiMapPair<K, V> implements Serializable {
     final BiMap<K, V> forward;
     final BiMap<V, K> backward;
 

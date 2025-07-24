@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.errorprone.annotations.Keep;
 import com.google.errorprone.annotations.RequiredModifiers;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -73,6 +74,7 @@ abstract class SubtypeTester implements Cloneable {
   @RequiredModifiers(Modifier.PUBLIC)
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.METHOD)
+  @Keep
   @interface TestSubtype {
     /** Suppresses the assertion on {@link TypeToken#getSubtype}. */
     boolean suppressGetSubtype() default false;

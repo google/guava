@@ -36,6 +36,7 @@ import java.util.NoSuchElementException;
 import java.util.Queue;
 import java.util.RandomAccess;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.Spliterator;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -849,6 +850,8 @@ public final class Iterables {
         throw new NoSuchElementException();
       }
       return getLastInNonemptyList(list);
+    } else if (iterable instanceof SortedSet) {
+      return ((SortedSet<T>) iterable).last();
     }
 
     return Iterators.getLast(iterable.iterator());
@@ -879,6 +882,8 @@ public final class Iterables {
         return defaultValue;
       } else if (iterable instanceof List) {
         return getLastInNonemptyList((List<? extends T>) iterable);
+      } else if (iterable instanceof SortedSet) {
+        return ((SortedSet<? extends T>) iterable).last();
       }
     }
 

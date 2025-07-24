@@ -25,7 +25,6 @@ import static java.util.Collections.emptyMap;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -37,6 +36,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.Spliterator;
 import org.jspecify.annotations.Nullable;
@@ -425,7 +425,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   public boolean containsValue(@Nullable Object value) {
     for (@Nullable V[] row : array) {
       for (V element : row) {
-        if (Objects.equal(value, element)) {
+        if (Objects.equals(value, element)) {
           return true;
         }
       }
@@ -612,7 +612,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
   }
 
-  private class Column extends ArrayMap<R, @Nullable V> {
+  private final class Column extends ArrayMap<R, @Nullable V> {
     final int columnIndex;
 
     Column(int columnIndex) {
@@ -656,7 +656,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   }
 
   @WeakOuter
-  private class ColumnMap extends ArrayMap<C, Map<R, @Nullable V>> {
+  private final class ColumnMap extends ArrayMap<C, Map<R, @Nullable V>> {
     private ColumnMap() {
       super(columnKeyToIndex);
     }
@@ -704,7 +704,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
   }
 
-  private class Row extends ArrayMap<C, @Nullable V> {
+  private final class Row extends ArrayMap<C, @Nullable V> {
     final int rowIndex;
 
     Row(int rowIndex) {
@@ -748,7 +748,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   }
 
   @WeakOuter
-  private class RowMap extends ArrayMap<R, Map<C, @Nullable V>> {
+  private final class RowMap extends ArrayMap<R, Map<C, @Nullable V>> {
     private RowMap() {
       super(rowKeyToIndex);
     }

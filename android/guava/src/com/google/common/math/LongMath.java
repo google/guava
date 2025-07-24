@@ -29,6 +29,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.primitives.UnsignedLongs;
+import com.google.errorprone.annotations.InlineMe;
 import java.math.BigInteger;
 import java.math.RoundingMode;
 
@@ -532,61 +533,40 @@ public final class LongMath {
   /**
    * Returns the sum of {@code a} and {@code b}, provided it does not overflow.
    *
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
+   * Math#addExact(long, long)} instead.
+   *
    * @throws ArithmeticException if {@code a + b} overflows in signed {@code long} arithmetic
    */
-  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
-  @SuppressWarnings("ShortCircuitBoolean")
+  @InlineMe(replacement = "Math.addExact(a, b)")
   public static long checkedAdd(long a, long b) {
-    long result = a + b;
-    checkNoOverflow((a ^ b) < 0 | (a ^ result) >= 0, "checkedAdd", a, b);
-    return result;
+    return Math.addExact(a, b);
   }
 
   /**
    * Returns the difference of {@code a} and {@code b}, provided it does not overflow.
    *
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
+   * Math#subtractExact(long, long)} instead.
+   *
    * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic
    */
-  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
-  @SuppressWarnings("ShortCircuitBoolean")
+  @InlineMe(replacement = "Math.subtractExact(a, b)")
   public static long checkedSubtract(long a, long b) {
-    long result = a - b;
-    checkNoOverflow((a ^ b) >= 0 | (a ^ result) >= 0, "checkedSubtract", a, b);
-    return result;
+    return Math.subtractExact(a, b);
   }
 
   /**
    * Returns the product of {@code a} and {@code b}, provided it does not overflow.
    *
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
+   * Math#multiplyExact(long, long)} instead.
+   *
    * @throws ArithmeticException if {@code a * b} overflows in signed {@code long} arithmetic
    */
-  // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
-  @SuppressWarnings("ShortCircuitBoolean")
+  @InlineMe(replacement = "Math.multiplyExact(a, b)")
   public static long checkedMultiply(long a, long b) {
-    // Hacker's Delight, Section 2-12
-    int leadingZeros =
-        Long.numberOfLeadingZeros(a)
-            + Long.numberOfLeadingZeros(~a)
-            + Long.numberOfLeadingZeros(b)
-            + Long.numberOfLeadingZeros(~b);
-    /*
-     * If leadingZeros > Long.SIZE + 1 it's definitely fine, if it's < Long.SIZE it's definitely
-     * bad. We do the leadingZeros check to avoid the division below if at all possible.
-     *
-     * Otherwise, if b == Long.MIN_VALUE, then the only allowed values of a are 0 and 1. We take
-     * care of all a < 0 with their own check, because in particular, the case a == -1 will
-     * incorrectly pass the division check below.
-     *
-     * In all other cases, we check that either a is 0 or the result is consistent with division.
-     */
-    if (leadingZeros > Long.SIZE + 1) {
-      return a * b;
-    }
-    checkNoOverflow(leadingZeros >= Long.SIZE, "checkedMultiply", a, b);
-    checkNoOverflow(a >= 0 | b != Long.MIN_VALUE, "checkedMultiply", a, b);
-    long result = a * b;
-    checkNoOverflow(a == 0 || result / a == b, "checkedMultiply", a, b);
-    return result;
+    return Math.multiplyExact(a, b);
   }
 
   /**

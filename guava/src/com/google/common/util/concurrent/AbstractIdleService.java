@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.util.concurrent.MoreExecutors.newThread;
+import static com.google.common.util.concurrent.MoreExecutors.renamingDecorator;
 import static com.google.common.util.concurrent.Platform.restoreInterruptIfIsInterruptedException;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -56,7 +58,7 @@ public abstract class AbstractIdleService implements Service {
   private final class DelegateService extends AbstractService {
     @Override
     protected final void doStart() {
-      MoreExecutors.renamingDecorator(executor(), threadNameSupplier)
+      renamingDecorator(executor(), threadNameSupplier)
           .execute(
               () -> {
                 try {
@@ -71,7 +73,7 @@ public abstract class AbstractIdleService implements Service {
 
     @Override
     protected final void doStop() {
-      MoreExecutors.renamingDecorator(executor(), threadNameSupplier)
+      renamingDecorator(executor(), threadNameSupplier)
           .execute(
               () -> {
                 try {
@@ -107,7 +109,7 @@ public abstract class AbstractIdleService implements Service {
    * stopped, and should return promptly.
    */
   protected Executor executor() {
-    return command -> MoreExecutors.newThread(threadNameSupplier.get(), command).start();
+    return command -> newThread(threadNameSupplier.get(), command).start();
   }
 
   @Override

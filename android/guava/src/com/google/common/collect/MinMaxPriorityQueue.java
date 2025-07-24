@@ -767,7 +767,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    *
    * <p>If the underlying queue is modified during iteration an exception will be thrown.
    */
-  private class QueueIterator implements Iterator<E> {
+  private final class QueueIterator implements Iterator<E> {
     private int cursor = -1;
     private int nextCursor = -1;
     private int expectedModCount = modCount;

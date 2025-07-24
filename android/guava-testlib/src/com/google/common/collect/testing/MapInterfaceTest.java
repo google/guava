@@ -928,7 +928,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
       }
     } else {
       try {
-        map.get(null);
+        V unused = map.get(null);
       } catch (NullPointerException optional) {
       }
     }

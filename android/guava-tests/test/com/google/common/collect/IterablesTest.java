@@ -860,6 +860,7 @@ public class IterablesTest extends TestCase {
   public void testGetLast_emptySortedSet() {
     SortedSet<String> sortedSet = ImmutableSortedSet.of();
     assertThrows(NoSuchElementException.class, () -> Iterables.getLast(sortedSet));
+    assertEquals("c", Iterables.getLast(sortedSet, "c"));
   }
 
   public void testGetLast_iterable() {

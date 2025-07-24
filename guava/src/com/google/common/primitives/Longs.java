@@ -715,7 +715,7 @@ public final class Longs {
     return new LongArrayAsList(backingArray);
   }
 
-  private static class LongArrayAsList extends AbstractList<Long>
+  private static final class LongArrayAsList extends AbstractList<Long>
       implements RandomAccess, Serializable {
     final long[] array;
     final int start;

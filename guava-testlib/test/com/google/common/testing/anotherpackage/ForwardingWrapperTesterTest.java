@@ -320,7 +320,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
   private static class ForwardingArithmetic implements Arithmetic {
     private final Arithmetic arithmetic;
 
-    public ForwardingArithmetic(Arithmetic arithmetic) {
+    ForwardingArithmetic(Arithmetic arithmetic) {
       this.arithmetic = arithmetic;
     }
 
@@ -455,7 +455,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
   private static class ParameterTypesDifferentForwarder implements ParameterTypesDifferent {
     private final ParameterTypesDifferent delegate;
 
-    public ParameterTypesDifferentForwarder(ParameterTypesDifferent delegate) {
+    ParameterTypesDifferentForwarder(ParameterTypesDifferent delegate) {
       this.delegate = delegate;
     }
 

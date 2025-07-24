@@ -23,7 +23,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.Objects;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -40,6 +39,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
@@ -242,7 +242,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     for (BiEntry<K, V> entry = hashTableKToV[keyHash & mask];
         entry != null;
         entry = entry.nextInKToVBucket) {
-      if (keyHash == entry.keyHash && Objects.equal(key, entry.getKey())) {
+      if (keyHash == entry.keyHash && Objects.equals(key, entry.getKey())) {
         return entry;
       }
     }
@@ -253,7 +253,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     for (BiEntry<K, V> entry = hashTableVToK[valueHash & mask];
         entry != null;
         entry = entry.nextInVToKBucket) {
-      if (valueHash == entry.valueHash && Objects.equal(value, entry.getValue())) {
+      if (valueHash == entry.valueHash && Objects.equals(value, entry.getValue())) {
         return entry;
       }
     }
@@ -298,7 +298,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
     if (oldEntryForKey != null
         && valueHash == oldEntryForKey.valueHash
-        && Objects.equal(value, oldEntryForKey.getValue())) {
+        && Objects.equals(value, oldEntryForKey.getValue())) {
       return value;
     }
 
@@ -341,7 +341,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
     if (oldEntryForValue != null
         && keyHash == oldEntryForValue.keyHash
-        && Objects.equal(key, oldEntryForValue.getKey())) {
+        && Objects.equals(key, oldEntryForValue.getKey())) {
       return key;
     } else if (oldEntryForKey != null && !force) {
       throw new IllegalArgumentException("key already present: " + key);
@@ -546,7 +546,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         public V setValue(@ParametricNullness V value) {
           V oldValue = delegate.getValue();
           int valueHash = smearedHash(value);
-          if (valueHash == delegate.valueHash && Objects.equal(value, oldValue)) {
+          if (valueHash == delegate.valueHash && Objects.equals(value, oldValue)) {
             return value;
           }
           checkArgument(seekByValue(value, valueHash) == null, "value already present: %s", value);
@@ -720,7 +720,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
           public K setValue(@ParametricNullness K key) {
             K oldKey = delegate.getKey();
             int keyHash = smearedHash(key);
-            if (keyHash == delegate.keyHash && Objects.equal(key, oldKey)) {
+            if (keyHash == delegate.keyHash && Objects.equals(key, oldKey)) {
               return key;
             }
             checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);

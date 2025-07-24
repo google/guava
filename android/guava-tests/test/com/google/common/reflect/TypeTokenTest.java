@@ -29,6 +29,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import com.google.common.truth.IterableSubject;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.Keep;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -1070,8 +1071,7 @@ public class TypeTokenTest extends TestCase {
 
   public static <T> GenericClass<T> getStaticAnonymousClass(T value) {
     return new GenericClass<T>() {
-      @SuppressWarnings("unused")
-      public final T innerValue = value;
+      @Keep public final T innerValue = value;
     };
   }
 
@@ -1442,8 +1442,7 @@ public class TypeTokenTest extends TestCase {
   public void testGetSubtype_subtypeSameAsDeclaringType() throws Exception {
     class Bar<T> {}
     class SubBar<T> extends Bar<T> {
-      @SuppressWarnings("unused")
-      Bar<T> delegate;
+      @Keep Bar<T> delegate;
 
       TypeToken<SubBar<T>> fieldTypeAsSubBar() {
         return new TypeToken<SubBar<T>>() {};
@@ -1476,7 +1475,7 @@ public class TypeTokenTest extends TestCase {
     assertEquals(int[].class, arrayOf(int.class).getRawType());
   }
 
-  @SuppressWarnings("unused") // used by reflection
+  @Keep
   private static class Holder<T> {
     List<T>[] matrix;
 
@@ -1530,8 +1529,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   private static class Counter<N extends Number> {
-    @SuppressWarnings("unused") // used by reflection
-    List<N> counts;
+    @Keep List<N> counts;
   }
 
   public void testWildcardCaptured_typeVariableDeclaresTypeBound_wildcardHasNoExplicitUpperBound()
@@ -1685,7 +1683,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   private static class Container<T> {
-    @SuppressWarnings("unused")
+    @Keep
     public Container(T data) {}
   }
 
@@ -1700,7 +1698,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   private static class CannotConstruct<E extends Throwable> {
-    @SuppressWarnings("unused")
+    @Keep
     public CannotConstruct() throws E {}
   }
 

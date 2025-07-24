@@ -36,7 +36,7 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible(emulated = true)
 abstract class AbstractSortedMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
     implements SortedMultiset<E> {
-  @GwtTransient final Comparator<? super E> comparator;
+  private final Comparator<? super E> comparator;
 
   // needed for serialization
   @SuppressWarnings("unchecked")

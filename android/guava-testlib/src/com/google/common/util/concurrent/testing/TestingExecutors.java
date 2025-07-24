@@ -151,7 +151,7 @@ public final class TestingExecutors {
       return NeverScheduledFuture.create();
     }
 
-    private static class NeverScheduledFuture<V> extends AbstractFuture<V>
+    private static final class NeverScheduledFuture<V> extends AbstractFuture<V>
         implements ListenableScheduledFuture<V> {
 
       static <V> NeverScheduledFuture<V> create() {

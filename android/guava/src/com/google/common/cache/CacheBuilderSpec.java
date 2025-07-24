@@ -24,13 +24,13 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.MoreObjects;
-import com.google.common.base.Objects;
 import com.google.common.base.Splitter;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.Nullable;
 
@@ -240,7 +240,7 @@ public final class CacheBuilderSpec {
 
   @Override
   public int hashCode() {
-    return Objects.hashCode(
+    return Objects.hash(
         initialCapacity,
         maximumSize,
         maximumWeight,
@@ -262,20 +262,20 @@ public final class CacheBuilderSpec {
       return false;
     }
     CacheBuilderSpec that = (CacheBuilderSpec) obj;
-    return Objects.equal(initialCapacity, that.initialCapacity)
-        && Objects.equal(maximumSize, that.maximumSize)
-        && Objects.equal(maximumWeight, that.maximumWeight)
-        && Objects.equal(concurrencyLevel, that.concurrencyLevel)
-        && Objects.equal(keyStrength, that.keyStrength)
-        && Objects.equal(valueStrength, that.valueStrength)
-        && Objects.equal(recordStats, that.recordStats)
-        && Objects.equal(
+    return Objects.equals(initialCapacity, that.initialCapacity)
+        && Objects.equals(maximumSize, that.maximumSize)
+        && Objects.equals(maximumWeight, that.maximumWeight)
+        && Objects.equals(concurrencyLevel, that.concurrencyLevel)
+        && Objects.equals(keyStrength, that.keyStrength)
+        && Objects.equals(valueStrength, that.valueStrength)
+        && Objects.equals(recordStats, that.recordStats)
+        && Objects.equals(
             durationInNanos(writeExpirationDuration, writeExpirationTimeUnit),
             durationInNanos(that.writeExpirationDuration, that.writeExpirationTimeUnit))
-        && Objects.equal(
+        && Objects.equals(
             durationInNanos(accessExpirationDuration, accessExpirationTimeUnit),
             durationInNanos(that.accessExpirationDuration, that.accessExpirationTimeUnit))
-        && Objects.equal(
+        && Objects.equals(
             durationInNanos(refreshDuration, refreshTimeUnit),
             durationInNanos(that.refreshDuration, that.refreshTimeUnit));
   }

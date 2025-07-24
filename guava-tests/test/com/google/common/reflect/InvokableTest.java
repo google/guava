@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
+import com.google.errorprone.annotations.Keep;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.reflect.AccessibleObject;
@@ -160,6 +161,7 @@ public class InvokableTest extends TestCase {
   }
 
   @Retention(RetentionPolicy.RUNTIME)
+  @Keep
   private @interface Tested {}
 
   private abstract static class A {
@@ -172,6 +174,7 @@ public class InvokableTest extends TestCase {
     private volatile char volatileField;
     private transient long transientField;
 
+    @Keep
     @Tested
     public A(Object finalField) {
       this.finalField = finalField;
@@ -180,6 +183,7 @@ public class InvokableTest extends TestCase {
     @Tested
     abstract void abstractMethod();
 
+    @Keep
     @Tested
     void overridableMethod() {}
 
@@ -189,6 +193,7 @@ public class InvokableTest extends TestCase {
     @Tested
     private void privateMethod() {}
 
+    @Keep
     @Tested
     public final void publicFinalMethod() {}
 
@@ -496,7 +501,7 @@ public class InvokableTest extends TestCase {
 
   private class InnerWithOneParameterConstructor {
     @SuppressWarnings("unused") // called by reflection
-    public InnerWithOneParameterConstructor(String s) {}
+    InnerWithOneParameterConstructor(String s) {}
   }
 
   public void testInnerClassWithOneParameterConstructor() {
@@ -659,7 +664,7 @@ public class InvokableTest extends TestCase {
     String s = "hello world";
     class LocalWithOneParameterConstructor {
       @SuppressWarnings("unused") // called by reflection
-      public LocalWithOneParameterConstructor(String x) {
+      LocalWithOneParameterConstructor(String x) {
         System.out.println(s + i);
       }
     }
@@ -775,7 +780,7 @@ public class InvokableTest extends TestCase {
 
   private static class SubPrepender extends Prepender {
     @SuppressWarnings("unused") // needed to satisfy compiler, never called
-    public SubPrepender() throws NullPointerException {
+    SubPrepender() throws NullPointerException {
       throw new AssertionError();
     }
   }

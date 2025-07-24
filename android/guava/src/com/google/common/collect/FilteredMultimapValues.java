@@ -21,13 +21,13 @@ import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Maps.valuePredicateOnEntries;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.base.Objects;
 import com.google.common.base.Predicate;
 import com.google.j2objc.annotations.Weak;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -65,7 +65,7 @@ final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullab
     for (Iterator<Entry<K, V>> unfilteredItr = multimap.unfiltered().entries().iterator();
         unfilteredItr.hasNext(); ) {
       Entry<K, V> entry = unfilteredItr.next();
-      if (entryPredicate.apply(entry) && Objects.equal(entry.getValue(), o)) {
+      if (entryPredicate.apply(entry) && Objects.equals(entry.getValue(), o)) {
         unfilteredItr.remove();
         return true;
       }

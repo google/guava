@@ -21,8 +21,8 @@ import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
-import com.google.common.base.Objects;
 import com.google.common.testing.EqualsTester;
+import java.util.Objects;
 import org.jspecify.annotations.NullMarked;
 
 /**
@@ -37,7 +37,7 @@ public class SingletonImmutableTableTest extends AbstractImmutableTableTest {
       new SingletonImmutableTable<>('a', 1, "blah");
 
   public void testHashCode() {
-    assertEquals(Objects.hashCode('a', 1, "blah"), testTable.hashCode());
+    assertEquals(Objects.hash('a', 1, "blah"), testTable.hashCode());
   }
 
   public void testCellSet() {

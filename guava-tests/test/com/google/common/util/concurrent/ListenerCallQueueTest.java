@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 
 import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.collect.ImmutableMap;
@@ -27,7 +28,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
@@ -133,7 +133,7 @@ public class ListenerCallQueueTest extends TestCase {
 
   public void testEnqueueAndDispatch_multithreaded() throws InterruptedException {
     Object listener = new Object();
-    ExecutorService service = Executors.newFixedThreadPool(4);
+    ExecutorService service = newFixedThreadPool(4);
     ListenerCallQueue<Object> queue = new ListenerCallQueue<>();
     try {
       queue.addListener(listener, service);
@@ -157,7 +157,7 @@ public class ListenerCallQueueTest extends TestCase {
   public void testEnqueueAndDispatch_multithreaded_withThrowingRunnable()
       throws InterruptedException {
     Object listener = new Object();
-    ExecutorService service = Executors.newFixedThreadPool(4);
+    ExecutorService service = newFixedThreadPool(4);
     ListenerCallQueue<Object> queue = new ListenerCallQueue<>();
     try {
       queue.addListener(listener, service);

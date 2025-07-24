@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.InterruptionUtil.repeatedlyInterruptTestThread;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -28,7 +29,6 @@ import com.google.common.testing.TearDownStack;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.TimeoutException;
@@ -51,7 +51,7 @@ public class UninterruptibleFutureTest extends TestCase {
 
   @Override
   protected void setUp() {
-    ExecutorService executor = Executors.newSingleThreadExecutor();
+    ExecutorService executor = newSingleThreadExecutor();
     tearDownStack.addTearDown(
         new TearDown() {
           @Override
@@ -138,7 +138,7 @@ public class UninterruptibleFutureTest extends TestCase {
     final int millis;
     volatile boolean completed;
 
-    public SleepingRunnable(int millis) {
+    SleepingRunnable(int millis) {
       this.millis = millis;
     }
 

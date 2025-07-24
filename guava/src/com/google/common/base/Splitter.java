@@ -536,7 +536,7 @@ public final class Splitter {
     int offset = 0;
     int limit;
 
-    protected SplittingIterator(Splitter splitter, CharSequence toSplit) {
+    SplittingIterator(Splitter splitter, CharSequence toSplit) {
       this.trimmer = splitter.trimmer;
       this.omitEmptyStrings = splitter.omitEmptyStrings;
       this.limit = splitter.limit;

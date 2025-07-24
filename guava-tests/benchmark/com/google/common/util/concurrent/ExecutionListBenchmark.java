@@ -358,7 +358,7 @@ public class ExecutionListBenchmark {
     final Queue<OldExecutionList.RunnableExecutorPair> runnables = new LinkedList<>();
     boolean executed = false;
 
-    public void add(Runnable runnable, Executor executor) {
+    void add(Runnable runnable, Executor executor) {
       Preconditions.checkNotNull(runnable, "Runnable was null.");
       Preconditions.checkNotNull(executor, "Executor was null.");
 
@@ -377,7 +377,7 @@ public class ExecutionListBenchmark {
       }
     }
 
-    public void execute() {
+    void execute() {
       synchronized (runnables) {
         if (executed) {
           return;
@@ -425,7 +425,7 @@ public class ExecutionListBenchmark {
     @GuardedBy("this")
     private boolean executed;
 
-    public void add(Runnable runnable, Executor executor) {
+    void add(Runnable runnable, Executor executor) {
       Preconditions.checkNotNull(runnable, "Runnable was null.");
       Preconditions.checkNotNull(executor, "Executor was null.");
 
@@ -438,7 +438,7 @@ public class ExecutionListBenchmark {
       executeListener(runnable, executor);
     }
 
-    public void execute() {
+    void execute() {
       RunnableExecutorPair list;
       synchronized (this) {
         if (executed) {
@@ -492,7 +492,7 @@ public class ExecutionListBenchmark {
     @GuardedBy("this")
     private boolean executed;
 
-    public void add(Runnable runnable, Executor executor) {
+    void add(Runnable runnable, Executor executor) {
       Preconditions.checkNotNull(runnable, "Runnable was null.");
       Preconditions.checkNotNull(executor, "Executor was null.");
 
@@ -512,7 +512,7 @@ public class ExecutionListBenchmark {
       executeListener(runnable, executor);
     }
 
-    public void execute() {
+    void execute() {
       RunnableExecutorPair list;
       synchronized (this) {
         if (executed) {

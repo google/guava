@@ -32,9 +32,9 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Function;
-import com.google.common.base.Objects;
 import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
+import com.google.errorprone.annotations.InlineMe;
 import java.io.Serializable;
 import java.math.RoundingMode;
 import java.util.AbstractList;
@@ -48,6 +48,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
@@ -265,6 +266,9 @@ public final class Lists {
    */
   @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
+  @InlineMe(
+      replacement = "new CopyOnWriteArrayList<>()",
+      imports = {"java.util.concurrent.CopyOnWriteArrayList"})
   public static <E extends @Nullable Object> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
     return new CopyOnWriteArrayList<>();
   }
@@ -331,7 +335,7 @@ public final class Lists {
   /**
    * @see Lists#asList(Object, Object[])
    */
-  private static class OnePlusArrayList<E extends @Nullable Object> extends AbstractList<E>
+  private static final class OnePlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
     @ParametricNullness final E first;
     final E[] rest;
@@ -360,7 +364,7 @@ public final class Lists {
   /**
    * @see Lists#asList(Object, Object, Object[])
    */
-  private static class TwoPlusArrayList<E extends @Nullable Object> extends AbstractList<E>
+  private static final class TwoPlusArrayList<E extends @Nullable Object> extends AbstractList<E>
       implements Serializable, RandomAccess {
     @ParametricNullness final E first;
     @ParametricNullness final E second;
@@ -556,7 +560,7 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingSequentialList<
+  private static final class TransformingSequentialList<
           F extends @Nullable Object, T extends @Nullable Object>
       extends AbstractSequentialList<T> implements Serializable {
     final List<F> fromList;
@@ -613,7 +617,7 @@ public final class Lists {
    *
    * @see Lists#transform
    */
-  private static class TransformingRandomAccessList<
+  private static final class TransformingRandomAccessList<
           F extends @Nullable Object, T extends @Nullable Object>
       extends AbstractList<T> implements RandomAccess, Serializable {
     final List<F> fromList;
@@ -730,7 +734,7 @@ public final class Lists {
     }
   }
 
-  private static class RandomAccessPartition<T extends @Nullable Object> extends Partition<T>
+  private static final class RandomAccessPartition<T extends @Nullable Object> extends Partition<T>
       implements RandomAccess {
     RandomAccessPartition(List<T> list, int size) {
       super(list, size);
@@ -999,8 +1003,8 @@ public final class Lists {
     }
   }
 
-  private static class RandomAccessReverseList<T extends @Nullable Object> extends ReverseList<T>
-      implements RandomAccess {
+  private static final class RandomAccessReverseList<T extends @Nullable Object>
+      extends ReverseList<T> implements RandomAccess {
     RandomAccessReverseList(List<T> forwardList) {
       super(forwardList);
     }
@@ -1035,7 +1039,7 @@ public final class Lists {
     if (thisList instanceof RandomAccess && otherList instanceof RandomAccess) {
       // avoid allocation and use the faster loop
       for (int i = 0; i < size; i++) {
-        if (!Objects.equal(thisList.get(i), otherList.get(i))) {
+        if (!Objects.equals(thisList.get(i), otherList.get(i))) {
           return false;
         }
       }
@@ -1064,7 +1068,7 @@ public final class Lists {
     } else {
       ListIterator<?> listIterator = list.listIterator();
       while (listIterator.hasNext()) {
-        if (Objects.equal(element, listIterator.next())) {
+        if (Objects.equals(element, listIterator.next())) {
           return listIterator.previousIndex();
         }
       }
@@ -1097,7 +1101,7 @@ public final class Lists {
     } else {
       ListIterator<?> listIterator = list.listIterator(list.size());
       while (listIterator.hasPrevious()) {
-        if (Objects.equal(element, listIterator.previous())) {
+        if (Objects.equals(element, listIterator.previous())) {
           return listIterator.nextIndex();
         }
       }

@@ -332,7 +332,7 @@ public final class ByteStreams {
   }
 
   @J2ktIncompatible
-  private static class ByteArrayDataInputStream implements ByteArrayDataInput {
+  private static final class ByteArrayDataInputStream implements ByteArrayDataInput {
     final DataInput input;
 
     ByteArrayDataInputStream(ByteArrayInputStream byteArrayInputStream) {
@@ -517,7 +517,7 @@ public final class ByteStreams {
   }
 
   @J2ktIncompatible
-  private static class ByteArrayDataOutputStream implements ByteArrayDataOutput {
+  private static final class ByteArrayDataOutputStream implements ByteArrayDataOutput {
 
     final DataOutput output;
     final ByteArrayOutputStream byteArrayOutputStream;

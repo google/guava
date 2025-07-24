@@ -21,7 +21,6 @@ import static com.google.common.collect.NullnessCasts.unsafeNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.Objects;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
@@ -36,6 +35,7 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
 
@@ -239,7 +239,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       int[] nextInBucket,
       @Nullable Object[] array) {
     for (int entry = hashTable[bucket(oHash)]; entry != ABSENT; entry = nextInBucket[entry]) {
-      if (Objects.equal(array[entry], o)) {
+      if (Objects.equals(array[entry], o)) {
         return entry;
       }
     }
@@ -288,7 +288,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     int entryForKey = findEntryByKey(key, keyHash);
     if (entryForKey != ABSENT) {
       V oldValue = values[entryForKey];
-      if (Objects.equal(oldValue, value)) {
+      if (Objects.equals(oldValue, value)) {
         return value;
       } else {
         replaceValueInEntry(entryForKey, value, force);
@@ -332,7 +332,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     int entryForValue = findEntryByValue(value, valueHash);
     if (entryForValue != ABSENT) {
       K oldKey = keys[entryForValue];
-      if (Objects.equal(oldKey, key)) {
+      if (Objects.equals(oldKey, key)) {
         return key;
       } else {
         replaceKeyInEntry(entryForValue, key, force);
@@ -845,7 +845,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         Object k = e.getKey();
         Object v = e.getValue();
         int eIndex = findEntryByKey(k);
-        return eIndex != ABSENT && Objects.equal(v, values[eIndex]);
+        return eIndex != ABSENT && Objects.equals(v, values[eIndex]);
       }
       return false;
     }
@@ -859,7 +859,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         Object v = e.getValue();
         int kHash = Hashing.smearedHash(k);
         int eIndex = findEntryByKey(k, kHash);
-        if (eIndex != ABSENT && Objects.equal(v, values[eIndex])) {
+        if (eIndex != ABSENT && Objects.equals(v, values[eIndex])) {
           removeEntryKeyHashKnown(eIndex, kHash);
           return true;
         }
@@ -891,7 +891,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     void updateIndex() {
-      if (index == ABSENT || index > size || !Objects.equal(keys[index], key)) {
+      if (index == ABSENT || index > size || !Objects.equals(keys[index], key)) {
         index = findEntryByKey(key);
       }
     }
@@ -934,7 +934,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
        * position `index`.
        */
       V oldValue = uncheckedCastNullableTToT(values[index]);
-      if (Objects.equal(oldValue, value)) {
+      if (Objects.equals(oldValue, value)) {
         return value;
       }
       replaceValueInEntry(index, value, false);
@@ -1044,7 +1044,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         Object v = e.getKey();
         Object k = e.getValue();
         int eIndex = biMap.findEntryByValue(v);
-        return eIndex != ABSENT && Objects.equal(biMap.keys[eIndex], k);
+        return eIndex != ABSENT && Objects.equals(biMap.keys[eIndex], k);
       }
       return false;
     }
@@ -1057,7 +1057,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         Object k = e.getValue();
         int vHash = Hashing.smearedHash(v);
         int eIndex = biMap.findEntryByValue(v, vHash);
-        if (eIndex != ABSENT && Objects.equal(biMap.keys[eIndex], k)) {
+        if (eIndex != ABSENT && Objects.equals(biMap.keys[eIndex], k)) {
           biMap.removeEntryValueHashKnown(eIndex, vHash);
           return true;
         }
@@ -1090,7 +1090,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     private void updateIndex() {
-      if (index == ABSENT || index > biMap.size || !Objects.equal(value, biMap.values[index])) {
+      if (index == ABSENT || index > biMap.size || !Objects.equals(value, biMap.values[index])) {
         index = biMap.findEntryByValue(value);
       }
     }
@@ -1118,7 +1118,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         return unsafeNull(); // see EntryForKey.setValue()
       }
       K oldKey = uncheckedCastNullableTToT(biMap.keys[index]); // see EntryForKey.setValue()
-      if (Objects.equal(oldKey, key)) {
+      if (Objects.equals(oldKey, key)) {
         return key;
       }
       biMap.replaceKeyInEntry(index, key, false);
