@@ -33,6 +33,7 @@ FIELD com.google.common.collect.ImmutableMultiset.asList
 FIELD com.google.common.collect.ImmutableRangeMap.ranges
 FIELD com.google.common.collect.ImmutableRangeSet.ranges
 FIELD com.google.common.collect.ImmutableSet.asList
+FIELD com.google.common.collect.JdkBackedImmutableBiMap.inverse
 FIELD com.google.common.collect.Maps.FilteredMapValues.unfiltered
 FIELD com.google.common.collect.Sets.SubSet.inputSet
 FIELD com.google.common.collect.SingletonImmutableBiMap.inverse
