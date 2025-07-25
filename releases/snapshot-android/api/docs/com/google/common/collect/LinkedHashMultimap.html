@@ -72,7 +72,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#entries()" tabindex="0">entries()</a></li>
 <li><a href="#keySet()" tabindex="0">keySet()</a></li>
 <li><a href="#values()" tabindex="0">values()</a></li>
-<li><a href="#clear()" tabindex="0">clear()</a></li>
 <li><a href="#get(K)" tabindex="0">get(K)</a></li>
 <li><a href="#removeAll(java.lang.Object)" tabindex="0">removeAll(Object)</a></li>
 <li><a href="#asMap()" tabindex="0">asMap()</a></li>
@@ -80,6 +79,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#size()" tabindex="0">size()</a></li>
 <li><a href="#containsKey(java.lang.Object)" tabindex="0">containsKey(Object)</a></li>
+<li><a href="#clear()" tabindex="0">clear()</a></li>
 <li><a href="#isEmpty()" tabindex="0">isEmpty()</a></li>
 <li><a href="#containsValue(java.lang.Object)" tabindex="0">containsValue(Object)</a></li>
 <li><a href="#containsEntry(java.lang.Object,java.lang.Object)" tabindex="0">containsEntry(Object, Object)</a></li>
@@ -313,7 +313,7 @@ loadScripts(document, 'script');</script>
 <code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.google.common.collect.Multimap">Methods inherited from interface&nbsp;com.google.common.collect.<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a></h3>
-<code><a href="Multimap.html#containsEntry(java.lang.Object,java.lang.Object)">containsEntry</a>, <a href="Multimap.html#containsKey(java.lang.Object)">containsKey</a>, <a href="Multimap.html#containsValue(java.lang.Object)">containsValue</a>, <a href="Multimap.html#hashCode()">hashCode</a>, <a href="Multimap.html#isEmpty()">isEmpty</a>, <a href="Multimap.html#keys()">keys</a>, <a href="Multimap.html#putAll(com.google.common.collect.Multimap)">putAll</a>, <a href="Multimap.html#putAll(K,java.lang.Iterable)">putAll</a>, <a href="Multimap.html#remove(java.lang.Object,java.lang.Object)">remove</a>, <a href="Multimap.html#size()">size</a></code></div>
+<code><a href="Multimap.html#clear()">clear</a>, <a href="Multimap.html#containsEntry(java.lang.Object,java.lang.Object)">containsEntry</a>, <a href="Multimap.html#containsKey(java.lang.Object)">containsKey</a>, <a href="Multimap.html#containsValue(java.lang.Object)">containsValue</a>, <a href="Multimap.html#hashCode()">hashCode</a>, <a href="Multimap.html#isEmpty()">isEmpty</a>, <a href="Multimap.html#keys()">keys</a>, <a href="Multimap.html#putAll(com.google.common.collect.Multimap)">putAll</a>, <a href="Multimap.html#putAll(K,java.lang.Iterable)">putAll</a>, <a href="Multimap.html#remove(java.lang.Object,java.lang.Object)">remove</a>, <a href="Multimap.html#size()">size</a></code></div>
 </section>
 </li>
 </ul>
@@ -467,20 +467,6 @@ loadScripts(document, 'script');</script>
 </section>
 </li>
 <li>
-<section class="detail" id="clear()">
-<h3>clear</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clear</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Multimap.html#clear()">Multimap</a></code></span></div>
-<div class="block">Removes all key-value pairs from the multimap, leaving it <a href="Multimap.html#isEmpty()">empty</a>.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="Multimap.html#clear()">clear</a></code>&nbsp;in interface&nbsp;<code><a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;<a href="#type-param-K" title="type parameter in LinkedHashMultimap">K</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>, <a href="#type-param-V" title="type parameter in LinkedHashMultimap">V</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
 <section class="detail" id="get(K)">
 <h3 id="get(java.lang.Object)">get</h3>
 <div class="horizontal-scroll">
@@ -624,6 +610,20 @@ loadScripts(document, 'script');</script>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="Multimap.html#containsKey(java.lang.Object)">containsKey</a></code>&nbsp;in interface&nbsp;<code><a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>, V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="clear()">
+<h3>clear</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">clear</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Multimap.html#clear()">Multimap</a></code></span></div>
+<div class="block">Removes all key-value pairs from the multimap, leaving it <a href="Multimap.html#isEmpty()">empty</a>.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Multimap.html#clear()">clear</a></code>&nbsp;in interface&nbsp;<code><a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>, V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></dd>
 </dl>
 </div>
 </section>

@@ -26877,11 +26877,6 @@
  were added to the multimap.]]>
       </doc>
     </method>
-    <method name="clear"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-    </method>
     <doc>
     <![CDATA[Implementation of {@code Multimap} that does not allow duplicate key-value entries and that
  returns collections whose iterators follow the ordering in which the data was added to the
