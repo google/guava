@@ -25,6 +25,7 @@ import static com.google.common.util.concurrent.Futures.immediateVoidFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.concurrent.Callable;
@@ -86,6 +87,7 @@ import org.jspecify.annotations.Nullable;
  * @since 26.0
  */
 @J2ktIncompatible
+@GwtIncompatible
 public final class ExecutionSequencer {
 
   private ExecutionSequencer() {}

@@ -14,13 +14,16 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 
 /** Forwarding wrapper around a {@code Condition}. */
+@SuppressWarnings("WaitNotInLoop") // We are just delegating; _our user_ must loop.
 @J2ktIncompatible
+@GwtIncompatible
 abstract class ForwardingCondition implements Condition {
   abstract Condition delegate();
 
