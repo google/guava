@@ -24,7 +24,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
-
+import static org.junit.Assert.assertTrue;
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.NullPointerTester;
@@ -563,4 +563,31 @@ public class RateLimiterTest extends TestCase {
           .put(double.class, 1.0)
           .put(TimeUnit.class, SECONDS)
           .build();
+
+  //Added Test for RateLimiter.tryAcquire()
+  @GwtIncompatible
+  @Test
+  public void testTryAcquireMethod(){
+
+    final RateLimiter rateLimiter = RateLimiter.create(1000);
+
+    int allowed = 0;
+    int denied = 0;
+
+    for(int i = 0; i < 20; i++){
+      if(rateLimiter.tryAcquire()){
+        allowed++;
+      }
+
+      else {
+        denied++;
+      }
+    }
+
+    System.out.println("Allowed: " + allowed + ", Denied: " + denied);
+
+    assertTrue("Expected atleast one request is denied" , denied > 0);
+    assertTrue("Expected atleast one request is allowed" , allowed > 0);
+
+  }
 }

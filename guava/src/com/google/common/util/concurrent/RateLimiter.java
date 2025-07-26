@@ -42,7 +42,7 @@ import org.jspecify.annotations.Nullable;
  * <p>{@code RateLimiter} is safe for concurrent use: It will restrict the total rate of calls from
  * all threads. Note, however, that it does not guarantee fairness.
  *
- * <p>Rate limiters are often used to restrict the rate at which some physical or logical resource
+ * <p>Rate limiters are often used to restrict the rate at which some physical or logical r esource
  * is accessed. This is in contrast to {@link java.util.concurrent.Semaphore} which restricts the
  * number of concurrent accesses instead of the rate (note though that concurrency and rate are
  * closely related, e.g. see <a href="http://en.wikipedia.org/wiki/Little%27s_law">Little's
