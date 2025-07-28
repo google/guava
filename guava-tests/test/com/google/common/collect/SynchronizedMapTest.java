@@ -186,7 +186,7 @@ public class SynchronizedMapTest extends TestCase {
   }
 
   public void testGet() {
-    create().get(null);
+    Object unused = create().get(null);
   }
 
   public void testPut() {

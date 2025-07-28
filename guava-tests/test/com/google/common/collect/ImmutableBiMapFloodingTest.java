@@ -48,8 +48,18 @@ public class ImmutableBiMapFloodingTest extends AbstractHashFloodingTest<BiMap<O
             .collect(toImmutableList()),
         n -> n * log(n),
         ImmutableList.of(
-            QueryOp.create("BiMap.get", BiMap::get, Math::log),
-            QueryOp.create("BiMap.inverse.get", (bm, o) -> bm.inverse().get(o), Math::log)));
+            QueryOp.create(
+                "BiMap.get",
+                (biMap, key) -> {
+                  Object unused = biMap.get(key);
+                },
+                Math::log),
+            QueryOp.create(
+                "BiMap.inverse.get",
+                (biMap, o) -> {
+                  Object unused = biMap.inverse().get(o);
+                },
+                Math::log)));
   }
 
   /** All the ways to create an ImmutableBiMap. */
