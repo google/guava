@@ -33,6 +33,7 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
+import com.google.j2objc.annotations.RetainedWith;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -149,15 +150,17 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   }
 
   ImmutableRangeSet(ImmutableList<Range<C>> ranges) {
-    this.ranges = ranges;
+    this(ranges, /* complement= */ null);
   }
 
-  private ImmutableRangeSet(ImmutableList<Range<C>> ranges, ImmutableRangeSet<C> complement) {
+  private ImmutableRangeSet(
+      ImmutableList<Range<C>> ranges, @Nullable ImmutableRangeSet<C> complement) {
     this.ranges = ranges;
     this.complement = complement;
   }
 
   private final transient ImmutableList<Range<C>> ranges;
+  private final transient @Nullable ImmutableRangeSet<C> complement;
 
   @Override
   public boolean intersects(Range<C> otherRange) {
@@ -316,9 +319,11 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     return new RegularImmutableSortedSet<>(ranges.reverse(), Range.<C>rangeLexOrdering().reverse());
   }
 
-  @LazyInit private transient @Nullable ImmutableRangeSet<C> complement;
+  private static final class ComplementRanges<C extends Comparable>
+      extends ImmutableList<Range<C>> {
 
-  private final class ComplementRanges extends ImmutableList<Range<C>> {
+    private final ImmutableList<Range<C>> ranges;
+
     // True if the "positive" range set is empty or bounded below.
     private final boolean positiveBoundedBelow;
 
@@ -327,7 +332,8 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
     private final int size;
 
-    ComplementRanges() {
+    ComplementRanges(ImmutableList<Range<C>> ranges) {
+      this.ranges = ranges;
       this.positiveBoundedBelow = ranges.get(0).hasLowerBound();
       this.positiveBoundedAbove = Iterables.getLast(ranges).hasUpperBound();
 
@@ -381,24 +387,27 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
   }
 
-  // TODO(b/418181860): This method creates retain cycles in J2ObjC. In order to break the cycle,
-  // there needs to be separate classes for primary and complement range set, where the primary one
-  // would hold {@code @LazyInit @RetainedWith @Nullable} reference to its complement, and the other
-  // {@code final} reference.
   @Override
   public ImmutableRangeSet<C> complement() {
-    ImmutableRangeSet<C> result = complement;
-    if (result != null) {
-      return result;
+    if (complement != null) {
+      return complement;
     } else if (ranges.isEmpty()) {
-      return complement = all();
+      return all();
     } else if (ranges.size() == 1 && ranges.get(0).equals(Range.all())) {
-      return complement = of();
+      return of();
     } else {
-      ImmutableList<Range<C>> complementRanges = new ComplementRanges();
-      result = complement = new ImmutableRangeSet<>(complementRanges, this);
+      return lazyComplement();
     }
-    return result;
+  }
+
+  @LazyInit @RetainedWith private transient @Nullable ImmutableRangeSet<C> lazyComplement;
+
+  private ImmutableRangeSet<C> lazyComplement() {
+    ImmutableRangeSet<C> result = lazyComplement;
+    return result == null
+        ? lazyComplement =
+            new ImmutableRangeSet<>(new ComplementRanges<>(ranges), /* complement= */ this)
+        : result;
   }
 
   /**
