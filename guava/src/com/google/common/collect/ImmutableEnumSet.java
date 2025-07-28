@@ -136,7 +136,6 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return delegate.toString();
   }
 
-  // All callers of the constructor are restricted to <E extends Enum<E>>.
   @Override
   @J2ktIncompatible // serialization
   Object writeReplace() {
