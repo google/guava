@@ -29,6 +29,13 @@
     </license>
   </licenses>
 
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+  </distributionManagement>
+
   <dependencyManagement>
     <dependencies>
       <dependency>

@@ -510,7 +510,7 @@ abstract class JSR166TestCase extends TestCase {
     long startTime = System.nanoTime();
     try {
       future.get(timeoutMillis, MILLISECONDS);
-      shouldThrow();
+      fail("Should throw exception");
     } catch (TimeoutException success) {
     } catch (Exception e) {
       threadUnexpectedException(e);
@@ -518,16 +518,6 @@ abstract class JSR166TestCase extends TestCase {
       future.cancel(true);
     }
     assertTrue(millisElapsedSince(startTime) >= timeoutMillis);
-  }
-
-  /** Fails with message "should throw exception". */
-  public void shouldThrow() {
-    fail("Should throw exception");
-  }
-
-  /** Fails with message "should throw " + exceptionName. */
-  public void shouldThrow(String exceptionName) {
-    fail("Should throw " + exceptionName);
   }
 
   /** The number of elements to place in collections, arrays, etc. */
@@ -1184,17 +1174,17 @@ abstract class JSR166TestCase extends TestCase {
       assertFalse(q.iterator().hasNext());
       try {
         q.element();
-        shouldThrow();
+        fail("Should throw exception");
       } catch (NoSuchElementException success) {
       }
       try {
         q.iterator().next();
-        shouldThrow();
+        fail("Should throw exception");
       } catch (NoSuchElementException success) {
       }
       try {
         q.remove();
-        shouldThrow();
+        fail("Should throw exception");
       } catch (NoSuchElementException success) {
       }
     } catch (InterruptedException ie) {

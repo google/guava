@@ -37,6 +37,7 @@ import static java.util.logging.Level.FINER;
 import static java.util.logging.Level.SEVERE;
 import static java.util.logging.Level.WARNING;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.FluentIterable;
@@ -190,7 +191,7 @@ import org.jspecify.annotations.Nullable;
 // TODO(dpb): Consider reusing one CloseableList for the entire pipeline, modulo combinations.
 @DoNotMock("Use ClosingFuture.from(Futures.immediate*Future)")
 @J2ktIncompatible
-// TODO(dpb): GWT compatibility.
+@GwtIncompatible // TODO(dpb): GWT compatibility.
 public final class ClosingFuture<V extends @Nullable Object> {
 
   private static final LazyLogger logger = new LazyLogger(ClosingFuture.class);

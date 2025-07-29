@@ -157,11 +157,20 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
     }
 
     static final QueryOp<Map<Object, Object>> MAP_GET =
-        QueryOp.create("Map.get", Map::get, Math::log);
+        QueryOp.create(
+            "Map.get",
+            (map, key) -> {
+              Object unused = map.get(key);
+            },
+            Math::log);
 
-    @SuppressWarnings("ReturnValueIgnored")
     static final QueryOp<Set<Object>> SET_CONTAINS =
-        QueryOp.create("Set.contains", Set::contains, Math::log);
+        QueryOp.create(
+            "Set.contains",
+            (set, key) -> {
+              boolean unused = set.contains(key);
+            },
+            Math::log);
 
     abstract void apply(T collection, Object query);
 

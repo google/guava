@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
@@ -21,6 +22,7 @@ import java.util.concurrent.locks.Lock;
 
 /** Forwarding wrapper around a {@code Lock}. */
 @J2ktIncompatible
+@GwtIncompatible
 abstract class ForwardingLock implements Lock {
   abstract Lock delegate();
 
