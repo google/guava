@@ -73,7 +73,7 @@ public final class Lists {
   // ArrayList
 
   /**
-   * Creates a <i>mutable</i>, empty {@code ArrayList} instance (for Java 6 and earlier).
+   * Creates a <i>mutable</i>, empty {@code ArrayList} instance.
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableList#of()} instead.
    *
@@ -98,9 +98,9 @@ public final class Lists {
    * Arrays#asList}.
    *
    * <p>Note that even when you do need the ability to add or remove, this method provides only a
-   * tiny bit of syntactic sugar for {@code newArrayList(}{@link Arrays#asList asList}{@code
+   * tiny bit of syntactic sugar for {@code new ArrayList<>(}{@link Arrays#asList asList}{@code
    * (...))}, or for creating an empty list then calling {@link Collections#addAll}. This method is
-   * not actually very useful and will likely be deprecated in the future.
+   * not actually very useful.
    */
   @SafeVarargs
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
@@ -186,11 +186,9 @@ public final class Lists {
 
   /**
    * Creates an {@code ArrayList} instance to hold {@code estimatedSize} elements, <i>plus</i> an
-   * unspecified amount of padding; you almost certainly mean to call {@link
-   * #newArrayListWithCapacity} (see that method for further advice on usage).
-   *
-   * <p><b>Note:</b> This method will soon be deprecated. Even in the rare case that you do want
-   * some amount of padding, it's best if you choose your desired amount explicitly.
+   * unspecified amount of padding; **don't do this**. Instead, use {@code new }{@link
+   * ArrayList#ArrayList(int) ArrayList}{@code <>(int)} directly and choose an explicit padding
+   * amount.
    *
    * @param estimatedSize an estimate of the eventual {@link List#size()} of the new list
    * @return a new, empty {@code ArrayList}, sized appropriately to hold the estimated number of
@@ -206,7 +204,7 @@ public final class Lists {
   // LinkedList
 
   /**
-   * Creates a <i>mutable</i>, empty {@code LinkedList} instance (for Java 6 and earlier).
+   * Creates a <i>mutable</i>, empty {@code LinkedList} instance.
    *
    * <p><b>Note:</b> if you won't be adding any elements to the list, use {@link ImmutableList#of()}
    * instead.
