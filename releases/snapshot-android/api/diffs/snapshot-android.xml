@@ -40493,13 +40493,19 @@
       <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
       <param name="node" type="N"/>
       <doc>
-      <![CDATA[Returns the set of nodes that are reachable from {@code node}. Node B is defined as reachable
- from node A if there exists a path (a sequence of adjacent outgoing edges) starting at node A
- and ending at node B. Note that a node is always reachable from itself via a zero-length path.
+      <![CDATA[Returns the set of nodes that are reachable from {@code node}. Specifically, it returns all
+ nodes {@code v} such that there exists a path (a sequence of adjacent outgoing edges) starting
+ at {@code node} and ending at {@code v}. This implementation includes {@code node} as the first
+ element in the result.
 
- <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
- of the set of nodes reachable from {@code node}. In other words, the returned {@link Set} will
- not be updated after modifications to {@code graph}.
+ <p>If needed, the {@link Traverser} class provides more flexible and lighter-weight ways to
+ list the nodes reachable from a given node or nodes. See the <a
+ href="https://github.com/google/guava/wiki/GraphsExplained#Graph-traversal">"Graph traversal"
+ section of the Guava User's Guide</a> for more information.
+
+ <p>The {@link Set} returned is a "snapshot" based on the current topology of {@code graph},
+ rather than a live view. In other words, modifications to {@code graph} made after this method
+ returns will not be reflected in the set.
 
  @throws IllegalArgumentException if {@code node} is not present in {@code graph}
  @since 33.1.0 (present with return type {@code Set} since 20.0)]]>

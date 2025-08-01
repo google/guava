@@ -254,13 +254,18 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="../collect/ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a>&lt;N&gt;</span>&nbsp;<span class="element-name">reachableNodes</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
  N&nbsp;node)</span></div>
-<div class="block">Returns the set of nodes that are reachable from <code>node</code>. Node B is defined as reachable
- from node A if there exists a path (a sequence of adjacent outgoing edges) starting at node A
- and ending at node B. Note that a node is always reachable from itself via a zero-length path.
+<div class="block">Returns the set of nodes that are reachable from <code>node</code>. Specifically, it returns all
+ nodes <code>v</code> such that there exists a path (a sequence of adjacent outgoing edges) starting
+ at <code>node</code> and ending at <code>v</code>. This implementation includes <code>node</code> as the first
+ element in the result.
 
- <p>This is a "snapshot" based on the current topology of <code>graph</code>, rather than a live view
- of the set of nodes reachable from <code>node</code>. In other words, the returned <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> will
- not be updated after modifications to <code>graph</code>.</div>
+ <p>If needed, the <a href="Traverser.html" title="class in com.google.common.graph"><code>Traverser</code></a> class provides more flexible and lighter-weight ways to
+ list the nodes reachable from a given node or nodes. See the <a href="https://github.com/google/guava/wiki/GraphsExplained#Graph-traversal">"Graph traversal"
+ section of the Guava User's Guide</a> for more information.
+
+ <p>The <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> returned is a "snapshot" based on the current topology of <code>graph</code>,
+ rather than a live view. In other words, modifications to <code>graph</code> made after this method
+ returns will not be reflected in the set.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>node</code> is not present in <code>graph</code></dd>
