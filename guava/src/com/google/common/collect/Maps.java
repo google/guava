@@ -2091,9 +2091,10 @@ public final class Maps {
      *
      * <ul>
      *   <li>Its execution does not cause any observable side effects.
-     *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
-     *       Objects.equal}{@code (k1, k2) &&} {@link Objects#equal}{@code (v1, v2)} implies that
-     *       {@code Objects.equals(transformer.transform(k1, v1), transformer.transform(k2, v2))}.
+     *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equals
+     *       Objects.equals}{@code (k1, k2) &&} {@link Objects#equals Objects.equals}{@code (v1,
+     *       v2)} implies that {@code Objects.equals(transformer.transform(k1, v1),
+     *       transformer.transform(k2, v2))}.
      * </ul>
      *
      * @throws NullPointerException if the key or value is null and this transformer does not accept
