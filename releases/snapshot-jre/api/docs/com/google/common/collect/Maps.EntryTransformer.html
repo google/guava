@@ -149,18 +149,9 @@ loadScripts(document, 'script');</script>
 
  <ul>
    <li>Its execution does not cause any observable side effects.
-   <li>The computation is <i>consistent with equals</i>; that is, 
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre><code>Objects.equal</code></pre>
-</details>
-<code>(k1, k2) &amp;&amp;</code> 
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre><code>Objects#equal</code></pre>
-</details>
-<code>(v1, v2)</code> implies that
-       <code>Objects.equals(transformer.transform(k1, v1), transformer.transform(k2, v2))</code>.
+   <li>The computation is <i>consistent with equals</i>; that is, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Objects.html#equals(java.lang.Object,java.lang.Object)" title="class or interface in java.util" class="external-link"><code>Objects.equals</code></a><code>(k1, k2) &amp;&amp;</code> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Objects.html#equals(java.lang.Object,java.lang.Object)" title="class or interface in java.util" class="external-link"><code>Objects.equals</code></a><code>(v1,
+       v2)</code> implies that <code>Objects.equals(transformer.transform(k1, v1),
+       transformer.transform(k2, v2))</code>.
  </ul></div>
 <dl class="notes">
 <dt>Throws:</dt>

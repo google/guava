@@ -493,12 +493,7 @@ loadScripts(document, 'script');</script>
  using a <code>LinkedHashSet</code> instead, at the cost of increased memory footprint, to get
  deterministic iteration behavior.
 
- <p>This method is just a small convenience, either for <code>newHashSet(</code>
-<details class="invalid-tag">
-<summary>invalid reference</summary>
-<pre><code>asList</code></pre>
-</details>
-<code>(...))</code>, or for creating an empty set then calling <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collections.html#addAll(java.util.Collection,T...)" title="class or interface in java.util" class="external-link"><code>Collections.addAll(java.util.Collection&lt;? super T&gt;, T...)</code></a>.
+ <p>This method is just a small convenience, either for <code>newHashSet(</code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Arrays.html#asList(T...)" title="class or interface in java.util" class="external-link"><code>asList</code></a><code>(...))</code>, or for creating an empty set then calling <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collections.html#addAll(java.util.Collection,T...)" title="class or interface in java.util" class="external-link"><code>Collections.addAll(java.util.Collection&lt;? super T&gt;, T...)</code></a>.
  This method is not actually very useful and will likely be deprecated in the future.</div>
 </div>
 </section>

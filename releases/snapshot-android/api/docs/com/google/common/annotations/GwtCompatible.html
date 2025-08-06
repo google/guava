@@ -84,35 +84,7 @@ loadScripts(document, 'script');</script>
 <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/annotation/Documented.html" title="class or interface in java.lang.annotation" class="external-link">@Documented</a>
 <a href="GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 </span><span class="modifiers">public @interface </span><span class="element-name type-name-label">GwtCompatible</span></div>
-<div class="block">The presence of this annotation on a type indicates that the type may be used with the <a href="http://code.google.com/webtoolkit/">Google Web Toolkit</a> (GWT). When applied to a method,
- the return type of the method is GWT compatible. It's useful to indicate that an instance created
- by factory methods has a GWT serializable type. In the following example,
-
- <pre>
- @GwtCompatible
- class Lists {
-   ...
-   @GwtCompatible(serializable = true)
-   static &lt;E&gt; List&lt;E&gt; newArrayList(E... elements) {
-     ...
-   }
- }
- </pre>
-
- <p>The return value of <code>Lists.newArrayList(E[])</code> has GWT serializable type. It is also
- useful in specifying contracts of interface methods. In the following example,
-
- <pre>
- @GwtCompatible
- interface ListFactory {
-   ...
-   @GwtCompatible(serializable = true)
-   &lt;E&gt; List&lt;E&gt; newArrayList(E... elements);
- }
- </pre>
-
- <p>The <code>newArrayList(E[])</code> method of all implementations of <code>ListFactory</code> is expected
- to return a value with a GWT serializable type.
+<div class="block">The presence of this annotation on a type indicates that the type may be used with <a href="https://www.gwtproject.org/">GWT</a> or <a href="https://github.com/google/j2cl">J2CL</a>.
 
  <p>Note that a <code>GwtCompatible</code> type may have some <a href="GwtIncompatible.html" title="annotation in com.google.common.annotations"><code>GwtIncompatible</code></a> methods.</div>
 <dl class="notes">
@@ -140,8 +112,8 @@ loadScripts(document, 'script');</script>
 <div class="col-first odd-row-color"><code>boolean</code></div>
 <div class="col-second odd-row-color"><code><a href="#serializable()" class="member-name-link">serializable</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">When <code>true</code>, the annotated type or the type of the method return value is GWT
- serializable.</div>
+<div class="block">Obsolete; formerly used to indicate when a value was GWT serializable back before Guava dropped
+ support for GWT serialization.</div>
 </div>
 </div>
 </section>
@@ -160,13 +132,13 @@ loadScripts(document, 'script');</script>
 <h3>serializable</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">serializable</span></div>
-<div class="block">When <code>true</code>, the annotated type or the type of the method return value is GWT
- serializable.</div>
+<div class="block">Obsolete; formerly used to indicate when a value was GWT serializable back before Guava dropped
+ support for GWT serialization.</div>
 <dl class="notes">
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list-long">
-<li><a href="http://code.google.com/webtoolkit/doc/latest/DevGuideServerCommunication.html#DevGuideSerializableTypes">
+<li><a href="https://www.gwtproject.org/doc/latest/DevGuideServerCommunication#DevGuideSerializableTypes">
      Documentation about GWT serialization</a></li>
 </ul>
 </dd>
@@ -189,7 +161,7 @@ loadScripts(document, 'script');</script>
 <dt>See Also:</dt>
 <dd>
 <ul class="tag-list-long">
-<li><a href="http://code.google.com/webtoolkit/doc/latest/DevGuideOrganizingProjects.html#DevGuideModules">
+<li><a href="https://www.gwtproject.org/doc/latest/DevGuideOrganizingProjects.html#DevGuideModules">
      Documentation about GWT emulated source</a></li>
 </ul>
 </dd>
