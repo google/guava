@@ -307,8 +307,7 @@ public final class Predicates {
 
   // End public API, begin private implementation classes.
 
-  // Package private for GWT serialization.
-  enum ObjectPredicate implements Predicate<@Nullable Object> {
+  private enum ObjectPredicate implements Predicate<@Nullable Object> {
     /**
      * @see Predicates#alwaysTrue()
      */
