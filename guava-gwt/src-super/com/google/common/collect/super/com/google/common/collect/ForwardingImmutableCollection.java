@@ -48,6 +48,7 @@ final class ForwardingImmutableCollection<E> extends ImmutableCollection<E> {
     return delegate.containsAll(targets);
   }
 
+  @Override
   public int size() {
     return delegate.size();
   }

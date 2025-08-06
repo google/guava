@@ -418,14 +418,17 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return ImmutableSortedSet.copyOf(comparator, sortedDelegate.keySet());
   }
 
+  @Override
   public Comparator<? super K> comparator() {
     return comparator;
   }
 
+  @Override
   public @Nullable K firstKey() {
     return sortedDelegate.firstKey();
   }
 
+  @Override
   public @Nullable K lastKey() {
     return sortedDelegate.lastKey();
   }
@@ -441,6 +444,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return null;
   }
 
+  @Override
   public ImmutableSortedMap<K, V> headMap(K toKey) {
     checkNotNull(toKey);
     return newView(sortedDelegate.headMap(toKey));
@@ -458,6 +462,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return headMap(toKey);
   }
 
+  @Override
   public ImmutableSortedMap<K, V> subMap(K fromKey, K toKey) {
     checkNotNull(fromKey);
     checkNotNull(toKey);
@@ -472,6 +477,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     return tailMap(fromKey, fromInclusive).headMap(toKey, toInclusive);
   }
 
+  @Override
   public ImmutableSortedMap<K, V> tailMap(K fromKey) {
     checkNotNull(fromKey);
     return newView(sortedDelegate.tailMap(fromKey));
