@@ -76,7 +76,7 @@ import org.jspecify.annotations.Nullable;
   "nullness", // too much trouble for the payoff
 })
 @NullUnmarked // TODO(cpovirk): Annotate for nullness.
-class MapMakerInternalMap<
+final class MapMakerInternalMap<
         K,
         V,
         E extends MapMakerInternalMap.InternalEntry<K, V, E>,

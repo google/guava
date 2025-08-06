@@ -47,7 +47,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
+final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   @SuppressWarnings("unchecked") // TODO(cpovirk): Consider storing Entry<?, ?>[] instead.
   static final RegularImmutableBiMap<Object, Object> EMPTY =
       new RegularImmutableBiMap<>(

@@ -50,7 +50,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  */
 @GwtIncompatible // not worth using in GWT for now
-class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E> {
+final class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHashSet<E> {
 
   /** Creates an empty {@code CompactLinkedHashSet} instance. */
   public static <E extends @Nullable Object> CompactLinkedHashSet<E> create() {

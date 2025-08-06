@@ -54,7 +54,7 @@ import org.jspecify.annotations.Nullable;
  */
 @J2ktIncompatible // no support for access-order mode in LinkedHashMap delegate
 @GwtIncompatible // not worth using in GWT for now
-class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
+final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends CompactHashMap<K, V> {
   // TODO(lowasser): implement removeEldestEntry so this can be used as a drop-in replacement
 

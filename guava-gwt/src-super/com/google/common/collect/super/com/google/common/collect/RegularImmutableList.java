@@ -26,7 +26,7 @@ import java.util.List;
  *
  * @author Hayward Chan
  */
-class RegularImmutableList<E> extends ForwardingImmutableList<E> {
+final class RegularImmutableList<E> extends ForwardingImmutableList<E> {
   static final ImmutableList<Object> EMPTY = new RegularImmutableList<Object>(emptyList());
 
   private final List<E> delegate;

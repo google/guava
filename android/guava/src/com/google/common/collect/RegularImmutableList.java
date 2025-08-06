@@ -33,7 +33,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible(emulated = true)
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
-class RegularImmutableList<E> extends ImmutableList<E> {
+final class RegularImmutableList<E> extends ImmutableList<E> {
   static final ImmutableList<Object> EMPTY = new RegularImmutableList<>(new Object[0], 0);
 
   // The first `size` elements are non-null.

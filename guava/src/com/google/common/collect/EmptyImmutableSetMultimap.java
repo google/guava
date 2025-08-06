@@ -27,7 +27,7 @@ import java.util.Collection;
  * @author Mike Ward
  */
 @GwtCompatible
-class EmptyImmutableSetMultimap extends ImmutableSetMultimap<Object, Object> {
+final class EmptyImmutableSetMultimap extends ImmutableSetMultimap<Object, Object> {
   static final EmptyImmutableSetMultimap INSTANCE = new EmptyImmutableSetMultimap();
 
   private EmptyImmutableSetMultimap() {

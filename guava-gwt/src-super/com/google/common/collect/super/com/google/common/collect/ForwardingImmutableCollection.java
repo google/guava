@@ -26,7 +26,7 @@ import org.jspecify.annotations.Nullable;
  * @author Hayward Chan
  */
 // TODO: Make this class GWT serializable.
-class ForwardingImmutableCollection<E> extends ImmutableCollection<E> {
+final class ForwardingImmutableCollection<E> extends ImmutableCollection<E> {
 
   final transient Collection<E> delegate;
 
