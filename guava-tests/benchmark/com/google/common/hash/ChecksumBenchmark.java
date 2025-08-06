@@ -113,6 +113,23 @@ public class ChecksumBenchmark {
     return result;
   }
 
+  // HighwayFingerprint64
+
+  @Benchmark
+  byte highwayFingerprint64HashFunction(int reps) {
+    return runHashFunction(reps, Hashing.highwayFingerprint64());
+  }
+
+  @Benchmark
+  byte highwayFingerprint64Checksum(int reps) throws Exception {
+    byte result = 0x01;
+    for (int i = 0; i < reps; i++) {
+      HashCode checksum = Hashing.highwayFingerprint64().hashBytes(testBytes, 0, testBytes.length);
+      result = (byte) (result ^ checksum.asLong());
+    }
+    return result;
+  }
+
   // Helpers + main
 
   private byte runHashFunction(int reps, HashFunction hashFunction) {
@@ -121,6 +138,7 @@ public class ChecksumBenchmark {
     result ^= Hashing.crc32().hashInt(reps).asBytes()[0];
     result ^= Hashing.adler32().hashInt(reps).asBytes()[0];
     result ^= Hashing.fingerprint2011().hashInt(reps).asBytes()[0];
+    result ^= Hashing.highwayFingerprint64().hashInt(reps).asBytes()[0];
     for (int i = 0; i < reps; i++) {
       result ^= hashFunction.hashBytes(testBytes).asBytes()[0];
     }
