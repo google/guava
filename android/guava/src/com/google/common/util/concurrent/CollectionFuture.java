@@ -27,7 +27,7 @@ import java.util.List;
 import org.jspecify.annotations.Nullable;
 
 /** Aggregate future that collects (stores) results of each future. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable Object>
     extends AggregateFuture<V, C> {
   /*

@@ -26,7 +26,7 @@ import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link MoreObjects}. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class MoreObjectsTest extends TestCase {
   public void testFirstNonNull_withNonNull() {

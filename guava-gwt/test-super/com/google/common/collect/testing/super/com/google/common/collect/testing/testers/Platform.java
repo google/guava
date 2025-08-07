@@ -23,7 +23,7 @@ import com.google.common.annotations.GwtCompatible;
  *
  * @author Hayward Chan
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 final class Platform {
 
   // Use fewer steps in the ListIteratorTester in ListListIteratorTester because it's slow in prod

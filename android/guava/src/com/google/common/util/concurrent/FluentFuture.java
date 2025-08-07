@@ -74,7 +74,7 @@ import org.jspecify.annotations.Nullable;
  * @since 23.0
  */
 @DoNotMock("Use FluentFuture.from(Futures.immediate*Future) or SettableFuture")
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public abstract class FluentFuture<V extends @Nullable Object>
     extends GwtFluentFutureCatchingSpecialization<V> {
 

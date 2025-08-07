@@ -32,7 +32,7 @@ import org.jspecify.annotations.NullMarked;
  * @author Kevin Bourrillion
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class StringsTest extends TestCase {
   public void testNullToEmpty() {
     assertEquals("", Strings.nullToEmpty(null));

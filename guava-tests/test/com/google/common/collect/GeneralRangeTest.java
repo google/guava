@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class GeneralRangeTest extends TestCase {
   private static final Ordering<@Nullable Integer> ORDERING =

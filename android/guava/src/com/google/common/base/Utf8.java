@@ -35,7 +35,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Clément Roux
  * @since 16.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Utf8 {
   /**
    * Returns the number of bytes in the UTF-8-encoded form of {@code sequence}. For a string, this

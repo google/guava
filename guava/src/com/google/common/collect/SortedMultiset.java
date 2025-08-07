@@ -41,7 +41,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 11.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public interface SortedMultiset<E extends @Nullable Object>
     extends SortedMultisetBridge<E>, SortedIterable<E> {
   /**

@@ -39,7 +39,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** Replacements for JUnit's {@code assertThrows} that work under GWT/J2CL. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 final class ReflectionFreeAssertThrows {
   interface ThrowingRunnable {

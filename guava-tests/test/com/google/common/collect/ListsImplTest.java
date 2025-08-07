@@ -38,7 +38,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** Tests the package level *impl methods directly using various types of lists. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class ListsImplTest extends TestCase {
 

@@ -61,7 +61,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jesse Wilson
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("AlwaysThrows")
 @NullMarked
 public class ImmutableSortedMapTest extends TestCase {

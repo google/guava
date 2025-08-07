@@ -40,7 +40,7 @@ import org.jspecify.annotations.Nullable;
  * @author Harry Heymann
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Suppliers {
   private Suppliers() {}
 

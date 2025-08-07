@@ -103,7 +103,7 @@ import org.jspecify.annotations.Nullable;
  * @author Nishant Thakkar
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class FuturesTest extends TestCase {
   private static final Logger aggregateFutureLogger =
       Logger.getLogger(AggregateFuture.class.getName());

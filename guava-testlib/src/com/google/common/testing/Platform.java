@@ -32,7 +32,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Chris Povirk
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 final class Platform {
   /** Serializes and deserializes the specified object. */

@@ -60,7 +60,7 @@ import org.jspecify.annotations.NullMarked;
  * @author Louis Wasserman
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class BigIntegerMathTest extends TestCase {
   public void testCeilingPowerOfTwo() {
     for (BigInteger x : POSITIVE_BIGINTEGER_CANDIDATES) {

@@ -25,7 +25,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author mike nonemacher
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 class TestingRemovalListeners {
 

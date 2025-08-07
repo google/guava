@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Gregory Kick
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class ImmutableTableTest extends AbstractTableReadTest<Character> {
   @Override

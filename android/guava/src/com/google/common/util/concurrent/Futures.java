@@ -75,7 +75,7 @@ import org.jspecify.annotations.Nullable;
  * @author Sven Mawson
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Futures extends GwtFuturesCatchingSpecialization {
 
   // A note on memory visibility.

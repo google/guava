@@ -39,7 +39,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class LinkedHashMultisetTest extends TestCase {
 

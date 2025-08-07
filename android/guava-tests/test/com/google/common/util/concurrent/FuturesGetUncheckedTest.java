@@ -39,7 +39,7 @@ import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link Futures#getUnchecked(Future)}. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class FuturesGetUncheckedTest extends TestCase {
   public void testGetUnchecked_success() {

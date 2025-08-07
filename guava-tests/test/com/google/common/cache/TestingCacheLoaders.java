@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author mike nonemacher
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 class TestingCacheLoaders {
 

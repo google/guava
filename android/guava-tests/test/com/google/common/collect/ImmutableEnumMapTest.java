@@ -43,7 +43,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class ImmutableEnumMapTest extends TestCase {
   @J2ktIncompatible

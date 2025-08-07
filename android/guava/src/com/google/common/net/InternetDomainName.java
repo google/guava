@@ -72,7 +72,7 @@ import org.jspecify.annotations.Nullable;
  * @author Catherine Berry
  * @since 5.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @Immutable
 public final class InternetDomainName {
 

@@ -44,7 +44,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** Unit test for {@link Streams}. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class StreamsTest extends TestCase {
   /*

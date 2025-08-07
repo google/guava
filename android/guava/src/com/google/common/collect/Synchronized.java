@@ -56,7 +56,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  */
 @J2ktIncompatible
-@GwtCompatible(emulated = true)
+@GwtCompatible
 /*
  * I have decided not to bother adding @ParametricNullness annotations in this class. Adding them is
  * a lot of busy work, and the annotation matters only when the APIs to be annotated are visible to

@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 final class SortedMultisets {
   private SortedMultisets() {}
 

@@ -44,7 +44,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  */
 @SuppressWarnings("serial") // No serialization is used in this test
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class SimpleAbstractMultisetTest extends TestCase {
   @J2ktIncompatible

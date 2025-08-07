@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.LongAdder;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 final class LongAddables {
   public static LongAddable create() {
     return new JavaUtilConcurrentLongAdder();

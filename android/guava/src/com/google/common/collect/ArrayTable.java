@@ -89,7 +89,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @since 10.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     implements Serializable {
 

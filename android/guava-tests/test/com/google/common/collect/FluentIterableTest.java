@@ -59,7 +59,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Marcin Mikosik
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class FluentIterableTest extends TestCase {
 

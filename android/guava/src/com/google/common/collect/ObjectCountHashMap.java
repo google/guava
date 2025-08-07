@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>In the absence of element deletions, this will iterate over elements in insertion order.
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 class ObjectCountHashMap<K extends @Nullable Object> {
 

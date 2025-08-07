@@ -28,7 +28,7 @@ import org.jspecify.annotations.Nullable;
  * entries, {@code ObjectCountLinkedHashMap} minimizes object allocation and reduces memory
  * footprint.
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectCountHashMap<K> {
   /** Creates an empty {@code ObjectCountLinkedHashMap} instance. */

@@ -31,7 +31,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class TreeTraverserTest extends TestCase {
   private static class Node {

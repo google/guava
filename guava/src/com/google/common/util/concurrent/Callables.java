@@ -29,7 +29,7 @@ import org.jspecify.annotations.Nullable;
  * @author Isaac Shum
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Callables {
   private Callables() {}
 

@@ -47,7 +47,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class DoublesTest extends TestCase {
   private static final double[] EMPTY = {};
   private static final double[] ARRAY1 = {1.0};

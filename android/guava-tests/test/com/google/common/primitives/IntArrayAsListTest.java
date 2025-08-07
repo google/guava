@@ -39,7 +39,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("cast") // redundant casts are intentional and harmless
 @NullUnmarked
 @AndroidIncompatible // test-suite builders

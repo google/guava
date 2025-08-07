@@ -98,7 +98,7 @@ import org.jspecify.annotations.Nullable;
  * @author Mike Bostock
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("WrongCommentType") // false positive
 public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimap<K, V> implements ListMultimap<K, V>, Serializable {

@@ -34,7 +34,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Kurt Alfred Kluever
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class EvictingQueueTest extends TestCase {
 

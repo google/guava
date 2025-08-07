@@ -41,7 +41,7 @@ import org.jspecify.annotations.NullMarked;
  * tested in {@link FuturesTest}.
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class FluentFutureTest extends TestCase {
   @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testFromFluentFuture() {

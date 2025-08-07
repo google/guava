@@ -59,7 +59,7 @@ import org.jspecify.annotations.Nullable;
  * @author Mike Ward
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     implements SetMultimap<K, V> {
   /**

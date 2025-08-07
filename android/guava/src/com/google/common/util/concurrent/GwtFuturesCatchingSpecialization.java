@@ -23,7 +23,7 @@ import com.google.common.annotations.J2ktIncompatible;
  * java.util.concurrent.Executor) Futures.catching} family of methods. Those versions have slightly
  * different signatures.
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @J2ktIncompatible // Super-sourced
 abstract class GwtFuturesCatchingSpecialization {
   /*

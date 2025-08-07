@@ -44,7 +44,7 @@ import sun.misc.Unsafe;
 /** Supertype of {@link AbstractFuture} that contains platform-specific functionality. */
 // Whenever both tests are cheap and functional, it's faster to use &, | instead of &&, ||
 @SuppressWarnings("ShortCircuitBoolean")
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 abstract class AbstractFutureState<V extends @Nullable Object> extends InternalFutureFailureAccess
     implements ListenableFuture<V> {

@@ -43,7 +43,7 @@ import org.jspecify.annotations.Nullable;
  * Base class for tests for emulated {@link AbstractFuture} that allow subclasses to swap in a
  * different "source Future" for {@link AbstractFuture#setFuture} calls.
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 abstract class AbstractAbstractFutureTest extends TestCase {
   private TestedFuture<Integer> future;

@@ -62,7 +62,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
 

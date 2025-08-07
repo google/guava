@@ -51,7 +51,7 @@ import org.jspecify.annotations.Nullable;
  * @author Chris Povirk
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class Collections2Test extends TestCase {
   @J2ktIncompatible

@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Isaac Shum
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class CallablesTest extends TestCase {
 

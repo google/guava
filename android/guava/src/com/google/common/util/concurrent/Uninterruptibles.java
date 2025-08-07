@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
  * @author Anthony Zana
  * @since 10.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Uninterruptibles {
 
   // Implementation Note: As of 3-7-11, the logic for each blocking/timeout

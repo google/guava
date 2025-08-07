@@ -32,7 +32,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class PrimitivesTest extends TestCase {
   public void testIsWrapperType() {

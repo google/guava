@@ -58,7 +58,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Gregory Kick
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class MediaTypeTest extends TestCase {
   @J2ktIncompatible

@@ -24,7 +24,7 @@ import java.util.concurrent.TimeoutException;
 import org.jspecify.annotations.Nullable;
 
 /** Methods factored out so that they can be emulated differently in GWT. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 final class Platform {
   static boolean isInstanceOfThrowableClass(
       @Nullable Throwable t, Class<? extends Throwable> expectedClass) {

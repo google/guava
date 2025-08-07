@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @J2ktIncompatible
 @SuppressWarnings("EnumOrdinal") // This is one of the low-level utilities where it's suitable.
 public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>

@@ -98,7 +98,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Splitter {
   private final CharMatcher trimmer;
   private final boolean omitEmptyStrings;

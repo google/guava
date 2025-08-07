@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jige Yu
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class EquivalenceTest extends TestCase {
   public void testPairwiseEquivalent() {
     EquivalenceTester.of(Equivalence.equals().<String>pairwise())

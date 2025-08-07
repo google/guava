@@ -43,7 +43,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  * @author Gregory Kick
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   @SuppressWarnings("unchecked")
   static final ImmutableMap<Object, Object> EMPTY =

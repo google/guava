@@ -39,7 +39,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 @AndroidIncompatible // test-suite builders
 public class DoubleArrayAsListTest extends TestCase {

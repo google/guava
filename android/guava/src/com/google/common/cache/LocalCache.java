@@ -101,7 +101,7 @@ import org.jspecify.annotations.Nullable;
   "GoodTime", // lots of violations (nanosecond math)
   "nullness", // too much trouble for the payoff
 })
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked // TODO(cpovirk): Annotate for nullness.
 class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 

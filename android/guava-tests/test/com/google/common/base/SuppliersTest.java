@@ -48,7 +48,7 @@ import org.jspecify.annotations.Nullable;
  * @author Harry Heymann
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class SuppliersTest extends TestCase {
 
   static class CountingSupplier implements Supplier<Integer> {

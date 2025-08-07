@@ -46,7 +46,7 @@ import java.util.Set;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class Helpers {
   // Clone of Objects.equals

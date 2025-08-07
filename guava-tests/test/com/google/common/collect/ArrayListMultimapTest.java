@@ -42,7 +42,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class ArrayListMultimapTest extends TestCase {
 

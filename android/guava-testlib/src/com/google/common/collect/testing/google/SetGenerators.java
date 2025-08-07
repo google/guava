@@ -61,7 +61,7 @@ import org.jspecify.annotations.NullMarked;
  * @author Jared Levy
  * @author Hayward Chan
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class SetGenerators {
 

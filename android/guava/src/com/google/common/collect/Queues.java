@@ -44,7 +44,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kurt Alfred Kluever
  * @since 11.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Queues {
   private Queues() {}
 

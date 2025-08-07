@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class HashBasedTableTest extends AbstractTableTest<Character> {
 

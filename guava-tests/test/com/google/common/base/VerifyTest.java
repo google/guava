@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Unit test for {@link com.google.common.base.Verify}. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class VerifyTest extends TestCase {
   public void testVerify_simple_success() {

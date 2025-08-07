@@ -22,7 +22,7 @@ import org.jspecify.annotations.NullUnmarked;
 /**
  * @author Chris Povirk
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 class TestPlatform {
   static boolean intsCanGoOutOfRange() {

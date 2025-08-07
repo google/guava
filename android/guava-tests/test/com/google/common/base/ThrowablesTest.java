@@ -53,7 +53,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("deprecation") // tests of numerous deprecated methods
 @NullUnmarked
 public class ThrowablesTest extends TestCase {

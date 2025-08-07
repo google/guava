@@ -76,7 +76,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class IterablesTest extends TestCase {
 
