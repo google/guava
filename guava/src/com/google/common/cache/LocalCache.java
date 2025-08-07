@@ -107,7 +107,7 @@ import org.jspecify.annotations.Nullable;
 })
 @GwtCompatible
 @NullUnmarked // TODO(cpovirk): Annotate for nullness.
-class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
+final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   /*
    * The basic strategy is to subdivide the table among Segments, each of which itself is a
