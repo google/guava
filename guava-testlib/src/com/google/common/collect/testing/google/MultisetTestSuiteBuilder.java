@@ -197,7 +197,7 @@ public class MultisetTestSuiteBuilder<E>
     }
   }
 
-  static class EntrySetGenerator<E> implements TestSetGenerator<Multiset.Entry<E>> {
+  private static class EntrySetGenerator<E> implements TestSetGenerator<Multiset.Entry<E>> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     private EntrySetGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {
@@ -256,7 +256,7 @@ public class MultisetTestSuiteBuilder<E>
     }
   }
 
-  static class ReserializedMultisetGenerator<E> implements TestMultisetGenerator<E> {
+  private static class ReserializedMultisetGenerator<E> implements TestMultisetGenerator<E> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     private ReserializedMultisetGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {

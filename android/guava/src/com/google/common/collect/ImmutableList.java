@@ -392,7 +392,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   private static final UnmodifiableListIterator<Object> EMPTY_ITR =
       new Itr<Object>(RegularImmutableList.EMPTY, 0);
 
-  static class Itr<E> extends AbstractIndexedListIterator<E> {
+  private static class Itr<E> extends AbstractIndexedListIterator<E> {
     private final ImmutableList<E> list;
 
     Itr(ImmutableList<E> list, int index) {
@@ -455,7 +455,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return new SubList(fromIndex, toIndex - fromIndex);
   }
 
-  class SubList extends ImmutableList<E> {
+  private class SubList extends ImmutableList<E> {
     final transient int offset;
     final transient int length;
 

@@ -105,8 +105,7 @@ final class FuturesGetChecked {
    *
    * <p>Uses reflection to gracefully fall back to when certain implementations aren't available.
    */
-  @VisibleForTesting
-  static class GetCheckedTypeValidatorHolder {
+  private static class GetCheckedTypeValidatorHolder {
     static final GetCheckedTypeValidator BEST_VALIDATOR = getBestValidator();
 
     enum WeakSetValidator implements GetCheckedTypeValidator {

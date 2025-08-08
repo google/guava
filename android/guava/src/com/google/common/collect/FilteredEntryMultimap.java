@@ -172,7 +172,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @WeakOuter
-  class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
+  private class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
     @Override
     public boolean containsKey(@Nullable Object key) {
       return get(key) != null;

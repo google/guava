@@ -208,7 +208,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     return new MapEntry(index);
   }
 
-  class MapEntry extends AbstractEntry<K> {
+  private class MapEntry extends AbstractEntry<K> {
     @ParametricNullness final K key;
 
     int lastKnownIndex;
@@ -233,25 +233,10 @@ class ObjectCountHashMap<K extends @Nullable Object> {
       }
     }
 
-    @SuppressWarnings("unchecked") // values only contains Vs
     @Override
     public int getCount() {
       updateLastKnownIndex();
       return (lastKnownIndex == -1) ? 0 : values[lastKnownIndex];
-    }
-
-    @SuppressWarnings("unchecked") // values only contains Vs
-    @CanIgnoreReturnValue
-    public int setCount(int count) {
-      updateLastKnownIndex();
-      if (lastKnownIndex == -1) {
-        put(key, count);
-        return 0;
-      } else {
-        int old = values[lastKnownIndex];
-        values[lastKnownIndex] = count;
-        return old;
-      }
     }
   }
 

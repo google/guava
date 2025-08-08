@@ -64,7 +64,7 @@ public class CollectionTestSuiteBuilder<E>
     return derivedSuites;
   }
 
-  static class ReserializedCollectionGenerator<E> implements TestCollectionGenerator<E> {
+  private static class ReserializedCollectionGenerator<E> implements TestCollectionGenerator<E> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     private ReserializedCollectionGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {

@@ -435,7 +435,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
     }
   }
 
-  static class ValuesGenerator<K, V, M extends Multimap<K, V>>
+  private static class ValuesGenerator<K, V, M extends Multimap<K, V>>
       implements TestCollectionGenerator<V> {
     private final OneSizeTestContainerGenerator<M, Entry<K, V>> multimapGenerator;
 
@@ -489,7 +489,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
     }
   }
 
-  static class KeysGenerator<K, V, M extends Multimap<K, V>>
+  private static class KeysGenerator<K, V, M extends Multimap<K, V>>
       implements TestMultisetGenerator<K>, DerivedGenerator {
     private final OneSizeTestContainerGenerator<M, Entry<K, V>> multimapGenerator;
 

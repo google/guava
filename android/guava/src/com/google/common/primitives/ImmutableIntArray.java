@@ -483,7 +483,7 @@ public final class ImmutableIntArray implements Serializable {
     return new AsList(this);
   }
 
-  static class AsList extends AbstractList<Integer> implements RandomAccess, Serializable {
+  private static class AsList extends AbstractList<Integer> implements RandomAccess, Serializable {
     private final ImmutableIntArray parent;
 
     private AsList(ImmutableIntArray parent) {

@@ -677,7 +677,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   @WeakOuter
-  class KeySetView extends AbstractSet<K> {
+  private class KeySetView extends AbstractSet<K> {
     @Override
     public int size() {
       return CompactHashMap.this.size();
@@ -733,7 +733,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   @WeakOuter
-  class EntrySetView extends AbstractSet<Entry<K, V>> {
+  private class EntrySetView extends AbstractSet<Entry<K, V>> {
 
     @Override
     public int size() {
@@ -913,7 +913,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   @WeakOuter
-  class ValuesView extends AbstractCollection<V> {
+  private class ValuesView extends AbstractCollection<V> {
     @Override
     public int size() {
       return CompactHashMap.this.size();

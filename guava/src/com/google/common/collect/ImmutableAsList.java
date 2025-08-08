@@ -61,7 +61,7 @@ abstract class ImmutableAsList<E> extends ImmutableList<E> {
   /** Serialized form that leads to the same performance as the original list. */
   @GwtIncompatible
   @J2ktIncompatible
-  static class SerializedForm implements Serializable {
+  private static class SerializedForm implements Serializable {
     final ImmutableCollection<?> collection;
 
     SerializedForm(ImmutableCollection<?> collection) {

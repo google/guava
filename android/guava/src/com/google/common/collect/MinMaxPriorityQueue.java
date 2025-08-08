@@ -464,7 +464,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   }
 
   // Returned from removeAt() to iterator.remove()
-  static class MoveDesc<E> {
+  private static class MoveDesc<E> {
     final E toTrickle;
     final E replaced;
 
@@ -516,7 +516,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    * sake they are stored interleaved on alternate heap levels in the same array (MMPQ.queue).
    */
   @WeakOuter
-  class Heap {
+  private class Heap {
     final Ordering<E> ordering;
 
     @SuppressWarnings("nullness:initialization.field.uninitialized")

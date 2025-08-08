@@ -704,7 +704,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
 
   @SuppressWarnings("serial") // Uses writeReplace, not default serialization
   @WeakOuter
-  class Keys extends ImmutableMultiset<K> {
+  private class Keys extends ImmutableMultiset<K> {
     @Override
     public boolean contains(@Nullable Object object) {
       return containsKey(object);

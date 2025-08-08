@@ -473,7 +473,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return new SubList(fromIndex, toIndex - fromIndex);
   }
 
-  class SubList extends ImmutableList<E> {
+  private class SubList extends ImmutableList<E> {
     final transient int offset;
     final transient int length;
 

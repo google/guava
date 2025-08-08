@@ -377,7 +377,7 @@ public class FinalizableReferenceQueue implements Closeable {
    * Loads Finalizer directly using the current class loader. We won't be able to garbage collect
    * this class loader, but at least the world doesn't end.
    */
-  static class DirectLoader implements FinalizerLoader {
+  private static class DirectLoader implements FinalizerLoader {
     @Override
     public Class<?> loadFinalizer() {
       try {

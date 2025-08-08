@@ -479,7 +479,7 @@ public final class ImmutableLongArray implements Serializable {
     return new AsList(this);
   }
 
-  static class AsList extends AbstractList<Long> implements RandomAccess, Serializable {
+  private static class AsList extends AbstractList<Long> implements RandomAccess, Serializable {
     private final ImmutableLongArray parent;
 
     private AsList(ImmutableLongArray parent) {

@@ -577,7 +577,7 @@ final class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link InternalEntry} for strong keys and {@link Dummy} values. */
-  static class StrongKeyDummyValueEntry<K>
+  private static class StrongKeyDummyValueEntry<K>
       extends AbstractStrongKeyEntry<K, Dummy, StrongKeyDummyValueEntry<K>>
       implements StrongValueEntry<K, Dummy, StrongKeyDummyValueEntry<K>> {
 
@@ -689,7 +689,7 @@ final class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link InternalEntry} for weak keys and {@link Dummy} values. */
-  static class WeakKeyDummyValueEntry<K>
+  private static class WeakKeyDummyValueEntry<K>
       extends AbstractWeakKeyEntry<K, Dummy, WeakKeyDummyValueEntry<K>>
       implements StrongValueEntry<K, Dummy, WeakKeyDummyValueEntry<K>> {
 
@@ -873,7 +873,7 @@ final class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link InternalEntry} for weak keys and weak values. */
-  static class WeakKeyWeakValueEntry<K, V>
+  private static class WeakKeyWeakValueEntry<K, V>
       extends AbstractWeakKeyEntry<K, V, WeakKeyWeakValueEntry<K, V>>
       implements WeakValueEntry<K, V, WeakKeyWeakValueEntry<K, V>> {
     private volatile WeakValueReference<K, V, WeakKeyWeakValueEntry<K, V>> valueReference =

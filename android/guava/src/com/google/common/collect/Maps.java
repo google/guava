@@ -612,7 +612,7 @@ public final class Maps {
     }
   }
 
-  static class MapDifferenceImpl<K extends @Nullable Object, V extends @Nullable Object>
+  private static class MapDifferenceImpl<K extends @Nullable Object, V extends @Nullable Object>
       implements MapDifference<K, V> {
     final Map<K, V> onlyOnLeft;
     final Map<K, V> onlyOnRight;
@@ -744,7 +744,8 @@ public final class Maps {
     }
   }
 
-  static class SortedMapDifferenceImpl<K extends @Nullable Object, V extends @Nullable Object>
+  private static class SortedMapDifferenceImpl<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends MapDifferenceImpl<K, V> implements SortedMapDifference<K, V> {
     SortedMapDifferenceImpl(
         SortedMap<K, V> onlyOnLeft,
@@ -1537,7 +1538,7 @@ public final class Maps {
   }
 
   /** The implementation of {@link Maps#unmodifiableEntrySet(Set)}. */
-  static class UnmodifiableEntrySet<K extends @Nullable Object, V extends @Nullable Object>
+  private static class UnmodifiableEntrySet<K extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableEntries<K, V> implements Set<Entry<K, V>> {
     UnmodifiableEntrySet(Set<Entry<K, V>> entries) {
       super(entries);
@@ -2050,7 +2051,7 @@ public final class Maps {
     return entry -> transformEntry(transformer, entry);
   }
 
-  static class TransformedEntriesMap<
+  private static class TransformedEntriesMap<
           K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       extends IteratorBasedAbstractMap<K, V2> {
     final Map<K, V1> fromMap;
@@ -2116,7 +2117,7 @@ public final class Maps {
     }
   }
 
-  static class TransformedEntriesSortedMap<
+  private static class TransformedEntriesSortedMap<
           K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       extends TransformedEntriesMap<K, V1, V2> implements SortedMap<K, V2> {
 
@@ -2899,7 +2900,7 @@ public final class Maps {
     }
   }
 
-  static class FilteredEntryMap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class FilteredEntryMap<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractFilteredMap<K, V> {
     /**
      * Entries in this set satisfy the predicate, but they don't validate the input to {@code
@@ -3338,7 +3339,8 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  static class UnmodifiableNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class UnmodifiableNavigableMap<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingSortedMap<K, V> implements NavigableMap<K, V>, Serializable {
     private final NavigableMap<K, ? extends V> delegate;
 

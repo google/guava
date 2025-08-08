@@ -966,7 +966,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
    */
 
   /** Used for strongly-referenced keys. */
-  static class StrongEntry<K, V> extends AbstractReferenceEntry<K, V> {
+  private static class StrongEntry<K, V> extends AbstractReferenceEntry<K, V> {
     final K key;
 
     StrongEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
@@ -1186,7 +1186,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   /** Used for weakly-referenced keys. */
-  static class WeakEntry<K, V> extends WeakReference<K> implements ReferenceEntry<K, V> {
+  private static class WeakEntry<K, V> extends WeakReference<K> implements ReferenceEntry<K, V> {
     WeakEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, queue);
       this.hash = hash;
@@ -1474,7 +1474,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   /** References a weak value. */
-  static class WeakValueReference<K, V> extends WeakReference<V> implements ValueReference<K, V> {
+  private static class WeakValueReference<K, V> extends WeakReference<V>
+      implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
     WeakValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
@@ -1518,7 +1519,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   /** References a soft value. */
-  static class SoftValueReference<K, V> extends SoftReference<V> implements ValueReference<K, V> {
+  private static class SoftValueReference<K, V> extends SoftReference<V>
+      implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
     SoftValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
@@ -1562,7 +1564,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   /** References a strong value. */
-  static class StrongValueReference<K, V> implements ValueReference<K, V> {
+  private static class StrongValueReference<K, V> implements ValueReference<K, V> {
     final V referent;
 
     StrongValueReference(V referent) {
@@ -3624,7 +3626,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
   }
 
-  static class ComputingValueReference<K, V> extends LoadingValueReference<K, V> {
+  private static class ComputingValueReference<K, V> extends LoadingValueReference<K, V> {
     ComputingValueReference(ValueReference<K, V> oldValue) {
       super(oldValue);
     }
@@ -4668,7 +4670,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
    * <p>Unfortunately, readResolve() doesn't get called when a circular dependency is present, so
    * the proxy must be able to behave as the cache itself.
    */
-  static class ManualSerializationProxy<K, V> extends ForwardingCache<K, V>
+  private static class ManualSerializationProxy<K, V> extends ForwardingCache<K, V>
       implements Serializable {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 

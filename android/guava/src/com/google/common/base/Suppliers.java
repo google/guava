@@ -171,8 +171,8 @@ public final class Suppliers {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  @VisibleForTesting
-  static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
+  private static class NonSerializableMemoizingSupplier<T extends @Nullable Object>
+      implements Supplier<T> {
     private final Object lock = new Object();
 
     @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object

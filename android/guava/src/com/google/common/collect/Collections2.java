@@ -255,7 +255,7 @@ public final class Collections2 {
     return new TransformedCollection<>(fromCollection, function);
   }
 
-  static class TransformedCollection<F extends @Nullable Object, T extends @Nullable Object>
+  private static class TransformedCollection<F extends @Nullable Object, T extends @Nullable Object>
       extends AbstractCollection<T> {
     final Collection<F> fromCollection;
     final Function<? super F, ? extends T> function;
