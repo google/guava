@@ -16,7 +16,6 @@
 
 package com.google.common.io;
 
-import com.google.common.base.Joiner;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.SourceSinkFactory.CharSinkFactory;
 import java.io.IOException;
@@ -135,7 +134,7 @@ public class CharSinkTester extends SourceSinkTester<CharSink, String, CharSinkF
   }
 
   private void assertContainsExpectedLines(String separator) throws IOException {
-    String expected = expectedLines.isEmpty() ? "" : Joiner.on(separator).join(expectedLines);
+    String expected = expectedLines.isEmpty() ? "" : String.join(separator, expectedLines);
     if (!lines.isEmpty()) {
       // if we wrote any lines in writeLines(), there will be a trailing newline
       expected += separator;

@@ -105,7 +105,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
   }
 
   public void testCreateExplicitComparators() {
-    table = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
+    table = TreeBasedTable.create(Comparator.reverseOrder(), Ordering.usingToString());
     table.put("foo", 3, 'a');
     table.put("foo", 12, 'b');
     table.put("bar", 5, 'c');
@@ -116,7 +116,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
 
   public void testCreateCopy() {
     TreeBasedTable<String, Integer, Character> original =
-        TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
+        TreeBasedTable.create(Comparator.reverseOrder(), Ordering.usingToString());
     original.put("foo", 3, 'a');
     original.put("foo", 12, 'b');
     original.put("bar", 5, 'c');
@@ -160,7 +160,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
     sortedTable = TreeBasedTable.create();
     assertSame(Ordering.natural(), sortedTable.rowComparator());
 
-    sortedTable = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
+    sortedTable = TreeBasedTable.create(Comparator.reverseOrder(), Ordering.usingToString());
     assertSame(Collections.reverseOrder(), sortedTable.rowComparator());
   }
 
@@ -173,7 +173,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
         ((SortedMap<Integer, Character>) sortedTable.rowMap().values().iterator().next())
             .comparator());
 
-    sortedTable = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
+    sortedTable = TreeBasedTable.create(Comparator.reverseOrder(), Ordering.usingToString());
     sortedTable.put("", 42, 'x');
     assertSame(Ordering.usingToString(), sortedTable.columnComparator());
     assertSame(
@@ -186,7 +186,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
     sortedTable = TreeBasedTable.create();
     assertSame(Ordering.natural(), sortedTable.rowKeySet().comparator());
 
-    sortedTable = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
+    sortedTable = TreeBasedTable.create(Comparator.reverseOrder(), Ordering.usingToString());
     assertSame(Collections.reverseOrder(), sortedTable.rowKeySet().comparator());
   }
 
@@ -231,7 +231,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
     sortedTable = TreeBasedTable.create();
     assertSame(Ordering.natural(), sortedTable.rowMap().comparator());
 
-    sortedTable = TreeBasedTable.create(Collections.reverseOrder(), Ordering.usingToString());
+    sortedTable = TreeBasedTable.create(Comparator.reverseOrder(), Ordering.usingToString());
     assertSame(Collections.reverseOrder(), sortedTable.rowMap().comparator());
   }
 

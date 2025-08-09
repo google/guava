@@ -113,7 +113,7 @@ public class SetsTest extends TestCase {
 
   private static final List<Integer> LONGER_LIST = asList(8, 6, 7, 5, 3, 0, 9);
 
-  private static final Comparator<Integer> SOME_COMPARATOR = Collections.reverseOrder();
+  private static final Comparator<Integer> SOME_COMPARATOR = Comparator.reverseOrder();
 
   @J2ktIncompatible
   @GwtIncompatible // suite

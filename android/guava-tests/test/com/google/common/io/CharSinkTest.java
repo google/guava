@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.Writer;
 import java.util.EnumSet;
+import java.util.stream.Stream;
 import org.jspecify.annotations.NullUnmarked;
 
 /**
@@ -94,13 +95,13 @@ public class CharSinkTest extends IoTestCase {
   }
 
   public void testWriteLines_stream() throws IOException {
-    sink.writeLines(ImmutableList.of("foo", "bar", "baz").stream());
+    sink.writeLines(Stream.of("foo", "bar", "baz"));
     String separator = LINE_SEPARATOR.value();
     assertEquals("foo" + separator + "bar" + separator + "baz" + separator, sink.getString());
   }
 
   public void testWriteLines_stream_separator() throws IOException {
-    sink.writeLines(ImmutableList.of("foo", "bar", "baz").stream(), "!");
+    sink.writeLines(Stream.of("foo", "bar", "baz"), "!");
     assertEquals("foo!bar!baz!", sink.getString());
   }
 

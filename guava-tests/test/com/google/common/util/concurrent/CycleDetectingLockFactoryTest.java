@@ -20,7 +20,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policies;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policy;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.PotentialDeadlockException;
@@ -482,7 +481,7 @@ public class CycleDetectingLockFactoryTest extends TestCase {
   // Checks that the exception.getMessage() matches a regex of the form:
   // "LockA -> LockB \b.*\b LockB -> LockC \b.*\b LockC -> LockA"
   private void checkMessage(IllegalStateException exception, String... expectedLockCycle) {
-    String regex = Joiner.on("\\b.*\\b").join(expectedLockCycle);
+    String regex = String.join("\\b.*\\b", expectedLockCycle);
     assertThat(exception).hasMessageThat().containsMatch(regex);
   }
 }

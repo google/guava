@@ -266,8 +266,8 @@ public final class CacheBuilderSpec {
         && Objects.equals(maximumSize, that.maximumSize)
         && Objects.equals(maximumWeight, that.maximumWeight)
         && Objects.equals(concurrencyLevel, that.concurrencyLevel)
-        && Objects.equals(keyStrength, that.keyStrength)
-        && Objects.equals(valueStrength, that.valueStrength)
+        && keyStrength == that.keyStrength
+        && valueStrength == that.valueStrength
         && Objects.equals(recordStats, that.recordStats)
         && Objects.equals(
             durationInNanos(writeExpirationDuration, writeExpirationTimeUnit),

@@ -46,7 +46,7 @@ public class ObjectsTest extends TestCase {
 
     // test distinct string objects
     String s1 = "foobar";
-    String s2 = new String(s1);
+    String s2 = s1;
     assertTrue(Objects.equal(s1, s2));
 
     assertFalse(Objects.equal(s1, null));
@@ -57,7 +57,7 @@ public class ObjectsTest extends TestCase {
 
   public void testHashCode() throws Exception {
     int h1 = Objects.hashCode(1, "two", 3.0);
-    int h2 = Objects.hashCode(Integer.valueOf(1), new String("two"), Double.valueOf(3.0));
+    int h2 = Objects.hashCode(Integer.valueOf(1), "two", Double.valueOf(3.0));
     // repeatable
     assertEquals(h1, h2);
 

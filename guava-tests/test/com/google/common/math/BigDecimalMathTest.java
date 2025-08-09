@@ -104,7 +104,7 @@ public class BigDecimalMathTest extends TestCase {
   }
 
   public void testRoundToDouble_halfMinDouble() {
-    BigDecimal minDouble = new BigDecimal(Double.MIN_VALUE);
+    BigDecimal minDouble = BigDecimal.valueOf(Double.MIN_VALUE);
     BigDecimal halfMinDouble = minDouble.divide(BigDecimal.valueOf(2));
     new RoundToDoubleTester(halfMinDouble)
         .roundUnnecessaryShouldThrow()
@@ -114,7 +114,7 @@ public class BigDecimalMathTest extends TestCase {
   }
 
   public void testRoundToDouble_halfNegativeMinDouble() {
-    BigDecimal minDouble = new BigDecimal(-Double.MIN_VALUE);
+    BigDecimal minDouble = BigDecimal.valueOf(-Double.MIN_VALUE);
     BigDecimal halfMinDouble = minDouble.divide(BigDecimal.valueOf(2));
     new RoundToDoubleTester(halfMinDouble)
         .roundUnnecessaryShouldThrow()
@@ -159,7 +159,7 @@ public class BigDecimalMathTest extends TestCase {
     double twoToThe54 = Math.pow(2, 54);
     // the representable doubles are 2^54 and 2^54 + 4
     // 2^54+1 is less than halfway between, so HALF_DOWN and HALF_UP will both go down.
-    new RoundToDoubleTester(BigDecimal.valueOf(1L << 54).add(new BigDecimal(0.5)))
+    new RoundToDoubleTester(BigDecimal.valueOf(1L << 54).add(BigDecimal.valueOf(0.5)))
         .setExpectation(twoToThe54, DOWN, FLOOR, HALF_DOWN, HALF_UP, HALF_EVEN)
         .setExpectation(Math.nextUp(twoToThe54), CEILING, UP)
         .roundUnnecessaryShouldThrow()
@@ -184,14 +184,14 @@ public class BigDecimalMathTest extends TestCase {
   }
 
   public void testRoundToDouble_maxDouble() {
-    BigDecimal maxDoubleAsBigDecimal = new BigDecimal(Double.MAX_VALUE);
+    BigDecimal maxDoubleAsBigDecimal = BigDecimal.valueOf(Double.MAX_VALUE);
     new RoundToDoubleTester(maxDoubleAsBigDecimal)
         .setExpectation(Double.MAX_VALUE, values())
         .test();
   }
 
   public void testRoundToDouble_maxDoublePlusOne() {
-    BigDecimal maxDoubleAsBigDecimal = new BigDecimal(Double.MAX_VALUE).add(BigDecimal.ONE);
+    BigDecimal maxDoubleAsBigDecimal = BigDecimal.valueOf(Double.MAX_VALUE).add(BigDecimal.ONE);
     new RoundToDoubleTester(maxDoubleAsBigDecimal)
         .setExpectation(Double.MAX_VALUE, DOWN, FLOOR, HALF_EVEN, HALF_UP, HALF_DOWN)
         .setExpectation(Double.POSITIVE_INFINITY, UP, CEILING)
@@ -252,14 +252,14 @@ public class BigDecimalMathTest extends TestCase {
   }
 
   public void testRoundToDouble_minDouble() {
-    BigDecimal minDoubleAsBigDecimal = new BigDecimal(-Double.MAX_VALUE);
+    BigDecimal minDoubleAsBigDecimal = BigDecimal.valueOf(-Double.MAX_VALUE);
     new RoundToDoubleTester(minDoubleAsBigDecimal)
         .setExpectation(-Double.MAX_VALUE, values())
         .test();
   }
 
   public void testRoundToDouble_minDoubleMinusOne() {
-    BigDecimal minDoubleAsBigDecimal = new BigDecimal(-Double.MAX_VALUE).subtract(BigDecimal.ONE);
+    BigDecimal minDoubleAsBigDecimal = BigDecimal.valueOf(-Double.MAX_VALUE).subtract(BigDecimal.ONE);
     new RoundToDoubleTester(minDoubleAsBigDecimal)
         .setExpectation(-Double.MAX_VALUE, DOWN, CEILING, HALF_EVEN, HALF_UP, HALF_DOWN)
         .setExpectation(Double.NEGATIVE_INFINITY, UP, FLOOR)

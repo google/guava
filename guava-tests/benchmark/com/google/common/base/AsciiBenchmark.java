@@ -169,6 +169,6 @@ public class AsciiBenchmark {
     for (int i = 0; i < newChars.length; i++) {
       newChars[i] = Ascii.toUpperCase(chars.charAt(i));
     }
-    return String.valueOf(newChars);
+    return new String(newChars);
   }
 }
