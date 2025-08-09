@@ -200,7 +200,11 @@ loadScripts(document, 'script');</script>
 <h3>ThreadFactoryBuilder</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">ThreadFactoryBuilder</span>()</div>
-<div class="block">Creates a new <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> builder.</div>
+<div class="block">Creates a new <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> builder.
+
+ <p><b>Java 21+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#ofPlatform()" title="class or interface in java.lang" class="external-link"><code>Thread.ofPlatform()</code></a> instead, translating other calls on
+ the builder as documented on each method (except for the rarely used <a href="#setThreadFactory(java.util.concurrent.ThreadFactory)"><code>setThreadFactory(java.util.concurrent.ThreadFactory)</code></a>,
+ which does not have an equivalent).</div>
 </div>
 </section>
 </li>
@@ -219,7 +223,13 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name">setNameFormat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;nameFormat)</span></div>
 <div class="block">Sets the naming format to use when naming threads (<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.html#setName(java.lang.String)" title="class or interface in java.lang" class="external-link"><code>Thread.setName(java.lang.String)</code></a>) which are created
- with this ThreadFactory.</div>
+ with this ThreadFactory.
+
+ <p><b>Java 21+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.Builder.html#name(java.lang.String,long)" title="class or interface in java.lang" class="external-link"><code>Thread.Builder.name(String, long)</code></a> instead. Note that
+ <a href="#setNameFormat(java.lang.String)"><code>setNameFormat(java.lang.String)</code></a> accepts a thread name <i>format string</i> (e.g., <code>
+ threadFactoryBuilder.setNameFormat("rpc-pool-%d")</code>), while <code>threadBuilder.name()</code> accepts
+ a thread name <i>prefix</i> and initial counter value (e.g., <code>
+ threadBuilder.name("rpc-pool-", 0)</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>nameFormat</code> - a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#format(java.lang.String,java.lang.Object...)" title="class or interface in java.lang" class="external-link"><code>String.format(String, Object...)</code></a>-compatible format String, to which
@@ -239,7 +249,9 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name">setDaemon</span><wbr><span class="parameters">(boolean&nbsp;daemon)</span></div>
-<div class="block">Sets daemon or not for new threads created with this ThreadFactory.</div>
+<div class="block">Sets daemon or not for new threads created with this ThreadFactory.
+
+ <p><b>Java 21+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.Builder.OfPlatform.html#daemon(boolean)" title="class or interface in java.lang" class="external-link"><code>Thread.Builder.OfPlatform.daemon(boolean)</code></a> instead.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>daemon</code> - whether or not new Threads created with this ThreadFactory will be daemon threads</dd>
@@ -257,7 +269,9 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name">setPriority</span><wbr><span class="parameters">(int&nbsp;priority)</span></div>
 <div class="block">Sets the priority for new threads created with this ThreadFactory.
 
- <p><b>Warning:</b> relying on the thread scheduler is <a href="http://errorprone.info/bugpattern/ThreadPriorityCheck">discouraged</a>.</div>
+ <p><b>Warning:</b> relying on the thread scheduler is <a href="http://errorprone.info/bugpattern/ThreadPriorityCheck">discouraged</a>.
+
+ <p><b>Java 21+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.Builder.OfPlatform.html#priority(int)" title="class or interface in java.lang" class="external-link"><code>Thread.Builder.OfPlatform.priority(int)</code></a> instead.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>priority</code> - the priority for new Threads created with this ThreadFactory</dd>
@@ -273,7 +287,9 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name">setUncaughtExceptionHandler</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link">Thread.UncaughtExceptionHandler</a>&nbsp;uncaughtExceptionHandler)</span></div>
-<div class="block">Sets the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link"><code>Thread.UncaughtExceptionHandler</code></a> for new threads created with this ThreadFactory.</div>
+<div class="block">Sets the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.UncaughtExceptionHandler.html" title="class or interface in java.lang" class="external-link"><code>Thread.UncaughtExceptionHandler</code></a> for new threads created with this ThreadFactory.
+
+ <p><b>Java 21+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.Builder.html#uncaughtExceptionHandler(java.lang.Thread.UncaughtExceptionHandler)" title="class or interface in java.lang" class="external-link"><code>Thread.Builder.uncaughtExceptionHandler(Thread.UncaughtExceptionHandler)</code></a> instead.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>uncaughtExceptionHandler</code> - the uncaught exception handler for new Threads created with
@@ -315,7 +331,9 @@ loadScripts(document, 'script');</script>
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link">ThreadFactory</a></span>&nbsp;<span class="element-name">build</span>()</div>
 <div class="block">Returns a new thread factory using the options supplied during the building process. After
  building, it is still possible to change the options used to build the ThreadFactory and/or
- build again. State is not shared amongst built instances.</div>
+ build again. State is not shared amongst built instances.
+
+ <p><b>Java 21+ users:</b> use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Thread.Builder.html#factory()" title="class or interface in java.lang" class="external-link"><code>Thread.Builder.factory()</code></a> instead.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>the fully constructed <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a></dd>
