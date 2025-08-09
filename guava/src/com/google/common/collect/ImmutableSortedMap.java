@@ -807,7 +807,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
 
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
-    class EntrySet extends ImmutableMapEntrySet<K, V> {
+    final class EntrySet extends ImmutableMapEntrySet<K, V> {
       @Override
       public UnmodifiableIterator<Entry<K, V>> iterator() {
         return asList().iterator();

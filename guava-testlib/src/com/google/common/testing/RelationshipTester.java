@@ -36,11 +36,8 @@ import org.jspecify.annotations.NullMarked;
 @GwtCompatible
 @NullMarked
 final class RelationshipTester<T> {
-
-  static class ItemReporter {
-    String reportItem(Item<?> item) {
-      return item.toString();
-    }
+  interface ItemReporter {
+    String reportItem(Item<?> item);
   }
 
   /**

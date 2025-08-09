@@ -696,7 +696,7 @@ public final class Maps {
     }
   }
 
-  static class ValueDifferenceImpl<V extends @Nullable Object>
+  static final class ValueDifferenceImpl<V extends @Nullable Object>
       implements MapDifference.ValueDifference<V> {
     @ParametricNullness private final V left;
     @ParametricNullness private final V right;
@@ -744,7 +744,7 @@ public final class Maps {
     }
   }
 
-  private static class SortedMapDifferenceImpl<
+  private static final class SortedMapDifferenceImpl<
           K extends @Nullable Object, V extends @Nullable Object>
       extends MapDifferenceImpl<K, V> implements SortedMapDifference<K, V> {
     SortedMapDifferenceImpl(
@@ -941,7 +941,7 @@ public final class Maps {
     @Override
     protected Set<Entry<K, V>> createEntrySet() {
       @WeakOuter
-      class EntrySetImpl extends EntrySet<K, V> {
+      final class EntrySetImpl extends EntrySet<K, V> {
         @Override
         Map<K, V> map() {
           return AsMapView.this;
@@ -1538,7 +1538,8 @@ public final class Maps {
   }
 
   /** The implementation of {@link Maps#unmodifiableEntrySet(Set)}. */
-  private static class UnmodifiableEntrySet<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class UnmodifiableEntrySet<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableEntries<K, V> implements Set<Entry<K, V>> {
     UnmodifiableEntrySet(Set<Entry<K, V>> entries) {
       super(entries);
@@ -3044,7 +3045,7 @@ public final class Maps {
     }
 
     @WeakOuter
-    class SortedKeySet extends KeySet implements SortedSet<K> {
+    final class SortedKeySet extends KeySet implements SortedSet<K> {
       @Override
       public @Nullable Comparator<? super K> comparator() {
         return sortedMap().comparator();
@@ -3339,7 +3340,7 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  private static class UnmodifiableNavigableMap<
+  private static final class UnmodifiableNavigableMap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingSortedMap<K, V> implements NavigableMap<K, V>, Serializable {
     private final NavigableMap<K, ? extends V> delegate;
@@ -4197,7 +4198,7 @@ public final class Maps {
 
     Set<Entry<K, V>> createEntrySet() {
       @WeakOuter
-      class EntrySetImpl extends EntrySet<K, V> {
+      final class EntrySetImpl extends EntrySet<K, V> {
         @Override
         Map<K, V> map() {
           return DescendingMap.this;

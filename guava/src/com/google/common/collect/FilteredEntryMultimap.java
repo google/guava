@@ -172,7 +172,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @WeakOuter
-  private class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
+  private final class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
     @Override
     public boolean containsKey(@Nullable Object key) {
       return get(key) != null;
@@ -224,7 +224,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     @Override
     Set<K> createKeySet() {
       @WeakOuter
-      class KeySetImpl extends Maps.KeySet<K, Collection<V>> {
+      final class KeySetImpl extends Maps.KeySet<K, Collection<V>> {
         KeySetImpl() {
           super(AsMap.this);
         }
@@ -250,7 +250,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     @Override
     Set<Entry<K, Collection<V>>> createEntrySet() {
       @WeakOuter
-      class EntrySetImpl extends Maps.EntrySet<K, Collection<V>> {
+      final class EntrySetImpl extends Maps.EntrySet<K, Collection<V>> {
         @Override
         Map<K, Collection<V>> map() {
           return AsMap.this;
@@ -299,7 +299,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     @Override
     Collection<Collection<V>> createValues() {
       @WeakOuter
-      class ValuesImpl extends Maps.Values<K, Collection<V>> {
+      final class ValuesImpl extends Maps.Values<K, Collection<V>> {
         ValuesImpl() {
           super(AsMap.this);
         }
@@ -353,7 +353,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @WeakOuter
-  class Keys extends Multimaps.Keys<K, V> {
+  final class Keys extends Multimaps.Keys<K, V> {
     Keys() {
       super(FilteredEntryMultimap.this);
     }

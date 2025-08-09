@@ -145,7 +145,7 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
   }
 
   @WeakOuter
-  class ElementSet extends Multisets.ElementSet<E> {
+  final class ElementSet extends Multisets.ElementSet<E> {
     @Override
     Multiset<E> multiset() {
       return AbstractMultiset.this;

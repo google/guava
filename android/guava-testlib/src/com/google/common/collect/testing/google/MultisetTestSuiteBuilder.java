@@ -163,7 +163,7 @@ public class MultisetTestSuiteBuilder<E>
         .createTestSuite();
   }
 
-  static class ElementSetGenerator<E> implements TestSetGenerator<E> {
+  static final class ElementSetGenerator<E> implements TestSetGenerator<E> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     ElementSetGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {
@@ -196,7 +196,7 @@ public class MultisetTestSuiteBuilder<E>
     }
   }
 
-  private static class EntrySetGenerator<E> implements TestSetGenerator<Multiset.Entry<E>> {
+  private static final class EntrySetGenerator<E> implements TestSetGenerator<Multiset.Entry<E>> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     private EntrySetGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {
@@ -255,7 +255,7 @@ public class MultisetTestSuiteBuilder<E>
     }
   }
 
-  private static class ReserializedMultisetGenerator<E> implements TestMultisetGenerator<E> {
+  private static final class ReserializedMultisetGenerator<E> implements TestMultisetGenerator<E> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     private ReserializedMultisetGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {

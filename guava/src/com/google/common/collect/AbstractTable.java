@@ -130,7 +130,7 @@ abstract class AbstractTable<
   abstract Spliterator<Table.Cell<R, C, V>> cellSpliterator();
 
   @WeakOuter
-  private class CellSet extends AbstractSet<Cell<R, C, V>> {
+  private final class CellSet extends AbstractSet<Cell<R, C, V>> {
     @Override
     public boolean contains(@Nullable Object o) {
       if (o instanceof Cell) {
@@ -203,7 +203,7 @@ abstract class AbstractTable<
   }
 
   @WeakOuter
-  private class Values extends AbstractCollection<V> {
+  private final class Values extends AbstractCollection<V> {
     @Override
     public Iterator<V> iterator() {
       return valuesIterator();

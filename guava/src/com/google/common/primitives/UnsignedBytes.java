@@ -295,7 +295,7 @@ public final class UnsignedBytes {
    * available.
    */
   @VisibleForTesting
-  static class LexicographicalComparatorHolder {
+  static final class LexicographicalComparatorHolder {
     static final String UNSAFE_COMPARATOR_NAME =
         LexicographicalComparatorHolder.class.getName() + "$UnsafeComparator";
 

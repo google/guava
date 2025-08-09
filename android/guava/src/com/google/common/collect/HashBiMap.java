@@ -950,7 +950,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return (result == null) ? inverse = new Inverse<K, V>(this) : result;
   }
 
-  private static class Inverse<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class Inverse<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMap<V, K> implements BiMap<V, K>, Serializable {
     private final HashBiMap<K, V> forward;
 
@@ -1031,7 +1031,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  private static class InverseEntrySet<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class InverseEntrySet<K extends @Nullable Object, V extends @Nullable Object>
       extends View<K, V, Entry<V, K>> {
     InverseEntrySet(HashBiMap<K, V> biMap) {
       super(biMap);

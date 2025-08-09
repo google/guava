@@ -16,6 +16,7 @@
 
 package com.google.common.testing;
 
+import com.google.common.testing.RelationshipTester.Item;
 import com.google.common.testing.RelationshipTester.ItemReporter;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -27,10 +28,9 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @NullUnmarked
 public class RelationshipTesterTest extends TestCase {
-
   public void testNulls() {
     new ClassSanityTester()
-        .setDefault(ItemReporter.class, new ItemReporter())
+        .setDefault(ItemReporter.class, /* itemReporter */ Item::toString)
         .testNulls(RelationshipTester.class);
   }
 }

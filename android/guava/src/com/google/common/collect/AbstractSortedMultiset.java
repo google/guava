@@ -127,7 +127,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   SortedMultiset<E> createDescendingMultiset() {
     @WeakOuter
-    class DescendingMultisetImpl extends DescendingMultiset<E> {
+    final class DescendingMultisetImpl extends DescendingMultiset<E> {
       @Override
       SortedMultiset<E> forwardMultiset() {
         return AbstractSortedMultiset.this;

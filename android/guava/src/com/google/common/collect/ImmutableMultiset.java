@@ -414,7 +414,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
 
   @GwtIncompatible
   @J2ktIncompatible
-  private static class EntrySetSerializedForm<E> implements Serializable {
+  private static final class EntrySetSerializedForm<E> implements Serializable {
     final ImmutableMultiset<E> multiset;
 
     EntrySetSerializedForm(ImmutableMultiset<E> multiset) {

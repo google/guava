@@ -30,7 +30,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 @NullMarked
-class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectCountHashMap<K> {
+final class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectCountHashMap<K> {
   /** Creates an empty {@code ObjectCountLinkedHashMap} instance. */
   static <K extends @Nullable Object> ObjectCountLinkedHashMap<K> create() {
     return new ObjectCountLinkedHashMap<K>();

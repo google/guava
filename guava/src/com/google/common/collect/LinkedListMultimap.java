@@ -708,7 +708,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   @Override
   Set<K> createKeySet() {
     @WeakOuter
-    class KeySetImpl extends Sets.ImprovedAbstractSet<K> {
+    final class KeySetImpl extends Sets.ImprovedAbstractSet<K> {
       @Override
       public int size() {
         return keyToKeyList.size();
@@ -753,7 +753,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   @Override
   List<V> createValues() {
     @WeakOuter
-    class ValuesImpl extends AbstractSequentialList<V> {
+    final class ValuesImpl extends AbstractSequentialList<V> {
       @Override
       public int size() {
         return size;
@@ -803,7 +803,7 @@ public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable 
   @Override
   List<Entry<K, V>> createEntries() {
     @WeakOuter
-    class EntriesImpl extends AbstractSequentialList<Entry<K, V>> {
+    final class EntriesImpl extends AbstractSequentialList<Entry<K, V>> {
       @Override
       public int size() {
         return size;

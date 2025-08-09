@@ -557,7 +557,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
    * <p>Expiration is only checked on hasNext(), so as to ensure that a next() call never returns
    * null when hasNext() has already been called.
    */
-  private class EntryIterator implements Iterator<Entry<K, V>> {
+  private final class EntryIterator implements Iterator<Entry<K, V>> {
     Iterator<Entry<K, Timestamped<V>>> iterator;
     Entry<K, Timestamped<V>> lastEntry;
     Entry<K, Timestamped<V>> nextEntry;

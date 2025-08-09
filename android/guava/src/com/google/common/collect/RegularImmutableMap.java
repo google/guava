@@ -377,7 +377,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return new EntrySet<>(this, alternatingKeysAndValues, 0, size);
   }
 
-  static class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
+  static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     private final transient ImmutableMap<K, V> map;
     private final transient @Nullable Object[] alternatingKeysAndValues;
     private final transient int keyOffset;

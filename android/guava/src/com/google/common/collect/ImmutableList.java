@@ -392,7 +392,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   private static final UnmodifiableListIterator<Object> EMPTY_ITR =
       new Itr<Object>(RegularImmutableList.EMPTY, 0);
 
-  private static class Itr<E> extends AbstractIndexedListIterator<E> {
+  private static final class Itr<E> extends AbstractIndexedListIterator<E> {
     private final ImmutableList<E> list;
 
     Itr(ImmutableList<E> list, int index) {
@@ -455,7 +455,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return new SubList(fromIndex, toIndex - fromIndex);
   }
 
-  private class SubList extends ImmutableList<E> {
+  private final class SubList extends ImmutableList<E> {
     final transient int offset;
     final transient int length;
 
@@ -692,7 +692,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * implementation types do not leak into the serialized representation.
    */
   @J2ktIncompatible // serialization
-  static class SerializedForm implements Serializable {
+  static final class SerializedForm implements Serializable {
     final Object[] elements;
 
     SerializedForm(Object[] elements) {

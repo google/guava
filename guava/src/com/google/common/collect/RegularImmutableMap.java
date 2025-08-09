@@ -255,7 +255,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     return null;
   }
 
-  static class BucketOverflowException extends Exception {}
+  static final class BucketOverflowException extends Exception {}
 
   @Override
   public @Nullable V get(@Nullable Object key) {

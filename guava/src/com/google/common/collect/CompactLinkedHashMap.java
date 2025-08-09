@@ -230,7 +230,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
   @Override
   Set<Entry<K, V>> createEntrySet() {
     @WeakOuter
-    class EntrySetImpl extends EntrySetView {
+    final class EntrySetImpl extends EntrySetView {
       @Override
       public Spliterator<Entry<K, V>> spliterator() {
         return Spliterators.spliterator(this, Spliterator.ORDERED | Spliterator.DISTINCT);
@@ -242,7 +242,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
   @Override
   Set<K> createKeySet() {
     @WeakOuter
-    class KeySetImpl extends KeySetView {
+    final class KeySetImpl extends KeySetView {
       @Override
       public @Nullable Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);
@@ -265,7 +265,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
   @Override
   Collection<V> createValues() {
     @WeakOuter
-    class ValuesImpl extends ValuesView {
+    final class ValuesImpl extends ValuesView {
       @Override
       public @Nullable Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);

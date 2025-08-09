@@ -112,7 +112,7 @@ final class FuturesGetChecked {
    *
    * <p>Uses reflection to gracefully fall back to when certain implementations aren't available.
    */
-  private static class GetCheckedTypeValidatorHolder {
+  private static final class GetCheckedTypeValidatorHolder {
     static final String CLASS_VALUE_VALIDATOR_NAME =
         GetCheckedTypeValidatorHolder.class.getName() + "$ClassValueValidator";
 

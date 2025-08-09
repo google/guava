@@ -468,7 +468,8 @@ public final class Streams {
               isParallel)
           .onClose(stream::close);
     }
-    class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr> implements Consumer<T> {
+    final class Splitr extends MapWithIndexSpliterator<Spliterator<T>, R, Splitr>
+        implements Consumer<T> {
       @Nullable T holder;
 
       Splitr(Spliterator<T> splitr, long index) {
@@ -551,7 +552,7 @@ public final class Streams {
               isParallel)
           .onClose(stream::close);
     }
-    class Splitr extends MapWithIndexSpliterator<Spliterator.OfInt, R, Splitr>
+    final class Splitr extends MapWithIndexSpliterator<Spliterator.OfInt, R, Splitr>
         implements IntConsumer {
       int holder;
 
@@ -630,7 +631,7 @@ public final class Streams {
               isParallel)
           .onClose(stream::close);
     }
-    class Splitr extends MapWithIndexSpliterator<Spliterator.OfLong, R, Splitr>
+    final class Splitr extends MapWithIndexSpliterator<Spliterator.OfLong, R, Splitr>
         implements LongConsumer {
       long holder;
 
@@ -709,7 +710,7 @@ public final class Streams {
               isParallel)
           .onClose(stream::close);
     }
-    class Splitr extends MapWithIndexSpliterator<Spliterator.OfDouble, R, Splitr>
+    final class Splitr extends MapWithIndexSpliterator<Spliterator.OfDouble, R, Splitr>
         implements DoubleConsumer {
       double holder;
 
@@ -861,7 +862,7 @@ public final class Streams {
    * element in the prior one.")
    */
   public static <T> java.util.Optional<T> findLast(Stream<T> stream) {
-    class OptionalState {
+    final class OptionalState {
       boolean set = false;
       @Nullable T value = null;
 

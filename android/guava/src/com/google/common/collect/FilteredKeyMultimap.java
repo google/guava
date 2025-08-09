@@ -111,7 +111,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
     }
   }
 
-  private static class AddRejectingSet<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class AddRejectingSet<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingSet<V> {
     @ParametricNullness final K key;
 
@@ -136,7 +136,8 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
     }
   }
 
-  private static class AddRejectingList<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class AddRejectingList<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingList<V> {
     @ParametricNullness final K key;
 

@@ -216,7 +216,7 @@ public abstract class AbstractScheduledService implements Service {
     private final ReentrantLock lock = new ReentrantLock();
 
     @WeakOuter
-    class Task implements Runnable {
+    final class Task implements Runnable {
       @Override
       public void run() {
         lock.lock();
@@ -366,7 +366,7 @@ public abstract class AbstractScheduledService implements Service {
    */
   protected ScheduledExecutorService executor() {
     @WeakOuter
-    class ThreadFactoryImpl implements ThreadFactory {
+    final class ThreadFactoryImpl implements ThreadFactory {
       @Override
       public Thread newThread(Runnable runnable) {
         return MoreExecutors.newThread(serviceName(), runnable);

@@ -473,7 +473,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return new SubList(fromIndex, toIndex - fromIndex);
   }
 
-  private class SubList extends ImmutableList<E> {
+  private final class SubList extends ImmutableList<E> {
     final transient int offset;
     final transient int length;
 
@@ -726,7 +726,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * implementation types do not leak into the serialized representation.
    */
   @J2ktIncompatible // serialization
-  static class SerializedForm implements Serializable {
+  static final class SerializedForm implements Serializable {
     final Object[] elements;
 
     SerializedForm(Object[] elements) {

@@ -759,7 +759,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     @Override
     ImmutableSet<Entry<K, V>> createEntrySet() {
-      class EntrySetImpl extends ImmutableMapEntrySet<K, V> {
+      final class EntrySetImpl extends ImmutableMapEntrySet<K, V> {
         @Override
         ImmutableMap<K, V> map() {
           return IteratorBasedImmutableMap.this;

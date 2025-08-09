@@ -208,7 +208,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     return new MapEntry(index);
   }
 
-  private class MapEntry extends AbstractEntry<K> {
+  private final class MapEntry extends AbstractEntry<K> {
     @ParametricNullness final K key;
 
     int lastKnownIndex;

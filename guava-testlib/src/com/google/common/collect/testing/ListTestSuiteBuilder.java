@@ -123,7 +123,7 @@ public final class ListTestSuiteBuilder<E>
     return derivedSuites;
   }
 
-  private static class ReserializedListGenerator<E> implements TestListGenerator<E> {
+  private static final class ReserializedListGenerator<E> implements TestListGenerator<E> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     private ReserializedListGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {

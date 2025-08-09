@@ -53,7 +53,7 @@ final class CollectSpliterators {
     if (comparator != null) {
       checkArgument((extraCharacteristics & Spliterator.SORTED) != 0);
     }
-    class WithCharacteristics implements Spliterator<T> {
+    final class WithCharacteristics implements Spliterator<T> {
       private final Spliterator.OfInt delegate;
 
       WithCharacteristics(Spliterator.OfInt delegate) {
@@ -148,7 +148,7 @@ final class CollectSpliterators {
       Spliterator<T> fromSpliterator, Predicate<? super T> predicate) {
     checkNotNull(fromSpliterator);
     checkNotNull(predicate);
-    class Splitr implements Spliterator<T>, Consumer<T> {
+    final class Splitr implements Spliterator<T>, Consumer<T> {
       @Nullable T holder = null;
 
       @Override

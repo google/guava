@@ -603,7 +603,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
   /** Set decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  class WrappedSet extends WrappedCollection implements Set<V> {
+  final class WrappedSet extends WrappedCollection implements Set<V> {
     WrappedSet(@ParametricNullness K key, Set<V> delegate) {
       super(key, delegate, null);
     }
@@ -688,7 +688,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   @WeakOuter
-  class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
+  final class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
     WrappedNavigableSet(
         @ParametricNullness K key, NavigableSet<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
@@ -1415,7 +1415,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @WeakOuter
-    class AsMapEntries extends Maps.EntrySet<K, Collection<V>> {
+    final class AsMapEntries extends Maps.EntrySet<K, Collection<V>> {
       @Override
       Map<K, Collection<V>> map() {
         return AsMap.this;
@@ -1451,7 +1451,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     /** Iterator across all keys and value collections. */
-    class AsMapIterator implements Iterator<Entry<K, Collection<V>>> {
+    final class AsMapIterator implements Iterator<Entry<K, Collection<V>>> {
       final Iterator<Entry<K, Collection<V>>> delegateIterator = submap.entrySet().iterator();
       @Nullable Collection<V> collection;
 
