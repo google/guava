@@ -140,7 +140,7 @@ public class TreeMultisetTest extends TestCase {
   }
 
   public void testCreateWithComparator() {
-    Multiset<String> multiset = TreeMultiset.create(Collections.reverseOrder());
+    Multiset<String> multiset = TreeMultiset.create(Comparator.reverseOrder());
     multiset.add("foo", 2);
     multiset.add("bar");
     assertEquals(3, multiset.size());

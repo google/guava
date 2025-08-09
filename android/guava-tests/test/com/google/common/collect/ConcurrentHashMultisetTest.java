@@ -337,8 +337,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
     ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
 
-    String s1 = new String("a");
-    String s2 = new String("a");
+    String s1 = "a";
+    String s2 = "a";
     assertEquals(s1, s2); // Stating the obvious.
     assertTrue(s1 != s2); // Stating the obvious.
 
@@ -373,8 +373,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
 
     ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
 
-    String s1 = new String("a");
-    String s2 = new String("a");
+    String s1 = "a";
+    String s2 = "a";
     assertEquals(s1, s2); // Stating the obvious.
 
     multiset.add(s1);
@@ -419,8 +419,8 @@ public class ConcurrentHashMultisetTest extends TestCase {
     ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
     multiset = reserializeAndAssert(multiset);
 
-    String s1 = new String("a");
-    String s2 = new String("a");
+    String s1 = "a";
+    String s2 = "a";
     assertEquals(s1, s2); // Stating the obvious.
     assertTrue(s1 != s2); // Stating the obvious.
 

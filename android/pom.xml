@@ -38,7 +38,6 @@
       --add-opens java.base/java.util=ALL-UNNAMED
       --add-opens java.base/sun.security.jca=ALL-UNNAMED
     </test.add.opens>
-    <test.add.args></test.add.args>
     <module.status>integration</module.status>
     <variant.jvmEnvironment>android</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>android</variant.jvmEnvironmentVariantName>
@@ -322,7 +321,7 @@
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.opens}</argLine>
           </configuration>
         </plugin>
         <plugin>
@@ -505,9 +504,6 @@
           <value>1.8</value>
         </property>
       </activation>
-      <properties>
-        <test.add.opens></test.add.opens>
-      </properties>
     </profile>
     <profile>
       <id>suppress-open-jre-modules-for-toolchain-8</id>
@@ -518,9 +514,6 @@
           <value>8</value>
         </property>
       </activation>
-      <properties>
-        <test.add.opens></test.add.opens>
-      </properties>
     </profile>
     <!-- JDiff and the Gradle integration tests need Java 11 to be installed, and they need to know where it's located so that they can set JAVA_HOME to point to it. The following profile downloads a temurin Java 11 (if one isn't already available) and writes its location to target/java_11_home. This lets our JDiff and Gradle-integration-test scripts invoke the `print-java-11-home` profile and then read that file. -->
     <profile>

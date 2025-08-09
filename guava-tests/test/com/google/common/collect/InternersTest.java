@@ -37,7 +37,7 @@ public class InternersTest extends TestCase {
 
   public void testStrong_simplistic() {
     String canonical = "a";
-    String not = new String("a");
+    String not = "a";
 
     Interner<String> pool = Interners.newStrongInterner();
     assertSame(canonical, pool.intern(canonical));
@@ -59,7 +59,7 @@ public class InternersTest extends TestCase {
 
   public void testWeak_simplistic() {
     String canonical = "a";
-    String not = new String("a");
+    String not = "a";
 
     Interner<String> pool = Interners.newWeakInterner();
     assertSame(canonical, pool.intern(canonical));
@@ -97,7 +97,7 @@ public class InternersTest extends TestCase {
 
   public void testAsFunction_simplistic() {
     String canonical = "a";
-    String not = new String("a");
+    String not = "a";
 
     Function<String, String> internerFunction =
         Interners.asFunction(Interners.<String>newStrongInterner());

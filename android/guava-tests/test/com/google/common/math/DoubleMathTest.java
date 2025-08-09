@@ -87,7 +87,7 @@ public class DoubleMathTest extends TestCase {
   public void testRoundIntegralDoubleToInt() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
-        BigDecimal expected = new BigDecimal(d).setScale(0, mode);
+        BigDecimal expected = BigDecimal.valueOf(d).setScale(0, mode);
         boolean isInBounds =
             expected.compareTo(MAX_INT_AS_BIG_DECIMAL) <= 0
                 & expected.compareTo(MIN_INT_AS_BIG_DECIMAL) >= 0;
@@ -106,7 +106,7 @@ public class DoubleMathTest extends TestCase {
   public void testRoundFractionalDoubleToInt() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
-        BigDecimal expected = new BigDecimal(d).setScale(0, mode);
+        BigDecimal expected = BigDecimal.valueOf(d).setScale(0, mode);
         boolean isInBounds =
             expected.compareTo(MAX_INT_AS_BIG_DECIMAL) <= 0
                 & expected.compareTo(MIN_INT_AS_BIG_DECIMAL) >= 0;
@@ -127,7 +127,7 @@ public class DoubleMathTest extends TestCase {
   @GwtIncompatible // DoubleMath.roundToInt(double, RoundingMode)
   public void testRoundExactIntegralDoubleToInt() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
-      BigDecimal expected = new BigDecimal(d).setScale(0, UNNECESSARY);
+      BigDecimal expected = BigDecimal.valueOf(d).setScale(0, UNNECESSARY);
       boolean isInBounds =
           expected.compareTo(MAX_INT_AS_BIG_DECIMAL) <= 0
               & expected.compareTo(MIN_INT_AS_BIG_DECIMAL) >= 0;
@@ -169,7 +169,7 @@ public class DoubleMathTest extends TestCase {
   public void testRoundIntegralDoubleToLong() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
-        BigDecimal expected = new BigDecimal(d).setScale(0, mode);
+        BigDecimal expected = BigDecimal.valueOf(d).setScale(0, mode);
         boolean isInBounds =
             expected.compareTo(MAX_LONG_AS_BIG_DECIMAL) <= 0
                 & expected.compareTo(MIN_LONG_AS_BIG_DECIMAL) >= 0;
@@ -188,7 +188,7 @@ public class DoubleMathTest extends TestCase {
   public void testRoundFractionalDoubleToLong() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
-        BigDecimal expected = new BigDecimal(d).setScale(0, mode);
+        BigDecimal expected = BigDecimal.valueOf(d).setScale(0, mode);
         boolean isInBounds =
             expected.compareTo(MAX_LONG_AS_BIG_DECIMAL) <= 0
                 & expected.compareTo(MIN_LONG_AS_BIG_DECIMAL) >= 0;
@@ -207,7 +207,7 @@ public class DoubleMathTest extends TestCase {
   public void testRoundExactIntegralDoubleToLong() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       // every mode except UNNECESSARY
-      BigDecimal expected = new BigDecimal(d).setScale(0, UNNECESSARY);
+      BigDecimal expected = BigDecimal.valueOf(d).setScale(0, UNNECESSARY);
       boolean isInBounds =
           expected.compareTo(MAX_LONG_AS_BIG_DECIMAL) <= 0
               & expected.compareTo(MIN_LONG_AS_BIG_DECIMAL) >= 0;
@@ -249,7 +249,7 @@ public class DoubleMathTest extends TestCase {
   public void testRoundIntegralDoubleToBigInteger() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
-        BigDecimal expected = new BigDecimal(d).setScale(0, mode);
+        BigDecimal expected = BigDecimal.valueOf(d).setScale(0, mode);
         assertEquals(expected.toBigInteger(), DoubleMath.roundToBigInteger(d, mode));
       }
     }
@@ -259,7 +259,7 @@ public class DoubleMathTest extends TestCase {
   public void testRoundFractionalDoubleToBigInteger() {
     for (double d : FRACTIONAL_DOUBLE_CANDIDATES) {
       for (RoundingMode mode : ALL_SAFE_ROUNDING_MODES) {
-        BigDecimal expected = new BigDecimal(d).setScale(0, mode);
+        BigDecimal expected = BigDecimal.valueOf(d).setScale(0, mode);
         assertEquals(expected.toBigInteger(), DoubleMath.roundToBigInteger(d, mode));
       }
     }
@@ -268,7 +268,7 @@ public class DoubleMathTest extends TestCase {
   @GwtIncompatible // DoubleMath.roundToBigInteger(double, RoundingMode)
   public void testRoundExactIntegralDoubleToBigInteger() {
     for (double d : INTEGRAL_DOUBLE_CANDIDATES) {
-      BigDecimal expected = new BigDecimal(d).setScale(0, UNNECESSARY);
+      BigDecimal expected = BigDecimal.valueOf(d).setScale(0, UNNECESSARY);
       assertEquals(expected.toBigInteger(), DoubleMath.roundToBigInteger(d, UNNECESSARY));
     }
   }

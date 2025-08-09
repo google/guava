@@ -72,7 +72,7 @@ public class BigDecimalMath {
 
     @Override
     BigDecimal toX(double d, RoundingMode mode) {
-      return new BigDecimal(d);
+      return BigDecimal.valueOf(d);
     }
 
     @Override

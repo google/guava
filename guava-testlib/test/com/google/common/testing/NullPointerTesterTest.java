@@ -452,7 +452,7 @@ public class NullPointerTesterTest extends TestCase {
     for (TwoArg.Action first : TwoArg.Action.values()) {
       for (TwoArg.Action second : TwoArg.Action.values()) {
         TwoArg bar = new TwoArg(first, second);
-        if (first.equals(TwoArg.Action.THROW_A_NPE) && second.equals(TwoArg.Action.THROW_A_NPE)) {
+        if (first == TwoArg.Action.THROW_A_NPE && second == TwoArg.Action.THROW_A_NPE) {
           verifyBarPass(method, bar); // require both params to throw NPE
         } else {
           verifyBarFail(method, bar);
@@ -466,7 +466,7 @@ public class NullPointerTesterTest extends TestCase {
     for (TwoArg.Action first : TwoArg.Action.values()) {
       for (TwoArg.Action second : TwoArg.Action.values()) {
         TwoArg bar = new TwoArg(first, second);
-        if (first.equals(TwoArg.Action.THROW_A_NPE)) {
+        if (first == TwoArg.Action.THROW_A_NPE) {
           verifyBarPass(method, bar); // only pass if 1st param throws NPE
         } else {
           verifyBarFail(method, bar);
@@ -480,7 +480,7 @@ public class NullPointerTesterTest extends TestCase {
     for (TwoArg.Action first : TwoArg.Action.values()) {
       for (TwoArg.Action second : TwoArg.Action.values()) {
         TwoArg bar = new TwoArg(first, second);
-        if (second.equals(TwoArg.Action.THROW_A_NPE)) {
+        if (second == TwoArg.Action.THROW_A_NPE) {
           verifyBarPass(method, bar); // only pass if 2nd param throws NPE
         } else {
           verifyBarFail(method, bar);

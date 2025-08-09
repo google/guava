@@ -29,7 +29,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.DerivedComparable;
 import com.google.common.testing.NullPointerTester;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
@@ -78,7 +78,7 @@ public class MultisetsTest extends TestCase {
   }
 
   public void testNewTreeMultisetComparator() {
-    TreeMultiset<String> multiset = TreeMultiset.create(Collections.reverseOrder());
+    TreeMultiset<String> multiset = TreeMultiset.create(Comparator.reverseOrder());
     multiset.add("bar", 3);
     multiset.add("foo", 2);
     assertThat(multiset).containsExactly("foo", "foo", "bar", "bar", "bar").inOrder();
