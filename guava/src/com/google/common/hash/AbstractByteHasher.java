@@ -24,6 +24,7 @@ import com.google.common.primitives.Shorts;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Abstract {@link Hasher} that handles converting primitives to bytes using a scratch {@code
@@ -32,7 +33,7 @@ import java.nio.ByteOrder;
  * @author Colin Decker
  */
 abstract class AbstractByteHasher extends AbstractHasher {
-  private final ByteBuffer scratch = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
+  private @Nullable ByteBuffer scratch;
 
   /** Updates this hasher with the given byte. */
   protected abstract void update(byte b);
@@ -62,8 +63,9 @@ abstract class AbstractByteHasher extends AbstractHasher {
   }
 
   /** Updates the sink with the given number of bytes from the buffer. */
+  @SuppressWarnings("ByteBufferBackingArray") // We created the array with ByteBuffer.allocate().
   @CanIgnoreReturnValue
-  private Hasher update(int bytes) {
+  private Hasher update(ByteBuffer scratch, int bytes) {
     try {
       update(scratch.array(), 0, bytes);
     } finally {
@@ -105,28 +107,39 @@ abstract class AbstractByteHasher extends AbstractHasher {
   @Override
   @CanIgnoreReturnValue
   public Hasher putShort(short s) {
+    ByteBuffer scratch = scratch();
     scratch.putShort(s);
-    return update(Shorts.BYTES);
+    return update(scratch, Shorts.BYTES);
   }
 
   @Override
   @CanIgnoreReturnValue
   public Hasher putInt(int i) {
+    ByteBuffer scratch = scratch();
     scratch.putInt(i);
-    return update(Ints.BYTES);
+    return update(scratch, Ints.BYTES);
   }
 
   @Override
   @CanIgnoreReturnValue
   public Hasher putLong(long l) {
+    ByteBuffer scratch = scratch();
     scratch.putLong(l);
-    return update(Longs.BYTES);
+    return update(scratch, Longs.BYTES);
   }
 
   @Override
   @CanIgnoreReturnValue
   public Hasher putChar(char c) {
+    ByteBuffer scratch = scratch();
     scratch.putChar(c);
-    return update(Chars.BYTES);
+    return update(scratch, Chars.BYTES);
+  }
+
+  private ByteBuffer scratch() {
+    if (scratch == null) {
+      scratch = ByteBuffer.allocate(8).order(ByteOrder.LITTLE_ENDIAN);
+    }
+    return scratch;
   }
 }
