@@ -51,10 +51,16 @@ jobs:
           cache: 'maven'
       - name: 'Install'
         shell: bash
-        run: ./mvnw -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dtoolchain.skip install -U -DskipTests=true -f $ROOT_POM
+        run: ./mvnw -DrewriteSkip=true -B -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn -Dtoolchain.skip install -U -DskipTests=true -f $ROOT_POM
       - name: 'Test'
         shell: bash
-        run: ./mvnw -B -P!standard-with-extra-repos -Dtoolchain.skip verify -U -Dmaven.javadoc.skip=true -Dsurefire.toolchain.version=${{ matrix.java }} -f $ROOT_POM
+        run: ./mvnw -DrewriteSkip=true -B -P!standard-with-extra-repos -Dtoolchain.skip verify -U -Dmaven.javadoc.skip=true -Dsurefire.toolchain.version=${{ matrix.java }} -f $ROOT_POM
+#     Apple M2 (4E+4P+10GPU 8GB)
+#     Total time:  44.504 s
+#     TODO: consider switch invert, executing on CI only (if acceptable build time).
+#      - name: 'Rewrite'
+#        shell: bash
+#        run: ./mvnw rewrite:dryRun -B -P!standard-with-extra-repos -Dtoolchain.skip -U -Dmaven.javadoc.skip=true -Dsurefire.toolchain.version=${{ matrix.java }} -f $ROOT_POM
       - name: 'Print Surefire reports'
         # Note: Normally a step won't run if the job has failed, but this causes it to
         if: ${{ failure() }}

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.guava</groupId>
@@ -11,6 +11,59 @@
   <name>Guava Maven Parent</name>
   <description>Parent for guava artifacts</description>
   <url>https://github.com/google/guava</url>
+  <inceptionYear>2010</inceptionYear>
+  <licenses>
+    <license>
+      <name>Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <id>kevinb9n</id>
+      <name>Kevin Bourrillion</name>
+      <email>kevinb@google.com</email>
+      <organization>Google</organization>
+      <organizationUrl>http://www.google.com</organizationUrl>
+      <roles>
+        <role>owner</role>
+        <role>developer</role>
+      </roles>
+      <timezone>-8</timezone>
+    </developer>
+  </developers>
+  <modules>
+    <module>guava</module>
+    <module>guava-bom</module>
+    <module>guava-gwt</module>
+    <module>guava-testlib</module>
+    <module>guava-tests</module>
+  </modules>
+  <scm>
+    <connection>scm:git:https://github.com/google/guava.git</connection>
+    <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
+    <url>https://github.com/google/guava</url>
+  </scm>
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/google/guava/issues</url>
+  </issueManagement>
+  <ciManagement>
+    <system>GitHub Actions</system>
+    <url>https://github.com/google/guava/actions</url>
+  </ciManagement>
+  <distributionManagement>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
+    </snapshotRepository>
+    <site>
+      <id>guava-site</id>
+      <name>Guava Documentation Site</name>
+      <url>scp://dummy.server/dontinstall/usestaging</url>
+    </site>
+  </distributionManagement>
   <properties>
     <!--
     When building Guava, you can pass (e.g.) `-Dsurefire.toolchain.version=21` to change which version to run tests under.
@@ -38,7 +91,6 @@
       --add-opens java.base/java.util=ALL-UNNAMED
       --add-opens java.base/sun.security.jca=ALL-UNNAMED
     </test.add.opens>
-    <test.add.args></test.add.args>
     <module.status>integration</module.status>
     <variant.jvmEnvironment>standard-jvm</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>jre</variant.jvmEnvironmentVariantName>
@@ -46,48 +98,30 @@
     <otherVariant.jvmEnvironment>android</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>android</otherVariant.jvmEnvironmentVariantName>
   </properties>
-  <issueManagement>
-    <system>GitHub Issues</system>
-    <url>https://github.com/google/guava/issues</url>
-  </issueManagement>
-  <inceptionYear>2010</inceptionYear>
-  <licenses>
-    <license>
-      <name>Apache License, Version 2.0</name>
-      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
-      <distribution>repo</distribution>
-    </license>
-  </licenses>
-  <scm>
-    <connection>scm:git:https://github.com/google/guava.git</connection>
-    <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
-    <url>https://github.com/google/guava</url>
-  </scm>
-  <developers>
-    <developer>
-      <id>kevinb9n</id>
-      <name>Kevin Bourrillion</name>
-      <email>kevinb@google.com</email>
-      <organization>Google</organization>
-      <organizationUrl>http://www.google.com</organizationUrl>
-      <roles>
-        <role>owner</role>
-        <role>developer</role>
-      </roles>
-      <timezone>-8</timezone>
-    </developer>
-  </developers>
-  <ciManagement>
-    <system>GitHub Actions</system>
-    <url>https://github.com/google/guava/actions</url>
-  </ciManagement>
-  <modules>
-    <module>guava</module>
-    <module>guava-bom</module>
-    <module>guava-gwt</module>
-    <module>guava-testlib</module>
-    <module>guava-tests</module>
-  </modules>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.jspecify</groupId>
+        <artifactId>jspecify</artifactId>
+        <version>${jspecify.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.errorprone</groupId>
+        <artifactId>error_prone_annotations</artifactId>
+        <version>${errorprone.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.google.j2objc</groupId>
+        <artifactId>j2objc-annotations</artifactId>
+        <version>${j2objc.version}</version>
+      </dependency>
+      <!--
+      We moved away from using dependencyManagement for test-only deps because of https://github.com/google/guava/issues/6654.
+      We could probably have resumed it after https://github.com/google/guava/pull/6664.
+      But it's always weird that published poms reference test-only libraries at all, so I'm not in any rush to do so.
+      -->
+    </dependencies>
+  </dependencyManagement>
   <build>
     <!-- Handle where Guava deviates from Maven defaults -->
     <sourceDirectory>src</sourceDirectory>
@@ -111,6 +145,7 @@
     </testResources>
     <plugins>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-enforcer-plugin</artifactId>
         <executions>
           <execution>
@@ -131,14 +166,64 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+        <groupId>org.openrewrite.maven</groupId>
+        <artifactId>rewrite-maven-plugin</artifactId>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
         <plugin>
+          <groupId>org.openrewrite.maven</groupId>
+          <artifactId>rewrite-maven-plugin</artifactId>
+          <version>6.15.0</version>
+          <configuration>
+            <activeRecipes>
+              <!--<recipe>org.openrewrite.staticanalysis.RemoveUnusedLocalVariables</recipe>-->
+              <!--<recipe>org.openrewrite.staticanalysis.RemoveUnusedPrivateFields</recipe>-->
+              <!--<recipe>org.openrewrite.staticanalysis.RemoveUnusedPrivateMethods</recipe>-->
+              <!--<recipe>org.openrewrite.staticanalysis.UnnecessaryThrows</recipe>-->
+              <!--<recipe>org.openrewrite.staticanalysis.UseLambdaForFunctionalInterface</recipe>-->
+              <recipe>org.openrewrite.java.RemoveUnusedImports</recipe>
+              <recipe>org.openrewrite.maven.BestPractices</recipe>
+              <recipe>org.openrewrite.maven.cleanup.PrefixlessExpressions</recipe>
+              <recipe>org.openrewrite.staticanalysis.MissingOverrideAnnotation</recipe>
+              <recipe>org.openrewrite.staticanalysis.ModifierOrder</recipe>
+            </activeRecipes>
+            <exclusions>
+              <exclusion>**AbstractCompositeHashFunction.java</exclusion>
+              <exclusion>**AbstractLoadingCache.java</exclusion>
+              <exclusion>**FuturesTest.java</exclusion>
+              <exclusion>**SerializableTesterTest.java</exclusion>
+              <exclusion>**guava-bom/pom.xml</exclusion>
+              <exclusion>**module-info.java</exclusion>
+            </exclusions>
+            <exportDatatables>true</exportDatatables>
+            <failOnDryRunResults>true</failOnDryRunResults>
+          </configuration>
+          <executions>
+            <execution>
+              <phase>verify</phase>
+              <goals>
+                <goal>dryRun</goal>
+              </goals>
+            </execution>
+          </executions>
+          <dependencies>
+            <dependency>
+              <groupId>org.openrewrite.recipe</groupId>
+              <artifactId>rewrite-static-analysis</artifactId>
+              <version>2.14.0</version>
+            </dependency>
+          </dependencies>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-antrun-plugin</artifactId>
           <version>1.6</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.13.0</version>
           <configuration>
@@ -150,7 +235,6 @@
               <!-- https://errorprone.info/docs/installation#maven -->
               <arg>-XDcompilePolicy=simple</arg>
               <arg>--should-stop=ifError=FLOW</arg>
-
               <!-- https://errorprone.info/docs/installation#maven -->
               <!-- TODO(cpovirk): Enable NullArgumentForNonNullParameter for
                    prod code. It's disabled automatically for "test code"
@@ -217,18 +301,22 @@
           </executions>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-dependency-plugin</artifactId>
           <version>3.1.1</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-enforcer-plugin</artifactId>
           <version>3.0.0-M3</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-install-plugin</artifactId>
           <version>3.1.3</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.4.2</version>
           <configuration>
@@ -255,6 +343,7 @@
           </dependencies>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-javadoc-plugin</artifactId>
           <version>3.11.2</version>
           <configuration>
@@ -272,15 +361,19 @@
           <executions>
             <execution>
               <id>attach-docs</id>
-              <goals><goal>jar</goal></goals>
+              <goals>
+                <goal>jar</goal>
+              </goals>
             </execution>
           </executions>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-resources-plugin</artifactId>
           <version>3.3.1</version>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-source-plugin</artifactId>
           <version>3.3.1</version>
           <executions>
@@ -301,6 +394,7 @@
           </dependencies>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-surefire-plugin</artifactId>
           <version>3.3.1</version>
           <configuration>
@@ -323,10 +417,11 @@
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.opens}</argLine>
           </configuration>
         </plugin>
         <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-toolchains-plugin</artifactId>
           <version>3.2.0</version>
           <executions>
@@ -426,47 +521,13 @@
       </plugins>
     </pluginManagement>
   </build>
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-    </snapshotRepository>
-    <site>
-      <id>guava-site</id>
-      <name>Guava Documentation Site</name>
-      <url>scp://dummy.server/dontinstall/usestaging</url>
-    </site>
-  </distributionManagement>
-  <dependencyManagement>
-    <dependencies>
-      <dependency>
-        <groupId>org.jspecify</groupId>
-        <artifactId>jspecify</artifactId>
-        <version>${jspecify.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.errorprone</groupId>
-        <artifactId>error_prone_annotations</artifactId>
-        <version>${errorprone.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>com.google.j2objc</groupId>
-        <artifactId>j2objc-annotations</artifactId>
-        <version>${j2objc.version}</version>
-      </dependency>
-      <!--
-      We moved away from using dependencyManagement for test-only deps because of https://github.com/google/guava/issues/6654.
-      We could probably have resumed it after https://github.com/google/guava/pull/6664.
-      But it's always weird that published poms reference test-only libraries at all, so I'm not in any rush to do so.
-      -->
-    </dependencies>
-  </dependencyManagement>
   <profiles>
     <profile>
       <id>sonatype-oss-release</id>
       <build>
         <plugins>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-gpg-plugin</artifactId>
             <version>3.0.1</version>
             <executions>
@@ -500,9 +561,6 @@
           <value>1.8</value>
         </property>
       </activation>
-      <properties>
-        <test.add.opens></test.add.opens>
-      </properties>
     </profile>
     <profile>
       <id>suppress-open-jre-modules-for-toolchain-8</id>
@@ -513,9 +571,6 @@
           <value>8</value>
         </property>
       </activation>
-      <properties>
-        <test.add.opens></test.add.opens>
-      </properties>
     </profile>
     <!-- JDiff and the Gradle integration tests need Java 11 to be installed, and they need to know where it's located so that they can set JAVA_HOME to point to it. The following profile downloads a temurin Java 11 (if one isn't already available) and writes its location to target/java_11_home. This lets our JDiff and Gradle-integration-test scripts invoke the `print-java-11-home` profile and then read that file. -->
     <profile>
@@ -544,6 +599,7 @@
             </executions>
           </plugin>
           <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-toolchains-plugin</artifactId>
             <executions>
               <execution>

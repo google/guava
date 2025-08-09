@@ -11,12 +11,12 @@
   <artifactId>guava</artifactId>
   <packaging>bundle</packaging>
   <name>Guava: Google Core Libraries for Java</name>
-  <url>https://github.com/google/guava</url>
   <description>
     Guava is a suite of core and expanded libraries that include
     utility classes, Google's collections, I/O classes, and
     much more.
   </description>
+  <url>https://github.com/google/guava</url>
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -46,7 +46,8 @@
       <resource>
         <directory>..</directory>
         <includes>
-          <include>LICENSE</include> <!-- copied from the parent pom because I couldn't figure out a way to make combine.children="append" work -->
+          <include>LICENSE</include>
+          <!-- copied from the parent pom because I couldn't figure out a way to make combine.children="append" work -->
           <include>proguard/*</include>
         </includes>
         <targetPath>META-INF</targetPath>
@@ -58,9 +59,11 @@
         <artifactId>toolchains-maven-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-toolchains-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
       </plugin>
       <plugin>
@@ -98,6 +101,7 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <executions>
           <execution>
@@ -140,6 +144,7 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
       </plugin>
       <plugin>
@@ -147,6 +152,7 @@
         <artifactId>animal-sniffer-maven-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <!-- Passing `-subpackages com.google.common` breaks things, so we explicitly exclude everything else instead. -->
@@ -202,6 +208,7 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-resources-plugin</artifactId>
         <executions>
           <execution>

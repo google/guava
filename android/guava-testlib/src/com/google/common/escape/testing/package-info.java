@@ -22,5 +22,3 @@
  */
 @CheckReturnValue
 package com.google.common.escape.testing;
-
-import com.google.errorprone.annotations.CheckReturnValue;
