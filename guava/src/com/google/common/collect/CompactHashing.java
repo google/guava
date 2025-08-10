@@ -40,7 +40,7 @@ final class CompactHashing {
   private static final int HASH_TABLE_BITS_MAX_BITS = 5;
 
   /** Use high bits of metadata for modification count. */
-  static final int MODIFICATION_COUNT_INCREMENT = (1 << HASH_TABLE_BITS_MAX_BITS);
+  static final int MODIFICATION_COUNT_INCREMENT = 1 << HASH_TABLE_BITS_MAX_BITS;
 
   /** Bitmask that selects the low bits of metadata to get hashTableBits. */
   static final int HASH_TABLE_BITS_MASK = (1 << HASH_TABLE_BITS_MAX_BITS) - 1;
@@ -138,7 +138,7 @@ final class CompactHashing {
    * current hashtable size.
    */
   static int newCapacity(int mask) {
-    return ((mask < 32) ? 4 : 2) * (mask + 1);
+    return (mask < 32 ? 4 : 2) * (mask + 1);
   }
 
   /** Returns the hash prefix given the current mask. */

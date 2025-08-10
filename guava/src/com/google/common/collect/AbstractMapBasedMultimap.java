@@ -308,7 +308,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
   final List<V> wrapList(
       @ParametricNullness K key, List<V> list, @Nullable WrappedCollection ancestor) {
-    return (list instanceof RandomAccess)
+    return list instanceof RandomAccess
         ? new RandomAccessWrappedList(key, list, ancestor)
         : new WrappedList(key, list, ancestor);
   }
@@ -340,7 +340,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       this.key = key;
       this.delegate = delegate;
       this.ancestor = ancestor;
-      this.ancestorDelegate = (ancestor == null) ? null : ancestor.getDelegate();
+      this.ancestorDelegate = ancestor == null ? null : ancestor.getDelegate();
     }
 
     /**
@@ -523,7 +523,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = delegate.addAll(collection);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         if (oldSize == 0) {
           addToMap();
         }
@@ -574,7 +574,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = delegate.removeAll(c);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         removeIfEmpty();
       }
       return changed;
@@ -587,7 +587,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = delegate.retainAll(c);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         removeIfEmpty();
       }
       return changed;
@@ -596,7 +596,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
   private static <E extends @Nullable Object> Iterator<E> iteratorOrListIterator(
       Collection<E> collection) {
-    return (collection instanceof List)
+    return collection instanceof List
         ? ((List<E>) collection).listIterator()
         : collection.iterator();
   }
@@ -621,7 +621,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = Sets.removeAllImpl((Set<V>) delegate, c);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         removeIfEmpty();
       }
       return changed;
@@ -665,7 +665,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return new WrappedSortedSet(
           getKey(),
           getSortedSetDelegate().headSet(toElement),
-          (getAncestor() == null) ? this : getAncestor());
+          getAncestor() == null ? this : getAncestor());
     }
 
     @Override
@@ -674,7 +674,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return new WrappedSortedSet(
           getKey(),
           getSortedSetDelegate().subSet(fromElement, toElement),
-          (getAncestor() == null) ? this : getAncestor());
+          getAncestor() == null ? this : getAncestor());
     }
 
     @Override
@@ -683,7 +683,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return new WrappedSortedSet(
           getKey(),
           getSortedSetDelegate().tailSet(fromElement),
-          (getAncestor() == null) ? this : getAncestor());
+          getAncestor() == null ? this : getAncestor());
     }
   }
 
@@ -730,7 +730,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     private NavigableSet<V> wrap(NavigableSet<V> wrapped) {
-      return new WrappedNavigableSet(key, wrapped, (getAncestor() == null) ? this : getAncestor());
+      return new WrappedNavigableSet(key, wrapped, getAncestor() == null ? this : getAncestor());
     }
 
     @Override
@@ -784,7 +784,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = getListDelegate().addAll(index, c);
       if (changed) {
         int newSize = getDelegate().size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         if (oldSize == 0) {
           addToMap();
         }
@@ -857,7 +857,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return wrapList(
           getKey(),
           getListDelegate().subList(fromIndex, toIndex),
-          (getAncestor() == null) ? this : getAncestor());
+          getAncestor() == null ? this : getAncestor());
     }
 
     /** ListIterator decorator. */
@@ -1528,7 +1528,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     @Override
     public SortedSet<K> keySet() {
       SortedSet<K> result = sortedKeySet;
-      return (result == null) ? sortedKeySet = createKeySet() : result;
+      return result == null ? sortedKeySet = createKeySet() : result;
     }
 
     @Override
@@ -1551,7 +1551,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     @Override
     public @Nullable Entry<K, Collection<V>> lowerEntry(@ParametricNullness K key) {
       Entry<K, Collection<V>> entry = sortedMap().lowerEntry(key);
-      return (entry == null) ? null : wrapEntry(entry);
+      return entry == null ? null : wrapEntry(entry);
     }
 
     @Override
@@ -1562,7 +1562,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     @Override
     public @Nullable Entry<K, Collection<V>> floorEntry(@ParametricNullness K key) {
       Entry<K, Collection<V>> entry = sortedMap().floorEntry(key);
-      return (entry == null) ? null : wrapEntry(entry);
+      return entry == null ? null : wrapEntry(entry);
     }
 
     @Override
@@ -1573,7 +1573,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     @Override
     public @Nullable Entry<K, Collection<V>> ceilingEntry(@ParametricNullness K key) {
       Entry<K, Collection<V>> entry = sortedMap().ceilingEntry(key);
-      return (entry == null) ? null : wrapEntry(entry);
+      return entry == null ? null : wrapEntry(entry);
     }
 
     @Override
@@ -1584,7 +1584,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     @Override
     public @Nullable Entry<K, Collection<V>> higherEntry(@ParametricNullness K key) {
       Entry<K, Collection<V>> entry = sortedMap().higherEntry(key);
-      return (entry == null) ? null : wrapEntry(entry);
+      return entry == null ? null : wrapEntry(entry);
     }
 
     @Override
@@ -1595,13 +1595,13 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     @Override
     public @Nullable Entry<K, Collection<V>> firstEntry() {
       Entry<K, Collection<V>> entry = sortedMap().firstEntry();
-      return (entry == null) ? null : wrapEntry(entry);
+      return entry == null ? null : wrapEntry(entry);
     }
 
     @Override
     public @Nullable Entry<K, Collection<V>> lastEntry() {
       Entry<K, Collection<V>> entry = sortedMap().lastEntry();
-      return (entry == null) ? null : wrapEntry(entry);
+      return entry == null ? null : wrapEntry(entry);
     }
 
     @Override

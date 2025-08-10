@@ -43,7 +43,7 @@ public final class Reflection {
    */
   public static String getPackageName(String classFullName) {
     int lastDot = classFullName.lastIndexOf('.');
-    return (lastDot < 0) ? "" : classFullName.substring(0, lastDot);
+    return lastDot < 0 ? "" : classFullName.substring(0, lastDot);
   }
 
   /**

@@ -118,8 +118,8 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   @Override
   public final int setCount(@ParametricNullness E element, int count) {
     checkNonnegative(count, "count");
-    int oldCount = (count == 0) ? backingMap.remove(element) : backingMap.put(element, count);
-    size += (count - oldCount);
+    int oldCount = count == 0 ? backingMap.remove(element) : backingMap.put(element, count);
+    size += count - oldCount;
     return oldCount;
   }
 

@@ -112,7 +112,7 @@ public abstract class ForwardingMapEntry<K extends @Nullable Object, V extends @
   protected int standardHashCode() {
     K k = getKey();
     V v = getValue();
-    return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
+    return (k == null ? 0 : k.hashCode()) ^ (v == null ? 0 : v.hashCode());
   }
 
   /**

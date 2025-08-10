@@ -80,7 +80,7 @@ public class MinimalSet<E extends @Nullable Object> extends MinimalCollection<E>
   public int hashCode() {
     int hashCodeSum = 0;
     for (Object o : this) {
-      hashCodeSum += (o == null) ? 0 : o.hashCode();
+      hashCodeSum += o == null ? 0 : o.hashCode();
     }
     return hashCodeSum;
   }

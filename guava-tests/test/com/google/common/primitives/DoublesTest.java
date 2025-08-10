@@ -661,7 +661,7 @@ public class DoublesTest extends TestCase {
     char[] tmp = new char[2];
     for (int i = Character.MIN_CODE_POINT; i < Character.MAX_CODE_POINT; i++) {
       Character.toChars(i, tmp, 0);
-      checkTryParse(String.copyValueOf(tmp, 0, Character.charCount(i)));
+      checkTryParse(new String(tmp, 0, Character.charCount(i)));
     }
   }
 

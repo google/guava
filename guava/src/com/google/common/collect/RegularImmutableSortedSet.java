@@ -223,25 +223,25 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   @Override
   public @Nullable E lower(E element) {
     int index = headIndex(element, false) - 1;
-    return (index == -1) ? null : elements.get(index);
+    return index == -1 ? null : elements.get(index);
   }
 
   @Override
   public @Nullable E floor(E element) {
     int index = headIndex(element, true) - 1;
-    return (index == -1) ? null : elements.get(index);
+    return index == -1 ? null : elements.get(index);
   }
 
   @Override
   public @Nullable E ceiling(E element) {
     int index = tailIndex(element, true);
-    return (index == size()) ? null : elements.get(index);
+    return index == size() ? null : elements.get(index);
   }
 
   @Override
   public @Nullable E higher(E element) {
     int index = tailIndex(element, false);
-    return (index == size()) ? null : elements.get(index);
+    return index == size() ? null : elements.get(index);
   }
 
   @Override
@@ -308,12 +308,12 @@ final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
     } catch (ClassCastException e) {
       return -1;
     }
-    return (position >= 0) ? position : -1;
+    return position >= 0 ? position : -1;
   }
 
   @Override
   ImmutableList<E> createAsList() {
-    return (size() <= 1) ? elements : new ImmutableSortedAsList<E>(this, elements);
+    return size() <= 1 ? elements : new ImmutableSortedAsList<E>(this, elements);
   }
 
   @Override

@@ -220,7 +220,7 @@ public final class TestThread<L> extends Thread implements TearDown {
       Class<?>[] parameterTypes = method.getParameterTypes();
       if (method.getName().equals(methodName) && (parameterTypes.length == arguments.length)) {
         for (int i = 0; i < arguments.length; i++) {
-          if (!parameterTypes[i].isAssignableFrom(arguments[i].getClass())) {
+          if (!parameterTypes[i].isInstance(arguments[i])) {
             continue METHODS;
           }
         }

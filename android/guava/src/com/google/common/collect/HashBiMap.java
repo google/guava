@@ -269,12 +269,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public @Nullable V get(@Nullable Object key) {
     int entry = findEntryByKey(key);
-    return (entry == ABSENT) ? null : values[entry];
+    return entry == ABSENT ? null : values[entry];
   }
 
   @Nullable K getInverse(@Nullable Object value) {
     int entry = findEntryByValue(value);
-    return (entry == ABSENT) ? null : keys[entry];
+    return entry == ABSENT ? null : keys[entry];
   }
 
   @Override
@@ -364,7 +364,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     insertIntoTableVToK(size, valueHash);
 
     int successor =
-        (predecessor == ENDPOINT) ? firstInInsertionOrder : nextInInsertionOrder[predecessor];
+        predecessor == ENDPOINT ? firstInInsertionOrder : nextInInsertionOrder[predecessor];
     setSucceeds(predecessor, size);
     setSucceeds(size, successor);
     size++;
@@ -754,7 +754,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public Set<K> keySet() {
     Set<K> result = keySet;
-    return (result == null) ? keySet = new KeySet() : result;
+    return result == null ? keySet = new KeySet() : result;
   }
 
   final class KeySet extends View<K, V, K> {
@@ -792,7 +792,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public Set<V> values() {
     Set<V> result = valueSet;
-    return (result == null) ? valueSet = new ValueSet() : result;
+    return result == null ? valueSet = new ValueSet() : result;
   }
 
   final class ValueSet extends View<K, V, V> {
@@ -830,7 +830,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public Set<Entry<K, V>> entrySet() {
     Set<Entry<K, V>> result = entrySet;
-    return (result == null) ? entrySet = new EntrySet() : result;
+    return result == null ? entrySet = new EntrySet() : result;
   }
 
   final class EntrySet extends View<K, V, Entry<K, V>> {
@@ -917,7 +917,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
        * If the entry is still in the map, then updateIndex ensured that `index` points to the right
        * element. Because that element is present, uncheckedCastNullableTToT is safe.
        */
-      return (index == ABSENT) ? unsafeNull() : uncheckedCastNullableTToT(values[index]);
+      return index == ABSENT ? unsafeNull() : uncheckedCastNullableTToT(values[index]);
     }
 
     @Override
@@ -947,7 +947,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public BiMap<V, K> inverse() {
     BiMap<V, K> result = inverse;
-    return (result == null) ? inverse = new Inverse<K, V>(this) : result;
+    return result == null ? inverse = new Inverse<K, V>(this) : result;
   }
 
   private static final class Inverse<K extends @Nullable Object, V extends @Nullable Object>
@@ -1021,7 +1021,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @Override
     public Set<Entry<V, K>> entrySet() {
       Set<Entry<V, K>> result = inverseEntrySet;
-      return (result == null) ? inverseEntrySet = new InverseEntrySet<K, V>(forward) : result;
+      return result == null ? inverseEntrySet = new InverseEntrySet<K, V>(forward) : result;
     }
 
     @GwtIncompatible("serialization")
@@ -1106,7 +1106,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     public K getValue() {
       updateIndex();
       // For discussion of unsafeNull() and uncheckedCastNullableTToT(), see EntryForKey.getValue().
-      return (index == ABSENT) ? unsafeNull() : uncheckedCastNullableTToT(biMap.keys[index]);
+      return index == ABSENT ? unsafeNull() : uncheckedCastNullableTToT(biMap.keys[index]);
     }
 
     @Override

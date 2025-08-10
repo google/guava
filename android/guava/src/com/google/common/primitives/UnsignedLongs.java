@@ -339,7 +339,7 @@ public final class UnsignedLongs {
   @CanIgnoreReturnValue
   public static long parseUnsignedLong(String string, int radix) {
     checkNotNull(string);
-    if (string.length() == 0) {
+    if (string.isEmpty()) {
       throw new NumberFormatException("empty string");
     }
     if (radix < Character.MIN_RADIX || radix > Character.MAX_RADIX) {
@@ -428,7 +428,7 @@ public final class UnsignedLongs {
           return true;
         }
         // current == maxValueDivs[radix]
-        return (digit > maxValueMods[radix]);
+        return digit > maxValueMods[radix];
       }
 
       // current < 0: high bit is set

@@ -262,7 +262,7 @@ public class Helpers {
     @Override
     @SuppressWarnings("unchecked") // no less safe than putting it in the map!
     public int compare(Entry<K, V> a, Entry<K, V> b) {
-      return (keyComparator == null)
+      return keyComparator == null
           ? ((Comparable) a.getKey()).compareTo(b.getKey())
           : keyComparator.compare(a.getKey(), b.getKey());
     }
@@ -440,7 +440,7 @@ public class Helpers {
       public int hashCode() {
         K k = getKey();
         V v = getValue();
-        return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
+        return (k == null ? 0 : k.hashCode()) ^ (v == null ? 0 : v.hashCode());
       }
 
       @Override

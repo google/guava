@@ -256,7 +256,7 @@ public final class TypeResolver {
 
   private ParameterizedType resolveParameterizedType(ParameterizedType type) {
     Type owner = type.getOwnerType();
-    Type resolvedOwner = (owner == null) ? null : resolveType(owner);
+    Type resolvedOwner = owner == null ? null : resolveType(owner);
     Type resolvedRawType = resolveType(type.getRawType());
 
     Type[] args = type.getActualTypeArguments();

@@ -240,8 +240,8 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
       return false;
     }
 
-    boolean expireWrite = (stamped.getWriteTimestamp() + expireAfterWrite <= currentTimeNanos());
-    boolean expireAccess = (stamped.getAccessTimestamp() + expireAfterAccess <= currentTimeNanos());
+    boolean expireWrite = stamped.getWriteTimestamp() + expireAfterWrite <= currentTimeNanos();
+    boolean expireAccess = stamped.getAccessTimestamp() + expireAfterAccess <= currentTimeNanos();
 
     if (expireAfterAccess == UNSET_INT) {
       return expireWrite;
@@ -506,7 +506,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
 
     @Override
     protected boolean removeEldestEntry(Entry<K, Timestamped<V>> ignored) {
-      boolean removal = (maximumSize == UNSET_INT) ? false : (size() > maximumSize);
+      boolean removal = maximumSize == UNSET_INT ? false : (size() > maximumSize);
       if ((removalListener != null) && removal) {
         removalListener.onRemoval(
             RemovalNotification.create(
@@ -658,7 +658,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   public Set<K> keySet() {
     // does not impact recency ordering
     Set<K> ks = keySet;
-    return (ks != null) ? ks : (keySet = new KeySet(this));
+    return ks != null ? ks : (keySet = new KeySet(this));
   }
 
   Collection<V> values;
@@ -667,7 +667,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   public Collection<V> values() {
     // does not impact recency ordering
     Collection<V> vs = values;
-    return (vs != null) ? vs : (values = new Values(this));
+    return vs != null ? vs : (values = new Values(this));
   }
 
   Set<Entry<K, V>> entrySet;
@@ -676,7 +676,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
   public Set<Entry<K, V>> entrySet() {
     // does not impact recency ordering
     Set<Entry<K, V>> es = entrySet;
-    return (es != null) ? es : (entrySet = new EntrySet(this));
+    return es != null ? es : (entrySet = new EntrySet(this));
   }
 
   /**

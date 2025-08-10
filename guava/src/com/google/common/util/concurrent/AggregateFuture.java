@@ -242,7 +242,7 @@ abstract class AggregateFuture<InputT extends @Nullable Object, OutputT extends 
 
   private static void log(Throwable throwable) {
     String message =
-        (throwable instanceof Error)
+        throwable instanceof Error
             ? "Input Future failed with Error"
             : "Got more than one input Future failure. Logging failures after the first";
     logger.get().log(SEVERE, message, throwable);

@@ -497,7 +497,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   public ImmutableSetMultimap<K, V> asMultimap() {
     ImmutableSetMultimap<K, V> result = multimapView;
-    return (result == null)
+    return result == null
         ? (multimapView =
             new ImmutableSetMultimap<K, V>(new MapViewOfValuesAsSingletonSets(), size(), null))
         : result;
@@ -523,7 +523,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @Override
     public @Nullable ImmutableSet<V> get(@Nullable Object key) {
       V outerValue = ImmutableMap.this.get(key);
-      return (outerValue == null) ? null : ImmutableSet.of(outerValue);
+      return outerValue == null ? null : ImmutableSet.of(outerValue);
     }
 
     @Override

@@ -68,11 +68,11 @@ public final class MoreCollectors {
   private static final Collector<@Nullable Object, ?, @Nullable Object> ONLY_ELEMENT =
       Collector.<@Nullable Object, ToOptionalState, @Nullable Object>of(
           ToOptionalState::new,
-          (state, o) -> state.add((o == null) ? NULL_PLACEHOLDER : o),
+          (state, o) -> state.add(o == null ? NULL_PLACEHOLDER : o),
           ToOptionalState::combine,
           state -> {
             Object result = state.getElement();
-            return (result == NULL_PLACEHOLDER) ? null : result;
+            return result == NULL_PLACEHOLDER ? null : result;
           },
           Collector.Characteristics.UNORDERED);
 

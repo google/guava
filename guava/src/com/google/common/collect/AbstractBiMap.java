@@ -232,7 +232,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public Set<K> keySet() {
     Set<K> result = keySet;
-    return (result == null) ? keySet = new KeySet() : result;
+    return result == null ? keySet = new KeySet() : result;
   }
 
   @WeakOuter
@@ -281,7 +281,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
      * iteration order so that it is consistent with the forward map.
      */
     Set<V> result = valueSet;
-    return (result == null) ? valueSet = new ValueSet() : result;
+    return result == null ? valueSet = new ValueSet() : result;
   }
 
   @WeakOuter
@@ -320,7 +320,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public Set<Entry<K, V>> entrySet() {
     Set<Entry<K, V>> result = entrySet;
-    return (result == null) ? entrySet = new EntrySet() : result;
+    return result == null ? entrySet = new EntrySet() : result;
   }
 
   private final class BiMapEntry extends ForwardingMapEntry<K, V> {

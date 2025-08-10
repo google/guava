@@ -509,7 +509,7 @@ public class RateLimiterTest extends TestCase {
 
     void sleepMicros(String caption, long micros) {
       instant += MICROSECONDS.toNanos(micros);
-      events.add(caption + String.format(Locale.ROOT, "%3.2f", (micros / 1000000.0)));
+      events.add(caption + String.format(Locale.ROOT, "%3.2f", micros / 1000000.0));
     }
 
     @Override

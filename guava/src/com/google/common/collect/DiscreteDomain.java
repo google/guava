@@ -71,13 +71,13 @@ public abstract class DiscreteDomain<C extends Comparable> {
     @Override
     public @Nullable Integer next(Integer value) {
       int i = value;
-      return (i == Integer.MAX_VALUE) ? null : i + 1;
+      return i == Integer.MAX_VALUE ? null : i + 1;
     }
 
     @Override
     public @Nullable Integer previous(Integer value) {
       int i = value;
-      return (i == Integer.MIN_VALUE) ? null : i - 1;
+      return i == Integer.MIN_VALUE ? null : i - 1;
     }
 
     @Override
@@ -135,13 +135,13 @@ public abstract class DiscreteDomain<C extends Comparable> {
     @Override
     public @Nullable Long next(Long value) {
       long l = value;
-      return (l == Long.MAX_VALUE) ? null : l + 1;
+      return l == Long.MAX_VALUE ? null : l + 1;
     }
 
     @Override
     public @Nullable Long previous(Long value) {
       long l = value;
-      return (l == Long.MIN_VALUE) ? null : l - 1;
+      return l == Long.MIN_VALUE ? null : l - 1;
     }
 
     @Override

@@ -78,7 +78,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
      */
     @SuppressWarnings("nullness")
     Entry<K, V>[] entries =
-        (n == entryArray.length) ? (Entry<K, V>[]) entryArray : createEntryArray(n);
+        n == entryArray.length ? (Entry<K, V>[]) entryArray : createEntryArray(n);
     int hashCode = 0;
 
     for (int i = 0; i < n; i++) {
@@ -101,7 +101,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
         return JdkBackedImmutableBiMap.create(n, entryArray);
       }
       ImmutableMapEntry<K, V> newEntry =
-          (nextInValueBucket == null && nextInKeyBucket == null)
+          nextInValueBucket == null && nextInKeyBucket == null
               ? RegularImmutableMap.makeImmutable(entry, key, value)
               : new NonTerminalImmutableBiMapEntry<>(
                   key, value, nextInKeyBucket, nextInValueBucket);
@@ -198,7 +198,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       return ImmutableBiMap.of();
     }
     ImmutableBiMap<V, K> result = inverse;
-    return (result == null) ? inverse = new Inverse() : result;
+    return result == null ? inverse = new Inverse() : result;
   }
 
   private final class Inverse extends ImmutableBiMap<V, K> {

@@ -635,7 +635,7 @@ public final class InetAddresses {
       return null;
     }
 
-    return bytesToInetAddress(addr, (scope != null) ? scope.scope : null);
+    return bytesToInetAddress(addr, scope != null ? scope.scope : null);
   }
 
   /**

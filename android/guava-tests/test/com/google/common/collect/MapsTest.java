@@ -82,7 +82,7 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings("JUnitIncompatibleType") // Many intentional violations here.
 public class MapsTest extends TestCase {
 
-  private static final Comparator<Integer> SOME_COMPARATOR = Collections.reverseOrder();
+  private static final Comparator<Integer> SOME_COMPARATOR = Comparator.reverseOrder();
 
   public void testHashMap() {
     @SuppressWarnings("UseCollectionConstructor") // test of factory method

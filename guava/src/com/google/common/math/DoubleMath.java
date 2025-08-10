@@ -191,7 +191,7 @@ public final class DoubleMath {
     int exponent = getExponent(x);
     long significand = getSignificand(x);
     BigInteger result = BigInteger.valueOf(significand).shiftLeft(exponent - SIGNIFICAND_BITS);
-    return (x < 0) ? result.negate() : result;
+    return x < 0 ? result.negate() : result;
   }
 
   /**

@@ -132,7 +132,7 @@ public class CharSequenceReaderTest extends TestCase {
     // read all to one array
     reader = new CharSequenceReader(charSequence);
     char[] buf = new char[expected.length()];
-    assertEquals(expected.length() == 0 ? -1 : expected.length(), reader.read(buf));
+    assertEquals(expected.isEmpty() ? -1 : expected.length(), reader.read(buf));
     assertEquals(expected, new String(buf));
     assertFullyRead(reader);
 
@@ -150,7 +150,7 @@ public class CharSequenceReaderTest extends TestCase {
     // read all to one CharBuffer
     reader = new CharSequenceReader(charSequence);
     CharBuffer buf2 = CharBuffer.allocate(expected.length());
-    assertEquals(expected.length() == 0 ? -1 : expected.length(), reader.read(buf2));
+    assertEquals(expected.isEmpty() ? -1 : expected.length(), reader.read(buf2));
     Java8Compatibility.flip(buf2);
     assertEquals(expected, buf2.toString());
     assertFullyRead(reader);

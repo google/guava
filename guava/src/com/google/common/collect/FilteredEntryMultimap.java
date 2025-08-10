@@ -111,7 +111,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   Collection<V> unmodifiableEmptyCollection() {
     // These return false, rather than throwing a UOE, on remove calls.
-    return (unfiltered instanceof SetMultimap)
+    return unfiltered instanceof SetMultimap
         ? Collections.<V>emptySet()
         : Collections.<V>emptyList();
   }

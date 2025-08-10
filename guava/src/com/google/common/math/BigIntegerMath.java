@@ -115,7 +115,7 @@ public final class BigIntegerMath {
         // we compare x^2 to 2^(2 * logFloor + 1).
         BigInteger x2 = x.pow(2);
         int logX2Floor = x2.bitLength() - 1;
-        return (logX2Floor < 2 * logFloor + 1) ? logFloor : logFloor + 1;
+        return logX2Floor < 2 * logFloor + 1 ? logFloor : logFloor + 1;
     }
     throw new AssertionError();
   }
@@ -200,7 +200,7 @@ public final class BigIntegerMath {
         // Since sqrt(10) is irrational, log10(x) - floorLog can never be exactly 0.5
         BigInteger x2 = x.pow(2);
         BigInteger halfPowerSquared = floorPow.pow(2).multiply(BigInteger.TEN);
-        return (x2.compareTo(halfPowerSquared) <= 0) ? floorLog : floorLog + 1;
+        return x2.compareTo(halfPowerSquared) <= 0 ? floorLog : floorLog + 1;
     }
     throw new AssertionError();
   }
@@ -245,7 +245,7 @@ public final class BigIntegerMath {
          * and halfSquare are integers, this is equivalent to testing whether or not x <=
          * halfSquare.
          */
-        return (halfSquare.compareTo(x) >= 0) ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);
+        return halfSquare.compareTo(x) >= 0 ? sqrtFloor : sqrtFloor.add(BigInteger.ONE);
     }
     throw new AssertionError();
   }

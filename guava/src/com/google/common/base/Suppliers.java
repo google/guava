@@ -319,7 +319,7 @@ public final class Suppliers {
             nanos = now + durationNanos;
             // In the very unlikely event that nanos is 0, set it to 1;
             // no one will notice 1 ns of tardiness.
-            expirationNanos = (nanos == 0) ? 1 : nanos;
+            expirationNanos = nanos == 0 ? 1 : nanos;
             return t;
           }
         }

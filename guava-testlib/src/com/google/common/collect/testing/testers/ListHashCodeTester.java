@@ -37,7 +37,7 @@ public class ListHashCodeTester<E> extends AbstractListTester<E> {
   public void testHashCode() {
     int expectedHashCode = 1;
     for (E element : getOrderedElements()) {
-      expectedHashCode = 31 * expectedHashCode + ((element == null) ? 0 : element.hashCode());
+      expectedHashCode = 31 * expectedHashCode + (element == null ? 0 : element.hashCode());
     }
     assertEquals(
         "A List's hashCode() should be computed from those of its elements.",

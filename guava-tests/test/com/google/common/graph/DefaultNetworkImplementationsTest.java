@@ -72,7 +72,7 @@ public final class DefaultNetworkImplementationsTest {
   @Before
   public void setUp() throws Exception {
     NetworkBuilder<Object, Object> builder =
-        (edgeType == EdgeType.DIRECTED) ? NetworkBuilder.directed() : NetworkBuilder.undirected();
+        edgeType == EdgeType.DIRECTED ? NetworkBuilder.directed() : NetworkBuilder.undirected();
 
     network = builder.allowsSelfLoops(true).allowsParallelEdges(true).build();
     networkForTest = NetworkForTest.from(network);

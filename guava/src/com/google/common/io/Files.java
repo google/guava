@@ -733,7 +733,7 @@ public final class Files {
    */
   public static String simplifyPath(String pathname) {
     checkNotNull(pathname);
-    if (pathname.length() == 0) {
+    if (pathname.isEmpty()) {
       return ".";
     }
 
@@ -797,7 +797,7 @@ public final class Files {
     checkNotNull(fullName);
     String fileName = new File(fullName).getName();
     int dotIndex = fileName.lastIndexOf('.');
-    return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
+    return dotIndex == -1 ? "" : fileName.substring(dotIndex + 1);
   }
 
   /**
@@ -814,7 +814,7 @@ public final class Files {
     checkNotNull(file);
     String fileName = new File(file).getName();
     int dotIndex = fileName.lastIndexOf('.');
-    return (dotIndex == -1) ? fileName : fileName.substring(0, dotIndex);
+    return dotIndex == -1 ? fileName : fileName.substring(0, dotIndex);
   }
 
   /**

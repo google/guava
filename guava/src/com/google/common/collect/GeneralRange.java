@@ -245,8 +245,8 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
       return comparator.equals(r.comparator)
           && hasLowerBound == r.hasLowerBound
           && hasUpperBound == r.hasUpperBound
-          && getLowerBoundType().equals(r.getLowerBoundType())
-          && getUpperBoundType().equals(r.getUpperBoundType())
+          && getLowerBoundType() == r.getLowerBoundType()
+          && getUpperBoundType() == r.getUpperBoundType()
           && Objects.equals(getLowerEndpoint(), r.getLowerEndpoint())
           && Objects.equals(getUpperEndpoint(), r.getUpperEndpoint());
     }

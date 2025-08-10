@@ -129,7 +129,7 @@ public enum CaseFormat {
   public final String to(CaseFormat format, String str) {
     checkNotNull(format);
     checkNotNull(str);
-    return (format == this) ? str : convert(format, str);
+    return format == this ? str : convert(format, str);
   }
 
   /** Enum values can override for performance reasons. */
@@ -149,7 +149,7 @@ public enum CaseFormat {
       out.append(format.wordSeparator);
       i = j + wordSeparator.length();
     }
-    return (i == 0)
+    return i == 0
         ? format.normalizeFirstWord(s)
         : requireNonNull(out).append(format.normalizeWord(s.substring(i))).toString();
   }
@@ -189,7 +189,7 @@ public enum CaseFormat {
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof StringConverter) {
         StringConverter that = (StringConverter) obj;
-        return sourceFormat.equals(that.sourceFormat) && targetFormat.equals(that.targetFormat);
+        return sourceFormat == that.sourceFormat && targetFormat == that.targetFormat;
       }
       return false;
     }

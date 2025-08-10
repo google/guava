@@ -275,7 +275,7 @@ public class FauxveridesTest extends TestCase {
 
   private static String getTypesString(List<? extends Type> types) {
     List<String> names = transform(types, SIMPLE_NAME_GETTER);
-    return Joiner.on(", ").join(names);
+    return String.join(", ", names);
   }
 
   private static final Function<Type, String> SIMPLE_NAME_GETTER =

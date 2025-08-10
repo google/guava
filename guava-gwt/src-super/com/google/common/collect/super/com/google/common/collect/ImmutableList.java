@@ -125,7 +125,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   public static <E> ImmutableList<E> copyOf(Iterable<? extends E> elements) {
     checkNotNull(elements); // for GWT
-    return (elements instanceof Collection)
+    return elements instanceof Collection
         ? copyOf((Collection<? extends E>) elements)
         : copyOf(elements.iterator());
   }
@@ -223,12 +223,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   @Override
   public int indexOf(@Nullable Object object) {
-    return (object == null) ? -1 : Lists.indexOfImpl(this, object);
+    return object == null ? -1 : Lists.indexOfImpl(this, object);
   }
 
   @Override
   public int lastIndexOf(@Nullable Object object) {
-    return (object == null) ? -1 : Lists.lastIndexOfImpl(this, object);
+    return object == null ? -1 : Lists.lastIndexOfImpl(this, object);
   }
 
   @Override

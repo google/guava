@@ -356,7 +356,7 @@ public final class Chars {
   public static char[] ensureCapacity(char[] array, int minLength, int padding) {
     checkArgument(minLength >= 0, "Invalid minLength: %s", minLength);
     checkArgument(padding >= 0, "Invalid padding: %s", padding);
-    return (array.length < minLength) ? Arrays.copyOf(array, minLength + padding) : array;
+    return array.length < minLength ? Arrays.copyOf(array, minLength + padding) : array;
   }
 
   /**
@@ -540,7 +540,7 @@ public final class Chars {
     // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many
     // places left to rotate.
     int m = -distance % length;
-    m = (m < 0) ? m + length : m;
+    m = m < 0 ? m + length : m;
     // The current index of what will become the first element of the rotated section.
     int newFirstIndex = m + fromIndex;
     if (newFirstIndex == fromIndex) {

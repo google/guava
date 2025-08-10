@@ -188,7 +188,7 @@ abstract class Striped64 extends Number {
     if (hc == null) {
       threadHashCode.set(hc = new int[1]); // Initialize randomly
       int r = rng.nextInt(); // Avoid zero to allow xorShift rehash
-      h = hc[0] = (r == 0) ? 1 : r;
+      h = hc[0] = r == 0 ? 1 : r;
     } else h = hc[0];
     boolean collide = false; // True if last slot nonempty
     for (; ; ) {

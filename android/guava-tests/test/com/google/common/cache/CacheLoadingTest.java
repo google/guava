@@ -1941,7 +1941,7 @@ public class CacheLoadingTest extends TestCase {
       // doConcurrentGet alternates between calling getUnchecked and calling get, but an unchecked
       // exception thrown by the loader is always wrapped as an UncheckedExecutionException.
       assertThat(result.get(i)).isInstanceOf(UncheckedExecutionException.class);
-      assertThat(((UncheckedExecutionException) result.get(i))).hasCauseThat().isSameInstanceAs(e);
+      assertThat((UncheckedExecutionException) result.get(i)).hasCauseThat().isSameInstanceAs(e);
     }
 
     // subsequent calls should call the loader again, not get the old exception

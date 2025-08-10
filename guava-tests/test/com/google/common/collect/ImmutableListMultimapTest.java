@@ -43,7 +43,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.Map.Entry;
 import java.util.function.BiPredicate;
 import java.util.stream.Collector;
@@ -293,7 +293,7 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("b", 3);
     builder.put("d", 2);
     builder.put("a", 5);
-    builder.orderKeysBy(Collections.reverseOrder());
+    builder.orderKeysBy(Comparator.reverseOrder());
     builder.put("c", 4);
     builder.put("a", 2);
     builder.put("b", 6);
@@ -331,7 +331,7 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("b", 3);
     builder.put("d", 2);
     builder.put("a", 5);
-    builder.orderValuesBy(Collections.reverseOrder());
+    builder.orderValuesBy(Comparator.reverseOrder());
     builder.put("c", 4);
     builder.put("a", 2);
     builder.put("b", 6);
@@ -347,8 +347,8 @@ public class ImmutableListMultimapTest extends TestCase {
     builder.put("b", 3);
     builder.put("d", 2);
     builder.put("a", 5);
-    builder.orderKeysBy(Collections.reverseOrder());
-    builder.orderValuesBy(Collections.reverseOrder());
+    builder.orderKeysBy(Comparator.reverseOrder());
+    builder.orderValuesBy(Comparator.reverseOrder());
     builder.put("c", 4);
     builder.put("a", 2);
     builder.put("b", 6);

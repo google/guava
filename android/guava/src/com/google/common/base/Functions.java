@@ -205,7 +205,7 @@ public final class Functions {
     public V apply(@ParametricNullness K key) {
       V result = map.get(key);
       // The unchecked cast is safe because of the containsKey check.
-      return (result != null || map.containsKey(key))
+      return result != null || map.containsKey(key)
           ? uncheckedCastNullableTToT(result)
           : defaultValue;
     }
@@ -384,7 +384,7 @@ public final class Functions {
 
     @Override
     public int hashCode() {
-      return (value == null) ? 0 : value.hashCode();
+      return value == null ? 0 : value.hashCode();
     }
 
     @Override

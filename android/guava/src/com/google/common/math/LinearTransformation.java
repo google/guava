@@ -190,7 +190,7 @@ public abstract class LinearTransformation {
 
     @Override
     public boolean isHorizontal() {
-      return (slope == 0.0);
+      return slope == 0.0;
     }
 
     @Override
@@ -206,7 +206,7 @@ public abstract class LinearTransformation {
     @Override
     public LinearTransformation inverse() {
       LinearTransformation result = inverse;
-      return (result == null) ? inverse = createInverse() : result;
+      return result == null ? inverse = createInverse() : result;
     }
 
     @Override
@@ -262,7 +262,7 @@ public abstract class LinearTransformation {
     @Override
     public LinearTransformation inverse() {
       LinearTransformation result = inverse;
-      return (result == null) ? inverse = createInverse() : result;
+      return result == null ? inverse = createInverse() : result;
     }
 
     @Override

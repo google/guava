@@ -85,7 +85,7 @@ public abstract class ByteSink {
    */
   public OutputStream openBufferedStream() throws IOException {
     OutputStream out = openStream();
-    return (out instanceof BufferedOutputStream)
+    return out instanceof BufferedOutputStream
         ? (BufferedOutputStream) out
         : new BufferedOutputStream(out);
   }

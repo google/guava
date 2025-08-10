@@ -266,8 +266,8 @@ public final class CacheBuilderSpec {
         && Objects.equals(maximumSize, that.maximumSize)
         && Objects.equals(maximumWeight, that.maximumWeight)
         && Objects.equals(concurrencyLevel, that.concurrencyLevel)
-        && Objects.equals(keyStrength, that.keyStrength)
-        && Objects.equals(valueStrength, that.valueStrength)
+        && keyStrength == that.keyStrength
+        && valueStrength == that.valueStrength
         && Objects.equals(recordStats, that.recordStats)
         && Objects.equals(
             durationInNanos(writeExpirationDuration, writeExpirationTimeUnit),
@@ -285,7 +285,7 @@ public final class CacheBuilderSpec {
    * nanos to match CacheBuilder implementation.
    */
   private static @Nullable Long durationInNanos(long duration, @Nullable TimeUnit unit) {
-    return (unit == null) ? null : unit.toNanos(duration);
+    return unit == null ? null : unit.toNanos(duration);
   }
 
   /** Base class for parsing integers. */

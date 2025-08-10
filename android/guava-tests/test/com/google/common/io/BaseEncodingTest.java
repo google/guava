@@ -26,7 +26,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
-import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.io.BaseEncoding.DecodingException;
@@ -408,7 +407,7 @@ public class BaseEncodingTest extends TestCase {
         testEncoding(
             encoding.withSeparator(separator, sepLength),
             decoded,
-            Joiner.on(separator).join(Splitter.fixedLength(sepLength).split(encoded)));
+            String.join(separator, Splitter.fixedLength(sepLength).split(encoded)));
       }
     }
   }
@@ -538,7 +537,7 @@ public class BaseEncodingTest extends TestCase {
         testStreamingEncoding(
             encoding.withSeparator(separator, sepLength),
             decoded,
-            Joiner.on(separator).join(Splitter.fixedLength(sepLength).split(encoded)));
+            String.join(separator, Splitter.fixedLength(sepLength).split(encoded)));
       }
     }
   }

@@ -348,7 +348,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
             new Function<@Nullable Boolean, @Nullable Boolean>() {
               @Override
               public @Nullable Boolean apply(@Nullable Boolean from) {
-                return (from == null) ? true : null;
+                return from == null ? true : null;
               }
             });
 

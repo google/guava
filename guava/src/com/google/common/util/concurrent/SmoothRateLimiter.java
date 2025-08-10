@@ -235,7 +235,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
         storedPermits = 0.0;
       } else {
         storedPermits =
-            (oldMaxPermits == 0.0)
+            oldMaxPermits == 0.0
                 ? maxPermits // initial state is cold
                 : storedPermits * maxPermits / oldMaxPermits;
       }
@@ -294,7 +294,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
         storedPermits = maxPermits;
       } else {
         storedPermits =
-            (oldMaxPermits == 0.0)
+            oldMaxPermits == 0.0
                 ? 0.0 // initial state
                 : storedPermits * maxPermits / oldMaxPermits;
       }

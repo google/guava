@@ -130,10 +130,73 @@
           </execution>
         </executions>
       </plugin>
+      <plugin>
+      <groupId>org.openrewrite.maven</groupId>
+      <artifactId>rewrite-maven-plugin</artifactId>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
-        <plugin>
+          <plugin>
+              <groupId>org.openrewrite.maven</groupId>
+              <artifactId>rewrite-maven-plugin</artifactId>
+              <version>6.15.0</version>
+              <configuration>
+                  <activeRecipes>
+                      <recipe>org.openrewrite.staticanalysis.NoToStringOnStringType</recipe>
+                      <recipe>org.openrewrite.staticanalysis.NoValueOfOnStringType</recipe>
+                      <recipe>org.openrewrite.staticanalysis.UnnecessaryCloseInTryWithResources</recipe>
+                      <recipe>org.openrewrite.staticanalysis.UnnecessaryExplicitTypeArguments</recipe>
+                      <recipe>org.openrewrite.staticanalysis.UnnecessaryParentheses</recipe>
+                      <recipe>org.openrewrite.staticanalysis.UnnecessaryReturnAsLastStatement</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.BigDecimalRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.BugCheckerRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.CharSequenceRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.ClassRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.CollectionRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.ComparatorRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.EqualityRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.MicrometerRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.OptionalRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.PatternRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.StreamRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.StringRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.SuggestedFixRulesRecipes</recipe>
+                      <recipe>tech.picnic.errorprone.refasterrules.TimeRulesRecipes</recipe>
+                      <!--<recipe>org.openrewrite.staticanalysis.UnnecessaryThrows</recipe> bug -->
+                      <!--<recipe>tech.picnic.errorprone.refasterrules.PrimitiveRulesRecipes</recipe> bug -->
+                      <!--<recipe>tech.picnic.errorprone.refasterrules.PreconditionsRulesRecipes</recipe> bug -->
+                      <!--<recipe>tech.picnic.errorprone.refasterrules.NullRulesRecipes</recipe> Usage of API documented as @since 9+  -->
+                  </activeRecipes>
+                  <exclusions>
+                      <exclusion>**AbstractCompositeHashFunction.java</exclusion>
+                      <exclusion>**AbstractLoadingCache.java</exclusion>
+                      <exclusion>**FuturesTest.java</exclusion>
+                      <exclusion>**ObjectsTest.java</exclusion>
+                      <exclusion>**SerializableTesterTest.java</exclusion>
+                      <exclusion>**guava-bom/pom.xml</exclusion>
+                      <exclusion>**module-info.java</exclusion>
+                  </exclusions>
+                  <exportDatatables>true</exportDatatables>
+                  <failOnDryRunResults>true</failOnDryRunResults>
+              </configuration>
+              <executions>
+                  <execution>
+                      <phase>verify</phase>
+                      <goals>
+                          <goal>dryRun</goal>
+                      </goals>
+                  </execution>
+              </executions>
+              <dependencies>
+                  <dependency>
+                      <groupId>org.openrewrite.recipe</groupId>
+                      <artifactId>rewrite-static-analysis</artifactId>
+                      <version>2.14.0</version>
+                  </dependency>
+              </dependencies>
+          </plugin>
+          <plugin>
           <artifactId>maven-antrun-plugin</artifactId>
           <version>1.6</version>
         </plugin>

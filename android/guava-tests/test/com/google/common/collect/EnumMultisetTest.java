@@ -75,7 +75,7 @@ public class EnumMultisetTest extends TestCase {
     return new TestEnumMultisetGenerator() {
       @Override
       protected Multiset<AnEnum> create(AnEnum[] elements) {
-        return (elements.length == 0)
+        return elements.length == 0
             ? EnumMultiset.create(AnEnum.class)
             : EnumMultiset.create(asList(elements));
       }

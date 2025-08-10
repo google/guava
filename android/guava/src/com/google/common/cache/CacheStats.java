@@ -122,7 +122,7 @@ public final class CacheStats {
    */
   public double hitRate() {
     long requestCount = requestCount();
-    return (requestCount == 0) ? 1.0 : (double) hitCount / requestCount;
+    return requestCount == 0 ? 1.0 : (double) hitCount / requestCount;
   }
 
   /**
@@ -146,7 +146,7 @@ public final class CacheStats {
    */
   public double missRate() {
     long requestCount = requestCount();
-    return (requestCount == 0) ? 0.0 : (double) missCount / requestCount;
+    return requestCount == 0 ? 0.0 : (double) missCount / requestCount;
   }
 
   /**
@@ -201,7 +201,7 @@ public final class CacheStats {
    */
   public double loadExceptionRate() {
     long totalLoadCount = saturatedAdd(loadSuccessCount, loadExceptionCount);
-    return (totalLoadCount == 0) ? 0.0 : (double) loadExceptionCount / totalLoadCount;
+    return totalLoadCount == 0 ? 0.0 : (double) loadExceptionCount / totalLoadCount;
   }
 
   /**
@@ -224,7 +224,7 @@ public final class CacheStats {
    */
   public double averageLoadPenalty() {
     long totalLoadCount = saturatedAdd(loadSuccessCount, loadExceptionCount);
-    return (totalLoadCount == 0) ? 0.0 : (double) totalLoadTime / totalLoadCount;
+    return totalLoadCount == 0 ? 0.0 : (double) totalLoadTime / totalLoadCount;
   }
 
   /**

@@ -120,7 +120,7 @@ public class Finalizer implements Runnable {
       getBigThreadConstructor();
 
   private static final @Nullable Field inheritableThreadLocals =
-      (bigThreadConstructor == null) ? getInheritableThreadLocalsField() : null;
+      bigThreadConstructor == null ? getInheritableThreadLocalsField() : null;
 
   /** Constructs a new finalizer thread. */
   private Finalizer(

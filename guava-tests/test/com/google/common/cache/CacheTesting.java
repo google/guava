@@ -128,7 +128,7 @@ final class CacheTesting {
    * without throwing an exception.
    */
   static boolean hasLocalCache(Cache<?, ?> cache) {
-    return (checkNotNull(cache) instanceof LocalLoadingCache);
+    return checkNotNull(cache) instanceof LocalLoadingCache;
   }
 
   static void drainRecencyQueues(Cache<?, ?> cache) {

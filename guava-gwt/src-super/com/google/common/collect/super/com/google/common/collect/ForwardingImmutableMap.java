@@ -71,7 +71,7 @@ public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
 
   @Override
   public @Nullable V get(@Nullable Object key) {
-    return (key == null) ? null : Maps.safeGet(delegate, key);
+    return key == null ? null : Maps.safeGet(delegate, key);
   }
 
   @Override

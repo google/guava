@@ -49,7 +49,7 @@ public class TablesTransformValuesTest extends AbstractTableTest<Character> {
     Table<String, Integer, String> table = HashBasedTable.create();
     checkArgument(data.length % 3 == 0);
     for (int i = 0; i < data.length; i += 3) {
-      String value = (data[i + 2] == null) ? null : (data[i + 2] + "transformed");
+      String value = data[i + 2] == null ? null : (data[i + 2] + "transformed");
       table.put((String) data[i], (Integer) data[i + 1], value);
     }
     return transformValues(table, FIRST_CHARACTER);

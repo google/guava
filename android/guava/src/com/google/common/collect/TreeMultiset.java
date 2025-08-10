@@ -91,7 +91,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   @SuppressWarnings("unchecked")
   public static <E extends @Nullable Object> TreeMultiset<E> create(
       @Nullable Comparator<? super E> comparator) {
-    return (comparator == null)
+    return comparator == null
         ? new TreeMultiset<E>((Comparator) Ordering.natural())
         : new TreeMultiset<E>(comparator);
   }
@@ -141,7 +141,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
 
       @Override
       long treeAggregate(@Nullable AvlNode<?> root) {
-        return (root == null) ? 0 : root.totalCount;
+        return root == null ? 0 : root.totalCount;
       }
     },
     DISTINCT {
@@ -152,7 +152,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
 
       @Override
       long treeAggregate(@Nullable AvlNode<?> root) {
-        return (root == null) ? 0 : root.distinctElements;
+        return root == null ? 0 : root.distinctElements;
       }
     };
 
@@ -234,7 +234,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   }
 
   static int distinctElements(@Nullable AvlNode<?> node) {
-    return (node == null) ? 0 : node.distinctElements;
+    return node == null ? 0 : node.distinctElements;
   }
 
   @Override
@@ -409,7 +409,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     } else {
       node = header.succ();
     }
-    return (node == header || !range.contains(node.getElement())) ? null : node;
+    return node == header || !range.contains(node.getElement()) ? null : node;
   }
 
   private @Nullable AvlNode<E> lastNode() {
@@ -432,7 +432,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     } else {
       node = header.pred();
     }
-    return (node == header || !range.contains(node.getElement())) ? null : node;
+    return node == header || !range.contains(node.getElement()) ? null : node;
   }
 
   @Override
@@ -632,9 +632,9 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     int count(Comparator<? super E> comparator, @ParametricNullness E e) {
       int cmp = comparator.compare(e, getElement());
       if (cmp < 0) {
-        return (left == null) ? 0 : left.count(comparator, e);
+        return left == null ? 0 : left.count(comparator, e);
       } else if (cmp > 0) {
-        return (right == null) ? 0 : right.count(comparator, e);
+        return right == null ? 0 : right.count(comparator, e);
       } else {
         return elemCount;
       }
@@ -680,7 +680,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
           distinctElements++;
         }
         this.totalCount += count;
-        return (left.height == initHeight) ? this : rebalance();
+        return left.height == initHeight ? this : rebalance();
       } else if (cmp > 0) {
         AvlNode<E> initRight = right;
         if (initRight == null) {
@@ -694,7 +694,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
           distinctElements++;
         }
         this.totalCount += count;
-        return (right.height == initHeight) ? this : rebalance();
+        return right.height == initHeight ? this : rebalance();
       }
 
       // adding count to me!  No rebalance possible.
@@ -726,7 +726,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
             this.totalCount -= count;
           }
         }
-        return (result[0] == 0) ? this : rebalance();
+        return result[0] == 0 ? this : rebalance();
       } else if (cmp > 0) {
         AvlNode<E> initRight = right;
         if (initRight == null) {
@@ -765,7 +765,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
         AvlNode<E> initLeft = left;
         if (initLeft == null) {
           result[0] = 0;
-          return (count > 0) ? addLeftChild(e, count) : this;
+          return count > 0 ? addLeftChild(e, count) : this;
         }
 
         left = initLeft.setCount(comparator, e, count, result);
@@ -782,7 +782,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
         AvlNode<E> initRight = right;
         if (initRight == null) {
           result[0] = 0;
-          return (count > 0) ? addRightChild(e, count) : this;
+          return count > 0 ? addRightChild(e, count) : this;
         }
 
         right = initRight.setCount(comparator, e, count, result);
@@ -986,33 +986,33 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     }
 
     private static long totalCount(@Nullable AvlNode<?> node) {
-      return (node == null) ? 0 : node.totalCount;
+      return node == null ? 0 : node.totalCount;
     }
 
     private static int height(@Nullable AvlNode<?> node) {
-      return (node == null) ? 0 : node.height;
+      return node == null ? 0 : node.height;
     }
 
     private @Nullable AvlNode<E> ceiling(
         Comparator<? super E> comparator, @ParametricNullness E e) {
       int cmp = comparator.compare(e, getElement());
       if (cmp < 0) {
-        return (left == null) ? this : MoreObjects.firstNonNull(left.ceiling(comparator, e), this);
+        return left == null ? this : MoreObjects.firstNonNull(left.ceiling(comparator, e), this);
       } else if (cmp == 0) {
         return this;
       } else {
-        return (right == null) ? null : right.ceiling(comparator, e);
+        return right == null ? null : right.ceiling(comparator, e);
       }
     }
 
     private @Nullable AvlNode<E> floor(Comparator<? super E> comparator, @ParametricNullness E e) {
       int cmp = comparator.compare(e, getElement());
       if (cmp > 0) {
-        return (right == null) ? this : MoreObjects.firstNonNull(right.floor(comparator, e), this);
+        return right == null ? this : MoreObjects.firstNonNull(right.floor(comparator, e), this);
       } else if (cmp == 0) {
         return this;
       } else {
-        return (left == null) ? null : left.floor(comparator, e);
+        return left == null ? null : left.floor(comparator, e);
       }
     }
 

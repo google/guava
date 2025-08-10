@@ -952,7 +952,7 @@ public class MultimapsTest extends TestCase {
         new EntryTransformer<String, Integer, String>() {
           @Override
           public String transformEntry(String key, Integer value) {
-            return (value >= 0) ? key : "no" + key;
+            return value >= 0 ? key : "no" + key;
           }
         };
     Multimap<String, String> transformed = Multimaps.transformEntries(multimap, transformer);

@@ -128,7 +128,7 @@ public class HostAndPortTest extends TestCase {
     assertNotNull(expectHost);
 
     // Apply withDefaultPort(), yielding hp2.
-    boolean badDefaultPort = (defaultPort < 0 || defaultPort > 65535);
+    boolean badDefaultPort = defaultPort < 0 || defaultPort > 65535;
     HostAndPort hp2 = null;
     try {
       hp2 = hp.withDefaultPort(defaultPort);

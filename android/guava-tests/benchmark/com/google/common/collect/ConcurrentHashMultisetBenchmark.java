@@ -387,7 +387,7 @@ public class ConcurrentHashMultisetBenchmark {
     @Override
     public int setCount(E element, int count) {
       checkNonnegative(count, "count");
-      return (count == 0) ? removeAllOccurrences(element) : unbox(countMap.put(element, count));
+      return count == 0 ? removeAllOccurrences(element) : unbox(countMap.put(element, count));
     }
 
     /**
@@ -546,7 +546,7 @@ public class ConcurrentHashMultisetBenchmark {
 
     /** We use a special form of unboxing that treats null as zero. */
     private static int unbox(@Nullable Integer i) {
-      return (i == null) ? 0 : i;
+      return i == null ? 0 : i;
     }
   }
 }

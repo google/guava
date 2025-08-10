@@ -195,7 +195,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
 
     @Override
     public int compareTo(Cut<Comparable<?>> o) {
-      return (o == this) ? 0 : -1;
+      return o == this ? 0 : -1;
     }
 
     @Override
@@ -286,7 +286,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
 
     @Override
     public int compareTo(Cut<Comparable<?>> o) {
-      return (o == this) ? 0 : 1;
+      return o == this ? 0 : 1;
     }
 
     @Override
@@ -337,7 +337,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
           return this;
         case OPEN:
           C previous = domain.previous(endpoint);
-          return (previous == null) ? Cut.<C>belowAll() : new AboveValue<C>(previous);
+          return previous == null ? Cut.<C>belowAll() : new AboveValue<C>(previous);
       }
       throw new AssertionError();
     }
@@ -347,7 +347,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
       switch (boundType) {
         case CLOSED:
           C previous = domain.previous(endpoint);
-          return (previous == null) ? Cut.<C>aboveAll() : new AboveValue<C>(previous);
+          return previous == null ? Cut.<C>aboveAll() : new AboveValue<C>(previous);
         case OPEN:
           return this;
       }
@@ -418,7 +418,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
           return this;
         case CLOSED:
           C next = domain.next(endpoint);
-          return (next == null) ? Cut.<C>belowAll() : belowValue(next);
+          return next == null ? Cut.<C>belowAll() : belowValue(next);
       }
       throw new AssertionError();
     }
@@ -428,7 +428,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
       switch (boundType) {
         case OPEN:
           C next = domain.next(endpoint);
-          return (next == null) ? Cut.<C>aboveAll() : belowValue(next);
+          return next == null ? Cut.<C>aboveAll() : belowValue(next);
         case CLOSED:
           return this;
       }
@@ -458,7 +458,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     @Override
     Cut<C> canonical(DiscreteDomain<C> domain) {
       C next = leastValueAbove(domain);
-      return (next != null) ? belowValue(next) : Cut.<C>aboveAll();
+      return next != null ? belowValue(next) : Cut.<C>aboveAll();
     }
 
     @Override

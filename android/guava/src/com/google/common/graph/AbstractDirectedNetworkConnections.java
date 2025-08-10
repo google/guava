@@ -67,7 +67,7 @@ abstract class AbstractDirectedNetworkConnections<N, E> implements NetworkConnec
       @Override
       public UnmodifiableIterator<E> iterator() {
         Iterable<E> incidentEdges =
-            (selfLoopCount == 0)
+            selfLoopCount == 0
                 ? Iterables.concat(inEdgeMap.keySet(), outEdgeMap.keySet())
                 : Sets.union(inEdgeMap.keySet(), outEdgeMap.keySet());
         return Iterators.unmodifiableIterator(incidentEdges.iterator());

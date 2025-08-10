@@ -671,7 +671,7 @@ public class MapMakerInternalMapTest extends TestCase {
     InternalEntry<Object, Object, ?> entry = null;
     for (int i = 0; i < originalCount; i++) {
       Object key = new Object();
-      Object value = (i % 3 == 0) ? null : new Object();
+      Object value = i % 3 == 0 ? null : new Object();
       int hash = map.hash(key);
       if (i % 3 == 1) {
         key = null;

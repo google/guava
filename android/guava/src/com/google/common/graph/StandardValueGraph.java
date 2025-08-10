@@ -74,7 +74,7 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
     this.nodeOrder = builder.nodeOrder.cast();
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive.
     this.nodeConnections =
-        (nodeConnections instanceof TreeMap)
+        nodeConnections instanceof TreeMap
             ? new MapRetrievalCache<N, GraphConnections<N, V>>(nodeConnections)
             : new MapIteratorCache<N, GraphConnections<N, V>>(nodeConnections);
     this.edgeCount = checkNonNegative(edgeCount);
@@ -176,7 +176,7 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
 
   private final @Nullable V edgeValueOrDefaultInternal(N nodeU, N nodeV, @Nullable V defaultValue) {
     GraphConnections<N, V> connectionsU = nodeConnections.get(nodeU);
-    V value = (connectionsU == null) ? null : connectionsU.value(nodeV);
+    V value = connectionsU == null ? null : connectionsU.value(nodeV);
     // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
     if (value == null) {
       return defaultValue;

@@ -58,7 +58,7 @@ final class ImmutableSortedAsList<E> extends RegularImmutableAsList<E>
 
     // The equals() check is needed when the comparator isn't compatible with
     // equals().
-    return (index >= 0 && get(index).equals(target)) ? index : -1;
+    return index >= 0 && get(index).equals(target) ? index : -1;
   }
 
   @GwtIncompatible // ImmutableSortedSet.indexOf

@@ -73,7 +73,7 @@ final class CollectSpliterators {
       @Override
       public @Nullable Spliterator<T> trySplit() {
         Spliterator.OfInt split = delegate.trySplit();
-        return (split == null) ? null : new WithCharacteristics(split);
+        return split == null ? null : new WithCharacteristics(split);
       }
 
       @Override
@@ -127,7 +127,7 @@ final class CollectSpliterators {
       @Override
       public @Nullable Spliterator<OutElementT> trySplit() {
         Spliterator<InElementT> fromSplit = fromSpliterator.trySplit();
-        return (fromSplit != null) ? map(fromSplit, function) : null;
+        return fromSplit != null ? map(fromSplit, function) : null;
       }
 
       @Override
@@ -176,7 +176,7 @@ final class CollectSpliterators {
       @Override
       public @Nullable Spliterator<T> trySplit() {
         Spliterator<T> fromSplit = fromSpliterator.trySplit();
-        return (fromSplit == null) ? null : filter(fromSplit, predicate);
+        return fromSplit == null ? null : filter(fromSplit, predicate);
       }
 
       @Override

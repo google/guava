@@ -174,7 +174,7 @@ public final class ImmutableIntArray implements Serializable {
   public static ImmutableIntArray copyOf(IntStream stream) {
     // Note this uses very different growth behavior from copyOf(Iterable) and the builder.
     int[] array = stream.toArray();
-    return (array.length == 0) ? EMPTY : new ImmutableIntArray(array);
+    return array.length == 0 ? EMPTY : new ImmutableIntArray(array);
   }
 
   /**

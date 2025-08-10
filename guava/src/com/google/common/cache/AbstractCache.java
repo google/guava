@@ -265,7 +265,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
 
     /** Returns {@code value}, if non-negative. Otherwise, returns {@link Long#MAX_VALUE}. */
     private static long negativeToMaxValue(long value) {
-      return (value >= 0) ? value : Long.MAX_VALUE;
+      return value >= 0 ? value : Long.MAX_VALUE;
     }
 
     /** Increments all counters by the values in {@code other}. */

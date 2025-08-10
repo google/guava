@@ -158,7 +158,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
             @Override
             public int getCount() {
               Integer frequency = backingMap.get(getElement());
-              return (frequency == null) ? 0 : frequency;
+              return frequency == null ? 0 : frequency;
             }
           };
         }

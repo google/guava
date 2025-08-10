@@ -81,9 +81,9 @@ final class Fingerprint2011 extends AbstractNonStreamingHashFunction {
   @VisibleForTesting
   static long hash128to64(long high, long low) {
     long a = (low ^ high) * K3;
-    a ^= (a >>> 47);
+    a ^= a >>> 47;
     long b = (high ^ a) * K3;
-    b ^= (b >>> 47);
+    b ^= b >>> 47;
     b *= K3;
     return b;
   }

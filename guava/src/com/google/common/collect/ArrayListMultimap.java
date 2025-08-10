@@ -124,7 +124,7 @@ public final class ArrayListMultimap<K extends @Nullable Object, V extends @Null
   private ArrayListMultimap(Multimap<? extends K, ? extends V> multimap) {
     this(
         multimap.keySet().size(),
-        (multimap instanceof ArrayListMultimap)
+        multimap instanceof ArrayListMultimap
             ? ((ArrayListMultimap<?, ?>) multimap).expectedValuesPerKey
             : DEFAULT_VALUES_PER_KEY);
     putAll(multimap);

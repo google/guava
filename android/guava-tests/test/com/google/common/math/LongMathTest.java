@@ -193,7 +193,7 @@ public class LongMathTest extends TestCase {
       for (long y : ALL_LONG_CANDIDATES) {
         BigInteger difference = BigInteger.valueOf(x).subtract(BigInteger.valueOf(y));
         if (fitsInLong(difference)) {
-          int expected = (x < y) ? 1 : 0;
+          int expected = x < y ? 1 : 0;
           int actual = LongMath.lessThanBranchFree(x, y);
           assertEquals(expected, actual);
         }
@@ -338,7 +338,7 @@ public class LongMathTest extends TestCase {
     for (long x : POSITIVE_LONG_CANDIDATES) {
       long sqrtFloor = LongMath.sqrt(x, FLOOR);
       // We only expect an exception if x was not a perfect square.
-      boolean isPerfectSquare = (sqrtFloor * sqrtFloor == x);
+      boolean isPerfectSquare = sqrtFloor * sqrtFloor == x;
       try {
         assertEquals(sqrtFloor, LongMath.sqrt(x, UNNECESSARY));
         assertTrue(isPerfectSquare);

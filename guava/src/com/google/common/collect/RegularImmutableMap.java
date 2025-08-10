@@ -111,7 +111,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
      */
     @SuppressWarnings("nullness")
     Entry<K, V>[] entries =
-        (n == entryArray.length) ? (Entry<K, V>[]) entryArray : createEntryArray(n);
+        n == entryArray.length ? (Entry<K, V>[]) entryArray : createEntryArray(n);
     int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
     @Nullable ImmutableMapEntry<K, V>[] table = createEntryArray(tableSize);
     int mask = tableSize - 1;
@@ -135,7 +135,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       if (effectiveEntry == null) {
         // prepend, not append, so the entries can be immutable
         effectiveEntry =
-            (keyBucketHead == null)
+            keyBucketHead == null
                 ? makeImmutable(entry, key, value)
                 : new NonTerminalImmutableMapEntry<K, V>(key, value, keyBucketHead);
         table[tableIndex] = effectiveEntry;

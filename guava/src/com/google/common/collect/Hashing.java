@@ -53,7 +53,7 @@ final class Hashing {
   }
 
   static int smearedHash(@Nullable Object o) {
-    return smear((o == null) ? 0 : o.hashCode());
+    return smear(o == null ? 0 : o.hashCode());
   }
 
   private static final int MAX_TABLE_SIZE = Ints.MAX_POWER_OF_TWO;
@@ -66,7 +66,7 @@ final class Hashing {
     // Check to make sure that we will not exceed the maximum load factor.
     if (expectedEntries > (int) (loadFactor * tableSize)) {
       tableSize <<= 1;
-      return (tableSize > 0) ? tableSize : MAX_TABLE_SIZE;
+      return tableSize > 0 ? tableSize : MAX_TABLE_SIZE;
     }
     return tableSize;
   }

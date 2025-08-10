@@ -54,11 +54,11 @@ abstract class ToDoubleRounder<X extends Number & Comparable<X>> {
         case HALF_UP:
           return Double.MAX_VALUE * sign(x);
         case FLOOR:
-          return (roundArbitrarily == Double.POSITIVE_INFINITY)
+          return roundArbitrarily == Double.POSITIVE_INFINITY
               ? Double.MAX_VALUE
               : Double.NEGATIVE_INFINITY;
         case CEILING:
-          return (roundArbitrarily == Double.POSITIVE_INFINITY)
+          return roundArbitrarily == Double.POSITIVE_INFINITY
               ? Double.POSITIVE_INFINITY
               : -Double.MAX_VALUE;
         case UP:
@@ -74,24 +74,24 @@ abstract class ToDoubleRounder<X extends Number & Comparable<X>> {
         checkRoundingUnnecessary(cmpXToRoundArbitrarily == 0);
         return roundArbitrarily;
       case FLOOR:
-        return (cmpXToRoundArbitrarily >= 0)
+        return cmpXToRoundArbitrarily >= 0
             ? roundArbitrarily
             : DoubleUtils.nextDown(roundArbitrarily);
       case CEILING:
-        return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        return cmpXToRoundArbitrarily <= 0 ? roundArbitrarily : Math.nextUp(roundArbitrarily);
       case DOWN:
         if (sign(x) >= 0) {
-          return (cmpXToRoundArbitrarily >= 0)
+          return cmpXToRoundArbitrarily >= 0
               ? roundArbitrarily
               : DoubleUtils.nextDown(roundArbitrarily);
         } else {
-          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+          return cmpXToRoundArbitrarily <= 0 ? roundArbitrarily : Math.nextUp(roundArbitrarily);
         }
       case UP:
         if (sign(x) >= 0) {
-          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+          return cmpXToRoundArbitrarily <= 0 ? roundArbitrarily : Math.nextUp(roundArbitrarily);
         } else {
-          return (cmpXToRoundArbitrarily >= 0)
+          return cmpXToRoundArbitrarily >= 0
               ? roundArbitrarily
               : DoubleUtils.nextDown(roundArbitrarily);
         }
@@ -135,13 +135,13 @@ abstract class ToDoubleRounder<X extends Number & Comparable<X>> {
             case HALF_EVEN:
               // roundFloorAsDouble and roundCeilingAsDouble are neighbors, so precisely
               // one of them should have an even long representation
-              return ((Double.doubleToRawLongBits(roundFloorAsDouble) & 1L) == 0)
+              return (Double.doubleToRawLongBits(roundFloorAsDouble) & 1L) == 0
                   ? roundFloorAsDouble
                   : roundCeilingAsDouble;
             case HALF_DOWN:
-              return (sign(x) >= 0) ? roundFloorAsDouble : roundCeilingAsDouble;
+              return sign(x) >= 0 ? roundFloorAsDouble : roundCeilingAsDouble;
             case HALF_UP:
-              return (sign(x) >= 0) ? roundCeilingAsDouble : roundFloorAsDouble;
+              return sign(x) >= 0 ? roundCeilingAsDouble : roundFloorAsDouble;
             default:
               throw new AssertionError("impossible");
           }

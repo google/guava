@@ -331,7 +331,7 @@ public final class AtomicLongMap<K> implements Serializable {
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {
     Map<K, Long> result = asMap;
-    return (result == null) ? asMap = createAsMap() : result;
+    return result == null ? asMap = createAsMap() : result;
   }
 
   private Map<K, Long> createAsMap() {
@@ -444,7 +444,7 @@ public final class AtomicLongMap<K> implements Serializable {
       return putIfAbsent(key, newValue) == 0L;
     } else {
       AtomicLong atomic = map.get(key);
-      return (atomic == null) ? false : atomic.compareAndSet(expectedOldValue, newValue);
+      return atomic == null ? false : atomic.compareAndSet(expectedOldValue, newValue);
     }
   }
 }

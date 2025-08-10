@@ -179,7 +179,7 @@ public class SetGenerators {
 
   public static class ImmutableSortedSetExplicitComparator extends TestStringSetGenerator {
 
-    private static final Comparator<String> STRING_REVERSED = Collections.reverseOrder();
+    private static final Comparator<String> STRING_REVERSED = Comparator.reverseOrder();
 
     @Override
     protected SortedSet<String> create(String[] elements) {
@@ -194,7 +194,7 @@ public class SetGenerators {
     @SuppressWarnings("CanIgnoreReturnValueSuggester")
     @Override
     public List<String> order(List<String> insertionOrder) {
-      sort(insertionOrder, Collections.reverseOrder());
+      sort(insertionOrder, Comparator.reverseOrder());
       return insertionOrder;
     }
   }
@@ -212,7 +212,7 @@ public class SetGenerators {
     @SuppressWarnings("CanIgnoreReturnValueSuggester") // see ImmutableSortedSetExplicitComparator
     @Override
     public List<String> order(List<String> insertionOrder) {
-      sort(insertionOrder, Collections.reverseOrder());
+      sort(insertionOrder, Comparator.reverseOrder());
       return insertionOrder;
     }
   }
@@ -227,7 +227,7 @@ public class SetGenerators {
     @SuppressWarnings("CanIgnoreReturnValueSuggester") // see ImmutableSortedSetExplicitComparator
     @Override
     public List<String> order(List<String> insertionOrder) {
-      sort(insertionOrder, Collections.reverseOrder());
+      sort(insertionOrder, Comparator.reverseOrder());
       return insertionOrder;
     }
   }

@@ -81,7 +81,7 @@ public class ListsTest extends TestCase {
   private static final class RemoveFirstFunction implements Function<String, String>, Serializable {
     @Override
     public String apply(String from) {
-      return (from.length() == 0) ? from : from.substring(1);
+      return from.isEmpty() ? from : from.substring(1);
     }
   }
 

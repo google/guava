@@ -82,7 +82,7 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings("JUnitIncompatibleType") // Many intentional violations here.
 public class MapsTest extends TestCase {
 
-  private static final Comparator<Integer> SOME_COMPARATOR = Collections.reverseOrder();
+  private static final Comparator<Integer> SOME_COMPARATOR = Comparator.reverseOrder();
 
   public void testHashMap() {
     @SuppressWarnings("UseCollectionConstructor") // test of factory method
@@ -1180,7 +1180,7 @@ public class MapsTest extends TestCase {
     assertThrows(UnsupportedOperationException.class, () -> unmod.replace(3, "three", "four"));
     assertThrows(UnsupportedOperationException.class, () -> unmod.replace(3, "four"));
     assertThrows(
-        UnsupportedOperationException.class, () -> unmod.computeIfAbsent(3, (k) -> k + "three"));
+        UnsupportedOperationException.class, () -> unmod.computeIfAbsent(3, k -> k + "three"));
     assertThrows(UnsupportedOperationException.class, () -> unmod.computeIfPresent(4, (k, v) -> v));
     assertThrows(UnsupportedOperationException.class, () -> unmod.compute(4, (k, v) -> v));
     assertThrows(UnsupportedOperationException.class, () -> unmod.merge(4, "four", (k, v) -> v));
@@ -1515,7 +1515,7 @@ public class MapsTest extends TestCase {
     } catch (UnsupportedOperationException expected) {
     }
     try {
-      unmod.computeIfAbsent(3, (k) -> k + "three");
+      unmod.computeIfAbsent(3, k -> k + "three");
       fail("UnsupportedOperationException expected");
     } catch (UnsupportedOperationException expected) {
     }

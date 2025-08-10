@@ -145,7 +145,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
                 return frequency.get();
               }
             }
-            return (count == null) ? 0 : count.get();
+            return count == null ? 0 : count.get();
           }
         };
       }
@@ -250,7 +250,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   @Override
   public int count(@Nullable Object element) {
     Count frequency = safeGet(backingMap, element);
-    return (frequency == null) ? 0 : frequency.get();
+    return frequency == null ? 0 : frequency.get();
   }
 
   // Optional Operations - Modification Operations
@@ -330,7 +330,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
       }
     }
 
-    size += (count - oldCount);
+    size += count - oldCount;
     return oldCount;
   }
 

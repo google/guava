@@ -55,7 +55,7 @@ public final class LineReader {
   /** Creates a new instance that will read lines from the given {@code Readable} object. */
   public LineReader(Readable readable) {
     this.readable = checkNotNull(readable);
-    this.reader = (readable instanceof Reader) ? (Reader) readable : null;
+    this.reader = readable instanceof Reader ? (Reader) readable : null;
   }
 
   /**
@@ -73,7 +73,7 @@ public final class LineReader {
       Java8Compatibility.clear(cbuf);
       // The default implementation of Reader#read(CharBuffer) allocates a
       // temporary char[], so we call Reader#read(char[], int, int) instead.
-      int read = (reader != null) ? reader.read(buf, 0, buf.length) : readable.read(cbuf);
+      int read = reader != null ? reader.read(buf, 0, buf.length) : readable.read(cbuf);
       if (read == -1) {
         lineBuf.finish();
         break;
