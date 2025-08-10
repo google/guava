@@ -551,4 +551,12 @@ public class Helpers {
       throw new IllegalArgumentException(e);
     }
   }
+
+  /**
+   * Useless constructor for a class of static utility methods.
+   *
+   * @deprecated Do not instantiate this utility class.
+   */
+  @Deprecated
+  public Helpers() {}
 }

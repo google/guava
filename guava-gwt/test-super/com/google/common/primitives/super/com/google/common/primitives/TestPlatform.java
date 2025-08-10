@@ -19,8 +19,10 @@ package com.google.common.primitives;
 import com.google.common.annotations.GwtCompatible;
 
 @GwtCompatible
-class TestPlatform {
+final class TestPlatform {
   static int reduceIterationsIfGwt(int iterations) {
     return iterations / 10;
   }
+
+  private TestPlatform() {}
 }

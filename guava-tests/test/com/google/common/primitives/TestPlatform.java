@@ -21,8 +21,10 @@ import org.jspecify.annotations.NullUnmarked;
 
 @GwtCompatible
 @NullUnmarked
-class TestPlatform {
+final class TestPlatform {
   static int reduceIterationsIfGwt(int iterations) {
     return iterations;
   }
+
+  private TestPlatform() {}
 }

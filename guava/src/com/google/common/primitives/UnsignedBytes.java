@@ -464,6 +464,8 @@ public final class UnsignedBytes {
         return lexicographicalComparatorJavaImpl();
       }
     }
+
+    private LexicographicalComparatorHolder() {}
   }
 
   private enum ArraysCompareUnsignedComparatorMaker {

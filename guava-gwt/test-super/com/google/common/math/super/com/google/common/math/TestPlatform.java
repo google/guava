@@ -22,7 +22,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Chris Povirk
  */
 @GwtCompatible
-class TestPlatform {
+final class TestPlatform {
   static boolean intsCanGoOutOfRange() {
     return true;
   }
@@ -30,4 +30,6 @@ class TestPlatform {
   static boolean isAndroid() {
     return false;
   }
+
+  private TestPlatform() {}
 }

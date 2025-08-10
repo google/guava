@@ -29,4 +29,6 @@ final class LongAddables {
   }
 
   private static final class JavaUtilConcurrentLongAdder extends LongAdder implements LongAddable {}
+
+  private LongAddables() {}
 }

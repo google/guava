@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 @NullUnmarked
-class TestingCacheLoaders {
+final class TestingCacheLoaders {
 
   /**
    * Returns a {@link CacheLoader} that implements a naive {@link CacheLoader#loadAll}, delegating
@@ -166,4 +166,6 @@ class TestingCacheLoaders {
       return key;
     }
   }
+
+  private TestingCacheLoaders() {}
 }

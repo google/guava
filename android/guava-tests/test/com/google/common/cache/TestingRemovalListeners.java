@@ -27,7 +27,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtCompatible
 @NullUnmarked
-class TestingRemovalListeners {
+final class TestingRemovalListeners {
 
   /** Returns a new no-op {@code RemovalListener}. */
   static <K, V> NullRemovalListener<K, V> nullRemovalListener() {
@@ -92,4 +92,6 @@ class TestingRemovalListeners {
     @Override
     public void onRemoval(RemovalNotification<K, V> notification) {}
   }
+
+  private TestingRemovalListeners() {}
 }

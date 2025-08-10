@@ -456,6 +456,8 @@ public final class UnsignedBytes {
         return lexicographicalComparatorJavaImpl();
       }
     }
+
+    private LexicographicalComparatorHolder() {}
   }
 
   private static byte flip(byte b) {

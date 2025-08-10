@@ -55,7 +55,7 @@ import org.jspecify.annotations.Nullable;
  */
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 @NullUnmarked
-class CacheTesting {
+final class CacheTesting {
 
   /**
    * Poke into the Cache internals to simulate garbage collection of the value associated with the
@@ -495,4 +495,6 @@ class CacheTesting {
           .testEquals();
     }
   }
+
+  private CacheTesting() {}
 }

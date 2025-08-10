@@ -78,4 +78,6 @@ final class ForwardingObjectTester {
               }
             });
   }
+
+  private ForwardingObjectTester() {}
 }

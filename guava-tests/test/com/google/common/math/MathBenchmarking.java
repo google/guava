@@ -149,4 +149,6 @@ final class MathBenchmarking {
   static double randomPositiveDouble() {
     return Math.exp(randomDouble(6));
   }
+
+  private MathBenchmarking() {}
 }

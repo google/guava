@@ -426,4 +426,12 @@ public class SetGenerators {
       return ContiguousSet.create(range, DiscreteDomain.integers());
     }
   }
+
+  /**
+   * Useless constructor for a class of static utility methods.
+   *
+   * @deprecated Do not instantiate this utility class.
+   */
+  @Deprecated
+  public SetGenerators() {}
 }

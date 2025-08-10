@@ -62,4 +62,6 @@ final class CollectPreconditions {
   static void checkRemove(boolean canRemove) {
     checkState(canRemove, "no calls to next() since the last call to remove()");
   }
+
+  private CollectPreconditions() {}
 }

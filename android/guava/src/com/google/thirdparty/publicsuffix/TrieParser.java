@@ -116,4 +116,6 @@ final class TrieParser {
   private static CharSequence reverse(CharSequence s) {
     return new StringBuilder(s).reverse();
   }
+
+  private TrieParser() {}
 }

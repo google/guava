@@ -71,4 +71,6 @@ final class LongAddables {
       return get();
     }
   }
+
+  private LongAddables() {}
 }

@@ -132,4 +132,12 @@ public class SortedMapGenerators {
       return builder.build().values().asList();
     }
   }
+
+  /**
+   * Useless constructor for a class of static utility methods.
+   *
+   * @deprecated Do not instantiate this utility class.
+   */
+  @Deprecated
+  public SortedMapGenerators() {}
 }

@@ -667,10 +667,13 @@ final class Types {
    * unequal TypeVariable implementation unnecessarily. When the bounds do change, however, it's
    * fine for the synthetic TypeVariable to be unequal to any native TypeVariable anyway.
    */
+  @SuppressWarnings("UnusedTypeParameter") // It's used reflectively.
   static final class NativeTypeVariableEquals<X> {
     static final boolean NATIVE_TYPE_VARIABLE_ONLY =
         !NativeTypeVariableEquals.class.getTypeParameters()[0].equals(
             newArtificialTypeVariable(NativeTypeVariableEquals.class, "X"));
+
+    private NativeTypeVariableEquals() {}
   }
 
   private Types() {}

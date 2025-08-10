@@ -65,4 +65,12 @@ public class BiMapGenerators {
       return ImmutableBiMap.copyOf(asList(entries));
     }
   }
+
+  /**
+   * Useless constructor for a class of static utility methods.
+   *
+   * @deprecated Do not instantiate this utility class.
+   */
+  @Deprecated
+  public BiMapGenerators() {}
 }
