@@ -438,10 +438,8 @@
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
               <sourceLevel>1.8</sourceLevel>
               <!-- Keep these timeouts very large because, if we hit the timeout, the tests silently pass :( -->
-              <testTimeOut>86400 
-                <!-- seconds --></testTimeOut>
-              <testMethodTimeout>1440 
-                <!-- minutes --></testMethodTimeout>
+              <testTimeOut>86400</testTimeOut> <!-- seconds -->
+              <testMethodTimeout>1440</testMethodTimeout> <!-- minutes -->
               <!-- Presumably we want watchFileChanges=false here, since we want it for compile: -->
               <extraJvmArgs>-Dgwt.watchFileChanges=false</extraJvmArgs>
             </configuration>
