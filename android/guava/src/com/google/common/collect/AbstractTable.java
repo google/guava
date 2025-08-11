@@ -78,7 +78,7 @@ abstract class AbstractTable<
   @Override
   public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {
     Map<C, V> row = safeGet(rowMap(), rowKey);
-    return (row == null) ? null : safeGet(row, columnKey);
+    return row == null ? null : safeGet(row, columnKey);
   }
 
   @Override
@@ -95,7 +95,7 @@ abstract class AbstractTable<
   @Override
   public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
     Map<C, V> row = safeGet(rowMap(), rowKey);
-    return (row == null) ? null : Maps.safeRemove(row, columnKey);
+    return row == null ? null : Maps.safeRemove(row, columnKey);
   }
 
   @CanIgnoreReturnValue
@@ -117,7 +117,7 @@ abstract class AbstractTable<
   @Override
   public Set<Cell<R, C, V>> cellSet() {
     Set<Cell<R, C, V>> result = cellSet;
-    return (result == null) ? cellSet = createCellSet() : result;
+    return result == null ? cellSet = createCellSet() : result;
   }
 
   Set<Cell<R, C, V>> createCellSet() {
@@ -173,7 +173,7 @@ abstract class AbstractTable<
   @Override
   public Collection<V> values() {
     Collection<V> result = values;
-    return (result == null) ? values = createValues() : result;
+    return result == null ? values = createValues() : result;
   }
 
   Collection<V> createValues() {

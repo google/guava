@@ -274,7 +274,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
             new ForwardingTestMultisetGenerator<E>(delegate) {
               @Override
               public SortedMultiset<E> create(Object... entries) {
-                return SerializableTester.reserialize(((SortedMultiset<E>) super.create(entries)));
+                return SerializableTester.reserialize((SortedMultiset<E>) super.create(entries));
               }
             })
         .named(parentBuilder.getName() + " reserialized")

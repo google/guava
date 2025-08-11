@@ -47,7 +47,7 @@ final class EdgesConnecting<E> extends AbstractSet<E> {
   @Override
   public UnmodifiableIterator<E> iterator() {
     E connectingEdge = getConnectingEdge();
-    return (connectingEdge == null)
+    return connectingEdge == null
         ? ImmutableSet.<E>of().iterator()
         : Iterators.singletonIterator(connectingEdge);
   }
@@ -60,7 +60,7 @@ final class EdgesConnecting<E> extends AbstractSet<E> {
   @Override
   public boolean contains(@Nullable Object edge) {
     E connectingEdge = getConnectingEdge();
-    return (connectingEdge != null && connectingEdge.equals(edge));
+    return connectingEdge != null && connectingEdge.equals(edge);
   }
 
   private @Nullable E getConnectingEdge() {

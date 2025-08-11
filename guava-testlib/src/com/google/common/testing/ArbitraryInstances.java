@@ -365,7 +365,7 @@ public final class ArbitraryInstances {
     }
     if (type.isEnum()) {
       T[] enumConstants = type.getEnumConstants();
-      return (enumConstants == null || enumConstants.length == 0) ? null : enumConstants[0];
+      return enumConstants == null || enumConstants.length == 0 ? null : enumConstants[0];
     }
     if (type.isArray()) {
       return createEmptyArray(type);

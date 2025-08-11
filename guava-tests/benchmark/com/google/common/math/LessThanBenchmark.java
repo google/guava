@@ -96,7 +96,7 @@ public class LessThanBenchmark {
       int x = xInts[j];
       int y = yInts[j];
       int z = constant[j];
-      tmp += z + ((x < y) ? 1 : 0);
+      tmp += z + (x < y ? 1 : 0);
     }
     return tmp;
   }
@@ -109,7 +109,7 @@ public class LessThanBenchmark {
       int x = xInts[j];
       int y = yInts[j];
       int z = constant[j];
-      tmp += (x < y) ? z + 1 : z;
+      tmp += x < y ? z + 1 : z;
     }
     return tmp;
   }
@@ -148,7 +148,7 @@ public class LessThanBenchmark {
       long x = xLongs[j];
       long y = yLongs[j];
       int z = constant[j];
-      tmp += z + ((x < y) ? 1 : 0);
+      tmp += z + (x < y ? 1 : 0);
     }
     return tmp;
   }
@@ -161,7 +161,7 @@ public class LessThanBenchmark {
       long x = xLongs[j];
       long y = yLongs[j];
       int z = constant[j];
-      tmp += (x < y) ? z + 1 : z;
+      tmp += x < y ? z + 1 : z;
     }
     return tmp;
   }

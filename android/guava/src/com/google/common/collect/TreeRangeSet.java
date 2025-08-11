@@ -83,13 +83,13 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
   @Override
   public Set<Range<C>> asRanges() {
     Set<Range<C>> result = asRanges;
-    return (result == null) ? asRanges = new AsRanges(rangesByLowerBound.values()) : result;
+    return result == null ? asRanges = new AsRanges(rangesByLowerBound.values()) : result;
   }
 
   @Override
   public Set<Range<C>> asDescendingSetOfRanges() {
     Set<Range<C>> result = asDescendingSetOfRanges;
-    return (result == null)
+    return result == null
         ? asDescendingSetOfRanges = new AsRanges(rangesByLowerBound.descendingMap().values())
         : result;
   }
@@ -155,7 +155,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
   private @Nullable Range<C> rangeEnclosing(Range<C> range) {
     checkNotNull(range);
     Entry<Cut<C>, Range<C>> floorEntry = rangesByLowerBound.floorEntry(range.lowerBound);
-    return (floorEntry != null && floorEntry.getValue().encloses(range))
+    return floorEntry != null && floorEntry.getValue().encloses(range)
         ? floorEntry.getValue()
         : null;
   }
@@ -277,7 +277,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
   @Override
   public RangeSet<C> complement() {
     RangeSet<C> result = complement;
-    return (result == null) ? complement = new Complement() : result;
+    return result == null ? complement = new Complement() : result;
   }
 
   @VisibleForTesting
@@ -584,7 +584,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       Cut<C> cut;
       if (positiveItr.hasNext()) {
         cut =
-            (positiveItr.peek().upperBound == Cut.<C>aboveAll())
+            positiveItr.peek().upperBound == Cut.<C>aboveAll()
                 ? positiveItr.next().lowerBound
                 : positiveRangesByLowerBound.higherKey(positiveItr.peek().upperBound);
       } else if (!complementLowerBoundWindow.contains(Cut.<C>belowAll())
@@ -884,7 +884,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
         return null;
       }
       Range<C> result = TreeRangeSet.this.rangeContaining(value);
-      return (result == null) ? null : result.intersection(restriction);
+      return result == null ? null : result.intersection(restriction);
     }
 
     @Override

@@ -86,7 +86,7 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive. This optimizes
     // methods that access the same node(s) repeatedly, such as Graphs.removeEdgesConnecting().
     this.nodeConnections =
-        (nodeConnections instanceof TreeMap)
+        nodeConnections instanceof TreeMap
             ? new MapRetrievalCache<N, NetworkConnections<N, E>>(nodeConnections)
             : new MapIteratorCache<N, NetworkConnections<N, E>>(nodeConnections);
     this.edgeToReferenceNode = new MapIteratorCache<>(edgeToReferenceNode);

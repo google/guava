@@ -90,7 +90,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
 
   /** Circularly increment i. */
   final int inc(int i) {
-    return (++i == items.length) ? 0 : i;
+    return ++i == items.length ? 0 : i;
   }
 
   /**
@@ -629,7 +629,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     try {
       int i = takeIndex;
       int n = 0;
-      int max = (maxElements < count) ? maxElements : count;
+      int max = maxElements < count ? maxElements : count;
       while (n < max) {
         c.add(items[i]);
         items[i] = null;
@@ -746,7 +746,7 @@ public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
         int ti = takeIndex;
         removeAt(i);
         // back up cursor (reset to front if was first element)
-        nextIndex = (i == ti) ? takeIndex : i;
+        nextIndex = i == ti ? takeIndex : i;
         checkNext();
       } finally {
         monitor.leave();

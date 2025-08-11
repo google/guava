@@ -411,7 +411,7 @@ public class BloomFilterTest extends TestCase {
 
     @Override
     public boolean equals(@Nullable Object object) {
-      return (object instanceof CustomFunnel);
+      return object instanceof CustomFunnel;
     }
 
     @Override

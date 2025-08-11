@@ -150,7 +150,7 @@ public class UnicodeEscaperTest extends TestCase {
           // Canonical escaper method that only escapes lower case ASCII letters.
           @Override
           protected char @Nullable [] escape(int cp) {
-            return ('a' <= cp && cp <= 'z') ? new char[] {Character.toUpperCase((char) cp)} : null;
+            return 'a' <= cp && cp <= 'z' ? new char[] {Character.toUpperCase((char) cp)} : null;
           }
 
           // Inefficient implementation that defines all letters as escapable.

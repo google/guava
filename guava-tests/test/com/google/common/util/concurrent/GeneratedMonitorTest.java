@@ -424,7 +424,7 @@ public class GeneratedMonitorTest extends TestCase {
           suite.addTest(new GeneratedMonitorTest(method, scenario, fair, timeout, expectedOutcome));
         }
       } else {
-        Timeout implicitTimeout = (isTryEnter(method) ? Timeout.ZERO : Timeout.MAX);
+        Timeout implicitTimeout = isTryEnter(method) ? Timeout.ZERO : Timeout.MAX;
         if (timeoutsToUse.timeouts.contains(implicitTimeout)) {
           suite.addTest(new GeneratedMonitorTest(method, scenario, fair, null, expectedOutcome));
         }
@@ -486,7 +486,7 @@ public class GeneratedMonitorTest extends TestCase {
         "%s%s(%s)/%s->%s",
         method.getName(),
         fair ? "(fair)" : "(nonfair)",
-        (timeout == null) ? "untimed" : timeout,
+        timeout == null ? "untimed" : timeout,
         scenario,
         expectedOutcome);
   }
@@ -510,7 +510,7 @@ public class GeneratedMonitorTest extends TestCase {
         });
     awaitUninterruptibly(doingCallLatch);
     long hangDelayMillis =
-        (expectedOutcome == Outcome.HANG)
+        expectedOutcome == Outcome.HANG
             ? EXPECTED_HANG_DELAY_MILLIS
             : UNEXPECTED_HANG_DELAY_MILLIS;
     boolean hung =

@@ -66,7 +66,7 @@ public class AbstractSequentialIteratorTest extends TestCase {
                 new AbstractSequentialIterator<Integer>(1) {
                   @Override
                   protected @Nullable Integer computeNext(Integer previous) {
-                    return (previous == 1 << 30) ? null : previous * 2;
+                    return previous == 1 << 30 ? null : previous * 2;
                   }
                 };
             return powersOfTwo;
@@ -128,7 +128,7 @@ public class AbstractSequentialIteratorTest extends TestCase {
     return new AbstractSequentialIterator<Integer>(first) {
       @Override
       protected @Nullable Integer computeNext(Integer previous) {
-        return (previous == last) ? null : previous * 2;
+        return previous == last ? null : previous * 2;
       }
     };
   }

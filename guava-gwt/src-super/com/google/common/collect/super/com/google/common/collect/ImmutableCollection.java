@@ -86,7 +86,7 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   public ImmutableList<E> asList() {
     ImmutableList<E> list = asList;
-    return (list == null) ? (asList = createAsList()) : list;
+    return list == null ? (asList = createAsList()) : list;
   }
 
   ImmutableList<E> createAsList() {

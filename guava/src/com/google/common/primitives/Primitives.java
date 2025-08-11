@@ -118,7 +118,7 @@ public final class Primitives {
     // cast is safe: long.class and Long.class are both of type Class<Long>
     @SuppressWarnings("unchecked")
     Class<T> wrapped = (Class<T>) PRIMITIVE_TO_WRAPPER_TYPE.get(type);
-    return (wrapped == null) ? type : wrapped;
+    return wrapped == null ? type : wrapped;
   }
 
   /**
@@ -137,6 +137,6 @@ public final class Primitives {
     // cast is safe: long.class and Long.class are both of type Class<Long>
     @SuppressWarnings("unchecked")
     Class<T> unwrapped = (Class<T>) WRAPPER_TO_PRIMITIVE_TYPE.get(type);
-    return (unwrapped == null) ? type : unwrapped;
+    return unwrapped == null ? type : unwrapped;
   }
 }

@@ -189,10 +189,10 @@ public final class ThreadFactoryBuilder {
     Integer priority = builder.priority;
     UncaughtExceptionHandler uncaughtExceptionHandler = builder.uncaughtExceptionHandler;
     ThreadFactory backingThreadFactory =
-        (builder.backingThreadFactory != null)
+        builder.backingThreadFactory != null
             ? builder.backingThreadFactory
             : defaultThreadFactory();
-    AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
+    AtomicLong count = nameFormat != null ? new AtomicLong(0) : null;
     return new ThreadFactory() {
       @Override
       public Thread newThread(Runnable runnable) {

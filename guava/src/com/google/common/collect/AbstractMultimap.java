@@ -114,7 +114,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
   @Override
   public Collection<Entry<K, V>> entries() {
     Collection<Entry<K, V>> result = entries;
-    return (result == null) ? entries = createEntries() : result;
+    return result == null ? entries = createEntries() : result;
   }
 
   abstract Collection<Entry<K, V>> createEntries();
@@ -154,7 +154,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
 
   Spliterator<Entry<K, V>> entrySpliterator() {
     return Spliterators.spliterator(
-        entryIterator(), size(), (this instanceof SetMultimap) ? Spliterator.DISTINCT : 0);
+        entryIterator(), size(), this instanceof SetMultimap ? Spliterator.DISTINCT : 0);
   }
 
   @LazyInit private transient @Nullable Set<K> keySet;
@@ -162,7 +162,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
   @Override
   public Set<K> keySet() {
     Set<K> result = keySet;
-    return (result == null) ? keySet = createKeySet() : result;
+    return result == null ? keySet = createKeySet() : result;
   }
 
   abstract Set<K> createKeySet();
@@ -172,7 +172,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
   @Override
   public Multiset<K> keys() {
     Multiset<K> result = keys;
-    return (result == null) ? keys = createKeys() : result;
+    return result == null ? keys = createKeys() : result;
   }
 
   abstract Multiset<K> createKeys();
@@ -182,7 +182,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
   @Override
   public Collection<V> values() {
     Collection<V> result = values;
-    return (result == null) ? values = createValues() : result;
+    return result == null ? values = createValues() : result;
   }
 
   abstract Collection<V> createValues();
@@ -228,7 +228,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
   @Override
   public Map<K, Collection<V>> asMap() {
     Map<K, Collection<V>> result = asMap;
-    return (result == null) ? asMap = createAsMap() : result;
+    return result == null ? asMap = createAsMap() : result;
   }
 
   abstract Map<K, Collection<V>> createAsMap();

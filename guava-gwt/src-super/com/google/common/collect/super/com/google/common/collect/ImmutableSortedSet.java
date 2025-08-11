@@ -219,7 +219,7 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
     if (elements instanceof SortedSet) {
       SortedSet<?> sortedSet = (SortedSet<?>) elements;
       Comparator<?> comparator2 = sortedSet.comparator();
-      return (comparator2 == null)
+      return comparator2 == null
           ? comparator == Ordering.natural()
           : comparator.equals(comparator2);
     }

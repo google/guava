@@ -395,7 +395,7 @@ final class AbstractFutureBenchmarks {
           this.value = v;
           // Don't actually construct a CancellationException until necessary.
           this.exception =
-              ((finalState & (CANCELLED | INTERRUPTED)) != 0)
+              (finalState & (CANCELLED | INTERRUPTED)) != 0
                   ? new CancellationException("Future.cancel() was called.")
                   : t;
           releaseShared(finalState);

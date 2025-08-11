@@ -85,7 +85,7 @@ public class UnsignedLongTest extends TestCase {
   public void testAsUnsignedBigIntegerValue() {
     for (long value : TEST_LONGS) {
       BigInteger expected =
-          (value >= 0)
+          value >= 0
               ? BigInteger.valueOf(value)
               : BigInteger.valueOf(value).add(BigInteger.ZERO.setBit(64));
       assertWithMessage(UnsignedLongs.toString(value))
@@ -265,7 +265,7 @@ public class UnsignedLongTest extends TestCase {
     EqualsTester equalsTester = new EqualsTester();
     for (long a : TEST_LONGS) {
       BigInteger big =
-          (a >= 0) ? BigInteger.valueOf(a) : BigInteger.valueOf(a).add(BigInteger.ZERO.setBit(64));
+          a >= 0 ? BigInteger.valueOf(a) : BigInteger.valueOf(a).add(BigInteger.ZERO.setBit(64));
       equalsTester.addEqualityGroup(
           UnsignedLong.fromLongBits(a),
           UnsignedLong.valueOf(big),

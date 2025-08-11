@@ -224,7 +224,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
 
   @Override
   int adjustAfterRemove(int indexBeforeRemove, int indexRemoved) {
-    return (indexBeforeRemove >= size()) ? indexRemoved : indexBeforeRemove;
+    return indexBeforeRemove >= size() ? indexRemoved : indexBeforeRemove;
   }
 
   @Override

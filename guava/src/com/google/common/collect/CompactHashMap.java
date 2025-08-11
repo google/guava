@@ -502,7 +502,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   @Override
   public boolean containsKey(@Nullable Object key) {
     Map<K, V> delegate = delegateOrNull();
-    return (delegate != null) ? delegate.containsKey(key) : indexOf(key) != -1;
+    return delegate != null ? delegate.containsKey(key) : indexOf(key) != -1;
   }
 
   @Override
@@ -528,7 +528,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
       return delegate.remove(key);
     }
     Object oldValue = removeHelper(key);
-    return (oldValue == NOT_FOUND) ? null : (V) oldValue;
+    return oldValue == NOT_FOUND ? null : (V) oldValue;
   }
 
   private @Nullable Object removeHelper(@Nullable Object key) {
@@ -610,7 +610,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   int getSuccessor(int entryIndex) {
-    return (entryIndex + 1 < size) ? entryIndex + 1 : -1;
+    return entryIndex + 1 < size ? entryIndex + 1 : -1;
   }
 
   /**
@@ -686,7 +686,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
 
   @Override
   public Set<K> keySet() {
-    return (keySetView == null) ? keySetView = createKeySet() : keySetView;
+    return keySetView == null ? keySetView = createKeySet() : keySetView;
   }
 
   Set<K> createKeySet() {
@@ -705,7 +705,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
         return new Object[0];
       }
       Map<K, V> delegate = delegateOrNull();
-      return (delegate != null)
+      return delegate != null
           ? delegate.keySet().toArray()
           : ObjectArrays.copyAsObjectArray(requireKeys(), 0, size);
     }
@@ -721,7 +721,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
         return a;
       }
       Map<K, V> delegate = delegateOrNull();
-      return (delegate != null)
+      return delegate != null
           ? delegate.keySet().toArray(a)
           : ObjectArrays.toArrayImpl(requireKeys(), 0, size, a);
     }
@@ -729,7 +729,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     @Override
     public boolean remove(@Nullable Object o) {
       Map<K, V> delegate = delegateOrNull();
-      return (delegate != null)
+      return delegate != null
           ? delegate.keySet().remove(o)
           : CompactHashMap.this.removeHelper(o) != NOT_FOUND;
     }
@@ -745,7 +745,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
         return Spliterators.spliterator(new Object[0], Spliterator.DISTINCT | Spliterator.ORDERED);
       }
       Map<K, V> delegate = delegateOrNull();
-      return (delegate != null)
+      return delegate != null
           ? delegate.keySet().spliterator()
           : Spliterators.spliterator(
               requireKeys(), 0, size, Spliterator.DISTINCT | Spliterator.ORDERED);
@@ -796,7 +796,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
 
   @Override
   public Set<Entry<K, V>> entrySet() {
-    return (entrySetView == null) ? entrySetView = createEntrySet() : entrySetView;
+    return entrySetView == null ? entrySetView = createEntrySet() : entrySetView;
   }
 
   Set<Entry<K, V>> createEntrySet() {
@@ -818,7 +818,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     @Override
     public Spliterator<Entry<K, V>> spliterator() {
       Map<K, V> delegate = delegateOrNull();
-      return (delegate != null)
+      return delegate != null
           ? delegate.entrySet().spliterator()
           : CollectSpliterators.indexed(
               size, Spliterator.DISTINCT | Spliterator.ORDERED, MapEntry::new);
@@ -928,7 +928,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
        * permits us to throw IllegalStateException. Maybe we should have done that, but we probably
        * shouldn't change now for fear of breaking people.)
        */
-      return (lastKnownIndex == -1) ? unsafeNull() : value(lastKnownIndex);
+      return lastKnownIndex == -1 ? unsafeNull() : value(lastKnownIndex);
     }
 
     @Override
@@ -953,7 +953,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   @Override
   public int size() {
     Map<K, V> delegate = delegateOrNull();
-    return (delegate != null) ? delegate.size() : size;
+    return delegate != null ? delegate.size() : size;
   }
 
   @Override
@@ -979,7 +979,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
 
   @Override
   public Collection<V> values() {
-    return (valuesView == null) ? valuesView = createValues() : valuesView;
+    return valuesView == null ? valuesView = createValues() : valuesView;
   }
 
   Collection<V> createValues() {
@@ -1016,7 +1016,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
         return Spliterators.spliterator(new Object[0], Spliterator.ORDERED);
       }
       Map<K, V> delegate = delegateOrNull();
-      return (delegate != null)
+      return delegate != null
           ? delegate.values().spliterator()
           : Spliterators.spliterator(requireValues(), 0, size, Spliterator.ORDERED);
     }
@@ -1027,7 +1027,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
         return new Object[0];
       }
       Map<K, V> delegate = delegateOrNull();
-      return (delegate != null)
+      return delegate != null
           ? delegate.values().toArray()
           : ObjectArrays.copyAsObjectArray(requireValues(), 0, size);
     }
@@ -1043,7 +1043,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
         return a;
       }
       Map<K, V> delegate = delegateOrNull();
-      return (delegate != null)
+      return delegate != null
           ? delegate.values().toArray(a)
           : ObjectArrays.toArrayImpl(requireValues(), 0, size, a);
     }

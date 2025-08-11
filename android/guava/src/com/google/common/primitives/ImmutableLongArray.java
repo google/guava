@@ -176,7 +176,7 @@ public final class ImmutableLongArray implements Serializable {
   public static ImmutableLongArray copyOf(LongStream stream) {
     // Note this uses very different growth behavior from copyOf(Iterable) and the builder.
     long[] array = stream.toArray();
-    return (array.length == 0) ? EMPTY : new ImmutableLongArray(array);
+    return array.length == 0 ? EMPTY : new ImmutableLongArray(array);
   }
 
   /**

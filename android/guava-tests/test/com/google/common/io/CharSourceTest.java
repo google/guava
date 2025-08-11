@@ -286,7 +286,7 @@ public class CharSourceTest extends IoTestCase {
       assertEquals(0, suppressed);
 
       suppressed = runSuppressionFailureTest(in, BROKEN_CLOSE_SINK);
-      assertEquals((in == BROKEN_OPEN_SOURCE) ? 0 : 1, suppressed);
+      assertEquals(in == BROKEN_OPEN_SOURCE ? 0 : 1, suppressed);
     }
 
     for (CharSink out : BROKEN_SINKS) {

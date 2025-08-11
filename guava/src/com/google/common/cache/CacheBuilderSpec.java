@@ -285,7 +285,7 @@ public final class CacheBuilderSpec {
    * nanos to match CacheBuilder implementation.
    */
   private static @Nullable Long durationInNanos(long duration, @Nullable TimeUnit unit) {
-    return (unit == null) ? null : unit.toNanos(duration);
+    return unit == null ? null : unit.toNanos(duration);
   }
 
   /** Base class for parsing integers. */

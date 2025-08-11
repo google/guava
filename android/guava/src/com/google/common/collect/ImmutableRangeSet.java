@@ -359,7 +359,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
       Cut<C> lowerBound;
       if (positiveBoundedBelow) {
-        lowerBound = (index == 0) ? Cut.<C>belowAll() : ranges.get(index - 1).upperBound;
+        lowerBound = index == 0 ? Cut.<C>belowAll() : ranges.get(index - 1).upperBound;
       } else {
         lowerBound = ranges.get(index).upperBound;
       }

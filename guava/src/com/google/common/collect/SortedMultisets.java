@@ -175,6 +175,6 @@ final class SortedMultisets {
 
   private static <E extends @Nullable Object> @Nullable E getElementOrNull(
       @Nullable Entry<E> entry) {
-    return (entry == null) ? null : entry.getElement();
+    return entry == null ? null : entry.getElement();
   }
 }

@@ -140,7 +140,7 @@ final class Types {
   static <D extends GenericDeclaration> TypeVariable<D> newArtificialTypeVariable(
       D declaration, String name, Type... bounds) {
     return newTypeVariableImpl(
-        declaration, name, (bounds.length == 0) ? new Type[] {Object.class} : bounds);
+        declaration, name, bounds.length == 0 ? new Type[] {Object.class} : bounds);
   }
 
   /** Returns a new {@link WildcardType} with {@code upperBound}. */
@@ -161,7 +161,7 @@ final class Types {
    * <p>The format is subject to change.
    */
   static String toString(Type type) {
-    return (type instanceof Class) ? ((Class<?>) type).getName() : type.toString();
+    return type instanceof Class ? ((Class<?>) type).getName() : type.toString();
   }
 
   static @Nullable Type getComponentType(Type type) {

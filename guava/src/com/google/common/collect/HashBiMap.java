@@ -592,7 +592,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public BiMap<V, K> inverse() {
     BiMap<V, K> result = inverse;
-    return (result == null) ? inverse = new Inverse() : result;
+    return result == null ? inverse = new Inverse() : result;
   }
 
   private final class Inverse extends IteratorBasedAbstractMap<V, K>

@@ -524,7 +524,7 @@ public final class Graphs extends GraphsBridgeMethods {
    */
   public static <N> MutableGraph<N> inducedSubgraph(Graph<N> graph, Iterable<? extends N> nodes) {
     MutableGraph<N> subgraph =
-        (nodes instanceof Collection)
+        nodes instanceof Collection
             ? GraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
             : GraphBuilder.from(graph).build();
     for (N node : nodes) {
@@ -551,7 +551,7 @@ public final class Graphs extends GraphsBridgeMethods {
   public static <N, V> MutableValueGraph<N, V> inducedSubgraph(
       ValueGraph<N, V> graph, Iterable<? extends N> nodes) {
     MutableValueGraph<N, V> subgraph =
-        (nodes instanceof Collection)
+        nodes instanceof Collection
             ? ValueGraphBuilder.from(graph).expectedNodeCount(((Collection) nodes).size()).build()
             : ValueGraphBuilder.from(graph).build();
     for (N node : nodes) {
@@ -582,7 +582,7 @@ public final class Graphs extends GraphsBridgeMethods {
   public static <N, E> MutableNetwork<N, E> inducedSubgraph(
       Network<N, E> network, Iterable<? extends N> nodes) {
     MutableNetwork<N, E> subgraph =
-        (nodes instanceof Collection)
+        nodes instanceof Collection
             ? NetworkBuilder.from(network).expectedNodeCount(((Collection) nodes).size()).build()
             : NetworkBuilder.from(network).build();
     for (N node : nodes) {

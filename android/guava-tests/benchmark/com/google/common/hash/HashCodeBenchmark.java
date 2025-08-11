@@ -70,7 +70,7 @@ public class HashCodeBenchmark {
         }
         boolean areEqual = true;
         for (int i = 0; i < a.length; i++) {
-          areEqual &= (a[i] == b[i]);
+          areEqual &= a[i] == b[i];
         }
         return areEqual;
       }
@@ -85,7 +85,7 @@ public class HashCodeBenchmark {
         for (int i = 0; i < a.length; i++) {
           result = (byte) (result | a[i] ^ b[i]);
         }
-        return (result == 0);
+        return result == 0;
       }
     },
     XORING_TO_INT {
@@ -98,7 +98,7 @@ public class HashCodeBenchmark {
         for (int i = 0; i < a.length; i++) {
           result |= a[i] ^ b[i];
         }
-        return (result == 0);
+        return result == 0;
       }
     },
     MESSAGE_DIGEST_IS_EQUAL {

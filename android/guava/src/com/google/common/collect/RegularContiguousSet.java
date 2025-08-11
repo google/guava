@@ -165,7 +165,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
   @Override
   public int size() {
     long distance = domain.distance(first(), last());
-    return (distance >= Integer.MAX_VALUE) ? Integer.MAX_VALUE : (int) distance + 1;
+    return distance >= Integer.MAX_VALUE ? Integer.MAX_VALUE : (int) distance + 1;
   }
 
   @Override
@@ -202,7 +202,7 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     } else {
       C lowerEndpoint = Ordering.<C>natural().max(this.first(), other.first());
       C upperEndpoint = Ordering.<C>natural().min(this.last(), other.last());
-      return (lowerEndpoint.compareTo(upperEndpoint) <= 0)
+      return lowerEndpoint.compareTo(upperEndpoint) <= 0
           ? ContiguousSet.create(Range.closed(lowerEndpoint, upperEndpoint), domain)
           : new EmptyContiguousSet<C>(domain);
     }

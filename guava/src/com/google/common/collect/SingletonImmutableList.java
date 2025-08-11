@@ -65,7 +65,7 @@ final class SingletonImmutableList<E> extends ImmutableList<E> {
   @Override
   public ImmutableList<E> subList(int fromIndex, int toIndex) {
     Preconditions.checkPositionIndexes(fromIndex, toIndex, 1);
-    return (fromIndex == toIndex) ? ImmutableList.<E>of() : this;
+    return fromIndex == toIndex ? ImmutableList.<E>of() : this;
   }
 
   @Override

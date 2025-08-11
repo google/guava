@@ -196,9 +196,9 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     checkNotNull(upperType);
 
     Cut<C> lowerBound =
-        (lowerType == BoundType.OPEN) ? Cut.aboveValue(lower) : Cut.belowValue(lower);
+        lowerType == BoundType.OPEN ? Cut.aboveValue(lower) : Cut.belowValue(lower);
     Cut<C> upperBound =
-        (upperType == BoundType.OPEN) ? Cut.belowValue(upper) : Cut.aboveValue(upper);
+        upperType == BoundType.OPEN ? Cut.belowValue(upper) : Cut.aboveValue(upper);
     return create(lowerBound, upperBound);
   }
 
@@ -529,8 +529,8 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     } else if (lowerCmp <= 0 && upperCmp >= 0) {
       return connectedRange;
     } else {
-      Cut<C> newLower = (lowerCmp >= 0) ? lowerBound : connectedRange.lowerBound;
-      Cut<C> newUpper = (upperCmp <= 0) ? upperBound : connectedRange.upperBound;
+      Cut<C> newLower = lowerCmp >= 0 ? lowerBound : connectedRange.lowerBound;
+      Cut<C> newUpper = upperCmp <= 0 ? upperBound : connectedRange.upperBound;
 
       // create() would catch this, but give a confusing error message
       checkArgument(
@@ -603,8 +603,8 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     } else if (lowerCmp >= 0 && upperCmp <= 0) {
       return other;
     } else {
-      Cut<C> newLower = (lowerCmp <= 0) ? lowerBound : other.lowerBound;
-      Cut<C> newUpper = (upperCmp >= 0) ? upperBound : other.upperBound;
+      Cut<C> newLower = lowerCmp <= 0 ? lowerBound : other.lowerBound;
+      Cut<C> newUpper = upperCmp >= 0 ? upperBound : other.upperBound;
       return create(newLower, newUpper);
     }
   }
@@ -637,7 +637,7 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
     checkNotNull(domain);
     Cut<C> lower = lowerBound.canonical(domain);
     Cut<C> upper = upperBound.canonical(domain);
-    return (lower == lowerBound && upper == upperBound) ? this : create(lower, upper);
+    return lower == lowerBound && upper == upperBound ? this : create(lower, upper);
   }
 
   /**

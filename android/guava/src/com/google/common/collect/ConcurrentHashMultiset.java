@@ -142,7 +142,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   @Override
   public int count(@Nullable Object element) {
     AtomicInteger existingCounter = safeGet(countMap, element);
-    return (existingCounter == null) ? 0 : existingCounter.get();
+    return existingCounter == null ? 0 : existingCounter.get();
   }
 
   /**

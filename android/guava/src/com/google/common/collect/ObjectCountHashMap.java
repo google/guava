@@ -171,11 +171,11 @@ class ObjectCountHashMap<K extends @Nullable Object> {
   }
 
   int firstIndex() {
-    return (size == 0) ? -1 : 0;
+    return size == 0 ? -1 : 0;
   }
 
   int nextIndex(int index) {
-    return (index + 1 < size) ? index + 1 : -1;
+    return index + 1 < size ? index + 1 : -1;
   }
 
   int nextIndexAfterRemove(int oldNextIndex, @SuppressWarnings("unused") int removedIndex) {
@@ -236,7 +236,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
     @Override
     public int getCount() {
       updateLastKnownIndex();
-      return (lastKnownIndex == -1) ? 0 : values[lastKnownIndex];
+      return lastKnownIndex == -1 ? 0 : values[lastKnownIndex];
     }
   }
 
@@ -390,7 +390,7 @@ class ObjectCountHashMap<K extends @Nullable Object> {
 
   public int get(@Nullable Object key) {
     int index = indexOf(key);
-    return (index == -1) ? 0 : values[index];
+    return index == -1 ? 0 : values[index];
   }
 
   @CanIgnoreReturnValue

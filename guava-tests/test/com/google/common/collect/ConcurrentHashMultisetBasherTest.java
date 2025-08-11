@@ -138,7 +138,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
             {
               int newValue = random.nextInt(3);
               int oldValue = multiset.setCount(key, newValue);
-              deltas[keyIndex] += (newValue - oldValue);
+              deltas[keyIndex] += newValue - oldValue;
               break;
             }
           case SET_COUNT_IF:
@@ -146,7 +146,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
               int newValue = random.nextInt(3);
               int oldValue = multiset.count(key);
               if (multiset.setCount(key, oldValue, newValue)) {
-                deltas[keyIndex] += (newValue - oldValue);
+                deltas[keyIndex] += newValue - oldValue;
               }
               break;
             }

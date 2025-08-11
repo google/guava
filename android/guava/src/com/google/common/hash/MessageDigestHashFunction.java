@@ -162,7 +162,7 @@ final class MessageDigestHashFunction extends AbstractHashFunction implements Se
     public HashCode hash() {
       checkNotDone();
       done = true;
-      return (bytes == digest.getDigestLength())
+      return bytes == digest.getDigestLength()
           ? HashCode.fromBytesNoCopy(digest.digest())
           : HashCode.fromBytesNoCopy(Arrays.copyOf(digest.digest(), bytes));
     }

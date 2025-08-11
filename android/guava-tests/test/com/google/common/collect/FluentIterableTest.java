@@ -282,7 +282,7 @@ public class FluentIterableTest extends TestCase {
 
     int howManyChecked = 0;
     for (String string : cycle) {
-      String expected = (howManyChecked % 2 == 0) ? "a" : "b";
+      String expected = howManyChecked % 2 == 0 ? "a" : "b";
       assertEquals(expected, string);
       if (howManyChecked++ == 5) {
         break;

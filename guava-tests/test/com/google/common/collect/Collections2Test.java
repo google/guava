@@ -208,7 +208,7 @@ public class Collections2Test extends TestCase {
               public Collection<@Nullable String> create(@Nullable String[] elements) {
                 List<@Nullable String> list = new ArrayList<>();
                 for (String element : elements) {
-                  list.add((element == null) ? null : "q" + element);
+                  list.add(element == null ? null : "q" + element);
                 }
                 return Collections2.transform(
                     list, from -> isNullOrEmpty(from) ? null : from.substring(1));

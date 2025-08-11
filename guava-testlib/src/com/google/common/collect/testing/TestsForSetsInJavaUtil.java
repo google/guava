@@ -287,7 +287,7 @@ public class TestsForSetsInJavaUtil {
             new TestEnumSetGenerator() {
               @Override
               public Set<AnEnum> create(AnEnum[] elements) {
-                return (elements.length == 0)
+                return elements.length == 0
                     ? EnumSet.noneOf(AnEnum.class)
                     : EnumSet.copyOf(MinimalCollection.of(elements));
               }

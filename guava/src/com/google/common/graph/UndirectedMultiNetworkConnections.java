@@ -116,6 +116,6 @@ final class UndirectedMultiNetworkConnections<N, E>
   }
 
   private static <T> @Nullable T getReference(@Nullable Reference<T> reference) {
-    return (reference == null) ? null : reference.get();
+    return reference == null ? null : reference.get();
   }
 }

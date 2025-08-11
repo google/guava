@@ -520,7 +520,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   }
 
   int getSuccessor(int entryIndex) {
-    return (entryIndex + 1 < size) ? entryIndex + 1 : -1;
+    return entryIndex + 1 < size ? entryIndex + 1 : -1;
   }
 
   /**
@@ -586,7 +586,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   @Override
   public int size() {
     Set<E> delegate = delegateOrNull();
-    return (delegate != null) ? delegate.size() : size;
+    return delegate != null ? delegate.size() : size;
   }
 
   @Override
@@ -600,7 +600,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
       return new Object[0];
     }
     Set<E> delegate = delegateOrNull();
-    return (delegate != null) ? delegate.toArray() : Arrays.copyOf(requireElements(), size);
+    return delegate != null ? delegate.toArray() : Arrays.copyOf(requireElements(), size);
   }
 
   @CanIgnoreReturnValue
@@ -614,7 +614,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
       return a;
     }
     Set<E> delegate = delegateOrNull();
-    return (delegate != null)
+    return delegate != null
         ? delegate.toArray(a)
         : ObjectArrays.toArrayImpl(requireElements(), 0, size, a);
   }

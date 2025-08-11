@@ -462,7 +462,7 @@ public final class Throwables {
    */
   @J2ktIncompatible @GwtIncompatible // java.lang.reflect
   private static final @Nullable Method getStackTraceElementMethod =
-      (jla == null) ? null : getGetMethod();
+      jla == null ? null : getGetMethod();
 
   /**
    * The "getStackTraceDepth" method, only available on some JDKs so we use reflection to find it
@@ -470,7 +470,7 @@ public final class Throwables {
    */
   @J2ktIncompatible @GwtIncompatible // java.lang.reflect
   private static final @Nullable Method getStackTraceDepthMethod =
-      (jla == null) ? null : getSizeMethod(jla);
+      jla == null ? null : getSizeMethod(jla);
 
   /**
    * Returns the JavaLangAccess class that is present in all Sun JDKs. It is not allowed in

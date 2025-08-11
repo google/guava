@@ -121,7 +121,7 @@ final class ReaderInputStream extends InputStream {
 
   @Override
   public int read() throws IOException {
-    return (read(singleByte) == 1) ? toUnsignedInt(singleByte[0]) : -1;
+    return read(singleByte) == 1 ? toUnsignedInt(singleByte[0]) : -1;
   }
 
   // TODO(chrisn): Consider trying to encode/flush directly to the argument byte
@@ -145,7 +145,7 @@ final class ReaderInputStream extends InputStream {
       if (draining) {
         totalBytesRead += drain(b, off + totalBytesRead, len - totalBytesRead);
         if (totalBytesRead == len || doneFlushing) {
-          return (totalBytesRead > 0) ? totalBytesRead : -1;
+          return totalBytesRead > 0 ? totalBytesRead : -1;
         }
         draining = false;
         Java8Compatibility.clear(byteBuffer);

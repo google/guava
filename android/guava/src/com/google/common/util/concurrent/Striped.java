@@ -408,7 +408,7 @@ public abstract class Striped<L> {
 
     SmallLazyStriped(int stripes, Supplier<L> supplier) {
       super(stripes);
-      this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;
+      this.size = mask == ALL_SET ? Integer.MAX_VALUE : mask + 1;
       this.locks = new AtomicReferenceArray<>(size);
       this.supplier = supplier;
     }
@@ -479,7 +479,7 @@ public abstract class Striped<L> {
 
     LargeLazyStriped(int stripes, Supplier<L> supplier) {
       super(stripes);
-      this.size = (mask == ALL_SET) ? Integer.MAX_VALUE : mask + 1;
+      this.size = mask == ALL_SET ? Integer.MAX_VALUE : mask + 1;
       this.supplier = supplier;
       this.locks = new MapMaker().weakValues().makeMap();
     }

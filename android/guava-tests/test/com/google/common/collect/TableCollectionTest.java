@@ -786,7 +786,7 @@ public class TableCollectionTest extends TestCase {
       new Function<@Nullable Integer, @Nullable Integer>() {
         @Override
         public @Nullable Integer apply(@Nullable Integer input) {
-          return (input == null) ? null : input / 2;
+          return input == null ? null : input / 2;
         }
       };
 

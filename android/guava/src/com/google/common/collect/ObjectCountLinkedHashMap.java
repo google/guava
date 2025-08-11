@@ -104,18 +104,18 @@ final class ObjectCountLinkedHashMap<K extends @Nullable Object> extends ObjectC
 
   @Override
   int firstIndex() {
-    return (firstEntry == ENDPOINT) ? -1 : firstEntry;
+    return firstEntry == ENDPOINT ? -1 : firstEntry;
   }
 
   @Override
   int nextIndex(int index) {
     int result = getSuccessor(index);
-    return (result == ENDPOINT) ? -1 : result;
+    return result == ENDPOINT ? -1 : result;
   }
 
   @Override
   int nextIndexAfterRemove(int oldNextIndex, int removedIndex) {
-    return (oldNextIndex == size()) ? removedIndex : oldNextIndex;
+    return oldNextIndex == size() ? removedIndex : oldNextIndex;
   }
 
   private int getPredecessor(int entry) {

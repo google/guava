@@ -120,7 +120,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
   @Override
   public @Nullable V get(K key) {
     Entry<Range<K>, V> entry = getEntry(key);
-    return (entry == null) ? null : entry.getValue();
+    return entry == null ? null : entry.getValue();
   }
 
   @Override

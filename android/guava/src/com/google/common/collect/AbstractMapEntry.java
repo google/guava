@@ -59,7 +59,7 @@ abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable 
   public int hashCode() {
     K k = getKey();
     V v = getValue();
-    return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
+    return (k == null ? 0 : k.hashCode()) ^ (v == null ? 0 : v.hashCode());
   }
 
   /** Returns a string representation of the form {@code {key}={value}}. */

@@ -46,7 +46,7 @@ public class MonitorBenchmark {
   @SuppressWarnings("unchecked")
   void setUp() throws Exception {
     String prefix =
-        (useMonitor ? "com.google.common.util.concurrent.MonitorBased" : "java.util.concurrent.");
+        useMonitor ? "com.google.common.util.concurrent.MonitorBased" : "java.util.concurrent.";
     String className = prefix + queueType + "BlockingQueue";
     Constructor<?> constructor = Class.forName(className).getConstructor(int.class);
     queue = (BlockingQueue<String>) constructor.newInstance(capacity);

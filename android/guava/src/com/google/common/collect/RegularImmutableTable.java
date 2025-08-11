@@ -131,13 +131,13 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
       Comparator<Cell<R, C, V>> comparator =
           (Cell<R, C, V> cell1, Cell<R, C, V> cell2) -> {
             int rowCompare =
-                (rowComparator == null)
+                rowComparator == null
                     ? 0
                     : rowComparator.compare(cell1.getRowKey(), cell2.getRowKey());
             if (rowCompare != 0) {
               return rowCompare;
             }
-            return (columnComparator == null)
+            return columnComparator == null
                 ? 0
                 : columnComparator.compare(cell1.getColumnKey(), cell2.getColumnKey());
           };
@@ -163,11 +163,11 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     }
 
     ImmutableSet<R> rowSpace =
-        (rowComparator == null)
+        rowComparator == null
             ? ImmutableSet.copyOf(rowSpaceBuilder)
             : ImmutableSet.copyOf(ImmutableList.sortedCopyOf(rowComparator, rowSpaceBuilder));
     ImmutableSet<C> columnSpace =
-        (columnComparator == null)
+        columnComparator == null
             ? ImmutableSet.copyOf(columnSpaceBuilder)
             : ImmutableSet.copyOf(ImmutableList.sortedCopyOf(columnComparator, columnSpaceBuilder));
 
@@ -181,7 +181,7 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
       ImmutableSet<C> columnSpace) {
     // use a dense table if more than half of the cells have values
     // TODO(gak): tune this condition based on empirical evidence
-    return (cellList.size() > (((long) rowSpace.size() * columnSpace.size()) / 2))
+    return cellList.size() > (((long) rowSpace.size() * columnSpace.size()) / 2)
         ? new DenseImmutableTable<R, C, V>(cellList, rowSpace, columnSpace)
         : new SparseImmutableTable<R, C, V>(cellList, rowSpace, columnSpace);
   }

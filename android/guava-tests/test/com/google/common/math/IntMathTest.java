@@ -158,7 +158,7 @@ public class IntMathTest extends TestCase {
     for (int x : ALL_INTEGER_CANDIDATES) {
       for (int y : ALL_INTEGER_CANDIDATES) {
         if (LongMath.fitsInInt((long) x - y)) {
-          int expected = (x < y) ? 1 : 0;
+          int expected = x < y ? 1 : 0;
           int actual = IntMath.lessThanBranchFree(x, y);
           assertEquals(expected, actual);
         }
@@ -299,7 +299,7 @@ public class IntMathTest extends TestCase {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
       int floor = IntMath.sqrt(x, FLOOR);
       // We only expect an exception if x was not a perfect square.
-      boolean isPerfectSquare = (floor * floor == x);
+      boolean isPerfectSquare = floor * floor == x;
       try {
         assertEquals(floor, IntMath.sqrt(x, UNNECESSARY));
         assertTrue(isPerfectSquare);

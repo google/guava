@@ -84,7 +84,7 @@ final class Synchronized {
 
     SynchronizedObject(Object delegate, @Nullable Object mutex) {
       this.delegate = checkNotNull(delegate);
-      this.mutex = (mutex == null) ? this : mutex;
+      this.mutex = mutex == null ? this : mutex;
     }
 
     Object delegate() {
@@ -361,7 +361,7 @@ final class Synchronized {
   }
 
   private static <E extends @Nullable Object> List<E> list(List<E> list, @Nullable Object mutex) {
-    return (list instanceof RandomAccess)
+    return list instanceof RandomAccess
         ? new SynchronizedRandomAccessList<E>(list, mutex)
         : new SynchronizedList<E>(list, mutex);
   }
@@ -1404,7 +1404,7 @@ final class Synchronized {
     public @Nullable Collection<V> get(@Nullable Object key) {
       synchronized (mutex) {
         Collection<V> collection = super.get(key);
-        return (collection == null) ? null : typePreservingCollection(collection, mutex);
+        return collection == null ? null : typePreservingCollection(collection, mutex);
       }
     }
 
@@ -1840,7 +1840,7 @@ final class Synchronized {
   }
 
   static <E extends @Nullable Object> Queue<E> queue(Queue<E> queue, @Nullable Object mutex) {
-    return (queue instanceof SynchronizedQueue) ? queue : new SynchronizedQueue<E>(queue, mutex);
+    return queue instanceof SynchronizedQueue ? queue : new SynchronizedQueue<E>(queue, mutex);
   }
 
   private static class SynchronizedQueue<E extends @Nullable Object>

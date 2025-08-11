@@ -1088,9 +1088,9 @@ final class MapMakerInternalMap<
     // using variant of single-word Wang/Jenkins hash.
     // TODO(kevinb): use Hashing/move this to Hashing?
     h += (h << 15) ^ 0xffffcd7d;
-    h ^= (h >>> 10);
-    h += (h << 3);
-    h ^= (h >>> 6);
+    h ^= h >>> 10;
+    h += h << 3;
+    h ^= h >>> 6;
     h += (h << 2) + (h << 14);
     return h ^ (h >>> 16);
   }
@@ -2498,7 +2498,7 @@ final class MapMakerInternalMap<
   @Override
   public Set<K> keySet() {
     Set<K> ks = keySet;
-    return (ks != null) ? ks : (keySet = new KeySet());
+    return ks != null ? ks : (keySet = new KeySet());
   }
 
   @LazyInit transient @Nullable Collection<V> values;
@@ -2506,7 +2506,7 @@ final class MapMakerInternalMap<
   @Override
   public Collection<V> values() {
     Collection<V> vs = values;
-    return (vs != null) ? vs : (values = new Values());
+    return vs != null ? vs : (values = new Values());
   }
 
   @LazyInit transient @Nullable Set<Entry<K, V>> entrySet;
@@ -2514,7 +2514,7 @@ final class MapMakerInternalMap<
   @Override
   public Set<Entry<K, V>> entrySet() {
     Set<Entry<K, V>> es = entrySet;
-    return (es != null) ? es : (entrySet = new EntrySet());
+    return es != null ? es : (entrySet = new EntrySet());
   }
 
   // Iterator Support

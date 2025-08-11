@@ -225,7 +225,7 @@ final class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHash
 
   @Override
   int adjustAfterRemove(int indexBeforeRemove, int indexRemoved) {
-    return (indexBeforeRemove >= size()) ? indexRemoved : indexBeforeRemove;
+    return indexBeforeRemove >= size() ? indexRemoved : indexBeforeRemove;
   }
 
   @Override

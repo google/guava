@@ -60,7 +60,7 @@ public final class Utf8 {
     for (; i < utf16Length; i++) {
       char c = sequence.charAt(i);
       if (c < 0x800) {
-        utf8Length += ((0x7f - c) >>> 31); // branch free!
+        utf8Length += (0x7f - c) >>> 31; // branch free!
       } else {
         utf8Length += encodedLengthGeneral(sequence, i);
         break;

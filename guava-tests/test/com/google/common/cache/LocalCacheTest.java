@@ -1835,7 +1835,7 @@ public class LocalCacheTest extends TestCase {
     ReferenceEntry<Object, Object> entry = null;
     for (int i = 0; i < originalCount; i++) {
       Object key = new Object();
-      Object value = (i % 3 == 0) ? null : new Object();
+      Object value = i % 3 == 0 ? null : new Object();
       int hash = map.hash(key);
       if (i % 3 == 1) {
         key = null;
@@ -3107,7 +3107,7 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public boolean equals(@Nullable Object o) {
-      return (o instanceof SerializableCacheLoader);
+      return o instanceof SerializableCacheLoader;
     }
   }
 
@@ -3123,7 +3123,7 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public boolean equals(@Nullable Object o) {
-      return (o instanceof SerializableRemovalListener);
+      return o instanceof SerializableRemovalListener;
     }
   }
 
@@ -3140,7 +3140,7 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public boolean equals(@Nullable Object o) {
-      return (o instanceof SerializableTicker);
+      return o instanceof SerializableTicker;
     }
   }
 
@@ -3157,7 +3157,7 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public boolean equals(@Nullable Object o) {
-      return (o instanceof SerializableWeigher);
+      return o instanceof SerializableWeigher;
     }
   }
 }

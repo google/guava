@@ -186,6 +186,6 @@ public final class Escapers {
   }
 
   private static @Nullable String stringOrNull(char @Nullable [] in) {
-    return (in == null) ? null : new String(in);
+    return in == null ? null : new String(in);
   }
 }

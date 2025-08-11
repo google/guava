@@ -68,7 +68,7 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   public ImmutableSet<E> elementSet() {
     ImmutableSet<E> result = elementSet;
-    return (result == null) ? elementSet = new ElementSet() : result;
+    return result == null ? elementSet = new ElementSet() : result;
   }
 
   @WeakOuter

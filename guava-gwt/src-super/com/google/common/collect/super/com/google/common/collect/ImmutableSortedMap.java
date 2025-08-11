@@ -277,7 +277,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     // even though K doesn't explicitly implement Comparable.
     @SuppressWarnings("unchecked")
     Comparator<? super K> comparator =
-        (map.comparator() == null) ? (Comparator<? super K>) NATURAL_ORDER : map.comparator();
+        map.comparator() == null ? (Comparator<? super K>) NATURAL_ORDER : map.comparator();
     return copyOfInternal(map, comparator);
   }
 
@@ -291,7 +291,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
       ImmutableSortedMap<K, V> kvMap = (ImmutableSortedMap<K, V>) map;
       Comparator<?> comparator2 = kvMap.comparator();
       boolean sameComparator =
-          (comparator2 == null) ? comparator == NATURAL_ORDER : comparator.equals(comparator2);
+          comparator2 == null ? comparator == NATURAL_ORDER : comparator.equals(comparator2);
       if (sameComparator) {
         return kvMap;
       }
@@ -404,7 +404,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
   @Override
   public ImmutableSortedSet<K> keySet() {
     ImmutableSortedSet<K> ks = keySet;
-    return (ks == null) ? (keySet = createKeySet()) : ks;
+    return ks == null ? (keySet = createKeySet()) : ks;
   }
 
   @Override

@@ -113,7 +113,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
   @Override
   public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {
-    return (rowKey == null || columnKey == null) ? null : super.get(rowKey, columnKey);
+    return rowKey == null || columnKey == null ? null : super.get(rowKey, columnKey);
   }
 
   @Override
@@ -351,7 +351,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     @Override
     public @Nullable V get(@Nullable Object key) {
       updateBackingRowMapField();
-      return (key != null && backingRowMap != null) ? safeGet(backingRowMap, key) : null;
+      return key != null && backingRowMap != null ? safeGet(backingRowMap, key) : null;
     }
 
     @Override
@@ -387,7 +387,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     @Override
     public int size() {
       updateBackingRowMapField();
-      return (backingRowMap == null) ? 0 : backingRowMap.size();
+      return backingRowMap == null ? 0 : backingRowMap.size();
     }
 
     @Override
@@ -680,7 +680,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   @Override
   public Set<C> columnKeySet() {
     Set<C> result = columnKeySet;
-    return (result == null) ? columnKeySet = new ColumnKeySet() : result;
+    return result == null ? columnKeySet = new ColumnKeySet() : result;
   }
 
   @WeakOuter
@@ -802,7 +802,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   @Override
   public Map<R, Map<C, V>> rowMap() {
     Map<R, Map<C, V>> result = rowMap;
-    return (result == null) ? rowMap = createRowMap() : result;
+    return result == null ? rowMap = createRowMap() : result;
   }
 
   Map<R, Map<C, V>> createRowMap() {
@@ -826,7 +826,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
     @Override
     public @Nullable Map<C, V> remove(@Nullable Object key) {
-      return (key == null) ? null : backingMap.remove(key);
+      return key == null ? null : backingMap.remove(key);
     }
 
     @Override
@@ -875,7 +875,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   @Override
   public Map<C, Map<R, V>> columnMap() {
     ColumnMap result = columnMap;
-    return (result == null) ? columnMap = new ColumnMap() : result;
+    return result == null ? columnMap = new ColumnMap() : result;
   }
 
   @WeakOuter

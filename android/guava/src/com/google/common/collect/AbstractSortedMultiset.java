@@ -122,7 +122,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
   @Override
   public SortedMultiset<E> descendingMultiset() {
     SortedMultiset<E> result = descendingMultiset;
-    return (result == null) ? descendingMultiset = createDescendingMultiset() : result;
+    return result == null ? descendingMultiset = createDescendingMultiset() : result;
   }
 
   SortedMultiset<E> createDescendingMultiset() {
