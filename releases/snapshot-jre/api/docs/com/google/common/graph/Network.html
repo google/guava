@@ -128,7 +128,7 @@ loadScripts(document, 'script');</script>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">Network&lt;N,<wbr>E&gt;</span><span class="extends-implements">
 extends <a href="SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;, <a href="PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a>&lt;N&gt;</span></div>
 <div class="block">An interface for <a href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
- whose edges are unique objects.
+ whose edges are <a href="https://github.com/google/guava/wiki/GraphsExplained#uniqueness">unique</a> objects.
 
  <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
 
@@ -148,7 +148,7 @@ extends <a href="SuccessorsFunction.html" title="interface in com.google.common.
    <li>graphs that do/don't allow parallel edges
    <li>graphs that do/don't allow self-loops
    <li>graphs whose nodes/edges are insertion-ordered, sorted, or unordered
-   <li>graphs whose edges are unique objects
+   <li>graphs whose edges are <a href="https://github.com/google/guava/wiki/GraphsExplained#uniqueness">unique</a> objects
  </ul>
 
  <h3 id="building-a-network-heading">Building a <code>Network</code></h3>
