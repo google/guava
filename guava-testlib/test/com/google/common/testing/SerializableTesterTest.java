@@ -103,10 +103,6 @@ public class SerializableTesterTest extends TestCase {
       return 1;
     }
 
-    private Object writeReplace() {
-      return new OtherForm();
-    }
-
     private static class OtherForm implements Serializable {
       @Override
       public boolean equals(@Nullable Object other) {

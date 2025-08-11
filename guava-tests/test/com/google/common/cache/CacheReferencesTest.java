@@ -17,11 +17,9 @@ package com.google.common.cache;
 import static com.google.common.cache.LocalCache.Strength.STRONG;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
-import static java.lang.Math.max;
 
 import com.google.common.base.Function;
 import com.google.common.cache.LocalCache.Strength;
-import com.google.common.cache.TestingRemovalListeners.CountingRemovalListener;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import java.lang.ref.WeakReference;
@@ -121,43 +119,6 @@ public class CacheReferencesTest extends TestCase {
       assertThat(cache.asMap().values()).contains(value2);
       assertEquals(ImmutableSet.of(immutableEntry(key2, value2)), cache.asMap().entrySet());
     }
-  }
-
-  // fails in Maven with 64-bit JDK: https://github.com/google/guava/issues/1568
-
-  private void assertCleanup(
-      LoadingCache<Integer, String> cache,
-      CountingRemovalListener<Integer, String> removalListener) {
-
-    // initialSize will most likely be 2, but it's possible for the GC to have already run, so we'll
-    // observe a size of 1
-    long initialSize = cache.size();
-    assertTrue(initialSize == 1 || initialSize == 2);
-
-    // wait up to 5s
-    byte[] filler = new byte[1024];
-    for (int i = 0; i < 500; i++) {
-      System.gc();
-
-      CacheTesting.drainReferenceQueues(cache);
-      if (cache.size() == 1) {
-        break;
-      }
-      try {
-        Thread.sleep(10);
-      } catch (InterruptedException e) {
-        /* ignore */
-      }
-      try {
-        // Fill up heap so soft references get cleared.
-        filler = new byte[max(filler.length, filler.length * 2)];
-      } catch (OutOfMemoryError e) {
-      }
-    }
-
-    CacheTesting.processPendingNotifications(cache);
-    assertEquals(1, cache.size());
-    assertEquals(1, removalListener.getCount());
   }
 
   // A simple type whose .toString() will return the same value each time, but without maintaining

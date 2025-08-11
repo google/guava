@@ -126,11 +126,5 @@ abstract class DummyProxy {
     public String toString() {
       return "Dummy proxy for " + interfaceType;
     }
-
-    // Since type variables aren't serializable, reduce the type down to raw type before
-    // serialization.
-    private Object writeReplace() {
-      return new DummyHandler(TypeToken.of(interfaceType.getRawType()));
-    }
   }
 }

@@ -130,10 +130,46 @@
           </execution>
         </executions>
       </plugin>
+        <plugin>
+            <groupId>org.openrewrite.maven</groupId>
+            <artifactId>rewrite-maven-plugin</artifactId>
+      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
-        <plugin>
+          <plugin>
+              <groupId>org.openrewrite.maven</groupId>
+              <artifactId>rewrite-maven-plugin</artifactId>
+              <version>6.15.0</version>
+              <configuration>
+                  <activeRecipes>
+                      <recipe>org.openrewrite.staticanalysis.RemoveUnusedPrivateMethods</recipe>
+                      <recipe>org.openrewrite.staticanalysis.ModifierOrder</recipe>
+                      <!--<recipe>org.openrewrite.staticanalysis.MissingOverrideAnnotation</recipe>-->
+                      <!--<recipe>org.openrewrite.staticanalysis.RemoveUnusedLocalVariables</recipe>-->
+                      <!--<recipe>org.openrewrite.staticanalysis.RemoveUnusedPrivateFields</recipe>-->
+                      <!--<recipe>org.openrewrite.staticanalysis.UnnecessaryParentheses</recipe>-->
+                  </activeRecipes>
+                  <exportDatatables>true</exportDatatables>
+                  <failOnDryRunResults>true</failOnDryRunResults>
+              </configuration>
+              <executions>
+                  <execution>
+                      <phase>verify</phase>
+                      <goals>
+                          <goal>dryRun</goal>
+                      </goals>
+                  </execution>
+              </executions>
+              <dependencies>
+                  <dependency>
+                      <groupId>org.openrewrite.recipe</groupId>
+                      <artifactId>rewrite-static-analysis</artifactId>
+                      <version>2.14.0</version>
+                  </dependency>
+              </dependencies>
+          </plugin>
+          <plugin>
           <artifactId>maven-antrun-plugin</artifactId>
           <version>1.6</version>
         </plugin>

@@ -554,10 +554,6 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     return (long) (-n * Math.log(p) / SQUARED_LOG_TWO);
   }
 
-  private Object writeReplace() {
-    return new SerialForm<T>(this);
-  }
-
   private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
