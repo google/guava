@@ -3107,7 +3107,7 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public boolean equals(@Nullable Object o) {
-      return (o instanceof SerializableCacheLoader);
+      return o instanceof SerializableCacheLoader;
     }
   }
 
@@ -3123,7 +3123,7 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public boolean equals(@Nullable Object o) {
-      return (o instanceof SerializableRemovalListener);
+      return o instanceof SerializableRemovalListener;
     }
   }
 
@@ -3140,7 +3140,7 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public boolean equals(@Nullable Object o) {
-      return (o instanceof SerializableTicker);
+      return o instanceof SerializableTicker;
     }
   }
 
@@ -3157,7 +3157,7 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public boolean equals(@Nullable Object o) {
-      return (o instanceof SerializableWeigher);
+      return o instanceof SerializableWeigher;
     }
   }
 }

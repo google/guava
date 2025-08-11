@@ -687,7 +687,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     Set<Entry<K, V>> entriesToRetain =
         singleton(mapEntry(originalEntry.getKey(), originalEntry.getValue()));
     if (supportsRemove) {
-      boolean shouldRemove = (entrySet.size() > entriesToRetain.size());
+      boolean shouldRemove = entrySet.size() > entriesToRetain.size();
       boolean didRemove = entrySet.retainAll(entriesToRetain);
       assertEquals(shouldRemove, didRemove);
       assertEquals(entriesToRetain.size(), map.size());

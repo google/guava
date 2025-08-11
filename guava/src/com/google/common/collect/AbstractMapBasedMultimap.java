@@ -523,7 +523,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = delegate.addAll(collection);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         if (oldSize == 0) {
           addToMap();
         }
@@ -574,7 +574,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = delegate.removeAll(c);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         removeIfEmpty();
       }
       return changed;
@@ -587,7 +587,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = delegate.retainAll(c);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         removeIfEmpty();
       }
       return changed;
@@ -621,7 +621,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = Sets.removeAllImpl((Set<V>) delegate, c);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         removeIfEmpty();
       }
       return changed;
@@ -784,7 +784,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = getListDelegate().addAll(index, c);
       if (changed) {
         int newSize = getDelegate().size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         if (oldSize == 0) {
           addToMap();
         }

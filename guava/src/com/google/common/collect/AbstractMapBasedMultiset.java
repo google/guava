@@ -330,7 +330,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
       }
     }
 
-    size += (count - oldCount);
+    size += count - oldCount;
     return oldCount;
   }
 

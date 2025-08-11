@@ -113,7 +113,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     checkNotNull(rangeSet);
     if (rangeSet.isEmpty()) {
       return of();
-    } else if (rangeSet.encloses(Range.<C>all())) {
+    } else if (rangeSet.encloses(Range.all())) {
       return all();
     }
 
@@ -309,7 +309,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     if (ranges.isEmpty()) {
       return ImmutableSet.of();
     }
-    return new RegularImmutableSortedSet<>(ranges, Range.<C>rangeLexOrdering());
+    return new RegularImmutableSortedSet<>(ranges, Range.rangeLexOrdering());
   }
 
   @Override
@@ -359,14 +359,14 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
       Cut<C> lowerBound;
       if (positiveBoundedBelow) {
-        lowerBound = (index == 0) ? Cut.<C>belowAll() : ranges.get(index - 1).upperBound;
+        lowerBound = (index == 0) ? Cut.belowAll() : ranges.get(index - 1).upperBound;
       } else {
         lowerBound = ranges.get(index).upperBound;
       }
 
       Cut<C> upperBound;
       if (positiveBoundedAbove && index == size - 1) {
-        upperBound = Cut.<C>aboveAll();
+        upperBound = Cut.aboveAll();
       } else {
         upperBound = ranges.get(index + (positiveBoundedBelow ? 0 : 1)).lowerBound;
       }
@@ -829,7 +829,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     public ImmutableRangeSet<C> build() {
       ImmutableList.Builder<Range<C>> mergedRangesBuilder =
           new ImmutableList.Builder<>(ranges.size());
-      sort(ranges, Range.<C>rangeLexOrdering());
+      sort(ranges, Range.rangeLexOrdering());
       PeekingIterator<Range<C>> peekingItr = Iterators.peekingIterator(ranges.iterator());
       while (peekingItr.hasNext()) {
         Range<C> range = peekingItr.next();

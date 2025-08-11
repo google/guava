@@ -240,8 +240,8 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
       return false;
     }
 
-    boolean expireWrite = (stamped.getWriteTimestamp() + expireAfterWrite <= currentTimeNanos());
-    boolean expireAccess = (stamped.getAccessTimestamp() + expireAfterAccess <= currentTimeNanos());
+    boolean expireWrite = stamped.getWriteTimestamp() + expireAfterWrite <= currentTimeNanos();
+    boolean expireAccess = stamped.getAccessTimestamp() + expireAfterAccess <= currentTimeNanos();
 
     if (expireAfterAccess == UNSET_INT) {
       return expireWrite;

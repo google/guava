@@ -184,7 +184,7 @@ public final class HostAndPort implements Serializable {
       } else {
         // 0 or 2+ colons. Bare hostname or IPv6 literal.
         host = hostPortString;
-        hasBracketlessColons = (colonPos >= 0);
+        hasBracketlessColons = colonPos >= 0;
       }
     }
 

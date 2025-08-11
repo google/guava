@@ -428,7 +428,7 @@ public final class UnsignedLongs {
           return true;
         }
         // current == maxValueDivs[radix]
-        return (digit > maxValueMods[radix]);
+        return digit > maxValueMods[radix];
       }
 
       // current < 0: high bit is set

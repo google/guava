@@ -85,9 +85,9 @@ final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
 
   private static long hashLength16(long u, long v, long mul) {
     long a = (u ^ v) * mul;
-    a ^= (a >>> 47);
+    a ^= a >>> 47;
     long b = (v ^ a) * mul;
-    b ^= (b >>> 47);
+    b ^= b >>> 47;
     b *= mul;
     return b;
   }
@@ -198,7 +198,7 @@ final class FarmHashFingerprint64 extends AbstractNonStreamingHashFunction {
     long mul = K1 + ((z & 0xFF) << 1);
     // Operate on the last 64 bytes of input.
     offset = last64offset;
-    w[0] += ((length - 1) & 63);
+    w[0] += (length - 1) & 63;
     v[0] += w[0];
     w[0] += v[0];
     x = rotateRight(x + y + v[0] + load64(bytes, offset + 8), 37) * mul;

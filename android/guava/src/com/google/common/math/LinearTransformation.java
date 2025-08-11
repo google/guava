@@ -190,7 +190,7 @@ public abstract class LinearTransformation {
 
     @Override
     public boolean isHorizontal() {
-      return (slope == 0.0);
+      return slope == 0.0;
     }
 
     @Override
