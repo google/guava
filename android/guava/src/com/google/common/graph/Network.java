@@ -24,7 +24,8 @@ import org.jspecify.annotations.Nullable;
 /**
  * An interface for <a
  * href="https://en.wikipedia.org/wiki/Graph_(discrete_mathematics)">graph</a>-structured data,
- * whose edges are unique objects.
+ * whose edges are <a
+ * href="https://github.com/google/guava/wiki/GraphsExplained#uniqueness">unique</a> objects.
  *
  * <p>A graph is composed of a set of nodes and a set of edges connecting pairs of nodes.
  *
@@ -46,7 +47,8 @@ import org.jspecify.annotations.Nullable;
  *   <li>graphs that do/don't allow parallel edges
  *   <li>graphs that do/don't allow self-loops
  *   <li>graphs whose nodes/edges are insertion-ordered, sorted, or unordered
- *   <li>graphs whose edges are unique objects
+ *   <li>graphs whose edges are <a
+ *       href="https://github.com/google/guava/wiki/GraphsExplained#uniqueness">unique</a> objects
  * </ul>
  *
  * <h3>Building a {@code Network}</h3>
