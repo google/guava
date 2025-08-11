@@ -38,7 +38,6 @@
       --add-opens java.base/java.util=ALL-UNNAMED
       --add-opens java.base/sun.security.jca=ALL-UNNAMED
     </test.add.opens>
-    <test.add.args></test.add.args>
     <module.status>integration</module.status>
     <variant.jvmEnvironment>android</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>android</variant.jvmEnvironmentVariantName>
@@ -322,7 +321,7 @@
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
-            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.args} ${test.add.opens}</argLine>
+            <argLine>-Xmx1536M -Duser.language=hi -Duser.country=IN ${test.add.opens}</argLine>
           </configuration>
         </plugin>
         <plugin>
