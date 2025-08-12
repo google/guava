@@ -766,7 +766,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
   /** List decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  class WrappedList extends WrappedCollection implements List<V> {
+  private class WrappedList extends WrappedCollection implements List<V> {
     WrappedList(@ParametricNullness K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
