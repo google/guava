@@ -10204,6 +10204,7 @@
     abstract="false"
     static="false" final="true" visibility="public"
     deprecated="not deprecated">
+    <implements name="com.google.common.collect.Table&lt;R, C, V&gt;"/>
     <implements name="java.io.Serializable"/>
     <method name="create" return="com.google.common.collect.ArrayTable&lt;R, C, V&gt;"
       abstract="false" native="false" synchronized="false"
