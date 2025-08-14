@@ -42,7 +42,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 15.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public abstract class ForwardingSortedMultiset<E extends @Nullable Object>
     extends ForwardingMultiset<E> implements SortedMultiset<E> {
   /** Constructor for use by subclasses. */

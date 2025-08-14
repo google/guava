@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
  * should override {@code equals} as well, either providing your own implementation, or delegating
  * to the provided {@code standardEquals} method.
  *
- * <p>Each of the {@code standard} methods, where appropriate, use {@link Objects#equal} to test
+ * <p>Each of the {@code standard} methods, where appropriate, use {@link Objects#equals} to test
  * equality for both keys and values. This may not be the desired behavior for map implementations
  * that use non-standard notions of key equality, such as the entry of a {@code SortedMap} whose
  * comparator is not consistent with {@code equals}.

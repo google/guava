@@ -30,7 +30,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  * @author Nick Kralevich
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   // We deliberately avoid caching the asList and hashCode here, to ensure that with

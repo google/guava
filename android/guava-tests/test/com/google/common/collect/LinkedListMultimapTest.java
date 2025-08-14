@@ -60,7 +60,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Mike Bostock
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class LinkedListMultimapTest extends TestCase {
 

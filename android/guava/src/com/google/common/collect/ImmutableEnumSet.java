@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("serial") // we're overriding default serialization
 final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   static <E extends Enum<E>> ImmutableSet<E> asImmutable(EnumSet<E> set) {
@@ -124,7 +124,6 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
     return delegate.toString();
   }
 
-  // All callers of the constructor are restricted to <E extends Enum<E>>.
   @Override
   @J2ktIncompatible // serialization
   Object writeReplace() {

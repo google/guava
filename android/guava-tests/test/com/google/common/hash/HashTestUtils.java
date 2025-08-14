@@ -306,7 +306,7 @@ final class HashTestUtils {
         // test whether the hash values have same output bits
         same |= ~(hash1 ^ hash2);
         // test whether the hash values have different output bits
-        diff |= (hash1 ^ hash2);
+        diff |= hash1 ^ hash2;
 
         count++;
         // check whether we've exceeded the probabilistically

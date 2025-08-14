@@ -37,6 +37,7 @@ import com.google.errorprone.annotations.InlineMe;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.AbstractSet;
+import java.util.Arrays;
 import java.util.BitSet;
 import java.util.Collection;
 import java.util.Collections;
@@ -72,7 +73,7 @@ import org.jspecify.annotations.Nullable;
  * @author Chris Povirk
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Sets {
   private Sets() {}
 

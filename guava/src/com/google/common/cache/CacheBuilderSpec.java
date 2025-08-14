@@ -325,7 +325,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse initialCapacity */
-  static class InitialCapacityParser extends IntegerParser {
+  private static final class InitialCapacityParser extends IntegerParser {
     @Override
     protected void parseInteger(CacheBuilderSpec spec, int value) {
       checkArgument(
@@ -337,7 +337,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse maximumSize */
-  static class MaximumSizeParser extends LongParser {
+  private static final class MaximumSizeParser extends LongParser {
     @Override
     protected void parseLong(CacheBuilderSpec spec, long value) {
       checkArgument(
@@ -349,7 +349,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse maximumWeight */
-  static class MaximumWeightParser extends LongParser {
+  private static final class MaximumWeightParser extends LongParser {
     @Override
     protected void parseLong(CacheBuilderSpec spec, long value) {
       checkArgument(
@@ -361,7 +361,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse concurrencyLevel */
-  static class ConcurrencyLevelParser extends IntegerParser {
+  private static final class ConcurrencyLevelParser extends IntegerParser {
     @Override
     protected void parseInteger(CacheBuilderSpec spec, int value) {
       checkArgument(
@@ -373,7 +373,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse weakKeys */
-  static class KeyStrengthParser implements ValueParser {
+  private static final class KeyStrengthParser implements ValueParser {
     private final Strength strength;
 
     public KeyStrengthParser(Strength strength) {
@@ -389,7 +389,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse weakValues and softValues */
-  static class ValueStrengthParser implements ValueParser {
+  private static final class ValueStrengthParser implements ValueParser {
     private final Strength strength;
 
     public ValueStrengthParser(Strength strength) {
@@ -407,7 +407,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse recordStats */
-  static class RecordStatsParser implements ValueParser {
+  private static final class RecordStatsParser implements ValueParser {
 
     @Override
     public void parse(CacheBuilderSpec spec, String key, @Nullable String value) {
@@ -457,7 +457,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse expireAfterAccess */
-  static class AccessDurationParser extends DurationParser {
+  private static final class AccessDurationParser extends DurationParser {
     @Override
     protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {
       checkArgument(spec.accessExpirationTimeUnit == null, "expireAfterAccess already set");
@@ -467,7 +467,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse expireAfterWrite */
-  static class WriteDurationParser extends DurationParser {
+  private static final class WriteDurationParser extends DurationParser {
     @Override
     protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {
       checkArgument(spec.writeExpirationTimeUnit == null, "expireAfterWrite already set");
@@ -477,7 +477,7 @@ public final class CacheBuilderSpec {
   }
 
   /** Parse refreshAfterWrite */
-  static class RefreshDurationParser extends DurationParser {
+  private static final class RefreshDurationParser extends DurationParser {
     @Override
     protected void parseDuration(CacheBuilderSpec spec, long duration, TimeUnit unit) {
       checkArgument(spec.refreshTimeUnit == null, "refreshAfterWrite already set");

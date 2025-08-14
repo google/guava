@@ -176,11 +176,11 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
     return Primitives.wrap(type).cast(value);
   }
 
-  private Object writeReplace() {
+    private Object writeReplace() {
     return new SerializedForm<>(delegate());
   }
 
-  private void readObject(ObjectInputStream stream) throws InvalidObjectException {
+    private void readObject(ObjectInputStream stream) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializedForm");
   }
 

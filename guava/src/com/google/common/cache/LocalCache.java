@@ -105,9 +105,9 @@ import org.jspecify.annotations.Nullable;
   "GoodTime", // lots of violations (nanosecond math)
   "nullness", // too much trouble for the payoff
 })
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked // TODO(cpovirk): Annotate for nullness.
-class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
+final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> {
 
   /*
    * The basic strategy is to subdivide the table among Segments, each of which itself is a
@@ -966,7 +966,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    */
 
   /** Used for strongly-referenced keys. */
-  static class StrongEntry<K, V> extends AbstractReferenceEntry<K, V> {
+  private static class StrongEntry<K, V> extends AbstractReferenceEntry<K, V> {
     final K key;
 
     StrongEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
@@ -1186,7 +1186,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   /** Used for weakly-referenced keys. */
-  static class WeakEntry<K, V> extends WeakReference<K> implements ReferenceEntry<K, V> {
+  private static class WeakEntry<K, V> extends WeakReference<K> implements ReferenceEntry<K, V> {
     WeakEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, queue);
       this.hash = hash;
@@ -1474,7 +1474,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   /** References a weak value. */
-  static class WeakValueReference<K, V> extends WeakReference<V> implements ValueReference<K, V> {
+  private static class WeakValueReference<K, V> extends WeakReference<V>
+      implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
     WeakValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
@@ -1518,7 +1519,8 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   /** References a soft value. */
-  static class SoftValueReference<K, V> extends SoftReference<V> implements ValueReference<K, V> {
+  private static class SoftValueReference<K, V> extends SoftReference<V>
+      implements ValueReference<K, V> {
     final ReferenceEntry<K, V> entry;
 
     SoftValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
@@ -1562,7 +1564,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
   }
 
   /** References a strong value. */
-  static class StrongValueReference<K, V> implements ValueReference<K, V> {
+  private static class StrongValueReference<K, V> implements ValueReference<K, V> {
     final V referent;
 
     StrongValueReference(V referent) {
@@ -1681,9 +1683,9 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     // using variant of single-word Wang/Jenkins hash.
     // TODO(kevinb): use Hashing/move this to Hashing?
     h += (h << 15) ^ 0xffffcd7d;
-    h ^= (h >>> 10);
-    h += (h << 3);
-    h ^= (h >>> 6);
+    h ^= h >>> 10;
+    h += h << 3;
+    h ^= h >>> 6;
     h += (h << 2) + (h << 14);
     return h ^ (h >>> 16);
   }
@@ -1855,7 +1857,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    * opportunistically, just to simplify some locking and avoid separate construction.
    */
   @SuppressWarnings("serial") // This class is never serialized.
-  static class Segment<K, V> extends ReentrantLock {
+  static final class Segment<K, V> extends ReentrantLock {
 
     /*
      * TODO(fry): Consider copying variables (like evictsBySize) from outer class into this class.
@@ -3624,7 +3626,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
-  static class ComputingValueReference<K, V> extends LoadingValueReference<K, V> {
+  private static final class ComputingValueReference<K, V> extends LoadingValueReference<K, V> {
     ComputingValueReference(ValueReference<K, V> oldValue) {
       super(oldValue);
     }
@@ -4668,7 +4670,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
    * <p>Unfortunately, readResolve() doesn't get called when a circular dependency is present, so
    * the proxy must be able to behave as the cache itself.
    */
-  static class ManualSerializationProxy<K, V> extends ForwardingCache<K, V>
+  private static class ManualSerializationProxy<K, V> extends ForwardingCache<K, V>
       implements Serializable {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 
@@ -4932,6 +4934,7 @@ class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<K, V> 
     }
   }
 
+  // TODO(cpovirk): Make this final (but that may break proxies).
   static class LocalLoadingCache<K, V> extends LocalManualCache<K, V>
       implements LoadingCache<K, V> {
 

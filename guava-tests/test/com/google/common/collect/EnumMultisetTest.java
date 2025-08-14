@@ -45,7 +45,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @J2ktIncompatible // EnumMultiset
 @NullUnmarked
 public class EnumMultisetTest extends TestCase {

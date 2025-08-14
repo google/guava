@@ -51,7 +51,7 @@ import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for CacheBuilder. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 // We are intentionally testing the TimeUnit overloads, too.
 @SuppressWarnings("LongTimeUnit_ExpireAfterWrite_Seconds")
 @NullUnmarked

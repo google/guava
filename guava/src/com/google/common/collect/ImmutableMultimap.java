@@ -72,7 +72,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V>
     implements Serializable {
 
@@ -415,11 +415,13 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   // deserialized.
   @GwtIncompatible
   @J2ktIncompatible
-  static class FieldSettersHolder {
+  static final class FieldSettersHolder {
     static final Serialization.FieldSetter<? super ImmutableMultimap<?, ?>> MAP_FIELD_SETTER =
         Serialization.getFieldSetter(ImmutableMultimap.class, "map");
     static final Serialization.FieldSetter<? super ImmutableMultimap<?, ?>> SIZE_FIELD_SETTER =
         Serialization.getFieldSetter(ImmutableMultimap.class, "size");
+
+    private FieldSettersHolder() {}
   }
 
   ImmutableMultimap(ImmutableMap<K, ? extends ImmutableCollection<V>> map, int size) {
@@ -728,7 +730,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
 
   @SuppressWarnings("serial") // Uses writeReplace, not default serialization
   @WeakOuter
-  class Keys extends ImmutableMultiset<K> {
+  private final class Keys extends ImmutableMultiset<K> {
     @Override
     public boolean contains(@Nullable Object object) {
       return containsKey(object);

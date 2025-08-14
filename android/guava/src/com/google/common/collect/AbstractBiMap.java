@@ -48,7 +48,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  * @author Mike Bostock
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
 
@@ -299,7 +299,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return (result == null) ? entrySet = new EntrySet() : result;
   }
 
-  class BiMapEntry extends ForwardingMapEntry<K, V> {
+  private final class BiMapEntry extends ForwardingMapEntry<K, V> {
     private final Entry<K, V> delegate;
 
     BiMapEntry(Entry<K, V> delegate) {
@@ -432,7 +432,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   /** The inverse of any other {@code AbstractBiMap} subclass. */
-  static class Inverse<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class Inverse<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractBiMap<K, V> {
     Inverse(Map<K, V> backward, AbstractBiMap<V, K> forward) {
       super(backward, forward);

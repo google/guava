@@ -25,7 +25,7 @@ import java.util.HashMap;
  * @author Hayward Chan
  */
 @SuppressWarnings("serial")
-class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
+final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY =
       new RegularImmutableBiMap<Object, Object>();
 

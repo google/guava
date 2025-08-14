@@ -46,7 +46,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class FloatsTest extends TestCase {
   private static final float[] EMPTY = {};
   private static final float[] ARRAY1 = {1.0f};

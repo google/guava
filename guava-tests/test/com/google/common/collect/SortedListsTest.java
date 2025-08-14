@@ -29,7 +29,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class SortedListsTest extends TestCase {
   private static final ImmutableList<Integer> LIST_WITH_DUPS =

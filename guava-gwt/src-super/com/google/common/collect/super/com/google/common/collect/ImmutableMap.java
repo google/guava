@@ -402,18 +402,22 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   abstract boolean isPartialView();
 
+  @Override
   public final @Nullable V put(K k, V v) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public final @Nullable V remove(Object o) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public final void putAll(Map<? extends K, ? extends V> map) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public final void clear() {
     throw new UnsupportedOperationException();
   }
@@ -435,6 +439,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   private transient @Nullable ImmutableSet<Entry<K, V>> cachedEntrySet = null;
 
+  @Override
   public final ImmutableSet<Entry<K, V>> entrySet() {
     if (cachedEntrySet != null) {
       return cachedEntrySet;
@@ -446,6 +451,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   private transient @Nullable ImmutableSet<K> cachedKeySet = null;
 
+  @Override
   public ImmutableSet<K> keySet() {
     if (cachedKeySet != null) {
       return cachedKeySet;
@@ -478,6 +484,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   private transient @Nullable ImmutableCollection<V> cachedValues = null;
 
+  @Override
   public ImmutableCollection<V> values() {
     if (cachedValues != null) {
       return cachedValues;

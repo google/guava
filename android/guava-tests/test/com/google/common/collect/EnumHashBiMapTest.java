@@ -46,7 +46,7 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Mike Bostock
  */
 @J2ktIncompatible // EnumHashBiMap
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class EnumHashBiMapTest extends TestCase {
   private enum Currency {

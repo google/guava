@@ -39,7 +39,7 @@ import org.jspecify.annotations.NullUnmarked;
  * The whole thing is really @GwtIncompatible, but GwtJUnitConvertedTestModule doesn't have a
  * parameter for non-GWT, non-test files, and it didn't seem worth adding one for this unusual case.
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 final class LenientSerializableTester {
   /*

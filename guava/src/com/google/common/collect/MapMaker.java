@@ -87,7 +87,7 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @J2ktIncompatible
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class MapMaker {
   private static final int DEFAULT_INITIAL_CAPACITY = 16;
   private static final int DEFAULT_CONCURRENCY_LEVEL = 4;

@@ -164,7 +164,7 @@ public class Crc32cHashFunctionTest extends TestCase {
       int crc = i;
       for (int j = 7; j >= 0; j--) {
         int mask = -(crc & 1);
-        crc = ((crc >>> 1) ^ (CRC32C_GENERATOR_FLIPPED & mask));
+        crc = (crc >>> 1) ^ (CRC32C_GENERATOR_FLIPPED & mask);
       }
       expected[i] = crc;
     }

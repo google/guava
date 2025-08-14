@@ -60,7 +60,7 @@ final class CollectSpliterators {
      * processes Streams and thus hasn't had a chance to see Streams's annotation?
      */
     @IgnoreJRERequirement
-    class WithCharacteristics implements Spliterator<T> {
+    final class WithCharacteristics implements Spliterator<T> {
       private final Spliterator.OfInt delegate;
 
       WithCharacteristics(Spliterator.OfInt delegate) {
@@ -156,7 +156,7 @@ final class CollectSpliterators {
     checkNotNull(fromSpliterator);
     checkNotNull(predicate);
     @IgnoreJRERequirement // see earlier comment about redundancy
-    class Splitr implements Spliterator<T>, Consumer<T> {
+    final class Splitr implements Spliterator<T>, Consumer<T> {
       @Nullable T holder = null;
 
       @Override

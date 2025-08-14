@@ -22,7 +22,7 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Charles Fry
  */
 @NullUnmarked
-public class TestingWeighers {
+public final class TestingWeighers {
 
   /** Returns a {@link Weigher} that returns the given {@code constant} for every request. */
   static Weigher<Object, Object> constantWeigher(int constant) {
@@ -65,4 +65,6 @@ public class TestingWeighers {
       return value;
     }
   }
+
+  private TestingWeighers() {}
 }

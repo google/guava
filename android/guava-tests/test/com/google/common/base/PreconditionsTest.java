@@ -50,7 +50,7 @@ import org.jspecify.annotations.Nullable;
  */
 @NullMarked
 @SuppressWarnings("LenientFormatStringValidation") // Intentional for testing
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class PreconditionsTest extends TestCase {
   public void testCheckArgument_simple_success() {
     checkArgument(true);

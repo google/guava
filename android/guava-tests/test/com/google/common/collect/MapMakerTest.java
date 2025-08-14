@@ -34,7 +34,7 @@ import org.jspecify.annotations.NullUnmarked;
 /**
  * @author Charles Fry
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @J2ktIncompatible // MapMaker
 @NullUnmarked
 public class MapMakerTest extends TestCase {

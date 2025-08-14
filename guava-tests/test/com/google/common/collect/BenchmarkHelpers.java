@@ -430,4 +430,6 @@ final class BenchmarkHelpers {
       return random.nextInt(max - min + 1) + min;
     }
   }
+
+  private BenchmarkHelpers() {}
 }

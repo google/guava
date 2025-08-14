@@ -39,7 +39,7 @@ import org.jspecify.annotations.NullMarked;
  * @author Kevin Bourrillion
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class HashMultisetTest extends TestCase {
 

@@ -400,7 +400,7 @@ public abstract class Striped<L> {
    * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.
    */
   @VisibleForTesting
-  static class SmallLazyStriped<L> extends PowerOfTwoStriped<L> {
+  static final class SmallLazyStriped<L> extends PowerOfTwoStriped<L> {
     final AtomicReferenceArray<@Nullable ArrayReference<? extends L>> locks;
     final Supplier<L> supplier;
     final int size;
@@ -472,7 +472,7 @@ public abstract class Striped<L> {
    * user key's (smeared) hashCode(). The stripes are lazily initialized and are weakly referenced.
    */
   @VisibleForTesting
-  static class LargeLazyStriped<L> extends PowerOfTwoStriped<L> {
+  static final class LargeLazyStriped<L> extends PowerOfTwoStriped<L> {
     final ConcurrentMap<Integer, L> locks;
     final Supplier<L> supplier;
     final int size;

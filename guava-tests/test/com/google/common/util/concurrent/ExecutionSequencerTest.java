@@ -24,7 +24,6 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.base.Function;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.TestLogHandler;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
@@ -302,25 +301,6 @@ public class ExecutionSequencerTest extends TestCase {
     settableFuture.set(null);
     assertThat(getDone(stackDepthCheck))
         .isLessThan(Thread.currentThread().getStackTrace().length + 100);
-  }
-
-  private static Function<Integer, Integer> add(int delta) {
-    return new Function<Integer, Integer>() {
-      @Override
-      public Integer apply(Integer input) {
-        return input + delta;
-      }
-    };
-  }
-
-  private static AsyncCallable<Integer> asyncAdd(
-      ListenableFuture<Integer> future, int delta, Executor executor) {
-    return new AsyncCallable<Integer>() {
-      @Override
-      public ListenableFuture<Integer> call() throws Exception {
-        return Futures.transform(future, add(delta), executor);
-      }
-    };
   }
 
   private static final class LongHolder {

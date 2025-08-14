@@ -87,7 +87,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Maps {
   private Maps() {}
 
@@ -612,7 +612,7 @@ public final class Maps {
     }
   }
 
-  static class MapDifferenceImpl<K extends @Nullable Object, V extends @Nullable Object>
+  private static class MapDifferenceImpl<K extends @Nullable Object, V extends @Nullable Object>
       implements MapDifference<K, V> {
     final Map<K, V> onlyOnLeft;
     final Map<K, V> onlyOnRight;
@@ -696,7 +696,7 @@ public final class Maps {
     }
   }
 
-  static class ValueDifferenceImpl<V extends @Nullable Object>
+  static final class ValueDifferenceImpl<V extends @Nullable Object>
       implements MapDifference.ValueDifference<V> {
     @ParametricNullness private final V left;
     @ParametricNullness private final V right;
@@ -744,7 +744,8 @@ public final class Maps {
     }
   }
 
-  static class SortedMapDifferenceImpl<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class SortedMapDifferenceImpl<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends MapDifferenceImpl<K, V> implements SortedMapDifference<K, V> {
     SortedMapDifferenceImpl(
         SortedMap<K, V> onlyOnLeft,
@@ -940,7 +941,7 @@ public final class Maps {
     @Override
     protected Set<Entry<K, V>> createEntrySet() {
       @WeakOuter
-      class EntrySetImpl extends EntrySet<K, V> {
+      final class EntrySetImpl extends EntrySet<K, V> {
         @Override
         Map<K, V> map() {
           return AsMapView.this;
@@ -1537,7 +1538,8 @@ public final class Maps {
   }
 
   /** The implementation of {@link Maps#unmodifiableEntrySet(Set)}. */
-  static class UnmodifiableEntrySet<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class UnmodifiableEntrySet<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends UnmodifiableEntries<K, V> implements Set<Entry<K, V>> {
     UnmodifiableEntrySet(Set<Entry<K, V>> entries) {
       super(entries);
@@ -2008,9 +2010,10 @@ public final class Maps {
      *
      * <ul>
      *   <li>Its execution does not cause any observable side effects.
-     *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equal
-     *       Objects.equal}{@code (k1, k2) &&} {@link Objects#equal}{@code (v1, v2)} implies that
-     *       {@code Objects.equals(transformer.transform(k1, v1), transformer.transform(k2, v2))}.
+     *   <li>The computation is <i>consistent with equals</i>; that is, {@link Objects#equals
+     *       Objects.equals}{@code (k1, k2) &&} {@link Objects#equals Objects.equals}{@code (v1,
+     *       v2)} implies that {@code Objects.equals(transformer.transform(k1, v1),
+     *       transformer.transform(k2, v2))}.
      * </ul>
      *
      * @throws NullPointerException if the key or value is null and this transformer does not accept
@@ -2049,7 +2052,7 @@ public final class Maps {
     return entry -> transformEntry(transformer, entry);
   }
 
-  static class TransformedEntriesMap<
+  private static class TransformedEntriesMap<
           K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       extends IteratorBasedAbstractMap<K, V2> {
     final Map<K, V1> fromMap;
@@ -2115,7 +2118,7 @@ public final class Maps {
     }
   }
 
-  static class TransformedEntriesSortedMap<
+  private static class TransformedEntriesSortedMap<
           K extends @Nullable Object, V1 extends @Nullable Object, V2 extends @Nullable Object>
       extends TransformedEntriesMap<K, V1, V2> implements SortedMap<K, V2> {
 
@@ -2898,7 +2901,7 @@ public final class Maps {
     }
   }
 
-  static class FilteredEntryMap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class FilteredEntryMap<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractFilteredMap<K, V> {
     /**
      * Entries in this set satisfy the predicate, but they don't validate the input to {@code
@@ -3042,7 +3045,7 @@ public final class Maps {
     }
 
     @WeakOuter
-    class SortedKeySet extends KeySet implements SortedSet<K> {
+    final class SortedKeySet extends KeySet implements SortedSet<K> {
       @Override
       public @Nullable Comparator<? super K> comparator() {
         return sortedMap().comparator();
@@ -3337,7 +3340,8 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  static class UnmodifiableNavigableMap<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class UnmodifiableNavigableMap<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingSortedMap<K, V> implements NavigableMap<K, V>, Serializable {
     private final NavigableMap<K, ? extends V> delegate;
 
@@ -4194,7 +4198,7 @@ public final class Maps {
 
     Set<Entry<K, V>> createEntrySet() {
       @WeakOuter
-      class EntrySetImpl extends EntrySet<K, V> {
+      final class EntrySetImpl extends EntrySet<K, V> {
         @Override
         Map<K, V> map() {
           return DescendingMap.this;

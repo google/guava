@@ -23,6 +23,7 @@ import static junit.framework.Assert.assertTrue;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.Iterables;
+import com.google.common.testing.RelationshipTester.Item;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.List;
@@ -85,7 +86,7 @@ public final class EqualsTester {
 
   /** Constructs an empty EqualsTester instance */
   public EqualsTester() {
-    this(new RelationshipTester.ItemReporter());
+    this(/* itemReporter= */ Item::toString);
   }
 
   EqualsTester(RelationshipTester.ItemReporter itemReporter) {

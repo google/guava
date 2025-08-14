@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-class MultiReader extends Reader {
+final class MultiReader extends Reader {
   private final Iterator<? extends CharSource> it;
   private @Nullable Reader current;
 

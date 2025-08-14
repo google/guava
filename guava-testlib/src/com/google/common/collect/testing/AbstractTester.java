@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
  *     parameterize the test.
  * @author George van den Driessche
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class AbstractTester<G> extends TestCase {
   private G subjectGenerator;

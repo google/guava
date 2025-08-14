@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
  * @author Ben Yu
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Throwables {
   private Throwables() {}
 

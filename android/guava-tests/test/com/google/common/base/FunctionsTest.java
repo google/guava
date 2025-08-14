@@ -39,7 +39,7 @@ import org.jspecify.annotations.Nullable;
  * @author Mike Bostock
  * @author Vlad Patryshev
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class FunctionsTest extends TestCase {
 

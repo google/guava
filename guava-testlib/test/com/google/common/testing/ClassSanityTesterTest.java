@@ -158,10 +158,12 @@ public class ClassSanityTesterTest extends TestCase {
     fail();
   }
 
-  public static class BadNullsFactory {
+  public static final class BadNullsFactory {
     public static Object bad(@SuppressWarnings("unused") String a) {
       return new BadNulls();
     }
+
+    private BadNullsFactory() {}
   }
 
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
@@ -169,7 +171,7 @@ public class ClassSanityTesterTest extends TestCase {
     tester.forAllPublicStaticMethods(GoodSerializableFactory.class).testSerializable();
   }
 
-  public static class GoodSerializableFactory {
+  public static final class GoodSerializableFactory {
     public static Object good(Runnable r) {
       return r;
     }
@@ -177,6 +179,8 @@ public class ClassSanityTesterTest extends TestCase {
     public static Object good(AnInterface i) {
       return i;
     }
+
+    private GoodSerializableFactory() {}
   }
 
   public void testSerializableOnReturnValues_bad() throws Exception {
@@ -188,12 +192,14 @@ public class ClassSanityTesterTest extends TestCase {
     fail();
   }
 
-  public static class BadSerializableFactory {
+  public static final class BadSerializableFactory {
     public static Object bad() {
       return new Serializable() {
         @Keep private final Object notSerializable = new Object();
       };
     }
+
+    private BadSerializableFactory() {}
   }
 
   public void testEqualsAndSerializableOnReturnValues_equalsIsGoodButNotSerializable()
@@ -222,10 +228,12 @@ public class ClassSanityTesterTest extends TestCase {
         .testEqualsAndSerializable();
   }
 
-  public static class GoodEqualsAndSerializableFactory {
+  public static final class GoodEqualsAndSerializableFactory {
     public static Object good(AnInterface s) {
       return Functions.constant(s);
     }
+
+    private GoodEqualsAndSerializableFactory() {}
   }
 
   public void testEqualsForReturnValues_factoryReturnsNullButNotAnnotated() throws Exception {
@@ -269,10 +277,12 @@ public class ClassSanityTesterTest extends TestCase {
     fail();
   }
 
-  public static class FactoryThatReturnsNullButNotAnnotated {
+  public static final class FactoryThatReturnsNullButNotAnnotated {
     public static Object bad() {
       return null;
     }
+
+    private FactoryThatReturnsNullButNotAnnotated() {}
   }
 
   public void testEqualsForReturnValues_factoryReturnsNullAndAnnotated() throws Exception {
@@ -294,10 +304,12 @@ public class ClassSanityTesterTest extends TestCase {
         .testEqualsAndSerializable();
   }
 
-  public static class FactoryThatReturnsNullAndAnnotated {
+  public static final class FactoryThatReturnsNullAndAnnotated {
     public static @Nullable Object bad() {
       return null;
     }
+
+    private FactoryThatReturnsNullAndAnnotated() {}
   }
 
   public void testGoodEquals() throws Exception {

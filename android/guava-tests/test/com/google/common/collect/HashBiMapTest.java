@@ -41,7 +41,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Mike Bostock
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class HashBiMapTest extends TestCase {
 

@@ -47,7 +47,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class IntMathTest extends TestCase {
   public void testMaxSignedPowerOfTwo() {
@@ -299,7 +299,7 @@ public class IntMathTest extends TestCase {
     for (int x : POSITIVE_INTEGER_CANDIDATES) {
       int floor = IntMath.sqrt(x, FLOOR);
       // We only expect an exception if x was not a perfect square.
-      boolean isPerfectSquare = (floor * floor == x);
+      boolean isPerfectSquare = floor * floor == x;
       try {
         assertEquals(floor, IntMath.sqrt(x, UNNECESSARY));
         assertTrue(isPerfectSquare);

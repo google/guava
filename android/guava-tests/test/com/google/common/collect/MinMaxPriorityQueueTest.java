@@ -63,7 +63,7 @@ import org.jspecify.annotations.Nullable;
  * @author Alexei Stolboushkin
  * @author Sverre Sundsdal
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class MinMaxPriorityQueueTest extends TestCase {
   private static final Ordering<Integer> SOME_COMPARATOR = Ordering.<Integer>natural().reverse();

@@ -71,7 +71,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  * @author Jesse Wilson
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("AlwaysThrows")
 @NullMarked
 public class ImmutableMapTest extends TestCase {

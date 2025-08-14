@@ -40,7 +40,7 @@ import org.jspecify.annotations.Nullable;
  * default} methods. Instead, it inherits their default implementations. When those implementations
  * invoke methods, they invoke methods on the {@code ForwardingMap}.
  *
- * <p>Each of the {@code standard} methods, where appropriate, use {@link Objects#equal} to test
+ * <p>Each of the {@code standard} methods, where appropriate, use {@link Objects#equals} to test
  * equality for both keys and values. This may not be the desired behavior for map implementations
  * that use non-standard notions of key equality, such as a {@code SortedMap} whose comparator is
  * not consistent with {@code equals}.

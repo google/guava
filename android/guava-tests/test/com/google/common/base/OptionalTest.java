@@ -40,7 +40,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kurt Alfred Kluever
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class OptionalTest extends TestCase {
   @SuppressWarnings("NullOptional")
   public void testToJavaUtil_static() {

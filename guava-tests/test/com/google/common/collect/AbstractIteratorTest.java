@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  */
 @SuppressWarnings("serial") // No serialization is used in this test
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class AbstractIteratorTest extends TestCase {
 

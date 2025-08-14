@@ -33,7 +33,7 @@ import org.junit.Ignore;
  *
  * @author George van den Driessche
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")
 // @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
@@ -41,7 +41,7 @@ public class SetHashCodeTester<E> extends AbstractSetTester<E> {
   public void testHashCode() {
     int expectedHashCode = 0;
     for (E element : getSampleElements()) {
-      expectedHashCode += ((element == null) ? 0 : element.hashCode());
+      expectedHashCode += (element == null) ? 0 : element.hashCode();
     }
     assertEquals(
         "A Set's hashCode() should be the sum of those of its elements.",
@@ -55,7 +55,7 @@ public class SetHashCodeTester<E> extends AbstractSetTester<E> {
     Collection<E> elements = getSampleElements(getNumElements() - 1);
     int expectedHashCode = 0;
     for (E element : elements) {
-      expectedHashCode += ((element == null) ? 0 : element.hashCode());
+      expectedHashCode += (element == null) ? 0 : element.hashCode();
     }
 
     elements.add(null);

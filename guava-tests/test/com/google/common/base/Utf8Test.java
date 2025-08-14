@@ -41,7 +41,7 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Martin Buchholz
  * @author Clément Roux
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class Utf8Test extends TestCase {
 

@@ -16,13 +16,9 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.hash.SneakyThrows.sneakyThrow;
-import static java.lang.invoke.MethodType.methodType;
 
 import com.google.errorprone.annotations.Immutable;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
-import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MethodHandles;
 import java.security.Key;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.zip.Adler32;
 import java.util.zip.CRC32;
+import java.util.zip.CRC32C;
 import java.util.zip.Checksum;
 import javax.crypto.spec.SecretKeySpec;
 import org.jspecify.annotations.Nullable;
@@ -495,9 +492,12 @@ public final class Hashing {
     },
     @J2ObjCIncompatible
     CRC_32C("Hashing.crc32c()") {
+      // Crc32CSupplier.pickFunction uses this only when it finds that CRC32C is available.
+      @SuppressWarnings("Java8ApiChecker")
+      @IgnoreJRERequirement
       @Override
       public Checksum get() {
-        return Crc32cMethodHandles.newCrc32c();
+        return new CRC32C();
       }
     },
     ADLER_32("Hashing.adler32()") {
@@ -511,51 +511,6 @@ public final class Hashing {
 
     ChecksumType(String toString) {
       this.hashFunction = new ChecksumHashFunction(this, 32, toString);
-    }
-  }
-
-  @J2ObjCIncompatible
-  @SuppressWarnings("unused")
-  private static final class Crc32cMethodHandles {
-    private static final MethodHandle CONSTRUCTOR = crc32cConstructor();
-
-    @IgnoreJRERequirement // https://github.com/mojohaus/animal-sniffer/issues/67
-    static Checksum newCrc32c() {
-      try {
-        return (Checksum) CONSTRUCTOR.invokeExact();
-      } catch (Throwable e) {
-        // The constructor has no `throws` clause.
-        throw sneakyThrow(e);
-      }
-    }
-
-    private static MethodHandle crc32cConstructor() {
-      try {
-        Class<?> clazz = Class.forName("java.util.zip.CRC32C");
-        /*
-         * We can't cast to CRC32C at the call site because we support building with Java 8
-         * (https://github.com/google/guava/issues/6549). So we have to use asType() to change from
-         * CRC32C to Checksum. This may carry some performance cost
-         * (https://stackoverflow.com/a/22321671/28465), but I'd have to benchmark more carefully to
-         * even detect it.
-         */
-        return MethodHandles.lookup()
-            .findConstructor(clazz, methodType(void.class))
-            .asType(methodType(Checksum.class));
-      } catch (ClassNotFoundException e) {
-        // We check that the class is available before calling this method.
-        throw new AssertionError(e);
-      } catch (IllegalAccessException e) {
-        // That API is public.
-        throw newLinkageError(e);
-      } catch (NoSuchMethodException e) {
-        // That constructor exists.
-        throw newLinkageError(e);
-      }
-    }
-
-    private static LinkageError newLinkageError(Throwable cause) {
-      return new LinkageError(cause.toString(), cause);
     }
   }
 

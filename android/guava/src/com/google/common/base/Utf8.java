@@ -35,7 +35,7 @@ import com.google.common.annotations.GwtCompatible;
  * @author Clément Roux
  * @since 16.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Utf8 {
   /**
    * Returns the number of bytes in the UTF-8-encoded form of {@code sequence}. For a string, this
@@ -60,7 +60,7 @@ public final class Utf8 {
     for (; i < utf16Length; i++) {
       char c = sequence.charAt(i);
       if (c < 0x800) {
-        utf8Length += ((0x7f - c) >>> 31); // branch free!
+        utf8Length += (0x7f - c) >>> 31; // branch free!
       } else {
         utf8Length += encodedLengthGeneral(sequence, i);
         break;

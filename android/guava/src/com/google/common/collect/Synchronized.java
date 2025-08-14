@@ -56,7 +56,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  */
 @J2ktIncompatible
-@GwtCompatible(emulated = true)
+@GwtCompatible
 /*
  * I have decided not to bother adding @ParametricNullness annotations in this class. Adding them is
  * a lot of busy work, and the annotation matters only when the APIs to be annotated are visible to
@@ -69,7 +69,7 @@ import org.jspecify.annotations.Nullable;
 final class Synchronized {
   private Synchronized() {}
 
-  static class SynchronizedObject implements Serializable {
+  private static class SynchronizedObject implements Serializable {
     final Object delegate;
     final Object mutex;
 
@@ -322,8 +322,8 @@ final class Synchronized {
         : new SynchronizedList<E>(list, mutex);
   }
 
-  static class SynchronizedList<E extends @Nullable Object> extends SynchronizedCollection<E>
-      implements List<E> {
+  private static class SynchronizedList<E extends @Nullable Object>
+      extends SynchronizedCollection<E> implements List<E> {
     SynchronizedList(List<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
@@ -533,7 +533,7 @@ final class Synchronized {
     return new SynchronizedMultimap<>(multimap, mutex);
   }
 
-  static class SynchronizedMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class SynchronizedMultimap<K extends @Nullable Object, V extends @Nullable Object>
       extends SynchronizedObject implements Multimap<K, V> {
     transient @Nullable Set<K> keySet;
     transient @Nullable Collection<V> valuesCollection;
@@ -766,7 +766,8 @@ final class Synchronized {
     return new SynchronizedSetMultimap<>(multimap, mutex);
   }
 
-  static class SynchronizedSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class SynchronizedSetMultimap<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends SynchronizedMultimap<K, V> implements SetMultimap<K, V> {
     transient @Nullable Set<Map.Entry<K, V>> entrySet;
 
@@ -994,7 +995,7 @@ final class Synchronized {
     return new SynchronizedMap<>(map, mutex);
   }
 
-  static class SynchronizedMap<K extends @Nullable Object, V extends @Nullable Object>
+  private static class SynchronizedMap<K extends @Nullable Object, V extends @Nullable Object>
       extends SynchronizedObject implements Map<K, V> {
     transient @Nullable Set<K> keySet;
     transient @Nullable Collection<V> values;
@@ -1691,8 +1692,8 @@ final class Synchronized {
     return (queue instanceof SynchronizedQueue) ? queue : new SynchronizedQueue<E>(queue, mutex);
   }
 
-  static class SynchronizedQueue<E extends @Nullable Object> extends SynchronizedCollection<E>
-      implements Queue<E> {
+  private static class SynchronizedQueue<E extends @Nullable Object>
+      extends SynchronizedCollection<E> implements Queue<E> {
 
     SynchronizedQueue(Queue<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);

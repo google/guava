@@ -138,7 +138,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
   }
 
   @WeakOuter
-  class EntrySet extends Entries implements Set<Entry<K, V>> {
+  final class EntrySet extends Entries implements Set<Entry<K, V>> {
     @Override
     public int hashCode() {
       return Sets.hashCodeImpl(this);
@@ -188,7 +188,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
   abstract Collection<V> createValues();
 
   @WeakOuter
-  class Values extends AbstractCollection<V> {
+  final class Values extends AbstractCollection<V> {
     @Override
     public Iterator<V> iterator() {
       return valueIterator();

@@ -65,7 +65,7 @@ final class FilteredKeySetMultimap<K extends @Nullable Object, V extends @Nullab
     return new EntrySet();
   }
 
-  class EntrySet extends Entries implements Set<Entry<K, V>> {
+  private final class EntrySet extends Entries implements Set<Entry<K, V>> {
     @Override
     public int hashCode() {
       return Sets.hashCodeImpl(this);

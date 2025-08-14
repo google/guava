@@ -70,7 +70,7 @@ import org.jspecify.annotations.NullMarked;
  * @author Mike Bostock
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class ListsTest extends TestCase {
 

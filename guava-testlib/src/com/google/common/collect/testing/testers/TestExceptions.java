@@ -21,17 +21,17 @@ import com.google.common.annotations.GwtCompatible;
 /** Exception classes for use in tests. */
 @GwtCompatible
 final class TestExceptions {
-  static class SomeError extends Error {}
+  static final class SomeError extends Error {}
 
-  static class SomeCheckedException extends Exception {}
+  static final class SomeCheckedException extends Exception {}
 
-  static class SomeOtherCheckedException extends Exception {}
+  static final class SomeOtherCheckedException extends Exception {}
 
-  static class YetAnotherCheckedException extends Exception {}
+  static final class YetAnotherCheckedException extends Exception {}
 
-  static class SomeUncheckedException extends RuntimeException {}
+  static final class SomeUncheckedException extends RuntimeException {}
 
-  static class SomeChainingException extends RuntimeException {
+  static final class SomeChainingException extends RuntimeException {
     public SomeChainingException(Throwable cause) {
       super(cause);
     }

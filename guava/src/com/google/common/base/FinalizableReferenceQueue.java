@@ -284,7 +284,7 @@ public class FinalizableReferenceQueue implements Closeable {
    * Tries to load Finalizer from the system class loader. If Finalizer is in the system class path,
    * we needn't create a separate loader.
    */
-  static class SystemLoader implements FinalizerLoader {
+  static final class SystemLoader implements FinalizerLoader {
     // This is used by the ClassLoader-leak test in FinalizableReferenceQueueTest to disable
     // finding Finalizer on the system class path even if it is there.
     @VisibleForTesting static boolean disabled;
@@ -376,7 +376,7 @@ public class FinalizableReferenceQueue implements Closeable {
    * Loads Finalizer directly using the current class loader. We won't be able to garbage collect
    * this class loader, but at least the world doesn't end.
    */
-  static class DirectLoader implements FinalizerLoader {
+  private static final class DirectLoader implements FinalizerLoader {
     @Override
     public Class<?> loadFinalizer() {
       try {

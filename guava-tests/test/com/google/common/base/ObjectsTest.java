@@ -28,7 +28,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Laurence Gonsalves
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class ObjectsTest extends TestCase {
 

@@ -46,7 +46,7 @@ import java.util.Set;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class Helpers {
   // Clone of Objects.equals
@@ -551,4 +551,12 @@ public class Helpers {
       throw new IllegalArgumentException(e);
     }
   }
+
+  /**
+   * Useless constructor for a class of static utility methods.
+   *
+   * @deprecated Do not instantiate this utility class.
+   */
+  @Deprecated
+  public Helpers() {}
 }

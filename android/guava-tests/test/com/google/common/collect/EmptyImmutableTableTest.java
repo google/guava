@@ -26,7 +26,7 @@ import org.jspecify.annotations.NullMarked;
  *
  * @author Gregory Kick
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class EmptyImmutableTableTest extends AbstractImmutableTableTest {
   private static final ImmutableTable<Character, Integer, String> INSTANCE = ImmutableTable.of();

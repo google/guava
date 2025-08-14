@@ -54,7 +54,7 @@ import org.jspecify.annotations.Nullable;
  */
 @J2ktIncompatible // no support for access-order mode in LinkedHashMap delegate
 @GwtIncompatible // not worth using in GWT for now
-class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
+final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Object>
     extends CompactHashMap<K, V> {
   // TODO(lowasser): implement removeEldestEntry so this can be used as a drop-in replacement
 
@@ -230,7 +230,7 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
   @Override
   Set<Entry<K, V>> createEntrySet() {
     @WeakOuter
-    class EntrySetImpl extends EntrySetView {
+    final class EntrySetImpl extends EntrySetView {
       @Override
       public Spliterator<Entry<K, V>> spliterator() {
         return Spliterators.spliterator(this, Spliterator.ORDERED | Spliterator.DISTINCT);
@@ -242,7 +242,7 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
   @Override
   Set<K> createKeySet() {
     @WeakOuter
-    class KeySetImpl extends KeySetView {
+    final class KeySetImpl extends KeySetView {
       @Override
       public @Nullable Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);
@@ -265,7 +265,7 @@ class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable Objec
   @Override
   Collection<V> createValues() {
     @WeakOuter
-    class ValuesImpl extends ValuesView {
+    final class ValuesImpl extends ValuesView {
       @Override
       public @Nullable Object[] toArray() {
         return ObjectArrays.toArrayImpl(this);

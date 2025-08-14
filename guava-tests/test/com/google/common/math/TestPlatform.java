@@ -22,9 +22,9 @@ import org.jspecify.annotations.NullUnmarked;
 /**
  * @author Chris Povirk
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
-class TestPlatform {
+final class TestPlatform {
   static boolean intsCanGoOutOfRange() {
     return false;
   }
@@ -32,4 +32,6 @@ class TestPlatform {
   static boolean isAndroid() {
     return System.getProperty("java.runtime.name", "").contains("Android");
   }
+
+  private TestPlatform() {}
 }

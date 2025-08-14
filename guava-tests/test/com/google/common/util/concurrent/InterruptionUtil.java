@@ -137,4 +137,6 @@ final class InterruptionUtil {
       }
     }
   }
+
+  private InterruptionUtil() {}
 }

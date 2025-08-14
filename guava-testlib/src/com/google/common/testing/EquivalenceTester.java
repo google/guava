@@ -24,7 +24,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.google.common.testing.RelationshipTester.ItemReporter;
+import com.google.common.testing.RelationshipTester.Item;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,7 +62,9 @@ public final class EquivalenceTester<T> {
 
   private EquivalenceTester(Equivalence<? super T> equivalence) {
     this.equivalence = checkNotNull(equivalence);
-    this.delegate = new RelationshipTester<>(equivalence, "equivalent", "hash", new ItemReporter());
+    this.delegate =
+        new RelationshipTester<>(
+            equivalence, "equivalent", "hash", /* itemReporter= */ Item::toString);
   }
 
   public static <T> EquivalenceTester<T> of(Equivalence<? super T> equivalence) {

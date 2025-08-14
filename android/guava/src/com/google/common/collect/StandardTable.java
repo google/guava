@@ -545,7 +545,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
           Entry<R, Map<C, V>> entry = iterator.next();
           if (entry.getValue().containsKey(columnKey)) {
             @WeakOuter
-            class EntryImpl extends AbstractMapEntry<R, V> {
+            final class EntryImpl extends AbstractMapEntry<R, V> {
               @Override
               public R getKey() {
                 return entry.getKey();

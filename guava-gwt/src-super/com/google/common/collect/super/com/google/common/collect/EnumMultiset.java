@@ -23,7 +23,7 @@ import java.io.Serializable;
 import java.util.EnumMap;
 import java.util.Iterator;
 
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @J2ktIncompatible
 public final class EnumMultiset<E extends Enum<E>> extends AbstractMapBasedMultiset<E>
     implements Serializable {

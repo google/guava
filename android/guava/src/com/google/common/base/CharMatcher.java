@@ -62,7 +62,7 @@ import java.util.BitSet;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public abstract class CharMatcher implements Predicate<Character> {
   /*
    *           N777777777NO

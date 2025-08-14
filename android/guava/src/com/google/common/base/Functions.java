@@ -61,7 +61,7 @@ public final class Functions {
    * typically by writing {@code (Function<Object, String> & Serializable) Object::toString}.
    *
    * <p>For more important information about the transition from Guava's {@link Function} class to
-   * the JDK {@link java.util.functionFunction} class, see {@link Function}.
+   * the JDK {@link java.util.function.Function} class, see {@link Function}.
    */
   public static Function<Object, String> toStringFunction() {
     return ToStringFunction.INSTANCE;

@@ -63,7 +63,7 @@ import org.jspecify.annotations.Nullable;
  * @author George van den Driessche
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class ImmutableListTest extends TestCase {
 

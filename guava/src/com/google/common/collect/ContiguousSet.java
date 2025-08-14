@@ -48,7 +48,7 @@ import java.util.Set;
  * @author Gregory Kick
  * @since 10.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("rawtypes") // allow ungenerified Comparable types
 public abstract class ContiguousSet<C extends Comparable> extends ImmutableSortedSet<C> {
   /**

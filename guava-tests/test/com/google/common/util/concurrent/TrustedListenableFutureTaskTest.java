@@ -40,7 +40,7 @@ import org.jspecify.annotations.Nullable;
 
 /** Test case for {@link TrustedListenableFutureTask}. */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class TrustedListenableFutureTaskTest extends TestCase {
 
   public void testSuccessful() throws Exception {

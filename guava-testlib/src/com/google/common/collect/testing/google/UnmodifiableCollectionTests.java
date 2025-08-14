@@ -422,4 +422,12 @@ public class UnmodifiableCollectionTests {
       void assertMultimapRemainsUnmodified(Multimap<K, V> expected, List<Entry<K, V>> actual) {
     assertIteratorsInOrder(expected.entries().iterator(), actual.iterator());
   }
+
+  /**
+   * Useless constructor for a class of static utility methods.
+   *
+   * @deprecated Do not instantiate this utility class.
+   */
+  @Deprecated
+  public UnmodifiableCollectionTests() {}
 }

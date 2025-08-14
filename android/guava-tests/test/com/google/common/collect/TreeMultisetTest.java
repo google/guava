@@ -50,7 +50,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Neal Kanodia
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class TreeMultisetTest extends TestCase {
 

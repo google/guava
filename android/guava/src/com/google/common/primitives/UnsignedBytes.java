@@ -293,7 +293,7 @@ public final class UnsignedBytes {
    * available.
    */
   @VisibleForTesting
-  static class LexicographicalComparatorHolder {
+  static final class LexicographicalComparatorHolder {
     static final String UNSAFE_COMPARATOR_NAME =
         LexicographicalComparatorHolder.class.getName() + "$UnsafeComparator";
 
@@ -456,6 +456,8 @@ public final class UnsignedBytes {
         return lexicographicalComparatorJavaImpl();
       }
     }
+
+    private LexicographicalComparatorHolder() {}
   }
 
   private static byte flip(byte b) {

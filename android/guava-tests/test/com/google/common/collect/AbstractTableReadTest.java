@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Jared Levy
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public abstract class AbstractTableReadTest<C extends @Nullable Character> extends TestCase {
   protected Table<String, Integer, C> table;

@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Jesse Wilson
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 final class Platform {
   private static final PatternCompiler patternCompiler = loadPatternCompiler();
 

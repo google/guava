@@ -40,7 +40,7 @@ import org.jspecify.annotations.Nullable;
  * @author Harry Heymann
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Suppliers {
   private Suppliers() {}
 
@@ -121,7 +121,8 @@ public final class Suppliers {
   }
 
   @VisibleForTesting
-  static class MemoizingSupplier<T extends @Nullable Object> implements Supplier<T>, Serializable {
+  static final class MemoizingSupplier<T extends @Nullable Object>
+      implements Supplier<T>, Serializable {
     private transient Object lock = new Object();
 
     final Supplier<T> delegate;
@@ -171,8 +172,8 @@ public final class Suppliers {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
-  @VisibleForTesting
-  static class NonSerializableMemoizingSupplier<T extends @Nullable Object> implements Supplier<T> {
+  private static final class NonSerializableMemoizingSupplier<T extends @Nullable Object>
+      implements Supplier<T> {
     private final Object lock = new Object();
 
     @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object
@@ -282,7 +283,7 @@ public final class Suppliers {
 
   @VisibleForTesting
   @SuppressWarnings("GoodTime") // lots of violations
-  static class ExpiringMemoizingSupplier<T extends @Nullable Object>
+  static final class ExpiringMemoizingSupplier<T extends @Nullable Object>
       implements Supplier<T>, Serializable {
     private transient Object lock = new Object();
 

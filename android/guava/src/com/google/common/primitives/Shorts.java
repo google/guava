@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  * @since 1.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Shorts extends ShortsMethodsForWeb {
   private Shorts() {}
 

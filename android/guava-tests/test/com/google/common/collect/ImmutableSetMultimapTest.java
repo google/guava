@@ -49,7 +49,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Mike Ward
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class ImmutableSetMultimapTest extends TestCase {
   @J2ktIncompatible

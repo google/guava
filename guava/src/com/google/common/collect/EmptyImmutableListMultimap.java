@@ -27,7 +27,7 @@ import java.util.Collection;
  * @author Jared Levy
  */
 @GwtCompatible
-class EmptyImmutableListMultimap extends ImmutableListMultimap<Object, Object> {
+final class EmptyImmutableListMultimap extends ImmutableListMultimap<Object, Object> {
   static final EmptyImmutableListMultimap INSTANCE = new EmptyImmutableListMultimap();
 
   private EmptyImmutableListMultimap() {

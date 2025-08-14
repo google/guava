@@ -47,7 +47,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Kevin Bourrillion
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
     implements Serializable {
   // TODO(lowasser): consider overhauling this back to Map<E, Integer>
@@ -330,7 +330,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
       }
     }
 
-    size += (count - oldCount);
+    size += count - oldCount;
     return oldCount;
   }
 

@@ -31,7 +31,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("serial")
 abstract class ImmutableAsList<E> extends ImmutableList<E> {
   abstract ImmutableCollection<E> delegateCollection();
@@ -61,7 +61,7 @@ abstract class ImmutableAsList<E> extends ImmutableList<E> {
   /** Serialized form that leads to the same performance as the original list. */
   @GwtIncompatible
   @J2ktIncompatible
-  static class SerializedForm implements Serializable {
+  private static final class SerializedForm implements Serializable {
     final ImmutableCollection<?> collection;
 
     SerializedForm(ImmutableCollection<?> collection) {

@@ -31,7 +31,7 @@ import java.util.Spliterator;
  *
  * @author Hayward Chan
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class SingletonImmutableList<E> extends ImmutableList<E> {
 

@@ -23,7 +23,7 @@ import org.jspecify.annotations.Nullable;
  * versions of the {@link FluentFuture#catching(Class, com.google.common.base.Function)
  * FluentFuture.catching} family of methods. Those versions have slightly different signatures.
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @J2ktIncompatible // Super-sourced
 abstract class GwtFluentFutureCatchingSpecialization<V extends @Nullable Object>
     extends AbstractFuture<V> {

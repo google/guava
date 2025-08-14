@@ -58,7 +58,7 @@ import org.jspecify.annotations.Nullable;
  * @author Mike Bostock
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Object>
     extends IteratorBasedAbstractMap<K, V> implements BiMap<K, V>, Serializable {
 
@@ -522,7 +522,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         return new MapEntry(entry);
       }
 
-      class MapEntry extends AbstractMapEntry<K, V> {
+      final class MapEntry extends AbstractMapEntry<K, V> {
         private BiEntry<K, V> delegate;
 
         MapEntry(BiEntry<K, V> entry) {
@@ -696,7 +696,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
           return new InverseEntry(entry);
         }
 
-        class InverseEntry extends AbstractMapEntry<V, K> {
+        final class InverseEntry extends AbstractMapEntry<V, K> {
           private BiEntry<K, V> delegate;
 
           InverseEntry(BiEntry<K, V> entry) {

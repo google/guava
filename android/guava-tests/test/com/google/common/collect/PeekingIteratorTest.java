@@ -41,7 +41,7 @@ import org.jspecify.annotations.Nullable;
  * @author Mick Killianey
  */
 @SuppressWarnings("serial") // No serialization is used in this test
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class PeekingIteratorTest extends TestCase {
 

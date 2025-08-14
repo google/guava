@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
  *   <li>Decrements a counter atomically
  * </ul>
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
 abstract class AggregateFutureState<OutputT extends @Nullable Object>
     extends AbstractFuture.TrustedFuture<OutputT> {

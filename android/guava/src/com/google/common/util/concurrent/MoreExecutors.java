@@ -65,7 +65,7 @@ import org.jspecify.annotations.Nullable;
  * @author Justin Mahoney
  * @since 3.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class MoreExecutors {
   private MoreExecutors() {}
 

@@ -287,7 +287,7 @@ public abstract class HashCode {
 
     @Override
     public long padToLong() {
-      long retVal = (bytes[0] & 0xFF);
+      long retVal = bytes[0] & 0xFF;
       for (int i = 1; i < min(bytes.length, 8); i++) {
         retVal |= (bytes[i] & 0xFFL) << (i * 8);
       }
@@ -314,7 +314,7 @@ public abstract class HashCode {
 
       boolean areEqual = true;
       for (int i = 0; i < this.bytes.length; i++) {
-        areEqual &= (this.bytes[i] == that.getBytesInternal()[i]);
+        areEqual &= this.bytes[i] == that.getBytesInternal()[i];
       }
       return areEqual;
     }
@@ -389,9 +389,9 @@ public abstract class HashCode {
     }
     // If we have less than 4 bytes, use them all.
     byte[] bytes = getBytesInternal();
-    int val = (bytes[0] & 0xFF);
+    int val = bytes[0] & 0xFF;
     for (int i = 1; i < bytes.length; i++) {
-      val |= ((bytes[i] & 0xFF) << (i * 8));
+      val |= (bytes[i] & 0xFF) << (i * 8);
     }
     return val;
   }

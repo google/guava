@@ -87,7 +87,7 @@ public class SetTestSuiteBuilder<E>
     return derivedSuites;
   }
 
-  static class ReserializedSetGenerator<E> implements TestSetGenerator<E> {
+  private static final class ReserializedSetGenerator<E> implements TestSetGenerator<E> {
     final OneSizeTestContainerGenerator<Collection<E>, E> gen;
 
     private ReserializedSetGenerator(OneSizeTestContainerGenerator<Collection<E>, E> gen) {

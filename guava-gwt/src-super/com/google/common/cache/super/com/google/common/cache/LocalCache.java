@@ -240,8 +240,8 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
       return false;
     }
 
-    boolean expireWrite = (stamped.getWriteTimestamp() + expireAfterWrite <= currentTimeNanos());
-    boolean expireAccess = (stamped.getAccessTimestamp() + expireAfterAccess <= currentTimeNanos());
+    boolean expireWrite = stamped.getWriteTimestamp() + expireAfterWrite <= currentTimeNanos();
+    boolean expireAccess = stamped.getAccessTimestamp() + expireAfterAccess <= currentTimeNanos();
 
     if (expireAfterAccess == UNSET_INT) {
       return expireWrite;
@@ -349,10 +349,12 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
       return writeTimestamp;
     }
 
+    @Override
     public boolean equals(Object o) {
       return value.equals(o);
     }
 
+    @Override
     public int hashCode() {
       return value.hashCode();
     }
@@ -555,7 +557,7 @@ public class LocalCache<K, V> implements ConcurrentMap<K, V> {
    * <p>Expiration is only checked on hasNext(), so as to ensure that a next() call never returns
    * null when hasNext() has already been called.
    */
-  class EntryIterator implements Iterator<Entry<K, V>> {
+  private final class EntryIterator implements Iterator<Entry<K, V>> {
     Iterator<Entry<K, Timestamped<V>>> iterator;
     Entry<K, Timestamped<V>> lastEntry;
     Entry<K, Timestamped<V>> nextEntry;

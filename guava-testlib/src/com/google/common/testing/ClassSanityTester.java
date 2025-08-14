@@ -36,8 +36,6 @@ import com.google.common.reflect.Parameter;
 import com.google.common.reflect.Reflection;
 import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
-import com.google.common.testing.RelationshipTester.Item;
-import com.google.common.testing.RelationshipTester.ItemReporter;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.lang.reflect.Constructor;
@@ -592,15 +590,12 @@ public final class ClassSanityTester {
     argGroups.add(ImmutableList.of(args, equalArgs));
     EqualsTester tester =
         new EqualsTester(
-            new ItemReporter() {
-              @Override
-              String reportItem(Item<?> item) {
-                List<Object> factoryArgs = argGroups.get(item.groupNumber).get(item.itemNumber);
-                return factory.getName()
-                    + "("
-                    + Joiner.on(", ").useForNull("null").join(factoryArgs)
-                    + ")";
-              }
+            /* itemReporter= */ item -> {
+              List<Object> factoryArgs = argGroups.get(item.groupNumber).get(item.itemNumber);
+              return factory.getName()
+                  + "("
+                  + Joiner.on(", ").useForNull("null").join(factoryArgs)
+                  + ")";
             });
     tester.addEqualityGroup(instance, createInstance(factory, equalArgs));
     for (int i = 0; i < params.size(); i++) {
@@ -788,7 +783,7 @@ public final class ClassSanityTester {
    * the dummy value of a constructor or method parameter is unknown.
    */
   @VisibleForTesting
-  static class ParameterNotInstantiableException extends Exception {
+  static final class ParameterNotInstantiableException extends Exception {
     public ParameterNotInstantiableException(Parameter parameter) {
       super(
           "Cannot determine value for parameter "
@@ -804,7 +799,7 @@ public final class ClassSanityTester {
    * class.
    */
   @VisibleForTesting
-  static class ParameterHasNoDistinctValueException extends Exception {
+  static final class ParameterHasNoDistinctValueException extends Exception {
     ParameterHasNoDistinctValueException(Parameter parameter) {
       super(
           "Cannot generate distinct value for parameter "
@@ -819,7 +814,7 @@ public final class ClassSanityTester {
    * factory returned null.
    */
   @VisibleForTesting
-  static class FactoryMethodReturnsNullException extends Exception {
+  static final class FactoryMethodReturnsNullException extends Exception {
     public FactoryMethodReturnsNullException(Invokable<?, ?> factory) {
       super(factory + " returns null and cannot be used to test instance methods.");
     }

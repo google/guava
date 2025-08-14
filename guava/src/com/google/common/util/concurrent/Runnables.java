@@ -24,7 +24,7 @@ import com.google.common.annotations.GwtCompatible;
 @GwtCompatible
 public final class Runnables {
   /*
-   * If we inline this, it's not longer a singleton under Android (at least under the Lollipop
+   * If we inline this, it's not longer a singleton under Android (at least under the Marshmallow
    * version that we're testing under) or J2CL.
    *
    * That's not necessarily a real-world problem, but it does break our tests.

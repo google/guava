@@ -515,7 +515,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = delegate.addAll(collection);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         if (oldSize == 0) {
           addToMap();
         }
@@ -566,7 +566,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = delegate.removeAll(c);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         removeIfEmpty();
       }
       return changed;
@@ -579,7 +579,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = delegate.retainAll(c);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         removeIfEmpty();
       }
       return changed;
@@ -595,7 +595,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
   /** Set decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  class WrappedSet extends WrappedCollection implements Set<V> {
+  final class WrappedSet extends WrappedCollection implements Set<V> {
     WrappedSet(@ParametricNullness K key, Set<V> delegate) {
       super(key, delegate, null);
     }
@@ -613,7 +613,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = Sets.removeAllImpl((Set<V>) delegate, c);
       if (changed) {
         int newSize = delegate.size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         removeIfEmpty();
       }
       return changed;
@@ -680,7 +680,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   @WeakOuter
-  class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
+  final class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
     WrappedNavigableSet(
         @ParametricNullness K key, NavigableSet<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
@@ -758,7 +758,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
   /** List decorator that stays in sync with the multimap values for a key. */
   @WeakOuter
-  class WrappedList extends WrappedCollection implements List<V> {
+  private class WrappedList extends WrappedCollection implements List<V> {
     WrappedList(@ParametricNullness K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
     }
@@ -776,7 +776,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       boolean changed = getListDelegate().addAll(index, c);
       if (changed) {
         int newSize = getDelegate().size();
-        totalSize += (newSize - oldSize);
+        totalSize += newSize - oldSize;
         if (oldSize == 0) {
           addToMap();
         }
@@ -1375,7 +1375,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @WeakOuter
-    class AsMapEntries extends Maps.EntrySet<K, Collection<V>> {
+    final class AsMapEntries extends Maps.EntrySet<K, Collection<V>> {
       @Override
       Map<K, Collection<V>> map() {
         return AsMap.this;
@@ -1406,7 +1406,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     /** Iterator across all keys and value collections. */
-    class AsMapIterator implements Iterator<Entry<K, Collection<V>>> {
+    final class AsMapIterator implements Iterator<Entry<K, Collection<V>>> {
       final Iterator<Entry<K, Collection<V>>> delegateIterator = submap.entrySet().iterator();
       @Nullable Collection<V> collection;
 

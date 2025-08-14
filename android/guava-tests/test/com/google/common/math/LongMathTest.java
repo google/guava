@@ -50,7 +50,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class LongMathTest extends TestCase {
   @SuppressWarnings("ConstantOverflow")
@@ -338,7 +338,7 @@ public class LongMathTest extends TestCase {
     for (long x : POSITIVE_LONG_CANDIDATES) {
       long sqrtFloor = LongMath.sqrt(x, FLOOR);
       // We only expect an exception if x was not a perfect square.
-      boolean isPerfectSquare = (sqrtFloor * sqrtFloor == x);
+      boolean isPerfectSquare = sqrtFloor * sqrtFloor == x;
       try {
         assertEquals(sqrtFloor, LongMath.sqrt(x, UNNECESSARY));
         assertTrue(isPerfectSquare);

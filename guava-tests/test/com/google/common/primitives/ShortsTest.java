@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  */
 @NullMarked
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public class ShortsTest extends TestCase {
   private static final short[] EMPTY = {};
   private static final short[] ARRAY1 = {(short) 1};

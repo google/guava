@@ -35,7 +35,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Craig Berry
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public final class InternetDomainNameTest extends TestCase {
   private static final InternetDomainName UNICODE_EXAMPLE =

@@ -43,7 +43,7 @@ import org.jspecify.annotations.NullMarked;
  * @author Jared Levy
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class MultisetsTest extends TestCase {
 

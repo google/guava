@@ -122,7 +122,7 @@ public class SetMultimapTestSuiteBuilder<K, V>
     }
   }
 
-  static class MultimapGetGenerator<K, V>
+  static final class MultimapGetGenerator<K, V>
       extends MultimapTestSuiteBuilder.MultimapGetGenerator<K, V, SetMultimap<K, V>>
       implements TestSetGenerator<V> {
     public MultimapGetGenerator(
@@ -136,7 +136,7 @@ public class SetMultimapTestSuiteBuilder<K, V>
     }
   }
 
-  static class MultimapAsMapGetGenerator<K, V>
+  static final class MultimapAsMapGetGenerator<K, V>
       extends MultimapTestSuiteBuilder.MultimapAsMapGetGenerator<K, V, SetMultimap<K, V>>
       implements TestSetGenerator<V> {
     public MultimapAsMapGetGenerator(

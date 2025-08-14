@@ -31,7 +31,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 abstract class DescendingMultiset<E extends @Nullable Object> extends ForwardingMultiset<E>
     implements SortedMultiset<E> {
   abstract SortedMultiset<E> forwardMultiset();
@@ -121,7 +121,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
 
   Set<Entry<E>> createEntrySet() {
     @WeakOuter
-    class EntrySetImpl extends Multisets.EntrySet<E> {
+    final class EntrySetImpl extends Multisets.EntrySet<E> {
       @Override
       Multiset<E> multiset() {
         return DescendingMultiset.this;

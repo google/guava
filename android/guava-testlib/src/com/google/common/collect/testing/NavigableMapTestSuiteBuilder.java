@@ -139,8 +139,8 @@ public class NavigableMapTestSuiteBuilder<K, V> extends SortedMapTestSuiteBuilde
     return using(generator);
   }
 
-  static class DescendingTestMapGenerator<K, V> extends ForwardingTestMapGenerator<K, V>
-      implements TestSortedMapGenerator<K, V> {
+  private static final class DescendingTestMapGenerator<K, V>
+      extends ForwardingTestMapGenerator<K, V> implements TestSortedMapGenerator<K, V> {
     DescendingTestMapGenerator(TestSortedMapGenerator<K, V> delegate) {
       super(delegate);
     }

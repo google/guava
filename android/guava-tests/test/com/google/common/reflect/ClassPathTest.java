@@ -404,10 +404,6 @@ public class ClassPathTest extends TestCase {
     }
   }
 
-  private static boolean contentEquals(URL left, URL right) throws IOException {
-    return Resources.asByteSource(left).contentEquals(Resources.asByteSource(right));
-  }
-
   private static class Nested {}
 
 

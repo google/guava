@@ -36,7 +36,7 @@ import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /** Unit tests for {@link TableCollectors}. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class TableCollectorsTest extends TestCase {
   public void testToImmutableTable() {

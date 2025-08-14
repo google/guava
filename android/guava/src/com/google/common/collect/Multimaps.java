@@ -69,7 +69,7 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 public final class Multimaps {
   private Multimaps() {}
 
@@ -1878,7 +1878,7 @@ public final class Multimaps {
     }
 
     @WeakOuter
-    class EntrySet extends Maps.EntrySet<K, Collection<V>> {
+    final class EntrySet extends Maps.EntrySet<K, Collection<V>> {
       @Override
       Map<K, Collection<V>> map() {
         return AsMap.this;

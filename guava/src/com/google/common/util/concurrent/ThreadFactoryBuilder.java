@@ -59,12 +59,24 @@ public final class ThreadFactoryBuilder {
   private @Nullable UncaughtExceptionHandler uncaughtExceptionHandler = null;
   private @Nullable ThreadFactory backingThreadFactory = null;
 
-  /** Creates a new {@link ThreadFactory} builder. */
+  /**
+   * Creates a new {@link ThreadFactory} builder.
+   *
+   * <p><b>Java 21+ users:</b> use {@link Thread#ofPlatform()} instead, translating other calls on
+   * the builder as documented on each method (except for the rarely used {@link #setThreadFactory},
+   * which does not have an equivalent).
+   */
   public ThreadFactoryBuilder() {}
 
   /**
    * Sets the naming format to use when naming threads ({@link Thread#setName}) which are created
    * with this ThreadFactory.
+   *
+   * <p><b>Java 21+ users:</b> use {@link Thread.Builder#name(String, long)} instead. Note that
+   * {@link #setNameFormat} accepts a thread name <i>format string</i> (e.g., {@code
+   * threadFactoryBuilder.setNameFormat("rpc-pool-%d")}), while {@code threadBuilder.name()} accepts
+   * a thread name <i>prefix</i> and initial counter value (e.g., {@code
+   * threadBuilder.name("rpc-pool-", 0)}.
    *
    * @param nameFormat a {@link String#format(String, Object...)}-compatible format String, to which
    *     a unique integer (0, 1, etc.) will be supplied as the single parameter. This integer will
@@ -83,6 +95,8 @@ public final class ThreadFactoryBuilder {
   /**
    * Sets daemon or not for new threads created with this ThreadFactory.
    *
+   * <p><b>Java 21+ users:</b> use {@link Thread.Builder.OfPlatform#daemon(boolean)} instead.
+   *
    * @param daemon whether or not new Threads created with this ThreadFactory will be daemon threads
    * @return this for the builder pattern
    */
@@ -97,6 +111,8 @@ public final class ThreadFactoryBuilder {
    *
    * <p><b>Warning:</b> relying on the thread scheduler is <a
    * href="http://errorprone.info/bugpattern/ThreadPriorityCheck">discouraged</a>.
+   *
+   * <p><b>Java 21+ users:</b> use {@link Thread.Builder.OfPlatform#priority(int)} instead.
    *
    * @param priority the priority for new Threads created with this ThreadFactory
    * @return this for the builder pattern
@@ -121,6 +137,9 @@ public final class ThreadFactoryBuilder {
 
   /**
    * Sets the {@link UncaughtExceptionHandler} for new threads created with this ThreadFactory.
+   *
+   * <p><b>Java 21+ users:</b> use {@link
+   * Thread.Builder#uncaughtExceptionHandler(Thread.UncaughtExceptionHandler)} instead.
    *
    * @param uncaughtExceptionHandler the uncaught exception handler for new Threads created with
    *     this ThreadFactory
@@ -153,6 +172,8 @@ public final class ThreadFactoryBuilder {
    * building, it is still possible to change the options used to build the ThreadFactory and/or
    * build again. State is not shared amongst built instances.
    *
+   * <p><b>Java 21+ users:</b> use {@link Thread.Builder#factory()} instead.
+   *
    * @return the fully constructed {@link ThreadFactory}
    */
   public ThreadFactory build() {
@@ -161,6 +182,7 @@ public final class ThreadFactoryBuilder {
 
   // Split out so that the anonymous ThreadFactory can't contain a reference back to the builder.
   // At least, I assume that's why. TODO(cpovirk): Check, and maybe add a test for this.
+  @SuppressWarnings("ThreadPriorityCheck") // We only propagate user requests (which we discourage).
   private static ThreadFactory doBuild(ThreadFactoryBuilder builder) {
     String nameFormat = builder.nameFormat;
     Boolean daemon = builder.daemon;

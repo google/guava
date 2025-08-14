@@ -39,36 +39,45 @@ public abstract class ImmutableCollection<E> extends AbstractCollection<E> imple
 
   ImmutableCollection() {}
 
+  @Override
   public abstract UnmodifiableIterator<E> iterator();
 
+  @Override
   public boolean contains(@Nullable Object object) {
     return object != null && super.contains(object);
   }
 
+  @Override
   public final boolean add(E e) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public final boolean remove(@Nullable Object object) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public final boolean addAll(Collection<? extends E> newElements) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public final boolean removeAll(Collection<?> oldElements) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public final boolean removeIf(Predicate<? super E> predicate) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public final boolean retainAll(Collection<?> elementsToKeep) {
     throw new UnsupportedOperationException();
   }
 
+  @Override
   public final void clear() {
     throw new UnsupportedOperationException();
   }

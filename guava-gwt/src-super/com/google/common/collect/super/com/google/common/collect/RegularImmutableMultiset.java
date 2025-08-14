@@ -17,7 +17,7 @@ import java.util.Collection;
 import org.jspecify.annotations.Nullable;
 
 /** Never actually created; instead delegates to JdkBackedImmutableMultiset. */
-class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
+final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   static final ImmutableMultiset<Object> EMPTY =
       JdkBackedImmutableMultiset.create(ImmutableList.of());
 

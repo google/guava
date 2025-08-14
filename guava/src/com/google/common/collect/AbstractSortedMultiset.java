@@ -33,7 +33,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Louis Wasserman
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 abstract class AbstractSortedMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
     implements SortedMultiset<E> {
   private final Comparator<? super E> comparator;
@@ -127,7 +127,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   SortedMultiset<E> createDescendingMultiset() {
     @WeakOuter
-    class DescendingMultisetImpl extends DescendingMultiset<E> {
+    final class DescendingMultisetImpl extends DescendingMultiset<E> {
       @Override
       SortedMultiset<E> forwardMultiset() {
         return AbstractSortedMultiset.this;

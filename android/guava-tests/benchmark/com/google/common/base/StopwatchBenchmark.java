@@ -46,7 +46,7 @@ public class StopwatchBenchmark {
     for (int i = 0; i < reps; i++) {
       long start = System.nanoTime();
       // here is where you would do something
-      total += (System.nanoTime() - start);
+      total += System.nanoTime() - start;
     }
     return total;
   }

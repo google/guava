@@ -31,18 +31,22 @@ abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
 
   abstract List<E> delegateList();
 
+  @Override
   public int indexOf(@Nullable Object object) {
     return delegateList().indexOf(object);
   }
 
+  @Override
   public int lastIndexOf(@Nullable Object object) {
     return delegateList().lastIndexOf(object);
   }
 
+  @Override
   public E get(int index) {
     return delegateList().get(index);
   }
 
+  @Override
   public ImmutableList<E> subList(int fromIndex, int toIndex) {
     return unsafeDelegateList(delegateList().subList(fromIndex, toIndex));
   }
@@ -79,6 +83,7 @@ abstract class ForwardingImmutableList<E> extends ImmutableList<E> {
     return delegateList().containsAll(targets);
   }
 
+  @Override
   public int size() {
     return delegateList().size();
   }

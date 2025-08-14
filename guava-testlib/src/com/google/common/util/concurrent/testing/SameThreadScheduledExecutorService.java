@@ -45,6 +45,7 @@ import java.util.concurrent.TimeoutException;
  * @author Zach van Schouwen
  */
 @GwtIncompatible
+// TODO(cpovirk): Make this final (but that may break Mockito spy calls).
 class SameThreadScheduledExecutorService extends AbstractExecutorService
     implements ListeningScheduledExecutorService {
 

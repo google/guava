@@ -55,7 +55,7 @@ import org.jspecify.annotations.Nullable;
  */
 @SuppressWarnings("GuardedBy") // TODO(b/35466881): Fix or suppress.
 @NullUnmarked
-class CacheTesting {
+final class CacheTesting {
 
   /**
    * Poke into the Cache internals to simulate garbage collection of the value associated with the
@@ -128,7 +128,7 @@ class CacheTesting {
    * without throwing an exception.
    */
   static boolean hasLocalCache(Cache<?, ?> cache) {
-    return (checkNotNull(cache) instanceof LocalLoadingCache);
+    return checkNotNull(cache) instanceof LocalLoadingCache;
   }
 
   static void drainRecencyQueues(Cache<?, ?> cache) {
@@ -170,9 +170,9 @@ class CacheTesting {
     }
   }
 
-  static int getTotalSegmentSize(Cache<?, ?> cache) {
+  static long getTotalSegmentSize(Cache<?, ?> cache) {
     LocalCache<?, ?> map = toLocalCache(cache);
-    int totalSize = 0;
+    long totalSize = 0;
     for (Segment<?, ?> segment : map.segments) {
       totalSize += segment.maxSegmentWeight;
     }
@@ -495,4 +495,6 @@ class CacheTesting {
           .testEquals();
     }
   }
+
+  private CacheTesting() {}
 }

@@ -34,7 +34,7 @@ import org.jspecify.annotations.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-class AppendableWriter extends Writer {
+final class AppendableWriter extends Writer {
   private final Appendable target;
   private boolean closed;
 

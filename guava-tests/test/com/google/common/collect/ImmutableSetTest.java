@@ -59,7 +59,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @author Nick Kralevich
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullMarked
 public class ImmutableSetTest extends AbstractImmutableSetTest {
 

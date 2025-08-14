@@ -424,7 +424,7 @@ public class GeneratedMonitorTest extends TestCase {
           suite.addTest(new GeneratedMonitorTest(method, scenario, fair, timeout, expectedOutcome));
         }
       } else {
-        Timeout implicitTimeout = (isTryEnter(method) ? Timeout.ZERO : Timeout.MAX);
+        Timeout implicitTimeout = isTryEnter(method) ? Timeout.ZERO : Timeout.MAX;
         if (timeoutsToUse.timeouts.contains(implicitTimeout)) {
           suite.addTest(new GeneratedMonitorTest(method, scenario, fair, null, expectedOutcome));
         }

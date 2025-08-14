@@ -37,7 +37,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Mike Bostock
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class CaseFormatTest extends TestCase {
 

@@ -60,7 +60,7 @@ import org.jspecify.annotations.Nullable;
  * @author Kevin Bourrillion
  * @since 2.0
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
@@ -473,7 +473,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return new SubList(fromIndex, toIndex - fromIndex);
   }
 
-  class SubList extends ImmutableList<E> {
+  private final class SubList extends ImmutableList<E> {
     final transient int offset;
     final transient int length;
 
@@ -726,7 +726,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
    * implementation types do not leak into the serialized representation.
    */
   @J2ktIncompatible // serialization
-  static class SerializedForm implements Serializable {
+  static final class SerializedForm implements Serializable {
     final Object[] elements;
 
     SerializedForm(Object[] elements) {

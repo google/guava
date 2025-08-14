@@ -34,7 +34,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author mike nonemacher
  */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class AtomicLongMapTest extends TestCase {
   private static final int ITERATIONS = 100;

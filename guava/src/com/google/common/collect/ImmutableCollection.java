@@ -164,7 +164,7 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @DoNotMock("Use ImmutableList.of or another implementation")
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @SuppressWarnings("serial") // we're overriding default serialization
 // TODO(kevinb): I think we should push everything down to "BaseImmutableCollection" or something,
 // just to do everything we can to emphasize the "practically an interface" nature of this class.

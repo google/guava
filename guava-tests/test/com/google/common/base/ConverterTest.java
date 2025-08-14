@@ -32,7 +32,7 @@ import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link Converter}. */
-@GwtCompatible(emulated = true)
+@GwtCompatible
 @NullUnmarked
 public class ConverterTest extends TestCase {
 
