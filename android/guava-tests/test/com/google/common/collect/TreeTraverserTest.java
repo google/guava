@@ -29,11 +29,14 @@ import org.jspecify.annotations.NullMarked;
 /**
  * Tests for {@code TreeTraverser}.
  *
+ * @deprecated Use {@link com.google.common.graph.Traverser} instead.
  * @author Louis Wasserman
  */
 @GwtCompatible
 @NullMarked
-public class TreeTraverserTest extends TestCase {
+@Deprecated // Use com.google.common.graph.Traverser instead.
+public
+class TreeTraverserTest extends TestCase {
   private static class Node {
     final char value;
 
