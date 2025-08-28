@@ -213,6 +213,8 @@ public class StringsTest extends TestCase {
     assertEquals("5 + 6 = 11", Strings.lenientFormat("5 + %s = 11", 6));
     assertEquals("5 + 6 = 11", Strings.lenientFormat("5 + 6 = %s", 11));
     assertEquals("5 + 6 = 11", Strings.lenientFormat("%s + %s = %s", 5, 6, 11));
+    assertEquals(
+        "5 + 6 = 11", Strings.lenientFormat("%s + %s = %s", (Object[]) new Integer[] {5, 6, 11}));
     assertEquals("null [null, null]", Strings.lenientFormat("%s", null, null, null));
     assertEquals("null [5, 6]", Strings.lenientFormat(null, 5, 6));
     assertEquals("null", Strings.lenientFormat("%s", (Object) null));

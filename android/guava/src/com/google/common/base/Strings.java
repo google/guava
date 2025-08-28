@@ -263,10 +263,6 @@ public final class Strings {
 
     if (args == null) {
       args = new Object[] {"(Object[])null"};
-    } else {
-      for (int i = 0; i < args.length; i++) {
-        args[i] = lenientToString(args[i]);
-      }
     }
 
     // start substituting the arguments into the '%s' placeholders
@@ -279,18 +275,18 @@ public final class Strings {
         break;
       }
       builder.append(template, templateStart, placeholderStart);
-      builder.append(args[i++]);
+      builder.append(lenientToString(args[i++]));
       templateStart = placeholderStart + 2;
     }
     builder.append(template, templateStart, template.length());
 
-    // if we run out of placeholders, append the extra args in square braces
+    // if we run out of placeholders, append the extra args in square brackets
     if (i < args.length) {
-      builder.append(" [");
-      builder.append(args[i++]);
-      while (i < args.length) {
-        builder.append(", ");
-        builder.append(args[i++]);
+      String prefix = " [";
+      for (; i < args.length; i++) {
+        builder.append(prefix);
+        builder.append(lenientToString(args[i]));
+        prefix = ", ";
       }
       builder.append(']');
     }
