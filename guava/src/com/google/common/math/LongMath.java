@@ -534,7 +534,10 @@ public final class LongMath {
    * Returns the sum of {@code a} and {@code b}, provided it does not overflow.
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
-   * Math#addExact(long, long)} instead.
+   * Math#addExact(long, long)} instead. Note that if both arguments are {@code int} values, writing
+   * {@code Math.addExact(a, b)} will call the {@link Math#addExact(int, int)} overload, not {@link
+   * Math#addExact(long, long)}. Also note that adding two {@code int} values can <b>never</b>
+   * overflow a {@code long}, so you can just write {@code (long) a + b}.
    *
    * @throws ArithmeticException if {@code a + b} overflows in signed {@code long} arithmetic
    */
@@ -547,7 +550,11 @@ public final class LongMath {
    * Returns the difference of {@code a} and {@code b}, provided it does not overflow.
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
-   * Math#subtractExact(long, long)} instead.
+   * Math#subtractExact(long, long)} instead. Note that if both arguments are {@code int} values,
+   * writing {@code Math.subtractExact(a, b)} will call the {@link Math#subtractExact(int, int)}
+   * overload, not {@link Math#subtractExact(long, long)}. Also note that subtracting two {@code
+   * int} values can <b>never</b> overflow a {@code long}, so you can just write {@code (long) a -
+   * b}.
    *
    * @throws ArithmeticException if {@code a - b} overflows in signed {@code long} arithmetic
    */
@@ -560,7 +567,11 @@ public final class LongMath {
    * Returns the product of {@code a} and {@code b}, provided it does not overflow.
    *
    * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use {@link
-   * Math#multiplyExact(long, long)} instead.
+   * Math#multiplyExact(long, long)} instead. Note that if both arguments are {@code int} values,
+   * writing {@code Math.multiplyExact(a, b)} will call the {@link Math#multiplyExact(int, int)}
+   * overload, not {@link Math#multiplyExact(long, long)}. Also note that multiplying two {@code
+   * int} values can <b>never</b> overflow a {@code long}, so you can just write {@code (long) a *
+   * b}.
    *
    * @throws ArithmeticException if {@code a * b} overflows in signed {@code long} arithmetic
    */
