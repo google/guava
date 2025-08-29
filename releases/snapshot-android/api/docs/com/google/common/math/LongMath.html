@@ -536,7 +536,9 @@ mod(8, 4) == 0
  long&nbsp;b)</span></div>
 <div class="block">Returns the sum of <code>a</code> and <code>b</code>, provided it does not overflow.
 
- <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#addExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.addExact(long, long)</code></a> instead.</div>
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#addExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.addExact(long, long)</code></a> instead. Note that if both arguments are <code>int</code> values, writing
+ <code>Math.addExact(a, b)</code> will call the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#addExact(int,int)" title="class or interface in java.lang" class="external-link"><code>Math.addExact(int, int)</code></a> overload, not <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#addExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.addExact(long, long)</code></a>. Also note that adding two <code>int</code> values can <b>never</b>
+ overflow a <code>long</code>, so you can just write <code>(long) a + b</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link">ArithmeticException</a></code> - if <code>a + b</code> overflows in signed <code>long</code> arithmetic</dd>
@@ -553,7 +555,11 @@ mod(8, 4) == 0
  long&nbsp;b)</span></div>
 <div class="block">Returns the difference of <code>a</code> and <code>b</code>, provided it does not overflow.
 
- <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#subtractExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.subtractExact(long, long)</code></a> instead.</div>
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#subtractExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.subtractExact(long, long)</code></a> instead. Note that if both arguments are <code>int</code> values,
+ writing <code>Math.subtractExact(a, b)</code> will call the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#subtractExact(int,int)" title="class or interface in java.lang" class="external-link"><code>Math.subtractExact(int, int)</code></a>
+ overload, not <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#subtractExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.subtractExact(long, long)</code></a>. Also note that subtracting two <code>
+ int</code> values can <b>never</b> overflow a <code>long</code>, so you can just write <code>(long) a -
+ b</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link">ArithmeticException</a></code> - if <code>a - b</code> overflows in signed <code>long</code> arithmetic</dd>
@@ -570,7 +576,11 @@ mod(8, 4) == 0
  long&nbsp;b)</span></div>
 <div class="block">Returns the product of <code>a</code> and <code>b</code>, provided it does not overflow.
 
- <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#multiplyExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.multiplyExact(long, long)</code></a> instead.</div>
+ <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated; use <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#multiplyExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.multiplyExact(long, long)</code></a> instead. Note that if both arguments are <code>int</code> values,
+ writing <code>Math.multiplyExact(a, b)</code> will call the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#multiplyExact(int,int)" title="class or interface in java.lang" class="external-link"><code>Math.multiplyExact(int, int)</code></a>
+ overload, not <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Math.html#multiplyExact(long,long)" title="class or interface in java.lang" class="external-link"><code>Math.multiplyExact(long, long)</code></a>. Also note that multiplying two <code>
+ int</code> values can <b>never</b> overflow a <code>long</code>, so you can just write <code>(long) a *
+ b</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/ArithmeticException.html" title="class or interface in java.lang" class="external-link">ArithmeticException</a></code> - if <code>a * b</code> overflows in signed <code>long</code> arithmetic</dd>
