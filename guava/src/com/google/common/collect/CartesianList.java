@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkElementIndex;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.math.IntMath;
 import java.util.AbstractList;
 import java.util.List;
 import java.util.ListIterator;
@@ -55,7 +54,7 @@ final class CartesianList<E> extends AbstractList<List<E>> implements RandomAcce
     axesSizeProduct[axes.size()] = 1;
     try {
       for (int i = axes.size() - 1; i >= 0; i--) {
-        axesSizeProduct[i] = IntMath.checkedMultiply(axesSizeProduct[i + 1], axes.get(i).size());
+        axesSizeProduct[i] = Math.multiplyExact(axesSizeProduct[i + 1], axes.get(i).size());
       }
     } catch (ArithmeticException e) {
       throw new IllegalArgumentException(

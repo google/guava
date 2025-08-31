@@ -29,7 +29,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Serialization.FieldSetter;
-import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
@@ -225,7 +224,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
         int oldValue = existingCounter.get();
         if (oldValue != 0) {
           try {
-            int newValue = IntMath.checkedAdd(oldValue, occurrences);
+            int newValue = Math.addExact(oldValue, occurrences);
             if (existingCounter.compareAndSet(oldValue, newValue)) {
               // newValue can't == 0, so no need to check & remove
               return oldValue;
