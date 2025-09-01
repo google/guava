@@ -16,11 +16,6 @@
   <url>https://github.com/google/guava</url>
   <inceptionYear>2010</inceptionYear>
 
-  <issueManagement>
-    <system>GitHub Issues</system>
-    <url>https://github.com/google/guava/issues</url>
-  </issueManagement>
-
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
@@ -28,6 +23,11 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/google/guava/issues</url>
+  </issueManagement>
 
   <distributionManagement>
     <snapshotRepository>
