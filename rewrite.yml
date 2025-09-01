@@ -1,0 +1,6 @@
+type: specs.openrewrite.org/v1beta/recipe
+name: DefinitionOfDone
+displayName: Definition of Done
+description: Automatically cleanup code to comply checkstyle convention.
+recipeList:
+  - org.openrewrite.maven.BestPractices
