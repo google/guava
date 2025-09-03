@@ -331,17 +331,18 @@ public final class TypeResolver {
         Type[] resolvedBounds = new TypeResolver(forDependants).resolveTypes(bounds);
         /*
          * We'd like to simply create our own TypeVariable with the newly resolved bounds. There's
-         * just one problem: Starting with JDK 7u51, the JDK TypeVariable's equals() method doesn't
-         * recognize instances of our TypeVariable implementation. This is a problem because users
-         * compare TypeVariables from the JDK against TypeVariables returned by TypeResolver. To
-         * work with all JDK versions, TypeResolver must return the appropriate TypeVariable
-         * implementation in each of the three possible cases:
+         * just one problem: Under all the JDK versions that we support (though *not* under
+         * Android), the built-in TypeVariable's equals() method doesn't recognize instances of our
+         * TypeVariable implementation. This is a problem because users compare TypeVariables from
+         * the JDK against TypeVariables returned by TypeResolver. To work with all JDK versions,
+         * TypeResolver must return the appropriate TypeVariable implementation in each of the three
+         * possible cases:
          *
-         * 1. Prior to JDK 7u51, the JDK TypeVariable implementation interoperates with ours.
+         * 1. Under Android, the built-in TypeVariable implementation interoperates with ours.
          * Therefore, we can always create our own TypeVariable.
          *
-         * 2. Starting with JDK 7u51, the JDK TypeVariable implementations does not interoperate
-         * with ours. Therefore, we have to be careful about whether we create our own TypeVariable:
+         * 2. Under the JDK, the built-in TypeVariable implementation does not interoperate with
+         * ours. Therefore, we have to be careful about whether we create our own TypeVariable:
          *
          * 2a. If the resolved types are identical to the original types, then we can return the
          * original, identical JDK TypeVariable. By doing so, we sidestep the problem entirely.
