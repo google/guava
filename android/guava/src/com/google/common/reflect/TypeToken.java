@@ -191,11 +191,19 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    * </ul>
    */
   public final Class<? super T> getRawType() {
-    // For wildcard or type variable, the first bound determines the runtime type.
-    Class<?> rawType = getRawTypes().iterator().next();
-    @SuppressWarnings("unchecked") // raw type is |T|
-    Class<? super T> result = (Class<? super T>) rawType;
-    return result;
+    if (runtimeType instanceof Class) {
+      @SuppressWarnings("unchecked") // raw type is T
+      Class<? super T> result = (Class<? super T>) runtimeType;
+      return result;
+    } else if (runtimeType instanceof ParameterizedType) {
+      @SuppressWarnings("unchecked") // raw type is |T|
+      Class<? super T> result = (Class<? super T>) ((ParameterizedType) runtimeType).getRawType();
+      return result;
+    } else {
+      // For a wildcard or type variable, the first bound determines the runtime type.
+      // This case also covers GenericArrayType.
+      return getRawTypes().iterator().next();
+    }
   }
 
   /** Returns the represented type. */
