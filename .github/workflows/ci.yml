@@ -36,13 +36,13 @@ jobs:
         with:
           access_token: ${{ github.token }}
       - name: 'Check out repository'
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       # When we specify multiple JDKs, the final one becomes the default, which is used to execute Maven itself.
       # Our Maven configuration then specifies different JDKs to use for some of the steps:
       # - 11 (sometimes) to *download* to support anyone who runs JDiff or our Gradle integration tests (including our doc snapshots and our Java 11 CI test run) but not to use directly
       # - 24 for running Javadoc and javac (to help people who build Guava locally and might not use a recent JDK to run Maven)
       - name: 'Set up JDKs'
-        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
         with:
           java-version: |
             ${{ matrix.java }}
@@ -62,7 +62,7 @@ jobs:
         run: ./util/print_surefire_reports.sh
       - name: 'Set up Gradle'
         if: matrix.java == 11 # used only by the integration tests below
-        uses: gradle/actions/setup-gradle@ac638b010cf58a27ee6c972d7336334ccaf61c96 # v4.4.1
+        uses: gradle/actions/setup-gradle@017a9effdb900e5b5b2fddfb590a105619dca3c3 # v4.4.2
       - name: 'Integration Test'
         if: matrix.java == 11
         shell: bash
@@ -75,9 +75,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: 'Set up JDKs'
-        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
         with:
           # For discussion, see the first setup-java block.
           # The publish-snapshot workflow doesn't run tests, so we don't have to care which version Maven would select for that step.
@@ -102,9 +102,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: 'Set up JDKs'
-        uses: actions/setup-java@c5195efecf7bdfc987ee8bae7a71cb8b11521c00 # v4.7.1
+        uses: actions/setup-java@dded0888837ed1f317902acf8a20df0ad188d165 # v5.0.0
         with:
           # For discussion, see the first setup-java block.
           # The generate-docs workflow doesn't run tests, so we don't have to care which version Maven would select for that step.
