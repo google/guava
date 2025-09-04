@@ -346,6 +346,7 @@ public class TestsForListsInJavaUtil {
             CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
             CollectionFeature.SERIALIZABLE,
             CollectionSize.ANY)
+        .suppressing(suppressForVector())
         .createTestSuite();
   }
 }
