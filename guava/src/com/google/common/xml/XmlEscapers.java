@@ -98,9 +98,34 @@ public class XmlEscapers {
     return XML_ATTRIBUTE_ESCAPER;
   }
 
+  /**
+   * Returns an {@link Escaper} instance that escapes special characters in a string so it can
+   * safely be included in XML document as an attribute value. See section <a
+   * href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a> of the XML
+   * specification.
+   *
+   * <p>This escaper substitutes {@code 0xFFFD} for non-whitespace control characters and the
+   * character values {@code 0xFFFE} and {@code 0xFFFF} which are not permitted in XML. For more
+   * detail see section <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
+   * the XML specification.
+   *
+   * <p>This escaper does not escape non-ASCII characters to their numeric character references
+   * (NCR). However, horizontal tab {@code '\t'}, line feed {@code '\n'} and carriage return {@code
+   * '\r'} are escaped to a corresponding NCR {@code "&#9;"}, {@code "&#10;"}, and {@code "&#13;"}
+   * respectively. Any other non-ASCII characters appearing in the input will be preserved in the
+   * output.
+   *
+   * <p>This escaper does not treat surrogate pairs specially and does not perform Unicode
+   * validation on its input.
+   */
+  public static Escaper xmlDecimalAttributeEscaper() {
+    return XML_DECIMAL_ATTRIBUTE_ESCAPER;
+  }
+
   private static final Escaper XML_ESCAPER;
   private static final Escaper XML_CONTENT_ESCAPER;
   private static final Escaper XML_ATTRIBUTE_ESCAPER;
+  private static final Escaper XML_DECIMAL_ATTRIBUTE_ESCAPER;
 
   static {
     Escapers.Builder builder = Escapers.builder();
@@ -139,5 +164,9 @@ public class XmlEscapers {
     builder.addEscape('\n', "&#xA;");
     builder.addEscape('\r', "&#xD;");
     XML_ATTRIBUTE_ESCAPER = builder.build();
+    builder.addEscape('\t', "&#9;");
+    builder.addEscape('\n', "&#10;");
+    builder.addEscape('\r', "&#13;");
+    XML_DECIMAL_ATTRIBUTE_ESCAPER = builder.build();
   }
 }
