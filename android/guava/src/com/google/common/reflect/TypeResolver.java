@@ -331,15 +331,25 @@ public final class TypeResolver {
         Type[] resolvedBounds = new TypeResolver(forDependants).resolveTypes(bounds);
         /*
          * We'd like to simply create our own TypeVariable with the newly resolved bounds. There's
-         * just one problem: Under all the JDK versions that we support (though *not* under
-         * Android), the built-in TypeVariable's equals() method doesn't recognize instances of our
-         * TypeVariable implementation. This is a problem because users compare TypeVariables from
-         * the JDK against TypeVariables returned by TypeResolver. To work with all JDK versions,
-         * TypeResolver must return the appropriate TypeVariable implementation in each of the three
-         * possible cases:
+         * just one problem: We want to interoperate properly with the platform's built-in
+         * implementation of TypeVariable, but the behavior of the built-in implementation differs
+         * across platforms:
+         *
+         * - Under the JDK, the built-in TypeVariable's equals() method doesn't recognize instances
+         *   of our TypeVariable implementation.
+         *
+         * - Under Android, it does.
+         *
+         * We want users to see the same behavior when they compare a built-in TypeVariable against
+         * ours as they do when they perform the same comparison in reverse. To provide that
+         * behavior on all platforms, TypeResolver must return the appropriate TypeVariable
+         * implementation in each of the three possible cases:
          *
          * 1. Under Android, the built-in TypeVariable implementation interoperates with ours.
-         * Therefore, we can always create our own TypeVariable.
+         * Therefore, we can always create our own TypeVariable. (One downside of our TypeVariable
+         * in some situations is that it does not support the AnnotatedType API. However, those
+         * situations don't arise under Android because Android does not provide the AnnotatedType
+         * API at all.)
          *
          * 2. Under the JDK, the built-in TypeVariable implementation does not interoperate with
          * ours. Therefore, we have to be careful about whether we create our own TypeVariable:
@@ -357,6 +367,11 @@ public final class TypeResolver {
          * new TypeVariable _will_ be equal to is an equivalent TypeVariable that was also created
          * by us. And that equality is guaranteed to hold because it doesn't involve the JDK
          * TypeVariable implementation at all.
+         *
+         * TODO: b/147144588 - But what about when the TypeVariable has annotations? Our
+         * implementation currently doesn't support annotations _at all_. It could at least be made
+         * to respond to queries about annotations by returning null/empty, but are there situations
+         * in which it should return something else?
          */
         if (Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY
             && Arrays.equals(bounds, resolvedBounds)) {
