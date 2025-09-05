@@ -74933,6 +74933,22 @@
      {@link #get(Object)}; may contain duplicates), in an increasing index order.]]>
       </doc>
     </method>
+    <method name="custom" return="com.google.common.util.concurrent.Striped&lt;L&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="stripes" type="int"/>
+      <param name="supplier" type="com.google.common.base.Supplier&lt;L&gt;"/>
+      <doc>
+      <![CDATA[Creates a {@code Striped<L>} with eagerly initialized, strongly referenced locks. Every lock is
+ obtained from the passed supplier.
+
+ @param stripes the minimum number of stripes (locks) required
+ @param supplier a {@code Supplier<L>} object to obtain locks from
+ @return a new {@code Striped<L>}
+ @since NEXT]]>
+      </doc>
+    </method>
     <method name="lock" return="com.google.common.util.concurrent.Striped&lt;java.util.concurrent.locks.Lock&gt;"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
