@@ -21,26 +21,6 @@
     <gwt.plugin.version>2.10.0</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
-  <repositories>
-    <repository>
-      <id>sonatype-google-snapshots</id>
-      <name>sonatype-google-snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/google-snapshots/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </repository>
-  </repositories>
-  <pluginRepositories>
-    <pluginRepository>
-      <id>sonatype-snapshots</id>
-      <name>sonatype-snapshots</name>
-      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
-      <snapshots>
-        <enabled>true</enabled>
-      </snapshots>
-    </pluginRepository>
-  </pluginRepositories>
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -123,6 +103,26 @@
       </exclusions>
     </dependency>
   </dependencies>
+  <repositories>
+    <repository>
+      <id>sonatype-google-snapshots</id>
+      <name>sonatype-google-snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/google-snapshots/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+  <pluginRepositories>
+    <pluginRepository>
+      <id>sonatype-snapshots</id>
+      <name>sonatype-snapshots</name>
+      <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </pluginRepository>
+  </pluginRepositories>
   <build>
     <plugins>
       <plugin>
@@ -130,9 +130,11 @@
         <artifactId>toolchains-maven-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-toolchains-plugin</artifactId>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
         <executions>
           <execution>
@@ -150,6 +152,7 @@
         </executions>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
         <configuration>
           <excludes>
@@ -160,6 +163,7 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-source-plugin</artifactId>
         <configuration>
           <excludes>
@@ -170,6 +174,7 @@
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-javadoc-plugin</artifactId>
         <configuration>
           <sourceFileExcludes>
@@ -184,18 +189,22 @@
       </plugin>
       <!-- Disable "normal" testing, which doesn't work for GWT tests. -->
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
         </configuration>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
             <id>unpack-failureaccess-sources</id>
             <phase>generate-resources</phase>
-            <goals><goal>unpack-dependencies</goal></goals>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
             <configuration>
               <includeArtifactIds>failureaccess</includeArtifactIds>
               <classifier>sources</classifier>
@@ -209,7 +218,9 @@
           <execution>
             <id>unpack-guava-sources</id>
             <phase>generate-resources</phase>
-            <goals><goal>unpack-dependencies</goal></goals>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
             <configuration>
               <includeArtifactIds>guava</includeArtifactIds>
               <classifier>sources</classifier>
@@ -223,7 +234,9 @@
           <execution>
             <id>unpack-guava-testlib-sources</id>
             <phase>generate-resources</phase>
-            <goals><goal>unpack-dependencies</goal></goals>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
             <configuration>
               <includeArtifactIds>guava-testlib</includeArtifactIds>
               <classifier>sources</classifier>
@@ -237,7 +250,9 @@
           <execution>
             <id>unpack-guava-testlib-test-sources</id>
             <phase>generate-resources</phase>
-            <goals><goal>unpack-dependencies</goal></goals>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
             <configuration>
               <includeArtifactIds>guava-testlib</includeArtifactIds>
               <classifier>test-sources</classifier>
@@ -251,7 +266,9 @@
           <execution>
             <id>unpack-guava-test-sources</id>
             <phase>generate-resources</phase>
-            <goals><goal>unpack-dependencies</goal></goals>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
             <configuration>
               <includeArtifactIds>guava-tests</includeArtifactIds>
               <classifier>test-sources</classifier>
@@ -297,12 +314,15 @@
         </dependencies>
       </plugin>
       <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
           <execution>
             <id>copy-gwt-files</id>
             <phase>generate-resources</phase>
-            <goals><goal>run</goal></goals>
+            <goals>
+              <goal>run</goal>
+            </goals>
             <configuration>
               <target name="copy-gwt-resources">
                 <delete dir="${project.build.directory}/guava-gwt-sources" quiet="true" />
@@ -418,8 +438,10 @@
               <extraJvmArgs>-Xms3500m -Xmx3500m -Xss1024k</extraJvmArgs>
               <sourceLevel>1.8</sourceLevel>
               <!-- Keep these timeouts very large because, if we hit the timeout, the tests silently pass :( -->
-              <testTimeOut>86400 <!-- seconds --></testTimeOut>
-              <testMethodTimeout>1440 <!-- minutes --></testMethodTimeout>
+              <testTimeOut>86400 
+                <!-- seconds --></testTimeOut>
+              <testMethodTimeout>1440 
+                <!-- minutes --></testMethodTimeout>
               <!-- Presumably we want watchFileChanges=false here, since we want it for compile: -->
               <extraJvmArgs>-Dgwt.watchFileChanges=false</extraJvmArgs>
             </configuration>
