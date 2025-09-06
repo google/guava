@@ -172,7 +172,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
   /** Returns an instance of type token that wraps {@code type}. */
   public static TypeToken<?> of(Type type) {
-    return new SimpleTypeToken<>(type);
+    return new SimpleTypeToken<>(new TypeResolver().resolveType(type));
   }
 
   /**

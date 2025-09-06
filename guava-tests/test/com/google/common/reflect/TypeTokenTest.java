@@ -40,11 +40,13 @@ import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
 import java.lang.reflect.WildcardType;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -1925,6 +1927,56 @@ public class TypeTokenTest extends TestCase {
             TypeToken.of(new TypeCapture<A>() {}.capture()))
         .addEqualityGroup(TypeToken.of(new TypeCapture<B>() {}.capture()))
         .testEquals();
+  }
+
+  public void testHashCodeContractWithExternalTypes() {
+    // Test for issue #7958: TypeToken should respect hashCode contract when wrapping
+    // Types from different implementations that are equals() but have different hashCode()
+    
+    // Create a Type equivalent to Class<String> but with different hashCode implementation
+    Type externalType = new ParameterizedType() {
+      @Override
+      public Type[] getActualTypeArguments() {
+        return new Type[]{String.class};
+      }
+      
+      @Override
+      public Type getRawType() {
+        return Class.class;
+      }
+      
+      @Override
+      public Type getOwnerType() {
+        return null;
+      }
+      
+      @Override
+      public boolean equals(Object obj) {
+        if (!(obj instanceof ParameterizedType)) return false;
+        ParameterizedType other = (ParameterizedType) obj;
+        return Objects.equals(getRawType(), other.getRawType()) &&
+               Objects.equals(getOwnerType(), other.getOwnerType()) &&
+               Arrays.equals(getActualTypeArguments(), other.getActualTypeArguments());
+      }
+      
+      @Override
+      public int hashCode() {
+        // Different hashCode implementation than Guava's - this simulates external libraries
+        return Objects.hash(getRawType()) ^ Arrays.hashCode(getActualTypeArguments());
+      }
+    };
+    
+    // Create TypeTokens from both sources
+    TypeToken<Class<String>> guavaToken = new TypeToken<Class<String>>() {};
+    TypeToken<?> externalToken = TypeToken.of(externalType);
+    
+    // Verify equals works
+    assertTrue(guavaToken.equals(externalToken));
+    assertTrue(externalToken.equals(guavaToken));
+    
+    // Verify hashCode contract: equal objects must have equal hash codes
+    assertEquals("Equal TypeTokens must have equal hash codes", 
+                 guavaToken.hashCode(), externalToken.hashCode());
   }
 
   // T is used inside to test type variable
