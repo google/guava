@@ -27,6 +27,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.errorprone.annotations.Keep;
 import java.io.Serializable;
+import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.GenericArrayType;
@@ -141,6 +142,17 @@ final class Types {
       D declaration, String name, Type... bounds) {
     return newTypeVariableImpl(
         declaration, name, (bounds.length == 0) ? new Type[] {Object.class} : bounds);
+  }
+
+  /**
+   * Returns a new {@link TypeVariable} that belongs to {@code declaration} with {@code name} and
+   * {@code bounds}, preserving annotations from the original TypeVariable.
+   */
+  static <D extends GenericDeclaration> TypeVariable<D> newArtificialTypeVariable(
+      D declaration, String name, Type[] bounds, TypeVariable<?> original) {
+    Annotation[] annotations = extractAnnotations(original);
+    Object annotatedBounds = extractAnnotatedBounds(original);
+    return newTypeVariableImpl(declaration, name, bounds, annotations, annotatedBounds);
   }
 
   /** Returns a new {@link WildcardType} with {@code upperBound}. */
@@ -315,12 +327,75 @@ final class Types {
 
   private static <D extends GenericDeclaration> TypeVariable<D> newTypeVariableImpl(
       D genericDeclaration, String name, Type[] bounds) {
-    TypeVariableImpl<D> typeVariableImpl = new TypeVariableImpl<>(genericDeclaration, name, bounds);
+    // Use overloaded method with empty annotations for backward compatibility
+    return newTypeVariableImpl(genericDeclaration, name, bounds, new Annotation[0], null);
+  }
+
+  /**
+   * Overloaded method that supports annotations and annotated bounds.
+   */
+  private static <D extends GenericDeclaration> TypeVariable<D> newTypeVariableImpl(
+      D genericDeclaration, String name, Type[] bounds, Annotation[] annotations, 
+      @Nullable Object annotatedBounds) {
+    TypeVariableImpl<D> typeVariableImpl = 
+        new TypeVariableImpl<>(genericDeclaration, name, bounds, annotations, annotatedBounds);
     @SuppressWarnings("unchecked")
     TypeVariable<D> typeVariable =
         Reflection.newProxy(
             TypeVariable.class, new TypeVariableInvocationHandler(typeVariableImpl));
     return typeVariable;
+  }
+
+  /**
+   * Extracts annotations from a TypeVariable using AnnotatedElement interface or reflection fallback.
+   * Works on both JDK 8+ (AnnotatedElement) and Android (reflection) platforms.
+   */
+  private static Annotation[] extractAnnotations(TypeVariable<?> typeVariable) {
+    // First try the standard AnnotatedElement interface (JDK 8+)
+    if (typeVariable instanceof AnnotatedElement) {
+      try {
+        return ((AnnotatedElement) typeVariable).getDeclaredAnnotations();
+      } catch (Exception ignored) {
+        // Continue to reflection fallback
+      }
+    }
+    
+    // Fallback: Use reflection to find annotation methods (Android compatibility)
+    try {
+      Method getDeclaredAnnotations = typeVariable.getClass().getMethod("getDeclaredAnnotations");
+      Object result = getDeclaredAnnotations.invoke(typeVariable);
+      if (result instanceof Annotation[]) {
+        return (Annotation[]) result;
+      }
+    } catch (Exception ignored) {
+      // Method doesn't exist or failed - try getAnnotations()
+    }
+    
+    try {
+      Method getAnnotations = typeVariable.getClass().getMethod("getAnnotations");
+      Object result = getAnnotations.invoke(typeVariable);
+      if (result instanceof Annotation[]) {
+        return (Annotation[]) result;
+      }
+    } catch (Exception ignored) {
+      // No annotation methods available
+    }
+    
+    // Final fallback: empty annotations
+    return new Annotation[0];
+  }
+
+  /**
+   * Extracts annotated bounds from a TypeVariable if available.
+   */
+  private static @Nullable Object extractAnnotatedBounds(TypeVariable<?> typeVariable) {
+    try {
+      Method getAnnotatedBounds = typeVariable.getClass().getMethod("getAnnotatedBounds");
+      return getAnnotatedBounds.invoke(typeVariable);
+    } catch (Exception ignored) {
+      // Platform doesn't support getAnnotatedBounds() or method failed
+      return null;
+    }
   }
 
   /**
@@ -393,17 +468,27 @@ final class Types {
     }
   }
 
-  private static final class TypeVariableImpl<D extends GenericDeclaration> {
+  private static final class TypeVariableImpl<D extends GenericDeclaration> implements AnnotatedElement {
 
     private final D genericDeclaration;
     private final String name;
     private final ImmutableList<Type> bounds;
+    private final ImmutableList<Annotation> annotations;
+    private final @Nullable Object annotatedBounds;
 
+    // Backward compatibility constructor
     TypeVariableImpl(D genericDeclaration, String name, Type[] bounds) {
+      this(genericDeclaration, name, bounds, new Annotation[0], null);
+    }
+
+    TypeVariableImpl(D genericDeclaration, String name, Type[] bounds, 
+                     Annotation[] annotations, @Nullable Object annotatedBounds) {
       disallowPrimitiveType(bounds, "bound for type variable");
       this.genericDeclaration = checkNotNull(genericDeclaration);
       this.name = checkNotNull(name);
       this.bounds = ImmutableList.copyOf(bounds);
+      this.annotations = ImmutableList.copyOf(annotations);
+      this.annotatedBounds = annotatedBounds;
     }
 
     @Keep
@@ -424,6 +509,84 @@ final class Types {
     @Keep
     public String getTypeName() {
       return name;
+    }
+
+    @Keep
+    public Object getAnnotatedBounds() {
+      if (annotatedBounds != null) {
+        return annotatedBounds;
+      }
+      throw new UnsupportedOperationException(
+          "getAnnotatedBounds() not supported on this platform");
+    }
+
+    // AnnotatedElement implementation
+    @Keep
+    @Override
+    public <A extends Annotation> @Nullable A getAnnotation(Class<A> annotationType) {
+      checkNotNull(annotationType);
+      for (Annotation annotation : annotations) {
+        if (annotationType.isInstance(annotation)) {
+          return annotationType.cast(annotation);
+        }
+      }
+      return null;
+    }
+
+    @Keep  
+    @Override
+    public Annotation[] getAnnotations() {
+      return getDeclaredAnnotations();
+    }
+
+    @Keep
+    @Override
+    public <A extends Annotation> A[] getAnnotationsByType(Class<A> annotationType) {
+      return getDeclaredAnnotationsByType(annotationType);
+    }
+
+    @Keep
+    @Override
+    public Annotation[] getDeclaredAnnotations() {
+      return annotations.toArray(new Annotation[0]);
+    }
+
+    @Keep
+    @Override
+    public <A extends Annotation> @Nullable A getDeclaredAnnotation(Class<A> annotationType) {
+      checkNotNull(annotationType);
+      for (Annotation annotation : annotations) {
+        if (annotationType.isInstance(annotation)) {
+          return annotationType.cast(annotation);
+        }
+      }
+      return null;
+    }
+
+    @Keep
+    @Override
+    public <A extends Annotation> A[] getDeclaredAnnotationsByType(Class<A> annotationType) {
+      int count = 0;
+      for (Annotation annotation : annotations) {
+        if (annotationType.isInstance(annotation)) {
+          count++;
+        }
+      }
+      @SuppressWarnings("unchecked")
+      A[] result = (A[]) Array.newInstance(annotationType, count);
+      int index = 0;
+      for (Annotation annotation : annotations) {
+        if (annotationType.isInstance(annotation)) {
+          result[index++] = annotationType.cast(annotation);
+        }
+      }
+      return result;
+    }
+
+    @Keep
+    @Override  
+    public boolean isAnnotationPresent(Class<? extends Annotation> annotationType) {
+      return getAnnotation(annotationType) != null;
     }
 
     @Override
