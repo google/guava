@@ -258,7 +258,8 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     return false;
   }
 
-  private void wrapAndThrowExecutionExceptionOrError(Throwable cause) throws ExecutionException {
+  private static void wrapAndThrowExecutionExceptionOrError(Throwable cause)
+      throws ExecutionException {
     if (cause instanceof Error) {
       throw new ExecutionError((Error) cause);
     } else if (cause instanceof RuntimeException) {
@@ -268,7 +269,7 @@ public final class SimpleTimeLimiter implements TimeLimiter {
     }
   }
 
-  private void wrapAndThrowRuntimeExecutionExceptionOrError(Throwable cause) {
+  private static void wrapAndThrowRuntimeExecutionExceptionOrError(Throwable cause) {
     if (cause instanceof Error) {
       throw new ExecutionError((Error) cause);
     } else {

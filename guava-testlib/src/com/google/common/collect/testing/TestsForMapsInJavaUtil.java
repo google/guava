@@ -101,11 +101,11 @@ public class TestsForMapsInJavaUtil {
     return emptySet();
   }
 
-  private Collection<Method> suppressForEmptyNavigableMap() {
+  private static Collection<Method> suppressForEmptyNavigableMap() {
     return emptySet();
   }
 
-  private Collection<Method> suppressForEmptySortedMap() {
+  private static Collection<Method> suppressForEmptySortedMap() {
     return emptySet();
   }
 
