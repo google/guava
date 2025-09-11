@@ -142,22 +142,15 @@ loadScripts(document, 'script');</script>
  <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;closingExecutor)</span></div>
 <div class="block">Captures an object to be closed when a <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline is done.
 
- <p>For users of the <code>-jre</code> flavor of Guava, the object can be any <code>
- AutoCloseable</code>. For users of the <code>-android</code> flavor, the object must be a <code>
- Closeable</code>. (For more about the flavors, see <a href="https://github.com/google/guava#adding-guava-to-your-build">Adding Guava to your
- build</a>.)
-
  <p>Be careful when targeting an older SDK than you are building against (most commonly when
  building for Android): Ensure that any object you pass implements the interface not just in
- your current SDK version but also at the oldest version you support. For example, <a href="https://developer.android.com/sdk/api_diff/16/">API Level 16</a> is the first version
- in which <code>Cursor</code> is <code>Closeable</code>. To support older versions, pass a wrapper
- <code>Closeable</code> with a method reference like <code>cursor::close</code>.
-
- <p>Note that this method is still binary-compatible between flavors because the erasure of
- its parameter type is <code>Object</code>, not <code>AutoCloseable</code> or <code>Closeable</code>.</div>
+ your current SDK version but also at the oldest version you support. For example, <a href="https://developer.android.com/sdk/api_diff/28/changes/android.media.MediaDrm#android.media.MediaDrm.close_added()">API
+ Level 28</a> is the first version in which <code>MediaDrm</code> is <code>AutoCloseable</code>. To
+ support older versions, pass a wrapper <code>AutoCloseable</code> with a method reference like
+ <code>mediaDrm::release</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
-<dd><code>closeable</code> - the object to be closed (see notes above)</dd>
+<dd><code>closeable</code> - the object to be closed</dd>
 <dd><code>closingExecutor</code> - the object will be closed on this executor</dd>
 <dt>Returns:</dt>
 <dd>the first argument</dd>

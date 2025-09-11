@@ -150,7 +150,7 @@ log.info("time: " + stopwatch); // formatted string like "12.3 ms"
 <pre class="snippet" id="snippet-com.google.common.base.Stopwatch2"><code class="language-java">Stopwatch.createStarted(
      new Ticker() {
        public long read() {
-         return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17
+         return android.os.SystemClock.elapsedRealtimeNanos();
        }
      });
 </code></pre>

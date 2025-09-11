@@ -552,7 +552,7 @@ try { // get() will throw if the operation failed or was cancelled.
 <div class="block">Starts a <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a> pipeline with a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>.
 
  <p><code>future</code>'s value will not be closed when the pipeline is done even if <code>V</code>
- implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Closeable.html" title="class or interface in java.io" class="external-link"><code>Closeable</code></a>. In order to start a pipeline with a value that will be closed
+ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link"><code>AutoCloseable</code></a>. In order to start a pipeline with a value that will be closed
  when the pipeline is done, use <a href="#submit(com.google.common.util.concurrent.ClosingFuture.ClosingCallable,java.util.concurrent.Executor)"><code>submit(ClosingCallable, Executor)</code></a> instead.</div>
 </div>
 </section>
@@ -848,7 +848,7 @@ ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
 
 // Result.writeRowsToOutputStreamFuture() returns a ListenableFuture that resolves to the
 // number of written rows. openOutputFile() returns a FileOutputStream (which implements
-// Closeable).
+// AutoCloseable).
 ClosingFuture&lt;Integer&gt; rowsFuture2 =
     queryFuture.transformAsync(
         (closer, result) -&gt; {
@@ -902,7 +902,7 @@ ClosingFuture&lt;List&lt;Row&gt;&gt; rowsFuture3 =
  meets these conditions:
 
  <ul>
-   <li>It does not need to capture any <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Closeable.html" title="class or interface in java.io" class="external-link"><code>Closeable</code></a> objects by calling <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>ClosingFuture.DeferredCloser.eventuallyClose(Object, Executor)</code></a>.
+   <li>It does not need to capture any <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/AutoCloseable.html" title="class or interface in java.lang" class="external-link"><code>AutoCloseable</code></a> objects by calling <a href="ClosingFuture.DeferredCloser.html#eventuallyClose(C,java.util.concurrent.Executor)"><code>ClosingFuture.DeferredCloser.eventuallyClose(Object, Executor)</code></a>.
    <li>It returns a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>.
  </ul>
 
