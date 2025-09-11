@@ -378,7 +378,7 @@ public final class TypeResolver {
           return var;
         }
         return Types.newArtificialTypeVariable(
-            var.getGenericDeclaration(), var.getName(), resolvedBounds);
+            var.getGenericDeclaration(), var.getName(), resolvedBounds, var);
       }
       // in case the type is yet another type variable.
       return new TypeResolver(forDependants).resolveType(type);
