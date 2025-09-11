@@ -70,13 +70,14 @@ import org.jspecify.annotations.Nullable;
  *     their equivalent on the result of {@code Traverser.forTree(tree)} where {@code tree}
  *     implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
  *     the same lambda function as passed into {@link #using(Function)}.
- *     <p>This class is scheduled to be removed in October 2019.
  */
-// TODO(b/68134636): Remove by 2019-10
+// This class is now only available externally for backwards compatibility; it should not be used
+// internally (hence the package-private visibility and @Deprecated annotation).
 @Deprecated
 @Beta
 @GwtCompatible
-public abstract class TreeTraverser<T> {
+public
+abstract class TreeTraverser<T> {
   /** Constructor for use by subclasses. */
   public TreeTraverser() {}
 
