@@ -139,7 +139,7 @@ public class LocalCacheMapComputeTest extends TestCase {
                       throw new Error();
                     }));
     assertThat(cache.getIfPresent(key)).isEqualTo("1");
-    assertThat(cache.asMap().computeIfPresent(key, (k, v) -> "2")).isEqualTo(null);
+    assertThat(cache.asMap().computeIfPresent(key, (k, v) -> "2")).isEqualTo("2");
   }
 
   public void testUpdates() {
