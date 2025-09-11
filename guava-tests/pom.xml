@@ -103,7 +103,6 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
-        <!-- TODO(cpovirk): Set a plugin version here, or find a different way to skip publishing for guava-tests. -->
         <configuration>
           <skipPublishing>true</skipPublishing>
         </configuration>
