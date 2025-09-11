@@ -1011,7 +1011,7 @@ public abstract class BaseEncoding {
       checkPositionIndexes(off, off + len, bytes.length);
       int i = off;
       for (int remaining = len; remaining >= 3; remaining -= 3) {
-        int chunk = (bytes[i++] & 0xFF) << 16 | (bytes[i++] & 0xFF) << 8 | bytes[i++] & 0xFF;
+        int chunk = (bytes[i++] & 0xFF) << 16 | (bytes[i++] & 0xFF) << 8 | (bytes[i++] & 0xFF);
         target.append(alphabet.encode(chunk >>> 18));
         target.append(alphabet.encode((chunk >>> 12) & 0x3F));
         target.append(alphabet.encode((chunk >>> 6) & 0x3F));

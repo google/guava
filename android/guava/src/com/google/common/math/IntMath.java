@@ -593,7 +593,7 @@ public final class IntMath {
     }
     int accum = 1;
     // if b is negative and k is odd then the limit is MIN otherwise the limit is MAX
-    int limit = Integer.MAX_VALUE + ((b >>> Integer.SIZE - 1) & (k & 1));
+    int limit = Integer.MAX_VALUE + ((b >>> (Integer.SIZE - 1)) & (k & 1));
     while (true) {
       switch (k) {
         case 0:

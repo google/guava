@@ -80,7 +80,7 @@ abstract class AbstractCatchingFuture<
     @RetainedLocalRef ListenableFuture<? extends V> localInputFuture = inputFuture;
     @RetainedLocalRef Class<X> localExceptionType = exceptionType;
     @RetainedLocalRef F localFallback = fallback;
-    if (localInputFuture == null | localExceptionType == null | localFallback == null
+    if ((localInputFuture == null | localExceptionType == null | localFallback == null)
         // This check, unlike all the others, is a volatile read
         || isCancelled()) {
       return;
