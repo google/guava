@@ -108,16 +108,24 @@ loadScripts(document, 'script');</script>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEvent()" class="member-name-link">getEvent</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the event object that caused the subscriber to throw.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="EventBus.html" title="class in com.google.common.eventbus">EventBus</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getEventBus()" class="member-name-link">getEventBus</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the <a href="EventBus.html" title="class in com.google.common.eventbus"><code>EventBus</code></a> that handled the event and the subscriber.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSubscriber()" class="member-name-link">getSubscriber</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the object context that the subscriber was called on.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Method.html" title="class or interface in java.lang.reflect" class="external-link">Method</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getSubscriberMethod()" class="member-name-link">getSubscriberMethod</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the subscribed method that threw the exception.</div>
+</div>
 </div>
 </div>
 </div>
@@ -140,11 +148,8 @@ loadScripts(document, 'script');</script>
 <h3>getEventBus</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="EventBus.html" title="class in com.google.common.eventbus">EventBus</a></span>&nbsp;<span class="element-name">getEventBus</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The <a href="EventBus.html" title="class in com.google.common.eventbus"><code>EventBus</code></a> that handled the event and the subscriber. Useful for broadcasting
-     a new event based on the error.</dd>
-</dl>
+<div class="block">Returns the <a href="EventBus.html" title="class in com.google.common.eventbus"><code>EventBus</code></a> that handled the event and the subscriber. Useful for broadcasting
+ a new event based on the error.</div>
 </div>
 </section>
 </li>
@@ -153,10 +158,7 @@ loadScripts(document, 'script');</script>
 <h3>getEvent</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">getEvent</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The event object that caused the subscriber to throw.</dd>
-</dl>
+<div class="block">Returns the event object that caused the subscriber to throw.</div>
 </div>
 </section>
 </li>
@@ -165,10 +167,7 @@ loadScripts(document, 'script');</script>
 <h3>getSubscriber</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&nbsp;<span class="element-name">getSubscriber</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The object context that the subscriber was called on.</dd>
-</dl>
+<div class="block">Returns the object context that the subscriber was called on.</div>
 </div>
 </section>
 </li>
@@ -177,10 +176,7 @@ loadScripts(document, 'script');</script>
 <h3>getSubscriberMethod</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/reflect/Method.html" title="class or interface in java.lang.reflect" class="external-link">Method</a></span>&nbsp;<span class="element-name">getSubscriberMethod</span>()</div>
-<dl class="notes">
-<dt>Returns:</dt>
-<dd>The subscribed method that threw the exception.</dd>
-</dl>
+<div class="block">Returns the subscribed method that threw the exception.</div>
 </div>
 </section>
 </li>

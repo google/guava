@@ -39280,8 +39280,8 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[@return The {@link EventBus} that handled the event and the subscriber. Useful for broadcasting
-     a new event based on the error.]]>
+      <![CDATA[Returns the {@link EventBus} that handled the event and the subscriber. Useful for broadcasting
+ a new event based on the error.]]>
       </doc>
     </method>
     <method name="getEvent" return="java.lang.Object"
@@ -39289,7 +39289,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[@return The event object that caused the subscriber to throw.]]>
+      <![CDATA[Returns the event object that caused the subscriber to throw.]]>
       </doc>
     </method>
     <method name="getSubscriber" return="java.lang.Object"
@@ -39297,7 +39297,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[@return The object context that the subscriber was called on.]]>
+      <![CDATA[Returns the object context that the subscriber was called on.]]>
       </doc>
     </method>
     <method name="getSubscriberMethod" return="java.lang.reflect.Method"
@@ -39305,7 +39305,7 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[@return The subscribed method that threw the exception.]]>
+      <![CDATA[Returns the subscribed method that threw the exception.]]>
       </doc>
     </method>
     <doc>
