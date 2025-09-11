@@ -615,10 +615,10 @@ public final class LongMath {
         case 0:
           return accum;
         case 1:
-          return checkedMultiply(accum, b);
+          return Math.multiplyExact(accum, b);
         default:
           if ((k & 1) != 0) {
-            accum = checkedMultiply(accum, b);
+            accum = Math.multiplyExact(accum, b);
           }
           k >>= 1;
           if (k > 0) {
