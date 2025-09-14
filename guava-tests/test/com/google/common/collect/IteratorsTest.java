@@ -61,6 +61,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -68,6 +69,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.Vector;
@@ -1546,4 +1548,122 @@ public class IteratorsTest extends TestCase {
     assertSame(peek, Iterators.peekingIterator(peek));
     assertSame(peek, Iterators.peekingIterator((Iterator<String>) peek));
   }
+
+  // Tests for demonstrating mergeSorted instability (Issue #5773)
+  // These tests are expected to FAIL with the current implementation,
+  // demonstrating that mergeSorted() is not stable for equal elements.
+
+  /**
+   * Test demonstrating the instability problem reported in issue #5773.
+   * This test will FAIL non-deterministically with current implementation.
+   *
+   * When merging iterators containing equal elements (by the comparator),
+   * the current implementation does not guarantee that elements from the
+   * first iterator will appear before elements from the second iterator.
+   */
+  public void testMergeSorted_demonstratesInstability_issue5773Example() {
+    // Using the exact example from issue #5773
+    List<TestDatum> left = ImmutableList.of(
+        new TestDatum("B", 1),
+        new TestDatum("C", 1)
+    );
+
+    List<TestDatum> right = ImmutableList.of(
+        new TestDatum("A", 2),
+        new TestDatum("C", 2)
+    );
+
+    Comparator<TestDatum> comparator = Comparator.comparing(d -> d.letter);
+
+    // The problem: When elements compare as equal (both C's have same letter),
+    // the order is non-deterministic. Sometimes C1 comes first, sometimes C2.
+    // A stable merge should always return C1 before C2 since C1 is from the first iterator.
+
+    Iterator<TestDatum> merged = Iterators.mergeSorted(
+        ImmutableList.of(left.iterator(), right.iterator()),
+        comparator);
+
+    List<TestDatum> result = ImmutableList.copyOf(merged);
+
+    // EXPECTED (if stable): [A2, B1, C1, C2]
+    // ACTUAL (unstable): Sometimes [A2, B1, C1, C2], sometimes [A2, B1, C2, C1]
+
+    assertEquals("Should have 4 elements", 4, result.size());
+    assertEquals("First should be A2", "A", result.get(0).letter);
+    assertEquals("First should be from right iterator", 2, result.get(0).number);
+    assertEquals("Second should be B1", "B", result.get(1).letter);
+    assertEquals("Second should be from left iterator", 1, result.get(1).number);
+
+    // THIS IS THE KEY ASSERTION THAT WILL FAIL:
+    // We expect C1 to come before C2 (stable behavior), but currently it's non-deterministic
+    assertEquals("Third should be C from left iterator (C1) for stability", 1, result.get(2).number);
+    assertEquals("Fourth should be C from right iterator (C2) for stability", 2, result.get(3).number);
+  }
+
+  /**
+   * Test demonstrating instability when all elements are equal.
+   * With stable sorting, elements should maintain their iterator order.
+   * This test will FAIL with current implementation.
+   */
+  public void testMergeSorted_demonstratesInstability_allEqual() {
+    List<TestDatum> first = ImmutableList.of(
+        new TestDatum("A", 1),
+        new TestDatum("A", 2)
+    );
+
+    List<TestDatum> second = ImmutableList.of(
+        new TestDatum("A", 3),
+        new TestDatum("A", 4)
+    );
+
+    Comparator<TestDatum> comparator = Comparator.comparing(d -> d.letter);
+    Iterator<TestDatum> merged = Iterators.mergeSorted(
+        ImmutableList.of(first.iterator(), second.iterator()),
+        comparator);
+
+    List<TestDatum> result = ImmutableList.copyOf(merged);
+
+    // EXPECTED (if stable): [A1, A2, A3, A4] - maintaining iterator order
+    // ACTUAL (unstable): Order of elements is non-deterministic
+
+    assertEquals("Should have 4 elements", 4, result.size());
+
+    // These assertions will FAIL non-deterministically:
+    assertEquals("First should be A1 for stability", 1, result.get(0).number);
+    assertEquals("Second should be A2 for stability", 2, result.get(1).number);
+    assertEquals("Third should be A3 for stability", 3, result.get(2).number);
+    assertEquals("Fourth should be A4 for stability", 4, result.get(3).number);
+  }
+
+  // Helper class for demonstrating the instability
+  private static class TestDatum {
+    final String letter;
+    final int number;
+
+    TestDatum(String letter, int number) {
+      this.letter = letter;
+      this.number = number;
+    }
+
+    @Override
+    public String toString() {
+      return letter + number;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+      if (!(o instanceof TestDatum)) return false;
+      TestDatum other = (TestDatum) o;
+      return letter.equals(other.letter) && number == other.number;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(letter, number);
+    }
+  }
+
+  // Note: These tests are intentionally designed to FAIL with the current
+  // implementation to demonstrate issue #5773. They will pass once the
+  // stability fix is applied.
 }
