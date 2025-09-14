@@ -457,7 +457,17 @@ final class Types {
       String methodName = method.getName();
       Method typeVariableMethod = typeVariableMethods.get(methodName);
       if (typeVariableMethod == null) {
-        throw new UnsupportedOperationException(methodName);
+        // Provide helpful error message for annotation-related methods
+        if (methodName.equals("getAnnotatedBounds")
+            || methodName.startsWith("getAnnotation")
+            || methodName.startsWith("getDeclaredAnnotation")
+            || methodName.equals("isAnnotationPresent")) {
+          throw new UnsupportedOperationException(
+              "Annotation methods are not supported on synthetic TypeVariables created during type "
+              + "resolution. The semantics of annotations on resolved types with modified bounds are "
+              + "undefined. Use the original TypeVariable for annotation access. See b/147144588.");
+        }
+        throw new UnsupportedOperationException(methodName);  // Keep original behavior for other methods
       } else {
         try {
           return typeVariableMethod.invoke(typeVariableImpl, args);
