@@ -125,4 +125,18 @@ public class MapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V> {
         getMap().putIfAbsent(nullValueEntry.getKey(), nullValueEntry.getValue()));
     expectAdded(nullValueEntry);
   }
+
+  @MapFeature.Require({SUPPORTS_PUT, ALLOWS_NULL_VALUES})
+  @CollectionSize.Require(absent = ZERO)
+  public void testPutIfAbsent_replacesNullValue() {
+    // First, put a null value for an existing key
+    getMap().put(k0(), null);
+    assertEquals("Map should contain null value", null, getMap().get(k0()));
+
+    // putIfAbsent should replace the null value with the new value
+    assertNull(
+        "putIfAbsent(existingKeyWithNullValue, value) should return null",
+        getMap().putIfAbsent(k0(), v3()));
+    assertEquals("Map should now contain the new value", v3(), getMap().get(k0()));
+  }
 }
