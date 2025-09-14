@@ -227,7 +227,7 @@ public abstract class CharSource {
     }
   }
 
-  private long countBySkipping(Reader reader) throws IOException {
+  private static long countBySkipping(Reader reader) throws IOException {
     long count = 0;
     long read;
     while ((read = reader.skip(Long.MAX_VALUE)) != 0) {

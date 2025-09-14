@@ -45,30 +45,24 @@ public class SubscriberExceptionContext {
   }
 
   /**
-   * @return The {@link EventBus} that handled the event and the subscriber. Useful for broadcasting
-   *     a new event based on the error.
+   * Returns the {@link EventBus} that handled the event and the subscriber. Useful for broadcasting
+   * a new event based on the error.
    */
   public EventBus getEventBus() {
     return eventBus;
   }
 
-  /**
-   * @return The event object that caused the subscriber to throw.
-   */
+  /** Returns the event object that caused the subscriber to throw. */
   public Object getEvent() {
     return event;
   }
 
-  /**
-   * @return The object context that the subscriber was called on.
-   */
+  /** Returns the object context that the subscriber was called on. */
   public Object getSubscriber() {
     return subscriber;
   }
 
-  /**
-   * @return The subscribed method that threw the exception.
-   */
+  /** Returns the subscribed method that threw the exception. */
   public Method getSubscriberMethod() {
     return subscriberMethod;
   }

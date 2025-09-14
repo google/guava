@@ -517,10 +517,10 @@ public final class IntMath {
         case 0:
           return accum;
         case 1:
-          return checkedMultiply(accum, b);
+          return Math.multiplyExact(accum, b);
         default:
           if ((k & 1) != 0) {
-            accum = checkedMultiply(accum, b);
+            accum = Math.multiplyExact(accum, b);
           }
           k >>= 1;
           if (k > 0) {
@@ -593,7 +593,7 @@ public final class IntMath {
     }
     int accum = 1;
     // if b is negative and k is odd then the limit is MIN otherwise the limit is MAX
-    int limit = Integer.MAX_VALUE + ((b >>> Integer.SIZE - 1) & (k & 1));
+    int limit = Integer.MAX_VALUE + ((b >>> (Integer.SIZE - 1)) & (k & 1));
     while (true) {
       switch (k) {
         case 0:

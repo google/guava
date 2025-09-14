@@ -224,7 +224,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
    * work for this purpose, which may cause problems for navigable maps with non-string or unicode
    * generators.
    */
-  private List<String> getExtremeValues() {
+  private static List<String> getExtremeValues() {
     List<String> result = new ArrayList<>();
     result.add("!! a");
     result.add("!! b");

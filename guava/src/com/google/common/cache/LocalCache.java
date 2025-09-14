@@ -2259,6 +2259,9 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         // the value for the key is already being computed.
         computingValueReference = new ComputingValueReference<>(valueReference);
 
+        // Compute the value now, so if it throws an exception we don't change anything.
+        newValue = computingValueReference.compute(key, function);
+
         if (e == null) {
           createNewEntry = true;
           e = newEntry(key, hash, first);
@@ -2268,7 +2271,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
           e.setValueReference(computingValueReference);
         }
 
-        newValue = computingValueReference.compute(key, function);
         if (newValue != null) {
           if (valueReference != null && newValue == valueReference.get()) {
             computingValueReference.set(newValue);
@@ -3585,13 +3587,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
       } catch (ExecutionException e) {
         previousValue = null;
       }
-      V newValue;
-      try {
-        newValue = function.apply(key, previousValue);
-      } catch (Throwable th) {
-        this.setException(th);
-        throw th;
-      }
+      V newValue = function.apply(key, previousValue);
       this.set(newValue);
       return newValue;
     }

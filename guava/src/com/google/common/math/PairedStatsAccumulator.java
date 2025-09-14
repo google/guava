@@ -230,7 +230,7 @@ public final class PairedStatsAccumulator {
     }
   }
 
-  private double ensurePositive(double value) {
+  private static double ensurePositive(double value) {
     if (value > 0.0) {
       return value;
     } else {
