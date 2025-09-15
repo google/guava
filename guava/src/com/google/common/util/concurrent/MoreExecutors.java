@@ -524,6 +524,12 @@ public final class MoreExecutors {
       return delegate.shutdownNow();
     }
 
+    /*
+     * TODO: https://github.com/google/guava/issues/2143 - In addition to overriding `execute`, also
+     * override the `Future`-returning methods of `ExecutorService` to propagate cancellation from
+     * our `TrustedListenableFutureTask` to a `Future` returned by the delegate executor?
+     */
+
     @Override
     public final void execute(Runnable command) {
       delegate.execute(command);
@@ -597,7 +603,12 @@ public final class MoreExecutors {
           // Unless it is cancelled, the delegate may continue being scheduled
           scheduledDelegate.cancel(mayInterruptIfRunning);
 
-          // TODO(user): Cancel "this" if "scheduledDelegate" is cancelled.
+          /*
+           * We'd love to also arrange for the inverse -- that is, to also automatically cancel this
+           * future if scheduledDelegate is cancelled (as happens after the delegate executor is
+           * shut down: https://github.com/google/guava/issues/3553). But it seems unlikely that
+           * that's possible to detect in general.
+           */
         }
         return cancelled;
       }
@@ -628,7 +639,24 @@ public final class MoreExecutors {
           delegate.run();
         } catch (Throwable t) {
           // Any Exception is either a RuntimeException or sneaky checked exception.
+
+          /*
+           * We fail this `ListenableFuture`, whose result is exposed to the user through the
+           * `ListenableScheduledTask` we return from the `schedule*` methods.
+           */
           setException(t);
+
+          /*
+           * We fail the current run of the recurring task so that it is not rescheduled. This also
+           * fails the `ScheduledFuture`, which might be visible only to users who operate directly
+           * on the delegate executor's queue.
+           *
+           * (Users who try to operate directly on the `ScheduledFuture` may have additional
+           * problems. For example, if they cancel that `Future`, it won't cancel the user-visible
+           * `ListenableScheduledTask`. This is essentially the same problem as the
+           * `ListenableScheduledTask` has with executor shutdown:
+           * https://github.com/google/guava/issues/3553)
+           */
           throw t;
         }
       }
