@@ -125,7 +125,7 @@ final class TopKSelector<
     this.k = k;
     checkArgument(k >= 0, "k (%s) must be >= 0", k);
     checkArgument(k <= Integer.MAX_VALUE / 2, "k (%s) must be <= Integer.MAX_VALUE / 2", k);
-    this.buffer = (T[]) new Object[IntMath.checkedMultiply(k, 2)];
+    this.buffer = (T[]) new Object[Math.multiplyExact(k, 2)];
     this.bufferSize = 0;
     this.threshold = null;
   }

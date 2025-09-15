@@ -324,30 +324,31 @@ final class Types {
   }
 
   /**
-   * Invocation handler to work around a compatibility problem between Java 7 and Java 8.
+   * Invocation handler to work around a compatibility problem between Android and Java.
    *
    * <p>Java 8 introduced a new method {@code getAnnotatedBounds()} in the {@link TypeVariable}
-   * interface, whose return type {@code AnnotatedType[]} is also new in Java 8. That means that we
-   * cannot implement that interface in source code in a way that will compile on both Java 7 and
-   * Java 8. If we include the {@code getAnnotatedBounds()} method then its return type means it
-   * won't compile on Java 7, while if we don't include the method then the compiler will complain
-   * that an abstract method is unimplemented. So instead we use a dynamic proxy to get an
-   * implementation. If the method being called on the {@code TypeVariable} instance has the same
-   * name as one of the public methods of {@link TypeVariableImpl}, the proxy calls the same method
-   * on its instance of {@code TypeVariableImpl}. Otherwise it throws {@link
-   * UnsupportedOperationException}; this should only apply to {@code getAnnotatedBounds()}. This
-   * does mean that users on Java 8 who obtain an instance of {@code TypeVariable} from {@link
-   * TypeResolver#resolveType} will not be able to call {@code getAnnotatedBounds()} on it, but that
-   * should hopefully be rare.
+   * interface, whose return type {@code AnnotatedType[]} is also new in Java 8. As of 2025, Android
+   * has not added {@link AnnotatedType}. That means that we cannot implement that interface in
+   * source code in a way that will compile on both Java and Android. If we include the {@code
+   * getAnnotatedBounds()} method, then its return type means it won't compile on Android, while if
+   * we don't include the method, then the compiler will complain that an abstract method is
+   * unimplemented. So instead we use a dynamic proxy to get an implementation. If the method being
+   * called on the {@code TypeVariable} instance has the same name as one of the public methods of
+   * {@link TypeVariableImpl}, the proxy calls the same method on its instance of {@code
+   * TypeVariableImpl}. Otherwise it throws {@link UnsupportedOperationException}; this should only
+   * apply to {@code getAnnotatedBounds()}. This does mean that users on Java who obtain an instance
+   * of {@code TypeVariable} from {@link TypeResolver#resolveType} will not be able to call {@code
+   * getAnnotatedBounds()} on it, but that should hopefully be rare.
    *
-   * <p>TODO(b/147144588): We are currently also missing the methods inherited from {@link
+   * <p>TODO: b/147144588 - We are currently also missing the methods inherited from {@link
    * AnnotatedElement}, which {@code TypeVariable} began to extend only in Java 8. Those methods
-   * refer only to types present in Java 7, so we could implement them in {@code TypeVariableImpl}
-   * today. (We could probably then make {@code TypeVariableImpl} implement {@code AnnotatedElement}
-   * so that we get partial compile-time checking.)
+   * refer only to types present under Android, so we could implement them in {@code
+   * TypeVariableImpl} today. (We could probably then make {@code TypeVariableImpl} implement {@code
+   * AnnotatedElement} so that we get partial compile-time checking.)
    *
-   * <p>This workaround should be removed at a distant future time when we no longer support Java
-   * versions earlier than 8.
+   * <p>This workaround should be removed at a distant future time when <a
+   * href="https://issuetracker.google.com/issues/115932459">Android supports {@code
+   * AnnotatedType}</a>.
    */
   @SuppressWarnings("removal") // b/318391980
   private static final class TypeVariableInvocationHandler implements InvocationHandler {
@@ -539,7 +540,10 @@ final class Types {
     return Array.newInstance(componentType, 0).getClass();
   }
 
-  // TODO(benyu): Once behavior is the same for all Java versions we support, delete this.
+  /*
+   * TODO(benyu): Once behavior is the same for all Java (and Android) versions we support, delete
+   * this. It is possible that one or both of JAVA6 and JAVA7 have become unnecessary already.
+   */
   enum JavaVersion {
     JAVA6 {
       @Override
@@ -585,16 +589,18 @@ final class Types {
         return JAVA7.usedInGenericType(type);
       }
 
+      /*
+       * We use this only when getTypeName is available.
+       *
+       * Well, really, we use this when we think we're running under Java 8, as determined by some
+       * logic in the static initializer, which does not check for getTypeName specifically. We
+       * should really validate that it works as desired for all Android versions that we support.
+       */
+      @IgnoreJRERequirement
+      @SuppressWarnings("AndroidJdkLibsChecker")
       @Override
       String typeName(Type type) {
-        try {
-          Method getTypeName = Type.class.getMethod("getTypeName");
-          return (String) getTypeName.invoke(type);
-        } catch (NoSuchMethodException e) {
-          throw new AssertionError("Type.getTypeName should be available in Java 8");
-        } catch (InvocationTargetException | IllegalAccessException e) {
-          throw new RuntimeException(e);
-        }
+        return type.getTypeName();
       }
     },
     JAVA9 {
@@ -608,9 +614,11 @@ final class Types {
         return JAVA8.usedInGenericType(type);
       }
 
+      @IgnoreJRERequirement
+      @SuppressWarnings("AndroidJdkLibsChecker") // as discussed under JAVA8.typeName
       @Override
       String typeName(Type type) {
-        return JAVA8.typeName(type);
+        return type.getTypeName();
       }
 
       @Override
@@ -622,6 +630,7 @@ final class Types {
     static final JavaVersion CURRENT;
 
     static {
+      // Under Android, TypeVariable does not implement AnnotatedElement even under recent versions.
       if (AnnotatedElement.class.isAssignableFrom(TypeVariable.class)) {
         if (new TypeCapture<Entry<String, int[][]>>() {}.capture()
             .toString()

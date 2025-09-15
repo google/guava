@@ -229,7 +229,7 @@ public abstract class ByteSource {
   }
 
   /** Counts the bytes in the given input stream using skip if possible. */
-  private long countBySkipping(InputStream in) throws IOException {
+  private static long countBySkipping(InputStream in) throws IOException {
     long count = 0;
     long skipped;
     while ((skipped = skipUpTo(in, Integer.MAX_VALUE)) > 0) {

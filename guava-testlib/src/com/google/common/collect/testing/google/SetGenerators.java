@@ -412,7 +412,7 @@ public class SetGenerators {
 
   private abstract static class AbstractContiguousSetGenerator
       extends TestIntegerSortedSetGenerator {
-    final ContiguousSet<Integer> checkedCreate(SortedSet<Integer> elementsSet) {
+    static final ContiguousSet<Integer> checkedCreate(SortedSet<Integer> elementsSet) {
       List<Integer> elements = new ArrayList<>(elementsSet);
       /*
        * A ContiguousSet can't have holes. If a test demands a hole, it should be changed so that it

@@ -18,7 +18,6 @@ package com.google.common.base;
 import com.google.common.annotations.GwtCompatible;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 import org.jspecify.annotations.Nullable;
 
@@ -29,7 +28,6 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 final class Platform {
-  private static final Logger logger = Logger.getLogger(Platform.class.getName());
   private static final PatternCompiler patternCompiler = loadPatternCompiler();
 
   private Platform() {}

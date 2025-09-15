@@ -24,7 +24,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
 import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.math.DoubleMath;
-import com.google.common.math.LongMath;
 import com.google.common.primitives.SignedBytes;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -639,7 +638,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       @SuppressWarnings("EnumOrdinal")
       Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];
 
-      LockFreeBitArray dataArray = new LockFreeBitArray(LongMath.checkedMultiply(dataLength, 64L));
+      LockFreeBitArray dataArray = new LockFreeBitArray(Math.multiplyExact(dataLength, 64L));
       for (int i = 0; i < dataLength; i++) {
         dataArray.putData(i, din.readLong());
       }

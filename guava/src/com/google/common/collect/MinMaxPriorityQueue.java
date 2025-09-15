@@ -29,7 +29,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
 import com.google.j2objc.annotations.WeakOuter;
@@ -968,7 +967,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
   private int calculateNewCapacity() {
     int oldCapacity = queue.length;
     int newCapacity =
-        (oldCapacity < 64) ? (oldCapacity + 1) * 2 : IntMath.checkedMultiply(oldCapacity / 2, 3);
+        (oldCapacity < 64) ? (oldCapacity + 1) * 2 : Math.multiplyExact(oldCapacity / 2, 3);
     return capAtMaximumSize(newCapacity, maximumSize);
   }
 

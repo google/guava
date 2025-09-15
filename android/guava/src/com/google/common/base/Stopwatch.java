@@ -86,7 +86,7 @@ import java.util.concurrent.TimeUnit;
  * Stopwatch.createStarted(
  *      new Ticker() {
  *        public long read() {
- *          return android.os.SystemClock.elapsedRealtimeNanos(); // requires API Level 17
+ *          return android.os.SystemClock.elapsedRealtimeNanos();
  *        }
  *      });
  * }

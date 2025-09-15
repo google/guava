@@ -226,7 +226,7 @@ public class UnsignedBytesTest extends TestCase {
        *
        * A note on exception types:
        *
-       * Android API level 10 throws ExceptionInInitializerError the first time and
+       * Android API level 23 throws ExceptionInInitializerError the first time and
        * ClassNotFoundException thereafter.
        *
        * Android API level 26 and JVM8 both let our Error propagate directly the first time and

@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Lists.newArrayListWithCapacity;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -459,11 +460,11 @@ public class CycleDetectingLockFactory {
    */
   // This is logically a Set, but an ArrayList is used to minimize the amount
   // of allocation done on lock()/unlock().
-  private static final ThreadLocal<ArrayList<LockGraphNode>> acquiredLocks =
-      new ThreadLocal<ArrayList<LockGraphNode>>() {
+  private static final ThreadLocal<List<LockGraphNode>> acquiredLocks =
+      new ThreadLocal<List<LockGraphNode>>() {
         @Override
-        protected ArrayList<LockGraphNode> initialValue() {
-          return Lists.<LockGraphNode>newArrayListWithCapacity(3);
+        protected List<LockGraphNode> initialValue() {
+          return newArrayListWithCapacity(3);
         }
       };
 
@@ -713,7 +714,7 @@ public class CycleDetectingLockFactory {
   private void aboutToAcquire(CycleDetectingLock lock) {
     if (!lock.isAcquiredByCurrentThread()) {
       // requireNonNull accommodates Android's @RecentlyNullable annotation on ThreadLocal.get
-      ArrayList<LockGraphNode> acquiredLockList = requireNonNull(acquiredLocks.get());
+      List<LockGraphNode> acquiredLockList = requireNonNull(acquiredLocks.get());
       LockGraphNode node = lock.getLockGraphNode();
       node.checkAcquiredLocks(policy, acquiredLockList);
       acquiredLockList.add(node);
@@ -728,7 +729,7 @@ public class CycleDetectingLockFactory {
   private static void lockStateChanged(CycleDetectingLock lock) {
     if (!lock.isAcquiredByCurrentThread()) {
       // requireNonNull accommodates Android's @RecentlyNullable annotation on ThreadLocal.get
-      ArrayList<LockGraphNode> acquiredLockList = requireNonNull(acquiredLocks.get());
+      List<LockGraphNode> acquiredLockList = requireNonNull(acquiredLocks.get());
       LockGraphNode node = lock.getLockGraphNode();
       // Iterate in reverse because locks are usually locked/unlocked in a
       // LIFO order.
