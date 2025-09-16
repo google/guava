@@ -54,6 +54,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -1335,5 +1336,15 @@ public class IterablesTest extends TestCase {
     Iterable<Integer> mergedIterator = mergeSorted(iterables, Ordering.natural());
 
     assertEquals(Lists.newLinkedList(expected), Lists.newLinkedList(mergedIterator));
+  }
+
+  public void testMergeSorted_stable_allEqual() {
+    ImmutableList<Integer> first = ImmutableList.of(0, 2, 4, 6, 8);
+    ImmutableList<Integer> second = ImmutableList.of(1, 3, 5, 7, 9);
+
+    Comparator<Object> comparator = Ordering.allEqual();
+    Iterable<Integer> merged = Iterables.mergeSorted(ImmutableList.of(first, second), comparator);
+
+    assertThat(merged).containsExactly(0, 2, 4, 6, 8, 1, 3, 5, 7, 9).inOrder();
   }
 }
