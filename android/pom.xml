@@ -52,17 +52,6 @@
     <system>GitHub Actions</system>
     <url>https://github.com/google/guava/actions</url>
   </ciManagement>
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-    </snapshotRepository>
-    <site>
-      <id>guava-site</id>
-      <name>Guava Documentation Site</name>
-      <url>scp://dummy.server/dontinstall/usestaging</url>
-    </site>
-  </distributionManagement>
   <properties>
     <!--
     When building Guava, you can pass (e.g.) `-Dsurefire.toolchain.version=21` to change which version to run tests under.
@@ -163,6 +152,12 @@
             </configuration>
           </execution>
         </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>0.8.0</version>
+        <extensions>true</extensions>
       </plugin>
     </plugins>
     <pluginManagement>
@@ -482,12 +477,6 @@
                 </goals>
               </execution>
             </executions>
-          </plugin>
-          <plugin>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.8.0</version>
-            <extensions>true</extensions>
           </plugin>
         </plugins>
       </build>

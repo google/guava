@@ -83,10 +83,10 @@ jobs:
           # The publish-snapshot workflow doesn't run tests, so we don't have to care which version Maven would select for that step.
           java-version: 24
           distribution: 'temurin'
-          server-id: sonatype-nexus-snapshots
+          cache: 'maven'
+          server-id: central
           server-username: CI_DEPLOY_USERNAME
           server-password: CI_DEPLOY_PASSWORD
-          cache: 'maven'
       - name: 'Publish'
         env:
           CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
