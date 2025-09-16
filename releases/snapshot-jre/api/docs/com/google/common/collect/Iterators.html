@@ -1313,8 +1313,9 @@ String a3 = peekingIterator.next(); // also returns "a"
  <p>Callers must ensure that the source <code>iterators</code> are in non-descending order as this
  method does not sort its input.
 
- <p>For any equivalent elements across all <code>iterators</code>, it is undefined which element is
- returned first.</div>
+ <p>For any equivalent elements across all <code>iterators</code>, elements are returned in the order
+ of their source iterators. That is, if element A from iterator 1 and element B from iterator 2
+ compare as equal, A will be returned before B if iterator 1 was passed before iterator 2.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>11.0</dd>

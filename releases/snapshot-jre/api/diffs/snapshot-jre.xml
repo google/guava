@@ -26725,8 +26725,9 @@
  <p>Callers must ensure that the source {@code iterators} are in non-descending order as this
  method does not sort its input.
 
- <p>For any equivalent elements across all {@code iterators}, it is undefined which element is
- returned first.
+ <p>For any equivalent elements across all {@code iterators}, elements are returned in the order
+ of their source iterators. That is, if element A from iterator 1 and element B from iterator 2
+ compare as equal, A will be returned before B if iterator 1 was passed before iterator 2.
 
  @since 11.0]]>
       </doc>
