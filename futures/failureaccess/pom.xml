@@ -96,7 +96,7 @@
         <extensions>true</extensions>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.8</version>
+        <version>6.0.0</version>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -137,7 +137,7 @@
           <plugins>
             <plugin>
               <artifactId>maven-gpg-plugin</artifactId>
-              <version>3.0.1</version>
+              <version>3.2.8</version>
               <executions>
                 <execution>
                   <id>sign-artifacts</id>
