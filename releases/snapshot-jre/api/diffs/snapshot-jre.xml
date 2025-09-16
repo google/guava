@@ -50749,7 +50749,7 @@
  hash code) into a well-distributed nonnegative number, the most even distribution is achieved
  not by this method or other absolute value methods, but by {@code x & Integer.MAX_VALUE}.
 
- @since NEXT]]>
+ @since 33.5.0]]>
       </doc>
     </method>
     <doc>
@@ -51336,7 +51336,7 @@
  into a well-distributed nonnegative number, the most even distribution is achieved not by this
  method or other absolute value methods, but by {@code x & Long.MAX_VALUE}.
 
- @since NEXT]]>
+ @since 33.5.0]]>
       </doc>
     </method>
     <doc>
@@ -56326,7 +56326,7 @@
       <doc>
       <![CDATA[<a href="https://en.wikipedia.org/wiki/AVIF">AVIF image format</a>.
 
- @since NEXT]]>
+ @since 33.5.0]]>
       </doc>
     </field>
     <field name="WEBP" type="com.google.common.net.MediaType"
@@ -74940,7 +74940,7 @@
  @param stripes the minimum number of stripes (locks) required
  @param supplier a {@code Supplier<L>} object to obtain locks from
  @return a new {@code Striped<L>}
- @since NEXT]]>
+ @since 33.5.0]]>
       </doc>
     </method>
     <method name="lock" return="com.google.common.util.concurrent.Striped&lt;java.util.concurrent.locks.Lock&gt;"
