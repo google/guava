@@ -192,7 +192,7 @@ public abstract class Striped<L> {
    * @param stripes the minimum number of stripes (locks) required
    * @param supplier a {@code Supplier<L>} object to obtain locks from
    * @return a new {@code Striped<L>}
-   * @since NEXT
+   * @since 33.5.0
    */
   public static <L> Striped<L> custom(int stripes, Supplier<L> supplier) {
     return new CompactStriped<>(stripes, supplier);

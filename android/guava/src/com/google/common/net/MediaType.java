@@ -256,7 +256,7 @@ public final class MediaType {
   /**
    * <a href="https://en.wikipedia.org/wiki/AVIF">AVIF image format</a>.
    *
-   * @since NEXT
+   * @since 33.5.0
    */
   public static final MediaType AVIF = createConstant(IMAGE_TYPE, "avif");
 
