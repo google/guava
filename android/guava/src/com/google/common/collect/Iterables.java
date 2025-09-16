@@ -1061,8 +1061,9 @@ public final class Iterables {
    * <p>Callers must ensure that the source {@code iterables} are in non-descending order as this
    * method does not sort its input.
    *
-   * <p>For any equivalent elements across all {@code iterables}, it is undefined which element is
-   * returned first.
+   * <p>For any equivalent elements across all {@code iterables}, elements are returned in the order
+   * of their source iterables. That is, if element A from iterable 1 and element B from iterable 2
+   * compare as equal, A will be returned before B if iterable 1 was passed before iterable 2.
    *
    * @since 11.0
    */
