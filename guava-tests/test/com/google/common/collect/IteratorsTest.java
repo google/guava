@@ -1568,7 +1568,8 @@ public class IteratorsTest extends TestCase {
             new TestDatum("A", 2),
             new TestDatum("B", 1),
             new TestDatum("C", 1),
-            new TestDatum("C", 2));
+            new TestDatum("C", 2))
+        .inOrder();
   }
 
   public void testMergeSorted_stable_allEqual() {
@@ -1587,7 +1588,8 @@ public class IteratorsTest extends TestCase {
             new TestDatum("A", 1),
             new TestDatum("A", 2),
             new TestDatum("A", 3),
-            new TestDatum("A", 4));
+            new TestDatum("A", 4))
+        .inOrder();
   }
 
   private static final class TestDatum {

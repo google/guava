@@ -1294,8 +1294,9 @@ public final class Iterators {
    * <p>Callers must ensure that the source {@code iterators} are in non-descending order as this
    * method does not sort its input.
    *
-   * <p>For any equivalent elements across all {@code iterators}, it is undefined which element is
-   * returned first.
+   * <p>For any equivalent elements across all {@code iterators}, elements are returned in the order
+   * of their source iterators. That is, if element A from iterator 1 and element B from iterator 2
+   * compare as equal, A will be returned before B if iterator 1 was passed before iterator 2.
    *
    * @since 11.0
    */
@@ -1318,21 +1319,38 @@ public final class Iterators {
    */
   private static final class MergingIterator<T extends @Nullable Object>
       extends UnmodifiableIterator<T> {
-    final Queue<PeekingIterator<T>> queue;
+
+    // Wrapper class to track insertion order for stable sorting
+    private static class IndexedIterator<E extends @Nullable Object> {
+      final PeekingIterator<E> iterator;
+      final int index;
+
+      IndexedIterator(PeekingIterator<E> iterator, int index) {
+        this.iterator = iterator;
+        this.index = index;
+      }
+    }
+
+    final Queue<IndexedIterator<T>> queue;
 
     MergingIterator(
         Iterable<? extends Iterator<? extends T>> iterators, Comparator<? super T> itemComparator) {
       // A comparator that's used by the heap, allowing the heap
-      // to be sorted based on the top of each iterator.
-      Comparator<PeekingIterator<T>> heapComparator =
-          (PeekingIterator<T> o1, PeekingIterator<T> o2) ->
-              itemComparator.compare(o1.peek(), o2.peek());
+      // to be sorted based on the top of each iterator, with insertion order as tiebreaker
+      Comparator<IndexedIterator<T>> heapComparator =
+          (o1, o2) ->
+              ComparisonChain.start()
+                  .compare(o1.iterator.peek(), o2.iterator.peek(), itemComparator)
+                  // When elements are equal, use insertion order to maintain stability
+                  .compare(o1.index, o2.index)
+                  .result();
 
       queue = new PriorityQueue<>(2, heapComparator);
 
+      int index = 0;
       for (Iterator<? extends T> iterator : iterators) {
         if (iterator.hasNext()) {
-          queue.add(Iterators.peekingIterator(iterator));
+          queue.add(new IndexedIterator<>(peekingIterator(iterator), index++));
         }
       }
     }
@@ -1345,10 +1363,11 @@ public final class Iterators {
     @Override
     @ParametricNullness
     public T next() {
-      PeekingIterator<T> nextIter = queue.remove();
+      IndexedIterator<T> nextIndexed = queue.remove();
+      PeekingIterator<T> nextIter = nextIndexed.iterator;
       T next = nextIter.next();
       if (nextIter.hasNext()) {
-        queue.add(nextIter);
+        queue.add(nextIndexed);
       }
       return next;
     }
