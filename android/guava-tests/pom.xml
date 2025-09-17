@@ -97,9 +97,20 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
-        <configuration>
-          <skipPublishing>true</skipPublishing>
-        </configuration>
+        <!--
+        We set `phase` to `none` instead of setting `skipPublishing` to `true`.
+        We do so because the plugin does all its work in the final subproject for which it will have an execution.
+        And, if the final subproject says to skip publishing, it skips *all* publishing.
+        (`guava-tests` is the final subproject for `guava-android` but not for `guava-jre`, which has `guava-gwt` after it.
+        So we could use `skipPublishing` in `guava-jre` if we wanted.)
+        See https://github.com/google/gson/issues/2892#issuecomment-3272499409
+        -->
+        <executions>
+          <execution>
+            <id>injected-central-publishing</id>
+            <phase>none</phase>
+          </execution>
+        </executions>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
