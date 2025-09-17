@@ -20,17 +20,11 @@
     </license>
   </licenses>
   <developers>
+    <!-- Sonatype requires that we list someone here. Guava has many contributors: https://github.com/google/guava/graphs/contributors -->
     <developer>
-      <id>kevinb9n</id>
-      <name>Kevin Bourrillion</name>
-      <email>kevinb@google.com</email>
-      <organization>Google</organization>
-      <organizationUrl>http://www.google.com</organizationUrl>
-      <roles>
-        <role>owner</role>
-        <role>developer</role>
-      </roles>
-      <timezone>-8</timezone>
+      <id>cpovirk</id>
+      <name>Chris Povirk</name>
+      <email>cpovirk@google.com</email>
     </developer>
   </developers>
   <modules>

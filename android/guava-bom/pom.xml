@@ -24,6 +24,21 @@
     </license>
   </licenses>
 
+  <developers>
+    <!-- Sonatype requires that we list someone here. Guava has many contributors: https://github.com/google/guava/graphs/contributors -->
+    <developer>
+      <id>cpovirk</id>
+      <name>Chris Povirk</name>
+      <email>cpovirk@google.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/google/guava.git</connection>
+    <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
+    <url>https://github.com/google/guava</url>
+  </scm>
+
   <issueManagement>
     <system>GitHub Issues</system>
     <url>https://github.com/google/guava/issues</url>
@@ -54,4 +69,27 @@
       </plugin>
     </plugins>
   </build>
+
+  <profiles>
+    <profile>
+      <id>sonatype-oss-release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>3.0.1</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
