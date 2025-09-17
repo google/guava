@@ -8,7 +8,7 @@
 
   <groupId>com.google.guava</groupId>
   <artifactId>guava-bom</artifactId>
-  <version>999.0.0-HEAD-jre-SNAPSHOT</version>
+  <version>33.5.0-jre</version>
   <packaging>pom</packaging>
 
   <name>Guava BOM</name>
