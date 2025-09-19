@@ -14,14 +14,14 @@
 
 package com.google.common.base;
 
-import static com.google.common.base.NullnessCasts.uncheckedCastNullableTToT;
-import static com.google.common.base.Preconditions.checkState;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.jspecify.annotations.Nullable;
+
 import java.util.Iterator;
 import java.util.NoSuchElementException;
-import org.jspecify.annotations.Nullable;
+
+import static com.google.common.base.Preconditions.checkState;
 
 /**
  * Note this class is a copy of {@link com.google.common.collect.AbstractIterator} (for dependency
@@ -29,65 +29,73 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 abstract class AbstractIterator<T extends @Nullable Object> implements Iterator<T> {
-  private State state = State.NOT_READY;
+    private State state = State.NOT_READY;
+    private @Nullable T next;
 
-  protected AbstractIterator() {}
+    protected AbstractIterator() {
+    }
 
-  private enum State {
-    READY,
-    NOT_READY,
-    DONE,
-    FAILED,
-  }
+    protected abstract @Nullable T computeNext();
 
-  private @Nullable T next;
+    @CanIgnoreReturnValue
+    protected final @Nullable T endOfData() {
+        state = State.DONE;
+        return null;
+    }
 
-  protected abstract @Nullable T computeNext();
+    @Override
+    public final boolean hasNext() {
+        checkState(state != State.FAILED);
+        switch (state) {
+            case DONE:
+                return false;
+            case READY:
+                return true;
+            default:
+                return tryToComputeNext();
+        }
+    }
 
-  @CanIgnoreReturnValue
-  protected final @Nullable T endOfData() {
-    state = State.DONE;
-    return null;
-  }
+    private boolean tryToComputeNext() {
+        state = State.FAILED;
+        next = computeNext();
 
-  @Override
-  public final boolean hasNext() {
-    checkState(state != State.FAILED);
-    switch (state) {
-      case DONE:
-        return false;
-      case READY:
+        if (state == State.DONE) {
+            // endOfData() was called during computeNext()
+            return false;
+        }
+
+        if (next == null) {
+            // computeNext() returned null but didn't call endOfData()
+            // This is either an error or should be treated as terminal state
+            state = State.DONE;
+            return false;
+        }
+
+        state = State.READY;
         return true;
-      default:
     }
-    return tryToComputeNext();
-  }
 
-  private boolean tryToComputeNext() {
-    state = State.FAILED; // temporary pessimism
-    next = computeNext();
-    if (state != State.DONE) {
-      state = State.READY;
-      return true;
+    @Override
+    @ParametricNullness
+    public final T next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
+        state = State.NOT_READY;
+        @SuppressWarnings("nullness") // hasNext() ensures next is non-null
+        T result = next;
+        next = null;
+        return result;
     }
-    return false;
-  }
 
-  @Override
-  @ParametricNullness
-  public final T next() {
-    if (!hasNext()) {
-      throw new NoSuchElementException();
+    @Override
+    public final void remove() {
+        throw new UnsupportedOperationException();
     }
-    state = State.NOT_READY;
-    // Safe because hasNext() ensures that tryToComputeNext() has put a T into `next`.
-    T result = uncheckedCastNullableTToT(next);
-    next = null;
-    return result;
-  }
 
-  @Override
-  public final void remove() {
-    throw new UnsupportedOperationException();
-  }
+
+    private enum State {
+        READY, NOT_READY, DONE, FAILED
+    }
 }
