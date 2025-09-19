@@ -700,9 +700,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * {@code valueFunction} will be applied to more than one instance of that key and, if it is,
    * which result will be mapped to that key in the returned map.
    *
-   * <p><b>{@code Stream} equivalent:</b> use {@code stream.collect(ImmutableMap.toImmutableMap(k ->
-   * k, valueFunction))}. {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k,
-   * valueFunction)))} behaves similarly, but may not preserve the order of entries.
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.collect(ImmutableMap.toImmutableMap(k -> k,
+   * valueFunction))}.
    *
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
    *     valueFunction} produces {@code null} for any key
@@ -722,9 +721,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * In the returned multimap, keys appear in the order they are first encountered, and the values
    * corresponding to each key appear in the same order as they are encountered.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code stream.collect(Collectors.groupingBy(keyFunction))}
-   * behaves similarly, but returns a mutable {@code Map<K, List<E>>} instead, and may not preserve
-   * the order of entries.
+   * <p><b>{@code Stream} equivalent:</b> {@code
+   * stream.collect(ImmutableListMultimap.toImmutableListMultimap(keyFunction, v -> v))}.
    *
    * @param keyFunction the function used to produce the key for each value
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
@@ -754,10 +752,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * <p>If your index may associate multiple values with each key, use {@link #index(Function)
    * index}.
    *
-   * <p><b>{@code Stream} equivalent:</b> use {@code
-   * stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}. {@code
-   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))}, but be aware that
-   * this may not preserve the order of entries.
+   * <p><b>{@code Stream} equivalent:</b> {@code
+   * stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}.
    *
    * @param keyFunction the function used to produce the key for each value
    * @return a map mapping the result of evaluating the function {@code keyFunction} on each value
