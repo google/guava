@@ -172,8 +172,9 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
        noted in the method descriptions below.
    <li>Streams include primitive-specialized variants such as <code>IntStream</code>, the use of which
        is strongly recommended.
-   <li>Streams are standard Java, not requiring a third-party dependency (but do render your code
-       incompatible with Java 7 and earlier).
+   <li>Streams are standard Java, not requiring a third-party dependency (but requiring <a href="https://developer.android.com/studio/write/java8-support#library-desugaring">library
+       desugaring</a> or <a href="https://developer.android.com/reference/java/util/stream/Stream">API Level 24</a>
+       under Android).
  </ul>
 
  <h3 id="example-heading">Example</h3>
@@ -520,7 +521,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="block">Returns a fluent iterable that wraps <code>iterable</code>, or <code>iterable</code> itself if it is
  already a <code>FluentIterable</code>.
 
- <p><b><code>Stream</code> equivalent:</b> <code>iterable.stream()</code> if <code>iterable</code> is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a>; <code>StreamSupport.stream(iterable.spliterator(), false)</code> otherwise.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html#stream()" title="class or interface in java.util" class="external-link"><code>Collection.stream()</code></a> if <code>iterable</code> is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a>; <a href="Streams.html#stream(java.lang.Iterable)"><code>Streams.stream(Iterable)</code></a> otherwise.</div>
 </div>
 </section>
 </li>
@@ -690,7 +691,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</span>&nbsp;<span class="element-name">of</span>()</div>
 <div class="block">Returns a fluent iterable containing no elements.
 
- <p><b><code>Stream</code> equivalent:</b> <code>Stream.empty()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#empty()" title="class or interface in java.util.stream" class="external-link"><code>Stream.empty()</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>
@@ -739,7 +740,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">size</span>()</div>
 <div class="block">Returns the number of elements in this fluent iterable.
 
- <p><b><code>Stream</code> equivalent:</b> <code>stream.count()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#count()" title="class or interface in java.util.stream" class="external-link"><code>Stream.count()</code></a>.</div>
 </div>
 </section>
 </li>
@@ -1022,8 +1023,8 @@ ImmutableList&lt;NewType&gt; result =
 <div class="block">Returns an <code>ImmutableList</code> containing all of the elements from this fluent iterable in
  proper sequence.
 
- <p><b><code>Stream</code> equivalent:</b> <code>ImmutableList.copyOf(stream.iterator())</code>, or pass
- <a href="ImmutableList.html#toImmutableList()"><code>ImmutableList.toImmutableList()</code></a> to <code>stream.collect()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> pass <a href="ImmutableList.html#toImmutableList()"><code>ImmutableList.toImmutableList()</code></a> to <code>
+ stream.collect()</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element is <code>null</code></dd>
@@ -1042,8 +1043,8 @@ ImmutableList&lt;NewType&gt; result =
  FluentIterable</code> in the order specified by <code>comparator</code>. To produce an <code>
  ImmutableList</code> sorted by its natural ordering, use <code>toSortedList(Ordering.natural())</code>.
 
- <p><b><code>Stream</code> equivalent:</b> <code>
- ImmutableList.copyOf(stream.sorted(comparator).iterator())</code>, or pass <a href="ImmutableList.html#toImmutableList()"><code>ImmutableList.toImmutableList()</code></a> to <code>stream.sorted(comparator).collect()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> pass <a href="ImmutableList.html#toImmutableList()"><code>ImmutableList.toImmutableList()</code></a> to <code>
+ stream.sorted(comparator).collect()</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>comparator</code> - the function by which to sort list elements</dd>
@@ -1063,8 +1064,8 @@ ImmutableList&lt;NewType&gt; result =
 <div class="block">Returns an <code>ImmutableSet</code> containing all of the elements from this fluent iterable with
  duplicates removed.
 
- <p><b><code>Stream</code> equivalent:</b> <code>ImmutableSet.copyOf(stream.iterator())</code>, or pass
- <a href="ImmutableSet.html#toImmutableSet()"><code>ImmutableSet.toImmutableSet()</code></a> to <code>stream.collect()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> pass <a href="ImmutableSet.html#toImmutableSet()"><code>ImmutableSet.toImmutableSet()</code></a> to <code>
+ stream.collect()</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element is <code>null</code></dd>
@@ -1084,9 +1085,8 @@ ImmutableList&lt;NewType&gt; result =
  <code>comparator.compare(x, y) == 0</code>) removed. To produce an <code>ImmutableSortedSet</code> sorted
  by its natural ordering, use <code>toSortedSet(Ordering.natural())</code>.
 
- <p><b><code>Stream</code> equivalent:</b> <code>ImmutableSortedSet.copyOf(comparator,
- stream.iterator())</code>, or pass <a href="ImmutableSortedSet.html#toImmutableSortedSet(java.util.Comparator)"><code>ImmutableSortedSet.toImmutableSortedSet(java.util.Comparator&lt;? super E&gt;)</code></a> to <code>
- stream.collect()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> pass <a href="ImmutableSortedSet.html#toImmutableSortedSet(java.util.Comparator)"><code>ImmutableSortedSet.toImmutableSortedSet(java.util.Comparator&lt;? super E&gt;)</code></a> to
+ <code>stream.collect()</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>comparator</code> - the function by which to sort set elements</dd>
@@ -1105,8 +1105,8 @@ ImmutableList&lt;NewType&gt; result =
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</span>&nbsp;<span class="element-name">toMultiset</span>()</div>
 <div class="block">Returns an <code>ImmutableMultiset</code> containing all of the elements from this fluent iterable.
 
- <p><b><code>Stream</code> equivalent:</b> <code>ImmutableMultiset.copyOf(stream.iterator())</code>, or
- pass <a href="ImmutableMultiset.html#toImmutableMultiset()"><code>ImmutableMultiset.toImmutableMultiset()</code></a> to <code>stream.collect()</code>.</div>
+ <p><b><code>Stream</code> equivalent:</b> pass <a href="ImmutableMultiset.html#toImmutableMultiset()"><code>ImmutableMultiset.toImmutableMultiset()</code></a> to
+ <code>stream.collect()</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element is null</dd>
@@ -1129,9 +1129,8 @@ ImmutableList&lt;NewType&gt; result =
  <code>valueFunction</code> will be applied to more than one instance of that key and, if it is,
  which result will be mapped to that key in the returned map.
 
- <p><b><code>Stream</code> equivalent:</b> use <code>stream.collect(ImmutableMap.toImmutableMap(k -&gt;
- k, valueFunction))</code>. <code>ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -&gt; k,
- valueFunction)))</code> behaves similarly, but may not preserve the order of entries.</div>
+ <p><b><code>Stream</code> equivalent:</b> <code>stream.collect(ImmutableMap.toImmutableMap(k -&gt; k,
+ valueFunction))</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
@@ -1156,9 +1155,8 @@ ImmutableList&lt;NewType&gt; result =
  In the returned multimap, keys appear in the order they are first encountered, and the values
  corresponding to each key appear in the same order as they are encountered.
 
- <p><b><code>Stream</code> equivalent:</b> <code>stream.collect(Collectors.groupingBy(keyFunction))</code>
- behaves similarly, but returns a mutable <code>Map&lt;K, List&lt;E&gt;&gt;</code> instead, and may not preserve
- the order of entries.</div>
+ <p><b><code>Stream</code> equivalent:</b> <code>
+ stream.collect(ImmutableListMultimap.toImmutableListMultimap(keyFunction, v -&gt; v))</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>keyFunction</code> - the function used to produce the key for each value</dd>
@@ -1195,10 +1193,8 @@ assertThat(colorForName).containsEntry("red", red);
 
  <p>If your index may associate multiple values with each key, use <a href="#index(com.google.common.base.Function)"><code>index</code></a>.
 
- <p><b><code>Stream</code> equivalent:</b> use <code>
- stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -&gt; v))</code>. <code>
- ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -&gt; v)))</code>, but be aware that
- this may not preserve the order of entries.</div>
+ <p><b><code>Stream</code> equivalent:</b> <code>
+ stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -&gt; v))</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>keyFunction</code> - the function used to produce the key for each value</dd>

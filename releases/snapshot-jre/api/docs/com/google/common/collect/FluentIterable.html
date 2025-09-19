@@ -1158,9 +1158,8 @@ ImmutableList&lt;NewType&gt; result =
  In the returned multimap, keys appear in the order they are first encountered, and the values
  corresponding to each key appear in the same order as they are encountered.
 
- <p><b><code>Stream</code> equivalent:</b> <code>stream.collect(Collectors.groupingBy(keyFunction))</code>
- behaves similarly, but returns a mutable <code>Map&lt;K, List&lt;E&gt;&gt;</code> instead, and may not preserve
- the order of entries.</div>
+ <p><b><code>Stream</code> equivalent:</b> <code>
+ stream.collect(ImmutableListMultimap.toImmutableListMultimap(keyFunction, v -&gt; v))</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>keyFunction</code> - the function used to produce the key for each value</dd>
