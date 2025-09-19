@@ -140,3 +140,21 @@ class by appending the class name to guava.dev. For example,
 [using Guava in your build]: https://github.com/google/guava/wiki/UseGuavaInYourBuild
 [repackage]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-if-i-want-to-use-beta-apis-from-a-library-that-people-use-as-a-dependency
 [guava-deps]: https://github.com/google/guava/wiki/UseGuavaInYourBuild#what-about-guavas-own-dependencies
+
+## Using Error Prone with IntelliJ IDEA
+
+If you're using IntelliJ IDEA and want to enable [Error Prone](https://errorprone.info), follow these steps:
+
+1. Open IntelliJ IDEA and go to **Settings > Compiler > Java Compiler**.
+2. Under **Additional command line parameters**, add:
+
+    ```
+    -Xplugin:ErrorProne
+    ```
+
+3. Download the [Error Prone compiler jar](https://errorprone.info/docs/installation#intellij-idea) and attach it in your project settings:
+   - Go to **Settings > Build, Execution, Deployment > Compiler > Java Compiler**
+   - Under "Use compiler," select **Javac with custom path**
+   - Provide the path to the downloaded `error_prone_core-xxx.jar`
+
+> 🔧 Note: If you don't configure Error Prone correctly, you may face errors like:
