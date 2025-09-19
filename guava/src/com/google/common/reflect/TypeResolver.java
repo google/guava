@@ -368,10 +368,12 @@ public final class TypeResolver {
          * by us. And that equality is guaranteed to hold because it doesn't involve the JDK
          * TypeVariable implementation at all.
          *
-         * TODO: b/147144588 - But what about when the TypeVariable has annotations? Our
-         * implementation currently doesn't support annotations _at all_. It could at least be made
-         * to respond to queries about annotations by returning null/empty, but are there situations
-         * in which it should return something else?
+         * NOTE: b/147144588 - Custom TypeVariables created by Guava do not preserve annotations.
+         * This is intentional. The semantics of annotation handling during type resolution are
+         * unclear and have changed across Java versions. Until there's a clear specification for
+         * what annotations should mean on resolved TypeVariables with modified bounds, annotation
+         * methods will throw UnsupportedOperationException. Frameworks requiring annotation
+         * preservation should use the original TypeVariable when bounds haven't changed.
          */
         if (Types.NativeTypeVariableEquals.NATIVE_TYPE_VARIABLE_ONLY
             && Arrays.equals(bounds, resolvedBounds)) {
