@@ -240,25 +240,20 @@ public final class FileBackedOutputStream extends OutputStream {
       }
       // Create and populate the file, ensuring proper resource management
       FileOutputStream transfer = null;
-      boolean success = false;
       try {
         transfer = new FileOutputStream(temp);
-        try {
-          transfer.write(memory.getBuffer(), 0, memory.getCount());
-          transfer.flush();
-          // We've successfully transferred the data; switch to writing to file
-          out = transfer;
-          success = true;
-        } finally {
-          if (!success && transfer != null) {
-            try {
-              transfer.close();
-            } catch (IOException ignored) {
-              // Ignore exception on close during failure path
-            }
+        transfer.write(memory.getBuffer(), 0, memory.getCount());
+        transfer.flush();
+        // We've successfully transferred the data; switch to writing to file
+        out = transfer;
+      } catch (IOException e) {
+        if (transfer != null) {
+          try {
+            transfer.close();
+          } catch (IOException closeException) {
+            e.addSuppressed(closeException);
           }
         }
-      } catch (IOException e) {
         temp.delete();
         throw e;
       }
