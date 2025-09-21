@@ -98,11 +98,6 @@
           "group": "org.hudsonci.lib.guava",
           "name": "guava",
           "version": "${pom.version}"
-        },
-        {
-          "group": "org.apache.servicemix.bundles",
-          "name": "org.apache.servicemix.bundles.guava",
-          "version": "${pom.version}"
         }
       ]
     },
@@ -188,11 +183,6 @@
         {
           "group": "org.hudsonci.lib.guava",
           "name": "guava",
-          "version": "${pom.version}"
-        },
-        {
-          "group": "org.apache.servicemix.bundles",
-          "name": "org.apache.servicemix.bundles.guava",
           "version": "${pom.version}"
         }
       ]
@@ -280,11 +270,6 @@
           "group": "org.hudsonci.lib.guava",
           "name": "guava",
           "version": "${pom.version}"
-        },
-        {
-          "group": "org.apache.servicemix.bundles",
-          "name": "org.apache.servicemix.bundles.guava",
-          "version": "${pom.version}"
         }
       ]
     },
@@ -370,11 +355,6 @@
         {
           "group": "org.hudsonci.lib.guava",
           "name": "guava",
-          "version": "${pom.version}"
-        },
-        {
-          "group": "org.apache.servicemix.bundles",
-          "name": "org.apache.servicemix.bundles.guava",
           "version": "${pom.version}"
         }
       ]
