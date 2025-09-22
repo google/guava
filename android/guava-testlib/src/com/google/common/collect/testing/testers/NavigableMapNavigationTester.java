@@ -63,7 +63,7 @@ public class NavigableMapNavigationTester<K, V> extends AbstractMapTester<K, V> 
         copyToList(
             getSubjectGenerator()
                 .getSampleElements(getSubjectGenerator().getCollectionSize().getNumElements()));
-    sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
+    sort(entries, Helpers.entryComparator(navigableMap.comparator()));
 
     // some tests assume SEVERAL == 3
     if (entries.size() >= 1) {

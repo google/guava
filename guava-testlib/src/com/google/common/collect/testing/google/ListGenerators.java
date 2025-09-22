@@ -53,7 +53,7 @@ public final class ListGenerators {
   public static class BuilderAddListGenerator extends TestStringListGenerator {
     @Override
     protected List<String> create(String[] elements) {
-      ImmutableList.Builder<String> builder = ImmutableList.<String>builder();
+      ImmutableList.Builder<String> builder = ImmutableList.builder();
       for (String element : elements) {
         builder.add(element);
       }

@@ -77,7 +77,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
   @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
-    return ImmutableList.<Class<? extends AbstractTester>>of(
+    return ImmutableList.of(
         MultimapAsMapGetTester.class,
         MultimapAsMapTester.class,
         MultimapSizeTester.class,
