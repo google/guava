@@ -70,7 +70,7 @@ public final class HashMultiset<E extends @Nullable Object> extends AbstractMapB
   }
 
   private HashMultiset(int distinctElements) {
-    super(Maps.<E, Count>newHashMapWithExpectedSize(distinctElements));
+    super(Maps.newHashMapWithExpectedSize(distinctElements));
   }
 
   /**

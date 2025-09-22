@@ -331,7 +331,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
 
     @Override
     public Comparator<? super Cut<C>> comparator() {
-      return Ordering.<Cut<C>>natural();
+      return Ordering.natural();
     }
 
     @Override
@@ -459,7 +459,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     private final Range<Cut<C>> complementLowerBoundWindow;
 
     ComplementRangesByLowerBound(NavigableMap<Cut<C>, Range<C>> positiveRangesByLowerBound) {
-      this(positiveRangesByLowerBound, Range.<Cut<C>>all());
+      this(positiveRangesByLowerBound, Range.all());
     }
 
     private ComplementRangesByLowerBound(
@@ -499,7 +499,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
 
     @Override
     public Comparator<? super Cut<C>> comparator() {
-      return Ordering.<Cut<C>>natural();
+      return Ordering.natural();
     }
 
     @Override
@@ -733,7 +733,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
 
     @Override
     public Comparator<? super Cut<C>> comparator() {
-      return Ordering.<Cut<C>>natural();
+      return Ordering.natural();
     }
 
     @Override
@@ -865,7 +865,7 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     SubRangeSet(Range<C> restriction) {
       super(
           new SubRangeSetRangesByLowerBound<C>(
-              Range.<Cut<C>>all(), restriction, TreeRangeSet.this.rangesByLowerBound));
+              Range.all(), restriction, TreeRangeSet.this.rangesByLowerBound));
       this.restriction = restriction;
     }
 

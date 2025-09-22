@@ -469,7 +469,7 @@ public final class Queues {
    * of the deque's iterators:
    *
    * {@snippet :
-   * Deque<E> deque = Queues.synchronizedDeque(Queues.<E>newArrayDeque());
+   * Deque<E> deque = Queues.synchronizedDeque(Queues.newArrayDeque());
    * ...
    * deque.add(element);  // Needn't be in synchronized block
    * ...

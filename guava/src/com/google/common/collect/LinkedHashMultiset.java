@@ -78,7 +78,7 @@ public final class LinkedHashMultiset<E extends @Nullable Object>
   }
 
   private LinkedHashMultiset(int distinctElements) {
-    super(Maps.<E, Count>newLinkedHashMapWithExpectedSize(distinctElements));
+    super(Maps.newLinkedHashMapWithExpectedSize(distinctElements));
   }
 
   /**

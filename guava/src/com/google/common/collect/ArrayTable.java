@@ -560,7 +560,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
 
   @Override
   Spliterator<Cell<R, C, @Nullable V>> cellSpliterator() {
-    return CollectSpliterators.<Cell<R, C, @Nullable V>>indexed(
+    return CollectSpliterators.indexed(
         size(), Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.DISTINCT, this::getCell);
   }
 

@@ -187,7 +187,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
     @Override
     Cut<Comparable<?>> canonical(DiscreteDomain<Comparable<?>> domain) {
       try {
-        return Cut.<Comparable<?>>belowValue(domain.minValue());
+        return Cut.belowValue(domain.minValue());
       } catch (NoSuchElementException e) {
         return this;
       }

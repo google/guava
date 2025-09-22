@@ -145,7 +145,7 @@ public final class Multisets {
     @LazyInit transient @Nullable Set<E> elementSet;
 
     Set<E> createElementSet() {
-      return Collections.<E>unmodifiableSet(delegate.elementSet());
+      return Collections.unmodifiableSet(delegate.elementSet());
     }
 
     @Override
@@ -169,7 +169,7 @@ public final class Multisets {
 
     @Override
     public Iterator<E> iterator() {
-      return Iterators.<E>unmodifiableIterator(delegate.iterator());
+      return Iterators.unmodifiableIterator(delegate.iterator());
     }
 
     @Override

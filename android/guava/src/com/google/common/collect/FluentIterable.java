@@ -317,7 +317,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    */
   @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   public static <E extends @Nullable Object> FluentIterable<E> of() {
-    return FluentIterable.from(Collections.<E>emptyList());
+    return FluentIterable.from(Collections.emptyList());
   }
 
   /**

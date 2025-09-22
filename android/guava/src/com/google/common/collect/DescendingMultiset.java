@@ -42,7 +42,8 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   public Comparator<? super E> comparator() {
     Comparator<? super E> result = comparator;
     if (result == null) {
-      return comparator = Ordering.from(forwardMultiset().comparator()).<E>reverse();
+      result = Ordering.from(forwardMultiset().comparator()).reverse();
+      comparator = result;
     }
     return result;
   }

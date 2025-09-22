@@ -116,7 +116,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
    */
   public static <E extends Comparable<E>> MinMaxPriorityQueue<E> create(
       Iterable<? extends E> initialContents) {
-    return new Builder<E>(Ordering.<E>natural()).create(initialContents);
+    return new Builder<E>(Ordering.natural()).create(initialContents);
   }
 
   /**
@@ -207,7 +207,7 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
      * initial contents.
      */
     public <T extends B> MinMaxPriorityQueue<T> create() {
-      return create(Collections.<T>emptySet());
+      return create(Collections.emptySet());
     }
 
     /**
