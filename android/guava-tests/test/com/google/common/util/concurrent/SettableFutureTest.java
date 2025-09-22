@@ -85,7 +85,7 @@ public class SettableFutureTest extends TestCase {
     // Later attempts to set the future should return false.
     assertFalse(future.set(23));
     assertFalse(future.setException(new Exception("bar")));
-    assertFalse(future.setFuture(SettableFuture.<Integer>create()));
+    assertFalse(future.setFuture(SettableFuture.create()));
     // Check that the future has been set properly.
     assertTrue(future.isDone());
     assertFalse(future.isCancelled());
@@ -114,7 +114,7 @@ public class SettableFutureTest extends TestCase {
     // Later attempts to set the future should return false.
     assertFalse(future.set("x"));
     assertFalse(future.setException(new Exception("bar")));
-    assertFalse(future.setFuture(SettableFuture.<String>create()));
+    assertFalse(future.setFuture(SettableFuture.create()));
     // Check that the future has been set properly.
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());
@@ -136,7 +136,7 @@ public class SettableFutureTest extends TestCase {
     // Later attempts to set the future should return false.
     assertFalse(future.set(new Foo()));
     assertFalse(future.setException(new Exception("bar")));
-    assertFalse(future.setFuture(SettableFuture.<Foo>create()));
+    assertFalse(future.setFuture(SettableFuture.create()));
     // Check that the future has been set properly.
     assertFalse(future.isDone());
     assertFalse(future.isCancelled());

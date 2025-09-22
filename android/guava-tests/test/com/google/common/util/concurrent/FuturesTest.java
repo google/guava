@@ -1584,7 +1584,7 @@ public class FuturesTest extends TestCase {
       throws InterruptedException, ExecutionException {
     AsyncFunction<String, Integer> function = constantAsyncFunction(immediateFuture(1));
     ListenableFuture<Integer> future =
-        transformAsync(SettableFuture.<String>create(), function, directExecutor());
+        transformAsync(SettableFuture.create(), function, directExecutor());
     assertThrows(TimeoutException.class, () -> future.get(1, MILLISECONDS));
   }
 
@@ -3609,7 +3609,7 @@ public class FuturesTest extends TestCase {
   public void testCancellingAllDelegatesIsNotQuadratic() throws Exception {
     ImmutableList.Builder<SettableFuture<Long>> builder = ImmutableList.builder();
     for (int i = 0; i < 500_000; i++) {
-      builder.add(SettableFuture.<Long>create());
+      builder.add(SettableFuture.create());
     }
     ImmutableList<SettableFuture<Long>> inputs = builder.build();
     ImmutableList<ListenableFuture<Long>> delegates = inCompletionOrder(inputs);

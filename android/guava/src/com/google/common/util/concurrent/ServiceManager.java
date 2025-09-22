@@ -216,7 +216,7 @@ public final class ServiceManager implements ServiceManagerBridge {
               "ServiceManager configured with no services.  Is your application configured"
                   + " properly?",
               new EmptyServiceManagerWarning());
-      copy = ImmutableList.<Service>of(new NoOpService());
+      copy = ImmutableList.of(new NoOpService());
     }
     this.state = new ServiceManagerState(copy);
     this.services = copy;
