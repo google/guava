@@ -1269,8 +1269,7 @@ assertThat(colorForName).containsEntry("red", red);
 
  
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-synchronizedBiMap(com.google.common.collect.BiMap)1"><code class="language-java">BiMap&lt;Long, String&gt; map = Maps.synchronizedBiMap(
-    HashBiMap.&lt;Long, String&gt;create());
+<pre class="snippet" id="snippet-synchronizedBiMap(com.google.common.collect.BiMap)1"><code class="language-java">BiMap&lt;Long, String&gt; map = Maps.synchronizedBiMap(HashBiMap.create());
 ...
 Set&lt;Long&gt; set = map.keySet();  // Needn't be in synchronized block
 ...

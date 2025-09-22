@@ -28478,8 +28478,7 @@
  of its collection views:
 
  {@snippet :
- BiMap<Long, String> map = Maps.synchronizedBiMap(
-     HashBiMap.<Long, String>create());
+ BiMap<Long, String> map = Maps.synchronizedBiMap(HashBiMap.create());
  ...
  Set<Long> set = map.keySet();  // Needn't be in synchronized block
  ...
