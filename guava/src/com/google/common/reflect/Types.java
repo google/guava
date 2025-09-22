@@ -386,7 +386,9 @@ final class Types {
         if (methodName.equals("getAnnotatedBounds")
             || methodName.startsWith("getAnnotation")
             || methodName.startsWith("getDeclaredAnnotation")
-            || methodName.equals("isAnnotationPresent")) {
+            || methodName.equals("isAnnotationPresent")
+            || methodName.equals("getAnnotations")
+            || methodName.equals("getDeclaredAnnotations")) {
           throw new UnsupportedOperationException(
               "Annotation methods are not supported on synthetic TypeVariables created during type "
               + "resolution. The semantics of annotations on resolved types with modified bounds are "
