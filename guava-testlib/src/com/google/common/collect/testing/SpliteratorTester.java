@@ -83,7 +83,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
       return spliterator.estimateSize();
     }
 
-    final Comparator<? super E> getComparator() {
+    final @Nullable Comparator<? super E> getComparator() {
       return spliterator.getComparator();
     }
 
