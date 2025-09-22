@@ -30900,8 +30900,7 @@
  any of its collection views:
 
  {@snippet :
- Multimap<K, V> multimap = Multimaps.synchronizedMultimap(
-     HashMultimap.<K, V>create());
+ Multimap<K, V> multimap = Multimaps.synchronizedMultimap(HashMultimap.create());
  ...
  Collection<V> values = multimap.get(key);  // Needn't be in synchronized block
  ...
@@ -33810,7 +33809,7 @@
  of the deque's iterators:
 
  {@snippet :
- Deque<E> deque = Queues.synchronizedDeque(Queues.<E>newArrayDeque());
+ Deque<E> deque = Queues.synchronizedDeque(Queues.newArrayDeque());
  ...
  deque.add(element);  // Needn't be in synchronized block
  ...
@@ -37540,7 +37539,7 @@
  of its collection views:
 
  {@snippet :
- Table<R, C, V> table = Tables.synchronizedTable(HashBasedTable.<R, C, V>create());
+ Table<R, C, V> table = Tables.synchronizedTable(HashBasedTable.create());
  ...
  Map<C, V> row = table.row(rowKey);  // Needn't be in synchronized block
  ...

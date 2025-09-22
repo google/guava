@@ -678,8 +678,7 @@ static {
 
  
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-synchronizedMultimap(com.google.common.collect.Multimap)1"><code class="language-java">Multimap&lt;K, V&gt; multimap = Multimaps.synchronizedMultimap(
-    HashMultimap.&lt;K, V&gt;create());
+<pre class="snippet" id="snippet-synchronizedMultimap(com.google.common.collect.Multimap)1"><code class="language-java">Multimap&lt;K, V&gt; multimap = Multimaps.synchronizedMultimap(HashMultimap.create());
 ...
 Collection&lt;V&gt; values = multimap.get(key);  // Needn't be in synchronized block
 ...

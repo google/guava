@@ -679,7 +679,7 @@ synchronized (queue) {  // Must synchronize on queue!
 
  
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-synchronizedDeque(java.util.Deque)1"><code class="language-java">Deque&lt;E&gt; deque = Queues.synchronizedDeque(Queues.&lt;E&gt;newArrayDeque());
+<pre class="snippet" id="snippet-synchronizedDeque(java.util.Deque)1"><code class="language-java">Deque&lt;E&gt; deque = Queues.synchronizedDeque(Queues.newArrayDeque());
 ...
 deque.add(element);  // Needn't be in synchronized block
 ...

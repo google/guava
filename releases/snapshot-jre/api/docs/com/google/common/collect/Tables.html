@@ -418,7 +418,7 @@ loadScripts(document, 'script');</script>
 
  
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-synchronizedTable(com.google.common.collect.Table)1"><code class="language-java">Table&lt;R, C, V&gt; table = Tables.synchronizedTable(HashBasedTable.&lt;R, C, V&gt;create());
+<pre class="snippet" id="snippet-synchronizedTable(com.google.common.collect.Table)1"><code class="language-java">Table&lt;R, C, V&gt; table = Tables.synchronizedTable(HashBasedTable.create());
 ...
 Map&lt;C, V&gt; row = table.row(rowKey);  // Needn't be in synchronized block
 ...
