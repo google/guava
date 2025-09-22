@@ -31,7 +31,7 @@ final class EmptyImmutableSetMultimap extends ImmutableSetMultimap<Object, Objec
   static final EmptyImmutableSetMultimap INSTANCE = new EmptyImmutableSetMultimap();
 
   private EmptyImmutableSetMultimap() {
-    super(ImmutableMap.<Object, ImmutableSet<Object>>of(), 0, null);
+    super(ImmutableMap.of(), 0, null);
   }
 
   /*

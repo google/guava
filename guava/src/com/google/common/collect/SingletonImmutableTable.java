@@ -49,7 +49,7 @@ final class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
     checkNotNull(columnKey);
     return containsColumn(columnKey)
         ? ImmutableMap.of(singleRowKey, singleValue)
-        : ImmutableMap.<R, V>of();
+        : ImmutableMap.of();
   }
 
   @Override

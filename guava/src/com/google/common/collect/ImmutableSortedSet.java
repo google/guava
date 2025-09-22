@@ -382,7 +382,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     }
     Arrays.fill(contents, uniques, n, null);
     return new RegularImmutableSortedSet<>(
-        ImmutableList.<E>asImmutableList(contents, uniques), comparator);
+        ImmutableList.asImmutableList(contents, uniques), comparator);
   }
 
   /**

@@ -523,6 +523,6 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
   }
 
   private static <E> Comparator<@Nullable E> nullAccepting(Comparator<E> comparator) {
-    return Ordering.from(comparator).<E>nullsFirst();
+    return Ordering.from(comparator).nullsFirst();
   }
 }

@@ -283,15 +283,13 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
   @Override
   public ImmutableMap<C, Map<R, V>> columnMap() {
     // Casts without copying.
-    ImmutableMap<C, ImmutableMap<R, V>> columnMap = this.columnMap;
-    return ImmutableMap.<C, Map<R, V>>copyOf(columnMap);
+    return ImmutableMap.copyOf(columnMap);
   }
 
   @Override
   public ImmutableMap<R, Map<C, V>> rowMap() {
     // Casts without copying.
-    ImmutableMap<R, ImmutableMap<C, V>> rowMap = this.rowMap;
-    return ImmutableMap.<R, Map<C, V>>copyOf(rowMap);
+    return ImmutableMap.copyOf(rowMap);
   }
 
   @Override

@@ -29,8 +29,7 @@ import java.util.Map.Entry;
 @Immutable(containerOf = {"R", "C", "V"})
 final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> {
   static final ImmutableTable<Object, Object, Object> EMPTY =
-      new SparseImmutableTable<>(
-          ImmutableList.<Cell<Object, Object, Object>>of(), ImmutableSet.of(), ImmutableSet.of());
+      new SparseImmutableTable<>(ImmutableList.of(), ImmutableSet.of(), ImmutableSet.of());
 
   private final ImmutableMap<R, ImmutableMap<C, V>> rowMap;
   private final ImmutableMap<C, ImmutableMap<R, V>> columnMap;
@@ -96,15 +95,13 @@ final class SparseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V>
   @Override
   public ImmutableMap<C, Map<R, V>> columnMap() {
     // Casts without copying.
-    ImmutableMap<C, ImmutableMap<R, V>> columnMap = this.columnMap;
-    return ImmutableMap.<C, Map<R, V>>copyOf(columnMap);
+    return ImmutableMap.copyOf(columnMap);
   }
 
   @Override
   public ImmutableMap<R, Map<C, V>> rowMap() {
     // Casts without copying.
-    ImmutableMap<R, ImmutableMap<C, V>> rowMap = this.rowMap;
-    return ImmutableMap.<R, Map<C, V>>copyOf(rowMap);
+    return ImmutableMap.copyOf(rowMap);
   }
 
   @Override

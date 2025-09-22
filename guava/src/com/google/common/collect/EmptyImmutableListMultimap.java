@@ -31,7 +31,7 @@ final class EmptyImmutableListMultimap extends ImmutableListMultimap<Object, Obj
   static final EmptyImmutableListMultimap INSTANCE = new EmptyImmutableListMultimap();
 
   private EmptyImmutableListMultimap() {
-    super(ImmutableMap.<Object, ImmutableList<Object>>of(), 0);
+    super(ImmutableMap.of(), 0);
   }
 
   /*

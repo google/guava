@@ -38,7 +38,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
     private final transient ImmutableList<Entry<K, V>> entries;
 
     RegularEntrySet(ImmutableMap<K, V> map, Entry<K, V>[] entries) {
-      this(map, ImmutableList.<Entry<K, V>>asImmutableList(entries));
+      this(map, ImmutableList.asImmutableList(entries));
     }
 
     RegularEntrySet(ImmutableMap<K, V> map, ImmutableList<Entry<K, V>> entries) {

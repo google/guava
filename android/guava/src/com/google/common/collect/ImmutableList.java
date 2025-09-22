@@ -256,7 +256,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     if (elements instanceof ImmutableCollection) {
       @SuppressWarnings("unchecked") // all supported methods are covariant
       ImmutableList<E> list = ((ImmutableCollection<E>) elements).asList();
-      return list.isPartialView() ? ImmutableList.<E>asImmutableList(list.toArray()) : list;
+      return list.isPartialView() ? ImmutableList.asImmutableList(list.toArray()) : list;
     }
     return construct(elements.toArray());
   }

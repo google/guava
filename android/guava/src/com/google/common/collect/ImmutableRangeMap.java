@@ -50,7 +50,7 @@ import org.jspecify.annotations.Nullable;
 public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V>, Serializable {
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
-      new ImmutableRangeMap<>(ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
+      new ImmutableRangeMap<>(ImmutableList.of(), ImmutableList.of());
 
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
@@ -293,7 +293,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<>(ranges, Range.<K>rangeLexOrdering());
+        new RegularImmutableSortedSet<>(ranges, Range.rangeLexOrdering());
     return new ImmutableSortedMap<>(rangeSet, values);
   }
 

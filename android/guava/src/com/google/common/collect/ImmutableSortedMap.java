@@ -113,15 +113,13 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   private static final Comparator<?> NATURAL_ORDER = Ordering.natural();
 
   private static final ImmutableSortedMap<Comparable<?>, Object> NATURAL_EMPTY_MAP =
-      new ImmutableSortedMap<>(
-          ImmutableSortedSet.emptySet(Ordering.natural()), ImmutableList.<Object>of());
+      new ImmutableSortedMap<>(ImmutableSortedSet.emptySet(Ordering.natural()), ImmutableList.of());
 
   static <K, V> ImmutableSortedMap<K, V> emptyMap(Comparator<? super K> comparator) {
     if (Ordering.natural().equals(comparator)) {
       return of();
     } else {
-      return new ImmutableSortedMap<>(
-          ImmutableSortedSet.emptySet(comparator), ImmutableList.<V>of());
+      return new ImmutableSortedMap<>(ImmutableSortedSet.emptySet(comparator), ImmutableList.of());
     }
   }
 
@@ -296,7 +294,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
      * This explicit type parameter works around what seems to be a javac bug in certain
      * configurations: b/339186525#comment6
      */
-    return ImmutableSortedMap.<K, V>fromEntries(
+    return ImmutableSortedMap.fromEntries(
         entryOf(k1, v1),
         entryOf(k2, v2),
         entryOf(k3, v3),
@@ -901,7 +899,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
         return super.writeReplace();
       }
     }
-    return isEmpty() ? ImmutableSet.<Entry<K, V>>of() : new EntrySet();
+    return isEmpty() ? ImmutableSet.of() : new EntrySet();
   }
 
   /** Returns an immutable sorted set of the keys in this map. */

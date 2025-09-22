@@ -459,7 +459,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
      * ImmutableSortedMultiset#orderedBy(Comparator)}.
      */
     public Builder(Comparator<? super E> comparator) {
-      super(TreeMultiset.<E>create(checkNotNull(comparator)));
+      super(TreeMultiset.create(checkNotNull(comparator)));
     }
 
     /**

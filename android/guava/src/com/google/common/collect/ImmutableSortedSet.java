@@ -381,8 +381,8 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
       // large array relative to the number of elements, so we cap the ratio.
       contents = Arrays.copyOf(contents, uniques);
     }
-    return new RegularImmutableSortedSet<E>(
-        ImmutableList.<E>asImmutableList(contents, uniques), comparator);
+    return new RegularImmutableSortedSet<>(
+        ImmutableList.asImmutableList(contents, uniques), comparator);
   }
 
   /**

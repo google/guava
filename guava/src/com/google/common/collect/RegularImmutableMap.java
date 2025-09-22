@@ -160,8 +160,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
       entries[entryIndex] = effectiveEntry;
     }
     if (duplicates != null) {
-      // Explicit type parameters needed here to avoid a problem with nullness inference.
-      entries = RegularImmutableMap.<K, V>removeDuplicates(entries, n, n - dupCount, duplicates);
+      entries = removeDuplicates(entries, n, n - dupCount, duplicates);
       int newTableSize = Hashing.closedTableSize(entries.length, MAX_LOAD_FACTOR);
       if (newTableSize != tableSize) {
         return fromEntryArrayCheckingBucketOverflow(
