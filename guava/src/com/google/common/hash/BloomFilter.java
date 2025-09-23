@@ -75,7 +75,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    *
    * <p>Implementations should be collections of pure functions (i.e. stateless).
    */
-  interface Strategy extends java.io.Serializable {
+  interface Strategy extends Serializable {
 
     /**
      * Sets {@code numHashFunctions} bits of the given bit array, by hashing a user element.
