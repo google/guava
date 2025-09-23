@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.Range.rangeLexOrdering;
 import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -310,7 +311,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<>(ranges, Range.rangeLexOrdering());
+        new RegularImmutableSortedSet<>(ranges, rangeLexOrdering());
     return new ImmutableSortedMap<>(rangeSet, values);
   }
 

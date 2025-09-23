@@ -91,31 +91,6 @@ import org.jspecify.annotations.Nullable;
 public final class Maps {
   private Maps() {}
 
-  private enum EntryFunction implements Function<Entry<?, ?>, @Nullable Object> {
-    KEY {
-      @Override
-      public @Nullable Object apply(Entry<?, ?> entry) {
-        return entry.getKey();
-      }
-    },
-    VALUE {
-      @Override
-      public @Nullable Object apply(Entry<?, ?> entry) {
-        return entry.getValue();
-      }
-    };
-  }
-
-  @SuppressWarnings("unchecked")
-  static <K extends @Nullable Object> Function<Entry<K, ?>, K> keyFunction() {
-    return (Function) EntryFunction.KEY;
-  }
-
-  @SuppressWarnings("unchecked")
-  static <V extends @Nullable Object> Function<Entry<?, V>, V> valueFunction() {
-    return (Function) EntryFunction.VALUE;
-  }
-
   static <K extends @Nullable Object, V extends @Nullable Object> Iterator<K> keyIterator(
       Iterator<Entry<K, V>> entryIterator) {
     return new TransformedIterator<Entry<K, V>, K>(entryIterator) {
@@ -2294,12 +2269,12 @@ public final class Maps {
 
   static <K extends @Nullable Object> Predicate<Entry<K, ?>> keyPredicateOnEntries(
       Predicate<? super K> keyPredicate) {
-    return compose(keyPredicate, keyFunction());
+    return compose(keyPredicate, Entry::getKey);
   }
 
   static <V extends @Nullable Object> Predicate<Entry<?, V>> valuePredicateOnEntries(
       Predicate<? super V> valuePredicate) {
-    return compose(valuePredicate, valueFunction());
+    return compose(valuePredicate, Entry::getValue);
   }
 
   /**

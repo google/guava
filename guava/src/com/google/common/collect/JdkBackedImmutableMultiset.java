@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.asImmutableList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -52,8 +53,7 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
         entriesArray[i] = Multisets.immutableEntry(element, count);
       }
     }
-    return new JdkBackedImmutableMultiset<>(
-        delegateMap, ImmutableList.asImmutableList(entriesArray), size);
+    return new JdkBackedImmutableMultiset<>(delegateMap, asImmutableList(entriesArray), size);
   }
 
   private JdkBackedImmutableMultiset(

@@ -572,7 +572,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
             nonNullEntries,
             0,
             localSize,
-            Ordering.from(valueComparator).onResultOf(Maps.valueFunction()));
+            Ordering.from(valueComparator).onResultOf(Entry::getValue));
         localEntries = (@Nullable Entry<K, V>[]) nonNullEntries;
       }
       entriesUsed = true;

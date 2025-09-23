@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.ImmutableList.asImmutableList;
 import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
@@ -378,7 +379,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   ImmutableList<E> createAsList() {
-    return ImmutableList.asImmutableList(toArray());
+    return asImmutableList(toArray());
   }
 
   /*

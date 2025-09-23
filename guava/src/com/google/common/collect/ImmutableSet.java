@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.ImmutableList.asImmutableList;
 import static com.google.common.math.IntMath.sqrt;
 import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
@@ -978,8 +979,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
            */
           return of(requireNonNull(dedupedElements[0]));
         default:
-          return new JdkBackedImmutableSet<>(
-              delegate, ImmutableList.asImmutableList(dedupedElements, distinct));
+          return new JdkBackedImmutableSet<>(delegate, asImmutableList(dedupedElements, distinct));
       }
     }
   }

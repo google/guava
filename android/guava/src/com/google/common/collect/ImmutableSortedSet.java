@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.asImmutableList;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import static java.lang.System.arraycopy;
 import static java.util.Arrays.sort;
@@ -381,8 +382,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet<E>
       // large array relative to the number of elements, so we cap the ratio.
       contents = Arrays.copyOf(contents, uniques);
     }
-    return new RegularImmutableSortedSet<>(
-        ImmutableList.asImmutableList(contents, uniques), comparator);
+    return new RegularImmutableSortedSet<>(asImmutableList(contents, uniques), comparator);
   }
 
   /**

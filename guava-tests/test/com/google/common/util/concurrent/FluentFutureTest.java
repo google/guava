@@ -105,7 +105,7 @@ public class FluentFutureTest extends TestCase {
                 new AsyncFunction<Throwable, Class<?>>() {
                   @Override
                   public ListenableFuture<Class<?>> apply(Throwable input) {
-                    return Futures.immediateFuture(input.getClass());
+                    return immediateFuture(input.getClass());
                   }
                 },
                 directExecutor());

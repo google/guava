@@ -312,7 +312,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     private ImmutableMap<K, V> build(boolean throwIfDuplicateKeys) {
       if (valueComparator != null) {
-        Collections.sort(entries, Ordering.from(valueComparator).onResultOf(Maps.valueFunction()));
+        Collections.sort(entries, Ordering.from(valueComparator).onResultOf(Entry::getValue));
       }
       return fromEntryList(throwIfDuplicateKeys, entries);
     }

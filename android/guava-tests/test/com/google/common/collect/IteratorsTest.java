@@ -29,6 +29,7 @@ import static com.google.common.collect.Iterators.frequency;
 import static com.google.common.collect.Iterators.get;
 import static com.google.common.collect.Iterators.getLast;
 import static com.google.common.collect.Iterators.getOnlyElement;
+import static com.google.common.collect.Iterators.peekingIterator;
 import static com.google.common.collect.Iterators.singletonIterator;
 import static com.google.common.collect.Iterators.tryFind;
 import static com.google.common.collect.Lists.newArrayList;
@@ -1543,10 +1544,10 @@ public class IteratorsTest extends TestCase {
   @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testPeekingIteratorShortCircuit() {
     Iterator<String> nonpeek = Lists.newArrayList("a", "b", "c").iterator();
-    PeekingIterator<String> peek = Iterators.peekingIterator(nonpeek);
+    PeekingIterator<String> peek = peekingIterator(nonpeek);
     assertNotSame(peek, nonpeek);
-    assertSame(peek, Iterators.peekingIterator(peek));
-    assertSame(peek, Iterators.peekingIterator((Iterator<String>) peek));
+    assertSame(peek, peekingIterator(peek));
+    assertSame(peek, peekingIterator((Iterator<String>) peek));
   }
 
   public void testMergeSorted_stable_issue5773Example() {
