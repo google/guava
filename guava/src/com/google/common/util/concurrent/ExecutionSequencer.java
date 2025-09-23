@@ -222,9 +222,9 @@ public final class ExecutionSequencer {
     Runnable listener =
         () -> {
           if (taskFuture.isDone()) {
-            // Since the value of oldFuture can only ever be immediateFuture(null) or setFuture of
-            // a future that eventually came from immediateFuture(null), this doesn't leak
-            // throwables or completion values.
+            // Since the value of oldFuture can only ever be immediateVoidFuture() or setFuture of a
+            // future that eventually came from immediateVoidFuture(), this doesn't leak throwables
+            // or completion values.
             newFuture.setFuture(oldFuture);
           } else if (outputFuture.isCancelled() && taskExecutor.trySetCancelled()) {
             // If this CAS succeeds, we know that the provided callable will never be invoked,

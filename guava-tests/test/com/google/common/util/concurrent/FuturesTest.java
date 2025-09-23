@@ -237,7 +237,7 @@ public class FuturesTest extends TestCase {
 
   @J2ktIncompatible // TODO(b/324550390): Enable
   public void testTransform_genericsNull() throws Exception {
-    ListenableFuture<?> nullFuture = immediateFuture(null);
+    ListenableFuture<?> nullFuture = immediateVoidFuture();
     ListenableFuture<?> transformedFuture = transform(nullFuture, constant(null), directExecutor());
     assertNull(getDone(transformedFuture));
   }
@@ -1555,7 +1555,7 @@ public class FuturesTest extends TestCase {
 
   @J2ktIncompatible // Wildcard generics
   public void testTransformAsync_genericsWildcard_asyncFunction() throws Exception {
-    ListenableFuture<?> nullFuture = immediateFuture(null);
+    ListenableFuture<?> nullFuture = immediateVoidFuture();
     ListenableFuture<?> chainedFuture =
         transformAsync(nullFuture, constantAsyncFunction(nullFuture), directExecutor());
     assertNull(getDone(chainedFuture));

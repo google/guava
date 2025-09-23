@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.allAsList;
 import static com.google.common.util.concurrent.Futures.getDone;
+import static com.google.common.util.concurrent.Futures.immediateVoidFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.Executors.newFixedThreadPool;
@@ -66,7 +67,7 @@ public class ExecutionSequencerTest extends TestCase {
   public void testCallableStartsAfterFirstFutureCompletes() {
     @SuppressWarnings({"unused", "nullness"})
     Future<?> possiblyIgnoredError = serializer.submitAsync(firstCallable, directExecutor());
-    TestCallable secondCallable = new TestCallable(Futures.immediateFuture(null));
+    TestCallable secondCallable = new TestCallable(immediateVoidFuture());
     @SuppressWarnings({"unused", "nullness"})
     Future<?> possiblyIgnoredError1 = serializer.submitAsync(secondCallable, directExecutor());
     assertThat(firstCallable.called).isTrue();
@@ -78,10 +79,10 @@ public class ExecutionSequencerTest extends TestCase {
   public void testCancellationDoesNotViolateSerialization() {
     @SuppressWarnings({"unused", "nullness"})
     Future<?> possiblyIgnoredError = serializer.submitAsync(firstCallable, directExecutor());
-    TestCallable secondCallable = new TestCallable(Futures.immediateFuture(null));
+    TestCallable secondCallable = new TestCallable(immediateVoidFuture());
     ListenableFuture<@Nullable Void> secondFuture =
         serializer.submitAsync(secondCallable, directExecutor());
-    TestCallable thirdCallable = new TestCallable(Futures.immediateFuture(null));
+    TestCallable thirdCallable = new TestCallable(immediateVoidFuture());
     @SuppressWarnings({"unused", "nullness"})
     Future<?> possiblyIgnoredError1 = serializer.submitAsync(thirdCallable, directExecutor());
     secondFuture.cancel(true);
