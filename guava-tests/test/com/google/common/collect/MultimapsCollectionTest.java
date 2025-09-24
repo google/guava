@@ -31,7 +31,7 @@ import static com.google.common.collect.testing.google.MultisetElementSetTester.
 import static com.google.common.collect.testing.google.MultisetForEachEntryTester.getForEachEntryDuplicateInitializingMethods;
 import static com.google.common.collect.testing.google.MultisetIteratorTester.getIteratorDuplicateInitializingMethods;
 import static com.google.common.collect.testing.google.MultisetRemoveTester.getRemoveDuplicateInitializingMethods;
-import static java.lang.reflect.Proxy.newProxyInstance;
+import static com.google.common.reflect.Reflection.newProxy;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
@@ -58,8 +58,6 @@ import com.google.common.collect.testing.google.TestMultimapGenerator;
 import com.google.common.collect.testing.google.TestSetMultimapGenerator;
 import com.google.common.collect.testing.google.TestStringListMultimapGenerator;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -151,15 +149,10 @@ public class MultimapsCollectionTest extends TestCase {
       this.map = new HashMap<>();
       this.unusableDelegate =
           (SetMultimap<K, V>)
-              newProxyInstance(
-                  SetMultimap.class.getClassLoader(),
-                  new Class<?>[] {SetMultimap.class},
-                  new InvocationHandler() {
-                    @Override
-                    public Object invoke(Object proxy, Method method, Object[] args)
-                        throws Throwable {
-                      throw new UnsupportedOperationException();
-                    }
+              newProxy(
+                  SetMultimap.class,
+                  (proxy, method, args) -> {
+                    throw new UnsupportedOperationException();
                   });
     }
 
