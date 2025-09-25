@@ -106,7 +106,7 @@ public final class FilteredCollectionsTestUtil {
               assertTrue("Unexpected element: " + i, EVEN.apply(i));
               foundElements.add(i);
             });
-        assertEquals(ImmutableList.copyOf(filtered), foundElements);
+        assertThat(foundElements).containsExactlyElementsIn(filtered);
       }
     }
   }
