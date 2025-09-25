@@ -47991,8 +47991,7 @@
     <method name="append"
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
-      deprecated="Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-     method is scheduled to be removed in October 2019.">
+      deprecated="Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}.">
       <param name="from" type="java.lang.CharSequence"/>
       <param name="to" type="java.io.File"/>
       <param name="charset" type="java.nio.charset.Charset"/>
@@ -48005,8 +48004,7 @@
  @param charset the charset used to encode the output stream; see {@link StandardCharsets} for
      helpful predefined constants
  @throws IOException if an I/O error occurs
- @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}. This
-     method is scheduled to be removed in October 2019.]]>
+ @deprecated Prefer {@code asCharSink(to, charset, FileWriteMode.APPEND).write(from)}.]]>
       </doc>
     </method>
     <method name="equal" return="boolean"
