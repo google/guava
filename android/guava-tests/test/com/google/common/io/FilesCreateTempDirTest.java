@@ -16,14 +16,12 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
 import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
 import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_EXECUTE;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_READ;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_WRITE;
-import static org.junit.Assert.assertThrows;
 
 import java.io.File;
 import java.io.IOException;
@@ -42,10 +40,6 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class FilesCreateTempDirTest extends TestCase {
   public void testCreateTempDir() throws IOException {
-    if (JAVA_IO_TMPDIR.value().equals("/sdcard")) {
-      assertThrows(IllegalStateException.class, Files::createTempDir);
-      return;
-    }
     File temp = Files.createTempDir();
     try {
       assertThat(temp.exists()).isTrue();
