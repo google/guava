@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndexes;
-import static java.lang.Math.min;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -321,7 +320,9 @@ public final class Booleans {
 
     @Override
     public int compare(boolean[] left, boolean[] right) {
-      int minLength = min(left.length, right.length);
+      // do not static import Math.min due to https://bugs.openjdk.org/browse/JDK-8357219
+      @SuppressWarnings("StaticImportPreferred")
+      int minLength = Math.min(left.length, right.length);
       for (int i = 0; i < minLength; i++) {
         int result = Boolean.compare(left[i], right[i]);
         if (result != 0) {
