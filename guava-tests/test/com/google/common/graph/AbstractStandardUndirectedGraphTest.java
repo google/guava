@@ -19,7 +19,6 @@ package com.google.common.graph;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 
 import com.google.common.testing.EqualsTester;
 import java.util.Set;
@@ -348,9 +347,9 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
     assume().that(graphIsMutable()).isTrue();
 
     graphAsMutableGraph.addNode(N1);
-    assertTrue(graphAsMutableGraph.putEdge(N1, N5));
-    assertTrue(graphAsMutableGraph.putEdge(N4, N1));
-    assertTrue(graphAsMutableGraph.putEdge(N2, N3));
+    assertThat(graphAsMutableGraph.putEdge(N1, N5)).isTrue();
+    assertThat(graphAsMutableGraph.putEdge(N4, N1)).isTrue();
+    assertThat(graphAsMutableGraph.putEdge(N2, N3)).isTrue();
     assertThat(graph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
     assertThat(graph.adjacentNodes(N1)).containsExactly(N4, N5);
     assertThat(graph.adjacentNodes(N2)).containsExactly(N3);

@@ -240,6 +240,6 @@ public final class EndpointPairTest {
     for (Object obj : varargs) {
       assertThat(collection).contains(obj);
     }
-    assertThat(collection).containsExactly(varargs);
+    assertThat(collection).containsExactlyElementsIn(varargs);
   }
 }
