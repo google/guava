@@ -54,7 +54,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Ben Yu
  */
-abstract class TypeVisitor {
+public abstract class TypeVisitor {
 
   private final Set<Type> visited = new HashSet<>();
 
