@@ -24,7 +24,7 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
-import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Charles Fry
  */
-@NullUnmarked
+@NullMarked
 public class AbstractLoadingCacheTest extends TestCase {
 
   public void testGetUnchecked_checked() {
@@ -61,7 +61,7 @@ public class AbstractLoadingCacheTest extends TestCase {
 
     Object newValue = new Object();
     valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    assertThat(cache.getUnchecked(new Object())).isSameInstanceAs(newValue);
   }
 
   public void testGetUnchecked_unchecked() {
@@ -90,7 +90,7 @@ public class AbstractLoadingCacheTest extends TestCase {
 
     Object newValue = new Object();
     valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    assertThat(cache.getUnchecked(new Object())).isSameInstanceAs(newValue);
   }
 
   public void testGetUnchecked_error() {
@@ -119,7 +119,7 @@ public class AbstractLoadingCacheTest extends TestCase {
 
     Object newValue = new Object();
     valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    assertThat(cache.getUnchecked(new Object())).isSameInstanceAs(newValue);
   }
 
   public void testGetUnchecked_otherThrowable() {
@@ -148,6 +148,6 @@ public class AbstractLoadingCacheTest extends TestCase {
 
     Object newValue = new Object();
     valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    assertThat(cache.getUnchecked(new Object())).isSameInstanceAs(newValue);
   }
 }
