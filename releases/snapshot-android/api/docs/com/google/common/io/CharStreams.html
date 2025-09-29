@@ -196,7 +196,9 @@ close or flush either object.</div>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Readable.html" title="class or interface in java.lang" class="external-link">Readable</a>&nbsp;r)</span>
                        throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Reads all characters from a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Readable.html" title="class or interface in java.lang" class="external-link"><code>Readable</code></a> object into a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a>. Does not close the
-<code>Readable</code>.</div>
+<code>Readable</code>.
+
+<p><b>Java 25+ users:</b> If the input is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Reader.html" title="class or interface in java.io" class="external-link"><code>Reader</code></a>, prefer <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Reader.html#readAllAsString()" title="class or interface in java.io" class="external-link"><code>Reader.readAllAsString()</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>r</code> - the object to read from</dd>
@@ -217,7 +219,14 @@ close or flush either object.</div>
 <div class="block">Reads all of the lines from a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Readable.html" title="class or interface in java.lang" class="external-link"><code>Readable</code></a> object. The lines do not include
 line-termination characters, but do include other leading and trailing whitespace.
 
-<p>Does not close the <code>Readable</code>. If reading files or resources you should use the <a href="Files.html#readLines(java.io.File,java.nio.charset.Charset)"><code>Files.readLines(File, Charset)</code></a> and <a href="Resources.html#readLines(java.net.URL,java.nio.charset.Charset,com.google.common.io.LineProcessor)"><code>Resources.readLines(URL, Charset, LineProcessor)</code></a> methods.</div>
+<p>Does not close the <code>Readable</code>. If reading files or resources you should use the <a href="Files.html#readLines(java.io.File,java.nio.charset.Charset)"><code>Files.readLines(File, Charset)</code></a> and <a href="Resources.html#readLines(java.net.URL,java.nio.charset.Charset,com.google.common.io.LineProcessor)"><code>Resources.readLines(URL, Charset, LineProcessor)</code></a> methods.
+
+<p>This method prioritizes convenience over performance: It reads the entire input into memory
+immediately. To instead read and process lines individually, use an alternative like <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/BufferedReader.html#lines()" title="class or interface in java.io" class="external-link"><code>BufferedReader.lines()</code></a>.
+
+<p><b>Java 25+ users:</b> If the input is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Reader.html" title="class or interface in java.io" class="external-link"><code>Reader</code></a>, you may prefer <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Reader.html#readAllLines()" title="class or interface in java.io" class="external-link"><code>Reader.readAllLines()</code></a>. The two may have different performance characteristics for different
+<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Reader.html" title="class or interface in java.io" class="external-link"><code>Reader</code></a> classes and Java versions, but both methods read the entire input into memory
+immediately, so we discourage use of both when memory usage is a concern.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>r</code> - the object to read from</dd>
@@ -240,7 +249,11 @@ line-termination characters, but do include other leading and trailing whitespac
 <div class="block">Streams lines from a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Readable.html" title="class or interface in java.lang" class="external-link"><code>Readable</code></a> object, stopping when the processor returns <code>false</code>
 or all lines have been read and returning the result produced by the processor. Does not close
 <code>readable</code>. Note that this method may not fully consume the contents of <code>readable</code>
-if the processor stops processing early.</div>
+if the processor stops processing early.
+
+<p><b>Users who can use <code>Stream</code>:</b> If your input is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Reader.html" title="class or interface in java.io" class="external-link"><code>Reader</code></a>, consider
+wrapping it with a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/BufferedReader.html" title="class or interface in java.io" class="external-link"><code>BufferedReader</code></a> and operating on the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html" title="class or interface in java.util.stream" class="external-link"><code>Stream</code></a>
+of lines returned by <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/BufferedReader.html#lines()" title="class or interface in java.io" class="external-link"><code>BufferedReader.lines()</code></a>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code> - if an I/O error occurs</dd>
