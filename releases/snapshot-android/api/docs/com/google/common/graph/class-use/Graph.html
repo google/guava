@@ -163,11 +163,19 @@ loadScripts(document, 'script');</script>
 <div class="col-first even-row-color"><code>static &lt;N&gt;&nbsp;<a href="../ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a><wbr>&lt;N&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Graphs.</span><code><a href="../Graphs.html#transitiveClosure(com.google.common.graph.Graph)" class="member-name-link">transitiveClosure</a><wbr>(<a href="../Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code></div>
 <div class="col-last even-row-color">
+<div class="block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="../Graphs.html#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)"><code>Graphs.transitiveClosure(Graph, TransitiveClosureSelfLoopStrategy)</code></a> instead.</div>
+</div>
+</div>
+<div class="col-first odd-row-color"><code>static &lt;N&gt;&nbsp;<a href="../ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a><wbr>&lt;N&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Graphs.</span><code><a href="../Graphs.html#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)" class="member-name-link">transitiveClosure</a><wbr>(<a href="../Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
+ <a href="../Graphs.TransitiveClosureSelfLoopStrategy.html" title="enum in com.google.common.graph">Graphs.TransitiveClosureSelfLoopStrategy</a>&nbsp;strategy)</code></div>
+<div class="col-last odd-row-color">
 <div class="block">Returns the transitive closure of <code>graph</code>.</div>
 </div>
-<div class="col-first odd-row-color"><code>static &lt;N&gt;&nbsp;<a href="../Graph.html" title="interface in com.google.common.graph">Graph</a><wbr>&lt;N&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Graphs.</span><code><a href="../Graphs.html#transpose(com.google.common.graph.Graph)" class="member-name-link">transpose</a><wbr>(<a href="../Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static &lt;N&gt;&nbsp;<a href="../Graph.html" title="interface in com.google.common.graph">Graph</a><wbr>&lt;N&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Graphs.</span><code><a href="../Graphs.html#transpose(com.google.common.graph.Graph)" class="member-name-link">transpose</a><wbr>(<a href="../Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code></div>
+<div class="col-last even-row-color">
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed.</div>
 </div>
 </div>

@@ -1,0 +1,2 @@
+OK: com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy Class
+OK: com.google.common.graph.Graphs Method transitiveClosure(com.google.common.graph.Graph<N>, com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)

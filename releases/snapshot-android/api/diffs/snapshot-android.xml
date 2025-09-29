@@ -40441,16 +40441,36 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <param name="strategy" type="com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy"/>
       <doc>
-      <![CDATA[Returns the transitive closure of {@code graph}. The transitive closure of a graph is another
- graph with an edge connecting node A to node B if node B is {@link #reachableNodes(Graph,
- Object) reachable} from node A.
+      <![CDATA[Returns the transitive closure of {@code graph}. The transitive closure of a graph {@code G} is
+ a graph {@code T} that is a supergraph of {@code G}, augmented by, for each pair of nodes A and
+ B, an edge connecting node A to node B if there is a sequence of edges in {@code G} starting at
+ A and ending at B.
+
+ <p>{@code strategy} defines the circumstances under which self-loops will be added to the
+ transitive closure graph.
 
  <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
  of the transitive closure of {@code graph}. In other words, the returned {@link Graph} will not
  be updated after modifications to {@code graph}.
 
- @since 33.1.0 (present with return type {@code Graph} since 20.0)]]>
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="transitiveClosure" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="Use {@link #transitiveClosure(Graph, TransitiveClosureSelfLoopStrategy)} instead.">
+      <param name="graph" type="com.google.common.graph.Graph&lt;N&gt;"/>
+      <doc>
+      <![CDATA[Equivalent to {@code transitiveClosure(graph, ADD_SELF_LOOPS_ALWAYS)}. Callers should look at
+ the different strategy options that the new method supports rather than simply migrating to the
+ new method with the existing behavior; we believe that most callers will want to use the {@code
+ ADD_SELF_LOOPS_FOR_CYCLES} strategy.
+
+ @since 33.1.0 (present with return type {@code Graph} since 20.0)
+ @deprecated Use {@link #transitiveClosure(Graph, TransitiveClosureSelfLoopStrategy)} instead.]]>
       </doc>
     </method>
     <method name="reachableNodes" return="com.google.common.collect.ImmutableSet&lt;N&gt;"
@@ -40588,6 +40608,33 @@
     </doc>
   </class>
   <!-- end class com.google.common.graph.Graphs -->
+  <!-- start class com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy -->
+  <class name="Graphs.TransitiveClosureSelfLoopStrategy" extends="java.lang.Enum&lt;com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy&gt;"
+    abstract="false"
+    static="true" final="true" visibility="public"
+    deprecated="not deprecated">
+    <method name="values" return="com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy[]"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="valueOf" return="com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="name" type="java.lang.String"/>
+    </method>
+    <doc>
+    <![CDATA[A strategy for adding self-loops to {@linkplain #transitiveClosure(Graph,
+ TransitiveClosureSelfLoopStrategy) the transitive closure graph}. All strategies preserve
+ self-loops that are present in the original graph.
+
+ <p>The strategies differ based on how they define "cycle incident to a node".
+
+ @since NEXT]]>
+    </doc>
+  </class>
+  <!-- end class com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy -->
   <!-- start class com.google.common.graph.ImmutableGraph -->
   <class name="ImmutableGraph" extends="com.google.common.graph.ForwardingGraph&lt;N&gt;"
     abstract="false"

@@ -55,11 +55,13 @@ loadScripts(document, 'script');</script>
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset"></div>
 <ol class="toc-list" tabindex="-1">
 <li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
 <li><a href="#hasCycle(com.google.common.graph.Graph)" tabindex="0">hasCycle(Graph)</a></li>
 <li><a href="#hasCycle(com.google.common.graph.Network)" tabindex="0">hasCycle(Network)</a></li>
+<li><a href="#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)" tabindex="0">transitiveClosure(Graph, Graphs.TransitiveClosureSelfLoopStrategy)</a></li>
 <li><a href="#transitiveClosure(com.google.common.graph.Graph)" tabindex="0">transitiveClosure(Graph)</a></li>
 <li><a href="#reachableNodes(com.google.common.graph.Graph,N)" tabindex="0">reachableNodes(Graph, N)</a></li>
 <li><a href="#transpose(com.google.common.graph.Graph)" tabindex="0">transpose(Graph)</a></li>
@@ -100,12 +102,29 @@ loadScripts(document, 'script');</script>
 </section>
 <section class="summary">
 <ul class="summary-list">
+<!-- ======== NESTED CLASS SUMMARY ======== -->
+<li>
+<section class="nested-class-summary" id="nested-class-summary">
+<h2>Nested Class Summary</h2>
+<div class="caption"><span>Nested Classes</span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Class</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static enum&nbsp;</code></div>
+<div class="col-second even-row-color"><code><a href="Graphs.TransitiveClosureSelfLoopStrategy.html" class="type-name-link" title="enum in com.google.common.graph">Graphs.TransitiveClosureSelfLoopStrategy</a></code></div>
+<div class="col-last even-row-color">
+<div class="block">A strategy for adding self-loops to <a href="#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)">the transitive closure graph</a>.</div>
+</div>
+</div>
+</section>
+</li>
 <!-- ========== METHOD SUMMARY =========== -->
 <li>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button><button id="method-summary-table-tab6" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab6', 3)" class="table-tab">Deprecated Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -160,24 +179,32 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the set of nodes that are reachable from <code>node</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;N&gt;&nbsp;<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a><wbr>&lt;N&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transitiveClosure(com.google.common.graph.Graph)" class="member-name-link">transitiveClosure</a><wbr>(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code>static &lt;N&gt;&nbsp;<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a><wbr>&lt;N&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#transitiveClosure(com.google.common.graph.Graph)" class="member-name-link">transitiveClosure</a><wbr>(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6">
+<div class="block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)"><code>transitiveClosure(Graph, TransitiveClosureSelfLoopStrategy)</code></a> instead.</div>
+</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;N&gt;&nbsp;<a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a><wbr>&lt;N&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)" class="member-name-link">transitiveClosure</a><wbr>(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
+ <a href="Graphs.TransitiveClosureSelfLoopStrategy.html" title="enum in com.google.common.graph">Graphs.TransitiveClosureSelfLoopStrategy</a>&nbsp;strategy)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the transitive closure of <code>graph</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;N&gt;&nbsp;<a href="Graph.html" title="interface in com.google.common.graph">Graph</a><wbr>&lt;N&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transpose(com.google.common.graph.Graph)" class="member-name-link">transpose</a><wbr>(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;N&gt;&nbsp;<a href="Graph.html" title="interface in com.google.common.graph">Graph</a><wbr>&lt;N&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transpose(com.google.common.graph.Graph)" class="member-name-link">transpose</a><wbr>(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;N,<wbr>E&gt;&nbsp;<a href="Network.html" title="interface in com.google.common.graph">Network</a><wbr>&lt;N,<wbr>E&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transpose(com.google.common.graph.Network)" class="member-name-link">transpose</a><wbr>(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;N,<wbr>E&gt;&nbsp;<a href="Network.html" title="interface in com.google.common.graph">Network</a><wbr>&lt;N,<wbr>E&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transpose(com.google.common.graph.Network)" class="member-name-link">transpose</a><wbr>(<a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;N,<wbr>E&gt;&nbsp;network)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a view of <code>network</code> with the direction (if any) of every edge reversed.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;N,<wbr>V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a><wbr>&lt;N,<wbr>V&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transpose(com.google.common.graph.ValueGraph)" class="member-name-link">transpose</a><wbr>(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;&nbsp;graph)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;N,<wbr>V&gt;&nbsp;<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a><wbr>&lt;N,<wbr>V&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#transpose(com.google.common.graph.ValueGraph)" class="member-name-link">transpose</a><wbr>(<a href="ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a>&lt;N,<wbr>V&gt;&nbsp;graph)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a view of <code>graph</code> with the direction (if any) of every edge reversed.</div>
 </div>
 </div>
@@ -224,16 +251,42 @@ starting and ending with the same node.
 </section>
 </li>
 <li>
-<section class="detail" id="transitiveClosure(com.google.common.graph.Graph)">
+<section class="detail" id="transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)">
 <h3>transitiveClosure</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name">transitiveClosure</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
-<div class="block">Returns the transitive closure of <code>graph</code>. The transitive closure of a graph is another
-graph with an edge connecting node A to node B if node B is <a href="#reachableNodes(com.google.common.graph.Graph,N)"><code>reachable</code></a> from node A.
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name">transitiveClosure</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph,
+ <a href="Graphs.TransitiveClosureSelfLoopStrategy.html" title="enum in com.google.common.graph">Graphs.TransitiveClosureSelfLoopStrategy</a>&nbsp;strategy)</span></div>
+<div class="block">Returns the transitive closure of <code>graph</code>. The transitive closure of a graph <code>G</code> is
+a graph <code>T</code> that is a supergraph of <code>G</code>, augmented by, for each pair of nodes A and
+B, an edge connecting node A to node B if there is a sequence of edges in <code>G</code> starting at
+A and ending at B.
+
+<p><code>strategy</code> defines the circumstances under which self-loops will be added to the
+transitive closure graph.
 
 <p>This is a "snapshot" based on the current topology of <code>graph</code>, rather than a live view
 of the transitive closure of <code>graph</code>. In other words, the returned <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> will not
 be updated after modifications to <code>graph</code>.</div>
+<dl class="notes">
+<dt>Since:</dt>
+<dd>NEXT</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="transitiveClosure(com.google.common.graph.Graph)">
+<h3>transitiveClosure</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a>&lt;N&gt;</span>&nbsp;<span class="element-name">transitiveClosure</span><wbr><span class="parameters">(<a href="Graph.html" title="interface in com.google.common.graph">Graph</a>&lt;N&gt;&nbsp;graph)</span></div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)"><code>transitiveClosure(Graph, TransitiveClosureSelfLoopStrategy)</code></a> instead.</div>
+</div>
+<div class="block">Equivalent to <code>transitiveClosure(graph, ADD_SELF_LOOPS_ALWAYS)</code>. Callers should look at
+the different strategy options that the new method supports rather than simply migrating to the
+new method with the existing behavior; we believe that most callers will want to use the <code>
+ADD_SELF_LOOPS_FOR_CYCLES</code> strategy.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>33.1.0 (present with return type <code>Graph</code> since 20.0)</dd>

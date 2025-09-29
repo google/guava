@@ -507,6 +507,16 @@ execute.</div>
 <dd>
 <div class="block">Adds a name/value pair to the formatted output in <code>name=value</code> format.</div>
 </dd>
+<dt><a href="com/google/common/graph/Graphs.TransitiveClosureSelfLoopStrategy.html#ADD_SELF_LOOPS_ALWAYS" class="member-name-link">ADD_SELF_LOOPS_ALWAYS</a> - Enum constant in enum com.google.common.graph.<a href="com/google/common/graph/Graphs.TransitiveClosureSelfLoopStrategy.html" title="enum in com.google.common.graph">Graphs.TransitiveClosureSelfLoopStrategy</a></dt>
+<dd>
+<div class="block">Add a self-loop to each node in the original graph; this is based on a definition of "cycle
+incident to a node" that includes zero-length cycles.</div>
+</dd>
+<dt><a href="com/google/common/graph/Graphs.TransitiveClosureSelfLoopStrategy.html#ADD_SELF_LOOPS_FOR_CYCLES" class="member-name-link">ADD_SELF_LOOPS_FOR_CYCLES</a> - Enum constant in enum com.google.common.graph.<a href="com/google/common/graph/Graphs.TransitiveClosureSelfLoopStrategy.html" title="enum in com.google.common.graph">Graphs.TransitiveClosureSelfLoopStrategy</a></dt>
+<dd>
+<div class="block">Add a self-loop to each node that is incident to a cycle of length one or greater in the
+original graph.</div>
+</dd>
 <dt><a href="com/google/common/math/StatsAccumulator.html#addAll(double...)" class="member-name-link">addAll(double...)</a> - Method in class com.google.common.math.<a href="com/google/common/math/StatsAccumulator.html" title="class in com.google.common.math">StatsAccumulator</a></dt>
 <dd>
 <div class="block">Adds the given values to the dataset.</div>
@@ -9431,6 +9441,10 @@ user-defined properties.</div>
 <dt><a href="com/google/common/graph/Graphs.html" class="type-name-link" title="class in com.google.common.graph">Graphs</a> - Class in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
 <dd>
 <div class="block">Static utility methods for <a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>, <a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, and <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> instances.</div>
+</dd>
+<dt><a href="com/google/common/graph/Graphs.TransitiveClosureSelfLoopStrategy.html" class="type-name-link" title="enum in com.google.common.graph">Graphs.TransitiveClosureSelfLoopStrategy</a> - Enum in <a href="com/google/common/graph/package-summary.html">com.google.common.graph</a></dt>
+<dd>
+<div class="block">A strategy for adding self-loops to <a href="com/google/common/graph/Graphs.html#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)">the transitive closure graph</a>.</div>
 </dd>
 <dt><a href="com/google/common/collect/Range.html#greaterThan(C)" class="member-name-link">greaterThan(C)</a> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Range.html" title="class in com.google.common.collect">Range</a></dt>
 <dd>
@@ -21043,6 +21057,12 @@ entries.</div>
 </dd>
 <dt><a href="com/google/common/graph/Graphs.html#transitiveClosure(com.google.common.graph.Graph)" class="member-name-link">transitiveClosure(Graph)</a> - Static method in class com.google.common.graph.<a href="com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
 <dd>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="com/google/common/graph/Graphs.html#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)"><code>Graphs.transitiveClosure(Graph, TransitiveClosureSelfLoopStrategy)</code></a> instead.</div>
+</div>
+</dd>
+<dt><a href="com/google/common/graph/Graphs.html#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)" class="member-name-link">transitiveClosure(Graph, Graphs.TransitiveClosureSelfLoopStrategy)</a> - Static method in class com.google.common.graph.<a href="com/google/common/graph/Graphs.html" title="class in com.google.common.graph">Graphs</a></dt>
+<dd>
 <div class="block">Returns the transitive closure of <code>graph</code>.</div>
 </dd>
 <dt><a href="com/google/common/collect/Tables.html#transpose(com.google.common.collect.Table)" class="member-name-link">transpose(Table)</a> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Tables.html" title="class in com.google.common.collect">Tables</a></dt>
@@ -21842,6 +21862,10 @@ with user-defined properties.</div>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
 </dd>
+<dt><a href="com/google/common/graph/Graphs.TransitiveClosureSelfLoopStrategy.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum com.google.common.graph.<a href="com/google/common/graph/Graphs.TransitiveClosureSelfLoopStrategy.html" title="enum in com.google.common.graph">Graphs.TransitiveClosureSelfLoopStrategy</a></dt>
+<dd>
+<div class="block">Returns the enum constant of this type with the specified name.</div>
+</dd>
 <dt><a href="com/google/common/io/FileWriteMode.html#valueOf(java.lang.String)" class="member-name-link">valueOf(String)</a> - Static method in enum com.google.common.io.<a href="com/google/common/io/FileWriteMode.html" title="enum in com.google.common.io">FileWriteMode</a></dt>
 <dd>
 <div class="block">Returns the enum constant of this type with the specified name.</div>
@@ -21987,6 +22011,11 @@ this multimap, without collapsing duplicates (so <code>values().size() == size()
 <div class="block">Returns a collection of all values, which may contain duplicates.</div>
 </dd>
 <dt><a href="com/google/common/graph/ElementOrder.Type.html#values()" class="member-name-link">values()</a> - Static method in enum com.google.common.graph.<a href="com/google/common/graph/ElementOrder.Type.html" title="enum in com.google.common.graph">ElementOrder.Type</a></dt>
+<dd>
+<div class="block">Returns an array containing the constants of this enum type, in
+the order they are declared.</div>
+</dd>
+<dt><a href="com/google/common/graph/Graphs.TransitiveClosureSelfLoopStrategy.html#values()" class="member-name-link">values()</a> - Static method in enum com.google.common.graph.<a href="com/google/common/graph/Graphs.TransitiveClosureSelfLoopStrategy.html" title="enum in com.google.common.graph">Graphs.TransitiveClosureSelfLoopStrategy</a></dt>
 <dd>
 <div class="block">Returns an array containing the constants of this enum type, in
 the order they are declared.</div>

@@ -833,35 +833,39 @@ loadScripts(document, 'script');</script>
 <div class="col-last even-row-color">
 <div class="block">Unsupported operation.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.ImmutableGraph)">com.google.common.graph.ImmutableGraph.copyOf<wbr>(ImmutableGraph&lt;N&gt;)</a></div>
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/graph/Graphs.html#transitiveClosure(com.google.common.graph.Graph)">com.google.common.graph.Graphs.transitiveClosure<wbr>(Graph&lt;N&gt;)</a></div>
 <div class="col-last odd-row-color">
-<div class="block">no need to use this</div>
+<div class="block">Use <a href="com/google/common/graph/Graphs.html#transitiveClosure(com.google.common.graph.Graph,com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)"><code>Graphs.transitiveClosure(Graph, TransitiveClosureSelfLoopStrategy)</code></a> instead.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/graph/ImmutableNetwork.html#copyOf(com.google.common.graph.ImmutableNetwork)">com.google.common.graph.ImmutableNetwork.copyOf<wbr>(ImmutableNetwork&lt;N, E&gt;)</a></div>
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/graph/ImmutableGraph.html#copyOf(com.google.common.graph.ImmutableGraph)">com.google.common.graph.ImmutableGraph.copyOf<wbr>(ImmutableGraph&lt;N&gt;)</a></div>
 <div class="col-last even-row-color">
 <div class="block">no need to use this</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/graph/ImmutableValueGraph.html#copyOf(com.google.common.graph.ImmutableValueGraph)">com.google.common.graph.ImmutableValueGraph.copyOf<wbr>(ImmutableValueGraph&lt;N, V&gt;)</a></div>
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/graph/ImmutableNetwork.html#copyOf(com.google.common.graph.ImmutableNetwork)">com.google.common.graph.ImmutableNetwork.copyOf<wbr>(ImmutableNetwork&lt;N, E&gt;)</a></div>
 <div class="col-last odd-row-color">
 <div class="block">no need to use this</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/hash/BloomFilter.html#apply(T)">com.google.common.hash.BloomFilter.apply<wbr>(T)</a></div>
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/graph/ImmutableValueGraph.html#copyOf(com.google.common.graph.ImmutableValueGraph)">com.google.common.graph.ImmutableValueGraph.copyOf<wbr>(ImmutableValueGraph&lt;N, V&gt;)</a></div>
 <div class="col-last even-row-color">
+<div class="block">no need to use this</div>
+</div>
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/hash/BloomFilter.html#apply(T)">com.google.common.hash.BloomFilter.apply<wbr>(T)</a></div>
+<div class="col-last odd-row-color">
 <div class="block">Provided only to satisfy the <a href="com/google/common/base/Predicate.html" title="interface in com.google.common.base"><code>Predicate</code></a> interface; use <a href="com/google/common/hash/BloomFilter.html#mightContain(T)"><code>BloomFilter.mightContain(T)</code></a>
     instead.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/hash/BloomFilter.html#test(T)">com.google.common.hash.BloomFilter.test<wbr>(T)</a></div>
-<div class="col-last odd-row-color">
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/hash/BloomFilter.html#test(T)">com.google.common.hash.BloomFilter.test<wbr>(T)</a></div>
+<div class="col-last even-row-color">
 <div class="block">Provided only to satisfy the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/Predicate.html" title="class or interface in java.util.function" class="external-link"><code>Predicate</code></a> interface; use
     <a href="com/google/common/hash/BloomFilter.html#mightContain(T)"><code>BloomFilter.mightContain(T)</code></a> instead.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/hash/Hasher.html#hashCode()">com.google.common.hash.Hasher.hashCode()</a></div>
-<div class="col-last even-row-color">
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/hash/Hasher.html#hashCode()">com.google.common.hash.Hasher.hashCode()</a></div>
+<div class="col-last odd-row-color">
 <div class="block">This returns <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link"><code>Object.hashCode()</code></a>; you almost certainly mean to call <code>
     hash().asInt()</code>.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/hash/Hashing.html#md5()">com.google.common.hash.Hashing.md5()</a></div>
-<div class="col-last odd-row-color">
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/hash/Hashing.html#md5()">com.google.common.hash.Hashing.md5()</a></div>
+<div class="col-last even-row-color">
 <div class="block">If you must interoperate with a system that requires MD5, then use this method,
     despite its deprecation. But if you can choose your hash function, avoid MD5, which is
     neither fast nor secure. As of January 2017, we suggest:
@@ -871,16 +875,16 @@ loadScripts(document, 'script');</script>
       <li>For speed: <a href="com/google/common/hash/Hashing.html#goodFastHash(int)"><code>Hashing.goodFastHash(int)</code></a>, though see its docs for caveats.
     </ul></div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/hash/Hashing.html#murmur3_32()">com.google.common.hash.Hashing.murmur3_32()</a></div>
-<div class="col-last even-row-color">
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/hash/Hashing.html#murmur3_32()">com.google.common.hash.Hashing.murmur3_32()</a></div>
+<div class="col-last odd-row-color">
 <div class="block">This implementation produces incorrect hash values from the <a href="com/google/common/hash/HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(CharSequence, Charset)</code></a> method if the string contains non-BMP characters. Use <a href="com/google/common/hash/Hashing.html#murmur3_32_fixed()"><code>Hashing.murmur3_32_fixed()</code></a> instead.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/hash/Hashing.html#murmur3_32(int)">com.google.common.hash.Hashing.murmur3_32<wbr>(int)</a></div>
-<div class="col-last odd-row-color">
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/hash/Hashing.html#murmur3_32(int)">com.google.common.hash.Hashing.murmur3_32<wbr>(int)</a></div>
+<div class="col-last even-row-color">
 <div class="block">This implementation produces incorrect hash values from the <a href="com/google/common/hash/HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(CharSequence, Charset)</code></a> method if the string contains non-BMP characters. Use <a href="com/google/common/hash/Hashing.html#murmur3_32_fixed(int)"><code>Hashing.murmur3_32_fixed(int)</code></a> instead.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/hash/Hashing.html#sha1()">com.google.common.hash.Hashing.sha1()</a></div>
-<div class="col-last even-row-color">
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/hash/Hashing.html#sha1()">com.google.common.hash.Hashing.sha1()</a></div>
+<div class="col-last odd-row-color">
 <div class="block">If you must interoperate with a system that requires SHA-1, then use this method,
     despite its deprecation. But if you can choose your hash function, avoid SHA-1, which is
     neither fast nor secure. As of January 2017, we suggest:
@@ -890,21 +894,21 @@ loadScripts(document, 'script');</script>
       <li>For speed: <a href="com/google/common/hash/Hashing.html#goodFastHash(int)"><code>Hashing.goodFastHash(int)</code></a>, though see its docs for caveats.
     </ul></div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/ByteArrayDataOutput.html#writeBytes(java.lang.String)">com.google.common.io.ByteArrayDataOutput.writeBytes<wbr>(String)</a></div>
-<div class="col-last odd-row-color">
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/ByteArrayDataOutput.html#writeBytes(java.lang.String)">com.google.common.io.ByteArrayDataOutput.writeBytes<wbr>(String)</a></div>
+<div class="col-last even-row-color">
 <div class="block">This method is dangerous as it discards the high byte of every character. For
     UTF-8, use <code>write(s.getBytes(StandardCharsets.UTF_8))</code>.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/Files.html#append(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.append<wbr>(CharSequence, File, Charset)</a></div>
-<div class="col-last even-row-color">
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/Files.html#append(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.append<wbr>(CharSequence, File, Charset)</a></div>
+<div class="col-last odd-row-color">
 <div class="block">Prefer <code>asCharSink(to, charset, FileWriteMode.APPEND).write(from)</code>.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/Files.html#copy(java.io.File,java.nio.charset.Charset,java.lang.Appendable)">com.google.common.io.Files.copy<wbr>(File, Charset, Appendable)</a></div>
-<div class="col-last odd-row-color">
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/Files.html#copy(java.io.File,java.nio.charset.Charset,java.lang.Appendable)">com.google.common.io.Files.copy<wbr>(File, Charset, Appendable)</a></div>
+<div class="col-last even-row-color">
 <div class="block">Prefer <code>asCharSource(from, charset).copyTo(to)</code>.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/Files.html#createTempDir()">com.google.common.io.Files.createTempDir()</a></div>
-<div class="col-last even-row-color">
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/Files.html#createTempDir()">com.google.common.io.Files.createTempDir()</a></div>
+<div class="col-last odd-row-color">
 <div class="block">For Android users, see the <a href="https://developer.android.com/training/data-storage" target="_blank">Data and File
     Storage overview</a> to select an appropriate temporary directory (perhaps <code>
     context.getCacheDir()</code>), and create your own directory under that. (For example, you might
@@ -915,94 +919,94 @@ loadScripts(document, 'script');</script>
     PosixFilePermissions.asFileAttribute(PosixFilePermissions.fromString("rwx------"))</code> to your
     call to <code>createTempDirectory</code>.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/Files.html#hash(java.io.File,com.google.common.hash.HashFunction)">com.google.common.io.Files.hash<wbr>(File, HashFunction)</a></div>
-<div class="col-last odd-row-color">
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/Files.html#hash(java.io.File,com.google.common.hash.HashFunction)">com.google.common.io.Files.hash<wbr>(File, HashFunction)</a></div>
+<div class="col-last even-row-color">
 <div class="block">Prefer <code>asByteSource(file).hash(hashFunction)</code>.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/Files.html#readBytes(java.io.File,com.google.common.io.ByteProcessor)">com.google.common.io.Files.readBytes<wbr>(File, ByteProcessor&lt;T&gt;)</a></div>
-<div class="col-last even-row-color">
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/Files.html#readBytes(java.io.File,com.google.common.io.ByteProcessor)">com.google.common.io.Files.readBytes<wbr>(File, ByteProcessor&lt;T&gt;)</a></div>
+<div class="col-last odd-row-color">
 <div class="block">Prefer <code>asByteSource(file).read(processor)</code>.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/Files.html#readFirstLine(java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.readFirstLine<wbr>(File, Charset)</a></div>
-<div class="col-last odd-row-color">
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/Files.html#readFirstLine(java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.readFirstLine<wbr>(File, Charset)</a></div>
+<div class="col-last even-row-color">
 <div class="block">Prefer <code>asCharSource(file, charset).readFirstLine()</code>.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/Files.html#readLines(java.io.File,java.nio.charset.Charset,com.google.common.io.LineProcessor)">com.google.common.io.Files.readLines<wbr>(File, Charset, LineProcessor&lt;T&gt;)</a></div>
-<div class="col-last even-row-color">
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/Files.html#readLines(java.io.File,java.nio.charset.Charset,com.google.common.io.LineProcessor)">com.google.common.io.Files.readLines<wbr>(File, Charset, LineProcessor&lt;T&gt;)</a></div>
+<div class="col-last odd-row-color">
 <div class="block">Prefer <code>asCharSource(file, charset).readLines(callback)</code>.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/Files.html#toString(java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.toString<wbr>(File, Charset)</a></div>
-<div class="col-last odd-row-color">
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/Files.html#toString(java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.toString<wbr>(File, Charset)</a></div>
+<div class="col-last even-row-color">
 <div class="block">Prefer <code>asCharSource(file, charset).read()</code>.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/Files.html#write(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.write<wbr>(CharSequence, File, Charset)</a></div>
-<div class="col-last even-row-color">
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/Files.html#write(java.lang.CharSequence,java.io.File,java.nio.charset.Charset)">com.google.common.io.Files.write<wbr>(CharSequence, File, Charset)</a></div>
+<div class="col-last odd-row-color">
 <div class="block">Prefer <code>asCharSink(to, charset).write(from)</code>.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/io/LittleEndianDataOutputStream.html#writeBytes(java.lang.String)">com.google.common.io.LittleEndianDataOutputStream.writeBytes<wbr>(String)</a></div>
-<div class="col-last odd-row-color">
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/io/LittleEndianDataOutputStream.html#writeBytes(java.lang.String)">com.google.common.io.LittleEndianDataOutputStream.writeBytes<wbr>(String)</a></div>
+<div class="col-last even-row-color">
 <div class="block">The semantics of <code>writeBytes(String s)</code> are considered dangerous. Please use
     <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeUTF(java.lang.String)"><code>LittleEndianDataOutputStream.writeUTF(String s)</code></a>, <a href="com/google/common/io/LittleEndianDataOutputStream.html#writeChars(java.lang.String)"><code>LittleEndianDataOutputStream.writeChars(String s)</code></a> or another write method instead.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/math/DoubleMath.html#mean(double...)">com.google.common.math.DoubleMath.mean<wbr>(double...)</a></div>
-<div class="col-last even-row-color">
-<div class="block">Use <a href="com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(Iterable)</code></a> instead, noting the less strict handling of non-finite
-    values.</div>
-</div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/math/DoubleMath.html#mean(int...)">com.google.common.math.DoubleMath.mean<wbr>(int...)</a></div>
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/math/DoubleMath.html#mean(double...)">com.google.common.math.DoubleMath.mean<wbr>(double...)</a></div>
 <div class="col-last odd-row-color">
 <div class="block">Use <a href="com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(Iterable)</code></a> instead, noting the less strict handling of non-finite
     values.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/math/DoubleMath.html#mean(long...)">com.google.common.math.DoubleMath.mean<wbr>(long...)</a></div>
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/math/DoubleMath.html#mean(int...)">com.google.common.math.DoubleMath.mean<wbr>(int...)</a></div>
 <div class="col-last even-row-color">
 <div class="block">Use <a href="com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(Iterable)</code></a> instead, noting the less strict handling of non-finite
     values.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/math/DoubleMath.html#mean(java.lang.Iterable)">com.google.common.math.DoubleMath.mean<wbr>(Iterable&lt;? extends Number&gt;)</a></div>
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/math/DoubleMath.html#mean(long...)">com.google.common.math.DoubleMath.mean<wbr>(long...)</a></div>
 <div class="col-last odd-row-color">
 <div class="block">Use <a href="com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(Iterable)</code></a> instead, noting the less strict handling of non-finite
     values.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/math/DoubleMath.html#mean(java.util.Iterator)">com.google.common.math.DoubleMath.mean<wbr>(Iterator&lt;? extends Number&gt;)</a></div>
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/math/DoubleMath.html#mean(java.lang.Iterable)">com.google.common.math.DoubleMath.mean<wbr>(Iterable&lt;? extends Number&gt;)</a></div>
 <div class="col-last even-row-color">
 <div class="block">Use <a href="com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(Iterable)</code></a> instead, noting the less strict handling of non-finite
     values.</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#put(com.google.common.reflect.TypeToken,B)">com.google.common.reflect.ImmutableTypeToInstanceMap.put<wbr>(TypeToken&lt;? extends B&gt;, B)</a></div>
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/math/DoubleMath.html#mean(java.util.Iterator)">com.google.common.math.DoubleMath.mean<wbr>(Iterator&lt;? extends Number&gt;)</a></div>
 <div class="col-last odd-row-color">
-<div class="block">unsupported operation</div>
+<div class="block">Use <a href="com/google/common/math/Stats.html#meanOf(java.lang.Iterable)"><code>Stats.meanOf(Iterable)</code></a> instead, noting the less strict handling of non-finite
+    values.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putAll(java.util.Map)">com.google.common.reflect.ImmutableTypeToInstanceMap.putAll<wbr>(Map&lt;? extends TypeToken&lt;? extends B&gt;, ? extends B&gt;)</a></div>
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#put(com.google.common.reflect.TypeToken,B)">com.google.common.reflect.ImmutableTypeToInstanceMap.put<wbr>(TypeToken&lt;? extends B&gt;, B)</a></div>
 <div class="col-last even-row-color">
 <div class="block">unsupported operation</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putInstance(com.google.common.reflect.TypeToken,T)">com.google.common.reflect.ImmutableTypeToInstanceMap.putInstance<wbr>(TypeToken&lt;T&gt;, T)</a></div>
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putAll(java.util.Map)">com.google.common.reflect.ImmutableTypeToInstanceMap.putAll<wbr>(Map&lt;? extends TypeToken&lt;? extends B&gt;, ? extends B&gt;)</a></div>
 <div class="col-last odd-row-color">
 <div class="block">unsupported operation</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putInstance(java.lang.Class,T)">com.google.common.reflect.ImmutableTypeToInstanceMap.putInstance<wbr>(Class&lt;T&gt;, T)</a></div>
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putInstance(com.google.common.reflect.TypeToken,T)">com.google.common.reflect.ImmutableTypeToInstanceMap.putInstance<wbr>(TypeToken&lt;T&gt;, T)</a></div>
 <div class="col-last even-row-color">
 <div class="block">unsupported operation</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/reflect/MutableTypeToInstanceMap.html#put(com.google.common.reflect.TypeToken,B)">com.google.common.reflect.MutableTypeToInstanceMap.put<wbr>(TypeToken&lt;? extends B&gt;, B)</a></div>
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/reflect/ImmutableTypeToInstanceMap.html#putInstance(java.lang.Class,T)">com.google.common.reflect.ImmutableTypeToInstanceMap.putInstance<wbr>(Class&lt;T&gt;, T)</a></div>
 <div class="col-last odd-row-color">
 <div class="block">unsupported operation</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/reflect/MutableTypeToInstanceMap.html#putAll(java.util.Map)">com.google.common.reflect.MutableTypeToInstanceMap.putAll<wbr>(Map&lt;? extends TypeToken&lt;? extends B&gt;, ? extends B&gt;)</a></div>
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/reflect/MutableTypeToInstanceMap.html#put(com.google.common.reflect.TypeToken,B)">com.google.common.reflect.MutableTypeToInstanceMap.put<wbr>(TypeToken&lt;? extends B&gt;, B)</a></div>
 <div class="col-last even-row-color">
 <div class="block">unsupported operation</div>
 </div>
-<div class="col-summary-item-name odd-row-color"><a href="com/google/common/util/concurrent/ClosingFuture.html#eventuallyClosing(com.google.common.util.concurrent.ListenableFuture,java.util.concurrent.Executor)">com.google.common.util.concurrent.ClosingFuture.eventuallyClosing<wbr>(ListenableFuture&lt;C&gt;, Executor)</a></div>
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/reflect/MutableTypeToInstanceMap.html#putAll(java.util.Map)">com.google.common.reflect.MutableTypeToInstanceMap.putAll<wbr>(Map&lt;? extends TypeToken&lt;? extends B&gt;, ? extends B&gt;)</a></div>
 <div class="col-last odd-row-color">
+<div class="block">unsupported operation</div>
+</div>
+<div class="col-summary-item-name even-row-color"><a href="com/google/common/util/concurrent/ClosingFuture.html#eventuallyClosing(com.google.common.util.concurrent.ListenableFuture,java.util.concurrent.Executor)">com.google.common.util.concurrent.ClosingFuture.eventuallyClosing<wbr>(ListenableFuture&lt;C&gt;, Executor)</a></div>
+<div class="col-last even-row-color">
 <div class="block">Creating <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link"><code>Future</code></a>s of closeable types is dangerous in general because the
     underlying value may never be closed if the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link"><code>Future</code></a> is canceled after its operation
     begins. Consider replacing code that creates <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>s of closeable types,
     including those that pass them to this method, with <a href="com/google/common/util/concurrent/ClosingFuture.html#submit(com.google.common.util.concurrent.ClosingFuture.ClosingCallable,java.util.concurrent.Executor)"><code>ClosingFuture.submit(ClosingCallable, Executor)</code></a> in order to ensure that resources do not leak. Or, to start a pipeline with a
     <a href="com/google/common/util/concurrent/ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that doesn't create values that should be closed, use <a href="com/google/common/util/concurrent/ClosingFuture.html#from(com.google.common.util.concurrent.ListenableFuture)"><code>ClosingFuture.from(ListenableFuture)</code></a>.</div>
 </div>
-<div class="col-summary-item-name even-row-color"><a href="com/google/common/util/concurrent/FluentFuture.html#from(com.google.common.util.concurrent.FluentFuture)">com.google.common.util.concurrent.FluentFuture.from<wbr>(FluentFuture&lt;V&gt;)</a></div>
-<div class="col-last even-row-color">
+<div class="col-summary-item-name odd-row-color"><a href="com/google/common/util/concurrent/FluentFuture.html#from(com.google.common.util.concurrent.FluentFuture)">com.google.common.util.concurrent.FluentFuture.from<wbr>(FluentFuture&lt;V&gt;)</a></div>
+<div class="col-last odd-row-color">
 <div class="block">no need to use this</div>
 </div>
 </div>
