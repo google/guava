@@ -17,15 +17,13 @@
     This project includes GWT-friendly sources.
   </description>
   <properties>
-    <gwt.version>2.12.2</gwt.version>
-    <gwt.plugin.version>2.10.0</gwt.plugin.version>
     <gwt.logLevel>WARN</gwt.logLevel>
   </properties>
   <dependencies>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
-      <version>1.0.3</version>
+      <version>${failureaccess.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
@@ -333,7 +331,7 @@
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>gwt-maven-plugin</artifactId>
-        <version>${gwt.plugin.version}</version>
+        <version>${gwt-maven-plugin.version}</version>
         <executions>
           <execution>
             <id>gwt-compile</id>

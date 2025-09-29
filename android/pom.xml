@@ -54,10 +54,40 @@
     <surefire.toolchain.version>${java.specification.version}</surefire.toolchain.version>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <truth.version>1.4.5</truth.version>
-    <jspecify.version>1.0.0</jspecify.version>
+    <animal-sniffer-maven-plugin.version>1.23</animal-sniffer-maven-plugin.version>
+    <asm.version>9.6</asm.version>
+    <build-helper-maven-plugin.version>3.4.0</build-helper-maven-plugin.version>
+    <central-publishing-maven-plugin.version>0.8.0</central-publishing-maven-plugin.version>
+    <error_prone_core.version>2.36.0</error_prone_core.version>
     <errorprone.version>2.41.0</errorprone.version>
+    <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
+    <failureaccess.version>1.0.3</failureaccess.version>
+    <gummy-bears-api-23-version>0.12.0</gummy-bears-api-23-version>
+    <gwt-maven-plugin.version>2.10.0</gwt-maven-plugin.version>
+    <gwt.version>2.12.2</gwt.version>
     <j2objc.version>3.1</j2objc.version>
+    <java18-signature.version>1.0</java18-signature.version>
+    <javahome-resolver-maven-plugin.version>1.0.2</javahome-resolver-maven-plugin.version>
+    <jspecify.version>1.0.0</jspecify.version>
+    <jsr305.version>3.0.2</jsr305.version>
+    <junit.version>4.13.2</junit.version>
+    <listenablefuture.version>9999.0-empty-to-avoid-conflict-with-guava</listenablefuture.version>
+    <maven-antrun-plugin.version>1.6</maven-antrun-plugin.version>
+    <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
+    <maven-compiler-plugin.version>3.13.0</maven-compiler-plugin.version>
+    <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+    <maven-enforcer-plugin.version>3.0.0-M3</maven-enforcer-plugin.version>
+    <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+    <maven-install-plugin.version>3.1.3</maven-install-plugin.version>
+    <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
+    <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
+    <maven-resources-plugin.version>3.3.1</maven-resources-plugin.version>
+    <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
+    <maven-surefire-plugin.version>3.3.1</maven-surefire-plugin.version>
+    <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
+    <plexus-io.version>3.5.1</plexus-io.version> <!-- We need at least 3.5.1 to avoid https://github.com/codehaus-plexus/plexus-io/issues/109. Once we upgrade maven-jar-plugin itself to a version new enough to depend on 3.5.1 or higher, we can remove this override. -->
+    <toolchains-maven-plugin.version>4.5.0</toolchains-maven-plugin.version>
+    <truth.version>1.4.5</truth.version>
     <project.build.outputTimestamp>2025-01-02T00:00:00Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!--
@@ -150,7 +180,7 @@
       <plugin>
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
-        <version>0.8.0</version>
+        <version>${central-publishing-maven-plugin.version}</version>
         <extensions>true</extensions>
       </plugin>
     </plugins>
@@ -158,11 +188,11 @@
       <plugins>
         <plugin>
           <artifactId>maven-antrun-plugin</artifactId>
-          <version>1.6</version>
+          <version>${maven-antrun-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
-          <version>3.13.0</version>
+          <version>${maven-compiler-plugin.version}</version>
           <configuration>
             <source>1.8</source>
             <target>1.8</target>
@@ -202,7 +232,7 @@
               <path>
                 <groupId>com.google.errorprone</groupId>
                 <artifactId>error_prone_core</artifactId>
-                <version>2.36.0</version>
+                <version>${error_prone_core.version}</version>
               </path>
             </annotationProcessorPaths>
             <!-- Fork because we need args like add-exports. (But see the TODO above about .mvn/jvm.config.) -->
@@ -240,19 +270,19 @@
         </plugin>
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.1</version>
+          <version>${maven-dependency-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-enforcer-plugin</artifactId>
-          <version>3.0.0-M3</version>
+          <version>${maven-enforcer-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-install-plugin</artifactId>
-          <version>3.1.3</version>
+          <version>${maven-install-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
-          <version>3.4.2</version>
+          <version>${maven-jar-plugin.version}</version>
           <configuration>
             <!-- Warning: Guava (at least the main module) uses maven-bundle-plugin, not maven-jar-plugin, so the configuration does not apply to it. That configuration may or may not apply to guava-testlib or other modules. -->
             <excludes>
@@ -271,14 +301,13 @@
             <dependency>
               <groupId>org.codehaus.plexus</groupId>
               <artifactId>plexus-io</artifactId>
-              <!-- We need at least 3.5.1 to avoid https://github.com/codehaus-plexus/plexus-io/issues/109. Once we upgrade maven-jar-plugin itself to a version new enough to depend on 3.5.1 or higher, we can remove this override. -->
-              <version>3.5.1</version>
+              <version>${plexus-io.version}</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <artifactId>maven-javadoc-plugin</artifactId>
-          <version>3.11.2</version>
+          <version>${maven-javadoc-plugin.version}</version>
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
@@ -300,11 +329,11 @@
         </plugin>
         <plugin>
           <artifactId>maven-resources-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>${maven-resources-plugin.version}</version>
         </plugin>
         <plugin>
           <artifactId>maven-source-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>${maven-source-plugin.version}</version>
           <executions>
             <execution>
               <id>attach-sources</id>
@@ -318,13 +347,13 @@
               <groupId>org.codehaus.plexus</groupId>
               <artifactId>plexus-io</artifactId>
               <!-- We need at least 3.5.1 to avoid https://github.com/codehaus-plexus/plexus-io/issues/109. Once we upgrade maven-source-plugin itself to a version new enough to depend on 3.5.1 or higher, we can remove this override. -->
-              <version>3.5.1</version>
+              <version>${plexus-io.version}</version>
             </dependency>
           </dependencies>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
-          <version>3.3.1</version>
+          <version>${maven-surefire-plugin.version}</version>
           <configuration>
             <jdkToolchain>
               <version>${surefire.toolchain.version}</version>
@@ -350,7 +379,7 @@
         </plugin>
         <plugin>
           <artifactId>maven-toolchains-plugin</artifactId>
-          <version>3.2.0</version>
+          <version>${maven-toolchains-plugin.version}</version>
           <executions>
             <execution>
               <goals>
@@ -369,12 +398,12 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>animal-sniffer-maven-plugin</artifactId>
-          <version>1.23</version>
+          <version>${animal-sniffer-maven-plugin.version}</version>
           <dependencies>
             <dependency>
               <groupId>org.ow2.asm</groupId>
               <artifactId>asm</artifactId>
-              <version>9.6</version>
+              <version>${asm.version}</version>
             </dependency>
           </dependencies>
           <configuration>
@@ -396,8 +425,7 @@
             <signature>
               <groupId>com.toasttab.android</groupId>
               <artifactId>gummy-bears-api-23</artifactId>
-              <version>0.12.0</version>
-              <!-- TODO(cpovirk): In principle, it would make sense to *also* test compatibility with JDK 1.8, since guava-android also has JRE users. -->
+              <version>${gummy-bears-api-23-version}</version>
             </signature>
             <ignores>
               <!-- Unsafe isn't part of the documented Android API, but it is available.
@@ -418,12 +446,12 @@
         <plugin>
           <groupId>org.codehaus.mojo</groupId>
           <artifactId>build-helper-maven-plugin</artifactId>
-          <version>3.4.0</version>
+          <version>${build-helper-maven-plugin.version}</version>
         </plugin>
         <plugin>
           <groupId>org.mvnsearch</groupId>
           <artifactId>toolchains-maven-plugin</artifactId>
-          <version>4.5.0</version>
+          <version>${toolchains-maven-plugin.version}</version>
           <executions>
             <!--
             We can apparently have only one <jdk> per execution: Others are silently ignored :(
@@ -461,7 +489,7 @@
         <plugins>
           <plugin>
             <artifactId>maven-gpg-plugin</artifactId>
-            <version>3.0.1</version>
+            <version>${maven-gpg-plugin.version}</version>
             <executions>
               <execution>
                 <id>sign-artifacts</id>
@@ -549,7 +577,7 @@
           <plugin>
             <groupId>com.diamondq.maven</groupId>
             <artifactId>javahome-resolver-maven-plugin</artifactId>
-            <version>1.0.2</version>
+            <version>${javahome-resolver-maven-plugin.version}</version>
             <executions>
               <execution>
                 <id>resolve-java-11</id>
@@ -563,7 +591,7 @@
           <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
-            <version>3.5.0</version>
+            <version>${exec-maven-plugin.version}</version>
             <executions>
               <execution>
                 <id>print-java-11-home</id>

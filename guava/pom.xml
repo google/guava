@@ -21,12 +21,12 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
-      <version>1.0.3</version>
+      <version>${failureaccess.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>listenablefuture</artifactId>
-      <version>9999.0-empty-to-avoid-conflict-with-guava</version>
+      <version>${listenablefuture.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jspecify</groupId>
@@ -67,7 +67,7 @@
         <extensions>true</extensions>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.9</version>
+        <version>${maven-bundle-plugin.version}</version>
         <executions>
           <execution>
             <id>bundle-manifest</id>
