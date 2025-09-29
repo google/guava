@@ -51,7 +51,7 @@
           "group": "com.google.errorprone",
           "module": "error_prone_annotations",
           "version": {
-            "requires": "${errorprone.version}"
+            "requires": "${error_prone_annotations.version}"
           }
         },
         {
@@ -117,7 +117,7 @@
           "group": "com.google.errorprone",
           "module": "error_prone_annotations",
           "version": {
-            "requires": "${errorprone.version}"
+            "requires": "${error_prone_annotations.version}"
           }
         },
         {
@@ -183,7 +183,7 @@
           "group": "com.google.errorprone",
           "module": "error_prone_annotations",
           "version": {
-            "requires": "${errorprone.version}"
+            "requires": "${error_prone_annotations.version}"
           }
         },
         {
@@ -249,7 +249,7 @@
           "group": "com.google.errorprone",
           "module": "error_prone_annotations",
           "version": {
-            "requires": "${errorprone.version}"
+            "requires": "${error_prone_annotations.version}"
           }
         },
         {
