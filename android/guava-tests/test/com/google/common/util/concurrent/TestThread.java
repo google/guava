@@ -68,15 +68,26 @@ public final class TestThread<L> extends Thread implements TearDown {
     start();
   }
 
-  // Thread.stop() is okay because all threads started by a test are dying at the end of the test,
-  // so there is no object state put at risk by stopping the threads abruptly. In some cases a test
-  // may put a thread into an uninterruptible operation intentionally, so there is no other way to
-  // clean up these threads.
-  @SuppressWarnings("deprecation")
+  /*
+   * TODO: b/318391980 - Once we test only under Java 20 and higher, avoid calling Thread.stop. As
+   * of Java 20, it always throws an exception, and as of Java 26, the method does not even exist.
+   * For now, we continue using it to clean up under older JDKs.
+   *
+   * Our usages should at least be *relatively* safe: Typically, threads started by a test are dying
+   * at the end of the test, so there is no object state put at risk by stopping the threads
+   * abruptly. In other cases, a test may put a thread into an uninterruptible operation
+   * intentionally, so there is no other way to clean up these threads. (The better solution,
+   * though, would be to run the tests that use TestThread in separate VMs so that their threads
+   * don't hang around during other tests.)
+   */
   @Override
   public void tearDown() throws Exception {
-    stop();
-    join();
+    try {
+      Thread.class.getMethod("stop").invoke(this);
+      join();
+    } catch (ReflectiveOperationException e) {
+      // stop() threw or did not exist. Don't join() the thread, which might hang forever.
+    }
 
     if (uncaughtThrowable != null) {
       throw new AssertionError("Uncaught throwable in " + getName(), uncaughtThrowable);

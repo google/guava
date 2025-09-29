@@ -50,7 +50,7 @@ public abstract class MonitorTestCase extends TestCase {
 
   private final boolean interruptible;
   private Monitor monitor;
-  private final TearDownStack tearDownStack = new TearDownStack(true);
+  private final TearDownStack tearDownStack = new TearDownStack();
   private TestThread<Monitor> thread1;
   private TestThread<Monitor> thread2;
 
