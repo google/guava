@@ -14,6 +14,7 @@
 
 package com.google.common.cache;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 
 import com.google.common.collect.ImmutableList;
@@ -30,126 +31,127 @@ public class CacheManualTest extends TestCase {
   public void testGetIfPresent() {
     Cache<Object, Object> cache = CacheBuilder.newBuilder().recordStats().build();
     CacheStats stats = cache.stats();
-    assertEquals(0, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(0, stats.hitCount());
+    assertThat(stats.missCount()).isEqualTo(0);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(0);
 
     Object one = new Object();
     Object two = new Object();
 
-    assertNull(cache.getIfPresent(one));
+    assertThat(cache.getIfPresent(one)).isNull();
     stats = cache.stats();
-    assertEquals(1, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(0, stats.hitCount());
-    assertNull(cache.asMap().get(one));
-    assertFalse(cache.asMap().containsKey(one));
-    assertFalse(cache.asMap().containsValue(two));
+    assertThat(stats.missCount()).isEqualTo(1);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(0);
+    assertThat(cache.asMap().get(one)).isNull();
+    assertThat(cache.asMap().containsKey(one)).isFalse();
+    assertThat(cache.asMap().containsValue(two)).isFalse();
 
-    assertNull(cache.getIfPresent(two));
+    assertThat(cache.getIfPresent(two)).isNull();
     stats = cache.stats();
-    assertEquals(2, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(0, stats.hitCount());
-    assertNull(cache.asMap().get(two));
-    assertFalse(cache.asMap().containsKey(two));
-    assertFalse(cache.asMap().containsValue(one));
+    assertThat(stats.missCount()).isEqualTo(2);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(0);
+    assertThat(cache.asMap().get(two)).isNull();
+    assertThat(cache.asMap().containsKey(two)).isFalse();
+    assertThat(cache.asMap().containsValue(one)).isFalse();
 
     cache.put(one, two);
 
-    assertSame(two, cache.getIfPresent(one));
+    assertThat(cache.getIfPresent(one)).isSameInstanceAs(two);
     stats = cache.stats();
-    assertEquals(2, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(1, stats.hitCount());
-    assertSame(two, cache.asMap().get(one));
-    assertTrue(cache.asMap().containsKey(one));
-    assertTrue(cache.asMap().containsValue(two));
+    assertThat(stats.missCount()).isEqualTo(2);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(1);
+    assertThat(cache.asMap().get(one)).isSameInstanceAs(two);
+    assertThat(cache.asMap().containsKey(one)).isTrue();
+    assertThat(cache.asMap().containsValue(two)).isTrue();
 
-    assertNull(cache.getIfPresent(two));
+    assertThat(cache.getIfPresent(two)).isNull();
     stats = cache.stats();
-    assertEquals(3, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(1, stats.hitCount());
-    assertNull(cache.asMap().get(two));
-    assertFalse(cache.asMap().containsKey(two));
-    assertFalse(cache.asMap().containsValue(one));
+    assertThat(stats.missCount()).isEqualTo(3);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(1);
+    assertThat(cache.asMap().get(two)).isNull();
+    assertThat(cache.asMap().containsKey(two)).isFalse();
+    assertThat(cache.asMap().containsValue(one)).isFalse();
 
     cache.put(two, one);
 
-    assertSame(two, cache.getIfPresent(one));
+    assertThat(cache.getIfPresent(one)).isSameInstanceAs(two);
     stats = cache.stats();
-    assertEquals(3, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(2, stats.hitCount());
-    assertSame(two, cache.asMap().get(one));
-    assertTrue(cache.asMap().containsKey(one));
-    assertTrue(cache.asMap().containsValue(two));
+    assertThat(stats.missCount()).isEqualTo(3);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(2);
+    assertThat(cache.asMap().get(one)).isSameInstanceAs(two);
+    assertThat(cache.asMap().containsKey(one)).isTrue();
+    assertThat(cache.asMap().containsValue(two)).isTrue();
 
-    assertSame(one, cache.getIfPresent(two));
+    assertThat(cache.getIfPresent(two)).isSameInstanceAs(one);
     stats = cache.stats();
-    assertEquals(3, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(3, stats.hitCount());
-    assertSame(one, cache.asMap().get(two));
-    assertTrue(cache.asMap().containsKey(two));
-    assertTrue(cache.asMap().containsValue(one));
+    assertThat(stats.missCount()).isEqualTo(3);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(3);
+    assertThat(cache.asMap().get(two)).isSameInstanceAs(one);
+    assertThat(cache.asMap().containsKey(two)).isTrue();
+    assertThat(cache.asMap().containsValue(one)).isTrue();
   }
 
   public void testGetAllPresent() {
     Cache<Integer, Integer> cache = CacheBuilder.newBuilder().recordStats().build();
     CacheStats stats = cache.stats();
-    assertEquals(0, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(0, stats.hitCount());
+    assertThat(stats.missCount()).isEqualTo(0);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(0);
 
-    assertEquals(ImmutableMap.of(), cache.getAllPresent(ImmutableList.<Integer>of()));
+    assertThat(cache.getAllPresent(ImmutableList.<Integer>of())).isEmpty();
     stats = cache.stats();
-    assertEquals(0, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(0, stats.hitCount());
+    assertThat(stats.missCount()).isEqualTo(0);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(0);
 
-    assertEquals(ImmutableMap.of(), cache.getAllPresent(asList(1, 2, 3)));
+    assertThat(cache.getAllPresent(asList(1, 2, 3))).isEqualTo(ImmutableMap.of());
     stats = cache.stats();
-    assertEquals(3, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(0, stats.hitCount());
+    assertThat(stats.missCount()).isEqualTo(3);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(0);
 
     cache.put(2, 22);
 
-    assertEquals(ImmutableMap.of(2, 22), cache.getAllPresent(asList(1, 2, 3)));
+    assertThat(cache.getAllPresent(asList(1, 2, 3))).containsExactly(2, 22);
     stats = cache.stats();
-    assertEquals(5, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(1, stats.hitCount());
+    assertThat(stats.missCount()).isEqualTo(5);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(1);
 
     cache.put(3, 33);
 
-    assertEquals(ImmutableMap.of(2, 22, 3, 33), cache.getAllPresent(asList(1, 2, 3)));
+    assertThat(cache.getAllPresent(asList(1, 2, 3))).containsExactly(2, 22, 3, 33);
     stats = cache.stats();
-    assertEquals(6, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(3, stats.hitCount());
+    assertThat(stats.missCount()).isEqualTo(6);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(3);
 
     cache.put(1, 11);
 
-    assertEquals(ImmutableMap.of(1, 11, 2, 22, 3, 33), cache.getAllPresent(asList(1, 2, 3)));
+    assertThat(cache.getAllPresent(asList(1, 2, 3)))
+        .isEqualTo(ImmutableMap.of(1, 11, 2, 22, 3, 33));
     stats = cache.stats();
-    assertEquals(6, stats.missCount());
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
-    assertEquals(6, stats.hitCount());
+    assertThat(stats.missCount()).isEqualTo(6);
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(6);
   }
 }

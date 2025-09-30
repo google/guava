@@ -62,7 +62,7 @@ public class LocalLoadingCacheTest extends TestCase {
           }
         };
     LocalLoadingCache<Object, Object> cache = makeCache(createCacheBuilder(), loader);
-    assertSame(loader, cache.localCache.defaultLoader);
+    assertThat(cache.localCache.defaultLoader).isSameInstanceAs(loader);
   }
 
   // null parameters test
@@ -78,82 +78,82 @@ public class LocalLoadingCacheTest extends TestCase {
   public void testStats() {
     CacheBuilder<Object, Object> builder = createCacheBuilder().concurrencyLevel(1).maximumSize(2);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
-    assertEquals(EMPTY_STATS, cache.stats());
+    assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
 
     Object one = new Object();
     cache.getUnchecked(one);
     CacheStats stats = cache.stats();
-    assertEquals(1, stats.requestCount());
-    assertEquals(0, stats.hitCount());
+    assertThat(stats.requestCount()).isEqualTo(1);
+    assertThat(stats.hitCount()).isEqualTo(0);
     assertThat(stats.hitRate()).isEqualTo(0.0);
-    assertEquals(1, stats.missCount());
+    assertThat(stats.missCount()).isEqualTo(1);
     assertThat(stats.missRate()).isEqualTo(1.0);
-    assertEquals(1, stats.loadCount());
+    assertThat(stats.loadCount()).isEqualTo(1);
     long totalLoadTime = stats.totalLoadTime();
-    assertTrue(totalLoadTime >= 0);
-    assertTrue(stats.averageLoadPenalty() >= 0.0);
-    assertEquals(0, stats.evictionCount());
+    assertThat(totalLoadTime).isAtLeast(0);
+    assertThat(stats.averageLoadPenalty()).isAtLeast(0.0);
+    assertThat(stats.evictionCount()).isEqualTo(0);
 
     cache.getUnchecked(one);
     stats = cache.stats();
-    assertEquals(2, stats.requestCount());
-    assertEquals(1, stats.hitCount());
+    assertThat(stats.requestCount()).isEqualTo(2);
+    assertThat(stats.hitCount()).isEqualTo(1);
     assertThat(stats.hitRate()).isEqualTo(1.0 / 2);
-    assertEquals(1, stats.missCount());
+    assertThat(stats.missCount()).isEqualTo(1);
     assertThat(stats.missRate()).isEqualTo(1.0 / 2);
-    assertEquals(1, stats.loadCount());
-    assertEquals(0, stats.evictionCount());
+    assertThat(stats.loadCount()).isEqualTo(1);
+    assertThat(stats.evictionCount()).isEqualTo(0);
 
     Object two = new Object();
     cache.getUnchecked(two);
     stats = cache.stats();
-    assertEquals(3, stats.requestCount());
-    assertEquals(1, stats.hitCount());
+    assertThat(stats.requestCount()).isEqualTo(3);
+    assertThat(stats.hitCount()).isEqualTo(1);
     assertThat(stats.hitRate()).isEqualTo(1.0 / 3);
-    assertEquals(2, stats.missCount());
+    assertThat(stats.missCount()).isEqualTo(2);
     assertThat(stats.missRate()).isEqualTo(2.0 / 3);
-    assertEquals(2, stats.loadCount());
-    assertTrue(stats.totalLoadTime() >= totalLoadTime);
+    assertThat(stats.loadCount()).isEqualTo(2);
+    assertThat(stats.totalLoadTime()).isAtLeast(totalLoadTime);
     totalLoadTime = stats.totalLoadTime();
-    assertTrue(stats.averageLoadPenalty() >= 0.0);
-    assertEquals(0, stats.evictionCount());
+    assertThat(stats.averageLoadPenalty()).isAtLeast(0.0);
+    assertThat(stats.evictionCount()).isEqualTo(0);
 
     Object three = new Object();
     cache.getUnchecked(three);
     stats = cache.stats();
-    assertEquals(4, stats.requestCount());
-    assertEquals(1, stats.hitCount());
+    assertThat(stats.requestCount()).isEqualTo(4);
+    assertThat(stats.hitCount()).isEqualTo(1);
     assertThat(stats.hitRate()).isEqualTo(1.0 / 4);
-    assertEquals(3, stats.missCount());
+    assertThat(stats.missCount()).isEqualTo(3);
     assertThat(stats.missRate()).isEqualTo(3.0 / 4);
-    assertEquals(3, stats.loadCount());
-    assertTrue(stats.totalLoadTime() >= totalLoadTime);
-    assertTrue(stats.averageLoadPenalty() >= 0.0);
-    assertEquals(1, stats.evictionCount());
+    assertThat(stats.loadCount()).isEqualTo(3);
+    assertThat(stats.totalLoadTime()).isAtLeast(totalLoadTime);
+    assertThat(stats.averageLoadPenalty()).isAtLeast(0.0);
+    assertThat(stats.evictionCount()).isEqualTo(1);
   }
 
   public void testStatsNoops() {
     CacheBuilder<Object, Object> builder = createCacheBuilder().concurrencyLevel(1);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
     ConcurrentMap<Object, Object> map = cache.localCache; // modifiable map view
-    assertEquals(EMPTY_STATS, cache.stats());
+    assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
 
     Object one = new Object();
     assertNull(map.put(one, one));
-    assertSame(one, map.get(one));
-    assertTrue(map.containsKey(one));
-    assertTrue(map.containsValue(one));
+    assertThat(map.get(one)).isSameInstanceAs(one);
+    assertThat(map.containsKey(one)).isTrue();
+    assertThat(map.containsValue(one)).isTrue();
     Object two = new Object();
-    assertSame(one, map.replace(one, two));
-    assertTrue(map.containsKey(one));
-    assertFalse(map.containsValue(one));
+    assertThat(map.replace(one, two)).isSameInstanceAs(one);
+    assertThat(map.containsKey(one)).isTrue();
+    assertThat(map.containsValue(one)).isFalse();
     Object three = new Object();
-    assertTrue(map.replace(one, two, three));
-    assertTrue(map.remove(one, three));
-    assertFalse(map.containsKey(one));
-    assertFalse(map.containsValue(one));
+    assertThat(map.replace(one, two, three)).isTrue();
+    assertThat(map.remove(one, three)).isTrue();
+    assertThat(map.containsKey(one)).isFalse();
+    assertThat(map.containsValue(one)).isFalse();
     assertNull(map.putIfAbsent(two, three));
-    assertSame(three, map.remove(two));
+    assertThat(map.remove(two)).isSameInstanceAs(three);
     assertNull(map.put(three, one));
     assertNull(map.put(one, two));
 
@@ -171,56 +171,56 @@ public class LocalLoadingCacheTest extends TestCase {
 
     map.clear();
 
-    assertEquals(EMPTY_STATS, cache.stats());
+    assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
   }
 
   public void testNoStats() {
     CacheBuilder<Object, Object> builder =
         CacheBuilder.newBuilder().concurrencyLevel(1).maximumSize(2);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
-    assertEquals(EMPTY_STATS, cache.stats());
+    assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
 
     Object one = new Object();
     cache.getUnchecked(one);
-    assertEquals(EMPTY_STATS, cache.stats());
+    assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
 
     cache.getUnchecked(one);
-    assertEquals(EMPTY_STATS, cache.stats());
+    assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
 
     Object two = new Object();
     cache.getUnchecked(two);
-    assertEquals(EMPTY_STATS, cache.stats());
+    assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
 
     Object three = new Object();
     cache.getUnchecked(three);
-    assertEquals(EMPTY_STATS, cache.stats());
+    assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
   }
 
   public void testRecordStats() {
     CacheBuilder<Object, Object> builder =
         createCacheBuilder().recordStats().concurrencyLevel(1).maximumSize(2);
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
-    assertEquals(0, cache.stats().hitCount());
-    assertEquals(0, cache.stats().missCount());
+    assertThat(cache.stats().hitCount()).isEqualTo(0);
+    assertThat(cache.stats().missCount()).isEqualTo(0);
 
     Object one = new Object();
     cache.getUnchecked(one);
-    assertEquals(0, cache.stats().hitCount());
-    assertEquals(1, cache.stats().missCount());
+    assertThat(cache.stats().hitCount()).isEqualTo(0);
+    assertThat(cache.stats().missCount()).isEqualTo(1);
 
     cache.getUnchecked(one);
-    assertEquals(1, cache.stats().hitCount());
-    assertEquals(1, cache.stats().missCount());
+    assertThat(cache.stats().hitCount()).isEqualTo(1);
+    assertThat(cache.stats().missCount()).isEqualTo(1);
 
     Object two = new Object();
     cache.getUnchecked(two);
-    assertEquals(1, cache.stats().hitCount());
-    assertEquals(2, cache.stats().missCount());
+    assertThat(cache.stats().hitCount()).isEqualTo(1);
+    assertThat(cache.stats().missCount()).isEqualTo(2);
 
     Object three = new Object();
     cache.getUnchecked(three);
-    assertEquals(1, cache.stats().hitCount());
-    assertEquals(3, cache.stats().missCount());
+    assertThat(cache.stats().hitCount()).isEqualTo(1);
+    assertThat(cache.stats().missCount()).isEqualTo(3);
   }
 
   // asMap tests
@@ -228,7 +228,7 @@ public class LocalLoadingCacheTest extends TestCase {
   public void testAsMap() {
     CacheBuilder<Object, Object> builder = createCacheBuilder();
     LocalLoadingCache<Object, Object> cache = makeCache(builder, identityLoader());
-    assertEquals(EMPTY_STATS, cache.stats());
+    assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
 
     Object one = new Object();
     Object two = new Object();
@@ -236,47 +236,47 @@ public class LocalLoadingCacheTest extends TestCase {
 
     ConcurrentMap<Object, Object> map = cache.asMap();
     assertNull(map.put(one, two));
-    assertSame(two, map.get(one));
+    assertThat(map.get(one)).isSameInstanceAs(two);
     map.putAll(ImmutableMap.of(two, three));
-    assertSame(three, map.get(two));
-    assertSame(two, map.putIfAbsent(one, three));
-    assertSame(two, map.get(one));
+    assertThat(map.get(two)).isSameInstanceAs(three);
+    assertThat(map.putIfAbsent(one, three)).isSameInstanceAs(two);
+    assertThat(map.get(one)).isSameInstanceAs(two);
     assertNull(map.putIfAbsent(three, one));
-    assertSame(one, map.get(three));
-    assertSame(two, map.replace(one, three));
-    assertSame(three, map.get(one));
-    assertFalse(map.replace(one, two, three));
-    assertSame(three, map.get(one));
-    assertTrue(map.replace(one, three, two));
-    assertSame(two, map.get(one));
-    assertEquals(3, map.size());
+    assertThat(map.get(three)).isSameInstanceAs(one);
+    assertThat(map.replace(one, three)).isSameInstanceAs(two);
+    assertThat(map.get(one)).isSameInstanceAs(three);
+    assertThat(map.replace(one, two, three)).isFalse();
+    assertThat(map.get(one)).isSameInstanceAs(three);
+    assertThat(map.replace(one, three, two)).isTrue();
+    assertThat(map.get(one)).isSameInstanceAs(two);
+    assertThat(map).hasSize(3);
 
     map.clear();
-    assertTrue(map.isEmpty());
-    assertEquals(0, map.size());
+    assertThat(map.isEmpty()).isTrue();
+    assertThat(map).isEmpty();
 
     cache.getUnchecked(one);
-    assertEquals(1, map.size());
-    assertSame(one, map.get(one));
-    assertTrue(map.containsKey(one));
-    assertTrue(map.containsValue(one));
-    assertSame(one, map.remove(one));
-    assertEquals(0, map.size());
+    assertThat(map).hasSize(1);
+    assertThat(map.get(one)).isSameInstanceAs(one);
+    assertThat(map.containsKey(one)).isTrue();
+    assertThat(map.containsValue(one)).isTrue();
+    assertThat(map.remove(one)).isSameInstanceAs(one);
+    assertThat(map).isEmpty();
 
     cache.getUnchecked(one);
-    assertEquals(1, map.size());
-    assertFalse(map.remove(one, two));
-    assertTrue(map.remove(one, one));
-    assertEquals(0, map.size());
+    assertThat(map).hasSize(1);
+    assertThat(map.remove(one, two)).isFalse();
+    assertThat(map.remove(one, one)).isTrue();
+    assertThat(map).isEmpty();
 
     cache.getUnchecked(one);
     Map<Object, Object> newMap = ImmutableMap.of(one, one);
-    assertEquals(newMap, map);
-    assertEquals(newMap.entrySet(), map.entrySet());
-    assertEquals(newMap.keySet(), map.keySet());
+    assertThat(map).isEqualTo(newMap);
+    assertThat(map.entrySet()).isEqualTo(newMap.entrySet());
+    assertThat(map.keySet()).isEqualTo(newMap.keySet());
     Set<Object> expectedValues = ImmutableSet.of(one);
     Set<Object> actualValues = ImmutableSet.copyOf(map.values());
-    assertEquals(expectedValues, actualValues);
+    assertThat(actualValues).isEqualTo(expectedValues);
   }
 
   /** Lookups on the map view shouldn't impact the recency queue. */
@@ -288,12 +288,12 @@ public class LocalLoadingCacheTest extends TestCase {
     ConcurrentMap<Object, Object> map = cache.asMap();
 
     Object one = new Object();
-    assertSame(one, cache.getUnchecked(one));
-    assertTrue(segment.recencyQueue.isEmpty());
-    assertSame(one, map.get(one));
-    assertSame(one, segment.recencyQueue.peek().getKey());
-    assertSame(one, cache.getUnchecked(one));
-    assertFalse(segment.recencyQueue.isEmpty());
+    assertThat(cache.getUnchecked(one)).isSameInstanceAs(one);
+    assertThat(segment.recencyQueue.isEmpty()).isTrue();
+    assertThat(map.get(one)).isSameInstanceAs(one);
+    assertThat(segment.recencyQueue.peek().getKey()).isSameInstanceAs(one);
+    assertThat(cache.getUnchecked(one)).isSameInstanceAs(one);
+    assertThat(segment.recencyQueue.isEmpty()).isFalse();
   }
 
   public void testRecursiveComputation() throws InterruptedException {
@@ -313,7 +313,7 @@ public class LocalLoadingCacheTest extends TestCase {
     LoadingCache<Integer, String> recursiveCache =
         CacheBuilder.newBuilder().weakKeys().weakValues().build(recursiveLoader);
     cacheRef.set(recursiveCache);
-    assertEquals("3, 2, 1, 0", recursiveCache.getUnchecked(3));
+    assertThat(recursiveCache.getUnchecked(3)).isEqualTo("3, 2, 1, 0");
 
     recursiveLoader =
         new CacheLoader<Integer, String>() {

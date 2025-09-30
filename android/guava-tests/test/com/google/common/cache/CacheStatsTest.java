@@ -31,34 +31,34 @@ public class CacheStatsTest extends TestCase {
 
   public void testEmpty() {
     CacheStats stats = new CacheStats(0, 0, 0, 0, 0, 0);
-    assertEquals(0, stats.requestCount());
-    assertEquals(0, stats.hitCount());
+    assertThat(stats.requestCount()).isEqualTo(0);
+    assertThat(stats.hitCount()).isEqualTo(0);
     assertThat(stats.hitRate()).isEqualTo(1.0);
-    assertEquals(0, stats.missCount());
+    assertThat(stats.missCount()).isEqualTo(0);
     assertThat(stats.missRate()).isEqualTo(0.0);
-    assertEquals(0, stats.loadSuccessCount());
-    assertEquals(0, stats.loadExceptionCount());
+    assertThat(stats.loadSuccessCount()).isEqualTo(0);
+    assertThat(stats.loadExceptionCount()).isEqualTo(0);
     assertThat(stats.loadExceptionRate()).isEqualTo(0.0);
-    assertEquals(0, stats.loadCount());
-    assertEquals(0, stats.totalLoadTime());
+    assertThat(stats.loadCount()).isEqualTo(0);
+    assertThat(stats.totalLoadTime()).isEqualTo(0);
     assertThat(stats.averageLoadPenalty()).isEqualTo(0.0);
-    assertEquals(0, stats.evictionCount());
+    assertThat(stats.evictionCount()).isEqualTo(0);
   }
 
   public void testSingle() {
     CacheStats stats = new CacheStats(11, 13, 17, 19, 23, 27);
-    assertEquals(24, stats.requestCount());
-    assertEquals(11, stats.hitCount());
+    assertThat(stats.requestCount()).isEqualTo(24);
+    assertThat(stats.hitCount()).isEqualTo(11);
     assertThat(stats.hitRate()).isEqualTo(11.0 / 24);
-    assertEquals(13, stats.missCount());
+    assertThat(stats.missCount()).isEqualTo(13);
     assertThat(stats.missRate()).isEqualTo(13.0 / 24);
-    assertEquals(17, stats.loadSuccessCount());
-    assertEquals(19, stats.loadExceptionCount());
+    assertThat(stats.loadSuccessCount()).isEqualTo(17);
+    assertThat(stats.loadExceptionCount()).isEqualTo(19);
     assertThat(stats.loadExceptionRate()).isEqualTo(19.0 / 36);
-    assertEquals(17 + 19, stats.loadCount());
-    assertEquals(23, stats.totalLoadTime());
+    assertThat(stats.loadCount()).isEqualTo(17 + 19);
+    assertThat(stats.totalLoadTime()).isEqualTo(23);
     assertThat(stats.averageLoadPenalty()).isEqualTo(23.0 / (17 + 19));
-    assertEquals(27, stats.evictionCount());
+    assertThat(stats.evictionCount()).isEqualTo(27);
   }
 
   public void testMinus() {
@@ -66,20 +66,20 @@ public class CacheStatsTest extends TestCase {
     CacheStats two = new CacheStats(53, 47, 43, 41, 37, 31);
 
     CacheStats diff = two.minus(one);
-    assertEquals(76, diff.requestCount());
-    assertEquals(42, diff.hitCount());
+    assertThat(diff.requestCount()).isEqualTo(76);
+    assertThat(diff.hitCount()).isEqualTo(42);
     assertThat(diff.hitRate()).isEqualTo(42.0 / 76);
-    assertEquals(34, diff.missCount());
+    assertThat(diff.missCount()).isEqualTo(34);
     assertThat(diff.missRate()).isEqualTo(34.0 / 76);
-    assertEquals(26, diff.loadSuccessCount());
-    assertEquals(22, diff.loadExceptionCount());
+    assertThat(diff.loadSuccessCount()).isEqualTo(26);
+    assertThat(diff.loadExceptionCount()).isEqualTo(22);
     assertThat(diff.loadExceptionRate()).isEqualTo(22.0 / 48);
-    assertEquals(26 + 22, diff.loadCount());
-    assertEquals(14, diff.totalLoadTime());
+    assertThat(diff.loadCount()).isEqualTo(26 + 22);
+    assertThat(diff.totalLoadTime()).isEqualTo(14);
     assertThat(diff.averageLoadPenalty()).isEqualTo(14.0 / (26 + 22));
-    assertEquals(4, diff.evictionCount());
+    assertThat(diff.evictionCount()).isEqualTo(4);
 
-    assertEquals(new CacheStats(0, 0, 0, 0, 0, 0), one.minus(two));
+    assertThat(one.minus(two)).isEqualTo(new CacheStats(0, 0, 0, 0, 0, 0));
   }
 
   public void testPlus() {
@@ -87,20 +87,20 @@ public class CacheStatsTest extends TestCase {
     CacheStats two = new CacheStats(53, 47, 41, 39, 37, 35);
 
     CacheStats sum = two.plus(one);
-    assertEquals(124, sum.requestCount());
-    assertEquals(64, sum.hitCount());
+    assertThat(sum.requestCount()).isEqualTo(124);
+    assertThat(sum.hitCount()).isEqualTo(64);
     assertThat(sum.hitRate()).isEqualTo(64.0 / 124);
-    assertEquals(60, sum.missCount());
+    assertThat(sum.missCount()).isEqualTo(60);
     assertThat(sum.missRate()).isEqualTo(60.0 / 124);
-    assertEquals(56, sum.loadSuccessCount());
-    assertEquals(52, sum.loadExceptionCount());
+    assertThat(sum.loadSuccessCount()).isEqualTo(56);
+    assertThat(sum.loadExceptionCount()).isEqualTo(52);
     assertThat(sum.loadExceptionRate()).isEqualTo(52.0 / 108);
-    assertEquals(56 + 52, sum.loadCount());
-    assertEquals(48, sum.totalLoadTime());
+    assertThat(sum.loadCount()).isEqualTo(56 + 52);
+    assertThat(sum.totalLoadTime()).isEqualTo(48);
     assertThat(sum.averageLoadPenalty()).isEqualTo(48.0 / (56 + 52));
-    assertEquals(44, sum.evictionCount());
+    assertThat(sum.evictionCount()).isEqualTo(44);
 
-    assertEquals(sum, one.plus(two));
+    assertThat(one.plus(two)).isEqualTo(sum);
   }
 
   public void testPlusLarge() {
@@ -115,19 +115,19 @@ public class CacheStatsTest extends TestCase {
     CacheStats smallCacheStats = new CacheStats(1, 1, 1, 1, 1, 1);
 
     CacheStats sum = smallCacheStats.plus(maxCacheStats);
-    assertEquals(Long.MAX_VALUE, sum.requestCount());
-    assertEquals(Long.MAX_VALUE, sum.hitCount());
+    assertThat(sum.requestCount()).isEqualTo(Long.MAX_VALUE);
+    assertThat(sum.hitCount()).isEqualTo(Long.MAX_VALUE);
     assertThat(sum.hitRate()).isEqualTo(1.0);
-    assertEquals(Long.MAX_VALUE, sum.missCount());
+    assertThat(sum.missCount()).isEqualTo(Long.MAX_VALUE);
     assertThat(sum.missRate()).isEqualTo(1.0);
-    assertEquals(Long.MAX_VALUE, sum.loadSuccessCount());
-    assertEquals(Long.MAX_VALUE, sum.loadExceptionCount());
+    assertThat(sum.loadSuccessCount()).isEqualTo(Long.MAX_VALUE);
+    assertThat(sum.loadExceptionCount()).isEqualTo(Long.MAX_VALUE);
     assertThat(sum.loadExceptionRate()).isEqualTo(1.0);
-    assertEquals(Long.MAX_VALUE, sum.loadCount());
-    assertEquals(Long.MAX_VALUE, sum.totalLoadTime());
+    assertThat(sum.loadCount()).isEqualTo(Long.MAX_VALUE);
+    assertThat(sum.totalLoadTime()).isEqualTo(Long.MAX_VALUE);
     assertThat(sum.averageLoadPenalty()).isEqualTo(1.0);
-    assertEquals(Long.MAX_VALUE, sum.evictionCount());
+    assertThat(sum.evictionCount()).isEqualTo(Long.MAX_VALUE);
 
-    assertEquals(sum, maxCacheStats.plus(smallCacheStats));
+    assertThat(maxCacheStats.plus(smallCacheStats)).isEqualTo(sum);
   }
 }

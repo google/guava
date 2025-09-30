@@ -61,7 +61,7 @@ public class LocalCacheMapComputeTest extends TestCase {
         n -> {
           cache.asMap().computeIfAbsent(key, k -> "value" + n);
         });
-    assertEquals(1, cache.size());
+    assertThat(cache.size()).isEqualTo(1);
   }
 
   public void testComputeIfAbsentEviction() {
@@ -96,7 +96,7 @@ public class LocalCacheMapComputeTest extends TestCase {
         n -> {
           cache.asMap().computeIfPresent(key, (k, v) -> v + delimiter + n);
         });
-    assertEquals(1, cache.size());
+    assertThat(cache.size()).isEqualTo(1);
     assertThat(cache.getIfPresent(key).split(delimiter)).hasLength(count + 1);
   }
 
@@ -161,7 +161,7 @@ public class LocalCacheMapComputeTest extends TestCase {
         n -> {
           cache.asMap().compute(key, (k, v) -> null);
         });
-    assertEquals(0, cache.size());
+    assertThat(cache.size()).isEqualTo(0);
   }
 
   public void testComputeWithLoad() {

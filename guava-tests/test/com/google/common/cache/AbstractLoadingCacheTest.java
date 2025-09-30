@@ -61,7 +61,7 @@ public class AbstractLoadingCacheTest extends TestCase {
 
     Object newValue = new Object();
     valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    assertThat(cache.getUnchecked(new Object())).isSameInstanceAs(newValue);
   }
 
   public void testGetUnchecked_unchecked() {
@@ -90,7 +90,7 @@ public class AbstractLoadingCacheTest extends TestCase {
 
     Object newValue = new Object();
     valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    assertThat(cache.getUnchecked(new Object())).isSameInstanceAs(newValue);
   }
 
   public void testGetUnchecked_error() {
@@ -119,7 +119,7 @@ public class AbstractLoadingCacheTest extends TestCase {
 
     Object newValue = new Object();
     valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    assertThat(cache.getUnchecked(new Object())).isSameInstanceAs(newValue);
   }
 
   public void testGetUnchecked_otherThrowable() {
@@ -148,6 +148,6 @@ public class AbstractLoadingCacheTest extends TestCase {
 
     Object newValue = new Object();
     valueRef.set(newValue);
-    assertSame(newValue, cache.getUnchecked(new Object()));
+    assertThat(cache.getUnchecked(new Object())).isSameInstanceAs(newValue);
   }
 }

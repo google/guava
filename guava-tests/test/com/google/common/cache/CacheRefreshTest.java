@@ -15,6 +15,7 @@
 package com.google.common.cache;
 
 import static com.google.common.cache.TestingCacheLoaders.incrementingLoader;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.cache.TestingCacheLoaders.IncrementingLoader;
@@ -42,61 +43,61 @@ public class CacheRefreshTest extends TestCase {
     int expectedLoads = 0;
     int expectedReloads = 0;
     for (int i = 0; i < 3; i++) {
-      assertEquals(Integer.valueOf(i), cache.getUnchecked(i));
+      assertThat(cache.getUnchecked(i)).isEqualTo(i);
       expectedLoads++;
-      assertEquals(expectedLoads, loader.getLoadCount());
-      assertEquals(expectedReloads, loader.getReloadCount());
+      assertThat(loader.getLoadCount()).isEqualTo(expectedLoads);
+      assertThat(loader.getReloadCount()).isEqualTo(expectedReloads);
       ticker.advance(1, MILLISECONDS);
     }
 
-    assertEquals(Integer.valueOf(0), cache.getUnchecked(0));
-    assertEquals(Integer.valueOf(1), cache.getUnchecked(1));
-    assertEquals(Integer.valueOf(2), cache.getUnchecked(2));
-    assertEquals(expectedLoads, loader.getLoadCount());
-    assertEquals(expectedReloads, loader.getReloadCount());
+    assertThat(cache.getUnchecked(0)).isEqualTo(0);
+    assertThat(cache.getUnchecked(1)).isEqualTo(1);
+    assertThat(cache.getUnchecked(2)).isEqualTo(2);
+    assertThat(loader.getLoadCount()).isEqualTo(expectedLoads);
+    assertThat(loader.getReloadCount()).isEqualTo(expectedReloads);
 
     // refresh 0
     ticker.advance(1, MILLISECONDS);
-    assertEquals(Integer.valueOf(1), cache.getUnchecked(0));
+    assertThat(cache.getUnchecked(0)).isEqualTo(1);
     expectedReloads++;
-    assertEquals(Integer.valueOf(1), cache.getUnchecked(1));
-    assertEquals(Integer.valueOf(2), cache.getUnchecked(2));
-    assertEquals(expectedLoads, loader.getLoadCount());
-    assertEquals(expectedReloads, loader.getReloadCount());
+    assertThat(cache.getUnchecked(1)).isEqualTo(1);
+    assertThat(cache.getUnchecked(2)).isEqualTo(2);
+    assertThat(loader.getLoadCount()).isEqualTo(expectedLoads);
+    assertThat(loader.getReloadCount()).isEqualTo(expectedReloads);
 
     // write to 1 to delay its refresh
     cache.asMap().put(1, -1);
     ticker.advance(1, MILLISECONDS);
-    assertEquals(Integer.valueOf(1), cache.getUnchecked(0));
-    assertEquals(Integer.valueOf(-1), cache.getUnchecked(1));
-    assertEquals(Integer.valueOf(2), cache.getUnchecked(2));
-    assertEquals(expectedLoads, loader.getLoadCount());
-    assertEquals(expectedReloads, loader.getReloadCount());
+    assertThat(cache.getUnchecked(0)).isEqualTo(1);
+    assertThat(cache.getUnchecked(1)).isEqualTo(-1);
+    assertThat(cache.getUnchecked(2)).isEqualTo(2);
+    assertThat(loader.getLoadCount()).isEqualTo(expectedLoads);
+    assertThat(loader.getReloadCount()).isEqualTo(expectedReloads);
 
     // refresh 2
     ticker.advance(1, MILLISECONDS);
-    assertEquals(Integer.valueOf(1), cache.getUnchecked(0));
-    assertEquals(Integer.valueOf(-1), cache.getUnchecked(1));
-    assertEquals(Integer.valueOf(3), cache.getUnchecked(2));
+    assertThat(cache.getUnchecked(0)).isEqualTo(1);
+    assertThat(cache.getUnchecked(1)).isEqualTo(-1);
+    assertThat(cache.getUnchecked(2)).isEqualTo(3);
     expectedReloads++;
-    assertEquals(expectedLoads, loader.getLoadCount());
-    assertEquals(expectedReloads, loader.getReloadCount());
+    assertThat(loader.getLoadCount()).isEqualTo(expectedLoads);
+    assertThat(loader.getReloadCount()).isEqualTo(expectedReloads);
 
     ticker.advance(1, MILLISECONDS);
-    assertEquals(Integer.valueOf(1), cache.getUnchecked(0));
-    assertEquals(Integer.valueOf(-1), cache.getUnchecked(1));
-    assertEquals(Integer.valueOf(3), cache.getUnchecked(2));
-    assertEquals(expectedLoads, loader.getLoadCount());
-    assertEquals(expectedReloads, loader.getReloadCount());
+    assertThat(cache.getUnchecked(0)).isEqualTo(1);
+    assertThat(cache.getUnchecked(1)).isEqualTo(-1);
+    assertThat(cache.getUnchecked(2)).isEqualTo(3);
+    assertThat(loader.getLoadCount()).isEqualTo(expectedLoads);
+    assertThat(loader.getReloadCount()).isEqualTo(expectedReloads);
 
     // refresh 0 and 1
     ticker.advance(1, MILLISECONDS);
-    assertEquals(Integer.valueOf(2), cache.getUnchecked(0));
+    assertThat(cache.getUnchecked(0)).isEqualTo(2);
     expectedReloads++;
-    assertEquals(Integer.valueOf(0), cache.getUnchecked(1));
+    assertThat(cache.getUnchecked(1)).isEqualTo(0);
     expectedReloads++;
-    assertEquals(Integer.valueOf(3), cache.getUnchecked(2));
-    assertEquals(expectedLoads, loader.getLoadCount());
-    assertEquals(expectedReloads, loader.getReloadCount());
+    assertThat(cache.getUnchecked(2)).isEqualTo(3);
+    assertThat(loader.getLoadCount()).isEqualTo(expectedLoads);
+    assertThat(loader.getReloadCount()).isEqualTo(expectedReloads);
   }
 }

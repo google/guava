@@ -16,6 +16,7 @@ package com.google.common.cache;
 
 import static com.google.common.cache.CacheTesting.checkEmpty;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -75,7 +76,7 @@ public class EmptyCachesTest extends TestCase {
 
   public void testEquals_null() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      assertFalse(cache.equals(null));
+      assertThat(cache.equals(null)).isFalse();
     }
   }
 
@@ -138,11 +139,11 @@ public class EmptyCachesTest extends TestCase {
   public void testKeySet_empty_remove() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Object> keys = cache.asMap().keySet();
-      assertFalse(keys.remove(null));
-      assertFalse(keys.remove(6));
-      assertFalse(keys.remove(-6));
-      assertFalse(keys.removeAll(asList(null, 0, 15, 1500)));
-      assertFalse(keys.retainAll(asList(null, 0, 15, 1500)));
+      assertThat(keys.remove(null)).isFalse();
+      assertThat(keys.remove(6)).isFalse();
+      assertThat(keys.remove(-6)).isFalse();
+      assertThat(keys.removeAll(asList(null, 0, 15, 1500))).isFalse();
+      assertThat(keys.retainAll(asList(null, 0, 15, 1500))).isFalse();
       checkEmpty(keys);
       checkEmpty(cache);
     }
@@ -158,11 +159,11 @@ public class EmptyCachesTest extends TestCase {
       // values of these removes, but the cache should be empty after the removes, regardless.
       keys.remove(1);
       keys.remove(2);
-      assertFalse(keys.remove(null));
-      assertFalse(keys.remove(6));
-      assertFalse(keys.remove(-6));
-      assertFalse(keys.removeAll(asList(null, 0, 15, 1500)));
-      assertFalse(keys.retainAll(asList(null, 0, 15, 1500)));
+      assertThat(keys.remove(null)).isFalse();
+      assertThat(keys.remove(6)).isFalse();
+      assertThat(keys.remove(-6)).isFalse();
+      assertThat(keys.removeAll(asList(null, 0, 15, 1500))).isFalse();
+      assertThat(keys.retainAll(asList(null, 0, 15, 1500))).isFalse();
       checkEmpty(keys);
       checkEmpty(cache);
     }
@@ -202,11 +203,11 @@ public class EmptyCachesTest extends TestCase {
   public void testValues_empty_remove() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Collection<Object> values = cache.asMap().values();
-      assertFalse(values.remove(null));
-      assertFalse(values.remove(6));
-      assertFalse(values.remove(-6));
-      assertFalse(values.removeAll(asList(null, 0, 15, 1500)));
-      assertFalse(values.retainAll(asList(null, 0, 15, 1500)));
+      assertThat(values.remove(null)).isFalse();
+      assertThat(values.remove(6)).isFalse();
+      assertThat(values.remove(-6)).isFalse();
+      assertThat(values.removeAll(asList(null, 0, 15, 1500))).isFalse();
+      assertThat(values.retainAll(asList(null, 0, 15, 1500))).isFalse();
       checkEmpty(values);
       checkEmpty(cache);
     }
@@ -222,11 +223,11 @@ public class EmptyCachesTest extends TestCase {
       // values of these removes, but the cache should be empty after the removes, regardless.
       values.remove(1);
       values.remove(2);
-      assertFalse(values.remove(null));
-      assertFalse(values.remove(6));
-      assertFalse(values.remove(-6));
-      assertFalse(values.removeAll(asList(null, 0, 15, 1500)));
-      assertFalse(values.retainAll(asList(null, 0, 15, 1500)));
+      assertThat(values.remove(null)).isFalse();
+      assertThat(values.remove(6)).isFalse();
+      assertThat(values.remove(-6)).isFalse();
+      assertThat(values.removeAll(asList(null, 0, 15, 1500))).isFalse();
+      assertThat(values.retainAll(asList(null, 0, 15, 1500))).isFalse();
       checkEmpty(values);
       checkEmpty(cache);
     }
@@ -269,11 +270,11 @@ public class EmptyCachesTest extends TestCase {
   public void testEntrySet_empty_remove() {
     for (LoadingCache<Object, Object> cache : caches()) {
       Set<Entry<Object, Object>> entrySet = cache.asMap().entrySet();
-      assertFalse(entrySet.remove(null));
-      assertFalse(entrySet.remove(entryOf(6, 6)));
-      assertFalse(entrySet.remove(entryOf(-6, -6)));
-      assertFalse(entrySet.removeAll(asList(null, entryOf(0, 0), entryOf(15, 15))));
-      assertFalse(entrySet.retainAll(asList(null, entryOf(0, 0), entryOf(15, 15))));
+      assertThat(entrySet.remove(null)).isFalse();
+      assertThat(entrySet.remove(entryOf(6, 6))).isFalse();
+      assertThat(entrySet.remove(entryOf(-6, -6))).isFalse();
+      assertThat(entrySet.removeAll(asList(null, entryOf(0, 0), entryOf(15, 15)))).isFalse();
+      assertThat(entrySet.retainAll(asList(null, entryOf(0, 0), entryOf(15, 15)))).isFalse();
       checkEmpty(entrySet);
       checkEmpty(cache);
     }
@@ -289,11 +290,11 @@ public class EmptyCachesTest extends TestCase {
       // values of these removes, but the cache should be empty after the removes, regardless.
       entrySet.remove(entryOf(1, 1));
       entrySet.remove(entryOf(2, 2));
-      assertFalse(entrySet.remove(null));
-      assertFalse(entrySet.remove(entryOf(1, 1)));
-      assertFalse(entrySet.remove(entryOf(6, 6)));
-      assertFalse(entrySet.removeAll(asList(null, entryOf(1, 1), entryOf(15, 15))));
-      assertFalse(entrySet.retainAll(asList(null, entryOf(1, 1), entryOf(15, 15))));
+      assertThat(entrySet.remove(null)).isFalse();
+      assertThat(entrySet.remove(entryOf(1, 1))).isFalse();
+      assertThat(entrySet.remove(entryOf(6, 6))).isFalse();
+      assertThat(entrySet.removeAll(asList(null, entryOf(1, 1), entryOf(15, 15)))).isFalse();
+      assertThat(entrySet.retainAll(asList(null, entryOf(1, 1), entryOf(15, 15)))).isFalse();
       checkEmpty(entrySet);
       checkEmpty(cache);
     }

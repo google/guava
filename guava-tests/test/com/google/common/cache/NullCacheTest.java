@@ -51,12 +51,12 @@ public class NullCacheTest extends TestCase {
             .build(constantLoader(computed));
 
     Object key = new Object();
-    assertSame(computed, cache.getUnchecked(key));
+    assertThat(cache.getUnchecked(key)).isSameInstanceAs(computed);
     RemovalNotification<Object, Object> notification = listener.remove();
-    assertSame(key, notification.getKey());
-    assertSame(computed, notification.getValue());
-    assertSame(RemovalCause.SIZE, notification.getCause());
-    assertTrue(listener.isEmpty());
+    assertThat(notification.getKey()).isSameInstanceAs(key);
+    assertThat(notification.getValue()).isSameInstanceAs(computed);
+    assertThat(notification.getCause()).isSameInstanceAs(RemovalCause.SIZE);
+    assertThat(listener.isEmpty()).isTrue();
     checkEmpty(cache);
   }
 
@@ -69,12 +69,12 @@ public class NullCacheTest extends TestCase {
             .build(constantLoader(computed));
 
     Object key = new Object();
-    assertSame(computed, cache.getUnchecked(key));
+    assertThat(cache.getUnchecked(key)).isSameInstanceAs(computed);
     RemovalNotification<Object, Object> notification = listener.remove();
-    assertSame(key, notification.getKey());
-    assertSame(computed, notification.getValue());
-    assertSame(RemovalCause.SIZE, notification.getCause());
-    assertTrue(listener.isEmpty());
+    assertThat(notification.getKey()).isSameInstanceAs(key);
+    assertThat(notification.getValue()).isSameInstanceAs(computed);
+    assertThat(notification.getCause()).isSameInstanceAs(RemovalCause.SIZE);
+    assertThat(listener.isEmpty()).isTrue();
     checkEmpty(cache);
   }
 
@@ -87,12 +87,12 @@ public class NullCacheTest extends TestCase {
             .build(constantLoader(computed));
 
     Object key = new Object();
-    assertSame(computed, cache.getUnchecked(key));
+    assertThat(cache.getUnchecked(key)).isSameInstanceAs(computed);
     RemovalNotification<Object, Object> notification = listener.remove();
-    assertSame(key, notification.getKey());
-    assertSame(computed, notification.getValue());
-    assertSame(RemovalCause.SIZE, notification.getCause());
-    assertTrue(listener.isEmpty());
+    assertThat(notification.getKey()).isSameInstanceAs(key);
+    assertThat(notification.getValue()).isSameInstanceAs(computed);
+    assertThat(notification.getCause()).isSameInstanceAs(RemovalCause.SIZE);
+    assertThat(listener.isEmpty()).isTrue();
     checkEmpty(cache);
   }
 
@@ -105,7 +105,7 @@ public class NullCacheTest extends TestCase {
 
     assertThrows(InvalidCacheLoadException.class, () -> cache.getUnchecked(new Object()));
 
-    assertTrue(listener.isEmpty());
+    assertThat(listener.isEmpty()).isTrue();
     checkEmpty(cache);
   }
 
@@ -120,7 +120,7 @@ public class NullCacheTest extends TestCase {
     UncheckedExecutionException uee =
         assertThrows(UncheckedExecutionException.class, () -> map.getUnchecked(new Object()));
     assertThat(uee).hasCauseThat().isSameInstanceAs(e);
-    assertTrue(listener.isEmpty());
+    assertThat(listener.isEmpty()).isTrue();
     checkEmpty(map);
   }
 }
