@@ -24,7 +24,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.HashMultiset;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Multiset;
@@ -1213,7 +1212,7 @@ public class TraverserTest {
   }
 
   private static void assertEqualCharNodes(Iterable<Character> result, String expectedCharacters) {
-    assertThat(ImmutableList.copyOf(result))
+    assertThat(result)
         .containsExactlyElementsIn(Chars.asList(expectedCharacters.toCharArray()))
         .inOrder();
   }

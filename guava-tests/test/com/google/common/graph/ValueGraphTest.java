@@ -417,8 +417,8 @@ public final class ValueGraphTest {
     assertThat(graph.edgeValueOrDefault(2, 1, DEFAULT)).isEqualTo("valueB");
     assertThat(graph.edgeValueOrDefault(1, 2, null)).isEqualTo("valueA");
     assertThat(graph.edgeValueOrDefault(2, 1, null)).isEqualTo("valueB");
-    assertThat(graph.edgeValue(1, 2).get()).isEqualTo("valueA");
-    assertThat(graph.edgeValue(2, 1).get()).isEqualTo("valueB");
+    assertThat(graph.edgeValue(1, 2)).hasValue("valueA");
+    assertThat(graph.edgeValue(2, 1)).hasValue("valueB");
 
     graph.removeEdge(1, 2);
     graph.putEdgeValue(2, 1, "valueC");
@@ -428,7 +428,7 @@ public final class ValueGraphTest {
     assertThat(graph.edgeValueOrDefault(1, 2, null)).isNull();
     assertThat(graph.edgeValueOrDefault(2, 1, null)).isEqualTo("valueC");
     assertThat(graph.edgeValue(1, 2).orElse(null)).isNull();
-    assertThat(graph.edgeValue(2, 1).get()).isEqualTo("valueC");
+    assertThat(graph.edgeValue(2, 1)).hasValue("valueC");
   }
 
   @Test

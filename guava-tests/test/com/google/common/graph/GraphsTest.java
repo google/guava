@@ -459,7 +459,7 @@ public class GraphsTest {
     AbstractNetworkTest.validateNetwork(transpose);
 
     assertThat(transpose.edgesConnecting(N1, N2)).isEmpty();
-    assertThat(transpose.edgeConnecting(N1, N2).isPresent()).isFalse();
+    assertThat(transpose.edgeConnecting(N1, N2)).isEmpty();
     assertThat(transpose.edgeConnectingOrNull(N1, N2)).isNull();
 
     for (Integer node : directedGraph.nodes()) {
@@ -470,7 +470,7 @@ public class GraphsTest {
     directedGraph.addEdge(N2, N1, E21);
     // View should be updated.
     assertThat(transpose.edgesConnecting(N1, N2)).containsExactly(E21);
-    assertThat(transpose.edgeConnecting(N1, N2).get()).isEqualTo(E21);
+    assertThat(transpose.edgeConnecting(N1, N2)).hasValue(E21);
     assertThat(transpose.edgeConnectingOrNull(N1, N2)).isEqualTo(E21);
     AbstractNetworkTest.validateNetwork(transpose);
   }
