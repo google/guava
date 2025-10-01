@@ -78,7 +78,7 @@ loadScripts(document, 'script');</script>
 <div class="header">
 <h1 title="Class Striped" class="title">Class Striped&lt;<span id="type-param-L">L</span>&gt;</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.util.concurrent.Striped&lt;L&gt;</div>
 </div>
 <section class="class-description" id="class-description">
@@ -86,7 +86,7 @@ loadScripts(document, 'script');</script>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">Striped&lt;L&gt;</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A striped <code>Lock/Semaphore/ReadWriteLock</code>. This offers the underlying lock striping similar
 to that of <code>ConcurrentHashMap</code> in a reusable form, and extends it for semaphores and
 read-write locks. Conceptually, lock striping is the technique of dividing a lock into many
@@ -96,7 +96,7 @@ lock.
 
 <p>The guarantee provided by this class is that equal keys lead to the same lock (or semaphore),
 i.e. <code>if (key1.equals(key2))</code> then <code>striped.get(key1) == striped.get(key2)</code> (assuming
-<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link"><code>Object.hashCode()</code></a> is correctly implemented for the keys). Note that if <code>key1</code> is
+<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link"><code>Object.hashCode()</code></a> is correctly implemented for the keys). Note that if <code>key1</code> is
 <strong>not</strong> equal to <code>key2</code>, it is <strong>not</strong> guaranteed that <code>
 striped.get(key1) != striped.get(key2)</code>; the elements might nevertheless be mapped to the same
 lock. The lower the number of stripes, the higher the probability of this happening.
@@ -139,8 +139,8 @@ possibly thousands of locks which could be created in a <code>Map&lt;K, Lock&gt;
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a><wbr>&lt;<a href="#type-param-L" title="type parameter in Striped">L</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bulkGet(java.lang.Iterable)" class="member-name-link">bulkGet</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a><wbr>&lt;<a href="#type-param-L" title="type parameter in Striped">L</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#bulkGet(java.lang.Iterable)" class="member-name-link">bulkGet</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the stripes that correspond to the passed objects, in ascending (as per <a href="#getAt(int)"><code>getAt(int)</code></a>) order.</div>
 </div>
@@ -151,7 +151,7 @@ possibly thousands of locks which could be created in a <code>Map&lt;K, Lock&gt;
 <div class="block">Creates a <code>Striped&lt;L&gt;</code> with eagerly initialized, strongly referenced locks.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>abstract <a href="#type-param-L" title="type parameter in Striped">L</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#get(java.lang.Object)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#get(java.lang.Object)" class="member-name-link">get</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the stripe that corresponds to the passed key.</div>
 </div>
@@ -160,36 +160,36 @@ possibly thousands of locks which could be created in a <code>Map&lt;K, Lock&gt;
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the stripe at the specified index.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/Lock.html" title="class or interface in java.util.concurrent.locks" class="external-link">Lock</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Lock.html" title="class or interface in java.util.concurrent.locks" class="external-link">Lock</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lazyWeakLock(int)" class="member-name-link">lazyWeakLock</a><wbr>(int&nbsp;stripes)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a <code>Striped&lt;Lock&gt;</code> with lazily initialized, weakly referenced locks.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html" title="class or interface in java.util.concurrent.locks" class="external-link">ReadWriteLock</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html" title="class or interface in java.util.concurrent.locks" class="external-link">ReadWriteLock</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lazyWeakReadWriteLock(int)" class="member-name-link">lazyWeakReadWriteLock</a><wbr>(int&nbsp;stripes)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a <code>Striped&lt;ReadWriteLock&gt;</code> with lazily initialized, weakly referenced read-write
 locks.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link">Semaphore</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link">Semaphore</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lazyWeakSemaphore(int,int)" class="member-name-link">lazyWeakSemaphore</a><wbr>(int&nbsp;stripes,
  int&nbsp;permits)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with lazily initialized, weakly referenced semaphores,
 with the specified number of permits.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/Lock.html" title="class or interface in java.util.concurrent.locks" class="external-link">Lock</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Lock.html" title="class or interface in java.util.concurrent.locks" class="external-link">Lock</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lock(int)" class="member-name-link">lock</a><wbr>(int&nbsp;stripes)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a <code>Striped&lt;Lock&gt;</code> with eagerly initialized, strongly referenced locks.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html" title="class or interface in java.util.concurrent.locks" class="external-link">ReadWriteLock</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html" title="class or interface in java.util.concurrent.locks" class="external-link">ReadWriteLock</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#readWriteLock(int)" class="member-name-link">readWriteLock</a><wbr>(int&nbsp;stripes)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates a <code>Striped&lt;ReadWriteLock&gt;</code> with eagerly initialized, strongly referenced
 read-write locks.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link">Semaphore</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link">Semaphore</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#semaphore(int,int)" class="member-name-link">semaphore</a><wbr>(int&nbsp;stripes,
  int&nbsp;permits)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -205,8 +205,8 @@ with the specified number of permits.</div>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -222,7 +222,7 @@ with the specified number of permits.</div>
 <section class="detail" id="get(java.lang.Object)">
 <h3>get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="#type-param-L" title="type parameter in Striped">L</a></span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public abstract</span>&nbsp;<span class="return-type"><a href="#type-param-L" title="type parameter in Striped">L</a></span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
 <div class="block">Returns the stripe that corresponds to the passed key. It is always guaranteed that if <code>
 key1.equals(key2)</code>, then <code>get(key1) == get(key2)</code>.</div>
 <dl class="notes">
@@ -263,7 +263,7 @@ exclusively.</div>
 <section class="detail" id="bulkGet(java.lang.Iterable)">
 <h3>bulkGet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="#type-param-L" title="type parameter in Striped">L</a>&gt;</span>&nbsp;<span class="element-name">bulkGet</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="#type-param-L" title="type parameter in Striped">L</a>&gt;</span>&nbsp;<span class="element-name">bulkGet</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;&nbsp;keys)</span></div>
 <div class="block">Returns the stripes that correspond to the passed objects, in ascending (as per <a href="#getAt(int)"><code>getAt(int)</code></a>) order. Thus, threads that use the stripes in the order returned by this method
 are guaranteed to not deadlock each other.
 
@@ -309,7 +309,7 @@ obtained from the passed supplier.</div>
 <section class="detail" id="lock(int)">
 <h3>lock</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/Lock.html" title="class or interface in java.util.concurrent.locks" class="external-link">Lock</a>&gt;</span>&nbsp;<span class="element-name">lock</span><wbr><span class="parameters">(int&nbsp;stripes)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Lock.html" title="class or interface in java.util.concurrent.locks" class="external-link">Lock</a>&gt;</span>&nbsp;<span class="element-name">lock</span><wbr><span class="parameters">(int&nbsp;stripes)</span></div>
 <div class="block">Creates a <code>Striped&lt;Lock&gt;</code> with eagerly initialized, strongly referenced locks. Every lock
 is reentrant.</div>
 <dl class="notes">
@@ -325,7 +325,7 @@ is reentrant.</div>
 <section class="detail" id="lazyWeakLock(int)">
 <h3>lazyWeakLock</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/Lock.html" title="class or interface in java.util.concurrent.locks" class="external-link">Lock</a>&gt;</span>&nbsp;<span class="element-name">lazyWeakLock</span><wbr><span class="parameters">(int&nbsp;stripes)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Lock.html" title="class or interface in java.util.concurrent.locks" class="external-link">Lock</a>&gt;</span>&nbsp;<span class="element-name">lazyWeakLock</span><wbr><span class="parameters">(int&nbsp;stripes)</span></div>
 <div class="block">Creates a <code>Striped&lt;Lock&gt;</code> with lazily initialized, weakly referenced locks. Every lock is
 reentrant.</div>
 <dl class="notes">
@@ -341,7 +341,7 @@ reentrant.</div>
 <section class="detail" id="semaphore(int,int)">
 <h3>semaphore</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link">Semaphore</a>&gt;</span>&nbsp;<span class="element-name">semaphore</span><wbr><span class="parameters">(int&nbsp;stripes,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link">Semaphore</a>&gt;</span>&nbsp;<span class="element-name">semaphore</span><wbr><span class="parameters">(int&nbsp;stripes,
  int&nbsp;permits)</span></div>
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with eagerly initialized, strongly referenced semaphores,
 with the specified number of permits.</div>
@@ -359,7 +359,7 @@ with the specified number of permits.</div>
 <section class="detail" id="lazyWeakSemaphore(int,int)">
 <h3>lazyWeakSemaphore</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link">Semaphore</a>&gt;</span>&nbsp;<span class="element-name">lazyWeakSemaphore</span><wbr><span class="parameters">(int&nbsp;stripes,
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Semaphore.html" title="class or interface in java.util.concurrent" class="external-link">Semaphore</a>&gt;</span>&nbsp;<span class="element-name">lazyWeakSemaphore</span><wbr><span class="parameters">(int&nbsp;stripes,
  int&nbsp;permits)</span></div>
 <div class="block">Creates a <code>Striped&lt;Semaphore&gt;</code> with lazily initialized, weakly referenced semaphores,
 with the specified number of permits.</div>
@@ -377,7 +377,7 @@ with the specified number of permits.</div>
 <section class="detail" id="readWriteLock(int)">
 <h3>readWriteLock</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html" title="class or interface in java.util.concurrent.locks" class="external-link">ReadWriteLock</a>&gt;</span>&nbsp;<span class="element-name">readWriteLock</span><wbr><span class="parameters">(int&nbsp;stripes)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html" title="class or interface in java.util.concurrent.locks" class="external-link">ReadWriteLock</a>&gt;</span>&nbsp;<span class="element-name">readWriteLock</span><wbr><span class="parameters">(int&nbsp;stripes)</span></div>
 <div class="block">Creates a <code>Striped&lt;ReadWriteLock&gt;</code> with eagerly initialized, strongly referenced
 read-write locks. Every lock is reentrant.</div>
 <dl class="notes">
@@ -393,7 +393,7 @@ read-write locks. Every lock is reentrant.</div>
 <section class="detail" id="lazyWeakReadWriteLock(int)">
 <h3>lazyWeakReadWriteLock</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html" title="class or interface in java.util.concurrent.locks" class="external-link">ReadWriteLock</a>&gt;</span>&nbsp;<span class="element-name">lazyWeakReadWriteLock</span><wbr><span class="parameters">(int&nbsp;stripes)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Striped.html" title="class in com.google.common.util.concurrent">Striped</a>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/ReadWriteLock.html" title="class or interface in java.util.concurrent.locks" class="external-link">ReadWriteLock</a>&gt;</span>&nbsp;<span class="element-name">lazyWeakReadWriteLock</span><wbr><span class="parameters">(int&nbsp;stripes)</span></div>
 <div class="block">Creates a <code>Striped&lt;ReadWriteLock&gt;</code> with lazily initialized, weakly referenced read-write
 locks. Every lock is reentrant.</div>
 <dl class="notes">

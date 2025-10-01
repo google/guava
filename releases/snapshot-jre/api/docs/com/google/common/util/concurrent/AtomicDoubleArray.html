@@ -88,26 +88,26 @@ loadScripts(document, 'script');</script>
 <div class="header">
 <h1 title="Class AtomicDoubleArray" class="title">Class AtomicDoubleArray</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.util.concurrent.AtomicDoubleArray</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public class </span><span class="element-name type-name-label">AtomicDoubleArray</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
-<div class="block">A <code>double</code> array in which elements may be updated atomically. See the <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/concurrent/atomic/package-summary.html" class="external-link"><code>java.util.concurrent.atomic</code></a> package specification for description of the properties of atomic
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
+<div class="block">A <code>double</code> array in which elements may be updated atomically. See the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/atomic/package-summary.html" class="external-link"><code>java.util.concurrent.atomic</code></a> package specification for description of the properties of atomic
 variables.
 
 <p><a id="bitEquals"></a>This class compares primitive <code>double</code> values in methods such as
-<a href="#compareAndSet(int,double,double)"><code>compareAndSet(int, double, double)</code></a> by comparing their bitwise representation using <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#doubleToRawLongBits(double)" title="class or interface in java.lang" class="external-link"><code>Double.doubleToRawLongBits(double)</code></a>, which differs from both the primitive double <code>==</code> operator and
-from <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Double.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Double.equals(Object)</code></a>, as if implemented by:
+<a href="#compareAndSet(int,double,double)"><code>compareAndSet(int, double, double)</code></a> by comparing their bitwise representation using <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Double.html#doubleToRawLongBits(double)" title="class or interface in java.lang" class="external-link"><code>Double.doubleToRawLongBits(double)</code></a>, which differs from both the primitive double <code>==</code> operator and
+from <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Double.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Double.equals(Object)</code></a>, as if implemented by:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-com.google.common.util.concurrent.AtomicDoubleArray1"><code class="language-java">static boolean bitEquals(double x, double y) {
@@ -168,7 +168,7 @@ the given array.</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#accumulateAndGet(int,double,java.util.function.DoubleBinaryOperator)" class="member-name-link">accumulateAndGet</a><wbr>(int&nbsp;i,
  double&nbsp;x,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
 function to the current and given values.</div>
@@ -195,7 +195,7 @@ value is <a href="#bitEquals">bitwise equal</a> to the expected value.</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAndAccumulate(int,double,java.util.function.DoubleBinaryOperator)" class="member-name-link">getAndAccumulate</a><wbr>(int&nbsp;i,
  double&nbsp;x,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
 function to the current and given values.</div>
@@ -214,7 +214,7 @@ function to the current and given values.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#getAndUpdate(int,java.util.function.DoubleUnaryOperator)" class="member-name-link">getAndUpdate</a><wbr>(int&nbsp;i,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updaterFunction)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updaterFunction)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
 function to the current value.</div>
@@ -236,14 +236,14 @@ function to the current value.</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Atomically sets the element at position <code>i</code> to the given value.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the String representation of the current values of array.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#updateAndGet(int,java.util.function.DoubleUnaryOperator)" class="member-name-link">updateAndGet</a><wbr>(int&nbsp;i,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updaterFunction)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updaterFunction)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
 function to the current value.</div>
@@ -260,8 +260,8 @@ value is <a href="#bitEquals">bitwise equal</a> to the expected value.</div>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 </section>
 </li>
 </ul>
@@ -297,7 +297,7 @@ the given array.</div>
 <dt>Parameters:</dt>
 <dd><code>array</code> - the array to copy elements from</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if array is null</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if array is null</dd>
 </dl>
 </div>
 </section>
@@ -473,7 +473,7 @@ alternative to <code>compareAndSet</code>.</div>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getAndAccumulate</span><wbr><span class="parameters">(int&nbsp;i,
  double&nbsp;x,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</span></div>
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
 function to the current and given values.</div>
 <dl class="notes">
@@ -496,7 +496,7 @@ function to the current and given values.</div>
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">accumulateAndGet</span><wbr><span class="parameters">(int&nbsp;i,
  double&nbsp;x,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/DoubleBinaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleBinaryOperator</a>&nbsp;accumulatorFunction)</span></div>
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
 function to the current and given values.</div>
 <dl class="notes">
@@ -518,7 +518,7 @@ function to the current and given values.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">getAndUpdate</span><wbr><span class="parameters">(int&nbsp;i,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updaterFunction)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updaterFunction)</span></div>
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
 function to the current value.</div>
 <dl class="notes">
@@ -539,7 +539,7 @@ function to the current value.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">updateAndGet</span><wbr><span class="parameters">(int&nbsp;i,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updaterFunction)</span></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/DoubleUnaryOperator.html" title="class or interface in java.util.function" class="external-link">DoubleUnaryOperator</a>&nbsp;updaterFunction)</span></div>
 <div class="block">Atomically updates the element at index <code>i</code> with the results of applying the given
 function to the current value.</div>
 <dl class="notes">
@@ -558,11 +558,11 @@ function to the current value.</div>
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">Returns the String representation of the current values of array.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 <dt>Returns:</dt>
 <dd>the String representation of the current values of array</dd>
 </dl>

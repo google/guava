@@ -80,13 +80,13 @@ and files.</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static <a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#combineOrdered(java.lang.Iterable)" class="member-name-link">combineOrdered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#combineOrdered(java.lang.Iterable)" class="member-name-link">combineOrdered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
 the information of these hash codes in an ordered fashion.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#combineUnordered(java.lang.Iterable)" class="member-name-link">combineUnordered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#combineUnordered(java.lang.Iterable)" class="member-name-link">combineUnordered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
 the information of these hash codes in an unordered fashion.</div>
@@ -107,7 +107,7 @@ the information of these hash codes in an unordered fashion.</div>
 <div class="block">Creates a 64-bit <code>HashCode</code> representation of the given long value.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">HashCode.</span><code><a href="../HashCode.html#fromString(java.lang.String)" class="member-name-link">fromString</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;string)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">HashCode.</span><code><a href="../HashCode.html#fromString(java.lang.String)" class="member-name-link">fromString</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;string)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Creates a <code>HashCode</code> from a hexadecimal (<code>base 16</code>) encoded string.</div>
 </div>
@@ -139,7 +139,7 @@ the information of these hash codes in an unordered fashion.</div>
 <div class="block">Shortcut for <code>newHasher().putBytes(input, off, len).hash()</code>.</div>
 </div>
 <div class="col-first odd-row-color"><code><a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">HashFunction.</span><code><a href="../HashFunction.html#hashBytes(java.nio.ByteBuffer)" class="member-name-link">hashBytes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;input)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">HashFunction.</span><code><a href="../HashFunction.html#hashBytes(java.nio.ByteBuffer)" class="member-name-link">hashBytes</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/ByteBuffer.html" title="class or interface in java.nio" class="external-link">ByteBuffer</a>&nbsp;input)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Shortcut for <code>newHasher().putBytes(input).hash()</code>.</div>
 </div>
@@ -155,20 +155,20 @@ the information of these hash codes in an unordered fashion.</div>
 <div class="block">Shortcut for <code>newHasher().putLong(input).hash()</code>; returns the hash code for the given
 <code>long</code> value, interpreted in little-endian byte order.</div>
 </div>
-<div class="col-first even-row-color"><code>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
+<div class="col-first even-row-color"><code>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
 <div class="col-second even-row-color"><span class="type-name-label">HashFunction.</span><code><a href="../HashFunction.html#hashObject(T,com.google.common.hash.Funnel)" class="member-name-link">hashObject</a><wbr>(T&nbsp;instance,
  <a href="../Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Shortcut for <code>newHasher().putObject(instance, funnel).hash()</code>.</div>
 </div>
 <div class="col-first odd-row-color"><code><a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">HashFunction.</span><code><a href="../HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)" class="member-name-link">hashString</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">HashFunction.</span><code><a href="../HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)" class="member-name-link">hashString</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/nio/charset/Charset.html" title="class or interface in java.nio.charset" class="external-link">Charset</a>&nbsp;charset)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Shortcut for <code>newHasher().putString(input, charset).hash()</code>.</div>
 </div>
 <div class="col-first even-row-color"><code><a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">HashFunction.</span><code><a href="../HashFunction.html#hashUnencodedChars(java.lang.CharSequence)" class="member-name-link">hashUnencodedChars</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input)</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">HashFunction.</span><code><a href="../HashFunction.html#hashUnencodedChars(java.lang.CharSequence)" class="member-name-link">hashUnencodedChars</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/CharSequence.html" title="class or interface in java.lang" class="external-link">CharSequence</a>&nbsp;input)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Shortcut for <code>newHasher().putUnencodedChars(input).hash()</code>.</div>
 </div>
@@ -192,13 +192,13 @@ that minimizes the need for remapping as <code>buckets</code> grows.</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static <a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#combineOrdered(java.lang.Iterable)" class="member-name-link">combineOrdered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#combineOrdered(java.lang.Iterable)" class="member-name-link">combineOrdered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
 the information of these hash codes in an ordered fashion.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#combineUnordered(java.lang.Iterable)" class="member-name-link">combineUnordered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#combineUnordered(java.lang.Iterable)" class="member-name-link">combineUnordered</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a>&gt;&nbsp;hashCodes)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns a hash code, having the same bit length as each of the input hash codes, that combines
 the information of these hash codes in an unordered fashion.</div>
@@ -220,7 +220,7 @@ the information of these hash codes in an unordered fashion.</div>
 <div class="block">Hashes the contents of this byte source using the given hash function.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Files.</span><code><a href="../../io/Files.html#hash(java.io.File,com.google.common.hash.HashFunction)" class="member-name-link">hash</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html" title="class or interface in java.io" class="external-link">File</a>&nbsp;file,
+<div class="col-second odd-row-color"><span class="type-name-label">Files.</span><code><a href="../../io/Files.html#hash(java.io.File,com.google.common.hash.HashFunction)" class="member-name-link">hash</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/File.html" title="class or interface in java.io" class="external-link">File</a>&nbsp;file,
  <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)</code></div>
 <div class="col-last odd-row-color">
 <div class="block"><span class="deprecated-label">Deprecated.</span>

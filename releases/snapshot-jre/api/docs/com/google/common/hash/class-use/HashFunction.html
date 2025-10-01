@@ -93,7 +93,7 @@ and files.</div>
 underlying hash functions together.</div>
 </div>
 <div class="col-first even-row-color"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#concatenating(java.lang.Iterable)" class="member-name-link">concatenating</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#concatenating(java.lang.Iterable)" class="member-name-link">concatenating</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
 underlying hash functions together.</div>
@@ -128,11 +128,11 @@ by RFC 3720, Section 12.1.</div>
 <div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacMd5(byte%5B%5D)" class="member-name-link">hmacMd5</a><wbr>(byte[]&nbsp;key)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
-MD5 (128 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte array
+MD5 (128 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte array
 and the MD5 algorithm.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacMd5(java.security.Key)" class="member-name-link">hmacMd5</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacMd5(java.security.Key)" class="member-name-link">hmacMd5</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
 MD5 (128 hash bits) hash function and the given secret key.</div>
@@ -141,11 +141,11 @@ MD5 (128 hash bits) hash function and the given secret key.</div>
 <div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacSha1(byte%5B%5D)" class="member-name-link">hmacSha1</a><wbr>(byte[]&nbsp;key)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
-SHA-1 (160 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte
+SHA-1 (160 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte
 array and the SHA-1 algorithm.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacSha1(java.security.Key)" class="member-name-link">hmacSha1</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacSha1(java.security.Key)" class="member-name-link">hmacSha1</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
 SHA-1 (160 hash bits) hash function and the given secret key.</div>
@@ -154,11 +154,11 @@ SHA-1 (160 hash bits) hash function and the given secret key.</div>
 <div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacSha256(byte%5B%5D)" class="member-name-link">hmacSha256</a><wbr>(byte[]&nbsp;key)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
-SHA-256 (256 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte
+SHA-256 (256 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte
 array and the SHA-256 algorithm.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacSha256(java.security.Key)" class="member-name-link">hmacSha256</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacSha256(java.security.Key)" class="member-name-link">hmacSha256</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
 SHA-256 (256 hash bits) hash function and the given secret key.</div>
@@ -167,11 +167,11 @@ SHA-256 (256 hash bits) hash function and the given secret key.</div>
 <div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacSha512(byte%5B%5D)" class="member-name-link">hmacSha512</a><wbr>(byte[]&nbsp;key)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
-SHA-512 (512 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte
+SHA-512 (512 hash bits) hash function and a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/javax/crypto/spec/SecretKeySpec.html" title="class or interface in javax.crypto.spec" class="external-link"><code>SecretKeySpec</code></a> created from the given byte
 array and the SHA-512 algorithm.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacSha512(java.security.Key)" class="member-name-link">hmacSha512</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#hmacSha512(java.security.Key)" class="member-name-link">hmacSha512</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/security/Key.html" title="class or interface in java.security" class="external-link">Key</a>&nbsp;key)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns a hash function implementing the Message Authentication Code (MAC) algorithm, using the
 SHA-512 (512 hash bits) hash function and the given secret key.</div>
@@ -279,7 +279,7 @@ underlying hash functions together.</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>static <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#concatenating(java.lang.Iterable)" class="member-name-link">concatenating</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../Hashing.html#concatenating(java.lang.Iterable)" class="member-name-link">concatenating</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;<a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&gt;&nbsp;hashFunctions)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns a hash function which computes its hash code by concatenating the hash codes of the
 underlying hash functions together.</div>
@@ -292,17 +292,17 @@ underlying hash functions together.</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color"><code>&nbsp;</code></div>
 <div class="col-second even-row-color"><code><a href="../HashingInputStream.html#%3Cinit%3E(com.google.common.hash.HashFunction,java.io.InputStream)" class="member-name-link">HashingInputStream</a><wbr>(<a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;in)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link">InputStream</a>&nbsp;in)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an input stream that hashes using the given <a href="../HashFunction.html" title="interface in com.google.common.hash"><code>HashFunction</code></a> and delegates all data
-read from it to the underlying <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link"><code>InputStream</code></a>.</div>
+read from it to the underlying <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/InputStream.html" title="class or interface in java.io" class="external-link"><code>InputStream</code></a>.</div>
 </div>
 <div class="col-first odd-row-color"><code>&nbsp;</code></div>
 <div class="col-second odd-row-color"><code><a href="../HashingOutputStream.html#%3Cinit%3E(com.google.common.hash.HashFunction,java.io.OutputStream)" class="member-name-link">HashingOutputStream</a><wbr>(<a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;out)</code></div>
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link">OutputStream</a>&nbsp;out)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Creates an output stream that hashes using the given <a href="../HashFunction.html" title="interface in com.google.common.hash"><code>HashFunction</code></a>, and forwards all
-data written to it to the underlying <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link"><code>OutputStream</code></a>.</div>
+data written to it to the underlying <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/OutputStream.html" title="class or interface in java.io" class="external-link"><code>OutputStream</code></a>.</div>
 </div>
 </div>
 </section>
@@ -321,7 +321,7 @@ data written to it to the underlying <a href="https://docs.oracle.com/en/java/ja
 <div class="block">Hashes the contents of this byte source using the given hash function.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../HashCode.html" title="class in com.google.common.hash">HashCode</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Files.</span><code><a href="../../io/Files.html#hash(java.io.File,com.google.common.hash.HashFunction)" class="member-name-link">hash</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/File.html" title="class or interface in java.io" class="external-link">File</a>&nbsp;file,
+<div class="col-second odd-row-color"><span class="type-name-label">Files.</span><code><a href="../../io/Files.html#hash(java.io.File,com.google.common.hash.HashFunction)" class="member-name-link">hash</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/File.html" title="class or interface in java.io" class="external-link">File</a>&nbsp;file,
  <a href="../HashFunction.html" title="interface in com.google.common.hash">HashFunction</a>&nbsp;hashFunction)</code></div>
 <div class="col-last odd-row-color">
 <div class="block"><span class="deprecated-label">Deprecated.</span>

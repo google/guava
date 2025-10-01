@@ -74,7 +74,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use Interners.new*Interner")
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">Interner&lt;E&gt;</span></div>
-<div class="block">Provides similar behavior to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html#intern()" title="class or interface in java.lang" class="external-link"><code>String.intern()</code></a> for any immutable type. Common implementations
+<div class="block">Provides similar behavior to <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html#intern()" title="class or interface in java.lang" class="external-link"><code>String.intern()</code></a> for any immutable type. Common implementations
 are available from the <a href="Interners.html" title="class in com.google.common.collect"><code>Interners</code></a> class.
 
 <p>Note that <code>String.intern()</code> has some well-known performance limitations, and should
@@ -127,7 +127,7 @@ equal to each other.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="return-type"><a href="#type-param-E" title="type parameter in Interner">E</a></span>&nbsp;<span class="element-name">intern</span><wbr><span class="parameters">(<a href="#type-param-E" title="type parameter in Interner">E</a>&nbsp;sample)</span></div>
 <div class="block">Chooses and returns the representative instance for any of a collection of instances that are
-equal to each other. If two <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equal</a> inputs are given to this method,
+equal to each other. If two <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equal</a> inputs are given to this method,
 both calls will return the same instance. That is, <code>intern(a).equals(a)</code> always holds,
 and <code>intern(a) == intern(b)</code> if and only if <code>a.equals(b)</code>. Note that <code>
 intern(a)</code> is permitted to return one instance now and a different instance later if the
@@ -136,7 +136,7 @@ original interned instance was garbage-collected.
 <p><b>Warning:</b> do not use with mutable objects.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if <code>sample</code> is null</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if <code>sample</code> is null</dd>
 </dl>
 </div>
 </section>

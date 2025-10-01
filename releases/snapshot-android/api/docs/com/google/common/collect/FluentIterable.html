@@ -111,22 +111,22 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<h1 title="Class FluentIterable" class="title">Class FluentIterable&lt;<span id="type-param-E">E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&gt;</h1>
+<h1 title="Class FluentIterable" class="title">Class FluentIterable&lt;<span id="type-param-E">E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&gt;</h1>
 </div>
-<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
+<div class="inheritance" title="Inheritance Tree"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">java.lang.Object</a>
 <div class="inheritance">com.google.common.collect.FluentIterable&lt;E&gt;</div>
 </div>
 <section class="class-description" id="class-description">
 <dl class="notes">
 <dt>All Implemented Interfaces:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;</code></dd>
 </dl>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">FluentIterable&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
-implements <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;</span></div>
+</span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">FluentIterable&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
+implements <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;</span></div>
 <div class="block">An expanded <code>Iterable</code> API, providing functionality similar to Java 8's powerful <a href="https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#package.description">streams library</a> in a slightly different way.
 
 <p>The following types of methods are provided:
@@ -155,9 +155,9 @@ differences include:
 <ul>
   <li>A stream is <i>single-use</i>; it becomes invalid as soon as any "terminal operation" such
       as <code>findFirst()</code> or <code>iterator()</code> is invoked. (Even though <code>Stream</code>
-      contains all the right method <i>signatures</i> to implement <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link"><code>Iterable</code></a>, it does not
+      contains all the right method <i>signatures</i> to implement <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link"><code>Iterable</code></a>, it does not
       actually do so, to avoid implying repeat-iterability.) <code>FluentIterable</code>, on the other
-      hand, is multiple-use, and does implement <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link"><code>Iterable</code></a>.
+      hand, is multiple-use, and does implement <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link"><code>Iterable</code></a>.
   <li>Streams offer many features not found here, including <code>min/max</code>, <code>distinct</code>,
       <code>reduce</code>, <code>sorted</code>, the very powerful <code>collect</code>, and built-in support for
       parallelizing stream operations.
@@ -255,49 +255,49 @@ The approximate stream equivalent is:
 followed by <code>elements</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;<a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#append(java.lang.Iterable)" class="member-name-link">append</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#append(java.lang.Iterable)" class="member-name-link">append</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
 followed by those of <code>other</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable that combines several iterables.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable...)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable...)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable that combines several iterables.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable,java.lang.Iterable)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable,java.lang.Iterable)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable that combines two iterables.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;c)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;c)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable that combines three iterables.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;c,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;d)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)" class="member-name-link">concat</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;c,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;d)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable that combines four iterables.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#contains(java.lang.Object)" class="member-name-link">contains</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;target)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#contains(java.lang.Object)" class="member-name-link">contains</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;target)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns <code>true</code> if this fluent iterable contains any object for which <code>
 equals(target)</code> is true.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&gt;<br>C</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;C extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&gt;<br>C</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#copyInto(C)" class="member-name-link">copyInto</a><wbr>(C&nbsp;collection)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Copies all the elements from this fluent iterable to <code>collection</code>.</div>
@@ -314,7 +314,7 @@ fluent iterable.</div>
 <div class="block">Returns the elements from this fluent iterable that satisfy a predicate.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;T&gt;&nbsp;<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#filter(java.lang.Class)" class="member-name-link">filter</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#filter(java.lang.Class)" class="member-name-link">filter</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the elements from this fluent iterable that are instances of class <code>type</code>.</div>
 </div>
@@ -329,7 +329,7 @@ fluent iterable.</div>
 <div class="block">Returns an <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in this fluent iterable that satisfies
 the given predicate, if such an element exists.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#from(com.google.common.collect.FluentIterable)" class="member-name-link">from</a><wbr>(<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;iterable)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
@@ -337,13 +337,13 @@ the given predicate, if such an element exists.</div>
     FluentIterable</code></div>
 </div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#from(E%5B%5D)" class="member-name-link">from</a><wbr>(E[]&nbsp;elements)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable containing <code>elements</code> in the specified order.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#from(java.lang.Iterable)" class="member-name-link">from</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#from(java.lang.Iterable)" class="member-name-link">from</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable that wraps <code>iterable</code>, or <code>iterable</code> itself if it is
 already a <code>FluentIterable</code>.</div>
@@ -364,10 +364,10 @@ specified function to each item in this <code>FluentIterable</code> of values.</
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Determines whether this fluent iterable is empty.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#join(com.google.common.base.Joiner)" class="member-name-link">join</a><wbr>(<a href="../base/Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;joiner)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a> containing all of the elements of this fluent iterable joined with
+<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a> containing all of the elements of this fluent iterable joined with
 <code>joiner</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="../base/Optional.html" title="class in com.google.common.base">Optional</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</code></div>
@@ -380,12 +380,12 @@ specified function to each item in this <code>FluentIterable</code> of values.</
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Creates a fluent iterable with the first <code>size</code> elements of this fluent iterable.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of()" class="member-name-link">of</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable containing no elements.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;E&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#of(E,E...)" class="member-name-link">of</a><wbr>(E&nbsp;element,
  E...&nbsp;elements)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
@@ -402,7 +402,7 @@ specified function to each item in this <code>FluentIterable</code> of values.</
 <div class="block">Returns a view of this fluent iterable that skips its first <code>numberToSkip</code> elements.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="#type-param-E" title="type parameter in FluentIterable">E</a>[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toArray(java.lang.Class)" class="member-name-link">toArray</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;type)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toArray(java.lang.Class)" class="member-name-link">toArray</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;type)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns an array containing all of the elements from this fluent iterable in iteration order.</div>
 </div>
@@ -430,32 +430,32 @@ and whose value for each key was computed by <code>valueFunction</code>.</div>
 duplicates removed.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toSortedList(java.util.Comparator)" class="member-name-link">toSortedList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toSortedList(java.util.Comparator)" class="member-name-link">toSortedList</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns an <code>ImmutableList</code> containing all of the elements from this <code>
 FluentIterable</code> in the order specified by <code>comparator</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toSortedSet(java.util.Comparator)" class="member-name-link">toSortedSet</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toSortedSet(java.util.Comparator)" class="member-name-link">toSortedSet</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns an <code>ImmutableSortedSet</code> containing all of the elements from this <code>
 FluentIterable</code> in the order specified by <code>comparator</code>, with duplicates (determined by
 <code>comparator.compare(x, y) == 0</code>) removed.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this fluent iterable, with the format <code>[e1, e2, ...,
 en]</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#transform(com.google.common.base.Function)" class="member-name-link">transform</a><wbr>(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>, T&gt;&nbsp;function)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a fluent iterable that applies <code>function</code> to each element of this fluent
 iterable.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#transformAndConcat(com.google.common.base.Function)" class="member-name-link">transformAndConcat</a><wbr>(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>, ? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;function)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#transformAndConcat(com.google.common.base.Function)" class="member-name-link">transformAndConcat</a><wbr>(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>, ? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;function)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Applies <code>function</code> to each element of this fluent iterable and returns a fluent iterable
 with the concatenated combination of results.</div>
@@ -470,11 +470,11 @@ by keys derived from those values.</div>
 </div>
 </div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Object">Methods inherited from class&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#method-summary" title="class or interface in java.lang" class="external-link">Object</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
-<h3 id="methods-inherited-from-class-java.lang.Iterable">Methods inherited from interface&nbsp;<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html#method-summary" title="class or interface in java.lang" class="external-link">Iterable</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html#forEach(java.util.function.Consumer)" title="class or interface in java.lang" class="external-link">forEach</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html#iterator()" title="class or interface in java.lang" class="external-link">iterator</a>, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html#spliterator()" title="class or interface in java.lang" class="external-link">spliterator</a></code></div>
+<h3 id="methods-inherited-from-class-java.lang.Iterable">Methods inherited from interface&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html#method-summary" title="class or interface in java.lang" class="external-link">Iterable</a></h3>
+<code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html#forEach(java.util.function.Consumer)" title="class or interface in java.lang" class="external-link">forEach</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html#iterator()" title="class or interface in java.lang" class="external-link">iterator</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html#spliterator()" title="class or interface in java.lang" class="external-link">spliterator</a></code></div>
 </section>
 </li>
 </ul>
@@ -507,12 +507,12 @@ by keys derived from those values.</div>
 <section class="detail" id="from(java.lang.Iterable)">
 <h3>from</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;&nbsp;iterable)</span></div>
 <div class="block">Returns a fluent iterable that wraps <code>iterable</code>, or <code>iterable</code> itself if it is
 already a <code>FluentIterable</code>.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html#stream()" title="class or interface in java.util" class="external-link"><code>Collection.stream()</code></a> if <code>iterable</code> is a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a>; <a href="Streams.html#stream(java.lang.Iterable)"><code>Streams.stream(Iterable)</code></a> otherwise.</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html#stream()" title="class or interface in java.util" class="external-link"><code>Collection.stream()</code></a> if <code>iterable</code> is a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link"><code>Collection</code></a>; <a href="Streams.html#stream(java.lang.Iterable)"><code>Streams.stream(Iterable)</code></a> otherwise.</div>
 </div>
 </section>
 </li>
@@ -520,13 +520,13 @@ already a <code>FluentIterable</code>.
 <section class="detail" id="from(E[])">
 <h3 id="from(java.lang.Object[])">from</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(E[]&nbsp;elements)</span></div>
 <div class="block">Returns a fluent iterable containing <code>elements</code> in the specified order.
 
 <p>The returned iterable is an unmodifiable view of the input array.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#of(T...)" title="class or interface in java.util.stream" class="external-link"><code>Stream.of(T...)</code></a>.</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#of(T...)" title="class or interface in java.util.stream" class="external-link"><code>Stream.of(T...)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0 (since 18.0 as an overload of <code>of</code>)</dd>
@@ -538,10 +538,10 @@ already a <code>FluentIterable</code>.
 <section class="detail" id="from(com.google.common.collect.FluentIterable)">
 <h3>from</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="checkNotNull(iterable)",
           <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(<a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;&nbsp;iterable)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">instances of <code>FluentIterable</code> don't need to be converted to <code>
@@ -557,9 +557,9 @@ FluentIterable</code> has obviated the need to explicitly convert to a <code>Flu
 <section class="detail" id="concat(java.lang.Iterable,java.lang.Iterable)">
 <h3>concat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b)</span></div>
 <div class="block">Returns a fluent iterable that combines two iterables. The returned iterable has an iterator
 that traverses the elements in <code>a</code>, followed by the elements in <code>b</code>. The source
 iterators are not polled until necessary.
@@ -567,7 +567,7 @@ iterators are not polled until necessary.
 <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
 iterator supports it.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="external-link"><code>Stream.concat(Stream, Stream)</code></a>.</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="external-link"><code>Stream.concat(Stream, Stream)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>
@@ -579,10 +579,10 @@ iterator supports it.
 <section class="detail" id="concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">
 <h3>concat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;c)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;c)</span></div>
 <div class="block">Returns a fluent iterable that combines three iterables. The returned iterable has an iterator
 that traverses the elements in <code>a</code>, followed by the elements in <code>b</code>, followed by
 the elements in <code>c</code>. The source iterators are not polled until necessary.
@@ -590,7 +590,7 @@ the elements in <code>c</code>. The source iterators are not polled until necess
 <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
 iterator supports it.
 
-<p><b><code>Stream</code> equivalent:</b> use nested calls to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="external-link"><code>Stream.concat(Stream, Stream)</code></a>, or see the
+<p><b><code>Stream</code> equivalent:</b> use nested calls to <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="external-link"><code>Stream.concat(Stream, Stream)</code></a>, or see the
 advice in <a href="#concat(java.lang.Iterable...)"><code>concat(Iterable...)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -603,11 +603,11 @@ advice in <a href="#concat(java.lang.Iterable...)"><code>concat(Iterable...)</co
 <section class="detail" id="concat(java.lang.Iterable,java.lang.Iterable,java.lang.Iterable,java.lang.Iterable)">
 <h3>concat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;c,
- <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;d)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;a,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;b,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;c,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;d)</span></div>
 <div class="block">Returns a fluent iterable that combines four iterables. The returned iterable has an iterator
 that traverses the elements in <code>a</code>, followed by the elements in <code>b</code>, followed by
 the elements in <code>c</code>, followed by the elements in <code>d</code>. The source iterators are not
@@ -616,7 +616,7 @@ polled until necessary.
 <p>The returned iterable's iterator supports <code>remove()</code> when the corresponding input
 iterator supports it.
 
-<p><b><code>Stream</code> equivalent:</b> use nested calls to <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="external-link"><code>Stream.concat(Stream, Stream)</code></a>, or see the
+<p><b><code>Stream</code> equivalent:</b> use nested calls to <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="external-link"><code>Stream.concat(Stream, Stream)</code></a>, or see the
 advice in <a href="#concat(java.lang.Iterable...)"><code>concat(Iterable...)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -629,9 +629,9 @@ advice in <a href="#concat(java.lang.Iterable...)"><code>concat(Iterable...)</co
 <section class="detail" id="concat(java.lang.Iterable...)">
 <h3>concat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/SafeVarargs.html" title="class or interface in java.lang" class="external-link">@SafeVarargs</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</span></div>
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/SafeVarargs.html" title="class or interface in java.lang" class="external-link">@SafeVarargs</a>
+</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;...&nbsp;inputs)</span></div>
 <div class="block">Returns a fluent iterable that combines several iterables. The returned iterable has an
 iterator that traverses the elements of each iterable in <code>inputs</code>. The input iterators
 are not polled until necessary.
@@ -644,7 +644,7 @@ Stream.of(stream1, stream2, ...).flatMap(s -&gt; s)</code>. If the sources are i
 Stream.of(iter1, iter2, ...).flatMap(Streams::stream)</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any of the provided iterables is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any of the provided iterables is <code>null</code></dd>
 <dt>Since:</dt>
 <dd>20.0</dd>
 </dl>
@@ -655,8 +655,8 @@ Stream.of(iter1, iter2, ...).flatMap(Streams::stream)</code>.</div>
 <section class="detail" id="concat(java.lang.Iterable)">
 <h3>concat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</span></div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">concat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;inputs)</span></div>
 <div class="block">Returns a fluent iterable that combines several iterables. The returned iterable has an
 iterator that traverses the elements of each iterable in <code>inputs</code>. The input iterators
 are not polled until necessary.
@@ -678,11 +678,11 @@ streamOfIterables.flatMap(Streams::stream)</code>. (See <a href="Streams.html#st
 <section class="detail" id="of()">
 <h3>of</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</span>&nbsp;<span class="element-name">of</span>()</div>
 <div class="block">Returns a fluent iterable containing no elements.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#empty()" title="class or interface in java.util.stream" class="external-link"><code>Stream.empty()</code></a>.</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#empty()" title="class or interface in java.util.stream" class="external-link"><code>Stream.empty()</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>
@@ -694,12 +694,12 @@ streamOfIterables.flatMap(Streams::stream)</code>. (See <a href="Streams.html#st
 <section class="detail" id="of(E,E...)">
 <h3 id="of(java.lang.Object,java.lang.Object[])">of</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;E&gt;</span>&nbsp;<span class="element-name">of</span><wbr><span class="parameters">(E&nbsp;element,
  E...&nbsp;elements)</span></div>
 <div class="block">Returns a fluent iterable containing the specified elements in order.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#of(T...)" title="class or interface in java.util.stream" class="external-link"><code>Stream.of(T...)</code></a>.</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#of(T...)" title="class or interface in java.util.stream" class="external-link"><code>Stream.of(T...)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>20.0</dd>
@@ -711,7 +711,7 @@ streamOfIterables.flatMap(Streams::stream)</code>. (See <a href="Streams.html#st
 <section class="detail" id="toString()">
 <h3>toString</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">toString</span>()</div>
 <div class="block">Returns a string representation of this fluent iterable, with the format <code>[e1, e2, ...,
 en]</code>.
 
@@ -719,7 +719,7 @@ en]</code>.
 or (less efficiently) <code>stream.collect(Collectors.toList()).toString()</code>.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#toString()" title="class or interface in java.lang" class="external-link">toString</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
 </div>
 </section>
@@ -731,7 +731,7 @@ or (less efficiently) <code>stream.collect(Collectors.toList()).toString()</code
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">size</span>()</div>
 <div class="block">Returns the number of elements in this fluent iterable.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#count()" title="class or interface in java.util.stream" class="external-link"><code>Stream.count()</code></a>.</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#count()" title="class or interface in java.util.stream" class="external-link"><code>Stream.count()</code></a>.</div>
 </div>
 </section>
 </li>
@@ -739,7 +739,7 @@ or (less efficiently) <code>stream.collect(Collectors.toList()).toString()</code
 <section class="detail" id="contains(java.lang.Object)">
 <h3>contains</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">contains</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;target)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">contains</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;target)</span></div>
 <div class="block">Returns <code>true</code> if this fluent iterable contains any object for which <code>
 equals(target)</code> is true.
 
@@ -774,14 +774,14 @@ use <code>Stream.generate(() -&gt; collection).flatMap(Collection::stream)</code
 <section class="detail" id="append(java.lang.Iterable)">
 <h3>append</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</span>&nbsp;<span class="element-name">append</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;<a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</span>&nbsp;<span class="element-name">append</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;other)</span></div>
 <div class="block">Returns a fluent iterable whose iterators traverse first the elements of this fluent iterable,
 followed by those of <code>other</code>. The iterators are not polled until necessary.
 
 <p>The returned iterable's <code>Iterator</code> supports <code>remove()</code> when the corresponding
 <code>Iterator</code> supports it.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="external-link"><code>Stream.concat(Stream, Stream)</code></a>.</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#concat(java.util.stream.Stream,java.util.stream.Stream)" title="class or interface in java.util.stream" class="external-link"><code>Stream.concat(Stream, Stream)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>18.0</dd>
@@ -813,7 +813,7 @@ followed by <code>elements</code>.
 <div class="block">Returns the elements from this fluent iterable that satisfy a predicate. The resulting fluent
 iterable's iterator does not support <code>remove()</code>.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#filter(java.util.function.Predicate)" title="class or interface in java.util.stream" class="external-link"><code>Stream.filter(Predicate)</code></a> (same).</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#filter(java.util.function.Predicate)" title="class or interface in java.util.stream" class="external-link"><code>Stream.filter(Predicate)</code></a> (same).</div>
 </div>
 </section>
 </li>
@@ -822,7 +822,7 @@ iterable's iterator does not support <code>remove()</code>.
 <h3>filter</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">filter</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;T&gt;</span>&nbsp;<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">filter</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;T&gt;&nbsp;type)</span></div>
 <div class="block">Returns the elements from this fluent iterable that are instances of class <code>type</code>.
 
 <p><b><code>Stream</code> equivalent:</b> <code>stream.filter(type::isInstance).map(type::cast)</code>.
@@ -846,7 +846,7 @@ ImmutableList&lt;NewType&gt; result =
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">anyMatch</span><wbr><span class="parameters">(<a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;predicate)</span></div>
 <div class="block">Returns <code>true</code> if any element in this fluent iterable satisfies the predicate.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#anyMatch(java.util.function.Predicate)" title="class or interface in java.util.stream" class="external-link"><code>Stream.anyMatch(Predicate)</code></a> (same).</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#anyMatch(java.util.function.Predicate)" title="class or interface in java.util.stream" class="external-link"><code>Stream.anyMatch(Predicate)</code></a> (same).</div>
 </div>
 </section>
 </li>
@@ -858,7 +858,7 @@ ImmutableList&lt;NewType&gt; result =
 <div class="block">Returns <code>true</code> if every element in this fluent iterable satisfies the predicate. If this
 fluent iterable is empty, <code>true</code> is returned.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#allMatch(java.util.function.Predicate)" title="class or interface in java.util.stream" class="external-link"><code>Stream.allMatch(Predicate)</code></a> (same).</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#allMatch(java.util.function.Predicate)" title="class or interface in java.util.stream" class="external-link"><code>Stream.allMatch(Predicate)</code></a> (same).</div>
 </div>
 </section>
 </li>
@@ -871,7 +871,7 @@ fluent iterable is empty, <code>true</code> is returned.
 the given predicate, if such an element exists.
 
 <p><b>Warning:</b> avoid using a <code>predicate</code> that matches <code>null</code>. If <code>null</code>
-is matched in this fluent iterable, a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link"><code>NullPointerException</code></a> will be thrown.
+is matched in this fluent iterable, a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link"><code>NullPointerException</code></a> will be thrown.
 
 <p><b><code>Stream</code> equivalent:</b> <code>stream.filter(predicate).findFirst()</code>.</div>
 </div>
@@ -881,7 +881,7 @@ is matched in this fluent iterable, a <a href="https://docs.oracle.com/en/java/j
 <section class="detail" id="transform(com.google.common.base.Function)">
 <h3>transform</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">transform</span><wbr><span class="parameters">(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>, T&gt;&nbsp;function)</span></div>
 <div class="block">Returns a fluent iterable that applies <code>function</code> to each element of this fluent
 iterable.
@@ -890,7 +890,7 @@ iterable.
 iterator does. After a successful <code>remove()</code> call, this fluent iterable no longer
 contains the corresponding element.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#map(java.util.function.Function)" title="class or interface in java.util.stream" class="external-link"><code>Stream.map(Function)</code></a>.</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#map(java.util.function.Function)" title="class or interface in java.util.stream" class="external-link"><code>Stream.map(Function)</code></a>.</div>
 </div>
 </section>
 </li>
@@ -898,8 +898,8 @@ contains the corresponding element.
 <section class="detail" id="transformAndConcat(com.google.common.base.Function)">
 <h3>transformAndConcat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
-<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">transformAndConcat</span><wbr><span class="parameters">(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>, ? extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;function)</span></div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="return-type"><a href="FluentIterable.html" title="class in com.google.common.collect">FluentIterable</a>&lt;T&gt;</span>&nbsp;<span class="element-name">transformAndConcat</span><wbr><span class="parameters">(<a href="../base/Function.html" title="interface in com.google.common.base">Function</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>, ? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&gt;&nbsp;function)</span></div>
 <div class="block">Applies <code>function</code> to each element of this fluent iterable and returns a fluent iterable
 with the concatenated combination of results. <code>function</code> returns an Iterable of results.
 
@@ -907,7 +907,7 @@ with the concatenated combination of results. <code>function</code> returns an I
 iterables' iterator does. After a successful <code>remove()</code> call, the returned fluent
 iterable no longer contains the corresponding element.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#flatMap(java.util.function.Function)" title="class or interface in java.util.stream" class="external-link"><code>Stream.flatMap(Function)</code></a> (using a function that produces
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#flatMap(java.util.function.Function)" title="class or interface in java.util.stream" class="external-link"><code>Stream.flatMap(Function)</code></a> (using a function that produces
 streams, not iterables).</div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -924,10 +924,10 @@ streams, not iterables).</div>
 <div class="block">Returns an <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the first element in this fluent iterable. If the
 iterable is empty, <code>Optional.absent()</code> is returned.
 
-<p><b><code>Stream</code> equivalent:</b> if the goal is to obtain any element, <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#findAny()" title="class or interface in java.util.stream" class="external-link"><code>Stream.findAny()</code></a>; if it must specifically be the <i>first</i> element, <code>Stream#findFirst</code>.</div>
+<p><b><code>Stream</code> equivalent:</b> if the goal is to obtain any element, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#findAny()" title="class or interface in java.util.stream" class="external-link"><code>Stream.findAny()</code></a>; if it must specifically be the <i>first</i> element, <code>Stream#findFirst</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if the first element is null; if this is a possibility, use <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if the first element is null; if this is a possibility, use <code>
     iterator().next()</code> or <a href="Iterables.html#getFirst(java.lang.Iterable,T)"><code>Iterables.getFirst(Iterable, T)</code></a> instead.</dd>
 </dl>
 </div>
@@ -940,13 +940,13 @@ iterable is empty, <code>Optional.absent()</code> is returned.
 <div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="../base/Optional.html" title="class in com.google.common.base">Optional</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</span>&nbsp;<span class="element-name">last</span>()</div>
 <div class="block">Returns an <a href="../base/Optional.html" title="class in com.google.common.base"><code>Optional</code></a> containing the last element in this fluent iterable. If the
 iterable is empty, <code>Optional.absent()</code> is returned. If the underlying <code>iterable</code> is
-a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> with <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/RandomAccess.html" title="class or interface in java.util" class="external-link"><code>RandomAccess</code></a> support, then this operation is guaranteed
+a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link"><code>List</code></a> with <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/RandomAccess.html" title="class or interface in java.util" class="external-link"><code>RandomAccess</code></a> support, then this operation is guaranteed
 to be <code>O(1)</code>.
 
 <p><b><code>Stream</code> equivalent:</b> <code>stream.reduce((a, b) -&gt; b)</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if the last element is null; if this is a possibility, use <a href="Iterables.html#getLast(java.lang.Iterable)"><code>Iterables.getLast(Iterable)</code></a> instead.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if the last element is null; if this is a possibility, use <a href="Iterables.html#getLast(java.lang.Iterable)"><code>Iterables.getLast(Iterable)</code></a> instead.</dd>
 </dl>
 </div>
 </section>
@@ -968,9 +968,9 @@ elements that exist when the iterator is created, not when <code>skip()</code> i
 this fluent iterable supports it. Note that it is <i>not</i> possible to delete the last
 skipped element by immediately calling <code>remove()</code> on the returned fluent iterable's
 iterator, as the <code>Iterator</code> contract states that a call to <code>* remove()</code> before a
-call to <code>next()</code> will throw an <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link"><code>IllegalStateException</code></a>.
+call to <code>next()</code> will throw an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link"><code>IllegalStateException</code></a>.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#skip(long)" title="class or interface in java.util.stream" class="external-link"><code>Stream.skip(long)</code></a> (same).</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#skip(long)" title="class or interface in java.util.stream" class="external-link"><code>Stream.skip(long)</code></a> (same).</div>
 </div>
 </section>
 </li>
@@ -984,12 +984,12 @@ fluent iterable does not contain that many elements, the returned fluent iterabl
 same behavior as this fluent iterable. The returned fluent iterable's iterator supports <code>
 remove()</code> if this fluent iterable's iterator does.
 
-<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/stream/Stream.html#limit(long)" title="class or interface in java.util.stream" class="external-link"><code>Stream.limit(long)</code></a> (same).</div>
+<p><b><code>Stream</code> equivalent:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Stream.html#limit(long)" title="class or interface in java.util.stream" class="external-link"><code>Stream.limit(long)</code></a> (same).</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>maxSize</code> - the maximum number of elements in the returned fluent iterable</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>size</code> is negative</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>size</code> is negative</dd>
 </dl>
 </div>
 </section>
@@ -1017,7 +1017,7 @@ proper sequence.
 stream.collect()</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element is <code>null</code></dd>
 <dt>Since:</dt>
 <dd>14.0 (since 12.0 as <code>toImmutableList()</code>).</dd>
 </dl>
@@ -1028,7 +1028,7 @@ stream.collect()</code>.</div>
 <section class="detail" id="toSortedList(java.util.Comparator)">
 <h3>toSortedList</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</span>&nbsp;<span class="element-name">toSortedList</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</span>&nbsp;<span class="element-name">toSortedList</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</span></div>
 <div class="block">Returns an <code>ImmutableList</code> containing all of the elements from this <code>
 FluentIterable</code> in the order specified by <code>comparator</code>. To produce an <code>
 ImmutableList</code> sorted by its natural ordering, use <code>toSortedList(Ordering.natural())</code>.
@@ -1039,7 +1039,7 @@ stream.sorted(comparator).collect()</code>.</div>
 <dt>Parameters:</dt>
 <dd><code>comparator</code> - the function by which to sort list elements</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code></dd>
 <dt>Since:</dt>
 <dd>14.0 (since 13.0 as <code>toSortedImmutableList()</code>).</dd>
 </dl>
@@ -1058,7 +1058,7 @@ duplicates removed.
 stream.collect()</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element is <code>null</code></dd>
 <dt>Since:</dt>
 <dd>14.0 (since 12.0 as <code>toImmutableSet()</code>).</dd>
 </dl>
@@ -1069,7 +1069,7 @@ stream.collect()</code>.</div>
 <section class="detail" id="toSortedSet(java.util.Comparator)">
 <h3>toSortedSet</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</span>&nbsp;<span class="element-name">toSortedSet</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableSortedSet.html" title="class in com.google.common.collect">ImmutableSortedSet</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;</span>&nbsp;<span class="element-name">toSortedSet</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;comparator)</span></div>
 <div class="block">Returns an <code>ImmutableSortedSet</code> containing all of the elements from this <code>
 FluentIterable</code> in the order specified by <code>comparator</code>, with duplicates (determined by
 <code>comparator.compare(x, y) == 0</code>) removed. To produce an <code>ImmutableSortedSet</code> sorted
@@ -1081,7 +1081,7 @@ by its natural ordering, use <code>toSortedSet(Ordering.natural())</code>.
 <dt>Parameters:</dt>
 <dd><code>comparator</code> - the function by which to sort set elements</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code></dd>
 <dt>Since:</dt>
 <dd>14.0 (since 12.0 as <code>toImmutableSortedSet()</code>).</dd>
 </dl>
@@ -1099,7 +1099,7 @@ by its natural ordering, use <code>toSortedSet(Ordering.natural())</code>.
 <code>stream.collect()</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element is null</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element is null</dd>
 <dt>Since:</dt>
 <dd>19.0</dd>
 </dl>
@@ -1123,7 +1123,7 @@ which result will be mapped to that key in the returned map.
 valueFunction))</code>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
     valueFunction</code> produces <code>null</code> for any key</dd>
 <dt>Since:</dt>
 <dd>14.0</dd>
@@ -1151,7 +1151,7 @@ stream.collect(ImmutableListMultimap.toImmutableListMultimap(keyFunction, v -&gt
 <dt>Parameters:</dt>
 <dd><code>keyFunction</code> - the function used to produce the key for each value</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
     keyFunction</code> produces <code>null</code> for any key</dd>
 <dt>Since:</dt>
 <dd>14.0</dd>
@@ -1191,9 +1191,9 @@ stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -&gt; v))</code>.</div
 <dd>a map mapping the result of evaluating the function <code>keyFunction</code> on each value
     in this fluent iterable to that value</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>keyFunction</code> produces the same key for more than one
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>keyFunction</code> produces the same key for more than one
     value in this fluent iterable</dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if any element of this iterable is <code>null</code>, or if <code>
     keyFunction</code> produces <code>null</code> for any key</dd>
 <dt>Since:</dt>
 <dd>14.0</dd>
@@ -1206,7 +1206,7 @@ stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -&gt; v))</code>.</div
 <h3>toArray</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="#type-param-E" title="type parameter in FluentIterable">E</a>[]</span>&nbsp;<span class="element-name">toArray</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;type)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="#type-param-E" title="type parameter in FluentIterable">E</a>[]</span>&nbsp;<span class="element-name">toArray</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link">Class</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/NonNull.html" title="class or interface in org.jspecify.annotations" class="external-link">@NonNull</a> <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&nbsp;type)</span></div>
 <div class="block">Returns an array containing all of the elements from this fluent iterable in iteration order.
 
 <p><b><code>Stream</code> equivalent:</b> if an object array is acceptable, use <code>
@@ -1228,7 +1228,7 @@ Array.newInstance(type, len))</code>.</div>
 <h3 id="copyInto(java.util.Collection)">copyInto</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;C extends <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&gt;</span>&nbsp;<span class="return-type">C</span>&nbsp;<span class="element-name">copyInto</span><wbr><span class="parameters">(C&nbsp;collection)</span></div>
+</span><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;C extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;? super <a href="#type-param-E" title="type parameter in FluentIterable">E</a>&gt;&gt;</span>&nbsp;<span class="return-type">C</span>&nbsp;<span class="element-name">copyInto</span><wbr><span class="parameters">(C&nbsp;collection)</span></div>
 <div class="block">Copies all the elements from this fluent iterable to <code>collection</code>. This is equivalent to
 calling <code>Iterables.addAll(collection, this)</code>.
 
@@ -1249,8 +1249,8 @@ stream.forEach(collection::add)</code>.</div>
 <section class="detail" id="join(com.google.common.base.Joiner)">
 <h3>join</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">join</span><wbr><span class="parameters">(<a href="../base/Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;joiner)</span></div>
-<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a> containing all of the elements of this fluent iterable joined with
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">join</span><wbr><span class="parameters">(<a href="../base/Joiner.html" title="class in com.google.common.base">Joiner</a>&nbsp;joiner)</span></div>
+<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link"><code>String</code></a> containing all of the elements of this fluent iterable joined with
 <code>joiner</code>.
 
 <p><b><code>Stream</code> equivalent:</b> <code>joiner.join(stream.iterator())</code>, or, if you are not
@@ -1279,7 +1279,7 @@ returned).</div>
 <dt>Returns:</dt>
 <dd>the element at the specified position in this fluent iterable</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class or interface in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>position</code> is negative or greater than or equal to
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class or interface in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>position</code> is negative or greater than or equal to
     the size of this fluent iterable</dd>
 </dl>
 </div>

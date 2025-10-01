@@ -67,14 +67,14 @@ loadScripts(document, 'script');</script>
 <main role="main">
 <!-- ======== START OF CLASS DATA ======== -->
 <div class="header">
-<h1 title="Interface ByteProcessor" class="title">Interface ByteProcessor&lt;<span id="type-param-T">T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&gt;</h1>
+<h1 title="Interface ByteProcessor" class="title">Interface ByteProcessor&lt;<span id="type-param-T">T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span>&gt;</h1>
 </div>
 <section class="class-description" id="class-description">
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Implement it normally")
 <a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public interface </span><span class="element-name type-name-label">ByteProcessor&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
+</span><span class="modifiers">public interface </span><span class="element-name type-name-label">ByteProcessor&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span></div>
 <div class="block">A callback interface to process bytes from a stream.
 
 <p><a href="#processBytes(byte%5B%5D,int,int)"><code>processBytes(byte[], int, int)</code></a> will be called for each chunk of data that is read, and should return
@@ -134,7 +134,7 @@ loadScripts(document, 'script');</script>
 </span><span class="return-type">boolean</span>&nbsp;<span class="element-name">processBytes</span><wbr><span class="parameters">(byte[]&nbsp;buf,
  int&nbsp;off,
  int&nbsp;len)</span>
-              throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
+              throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></span></div>
 <div class="block">This method will be called for each chunk of bytes in an input stream. The implementation
 should process the bytes from <code>buf[off]</code> through <code>buf[off + len - 1]</code> (inclusive).</div>
 <dl class="notes">
@@ -145,7 +145,7 @@ should process the bytes from <code>buf[off]</code> through <code>buf[off + len 
 <dt>Returns:</dt>
 <dd>true to continue processing, false to stop</dd>
 <dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/IOException.html" title="class or interface in java.io" class="external-link">IOException</a></code></dd>
 </dl>
 </div>
 </section>
