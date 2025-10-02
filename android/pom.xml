@@ -322,7 +322,7 @@
           </configuration>
           <executions>
             <execution>
-              <id>attach-docs</id>
+              <id>attach-javadocs</id>
               <goals><goal>jar</goal></goals>
             </execution>
           </executions>
