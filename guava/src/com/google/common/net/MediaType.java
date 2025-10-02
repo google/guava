@@ -902,17 +902,19 @@ public final class MediaType {
     checkNotNull(attribute);
     checkNotNull(values);
     String normalizedAttribute = normalizeToken(attribute);
-    ImmutableListMultimap.Builder<String, String> builder = ImmutableListMultimap.builder();
+    ImmutableListMultimap.Builder<String, String> updatedParameters =
+        ImmutableListMultimap.builder();
     for (Entry<String, String> entry : parameters.entries()) {
       String key = entry.getKey();
       if (!normalizedAttribute.equals(key)) {
-        builder.put(key, entry.getValue());
+        updatedParameters.put(key, entry.getValue());
       }
     }
     for (String value : values) {
-      builder.put(normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));
+      updatedParameters.put(
+          normalizedAttribute, normalizeParameterValue(normalizedAttribute, value));
     }
-    MediaType mediaType = new MediaType(type, subtype, builder.build());
+    MediaType mediaType = new MediaType(type, subtype, updatedParameters.build());
     // if the attribute isn't charset, we can just inherit the current parsedCharset
     if (!normalizedAttribute.equals(CHARSET_ATTRIBUTE)) {
       mediaType.parsedCharset = this.parsedCharset;
