@@ -571,7 +571,7 @@ public abstract class AbstractNetworkTest {
   }
 
   @Test
-  public void hasEdgesConnecting_nodesNotInGraph() {
+  public void hasEdgeConnecting_nodesNotInGraph() {
     addNode(N1);
     addNode(N2);
     assertThat(network.hasEdgeConnecting(N1, NODE_NOT_IN_GRAPH)).isFalse();

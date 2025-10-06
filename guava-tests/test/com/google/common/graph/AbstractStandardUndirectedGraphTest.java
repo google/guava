@@ -154,6 +154,18 @@ public abstract class AbstractStandardUndirectedGraphTest extends AbstractGraphT
   }
 
   @Test
+  public void hasEdgeConnecting_missingNode() {
+    // both nodes missing
+    assertThat(
+            graph.hasEdgeConnecting(EndpointPair.unordered(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH)))
+        .isFalse();
+
+    // one node present, the other missing
+    assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(NODE_NOT_IN_GRAPH, N4))).isFalse();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(N4, NODE_NOT_IN_GRAPH))).isFalse();
+  }
+
+  @Test
   public void adjacentNodes_selfLoop() {
     assume().that(graph.allowsSelfLoops()).isTrue();
 
