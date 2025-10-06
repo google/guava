@@ -425,6 +425,8 @@ public abstract class BaseEncoding {
    * <p>No line feeds are added by default, as per <a
    * href="http://tools.ietf.org/html/rfc4648#section-3.1">RFC 4648 section 3.1</a>, Line Feeds in
    * Encoded Data. Line feeds may be added using {@link #withSeparator(String, int)}.
+   *
+   * <p><b>Java 17+ users:</b> Consider using the {@link java.util.HexFormat} API instead.
    */
   public static BaseEncoding base16() {
     return BASE16;
