@@ -203,14 +203,14 @@ must also be non-null.
 will silently <a href="#addNode(N)"><code>add</code></a> <code>nodeU</code> and <code>nodeV</code> to the network.
 
 <p>If <code>edge</code> already connects <code>nodeU</code> to <code>nodeV</code> (in the specified order if
-this network <a href="Network.html#isDirected()"><code>Network.isDirected()</code></a>, else in any order), then this method will have no effect.</div>
+this network <a href="#isDirected()"><code>isDirected()</code></a>, else in any order), then this method will have no effect.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>this <code>Builder</code> object</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>edge</code> already exists in the network and does not
     connect <code>nodeU</code> to <code>nodeV</code></dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="Network.html#allowsSelfLoops()"><code>Network.allowsSelfLoops()</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="#allowsSelfLoops()"><code>allowsSelfLoops()</code></a></dd>
 </dl>
 </div>
 </section>
@@ -244,7 +244,7 @@ method will have no effect.</div>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>edge</code> already exists in the network and connects
     some other endpoint pair that is not equal to <code>endpoints</code></dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="Network.html#allowsSelfLoops()"><code>Network.allowsSelfLoops()</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="#allowsSelfLoops()"><code>allowsSelfLoops()</code></a></dd>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the endpoints are unordered and the network is directed</dd>
 </dl>
 </div>

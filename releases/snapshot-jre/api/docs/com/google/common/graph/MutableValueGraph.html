@@ -64,6 +64,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#removeNode(N)" tabindex="0">removeNode(N)</a></li>
 <li><a href="#removeEdge(N,N)" tabindex="0">removeEdge(N, N)</a></li>
 <li><a href="#removeEdge(com.google.common.graph.EndpointPair)" tabindex="0">removeEdge(EndpointPair)</a></li>
+<li><a href="#asNetwork()" tabindex="0">asNetwork()</a></li>
 </ol>
 </li>
 </ol>
@@ -116,35 +117,41 @@ users should prefer the <a href="ValueGraph.html" title="interface in com.google
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds <code>node</code> if it is not already present.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#putEdgeValue(com.google.common.graph.EndpointPair,V)" class="member-name-link">putEdgeValue</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints,
- <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a>&nbsp;value)</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Network.html" title="interface in com.google.common.graph">Network</a><wbr>&lt;<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>, <a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#asNetwork()" class="member-name-link">asNetwork</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Returns a live view of this graph as a <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
+EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#putEdgeValue(com.google.common.graph.EndpointPair,V)" class="member-name-link">putEdgeValue</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints,
+ <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a>&nbsp;value)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds an edge connecting <code>endpoints</code> if one is not already present, and sets a value for
 that edge to <code>value</code> (overwriting the existing value, if any).</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#putEdgeValue(N,N,V)" class="member-name-link">putEdgeValue</a><wbr>(<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#putEdgeValue(N,N,V)" class="member-name-link">putEdgeValue</a><wbr>(<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
  <a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeV,
  <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a>&nbsp;value)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds an edge connecting <code>nodeU</code> to <code>nodeV</code> if one is not already present, and sets
 a value for that edge to <code>value</code> (overwriting the existing value, if any).</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeEdge(com.google.common.graph.EndpointPair)" class="member-name-link">removeEdge</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeEdge(com.google.common.graph.EndpointPair)" class="member-name-link">removeEdge</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&gt;&nbsp;endpoints)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Removes the edge connecting <code>endpoints</code>, if it is present.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeEdge(N,N)" class="member-name-link">removeEdge</a><wbr>(<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in MutableValueGraph">V</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeEdge(N,N)" class="member-name-link">removeEdge</a><wbr>(<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeU,
  <a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&nbsp;nodeV)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Removes the edge connecting <code>nodeU</code> to <code>nodeV</code>, if it is present.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeNode(N)" class="member-name-link">removeNode</a><wbr>(<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeNode(N)" class="member-name-link">removeNode</a><wbr>(<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&nbsp;node)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
 </div>
 </div>
@@ -286,6 +293,21 @@ undirected.
 <dt>Since:</dt>
 <dd>27.1</dd>
 </dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="asNetwork()">
+<h3>asNetwork</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>, <a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in MutableValueGraph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name">asNetwork</span>()</div>
+<div class="block">Returns a live view of this graph as a <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
+EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>). The resulting <code>
+Network</code>'s edge-oriented methods (such as <code>inEdges()</code>) will return views transformed from
+the corresponding node-oriented methods (such as <code>predecessors()</code>).
+
+<p>This capability facilitates writing implementations of <a href="https://github.com/google/guava/wiki/GraphsExplained#graph-types-for-algorithms">edge-oriented
+code</a>.</div>
 </div>
 </section>
 </li>

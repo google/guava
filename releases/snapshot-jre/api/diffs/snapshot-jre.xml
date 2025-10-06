@@ -41770,16 +41770,7 @@
   <interface name="Network"    abstract="true"
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
-    <implements name="com.google.common.graph.SuccessorsFunction&lt;N&gt;"/>
-    <implements name="com.google.common.graph.PredecessorsFunction&lt;N&gt;"/>
-    <method name="nodes" return="java.util.Set&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns all nodes in this network, in the order specified by {@link #nodeOrder()}.]]>
-      </doc>
-    </method>
+    <implements name="com.google.common.graph.ArchetypeGraph&lt;N&gt;"/>
     <method name="edges" return="java.util.Set&lt;E&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -41801,16 +41792,6 @@
  in the {@link Graph} view may be less than the degree of the same node in this {@link Network}.]]>
       </doc>
     </method>
-    <method name="isDirected" return="boolean"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns true if the edges in this network are directed. Directed edges connect a {@link
- EndpointPair#source() source node} to a {@link EndpointPair#target() target node}, while
- undirected edges connect a pair of nodes to each other.]]>
-      </doc>
-    </method>
     <method name="allowsParallelEdges" return="boolean"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -41820,103 +41801,12 @@
  network that does not allow them will throw an {@link IllegalArgumentException}.]]>
       </doc>
     </method>
-    <method name="allowsSelfLoops" return="boolean"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns true if this network allows self-loops (edges that connect a node to itself).
- Attempting to add a self-loop to a network that does not allow them will throw an {@link
- IllegalArgumentException}.]]>
-      </doc>
-    </method>
-    <method name="nodeOrder" return="com.google.common.graph.ElementOrder&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[Returns the order of iteration for the elements of {@link #nodes()}.]]>
-      </doc>
-    </method>
     <method name="edgeOrder" return="com.google.common.graph.ElementOrder&lt;E&gt;"
       abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the order of iteration for the elements of {@link #edges()}.]]>
-      </doc>
-    </method>
-    <method name="adjacentNodes" return="java.util.Set&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="N"/>
-      <doc>
-      <![CDATA[Returns a live view of the nodes which have an incident edge in common with {@code node} in
- this graph.
-
- <p>This is equal to the union of {@link #predecessors(Object)} and {@link #successors(Object)}.
-
- <p>If {@code node} is removed from the network after this method is called, the {@code Set}
- {@code view} returned by this method will be invalidated, and will throw {@code
- IllegalStateException} if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
-       expression involving {@code view} will throw)
-   <li>{@code hashCode()} does not throw
-   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
-       behavior is undefined
- </ul>
-
- @throws IllegalArgumentException if {@code node} is not an element of this network]]>
-      </doc>
-    </method>
-    <method name="predecessors" return="java.util.Set&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="N"/>
-      <doc>
-      <![CDATA[Returns a live view of all nodes in this network adjacent to {@code node} which can be reached
- by traversing {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.
-
- <p>In an undirected network, this is equivalent to {@link #adjacentNodes(Object)}.
-
- <p>If {@code node} is removed from the network after this method is called, the {@code Set}
- returned by this method will be invalidated, and will throw {@code IllegalStateException} if it
- is accessed in any way.
-
- @throws IllegalArgumentException if {@code node} is not an element of this network]]>
-      </doc>
-    </method>
-    <method name="successors" return="java.util.Set&lt;N&gt;"
-      abstract="true" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <param name="node" type="N"/>
-      <doc>
-      <![CDATA[Returns a live view of all nodes in this network adjacent to {@code node} which can be reached
- by traversing {@code node}'s outgoing edges in the direction (if any) of the edge.
-
- <p>In an undirected network, this is equivalent to {@link #adjacentNodes(Object)}.
-
- <p>This is <i>not</i> the same as "all nodes reachable from {@code node} by following outgoing
- edges". For that functionality, see {@link Graphs#reachableNodes(Graph, Object)}.
-
- <p>If {@code node} is removed from the network after this method is called, the {@code Set}
- {@code view} returned by this method will be invalidated, and will throw {@code
- IllegalStateException} if it is accessed in any way, with the following exceptions:
-
- <ul>
-   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals()}
-       expression involving {@code view} will throw)
-   <li>{@code hashCode()} does not throw
-   <li>if {@code node} is re-added to the network after having been removed, {@code view}'s
-       behavior is undefined
- </ul>
-
- @throws IllegalArgumentException if {@code node} is not an element of this network]]>
       </doc>
     </method>
     <method name="incidentEdges" return="java.util.Set&lt;E&gt;"
