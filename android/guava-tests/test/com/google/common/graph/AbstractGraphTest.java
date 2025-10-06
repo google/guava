@@ -121,6 +121,17 @@ public abstract class AbstractGraphTest {
     int edgeStart = graphString.indexOf("edges:");
     String nodeString = graphString.substring(nodeStart, edgeStart);
 
+    Network<N, EndpointPair<N>> asNetwork = graph.asNetwork();
+    // Don't call AbstractNetworkTest.validateNetwork(asNetwork).  Mutual recursion.
+    assertThat(graph.nodes()).isEqualTo(asNetwork.nodes());
+    assertThat(graph.edges()).hasSize(asNetwork.edges().size());
+    assertThat(graph.nodeOrder()).isEqualTo(asNetwork.nodeOrder());
+    assertThat(graph.isDirected()).isEqualTo(asNetwork.isDirected());
+    assertThat(graph.allowsSelfLoops()).isEqualTo(asNetwork.allowsSelfLoops());
+    assertThat(asNetwork.edgeOrder()).isEqualTo(ElementOrder.unordered());
+    assertThat(asNetwork.allowsParallelEdges()).isFalse();
+    assertThat(asNetwork.asGraph()).isEqualTo(graph);
+
     Set<EndpointPair<N>> allEndpointPairs = new HashSet<>();
 
     for (N node : sanityCheckSet(graph.nodes())) {
