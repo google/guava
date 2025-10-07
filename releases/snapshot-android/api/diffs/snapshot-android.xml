@@ -8443,7 +8443,7 @@
     <method name="expireAfterWrite" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #expireAfterWrite(Duration)} instead.">
       <param name="duration" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
@@ -8466,7 +8466,8 @@
  @param unit the unit that {@code duration} is expressed in
  @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalArgumentException if {@code duration} is negative
- @throws IllegalStateException if {@link #expireAfterWrite} was already set]]>
+ @throws IllegalStateException if {@link #expireAfterWrite} was already set
+ @deprecated Use {@link #expireAfterWrite(Duration)} instead.]]>
       </doc>
     </method>
     <method name="expireAfterAccess" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
@@ -8504,7 +8505,7 @@
     <method name="expireAfterAccess" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #expireAfterAccess(Duration)} instead.">
       <param name="duration" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
@@ -8532,7 +8533,8 @@
  @param unit the unit that {@code duration} is expressed in
  @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalArgumentException if {@code duration} is negative
- @throws IllegalStateException if {@link #expireAfterAccess} was already set]]>
+ @throws IllegalStateException if {@link #expireAfterAccess} was already set
+ @deprecated Use {@link #expireAfterAccess(Duration)} instead.]]>
       </doc>
     </method>
     <method name="refreshAfterWrite" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
@@ -8572,7 +8574,7 @@
     <method name="refreshAfterWrite" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
-      deprecated="not deprecated">
+      deprecated="Use {@link #refreshAfterWrite(Duration)} instead.">
       <param name="duration" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
@@ -8603,7 +8605,8 @@
  @return this {@code CacheBuilder} instance (for chaining)
  @throws IllegalArgumentException if {@code duration} is negative
  @throws IllegalStateException if {@link #refreshAfterWrite} was already set
- @since 11.0]]>
+ @since 11.0
+ @deprecated Use {@link #refreshAfterWrite(Duration)} instead.]]>
       </doc>
     </method>
     <method name="ticker" return="com.google.common.cache.CacheBuilder&lt;K, V&gt;"

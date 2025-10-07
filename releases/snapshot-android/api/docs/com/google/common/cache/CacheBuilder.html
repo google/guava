@@ -246,7 +246,7 @@ explanation.</div>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab1" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab1', 3)" class="table-tab">Static Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button><button id="method-summary-table-tab6" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab6', 3)" class="table-tab">Deprecated Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -268,13 +268,13 @@ computes or retrieves it using the supplied <code>CacheLoader</code>.</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Guides the allowed concurrency among update operations.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a><wbr>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#expireAfterAccess(long,java.util.concurrent.TimeUnit)" class="member-name-link">expireAfterAccess</a><wbr>(long&nbsp;duration,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a><wbr>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#expireAfterAccess(long,java.util.concurrent.TimeUnit)" class="member-name-link">expireAfterAccess</a><wbr>(long&nbsp;duration,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
-has elapsed after the entry's creation, the most recent replacement of its value, or its last
-access.</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
+<div class="block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="#expireAfterAccess(java.time.Duration)"><code>expireAfterAccess(Duration)</code></a> instead.</div>
+</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a><wbr>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#expireAfterAccess(java.time.Duration)" class="member-name-link">expireAfterAccess</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;duration)</code></div>
@@ -283,12 +283,13 @@ access.</div>
 has elapsed after the entry's creation, the most recent replacement of its value, or its last
 access.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a><wbr>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#expireAfterWrite(long,java.util.concurrent.TimeUnit)" class="member-name-link">expireAfterWrite</a><wbr>(long&nbsp;duration,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a><wbr>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#expireAfterWrite(long,java.util.concurrent.TimeUnit)" class="member-name-link">expireAfterWrite</a><wbr>(long&nbsp;duration,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
-has elapsed after the entry's creation, or the most recent replacement of its value.</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
+<div class="block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfterWrite(Duration)</code></a> instead.</div>
+</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a><wbr>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#expireAfterWrite(java.time.Duration)" class="member-name-link">expireAfterWrite</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;duration)</code></div>
@@ -332,12 +333,13 @@ strong values, and no automatic eviction of any kind.</div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Enable the accumulation of <a href="CacheStats.html" title="class in com.google.common.cache"><code>CacheStats</code></a> during the operation of the cache.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a><wbr>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshAfterWrite(long,java.util.concurrent.TimeUnit)" class="member-name-link">refreshAfterWrite</a><wbr>(long&nbsp;duration,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a><wbr>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#refreshAfterWrite(long,java.util.concurrent.TimeUnit)" class="member-name-link">refreshAfterWrite</a><wbr>(long&nbsp;duration,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
-elapsed after the entry's creation, or the most recent replacement of its value.</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
+<div class="block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="#refreshAfterWrite(java.time.Duration)"><code>refreshAfterWrite(Duration)</code></a> instead.</div>
+</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a><wbr>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#refreshAfterWrite(java.time.Duration)" class="member-name-link">refreshAfterWrite</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;duration)</code></div>
@@ -738,9 +740,13 @@ in the class javadoc.</div>
 <section class="detail" id="expireAfterWrite(long,java.util.concurrent.TimeUnit)">
 <h3>expireAfterWrite</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
+<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</span>&nbsp;<span class="element-name">expireAfterWrite</span><wbr><span class="parameters">(long&nbsp;duration,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="#expireAfterWrite(java.time.Duration)"><code>expireAfterWrite(Duration)</code></a> instead.</div>
+</div>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
 has elapsed after the entry's creation, or the most recent replacement of its value.
 
@@ -809,9 +815,13 @@ in the class javadoc.</div>
 <section class="detail" id="expireAfterAccess(long,java.util.concurrent.TimeUnit)">
 <h3>expireAfterAccess</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
+<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</span>&nbsp;<span class="element-name">expireAfterAccess</span><wbr><span class="parameters">(long&nbsp;duration,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="#expireAfterAccess(java.time.Duration)"><code>expireAfterAccess(Duration)</code></a> instead.</div>
+</div>
 <div class="block">Specifies that each entry should be automatically removed from the cache once a fixed duration
 has elapsed after the entry's creation, the most recent replacement of its value, or its last
 access. Access time is reset by all cache read and write operations (including <code>
@@ -887,9 +897,13 @@ immediately. Otherwise, the old value is returned.
 <h3>refreshAfterWrite</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="CacheBuilder.html" title="class in com.google.common.cache">CacheBuilder</a>&lt;<a href="#type-param-K" title="type parameter in CacheBuilder">K</a>,<wbr><a href="#type-param-V" title="type parameter in CacheBuilder">V</a>&gt;</span>&nbsp;<span class="element-name">refreshAfterWrite</span><wbr><span class="parameters">(long&nbsp;duration,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">Use <a href="#refreshAfterWrite(java.time.Duration)"><code>refreshAfterWrite(Duration)</code></a> instead.</div>
+</div>
 <div class="block">Specifies that active entries are eligible for automatic refresh once a fixed duration has
 elapsed after the entry's creation, or the most recent replacement of its value. The semantics
 of refreshes are specified in <a href="LoadingCache.html#refresh(K)"><code>LoadingCache.refresh(K)</code></a>, and are performed by calling <a href="CacheLoader.html#reload(K,V)"><code>CacheLoader.reload(K, V)</code></a>.
