@@ -367,7 +367,7 @@ public final class Graphs extends GraphsBridgeMethods {
 
     @Override
     public Set<EndpointPair<N>> incidentEdges(N node) {
-      return new IncidentEdgeSet<N>(this, node) {
+      return new IncidentEdgeSet<N>(this, node, IncidentEdgeSet.EdgeType.BOTH) {
         @Override
         public Iterator<EndpointPair<N>> iterator() {
           return Iterators.transform(
