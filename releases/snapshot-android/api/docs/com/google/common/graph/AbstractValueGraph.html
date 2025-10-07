@@ -68,6 +68,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#hashCode()" tabindex="0">hashCode()</a></li>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
+<li><a href="#asNetwork()" tabindex="0">asNetwork()</a></li>
 <li><a href="#edgeCount()" tabindex="0">edgeCount()</a></li>
 <li><a href="#edges()" tabindex="0">edges()</a></li>
 <li><a href="#incidentEdgeOrder()" tabindex="0">incidentEdgeOrder()</a></li>
@@ -77,6 +78,7 @@ loadScripts(document, 'script');</script>
 <li><a href="#outDegree(N)" tabindex="0">outDegree(N)</a></li>
 <li><a href="#hasEdgeConnecting(N,N)" tabindex="0">hasEdgeConnecting(N, N)</a></li>
 <li><a href="#hasEdgeConnecting(com.google.common.graph.EndpointPair)" tabindex="0">hasEdgeConnecting(EndpointPair)</a></li>
+<li><a href="#asNetwork()" tabindex="0">asNetwork()</a></li>
 <li><a href="#validateEndpoints(com.google.common.graph.EndpointPair)" tabindex="0">validateEndpoints(EndpointPair)</a></li>
 <li><a href="#isOrderingCompatible(com.google.common.graph.EndpointPair)" tabindex="0">isOrderingCompatible(EndpointPair)</a></li>
 <li><a href="#nodeInvalidatableSet(java.util.Set,N)" tabindex="0">nodeInvalidatableSet(Set, N)</a></li>
@@ -148,7 +150,7 @@ more efficient implementation.</div>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -158,6 +160,15 @@ more efficient implementation.</div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#asGraph()" class="member-name-link">asGraph</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a live view of this graph as a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Network.html" title="interface in com.google.common.graph">Network</a><wbr>&lt;<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>, <a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#asNetwork()" class="member-name-link">asNetwork</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Network.html" title="interface in com.google.common.graph">Network</a><wbr>&lt;<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>, <a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>&gt;&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#asNetwork()" class="member-name-link">asNetwork</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Returns a live view of this graph as a <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
+EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#degree(N)" class="member-name-link">degree</a><wbr>(<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>&nbsp;node)</code></div>
@@ -348,6 +359,21 @@ map from each of its <a href="ValueGraph.html#edges()"><code>edges</code></a> to
 </section>
 </li>
 <li>
+<section class="detail" id="asNetwork()">
+<h3>asNetwork</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>, <a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name">asNetwork</span>()</div>
+<div class="block">Returns a live view of this graph as a <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
+EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>). The resulting <code>
+Network</code>'s edge-oriented methods (such as <code>inEdges()</code>) will return views transformed from
+the corresponding node-oriented methods (such as <code>predecessors()</code>).
+
+<p>This capability facilitates writing implementations of <a href="https://github.com/google/guava/wiki/GraphsExplained#graph-types-for-algorithms">edge-oriented
+code</a>.</div>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="edgeCount()">
 <h3>edgeCount</h3>
 <div class="horizontal-scroll">
@@ -422,6 +448,14 @@ the number of edges as the graph is updated, and override this method for better
 <h3>hasEdgeConnecting</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">hasEdgeConnecting</span><wbr><span class="parameters">(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>&gt;&nbsp;endpoints)</span></div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="asNetwork()">
+<h3>asNetwork</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>, <a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in AbstractValueGraph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name">asNetwork</span>()</div>
 </div>
 </section>
 </li>

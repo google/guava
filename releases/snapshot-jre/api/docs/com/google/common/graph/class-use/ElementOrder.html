@@ -112,31 +112,26 @@ loadScripts(document, 'script');</script>
 <div class="col-last odd-row-color">
 <div class="block">Returns the order of iteration for the elements of <a href="../Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
 </div>
-<div class="col-first even-row-color"><code><a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="../Network.html#type-param-N" title="type parameter in Network">N</a>&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Network.</span><code><a href="../Network.html#nodeOrder()" class="member-name-link">nodeOrder</a>()</code></div>
+<div class="col-first even-row-color"><code><a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="../ValueGraph.html#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">ValueGraph.</span><code><a href="../ValueGraph.html#nodeOrder()" class="member-name-link">nodeOrder</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Returns the order of iteration for the elements of <a href="../Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
-</div>
-<div class="col-first odd-row-color"><code><a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="../ValueGraph.html#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">ValueGraph.</span><code><a href="../ValueGraph.html#nodeOrder()" class="member-name-link">nodeOrder</a>()</code></div>
-<div class="col-last odd-row-color">
 <div class="block">Returns the order of iteration for the elements of <a href="../ValueGraph.html#nodes()"><code>ValueGraph.nodes()</code></a>.</div>
 </div>
-<div class="col-first even-row-color"><code>static &lt;S&gt;&nbsp;<a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;S&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">ElementOrder.</span><code><a href="../ElementOrder.html#sorted(java.util.Comparator)" class="member-name-link">sorted</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;S&gt;&nbsp;comparator)</code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>static &lt;S&gt;&nbsp;<a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;S&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">ElementOrder.</span><code><a href="../ElementOrder.html#sorted(java.util.Comparator)" class="member-name-link">sorted</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;S&gt;&nbsp;comparator)</code></div>
+<div class="col-last odd-row-color">
 <div class="block">Returns an instance which specifies that the ordering of the elements is guaranteed to be
 determined by <code>comparator</code>.</div>
 </div>
-<div class="col-first odd-row-color"><code>static &lt;S&gt;&nbsp;<a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;S&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">ElementOrder.</span><code><a href="../ElementOrder.html#stable()" class="member-name-link">stable</a>()</code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static &lt;S&gt;&nbsp;<a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;S&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">ElementOrder.</span><code><a href="../ElementOrder.html#stable()" class="member-name-link">stable</a>()</code></div>
+<div class="col-last even-row-color">
 <div class="block">Returns an instance which specifies that ordering is guaranteed to be always be the same across
 iterations, and across releases.</div>
 </div>
-<div class="col-first even-row-color"><code>static &lt;S&gt;&nbsp;<a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;S&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">ElementOrder.</span><code><a href="../ElementOrder.html#unordered()" class="member-name-link">unordered</a>()</code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>static &lt;S&gt;&nbsp;<a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;S&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">ElementOrder.</span><code><a href="../ElementOrder.html#unordered()" class="member-name-link">unordered</a>()</code></div>
+<div class="col-last odd-row-color">
 <div class="block">Returns an instance which specifies that no ordering is guaranteed.</div>
 </div>
 </div>
@@ -168,7 +163,7 @@ iterations, and across releases.</div>
 <div class="col-first even-row-color"><code>&lt;N1 extends <a href="../NetworkBuilder.html#type-param-N" title="type parameter in NetworkBuilder">N</a>&gt;<br><a href="../NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a><wbr>&lt;N1,<wbr><a href="../NetworkBuilder.html#type-param-E" title="type parameter in NetworkBuilder">E</a>&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">NetworkBuilder.</span><code><a href="../NetworkBuilder.html#nodeOrder(com.google.common.graph.ElementOrder)" class="member-name-link">nodeOrder</a><wbr>(<a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Specifies the order of iteration for the elements of <a href="../Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
+<div class="block">Specifies the order of iteration for the elements of <code>ArchetypeGraph.nodes()</code>.</div>
 </div>
 <div class="col-first odd-row-color"><code>&lt;N1 extends <a href="../ValueGraphBuilder.html#type-param-N" title="type parameter in ValueGraphBuilder">N</a>&gt;<br><a href="../ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a><wbr>&lt;N1,<wbr><a href="../ValueGraphBuilder.html#type-param-V" title="type parameter in ValueGraphBuilder">V</a>&gt;</code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">ValueGraphBuilder.</span><code><a href="../ValueGraphBuilder.html#nodeOrder(com.google.common.graph.ElementOrder)" class="member-name-link">nodeOrder</a><wbr>(<a href="../ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</code></div>

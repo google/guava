@@ -63,6 +63,13 @@ loadScripts(document, 'script');</script>
 <li><a href="#addEdge(com.google.common.graph.EndpointPair,E)" tabindex="0">addEdge(EndpointPair, E)</a></li>
 <li><a href="#removeNode(N)" tabindex="0">removeNode(N)</a></li>
 <li><a href="#removeEdge(E)" tabindex="0">removeEdge(E)</a></li>
+<li><a href="#nodes()" tabindex="0">nodes()</a></li>
+<li><a href="#isDirected()" tabindex="0">isDirected()</a></li>
+<li><a href="#allowsSelfLoops()" tabindex="0">allowsSelfLoops()</a></li>
+<li><a href="#nodeOrder()" tabindex="0">nodeOrder()</a></li>
+<li><a href="#adjacentNodes(N)" tabindex="0">adjacentNodes(N)</a></li>
+<li><a href="#predecessors(N)" tabindex="0">predecessors(N)</a></li>
+<li><a href="#successors(N)" tabindex="0">successors(N)</a></li>
 </ol>
 </li>
 </ol>
@@ -128,6 +135,38 @@ users should prefer the <a href="Network.html" title="interface in com.google.co
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Adds <code>node</code> if it is not already present.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#adjacentNodes(N)" class="member-name-link">adjacentNodes</a><wbr>(<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&nbsp;node)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
+this graph.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#allowsSelfLoops()" class="member-name-link">allowsSelfLoops</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isDirected()" class="member-name-link">isDirected</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Returns true if the edges in this graph are directed.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nodeOrder()" class="member-name-link">nodeOrder</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Returns the order of iteration for the elements of <a href="#nodes()"><code>nodes()</code></a>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nodes()" class="member-name-link">nodes</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Returns all nodes in this graph, in the order specified by <a href="#nodeOrder()"><code>nodeOrder()</code></a>.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#predecessors(N)" class="member-name-link">predecessors</a><wbr>(<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&nbsp;node)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
+traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#removeEdge(E)" class="member-name-link">removeEdge</a><wbr>(<a href="#type-param-E" title="type parameter in MutableNetwork">E</a>&nbsp;edge)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -138,12 +177,18 @@ users should prefer the <a href="Network.html" title="interface in com.google.co
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Removes <code>node</code> if it is present; all edges incident to <code>node</code> will also be removed.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#successors(N)" class="member-name-link">successors</a><wbr>(<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&nbsp;node)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
+traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+</div>
 </div>
 </div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.google.common.graph.Network">Methods inherited from interface&nbsp;<a href="Network.html#method-summary" title="interface in com.google.common.graph">Network</a></h3>
-<code><a href="Network.html#adjacentEdges(E)" title="adjacentEdges(E)">adjacentEdges</a>, <a href="Network.html#adjacentNodes(N)" title="adjacentNodes(N)">adjacentNodes</a>, <a href="Network.html#allowsParallelEdges()" title="allowsParallelEdges()">allowsParallelEdges</a>, <a href="Network.html#allowsSelfLoops()" title="allowsSelfLoops()">allowsSelfLoops</a>, <a href="Network.html#asGraph()" title="asGraph()">asGraph</a>, <a href="Network.html#degree(N)" title="degree(N)">degree</a>, <a href="Network.html#edgeConnectingOrNull(com.google.common.graph.EndpointPair)" title="edgeConnectingOrNull(EndpointPair)">edgeConnectingOrNull</a>, <a href="Network.html#edgeConnectingOrNull(N,N)" title="edgeConnectingOrNull(N, N)">edgeConnectingOrNull</a>, <a href="Network.html#edgeOrder()" title="edgeOrder()">edgeOrder</a>, <a href="Network.html#edges()" title="edges()">edges</a>, <a href="Network.html#edgesConnecting(com.google.common.graph.EndpointPair)" title="edgesConnecting(EndpointPair)">edgesConnecting</a>, <a href="Network.html#edgesConnecting(N,N)" title="edgesConnecting(N, N)">edgesConnecting</a>, <a href="Network.html#equals(java.lang.Object)" title="equals(Object)">equals</a>, <a href="Network.html#hasEdgeConnecting(com.google.common.graph.EndpointPair)" title="hasEdgeConnecting(EndpointPair)">hasEdgeConnecting</a>, <a href="Network.html#hasEdgeConnecting(N,N)" title="hasEdgeConnecting(N, N)">hasEdgeConnecting</a>, <a href="Network.html#hashCode()" title="hashCode()">hashCode</a>, <a href="Network.html#incidentEdges(N)" title="incidentEdges(N)">incidentEdges</a>, <a href="Network.html#incidentNodes(E)" title="incidentNodes(E)">incidentNodes</a>, <a href="Network.html#inDegree(N)" title="inDegree(N)">inDegree</a>, <a href="Network.html#inEdges(N)" title="inEdges(N)">inEdges</a>, <a href="Network.html#isDirected()" title="isDirected()">isDirected</a>, <a href="Network.html#nodeOrder()" title="nodeOrder()">nodeOrder</a>, <a href="Network.html#nodes()" title="nodes()">nodes</a>, <a href="Network.html#outDegree(N)" title="outDegree(N)">outDegree</a>, <a href="Network.html#outEdges(N)" title="outEdges(N)">outEdges</a>, <a href="Network.html#predecessors(N)" title="predecessors(N)">predecessors</a>, <a href="Network.html#successors(N)" title="successors(N)">successors</a></code></div>
+<code><a href="Network.html#adjacentEdges(E)" title="adjacentEdges(E)">adjacentEdges</a>, <a href="Network.html#allowsParallelEdges()" title="allowsParallelEdges()">allowsParallelEdges</a>, <a href="Network.html#asGraph()" title="asGraph()">asGraph</a>, <a href="Network.html#degree(N)" title="degree(N)">degree</a>, <a href="Network.html#edgeConnectingOrNull(com.google.common.graph.EndpointPair)" title="edgeConnectingOrNull(EndpointPair)">edgeConnectingOrNull</a>, <a href="Network.html#edgeConnectingOrNull(N,N)" title="edgeConnectingOrNull(N, N)">edgeConnectingOrNull</a>, <a href="Network.html#edgeOrder()" title="edgeOrder()">edgeOrder</a>, <a href="Network.html#edges()" title="edges()">edges</a>, <a href="Network.html#edgesConnecting(com.google.common.graph.EndpointPair)" title="edgesConnecting(EndpointPair)">edgesConnecting</a>, <a href="Network.html#edgesConnecting(N,N)" title="edgesConnecting(N, N)">edgesConnecting</a>, <a href="Network.html#equals(java.lang.Object)" title="equals(Object)">equals</a>, <a href="Network.html#hasEdgeConnecting(com.google.common.graph.EndpointPair)" title="hasEdgeConnecting(EndpointPair)">hasEdgeConnecting</a>, <a href="Network.html#hasEdgeConnecting(N,N)" title="hasEdgeConnecting(N, N)">hasEdgeConnecting</a>, <a href="Network.html#hashCode()" title="hashCode()">hashCode</a>, <a href="Network.html#incidentEdges(N)" title="incidentEdges(N)">incidentEdges</a>, <a href="Network.html#incidentNodes(E)" title="incidentNodes(E)">incidentNodes</a>, <a href="Network.html#inDegree(N)" title="inDegree(N)">inDegree</a>, <a href="Network.html#inEdges(N)" title="inEdges(N)">inEdges</a>, <a href="Network.html#outDegree(N)" title="outDegree(N)">outDegree</a>, <a href="Network.html#outEdges(N)" title="outEdges(N)">outEdges</a></code></div>
 </section>
 </li>
 </ul>
@@ -191,14 +236,14 @@ also be non-null.
 silently <a href="#addNode(N)"><code>add</code></a> <code>nodeU</code> and <code>nodeV</code> to the graph.
 
 <p>If <code>edge</code> already connects <code>nodeU</code> to <code>nodeV</code> (in the specified order if
-this network <a href="Network.html#isDirected()"><code>Network.isDirected()</code></a>, else in any order), then this method will have no effect.</div>
+this network <a href="#isDirected()"><code>isDirected()</code></a>, else in any order), then this method will have no effect.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code> if the network was modified as a result of this call</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>edge</code> already exists in the graph and does not
     connect <code>nodeU</code> to <code>nodeV</code></dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="Network.html#allowsSelfLoops()"><code>Network.allowsSelfLoops()</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="#allowsSelfLoops()"><code>allowsSelfLoops()</code></a></dd>
 </dl>
 </div>
 </section>
@@ -232,7 +277,7 @@ method will have no effect.</div>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>edge</code> already exists in the graph and connects some
     other endpoint pair that is not equal to <code>endpoints</code></dd>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="Network.html#allowsSelfLoops()"><code>Network.allowsSelfLoops()</code></a></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the introduction of the edge would violate <a href="Network.html#allowsParallelEdges()"><code>Network.allowsParallelEdges()</code></a> or <a href="#allowsSelfLoops()"><code>allowsSelfLoops()</code></a></dd>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if the endpoints are unordered and the graph is directed</dd>
 <dt>Since:</dt>
 <dd>27.1</dd>
@@ -264,6 +309,135 @@ method will have no effect.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>true</code> if the network was modified as a result of this call</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="nodes()">
+<h3>nodes</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">nodes</span>()</div>
+<div class="block">Returns all nodes in this graph, in the order specified by <a href="#nodeOrder()"><code>nodeOrder()</code></a>.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="isDirected()">
+<h3>isDirected</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">isDirected</span>()</div>
+<div class="block">Returns true if the edges in this graph are directed. Directed edges connect a <a href="EndpointPair.html#source()"><code>source node</code></a> to a <a href="EndpointPair.html#target()"><code>target node</code></a>, while
+undirected edges connect a pair of nodes to each other.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="allowsSelfLoops()">
+<h3>allowsSelfLoops</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsSelfLoops</span>()</div>
+<div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
+to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link"><code>IllegalArgumentException</code></a>.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="nodeOrder()">
+<h3>nodeOrder</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">nodeOrder</span>()</div>
+<div class="block">Returns the order of iteration for the elements of <a href="#nodes()"><code>nodes()</code></a>.</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="adjacentNodes(N)">
+<h3 id="adjacentNodes(java.lang.Object)">adjacentNodes</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">adjacentNodes</span><wbr><span class="parameters">(<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&nbsp;node)</span></div>
+<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
+this graph.
+
+<p>This is equal to the union of <a href="PredecessorsFunction.html#predecessors(N)"><code>PredecessorsFunction.predecessors(Object)</code></a> and <a href="SuccessorsFunction.html#successors(N)"><code>SuccessorsFunction.successors(Object)</code></a>.
+
+<p>If <code>node</code> is removed from the graph after this method is called, the <code>Set</code>
+<code>view</code> returned by this method will be invalidated, and will throw <code>
+IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+<ul>
+  <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+      involving <code>view</code> will throw)
+  <li><code>hashCode()</code> does not throw
+  <li>if <code>node</code> is re-added to the graph after having been removed, <code>view</code>'s
+      behavior is undefined
+</ul></div>
+<dl class="notes">
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this graph</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="predecessors(N)">
+<h3 id="predecessors(java.lang.Object)">predecessors</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">predecessors</span><wbr><span class="parameters">(<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&nbsp;node)</span></div>
+<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
+traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
+
+<p>In an undirected graph, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.
+
+<p>If <code>node</code> is removed from the graph after this method is called, the <code>Set</code>
+<code>view</code> returned by this method will be invalidated, and will throw <code>
+IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+<ul>
+  <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+      involving <code>view</code> will throw)
+  <li><code>hashCode()</code> does not throw
+  <li>if <code>node</code> is re-added to the graph after having been removed, <code>view</code>'s
+      behavior is undefined
+</ul></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="PredecessorsFunction.html#predecessors(N)">predecessors</a></code>&nbsp;in interface&nbsp;<code><a href="PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a>&lt;N&gt;</code></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this graph</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="successors(N)">
+<h3 id="successors(java.lang.Object)">successors</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">successors</span><wbr><span class="parameters">(<a href="#type-param-N" title="type parameter in MutableNetwork">N</a>&nbsp;node)</span></div>
+<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
+traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
+
+<p>In an undirected graph, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.
+
+<p>This is <i>not</i> the same as "all nodes reachable from <code>node</code> by following outgoing
+edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.
+
+<p>If <code>node</code> is removed from the graph after this method is called, the <code>Set</code>
+<code>view</code> returned by this method will be invalidated, and will throw <code>
+IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+<ul>
+  <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
+      involving <code>view</code> will throw)
+  <li><code>hashCode()</code> does not throw
+  <li>if <code>node</code> is re-added to the graph after having been removed, <code>view</code>'s
+      behavior is undefined
+</ul></div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="SuccessorsFunction.html#successors(N)">successors</a></code>&nbsp;in interface&nbsp;<code><a href="SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;</code></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this graph</dd>
 </dl>
 </div>
 </section>
