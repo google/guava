@@ -104,7 +104,7 @@ user-defined properties.
 <ul>
   <li>does not allow parallel edges
   <li>does not allow self-loops
-  <li>orders <code>ArchetypeGraph.nodes()</code> and <a href="Network.html#edges()"><code>Network.edges()</code></a> in the order in which the
+  <li>orders <a href="Network.html#nodes()"><code>Network.nodes()</code></a> and <a href="Network.html#edges()"><code>Network.edges()</code></a> in the order in which the
       elements were added (insertion order)
 </ul>
 
@@ -204,7 +204,7 @@ network</code>.</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;N1 extends <a href="#type-param-N" title="type parameter in NetworkBuilder">N</a>&gt;<br><a href="NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a><wbr>&lt;N1,<wbr><a href="#type-param-E" title="type parameter in NetworkBuilder">E</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeOrder(com.google.common.graph.ElementOrder)" class="member-name-link">nodeOrder</a><wbr>(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Specifies the order of iteration for the elements of <code>ArchetypeGraph.nodes()</code>.</div>
+<div class="block">Specifies the order of iteration for the elements of <a href="Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#undirected()" class="member-name-link">undirected</a>()</code></div>
@@ -255,7 +255,7 @@ network</code>.</div>
 network</code>.
 
 <p>The "queryable" properties are those that are exposed through the <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> interface,
-such as <code>ArchetypeGraph.isDirected()</code>. Other properties, such as <a href="#expectedNodeCount(int)"><code>expectedNodeCount(int)</code></a>, are not set in the new builder.</div>
+such as <a href="Network.html#isDirected()"><code>Network.isDirected()</code></a>. Other properties, such as <a href="#expectedNodeCount(int)"><code>expectedNodeCount(int)</code></a>, are not set in the new builder.</div>
 </div>
 </section>
 </li>
@@ -334,7 +334,7 @@ Attempting to add a self-loop to a network that does not allow them will throw a
 <h3>nodeOrder</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;N1 extends <a href="#type-param-N" title="type parameter in NetworkBuilder">N</a>&gt;</span>&nbsp;<span class="return-type"><a href="NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a>&lt;N1,<wbr><a href="#type-param-E" title="type parameter in NetworkBuilder">E</a>&gt;</span>&nbsp;<span class="element-name">nodeOrder</span><wbr><span class="parameters">(<a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;N1&gt;&nbsp;nodeOrder)</span></div>
-<div class="block">Specifies the order of iteration for the elements of <code>ArchetypeGraph.nodes()</code>.
+<div class="block">Specifies the order of iteration for the elements of <a href="Network.html#nodes()"><code>Network.nodes()</code></a>.
 
 <p>The default value is <a href="ElementOrder.html#insertion()"><code>insertion order</code></a>.</div>
 </div>

@@ -932,24 +932,14 @@ common with <code>edge</code>.</div>
 <dd>
 <div class="block">Returns the node that is adjacent to <code>node</code> along the origin edge.</div>
 </dd>
-<dt><a href="com/google/common/graph/AbstractNetwork.html#adjacentNodes(N)" class="member-name-link">adjacentNodes(N)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
-<dd>
-<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
-this graph.</div>
-</dd>
-<dt><a href="com/google/common/graph/MutableNetwork.html#adjacentNodes(N)" class="member-name-link">adjacentNodes(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
+<dt><a href="com/google/common/graph/ImmutableGraph.html#adjacentNodes(N)" class="member-name-link">adjacentNodes(N)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
+<dd>&nbsp;</dd>
+<dt><a href="com/google/common/graph/Graph.html#adjacentNodes(N)" class="member-name-link">adjacentNodes(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
 this graph.</div>
 </dd>
 <dt><a href="com/google/common/graph/Network.html#adjacentNodes(N)" class="member-name-link">adjacentNodes(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
-<dd>
-<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
-this graph.</div>
-</dd>
-<dt><a href="com/google/common/graph/ImmutableGraph.html#adjacentNodes(N)" class="member-name-link">adjacentNodes(N)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/google/common/graph/Graph.html#adjacentNodes(N)" class="member-name-link">adjacentNodes(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
 this graph.</div>
@@ -1035,23 +1025,15 @@ system does not support <a href="https://docs.oracle.com/en/java/javase/25/docs/
 <dd>
 <div class="block">Specifies whether the network will allow parallel edges.</div>
 </dd>
-<dt><a href="com/google/common/graph/AbstractNetwork.html#allowsSelfLoops()" class="member-name-link">allowsSelfLoops()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
-<dd>
-<div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).</div>
-</dd>
-<dt><a href="com/google/common/graph/MutableNetwork.html#allowsSelfLoops()" class="member-name-link">allowsSelfLoops()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
-<dd>
-<div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).</div>
-</dd>
-<dt><a href="com/google/common/graph/Network.html#allowsSelfLoops()" class="member-name-link">allowsSelfLoops()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
-<dd>
-<div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).</div>
-</dd>
 <dt><a href="com/google/common/graph/ImmutableGraph.html#allowsSelfLoops()" class="member-name-link">allowsSelfLoops()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/google/common/graph/Graph.html#allowsSelfLoops()" class="member-name-link">allowsSelfLoops()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).</div>
+</dd>
+<dt><a href="com/google/common/graph/Network.html#allowsSelfLoops()" class="member-name-link">allowsSelfLoops()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns true if this network allows self-loops (edges that connect a node to itself).</div>
 </dd>
 <dt><a href="com/google/common/graph/ImmutableNetwork.html#allowsSelfLoops()" class="member-name-link">allowsSelfLoops()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a></dt>
 <dd>&nbsp;</dd>
@@ -1772,54 +1754,6 @@ function.</div>
 <dt><a href="com/google/common/collect/ImmutableMap.html#asMultimap()" class="member-name-link">asMultimap()</a> - Method in class com.google.common.collect.<a href="com/google/common/collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a></dt>
 <dd>
 <div class="block">Returns a multimap view of the map.</div>
-</dd>
-<dt><a href="com/google/common/graph/AbstractGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/google/common/graph/AbstractValueGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/google/common/graph/ImmutableGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/google/common/graph/ImmutableValueGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a></dt>
-<dd>&nbsp;</dd>
-<dt><a href="com/google/common/graph/AbstractGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a></dt>
-<dd>
-<div class="block">Returns a live view of this graph as a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
-</dd>
-<dt><a href="com/google/common/graph/AbstractValueGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
-<dd>
-<div class="block">Returns a live view of this graph as a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
-</dd>
-<dt><a href="com/google/common/graph/Graph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
-<dd>
-<div class="block">Returns a live view of this graph as a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
-</dd>
-<dt><a href="com/google/common/graph/ImmutableGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
-<dd>
-<div class="block">Returns a live view of this graph as a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
-</dd>
-<dt><a href="com/google/common/graph/ImmutableValueGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a></dt>
-<dd>
-<div class="block">Returns a live view of this graph as a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
-</dd>
-<dt><a href="com/google/common/graph/MutableGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableGraph.html" title="interface in com.google.common.graph">MutableGraph</a></dt>
-<dd>
-<div class="block">Returns a live view of this graph as a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
-</dd>
-<dt><a href="com/google/common/graph/MutableValueGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableValueGraph.html" title="interface in com.google.common.graph">MutableValueGraph</a></dt>
-<dd>
-<div class="block">Returns a live view of this graph as a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
-</dd>
-<dt><a href="com/google/common/graph/ValueGraph.html#asNetwork()" class="member-name-link">asNetwork()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
-<dd>
-<div class="block">Returns a live view of this graph as a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
 </dd>
 <dt><a href="com/google/common/hash/Funnels.html#asOutputStream(com.google.common.hash.PrimitiveSink)" class="member-name-link">asOutputStream(PrimitiveSink)</a> - Static method in class com.google.common.hash.<a href="com/google/common/hash/Funnels.html" title="class in com.google.common.hash">Funnels</a></dt>
 <dd>
@@ -11322,23 +11256,15 @@ by the argument according to three criteria:
 <dd>
 <div class="block">Returns <code>true</code> if there exists a (possibly empty) range which is <a href="com/google/common/collect/Range.html#encloses(com.google.common.collect.Range)">enclosed</a> by both this range and <code>other</code>.</div>
 </dd>
-<dt><a href="com/google/common/graph/AbstractNetwork.html#isDirected()" class="member-name-link">isDirected()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
-<dd>
-<div class="block">Returns true if the edges in this graph are directed.</div>
-</dd>
-<dt><a href="com/google/common/graph/MutableNetwork.html#isDirected()" class="member-name-link">isDirected()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
-<dd>
-<div class="block">Returns true if the edges in this graph are directed.</div>
-</dd>
-<dt><a href="com/google/common/graph/Network.html#isDirected()" class="member-name-link">isDirected()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
-<dd>
-<div class="block">Returns true if the edges in this graph are directed.</div>
-</dd>
 <dt><a href="com/google/common/graph/ImmutableGraph.html#isDirected()" class="member-name-link">isDirected()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/google/common/graph/Graph.html#isDirected()" class="member-name-link">isDirected()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns true if the edges in this graph are directed.</div>
+</dd>
+<dt><a href="com/google/common/graph/Network.html#isDirected()" class="member-name-link">isDirected()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns true if the edges in this network are directed.</div>
 </dd>
 <dt><a href="com/google/common/graph/ImmutableNetwork.html#isDirected()" class="member-name-link">isDirected()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a></dt>
 <dd>&nbsp;</dd>
@@ -14146,23 +14072,15 @@ No-Vary-Seearch</code></a> header field name.</div>
 <div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> whose methods throw <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link"><code>IllegalStateException</code></a> when the given node is
 not present in this network.</div>
 </dd>
-<dt><a href="com/google/common/graph/AbstractNetwork.html#nodeOrder()" class="member-name-link">nodeOrder()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
-<dd>
-<div class="block">Returns the order of iteration for the elements of <code>ArchetypeGraph.nodes()</code>.</div>
-</dd>
-<dt><a href="com/google/common/graph/MutableNetwork.html#nodeOrder()" class="member-name-link">nodeOrder()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
-<dd>
-<div class="block">Returns the order of iteration for the elements of <code>ArchetypeGraph.nodes()</code>.</div>
-</dd>
-<dt><a href="com/google/common/graph/Network.html#nodeOrder()" class="member-name-link">nodeOrder()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
-<dd>
-<div class="block">Returns the order of iteration for the elements of <code>ArchetypeGraph.nodes()</code>.</div>
-</dd>
 <dt><a href="com/google/common/graph/ImmutableGraph.html#nodeOrder()" class="member-name-link">nodeOrder()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/google/common/graph/Graph.html#nodeOrder()" class="member-name-link">nodeOrder()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns the order of iteration for the elements of <a href="com/google/common/graph/Graph.html#nodes()"><code>Graph.nodes()</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/graph/Network.html#nodeOrder()" class="member-name-link">nodeOrder()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns the order of iteration for the elements of <a href="com/google/common/graph/Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
 </dd>
 <dt><a href="com/google/common/graph/ImmutableNetwork.html#nodeOrder()" class="member-name-link">nodeOrder()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a></dt>
 <dd>&nbsp;</dd>
@@ -14178,7 +14096,7 @@ not present in this network.</div>
 </dd>
 <dt><a href="com/google/common/graph/NetworkBuilder.html#nodeOrder(com.google.common.graph.ElementOrder)" class="member-name-link">nodeOrder(ElementOrder)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/NetworkBuilder.html" title="class in com.google.common.graph">NetworkBuilder</a></dt>
 <dd>
-<div class="block">Specifies the order of iteration for the elements of <code>ArchetypeGraph.nodes()</code>.</div>
+<div class="block">Specifies the order of iteration for the elements of <a href="com/google/common/graph/Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
 </dd>
 <dt><a href="com/google/common/graph/ValueGraphBuilder.html#nodeOrder(com.google.common.graph.ElementOrder)" class="member-name-link">nodeOrder(ElementOrder)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ValueGraphBuilder.html" title="class in com.google.common.graph">ValueGraphBuilder</a></dt>
 <dd>
@@ -14197,23 +14115,15 @@ not present in this network.</div>
 <div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> whose methods throw <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link"><code>IllegalStateException</code></a> when either of the
 given nodes is not present in this network.</div>
 </dd>
-<dt><a href="com/google/common/graph/AbstractNetwork.html#nodes()" class="member-name-link">nodes()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
-<dd>
-<div class="block">Returns all nodes in this graph, in the order specified by <code>ArchetypeGraph.nodeOrder()</code>.</div>
-</dd>
-<dt><a href="com/google/common/graph/MutableNetwork.html#nodes()" class="member-name-link">nodes()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
-<dd>
-<div class="block">Returns all nodes in this graph, in the order specified by <code>ArchetypeGraph.nodeOrder()</code>.</div>
-</dd>
-<dt><a href="com/google/common/graph/Network.html#nodes()" class="member-name-link">nodes()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
-<dd>
-<div class="block">Returns all nodes in this graph, in the order specified by <code>ArchetypeGraph.nodeOrder()</code>.</div>
-</dd>
 <dt><a href="com/google/common/graph/ImmutableGraph.html#nodes()" class="member-name-link">nodes()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/google/common/graph/Graph.html#nodes()" class="member-name-link">nodes()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="com/google/common/graph/Graph.html#nodeOrder()"><code>Graph.nodeOrder()</code></a>.</div>
+</dd>
+<dt><a href="com/google/common/graph/Network.html#nodes()" class="member-name-link">nodes()</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns all nodes in this network, in the order specified by <a href="com/google/common/graph/Network.html#nodeOrder()"><code>Network.nodeOrder()</code></a>.</div>
 </dd>
 <dt><a href="com/google/common/graph/ImmutableNetwork.html#nodes()" class="member-name-link">nodes()</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a></dt>
 <dd>&nbsp;</dd>
@@ -15933,27 +15843,17 @@ query than the original; your mileage may vary.</div>
 <div class="block">Static convenience methods that help a method or constructor check whether it was invoked
 correctly (that is, whether its <i>preconditions</i> were met).</div>
 </dd>
-<dt><a href="com/google/common/graph/AbstractNetwork.html#predecessors(N)" class="member-name-link">predecessors(N)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
-<dd>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
-</dd>
-<dt><a href="com/google/common/graph/MutableNetwork.html#predecessors(N)" class="member-name-link">predecessors(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
-<dd>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
-</dd>
-<dt><a href="com/google/common/graph/Network.html#predecessors(N)" class="member-name-link">predecessors(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
-<dd>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
-</dd>
 <dt><a href="com/google/common/graph/ImmutableGraph.html#predecessors(N)" class="member-name-link">predecessors(N)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/google/common/graph/Graph.html#predecessors(N)" class="member-name-link">predecessors(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
 traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+</dd>
+<dt><a href="com/google/common/graph/Network.html#predecessors(N)" class="member-name-link">predecessors(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+by traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </dd>
 <dt><a href="com/google/common/graph/PredecessorsFunction.html#predecessors(N)" class="member-name-link">predecessors(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a></dt>
 <dd>
@@ -20193,27 +20093,17 @@ successful input futures.</div>
 <div class="block">Creates a new <code>ListenableFuture</code> whose value is a list containing the values of all its
 successful input futures.</div>
 </dd>
-<dt><a href="com/google/common/graph/AbstractNetwork.html#successors(N)" class="member-name-link">successors(N)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
-<dd>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
-</dd>
-<dt><a href="com/google/common/graph/MutableNetwork.html#successors(N)" class="member-name-link">successors(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/MutableNetwork.html" title="interface in com.google.common.graph">MutableNetwork</a></dt>
-<dd>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
-</dd>
-<dt><a href="com/google/common/graph/Network.html#successors(N)" class="member-name-link">successors(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
-<dd>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
-</dd>
 <dt><a href="com/google/common/graph/ImmutableGraph.html#successors(N)" class="member-name-link">successors(N)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
 <dd>&nbsp;</dd>
 <dt><a href="com/google/common/graph/Graph.html#successors(N)" class="member-name-link">successors(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
 traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+</dd>
+<dt><a href="com/google/common/graph/Network.html#successors(N)" class="member-name-link">successors(N)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
+<dd>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+by traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </dd>
 <dt><a href="com/google/common/graph/ImmutableNetwork.html#successors(N)" class="member-name-link">successors(N)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a></dt>
 <dd>&nbsp;</dd>

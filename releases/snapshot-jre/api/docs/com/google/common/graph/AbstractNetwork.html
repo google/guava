@@ -85,13 +85,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#edgeInvalidatableSet(java.util.Set,E)" tabindex="0">edgeInvalidatableSet(Set, E)</a></li>
 <li><a href="#nodeInvalidatableSet(java.util.Set,N)" tabindex="0">nodeInvalidatableSet(Set, N)</a></li>
 <li><a href="#nodePairInvalidatableSet(java.util.Set,N,N)" tabindex="0">nodePairInvalidatableSet(Set, N, N)</a></li>
-<li><a href="#nodes()" tabindex="0">nodes()</a></li>
-<li><a href="#isDirected()" tabindex="0">isDirected()</a></li>
-<li><a href="#allowsSelfLoops()" tabindex="0">allowsSelfLoops()</a></li>
-<li><a href="#nodeOrder()" tabindex="0">nodeOrder()</a></li>
-<li><a href="#adjacentNodes(N)" tabindex="0">adjacentNodes(N)</a></li>
-<li><a href="#predecessors(N)" tabindex="0">predecessors(N)</a></li>
-<li><a href="#successors(N)" tabindex="0">successors(N)</a></li>
 </ol>
 </li>
 </ol>
@@ -159,7 +152,7 @@ more efficient implementation.</div>
 <section class="method-summary" id="method-summary">
 <h2>Method Summary</h2>
 <div id="method-summary-table">
-<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab3" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab3', 3)" class="table-tab">Abstract Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
+<div class="table-tabs" role="tablist" aria-orientation="horizontal"><button id="method-summary-table-tab0" role="tab" aria-selected="true" aria-controls="method-summary-table.tabpanel" tabindex="0" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table', 3)" class="active-table-tab">All Methods</button><button id="method-summary-table-tab2" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab2', 3)" class="table-tab">Instance Methods</button><button id="method-summary-table-tab4" role="tab" aria-selected="false" aria-controls="method-summary-table.tabpanel" tabindex="-1" onkeydown="switchTab(event)" onclick="show('method-summary-table', 'method-summary-table-tab4', 3)" class="table-tab">Concrete Methods</button></div>
 <div id="method-summary-table.tabpanel" role="tabpanel" aria-labelledby="method-summary-table-tab0">
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
@@ -170,17 +163,6 @@ more efficient implementation.</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a live view of the edges which have an <a href="Network.html#incidentNodes(E)"><code>incident node</code></a> in
 common with <code>edge</code>.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#adjacentNodes(N)" class="member-name-link">adjacentNodes</a><wbr>(<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
-this graph.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#allowsSelfLoops()" class="member-name-link">allowsSelfLoops</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="Graph.html" title="interface in com.google.common.graph">Graph</a><wbr>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#asGraph()" class="member-name-link">asGraph</a>()</code></div>
@@ -269,25 +251,15 @@ any, specified by <code>endpoints</code>).</div>
 <div class="block">Returns the count of <code>node</code>'s <a href="Network.html#inEdges(N)"><code>incoming edges</code></a> in a directed
 network.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isDirected()" class="member-name-link">isDirected</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Returns true if the edges in this graph are directed.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isOrderingCompatible(com.google.common.graph.EndpointPair)" class="member-name-link">isOrderingCompatible</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;T&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeInvalidatableSet(java.util.Set,N)" class="member-name-link">nodeInvalidatableSet</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;T&gt;&nbsp;set,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isOrderingCompatible(com.google.common.graph.EndpointPair)" class="member-name-link">isOrderingCompatible</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeInvalidatableSet(java.util.Set,N)" class="member-name-link">nodeInvalidatableSet</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;T&gt;&nbsp;set,
  <a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> whose methods throw <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link"><code>IllegalStateException</code></a> when the given node is
 not present in this network.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nodeOrder()" class="member-name-link">nodeOrder</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Returns the order of iteration for the elements of <a href="#nodes()"><code>nodes()</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final &lt;T&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;T&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodePairInvalidatableSet(java.util.Set,N,N)" class="member-name-link">nodePairInvalidatableSet</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;T&gt;&nbsp;set,
@@ -297,37 +269,20 @@ not present in this network.</div>
 <div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link"><code>Set</code></a> whose methods throw <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalStateException.html" title="class or interface in java.lang" class="external-link"><code>IllegalStateException</code></a> when either of the
 given nodes is not present in this network.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nodes()" class="member-name-link">nodes</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Returns all nodes in this graph, in the order specified by <a href="#nodeOrder()"><code>nodeOrder()</code></a>.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#outDegree(N)" class="member-name-link">outDegree</a><wbr>(<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#outDegree(N)" class="member-name-link">outDegree</a><wbr>(<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the count of <code>node</code>'s <a href="Network.html#outEdges(N)"><code>outgoing edges</code></a> in a directed
 network.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#predecessors(N)" class="member-name-link">predecessors</a><wbr>(<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
-</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#successors(N)" class="member-name-link">successors</a><wbr>(<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toString()" class="member-name-link">toString</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a string representation of this network.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validateEndpoints(com.google.common.graph.EndpointPair)" class="member-name-link">validateEndpoints</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>protected final void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#validateEndpoints(com.google.common.graph.EndpointPair)" class="member-name-link">validateEndpoints</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;?&gt;&nbsp;endpoints)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Throws an IllegalArgumentException if the ordering of <code>endpoints</code> is not compatible with
 the directionality of this graph.</div>
 </div>
@@ -339,7 +294,7 @@ the directionality of this graph.</div>
 <code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#clone()" title="class or interface in java.lang" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#finalize()" title="class or interface in java.lang" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#getClass()" title="class or interface in java.lang" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notify()" title="class or interface in java.lang" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#notifyAll()" title="class or interface in java.lang" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait()" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long)" title="class or interface in java.lang" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="class or interface in java.lang" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.google.common.graph.Network">Methods inherited from interface&nbsp;<a href="Network.html#method-summary" title="interface in com.google.common.graph">Network</a></h3>
-<code><a href="Network.html#allowsParallelEdges()" title="allowsParallelEdges()">allowsParallelEdges</a>, <a href="Network.html#edgeOrder()" title="edgeOrder()">edgeOrder</a>, <a href="Network.html#edges()" title="edges()">edges</a>, <a href="Network.html#incidentEdges(N)" title="incidentEdges(N)">incidentEdges</a>, <a href="Network.html#incidentNodes(E)" title="incidentNodes(E)">incidentNodes</a>, <a href="Network.html#inEdges(N)" title="inEdges(N)">inEdges</a>, <a href="Network.html#outEdges(N)" title="outEdges(N)">outEdges</a></code></div>
+<code><a href="Network.html#adjacentNodes(N)" title="adjacentNodes(N)">adjacentNodes</a>, <a href="Network.html#allowsParallelEdges()" title="allowsParallelEdges()">allowsParallelEdges</a>, <a href="Network.html#allowsSelfLoops()" title="allowsSelfLoops()">allowsSelfLoops</a>, <a href="Network.html#edgeOrder()" title="edgeOrder()">edgeOrder</a>, <a href="Network.html#edges()" title="edges()">edges</a>, <a href="Network.html#incidentEdges(N)" title="incidentEdges(N)">incidentEdges</a>, <a href="Network.html#incidentNodes(E)" title="incidentNodes(E)">incidentNodes</a>, <a href="Network.html#inEdges(N)" title="inEdges(N)">inEdges</a>, <a href="Network.html#isDirected()" title="isDirected()">isDirected</a>, <a href="Network.html#nodeOrder()" title="nodeOrder()">nodeOrder</a>, <a href="Network.html#nodes()" title="nodes()">nodes</a>, <a href="Network.html#outEdges(N)" title="outEdges(N)">outEdges</a>, <a href="Network.html#predecessors(N)" title="predecessors(N)">predecessors</a>, <a href="Network.html#successors(N)" title="successors(N)">successors</a></code></div>
 </section>
 </li>
 </ul>
@@ -678,13 +633,13 @@ same structural relationships as those in this network.
 <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
 
 <ul>
-  <li>A and B have equal <a href="#isDirected()"><code>directedness</code></a>.
-  <li>A and B have equal <a href="#nodes()"><code>node sets</code></a>.
+  <li>A and B have equal <a href="Network.html#isDirected()"><code>directedness</code></a>.
+  <li>A and B have equal <a href="Network.html#nodes()"><code>node sets</code></a>.
   <li>A and B have equal <a href="Network.html#edges()"><code>edge sets</code></a>.
   <li>Every edge in A and B connects the same nodes in the same direction (if any).
 </ul>
 
-<p>Network properties besides <a href="#isDirected()"><code>directedness</code></a> do <b>not</b> affect equality.
+<p>Network properties besides <a href="Network.html#isDirected()"><code>directedness</code></a> do <b>not</b> affect equality.
 For example, two networks may be considered equal even if one allows parallel edges and the
 other doesn't. Additionally, the order in which nodes or edges are added to the network, and
 the order in which they are iterated over, are irrelevant.
@@ -773,135 +728,6 @@ given nodes is not present in this network.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>33.1.0</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="nodes()">
-<h3>nodes</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">nodes</span>()</div>
-<div class="block">Returns all nodes in this graph, in the order specified by <a href="#nodeOrder()"><code>nodeOrder()</code></a>.</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="isDirected()">
-<h3>isDirected</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">isDirected</span>()</div>
-<div class="block">Returns true if the edges in this graph are directed. Directed edges connect a <a href="EndpointPair.html#source()"><code>source node</code></a> to a <a href="EndpointPair.html#target()"><code>target node</code></a>, while
-undirected edges connect a pair of nodes to each other.</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="allowsSelfLoops()">
-<h3>allowsSelfLoops</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsSelfLoops</span>()</div>
-<div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
-to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link"><code>IllegalArgumentException</code></a>.</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="nodeOrder()">
-<h3>nodeOrder</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">nodeOrder</span>()</div>
-<div class="block">Returns the order of iteration for the elements of <a href="#nodes()"><code>nodes()</code></a>.</div>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="adjacentNodes(N)">
-<h3 id="adjacentNodes(java.lang.Object)">adjacentNodes</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">adjacentNodes</span><wbr><span class="parameters">(<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</span></div>
-<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
-this graph.
-
-<p>This is equal to the union of <a href="PredecessorsFunction.html#predecessors(N)"><code>PredecessorsFunction.predecessors(Object)</code></a> and <a href="SuccessorsFunction.html#successors(N)"><code>SuccessorsFunction.successors(Object)</code></a>.
-
-<p>If <code>node</code> is removed from the graph after this method is called, the <code>Set</code>
-<code>view</code> returned by this method will be invalidated, and will throw <code>
-IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
-<ul>
-  <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-      involving <code>view</code> will throw)
-  <li><code>hashCode()</code> does not throw
-  <li>if <code>node</code> is re-added to the graph after having been removed, <code>view</code>'s
-      behavior is undefined
-</ul></div>
-<dl class="notes">
-<dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this graph</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="predecessors(N)">
-<h3 id="predecessors(java.lang.Object)">predecessors</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">predecessors</span><wbr><span class="parameters">(<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</span></div>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
-
-<p>In an undirected graph, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.
-
-<p>If <code>node</code> is removed from the graph after this method is called, the <code>Set</code>
-<code>view</code> returned by this method will be invalidated, and will throw <code>
-IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
-<ul>
-  <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-      involving <code>view</code> will throw)
-  <li><code>hashCode()</code> does not throw
-  <li>if <code>node</code> is re-added to the graph after having been removed, <code>view</code>'s
-      behavior is undefined
-</ul></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="PredecessorsFunction.html#predecessors(N)">predecessors</a></code>&nbsp;in interface&nbsp;<code><a href="PredecessorsFunction.html" title="interface in com.google.common.graph">PredecessorsFunction</a>&lt;N&gt;</code></dd>
-<dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this graph</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="successors(N)">
-<h3 id="successors(java.lang.Object)">successors</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">successors</span><wbr><span class="parameters">(<a href="#type-param-N" title="type parameter in AbstractNetwork">N</a>&nbsp;node)</span></div>
-<div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
-traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
-
-<p>In an undirected graph, this is equivalent to <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>.
-
-<p>This is <i>not</i> the same as "all nodes reachable from <code>node</code> by following outgoing
-edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.
-
-<p>If <code>node</code> is removed from the graph after this method is called, the <code>Set</code>
-<code>view</code> returned by this method will be invalidated, and will throw <code>
-IllegalStateException</code> if it is accessed in any way, with the following exceptions:
-
-<ul>
-  <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other `equals()` expression
-      involving <code>view</code> will throw)
-  <li><code>hashCode()</code> does not throw
-  <li>if <code>node</code> is re-added to the graph after having been removed, <code>view</code>'s
-      behavior is undefined
-</ul></div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="SuccessorsFunction.html#successors(N)">successors</a></code>&nbsp;in interface&nbsp;<code><a href="SuccessorsFunction.html" title="interface in com.google.common.graph">SuccessorsFunction</a>&lt;N&gt;</code></dd>
-<dt>Throws:</dt>
-<dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>node</code> is not an element of this graph</dd>
 </dl>
 </div>
 </section>

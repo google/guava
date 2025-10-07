@@ -80,7 +80,6 @@ loadScripts(document, 'script');</script>
 <li><a href="#edgeValueOrDefault(com.google.common.graph.EndpointPair,V)" tabindex="0">edgeValueOrDefault(EndpointPair, V)</a></li>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#hashCode()" tabindex="0">hashCode()</a></li>
-<li><a href="#asNetwork()" tabindex="0">asNetwork()</a></li>
 </ol>
 </li>
 </ol>
@@ -221,122 +220,116 @@ this graph.</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns a live view of this graph as a <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="Network.html" title="interface in com.google.common.graph">Network</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>, <a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#asNetwork()" class="member-name-link">asNetwork</a>()</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#degree(N)" class="member-name-link">degree</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
-<div class="block">Returns a live view of this graph as a <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>).</div>
-</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#degree(N)" class="member-name-link">degree</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the count of <code>node</code>'s incident edges, counting self-loops twice (equivalently,
 the number of times an edge touches <code>node</code>).</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edges()" class="member-name-link">edges</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edges()" class="member-name-link">edges</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns all edges in this graph.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ValueGraph">V</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edgeValue(com.google.common.graph.EndpointPair)" class="member-name-link">edgeValue</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ValueGraph">V</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edgeValue(com.google.common.graph.EndpointPair)" class="member-name-link">edgeValue</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
 by <code>endpoints</code>), if one is present; otherwise, returns <code>Optional.empty()</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ValueGraph">V</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edgeValue(N,N)" class="member-name-link">edgeValue</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Optional.html" title="class or interface in java.util" class="external-link">Optional</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ValueGraph">V</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edgeValue(N,N)" class="member-name-link">edgeValue</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
  <a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code> (in the order, if
 any, specified by <code>endpoints</code>), if one is present; otherwise, returns <code>
 Optional.empty()</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in ValueGraph">V</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edgeValueOrDefault(com.google.common.graph.EndpointPair,V)" class="member-name-link">edgeValueOrDefault</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in ValueGraph">V</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edgeValueOrDefault(com.google.common.graph.EndpointPair,V)" class="member-name-link">edgeValueOrDefault</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the value of the edge that connects <code>endpoints</code> (in the order, if any, specified
 by <code>endpoints</code>), if one is present; otherwise, returns <code>defaultValue</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in ValueGraph">V</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edgeValueOrDefault(N,N,V)" class="member-name-link">edgeValueOrDefault</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in ValueGraph">V</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#edgeValueOrDefault(N,N,V)" class="member-name-link">edgeValueOrDefault</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
  <a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;nodeV,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in ValueGraph">V</a>&nbsp;defaultValue)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the value of the edge that connects <code>nodeU</code> to <code>nodeV</code>, if one is present;
 otherwise, returns <code>defaultValue</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
 the same structural relationships as those in this graph.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hasEdgeConnecting(com.google.common.graph.EndpointPair)" class="member-name-link">hasEdgeConnecting</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hasEdgeConnecting(com.google.common.graph.EndpointPair)" class="member-name-link">hasEdgeConnecting</a><wbr>(<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&nbsp;endpoints)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns true if there is an edge that directly connects <code>endpoints</code> (in the order, if
 any, specified by <code>endpoints</code>).</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hasEdgeConnecting(N,N)" class="member-name-link">hasEdgeConnecting</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hasEdgeConnecting(N,N)" class="member-name-link">hasEdgeConnecting</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;nodeU,
  <a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;nodeV)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns true if there is an edge that directly connects <code>nodeU</code> to <code>nodeV</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the hash code for this graph.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#incidentEdgeOrder()" class="member-name-link">incidentEdgeOrder</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#incidentEdgeOrder()" class="member-name-link">incidentEdgeOrder</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns an <a href="ElementOrder.html" title="class in com.google.common.graph"><code>ElementOrder</code></a> that specifies the order of iteration for the elements of
 <a href="#edges()"><code>edges()</code></a>, <a href="#adjacentNodes(N)"><code>adjacentNodes(Object)</code></a>, <a href="#predecessors(N)"><code>predecessors(Object)</code></a>, <a href="#successors(N)"><code>successors(Object)</code></a> and <a href="#incidentEdges(N)"><code>incidentEdges(Object)</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#incidentEdges(N)" class="member-name-link">incidentEdges</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#incidentEdges(N)" class="member-name-link">incidentEdges</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns a live view of the edges in this graph whose endpoints include <code>node</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#inDegree(N)" class="member-name-link">inDegree</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#inDegree(N)" class="member-name-link">inDegree</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the count of <code>node</code>'s incoming edges (equal to <code>predecessors(node).size()</code>)
 in a directed graph.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isDirected()" class="member-name-link">isDirected</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>boolean</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#isDirected()" class="member-name-link">isDirected</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns true if the edges in this graph are directed.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nodeOrder()" class="member-name-link">nodeOrder</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nodeOrder()" class="member-name-link">nodeOrder</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the order of iteration for the elements of <a href="#nodes()"><code>nodes()</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nodes()" class="member-name-link">nodes</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#nodes()" class="member-name-link">nodes</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns all nodes in this graph, in the order specified by <a href="#nodeOrder()"><code>nodeOrder()</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#outDegree(N)" class="member-name-link">outDegree</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#outDegree(N)" class="member-name-link">outDegree</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns the count of <code>node</code>'s outgoing edges (equal to <code>successors(node).size()</code>)
 in a directed graph.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#predecessors(N)" class="member-name-link">predecessors</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#predecessors(N)" class="member-name-link">predecessors</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
 traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#successors(N)" class="member-name-link">successors</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#successors(N)" class="member-name-link">successors</a><wbr>(<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&nbsp;node)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
 <div class="block">Returns a live view of all nodes in this graph adjacent to <code>node</code> which can be reached by
 traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </div>
@@ -750,21 +743,6 @@ value</code></a>.
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#hashCode()" title="class or interface in java.lang" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></code></dd>
 </dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="asNetwork()">
-<h3>asNetwork</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type"><a href="Network.html" title="interface in com.google.common.graph">Network</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>, <a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ValueGraph">N</a>&gt;&gt;</span>&nbsp;<span class="element-name">asNetwork</span>()</div>
-<div class="block">Returns a live view of this graph as a <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose edges <code>E</code> are <code>
-EndpointPair&lt;N&gt;</code> objects (that is, a <code>Network&lt;N, EndpointPair&lt;N&gt;&gt;</code>). The resulting <code>
-Network</code>'s edge-oriented methods (such as <code>inEdges()</code>) will return views transformed from
-the corresponding node-oriented methods (such as <code>predecessors()</code>).
-
-<p>This capability facilitates writing implementations of <a href="https://github.com/google/guava/wiki/GraphsExplained#graph-types-for-algorithms">edge-oriented
-code</a>.</div>
 </div>
 </section>
 </li>

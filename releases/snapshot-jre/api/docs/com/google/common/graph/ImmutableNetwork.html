@@ -154,7 +154,10 @@ networks.</div>
 <div class="table-header col-last">Description</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#adjacentNodes(N)" class="member-name-link">adjacentNodes</a><wbr>(<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&nbsp;node)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
+this graph.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allowsParallelEdges()" class="member-name-link">allowsParallelEdges</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -162,7 +165,9 @@ networks.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allowsSelfLoops()" class="member-name-link">allowsSelfLoops</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns true if this network allows self-loops (edges that connect a node to itself).</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#asGraph()" class="member-name-link">asGraph</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -216,13 +221,19 @@ any) of the edge to end at <code>node</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDirected()" class="member-name-link">isDirected</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns true if the edges in this network are directed.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodeOrder()" class="member-name-link">nodeOrder</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns the order of iteration for the elements of <a href="Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#nodes()" class="member-name-link">nodes</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns all nodes in this network, in the order specified by <a href="Network.html#nodeOrder()"><code>Network.nodeOrder()</code></a>.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-E" title="type parameter in ImmutableNetwork">E</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#outEdges(N)" class="member-name-link">outEdges</a><wbr>(<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&nbsp;node)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -232,14 +243,14 @@ any) of the edge starting from <code>node</code>.</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#predecessors(N)" class="member-name-link">predecessors</a><wbr>(<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&nbsp;node)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
-<code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+by traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#successors(N)" class="member-name-link">successors</a><wbr>(<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&nbsp;node)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
-<code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+by traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.</div>
 </div>
 </div>
 </div>
@@ -311,6 +322,8 @@ in the <a href="Graph.html" title="interface in com.google.common.graph"><code>G
 <h3>nodes</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">nodes</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#nodes()">Network</a></code></span></div>
+<div class="block">Returns all nodes in this network, in the order specified by <a href="Network.html#nodeOrder()"><code>Network.nodeOrder()</code></a>.</div>
 </div>
 </section>
 </li>
@@ -329,6 +342,9 @@ in the <a href="Graph.html" title="interface in com.google.common.graph"><code>G
 <h3>isDirected</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDirected</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#isDirected()">Network</a></code></span></div>
+<div class="block">Returns true if the edges in this network are directed. Directed edges connect a <a href="EndpointPair.html#source()"><code>source node</code></a> to a <a href="EndpointPair.html#target()"><code>target node</code></a>, while
+undirected edges connect a pair of nodes to each other.</div>
 </div>
 </section>
 </li>
@@ -348,6 +364,9 @@ network that does not allow them will throw an <a href="https://docs.oracle.com/
 <h3>allowsSelfLoops</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsSelfLoops</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#allowsSelfLoops()">Network</a></code></span></div>
+<div class="block">Returns true if this network allows self-loops (edges that connect a node to itself).
+Attempting to add a self-loop to a network that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link"><code>IllegalArgumentException</code></a>.</div>
 </div>
 </section>
 </li>
@@ -356,6 +375,8 @@ network that does not allow them will throw an <a href="https://docs.oracle.com/
 <h3>nodeOrder</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">nodeOrder</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#nodeOrder()">Network</a></code></span></div>
+<div class="block">Returns the order of iteration for the elements of <a href="Network.html#nodes()"><code>Network.nodes()</code></a>.</div>
 </div>
 </section>
 </li>
@@ -409,6 +430,23 @@ IllegalStateException</code> if it is accessed in any way, with the following ex
 <h3 id="adjacentNodes(java.lang.Object)">adjacentNodes</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">adjacentNodes</span><wbr><span class="parameters">(<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&nbsp;node)</span></div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#adjacentNodes(N)">Network</a></code></span></div>
+<div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
+this graph.
+
+<p>This is equal to the union of <a href="Network.html#predecessors(N)"><code>Network.predecessors(Object)</code></a> and <a href="Network.html#successors(N)"><code>Network.successors(Object)</code></a>.
+
+<p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
+<code>view</code> returned by this method will be invalidated, and will throw <code>
+IllegalStateException</code> if it is accessed in any way, with the following exceptions:
+
+<ul>
+  <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other <code>equals()</code>
+      expression involving <code>view</code> will throw)
+  <li><code>hashCode()</code> does not throw
+  <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
+      behavior is undefined
+</ul></div>
 </div>
 </section>
 </li>
@@ -508,21 +546,15 @@ IllegalStateException</code> if it is accessed in any way, with the following ex
 <h3 id="predecessors(java.lang.Object)">predecessors</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">predecessors</span><wbr><span class="parameters">(<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&nbsp;node)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="PredecessorsFunction.html#predecessors(N)">PredecessorsFunction</a></code></span></div>
-<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
-<code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#predecessors(N)">Network</a></code></span></div>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+by traversing <code>node</code>'s incoming edges <i>against</i> the direction (if any) of the edge.
 
-<p>Some algorithms that operate on a <code>PredecessorsFunction</code> may produce undesired results
-if the returned <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link"><code>Iterable</code></a> contains duplicate elements. Implementations of such
-algorithms should document their behavior in the presence of duplicates.
+<p>In an undirected network, this is equivalent to <a href="Network.html#adjacentNodes(N)"><code>Network.adjacentNodes(Object)</code></a>.
 
-<p>The elements of the returned <code>Iterable</code> must each be:
-
-<ul>
-  <li>Non-null
-  <li>Usable as <code>Map</code> keys (see the Guava User Guide's section on <a href="https://github.com/google/guava/wiki/GraphsExplained#graph-elements-nodes-and-edges">
-      graph elements</a> for details)
-</ul></div>
+<p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
+returned by this method will be invalidated, and will throw <code>IllegalStateException</code> if it
+is accessed in any way.</div>
 </div>
 </section>
 </li>
@@ -531,23 +563,25 @@ algorithms should document their behavior in the presence of duplicates.
 <h3 id="successors(java.lang.Object)">successors</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html" title="class or interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">successors</span><wbr><span class="parameters">(<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&nbsp;node)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="SuccessorsFunction.html#successors(N)">SuccessorsFunction</a></code></span></div>
-<div class="block">Returns all nodes in this graph adjacent to <code>node</code> which can be reached by traversing
-<code>node</code>'s outgoing edges in the direction (if any) of the edge.
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#successors(N)">Network</a></code></span></div>
+<div class="block">Returns a live view of all nodes in this network adjacent to <code>node</code> which can be reached
+by traversing <code>node</code>'s outgoing edges in the direction (if any) of the edge.
+
+<p>In an undirected network, this is equivalent to <a href="Network.html#adjacentNodes(N)"><code>Network.adjacentNodes(Object)</code></a>.
 
 <p>This is <i>not</i> the same as "all nodes reachable from <code>node</code> by following outgoing
 edges". For that functionality, see <a href="Graphs.html#reachableNodes(com.google.common.graph.Graph,N)"><code>Graphs.reachableNodes(Graph, Object)</code></a>.
 
-<p>Some algorithms that operate on a <code>SuccessorsFunction</code> may produce undesired results
-if the returned <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link"><code>Iterable</code></a> contains duplicate elements. Implementations of such
-algorithms should document their behavior in the presence of duplicates.
-
-<p>The elements of the returned <code>Iterable</code> must each be:
+<p>If <code>node</code> is removed from the network after this method is called, the <code>Set</code>
+<code>view</code> returned by this method will be invalidated, and will throw <code>
+IllegalStateException</code> if it is accessed in any way, with the following exceptions:
 
 <ul>
-  <li>Non-null
-  <li>Usable as <code>Map</code> keys (see the Guava User Guide's section on <a href="https://github.com/google/guava/wiki/GraphsExplained#graph-elements-nodes-and-edges">
-      graph elements</a> for details)
+  <li><code>view.equals(view)</code> evaluates to <code>true</code> (but any other <code>equals()</code>
+      expression involving <code>view</code> will throw)
+  <li><code>hashCode()</code> does not throw
+  <li>if <code>node</code> is re-added to the network after having been removed, <code>view</code>'s
+      behavior is undefined
 </ul></div>
 </div>
 </section>
