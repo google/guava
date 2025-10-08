@@ -1818,7 +1818,8 @@ submit <a href="../../util/concurrent/ListenableFutureTask.html" title="class in
 <div class="col-second even-row-color"><span class="type-name-label">MoreExecutors.</span><code><a href="../../util/concurrent/MoreExecutors.html#newDirectExecutorService()" class="member-name-link">newDirectExecutorService</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates an executor service that runs each task in the thread that invokes <code>
-execute/submit</code>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.</div>
+execute/submit</code>, as in <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.CallerRunsPolicy.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadPoolExecutor.CallerRunsPolicy</code></a> This applies both to individually submitted
+tasks and to collections of tasks submitted via <code>invokeAll</code> or <code>invokeAny</code>.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a></code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">MoreExecutors.</span><code><a href="../../util/concurrent/MoreExecutors.html#newSequentialExecutor(java.util.concurrent.Executor)" class="member-name-link">newSequentialExecutor</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;delegate)</code></div>

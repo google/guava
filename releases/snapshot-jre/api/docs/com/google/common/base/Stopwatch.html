@@ -92,7 +92,7 @@ successive readings of "now" in the same process.
 
 <p>In contrast, <i>wall time</i> is a reading of "now" as given by a method like
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/System.html#currentTimeMillis()" title="class or interface in java.lang" class="external-link"><code>System.currentTimeMillis()</code></a>, best represented as an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Instant.html" title="class or interface in java.time" class="external-link"><code>Instant</code></a>. Such values
-<i>can</i> be subtracted to obtain a <code>Duration</code> (such as by <code>Duration.between</code>), but
+<i>can</i> be subtracted to obtain a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link"><code>Duration</code></a> (such as by <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html#between(java.time.temporal.Temporal,java.time.temporal.Temporal)" title="class or interface in java.time" class="external-link"><code>Duration.between(Temporal, Temporal)</code></a>), but
 doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time readings
 are inherently approximate, routinely affected by periodic clock corrections. Because this class
 (by default) uses <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/System.html#nanoTime()" title="class or interface in java.lang" class="external-link"><code>System.nanoTime()</code></a>, it is unaffected by these changes.
@@ -364,7 +364,7 @@ not useful to specify <a href="https://docs.oracle.com/en/java/javase/25/docs/ap
 
 <p>It is generally not a good idea to use an ambiguous, unitless <code>long</code> to represent
 elapsed time. Therefore, we recommend using <a href="#elapsed()"><code>elapsed()</code></a> instead, which returns a
-strongly-typed <code>Duration</code> instance.</div>
+strongly-typed <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link"><code>Duration</code></a> instance.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>14.0 (since 10.0 as <code>elapsedTime()</code>)</dd>

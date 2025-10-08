@@ -92,8 +92,7 @@ loadScripts(document, 'script');</script>
 <div class="type-signature"><span class="annotations"><a href="../../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 </span><span class="modifiers">public final class </span><span class="element-name type-name-label">MoreExecutors</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
-<div class="block">Factory and utility methods for <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link"><code>Executor</code></a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html" title="class or interface in java.util.concurrent" class="external-link"><code>ExecutorService</code></a>,
-and <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a>.</div>
+<div class="block">Factory and utility methods for <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link"><code>Executor</code></a>, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html" title="class or interface in java.util.concurrent" class="external-link"><code>ExecutorService</code></a>, and <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>3.0</dd>
@@ -131,7 +130,7 @@ and <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/u
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#directExecutor()" class="member-name-link">directExecutor</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Returns an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link"><code>Executor</code></a> that runs each task in the thread that invokes <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="external-link"><code>execute</code></a>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.</div>
+<div class="block">Returns an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link"><code>Executor</code></a> that runs each task in the thread that invokes <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="external-link"><code>execute</code></a>, as in <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.CallerRunsPolicy.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadPoolExecutor.CallerRunsPolicy</code></a>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutorService.html" title="class or interface in java.util.concurrent" class="external-link">ExecutorService</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getExitingExecutorService(java.util.concurrent.ThreadPoolExecutor)" class="member-name-link">getExitingExecutorService</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.html" title="class or interface in java.util.concurrent" class="external-link">ThreadPoolExecutor</a>&nbsp;executor)</code></div>
@@ -191,7 +190,8 @@ submit <a href="ListenableFutureTask.html" title="class in com.google.common.uti
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#newDirectExecutorService()" class="member-name-link">newDirectExecutorService</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Creates an executor service that runs each task in the thread that invokes <code>
-execute/submit</code>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.</div>
+execute/submit</code>, as in <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.CallerRunsPolicy.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadPoolExecutor.CallerRunsPolicy</code></a> This applies both to individually submitted
+tasks and to collections of tasks submitted via <code>invokeAll</code> or <code>invokeAny</code>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a></code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#newSequentialExecutor(java.util.concurrent.Executor)" class="member-name-link">newSequentialExecutor</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;delegate)</code></div>
@@ -433,11 +433,10 @@ normally.</div>
 <div class="member-signature"><span class="annotations"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="ListeningExecutorService.html" title="interface in com.google.common.util.concurrent">ListeningExecutorService</a></span>&nbsp;<span class="element-name">newDirectExecutorService</span>()</div>
 <div class="block">Creates an executor service that runs each task in the thread that invokes <code>
-execute/submit</code>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>. This applies both to
-individually submitted tasks and to collections of tasks submitted via <code>invokeAll</code> or
-<code>invokeAny</code>. In the latter case, tasks will run serially on the calling thread. Tasks are
-run to completion before a <code>Future</code> is returned to the caller (unless the executor has
-been shutdown).
+execute/submit</code>, as in <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.CallerRunsPolicy.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadPoolExecutor.CallerRunsPolicy</code></a> This applies both to individually submitted
+tasks and to collections of tasks submitted via <code>invokeAll</code> or <code>invokeAny</code>. In the
+latter case, tasks will run serially on the calling thread. Tasks are run to completion before
+a <code>Future</code> is returned to the caller (unless the executor has been shutdown).
 
 <p>Although all tasks are immediately executed in the thread that submitted the task, this
 <code>ExecutorService</code> imposes a small locking overhead on each task submission in order to
@@ -466,7 +465,7 @@ already have been executed.</div>
 <h3>directExecutor</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a></span>&nbsp;<span class="element-name">directExecutor</span>()</div>
-<div class="block">Returns an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link"><code>Executor</code></a> that runs each task in the thread that invokes <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="external-link"><code>execute</code></a>, as in <code>ThreadPoolExecutor.CallerRunsPolicy</code>.
+<div class="block">Returns an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link"><code>Executor</code></a> that runs each task in the thread that invokes <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html#execute(java.lang.Runnable)" title="class or interface in java.util.concurrent" class="external-link"><code>execute</code></a>, as in <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ThreadPoolExecutor.CallerRunsPolicy.html" title="class or interface in java.util.concurrent" class="external-link"><code>ThreadPoolExecutor.CallerRunsPolicy</code></a>.
 
 <p>This executor is appropriate for tasks that are lightweight and not deeply chained.
 Inappropriate <code>directExecutor</code> usage can cause problems, and these problems can be
