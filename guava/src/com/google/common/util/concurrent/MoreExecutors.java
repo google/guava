@@ -52,13 +52,14 @@ import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.ThreadPoolExecutor.CallerRunsPolicy;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Factory and utility methods for {@link java.util.concurrent.Executor}, {@link ExecutorService},
- * and {@link java.util.concurrent.ThreadFactory}.
+ * Factory and utility methods for {@link Executor}, {@link ExecutorService}, and {@link
+ * ThreadFactory}.
  *
  * @author Eric Fellheimer
  * @author Kyle Littlefield
@@ -300,11 +301,10 @@ public final class MoreExecutors {
 
   /**
    * Creates an executor service that runs each task in the thread that invokes {@code
-   * execute/submit}, as in {@code ThreadPoolExecutor.CallerRunsPolicy}. This applies both to
-   * individually submitted tasks and to collections of tasks submitted via {@code invokeAll} or
-   * {@code invokeAny}. In the latter case, tasks will run serially on the calling thread. Tasks are
-   * run to completion before a {@code Future} is returned to the caller (unless the executor has
-   * been shutdown).
+   * execute/submit}, as in {@link CallerRunsPolicy} This applies both to individually submitted
+   * tasks and to collections of tasks submitted via {@code invokeAll} or {@code invokeAny}. In the
+   * latter case, tasks will run serially on the calling thread. Tasks are run to completion before
+   * a {@code Future} is returned to the caller (unless the executor has been shutdown).
    *
    * <p>Although all tasks are immediately executed in the thread that submitted the task, this
    * {@code ExecutorService} imposes a small locking overhead on each task submission in order to
@@ -331,7 +331,7 @@ public final class MoreExecutors {
 
   /**
    * Returns an {@link Executor} that runs each task in the thread that invokes {@link
-   * Executor#execute execute}, as in {@code ThreadPoolExecutor.CallerRunsPolicy}.
+   * Executor#execute execute}, as in {@link CallerRunsPolicy}.
    *
    * <p>This executor is appropriate for tasks that are lightweight and not deeply chained.
    * Inappropriate {@code directExecutor} usage can cause problems, and these problems can be

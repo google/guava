@@ -93,8 +93,9 @@ import org.jspecify.annotations.Nullable;
  *   <li>least-recently-used eviction when a maximum size is exceeded (note that the cache is
  *       divided into segments, each of which does LRU internally)
  *   <li>time-based expiration of entries, measured since last access or last write
- *   <li>keys automatically wrapped in {@code WeakReference}
- *   <li>values automatically wrapped in {@code WeakReference} or {@code SoftReference}
+ *   <li>keys automatically wrapped in {@linkplain WeakReference weak} references
+ *   <li>values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
+ *       SoftReference soft} references
  *   <li>notification of evicted (or otherwise removed) entries
  *   <li>accumulation of cache access statistics
  * </ul>

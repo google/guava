@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>In contrast, <i>wall time</i> is a reading of "now" as given by a method like
  * {@link System#currentTimeMillis()}, best represented as an {@link java.time.Instant}. Such values
- * <i>can</i> be subtracted to obtain a {@code Duration} (such as by {@code Duration.between}), but
+ * <i>can</i> be subtracted to obtain a {@link Duration} (such as by {@link Duration#between}), but
  * doing so does <i>not</i> give a reliable measurement of elapsed time, because wall time readings
  * are inherently approximate, routinely affected by periodic clock corrections. Because this class
  * (by default) uses {@link System#nanoTime}, it is unaffected by these changes.
@@ -209,7 +209,7 @@ public final class Stopwatch {
    *
    * <p>It is generally not a good idea to use an ambiguous, unitless {@code long} to represent
    * elapsed time. Therefore, we recommend using {@link #elapsed()} instead, which returns a
-   * strongly-typed {@code Duration} instance.
+   * strongly-typed {@link Duration} instance.
    *
    * @since 14.0 (since 10.0 as {@code elapsedTime()})
    */
