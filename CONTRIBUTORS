@@ -9,8 +9,8 @@ in the Git history.
 
 Doug Lea, author of some concurrency libraries
 
-Joshua O'Madadhain, author of some common.graph commits beyond those that are
-already attributed to him in the Git history
+Joshua O'Madadhain (@jrtom), author of some common.graph commits beyond those
+that are already attributed to him in the Git history:
 https://github.com/google/guava/commit/909c593c61a656c2d70f0f9bd1cb0e5cdf43a556
 https://github.com/google/guava/commit/d333afeffe474c9d93ec13cb92c59f469986edaf
 https://github.com/google/guava/commit/a56d68aef71375acf39fcfb1cd535f2afcab4389
