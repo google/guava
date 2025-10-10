@@ -479,7 +479,7 @@ public class LinkedHashMultimapTest extends TestCase {
       multimap.put(entry.getKey(), entry.getValue());
     }
     List<Entry<String, Integer>> actualEntries = new ArrayList<>();
-    multimap.entries().spliterator().forEachRemaining(actualEntries::add);
+    multimap.entries().spliterator().forEachRemaining(e -> actualEntries.add(e));
     assertThat(actualEntries).containsExactlyElementsIn(expectedEntries).inOrder();
   }
 

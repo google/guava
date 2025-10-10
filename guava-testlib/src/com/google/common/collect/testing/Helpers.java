@@ -465,7 +465,7 @@ public class Helpers {
   public static <K extends Comparable, V extends @Nullable Object>
       Iterable<Entry<K, V>> orderEntriesByKey(List<Entry<K, V>> insertionOrder) {
     @SuppressWarnings("unchecked") // assume any Comparable is Comparable<Self>
-    Comparator<? super K> keyComparator = (Comparator<? super K>) Comparable::compareTo;
+    Comparator<? super K> keyComparator = (Comparator<? super K>) (o1, o2) -> o1.compareTo(o2);
     sort(insertionOrder, entryComparator(keyComparator));
     return insertionOrder;
   }
