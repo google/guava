@@ -174,11 +174,15 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
   /**
    * Test that verifies the resource leak fix for Issue #5756.
-   * This test ensures that when switching from memory to file storage,
-   * the FileOutputStream is properly managed even if an exception occurs.
    *
-   * Note: Direct testing of the IOException scenario during write/flush is
-   * challenging without mocking. This test verifies that normal operation
+   * This test covers a scenario where we write a smaller amount of data first,
+   * then write a large amount that crosses the threshold (transitioning from
+   * "not at threshold" to "over the threshold"). This differs from the existing
+   * testThreshold() which writes exactly enough bytes to fill the buffer, then
+   * immediately writes more bytes.
+   *
+   * Note: Direct testing of the IOException scenario during write/flush is challenging
+   * without mocking. This test verifies that normal operation with threshold crossing
    * still works correctly with the fix in place.
    */
   public void testThresholdCrossing_ResourceManagement() throws Exception {
@@ -215,16 +219,19 @@ public class FileBackedOutputStreamTest extends IoTestCase {
   }
 
   /**
-   * Test that verifies multiple threshold crossings work correctly
-   * with the resource leak fix in place.
+   * Test that verifies writes after crossing the threshold work correctly.
+   *
+   * Once the threshold is crossed, subsequent writes go to the file. This test
+   * ensures that continued writing after the initial threshold crossing works
+   * properly with the resource management fix in place.
    */
-  public void testMultipleThresholdCrossings() throws Exception {
+  public void testWriteAfterThresholdCrossing() throws Exception {
     // Use a small threshold to force multiple file operations
     int threshold = 10;
     FileBackedOutputStream out = new FileBackedOutputStream(threshold);
     ByteSource source = out.asByteSource();
 
-    // Write data in chunks that will cause threshold crossing
+    // Write data in chunks: first below threshold, then crossing it, then after crossing
     byte[] chunk1 = newPreFilledByteArray(8);  // Below threshold
     byte[] chunk2 = newPreFilledByteArray(5);  // Crosses threshold
     byte[] chunk3 = newPreFilledByteArray(20); // More data to file
