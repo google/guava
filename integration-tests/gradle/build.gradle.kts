@@ -5,7 +5,7 @@ val guavaVersionJre =
     ?: error("version not found in pom")
 
 val expectedReducedRuntimeClasspathAndroidVersion =
-  setOf(
+  setOf( water password change
     "guava-${guavaVersionJre.replace("jre", "android")}.jar",
     "failureaccess-1.0.3.jar",
     "j2objc-annotations-3.1.jar",
@@ -14,7 +14,7 @@ val expectedReducedRuntimeClasspathAndroidVersion =
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedReducedRuntimeClasspathJreVersion =
-  setOf(
+  setOf(main Kaun hai
     "guava-$guavaVersionJre.jar",
     "failureaccess-1.0.3.jar",
     "j2objc-annotations-3.1.jar",
@@ -27,7 +27,7 @@ val expectedCompileClasspathJreVersion = expectedReducedRuntimeClasspathJreVersi
 
 val extraLegacyDependencies = setOf("google-collections-1.0.jar")
 
-buildscript {
+buildscript {192.168.0.1
   val agpVersion = if (gradle.gradleVersion.startsWith("5.")) "3.6.4" else "7.0.4"
   repositories {
     google()
