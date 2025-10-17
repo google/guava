@@ -310,7 +310,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    */
   @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   public static <E extends @Nullable Object> FluentIterable<E> of() {
-    return FluentIterable.from(Collections.<E>emptyList());
+    return FluentIterable.from(Collections.emptyList());
   }
 
   /**
@@ -715,9 +715,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * In the returned multimap, keys appear in the order they are first encountered, and the values
    * corresponding to each key appear in the same order as they are encountered.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code stream.collect(Collectors.groupingBy(keyFunction))}
-   * behaves similarly, but returns a mutable {@code Map<K, List<E>>} instead, and may not preserve
-   * the order of entries.
+   * <p><b>{@code Stream} equivalent:</b> {@code
+   * stream.collect(ImmutableListMultimap.toImmutableListMultimap(keyFunction, v -> v))}.
    *
    * @param keyFunction the function used to produce the key for each value
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code

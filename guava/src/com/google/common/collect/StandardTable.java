@@ -630,7 +630,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
       @Override
       public boolean retainAll(Collection<?> c) {
-        return removeFromColumnIf(Maps.<R>keyPredicateOnEntries(not(in(c))));
+        return removeFromColumnIf(Maps.keyPredicateOnEntries(not(in(c))));
       }
     }
 
@@ -647,17 +647,17 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
 
       @Override
       public boolean remove(@Nullable Object obj) {
-        return obj != null && removeFromColumnIf(Maps.<V>valuePredicateOnEntries(equalTo(obj)));
+        return obj != null && removeFromColumnIf(Maps.valuePredicateOnEntries(equalTo(obj)));
       }
 
       @Override
       public boolean removeAll(Collection<?> c) {
-        return removeFromColumnIf(Maps.<V>valuePredicateOnEntries(in(c)));
+        return removeFromColumnIf(Maps.valuePredicateOnEntries(in(c)));
       }
 
       @Override
       public boolean retainAll(Collection<?> c) {
-        return removeFromColumnIf(Maps.<V>valuePredicateOnEntries(not(in(c))));
+        return removeFromColumnIf(Maps.valuePredicateOnEntries(not(in(c))));
       }
     }
   }

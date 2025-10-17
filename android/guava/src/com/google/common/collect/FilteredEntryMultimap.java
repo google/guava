@@ -230,12 +230,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
 
         @Override
         public boolean removeAll(Collection<?> c) {
-          return removeEntriesIf(Maps.<K>keyPredicateOnEntries(in(c)));
+          return removeEntriesIf(Maps.keyPredicateOnEntries(in(c)));
         }
 
         @Override
         public boolean retainAll(Collection<?> c) {
-          return removeEntriesIf(Maps.<K>keyPredicateOnEntries(not(in(c))));
+          return removeEntriesIf(Maps.keyPredicateOnEntries(not(in(c))));
         }
 
         @Override
@@ -334,12 +334,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
 
         @Override
         public boolean removeAll(Collection<?> c) {
-          return removeEntriesIf(Maps.<Collection<V>>valuePredicateOnEntries(in(c)));
+          return removeEntriesIf(Maps.valuePredicateOnEntries(in(c)));
         }
 
         @Override
         public boolean retainAll(Collection<?> c) {
-          return removeEntriesIf(Maps.<Collection<V>>valuePredicateOnEntries(not(in(c))));
+          return removeEntriesIf(Maps.valuePredicateOnEntries(not(in(c))));
         }
       }
       return new ValuesImpl();

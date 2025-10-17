@@ -235,11 +235,13 @@ public final class EndpointPairTest {
     assertThat(edges).doesNotContain(EndpointPair.ordered(N3, N4)); // nodes not in graph
   }
 
+  // We are testing our implementations of methods on Collection.
+  @SuppressWarnings({"CollectionSizeTruth", "CollectionContainsTruth"})
   private static void containsExactlySanityCheck(Collection<?> collection, Object... varargs) {
-    assertThat(collection).hasSize(varargs.length);
+    assertThat(collection.size()).isEqualTo(varargs.length);
     for (Object obj : varargs) {
-      assertThat(collection).contains(obj);
+      assertThat(collection.contains(obj)).isTrue();
     }
-    assertThat(collection).containsExactly(varargs);
+    assertThat(ImmutableList.copyOf(collection.iterator())).containsExactlyElementsIn(varargs);
   }
 }

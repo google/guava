@@ -242,7 +242,7 @@ public abstract class AbstractContainerTester<C, E extends @Nullable Object>
   }
 
   protected MinimalCollection<E> emptyCollection() {
-    return MinimalCollection.<E>of();
+    return MinimalCollection.of();
   }
 
   protected final E e0() {

@@ -16,12 +16,14 @@
 
 package com.google.common.cache;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.Keep;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -56,23 +58,23 @@ public class ForwardingLoadingCacheTest extends TestCase {
   }
 
   public void testGet() throws ExecutionException {
-    when(mock.get("key")).thenReturn(Boolean.TRUE);
-    assertSame(Boolean.TRUE, forward.get("key"));
+    when(mock.get("key")).thenReturn(true);
+    assertThat(forward.get("key")).isSameInstanceAs(true);
   }
 
   public void testGetUnchecked() {
-    when(mock.getUnchecked("key")).thenReturn(Boolean.TRUE);
-    assertSame(Boolean.TRUE, forward.getUnchecked("key"));
+    when(mock.getUnchecked("key")).thenReturn(true);
+    assertThat(forward.getUnchecked("key")).isSameInstanceAs(true);
   }
 
   public void testGetAll() throws ExecutionException {
-    when(mock.getAll(ImmutableList.of("key"))).thenReturn(ImmutableMap.of("key", Boolean.TRUE));
-    assertEquals(ImmutableMap.of("key", Boolean.TRUE), forward.getAll(ImmutableList.of("key")));
+    when(mock.getAll(ImmutableList.of("key"))).thenReturn(ImmutableMap.of("key", true));
+    assertThat(forward.getAll(ImmutableList.of("key"))).containsExactly("key", true);
   }
 
   public void testApply() {
-    when(mock.apply("key")).thenReturn(Boolean.TRUE);
-    assertSame(Boolean.TRUE, forward.apply("key"));
+    when(mock.apply("key")).thenReturn(true);
+    assertThat(forward.apply("key")).isSameInstanceAs(true);
   }
 
   public void testInvalidate() {
@@ -97,12 +99,12 @@ public class ForwardingLoadingCacheTest extends TestCase {
 
   public void testStats() {
     when(mock.stats()).thenReturn(null);
-    assertNull(forward.stats());
+    assertThat(forward.stats()).isNull();
   }
 
   public void testAsMap() {
     when(mock.asMap()).thenReturn(null);
-    assertNull(forward.asMap());
+    assertThat(forward.asMap()).isNull();
   }
 
   public void testCleanUp() {
@@ -111,6 +113,7 @@ public class ForwardingLoadingCacheTest extends TestCase {
   }
 
   /** Make sure that all methods are forwarded. */
+  @Keep
   private static class OnlyGet<K, V> extends ForwardingLoadingCache<K, V> {
     @Override
     protected LoadingCache<K, V> delegate() {

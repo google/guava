@@ -449,7 +449,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
   public ImmutableList<V> get(K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableList<V> list = (ImmutableList<V>) map.get(key);
-    return (list == null) ? ImmutableList.<V>of() : list;
+    return (list == null) ? ImmutableList.of() : list;
   }
 
   @LazyInit @RetainedWith private transient @Nullable ImmutableListMultimap<V, K> inverse;

@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.Iterators.peekingIterator;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -48,7 +49,6 @@ import com.google.common.collect.ImmutableSortedMap;
 import com.google.common.collect.ImmutableSortedMultiset;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.ImmutableTable;
-import com.google.common.collect.Iterators;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MapDifference;
 import com.google.common.collect.Maps;
@@ -242,7 +242,7 @@ public final class ArbitraryInstances {
           .put(CharSink.class, NullByteSink.INSTANCE.asCharSink(UTF_8))
           // All collections are immutable empty. So safe for any type parameter.
           .put(Iterator.class, ImmutableSet.of().iterator())
-          .put(PeekingIterator.class, Iterators.peekingIterator(ImmutableSet.of().iterator()))
+          .put(PeekingIterator.class, peekingIterator(ImmutableSet.of().iterator()))
           .put(ListIterator.class, ImmutableList.of().listIterator())
           .put(Iterable.class, ImmutableSet.of())
           .put(Collection.class, ImmutableList.of())

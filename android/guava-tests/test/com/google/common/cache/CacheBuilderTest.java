@@ -24,6 +24,7 @@ import static com.google.common.cache.TestingRemovalListeners.nullRemovalListene
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -63,8 +64,8 @@ public class CacheBuilderTest extends TestCase {
     LoadingCache<String, Integer> cache =
         CacheBuilder.newBuilder().removalListener(countingRemovalListener()).build(loader);
 
-    assertEquals(Integer.valueOf(1), cache.getUnchecked("one"));
-    assertEquals(1, cache.size());
+    assertThat(cache.getUnchecked("one")).isEqualTo(1);
+    assertThat(cache.size()).isEqualTo(1);
   }
 
   public void testInitialCapacity_negative() {
@@ -83,10 +84,10 @@ public class CacheBuilderTest extends TestCase {
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
 
     assertThat(map.segments).hasLength(4);
-    assertEquals(2, map.segments[0].table.length());
-    assertEquals(2, map.segments[1].table.length());
-    assertEquals(2, map.segments[2].table.length());
-    assertEquals(2, map.segments[3].table.length());
+    assertThat(map.segments[0].table.length()).isEqualTo(2);
+    assertThat(map.segments[1].table.length()).isEqualTo(2);
+    assertThat(map.segments[2].table.length()).isEqualTo(2);
+    assertThat(map.segments[3].table.length()).isEqualTo(2);
   }
 
   @GwtIncompatible // CacheTesting
@@ -96,10 +97,10 @@ public class CacheBuilderTest extends TestCase {
 
     assertThat(map.segments).hasLength(4);
     // 1 is as low as it goes, not 0. it feels dirty to know this/test this.
-    assertEquals(1, map.segments[0].table.length());
-    assertEquals(1, map.segments[1].table.length());
-    assertEquals(1, map.segments[2].table.length());
-    assertEquals(1, map.segments[3].table.length());
+    assertThat(map.segments[0].table.length()).isEqualTo(1);
+    assertThat(map.segments[1].table.length()).isEqualTo(1);
+    assertThat(map.segments[2].table.length()).isEqualTo(1);
+    assertThat(map.segments[3].table.length()).isEqualTo(1);
   }
 
   public void testInitialCapacity_large() {
@@ -328,7 +329,7 @@ public class CacheBuilderTest extends TestCase {
   }
 
   public void testValuesIsNotASet() {
-    assertFalse(CacheBuilder.newBuilder().build().asMap().values() instanceof Set);
+    assertThat(CacheBuilder.newBuilder().build().asMap().values() instanceof Set).isFalse();
   }
 
   @GwtIncompatible // CacheTesting
@@ -336,11 +337,11 @@ public class CacheBuilderTest extends TestCase {
     CountingRemovalListener<Object, Object> listener = countingRemovalListener();
     LoadingCache<Object, Object> nullCache =
         CacheBuilder.newBuilder().maximumSize(0).removalListener(listener).build(identityLoader());
-    assertEquals(0, nullCache.size());
+    assertThat(nullCache.size()).isEqualTo(0);
     Object key = new Object();
-    assertSame(key, nullCache.getUnchecked(key));
-    assertEquals(1, listener.getCount());
-    assertEquals(0, nullCache.size());
+    assertThat(nullCache.getUnchecked(key)).isSameInstanceAs(key);
+    assertThat(listener.getCount()).isEqualTo(1);
+    assertThat(nullCache.size()).isEqualTo(0);
     CacheTesting.checkEmpty(nullCache.asMap());
   }
 
@@ -397,12 +398,12 @@ public class CacheBuilderTest extends TestCase {
     // At this point, the listener should be holding the seed value (a -> a), and the map should
     // contain the computed value (b -> b), since the clear() happened before the computation
     // completed.
-    assertEquals(1, listener.size());
+    assertThat(listener).hasSize(1);
     RemovalNotification<String, String> notification = listener.remove();
-    assertEquals("a", notification.getKey());
-    assertEquals("a", notification.getValue());
-    assertEquals(1, cache.size());
-    assertEquals("b", cache.getUnchecked("b"));
+    assertThat(notification.getKey()).isEqualTo("a");
+    assertThat(notification.getValue()).isEqualTo("a");
+    assertThat(cache.size()).isEqualTo(1);
+    assertThat(cache.getUnchecked("b")).isEqualTo("b");
   }
 
   // "Basher tests", where we throw a bunch of stuff at a LoadingCache and check basic invariants.
@@ -477,22 +478,22 @@ public class CacheBuilderTest extends TestCase {
     Map<String, String> removalNotifications = new HashMap<>();
     for (RemovalNotification<String, String> notification : listener) {
       removalNotifications.put(notification.getKey(), notification.getValue());
-      assertEquals(
-          "Unexpected key/value pair passed to removalListener",
-          notification.getKey(),
-          notification.getValue());
+      assertWithMessage("Unexpected key/value pair passed to removalListener")
+          .that(notification.getValue())
+          .isEqualTo(notification.getKey());
     }
 
     // All of the seed values should have been visible, so we should have gotten removal
     // notifications for all of them.
     for (int i = 0; i < nSeededEntries; i++) {
-      assertEquals("b" + i, removalNotifications.get("b" + i));
+      assertThat(removalNotifications.get("b" + i)).isEqualTo("b" + i);
     }
 
     // Each of the values added to the map should either still be there, or have seen a removal
     // notification.
-    assertEquals(expectedKeys, Sets.union(cache.asMap().keySet(), removalNotifications.keySet()));
-    assertTrue(Sets.intersection(cache.asMap().keySet(), removalNotifications.keySet()).isEmpty());
+    assertThat(Sets.union(cache.asMap().keySet(), removalNotifications.keySet()))
+        .isEqualTo(expectedKeys);
+    assertThat(cache.asMap().keySet()).containsNoneIn(removalNotifications.keySet());
     threadPool.shutdown();
     threadPool.awaitTermination(300, SECONDS);
   }
@@ -571,15 +572,17 @@ public class CacheBuilderTest extends TestCase {
 
     // Verify that each received removal notification was valid
     for (RemovalNotification<String, String> notification : removalListener) {
-      assertEquals("Invalid removal notification", notification.getKey(), notification.getValue());
+      assertWithMessage("Invalid removal notification")
+          .that(notification.getValue())
+          .isEqualTo(notification.getKey());
     }
 
     CacheStats stats = cache.stats();
-    assertEquals(removalListener.size(), stats.evictionCount());
-    assertEquals(computeCount.get(), stats.loadSuccessCount());
-    assertEquals(exceptionCount.get() + computeNullCount.get(), stats.loadExceptionCount());
+    assertThat(stats.evictionCount()).isEqualTo(removalListener.size());
+    assertThat(stats.loadSuccessCount()).isEqualTo(computeCount.get());
+    assertThat(stats.loadExceptionCount()).isEqualTo(exceptionCount.get() + computeNullCount.get());
     // each computed value is still in the cache, or was passed to the removal listener
-    assertEquals(computeCount.get(), cache.size() + removalListener.size());
+    assertThat(cache.size() + removalListener.size()).isEqualTo(computeCount.get());
   }
 
   @GwtIncompatible // NullPointerTester
@@ -594,7 +597,7 @@ public class CacheBuilderTest extends TestCase {
     LoadingCache<?, ?> cache = CacheBuilder.newBuilder().build(identityLoader());
     LocalCache<?, ?> map = CacheTesting.toLocalCache(cache);
     assertThat(map.segments).hasLength(4); // concurrency level
-    assertEquals(4, map.segments[0].table.length()); // capacity / conc level
+    assertThat(map.segments[0].table.length()).isEqualTo(4); // capacity / conc level
   }
 
   @GwtIncompatible // CountDownLatch

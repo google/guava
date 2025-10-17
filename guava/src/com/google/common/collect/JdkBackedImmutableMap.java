@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.asImmutableList;
 import static com.google.common.collect.RegularImmutableMap.makeImmutable;
 import static java.util.Objects.requireNonNull;
 
@@ -82,7 +83,7 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
       }
       entryArray = newEntryArray;
     }
-    return new JdkBackedImmutableMap<>(delegateMap, ImmutableList.asImmutableList(entryArray, n));
+    return new JdkBackedImmutableMap<>(delegateMap, asImmutableList(entryArray, n));
   }
 
   private final transient Map<K, V> delegateMap;

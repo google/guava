@@ -461,7 +461,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
   }
 
   <T2 extends T> Ordering<Entry<T2, ?>> onKeys() {
-    return onResultOf(Maps.<T2>keyFunction());
+    return onResultOf(Entry::getKey);
   }
 
   /**

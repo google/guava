@@ -110,9 +110,7 @@ final class RegularImmutableSet<E> extends ImmutableSet.CachingAsList<E> {
 
   @Override
   ImmutableList<E> createAsList() {
-    return (table.length == 0)
-        ? ImmutableList.<E>of()
-        : new RegularImmutableAsList<E>(this, elements);
+    return (table.length == 0) ? ImmutableList.of() : new RegularImmutableAsList<>(this, elements);
   }
 
   @Override

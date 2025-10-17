@@ -17,6 +17,7 @@ package com.google.common.cache;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.Arrays.asList;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -81,23 +82,29 @@ public class CacheExpirationTest extends TestCase {
       CountingRemovalListener<String, Integer> removalListener) {
 
     for (int i = 0; i < 10; i++) {
-      assertEquals(Integer.valueOf(VALUE_PREFIX + i), cache.getUnchecked(KEY_PREFIX + i));
+      assertThat(cache.getUnchecked(KEY_PREFIX + i)).isEqualTo(VALUE_PREFIX + i);
     }
 
     for (int i = 0; i < 10; i++) {
       loader.reset();
-      assertEquals(Integer.valueOf(VALUE_PREFIX + i), cache.getUnchecked(KEY_PREFIX + i));
-      assertFalse("Creator should not have been called @#" + i, loader.wasCalled());
+      assertThat(cache.getUnchecked(KEY_PREFIX + i)).isEqualTo(VALUE_PREFIX + i);
+      assertWithMessage("Creator should not have been called @#%s", i)
+          .that(loader.wasCalled())
+          .isFalse();
     }
 
     CacheTesting.expireEntries((LoadingCache<?, ?>) cache, EXPIRING_TIME, ticker);
 
-    assertEquals("Map must be empty by now", 0, cache.size());
-    assertEquals("Eviction notifications must be received", 10, removalListener.getCount());
+    assertWithMessage("Map must be empty by now").that(cache.size()).isEqualTo(0);
+    assertWithMessage("Eviction notifications must be received")
+        .that(removalListener.getCount())
+        .isEqualTo(10);
 
     CacheTesting.expireEntries((LoadingCache<?, ?>) cache, EXPIRING_TIME, ticker);
     // ensure that no new notifications are sent
-    assertEquals("Eviction notifications must be received", 10, removalListener.getCount());
+    assertWithMessage("Eviction notifications must be received")
+        .that(removalListener.getCount())
+        .isEqualTo(10);
   }
 
   public void testExpiringGet_expireAfterWrite() {
@@ -133,13 +140,15 @@ public class CacheExpirationTest extends TestCase {
       CountingRemovalListener<String, Integer> removalListener) {
 
     for (int i = 0; i < 10; i++) {
-      assertEquals(Integer.valueOf(VALUE_PREFIX + i), cache.getUnchecked(KEY_PREFIX + i));
+      assertThat(cache.getUnchecked(KEY_PREFIX + i)).isEqualTo(VALUE_PREFIX + i);
     }
 
     for (int i = 0; i < 10; i++) {
       loader.reset();
-      assertEquals(Integer.valueOf(VALUE_PREFIX + i), cache.getUnchecked(KEY_PREFIX + i));
-      assertFalse("Loader should NOT have been called @#" + i, loader.wasCalled());
+      assertThat(cache.getUnchecked(KEY_PREFIX + i)).isEqualTo(VALUE_PREFIX + i);
+      assertWithMessage("Loader should NOT have been called @#%s", i)
+          .that(loader.wasCalled())
+          .isFalse();
     }
 
     // wait for entries to expire, but don't call expireEntries
@@ -149,31 +158,35 @@ public class CacheExpirationTest extends TestCase {
     cache.getUnchecked(KEY_PREFIX + 11);
 
     // collections views shouldn't expose expired entries
-    assertEquals(1, Iterators.size(cache.asMap().entrySet().iterator()));
-    assertEquals(1, Iterators.size(cache.asMap().keySet().iterator()));
-    assertEquals(1, Iterators.size(cache.asMap().values().iterator()));
+    assertThat(Iterators.size(cache.asMap().entrySet().iterator())).isEqualTo(1);
+    assertThat(Iterators.size(cache.asMap().keySet().iterator())).isEqualTo(1);
+    assertThat(Iterators.size(cache.asMap().values().iterator())).isEqualTo(1);
 
     CacheTesting.expireEntries((LoadingCache<?, ?>) cache, EXPIRING_TIME, ticker);
 
     for (int i = 0; i < 11; i++) {
-      assertFalse(cache.asMap().containsKey(KEY_PREFIX + i));
+      assertThat(cache.asMap().containsKey(KEY_PREFIX + i)).isFalse();
     }
-    assertEquals(11, removalListener.getCount());
+    assertThat(removalListener.getCount()).isEqualTo(11);
 
     for (int i = 0; i < 10; i++) {
-      assertFalse(cache.asMap().containsKey(KEY_PREFIX + i));
+      assertThat(cache.asMap().containsKey(KEY_PREFIX + i)).isFalse();
       loader.reset();
-      assertEquals(Integer.valueOf(VALUE_PREFIX + i), cache.getUnchecked(KEY_PREFIX + i));
-      assertTrue("Creator should have been called @#" + i, loader.wasCalled());
+      assertThat(cache.getUnchecked(KEY_PREFIX + i)).isEqualTo(VALUE_PREFIX + i);
+      assertWithMessage("Loader should have been called @#%s", i).that(loader.wasCalled()).isTrue();
     }
 
     // expire new values we just created
     CacheTesting.expireEntries((LoadingCache<?, ?>) cache, EXPIRING_TIME, ticker);
-    assertEquals("Eviction notifications must be received", 21, removalListener.getCount());
+    assertWithMessage("Eviction notifications must be received")
+        .that(removalListener.getCount())
+        .isEqualTo(21);
 
     CacheTesting.expireEntries((LoadingCache<?, ?>) cache, EXPIRING_TIME, ticker);
     // ensure that no new notifications are sent
-    assertEquals("Eviction notifications must be received", 21, removalListener.getCount());
+    assertWithMessage("Eviction notifications must be received")
+        .that(removalListener.getCount())
+        .isEqualTo(21);
   }
 
   public void testRemovalListener_expireAfterWrite() {
@@ -215,9 +228,9 @@ public class CacheExpirationTest extends TestCase {
       ticker.advance(1, MILLISECONDS);
     }
 
-    assertEquals(evictionCount.get() + 1, applyCount.get());
+    assertThat(applyCount.get()).isEqualTo(evictionCount.get() + 1);
     int remaining = cache.getUnchecked(10).get();
-    assertEquals(100, totalSum.get() + remaining);
+    assertThat(totalSum.get() + remaining).isEqualTo(100);
   }
 
   public void testRemovalScheduler_expireAfterWrite() {
@@ -435,46 +448,50 @@ public class CacheExpirationTest extends TestCase {
       FakeTicker ticker,
       String keyPrefix,
       long ttl) {
+    loader.setKeyPrefix(keyPrefix);
 
     int shift1 = 10 + VALUE_PREFIX;
     loader.setValuePrefix(shift1);
     // fill with initial data
     for (int i = 0; i < 10; i++) {
-      assertEquals(Integer.valueOf(i + shift1), cache.getUnchecked(keyPrefix + i));
+      assertThat(cache.getUnchecked(keyPrefix + i)).isEqualTo(i + shift1);
     }
-    assertEquals(10, CacheTesting.expirationQueueSize(cache));
-    assertEquals(0, removalListener.getCount());
+    assertThat(CacheTesting.expirationQueueSize(cache)).isEqualTo(10);
+    assertThat(removalListener.getCount()).isEqualTo(0);
 
     // wait, so that entries have just 10 ms to live
     ticker.advance(ttl * 2 / 3, MILLISECONDS);
 
-    assertEquals(10, CacheTesting.expirationQueueSize(cache));
-    assertEquals(0, removalListener.getCount());
+    assertThat(CacheTesting.expirationQueueSize(cache)).isEqualTo(10);
+    assertThat(removalListener.getCount()).isEqualTo(0);
 
     int shift2 = shift1 + 10;
     loader.setValuePrefix(shift2);
     // fill with new data - has to live for 20 ms more
     for (int i = 0; i < 10; i++) {
       cache.invalidate(keyPrefix + i);
-      assertEquals(
-          "key: " + keyPrefix + i, Integer.valueOf(i + shift2), cache.getUnchecked(keyPrefix + i));
+      assertWithMessage("key: %s%s", keyPrefix, i)
+          .that(cache.getUnchecked(keyPrefix + i))
+          .isEqualTo(i + shift2);
     }
-    assertEquals(10, CacheTesting.expirationQueueSize(cache));
-    assertEquals(10, removalListener.getCount()); // these are the invalidated ones
+    assertThat(CacheTesting.expirationQueueSize(cache)).isEqualTo(10);
+    assertThat(removalListener.getCount()).isEqualTo(10); // these are the invalidated ones
 
     // old timeouts must expire after this wait
     ticker.advance(ttl * 2 / 3, MILLISECONDS);
 
-    assertEquals(10, CacheTesting.expirationQueueSize(cache));
-    assertEquals(10, removalListener.getCount());
+    assertThat(CacheTesting.expirationQueueSize(cache)).isEqualTo(10);
+    assertThat(removalListener.getCount()).isEqualTo(10);
 
     // check that new values are still there - they still have 10 ms to live
     for (int i = 0; i < 10; i++) {
       loader.reset();
-      assertEquals(Integer.valueOf(i + shift2), cache.getUnchecked(keyPrefix + i));
-      assertFalse("Creator should NOT have been called @#" + i, loader.wasCalled());
+      assertThat(cache.getUnchecked(keyPrefix + i)).isEqualTo(i + shift2);
+      assertWithMessage("Creator should NOT have been called @#%s", i)
+          .that(loader.wasCalled())
+          .isFalse();
     }
-    assertEquals(10, removalListener.getCount());
+    assertThat(removalListener.getCount()).isEqualTo(10);
   }
 
   private static void getAll(LoadingCache<Integer, Integer> cache, List<Integer> keys) {

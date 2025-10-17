@@ -206,18 +206,18 @@ final class MapMakerInternalMap<
       MapMaker builder) {
     if (builder.getKeyStrength() == Strength.STRONG
         && builder.getValueStrength() == Strength.STRONG) {
-      return new MapMakerInternalMap<>(builder, StrongKeyStrongValueEntry.Helper.<K, V>instance());
+      return new MapMakerInternalMap<>(builder, StrongKeyStrongValueEntry.Helper.instance());
     }
     if (builder.getKeyStrength() == Strength.STRONG
         && builder.getValueStrength() == Strength.WEAK) {
-      return new MapMakerInternalMap<>(builder, StrongKeyWeakValueEntry.Helper.<K, V>instance());
+      return new MapMakerInternalMap<>(builder, StrongKeyWeakValueEntry.Helper.instance());
     }
     if (builder.getKeyStrength() == Strength.WEAK
         && builder.getValueStrength() == Strength.STRONG) {
-      return new MapMakerInternalMap<>(builder, WeakKeyStrongValueEntry.Helper.<K, V>instance());
+      return new MapMakerInternalMap<>(builder, WeakKeyStrongValueEntry.Helper.instance());
     }
     if (builder.getKeyStrength() == Strength.WEAK && builder.getValueStrength() == Strength.WEAK) {
-      return new MapMakerInternalMap<>(builder, WeakKeyWeakValueEntry.Helper.<K, V>instance());
+      return new MapMakerInternalMap<>(builder, WeakKeyWeakValueEntry.Helper.instance());
     }
     throw new AssertionError();
   }
@@ -237,11 +237,11 @@ final class MapMakerInternalMap<
           MapMaker builder) {
     if (builder.getKeyStrength() == Strength.STRONG
         && builder.getValueStrength() == Strength.STRONG) {
-      return new MapMakerInternalMap<>(builder, StrongKeyDummyValueEntry.Helper.<K>instance());
+      return new MapMakerInternalMap<>(builder, StrongKeyDummyValueEntry.Helper.instance());
     }
     if (builder.getKeyStrength() == Strength.WEAK
         && builder.getValueStrength() == Strength.STRONG) {
-      return new MapMakerInternalMap<>(builder, WeakKeyDummyValueEntry.Helper.<K>instance());
+      return new MapMakerInternalMap<>(builder, WeakKeyDummyValueEntry.Helper.instance());
     }
     if (builder.getValueStrength() == Strength.WEAK) {
       throw new IllegalArgumentException("Map cannot have both weak and dummy values");

@@ -53,16 +53,14 @@ import org.jspecify.annotations.Nullable;
 abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMap<K, V> implements BiMap<K, V>, Serializable {
 
-  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (lateinit)
   private transient Map<K, V> delegate;
 
-  @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (lateinit)
-  @RetainedWith
-  transient AbstractBiMap<V, K> inverse;
+  @RetainedWith private transient AbstractBiMap<V, K> inverse;
 
   /** Package-private constructor for creating a map-backed bimap. */
   AbstractBiMap(Map<K, V> forward, Map<V, K> backward) {
-    setDelegates(forward, backward);
+    inverse = checkMapsAndMakeInverse(forward, backward);
+    delegate = forward;
   }
 
   /** Private constructor for inverse bimap. */
@@ -91,17 +89,19 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   /**
-   * Specifies the delegate maps going in each direction. Called by the constructor and by
-   * subclasses during deserialization.
+   * Specifies the delegate maps going in each direction. Called by subclasses during
+   * deserialization.
    */
   void setDelegates(Map<K, V> forward, Map<V, K> backward) {
-    checkState(delegate == null);
-    checkState(inverse == null);
+    inverse = checkMapsAndMakeInverse(forward, backward);
+    delegate = forward;
+  }
+
+  private AbstractBiMap<V, K> checkMapsAndMakeInverse(Map<K, V> forward, Map<V, K> backward) {
     checkArgument(forward.isEmpty());
     checkArgument(backward.isEmpty());
     checkArgument(forward != backward);
-    delegate = forward;
-    inverse = makeInverse(backward);
+    return makeInverse(backward);
   }
 
   AbstractBiMap<V, K> makeInverse(Map<V, K> backward) {
@@ -474,13 +474,13 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @Override
     @ParametricNullness
     K checkKey(@ParametricNullness K key) {
-      return inverse.checkValue(key);
+      return super.inverse.checkValue(key);
     }
 
     @Override
     @ParametricNullness
     V checkValue(@ParametricNullness V value) {
-      return inverse.checkKey(value);
+      return super.inverse.checkKey(value);
     }
 
     /**

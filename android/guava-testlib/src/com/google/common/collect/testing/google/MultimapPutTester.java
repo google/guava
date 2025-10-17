@@ -62,7 +62,7 @@ public class MultimapPutTester<K extends @Nullable Object, V extends @Nullable O
   public void testPutEmpty() {
     int size = getNumElements();
 
-    assertGet(k3(), ImmutableList.<V>of());
+    assertGet(k3(), ImmutableList.of());
 
     assertTrue(multimap().put(k3(), v3()));
 

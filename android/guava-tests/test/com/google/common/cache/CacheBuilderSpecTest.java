@@ -18,6 +18,8 @@ package com.google.common.cache;
 
 import static com.google.common.cache.CacheBuilderSpec.parse;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
+import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.concurrent.TimeUnit.DAYS;
 import static java.util.concurrent.TimeUnit.HOURS;
 import static java.util.concurrent.TimeUnit.MINUTES;
@@ -40,27 +42,27 @@ import org.jspecify.annotations.NullUnmarked;
 public class CacheBuilderSpecTest extends TestCase {
   public void testParse_empty() {
     CacheBuilderSpec spec = parse("");
-    assertNull(spec.initialCapacity);
-    assertNull(spec.maximumSize);
-    assertNull(spec.maximumWeight);
-    assertNull(spec.concurrencyLevel);
-    assertNull(spec.keyStrength);
-    assertNull(spec.valueStrength);
-    assertNull(spec.writeExpirationTimeUnit);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isNull();
+    assertThat(spec.maximumSize).isNull();
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isNull();
+    assertThat(spec.valueStrength).isNull();
+    assertThat(spec.writeExpirationTimeUnit).isNull();
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     assertCacheBuilderEquivalence(CacheBuilder.newBuilder(), CacheBuilder.from(spec));
   }
 
   public void testParse_initialCapacity() {
     CacheBuilderSpec spec = parse("initialCapacity=10");
-    assertEquals(10, spec.initialCapacity.intValue());
-    assertNull(spec.maximumSize);
-    assertNull(spec.maximumWeight);
-    assertNull(spec.concurrencyLevel);
-    assertNull(spec.keyStrength);
-    assertNull(spec.valueStrength);
-    assertNull(spec.writeExpirationTimeUnit);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isEqualTo(10);
+    assertThat(spec.maximumSize).isNull();
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isNull();
+    assertThat(spec.valueStrength).isNull();
+    assertThat(spec.writeExpirationTimeUnit).isNull();
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().initialCapacity(10), CacheBuilder.from(spec));
   }
@@ -72,13 +74,13 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_maximumSize() {
     CacheBuilderSpec spec = parse("maximumSize=9000");
-    assertNull(spec.initialCapacity);
-    assertEquals(9000, spec.maximumSize.longValue());
-    assertNull(spec.concurrencyLevel);
-    assertNull(spec.keyStrength);
-    assertNull(spec.valueStrength);
-    assertNull(spec.writeExpirationTimeUnit);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isNull();
+    assertThat(spec.maximumSize).isEqualTo(9000L);
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isNull();
+    assertThat(spec.valueStrength).isNull();
+    assertThat(spec.writeExpirationTimeUnit).isNull();
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().maximumSize(9000), CacheBuilder.from(spec));
   }
@@ -89,13 +91,13 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_maximumWeight() {
     CacheBuilderSpec spec = parse("maximumWeight=9000");
-    assertNull(spec.initialCapacity);
-    assertEquals(9000, spec.maximumWeight.longValue());
-    assertNull(spec.concurrencyLevel);
-    assertNull(spec.keyStrength);
-    assertNull(spec.valueStrength);
-    assertNull(spec.writeExpirationTimeUnit);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isNull();
+    assertThat(spec.maximumWeight).isEqualTo(9000L);
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isNull();
+    assertThat(spec.valueStrength).isNull();
+    assertThat(spec.writeExpirationTimeUnit).isNull();
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().maximumWeight(9000), CacheBuilder.from(spec));
   }
@@ -110,14 +112,14 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_concurrencyLevel() {
     CacheBuilderSpec spec = parse("concurrencyLevel=32");
-    assertNull(spec.initialCapacity);
-    assertNull(spec.maximumSize);
-    assertNull(spec.maximumWeight);
-    assertEquals(32, spec.concurrencyLevel.intValue());
-    assertNull(spec.keyStrength);
-    assertNull(spec.valueStrength);
-    assertNull(spec.writeExpirationTimeUnit);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isNull();
+    assertThat(spec.maximumSize).isNull();
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isEqualTo(32);
+    assertThat(spec.keyStrength).isNull();
+    assertThat(spec.valueStrength).isNull();
+    assertThat(spec.writeExpirationTimeUnit).isNull();
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().concurrencyLevel(32), CacheBuilder.from(spec));
   }
@@ -129,14 +131,14 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_weakKeys() {
     CacheBuilderSpec spec = parse("weakKeys");
-    assertNull(spec.initialCapacity);
-    assertNull(spec.maximumSize);
-    assertNull(spec.maximumWeight);
-    assertNull(spec.concurrencyLevel);
-    assertEquals(Strength.WEAK, spec.keyStrength);
-    assertNull(spec.valueStrength);
-    assertNull(spec.writeExpirationTimeUnit);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isNull();
+    assertThat(spec.maximumSize).isNull();
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isEqualTo(Strength.WEAK);
+    assertThat(spec.valueStrength).isNull();
+    assertThat(spec.writeExpirationTimeUnit).isNull();
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     assertCacheBuilderEquivalence(CacheBuilder.newBuilder().weakKeys(), CacheBuilder.from(spec));
   }
 
@@ -150,14 +152,14 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_softValues() {
     CacheBuilderSpec spec = parse("softValues");
-    assertNull(spec.initialCapacity);
-    assertNull(spec.maximumSize);
-    assertNull(spec.maximumWeight);
-    assertNull(spec.concurrencyLevel);
-    assertNull(spec.keyStrength);
-    assertEquals(Strength.SOFT, spec.valueStrength);
-    assertNull(spec.writeExpirationTimeUnit);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isNull();
+    assertThat(spec.maximumSize).isNull();
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isNull();
+    assertThat(spec.valueStrength).isEqualTo(Strength.SOFT);
+    assertThat(spec.writeExpirationTimeUnit).isNull();
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     assertCacheBuilderEquivalence(CacheBuilder.newBuilder().softValues(), CacheBuilder.from(spec));
   }
 
@@ -167,14 +169,14 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_weakValues() {
     CacheBuilderSpec spec = parse("weakValues");
-    assertNull(spec.initialCapacity);
-    assertNull(spec.maximumSize);
-    assertNull(spec.maximumWeight);
-    assertNull(spec.concurrencyLevel);
-    assertNull(spec.keyStrength);
-    assertEquals(Strength.WEAK, spec.valueStrength);
-    assertNull(spec.writeExpirationTimeUnit);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isNull();
+    assertThat(spec.maximumSize).isNull();
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isNull();
+    assertThat(spec.valueStrength).isEqualTo(Strength.WEAK);
+    assertThat(spec.writeExpirationTimeUnit).isNull();
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     assertCacheBuilderEquivalence(CacheBuilder.newBuilder().weakValues(), CacheBuilder.from(spec));
   }
 
@@ -194,39 +196,39 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_writeExpirationDays() {
     CacheBuilderSpec spec = parse("expireAfterWrite=10d");
-    assertNull(spec.initialCapacity);
-    assertNull(spec.maximumSize);
-    assertNull(spec.maximumWeight);
-    assertNull(spec.concurrencyLevel);
-    assertNull(spec.keyStrength);
-    assertNull(spec.valueStrength);
-    assertEquals(DAYS, spec.writeExpirationTimeUnit);
-    assertEquals(10L, spec.writeExpirationDuration);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isNull();
+    assertThat(spec.maximumSize).isNull();
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isNull();
+    assertThat(spec.valueStrength).isNull();
+    assertThat(spec.writeExpirationTimeUnit).isEqualTo(DAYS);
+    assertThat(spec.writeExpirationDuration).isEqualTo(10L);
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().expireAfterWrite(10L, DAYS), CacheBuilder.from(spec));
   }
 
   public void testParse_writeExpirationHours() {
     CacheBuilderSpec spec = parse("expireAfterWrite=150h");
-    assertEquals(HOURS, spec.writeExpirationTimeUnit);
-    assertEquals(150L, spec.writeExpirationDuration);
+    assertThat(spec.writeExpirationTimeUnit).isEqualTo(HOURS);
+    assertThat(spec.writeExpirationDuration).isEqualTo(150L);
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().expireAfterWrite(150L, HOURS), CacheBuilder.from(spec));
   }
 
   public void testParse_writeExpirationMinutes() {
     CacheBuilderSpec spec = parse("expireAfterWrite=10m");
-    assertEquals(MINUTES, spec.writeExpirationTimeUnit);
-    assertEquals(10L, spec.writeExpirationDuration);
+    assertThat(spec.writeExpirationTimeUnit).isEqualTo(MINUTES);
+    assertThat(spec.writeExpirationDuration).isEqualTo(10L);
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().expireAfterWrite(10L, MINUTES), CacheBuilder.from(spec));
   }
 
   public void testParse_writeExpirationSeconds() {
     CacheBuilderSpec spec = parse("expireAfterWrite=10s");
-    assertEquals(SECONDS, spec.writeExpirationTimeUnit);
-    assertEquals(10L, spec.writeExpirationDuration);
+    assertThat(spec.writeExpirationTimeUnit).isEqualTo(SECONDS);
+    assertThat(spec.writeExpirationDuration).isEqualTo(10L);
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().expireAfterWrite(10L, SECONDS), CacheBuilder.from(spec));
   }
@@ -238,39 +240,39 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_accessExpirationDays() {
     CacheBuilderSpec spec = parse("expireAfterAccess=10d");
-    assertNull(spec.initialCapacity);
-    assertNull(spec.maximumSize);
-    assertNull(spec.maximumWeight);
-    assertNull(spec.concurrencyLevel);
-    assertNull(spec.keyStrength);
-    assertNull(spec.valueStrength);
-    assertNull(spec.writeExpirationTimeUnit);
-    assertEquals(DAYS, spec.accessExpirationTimeUnit);
-    assertEquals(10L, spec.accessExpirationDuration);
+    assertThat(spec.initialCapacity).isNull();
+    assertThat(spec.maximumSize).isNull();
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isNull();
+    assertThat(spec.valueStrength).isNull();
+    assertThat(spec.writeExpirationTimeUnit).isNull();
+    assertThat(spec.accessExpirationTimeUnit).isEqualTo(DAYS);
+    assertThat(spec.accessExpirationDuration).isEqualTo(10L);
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().expireAfterAccess(10L, DAYS), CacheBuilder.from(spec));
   }
 
   public void testParse_accessExpirationHours() {
     CacheBuilderSpec spec = parse("expireAfterAccess=150h");
-    assertEquals(HOURS, spec.accessExpirationTimeUnit);
-    assertEquals(150L, spec.accessExpirationDuration);
+    assertThat(spec.accessExpirationTimeUnit).isEqualTo(HOURS);
+    assertThat(spec.accessExpirationDuration).isEqualTo(150L);
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().expireAfterAccess(150L, HOURS), CacheBuilder.from(spec));
   }
 
   public void testParse_accessExpirationMinutes() {
     CacheBuilderSpec spec = parse("expireAfterAccess=10m");
-    assertEquals(MINUTES, spec.accessExpirationTimeUnit);
-    assertEquals(10L, spec.accessExpirationDuration);
+    assertThat(spec.accessExpirationTimeUnit).isEqualTo(MINUTES);
+    assertThat(spec.accessExpirationDuration).isEqualTo(10L);
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().expireAfterAccess(10L, MINUTES), CacheBuilder.from(spec));
   }
 
   public void testParse_accessExpirationSeconds() {
     CacheBuilderSpec spec = parse("expireAfterAccess=10s");
-    assertEquals(SECONDS, spec.accessExpirationTimeUnit);
-    assertEquals(10L, spec.accessExpirationDuration);
+    assertThat(spec.accessExpirationTimeUnit).isEqualTo(SECONDS);
+    assertThat(spec.accessExpirationDuration).isEqualTo(10L);
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().expireAfterAccess(10L, SECONDS), CacheBuilder.from(spec));
   }
@@ -282,7 +284,7 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_recordStats() {
     CacheBuilderSpec spec = parse("recordStats");
-    assertTrue(spec.recordStats);
+    assertThat(spec.recordStats).isTrue();
     assertCacheBuilderEquivalence(CacheBuilder.newBuilder().recordStats(), CacheBuilder.from(spec));
   }
 
@@ -296,10 +298,10 @@ public class CacheBuilderSpecTest extends TestCase {
 
   public void testParse_accessExpirationAndWriteExpiration() {
     CacheBuilderSpec spec = parse("expireAfterAccess=10s,expireAfterWrite=9m");
-    assertEquals(MINUTES, spec.writeExpirationTimeUnit);
-    assertEquals(9L, spec.writeExpirationDuration);
-    assertEquals(SECONDS, spec.accessExpirationTimeUnit);
-    assertEquals(10L, spec.accessExpirationDuration);
+    assertThat(spec.writeExpirationTimeUnit).isEqualTo(MINUTES);
+    assertThat(spec.writeExpirationDuration).isEqualTo(9L);
+    assertThat(spec.accessExpirationTimeUnit).isEqualTo(SECONDS);
+    assertThat(spec.accessExpirationDuration).isEqualTo(10L);
     assertCacheBuilderEquivalence(
         CacheBuilder.newBuilder().expireAfterAccess(10L, SECONDS).expireAfterWrite(9L, MINUTES),
         CacheBuilder.from(spec));
@@ -310,16 +312,16 @@ public class CacheBuilderSpecTest extends TestCase {
         parse(
             "initialCapacity=10,maximumSize=20,concurrencyLevel=30,"
                 + "weakKeys,weakValues,expireAfterAccess=10m,expireAfterWrite=1h");
-    assertEquals(10, spec.initialCapacity.intValue());
-    assertEquals(20, spec.maximumSize.intValue());
-    assertNull(spec.maximumWeight);
-    assertEquals(30, spec.concurrencyLevel.intValue());
-    assertEquals(Strength.WEAK, spec.keyStrength);
-    assertEquals(Strength.WEAK, spec.valueStrength);
-    assertEquals(HOURS, spec.writeExpirationTimeUnit);
-    assertEquals(MINUTES, spec.accessExpirationTimeUnit);
-    assertEquals(1L, spec.writeExpirationDuration);
-    assertEquals(10L, spec.accessExpirationDuration);
+    assertThat(spec.initialCapacity).isEqualTo(10);
+    assertThat(spec.maximumSize).isEqualTo(20);
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isEqualTo(30);
+    assertThat(spec.keyStrength).isEqualTo(Strength.WEAK);
+    assertThat(spec.valueStrength).isEqualTo(Strength.WEAK);
+    assertThat(spec.writeExpirationTimeUnit).isEqualTo(HOURS);
+    assertThat(spec.accessExpirationTimeUnit).isEqualTo(MINUTES);
+    assertThat(spec.writeExpirationDuration).isEqualTo(1L);
+    assertThat(spec.accessExpirationDuration).isEqualTo(10L);
     CacheBuilder<?, ?> expected =
         CacheBuilder.newBuilder()
             .initialCapacity(10)
@@ -337,15 +339,15 @@ public class CacheBuilderSpecTest extends TestCase {
         parse(
             " initialCapacity=10,\nmaximumSize=20,\t\r"
                 + "weakKeys \t ,softValues \n , \r  expireAfterWrite \t =  15s\n\n");
-    assertEquals(10, spec.initialCapacity.intValue());
-    assertEquals(20, spec.maximumSize.intValue());
-    assertNull(spec.maximumWeight);
-    assertNull(spec.concurrencyLevel);
-    assertEquals(Strength.WEAK, spec.keyStrength);
-    assertEquals(Strength.SOFT, spec.valueStrength);
-    assertEquals(SECONDS, spec.writeExpirationTimeUnit);
-    assertEquals(15L, spec.writeExpirationDuration);
-    assertNull(spec.accessExpirationTimeUnit);
+    assertThat(spec.initialCapacity).isEqualTo(10);
+    assertThat(spec.maximumSize).isEqualTo(20);
+    assertThat(spec.maximumWeight).isNull();
+    assertThat(spec.concurrencyLevel).isNull();
+    assertThat(spec.keyStrength).isEqualTo(Strength.WEAK);
+    assertThat(spec.valueStrength).isEqualTo(Strength.SOFT);
+    assertThat(spec.writeExpirationTimeUnit).isEqualTo(SECONDS);
+    assertThat(spec.writeExpirationDuration).isEqualTo(15L);
+    assertThat(spec.accessExpirationTimeUnit).isNull();
     CacheBuilder<?, ?> expected =
         CacheBuilder.newBuilder()
             .initialCapacity(10)
@@ -424,9 +426,9 @@ public class CacheBuilderSpecTest extends TestCase {
     Object value = new Object();
     LoadingCache<Object, Object> cache =
         builder.build(CacheLoader.from(Suppliers.ofInstance(value)));
-    assertSame(value, cache.getUnchecked(key));
-    assertEquals(0, cache.size());
-    assertFalse(cache.asMap().containsKey(key));
+    assertThat(cache.getUnchecked(key)).isSameInstanceAs(value);
+    assertThat(cache.size()).isEqualTo(0);
+    assertThat(cache.asMap().containsKey(key)).isFalse();
   }
 
   public void testCacheBuilderFrom_string() {
@@ -445,22 +447,41 @@ public class CacheBuilderSpecTest extends TestCase {
     assertCacheBuilderEquivalence(expected, fromString);
   }
 
-  private static void assertCacheBuilderEquivalence(CacheBuilder<?, ?> a, CacheBuilder<?, ?> b) {
-    assertEquals("concurrencyLevel", a.concurrencyLevel, b.concurrencyLevel);
-    assertEquals("expireAfterAccessNanos", a.expireAfterAccessNanos, b.expireAfterAccessNanos);
-    assertEquals("expireAfterWriteNanos", a.expireAfterWriteNanos, b.expireAfterWriteNanos);
-    assertEquals("initialCapacity", a.initialCapacity, b.initialCapacity);
-    assertEquals("maximumSize", a.maximumSize, b.maximumSize);
-    assertEquals("maximumWeight", a.maximumWeight, b.maximumWeight);
-    assertEquals("refreshNanos", a.refreshNanos, b.refreshNanos);
-    assertEquals("keyEquivalence", a.keyEquivalence, b.keyEquivalence);
-    assertEquals("keyStrength", a.keyStrength, b.keyStrength);
-    assertEquals("removalListener", a.removalListener, b.removalListener);
-    assertEquals("weigher", a.weigher, b.weigher);
-    assertEquals("valueEquivalence", a.valueEquivalence, b.valueEquivalence);
-    assertEquals("valueStrength", a.valueStrength, b.valueStrength);
-    assertEquals("statsCounterSupplier", a.statsCounterSupplier, b.statsCounterSupplier);
-    assertEquals("ticker", a.ticker, b.ticker);
-    assertEquals("recordStats", a.isRecordingStats(), b.isRecordingStats());
+  private static void assertCacheBuilderEquivalence(
+      CacheBuilder<?, ?> expected, CacheBuilder<?, ?> actual) {
+    assertWithMessage("concurrencyLevel")
+        .that(actual.concurrencyLevel)
+        .isEqualTo(expected.concurrencyLevel);
+    assertWithMessage("expireAfterAccessNanos")
+        .that(actual.expireAfterAccessNanos)
+        .isEqualTo(expected.expireAfterAccessNanos);
+    assertWithMessage("expireAfterWriteNanos")
+        .that(actual.expireAfterWriteNanos)
+        .isEqualTo(expected.expireAfterWriteNanos);
+    assertWithMessage("initialCapacity")
+        .that(actual.initialCapacity)
+        .isEqualTo(expected.initialCapacity);
+    assertWithMessage("maximumSize").that(actual.maximumSize).isEqualTo(expected.maximumSize);
+    assertWithMessage("maximumWeight").that(actual.maximumWeight).isEqualTo(expected.maximumWeight);
+    assertWithMessage("refreshNanos").that(actual.refreshNanos).isEqualTo(expected.refreshNanos);
+    assertWithMessage("keyEquivalence")
+        .that(actual.keyEquivalence)
+        .isEqualTo(expected.keyEquivalence);
+    assertWithMessage("keyStrength").that(actual.keyStrength).isEqualTo(expected.keyStrength);
+    assertWithMessage("removalListener")
+        .that(actual.removalListener)
+        .isEqualTo(expected.removalListener);
+    assertWithMessage("weigher").that(actual.weigher).isEqualTo(expected.weigher);
+    assertWithMessage("valueEquivalence")
+        .that(actual.valueEquivalence)
+        .isEqualTo(expected.valueEquivalence);
+    assertWithMessage("valueStrength").that(actual.valueStrength).isEqualTo(expected.valueStrength);
+    assertWithMessage("statsCounterSupplier")
+        .that(actual.statsCounterSupplier)
+        .isEqualTo(expected.statsCounterSupplier);
+    assertWithMessage("ticker").that(actual.ticker).isEqualTo(expected.ticker);
+    assertWithMessage("recordStats")
+        .that(actual.isRecordingStats())
+        .isEqualTo(expected.isRecordingStats());
   }
 }

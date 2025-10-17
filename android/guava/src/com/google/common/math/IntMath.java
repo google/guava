@@ -751,7 +751,7 @@ public final class IntMath {
    * hash code) into a well-distributed nonnegative number, the most even distribution is achieved
    * not by this method or other absolute value methods, but by {@code x & Integer.MAX_VALUE}.
    *
-   * @since NEXT
+   * @since 33.5.0
    */
   public static int saturatedAbs(int x) {
     return (x == Integer.MIN_VALUE) ? Integer.MAX_VALUE : Math.abs(x);

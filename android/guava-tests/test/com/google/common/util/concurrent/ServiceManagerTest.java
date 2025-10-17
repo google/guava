@@ -408,7 +408,7 @@ public class ServiceManagerTest extends TestCase {
     logger.setLevel(Level.FINEST);
     TestLogHandler logHandler = new TestLogHandler();
     logger.addHandler(logHandler);
-    ServiceManager manager = new ServiceManager(Arrays.<Service>asList());
+    ServiceManager manager = new ServiceManager(Arrays.asList());
     RecordingListener listener = new RecordingListener();
     manager.addListener(listener, directExecutor());
     manager.startAsync().awaitHealthy();
@@ -668,7 +668,7 @@ public class ServiceManagerTest extends TestCase {
   }
 
   public void testNulls() {
-    ServiceManager manager = new ServiceManager(Arrays.<Service>asList());
+    ServiceManager manager = new ServiceManager(Arrays.asList());
     new NullPointerTester()
         .setDefault(ServiceManager.Listener.class, new RecordingListener())
         .testAllPublicInstanceMethods(manager);

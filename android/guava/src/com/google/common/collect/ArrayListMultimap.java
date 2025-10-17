@@ -116,7 +116,7 @@ public final class ArrayListMultimap<K extends @Nullable Object, V extends @Null
   }
 
   private ArrayListMultimap(int expectedKeys, int expectedValuesPerKey) {
-    super(Platform.<K, Collection<V>>newHashMapWithExpectedSize(expectedKeys));
+    super(Platform.newHashMapWithExpectedSize(expectedKeys));
     checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
     this.expectedValuesPerKey = expectedValuesPerKey;
   }

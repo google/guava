@@ -62,7 +62,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
     assertFalse(multimap().containsEntry(k0(), v0()));
     expectMissing(e0());
     assertEquals(getNumElements() - 1, multimap().size());
-    assertGet(k0(), ImmutableList.<V>of());
+    assertGet(k0(), ImmutableList.of());
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -73,7 +73,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
     assertTrue(multimap().remove(null, getValueForNullKey()));
 
     expectMissing(mapEntry((K) null, getValueForNullKey()));
-    assertGet(getKeyForNullValue(), ImmutableList.<V>of());
+    assertGet(getKeyForNullValue(), ImmutableList.of());
   }
 
   @CollectionSize.Require(absent = ZERO)
@@ -84,7 +84,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
     assertTrue(multimap().remove(getKeyForNullValue(), null));
 
     expectMissing(mapEntry(getKeyForNullValue(), (V) null));
-    assertGet(getKeyForNullValue(), ImmutableList.<V>of());
+    assertGet(getKeyForNullValue(), ImmutableList.of());
   }
 
   @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_NULL_KEY_QUERIES})

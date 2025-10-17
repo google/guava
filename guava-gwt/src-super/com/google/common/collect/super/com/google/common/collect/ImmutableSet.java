@@ -126,8 +126,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
     E first = elements.next();
     if (!elements.hasNext()) {
-      // TODO: Remove "ImmutableSet.<E>" when eclipse bug is fixed.
-      return ImmutableSet.<E>of(first);
+      return of(first);
     }
 
     Set<E> delegate = Sets.newLinkedHashSet();

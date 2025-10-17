@@ -42,11 +42,9 @@
         <artifactId>maven-javadoc-plugin</artifactId>
         <executions>
           <execution>
-            <id>attach-docs</id>
+            <id>attach-javadocs</id>
           </execution>
           <execution>
-            <id>generate-javadoc-site-report</id>
-            <phase>site</phase>
             <goals><goal>javadoc</goal></goals>
           </execution>
         </executions>

@@ -16,12 +16,14 @@
 
 package com.google.common.cache;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.Keep;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -56,15 +58,13 @@ public class ForwardingCacheTest extends TestCase {
   }
 
   public void testGetIfPresent() throws ExecutionException {
-    when(mock.getIfPresent("key")).thenReturn(Boolean.TRUE);
-    assertSame(Boolean.TRUE, forward.getIfPresent("key"));
+    when(mock.getIfPresent("key")).thenReturn(true);
+    assertThat(forward.getIfPresent("key")).isSameInstanceAs(true);
   }
 
   public void testGetAllPresent() throws ExecutionException {
-    when(mock.getAllPresent(ImmutableList.of("key")))
-        .thenReturn(ImmutableMap.of("key", Boolean.TRUE));
-    assertEquals(
-        ImmutableMap.of("key", Boolean.TRUE), forward.getAllPresent(ImmutableList.of("key")));
+    when(mock.getAllPresent(ImmutableList.of("key"))).thenReturn(ImmutableMap.of("key", true));
+    assertThat(forward.getAllPresent(ImmutableList.of("key"))).containsExactly("key", true);
   }
 
   public void testInvalidate() {
@@ -84,17 +84,17 @@ public class ForwardingCacheTest extends TestCase {
 
   public void testSize() {
     when(mock.size()).thenReturn(0L);
-    assertEquals(0, forward.size());
+    assertThat(forward.size()).isEqualTo(0);
   }
 
   public void testStats() {
     when(mock.stats()).thenReturn(null);
-    assertNull(forward.stats());
+    assertThat(forward.stats()).isNull();
   }
 
   public void testAsMap() {
     when(mock.asMap()).thenReturn(null);
-    assertNull(forward.asMap());
+    assertThat(forward.asMap()).isNull();
   }
 
   public void testCleanUp() {
@@ -103,6 +103,7 @@ public class ForwardingCacheTest extends TestCase {
   }
 
   /** Make sure that all methods are forwarded. */
+  @Keep
   private static class OnlyGet<K, V> extends ForwardingCache<K, V> {
     @Override
     protected Cache<K, V> delegate() {

@@ -29,6 +29,7 @@ import static com.google.common.collect.Iterators.frequency;
 import static com.google.common.collect.Iterators.get;
 import static com.google.common.collect.Iterators.getLast;
 import static com.google.common.collect.Iterators.getOnlyElement;
+import static com.google.common.collect.Iterators.peekingIterator;
 import static com.google.common.collect.Iterators.singletonIterator;
 import static com.google.common.collect.Iterators.tryFind;
 import static com.google.common.collect.Lists.newArrayList;
@@ -61,6 +62,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.ConcurrentModificationException;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -68,6 +70,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 import java.util.RandomAccess;
 import java.util.Set;
 import java.util.Vector;
@@ -1541,9 +1544,81 @@ public class IteratorsTest extends TestCase {
   @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testPeekingIteratorShortCircuit() {
     Iterator<String> nonpeek = Lists.newArrayList("a", "b", "c").iterator();
-    PeekingIterator<String> peek = Iterators.peekingIterator(nonpeek);
+    PeekingIterator<String> peek = peekingIterator(nonpeek);
     assertNotSame(peek, nonpeek);
-    assertSame(peek, Iterators.peekingIterator(peek));
-    assertSame(peek, Iterators.peekingIterator((Iterator<String>) peek));
+    assertSame(peek, peekingIterator(peek));
+    assertSame(peek, peekingIterator((Iterator<String>) peek));
+  }
+
+  public void testMergeSorted_stable_issue5773Example() {
+    ImmutableList<TestDatum> left = ImmutableList.of(new TestDatum("B", 1), new TestDatum("C", 1));
+    ImmutableList<TestDatum> right = ImmutableList.of(new TestDatum("A", 2), new TestDatum("C", 2));
+
+    Comparator<TestDatum> comparator = Comparator.comparing(d -> d.letter);
+
+    // When elements compare as equal (both C's have same letter), our merge should always return C1
+    // before C2, since C1 is from the first iterator.
+
+    Iterator<TestDatum> merged =
+        Iterators.mergeSorted(ImmutableList.of(left.iterator(), right.iterator()), comparator);
+
+    ImmutableList<TestDatum> result = ImmutableList.copyOf(merged);
+
+    assertThat(result)
+        .containsExactly(
+            new TestDatum("A", 2),
+            new TestDatum("B", 1),
+            new TestDatum("C", 1),
+            new TestDatum("C", 2))
+        .inOrder();
+  }
+
+  public void testMergeSorted_stable_allEqual() {
+    ImmutableList<TestDatum> first = ImmutableList.of(new TestDatum("A", 1), new TestDatum("A", 2));
+    ImmutableList<TestDatum> second =
+        ImmutableList.of(new TestDatum("A", 3), new TestDatum("A", 4));
+
+    Comparator<TestDatum> comparator = Comparator.comparing(d -> d.letter);
+    Iterator<TestDatum> merged =
+        Iterators.mergeSorted(ImmutableList.of(first.iterator(), second.iterator()), comparator);
+
+    ImmutableList<TestDatum> result = ImmutableList.copyOf(merged);
+
+    assertThat(result)
+        .containsExactly(
+            new TestDatum("A", 1),
+            new TestDatum("A", 2),
+            new TestDatum("A", 3),
+            new TestDatum("A", 4))
+        .inOrder();
+  }
+
+  private static final class TestDatum {
+    final String letter;
+    final int number;
+
+    TestDatum(String letter, int number) {
+      this.letter = letter;
+      this.number = number;
+    }
+
+    @Override
+    public String toString() {
+      return letter + number;
+    }
+
+    @Override
+    public boolean equals(@Nullable Object o) {
+      if (!(o instanceof TestDatum)) {
+        return false;
+      }
+      TestDatum other = (TestDatum) o;
+      return letter.equals(other.letter) && number == other.number;
+    }
+
+    @Override
+    public int hashCode() {
+      return Objects.hash(letter, number);
+    }
   }
 }

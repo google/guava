@@ -18,18 +18,17 @@ package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
+import static com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy.ADD_SELF_LOOPS_ALWAYS;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Iterators;
 import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
@@ -174,49 +173,89 @@ public final class Graphs extends GraphsBridgeMethods {
   }
 
   /**
-   * Returns the transitive closure of {@code graph}. The transitive closure of a graph is another
-   * graph with an edge connecting node A to node B if node B is {@link #reachableNodes(Graph,
-   * Object) reachable} from node A.
+   * Returns the transitive closure of {@code graph}. The transitive closure of a graph {@code G} is
+   * a graph {@code T} that is a supergraph of {@code G}, augmented by, for each pair of nodes A and
+   * B, an edge connecting node A to node B if there is a sequence of edges in {@code G} starting at
+   * A and ending at B.
+   *
+   * <p>{@code strategy} defines the circumstances under which self-loops will be added to the
+   * transitive closure graph.
    *
    * <p>This is a "snapshot" based on the current topology of {@code graph}, rather than a live view
    * of the transitive closure of {@code graph}. In other words, the returned {@link Graph} will not
    * be updated after modifications to {@code graph}.
    *
-   * @since 33.1.0 (present with return type {@code Graph} since 20.0)
+   * @since NEXT
    */
-  // TODO(b/31438252): Consider potential optimizations for this algorithm.
-  public static <N> ImmutableGraph<N> transitiveClosure(Graph<N> graph) {
+  // TODO(b/31438252): Consider optimizing for undirected graphs.
+  public static <N> ImmutableGraph<N> transitiveClosure(
+      Graph<N> graph, TransitiveClosureSelfLoopStrategy strategy) {
     ImmutableGraph.Builder<N> transitiveClosure =
         GraphBuilder.from(graph).allowsSelfLoops(true).<N>immutable();
-    // Every node is, at a minimum, reachable from itself. Since the resulting transitive closure
-    // will have no isolated nodes, we can skip adding nodes explicitly and let putEdge() do it.
 
-    if (graph.isDirected()) {
-      // Note: works for both directed and undirected graphs, but we only use in the directed case.
-      for (N node : graph.nodes()) {
-        for (N reachableNode : reachableNodes(graph, node)) {
-          transitiveClosure.putEdge(node, reachableNode);
-        }
-      }
-    } else {
-      // An optimization for the undirected case: for every node B reachable from node A,
-      // node A and node B have the same reachability set.
-      Set<N> visitedNodes = new HashSet<>();
-      for (N node : graph.nodes()) {
-        if (!visitedNodes.contains(node)) {
-          Set<N> reachableNodes = reachableNodes(graph, node);
-          visitedNodes.addAll(reachableNodes);
-          int pairwiseMatch = 1; // start at 1 to include self-loops
-          for (N nodeU : reachableNodes) {
-            for (N nodeV : Iterables.limit(reachableNodes, pairwiseMatch++)) {
-              transitiveClosure.putEdge(nodeU, nodeV);
-            }
-          }
-        }
+    for (N node : graph.nodes()) {
+      // add each node explicitly to include isolated nodes
+      transitiveClosure.addNode(node);
+      for (N reachableNode : getReachableNodes(graph, node, strategy)) {
+        transitiveClosure.putEdge(node, reachableNode);
       }
     }
-
     return transitiveClosure.build();
+  }
+
+  /**
+   * Equivalent to {@code transitiveClosure(graph, ADD_SELF_LOOPS_ALWAYS)}. Callers should look at
+   * the different strategy options that the new method supports rather than simply migrating to the
+   * new method with the existing behavior; we believe that most callers will want to use the {@code
+   * ADD_SELF_LOOPS_FOR_CYCLES} strategy.
+   *
+   * @since 33.1.0 (present with return type {@code Graph} since 20.0)
+   * @deprecated Use {@link #transitiveClosure(Graph, TransitiveClosureSelfLoopStrategy)} instead.
+   */
+  @SuppressWarnings("InlineMeSuggester") // We expect most users to want to change behavior.
+  @Deprecated
+  public static <N> ImmutableGraph<N> transitiveClosure(Graph<N> graph) {
+    return transitiveClosure(graph, ADD_SELF_LOOPS_ALWAYS);
+  }
+
+  /**
+   * Returns the nodes reachable from {@code node} in {@code graph}, according to the given {@code
+   * strategy}.
+   */
+  private static <N> Iterable<N> getReachableNodes(
+      Graph<N> graph, N node, TransitiveClosureSelfLoopStrategy strategy) {
+    Traverser<N> traverser = Traverser.forGraph(graph);
+    switch (strategy) {
+      case ADD_SELF_LOOPS_ALWAYS: // always include 'node'
+        return traverser.breadthFirst(node);
+      case ADD_SELF_LOOPS_FOR_CYCLES: // include 'node' iff there's an incident cycle
+        // note that if 'node' has a self-loop, it will appear in its successors
+        return traverser.breadthFirst(graph.successors(node));
+    }
+    throw new IllegalArgumentException("Unrecognized strategy: " + strategy);
+  }
+
+  /**
+   * A strategy for adding self-loops to {@linkplain #transitiveClosure(Graph,
+   * TransitiveClosureSelfLoopStrategy) the transitive closure graph}. All strategies preserve
+   * self-loops that are present in the original graph.
+   *
+   * <p>The strategies differ based on how they define "cycle incident to a node".
+   *
+   * @since NEXT
+   */
+  public enum TransitiveClosureSelfLoopStrategy {
+    /**
+     * Add a self-loop to each node in the original graph; this is based on a definition of "cycle
+     * incident to a node" that includes zero-length cycles. This matches the behavior of the
+     * now-deprecated {@link #transitiveClosure(Graph)} method.
+     */
+    ADD_SELF_LOOPS_ALWAYS,
+    /**
+     * Add a self-loop to each node that is incident to a cycle of length one or greater in the
+     * original graph.
+     */
+    ADD_SELF_LOOPS_FOR_CYCLES
   }
 
   /**
@@ -327,7 +366,7 @@ public final class Graphs extends GraphsBridgeMethods {
 
     @Override
     public Set<EndpointPair<N>> incidentEdges(N node) {
-      return new IncidentEdgeSet<N>(this, node) {
+      return new IncidentEdgeSet<N>(this, node, IncidentEdgeSet.EdgeType.BOTH) {
         @Override
         public Iterator<EndpointPair<N>> iterator() {
           return Iterators.transform(

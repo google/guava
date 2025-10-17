@@ -473,7 +473,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
                 (Entry<K, V>[]) entries, // Entries up to size are not null
                 0,
                 size,
-                Ordering.from(valueComparator).onResultOf(Maps.valueFunction()));
+                Ordering.from(valueComparator).onResultOf(Entry::getValue));
           }
           entriesUsed = true;
           return RegularImmutableBiMap.fromEntryArray(size, entries);

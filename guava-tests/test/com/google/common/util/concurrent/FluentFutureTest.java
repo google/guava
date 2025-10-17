@@ -45,12 +45,12 @@ import org.jspecify.annotations.NullMarked;
 public class FluentFutureTest extends TestCase {
   @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
   public void testFromFluentFuture() {
-    FluentFuture<String> f = FluentFuture.from(SettableFuture.<String>create());
+    FluentFuture<String> f = FluentFuture.from(SettableFuture.create());
     assertThat(FluentFuture.from(f)).isSameInstanceAs(f);
   }
 
   public void testFromFluentFuturePassingAsNonFluent() {
-    ListenableFuture<String> f = FluentFuture.from(SettableFuture.<String>create());
+    ListenableFuture<String> f = FluentFuture.from(SettableFuture.create());
     assertThat(FluentFuture.from(f)).isSameInstanceAs(f);
   }
 
@@ -105,7 +105,7 @@ public class FluentFutureTest extends TestCase {
                 new AsyncFunction<Throwable, Class<?>>() {
                   @Override
                   public ListenableFuture<Class<?>> apply(Throwable input) {
-                    return Futures.<Class<?>>immediateFuture(input.getClass());
+                    return immediateFuture(input.getClass());
                   }
                 },
                 directExecutor());

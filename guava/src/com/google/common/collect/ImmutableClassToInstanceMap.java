@@ -43,7 +43,7 @@ public final class ImmutableClassToInstanceMap<B>
     implements ClassToInstanceMap<B>, Serializable {
 
   private static final ImmutableClassToInstanceMap<Object> EMPTY =
-      new ImmutableClassToInstanceMap<>(ImmutableMap.<Class<?>, Object>of());
+      new ImmutableClassToInstanceMap<>(ImmutableMap.of());
 
   /**
    * Returns an empty {@code ImmutableClassToInstanceMap}.
@@ -63,8 +63,7 @@ public final class ImmutableClassToInstanceMap<B>
    * @since 19.0
    */
   public static <B, T extends B> ImmutableClassToInstanceMap<B> of(Class<T> type, T value) {
-    ImmutableMap<Class<? extends B>, B> map = ImmutableMap.<Class<? extends B>, B>of(type, value);
-    return new ImmutableClassToInstanceMap<>(map);
+    return new ImmutableClassToInstanceMap<>(ImmutableMap.of(type, value));
   }
 
   /**

@@ -35,7 +35,6 @@ public class ImmutableValueGraphTest {
     ImmutableValueGraph<String, Integer> immutableValueGraph =
         ImmutableValueGraph.copyOf(mutableValueGraph);
 
-    assertThat(immutableValueGraph.asGraph()).isInstanceOf(ImmutableGraph.class);
     assertThat(immutableValueGraph).isNotInstanceOf(MutableValueGraph.class);
     assertThat(immutableValueGraph).isEqualTo(mutableValueGraph);
 

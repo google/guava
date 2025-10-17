@@ -16,6 +16,7 @@
 
 package com.google.common.cache;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 
 import com.google.common.collect.ImmutableList;
@@ -77,17 +78,17 @@ public class CacheLoaderTest extends TestCase {
           }
         };
 
-    assertEquals(0, loadCount.get());
-    assertEquals(0, reloadCount.get());
-    assertEquals(0, loadAllCount.get());
+    assertThat(loadCount.get()).isEqualTo(0);
+    assertThat(reloadCount.get()).isEqualTo(0);
+    assertThat(loadAllCount.get()).isEqualTo(0);
 
     Object unused1 = baseLoader.load(new Object());
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError = baseLoader.reload(new Object(), new Object());
     Map<Object, Object> unused2 = baseLoader.loadAll(ImmutableList.of(new Object()));
-    assertEquals(1, loadCount.get());
-    assertEquals(1, reloadCount.get());
-    assertEquals(1, loadAllCount.get());
+    assertThat(loadCount.get()).isEqualTo(1);
+    assertThat(reloadCount.get()).isEqualTo(1);
+    assertThat(loadAllCount.get()).isEqualTo(1);
 
     QueuingExecutor executor = new QueuingExecutor();
     CacheLoader<Object, Object> asyncReloader = CacheLoader.asyncReloading(baseLoader, executor);
@@ -96,13 +97,13 @@ public class CacheLoaderTest extends TestCase {
     @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
     Future<?> possiblyIgnoredError1 = asyncReloader.reload(new Object(), new Object());
     Map<Object, Object> unused4 = asyncReloader.loadAll(ImmutableList.of(new Object()));
-    assertEquals(2, loadCount.get());
-    assertEquals(1, reloadCount.get());
-    assertEquals(2, loadAllCount.get());
+    assertThat(loadCount.get()).isEqualTo(2);
+    assertThat(reloadCount.get()).isEqualTo(1);
+    assertThat(loadAllCount.get()).isEqualTo(2);
 
     executor.runNext();
-    assertEquals(2, loadCount.get());
-    assertEquals(2, reloadCount.get());
-    assertEquals(2, loadAllCount.get());
+    assertThat(loadCount.get()).isEqualTo(2);
+    assertThat(reloadCount.get()).isEqualTo(2);
+    assertThat(loadAllCount.get()).isEqualTo(2);
   }
 }

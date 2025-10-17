@@ -58,6 +58,17 @@ public final class ValueGraphTest {
     assertThat(graph.isDirected()).isEqualTo(asGraph.isDirected());
     assertThat(graph.allowsSelfLoops()).isEqualTo(asGraph.allowsSelfLoops());
 
+    Network<Integer, EndpointPair<Integer>> asNetwork = graph.asNetwork();
+    AbstractNetworkTest.validateNetwork(asNetwork);
+    assertThat(graph.nodes()).isEqualTo(asNetwork.nodes());
+    assertThat(graph.edges()).hasSize(asNetwork.edges().size());
+    assertThat(graph.nodeOrder()).isEqualTo(asNetwork.nodeOrder());
+    assertThat(graph.isDirected()).isEqualTo(asNetwork.isDirected());
+    assertThat(graph.allowsSelfLoops()).isEqualTo(asNetwork.allowsSelfLoops());
+    assertThat(asNetwork.edgeOrder()).isEqualTo(ElementOrder.unordered());
+    assertThat(asNetwork.allowsParallelEdges()).isFalse();
+    assertThat(asNetwork.asGraph()).isEqualTo(graph.asGraph());
+
     for (Integer node : graph.nodes()) {
       assertThat(graph.adjacentNodes(node)).isEqualTo(asGraph.adjacentNodes(node));
       assertThat(graph.predecessors(node)).isEqualTo(asGraph.predecessors(node));
@@ -417,8 +428,8 @@ public final class ValueGraphTest {
     assertThat(graph.edgeValueOrDefault(2, 1, DEFAULT)).isEqualTo("valueB");
     assertThat(graph.edgeValueOrDefault(1, 2, null)).isEqualTo("valueA");
     assertThat(graph.edgeValueOrDefault(2, 1, null)).isEqualTo("valueB");
-    assertThat(graph.edgeValue(1, 2).get()).isEqualTo("valueA");
-    assertThat(graph.edgeValue(2, 1).get()).isEqualTo("valueB");
+    assertThat(graph.edgeValue(1, 2)).hasValue("valueA");
+    assertThat(graph.edgeValue(2, 1)).hasValue("valueB");
 
     graph.removeEdge(1, 2);
     graph.putEdgeValue(2, 1, "valueC");
@@ -428,7 +439,7 @@ public final class ValueGraphTest {
     assertThat(graph.edgeValueOrDefault(1, 2, null)).isNull();
     assertThat(graph.edgeValueOrDefault(2, 1, null)).isEqualTo("valueC");
     assertThat(graph.edgeValue(1, 2).orElse(null)).isNull();
-    assertThat(graph.edgeValue(2, 1).get()).isEqualTo("valueC");
+    assertThat(graph.edgeValue(2, 1)).hasValue("valueC");
   }
 
   @Test

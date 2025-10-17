@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableList.asImmutableList;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -40,7 +42,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet.CachingAsList<Ent
     private final transient ImmutableList<Entry<K, V>> entries;
 
     RegularEntrySet(ImmutableMap<K, V> map, Entry<K, V>[] entries) {
-      this(map, ImmutableList.<Entry<K, V>>asImmutableList(entries));
+      this(map, asImmutableList(entries));
     }
 
     RegularEntrySet(ImmutableMap<K, V> map, ImmutableList<Entry<K, V>> entries) {

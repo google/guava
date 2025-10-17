@@ -21,7 +21,7 @@
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
-      <version>3.0.2</version>
+      <version>${jsr305.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -41,7 +41,7 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <!-- *not* <scope>test</scope>; <scope>compile</scope> is right so that guava-testlib users get junit transitively. -->
-      <version>4.13.2</version>
+      <version>${junit.version}</version>
     </dependency>
     <dependency>
       <!--

@@ -66,10 +66,10 @@ public class CacheReferencesTest extends TestCase {
       // maintain strong refs so these won't be collected, regardless of cache's key/value strength
       Key key = new Key(1);
       String value = key.toString();
-      assertSame(value, cache.getUnchecked(key));
-      assertTrue(cache.asMap().containsKey(key));
-      assertTrue(cache.asMap().containsValue(value));
-      assertEquals(1, cache.size());
+      assertThat(cache.getUnchecked(key)).isSameInstanceAs(value);
+      assertThat(cache.asMap().containsKey(key)).isTrue();
+      assertThat(cache.asMap().containsValue(value)).isTrue();
+      assertThat(cache.size()).isEqualTo(1);
     }
   }
 
@@ -77,13 +77,13 @@ public class CacheReferencesTest extends TestCase {
     for (LoadingCache<Key, String> cache : caches()) {
       Key key = new Key(1);
       String value = key.toString();
-      assertSame(value, cache.getUnchecked(key));
-      assertFalse(cache.asMap().isEmpty());
+      assertThat(cache.getUnchecked(key)).isSameInstanceAs(value);
+      assertThat(cache.asMap().isEmpty()).isFalse();
       cache.invalidateAll();
-      assertEquals(0, cache.size());
-      assertTrue(cache.asMap().isEmpty());
-      assertFalse(cache.asMap().containsKey(key));
-      assertFalse(cache.asMap().containsValue(value));
+      assertThat(cache.size()).isEqualTo(0);
+      assertThat(cache.asMap().isEmpty()).isTrue();
+      assertThat(cache.asMap().containsKey(key)).isFalse();
+      assertThat(cache.asMap().containsValue(value)).isFalse();
     }
   }
 
@@ -93,13 +93,12 @@ public class CacheReferencesTest extends TestCase {
       String value1 = key1.toString();
       Key key2 = new Key(2);
       String value2 = key2.toString();
-      assertSame(value1, cache.getUnchecked(key1));
-      assertSame(value2, cache.getUnchecked(key2));
-      assertEquals(ImmutableSet.of(key1, key2), cache.asMap().keySet());
+      assertThat(cache.getUnchecked(key1)).isSameInstanceAs(value1);
+      assertThat(cache.getUnchecked(key2)).isSameInstanceAs(value2);
+      assertThat(cache.asMap().keySet()).isEqualTo(ImmutableSet.of(key1, key2));
       assertThat(cache.asMap().values()).containsExactly(value1, value2);
-      assertEquals(
-          ImmutableSet.of(immutableEntry(key1, value1), immutableEntry(key2, value2)),
-          cache.asMap().entrySet());
+      assertThat(cache.asMap().entrySet())
+          .containsExactly(immutableEntry(key1, value1), immutableEntry(key2, value2));
     }
   }
 
@@ -109,15 +108,15 @@ public class CacheReferencesTest extends TestCase {
       String value1 = key1.toString();
       Key key2 = new Key(2);
       String value2 = key2.toString();
-      assertSame(value1, cache.getUnchecked(key1));
-      assertSame(value2, cache.getUnchecked(key2));
+      assertThat(cache.getUnchecked(key1)).isSameInstanceAs(value1);
+      assertThat(cache.getUnchecked(key2)).isSameInstanceAs(value2);
       cache.invalidate(key1);
-      assertFalse(cache.asMap().containsKey(key1));
-      assertTrue(cache.asMap().containsKey(key2));
-      assertEquals(1, cache.size());
-      assertEquals(ImmutableSet.of(key2), cache.asMap().keySet());
+      assertThat(cache.asMap().containsKey(key1)).isFalse();
+      assertThat(cache.asMap().containsKey(key2)).isTrue();
+      assertThat(cache.size()).isEqualTo(1);
+      assertThat(cache.asMap().keySet()).isEqualTo(ImmutableSet.of(key2));
       assertThat(cache.asMap().values()).contains(value2);
-      assertEquals(ImmutableSet.of(immutableEntry(key2, value2)), cache.asMap().entrySet());
+      assertThat(cache.asMap().entrySet()).containsExactly(immutableEntry(key2, value2));
     }
   }
 

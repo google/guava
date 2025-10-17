@@ -86,8 +86,8 @@ public class OrderingTest extends TestCase {
     Ordering<@Nullable Iterable<@Nullable Integer>> example =
         Ordering.<Integer>natural()
             .<Integer>nullsFirst()
-            .reverse()
-            .lexicographical()
+            .<@Nullable Integer>reverse()
+            .<@Nullable Integer>lexicographical()
             .reverse()
             .<Iterable<@Nullable Integer>>nullsLast();
     List<@Nullable Integer> list1 = new ArrayList<>();

@@ -93,8 +93,9 @@ import org.jspecify.annotations.Nullable;
  *   <li>least-recently-used eviction when a maximum size is exceeded (note that the cache is
  *       divided into segments, each of which does LRU internally)
  *   <li>time-based expiration of entries, measured since last access or last write
- *   <li>keys automatically wrapped in {@code WeakReference}
- *   <li>values automatically wrapped in {@code WeakReference} or {@code SoftReference}
+ *   <li>keys automatically wrapped in {@linkplain WeakReference weak} references
+ *   <li>values automatically wrapped in {@linkplain WeakReference weak} or {@linkplain
+ *       SoftReference soft} references
  *   <li>notification of evicted (or otherwise removed) entries
  *   <li>accumulation of cache access statistics
  * </ul>
@@ -749,8 +750,9 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if {@link #expireAfterWrite} was already set
+   * @deprecated Use {@link #expireAfterWrite(Duration)} instead.
    */
-  @SuppressWarnings("GoodTime") // should accept a Duration
+  @Deprecated // GoodTime
   @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterWrite(long duration, TimeUnit unit) {
     checkState(
@@ -827,8 +829,9 @@ public final class CacheBuilder<K, V> {
    * @return this {@code CacheBuilder} instance (for chaining)
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if {@link #expireAfterAccess} was already set
+   * @deprecated Use {@link #expireAfterAccess(Duration)} instead.
    */
-  @SuppressWarnings("GoodTime") // should accept a Duration
+  @Deprecated // GoodTime
   @CanIgnoreReturnValue
   public CacheBuilder<K, V> expireAfterAccess(long duration, TimeUnit unit) {
     checkState(
@@ -912,9 +915,10 @@ public final class CacheBuilder<K, V> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if {@link #refreshAfterWrite} was already set
    * @since 11.0
+   * @deprecated Use {@link #refreshAfterWrite(Duration)} instead.
    */
   @GwtIncompatible // To be supported (synchronously).
-  @SuppressWarnings("GoodTime") // should accept a Duration
+  @Deprecated // GoodTime
   @CanIgnoreReturnValue
   public CacheBuilder<K, V> refreshAfterWrite(long duration, TimeUnit unit) {
     checkNotNull(unit);

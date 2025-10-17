@@ -15,6 +15,7 @@
  */
 package com.google.common.collect;
 
+import static com.google.common.collect.ImmutableList.asImmutableList;
 import static com.google.common.collect.Maps.immutableEntry;
 import static java.util.Objects.requireNonNull;
 
@@ -47,7 +48,7 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
         throw conflictException("value", oldKey + "=" + e.getValue(), entryArray[i]);
       }
     }
-    ImmutableList<Entry<K, V>> entryList = ImmutableList.asImmutableList(entryArray, n);
+    ImmutableList<Entry<K, V>> entryList = asImmutableList(entryArray, n);
     return new JdkBackedImmutableBiMap<>(
         entryList, forwardDelegate, backwardDelegate, /* inverse= */ null);
   }

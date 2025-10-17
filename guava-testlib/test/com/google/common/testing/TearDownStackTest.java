@@ -16,7 +16,9 @@
 
 package com.google.common.testing;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
@@ -87,11 +89,11 @@ public class TearDownStackTest extends TestCase {
     try {
       stack.runTearDown();
       fail("runTearDown should have thrown an exception");
-    } catch (ClusterException expected) {
-      assertThat(expected).hasCauseThat().hasMessageThat().isEqualTo("two");
-    } catch (RuntimeException e) {
-      throw new RuntimeException(
-          "A ClusterException should have been thrown, rather than a " + e.getClass().getName(), e);
+    } catch (RuntimeException expected) {
+      assertThat(expected).hasMessageThat().isEqualTo("two");
+      assertThat(getOnlyElement(asList(expected.getSuppressed())))
+          .hasMessageThat()
+          .isEqualTo("one");
     }
 
     assertEquals(true, tearDownOne.ran);

@@ -131,7 +131,7 @@ public final class EnumHashBiMap<K extends Enum<K>, V extends @Nullable Object>
      * the number of entries in the map, as that makes it easy for hostile inputs to trigger lots of
      * allocation—not that any program should be deserializing hostile inputs to begin with!)
      */
-    setDelegates(new EnumMap<K, V>(keyTypeOrObjectUnderJ2cl), new HashMap<V, K>());
+    setDelegates(new EnumMap<>(keyTypeOrObjectUnderJ2cl), new HashMap<>());
     Serialization.populateMap(this, stream);
   }
 

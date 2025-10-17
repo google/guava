@@ -42,7 +42,7 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings({"serial", "rawtypes"})
 final class RegularImmutableSortedSet<E> extends ImmutableSortedSet<E> {
   static final RegularImmutableSortedSet<Comparable> NATURAL_EMPTY_SET =
-      new RegularImmutableSortedSet<>(ImmutableList.<Comparable>of(), Ordering.natural());
+      new RegularImmutableSortedSet<>(ImmutableList.of(), Ordering.natural());
 
   private final transient ImmutableList<E> elements;
 

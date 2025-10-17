@@ -53,7 +53,7 @@ public abstract class AbstractCollectionTestSuiteBuilder<
   @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
-    return Arrays.<Class<? extends AbstractTester>>asList(
+    return Arrays.asList(
         CollectionAddAllTester.class,
         CollectionAddTester.class,
         CollectionClearTester.class,

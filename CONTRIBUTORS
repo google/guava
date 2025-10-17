@@ -1,1 +1,27 @@
-Doug Lea
+Guava has mostly not used the CONTRIBUTORS file, instead relying on Git
+history. You can see a summary of contributions at
+https://github.com/google/guava/graphs/contributors. However, Git history
+over-counts some people's contributions because they were responsible for
+mirroring out changes from our internal repo.
+
+This files serves mainly to credit people who have not received proper credit
+in the Git history.
+
+Doug Lea, author of some concurrency libraries
+
+Joshua O'Madadhain (@jrtom), author of some common.graph commits beyond those
+that are already attributed to him in the Git history:
+https://github.com/google/guava/commit/909c593c61a656c2d70f0f9bd1cb0e5cdf43a556
+https://github.com/google/guava/commit/d333afeffe474c9d93ec13cb92c59f469986edaf
+https://github.com/google/guava/commit/a56d68aef71375acf39fcfb1cd535f2afcab4389
+https://github.com/google/guava/commit/2e13df25b2e7c3d59e29cc238b10541139fd2509
+https://github.com/google/guava/commit/f827e52534ba44f6796b1c0e69313c757bc0701e
+https://github.com/google/guava/commit/6a5ca217af46eff28bd9703aeba62f57c5a3693a
+https://github.com/google/guava/commit/91fee0605ca75cf4f7d0b07ea3068f8beaedda46
+https://github.com/google/guava/commit/8dca77634125cbaf53365000d1c9f7fb32f6dcea
+https://github.com/google/guava/commit/dd5f97bf678b13564ffa1b4a45e00284fb24f178
+https://github.com/google/guava/commit/d812e15c120fea9c7cf9cd33be21c9cd0e424f81
+https://github.com/google/guava/commit/0a30cc3551bfcfc44c08e7358226d53e215519f7
+https://github.com/google/guava/commit/76260d9b3c6acbabf9a8ddae11d4fff3985b6272
+https://github.com/google/guava/commit/9303eb2115f3be584c1efba78b39055f098be0f8
+https://github.com/google/guava/commit/b0be21d46c1312bce1947ad6b6db33ab386dbeaf

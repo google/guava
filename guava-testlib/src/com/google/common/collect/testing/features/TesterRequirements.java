@@ -46,7 +46,7 @@ public final class TesterRequirements {
   }
 
   public TesterRequirements() {
-    this(Collections.<Feature<?>>emptySet(), Collections.<Feature<?>>emptySet());
+    this(Collections.emptySet(), Collections.emptySet());
   }
 
   public final Set<Feature<?>> getPresentFeatures() {

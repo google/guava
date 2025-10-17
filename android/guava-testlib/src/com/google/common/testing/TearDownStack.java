@@ -17,6 +17,7 @@
 package com.google.common.testing;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Throwables.throwIfUnchecked;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -66,7 +67,7 @@ public class TearDownStack implements TearDownAccepter {
 
   /** Causes teardown to execute. */
   public final void runTearDown() {
-    List<Throwable> exceptions = new ArrayList<>();
+    Throwable exception = null;
     List<TearDown> stackCopy;
     synchronized (lock) {
       stackCopy = new ArrayList<>(stack);
@@ -79,12 +80,17 @@ public class TearDownStack implements TearDownAccepter {
         if (suppressThrows) {
           logger.log(Level.INFO, "exception thrown during tearDown", t);
         } else {
-          exceptions.add(t);
+          if (exception == null) {
+            exception = t;
+          } else {
+            exception.addSuppressed(t);
+          }
         }
       }
     }
-    if (!suppressThrows && (exceptions.size() > 0)) {
-      throw ClusterException.create(exceptions);
+    if (exception != null) {
+      throwIfUnchecked(exception);
+      throw new RuntimeException("failure during tearDown", exception);
     }
   }
 }

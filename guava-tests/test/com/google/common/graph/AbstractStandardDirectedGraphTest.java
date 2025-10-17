@@ -20,7 +20,6 @@ import static com.google.common.graph.GraphConstants.ENDPOINTS_MISMATCH;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.TruthJUnit.assume;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.assertTrue;
 
 import java.util.Set;
 import org.jspecify.annotations.NullUnmarked;
@@ -149,6 +148,17 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
     putEdge(N1, N2);
     assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(N1, N2))).isFalse();
     assertThat(graph.hasEdgeConnecting(EndpointPair.unordered(N2, N1))).isFalse();
+  }
+
+  @Test
+  public void hasEdgeConnecting_missingNode() {
+    // both nodes missing
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(NODE_NOT_IN_GRAPH, NODE_NOT_IN_GRAPH)))
+        .isFalse();
+
+    // one node present, the other missing
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(NODE_NOT_IN_GRAPH, N4))).isFalse();
+    assertThat(graph.hasEdgeConnecting(EndpointPair.ordered(N4, NODE_NOT_IN_GRAPH))).isFalse();
   }
 
   @Test
@@ -362,9 +372,9 @@ public abstract class AbstractStandardDirectedGraphTest extends AbstractGraphTes
     assume().that(graphIsMutable()).isTrue();
 
     graphAsMutableGraph.addNode(N1);
-    assertTrue(graphAsMutableGraph.putEdge(N1, N5));
-    assertTrue(graphAsMutableGraph.putEdge(N4, N1));
-    assertTrue(graphAsMutableGraph.putEdge(N2, N3));
+    assertThat(graphAsMutableGraph.putEdge(N1, N5)).isTrue();
+    assertThat(graphAsMutableGraph.putEdge(N4, N1)).isTrue();
+    assertThat(graphAsMutableGraph.putEdge(N2, N3)).isTrue();
     assertThat(graph.nodes()).containsExactly(N1, N5, N4, N2, N3).inOrder();
     assertThat(graph.successors(N1)).containsExactly(N5);
     assertThat(graph.successors(N2)).containsExactly(N3);

@@ -68,7 +68,7 @@ public class PeekingIteratorTest extends TestCase {
       // make copy from master to verify later
       targetList = Lists.newArrayList(master);
       Iterator<T> iterator = targetList.iterator();
-      return Iterators.peekingIterator(iterator);
+      return peekingIterator(iterator);
     }
 
     @Override
@@ -88,7 +88,7 @@ public class PeekingIteratorTest extends TestCase {
       @Override
       protected Iterator<T> newTargetIterator() {
         Iterator<T> iterator = unmodifiableList(list).iterator();
-        return Iterators.peekingIterator(iterator);
+        return peekingIterator(iterator);
       }
     }.test();
   }
@@ -115,7 +115,7 @@ public class PeekingIteratorTest extends TestCase {
   public void testPeekOnEmptyList() {
     List<?> list = emptyList();
     Iterator<?> iterator = list.iterator();
-    PeekingIterator<?> peekingIterator = Iterators.peekingIterator(iterator);
+    PeekingIterator<?> peekingIterator = peekingIterator(iterator);
 
     assertThrows(NoSuchElementException.class, () -> peekingIterator.peek());
   }
@@ -123,7 +123,7 @@ public class PeekingIteratorTest extends TestCase {
   public void testPeekDoesntChangeIteration() {
     List<?> list = Lists.newArrayList("A", "B", "C");
     Iterator<?> iterator = list.iterator();
-    PeekingIterator<?> peekingIterator = Iterators.peekingIterator(iterator);
+    PeekingIterator<?> peekingIterator = peekingIterator(iterator);
 
     assertEquals("Should be able to peek() at first element", "A", peekingIterator.peek());
     assertEquals(
@@ -151,7 +151,7 @@ public class PeekingIteratorTest extends TestCase {
   public void testCantRemoveAfterPeek() {
     List<String> list = Lists.newArrayList("A", "B", "C");
     Iterator<String> iterator = list.iterator();
-    PeekingIterator<?> peekingIterator = Iterators.peekingIterator(iterator);
+    PeekingIterator<?> peekingIterator = peekingIterator(iterator);
 
     assertEquals("A", peekingIterator.next());
     assertEquals("B", peekingIterator.peek());

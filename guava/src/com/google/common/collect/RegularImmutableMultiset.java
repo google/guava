@@ -15,6 +15,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.asImmutableList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -79,7 +80,7 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     }
 
     return hashFloodingDetected(hashTable)
-        ? JdkBackedImmutableMultiset.create(ImmutableList.asImmutableList(entryArray))
+        ? JdkBackedImmutableMultiset.create(asImmutableList(entryArray))
         : new RegularImmutableMultiset<E>(
             entryArray, hashTable, Ints.saturatedCast(size), hashCode, null);
   }

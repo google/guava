@@ -356,7 +356,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   }
 
   private ImmutableSet<Entry<E>> createEntrySet() {
-    return isEmpty() ? ImmutableSet.<Entry<E>>of() : new EntrySet();
+    return isEmpty() ? ImmutableSet.of() : new EntrySet();
   }
 
   abstract Entry<E> getEntry(int index);

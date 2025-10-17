@@ -61,7 +61,7 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
         copyToList(
             getSubjectGenerator()
                 .getSampleElements(getSubjectGenerator().getCollectionSize().getNumElements()));
-    sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
+    sort(entries, Helpers.entryComparator(navigableMap.comparator()));
 
     // some tests assume SEVERAL == 3
     if (entries.size() >= 1) {
@@ -117,7 +117,7 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
         copyToList(
             getSubjectGenerator()
                 .getSampleElements(getSubjectGenerator().getCollectionSize().getNumElements()));
-    sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
+    sort(entries, Helpers.entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       assertEqualInOrder(
           entries.subList(0, i), navigableMap.headMap(entries.get(i).getKey()).entrySet());
@@ -129,7 +129,7 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
         copyToList(
             getSubjectGenerator()
                 .getSampleElements(getSubjectGenerator().getCollectionSize().getNumElements()));
-    sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
+    sort(entries, Helpers.entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       assertEqualInOrder(
           entries.subList(i, entries.size()),
@@ -142,7 +142,7 @@ public class SortedMapNavigationTester<K, V> extends AbstractMapTester<K, V> {
         copyToList(
             getSubjectGenerator()
                 .getSampleElements(getSubjectGenerator().getCollectionSize().getNumElements()));
-    sort(entries, Helpers.<K, V>entryComparator(navigableMap.comparator()));
+    sort(entries, Helpers.entryComparator(navigableMap.comparator()));
     for (int i = 0; i < entries.size(); i++) {
       for (int j = i + 1; j < entries.size(); j++) {
         assertEqualInOrder(

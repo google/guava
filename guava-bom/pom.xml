@@ -24,17 +24,30 @@
     </license>
   </licenses>
 
+  <developers>
+    <!-- Sonatype requires that we list someone here. Guava has many contributors: https://github.com/google/guava/graphs/contributors -->
+    <developer>
+      <id>cpovirk</id>
+      <name>Chris Povirk</name>
+      <email>cpovirk@google.com</email>
+    </developer>
+  </developers>
+
+  <scm>
+    <connection>scm:git:https://github.com/google/guava.git</connection>
+    <developerConnection>scm:git:git@github.com:google/guava.git</developerConnection>
+    <url>https://github.com/google/guava</url>
+  </scm>
+
   <issueManagement>
     <system>GitHub Issues</system>
     <url>https://github.com/google/guava/issues</url>
   </issueManagement>
 
-  <distributionManagement>
-    <snapshotRepository>
-      <id>sonatype-nexus-snapshots</id>
-      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
-    </snapshotRepository>
-  </distributionManagement>
+  <properties>
+    <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+    <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
+  </properties>
 
   <dependencyManagement>
     <dependencies>
@@ -56,16 +69,34 @@
     </dependencies>
   </dependencyManagement>
 
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.sonatype.central</groupId>
+        <artifactId>central-publishing-maven-plugin</artifactId>
+        <version>${central-publishing-maven-plugin.version}</version>
+        <extensions>true</extensions>
+      </plugin>
+    </plugins>
+  </build>
+
   <profiles>
     <profile>
       <id>sonatype-oss-release</id>
       <build>
         <plugins>
           <plugin>
-            <groupId>org.sonatype.central</groupId>
-            <artifactId>central-publishing-maven-plugin</artifactId>
-            <version>0.8.0</version>
-            <extensions>true</extensions>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${maven-gpg-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
           </plugin>
         </plugins>
       </build>

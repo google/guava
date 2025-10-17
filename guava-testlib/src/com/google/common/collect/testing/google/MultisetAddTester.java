@@ -90,7 +90,7 @@ public class MultisetAddTester<E> extends AbstractMultisetTester<E> {
 
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testAddAll_emptySet() {
-    assertFalse(getMultiset().addAll(Collections.<E>emptySet()));
+    assertFalse(getMultiset().addAll(Collections.emptySet()));
     expectUnchanged();
   }
 

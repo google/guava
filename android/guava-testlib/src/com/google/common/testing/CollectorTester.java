@@ -44,7 +44,7 @@ import org.jspecify.annotations.Nullable;
  * </pre>
  *
  * @author Louis Wasserman
- * @since NEXT (but since 21.0 in the JRE flavor)
+ * @since 33.5.0 (but since 21.0 in the JRE flavor)
  */
 @GwtCompatible
 @NullMarked

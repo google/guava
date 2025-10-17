@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.ImmutableList.asImmutableList;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
 import static java.lang.System.arraycopy;
 import static java.util.Arrays.sort;
@@ -381,8 +382,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
       }
     }
     Arrays.fill(contents, uniques, n, null);
-    return new RegularImmutableSortedSet<>(
-        ImmutableList.<E>asImmutableList(contents, uniques), comparator);
+    return new RegularImmutableSortedSet<>(asImmutableList(contents, uniques), comparator);
   }
 
   /**
@@ -590,8 +590,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
         return emptySet(comparator);
       } else {
         forceCopy = true;
-        return new RegularImmutableSortedSet<>(
-            ImmutableList.asImmutableList(elements, n), comparator);
+        return new RegularImmutableSortedSet<>(asImmutableList(elements, n), comparator);
       }
     }
   }

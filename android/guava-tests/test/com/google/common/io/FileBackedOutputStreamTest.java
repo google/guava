@@ -16,7 +16,6 @@
 
 package com.google.common.io;
 
-import static com.google.common.base.StandardSystemProperty.JAVA_IO_TMPDIR;
 import static com.google.common.base.StandardSystemProperty.OS_NAME;
 import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.min;
@@ -73,10 +72,6 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
     // Write data to go over the threshold
     if (chunk2 > 0) {
-      if (JAVA_IO_TMPDIR.value().equals("/sdcard")) {
-        assertThrows(IOException.class, () -> write(out, data, chunk1, chunk2, singleByte));
-        return;
-      }
       write(out, data, chunk1, chunk2, singleByte);
       file = out.getFile();
       assertEquals(dataSize, file.length());
@@ -132,10 +127,6 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     FileBackedOutputStream out = new FileBackedOutputStream(50);
     ByteSource source = out.asByteSource();
 
-    if (JAVA_IO_TMPDIR.value().equals("/sdcard")) {
-      assertThrows(IOException.class, () -> out.write(data));
-      return;
-    }
     out.write(data);
     assertTrue(Arrays.equals(data, source.read()));
 

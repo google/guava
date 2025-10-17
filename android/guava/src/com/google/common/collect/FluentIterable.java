@@ -77,8 +77,11 @@ import org.jspecify.annotations.Nullable;
  *       noted in the method descriptions below.
  *   <li>Streams include primitive-specialized variants such as {@code IntStream}, the use of which
  *       is strongly recommended.
- *   <li>Streams are standard Java, not requiring a third-party dependency (but do render your code
- *       incompatible with Java 7 and earlier).
+ *   <li>Streams are standard Java, not requiring a third-party dependency (but requiring <a
+ *       href="https://developer.android.com/studio/write/java8-support#library-desugaring">library
+ *       desugaring</a> or <a
+ *       href="https://developer.android.com/reference/java/util/stream/Stream">API Level 24</a>
+ *       under Android).
  * </ul>
  *
  * <h3>Example</h3>
@@ -137,8 +140,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * Returns a fluent iterable that wraps {@code iterable}, or {@code iterable} itself if it is
    * already a {@code FluentIterable}.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code iterable.stream()} if {@code iterable} is a {@link
-   * Collection}; {@code StreamSupport.stream(iterable.spliterator(), false)} otherwise.
+   * <p><b>{@code Stream} equivalent:</b> {@link Collection#stream} if {@code iterable} is a {@link
+   * Collection}; {@link Streams#stream(Iterable)} otherwise.
    */
   public static <E extends @Nullable Object> FluentIterable<E> from(Iterable<E> iterable) {
     return (iterable instanceof FluentIterable)
@@ -308,13 +311,13 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
   /**
    * Returns a fluent iterable containing no elements.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code Stream.empty()}.
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#empty}.
    *
    * @since 20.0
    */
   @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   public static <E extends @Nullable Object> FluentIterable<E> of() {
-    return FluentIterable.from(Collections.<E>emptyList());
+    return FluentIterable.from(Collections.emptyList());
   }
 
   /**
@@ -345,7 +348,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
   /**
    * Returns the number of elements in this fluent iterable.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code stream.count()}.
+   * <p><b>{@code Stream} equivalent:</b> {@link Stream#count}.
    */
   public final int size() {
     return Iterables.size(getDelegate());
@@ -614,8 +617,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * Returns an {@code ImmutableList} containing all of the elements from this fluent iterable in
    * proper sequence.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableList.copyOf(stream.iterator())}, or pass
-   * {@link ImmutableList#toImmutableList} to {@code stream.collect()}.
+   * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableList#toImmutableList} to {@code
+   * stream.collect()}.
    *
    * @throws NullPointerException if any element is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableList()}).
@@ -630,9 +633,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * FluentIterable} in the order specified by {@code comparator}. To produce an {@code
    * ImmutableList} sorted by its natural ordering, use {@code toSortedList(Ordering.natural())}.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code
-   * ImmutableList.copyOf(stream.sorted(comparator).iterator())}, or pass {@link
-   * ImmutableList#toImmutableList} to {@code stream.sorted(comparator).collect()}.
+   * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableList#toImmutableList} to {@code
+   * stream.sorted(comparator).collect()}.
    *
    * @param comparator the function by which to sort list elements
    * @throws NullPointerException if any element of this iterable is {@code null}
@@ -647,8 +649,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * Returns an {@code ImmutableSet} containing all of the elements from this fluent iterable with
    * duplicates removed.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableSet.copyOf(stream.iterator())}, or pass
-   * {@link ImmutableSet#toImmutableSet} to {@code stream.collect()}.
+   * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableSet#toImmutableSet} to {@code
+   * stream.collect()}.
    *
    * @throws NullPointerException if any element is {@code null}
    * @since 14.0 (since 12.0 as {@code toImmutableSet()}).
@@ -664,9 +666,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * {@code comparator.compare(x, y) == 0}) removed. To produce an {@code ImmutableSortedSet} sorted
    * by its natural ordering, use {@code toSortedSet(Ordering.natural())}.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableSortedSet.copyOf(comparator,
-   * stream.iterator())}, or pass {@link ImmutableSortedSet#toImmutableSortedSet} to {@code
-   * stream.collect()}.
+   * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableSortedSet#toImmutableSortedSet} to
+   * {@code stream.collect()}.
    *
    * @param comparator the function by which to sort set elements
    * @throws NullPointerException if any element of this iterable is {@code null}
@@ -680,8 +681,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
   /**
    * Returns an {@code ImmutableMultiset} containing all of the elements from this fluent iterable.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code ImmutableMultiset.copyOf(stream.iterator())}, or
-   * pass {@link ImmutableMultiset#toImmutableMultiset} to {@code stream.collect()}.
+   * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableMultiset#toImmutableMultiset} to
+   * {@code stream.collect()}.
    *
    * @throws NullPointerException if any element is null
    * @since 19.0
@@ -700,9 +701,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * {@code valueFunction} will be applied to more than one instance of that key and, if it is,
    * which result will be mapped to that key in the returned map.
    *
-   * <p><b>{@code Stream} equivalent:</b> use {@code stream.collect(ImmutableMap.toImmutableMap(k ->
-   * k, valueFunction))}. {@code ImmutableMap.copyOf(stream.collect(Collectors.toMap(k -> k,
-   * valueFunction)))} behaves similarly, but may not preserve the order of entries.
+   * <p><b>{@code Stream} equivalent:</b> {@code stream.collect(ImmutableMap.toImmutableMap(k -> k,
+   * valueFunction))}.
    *
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
    *     valueFunction} produces {@code null} for any key
@@ -722,9 +722,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * In the returned multimap, keys appear in the order they are first encountered, and the values
    * corresponding to each key appear in the same order as they are encountered.
    *
-   * <p><b>{@code Stream} equivalent:</b> {@code stream.collect(Collectors.groupingBy(keyFunction))}
-   * behaves similarly, but returns a mutable {@code Map<K, List<E>>} instead, and may not preserve
-   * the order of entries.
+   * <p><b>{@code Stream} equivalent:</b> {@code
+   * stream.collect(ImmutableListMultimap.toImmutableListMultimap(keyFunction, v -> v))}.
    *
    * @param keyFunction the function used to produce the key for each value
    * @throws NullPointerException if any element of this iterable is {@code null}, or if {@code
@@ -754,10 +753,8 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * <p>If your index may associate multiple values with each key, use {@link #index(Function)
    * index}.
    *
-   * <p><b>{@code Stream} equivalent:</b> use {@code
-   * stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}. {@code
-   * ImmutableMap.copyOf(stream.collect(Collectors.toMap(keyFunction, v -> v)))}, but be aware that
-   * this may not preserve the order of entries.
+   * <p><b>{@code Stream} equivalent:</b> {@code
+   * stream.collect(ImmutableMap.toImmutableMap(keyFunction, v -> v))}.
    *
    * @param keyFunction the function used to produce the key for each value
    * @return a map mapping the result of evaluating the function {@code keyFunction} on each value

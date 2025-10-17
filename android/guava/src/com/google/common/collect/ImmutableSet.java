@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.ImmutableList.asImmutableList;
 import static com.google.common.collect.ObjectArrays.checkElementNotNull;
 import static java.lang.Math.max;
 import static java.util.Objects.requireNonNull;
@@ -261,11 +262,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
    * @throws NullPointerException if any of {@code elements} is null
    * @since 7.0 (source-compatible since 2.0)
    */
-  // This the best we could do to get copyOfEnumSet to compile in the mainline.
-  // The suppression also covers the cast to E[], discussed below.
-  // In the backport, we don't have those cases and thus don't need this suppression.
-  // We keep it to minimize diffs.
-  @SuppressWarnings("unchecked")
   public static <E> ImmutableSet<E> copyOf(Collection<? extends E> elements) {
     /*
      * TODO(lowasser): consider checking for ImmutableAsList here
@@ -378,7 +374,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   ImmutableList<E> createAsList() {
-    return ImmutableList.asImmutableList(toArray());
+    return asImmutableList(toArray());
   }
 
   /*

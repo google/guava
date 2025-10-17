@@ -10,7 +10,7 @@ val expectedReducedRuntimeClasspathAndroidVersion =
     "failureaccess-1.0.3.jar",
     "j2objc-annotations-3.1.jar",
     "jspecify-1.0.0.jar",
-    "error_prone_annotations-2.41.0.jar",
+    "error_prone_annotations-2.42.0.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedReducedRuntimeClasspathJreVersion =
@@ -19,7 +19,7 @@ val expectedReducedRuntimeClasspathJreVersion =
     "failureaccess-1.0.3.jar",
     "j2objc-annotations-3.1.jar",
     "jspecify-1.0.0.jar",
-    "error_prone_annotations-2.41.0.jar",
+    "error_prone_annotations-2.42.0.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedCompileClasspathAndroidVersion = expectedReducedRuntimeClasspathAndroidVersion

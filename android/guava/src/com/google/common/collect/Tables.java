@@ -667,7 +667,7 @@ public final class Tables {
    * of its collection views:
    *
    * {@snippet :
-   * Table<R, C, V> table = Tables.synchronizedTable(HashBasedTable.<R, C, V>create());
+   * Table<R, C, V> table = Tables.synchronizedTable(HashBasedTable.create());
    * ...
    * Map<C, V> row = table.row(rowKey);  // Needn't be in synchronized block
    * ...

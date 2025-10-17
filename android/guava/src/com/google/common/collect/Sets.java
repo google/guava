@@ -451,7 +451,7 @@ public final class Sets {
    * @since 8.0
    */
   public static <E extends @Nullable Object> Set<E> newIdentityHashSet() {
-    return Collections.newSetFromMap(Maps.<E, Boolean>newIdentityHashMap());
+    return Collections.newSetFromMap(Maps.newIdentityHashMap());
   }
 
   /**
@@ -1766,9 +1766,9 @@ public final class Sets {
     checkNonnegative(size, "size");
     checkArgument(size <= index.size(), "size (%s) must be <= set.size() (%s)", size, index.size());
     if (size == 0) {
-      return ImmutableSet.<Set<E>>of(ImmutableSet.<E>of());
+      return ImmutableSet.of(ImmutableSet.of());
     } else if (size == index.size()) {
-      return ImmutableSet.<Set<E>>of(index.keySet());
+      return ImmutableSet.of(index.keySet());
     }
     return new AbstractSet<Set<E>>() {
       @Override

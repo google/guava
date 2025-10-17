@@ -82,17 +82,8 @@ abstract class TempFileCreator {
       if (version < jellyBean) {
         return new ThrowingCreator();
       }
-
-      // Don't merge these catch() blocks, let alone use ReflectiveOperationException directly:
-      // b/65343391
-    } catch (NoSuchFieldException e) {
-      // The JELLY_BEAN field doesn't exist because we're running on a version before Jelly Bean :)
-      return new ThrowingCreator();
-    } catch (ClassNotFoundException e) {
+    } catch (ReflectiveOperationException e) {
       // Should be impossible, but we want to return *something* so that class init succeeds.
-      return new ThrowingCreator();
-    } catch (IllegalAccessException e) {
-      // ditto
       return new ThrowingCreator();
     }
 
@@ -242,14 +233,7 @@ abstract class TempFileCreator {
       } catch (InvocationTargetException e) {
         throwIfUnchecked(e.getCause()); // in case it's an Error or something
         return fromSystemProperty; // should be impossible
-      } catch (NoSuchMethodException shouldBeImpossible) {
-        return fromSystemProperty;
-      } catch (IllegalAccessException shouldBeImpossible) {
-        /*
-         * We don't merge these into `catch (ReflectiveOperationException ...)` or an equivalent
-         * multicatch because ReflectiveOperationException isn't available under Android:
-         * b/124188803
-         */
+      } catch (NoSuchMethodException | IllegalAccessException shouldBeImpossible) {
         return fromSystemProperty;
       }
     }

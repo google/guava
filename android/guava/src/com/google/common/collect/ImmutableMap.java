@@ -661,8 +661,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         V value = (V) requireNonNull(alternatingKeysAndValues[2 * i + 1]);
         entries[i] = new AbstractMap.SimpleImmutableEntry<Object, V>(key, value);
       }
-      Arrays.sort(
-          entries, 0, size, Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+      Arrays.sort(entries, 0, size, Ordering.from(valueComparator).onResultOf(Entry::getValue));
       for (int i = 0; i < size; i++) {
         alternatingKeysAndValues[2 * i] = entries[i].getKey();
         alternatingKeysAndValues[2 * i + 1] = entries[i].getValue();

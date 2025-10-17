@@ -312,8 +312,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
     private ImmutableMap<K, V> build(boolean throwIfDuplicateKeys) {
       if (valueComparator != null) {
-        Collections.sort(
-            entries, Ordering.from(valueComparator).onResultOf(Maps.<V>valueFunction()));
+        Collections.sort(entries, Ordering.from(valueComparator).onResultOf(Entry::getValue));
       }
       return fromEntryList(throwIfDuplicateKeys, entries);
     }
@@ -381,7 +380,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return of();
       case 1:
         Entry<? extends K, ? extends V> entry = getOnlyElement(map.entrySet());
-        return ImmutableMap.<K, V>of(entry.getKey(), entry.getValue());
+        return ImmutableMap.of(entry.getKey(), entry.getValue());
       default:
         Map<K, V> orderPreservingCopy = Maps.newLinkedHashMap();
         for (Entry<? extends K, ? extends V> e : map.entrySet()) {

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkElementIndex;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.collect.Range.rangeLexOrdering;
 import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -50,7 +51,7 @@ import org.jspecify.annotations.Nullable;
 public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K, V>, Serializable {
 
   private static final ImmutableRangeMap<Comparable<?>, Object> EMPTY =
-      new ImmutableRangeMap<>(ImmutableList.<Range<Comparable<?>>>of(), ImmutableList.of());
+      new ImmutableRangeMap<>(ImmutableList.of(), ImmutableList.of());
 
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code
@@ -293,7 +294,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
       return ImmutableMap.of();
     }
     RegularImmutableSortedSet<Range<K>> rangeSet =
-        new RegularImmutableSortedSet<>(ranges, Range.<K>rangeLexOrdering());
+        new RegularImmutableSortedSet<>(ranges, rangeLexOrdering());
     return new ImmutableSortedMap<>(rangeSet, values);
   }
 

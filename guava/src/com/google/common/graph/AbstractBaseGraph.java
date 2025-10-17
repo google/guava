@@ -108,7 +108,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
     checkNotNull(node);
     checkArgument(nodes().contains(node), "Node %s is not an element of this graph.", node);
     IncidentEdgeSet<N> incident =
-        new IncidentEdgeSet<N>(this, node) {
+        new IncidentEdgeSet<N>(this, node, IncidentEdgeSet.EdgeType.BOTH) {
           @Override
           public UnmodifiableIterator<EndpointPair<N>> iterator() {
             if (graph.isDirected()) {
@@ -170,6 +170,137 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
     N nodeU = endpoints.nodeU();
     N nodeV = endpoints.nodeV();
     return nodes().contains(nodeU) && successors(nodeU).contains(nodeV);
+  }
+
+  @Override
+  public Network<N, EndpointPair<N>> asNetwork() {
+    return new AbstractNetwork<N, EndpointPair<N>>() {
+      @Override
+      public Set<N> nodes() {
+        return AbstractBaseGraph.this.nodes();
+      }
+
+      @Override
+      public Set<EndpointPair<N>> edges() {
+        return AbstractBaseGraph.this.edges();
+      }
+
+      @Override
+      public Graph<N> asGraph() {
+        if (AbstractBaseGraph.this instanceof Graph) {
+          return (Graph<N>) AbstractBaseGraph.this;
+        } else if (AbstractBaseGraph.this instanceof ValueGraph) {
+          return ((ValueGraph<N, ?>) AbstractBaseGraph.this).asGraph();
+        }
+        throw new UnsupportedOperationException(
+            "Unexpected graph type: " + AbstractBaseGraph.this.getClass());
+      }
+
+      @Override
+      public boolean isDirected() {
+        return AbstractBaseGraph.this.isDirected();
+      }
+
+      @Override
+      public boolean allowsParallelEdges() {
+        return false; // Graph doesn't allow parallel edges
+      }
+
+      @Override
+      public boolean allowsSelfLoops() {
+        return AbstractBaseGraph.this.allowsSelfLoops();
+      }
+
+      @Override
+      public ElementOrder<N> nodeOrder() {
+        return AbstractBaseGraph.this.nodeOrder();
+      }
+
+      @Override
+      public ElementOrder<EndpointPair<N>> edgeOrder() {
+        return ElementOrder.unordered(); // Graph doesn't define edge order
+      }
+
+      @Override
+      public Set<N> adjacentNodes(N node) {
+        return AbstractBaseGraph.this.adjacentNodes(node);
+      }
+
+      @Override
+      public Set<N> predecessors(N node) {
+        return AbstractBaseGraph.this.predecessors(node);
+      }
+
+      @Override
+      public Set<N> successors(N node) {
+        return AbstractBaseGraph.this.successors(node);
+      }
+
+      @Override
+      public Set<EndpointPair<N>> incidentEdges(N node) {
+        return AbstractBaseGraph.this.incidentEdges(node);
+      }
+
+      @Override
+      public Set<EndpointPair<N>> inEdges(N node) {
+        checkNotNull(node);
+        checkArgument(nodes().contains(node));
+        IncidentEdgeSet<N> incident =
+            new IncidentEdgeSet<N>(this, node, IncidentEdgeSet.EdgeType.INCOMING) {
+              @Override
+              public UnmodifiableIterator<EndpointPair<N>> iterator() {
+                return Iterators.unmodifiableIterator(
+                    Iterators.transform(
+                        graph.predecessors(node).iterator(),
+                        (N predecessor) ->
+                            graph.isDirected()
+                                ? EndpointPair.ordered(predecessor, node)
+                                : EndpointPair.unordered(predecessor, node)));
+              }
+            };
+        return nodeInvalidatableSet(incident, node);
+      }
+
+      @Override
+      public Set<EndpointPair<N>> outEdges(N node) {
+        checkNotNull(node);
+        checkArgument(nodes().contains(node));
+        IncidentEdgeSet<N> incident =
+            new IncidentEdgeSet<N>(this, node, IncidentEdgeSet.EdgeType.OUTGOING) {
+              @Override
+              public UnmodifiableIterator<EndpointPair<N>> iterator() {
+                return Iterators.unmodifiableIterator(
+                    Iterators.transform(
+                        graph.successors(node).iterator(),
+                        (N successor) ->
+                            graph.isDirected()
+                                ? EndpointPair.ordered(node, successor)
+                                : EndpointPair.unordered(node, successor)));
+              }
+            };
+        return nodeInvalidatableSet(incident, node);
+      }
+
+      @Override
+      public Set<EndpointPair<N>> adjacentEdges(EndpointPair<N> edge) {
+        checkArgument(edges().contains(edge));
+        N nodeU = edge.nodeU();
+        N nodeV = edge.nodeV();
+        Set<EndpointPair<N>> endpointPairIncidentEdges =
+            Sets.union(incidentEdges(nodeU), incidentEdges(nodeV));
+        return nodePairInvalidatableSet(
+            Sets.difference(endpointPairIncidentEdges, ImmutableSet.of(edge)), nodeU, nodeV);
+      }
+
+      @Override
+      public EndpointPair<N> incidentNodes(EndpointPair<N> edge) {
+        checkArgument(edges().contains(edge));
+        return edge;
+      }
+
+      // Don't override the existing edge[s]Connecting() or *degree() AbstractNetwork
+      // implementations; they call in/outEdges() and should be fine.
+    };
   }
 
   /**

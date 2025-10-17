@@ -77,7 +77,7 @@ public class MapTestSuiteBuilder<K, V>
   @SuppressWarnings("rawtypes") // class literals
   @Override
   protected List<Class<? extends AbstractTester>> getTesters() {
-    return Arrays.<Class<? extends AbstractTester>>asList(
+    return Arrays.asList(
         MapClearTester.class,
         MapComputeTester.class,
         MapComputeIfAbsentTester.class,

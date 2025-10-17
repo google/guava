@@ -21,12 +21,12 @@
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>failureaccess</artifactId>
-      <version>1.0.3</version>
+      <version>${failureaccess.version}</version>
     </dependency>
     <dependency>
       <groupId>com.google.guava</groupId>
       <artifactId>listenablefuture</artifactId>
-      <version>9999.0-empty-to-avoid-conflict-with-guava</version>
+      <version>${listenablefuture.version}</version>
     </dependency>
     <dependency>
       <groupId>org.jspecify</groupId>
@@ -67,7 +67,7 @@
         <extensions>true</extensions>
         <groupId>org.apache.felix</groupId>
         <artifactId>maven-bundle-plugin</artifactId>
-        <version>5.1.9</version>
+        <version>${maven-bundle-plugin.version}</version>
         <executions>
           <execution>
             <id>bundle-manifest</id>
@@ -184,7 +184,7 @@
           </tags>
 
           <!-- TODO(cpovirk): Move this to the parent after making the package-list files available there. -->
-          <!-- We add the link ourselves so that we can choose Java 21 over the version that -source suggests. -->
+          <!-- We add the link ourselves so that we can choose Java 25 over the version that -source suggests. -->
           <detectJavaApiLink>false</detectJavaApiLink>
           <offlineLinks>
             <!-- We need local copies of some of these for 2 reasons: a User-Agent problem (https://stackoverflow.com/a/47891403/28465) and an SSL problem (https://issues.apache.org/jira/browse/MJAVADOC-507). If we choose to work around the User-Agent problem, we can go back to <links>, sidestepping the SSL problem. -->
@@ -194,7 +194,7 @@
             </offlineLink>
           </offlineLinks>
           <links>
-            <link>https://docs.oracle.com/en/java/javase/21/docs/api/</link>
+            <link>https://docs.oracle.com/en/java/javase/25/docs/api/</link>
             <link>https://errorprone.info/api/latest/</link>
             <link>https://jspecify.dev/docs/api/</link>
           </links>
