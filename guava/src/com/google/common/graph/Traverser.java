@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.util.Objects.requireNonNull;
 
-import com.google.common.annotations.Beta;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableSet;
 import com.google.errorprone.annotations.DoNotMock;
@@ -60,7 +59,6 @@ import org.jspecify.annotations.Nullable;
  * @param <N> Node parameter type
  * @since 23.1
  */
-@Beta
 @DoNotMock(
     "Call forGraph or forTree, passing a lambda or a Graph with the desired edges (built with"
         + " GraphBuilder)")
