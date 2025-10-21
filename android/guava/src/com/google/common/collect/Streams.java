@@ -531,7 +531,6 @@ public final class Streams {
    * <p>The order of the resulting stream is defined if and only if the order of the original stream
    * was defined.
    */
-  @SuppressWarnings("AndroidJdkLibsChecker") // b/229998664
   public static <R extends @Nullable Object> Stream<R> mapWithIndex(
       IntStream stream, IntFunctionWithIndex<R> function) {
     checkNotNull(stream);
@@ -611,7 +610,6 @@ public final class Streams {
    * <p>The order of the resulting stream is defined if and only if the order of the original stream
    * was defined.
    */
-  @SuppressWarnings("AndroidJdkLibsChecker") // b/229998664
   public static <R extends @Nullable Object> Stream<R> mapWithIndex(
       LongStream stream, LongFunctionWithIndex<R> function) {
     checkNotNull(stream);
@@ -691,7 +689,6 @@ public final class Streams {
    * <p>The order of the resulting stream is defined if and only if the order of the original stream
    * was defined.
    */
-  @SuppressWarnings("AndroidJdkLibsChecker") // b/229998664
   public static <R extends @Nullable Object> Stream<R> mapWithIndex(
       DoubleStream stream, DoubleFunctionWithIndex<R> function) {
     checkNotNull(stream);
