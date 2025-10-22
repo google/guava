@@ -162,4 +162,90 @@ public class FileBackedOutputStreamTest extends IoTestCase {
   private static boolean isWindows() {
     return OS_NAME.value().startsWith("Windows");
   }
+
+  /**
+   * Test that verifies the resource leak fix for Issue #5756.
+   *
+   * This test covers a scenario where we write a smaller amount of data first,
+   * then write a large amount that crosses the threshold (transitioning from
+   * "not at threshold" to "over the threshold"). This differs from the existing
+   * testThreshold() which writes exactly enough bytes to fill the buffer, then
+   * immediately writes more bytes.
+   *
+   * Note: Direct testing of the IOException scenario during write/flush is challenging
+   * without mocking. This test verifies that normal operation with threshold crossing
+   * still works correctly with the fix in place.
+   */
+  public void testThresholdCrossing_ResourceManagement() throws Exception {
+    // Test data that will cross the threshold
+    int threshold = 50;
+    byte[] beforeThreshold = newPreFilledByteArray(40);
+    byte[] afterThreshold = newPreFilledByteArray(30);
+
+    FileBackedOutputStream out = new FileBackedOutputStream(threshold);
+    ByteSource source = out.asByteSource();
+
+    // Write data that doesn't cross threshold
+    out.write(beforeThreshold);
+    assertNull(out.getFile());
+
+    // Write data that crosses threshold - this exercises the fixed code path
+    if (!JAVA_IO_TMPDIR.value().equals("/sdcard")) {
+      out.write(afterThreshold);
+      File file = out.getFile();
+      assertNotNull(file);
+      assertTrue(file.exists());
+
+      // Verify all data was written correctly
+      byte[] expected = new byte[70];
+      System.arraycopy(beforeThreshold, 0, expected, 0, 40);
+      System.arraycopy(afterThreshold, 0, expected, 40, 30);
+      assertTrue(Arrays.equals(expected, source.read()));
+
+      // Clean up
+      out.close();
+      out.reset();
+      assertFalse(file.exists());
+    }
+  }
+
+  /**
+   * Test that verifies writes after crossing the threshold work correctly.
+   *
+   * Once the threshold is crossed, subsequent writes go to the file. This test
+   * ensures that continued writing after the initial threshold crossing works
+   * properly with the resource management fix in place.
+   */
+  public void testWriteAfterThresholdCrossing() throws Exception {
+    // Use a small threshold to force multiple file operations
+    int threshold = 10;
+    FileBackedOutputStream out = new FileBackedOutputStream(threshold);
+    ByteSource source = out.asByteSource();
+
+    // Write data in chunks: first below threshold, then crossing it, then after crossing
+    byte[] chunk1 = newPreFilledByteArray(8);  // Below threshold
+    byte[] chunk2 = newPreFilledByteArray(5);  // Crosses threshold
+    byte[] chunk3 = newPreFilledByteArray(20); // More data to file
+
+    out.write(chunk1);
+    assertNull(out.getFile());
+
+    if (!JAVA_IO_TMPDIR.value().equals("/sdcard")) {
+      out.write(chunk2);
+      File file = out.getFile();
+      assertNotNull(file);
+
+      out.write(chunk3);
+
+      // Verify all data is correct
+      byte[] expected = new byte[33];
+      System.arraycopy(chunk1, 0, expected, 0, 8);
+      System.arraycopy(chunk2, 0, expected, 8, 5);
+      System.arraycopy(chunk3, 0, expected, 13, 20);
+      assertTrue(Arrays.equals(expected, source.read()));
+
+      out.close();
+      out.reset();
+    }
+  }
 }
