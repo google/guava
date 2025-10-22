@@ -56,8 +56,6 @@ public final class Ints extends IntsMethodsForWeb {
    *
    * <p>Prefer {@link Integer#BYTES} instead.
    */
-  // The constants value gets inlined here.
-  @SuppressWarnings("AndroidJdkLibsChecker")
   public static final int BYTES = Integer.BYTES;
 
   /**
