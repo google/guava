@@ -368,7 +368,7 @@ public class MultimapsTest extends TestCase {
     assertEquals(multimap, unmodifiable);
 
     assertThat(unmodifiable.asMap().get("bar")).containsExactly(5, -1);
-    assertNull(unmodifiable.asMap().get("missing"));
+    assertThat(unmodifiable.asMap().get("missing")).isNull();
 
     assertFalse(unmodifiable.entries() instanceof Serializable);
   }
@@ -551,7 +551,7 @@ public class MultimapsTest extends TestCase {
     map.put("bar", 2);
     Map<String, Collection<Integer>> asMap = Multimaps.forMap(map).asMap();
     assertEquals(singleton(1), asMap.get("foo"));
-    assertNull(asMap.get("cow"));
+    assertThat(asMap.get("cow")).isNull();
     assertTrue(asMap.containsKey("foo"));
     assertFalse(asMap.containsKey("cow"));
 

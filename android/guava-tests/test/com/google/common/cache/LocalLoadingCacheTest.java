@@ -139,7 +139,7 @@ public class LocalLoadingCacheTest extends TestCase {
     assertThat(cache.stats()).isEqualTo(EMPTY_STATS);
 
     Object one = new Object();
-    assertNull(map.put(one, one));
+    assertThat(map.put(one, one)).isNull();
     assertThat(map.get(one)).isSameInstanceAs(one);
     assertThat(map.containsKey(one)).isTrue();
     assertThat(map.containsValue(one)).isTrue();
@@ -152,10 +152,10 @@ public class LocalLoadingCacheTest extends TestCase {
     assertThat(map.remove(one, three)).isTrue();
     assertThat(map.containsKey(one)).isFalse();
     assertThat(map.containsValue(one)).isFalse();
-    assertNull(map.putIfAbsent(two, three));
+    assertThat(map.putIfAbsent(two, three)).isNull();
     assertThat(map.remove(two)).isSameInstanceAs(three);
-    assertNull(map.put(three, one));
-    assertNull(map.put(one, two));
+    assertThat(map.put(three, one)).isNull();
+    assertThat(map.put(one, two)).isNull();
 
     assertThat(map).containsEntry(three, one);
     assertThat(map).containsEntry(one, two);
@@ -235,13 +235,13 @@ public class LocalLoadingCacheTest extends TestCase {
     Object three = new Object();
 
     ConcurrentMap<Object, Object> map = cache.asMap();
-    assertNull(map.put(one, two));
+    assertThat(map.put(one, two)).isNull();
     assertThat(map.get(one)).isSameInstanceAs(two);
     map.putAll(ImmutableMap.of(two, three));
     assertThat(map.get(two)).isSameInstanceAs(three);
     assertThat(map.putIfAbsent(one, three)).isSameInstanceAs(two);
     assertThat(map.get(one)).isSameInstanceAs(two);
-    assertNull(map.putIfAbsent(three, one));
+    assertThat(map.putIfAbsent(three, one)).isNull();
     assertThat(map.get(three)).isSameInstanceAs(one);
     assertThat(map.replace(one, three)).isSameInstanceAs(two);
     assertThat(map.get(one)).isSameInstanceAs(three);

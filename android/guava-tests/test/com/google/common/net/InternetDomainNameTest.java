@@ -17,6 +17,7 @@
 package com.google.common.net;
 
 import static com.google.common.net.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -277,7 +278,7 @@ public final class InternetDomainNameTest extends TestCase {
       assertFalse(name, domain.hasPublicSuffix());
       assertFalse(name, domain.isUnderPublicSuffix());
       assertFalse(name, domain.isTopPrivateDomain());
-      assertNull(domain.publicSuffix());
+      assertThat(domain.publicSuffix()).isNull();
     }
 
     for (String name : NON_PS) {
@@ -334,7 +335,7 @@ public final class InternetDomainNameTest extends TestCase {
       assertFalse(name, domain.hasRegistrySuffix());
       assertFalse(name, domain.isUnderRegistrySuffix());
       assertFalse(name, domain.isTopDomainUnderRegistrySuffix());
-      assertNull(domain.registrySuffix());
+      assertThat(domain.registrySuffix()).isNull();
     }
 
     for (String name : NON_RS) {

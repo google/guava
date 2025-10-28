@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.BoundType.OPEN;
 import static com.google.common.collect.testing.Helpers.mapEntry;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -349,9 +350,9 @@ public class TreeRangeMapTest extends TestCase {
 
         try {
           assertEquals(expected, rangeMap.span());
-          assertNotNull(expected);
+          assertThat(expected).isNotNull();
         } catch (NoSuchElementException e) {
-          assertNull(expected);
+          assertThat(expected).isNull();
         }
       }
     }

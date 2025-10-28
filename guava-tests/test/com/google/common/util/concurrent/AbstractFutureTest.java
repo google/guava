@@ -418,7 +418,7 @@ public class AbstractFutureTest extends TestCase {
         // Ignore, we just wanted to block.
       }
       String error = errorMessage.get();
-      assertNull(error, error);
+      assertWithMessage(error).that(error).isNull();
     }
     executor.shutdown();
   }

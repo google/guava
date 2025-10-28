@@ -389,9 +389,9 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testGetGenericSuperclass_noSuperclass() {
-    assertNull(new TypeToken<Object>() {}.getGenericSuperclass());
+    assertThat(new TypeToken<Object>() {}.getGenericSuperclass()).isNull();
     assertEquals(TypeToken.of(Object.class), new TypeToken<Object[]>() {}.getGenericSuperclass());
-    assertNull(new TypeToken<List<String>>() {}.getGenericSuperclass());
+    assertThat(new TypeToken<List<String>>() {}.getGenericSuperclass()).isNull();
     assertEquals(
         TypeToken.of(Object.class), new TypeToken<List<String>[]>() {}.getGenericSuperclass());
   }
@@ -431,7 +431,7 @@ public class TypeTokenTest extends TestCase {
 
   public <T extends List<String> & Serializable>
       void testGetGenericSuperclass_typeVariable_boundIsInterface() {
-    assertNull(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericSuperclass());
+    assertThat(TypeToken.of(new TypeCapture<T>() {}.capture()).getGenericSuperclass()).isNull();
     assertEquals(TypeToken.of(Object.class), new TypeToken<T[]>() {}.getGenericSuperclass());
   }
 
@@ -445,7 +445,7 @@ public class TypeTokenTest extends TestCase {
 
   public <T extends List<String> & Serializable, T1 extends T>
       void testGetGenericSuperclass_typeVariable_boundIsTypeVariableAndInterface() {
-    assertNull(TypeToken.of(new TypeCapture<T1>() {}.capture()).getGenericSuperclass());
+    assertThat(TypeToken.of(new TypeCapture<T1>() {}.capture()).getGenericSuperclass()).isNull();
     assertEquals(TypeToken.of(Object.class), new TypeToken<T1[]>() {}.getGenericSuperclass());
   }
 
@@ -471,7 +471,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testGetGenericSuperclass_wildcard_boundIsInterface() {
-    assertNull(TypeToken.of(Types.subtypeOf(CharSequence.class)).getGenericSuperclass());
+    assertThat(TypeToken.of(Types.subtypeOf(CharSequence.class)).getGenericSuperclass()).isNull();
     assertEquals(
         new TypeToken<CharSequence[]>() {},
         TypeToken.of(Types.subtypeOf(CharSequence[].class)).getGenericSuperclass());
@@ -1007,12 +1007,12 @@ public class TypeTokenTest extends TestCase {
     assertEquals(long.class, TypeToken.of(long[].class).getComponentType().getType());
     assertEquals(float.class, TypeToken.of(float[].class).getComponentType().getType());
     assertEquals(double.class, TypeToken.of(double[].class).getComponentType().getType());
-    assertNull(TypeToken.of(Object.class).getComponentType());
-    assertNull(TypeToken.of(void.class).getComponentType());
+    assertThat(TypeToken.of(Object.class).getComponentType()).isNull();
+    assertThat(TypeToken.of(void.class).getComponentType()).isNull();
   }
 
   public <T> void testGetComponentType_genericArrayClasses() {
-    assertNull(TypeToken.of(new TypeCapture<T>() {}.capture()).getComponentType());
+    assertThat(TypeToken.of(new TypeCapture<T>() {}.capture()).getComponentType()).isNull();
     assertEquals(
         TypeToken.of(new TypeCapture<T>() {}.capture()),
         new TypeToken<T[]>() {}.getComponentType());
@@ -1029,8 +1029,8 @@ public class TypeTokenTest extends TestCase {
             TypeToken.of(Types.subtypeOf(Object[].class)).getComponentType().getType()));
     assertEquals(
         int.class, TypeToken.of(Types.subtypeOf(int[].class)).getComponentType().getType());
-    assertNull(TypeToken.of(Types.subtypeOf(Object.class)).getComponentType());
-    assertNull(TypeToken.of(Types.supertypeOf(Object[].class)).getComponentType());
+    assertThat(TypeToken.of(Types.subtypeOf(Object.class)).getComponentType()).isNull();
+    assertThat(TypeToken.of(Types.supertypeOf(Object[].class)).getComponentType()).isNull();
   }
 
   private interface NumberList<T extends Number> {}

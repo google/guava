@@ -736,7 +736,7 @@ public class UninterruptiblesTest extends TestCase {
 
     @Override
     protected void doAction() {
-      assertNotNull(queue.remove());
+      assertThat(queue.remove()).isNotNull();
     }
   }
 

@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.testing.EqualsTester;
@@ -67,7 +69,7 @@ public class EmptyImmutableTableTest extends AbstractImmutableTableTest {
   }
 
   public void testGet() {
-    assertNull(INSTANCE.get('a', 1));
+    assertThat(INSTANCE.get('a', 1)).isNull();
   }
 
   public void testIsEmpty() {

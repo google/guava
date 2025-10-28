@@ -99,7 +99,7 @@ public class HashBiMapTest extends TestCase {
     BiMap<Integer, Integer> inverse = bimap.inverse();
 
     for (int i = 0; i < N; i++) {
-      assertNull(bimap.put(2 * i, 2 * i + 1));
+      assertThat(bimap.put(2 * i, 2 * i + 1)).isNull();
     }
     for (int i = 0; i < N; i++) {
       assertEquals(2 * i + 1, (int) bimap.get(2 * i));

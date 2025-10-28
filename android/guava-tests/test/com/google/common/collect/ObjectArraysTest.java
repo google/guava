@@ -57,7 +57,7 @@ public class ObjectArraysTest extends TestCase {
     String[] array = ObjectArrays.newArray(String.class, 2);
     assertEquals(String[].class, array.getClass());
     assertThat(array).hasLength(2);
-    assertNull(array[0]);
+    assertThat(array[0]).isNull();
   }
 
   @J2ktIncompatible // Array<String>::class literal not available in Kotlin KMP
@@ -66,7 +66,7 @@ public class ObjectArraysTest extends TestCase {
     String[][] array = ObjectArrays.newArray(String[].class, 1);
     assertEquals(String[][].class, array.getClass());
     assertThat(array).hasLength(1);
-    assertNull(array[0]);
+    assertThat(array[0]).isNull();
   }
 
   public void testNewArray_fromArray_empty() {
@@ -79,14 +79,14 @@ public class ObjectArraysTest extends TestCase {
     String[] array = ObjectArrays.newArray(new String[0], 2);
     assertEquals(String[].class, array.getClass());
     assertThat(array).hasLength(2);
-    assertNull(array[0]);
+    assertThat(array[0]).isNull();
   }
 
   public void testNewArray_fromArray_ofArray() {
     String[][] array = ObjectArrays.newArray(new String[0][0], 1);
     assertEquals(String[][].class, array.getClass());
     assertThat(array).hasLength(1);
-    assertNull(array[0]);
+    assertThat(array[0]).isNull();
   }
 
   @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)

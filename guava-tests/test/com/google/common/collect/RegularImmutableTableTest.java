@@ -97,8 +97,8 @@ public class RegularImmutableTableTest extends AbstractImmutableTableTest {
       assertEquals("foo", testInstance.get('a', 1));
       assertEquals("bar", testInstance.get('b', 1));
       assertEquals("baz", testInstance.get('a', 2));
-      assertNull(testInstance.get('b', 2));
-      assertNull(testInstance.get('c', 3));
+      assertThat(testInstance.get('b', 2)).isNull();
+      assertThat(testInstance.get('c', 3)).isNull();
     }
   }
 

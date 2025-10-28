@@ -114,7 +114,7 @@ public class ResourcesTest extends IoTestCase {
   }
 
   public void testGetResource() {
-    assertNotNull(Resources.getResource("com/google/common/io/testdata/i18n.txt"));
+    assertThat(Resources.getResource("com/google/common/io/testdata/i18n.txt")).isNotNull();
   }
 
   public void testGetResource_relativePath_notFound() {
@@ -130,7 +130,7 @@ public class ResourcesTest extends IoTestCase {
   }
 
   public void testGetResource_relativePath() {
-    assertNotNull(Resources.getResource(getClass(), "testdata/i18n.txt"));
+    assertThat(Resources.getResource(getClass(), "testdata/i18n.txt")).isNotNull();
   }
 
   public void testGetResource_contextClassLoader() throws IOException {
@@ -165,7 +165,7 @@ public class ResourcesTest extends IoTestCase {
     ClassLoader oldContextLoader = Thread.currentThread().getContextClassLoader();
     try {
       Thread.currentThread().setContextClassLoader(null);
-      assertNotNull(Resources.getResource("com/google/common/io/testdata/i18n.txt"));
+      assertThat(Resources.getResource("com/google/common/io/testdata/i18n.txt")).isNotNull();
       assertThrows(IllegalArgumentException.class, () -> Resources.getResource("no such resource"));
     } finally {
       Thread.currentThread().setContextClassLoader(oldContextLoader);

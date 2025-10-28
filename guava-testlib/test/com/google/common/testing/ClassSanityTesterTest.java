@@ -505,27 +505,27 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testInstantiate_factoryMethodAcceptsNull() throws Exception {
-    assertNull(tester.instantiate(FactoryMethodAcceptsNull.class).name);
+    assertThat(tester.instantiate(FactoryMethodAcceptsNull.class).name).isNull();
   }
 
   public void testInstantiate_factoryMethodDoesNotAcceptNull() throws Exception {
-    assertNotNull(tester.instantiate(FactoryMethodDoesNotAcceptNull.class).name);
+    assertThat(tester.instantiate(FactoryMethodDoesNotAcceptNull.class).name).isNotNull();
   }
 
   public void testInstantiate_constructorAcceptsNull() throws Exception {
-    assertNull(tester.instantiate(ConstructorAcceptsNull.class).name);
+    assertThat(tester.instantiate(ConstructorAcceptsNull.class).name).isNull();
   }
 
   public void testInstantiate_constructorDoesNotAcceptNull() throws Exception {
-    assertNotNull(tester.instantiate(ConstructorDoesNotAcceptNull.class).name);
+    assertThat(tester.instantiate(ConstructorDoesNotAcceptNull.class).name).isNotNull();
   }
 
   public void testInstantiate_notInstantiable() throws Exception {
-    assertNull(tester.instantiate(NotInstantiable.class));
+    assertThat(tester.instantiate(NotInstantiable.class)).isNull();
   }
 
   public void testInstantiate_noConstantEnum() throws Exception {
-    assertNull(tester.instantiate(NoConstantEnum.class));
+    assertThat(tester.instantiate(NoConstantEnum.class)).isNull();
   }
 
   public void testInstantiate_oneConstantEnum() throws Exception {
@@ -533,21 +533,21 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testInstantiate_interface() throws Exception {
-    assertNull(tester.instantiate(Runnable.class));
+    assertThat(tester.instantiate(Runnable.class)).isNull();
   }
 
   public void testInstantiate_abstractClass() throws Exception {
-    assertNull(tester.instantiate(AbstractList.class));
+    assertThat(tester.instantiate(AbstractList.class)).isNull();
   }
 
   public void testInstantiate_annotation() throws Exception {
-    assertNull(tester.instantiate(MyAnnotation.class));
+    assertThat(tester.instantiate(MyAnnotation.class)).isNull();
   }
 
   public void testInstantiate_setDefault() throws Exception {
     NotInstantiable x = new NotInstantiable();
     tester.setDefault(NotInstantiable.class, x);
-    assertNotNull(tester.instantiate(ConstructorParameterNotInstantiable.class));
+    assertThat(tester.instantiate(ConstructorParameterNotInstantiable.class)).isNotNull();
   }
 
   public void testSetDistinctValues_equalInstances() {
@@ -559,7 +559,7 @@ public class ClassSanityTesterTest extends TestCase {
     NotInstantiable x = new NotInstantiable();
     NotInstantiable y = new NotInstantiable();
     tester.setDistinctValues(NotInstantiable.class, x, y);
-    assertNotNull(tester.instantiate(ConstructorParameterNotInstantiable.class));
+    assertThat(tester.instantiate(ConstructorParameterNotInstantiable.class)).isNotNull();
     tester.testEquals(ConstructorParameterMapOfNotInstantiable.class);
   }
 

@@ -19,6 +19,7 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Converter;
@@ -432,7 +433,7 @@ public class NullPointerTesterTest extends TestCase {
     } catch (AssertionError incorrectError) {
       String errorMessage =
           rootLocaleFormat("Should not have flagged method %s for %s", method.getName(), bar);
-      assertNull(errorMessage, incorrectError);
+      assertWithMessage(errorMessage).that(incorrectError).isNull();
     }
   }
 
@@ -1290,7 +1291,7 @@ public class NullPointerTesterTest extends TestCase {
       runTester();
       NullRejectingFromTo<?, ?> defaultFunction =
           (NullRejectingFromTo<?, ?>) getDefaultParameterValue(0);
-      assertNotNull(defaultFunction);
+      assertThat(defaultFunction).isNotNull();
       try {
         defaultFunction.apply(null);
         fail("Proxy Should have rejected null");
@@ -1401,8 +1402,8 @@ public class NullPointerTesterTest extends TestCase {
           (Converter<String, Integer>) getDefaultParameterValue(0);
       assertEquals(Integer.valueOf(0), defaultConverter.convert("anything"));
       assertEquals("", defaultConverter.reverse().convert(123));
-      assertNull(defaultConverter.convert(null));
-      assertNull(defaultConverter.reverse().convert(null));
+      assertThat(defaultConverter.convert(null)).isNull();
+      assertThat(defaultConverter.reverse().convert(null)).isNull();
     }
   }
 

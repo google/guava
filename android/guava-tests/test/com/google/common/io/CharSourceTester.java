@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.base.Optional;
@@ -146,7 +147,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
 
   public void testReadFirstLine() throws IOException {
     if (expectedLines.isEmpty()) {
-      assertNull(source.readFirstLine());
+      assertThat(source.readFirstLine()).isNull();
     } else {
       assertEquals(expectedLines.get(0), source.readFirstLine());
     }

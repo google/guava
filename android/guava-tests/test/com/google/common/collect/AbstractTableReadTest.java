@@ -101,12 +101,12 @@ public abstract class AbstractTableReadTest<C extends @Nullable Character> exten
     assertEquals((Character) 'a', table.get("foo", 1));
     assertEquals((Character) 'b', table.get("bar", 1));
     assertEquals((Character) 'c', table.get("foo", 3));
-    assertNull(table.get("foo", 2));
-    assertNull(table.get("bar", 3));
-    assertNull(table.get("cat", 1));
-    assertNull(table.get("foo", null));
-    assertNull(table.get(null, 1));
-    assertNull(table.get(null, null));
+    assertThat(table.get("foo", 2)).isNull();
+    assertThat(table.get("bar", 3)).isNull();
+    assertThat(table.get("cat", 1)).isNull();
+    assertThat(table.get("foo", null)).isNull();
+    assertThat(table.get(null, 1)).isNull();
+    assertThat(table.get(null, null)).isNull();
   }
 
   public void testIsEmpty() {

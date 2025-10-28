@@ -813,7 +813,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testNullGet() {
     ImmutableMap<String, Integer> map = ImmutableMap.of("one", 1);
-    assertNull(map.get(null));
+    assertThat(map.get(null)).isNull();
   }
 
   public void testAsMultimap() {

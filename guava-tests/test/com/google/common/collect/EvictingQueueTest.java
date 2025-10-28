@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -57,8 +58,8 @@ public class EvictingQueueTest extends TestCase {
 
     assertThrows(NoSuchElementException.class, () -> queue.element());
 
-    assertNull(queue.peek());
-    assertNull(queue.poll());
+    assertThat(queue.peek()).isNull();
+    assertThat(queue.poll()).isNull();
     assertThrows(NoSuchElementException.class, () -> queue.remove());
   }
 
