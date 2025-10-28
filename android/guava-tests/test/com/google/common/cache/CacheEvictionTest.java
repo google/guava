@@ -98,7 +98,7 @@ public class CacheEvictionTest extends TestCase {
             .build(loader);
     for (int i = 0; i < 2 * MAX_SIZE; i++) {
       cache.getUnchecked(i);
-      assertThat(cache.size() <= MAX_SIZE).isTrue();
+      assertThat(cache.size()).isAtMost(MAX_SIZE);
     }
 
     assertThat(CacheTesting.accessQueueSize(cache)).isEqualTo(MAX_SIZE);

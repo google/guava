@@ -275,14 +275,15 @@ public class BloomFilterTest extends TestCase {
   public void testOptimalSize() {
     for (int n = 1; n < 1000; n++) {
       for (double fpp = Double.MIN_VALUE; fpp < 1.0; fpp += 0.001) {
-        assertTrue(BloomFilter.optimalNumOfBits(n, fpp) >= 0);
+        assertThat(BloomFilter.optimalNumOfBits(n, fpp)).isAtLeast(0);
       }
     }
 
     // some random values
     Random random = new Random(0);
     for (int repeats = 0; repeats < 10000; repeats++) {
-      assertTrue(BloomFilter.optimalNumOfBits(random.nextInt(1 << 16), random.nextDouble()) >= 0);
+      assertThat(BloomFilter.optimalNumOfBits(random.nextInt(1 << 16), random.nextDouble()))
+          .isAtLeast(0);
     }
 
     // and some crazy values (this used to be capped to Integer.MAX_VALUE, now it can go bigger

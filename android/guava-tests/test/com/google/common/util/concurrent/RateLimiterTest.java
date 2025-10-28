@@ -424,10 +424,10 @@ public class RateLimiterTest extends TestCase {
       limiter.setRate(rate);
       long burst = measureTotalTimeMillis(limiter, oneSecWorthOfWork, new Random());
       // we allow one second worth of work to go in a burst (i.e. take less than a second)
-      assertTrue(burst <= 1000);
+      assertThat(burst).isAtMost(1000);
       long afterBurst = measureTotalTimeMillis(limiter, oneSecWorthOfWork, new Random());
       // but work beyond that must take at least one second
-      assertTrue(afterBurst >= 1000);
+      assertThat(afterBurst).isAtLeast(1000);
     }
   }
 

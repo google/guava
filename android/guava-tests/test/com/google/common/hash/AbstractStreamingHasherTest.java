@@ -16,6 +16,7 @@
 
 package com.google.common.hash;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_16LE;
 import static org.junit.Assert.assertThrows;
 
@@ -197,7 +198,7 @@ public class AbstractStreamingHasherTest extends TestCase {
     protected void process(ByteBuffer bb) {
       processCalled++;
       assertEquals(ByteOrder.LITTLE_ENDIAN, bb.order());
-      assertTrue(bb.remaining() >= chunkSize);
+      assertThat(bb.remaining()).isAtLeast(chunkSize);
       for (int i = 0; i < chunkSize; i++) {
         out.write(bb.get());
       }
@@ -208,8 +209,8 @@ public class AbstractStreamingHasherTest extends TestCase {
       assertFalse(remainingCalled);
       remainingCalled = true;
       assertEquals(ByteOrder.LITTLE_ENDIAN, bb.order());
-      assertTrue(bb.remaining() > 0);
-      assertTrue(bb.remaining() < bufferSize);
+      assertThat(bb.remaining()).isGreaterThan(0);
+      assertThat(bb.remaining()).isLessThan(bufferSize);
       int before = processCalled;
       super.processRemaining(bb);
       int after = processCalled;

@@ -16,6 +16,7 @@
 
 package com.google.common.hash;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThrows;
@@ -142,7 +143,7 @@ public class HashingTest extends TestCase {
   public void testGoodFastHash() {
     for (int i = 1; i < 200; i += 17) {
       HashFunction hasher = Hashing.goodFastHash(i);
-      assertTrue(hasher.bits() >= i);
+      assertThat(hasher.bits()).isAtLeast(i);
       HashTestUtils.assertInvariants(hasher);
     }
   }
@@ -204,7 +205,7 @@ public class HashingTest extends TestCase {
     }
     for (int shard = 2; shard <= MAX_SHARDS; shard++) {
       // Rough: don't exceed 1.2x the expected number of remaps by more than 20
-      assertTrue(map.get(shard) <= 1.2 * ITERS / shard + 20);
+      assertThat((double) map.get(shard)).isAtMost(1.2 * ITERS / shard + 20);
     }
   }
 

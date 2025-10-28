@@ -122,9 +122,9 @@ public class StripedTest extends TestCase {
 
   public void testSizes() {
     // not bothering testing all variations, since we know they share implementations
-    assertTrue(Striped.lock(100).size() >= 100);
+    assertThat(Striped.lock(100).size()).isAtLeast(100);
     assertTrue(Striped.lock(256).size() == 256);
-    assertTrue(Striped.lazyWeakLock(100).size() >= 100);
+    assertThat(Striped.lazyWeakLock(100).size()).isAtLeast(100);
     assertTrue(Striped.lazyWeakLock(256).size() == 256);
   }
 

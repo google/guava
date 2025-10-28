@@ -13,6 +13,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.max;
 import static org.junit.Assert.assertThrows;
 
@@ -376,7 +377,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
         boolean done = true;
         for (int i = 0; i < aa.length(); i++) {
           double v = aa.get(i);
-          assertTrue(v >= 0);
+          assertThat(v).isAtLeast(0);
           if (v != 0) {
             done = false;
             if (aa.compareAndSet(i, v, v - 1.0)) {

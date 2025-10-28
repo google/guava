@@ -17,6 +17,7 @@
 package com.google.common.hash;
 
 import static com.google.common.io.BaseEncoding.base16;
+import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.junit.Assert.assertThrows;
 
@@ -349,7 +350,7 @@ public class HashCodeTest extends TestCase {
   }
 
   private static void assertReadableBytes(HashCode hashCode) {
-    assertTrue(hashCode.bits() >= 32); // sanity
+    assertThat(hashCode.bits()).isAtLeast(32); // sanity
     byte[] hashBytes = hashCode.asBytes();
     int totalBytes = hashCode.bits() / 8;
 

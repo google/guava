@@ -828,7 +828,7 @@ public class UninterruptiblesTest extends TestCase {
 
   private static void assertTimeNotPassed(Stopwatch stopwatch, long timelimitMillis) {
     long elapsedMillis = stopwatch.elapsed(MILLISECONDS);
-    assertTrue(elapsedMillis < timelimitMillis);
+    assertThat(elapsedMillis).isLessThan(timelimitMillis);
   }
 
   /**

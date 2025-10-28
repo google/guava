@@ -518,7 +518,7 @@ abstract class JSR166TestCase extends TestCase {
     } finally {
       future.cancel(true);
     }
-    assertTrue(millisElapsedSince(startTime) >= timeoutMillis);
+    assertThat(millisElapsedSince(startTime)).isAtLeast(timeoutMillis);
   }
 
   /** The number of elements to place in collections, arrays, etc. */

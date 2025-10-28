@@ -479,7 +479,7 @@ public class MapMakerInternalMapTest extends TestCase {
       Object value = new Object();
       int hash = map.hash(key);
       assertThat(segment.put(key, hash, value, false)).isNull();
-      assertTrue(segment.table.length() > i);
+      assertThat(segment.table.length()).isGreaterThan(i);
     }
   }
 
@@ -698,8 +698,8 @@ public class MapMakerInternalMapTest extends TestCase {
       assertEquals(i, segment.table.length());
       assertEquals(liveCount, countLiveEntries(map));
       // expansion cleanup is sloppy, with a goal of avoiding unnecessary copies
-      assertTrue(segment.count >= liveCount);
-      assertTrue(segment.count <= originalCount);
+      assertThat(segment.count).isAtLeast(liveCount);
+      assertThat(segment.count).isAtMost(originalCount);
       assertEquals(originalMap, ImmutableMap.copyOf(map));
     }
   }

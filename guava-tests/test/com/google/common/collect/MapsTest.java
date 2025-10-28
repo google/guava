@@ -129,7 +129,7 @@ public class MapsTest extends TestCase {
   public void testNewHashMapWithExpectedSize_wontGrow() throws Exception {
     // before jdk7u40: creates one-bucket table
     // after  jdk7u40: creates empty table
-    assertTrue(bucketsOf(Maps.newHashMapWithExpectedSize(0)) <= 1);
+    assertThat(bucketsOf(Maps.newHashMapWithExpectedSize(0))).isAtMost(1);
 
     for (int size = 1; size < 200; size++) {
       assertWontGrow(
@@ -145,7 +145,7 @@ public class MapsTest extends TestCase {
   @GwtIncompatible // reflection
   @AndroidIncompatible // relies on assumptions about OpenJDK
   public void testNewLinkedHashMapWithExpectedSize_wontGrow() throws Exception {
-    assertTrue(bucketsOf(Maps.newLinkedHashMapWithExpectedSize(0)) <= 1);
+    assertThat(bucketsOf(Maps.newLinkedHashMapWithExpectedSize(0))).isAtMost(1);
 
     for (int size = 1; size < 200; size++) {
       assertWontGrow(
@@ -1029,7 +1029,7 @@ public class MapsTest extends TestCase {
     testProp.load(new StringReader(override));
 
     result = Maps.fromProperties(testProp);
-    assertTrue(result.size() > 2);
+    assertThat(result.size()).isGreaterThan(2);
     assertEquals("", result.get("test"));
     assertEquals("hidden", result.get("java.version"));
     assertNotSame(System.getProperty("java.version"), result.get("java.version"));

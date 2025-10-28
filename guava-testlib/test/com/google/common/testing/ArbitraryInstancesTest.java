@@ -291,7 +291,7 @@ public class ArbitraryInstancesTest extends TestCase {
     @SuppressWarnings("unchecked") // The null value can compare with any Object
     Comparable<Object> comparable = ArbitraryInstances.get(Comparable.class);
     assertEquals(0, comparable.compareTo(comparable));
-    assertTrue(comparable.compareTo("") > 0);
+    assertThat(comparable.compareTo("")).isGreaterThan(0);
     assertThrows(NullPointerException.class, () -> comparable.compareTo(null));
   }
 
