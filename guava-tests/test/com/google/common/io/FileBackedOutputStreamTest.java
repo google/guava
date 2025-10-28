@@ -28,7 +28,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFileAttributes;
-import java.util.Arrays;
 import org.jspecify.annotations.NullUnmarked;
 
 /**
@@ -87,7 +86,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     out.close();
 
     // Check that source returns the right data
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
 
     // Make sure that reset deleted the file
     out.reset();
@@ -128,13 +127,13 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     ByteSource source = out.asByteSource();
 
     out.write(data);
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
 
     out.close();
     assertThrows(IOException.class, () -> out.write(42));
 
     // Verify that write had no effect
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
     out.reset();
   }
 
@@ -144,13 +143,13 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     ByteSource source = out.asByteSource();
 
     out.write(data);
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
 
     out.reset();
-    assertTrue(Arrays.equals(new byte[0], source.read()));
+    assertThat(source.read()).isEmpty();
 
     out.write(data);
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
 
     out.close();
   }

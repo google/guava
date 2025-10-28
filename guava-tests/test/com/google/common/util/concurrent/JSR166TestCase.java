@@ -31,7 +31,6 @@ import java.security.Permissions;
 import java.security.Policy;
 import java.security.ProtectionDomain;
 import java.security.SecurityPermission;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.PropertyPermission;
@@ -1171,7 +1170,7 @@ abstract class JSR166TestCase extends TestCase {
       assertThat(q.poll()).isNull();
       assertThat(q.poll(0, MILLISECONDS)).isNull();
       assertEquals("[]", q.toString());
-      assertTrue(Arrays.equals(q.toArray(), new Object[0]));
+      assertThat(q.toArray()).isEmpty();
       assertFalse(q.iterator().hasNext());
       try {
         q.element();

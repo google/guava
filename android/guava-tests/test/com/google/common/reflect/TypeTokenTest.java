@@ -1509,7 +1509,7 @@ public class TypeTokenTest extends TestCase {
     assertThat(parameters).hasSize(1);
     TypeToken<?> parameterType = parameters.get(0).getType();
     Type[] typeArgs = ((ParameterizedType) parameterType.getType()).getActualTypeArguments();
-    assertThat(typeArgs).asList().hasSize(1);
+    assertThat(typeArgs).hasLength(1);
     TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
     assertThat(captured.getBounds()).asList().containsExactly(Object.class);
     assertThat(new TypeToken<List<?>>() {}.isSupertypeOf(parameterType)).isTrue();
@@ -1522,7 +1522,7 @@ public class TypeTokenTest extends TestCase {
     assertThat(parameters).hasSize(1);
     TypeToken<?> parameterType = parameters.get(0).getType();
     Type[] typeArgs = ((ParameterizedType) parameterType.getType()).getActualTypeArguments();
-    assertThat(typeArgs).asList().hasSize(1);
+    assertThat(typeArgs).hasLength(1);
     TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
     assertThat(captured.getBounds()).asList().containsExactly(Number.class);
     assertThat(new TypeToken<List<? extends Number>>() {}.isSupertypeOf(parameterType)).isTrue();
@@ -1538,7 +1538,7 @@ public class TypeTokenTest extends TestCase {
     TypeToken<?> fieldType =
         type.resolveType(Counter.class.getDeclaredField("counts").getGenericType());
     Type[] typeArgs = ((ParameterizedType) fieldType.getType()).getActualTypeArguments();
-    assertThat(typeArgs).asList().hasSize(1);
+    assertThat(typeArgs).hasLength(1);
     TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
     assertThat(captured.getBounds()).asList().containsExactly(Number.class);
     assertThat(new TypeToken<List<? extends Number>>() {}.isSupertypeOf(fieldType)).isTrue();
@@ -1551,7 +1551,7 @@ public class TypeTokenTest extends TestCase {
     TypeToken<?> fieldType =
         type.resolveType(Counter.class.getDeclaredField("counts").getGenericType());
     Type[] typeArgs = ((ParameterizedType) fieldType.getType()).getActualTypeArguments();
-    assertThat(typeArgs).asList().hasSize(1);
+    assertThat(typeArgs).hasLength(1);
     TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
     assertThat(captured.getBounds()).asList().containsExactly(Number.class);
     assertThat(new TypeToken<List<? extends Number>>() {}.isSupertypeOf(fieldType)).isTrue();
@@ -1565,7 +1565,7 @@ public class TypeTokenTest extends TestCase {
     TypeToken<?> fieldType =
         type.resolveType(Counter.class.getDeclaredField("counts").getGenericType());
     Type[] typeArgs = ((ParameterizedType) fieldType.getType()).getActualTypeArguments();
-    assertThat(typeArgs).asList().hasSize(1);
+    assertThat(typeArgs).hasLength(1);
     TypeVariable<?> captured = (TypeVariable<?>) typeArgs[0];
     assertThat(captured.getBounds()).asList().contains(Number.class);
     assertThat(captured.getBounds())

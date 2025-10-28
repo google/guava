@@ -134,7 +134,7 @@ public class ObjectArraysTest extends TestCase {
     Object[] reference = list.toArray();
     Object[] target = ObjectArrays.toArrayImpl(list);
     assertEquals(reference.getClass(), target.getClass());
-    assertTrue(Arrays.equals(reference, target));
+    assertThat(target).isEqualTo(reference);
   }
 
   public void testToArrayImpl2() {
@@ -158,13 +158,13 @@ public class ObjectArraysTest extends TestCase {
     Object[] target = ObjectArrays.toArrayImpl(list, array2);
 
     assertEquals(reference.getClass(), target.getClass());
-    assertTrue(Arrays.equals(reference, target));
-    assertTrue(Arrays.equals(reference, target));
+    assertThat(target).isEqualTo(reference);
+    assertThat(target).isEqualTo(reference);
 
     Object[] expectedArray1 = expectModify ? reference : starting;
     Object[] expectedArray2 = expectModify ? target : starting;
-    assertTrue(Arrays.equals(expectedArray1, array1));
-    assertTrue(Arrays.equals(expectedArray2, array2));
+    assertThat(array1).isEqualTo(expectedArray1);
+    assertThat(array2).isEqualTo(expectedArray2);
   }
 
   public void testPrependZeroElements() {

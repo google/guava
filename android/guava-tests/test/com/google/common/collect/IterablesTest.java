@@ -204,14 +204,14 @@ public class IterablesTest extends TestCase {
   public void testToArrayEmpty() {
     Iterable<String> iterable = emptyList();
     String[] array = Iterables.toArray(iterable, String.class);
-    assertTrue(Arrays.equals(new String[0], array));
+    assertThat(array).isEmpty();
   }
 
   @GwtIncompatible // Iterables.toArray(Iterable, Class)
   public void testToArraySingleton() {
     Iterable<String> iterable = singletonList("a");
     String[] array = Iterables.toArray(iterable, String.class);
-    assertTrue(Arrays.equals(new String[] {"a"}, array));
+    assertThat(array).isEqualTo(new String[] {"a"});
   }
 
   @GwtIncompatible // Iterables.toArray(Iterable, Class)
@@ -219,7 +219,7 @@ public class IterablesTest extends TestCase {
     String[] sourceArray = new String[] {"a", "b", "c"};
     Iterable<String> iterable = asList(sourceArray);
     String[] newArray = Iterables.toArray(iterable, String.class);
-    assertTrue(Arrays.equals(sourceArray, newArray));
+    assertThat(newArray).isEqualTo(sourceArray);
   }
 
   public void testAny() {

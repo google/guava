@@ -1145,7 +1145,7 @@ public class NullPointerTesterTest extends TestCase {
     void check() {
       runTester();
       int[] defaultArray = (int[]) getDefaultParameterValue(0);
-      assertEquals(0, defaultArray.length);
+      assertThat(defaultArray).isEmpty();
     }
   }
 

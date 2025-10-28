@@ -159,9 +159,9 @@ public class CompactLinkedHashMapTest extends TestCase {
     List<? extends Entry<?, ?>> entries = new ArrayList<>(map.entrySet());
     List<Object> keys = new ArrayList<>(map.keySet());
     List<Object> values = new ArrayList<>(map.values());
-    assertEquals(2 * entries.size(), alternatingKeysAndValues.length);
-    assertEquals(2 * keys.size(), alternatingKeysAndValues.length);
-    assertEquals(2 * values.size(), alternatingKeysAndValues.length);
+    assertThat(alternatingKeysAndValues).hasLength(2 * entries.size());
+    assertThat(alternatingKeysAndValues).hasLength(2 * keys.size());
+    assertThat(alternatingKeysAndValues).hasLength(2 * values.size());
     for (int i = 0; i < map.size(); i++) {
       Object expectedKey = alternatingKeysAndValues[2 * i];
       Object expectedValue = alternatingKeysAndValues[2 * i + 1];
