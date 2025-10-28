@@ -94,7 +94,7 @@ public class GcFinalizationTest extends TestCase {
   public void testAwaitClear() {
     WeakReference<Object> ref = new WeakReference<>(new Object());
     GcFinalization.awaitClear(ref);
-    assertNull(ref.get());
+    assertThat(ref.get()).isNull();
   }
 
   public void testAwaitDone_finalizationPredicate() {
@@ -237,6 +237,6 @@ public class GcFinalizationTest extends TestCase {
     GcFinalization.awaitFullGc();
 
     assertEquals(0, finalizerRan.getCount());
-    assertNull(ref.get());
+    assertThat(ref.get()).isNull();
   }
 }

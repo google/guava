@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.collect.Synchronized.SynchronizedNavigableMap;
 import com.google.common.collect.Synchronized.SynchronizedNavigableSet;
 import com.google.common.collect.Synchronized.SynchronizedSortedMap;
@@ -290,15 +292,15 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
   }
 
   public void testComparator() {
-    assertNotNull(create().comparator());
+    assertThat(create().comparator()).isNotNull();
   }
 
   public void testCeilingEntry() {
-    assertNull(create().ceilingEntry("a"));
+    assertThat(create().ceilingEntry("a")).isNull();
   }
 
   public void testCeilingKey() {
-    assertNull(create().ceilingKey("a"));
+    assertThat(create().ceilingKey("a")).isNull();
   }
 
   public void testDescendingKeySet() {
@@ -316,21 +318,21 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
   }
 
   public void testFirstEntry() {
-    assertNull(create().firstEntry());
+    assertThat(create().firstEntry()).isNull();
   }
 
   public void testFirstKey() {
     NavigableMap<String, Integer> map = create();
     map.put("a", 1);
-    assertNotNull(map.firstKey());
+    assertThat(map.firstKey()).isNotNull();
   }
 
   public void testFloorEntry() {
-    assertNull(create().floorEntry("a"));
+    assertThat(create().floorEntry("a")).isNull();
   }
 
   public void testFloorKey() {
-    assertNull(create().floorKey("a"));
+    assertThat(create().floorKey("a")).isNull();
   }
 
   public void testHeadMap_k() {
@@ -348,29 +350,29 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
   }
 
   public void testHigherEntry() {
-    assertNull(create().higherEntry("a"));
+    assertThat(create().higherEntry("a")).isNull();
   }
 
   public void testHigherKey() {
-    assertNull(create().higherKey("a"));
+    assertThat(create().higherKey("a")).isNull();
   }
 
   public void testLastEntry() {
-    assertNull(create().lastEntry());
+    assertThat(create().lastEntry()).isNull();
   }
 
   public void testLastKey() {
     NavigableMap<String, Integer> map = create();
     map.put("a", 1);
-    assertNotNull(map.lastKey());
+    assertThat(map.lastKey()).isNotNull();
   }
 
   public void testLowerEntry() {
-    assertNull(create().lowerEntry("a"));
+    assertThat(create().lowerEntry("a")).isNull();
   }
 
   public void testLowerKey() {
-    assertNull(create().lowerKey("a"));
+    assertThat(create().lowerKey("a")).isNull();
   }
 
   public void testNavigableKeySet() {

@@ -68,7 +68,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
       assertTrue(ByteSource.wrap(data).slice(0, chunk1).contentEquals(source));
     }
     File file = out.getFile();
-    assertNull(file);
+    assertThat(file).isNull();
 
     // Write data to go over the threshold
     if (chunk2 > 0) {

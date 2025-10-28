@@ -16,6 +16,8 @@
 
 package com.google.common.testing;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
@@ -475,9 +477,9 @@ public class FreshValueGeneratorTest extends TestCase {
   public void testFreshCurrency() {
     FreshValueGenerator generator = new FreshValueGenerator();
     // repeat a few times to make sure we don't stumble upon a bad Locale
-    assertNotNull(generator.generateFresh(Currency.class));
-    assertNotNull(generator.generateFresh(Currency.class));
-    assertNotNull(generator.generateFresh(Currency.class));
+    assertThat(generator.generateFresh(Currency.class)).isNotNull();
+    assertThat(generator.generateFresh(Currency.class)).isNotNull();
+    assertThat(generator.generateFresh(Currency.class)).isNotNull();
   }
 
   public void testNulls() throws Exception {
@@ -529,11 +531,11 @@ public class FreshValueGeneratorTest extends TestCase {
   private static void assertCanGenerateOnly(TypeToken<?> type, Object expected) {
     FreshValueGenerator generator = new FreshValueGenerator();
     assertValueAndTypeEquals(expected, generator.generateFresh(type));
-    assertNull(generator.generateFresh(type));
+    assertThat(generator.generateFresh(type)).isNull();
   }
 
   private static void assertNotInstantiable(TypeToken<?> type) {
-    assertNull(new FreshValueGenerator().generateFresh(type));
+    assertThat(new FreshValueGenerator().generateFresh(type)).isNull();
   }
 
   private static void assertValueAndTypeEquals(Object expected, Object actual) {

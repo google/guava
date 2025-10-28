@@ -239,7 +239,7 @@ public class FuturesTest extends TestCase {
   public void testTransform_genericsNull() throws Exception {
     ListenableFuture<?> nullFuture = immediateVoidFuture();
     ListenableFuture<?> transformedFuture = transform(nullFuture, constant(null), directExecutor());
-    assertNull(getDone(transformedFuture));
+    assertThat(getDone(transformedFuture)).isNull();
   }
 
   @J2ktIncompatible // TODO(b/324550390): Enable
@@ -1558,7 +1558,7 @@ public class FuturesTest extends TestCase {
     ListenableFuture<?> nullFuture = immediateVoidFuture();
     ListenableFuture<?> chainedFuture =
         transformAsync(nullFuture, constantAsyncFunction(nullFuture), directExecutor());
-    assertNull(getDone(chainedFuture));
+    assertThat(getDone(chainedFuture)).isNull();
   }
 
   @J2ktIncompatible // TODO(b/324550390): Enable

@@ -41,8 +41,8 @@ public class StringsTest extends TestCase {
   }
 
   public void testEmptyToNull() {
-    assertNull(Strings.emptyToNull(null));
-    assertNull(Strings.emptyToNull(""));
+    assertThat(Strings.emptyToNull(null)).isNull();
+    assertThat(Strings.emptyToNull("")).isNull();
     assertEquals("a", Strings.emptyToNull("a"));
   }
 

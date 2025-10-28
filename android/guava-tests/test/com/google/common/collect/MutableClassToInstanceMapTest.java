@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableClassToInstanceMapTest.Impl;
@@ -92,7 +93,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testPutAndGetInstance() {
-    assertNull(map.putInstance(Integer.class, new Integer(5)));
+    assertThat(map.putInstance(Integer.class, new Integer(5))).isNull();
 
     Integer oldValue = map.putInstance(Integer.class, new Integer(7));
     assertEquals(5, (int) oldValue);
@@ -106,20 +107,20 @@ public class MutableClassToInstanceMapTest extends TestCase {
   public void testNull() {
     assertThrows(NullPointerException.class, () -> map.put(null, new Integer(1)));
     map.putInstance(Integer.class, null);
-    assertNull(map.get(Integer.class));
-    assertNull(map.getInstance(Integer.class));
+    assertThat(map.get(Integer.class)).isNull();
+    assertThat(map.getInstance(Integer.class)).isNull();
 
     map.put(Long.class, null);
-    assertNull(map.get(Long.class));
-    assertNull(map.getInstance(Long.class));
+    assertThat(map.get(Long.class)).isNull();
+    assertThat(map.getInstance(Long.class)).isNull();
   }
 
   public void testPrimitiveAndWrapper() {
-    assertNull(map.getInstance(int.class));
-    assertNull(map.getInstance(Integer.class));
+    assertThat(map.getInstance(int.class)).isNull();
+    assertThat(map.getInstance(Integer.class)).isNull();
 
-    assertNull(map.putInstance(int.class, 0));
-    assertNull(map.putInstance(Integer.class, 1));
+    assertThat(map.putInstance(int.class, 0)).isNull();
+    assertThat(map.putInstance(Integer.class, 1)).isNull();
     assertEquals(2, map.size());
 
     assertEquals(0, (int) map.getInstance(int.class));
@@ -128,8 +129,8 @@ public class MutableClassToInstanceMapTest extends TestCase {
     assertEquals(0, (int) map.putInstance(int.class, null));
     assertEquals(1, (int) map.putInstance(Integer.class, null));
 
-    assertNull(map.getInstance(int.class));
-    assertNull(map.getInstance(Integer.class));
+    assertThat(map.getInstance(int.class)).isNull();
+    assertThat(map.getInstance(Integer.class)).isNull();
     assertEquals(2, map.size());
   }
 }

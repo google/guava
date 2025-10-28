@@ -178,7 +178,7 @@ public class EnumBiMapTest extends TestCase {
     assertEquals(bimap1, bimap2);
     bimap2.inverse().put(Country.SWITZERLAND, Currency.FRANC);
     assertEquals(Country.SWITZERLAND, bimap2.get(Currency.FRANC));
-    assertNull(bimap1.get(Currency.FRANC));
+    assertThat(bimap1.get(Currency.FRANC)).isNull();
     assertFalse(bimap2.equals(bimap1));
 
     /* Test that it can be empty. */

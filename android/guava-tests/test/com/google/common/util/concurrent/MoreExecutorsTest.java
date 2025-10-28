@@ -30,6 +30,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.MoreExecutors.invokeAnyImpl;
 import static com.google.common.util.concurrent.MoreExecutors.listeningDecorator;
@@ -135,10 +136,11 @@ public class MoreExecutorsTest extends JSR166TestCase {
     otherThread.join(1000);
     assertEquals(Thread.State.TERMINATED, otherThread.getState());
     Throwable throwable = throwableFromOtherThread.get();
-    assertNull(
-        "Throwable from other thread: "
-            + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)),
-        throwableFromOtherThread.get());
+    assertWithMessage(
+            "Throwable from other thread: "
+                + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)))
+        .that(throwableFromOtherThread.get())
+        .isNull();
   }
 
   public void testDirectExecutorServiceInvokeAll() throws Exception {
@@ -242,10 +244,11 @@ public class MoreExecutorsTest extends JSR166TestCase {
     otherThread.join(1000);
     assertEquals(Thread.State.TERMINATED, otherThread.getState());
     Throwable throwable = throwableFromOtherThread.get();
-    assertNull(
-        "Throwable from other thread: "
-            + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)),
-        throwableFromOtherThread.get());
+    assertWithMessage(
+            "Throwable from other thread: "
+                + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)))
+        .that(throwableFromOtherThread.get())
+        .isNull();
   }
 
   /**
@@ -575,7 +578,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
     TestApplication application = new TestApplication();
     ThreadPoolExecutor executor =
         new ThreadPoolExecutor(1, 2, 3, SECONDS, new ArrayBlockingQueue<Runnable>(1));
-    assertNotNull(application.getExitingExecutorService(executor));
+    assertThat(application.getExitingExecutorService(executor)).isNotNull();
     assertTrue(executor.getThreadFactory().newThread(EMPTY_RUNNABLE).isDaemon());
   }
 
@@ -603,7 +606,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
   public void testGetExitingScheduledExecutorService_executorSetToUseDaemonThreads() {
     TestApplication application = new TestApplication();
     ScheduledThreadPoolExecutor executor = new ScheduledThreadPoolExecutor(1);
-    assertNotNull(application.getExitingScheduledExecutorService(executor));
+    assertThat(application.getExitingScheduledExecutorService(executor)).isNotNull();
     assertTrue(executor.getThreadFactory().newThread(EMPTY_RUNNABLE).isDaemon());
   }
 
@@ -631,7 +634,7 @@ public class MoreExecutorsTest extends JSR166TestCase {
 
   public void testPlatformThreadFactory_default() {
     ThreadFactory factory = MoreExecutors.platformThreadFactory();
-    assertNotNull(factory);
+    assertThat(factory).isNotNull();
     // Executors#defaultThreadFactory() may return a new instance each time.
     assertEquals(factory.getClass(), Executors.defaultThreadFactory().getClass());
   }

@@ -255,7 +255,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
     assertEquals((Character) 'a', copy.get("foo", 1));
     assertEquals((Character) 'b', copy.get("bar", 1));
     assertEquals((Character) 'c', copy.get("foo", 3));
-    assertNull(copy.get("bar", 3));
+    assertThat(copy.get("bar", 3)).isNull();
     original.put("foo", 1, 'd');
     assertEquals((Character) 'd', original.get("foo", 1));
     assertEquals((Character) 'a', copy.get("foo", 1));
@@ -343,8 +343,8 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
 
   public void testGetMissingKeys() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
-    assertNull(table.get("dog", 1));
-    assertNull(table.get("foo", 4));
+    assertThat(table.get("dog", 1)).isNull();
+    assertThat(table.get("foo", 4)).isNull();
   }
 
   public void testAt() {
@@ -352,7 +352,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
         create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertEquals((Character) 'b', table.at(1, 0));
     assertEquals((Character) 'c', table.at(0, 2));
-    assertNull(table.at(1, 2));
+    assertThat(table.at(1, 2)).isNull();
     assertThrows(IndexOutOfBoundsException.class, () -> table.at(1, 3));
     assertThrows(IndexOutOfBoundsException.class, () -> table.at(1, -1));
     assertThrows(IndexOutOfBoundsException.class, () -> table.at(3, 2));
@@ -364,10 +364,10 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
         create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertEquals((Character) 'b', table.set(1, 0, 'd'));
     assertEquals((Character) 'd', table.get("bar", 1));
-    assertNull(table.set(2, 0, 'e'));
+    assertThat(table.set(2, 0, 'e')).isNull();
     assertEquals((Character) 'e', table.get("cat", 1));
     assertEquals((Character) 'a', table.set(0, 0, null));
-    assertNull(table.get("foo", 1));
+    assertThat(table.get("foo", 1)).isNull();
     assertThrows(IndexOutOfBoundsException.class, () -> table.set(1, 3, 'z'));
     assertThrows(IndexOutOfBoundsException.class, () -> table.set(1, -1, 'z'));
     assertThrows(IndexOutOfBoundsException.class, () -> table.set(3, 2, 'z'));
@@ -380,7 +380,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
         create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     table.eraseAll();
     assertEquals(9, table.size());
-    assertNull(table.get("bar", 1));
+    assertThat(table.get("bar", 1)).isNull();
     assertTrue(table.containsRow("foo"));
     assertFalse(table.containsValue('a'));
   }
@@ -399,14 +399,14 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
     ArrayTable<String, Integer, Character> table =
         create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     assertEquals((Character) 'b', table.erase("bar", 1));
-    assertNull(table.get("bar", 1));
+    assertThat(table.get("bar", 1)).isNull();
     assertEquals(9, table.size());
-    assertNull(table.erase("bar", 1));
-    assertNull(table.erase("foo", 2));
-    assertNull(table.erase("dog", 1));
-    assertNull(table.erase("bar", 5));
-    assertNull(table.erase(null, 1));
-    assertNull(table.erase("bar", null));
+    assertThat(table.erase("bar", 1)).isNull();
+    assertThat(table.erase("foo", 2)).isNull();
+    assertThat(table.erase("dog", 1)).isNull();
+    assertThat(table.erase("bar", 5)).isNull();
+    assertThat(table.erase(null, 1)).isNull();
+    assertThat(table.erase("bar", null)).isNull();
   }
 
   @GwtIncompatible // ArrayTable.toArray(Class)

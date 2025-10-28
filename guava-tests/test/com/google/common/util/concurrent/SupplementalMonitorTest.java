@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.GeneratedMonitorTest.startThread;
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 import static org.junit.Assert.assertThrows;
@@ -123,7 +124,7 @@ public class SupplementalMonitorTest extends TestCase {
                 }
               }
             }));
-    assertNull(thrown.get());
+    assertThat(thrown.get()).isNull();
     assertEquals(expectedIsOccupied, actualIsOccupied.get());
     assertEquals(expectedIsOccupiedByCurrentThread, actualIsOccupiedByCurrentThread.get());
     assertEquals(expectedOccupiedDepth, actualOccupiedDepth.get());

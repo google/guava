@@ -359,7 +359,7 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testLocalClassInsideStaticMethod() {
-    assertNotNull(staticMethodWithLocalClass());
+    assertThat(staticMethodWithLocalClass()).isNotNull();
   }
 
   public void testLocalClassInsideNonStaticMethod() {
@@ -368,7 +368,7 @@ public class TypeTokenResolutionTest extends TestCase {
         return new TypeToken<T>(getClass()) {}.getType();
       }
     }
-    assertNotNull(new MyLocalClass<String>().getType());
+    assertThat(new MyLocalClass<String>().getType()).isNotNull();
   }
 
   private static <T> Type staticMethodWithAnonymousClass() {
@@ -380,16 +380,17 @@ public class TypeTokenResolutionTest extends TestCase {
   }
 
   public void testAnonymousClassInsideStaticMethod() {
-    assertNotNull(staticMethodWithAnonymousClass());
+    assertThat(staticMethodWithAnonymousClass()).isNotNull();
   }
 
   public void testAnonymousClassInsideNonStaticMethod() {
-    assertNotNull(
-        new Object() {
-          Type getType() {
-            return new TypeToken<Object>() {}.getType();
-          }
-        }.getType());
+    assertThat(
+            new Object() {
+              Type getType() {
+                return new TypeToken<Object>() {}.getType();
+              }
+            }.getType())
+        .isNotNull();
   }
 
   public void testStaticContext() {

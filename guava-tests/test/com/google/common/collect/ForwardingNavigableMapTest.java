@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.Maps.immutableEntry;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Function;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
@@ -295,7 +296,7 @@ public class ForwardingNavigableMapTest extends TestCase {
   public void testStandardLastEntry() {
     NavigableMap<String, Integer> forwarding =
         new StandardLastEntryForwardingNavigableMap<>(new SafeTreeMap<String, Integer>());
-    assertNull(forwarding.lastEntry());
+    assertThat(forwarding.lastEntry()).isNull();
     forwarding.put("b", 2);
     assertEquals(immutableEntry("b", 2), forwarding.lastEntry());
     forwarding.put("c", 3);

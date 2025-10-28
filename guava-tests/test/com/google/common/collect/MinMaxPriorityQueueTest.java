@@ -269,9 +269,9 @@ public class MinMaxPriorityQueueTest extends TestCase {
     assertEquals(1, (int) mmHeap.peek());
     assertEquals(1, (int) mmHeap.peekLast());
     assertEquals(1, (int) mmHeap.pollLast());
-    assertNull(mmHeap.peek());
-    assertNull(mmHeap.peekLast());
-    assertNull(mmHeap.pollLast());
+    assertThat(mmHeap.peek()).isNull();
+    assertThat(mmHeap.peekLast()).isNull();
+    assertThat(mmHeap.pollLast()).isNull();
   }
 
   public void testSmallMinHeap() {
@@ -287,9 +287,9 @@ public class MinMaxPriorityQueueTest extends TestCase {
     assertEquals(3, (int) mmHeap.peekLast());
     assertEquals(3, (int) mmHeap.peek());
     assertEquals(3, (int) mmHeap.poll());
-    assertNull(mmHeap.peekLast());
-    assertNull(mmHeap.peek());
-    assertNull(mmHeap.poll());
+    assertThat(mmHeap.peekLast()).isNull();
+    assertThat(mmHeap.peek()).isNull();
+    assertThat(mmHeap.poll()).isNull();
   }
 
   public void testRemove() {

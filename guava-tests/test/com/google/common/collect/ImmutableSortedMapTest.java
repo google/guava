@@ -637,7 +637,7 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testNullGet() {
     ImmutableSortedMap<String, Integer> map = ImmutableSortedMap.of("one", 1);
-    assertNull(map.get(null));
+    assertThat(map.get(null)).isNull();
   }
 
   @J2ktIncompatible

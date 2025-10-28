@@ -16,6 +16,7 @@
 
 package com.google.common.io;
 
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Strings;
@@ -143,7 +144,7 @@ public class CharStreamsTest extends IoTestCase {
     Appendable plainAppendable = new StringBuilder();
     Writer result = CharStreams.asWriter(plainAppendable);
     assertNotSame(plainAppendable, result);
-    assertNotNull(result);
+    assertThat(result).isNotNull();
 
     // A Writer should not be wrapped
     Appendable secretlyAWriter = new StringWriter();

@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import static com.google.common.base.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -45,7 +46,7 @@ public class FunctionsTest extends TestCase {
 
   public void testIdentity_same() {
     Function<@Nullable String, @Nullable String> identity = Functions.identity();
-    assertNull(identity.apply(null));
+    assertThat(identity.apply(null)).isNull();
     assertSame("foo", identity.apply("foo"));
   }
 
@@ -98,7 +99,7 @@ public class FunctionsTest extends TestCase {
 
     assertEquals(1, function.apply("One").intValue());
     assertEquals(3, function.apply("Three").intValue());
-    assertNull(function.apply("Null"));
+    assertThat(function.apply("Null")).isNull();
 
     assertThrows(IllegalArgumentException.class, () -> function.apply("Two"));
 
@@ -124,7 +125,7 @@ public class FunctionsTest extends TestCase {
     assertEquals(1, function.apply("One").intValue());
     assertEquals(42, function.apply("Two").intValue());
     assertEquals(3, function.apply("Three").intValue());
-    assertNull(function.apply("Null"));
+    assertThat(function.apply("Null")).isNull();
 
     new EqualsTester()
         .addEqualityGroup(function, Functions.forMap(map, 42))
@@ -166,7 +167,7 @@ public class FunctionsTest extends TestCase {
     Function<String, @Nullable Integer> function = Functions.forMap(map, null);
 
     assertEquals((Integer) 1, function.apply("One"));
-    assertNull(function.apply("Two"));
+    assertThat(function.apply("Two")).isNull();
 
     // check basic sanity of equals and hashCode
     new EqualsTester()
@@ -182,7 +183,7 @@ public class FunctionsTest extends TestCase {
     Function<String, Integer> function = Functions.forMap(map, null);
 
     assertEquals((Integer) 1, function.apply("One"));
-    assertNull(function.apply("Two"));
+    assertThat(function.apply("Two")).isNull();
 
     // check basic sanity of equals and hashCode
     new EqualsTester()

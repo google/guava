@@ -981,7 +981,7 @@ public class LocalCacheTest extends TestCase {
     valueRef.setLoading(true);
     entry.setValueReference(valueRef);
     table.set(index, entry);
-    assertNull(segment.refresh(key, hash, identityLoader(), false));
+    assertThat(segment.refresh(key, hash, identityLoader(), false)).isNull();
   }
 
   // Removal listener tests
@@ -1242,11 +1242,11 @@ public class LocalCacheTest extends TestCase {
     ValueReference<Object, Object> valueRef = map.newValueReference(entry, value, 1);
     entry.setValueReference(valueRef);
 
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
 
     // count == 0
     table.set(index, entry);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
     assertThat(segment.containsKey(key, hash)).isFalse();
     assertThat(segment.containsValue(value)).isFalse();
 
@@ -1256,7 +1256,7 @@ public class LocalCacheTest extends TestCase {
     assertThat(segment.containsKey(key, hash)).isTrue();
     assertThat(segment.containsValue(value)).isTrue();
     // don't see absent values now that count > 0
-    assertNull(segment.get(new Object(), hash));
+    assertThat(segment.get(new Object(), hash)).isNull();
 
     // null key
     DummyEntry<Object, Object> nullEntry = DummyEntry.create(null, hash, entry);
@@ -1295,7 +1295,7 @@ public class LocalCacheTest extends TestCase {
 
     // expired
     dummy.setAccessTime(ticker.read() - 2);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
     assertThat(segment.containsKey(key, hash)).isFalse();
     assertThat(segment.containsValue(value)).isTrue();
     assertThat(segment.containsValue(dummyValue)).isFalse();
@@ -1342,7 +1342,7 @@ public class LocalCacheTest extends TestCase {
     oldValueRef.clear();
     assertThat(segment.replace(key, hash, oldValue, newValue)).isFalse();
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
   }
 
   public void testSegmentReplace() {
@@ -1363,7 +1363,7 @@ public class LocalCacheTest extends TestCase {
     entry.setValueReference(oldValueRef);
 
     // no entry
-    assertNull(segment.replace(key, hash, newValue));
+    assertThat(segment.replace(key, hash, newValue)).isNull();
     assertThat(segment.count).isEqualTo(0);
 
     // same key
@@ -1379,9 +1379,9 @@ public class LocalCacheTest extends TestCase {
     entry.setValueReference(oldValueRef);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     oldValueRef.clear();
-    assertNull(segment.replace(key, hash, newValue));
+    assertThat(segment.replace(key, hash, newValue)).isNull();
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
   }
 
   public void testSegmentPut() {
@@ -1397,7 +1397,7 @@ public class LocalCacheTest extends TestCase {
 
     // no entry
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.put(key, hash, oldValue, false));
+    assertThat(segment.put(key, hash, oldValue, false)).isNull();
     assertThat(segment.count).isEqualTo(1);
 
     // same key
@@ -1411,7 +1411,7 @@ public class LocalCacheTest extends TestCase {
     entry.setValueReference(oldValueRef);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     oldValueRef.clear();
-    assertNull(segment.put(key, hash, newValue, false));
+    assertThat(segment.put(key, hash, newValue, false)).isNull();
     assertThat(segment.count).isEqualTo(1);
     assertThat(segment.get(key, hash)).isSameInstanceAs(newValue);
   }
@@ -1429,7 +1429,7 @@ public class LocalCacheTest extends TestCase {
 
     // no entry
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.put(key, hash, oldValue, true));
+    assertThat(segment.put(key, hash, oldValue, true)).isNull();
     assertThat(segment.count).isEqualTo(1);
 
     // same key
@@ -1443,7 +1443,7 @@ public class LocalCacheTest extends TestCase {
     entry.setValueReference(oldValueRef);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     oldValueRef.clear();
-    assertNull(segment.put(key, hash, newValue, true));
+    assertThat(segment.put(key, hash, newValue, true)).isNull();
     assertThat(segment.count).isEqualTo(1);
     assertThat(segment.get(key, hash)).isSameInstanceAs(newValue);
   }
@@ -1459,7 +1459,7 @@ public class LocalCacheTest extends TestCase {
       Object key = new Object();
       Object value = new Object();
       int hash = map.hash(key);
-      assertNull(segment.put(key, hash, value, false));
+      assertThat(segment.put(key, hash, value, false)).isNull();
       assertThat(segment.table.length()).isGreaterThan(i);
     }
   }
@@ -1505,7 +1505,7 @@ public class LocalCacheTest extends TestCase {
     Object value = new Object();
     assertThat(listener.isEmpty()).isTrue();
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
     assertThat(segment.storeLoadedValue(key, hash, valueRef, value)).isTrue();
     assertThat(segment.get(key, hash)).isSameInstanceAs(value);
     assertThat(segment.count).isEqualTo(1);
@@ -1579,7 +1579,7 @@ public class LocalCacheTest extends TestCase {
 
     // no entry
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.remove(key, hash));
+    assertThat(segment.remove(key, hash)).isNull();
     assertThat(segment.count).isEqualTo(0);
 
     // same key
@@ -1589,7 +1589,7 @@ public class LocalCacheTest extends TestCase {
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     assertThat(segment.remove(key, hash)).isSameInstanceAs(oldValue);
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
 
     // cleared
     table.set(index, entry);
@@ -1597,9 +1597,9 @@ public class LocalCacheTest extends TestCase {
     assertThat(segment.count).isEqualTo(1);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     oldValueRef.clear();
-    assertNull(segment.remove(key, hash));
+    assertThat(segment.remove(key, hash)).isNull();
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
   }
 
   public void testSegmentRemoveValue() {
@@ -1619,7 +1619,7 @@ public class LocalCacheTest extends TestCase {
 
     // no entry
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.remove(key, hash));
+    assertThat(segment.remove(key, hash)).isNull();
     assertThat(segment.count).isEqualTo(0);
 
     // same value
@@ -1629,7 +1629,7 @@ public class LocalCacheTest extends TestCase {
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     assertThat(segment.remove(key, hash, oldValue)).isTrue();
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
 
     // different value
     table.set(index, entry);
@@ -1645,7 +1645,7 @@ public class LocalCacheTest extends TestCase {
     oldValueRef.clear();
     assertThat(segment.remove(key, hash, oldValue)).isFalse();
     assertThat(segment.count).isEqualTo(0);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
   }
 
   public void testExpand() {
@@ -1811,7 +1811,7 @@ public class LocalCacheTest extends TestCase {
         createDummyEntry(keyThree, hashThree, valueThree, entryTwo);
 
     // alone
-    assertNull(segment.removeEntryFromChain(entryOne, entryOne));
+    assertThat(segment.removeEntryFromChain(entryOne, entryOne)).isNull();
 
     // head
     assertThat(segment.removeEntryFromChain(entryTwo, entryTwo)).isSameInstanceAs(entryOne);

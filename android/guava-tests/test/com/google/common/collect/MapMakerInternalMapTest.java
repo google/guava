@@ -196,7 +196,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
       assertSame(keyOne, entryOne.getKey());
       assertEquals(hashOne, entryOne.getHash());
-      assertNull(entryOne.getNext());
+      assertThat(entryOne.getNext()).isNull();
       assertSame(valueRefOne, segment.getWeakValueReferenceForTesting(entryOne));
 
       Object keyTwo = new Object();
@@ -237,7 +237,7 @@ public class MapMakerInternalMapTest extends TestCase {
       InternalEntry<Object, Object, ?> copyOne = segment.copyForTesting(entryOne, null);
       assertSame(keyOne, entryOne.getKey());
       assertEquals(hashOne, entryOne.getHash());
-      assertNull(entryOne.getNext());
+      assertThat(entryOne.getNext()).isNull();
       assertSame(valueOne, copyOne.getValue());
 
       InternalEntry<Object, Object, ?> copyTwo = segment.copyForTesting(entryTwo, copyOne);
@@ -263,11 +263,11 @@ public class MapMakerInternalMapTest extends TestCase {
     InternalEntry<Object, Object, ?> entry = segment.newEntryForTesting(key, hash, null);
     segment.setValueForTesting(entry, value);
 
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
 
     // count == 0
     segment.setTableEntryForTesting(index, entry);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
     assertFalse(segment.containsKey(key, hash));
     assertFalse(segment.containsValue(value));
 
@@ -277,7 +277,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertTrue(segment.containsKey(key, hash));
     assertTrue(segment.containsValue(value));
     // don't see absent values now that count > 0
-    assertNull(segment.get(new Object(), hash));
+    assertThat(segment.get(new Object(), hash)).isNull();
 
     // null key
     InternalEntry<Object, Object, ?> nullEntry = segment.newEntryForTesting(null, hash, entry);
@@ -359,7 +359,7 @@ public class MapMakerInternalMapTest extends TestCase {
     oldValueRef.clear();
     assertFalse(segment.replace(key, hash, oldValue, newValue));
     assertEquals(0, segment.count);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
   }
 
   public void testSegmentReplace() {
@@ -381,7 +381,7 @@ public class MapMakerInternalMapTest extends TestCase {
     segment.setWeakValueReferenceForTesting(entry, oldValueRef);
 
     // no entry
-    assertNull(segment.replace(key, hash, newValue));
+    assertThat(segment.replace(key, hash, newValue)).isNull();
     assertEquals(0, segment.count);
 
     // same key
@@ -396,9 +396,9 @@ public class MapMakerInternalMapTest extends TestCase {
     // cleared
     segment.setWeakValueReferenceForTesting(entry, oldValueRef);
     oldValueRef.clear();
-    assertNull(segment.replace(key, hash, newValue));
+    assertThat(segment.replace(key, hash, newValue)).isNull();
     assertEquals(0, segment.count);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
   }
 
   public void testSegmentPut() {
@@ -414,7 +414,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // no entry
     assertEquals(0, segment.count);
-    assertNull(segment.put(key, hash, oldValue, false));
+    assertThat(segment.put(key, hash, oldValue, false)).isNull();
     assertEquals(1, segment.count);
 
     // same key
@@ -429,7 +429,7 @@ public class MapMakerInternalMapTest extends TestCase {
     segment.setWeakValueReferenceForTesting(entry, oldValueRef);
     assertSame(oldValue, segment.get(key, hash));
     oldValueRef.clear();
-    assertNull(segment.put(key, hash, newValue, false));
+    assertThat(segment.put(key, hash, newValue, false)).isNull();
     assertEquals(1, segment.count);
     assertSame(newValue, segment.get(key, hash));
   }
@@ -447,7 +447,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // no entry
     assertEquals(0, segment.count);
-    assertNull(segment.put(key, hash, oldValue, true));
+    assertThat(segment.put(key, hash, oldValue, true)).isNull();
     assertEquals(1, segment.count);
 
     // same key
@@ -462,7 +462,7 @@ public class MapMakerInternalMapTest extends TestCase {
     segment.setWeakValueReferenceForTesting(entry, oldValueRef);
     assertSame(oldValue, segment.get(key, hash));
     oldValueRef.clear();
-    assertNull(segment.put(key, hash, newValue, true));
+    assertThat(segment.put(key, hash, newValue, true)).isNull();
     assertEquals(1, segment.count);
     assertSame(newValue, segment.get(key, hash));
   }
@@ -478,7 +478,7 @@ public class MapMakerInternalMapTest extends TestCase {
       Object key = new Object();
       Object value = new Object();
       int hash = map.hash(key);
-      assertNull(segment.put(key, hash, value, false));
+      assertThat(segment.put(key, hash, value, false)).isNull();
       assertTrue(segment.table.length() > i);
     }
   }
@@ -501,7 +501,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // no entry
     assertEquals(0, segment.count);
-    assertNull(segment.remove(key, hash));
+    assertThat(segment.remove(key, hash)).isNull();
     assertEquals(0, segment.count);
 
     // same key
@@ -511,7 +511,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertSame(oldValue, segment.get(key, hash));
     assertSame(oldValue, segment.remove(key, hash));
     assertEquals(0, segment.count);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
 
     // cleared
     segment.setTableEntryForTesting(index, entry);
@@ -519,9 +519,9 @@ public class MapMakerInternalMapTest extends TestCase {
     assertEquals(1, segment.count);
     assertSame(oldValue, segment.get(key, hash));
     oldValueRef.clear();
-    assertNull(segment.remove(key, hash));
+    assertThat(segment.remove(key, hash)).isNull();
     assertEquals(0, segment.count);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
   }
 
   public void testSegmentRemoveValue() {
@@ -543,7 +543,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // no entry
     assertEquals(0, segment.count);
-    assertNull(segment.remove(key, hash));
+    assertThat(segment.remove(key, hash)).isNull();
     assertEquals(0, segment.count);
 
     // same value
@@ -553,7 +553,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertSame(oldValue, segment.get(key, hash));
     assertTrue(segment.remove(key, hash, oldValue));
     assertEquals(0, segment.count);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
 
     // different value
     segment.setTableEntryForTesting(index, entry);
@@ -569,7 +569,7 @@ public class MapMakerInternalMapTest extends TestCase {
     oldValueRef.clear();
     assertFalse(segment.remove(key, hash, oldValue));
     assertEquals(0, segment.count);
-    assertNull(segment.get(key, hash));
+    assertThat(segment.get(key, hash)).isNull();
   }
 
   @SuppressWarnings("GuardedBy")
@@ -633,7 +633,7 @@ public class MapMakerInternalMapTest extends TestCase {
     segment.setValueForTesting(entryThree, valueThree);
 
     // alone
-    assertNull(segment.removeFromChainForTesting(entryOne, entryOne));
+    assertThat(segment.removeFromChainForTesting(entryOne, entryOne)).isNull();
 
     // head
     assertSame(entryOne, segment.removeFromChainForTesting(entryTwo, entryTwo));
@@ -655,7 +655,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertSame(keyThree, newFirst.getKey());
     assertSame(valueThree, newFirst.getValue());
     assertEquals(hashThree, newFirst.getHash());
-    assertNull(newFirst.getNext());
+    assertThat(newFirst.getNext()).isNull();
   }
 
   @SuppressWarnings("GuardedBy")
@@ -739,7 +739,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertSame(entry, table.get(0));
 
     segment.clear();
-    assertNull(table.get(0));
+    assertThat(table.get(0)).isNull();
     assertEquals(0, segment.readCount.get());
     assertEquals(0, segment.count);
   }
@@ -764,7 +764,7 @@ public class MapMakerInternalMapTest extends TestCase {
     segment.count = 1;
     assertTrue(segment.removeTableEntryForTesting(entry));
     assertEquals(0, segment.count);
-    assertNull(table.get(0));
+    assertThat(table.get(0)).isNull();
   }
 
   public void testClearValue() {
@@ -789,7 +789,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertTrue(segment.clearValueForTesting(key, hash, valueRef));
     // no notification sent with clearValue
     assertEquals(0, segment.count);
-    assertNull(table.get(0));
+    assertThat(table.get(0)).isNull();
 
     // clear wrong value reference
     segment.setTableEntryForTesting(0, entry);
@@ -825,9 +825,9 @@ public class MapMakerInternalMapTest extends TestCase {
         map.put(keyTwo, valueTwo);
         assertFalse(map.containsKey(keyOne));
         assertFalse(map.containsValue(valueOne));
-        assertNull(map.get(keyOne));
+        assertThat(map.get(keyOne)).isNull();
         assertEquals(1, map.size());
-        assertNull(segment.getKeyReferenceQueueForTesting().poll());
+        assertThat(segment.getKeyReferenceQueueForTesting().poll()).isNull();
       }
     }
   }
@@ -856,9 +856,9 @@ public class MapMakerInternalMapTest extends TestCase {
         map.put(keyTwo, valueTwo);
         assertFalse(map.containsKey(keyOne));
         assertFalse(map.containsValue(valueOne));
-        assertNull(map.get(keyOne));
+        assertThat(map.get(keyOne)).isNull();
         assertEquals(1, map.size());
-        assertNull(segment.getValueReferenceQueueForTesting().poll());
+        assertThat(segment.getValueReferenceQueueForTesting().poll()).isNull();
       }
     }
   }
@@ -886,9 +886,9 @@ public class MapMakerInternalMapTest extends TestCase {
         }
         assertFalse(map.containsKey(keyOne));
         assertFalse(map.containsValue(valueOne));
-        assertNull(map.get(keyOne));
+        assertThat(map.get(keyOne)).isNull();
         assertEquals(0, map.size());
-        assertNull(segment.getKeyReferenceQueueForTesting().poll());
+        assertThat(segment.getKeyReferenceQueueForTesting().poll()).isNull();
       }
     }
   }
@@ -918,9 +918,9 @@ public class MapMakerInternalMapTest extends TestCase {
         }
         assertFalse(map.containsKey(keyOne));
         assertFalse(map.containsValue(valueOne));
-        assertNull(map.get(keyOne));
+        assertThat(map.get(keyOne)).isNull();
         assertEquals(0, map.size());
-        assertNull(segment.getValueReferenceQueueForTesting().poll());
+        assertThat(segment.getValueReferenceQueueForTesting().poll()).isNull();
       }
     }
   }

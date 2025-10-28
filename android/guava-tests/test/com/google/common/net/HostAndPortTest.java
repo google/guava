@@ -17,6 +17,7 @@
 package com.google.common.net;
 
 import static com.google.common.net.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.testing.EqualsTester;
@@ -115,10 +116,10 @@ public class HostAndPortTest extends TestCase {
       hp = HostAndPort.fromString(hpString);
     } catch (IllegalArgumentException e) {
       // Make sure we expected this.
-      assertNull(expectHost);
+      assertThat(expectHost).isNull();
       return;
     }
-    assertNotNull(expectHost);
+    assertThat(expectHost).isNotNull();
 
     // Apply withDefaultPort(), yielding hp2.
     boolean badDefaultPort = defaultPort < 0 || defaultPort > 65535;

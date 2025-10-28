@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.collect.Iterables.concat;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Functions;
 import com.google.common.base.Supplier;
@@ -154,7 +155,7 @@ public class StripedTest extends TestCase {
       WeakReference<Object> weakRef = new WeakReference<>(striped.get(new Object()));
       WeakReference<Object> garbage = new WeakReference<>(new Object());
       GcFinalization.awaitClear(garbage);
-      assertNotNull(weakRef.get());
+      assertThat(weakRef.get()).isNotNull();
     }
   }
 
@@ -202,7 +203,7 @@ public class StripedTest extends TestCase {
     // this gets the stripes with #getAt(index)
     for (int i = 0; i < striped.size(); i++) {
       Object object = striped.getAt(i);
-      assertNotNull(object);
+      assertThat(object).isNotNull();
       assertSame(object, striped.getAt(i)); // idempotent
       observed.add(object);
     }

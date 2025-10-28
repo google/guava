@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
@@ -66,9 +67,9 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
   @Override
   protected final void tearDown() {
     tearDownStack.runTearDown();
-    assertNull(
-        "exceptions should not be propagated to uncaught exception handlers",
-        thrownByExecutionThread);
+    assertWithMessage("exceptions should not be propagated to uncaught exception handlers")
+        .that(thrownByExecutionThread)
+        .isNull();
   }
 
   public void testServiceStartStop() throws Exception {
