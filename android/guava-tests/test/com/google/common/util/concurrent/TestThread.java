@@ -17,10 +17,9 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.assertNotNull;
-import static junit.framework.Assert.assertNull;
 import static junit.framework.Assert.assertSame;
 
 import com.google.common.testing.TearDown;
@@ -154,7 +153,7 @@ public final class TestThread<L> extends Thread implements TearDown {
     sendRequest(methodName, arguments);
     Thread.sleep(DUE_DILIGENCE_MILLIS);
     assertEquals(true, invokeMethod("hasQueuedThread", this));
-    assertNull(responseQueue.poll());
+    assertThat(responseQueue.poll()).isNull();
   }
 
   /**
@@ -172,7 +171,7 @@ public final class TestThread<L> extends Thread implements TearDown {
     sendRequest(methodName, conditionLikeObject);
     Thread.sleep(DUE_DILIGENCE_MILLIS);
     assertEquals(true, invokeMethod("hasWaiters", conditionLikeObject));
-    assertNull(responseQueue.poll());
+    assertThat(responseQueue.poll()).isNull();
   }
 
   /**
@@ -299,7 +298,7 @@ public final class TestThread<L> extends Thread implements TearDown {
     }
 
     Throwable getThrowable() {
-      assertNotNull(throwable);
+      assertThat(throwable).isNotNull();
       return throwable;
     }
   }

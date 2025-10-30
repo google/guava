@@ -91,9 +91,9 @@ public class AbstractFutureCancellationCauseTest extends TestCase {
     assertTrue(future.cancel(false));
     assertTrue(future.isCancelled());
     assertTrue(future.isDone());
-    assertNull(tryInternalFastPathGetFailure(future));
+    assertThat(tryInternalFastPathGetFailure(future)).isNull();
     CancellationException e = assertThrows(CancellationException.class, () -> future.get());
-    assertNotNull(e.getCause());
+    assertThat(e.getCause()).isNotNull();
   }
 
   public void testCancel_notDoneInterrupt() throws Exception {
@@ -101,9 +101,9 @@ public class AbstractFutureCancellationCauseTest extends TestCase {
     assertTrue(future.cancel(true));
     assertTrue(future.isCancelled());
     assertTrue(future.isDone());
-    assertNull(tryInternalFastPathGetFailure(future));
+    assertThat(tryInternalFastPathGetFailure(future)).isNull();
     CancellationException e = assertThrows(CancellationException.class, () -> future.get());
-    assertNotNull(e.getCause());
+    assertThat(e.getCause()).isNotNull();
   }
 
   public void testSetFuture_misbehavingFutureDoesNotThrow() throws Exception {

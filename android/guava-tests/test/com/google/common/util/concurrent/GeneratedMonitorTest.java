@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 
 import com.google.common.base.CaseFormat;
@@ -518,7 +519,7 @@ public class GeneratedMonitorTest extends TestCase {
     if (hung) {
       assertEquals(expectedOutcome, Outcome.HANG);
     } else {
-      assertNull(task.get(UNEXPECTED_HANG_DELAY_MILLIS, TimeUnit.MILLISECONDS));
+      assertThat(task.get(UNEXPECTED_HANG_DELAY_MILLIS, TimeUnit.MILLISECONDS)).isNull();
     }
   }
 

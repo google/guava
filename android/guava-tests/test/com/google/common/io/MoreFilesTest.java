@@ -233,16 +233,16 @@ public class MoreFilesTest extends TestCase {
     // We use a fake filesystem to sidestep flaky problems with Windows (b/136041958).
     try (FileSystem fs = Jimfs.newFileSystem(Configuration.unix())) {
       Path root = fs.getRootDirectories().iterator().next();
-      assertNull(root.getParent());
-      assertNull(root.toRealPath().getParent());
+      assertThat(root.getParent()).isNull();
+      assertThat(root.toRealPath().getParent()).isNull();
       MoreFiles.createParentDirectories(root); // test that there's no exception
     }
   }
 
   public void testCreateParentDirectories_relativePath() throws IOException {
     Path path = FS.getPath("nonexistent.file");
-    assertNull(path.getParent());
-    assertNotNull(path.toAbsolutePath().getParent());
+    assertThat(path.getParent()).isNull();
+    assertThat(path.toAbsolutePath().getParent()).isNotNull();
     MoreFiles.createParentDirectories(path); // test that there's no exception
   }
 

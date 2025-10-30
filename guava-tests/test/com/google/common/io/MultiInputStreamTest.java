@@ -16,6 +16,8 @@
 
 package com.google.common.io;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.io.ByteArrayInputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
@@ -66,7 +68,7 @@ public class MultiInputStreamTest extends IoTestCase {
           }
         };
     byte[] result = ByteSource.concat(checker, checker, checker).read();
-    assertEquals(150, result.length);
+    assertThat(result).hasLength(150);
   }
 
   private void joinHelper(Integer... spans) throws Exception {

@@ -255,7 +255,7 @@ public class QueuesTest extends TestCase {
 
   /** Checks that #drain() invocations behave correctly for a drained (empty) queue. */
   private void assertDrained(BlockingQueue<Object> q) {
-    assertNull(q.peek());
+    assertThat(q.peek()).isNull();
     assertInterruptibleDrained(q);
     assertUninterruptibleDrained(q);
   }

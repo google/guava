@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.StandardSystemProperty.OS_NAME;
+import static com.google.common.primitives.Bytes.concat;
 import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.min;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_READ;
@@ -28,7 +29,6 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.nio.file.attribute.PosixFileAttributeView;
 import java.nio.file.attribute.PosixFileAttributes;
-import java.util.Arrays;
 import org.jspecify.annotations.NullUnmarked;
 
 /**
@@ -68,7 +68,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
       assertTrue(ByteSource.wrap(data).slice(0, chunk1).contentEquals(source));
     }
     File file = out.getFile();
-    assertNull(file);
+    assertThat(file).isNull();
 
     // Write data to go over the threshold
     if (chunk2 > 0) {
@@ -87,7 +87,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     out.close();
 
     // Check that source returns the right data
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
 
     // Make sure that reset deleted the file
     out.reset();
@@ -128,13 +128,13 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     ByteSource source = out.asByteSource();
 
     out.write(data);
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
 
     out.close();
     assertThrows(IOException.class, () -> out.write(42));
 
     // Verify that write had no effect
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
     out.reset();
   }
 
@@ -144,13 +144,13 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     ByteSource source = out.asByteSource();
 
     out.write(data);
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
 
     out.reset();
-    assertTrue(Arrays.equals(new byte[0], source.read()));
+    assertThat(source.read()).isEmpty();
 
     out.write(data);
-    assertTrue(Arrays.equals(data, source.read()));
+    assertThat(source.read()).isEqualTo(data);
 
     out.close();
   }
@@ -161,5 +161,40 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
   private static boolean isWindows() {
     return OS_NAME.value().startsWith("Windows");
+  }
+
+  /**
+   * Test that verifies the resource leak fix for <a
+   * href="https://github.com/google/guava/issues/5756">Issue #5756</a>.
+   *
+   * <p>This test covers a scenario where we write a smaller amount of data first, then write a
+   * large amount that crosses the threshold (transitioning from "not at threshold" to "over the
+   * threshold"). (We then write some more afterward.) This differs from the existing
+   * testThreshold() which writes exactly enough bytes to fill the buffer, then immediately writes
+   * more bytes.
+   *
+   * <p>Note: Direct testing of the {@link IOException} scenario during write/flush is challenging
+   * without mocking. This test verifies that normal operation with threshold crossing still works
+   * correctly with the fix in place.
+   */
+  public void testThresholdCrossing_resourceManagement() throws Exception {
+    FileBackedOutputStream out = new FileBackedOutputStream(/* fileThreshold= */ 10);
+    ByteSource source = out.asByteSource();
+
+    byte[] chunk1 = newPreFilledByteArray(8); // Below threshold
+    byte[] chunk2 = newPreFilledByteArray(5); // Crosses threshold
+    byte[] chunk3 = newPreFilledByteArray(20); // More data to file
+
+    out.write(chunk1);
+    assertThat(out.getFile()).isNull();
+
+    out.write(chunk2);
+    assertThat(out.getFile()).isNotNull();
+    assertThat(source.read()).isEqualTo(concat(chunk1, chunk2));
+
+    out.write(chunk3);
+    assertThat(source.read()).isEqualTo(concat(chunk1, chunk2, chunk3));
+
+    out.reset();
   }
 }

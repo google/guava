@@ -192,7 +192,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetOnlyElement_withDefault_empty_null() {
     Iterable<String> iterable = emptyList();
-    assertNull(Iterables.<@Nullable String>getOnlyElement(iterable, null));
+    assertThat(Iterables.<@Nullable String>getOnlyElement(iterable, null)).isNull();
   }
 
   public void testGetOnlyElement_withDefault_multiple() {
@@ -204,14 +204,14 @@ public class IterablesTest extends TestCase {
   public void testToArrayEmpty() {
     Iterable<String> iterable = emptyList();
     String[] array = Iterables.toArray(iterable, String.class);
-    assertTrue(Arrays.equals(new String[0], array));
+    assertThat(array).isEmpty();
   }
 
   @GwtIncompatible // Iterables.toArray(Iterable, Class)
   public void testToArraySingleton() {
     Iterable<String> iterable = singletonList("a");
     String[] array = Iterables.toArray(iterable, String.class);
-    assertTrue(Arrays.equals(new String[] {"a"}, array));
+    assertThat(array).isEqualTo(new String[] {"a"});
   }
 
   @GwtIncompatible // Iterables.toArray(Iterable, Class)
@@ -219,7 +219,7 @@ public class IterablesTest extends TestCase {
     String[] sourceArray = new String[] {"a", "b", "c"};
     Iterable<String> iterable = asList(sourceArray);
     String[] newArray = Iterables.toArray(iterable, String.class);
-    assertTrue(Arrays.equals(sourceArray, newArray));
+    assertThat(newArray).isEqualTo(sourceArray);
   }
 
   public void testAny() {
@@ -258,7 +258,7 @@ public class IterablesTest extends TestCase {
     assertEquals("cool", find(list, equalTo("cool"), "woot"));
     assertEquals("pants", find(list, equalTo("pants"), "woot"));
     assertEquals("woot", find(list, Predicates.alwaysFalse(), "woot"));
-    assertNull(find(list, Predicates.alwaysFalse(), null));
+    assertThat(find(list, Predicates.alwaysFalse(), null)).isNull();
     assertEquals("cool", find(list, Predicates.alwaysTrue(), "woot"));
     assertCanIterateAgain(list);
   }
@@ -822,7 +822,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetFirst_withDefault_empty_null() {
     Iterable<String> iterable = emptyList();
-    assertNull(Iterables.<@Nullable String>getFirst(iterable, null));
+    assertThat(Iterables.<@Nullable String>getFirst(iterable, null)).isNull();
   }
 
   public void testGetFirst_withDefault_multiple() {
@@ -857,7 +857,7 @@ public class IterablesTest extends TestCase {
 
   public void testGetLast_withDefault_empty_null() {
     Iterable<String> iterable = emptyList();
-    assertNull(Iterables.<@Nullable String>getLast(iterable, null));
+    assertThat(Iterables.<@Nullable String>getLast(iterable, null)).isNull();
   }
 
   public void testGetLast_withDefault_multiple() {

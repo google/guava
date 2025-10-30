@@ -115,7 +115,7 @@ public class CloserTest extends TestCase {
 
     assertTrue(c1.isClosed());
     assertTrue(c2.isClosed());
-    assertNull(c3);
+    assertThat(c3).isNull();
 
     assertTrue(suppressor.suppressions.isEmpty());
   }

@@ -44,7 +44,7 @@ import org.jspecify.annotations.Nullable;
 public final class OptionalTest extends TestCase {
   @SuppressWarnings("NullOptional")
   public void testToJavaUtil_static() {
-    assertNull(Optional.toJavaUtil(null));
+    assertThat(Optional.toJavaUtil(null)).isNull();
     assertEquals(java.util.Optional.empty(), Optional.toJavaUtil(Optional.absent()));
     assertEquals(java.util.Optional.of("abc"), Optional.toJavaUtil(Optional.of("abc")));
   }
@@ -56,7 +56,7 @@ public final class OptionalTest extends TestCase {
 
   @SuppressWarnings("NullOptional")
   public void testFromJavaUtil() {
-    assertNull(Optional.fromJavaUtil(null));
+    assertThat(Optional.fromJavaUtil(null)).isNull();
     assertEquals(Optional.absent(), Optional.fromJavaUtil(java.util.Optional.empty()));
     assertEquals(Optional.of("abc"), Optional.fromJavaUtil(java.util.Optional.of("abc")));
   }
@@ -147,7 +147,7 @@ public final class OptionalTest extends TestCase {
   }
 
   public void testOrNull_absent() {
-    assertNull(Optional.absent().orNull());
+    assertThat(Optional.absent().orNull()).isNull();
   }
 
   public void testAsSet_present() {

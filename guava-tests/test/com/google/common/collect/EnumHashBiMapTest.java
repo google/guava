@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -176,7 +177,7 @@ public class EnumHashBiMapTest extends TestCase {
     assertEquals(bimap1, bimap2);
     bimap2.inverse().put("franc", Currency.FRANC);
     assertEquals("franc", bimap2.get(Currency.FRANC));
-    assertNull(bimap1.get(Currency.FRANC));
+    assertThat(bimap1.get(Currency.FRANC)).isNull();
     assertFalse(bimap2.equals(bimap1));
 
     /* Test that it can be empty. */
@@ -195,7 +196,7 @@ public class EnumHashBiMapTest extends TestCase {
     assertEquals(bimap1, bimap2);
     bimap2.inverse().put("franc", Currency.FRANC);
     assertEquals("franc", bimap2.get(Currency.FRANC));
-    assertNull(bimap1.get(Currency.FRANC));
+    assertThat(bimap1.get(Currency.FRANC)).isNull();
     assertFalse(bimap2.equals(bimap1));
 
     /* Test that it can be empty. */

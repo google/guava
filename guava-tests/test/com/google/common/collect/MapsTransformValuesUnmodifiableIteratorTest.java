@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.transformValues;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
@@ -217,7 +218,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
     underlying.put("a", 1);
     Map<String, String> map = transformValues(underlying, Functions.toStringFunction());
     assertEquals("1", map.remove("a"));
-    assertNull(map.remove("b"));
+    assertThat(map.remove("b")).isNull();
   }
 
   public void testTransformEqualityOfMapsWithNullValues() {

@@ -78,6 +78,19 @@ public class UninterruptiblesTest extends TestCase {
               + "Some test probably didn't clear the interrupt state");
     }
 
+    /*
+     * b/456222735: Initialize Truth up front. Android Marshmallow appears to sometimes clear the
+     * interrupt bit when requesting class initialization, breaking our tests that check that the
+     * interrupt bit is set when appropriate.
+     *
+     * Merely calling assert_(), while apparently enough to clear the interrupt in my experiments,
+     * is not enough to make the test reliably pass. (Presumably it leaves more classes to be
+     * initialized later, at which point they cause more clearing of the interrupt?) It's not
+     * obvious that the following assertion is necessarily enough, either, but in practice, it seems
+     * to work, at least with the current set of Truth classes that this test uses.
+     */
+    assertThat(1L).isGreaterThan(0);
+
     tearDownStack.addTearDown(
         new TearDown() {
           @Override
@@ -736,7 +749,7 @@ public class UninterruptiblesTest extends TestCase {
 
     @Override
     protected void doAction() {
-      assertNotNull(queue.remove());
+      assertThat(queue.remove()).isNotNull();
     }
   }
 
@@ -828,7 +841,7 @@ public class UninterruptiblesTest extends TestCase {
 
   private static void assertTimeNotPassed(Stopwatch stopwatch, long timelimitMillis) {
     long elapsedMillis = stopwatch.elapsed(MILLISECONDS);
-    assertTrue(elapsedMillis < timelimitMillis);
+    assertThat(elapsedMillis).isLessThan(timelimitMillis);
   }
 
   /**

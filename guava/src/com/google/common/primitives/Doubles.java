@@ -58,8 +58,6 @@ public final class Doubles extends DoublesMethodsForWeb {
    *
    * @since 10.0
    */
-  // The constants value gets inlined here.
-  @SuppressWarnings("AndroidJdkLibsChecker")
   public static final int BYTES = Double.BYTES;
 
   /**

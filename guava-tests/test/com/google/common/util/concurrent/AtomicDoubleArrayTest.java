@@ -370,6 +370,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
       aa = a;
     }
 
+    @SuppressWarnings("DoubleAtLeastJUnit") // causes timeouts under Android
     @Override
     public void realRun() {
       for (; ; ) {

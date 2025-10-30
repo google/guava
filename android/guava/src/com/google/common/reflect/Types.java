@@ -627,7 +627,6 @@ final class Types {
       }
 
       @IgnoreJRERequirement
-      @SuppressWarnings("AndroidJdkLibsChecker") // as discussed under JAVA8.typeName
       @Override
       String typeName(Type type) {
         return type.getTypeName();

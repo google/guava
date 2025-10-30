@@ -213,7 +213,7 @@ public class IteratorsTest extends TestCase {
 
   public void testGetOnlyElement_withDefault_empty_null() {
     Iterator<String> iterator = emptyIterator();
-    assertNull(Iterators.<@Nullable String>getOnlyElement(iterator, null));
+    assertThat(Iterators.<@Nullable String>getOnlyElement(iterator, null)).isNull();
   }
 
   public void testGetOnlyElement_withDefault_two() {
@@ -227,14 +227,14 @@ public class IteratorsTest extends TestCase {
   public void testToArrayEmpty() {
     Iterator<String> iterator = Collections.<String>emptyList().iterator();
     String[] array = Iterators.toArray(iterator, String.class);
-    assertTrue(Arrays.equals(new String[0], array));
+    assertThat(array).isEmpty();
   }
 
   @GwtIncompatible // Iterators.toArray(Iterator, Class)
   public void testToArraySingleton() {
     Iterator<String> iterator = singletonList("a").iterator();
     String[] array = Iterators.toArray(iterator, String.class);
-    assertTrue(Arrays.equals(new String[] {"a"}, array));
+    assertThat(array).isEqualTo(new String[] {"a"});
   }
 
   @GwtIncompatible // Iterators.toArray(Iterator, Class)
@@ -242,7 +242,7 @@ public class IteratorsTest extends TestCase {
     String[] sourceArray = new String[] {"a", "b", "c"};
     Iterator<String> iterator = asList(sourceArray).iterator();
     String[] newArray = Iterators.toArray(iterator, String.class);
-    assertTrue(Arrays.equals(sourceArray, newArray));
+    assertThat(newArray).isEqualTo(sourceArray);
   }
 
   public void testFilterSimple() {
@@ -378,7 +378,7 @@ public class IteratorsTest extends TestCase {
   public void testFind_withDefault_notPresent_nullReturn() {
     Iterable<String> list = Lists.newArrayList("cool", "pants");
     Iterator<String> iterator = list.iterator();
-    assertNull(find(iterator, Predicates.alwaysFalse(), null));
+    assertThat(find(iterator, Predicates.alwaysFalse(), null)).isNull();
     assertFalse(iterator.hasNext());
   }
 
@@ -1241,7 +1241,7 @@ public class IteratorsTest extends TestCase {
 
   public void testGetNext_withDefault_empty_null() {
     Iterator<String> iterator = emptyIterator();
-    assertNull(Iterators.<@Nullable String>getNext(iterator, null));
+    assertThat(Iterators.<@Nullable String>getNext(iterator, null)).isNull();
   }
 
   public void testGetNext_withDefault_two() {
@@ -1273,7 +1273,7 @@ public class IteratorsTest extends TestCase {
 
   public void testGetLast_withDefault_empty_null() {
     Iterator<String> iterator = emptyIterator();
-    assertNull(Iterators.<@Nullable String>getLast(iterator, null));
+    assertThat(Iterators.<@Nullable String>getLast(iterator, null)).isNull();
   }
 
   public void testGetLast_withDefault_two() {

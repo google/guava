@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import static com.google.common.base.Functions.toStringFunction;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -176,8 +177,8 @@ public class ConverterTest extends TestCase {
 
     Converter<String, Number> converter = Converter.<String, Number>from(forward, backward);
 
-    assertNull(converter.convert(null));
-    assertNull(converter.reverse().convert(null));
+    assertThat(converter.convert(null)).isNull();
+    assertThat(converter.reverse().convert(null)).isNull();
 
     assertEquals((Integer) 5, converter.convert("5"));
     assertEquals("5", converter.reverse().convert(5));

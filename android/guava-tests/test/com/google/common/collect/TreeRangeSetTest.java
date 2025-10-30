@@ -651,7 +651,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     rangeSet.add(Range.closed(3, 10));
     assertEquals(Range.closed(3, 10), rangeSet.rangeContaining(5));
     assertTrue(rangeSet.contains(5));
-    assertNull(rangeSet.rangeContaining(1));
+    assertThat(rangeSet.rangeContaining(1)).isNull();
     assertFalse(rangeSet.contains(1));
   }
 
@@ -663,7 +663,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     assertTrue(rangeSet.contains(5));
     assertEquals(Range.closed(7, 10), rangeSet.rangeContaining(8));
     assertTrue(rangeSet.contains(8));
-    assertNull(rangeSet.rangeContaining(6));
+    assertThat(rangeSet.rangeContaining(6)).isNull();
     assertFalse(rangeSet.contains(6));
   }
 

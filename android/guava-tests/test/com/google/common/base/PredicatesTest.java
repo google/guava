@@ -17,6 +17,7 @@
 package com.google.common.base;
 
 import static com.google.common.base.CharMatcher.whitespace;
+import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
@@ -954,7 +955,7 @@ public class PredicatesTest extends TestCase {
 
     assertEquals(expectedResult, actualResult);
     if (expectedRuntimeException != null) {
-      assertNotNull(actualRuntimeException);
+      assertThat(actualRuntimeException).isNotNull();
       assertEquals(expectedRuntimeException.getClass(), actualRuntimeException.getClass());
     }
   }

@@ -56,8 +56,6 @@ public final class Floats extends FloatsMethodsForWeb {
    *
    * @since 10.0
    */
-  // The constants value gets inlined here.
-  @SuppressWarnings("AndroidJdkLibsChecker")
   public static final int BYTES = Float.BYTES;
 
   /**

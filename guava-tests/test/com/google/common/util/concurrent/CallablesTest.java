@@ -43,7 +43,7 @@ public class CallablesTest extends TestCase {
 
   @J2ktIncompatible // TODO(b/324550390): Enable
   public void testReturning() throws Exception {
-    assertNull(Callables.returning(null).call());
+    assertThat(Callables.returning(null).call()).isNull();
 
     Object value = new Object();
     Callable<Object> callable = Callables.returning(value);

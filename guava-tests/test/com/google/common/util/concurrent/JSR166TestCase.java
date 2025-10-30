@@ -15,6 +15,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
@@ -30,7 +31,6 @@ import java.security.Permissions;
 import java.security.Policy;
 import java.security.ProtectionDomain;
 import java.security.SecurityPermission;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.NoSuchElementException;
 import java.util.PropertyPermission;
@@ -364,7 +364,7 @@ abstract class JSR166TestCase extends TestCase {
    */
   public void threadAssertNull(Object x) {
     try {
-      assertNull(x);
+      assertThat(x).isNull();
     } catch (AssertionFailedError t) {
       threadRecordFailure(t);
       throw t;
@@ -517,7 +517,7 @@ abstract class JSR166TestCase extends TestCase {
     } finally {
       future.cancel(true);
     }
-    assertTrue(millisElapsedSince(startTime) >= timeoutMillis);
+    assertThat(millisElapsedSince(startTime)).isAtLeast(timeoutMillis);
   }
 
   /** The number of elements to place in collections, arrays, etc. */
@@ -1166,11 +1166,11 @@ abstract class JSR166TestCase extends TestCase {
     try {
       assertTrue(q.isEmpty());
       assertEquals(0, q.size());
-      assertNull(q.peek());
-      assertNull(q.poll());
-      assertNull(q.poll(0, MILLISECONDS));
+      assertThat(q.peek()).isNull();
+      assertThat(q.poll()).isNull();
+      assertThat(q.poll(0, MILLISECONDS)).isNull();
       assertEquals("[]", q.toString());
-      assertTrue(Arrays.equals(q.toArray(), new Object[0]));
+      assertThat(q.toArray()).isEmpty();
       assertFalse(q.iterator().hasNext());
       try {
         q.element();

@@ -120,8 +120,8 @@ public class EnumsTest extends TestCase {
     assertEquals(TestEnum.CHEETO, converter.convert("CHEETO"));
     assertEquals(TestEnum.HONDA, converter.convert("HONDA"));
     assertEquals(TestEnum.POODLE, converter.convert("POODLE"));
-    assertNull(converter.convert(null));
-    assertNull(converter.reverse().convert(null));
+    assertThat(converter.convert(null)).isNull();
+    assertThat(converter.reverse().convert(null)).isNull();
   }
 
   public void testStringConverter_convertError() {
@@ -145,8 +145,8 @@ public class EnumsTest extends TestCase {
 
   public void testStringConverter_nullConversions() {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
-    assertNull(converter.convert(null));
-    assertNull(converter.reverse().convert(null));
+    assertThat(converter.convert(null)).isNull();
+    assertThat(converter.reverse().convert(null)).isNull();
   }
 
   @J2ktIncompatible

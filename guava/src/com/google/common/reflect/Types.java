@@ -625,7 +625,6 @@ final class Types {
         return JAVA8.usedInGenericType(type);
       }
 
-      @SuppressWarnings("AndroidJdkLibsChecker") // as discussed under JAVA8.typeName
       @Override
       String typeName(Type type) {
         return type.getTypeName();

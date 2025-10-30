@@ -37,7 +37,6 @@ import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestSuite;
@@ -96,9 +95,9 @@ public class FilesTest extends IoTestCase {
   public void testToByteArray() throws IOException {
     File asciiFile = getTestFile("ascii.txt");
     File i18nFile = getTestFile("i18n.txt");
-    assertTrue(Arrays.equals(ASCII.getBytes(US_ASCII), Files.toByteArray(asciiFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(UTF_8), Files.toByteArray(i18nFile)));
-    assertTrue(Arrays.equals(I18N.getBytes(UTF_8), Files.asByteSource(i18nFile).read()));
+    assertThat(Files.toByteArray(asciiFile)).isEqualTo(ASCII.getBytes(US_ASCII));
+    assertThat(Files.toByteArray(i18nFile)).isEqualTo(I18N.getBytes(UTF_8));
+    assertThat(Files.asByteSource(i18nFile).read()).isEqualTo(I18N.getBytes(UTF_8));
   }
 
   /** A {@link File} that provides a specialized value for {@link File#length()}. */
@@ -137,7 +136,7 @@ public class FilesTest extends IoTestCase {
     File temp = createTempFile();
     byte[] data = newPreFilledByteArray(2000);
     Files.write(data, temp);
-    assertTrue(Arrays.equals(data, Files.toByteArray(temp)));
+    assertThat(Files.toByteArray(temp)).isEqualTo(data);
 
     assertThrows(NullPointerException.class, () -> Files.write(null, temp));
   }
@@ -290,15 +289,15 @@ public class FilesTest extends IoTestCase {
 
   public void testCreateParentDirs_root() throws IOException {
     File file = root();
-    assertNull(file.getParentFile());
-    assertNull(file.getCanonicalFile().getParentFile());
+    assertThat(file.getParentFile()).isNull();
+    assertThat(file.getCanonicalFile().getParentFile()).isNull();
     Files.createParentDirs(file);
   }
 
   public void testCreateParentDirs_relativePath() throws IOException {
     File file = file("nonexistent.file");
-    assertNull(file.getParentFile());
-    assertNotNull(file.getCanonicalFile().getParentFile());
+    assertThat(file.getParentFile()).isNull();
+    assertThat(file.getCanonicalFile().getParentFile()).isNotNull();
     Files.createParentDirs(file);
   }
 
@@ -410,7 +409,7 @@ public class FilesTest extends IoTestCase {
 
   public void testLineReading() throws IOException {
     File temp = createTempFile();
-    assertNull(Files.readFirstLine(temp, UTF_8));
+    assertThat(Files.readFirstLine(temp, UTF_8)).isNull();
     assertTrue(Files.readLines(temp, UTF_8).isEmpty());
 
     PrintWriter w = new PrintWriter(Files.newWriter(temp, UTF_8));
@@ -537,7 +536,7 @@ public class FilesTest extends IoTestCase {
 
     // Verify
     byte[] actualBytes = Files.toByteArray(file);
-    assertTrue(Arrays.equals(expectedBytes, actualBytes));
+    assertThat(actualBytes).isEqualTo(expectedBytes);
   }
 
   public void testMap_readWrite_creates() throws IOException {
@@ -560,7 +559,7 @@ public class FilesTest extends IoTestCase {
     assertTrue(file.isFile());
     assertEquals(size, file.length());
     byte[] actualBytes = Files.toByteArray(file);
-    assertTrue(Arrays.equals(expectedBytes, actualBytes));
+    assertThat(actualBytes).isEqualTo(expectedBytes);
   }
 
   public void testMap_readWrite_max_value_plus_1() throws IOException {
@@ -655,7 +654,7 @@ public class FilesTest extends IoTestCase {
 
     File asciiFile = getTestFile("ascii.txt");
     byte[] result = Files.readBytes(asciiFile, processor);
-    assertEquals(1, result.length);
+    assertThat(result).hasLength(1);
   }
 
   public void testPredicates() throws IOException {

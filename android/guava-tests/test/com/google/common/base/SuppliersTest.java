@@ -321,7 +321,7 @@ public class SuppliersTest extends TestCase {
 
   public void testOfInstanceSuppliesNull() {
     Supplier<@Nullable Integer> nullSupplier = Suppliers.ofInstance(null);
-    assertNull(nullSupplier.get());
+    assertThat(nullSupplier.get()).isNull();
   }
 
   @J2ktIncompatible

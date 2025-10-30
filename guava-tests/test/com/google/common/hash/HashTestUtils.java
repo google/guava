@@ -481,7 +481,7 @@ final class HashTestUtils {
       Assert.assertEquals(hashFunction.bits(), hashcode1.asBytes().length * 8);
       hashcodes.add(hashcode1);
     }
-    Assert.assertTrue(hashcodes.size() > objects * 0.95); // quite relaxed test
+    assertThat((double) hashcodes.size()).isGreaterThan(objects * 0.95); // quite relaxed test
 
     assertHashBytesThrowsCorrectExceptions(hashFunction);
     assertIndependentHashers(hashFunction);

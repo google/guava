@@ -238,13 +238,21 @@ public final class FileBackedOutputStream extends OutputStream {
         // this is insurance.
         temp.deleteOnExit();
       }
+      FileOutputStream transfer = null;
       try {
-        FileOutputStream transfer = new FileOutputStream(temp);
+        transfer = new FileOutputStream(temp);
         transfer.write(memory.getBuffer(), 0, memory.getCount());
         transfer.flush();
         // We've successfully transferred the data; switch to writing to file
         out = transfer;
       } catch (IOException e) {
+        if (transfer != null) {
+          try {
+            transfer.close();
+          } catch (IOException closeException) {
+            e.addSuppressed(closeException);
+          }
+        }
         temp.delete();
         throw e;
       }

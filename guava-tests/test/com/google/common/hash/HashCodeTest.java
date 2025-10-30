@@ -17,6 +17,7 @@
 package com.google.common.hash;
 
 import static com.google.common.io.BaseEncoding.base16;
+import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.junit.Assert.assertThrows;
 
@@ -254,13 +255,13 @@ public class HashCodeTest extends TestCase {
   public void testIntWriteBytesTo() {
     byte[] dest = new byte[4];
     HashCode.fromInt(42).writeBytesTo(dest, 0, 4);
-    assertTrue(Arrays.equals(HashCode.fromInt(42).asBytes(), dest));
+    assertThat(dest).isEqualTo(HashCode.fromInt(42).asBytes());
   }
 
   public void testLongWriteBytesTo() {
     byte[] dest = new byte[8];
     HashCode.fromLong(42).writeBytesTo(dest, 0, 8);
-    assertTrue(Arrays.equals(HashCode.fromLong(42).asBytes(), dest));
+    assertThat(dest).isEqualTo(HashCode.fromLong(42).asBytes());
   }
 
   private static final HashCode HASH_ABCD =
@@ -269,32 +270,28 @@ public class HashCodeTest extends TestCase {
   public void testWriteBytesTo() {
     byte[] dest = new byte[4];
     HASH_ABCD.writeBytesTo(dest, 0, 4);
-    assertTrue(
-        Arrays.equals(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd}, dest));
+    assertThat(dest).isEqualTo(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd});
   }
 
   public void testWriteBytesToOversizedArray() {
     byte[] dest = new byte[5];
     HASH_ABCD.writeBytesTo(dest, 0, 4);
-    assertTrue(
-        Arrays.equals(
-            new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0x00}, dest));
+    assertThat(dest)
+        .isEqualTo(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0x00});
   }
 
   public void testWriteBytesToOversizedArrayLongMaxLength() {
     byte[] dest = new byte[5];
     HASH_ABCD.writeBytesTo(dest, 0, 5);
-    assertTrue(
-        Arrays.equals(
-            new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0x00}, dest));
+    assertThat(dest)
+        .isEqualTo(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0xdd, (byte) 0x00});
   }
 
   public void testWriteBytesToOversizedArrayShortMaxLength() {
     byte[] dest = new byte[5];
     HASH_ABCD.writeBytesTo(dest, 0, 3);
-    assertTrue(
-        Arrays.equals(
-            new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0x00, (byte) 0x00}, dest));
+    assertThat(dest)
+        .isEqualTo(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0xcc, (byte) 0x00, (byte) 0x00});
   }
 
   public void testWriteBytesToUndersizedArray() {
@@ -310,7 +307,7 @@ public class HashCodeTest extends TestCase {
   public void testWriteBytesToUndersizedArrayShortMaxLength() {
     byte[] dest = new byte[3];
     HASH_ABCD.writeBytesTo(dest, 0, 2);
-    assertTrue(Arrays.equals(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0x00}, dest));
+    assertThat(dest).isEqualTo(new byte[] {(byte) 0xaa, (byte) 0xbb, (byte) 0x00});
   }
 
   private static ClassSanityTester.FactoryMethodReturnValueTester sanityTester() {
@@ -322,10 +319,10 @@ public class HashCodeTest extends TestCase {
   }
 
   private static void assertExpectedHashCode(ExpectedHashCode expectedHashCode, HashCode hash) {
-    assertTrue(Arrays.equals(expectedHashCode.bytes, hash.asBytes()));
+    assertThat(hash.asBytes()).isEqualTo(expectedHashCode.bytes);
     byte[] bb = new byte[hash.bits() / 8];
     hash.writeBytesTo(bb, 0, bb.length);
-    assertTrue(Arrays.equals(expectedHashCode.bytes, bb));
+    assertThat(bb).isEqualTo(expectedHashCode.bytes);
     assertEquals(expectedHashCode.asInt, hash.asInt());
     if (expectedHashCode.asLong == null) {
       try {
@@ -345,11 +342,11 @@ public class HashCodeTest extends TestCase {
     byte[] original = hash.asBytes();
     byte[] mutated = hash.asBytes();
     mutated[0]++;
-    assertTrue(Arrays.equals(original, hash.asBytes()));
+    assertThat(hash.asBytes()).isEqualTo(original);
   }
 
   private static void assertReadableBytes(HashCode hashCode) {
-    assertTrue(hashCode.bits() >= 32); // sanity
+    assertThat(hashCode.bits()).isAtLeast(32); // sanity
     byte[] hashBytes = hashCode.asBytes();
     int totalBytes = hashCode.bits() / 8;
 
@@ -357,7 +354,7 @@ public class HashCodeTest extends TestCase {
       byte[] bb = new byte[bytes];
       hashCode.writeBytesTo(bb, 0, bb.length);
 
-      assertTrue(Arrays.equals(Arrays.copyOf(hashBytes, bytes), bb));
+      assertThat(bb).isEqualTo(Arrays.copyOf(hashBytes, bytes));
     }
   }
 

@@ -268,7 +268,7 @@ public class ByteStreamsTest extends IoTestCase {
 
   public void testNewDataOutput_empty() {
     ByteArrayDataOutput out = ByteStreams.newDataOutput();
-    assertEquals(0, out.toByteArray().length);
+    assertThat(out.toByteArray()).isEmpty();
   }
 
   public void testNewDataOutput_writeInt() {
@@ -393,7 +393,7 @@ public class ByteStreamsTest extends IoTestCase {
   public void testToByteArray_emptyStream() throws IOException {
     InputStream in = newTestStream(0);
     byte[] b = ByteStreams.toByteArray(in);
-    assertThat(b).isEqualTo(new byte[0]);
+    assertThat(b).isEmpty();
   }
 
   public void testToByteArray_largeStream() throws IOException {
