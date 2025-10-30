@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.StandardSystemProperty.OS_NAME;
+import static com.google.common.primitives.Bytes.concat;
 import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.min;
 import static java.nio.file.attribute.PosixFilePermission.OWNER_READ;
@@ -160,5 +161,40 @@ public class FileBackedOutputStreamTest extends IoTestCase {
 
   private static boolean isWindows() {
     return OS_NAME.value().startsWith("Windows");
+  }
+
+  /**
+   * Test that verifies the resource leak fix for <a
+   * href="https://github.com/google/guava/issues/5756">Issue #5756</a>.
+   *
+   * <p>This test covers a scenario where we write a smaller amount of data first, then write a
+   * large amount that crosses the threshold (transitioning from "not at threshold" to "over the
+   * threshold"). (We then write some more afterward.) This differs from the existing
+   * testThreshold() which writes exactly enough bytes to fill the buffer, then immediately writes
+   * more bytes.
+   *
+   * <p>Note: Direct testing of the {@link IOException} scenario during write/flush is challenging
+   * without mocking. This test verifies that normal operation with threshold crossing still works
+   * correctly with the fix in place.
+   */
+  public void testThresholdCrossing_resourceManagement() throws Exception {
+    FileBackedOutputStream out = new FileBackedOutputStream(/* fileThreshold= */ 10);
+    ByteSource source = out.asByteSource();
+
+    byte[] chunk1 = newPreFilledByteArray(8); // Below threshold
+    byte[] chunk2 = newPreFilledByteArray(5); // Crosses threshold
+    byte[] chunk3 = newPreFilledByteArray(20); // More data to file
+
+    out.write(chunk1);
+    assertThat(out.getFile()).isNull();
+
+    out.write(chunk2);
+    assertThat(out.getFile()).isNotNull();
+    assertThat(source.read()).isEqualTo(concat(chunk1, chunk2));
+
+    out.write(chunk3);
+    assertThat(source.read()).isEqualTo(concat(chunk1, chunk2, chunk3));
+
+    out.reset();
   }
 }
