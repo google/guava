@@ -190,6 +190,14 @@ public abstract class Converter<A, B> implements Function<A, B> {
 
   /**
    * Returns a representation of {@code a} as an instance of type {@code B}.
+   * <!-- PUBLIC:begin_intracommand_strip -->
+   *
+   * <p>Kotlin treats this method as always returning a nullable output. It does so even when you
+   * pass a non-null input, which {@link Converter} normally enforces is mapped to a non-null
+   * output. (The only case in which it does not enforce that is for classes that extend {@link
+   * LegacyConveter}.) To get a non-null output type for non-null inputs, instead call the extension
+   * function {@code convertNonNull} from {@code :base-ktx} / {@code :base-android-ktx}.
+   * <!-- PUBLIC:end_intracommand_strip -->
    *
    * @return the converted value; is null <i>if and only if</i> {@code a} is null
    */
