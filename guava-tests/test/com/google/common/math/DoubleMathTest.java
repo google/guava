@@ -71,9 +71,9 @@ public class DoubleMathTest extends TestCase {
 
   public void testConstantsMaxFactorial() {
     BigInteger maxDoubleValue = BigDecimal.valueOf(Double.MAX_VALUE).toBigInteger();
-    assertTrue(BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL).compareTo(maxDoubleValue) <= 0);
-    assertTrue(
-        BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL + 1).compareTo(maxDoubleValue) > 0);
+    assertThat(BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL)).isAtMost(maxDoubleValue);
+    assertThat(BigIntegerMath.factorial(DoubleMath.MAX_FACTORIAL + 1))
+        .isGreaterThan(maxDoubleValue);
   }
 
   public void testConstantsEverySixteenthFactorial() {

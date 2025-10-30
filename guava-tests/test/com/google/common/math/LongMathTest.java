@@ -132,7 +132,7 @@ public class LongMathTest extends TestCase {
     }
     BigInteger nextBigger =
         BigIntegerMath.sqrt(BigInteger.TEN.pow(2 * LongMath.halfPowersOf10.length + 1), FLOOR);
-    assertTrue(nextBigger.compareTo(BigInteger.valueOf(Long.MAX_VALUE)) > 0);
+    assertThat(nextBigger).isGreaterThan(BigInteger.valueOf(Long.MAX_VALUE));
   }
 
   @GwtIncompatible // TODO
