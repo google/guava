@@ -609,7 +609,7 @@ final class Types {
        * should really validate that it works as desired for all Android versions that we support.
        */
       @IgnoreJRERequirement
-      @SuppressWarnings("AndroidJdkLibsChecker")
+      @SuppressWarnings("NewApi")
       @Override
       String typeName(Type type) {
         return type.getTypeName();
@@ -627,6 +627,7 @@ final class Types {
       }
 
       @IgnoreJRERequirement
+      @SuppressWarnings("NewApi") // see JAVA8.typeName
       @Override
       String typeName(Type type) {
         return type.getTypeName();
