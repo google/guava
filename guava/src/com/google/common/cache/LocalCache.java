@@ -100,6 +100,7 @@ import org.jspecify.annotations.Nullable;
  * @author Charles Fry
  * @author Bob Lee ({@code com.google.common.collect.MapMaker})
  * @author Doug Lea ({@code ConcurrentHashMap})
+ * @author Ko Su
  */
 @SuppressWarnings({
   "GoodTime", // lots of violations (nanosecond math)
@@ -2287,7 +2288,16 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
           removeLoadingValue(key, hash, computingValueReference);
           return null;
         } else {
-          removeEntry(e, hash, RemovalCause.EXPLICIT);
+          V oldValue = valueReference.get();
+
+          RemovalCause cause;
+          if (oldValue == null && valueReference.isActive()) {
+            cause = RemovalCause.COLLECTED;
+          } else {
+            cause = RemovalCause.EXPLICIT;
+          }
+
+          removeEntry(e, hash, cause);
           return null;
         }
       } finally {
