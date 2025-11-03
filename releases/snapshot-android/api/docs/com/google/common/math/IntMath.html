@@ -688,9 +688,10 @@ behave identically except when passed <code>Integer.MIN_VALUE</code>. Those meth
       when passed <code>Integer.MIN_VALUE</code>
 </ul>
 
-<p>Note that if your only goal is to turn a well-distributed `int` (such as a random number or
-hash code) into a well-distributed nonnegative number, the most even distribution is achieved
-not by this method or other absolute value methods, but by <code>x &amp; Integer.MAX_VALUE</code>.</div>
+<p>Note that if your only goal is to turn a well-distributed <code>int</code> (such as a random
+number or hash code) into a well-distributed nonnegative number, the most even distribution is
+achieved not by this method or other absolute value methods, but by <code>x &amp;
+Integer.MAX_VALUE</code>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>33.5.0</dd>
