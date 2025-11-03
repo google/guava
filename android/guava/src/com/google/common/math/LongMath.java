@@ -1356,9 +1356,9 @@ public final class LongMath {
    *       when passed {@code Long.MIN_VALUE}
    * </ul>
    *
-   * <p>Note that if your only goal is to turn a well-distributed `long` (such as a random number)
-   * into a well-distributed nonnegative number, the most even distribution is achieved not by this
-   * method or other absolute value methods, but by {@code x & Long.MAX_VALUE}.
+   * <p>Note that if your only goal is to turn a well-distributed {@code long} (such as a random
+   * number) into a well-distributed nonnegative number, the most even distribution is achieved not
+   * by this method or other absolute value methods, but by {@code x & Long.MAX_VALUE}.
    *
    * @since 33.5.0
    */

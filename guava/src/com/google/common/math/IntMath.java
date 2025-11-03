@@ -747,9 +747,10 @@ public final class IntMath {
    *       when passed {@code Integer.MIN_VALUE}
    * </ul>
    *
-   * <p>Note that if your only goal is to turn a well-distributed `int` (such as a random number or
-   * hash code) into a well-distributed nonnegative number, the most even distribution is achieved
-   * not by this method or other absolute value methods, but by {@code x & Integer.MAX_VALUE}.
+   * <p>Note that if your only goal is to turn a well-distributed {@code int} (such as a random
+   * number or hash code) into a well-distributed nonnegative number, the most even distribution is
+   * achieved not by this method or other absolute value methods, but by {@code x &
+   * Integer.MAX_VALUE}.
    *
    * @since 33.5.0
    */
