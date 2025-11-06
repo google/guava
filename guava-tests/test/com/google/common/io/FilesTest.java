@@ -16,6 +16,9 @@
 
 package com.google.common.io;
 
+import static com.google.common.io.Files.deleteDirectoryContents;
+import static com.google.common.io.Files.deleteRecursively;
+import static com.google.common.io.Files.touch;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static java.nio.charset.StandardCharsets.UTF_16LE;
@@ -36,9 +39,13 @@ import java.io.RandomAccessFile;
 import java.nio.ByteBuffer;
 import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel.MapMode;
+import java.nio.file.Path;
+import java.nio.file.attribute.PosixFilePermission;
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.Random;
+import java.util.Set;
 import junit.framework.TestSuite;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -405,6 +412,27 @@ public class FilesTest extends IoTestCase {
     }
 
     private static final long serialVersionUID = 0;
+  }
+
+  public void testDeleteRealUnreadableDirectory() throws Exception {
+    File tempDir = createTempDir();
+    File foo = file(tempDir, "foo");
+    touch(foo);
+    Path tempDirPath = tempDir.toPath();
+    Set<PosixFilePermission> origPermissions =
+        java.nio.file.Files.getPosixFilePermissions(tempDirPath);
+    java.nio.file.Files.setPosixFilePermissions(
+        tempDirPath, EnumSet.of(PosixFilePermission.OWNER_WRITE));
+
+    assertThrows(IOException.class, () -> deleteDirectoryContents(tempDir));
+
+    assertThrows(IOException.class, () -> deleteRecursively(tempDir));
+
+    java.nio.file.Files.setPosixFilePermissions(tempDirPath, origPermissions);
+    assertTrue(foo.exists());
+
+    // Clean it up
+    deleteRecursively(tempDir);
   }
 
   public void testLineReading() throws IOException {
