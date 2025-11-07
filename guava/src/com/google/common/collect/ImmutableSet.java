@@ -187,6 +187,8 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       /*
        * The result has the same type argument we started with. We just couldn't express EnumSet<E>
        * or ImmutableEnumSet<E> along the way because our own <E> isn't <E extends Enum<E>>.
+       *
+       * We are also performing a safe covariant cast to change <? extends E> to <E>.
        */
       @SuppressWarnings("unchecked")
       ImmutableSet<E> result = (ImmutableSet<E>) untypedResult;

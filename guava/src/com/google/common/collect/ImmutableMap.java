@@ -692,12 +692,22 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return kvMap;
       }
     } else if (map instanceof EnumMap) {
-      @SuppressWarnings("unchecked") // safe since map is not writable
-      ImmutableMap<K, V> kvMap =
-          (ImmutableMap<K, V>)
-              copyOfEnumMap(
-                  (EnumMap<?, ? extends V>) map); // hide K (violates bounds) from J2KT, preserve V.
-      return kvMap;
+      EnumMap<?, ? extends V> clone = ((EnumMap<?, ? extends V>) map).clone();
+      for (Entry<?, ?> entry : clone.entrySet()) {
+        checkEntryNotNull(entry.getKey(), entry.getValue());
+      }
+      ImmutableMap<?, ? extends V> untypedResult = ImmutableEnumMap.asImmutable(clone);
+      /*
+       * The result has the same type argument we started with. We just couldn't express EnumMap<K,
+       * ...> or ImmutableEnumMap<K, ...> along the way because our own <K> isn't <K extends
+       * Enum<K>>.
+       *
+       * We are also performing a covariant cast, potentially from ImmutableMap<K, Sub> to
+       * ImmutableMap<K, Super>. That is safe because no one can add elements to the map.
+       */
+      @SuppressWarnings("unchecked")
+      ImmutableMap<K, V> result = (ImmutableMap<K, V>) untypedResult;
+      return result;
     }
     return copyOf(map.entrySet());
   }
@@ -728,16 +738,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
          */
         return RegularImmutableMap.fromEntries(entryArray);
     }
-  }
-
-  private static <K extends Enum<K>, V> ImmutableMap<K, ? extends V> copyOfEnumMap(
-      EnumMap<?, ? extends V> original) {
-    @SuppressWarnings("unchecked") // the best we could do to make copyOf(Map) compile
-    EnumMap<K, V> copy = new EnumMap<>((EnumMap<K, ? extends V>) original);
-    for (Entry<K, V> entry : copy.entrySet()) {
-      checkEntryNotNull(entry.getKey(), entry.getValue());
-    }
-    return ImmutableEnumMap.asImmutable(copy);
   }
 
   static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];
