@@ -1591,7 +1591,7 @@ public abstract class CharMatcher implements Predicate<Character> {
 
     @Override
     public String toString() {
-      return "CharMatcher.and(" + first + ", " + second + ")";
+      return first + ".and(" + second + ")";
     }
   }
 
@@ -1620,7 +1620,7 @@ public abstract class CharMatcher implements Predicate<Character> {
 
     @Override
     public String toString() {
-      return "CharMatcher.or(" + first + ", " + second + ")";
+      return first + ".or(" + second + ")";
     }
   }
 
