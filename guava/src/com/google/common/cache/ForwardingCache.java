@@ -22,6 +22,8 @@ import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -122,6 +124,26 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   @Override
   public void cleanUp() {
     delegate().cleanUp();
+  }
+
+  @Override
+  public @Nullable V compute(K key, BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction) {
+    return delegate().compute(key, remappingFunction);
+  }
+
+  @Override
+  public V computeIfAbsent(K key, Function<? super K, ? extends V> mappingFunction) {
+    return delegate().computeIfAbsent(key, mappingFunction);
+  }
+
+  @Override
+  public @Nullable V computeIfPresent(K key, BiFunction<? super K, ? super V, ? extends @Nullable V> remappingFunction) {
+    return delegate().computeIfPresent(key, remappingFunction);
+  }
+
+  @Override
+  public @Nullable V merge(K key, V value, BiFunction<? super V, ? super V, ? extends @Nullable V> remappingFunction) {
+    return delegate().merge(key, value, remappingFunction);
   }
 
   /**
