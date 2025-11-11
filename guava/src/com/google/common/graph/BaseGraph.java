@@ -69,8 +69,8 @@ interface BaseGraph<N> extends ArchetypeGraph<N> {
    * IllegalStateException} if it is accessed in any way, with the following exceptions:
    *
    * <ul>
-   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other `equals()` expression
-   *       involving {@code view} will throw)
+   *   <li>{@code view.equals(view)} evaluates to {@code true} (but any other {@code equals(...)}
+   *       expression involving {@code view} will throw)
    *   <li>{@code hashCode()} does not throw
    *   <li>if {@code node} is re-added to the graph after having been removed, {@code view}'s
    *       behavior is undefined
