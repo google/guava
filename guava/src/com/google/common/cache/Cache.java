@@ -14,6 +14,14 @@
 
 package com.google.common.cache;
 
+import java.util.Map;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ConcurrentMap;
+import java.util.concurrent.ExecutionException;
+import java.util.function.BiFunction;
+
+import org.jspecify.annotations.Nullable;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
@@ -21,11 +29,6 @@ import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.CompatibleWith;
 import com.google.errorprone.annotations.DoNotMock;
-import java.util.Map;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ConcurrentMap;
-import java.util.concurrent.ExecutionException;
-import org.jspecify.annotations.Nullable;
 
 /**
  * A semi-persistent mapping from keys to values. Cache entries are manually added using {@link
@@ -180,4 +183,23 @@ public interface Cache<K, V> {
    * performed -- if any -- is implementation-dependent.
    */
   void cleanUp();
+
+  /**
+   * Attempts to compute a mapping for the specified key and its current mapped value (or {@code
+   * null} if there is no current mapping). The entire method invocation is performed atomically.
+   * Some attempted update operations on this cache by other threads may be blocked while
+   * computation is in progress, so the computation should be short and simple, and must not
+   * attempt to update any other mappings of this cache.
+   *
+   * <p>The {@code remappingFunction} may throw an (unchecked) exception. The exception is
+   * rethrown, and the current mapping is left unchanged.
+   *
+   * @param key key with which the specified value is to be associated
+   * @param remappingFunction the function to compute a value
+   * @return the new value associated with the specified key, or {@code null} if the mapping was
+   *     removed
+   * @since 23.0
+   */
+  @CanIgnoreReturnValue
+  @Nullable V compute(K key, BiFunction<? super K, ? super @Nullable V, ? extends @Nullable V> remappingFunction);
 }
