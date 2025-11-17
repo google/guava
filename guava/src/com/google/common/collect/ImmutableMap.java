@@ -745,6 +745,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {
     abstract UnmodifiableIterator<Entry<K, V>> entryIterator();
 
+    @GwtIncompatible("Spliterator")
     Spliterator<Entry<K, V>> entrySpliterator() {
       return Spliterators.spliterator(
           entryIterator(),
@@ -768,6 +769,11 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         @Override
         public UnmodifiableIterator<Entry<K, V>> iterator() {
           return entryIterator();
+        }
+
+        @Override
+        public Spliterator<Entry<K, V>> spliterator() {
+          return IteratorBasedImmutableMap.this.entrySpliterator();
         }
 
         // redeclare to help optimizers with b/310253115
@@ -1082,8 +1088,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     };
   }
 
+  @GwtIncompatible("Spliterator")
   Spliterator<K> keySpliterator() {
-    return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);
+    return CollectSpliterators.map(
+        entrySet().spliterator(),
+        Spliterator.ORDERED | Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.IMMUTABLE,
+        Entry::getKey);
   }
 
   @LazyInit @RetainedWith private transient @Nullable ImmutableCollection<V> values;

@@ -108,6 +108,7 @@ final class CollectSpliterators {
   static <InElementT extends @Nullable Object, OutElementT extends @Nullable Object>
       Spliterator<OutElementT> map(
           Spliterator<InElementT> fromSpliterator,
+          int characteristics,
           Function<? super InElementT, ? extends OutElementT> function) {
     checkNotNull(fromSpliterator);
     checkNotNull(function);
@@ -127,7 +128,7 @@ final class CollectSpliterators {
       @Override
       public @Nullable Spliterator<OutElementT> trySplit() {
         Spliterator<InElementT> fromSplit = fromSpliterator.trySplit();
-        return (fromSplit != null) ? map(fromSplit, function) : null;
+        return (fromSplit != null) ? map(fromSplit, characteristics, function) : null;
       }
 
       @Override
@@ -137,8 +138,15 @@ final class CollectSpliterators {
 
       @Override
       public int characteristics() {
-        return fromSpliterator.characteristics()
-            & ~(Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.SORTED);
+        int backingCharacteristics = fromSpliterator.characteristics();
+        // the following are inherently inherited:
+        backingCharacteristics &=
+            Spliterator.SIZED
+                | Spliterator.SUBSIZED
+                | Spliterator.ORDERED
+                | Spliterator.IMMUTABLE
+                | Spliterator.CONCURRENT;
+        return characteristics | backingCharacteristics;
       }
     };
   }

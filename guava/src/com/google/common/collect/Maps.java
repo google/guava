@@ -1073,8 +1073,12 @@ public final class Maps {
     }
 
     @Override
+    @GwtIncompatible("Spliterator")
     Spliterator<Entry<K, V>> entrySpliterator() {
-      return CollectSpliterators.map(set.spliterator(), e -> immutableEntry(e, function.apply(e)));
+      return CollectSpliterators.map(
+          set.spliterator(),
+          Spliterator.DISTINCT | Spliterator.NONNULL,
+          e -> immutableEntry(e, function.apply(e)));
     }
 
     @Override
@@ -2174,9 +2178,12 @@ public final class Maps {
     }
 
     @Override
+    @GwtIncompatible("Spliterator")
     Spliterator<Entry<K, V2>> entrySpliterator() {
       return CollectSpliterators.map(
-          fromMap.entrySet().spliterator(), asEntryToEntryFunction(transformer));
+          fromMap.entrySet().spliterator(),
+          Spliterator.DISTINCT | Spliterator.NONNULL,
+          asEntryToEntryFunction(transformer));
     }
 
     @Override

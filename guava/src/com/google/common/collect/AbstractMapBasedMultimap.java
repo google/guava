@@ -1298,7 +1298,9 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
           K key = keyToValueCollectionEntry.getKey();
           Collection<V> valueCollection = keyToValueCollectionEntry.getValue();
           return CollectSpliterators.map(
-              valueCollection.spliterator(), (V value) -> immutableEntry(key, value));
+              valueCollection.spliterator(),
+              Spliterator.DISTINCT | Spliterator.NONNULL,
+              (V value) -> immutableEntry(key, value));
         },
         Spliterator.SIZED,
         size());
@@ -1428,7 +1430,10 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
       @Override
       public Spliterator<Entry<K, Collection<V>>> spliterator() {
-        return CollectSpliterators.map(submap.entrySet().spliterator(), AsMap.this::wrapEntry);
+        return CollectSpliterators.map(
+            submap.entrySet().spliterator(),
+            Spliterator.DISTINCT | Spliterator.NONNULL,
+            AsMap.this::wrapEntry);
       }
 
       // The following methods are included for performance.

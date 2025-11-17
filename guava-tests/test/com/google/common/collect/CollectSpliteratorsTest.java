@@ -18,6 +18,7 @@ import static com.google.common.collect.Lists.charactersOf;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.collect.testing.SpliteratorTester;
 import java.util.ArrayList;
@@ -34,11 +35,14 @@ import org.jspecify.annotations.NullMarked;
 @GwtCompatible
 @NullMarked
 public class CollectSpliteratorsTest extends TestCase {
+  @GwtIncompatible
   public void testMap() {
     SpliteratorTester.of(
             () ->
                 CollectSpliterators.map(
-                    Arrays.spliterator(new String[] {"a", "b", "c", "d", "e"}), Ascii::toUpperCase))
+                    Arrays.spliterator(new String[] {"a", "b", "c", "d", "e"}),
+                    0,
+                    Ascii::toUpperCase))
         .expect("A", "B", "C", "D", "E");
   }
 

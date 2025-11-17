@@ -100,8 +100,12 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
   }
 
   @Override
+  @GwtIncompatible("Spliterator")
   Spliterator<Entry<K, V>> entrySpliterator() {
-    return CollectSpliterators.map(delegate.entrySet().spliterator(), Maps::unmodifiableEntry);
+    return CollectSpliterators.map(
+        delegate.entrySet().spliterator(),
+        Spliterator.DISTINCT | Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.NONNULL,
+        Maps::unmodifiableEntry);
   }
 
   @Override

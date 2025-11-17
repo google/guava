@@ -18,6 +18,7 @@ import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.safeGet;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
@@ -28,6 +29,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Spliterator;
+import java.util.Spliterators;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -127,7 +129,9 @@ abstract class AbstractTable<
 
   abstract Iterator<Table.Cell<R, C, V>> cellIterator();
 
-  abstract Spliterator<Table.Cell<R, C, V>> cellSpliterator();
+  Spliterator<Table.Cell<R, C, V>> cellSpliterator() {
+    return Spliterators.spliterator(cellSet(), Spliterator.NONNULL | Spliterator.DISTINCT);
+  }
 
   @WeakOuter
   private final class CellSet extends AbstractSet<Cell<R, C, V>> {
@@ -198,8 +202,9 @@ abstract class AbstractTable<
     };
   }
 
+  @GwtIncompatible("Spliterator")
   Spliterator<V> valuesSpliterator() {
-    return CollectSpliterators.map(cellSpliterator(), Table.Cell::getValue);
+    return CollectSpliterators.map(cellSpliterator(), 0, Table.Cell::getValue);
   }
 
   @WeakOuter
@@ -210,6 +215,7 @@ abstract class AbstractTable<
     }
 
     @Override
+    @GwtIncompatible("Spliterator")
     public Spliterator<V> spliterator() {
       return valuesSpliterator();
     }

@@ -256,8 +256,10 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
 
     @Override
+    @GwtIncompatible("Spliterator")
     Spliterator<Entry<K, V>> entrySpliterator() {
-      return CollectSpliterators.indexed(size(), Spliterator.ORDERED, this::getEntry);
+      return CollectSpliterators.indexed(
+          size(), Spliterator.ORDERED | Spliterator.DISTINCT | Spliterator.NONNULL, this::getEntry);
     }
 
     // TODO(lowasser): consider an optimized values() implementation
@@ -801,6 +803,7 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
   }
 
   @Override
+  @GwtIncompatible("Spliterator")
   Spliterator<@Nullable V> valuesSpliterator() {
     return CollectSpliterators.<@Nullable V>indexed(size(), Spliterator.ORDERED, this::getValue);
   }

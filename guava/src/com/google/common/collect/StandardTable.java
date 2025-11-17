@@ -297,15 +297,17 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   }
 
   @Override
+  @GwtIncompatible("Spliterator")
   Spliterator<Cell<R, C, V>> cellSpliterator() {
     return CollectSpliterators.flatMap(
         backingMap.entrySet().spliterator(),
         (Entry<R, Map<C, V>> rowEntry) ->
             CollectSpliterators.map(
                 rowEntry.getValue().entrySet().spliterator(),
+                0,
                 (Entry<C, V> columnEntry) ->
                     immutableCell(rowEntry.getKey(), columnEntry.getKey(), columnEntry.getValue())),
-        Spliterator.DISTINCT | Spliterator.SIZED,
+        Spliterator.DISTINCT | Spliterator.SIZED | Spliterator.NONNULL,
         size());
   }
 
@@ -417,12 +419,16 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
+    @GwtIncompatible("Spliterator")
     Spliterator<Entry<C, V>> entrySpliterator() {
       updateBackingRowMapField();
       if (backingRowMap == null) {
         return Spliterators.emptySpliterator();
       }
-      return CollectSpliterators.map(backingRowMap.entrySet().spliterator(), this::wrapEntry);
+      return CollectSpliterators.map(
+          backingRowMap.entrySet().spliterator(),
+          Spliterator.DISTINCT | Spliterator.NONNULL,
+          this::wrapEntry);
     }
 
     Entry<C, V> wrapEntry(Entry<C, V> entry) {

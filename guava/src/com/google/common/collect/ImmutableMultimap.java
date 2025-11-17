@@ -692,6 +692,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   }
 
   @Override
+  @GwtIncompatible("Spliterator")
   Spliterator<Entry<K, V>> entrySpliterator() {
     return CollectSpliterators.flatMap(
         asMap().entrySet().spliterator(),
@@ -699,7 +700,9 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
           K key = keyToValueCollectionEntry.getKey();
           Collection<V> valueCollection = keyToValueCollectionEntry.getValue();
           return CollectSpliterators.map(
-              valueCollection.spliterator(), (V value) -> immutableEntry(key, value));
+              valueCollection.spliterator(),
+              Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE,
+              (V value) -> immutableEntry(key, value));
         },
         Spliterator.SIZED | (this instanceof SetMultimap ? Spliterator.DISTINCT : 0),
         size());
