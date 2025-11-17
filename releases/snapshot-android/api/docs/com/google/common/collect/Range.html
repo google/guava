@@ -111,7 +111,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
-<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@Immutable</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html#containerOf()" title="class or interface in com.google.errorprone.annotations" class="external-link">containerOf</a>="C")
+@Immutable(containerOf="C")
 </span><span class="modifiers">public final class </span><span class="element-name type-name-label">Range&lt;C extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>
 implements <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;C&gt;, <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/io/Serializable.html" title="class or interface in java.io" class="external-link">Serializable</a></span></div>
@@ -753,7 +753,7 @@ returns <code>false</code>.</div>
 <section class="detail" id="apply(C)">
 <h3 id="apply(java.lang.Comparable)">apply</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="this.contains(input)")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="this.contains(input)")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">apply</span><wbr><span class="parameters">(<a href="#type-param-C" title="type parameter in Range">C</a>&nbsp;input)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>

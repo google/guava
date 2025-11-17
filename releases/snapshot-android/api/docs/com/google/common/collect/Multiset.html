@@ -326,7 +326,7 @@ multiset, which is given by <code>entrySet().size()</code>.</div>
 <section class="detail" id="count(java.lang.Object)">
 <h3>count</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">count</span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("E")
+<div class="member-signature"><span class="return-type">int</span>&nbsp;<span class="element-name">count</span><wbr><span class="parameters">(@CompatibleWith("E")
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
 <div class="block">Returns the number of occurrences of an element in this multiset (the <i>count</i> of the
 element). Note that for an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="class or interface in java.lang" class="external-link"><code>Object.equals(Object)</code></a>-based multiset, this gives the same result as
@@ -349,7 +349,7 @@ other iterable type.</div>
 <section class="detail" id="add(E,int)">
 <h3 id="add(java.lang.Object,int)">add</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type">int</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="#type-param-E" title="type parameter in Multiset">E</a>&nbsp;element,
  int&nbsp;occurrences)</span></div>
 <div class="block">Adds a number of occurrences of an element to this multiset. Note that if <code>occurrences ==
@@ -379,7 +379,7 @@ poorly.</div>
 <section class="detail" id="add(E)">
 <h3 id="add(java.lang.Object)">add</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type">boolean</span>&nbsp;<span class="element-name">add</span><wbr><span class="parameters">(<a href="#type-param-E" title="type parameter in Multiset">E</a>&nbsp;element)</span></div>
 <div class="block">Adds a single occurrence of the specified element to this multiset.
 
@@ -410,8 +410,8 @@ element, and the overall size of the collection, by one.
 <section class="detail" id="remove(java.lang.Object,int)">
 <h3>remove</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type">int</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("E")
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
+</span><span class="return-type">int</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(@CompatibleWith("E")
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element,
  int&nbsp;occurrences)</span></div>
 <div class="block">Removes a number of occurrences of the specified element from this multiset. If the multiset
@@ -435,7 +435,7 @@ remove(element)</code>.</div>
 <section class="detail" id="remove(java.lang.Object)">
 <h3>remove</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type">boolean</span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;element)</span></div>
 <div class="block">Removes a <i>single</i> occurrence of the specified element from this multiset, if present.
 
@@ -458,7 +458,7 @@ throw an exception in response to <code>element</code> being null or of the wron
 <section class="detail" id="setCount(E,int)">
 <h3 id="setCount(java.lang.Object,int)">setCount</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type">int</span>&nbsp;<span class="element-name">setCount</span><wbr><span class="parameters">(<a href="#type-param-E" title="type parameter in Multiset">E</a>&nbsp;element,
  int&nbsp;count)</span></div>
 <div class="block">Adds or removes the necessary occurrences of an element such that the element attains the
@@ -483,7 +483,7 @@ desired count.</div>
 <section class="detail" id="setCount(E,int,int)">
 <h3 id="setCount(java.lang.Object,int,int)">setCount</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type">boolean</span>&nbsp;<span class="element-name">setCount</span><wbr><span class="parameters">(<a href="#type-param-E" title="type parameter in Multiset">E</a>&nbsp;element,
  int&nbsp;oldCount,
  int&nbsp;newCount)</span></div>
@@ -682,7 +682,7 @@ other collection type like <a href="https://docs.oracle.com/en/java/javase/25/do
 <section class="detail" id="removeAll(java.util.Collection)">
 <h3>removeAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type">boolean</span>&nbsp;<span class="element-name">removeAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;c)</span></div>
 <div class="block">
 
@@ -703,7 +703,7 @@ throw an exception in response to any of <code>elements</code> being null or of 
 <section class="detail" id="retainAll(java.util.Collection)">
 <h3>retainAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type">boolean</span>&nbsp;<span class="element-name">retainAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;c)</span></div>
 <div class="block">
 

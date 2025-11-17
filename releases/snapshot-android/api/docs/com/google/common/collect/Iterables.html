@@ -446,8 +446,8 @@ given predicate, if such an element exists.</div>
 <section class="detail" id="unmodifiableIterable(com.google.common.collect.ImmutableCollection)">
 <h3>unmodifiableIterable</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="checkNotNull(iterable)",
-          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="checkNotNull(iterable)",
+          staticImports="com.google.common.base.Preconditions.checkNotNull")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;E&gt;</span>&nbsp;<span class="element-name">unmodifiableIterable</span><wbr><span class="parameters">(<a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a>&lt;E&gt;&nbsp;iterable)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
@@ -486,7 +486,7 @@ cases where <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.bas
 <section class="detail" id="removeAll(java.lang.Iterable,java.util.Collection)">
 <h3>removeAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">removeAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;?&gt;&nbsp;removeFrom,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;elementsToRemove)</span></div>
 <div class="block">Removes, from an iterable, every element that belongs to the provided collection.
@@ -507,7 +507,7 @@ cases where <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.bas
 <section class="detail" id="retainAll(java.lang.Iterable,java.util.Collection)">
 <h3>retainAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">retainAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;?&gt;&nbsp;removeFrom,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;?&gt;&nbsp;elementsToRetain)</span></div>
 <div class="block">Removes, from an iterable, every element that does not belong to the provided collection.
@@ -528,7 +528,7 @@ cases where <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.bas
 <section class="detail" id="removeIf(java.lang.Iterable,com.google.common.base.Predicate)">
 <h3>removeIf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">removeIf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;T&gt;&nbsp;removeFrom,
  <a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;? super T&gt;&nbsp;predicate)</span></div>
 <div class="block">Removes, from an iterable, every element that satisfies the provided predicate.
@@ -635,7 +635,7 @@ stream.collect(MoreCollectors.toOptional()).orElse(defaultValue)</code>.</div>
 <section class="detail" id="addAll(java.util.Collection,java.lang.Iterable)">
 <h3>addAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">addAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html" title="class or interface in java.util" class="external-link">Collection</a>&lt;T&gt;&nbsp;addTo,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends T&gt;&nbsp;elementsToAdd)</span></div>
 <div class="block">Adds all elements in <code>iterable</code> to <code>collection</code>.</div>

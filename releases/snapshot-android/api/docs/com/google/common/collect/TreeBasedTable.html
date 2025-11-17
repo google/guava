@@ -382,8 +382,8 @@ TreeBasedTable</code>.</div>
 <section class="detail" id="rowComparator()">
 <h3>rowComparator</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="requireNonNull(this.rowKeySet().comparator())",
-          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="java.util.Objects.requireNonNull")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="requireNonNull(this.rowKeySet().comparator())",
+          staticImports="java.util.Objects.requireNonNull")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-R" title="type parameter in TreeBasedTable">R</a>&gt;</span>&nbsp;<span class="element-name">rowComparator</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
@@ -613,7 +613,7 @@ mapping exists.</div>
 <section class="detail" id="put(R,C,V)">
 <h3 id="put(java.lang.Object,java.lang.Object,java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="#type-param-V" title="type parameter in TreeBasedTable">V</a></span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="#type-param-R" title="type parameter in TreeBasedTable">R</a>&nbsp;rowKey,
  <a href="#type-param-C" title="type parameter in TreeBasedTable">C</a>&nbsp;columnKey,
  <a href="#type-param-V" title="type parameter in TreeBasedTable">V</a>&nbsp;value)</span></div>
@@ -638,7 +638,7 @@ mapping for those keys, the old value is replaced with the specified value.</div
 <section class="detail" id="remove(java.lang.Object,java.lang.Object)">
 <h3>remove</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="#type-param-V" title="type parameter in TreeBasedTable">V</a></span>&nbsp;<span class="element-name">remove</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;rowKey,
  <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;columnKey)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Table.html#remove(java.lang.Object,java.lang.Object)">Table</a></code></span></div>

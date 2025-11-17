@@ -104,7 +104,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@Immutable</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/Immutable.html#containerOf()" title="class or interface in com.google.errorprone.annotations" class="external-link">containerOf</a>={"N","E"})
+@Immutable(containerOf={"N","E"})
 </span><span class="modifiers">public final class </span><span class="element-name type-name-label">ImmutableNetwork&lt;N,<wbr>E&gt;</span>
 <span class="extends-implements">extends <a href="AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a>&lt;N,<wbr>E&gt;</span></div>
 <div class="block">A <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a> whose elements and structural relationships will never change. Instances of
@@ -274,8 +274,8 @@ any) of the edge starting from <code>node</code>.</div>
 <section class="detail" id="copyOf(com.google.common.graph.ImmutableNetwork)">
 <h3>copyOf</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="checkNotNull(network)",
-          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="checkNotNull(network)",
+          staticImports="com.google.common.base.Preconditions.checkNotNull")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;N,<wbr>E&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,<wbr>E&gt;</span>&nbsp;<span class="element-name">copyOf</span><wbr><span class="parameters">(<a href="ImmutableNetwork.html" title="class in com.google.common.graph">ImmutableNetwork</a>&lt;N,<wbr>E&gt;&nbsp;network)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>

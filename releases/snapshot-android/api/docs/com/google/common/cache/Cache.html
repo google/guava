@@ -95,7 +95,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Use CacheBuilder.newBuilder().build()")
+<div class="type-signature"><span class="annotations">@DoNotMock("Use CacheBuilder.newBuilder().build()")
 <a href="../annotations/GwtCompatible.html" title="annotation in com.google.common.annotations">@GwtCompatible</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">Cache&lt;K,<wbr>V&gt;</span></div>
 <div class="block">A semi-persistent mapping from keys to values. Cache entries are manually added using <a href="#get(K,java.util.concurrent.Callable)"><code>get(Object, Callable)</code></a> or <a href="#put(K,V)"><code>put(Object, Object)</code></a>, and are stored in the cache until either
@@ -207,8 +207,8 @@ the cache is not recording statistics.</div>
 <section class="detail" id="getIfPresent(java.lang.Object)">
 <h3>getIfPresent</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
-</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in Cache">V</a></span>&nbsp;<span class="element-name">getIfPresent</span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("K")
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
+</span><span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="#type-param-V" title="type parameter in Cache">V</a></span>&nbsp;<span class="element-name">getIfPresent</span><wbr><span class="parameters">(@CompatibleWith("K")
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, or <code>null</code> if there is no
 cached value for <code>key</code>.</div>
@@ -223,7 +223,7 @@ cached value for <code>key</code>.</div>
 <section class="detail" id="get(K,java.util.concurrent.Callable)">
 <h3 id="get(java.lang.Object,java.util.concurrent.Callable)">get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type"><a href="#type-param-V" title="type parameter in Cache">V</a></span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="#type-param-K" title="type parameter in Cache">K</a>&nbsp;key,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Callable.html" title="class or interface in java.util.concurrent" class="external-link">Callable</a>&lt;? extends <a href="#type-param-V" title="type parameter in Cache">V</a>&gt;&nbsp;loader)</span>
 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
@@ -327,7 +327,7 @@ if the specified map is modified while the operation is in progress.</div>
 <section class="detail" id="invalidate(java.lang.Object)">
 <h3>invalidate</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">invalidate</span><wbr><span class="parameters">(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CompatibleWith.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CompatibleWith</a>("K")
+<div class="member-signature"><span class="return-type">void</span>&nbsp;<span class="element-name">invalidate</span><wbr><span class="parameters">(@CompatibleWith("K")
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&nbsp;key)</span></div>
 <div class="block">Discards any cached value for key <code>key</code>.</div>
 </div>

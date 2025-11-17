@@ -636,7 +636,7 @@ weak, or phantom references.</div>
 <section class="detail" id="invertFrom(com.google.common.collect.Multimap,M)">
 <h3 id="invertFrom(com.google.common.collect.Multimap,com.google.common.collect.Multimap)">invertFrom</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>, V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>, M extends <a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,<wbr>V&gt;&gt;</span>
 <span class="return-type">M</span>&nbsp;<span class="element-name">invertFrom</span><wbr><span class="parameters">(<a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;? extends V, ? extends K&gt;&nbsp;source,
  M&nbsp;dest)</span></div>
@@ -721,8 +721,8 @@ UnsupportedOperationException</code>.
 <section class="detail" id="unmodifiableMultimap(com.google.common.collect.ImmutableMultimap)">
 <h3>unmodifiableMultimap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="checkNotNull(delegate)",
-          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="checkNotNull(delegate)",
+          staticImports="com.google.common.base.Preconditions.checkNotNull")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>V&gt;</span>&nbsp;<span class="return-type"><a href="Multimap.html" title="interface in com.google.common.collect">Multimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name">unmodifiableMultimap</span><wbr><span class="parameters">(<a href="ImmutableMultimap.html" title="class in com.google.common.collect">ImmutableMultimap</a>&lt;K,<wbr>V&gt;&nbsp;delegate)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
@@ -781,8 +781,8 @@ UnsupportedOperationException</code>.
 <section class="detail" id="unmodifiableSetMultimap(com.google.common.collect.ImmutableSetMultimap)">
 <h3>unmodifiableSetMultimap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="checkNotNull(delegate)",
-          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="checkNotNull(delegate)",
+          staticImports="com.google.common.base.Preconditions.checkNotNull")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>V&gt;</span>&nbsp;<span class="return-type"><a href="SetMultimap.html" title="interface in com.google.common.collect">SetMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name">unmodifiableSetMultimap</span><wbr><span class="parameters">(<a href="ImmutableSetMultimap.html" title="class in com.google.common.collect">ImmutableSetMultimap</a>&lt;K,<wbr>V&gt;&nbsp;delegate)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
@@ -881,8 +881,8 @@ UnsupportedOperationException</code>.
 <section class="detail" id="unmodifiableListMultimap(com.google.common.collect.ImmutableListMultimap)">
 <h3>unmodifiableListMultimap</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="checkNotNull(delegate)",
-          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="checkNotNull(delegate)",
+          staticImports="com.google.common.base.Preconditions.checkNotNull")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>V&gt;</span>&nbsp;<span class="return-type"><a href="ListMultimap.html" title="interface in com.google.common.collect">ListMultimap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name">unmodifiableListMultimap</span><wbr><span class="parameters">(<a href="ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;K,<wbr>V&gt;&nbsp;delegate)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>

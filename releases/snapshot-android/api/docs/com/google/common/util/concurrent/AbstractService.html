@@ -283,7 +283,7 @@ this initiates service shutdown and returns immediately.</div>
 <section class="detail" id="doStart()">
 <h3>doStart</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@ForOverride</a>
+<div class="member-signature"><span class="annotations">@ForOverride
 </span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">doStart</span>()</div>
 <div class="block">This method is called by <a href="#startAsync()"><code>startAsync()</code></a> to initiate service startup. The invocation of
 this method should cause a call to <a href="#notifyStarted()"><code>notifyStarted()</code></a>, either during this method's run,
@@ -299,7 +299,7 @@ called multiple times.</div>
 <section class="detail" id="doStop()">
 <h3>doStop</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@ForOverride</a>
+<div class="member-signature"><span class="annotations">@ForOverride
 </span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">doStop</span>()</div>
 <div class="block">This method should be used to initiate service shutdown. The invocation of this method should
 cause a call to <a href="#notifyStopped()"><code>notifyStopped()</code></a>, either during this method's run, or after it has
@@ -318,7 +318,7 @@ invoked immediately. Instead, it will be deferred until after the service is <a 
 <section class="detail" id="doCancelStart()">
 <h3>doCancelStart</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@ForOverride</a>
+<div class="member-signature"><span class="annotations">@ForOverride
 </span><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">doCancelStart</span>()</div>
 <div class="block">This method is called by <a href="#stopAsync()"><code>stopAsync()</code></a> when the service is still starting (i.e. <a href="#startAsync()"><code>startAsync()</code></a> has been called but <a href="#notifyStarted()"><code>notifyStarted()</code></a> has not). Subclasses can override the
 method to cancel pending work and then call <a href="#notifyStopped()"><code>notifyStopped()</code></a> to stop the service.
@@ -340,7 +340,7 @@ external state observable by the caller of <a href="#stopAsync()"><code>stopAsyn
 <section class="detail" id="startAsync()">
 <h3>startAsync</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></span>&nbsp;<span class="element-name">startAsync</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#startAsync()">Service</a></code></span></div>
 <div class="block">If the service state is <a href="Service.State.html#NEW"><code>Service.State.NEW</code></a>, this initiates service startup and returns
@@ -358,7 +358,7 @@ immediately. A stopped service may not be restarted.</div>
 <section class="detail" id="stopAsync()">
 <h3>stopAsync</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></span>&nbsp;<span class="element-name">stopAsync</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Service.html#stopAsync()">Service</a></code></span></div>
 <div class="block">If the service is <a href="Service.State.html#STARTING">starting</a> or <a href="Service.State.html#RUNNING">running</a>,

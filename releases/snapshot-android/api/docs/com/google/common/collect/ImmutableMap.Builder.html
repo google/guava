@@ -96,7 +96,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>
+<div class="type-signature"><span class="annotations">@DoNotMock
 </span><span class="modifiers">public static class </span><span class="element-name type-name-label">ImmutableMap.Builder&lt;K,<wbr>V&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A builder for creating immutable map instances, especially <code>public static final</code> maps
@@ -244,7 +244,7 @@ comparator.</div>
 <section class="detail" id="put(K,V)">
 <h3 id="put(java.lang.Object,java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="#type-param-K" title="type parameter in ImmutableMap.Builder">K</a>&nbsp;key,
  <a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&nbsp;value)</span></div>
 <div class="block">Associates <code>key</code> with <code>value</code> in the built map. If the same key is put more than
@@ -257,7 +257,7 @@ value put for that key.</div>
 <section class="detail" id="put(java.util.Map.Entry)">
 <h3>put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;? extends <a href="#type-param-K" title="type parameter in ImmutableMap.Builder">K</a>, ? extends <a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;entry)</span></div>
 <div class="block">Adds the given <code>entry</code> to the map, making it immutable if necessary. If the same key is
 put more than once, <a href="#buildOrThrow()"><code>buildOrThrow()</code></a> will fail, while <a href="#buildKeepingLast()"><code>buildKeepingLast()</code></a> will
@@ -273,7 +273,7 @@ keep the last value put for that key.</div>
 <section class="detail" id="putAll(java.util.Map)">
 <h3>putAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">putAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;? extends <a href="#type-param-K" title="type parameter in ImmutableMap.Builder">K</a>, ? extends <a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;map)</span></div>
 <div class="block">Associates all of the given map's keys and values in the built map. If the same key is put
 more than once, <a href="#buildOrThrow()"><code>buildOrThrow()</code></a> will fail, while <a href="#buildKeepingLast()"><code>buildKeepingLast()</code></a> will keep
@@ -289,7 +289,7 @@ the last value put for that key.</div>
 <section class="detail" id="putAll(java.lang.Iterable)">
 <h3>putAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">putAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;? extends <a href="#type-param-K" title="type parameter in ImmutableMap.Builder">K</a>, ? extends <a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&gt;&gt;&nbsp;entries)</span></div>
 <div class="block">Adds all of the given entries to the built map. If the same key is put more than once, <a href="#buildOrThrow()"><code>buildOrThrow()</code></a> will fail, while <a href="#buildKeepingLast()"><code>buildKeepingLast()</code></a> will keep the last value put for
 that key.</div>
@@ -306,7 +306,7 @@ that key.</div>
 <section class="detail" id="orderEntriesByValue(java.util.Comparator)">
 <h3>orderEntriesByValue</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableMap.Builder.html" title="class in com.google.common.collect">ImmutableMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">orderEntriesByValue</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-V" title="type parameter in ImmutableMap.Builder">V</a>&gt;&nbsp;valueComparator)</span></div>
 <div class="block">Configures this <code>Builder</code> to order entries by value according to the specified
 comparator.

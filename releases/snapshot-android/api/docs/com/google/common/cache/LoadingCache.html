@@ -180,7 +180,7 @@ necessary.</div>
 <section class="detail" id="get(K)">
 <h3 id="get(java.lang.Object)">get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type"><a href="#type-param-V" title="type parameter in LoadingCache">V</a></span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="#type-param-K" title="type parameter in LoadingCache">K</a>&nbsp;key)</span>
 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, first loading that value if
@@ -214,7 +214,7 @@ then prefer <a href="#getUnchecked(K)"><code>getUnchecked(K)</code></a> over thi
 <section class="detail" id="getUnchecked(K)">
 <h3 id="getUnchecked(java.lang.Object)">getUnchecked</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type"><a href="#type-param-V" title="type parameter in LoadingCache">V</a></span>&nbsp;<span class="element-name">getUnchecked</span><wbr><span class="parameters">(<a href="#type-param-K" title="type parameter in LoadingCache">K</a>&nbsp;key)</span></div>
 <div class="block">Returns the value associated with <code>key</code> in this cache, first loading that value if
 necessary. No observable state associated with this cache is modified until loading completes.
@@ -247,7 +247,7 @@ and should not be used with cache loaders which throw checked exceptions. In suc
 <section class="detail" id="getAll(java.lang.Iterable)">
 <h3>getAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type"><a href="../collect/ImmutableMap.html" title="class in com.google.common.collect">ImmutableMap</a>&lt;<a href="#type-param-K" title="type parameter in LoadingCache">K</a>,<wbr><a href="#type-param-V" title="type parameter in LoadingCache">V</a>&gt;</span>&nbsp;<span class="element-name">getAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="#type-param-K" title="type parameter in LoadingCache">K</a>&gt;&nbsp;keys)</span>
                   throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
 <div class="block">Returns a map of the values associated with <code>keys</code>, creating or retrieving those values

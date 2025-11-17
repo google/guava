@@ -85,7 +85,7 @@ loadScripts(document, 'script');</script>
 </dl>
 <hr>
 <div class="horizontal-scroll">
-<div class="type-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>("Create an AbstractIdleService")
+<div class="type-signature"><span class="annotations">@DoNotMock("Create an AbstractIdleService")
 <a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public interface </span><span class="element-name type-name-label">Service</span></div>
 <div class="block">An object with an operational state, plus asynchronous <a href="#startAsync()"><code>startAsync()</code></a> and <a href="#stopAsync()"><code>stopAsync()</code></a> lifecycle methods to transition between states. Example services include
@@ -229,7 +229,7 @@ this initiates service shutdown and returns immediately.</div>
 <section class="detail" id="startAsync()">
 <h3>startAsync</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type"><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></span>&nbsp;<span class="element-name">startAsync</span>()</div>
 <div class="block">If the service state is <a href="Service.State.html#NEW"><code>Service.State.NEW</code></a>, this initiates service startup and returns
 immediately. A stopped service may not be restarted.</div>
@@ -266,7 +266,7 @@ immediately. A stopped service may not be restarted.</div>
 <section class="detail" id="stopAsync()">
 <h3>stopAsync</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="return-type"><a href="Service.html" title="interface in com.google.common.util.concurrent">Service</a></span>&nbsp;<span class="element-name">stopAsync</span>()</div>
 <div class="block">If the service is <a href="Service.State.html#STARTING">starting</a> or <a href="Service.State.html#RUNNING">running</a>,
 this initiates service shutdown and returns immediately. If the service is <a href="Service.State.html#NEW">new</a>, it is <a href="Service.State.html#TERMINATED">terminated</a> without having been started nor

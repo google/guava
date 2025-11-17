@@ -309,7 +309,7 @@ unsigned.</div>
 <section class="detail" id="toInt(byte)">
 <h3>toInt</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="Byte.toUnsignedInt(value)")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="Byte.toUnsignedInt(value)")
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">toInt</span><wbr><span class="parameters">(byte&nbsp;value)</span></div>
 <div class="block">Returns the value of the given byte as an integer, when treated as unsigned. That is, returns
 <code>value + 256</code> if <code>value</code> is negative; <code>value</code> itself otherwise.
@@ -326,7 +326,7 @@ unsigned.</div>
 <section class="detail" id="checkedCast(long)">
 <h3>checkedCast</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name">checkedCast</span><wbr><span class="parameters">(long&nbsp;value)</span></div>
 <div class="block">Returns the <code>byte</code> value that, when treated as unsigned, is equal to <code>value</code>, if
 possible.</div>
@@ -452,7 +452,7 @@ unsigned.</div>
 <section class="detail" id="parseUnsignedByte(java.lang.String)">
 <h3>parseUnsignedByte</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name">parseUnsignedByte</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;string)</span></div>
 <div class="block">Returns the unsigned <code>byte</code> value represented by the given decimal string.</div>
 <dl class="notes">
@@ -470,7 +470,7 @@ unsigned.</div>
 <section class="detail" id="parseUnsignedByte(java.lang.String,int)">
 <h3>parseUnsignedByte</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">byte</span>&nbsp;<span class="element-name">parseUnsignedByte</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;string,
  int&nbsp;radix)</span></div>
 <div class="block">Returns the unsigned <code>byte</code> value represented by a string with the given radix.</div>

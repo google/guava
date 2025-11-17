@@ -235,7 +235,7 @@ equal.</div>
 <section class="detail" id="put(K,V)">
 <h3 id="put(java.lang.Object,java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableSortedMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="#type-param-K" title="type parameter in ImmutableSortedMap.Builder">K</a>&nbsp;key,
  <a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&nbsp;value)</span></div>
 <div class="block">Associates <code>key</code> with <code>value</code> in the built map. Duplicate keys, according to the
@@ -251,7 +251,7 @@ comparator (which might be the keys' natural order), are not allowed, and will c
 <section class="detail" id="put(java.util.Map.Entry)">
 <h3>put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableSortedMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;? extends <a href="#type-param-K" title="type parameter in ImmutableSortedMap.Builder">K</a>, ? extends <a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;entry)</span></div>
 <div class="block">Adds the given <code>entry</code> to the map, making it immutable if necessary. Duplicate keys,
 according to the comparator (which might be the keys' natural order), are not allowed, and
@@ -269,7 +269,7 @@ will cause <a href="#build()"><code>build()</code></a> to fail.</div>
 <section class="detail" id="putAll(java.util.Map)">
 <h3>putAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableSortedMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">putAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.html" title="class or interface in java.util" class="external-link">Map</a>&lt;? extends <a href="#type-param-K" title="type parameter in ImmutableSortedMap.Builder">K</a>, ? extends <a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;map)</span></div>
 <div class="block">Associates all of the given map's keys and values in the built map. Duplicate keys, according
 to the comparator (which might be the keys' natural order), are not allowed, and will cause
@@ -287,7 +287,7 @@ to the comparator (which might be the keys' natural order), are not allowed, and
 <section class="detail" id="putAll(java.lang.Iterable)">
 <h3>putAll</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableSortedMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">putAll</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Iterable.html" title="class or interface in java.lang" class="external-link">Iterable</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Map.Entry.html" title="class or interface in java.util" class="external-link">Map.Entry</a>&lt;? extends <a href="#type-param-K" title="type parameter in ImmutableSortedMap.Builder">K</a>, ? extends <a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&gt;&nbsp;entries)</span></div>
 <div class="block">Adds all the given entries to the built map. Duplicate keys, according to the comparator
 (which might be the keys' natural order), are not allowed, and will cause <a href="#build()"><code>build()</code></a> to
@@ -307,7 +307,7 @@ fail.</div>
 <section class="detail" id="orderEntriesByValue(java.util.Comparator)">
 <h3>orderEntriesByValue</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableSortedMap.Builder.html" title="class in com.google.common.collect">ImmutableSortedMap.Builder</a>&lt;<a href="#type-param-K" title="type parameter in ImmutableSortedMap.Builder">K</a>,<wbr><a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;</span>&nbsp;<span class="element-name">orderEntriesByValue</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Comparator.html" title="class or interface in java.util" class="external-link">Comparator</a>&lt;? super <a href="#type-param-V" title="type parameter in ImmutableSortedMap.Builder">V</a>&gt;&nbsp;valueComparator)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>

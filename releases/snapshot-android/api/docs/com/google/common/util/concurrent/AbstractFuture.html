@@ -277,7 +277,7 @@ true</code>.</div>
 <section class="detail" id="get(long,java.util.concurrent.TimeUnit)">
 <h3>get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="#type-param-V" title="type parameter in AbstractFuture">V</a></span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span>
       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a>,
@@ -294,7 +294,7 @@ current thread is interrupted during the call, even if the value is already avai
 <section class="detail" id="get()">
 <h3>get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="#type-param-V" title="type parameter in AbstractFuture">V</a></span>&nbsp;<span class="element-name">get</span>()
       throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/InterruptedException.html" title="class or interface in java.lang" class="external-link">InterruptedException</a>,
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/ExecutionException.html" title="class or interface in java.util.concurrent" class="external-link">ExecutionException</a></span></div>
@@ -325,7 +325,7 @@ current thread is interrupted during the call, even if the value is already avai
 <section class="detail" id="cancel(boolean)">
 <h3>cancel</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">cancel</span><wbr><span class="parameters">(boolean&nbsp;mayInterruptIfRunning)</span></div>
 <div class="block">
 
@@ -418,7 +418,7 @@ after executing them.</div>
 <section class="detail" id="set(V)">
 <h3 id="set(java.lang.Object)">set</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">set</span><wbr><span class="parameters">(<a href="#type-param-V" title="type parameter in AbstractFuture">V</a>&nbsp;value)</span></div>
 <div class="block">Sets the result of this <code>Future</code> unless this <code>Future</code> has already been cancelled or
 set (including <a href="#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this method returns,
@@ -443,7 +443,7 @@ acquire other locks, risking deadlocks.</div>
 <section class="detail" id="setException(java.lang.Throwable)">
 <h3>setException</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">setException</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Throwable.html" title="class or interface in java.lang" class="external-link">Throwable</a>&nbsp;throwable)</span></div>
 <div class="block">Sets the failed result of this <code>Future</code> unless this <code>Future</code> has already been
 cancelled or set (including <a href="#setFuture(com.google.common.util.concurrent.ListenableFuture)">set asynchronously</a>). When a call to this
@@ -468,7 +468,7 @@ acquire other locks, risking deadlocks.</div>
 <section class="detail" id="setFuture(com.google.common.util.concurrent.ListenableFuture)">
 <h3>setFuture</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">protected</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">setFuture</span><wbr><span class="parameters">(<a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent">ListenableFuture</a>&lt;? extends <a href="#type-param-V" title="type parameter in AbstractFuture">V</a>&gt;&nbsp;future)</span></div>
 <div class="block">Sets the result of this <code>Future</code> to match the supplied input <code>Future</code> once the
 supplied <code>Future</code> is done, unless this <code>Future</code> has already been cancelled or set
@@ -508,7 +508,7 @@ acquire other locks, risking deadlocks.</div>
 <section class="detail" id="afterDone()">
 <h3>afterDone</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@ForOverride</a>
+<div class="member-signature"><span class="annotations">@ForOverride
 </span><span class="modifiers">protected</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">afterDone</span>()</div>
 <div class="block">Callback method that is called exactly once after the future is completed.
 

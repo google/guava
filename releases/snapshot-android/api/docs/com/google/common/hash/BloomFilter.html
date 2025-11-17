@@ -305,7 +305,7 @@ false</code> if this is <i>definitely</i> not the case.</div>
 <section class="detail" id="apply(T)">
 <h3 id="apply(java.lang.Object)">apply</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="this.mightContain(input)")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="this.mightContain(input)")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">apply</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in BloomFilter">T</a>&nbsp;input)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
@@ -333,7 +333,7 @@ required, to have the following properties:
 <section class="detail" id="put(T)">
 <h3 id="put(java.lang.Object)">put</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">put</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in BloomFilter">T</a>&nbsp;object)</span></div>
 <div class="block">Puts an element into this <code>BloomFilter</code>. Ensures that subsequent invocations of <a href="#mightContain(T)"><code>mightContain(Object)</code></a> with the same element will always return <code>true</code>.</div>
 <dl class="notes">

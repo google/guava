@@ -538,8 +538,8 @@ there is no need to use this method.</div>
 <section class="detail" id="from(com.google.common.collect.Ordering)">
 <h3>from</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="checkNotNull(ordering)",
-          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#staticImports()" title="class or interface in com.google.errorprone.annotations" class="external-link">staticImports</a>="com.google.common.base.Preconditions.checkNotNull")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="checkNotNull(ordering)",
+          staticImports="com.google.common.base.Preconditions.checkNotNull")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;</span>&nbsp;<span class="element-name">from</span><wbr><span class="parameters">(<a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;T&gt;&nbsp;ordering)</span></div>
@@ -1209,8 +1209,8 @@ the class documentation).</div>
 <section class="detail" id="binarySearch(java.util.List,T)">
 <h3 id="binarySearch(java.util.List,java.lang.Object)">binarySearch</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="Collections.binarySearch(sortedList, key, this)",
-          <a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#imports()" title="class or interface in com.google.errorprone.annotations" class="external-link">imports</a>="java.util.Collections")
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="Collections.binarySearch(sortedList, key, this)",
+          imports="java.util.Collections")
 <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">binarySearch</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/List.html" title="class or interface in java.util" class="external-link">List</a>&lt;? extends <a href="#type-param-T" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
  <a href="#type-param-T" title="type parameter in Ordering">T</a>&nbsp;key)</span></div>

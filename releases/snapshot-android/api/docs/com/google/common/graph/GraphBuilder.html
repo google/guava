@@ -89,7 +89,7 @@ loadScripts(document, 'script');</script>
 <hr>
 <div class="horizontal-scroll">
 <div class="type-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
-<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/DoNotMock.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@DoNotMock</a>
+@DoNotMock
 </span><span class="modifiers">public final class </span><span class="element-name type-name-label">GraphBuilder&lt;N&gt;</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a></span></div>
 <div class="block">A builder for constructing instances of <a href="MutableGraph.html" title="interface in com.google.common.graph"><code>MutableGraph</code></a> or <a href="ImmutableGraph.html" title="class in com.google.common.graph"><code>ImmutableGraph</code></a> with
@@ -263,7 +263,7 @@ are not set in the new builder.</div>
 <section class="detail" id="allowsSelfLoops(boolean)">
 <h3>allowsSelfLoops</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="#type-param-N" title="type parameter in GraphBuilder">N</a>&gt;</span>&nbsp;<span class="element-name">allowsSelfLoops</span><wbr><span class="parameters">(boolean&nbsp;allowsSelfLoops)</span></div>
 <div class="block">Specifies whether the graph will allow self-loops (edges that connect a node to itself).
 Attempting to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class or interface in java.lang" class="external-link"><code>UnsupportedOperationException</code></a>.
@@ -276,7 +276,7 @@ Attempting to add a self-loop to a graph that does not allow them will throw an 
 <section class="detail" id="expectedNodeCount(int)">
 <h3>expectedNodeCount</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a>&lt;<a href="#type-param-N" title="type parameter in GraphBuilder">N</a>&gt;</span>&nbsp;<span class="element-name">expectedNodeCount</span><wbr><span class="parameters">(int&nbsp;expectedNodeCount)</span></div>
 <div class="block">Specifies the expected number of nodes in the graph.</div>
 <dl class="notes">

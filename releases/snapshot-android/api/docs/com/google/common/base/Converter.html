@@ -310,7 +310,7 @@ value roughly equivalent to <code>a</code>.</div>
 <section class="detail" id="doForward(A)">
 <h3 id="doForward(java.lang.Object)">doForward</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@ForOverride</a>
+<div class="member-signature"><span class="annotations">@ForOverride
 </span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="#type-param-B" title="type parameter in Converter">B</a></span>&nbsp;<span class="element-name">doForward</span><wbr><span class="parameters">(<a href="#type-param-A" title="type parameter in Converter">A</a>&nbsp;a)</span></div>
 <div class="block">Returns a representation of <code>a</code> as an instance of type <code>B</code>. If <code>a</code> cannot be
 converted, an unchecked exception (such as <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link"><code>IllegalArgumentException</code></a>) should be thrown.</div>
@@ -327,7 +327,7 @@ converted, an unchecked exception (such as <a href="https://docs.oracle.com/en/j
 <section class="detail" id="doBackward(B)">
 <h3 id="doBackward(java.lang.Object)">doBackward</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/ForOverride.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@ForOverride</a>
+<div class="member-signature"><span class="annotations">@ForOverride
 </span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type"><a href="#type-param-A" title="type parameter in Converter">A</a></span>&nbsp;<span class="element-name">doBackward</span><wbr><span class="parameters">(<a href="#type-param-B" title="type parameter in Converter">B</a>&nbsp;b)</span></div>
 <div class="block">Returns a representation of <code>b</code> as an instance of type <code>A</code>. If <code>b</code> cannot be
 converted, an unchecked exception (such as <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link"><code>IllegalArgumentException</code></a>) should be thrown.</div>
@@ -376,7 +376,7 @@ element.</div>
 <section class="detail" id="reverse()">
 <h3>reverse</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CheckReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CheckReturnValue</a>
+<div class="member-signature"><span class="annotations">@CheckReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Converter.html" title="class in com.google.common.base">Converter</a>&lt;<a href="#type-param-B" title="type parameter in Converter">B</a>,<wbr><a href="#type-param-A" title="type parameter in Converter">A</a>&gt;</span>&nbsp;<span class="element-name">reverse</span>()</div>
 <div class="block">Returns the reversed view of this converter, which converts <code>this.convert(a)</code> back to a
 value roughly equivalent to <code>a</code>.
@@ -405,7 +405,7 @@ are.</div>
 <h3 id="apply(java.lang.Object)">apply</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Deprecated.html" title="class or interface in java.lang" class="external-link">@Deprecated</a>
-<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@InlineMe</a>(<a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/InlineMe.html#replacement()" title="class or interface in com.google.errorprone.annotations" class="external-link">replacement</a>="this.convert(a)")
+@InlineMe(replacement="this.convert(a)")
 </span><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="#type-param-B" title="type parameter in Converter">B</a></span>&nbsp;<span class="element-name">apply</span><wbr><span class="parameters">(<a href="#type-param-A" title="type parameter in Converter">A</a>&nbsp;a)</span></div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Provided to satisfy the <code>Function</code> interface; use <a href="#convert(A)"><code>convert(A)</code></a> instead.</div>

@@ -154,7 +154,7 @@ replacement.</div>
 <section class="detail" id="setSafeRange(char,char)">
 <h3>setSafeRange</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a></span>&nbsp;<span class="element-name">setSafeRange</span><wbr><span class="parameters">(char&nbsp;safeMin,
  char&nbsp;safeMax)</span></div>
 <div class="block">Sets the safe range of characters for the escaper. Characters in this range that have no
@@ -174,7 +174,7 @@ safeMax &lt; safeMin</code> then the safe range is empty.</div>
 <section class="detail" id="setUnsafeReplacement(java.lang.String)">
 <h3>setUnsafeReplacement</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a></span>&nbsp;<span class="element-name">setUnsafeReplacement</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;unsafeReplacement)</span></div>
 <div class="block">Sets the replacement string for any characters outside the 'safe' range that have no explicit
 replacement. If <code>unsafeReplacement</code> is <code>null</code> then no replacement will occur, if
@@ -192,7 +192,7 @@ it is <code>""</code> then the unsafe characters are removed from the output.</d
 <section class="detail" id="addEscape(char,java.lang.String)">
 <h3>addEscape</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="https://errorprone.info/api/latest/com/google/errorprone/annotations/CanIgnoreReturnValue.html" title="class or interface in com.google.errorprone.annotations" class="external-link">@CanIgnoreReturnValue</a>
+<div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="Escapers.Builder.html" title="class in com.google.common.escape">Escapers.Builder</a></span>&nbsp;<span class="element-name">addEscape</span><wbr><span class="parameters">(char&nbsp;c,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/String.html" title="class or interface in java.lang" class="external-link">String</a>&nbsp;replacement)</span></div>
 <div class="block">Adds a replacement string for the given input character. The specified character will be
