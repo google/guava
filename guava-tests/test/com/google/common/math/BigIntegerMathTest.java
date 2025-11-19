@@ -36,7 +36,6 @@ import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 import static java.math.RoundingMode.UNNECESSARY;
 import static java.math.RoundingMode.UP;
-import static java.math.RoundingMode.values;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -536,7 +535,7 @@ public class BigIntegerMathTest extends TestCase {
       for (Map.Entry<RoundingMode, Double> entry : expectedValues.entrySet()) {
         RoundingMode mode = entry.getKey();
         Double expectation = entry.getValue();
-        assertWithMessage("roundToDouble(" + input + ", " + mode + ")")
+        assertWithMessage("roundToDouble(%s, %s)", input, mode)
             .that(BigIntegerMath.roundToDouble(input, mode))
             .isEqualTo(expectation);
       }
@@ -554,20 +553,22 @@ public class BigIntegerMathTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDouble_zero() {
-    new RoundToDoubleTester(BigInteger.ZERO).setExpectation(0.0, values()).test();
+    new RoundToDoubleTester(BigInteger.ZERO).setExpectation(0.0, RoundingMode.values()).test();
   }
 
   @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDouble_smallPositive() {
-    new RoundToDoubleTester(BigInteger.valueOf(16)).setExpectation(16.0, values()).test();
+    new RoundToDoubleTester(BigInteger.valueOf(16))
+        .setExpectation(16.0, RoundingMode.values())
+        .test();
   }
 
   @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDouble_maxPreciselyRepresentable() {
     new RoundToDoubleTester(BigInteger.valueOf(1L << 53))
-        .setExpectation(Math.pow(2, 53), values())
+        .setExpectation(Math.pow(2, 53), RoundingMode.values())
         .test();
   }
 
@@ -614,7 +615,7 @@ public class BigIntegerMathTest extends TestCase {
   @GwtIncompatible
   public void testRoundToDouble_twoToThe54PlusFour() {
     new RoundToDoubleTester(BigInteger.valueOf((1L << 54) + 4))
-        .setExpectation(Math.pow(2, 54) + 4, values())
+        .setExpectation(Math.pow(2, 54) + 4, RoundingMode.values())
         .test();
   }
 
@@ -623,7 +624,7 @@ public class BigIntegerMathTest extends TestCase {
   public void testRoundToDouble_maxDouble() {
     BigInteger maxDoubleAsBigInteger = DoubleMath.roundToBigInteger(Double.MAX_VALUE, UNNECESSARY);
     new RoundToDoubleTester(maxDoubleAsBigInteger)
-        .setExpectation(Double.MAX_VALUE, values())
+        .setExpectation(Double.MAX_VALUE, RoundingMode.values())
         .test();
   }
 
@@ -653,14 +654,16 @@ public class BigIntegerMathTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDouble_smallNegative() {
-    new RoundToDoubleTester(BigInteger.valueOf(-16)).setExpectation(-16.0, values()).test();
+    new RoundToDoubleTester(BigInteger.valueOf(-16))
+        .setExpectation(-16.0, RoundingMode.values())
+        .test();
   }
 
   @J2ktIncompatible
   @GwtIncompatible
   public void testRoundToDouble_minPreciselyRepresentable() {
     new RoundToDoubleTester(BigInteger.valueOf(-1L << 53))
-        .setExpectation(-Math.pow(2, 53), values())
+        .setExpectation(-Math.pow(2, 53), RoundingMode.values())
         .test();
   }
 
@@ -701,7 +704,7 @@ public class BigIntegerMathTest extends TestCase {
   @GwtIncompatible
   public void testRoundToDouble_negativeTwoToThe54MinusFour() {
     new RoundToDoubleTester(BigInteger.valueOf((-1L << 54) - 4))
-        .setExpectation(-Math.pow(2, 54) - 4, values())
+        .setExpectation(-Math.pow(2, 54) - 4, RoundingMode.values())
         .test();
   }
 
@@ -710,7 +713,7 @@ public class BigIntegerMathTest extends TestCase {
   public void testRoundToDouble_minDouble() {
     BigInteger minDoubleAsBigInteger = DoubleMath.roundToBigInteger(-Double.MAX_VALUE, UNNECESSARY);
     new RoundToDoubleTester(minDoubleAsBigInteger)
-        .setExpectation(-Double.MAX_VALUE, values())
+        .setExpectation(-Double.MAX_VALUE, RoundingMode.values())
         .test();
   }
 
