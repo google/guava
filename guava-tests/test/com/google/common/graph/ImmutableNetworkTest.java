@@ -216,4 +216,40 @@ public class ImmutableNetworkTest {
     assertThrows(UnsupportedOperationException.class, () -> network.incidentEdges("A").add(20));
     assertThrows(UnsupportedOperationException.class, () -> network.incidentEdges("A").remove(10));
   }
+
+  @Test
+  public void nonEmptyNetwork_nodes_clear() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addNode("A").build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.nodes().clear());
+  }
+
+  @Test
+  public void nonEmptyNetwork_edges_clear() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addEdge("A", "B", 10).build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.edges().clear());
+  }
+
+  @Test
+  public void nonEmptyNetwork_nodes_iteratorRemove() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addNode("A").build();
+
+    java.util.Iterator<String> iterator = network.nodes().iterator();
+    iterator.next();
+    assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
+  }
+
+  @Test
+  public void nonEmptyNetwork_edges_iteratorRemove() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addEdge("A", "B", 10).build();
+
+    java.util.Iterator<Integer> iterator = network.edges().iterator();
+    iterator.next();
+    assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
+  }
 }

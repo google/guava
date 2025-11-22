@@ -277,4 +277,52 @@ public class ImmutableValueGraphTest {
         UnsupportedOperationException.class,
         () -> graph.incidentEdges("A").remove(EndpointPair.ordered("A", "B")));
   }
+
+  @Test
+  public void nonEmptyGraph_nodes_clear() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .addNode("A")
+            .build();
+
+    assertThrows(UnsupportedOperationException.class, () -> graph.nodes().clear());
+  }
+
+  @Test
+  public void nonEmptyGraph_edges_clear() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .putEdgeValue("A", "B", 10)
+            .build();
+
+    assertThrows(UnsupportedOperationException.class, () -> graph.edges().clear());
+  }
+
+  @Test
+  public void nonEmptyGraph_nodes_iteratorRemove() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .addNode("A")
+            .build();
+
+    java.util.Iterator<String> iterator = graph.nodes().iterator();
+    iterator.next();
+    assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
+  }
+
+  @Test
+  public void nonEmptyGraph_edges_iteratorRemove() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .putEdgeValue("A", "B", 10)
+            .build();
+
+    java.util.Iterator<EndpointPair<String>> iterator = graph.edges().iterator();
+    iterator.next();
+    assertThrows(UnsupportedOperationException.class, () -> iterator.remove());
+  }
 }
