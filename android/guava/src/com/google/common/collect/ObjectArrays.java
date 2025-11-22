@@ -85,6 +85,8 @@ public final class ObjectArrays {
    * @param array the array of elements to append
    * @return an array whose size is one larger than {@code array}, with {@code element} occupying
    *     the first position, and the elements of {@code array} occupying the remaining elements.
+   * @throws ArrayStoreException if {@code element} is not of a runtime type that can be stored in
+   *     an array of type {@code T[]}
    */
   public static <T extends @Nullable Object> T[] concat(@ParametricNullness T element, T[] array) {
     T[] result = newArray(array, array.length + 1);
@@ -100,6 +102,8 @@ public final class ObjectArrays {
    * @param element the element to append to the end
    * @return an array whose size is one larger than {@code array}, with the same contents as {@code
    *     array}, plus {@code element} occupying the last position.
+   * @throws ArrayStoreException if {@code element} is not of a runtime type that can be stored in
+   *     an array of type {@code T[]}
    */
   public static <T extends @Nullable Object> T[] concat(T[] array, @ParametricNullness T element) {
     T[] result = Arrays.copyOf(array, array.length + 1);
