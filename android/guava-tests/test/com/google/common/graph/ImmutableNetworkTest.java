@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
@@ -144,5 +145,75 @@ public class ImmutableNetworkTest {
     assertThat(network.nodes()).containsExactly("A", "B");
     assertThat(network.edges()).containsExactly(10);
     assertThat(network.incidentNodes(10)).isEqualTo(EndpointPair.ordered("A", "B"));
+  }
+
+  @Test
+  public void emptyNetwork_nodes_unmodifiable() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.nodes().add("A"));
+  }
+
+  @Test
+  public void emptyNetwork_edges_unmodifiable() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.edges().add(10));
+  }
+
+  @Test
+  public void nonEmptyNetwork_nodes_unmodifiable() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addNode("A").addNode("B").build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.nodes().add("C"));
+    assertThrows(UnsupportedOperationException.class, () -> network.nodes().remove("A"));
+  }
+
+  @Test
+  public void nonEmptyNetwork_edges_unmodifiable() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addEdge("A", "B", 10).build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.edges().add(20));
+    assertThrows(UnsupportedOperationException.class, () -> network.edges().remove(10));
+  }
+
+  @Test
+  public void nonEmptyNetwork_adjacentNodes_unmodifiable() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addEdge("A", "B", 10).build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.adjacentNodes("A").add("C"));
+    assertThrows(UnsupportedOperationException.class, () -> network.adjacentNodes("A").remove("B"));
+  }
+
+  @Test
+  public void nonEmptyNetwork_predecessors_unmodifiable() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addEdge("A", "B", 10).build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.predecessors("B").add("C"));
+    assertThrows(UnsupportedOperationException.class, () -> network.predecessors("B").remove("A"));
+  }
+
+  @Test
+  public void nonEmptyNetwork_successors_unmodifiable() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addEdge("A", "B", 10).build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.successors("A").add("C"));
+    assertThrows(UnsupportedOperationException.class, () -> network.successors("A").remove("B"));
+  }
+
+  @Test
+  public void nonEmptyNetwork_incidentEdges_unmodifiable() {
+    ImmutableNetwork<String, Integer> network =
+        NetworkBuilder.directed().<String, Integer>immutable().addEdge("A", "B", 10).build();
+
+    assertThrows(UnsupportedOperationException.class, () -> network.incidentEdges("A").add(20));
+    assertThrows(UnsupportedOperationException.class, () -> network.incidentEdges("A").remove(10));
   }
 }

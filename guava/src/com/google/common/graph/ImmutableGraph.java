@@ -27,6 +27,8 @@ import com.google.common.graph.GraphConstants.Presence;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import com.google.errorprone.annotations.InlineMe;
+import java.util.Collections;
+import java.util.Set;
 
 /**
  * A {@link Graph} whose elements and structural relationships will never change. Instances of this
@@ -106,6 +108,36 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
   @Override
   BaseGraph<N> delegate() {
     return backingGraph;
+  }
+
+  @Override
+  public Set<N> nodes() {
+    return Collections.unmodifiableSet(super.nodes());
+  }
+
+  @Override
+  public Set<EndpointPair<N>> edges() {
+    return Collections.unmodifiableSet(super.edges());
+  }
+
+  @Override
+  public Set<N> adjacentNodes(N node) {
+    return Collections.unmodifiableSet(super.adjacentNodes(node));
+  }
+
+  @Override
+  public Set<N> predecessors(N node) {
+    return Collections.unmodifiableSet(super.predecessors(node));
+  }
+
+  @Override
+  public Set<N> successors(N node) {
+    return Collections.unmodifiableSet(super.successors(node));
+  }
+
+  @Override
+  public Set<EndpointPair<N>> incidentEdges(N node) {
+    return Collections.unmodifiableSet(super.incidentEdges(node));
   }
 
   /**

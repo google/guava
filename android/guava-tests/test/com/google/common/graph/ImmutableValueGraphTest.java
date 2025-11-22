@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
@@ -176,5 +177,104 @@ public class ImmutableValueGraphTest {
             .build();
 
     assertThat(graph.incidentEdgeOrder()).isEqualTo(ElementOrder.stable());
+  }
+
+  @Test
+  public void emptyGraph_nodes_unmodifiable() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed().<String, Integer>immutable().build();
+
+    assertThrows(UnsupportedOperationException.class, () -> graph.nodes().add("A"));
+  }
+
+  @Test
+  public void emptyGraph_edges_unmodifiable() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed().<String, Integer>immutable().build();
+
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> graph.edges().add(EndpointPair.ordered("A", "B")));
+  }
+
+  @Test
+  public void nonEmptyGraph_nodes_unmodifiable() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .addNode("A")
+            .addNode("B")
+            .build();
+
+    assertThrows(UnsupportedOperationException.class, () -> graph.nodes().add("C"));
+    assertThrows(UnsupportedOperationException.class, () -> graph.nodes().remove("A"));
+  }
+
+  @Test
+  public void nonEmptyGraph_edges_unmodifiable() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .putEdgeValue("A", "B", 10)
+            .build();
+
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> graph.edges().add(EndpointPair.ordered("B", "C")));
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> graph.edges().remove(EndpointPair.ordered("A", "B")));
+  }
+
+  @Test
+  public void nonEmptyGraph_adjacentNodes_unmodifiable() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .putEdgeValue("A", "B", 10)
+            .build();
+
+    assertThrows(UnsupportedOperationException.class, () -> graph.adjacentNodes("A").add("C"));
+    assertThrows(UnsupportedOperationException.class, () -> graph.adjacentNodes("A").remove("B"));
+  }
+
+  @Test
+  public void nonEmptyGraph_predecessors_unmodifiable() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .putEdgeValue("A", "B", 10)
+            .build();
+
+    assertThrows(UnsupportedOperationException.class, () -> graph.predecessors("B").add("C"));
+    assertThrows(UnsupportedOperationException.class, () -> graph.predecessors("B").remove("A"));
+  }
+
+  @Test
+  public void nonEmptyGraph_successors_unmodifiable() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .putEdgeValue("A", "B", 10)
+            .build();
+
+    assertThrows(UnsupportedOperationException.class, () -> graph.successors("A").add("C"));
+    assertThrows(UnsupportedOperationException.class, () -> graph.successors("A").remove("B"));
+  }
+
+  @Test
+  public void nonEmptyGraph_incidentEdges_unmodifiable() {
+    ImmutableValueGraph<String, Integer> graph =
+        ValueGraphBuilder.directed()
+            .<String, Integer>immutable()
+            .putEdgeValue("A", "B", 10)
+            .build();
+
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> graph.incidentEdges("A").add(EndpointPair.ordered("A", "C")));
+    assertThrows(
+        UnsupportedOperationException.class,
+        () -> graph.incidentEdges("A").remove(EndpointPair.ordered("A", "B")));
   }
 }
