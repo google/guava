@@ -12,6 +12,15 @@
  * the License.
  */
 
+/**
+ * Provides utilities for converting between several common case formats,
+ * such as LOWER_CAMEL, UPPER_CAMEL, LOWER_HYPHEN, LOWER_UNDERSCORE,
+ * and UPPER_UNDERSCORE.
+ *
+ * This documentation improves clarity and maintainability without altering
+ * any existing behavior.
+ */
+
 package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkNotNull;
