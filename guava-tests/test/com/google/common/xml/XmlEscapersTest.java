@@ -50,14 +50,14 @@ public class XmlEscapersTest extends TestCase {
     assertEquals("&apos;test&apos;", xmlAttributeEscaper.escape("\'test'"));
     // Test all escapes
     assertEquals(
-        "a&quot;b&lt;c&gt;d&amp;e&quot;f&apos;", xmlAttributeEscaper.escape("a\"b<c>d&e\"f'"));
+            "a&quot;b&lt;c&gt;d&amp;e&quot;f&apos;", xmlAttributeEscaper.escape("a\"b<c>d&e\"f'"));
     // Test '\t', '\n' and '\r' are escaped.
     assertEquals("a&#x9;b&#xA;c&#xD;d", xmlAttributeEscaper.escape("a\tb\nc\rd"));
   }
 
   // Helper to assert common properties of xml escapers.
   static void assertBasicXmlEscaper(
-      CharEscaper xmlEscaper, boolean shouldEscapeQuotes, boolean shouldEscapeWhitespaceChars) {
+          CharEscaper xmlEscaper, boolean shouldEscapeQuotes, boolean shouldEscapeWhitespaceChars) {
     // Simple examples (smoke tests)
     assertEquals("xxx", xmlEscaper.escape("xxx"));
     assertEquals("test &amp; test &amp; test", xmlEscaper.escape("test & test & test"));
@@ -67,30 +67,17 @@ public class XmlEscapersTest extends TestCase {
 
     // Test all non-escaped ASCII characters.
     String s =
-        "!@#$%^*()_+=-/?\\|]}[{,.;:"
-            + "abcdefghijklmnopqrstuvwxyz"
-            + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-            + "1234567890";
+            "!@#$%^*()_+=-/?\\|]}[{,.;:"
+                    + "abcdefghijklmnopqrstuvwxyz"
+                    + "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                    + "1234567890";
     assertEquals(s, xmlEscaper.escape(s));
 
-    // Test ASCII control characters.
-    for (char ch = 0; ch < 0x20; ch++) {
-      if (ch == '\t' || ch == '\n' || ch == '\r') {
-        // Only these whitespace chars are permitted in XML,
-        if (shouldEscapeWhitespaceChars) {
-          assertEscaping(xmlEscaper, "&#x" + Integer.toHexString(ch).toUpperCase() + ";", ch);
-        } else {
-          assertUnescaped(xmlEscaper, ch);
-        }
-      } else {
-        // and everything else is replaced with FFFD.
-        assertEscaping(xmlEscaper, "\uFFFD", ch);
-      }
-    }
+    // Test ASCII control characters. (Refatorado)
+    assertControlCharacterEscaping(xmlEscaper, shouldEscapeWhitespaceChars);
 
     // Test _all_ allowed characters (including surrogate values).
     for (char ch = 0x20; ch <= 0xFFFD; ch++) {
-      // There are a small number of cases to consider, so just do it manually.
       if (ch == '&') {
         assertEscaping(xmlEscaper, "&amp;", ch);
       } else if (ch == '<') {
@@ -105,7 +92,7 @@ public class XmlEscapersTest extends TestCase {
         String input = String.valueOf(ch);
         String escaped = xmlEscaper.escape(input);
         assertEquals(
-            "char 0x" + Integer.toString(ch, 16) + " should not be escaped", input, escaped);
+                "char 0x" + Integer.toString(ch, 16) + " should not be escaped", input, escaped);
       }
     }
 
@@ -114,12 +101,29 @@ public class XmlEscapersTest extends TestCase {
     assertEscaping(xmlEscaper, "\uFFFD", '\uFFFF');
 
     assertEquals(
-        "0xFFFE is forbidden and should be replaced during escaping",
-        "[\uFFFD]",
-        xmlEscaper.escape("[\ufffe]"));
+            "0xFFFE is forbidden and should be replaced during escaping",
+            "[\uFFFD]",
+            xmlEscaper.escape("[\ufffe]"));
     assertEquals(
-        "0xFFFF is forbidden and should be replaced during escaping",
-        "[\uFFFD]",
-        xmlEscaper.escape("[\uffff]"));
+            "0xFFFF is forbidden and should be replaced during escaping",
+            "[\uFFFD]",
+            xmlEscaper.escape("[\uffff]"));
+  }
+
+  /** Extracted helper method for control character escaping. */
+  private static void assertControlCharacterEscaping(
+          CharEscaper xmlEscaper, boolean shouldEscapeWhitespaceChars) {
+
+    for (char ch = 0; ch < 0x20; ch++) {
+      if (ch == '\t' || ch == '\n' || ch == '\r') {
+        if (shouldEscapeWhitespaceChars) {
+          assertEscaping(xmlEscaper, "&#x" + Integer.toHexString(ch).toUpperCase() + ";", ch);
+        } else {
+          assertUnescaped(xmlEscaper, ch);
+        }
+      } else {
+        assertEscaping(xmlEscaper, "\uFFFD", ch);
+      }
+    }
   }
 }
