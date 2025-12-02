@@ -47,7 +47,7 @@ public class XmlEscapersTest extends TestCase {
     assertBasicXmlEscaper(xmlAttributeEscaper, true, true);
     // Test quotes are escaped.
     assertEquals("&quot;test&quot;", xmlAttributeEscaper.escape("\"test\""));
-    assertEquals("&apos;test&apos;", xmlAttributeEscaper.escape("\'test'"));
+    assertEquals("&apos;test&apos;", xmlAttributeEscaper.escape("'test'"));
     // Test all escapes
     assertEquals(
             "a&quot;b&lt;c&gt;d&amp;e&quot;f&apos;", xmlAttributeEscaper.escape("a\"b<c>d&e\"f'"));
