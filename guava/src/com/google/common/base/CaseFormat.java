@@ -196,7 +196,7 @@ public enum CaseFormat {
 
     @Override
     public int hashCode() {
-      return sourceFormat.hashCode() ^ targetFormat.hashCode();
+      return 3 * sourceFormat.hashCode() + targetFormat.hashCode();
     }
 
     @Override
