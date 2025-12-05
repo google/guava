@@ -169,7 +169,7 @@ public final class ArrayListMultimap<K extends @Nullable Object, V extends @Null
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
-    int distinctKeys = Serialization.readCount(stream);
+    int distinctKeys = stream.readInt();
     Map<K, Collection<V>> map = CompactHashMap.create();
     setMap(map);
     Serialization.populateMultimap(this, stream, distinctKeys);

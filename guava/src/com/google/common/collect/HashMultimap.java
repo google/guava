@@ -145,7 +145,7 @@ public final class HashMultimap<K extends @Nullable Object, V extends @Nullable 
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     expectedValuesPerKey = DEFAULT_VALUES_PER_KEY;
-    int distinctKeys = Serialization.readCount(stream);
+    int distinctKeys = stream.readInt();
     Map<K, Collection<V>> map = Platform.newHashMapWithExpectedSize(12);
     setMap(map);
     Serialization.populateMultimap(this, stream, distinctKeys);
