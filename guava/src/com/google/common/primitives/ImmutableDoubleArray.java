@@ -25,7 +25,9 @@ import java.io.Serializable;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -524,8 +526,13 @@ public final class ImmutableDoubleArray implements Serializable {
 
     // The default List spliterator is not efficiently splittable
     @Override
-    public Spliterator<Double> spliterator() {
+    public Spliterator.OfDouble spliterator() {
       return parent.spliterator();
+    }
+
+    @Override
+    public PrimitiveIterator.OfDouble iterator() {
+      return Spliterators.iterator(spliterator());
     }
 
     @Override
