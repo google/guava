@@ -794,9 +794,16 @@ public final class Files {
    */
   public static String getFileExtension(String fullName) {
     checkNotNull(fullName);
-    String fileName = new File(fullName).getName();
-    int dotIndex = fileName.lastIndexOf('.');
-    return (dotIndex == -1) ? "" : fileName.substring(dotIndex + 1);
+    for (int i = fullName.length() - 1; i>= 0; i--) {
+      char c = fullName.charAt(i);
+      if (c == '/' || c == '\\') {
+        break;
+      }
+      if (c == '.') {
+        return fullName.substring(i + 1);
+      }
+    }
+    return "";
   }
 
   /**
