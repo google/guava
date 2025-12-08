@@ -98,8 +98,7 @@ public final class Strings {
     for (int i = string.length(); i < minLength; i++) {
       sb.append(padChar);
     }
-    sb.append(string);
-    return sb.toString();
+    return sb.append(string).toString();
   }
 
   /**
