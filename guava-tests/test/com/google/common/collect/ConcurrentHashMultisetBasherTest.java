@@ -21,7 +21,6 @@ import static com.google.common.collect.Lists.transform;
 import static java.lang.Math.min;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 
-import com.google.common.base.Function;
 import com.google.common.primitives.Ints;
 import java.util.List;
 import java.util.Random;
@@ -49,24 +48,24 @@ import org.jspecify.annotations.NullUnmarked;
 public class ConcurrentHashMultisetBasherTest extends TestCase {
 
   public void testAddAndRemove_concurrentHashMap() throws Exception {
-    testAddAndRemove(new ConcurrentHashMap<String, AtomicInteger>());
+    testAddAndRemove(new ConcurrentHashMap<>());
   }
 
   public void testAddAndRemove_concurrentSkipListMap() throws Exception {
-    testAddAndRemove(new ConcurrentSkipListMap<String, AtomicInteger>());
+    testAddAndRemove(new ConcurrentSkipListMap<>());
   }
 
   public void testAddAndRemove_mapMakerMap() throws Exception {
     MapMaker mapMaker = new MapMaker();
     // force MapMaker to use its own MapMakerInternalMap
     mapMaker.useCustomMap = true;
-    testAddAndRemove(mapMaker.<String, AtomicInteger>makeMap());
+    testAddAndRemove(mapMaker.makeMap());
   }
 
   private void testAddAndRemove(ConcurrentMap<String, AtomicInteger> map)
       throws ExecutionException, InterruptedException {
 
-    ConcurrentHashMultiset<String> multiset = new ConcurrentHashMultiset<>(map);
+    ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);
     int nThreads = 20;
     int tasksPerThread = 10;
     int nTasks = nThreads * tasksPerThread;
@@ -86,15 +85,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
         }
       }
 
-      List<Integer> actualCounts =
-          transform(
-              keys,
-              new Function<String, Integer>() {
-                @Override
-                public Integer apply(String key) {
-                  return multiset.count(key);
-                }
-              });
+      List<Integer> actualCounts = transform(keys, multiset::count);
       assertEquals("Counts not as expected", Ints.asList(deltas), actualCounts);
     } finally {
       pool.shutdownNow();
@@ -117,7 +108,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
     }
 
     @Override
-    public int[] call() throws Exception {
+    public int[] call() {
       int iterations = 100000;
       int nKeys = keys.size();
       int[] deltas = new int[nKeys];
