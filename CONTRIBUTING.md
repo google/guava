@@ -18,10 +18,10 @@ Guava, the best approach is to create an [issue][] (or comment on an existing
 issue if there is one) requesting the feature and describing specific use cases
 for it.
 
-If the feature has merit, it will go through a thorough process of API design
-and review. Any code should come after this.
+If we decide to pursue a feature request, it will go through a thorough process
+of API design and review. Any code should come after this.
 
-[APIs]: https://en.wikipedia.org/wiki/Application_programming_interface
+[APIs]: https://en.wikipedia.org/wiki/API
 [issue]: https://github.com/google/guava/issues
 
 Pull requests
@@ -41,19 +41,19 @@ Some examples of types of pull requests that are immediately helpful:
 
 Guidelines for any code contributions:
 
-  1. Any significant changes should be accompanied by tests. The project already
-     has good test coverage, so look at some existing tests if you're unsure
-     how to go about it.
-  2. All contributions must be licensed Apache 2.0 and all files must have a
-     copy of the boilerplate license comment (can be copied from an existing
-     file).
-  3. Files should be formatted according to Google's [Java style guide][].
-  4. Please squash all commits for a change into a single commit (this can be
-     done using `git rebase -i`). Do your best to have a
-     [well-formed commit message][] for the change.
+1.  Any significant changes should be accompanied by tests. The project already
+    has good test coverage, so look at some existing tests if you're unsure how
+    to go about it.
+2.  All contributions must be licensed Apache 2.0 and all files must have a copy
+    of the boilerplate license comment (can be copied from an existing file).
+3.  Files should be formatted according to Google's [Java style guide][].
+4.  Do your best to have a [well-formed commit message][] for the change.
+5.  Pull requests typically do not need to modify the files under the `android`
+    directory: We have a script that automatically mirrors changes from the main
+    directories into the `android` directories.
 
 [Java style guide]: https://google.github.io/styleguide/javaguide.html
-[well-formed commit message]: https://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html
+[well-formed commit message]: https://google.github.io/eng-practices/review/developer/cl-descriptions.html
 
 #### Merging pull requests ####
 
@@ -83,4 +83,4 @@ one (even if it was for a different project), you probably don't need to do it
 again.
 
 [individual CLA]: https://cla.developers.google.com/about/google-individual
-[corporate CLA]: https://developers.google.com/open-source/cla/corporate
+[corporate CLA]: https://cla.developers.google.com/about/google-corporate
