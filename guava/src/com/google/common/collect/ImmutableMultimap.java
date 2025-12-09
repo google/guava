@@ -410,20 +410,6 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   final transient ImmutableMap<K, ? extends ImmutableCollection<V>> map;
   final transient int size;
 
-  // These constants allow the deserialization code to set final fields. This
-  // holder class makes sure they are not initialized unless an instance is
-  // deserialized.
-  @GwtIncompatible
-  @J2ktIncompatible
-  static final class FieldSettersHolder {
-    static final Serialization.FieldSetter<? super ImmutableMultimap<?, ?>> MAP_FIELD_SETTER =
-        Serialization.getFieldSetter(ImmutableMultimap.class, "map");
-    static final Serialization.FieldSetter<? super ImmutableMultimap<?, ?>> SIZE_FIELD_SETTER =
-        Serialization.getFieldSetter(ImmutableMultimap.class, "size");
-
-    private FieldSettersHolder() {}
-  }
-
   ImmutableMultimap(ImmutableMap<K, ? extends ImmutableCollection<V>> map, int size) {
     this.map = map;
     this.size = size;
