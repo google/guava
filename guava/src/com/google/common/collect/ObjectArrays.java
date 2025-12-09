@@ -213,21 +213,21 @@ public final class ObjectArrays {
 
   @CanIgnoreReturnValue
   static Object[] checkElementsNotNull(Object... array) {
-    return checkElementsNotNull(array, array.length);
+    checkElementsNotNull(array, array.length);
+    return array;
   }
 
   @CanIgnoreReturnValue
-  static Object[] checkElementsNotNull(Object[] array, int length) {
+  static @Nullable Object[] checkElementsNotNull(@Nullable Object[] array, int length) {
     for (int i = 0; i < length; i++) {
       checkElementNotNull(array[i], i);
     }
     return array;
   }
 
-  // We do this instead of Preconditions.checkNotNull to save boxing and array
-  // creation cost.
+  // We do this instead of Preconditions.checkNotNull to save boxing and array-creation cost.
   @CanIgnoreReturnValue
-  static Object checkElementNotNull(Object element, int index) {
+  static Object checkElementNotNull(@Nullable Object element, int index) {
     if (element == null) {
       throw new NullPointerException("at index " + index);
     }

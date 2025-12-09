@@ -225,8 +225,7 @@ public final class ObjectArrays {
     return array;
   }
 
-  // We do this instead of Preconditions.checkNotNull to save boxing and array
-  // creation cost.
+  // We do this instead of Preconditions.checkNotNull to save boxing and array-creation cost.
   @CanIgnoreReturnValue
   static Object checkElementNotNull(@Nullable Object element, int index) {
     if (element == null) {
