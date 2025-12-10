@@ -161,7 +161,10 @@ function unexpand_release {
   local major="${release_array[0]}"
   local minor="${release_array[1]}"
   local patch="${release_array[2]}"
-  local rc="${release_array[3]}"
+  local rc="100"
+  if [[ ${#release_array[@]} -gt 3 ]]; then
+    rc="${release_array[3]}"
+  fi
 
   local result="$major.$minor"
   if (( major >= 32 || patch != 0 )); then
@@ -232,53 +235,65 @@ readonly SNAPSHOT_CEILING="999.999.999"
 # If the release argument is a "-android" release, only look at other
 # "-android" releases.
 function latest_release {
+  local ceiling
   if [[ $# == 1 ]]; then
-    local ceiling="$1"
+    ceiling="$1"
     if [[ "$ceiling" =~ ^HEAD-(jre|android)-SNAPSHOT$ ]]; then
-      ceiling="${SNAPSHOT_CEILING}-${BASH_REMATCH[1]}"
+      ceiling_flavor="${ceiling#HEAD-}"
+      ceiling_flavor="${ceiling_flavor%-SNAPSHOT}"
+      ceiling="${SNAPSHOT_CEILING}-${ceiling_flavor}"
     fi
   else
-    local ceiling="${SNAPSHOT_CEILING}"
+    ceiling="${SNAPSHOT_CEILING}"
   fi
-  local non_rc_releases="$(ls releases | grep -v "rc" | grep -v "snapshot")"
+
+  local non_rc_releases
+  non_rc_releases="$(ls releases | grep -v "rc" | grep -v "snapshot")"
 
   if [[ "$ceiling" =~ ^.+-android(-SNAPSHOT)?$ ]]; then
-    # If the release we're looking at is an android release, only look at other
-    # android releases.
+      # If the release we're looking at is an android release, only look at other
+      # android releases.
     non_rc_releases="$(echo "$non_rc_releases" | grep -e "-android")"
-  else
+  elif [[ "$ceiling" =~ ^.+-jre(-SNAPSHOT)?$ ]]; then
     # If it's not an android release, don't include android releases.
-    non_rc_releases="$(echo "$non_rc_releases" | grep -v -e "-android")"
+    non_rc_releases="$(echo "$non_rc_releases" | grep -e "-jre")"
   fi
 
   if [[ -z "$non_rc_releases" ]]; then
-    # There are no non-RC releases to compare against (or no android releases).
-    # Print nothing because there is no previous release.
+      # There are no non-RC releases to compare against (or no android releases).
+      # Print nothing because there is no previous release.
     return
   fi
 
   # Add the release we're looking for to the list, uniqueify, then sort
   # according to our release sort order.
-  local releases="$((echo "$non_rc_releases" && echo "$ceiling") | sort -u | sort_releases)"
+  local releases
+  releases="$( (echo "$non_rc_releases"; echo "$ceiling") | sort -u | sort_releases)"
 
   ceiling_expanded="$(expand_release "$ceiling")"
-  ceiling_major="$(cut -d. -f1 <<< "$ceiling_expanded")"
-  ceiling_minor="$(cut -d. -f2 <<< "$ceiling_expanded")"
+  ceiling_clean="$(echo "$ceiling_expanded" | grep -oE '^[0-9]+\.[0-9]+\.[0-9]+')"
+  IFS='.' read -r ceiling_major ceiling_minor ceiling_patch <<< "$ceiling_clean"
 
   local release
-  local seen_ceiling=1
+  local seen_ceiling=false
   for release in $releases; do
-    if [[ "$seen_ceiling" ]]; then
+    release="${release%/}"
+    if $seen_ceiling; then
       release_expanded="$(expand_release "$release")"
-      release_major="$(cut -d. -f1 <<< "$release_expanded")"
-      release_minor="$(cut -d. -f2 <<< "$release_expanded")"
+      release_clean="$(echo "$release_expanded" | grep -oE '^[0-9]+\.[0-9]+\.[0-9]+')"
+      IFS='.' read -r release_major release_minor release_patch <<< "$release_clean"
 
-      if (( release_major < ceiling_major || release_minor < ceiling_minor )); then
-        echo "$release"
+      if (( release_major < ceiling_major ||
+            (release_major == ceiling_major && release_minor < ceiling_minor) ||
+            (release_major == ceiling_major && release_minor == ceiling_minor && release_patch < ceiling_patch)
+      )); then
+        release="${release%/}"
+        clean_release="$(echo "$release" | sed 's/\.100\(-[a-z]*\)\?//')"
+        echo "$clean_release"
         return
       fi
     elif [[ "$release" == "$ceiling" ]]; then
-      seen_ceiling=0
+      seen_ceiling=true
     fi
   done
 }
