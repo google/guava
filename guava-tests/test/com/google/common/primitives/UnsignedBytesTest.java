@@ -26,6 +26,8 @@ import static java.lang.Math.signum;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.testing.Helpers;
+import com.google.common.primitives.UnsignedBytes.ArraysCompareUnsignedComparator;
+import com.google.common.primitives.UnsignedBytes.LexicographicalComparatorHolder.UnsafeComparator;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.SerializableTester;
 import java.util.Arrays;
@@ -211,47 +213,18 @@ public class UnsignedBytesTest extends TestCase {
     assertThat(UnsignedBytes.join(",", (byte) 128, (byte) -1)).isEqualTo("128,255");
   }
 
-  private static String unsafeComparatorClassName() {
-    return UnsignedBytes.LexicographicalComparatorHolder.class.getName() + "$UnsafeComparator";
-  }
-
   private static boolean unsafeComparatorAvailable() {
-    // See Java Puzzler #44
-    // Use reflection instead of catching NoClassDefFoundError
-    try {
-      Class.forName(unsafeComparatorClassName());
-      return true;
-    } catch (Error | ClassNotFoundException tolerable) {
-      /*
-       * We're probably running on Android.
-       *
-       * A note on exception types:
-       *
-       * Android API level 23 throws ExceptionInInitializerError the first time and
-       * ClassNotFoundException thereafter.
-       *
-       * Android API level 26 and JVM8 both let our Error propagate directly the first time and
-       * throw NoClassDefFoundError thereafter. This is the proper behavior according to the spec.
-       * See https://docs.oracle.com/javase/specs/jls/se8/html/jls-12.html#jls-12.4.2 (steps #11 and
-       * #5).
-       *
-       * Note that that "first time" might happen in a test other than
-       * testLexicographicalComparatorChoice!
-       */
-      return false;
-    }
+    return UnsafeComparator.INSTANCE.isFunctional();
   }
 
-  public void testLexicographicalComparatorChoice() throws Exception {
+  public void testLexicographicalComparatorChoice() {
     Comparator<byte[]> defaultComparator = UnsignedBytes.lexicographicalComparator();
     assertThat(defaultComparator).isNotNull();
     assertThat(UnsignedBytes.lexicographicalComparator()).isSameInstanceAs(defaultComparator);
     if (!isJava8()) {
-      assertThat(defaultComparator.getClass())
-          .isEqualTo(UnsignedBytes.ArraysCompareUnsignedComparator.class);
+      assertThat(defaultComparator).isInstanceOf(ArraysCompareUnsignedComparator.class);
     } else if (unsafeComparatorAvailable()) {
-      assertThat(defaultComparator.getClass())
-          .isEqualTo(Class.forName(unsafeComparatorClassName()));
+      assertThat(defaultComparator).isInstanceOf(UnsafeComparator.class);
     } else {
       assertThat(defaultComparator).isEqualTo(UnsignedBytes.lexicographicalComparatorJavaImpl());
     }
