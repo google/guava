@@ -340,9 +340,9 @@ public class ClassPathTest extends TestCase {
   }
 
   public void testResourceInfo_of() {
-    assertEquals(ClassInfo.class, resourceInfo(ClassPathTest.class).getClass());
-    assertEquals(ClassInfo.class, resourceInfo(ClassPath.class).getClass());
-    assertEquals(ClassInfo.class, resourceInfo(Nested.class).getClass());
+    assertThat(resourceInfo(ClassPathTest.class)).isInstanceOf(ClassInfo.class);
+    assertThat(resourceInfo(ClassPath.class)).isInstanceOf(ClassInfo.class);
+    assertThat(resourceInfo(Nested.class)).isInstanceOf(ClassInfo.class);
   }
 
   public void testGetSimpleName() {
