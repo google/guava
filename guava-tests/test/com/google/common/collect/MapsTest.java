@@ -1037,7 +1037,6 @@ public class MapsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Maps.fromProperties
-  @SuppressWarnings("serial") // never serialized
   public void testFromPropertiesNullKey() {
     Properties properties =
         new Properties() {
@@ -1054,7 +1053,6 @@ public class MapsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Maps.fromProperties
-  @SuppressWarnings("serial") // never serialized
   public void testFromPropertiesNonStringKeys() {
     Properties properties =
         new Properties() {
