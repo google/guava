@@ -1202,7 +1202,7 @@ abstract class JSR166TestCase extends TestCase {
       oos.close();
       ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(bos.toByteArray()));
       T clone = (T) ois.readObject();
-      assertSame(o.getClass(), clone.getClass());
+      assertThat(clone.getClass()).isEqualTo(o.getClass());
       return clone;
     } catch (Throwable t) {
       threadUnexpectedException(t);

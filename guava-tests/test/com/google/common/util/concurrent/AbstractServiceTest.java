@@ -804,7 +804,7 @@ public class AbstractServiceTest extends TestCase {
     @Override
     public synchronized void starting() {
       assertTrue(stateHistory.isEmpty());
-      assertNotSame(State.NEW, service.state());
+      assertThat(service.state()).isNotEqualTo(State.NEW);
       stateHistory.add(State.STARTING);
     }
 
@@ -813,7 +813,7 @@ public class AbstractServiceTest extends TestCase {
       assertEquals(State.STARTING, Iterables.getOnlyElement(stateHistory));
       stateHistory.add(State.RUNNING);
       service.awaitRunning();
-      assertNotSame(State.STARTING, service.state());
+      assertThat(service.state()).isNotEqualTo(State.STARTING);
     }
 
     @Override
@@ -831,7 +831,7 @@ public class AbstractServiceTest extends TestCase {
               .isEqualTo("Expected the service " + service + " to be RUNNING, but was STOPPING");
         }
       }
-      assertNotSame(from, service.state());
+      assertThat(service.state()).isNotEqualTo(from);
     }
 
     @Override

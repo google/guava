@@ -132,7 +132,7 @@ public class FinalizableReferenceQueueTest {
     Class<?> finalizerCopy = decoupledLoader.loadFinalizer();
 
     assertThat(finalizerCopy).isNotNull();
-    assertThat(finalizerCopy).isNotSameInstanceAs(Finalizer.class);
+    assertThat(finalizerCopy).isNotEqualTo(Finalizer.class);
 
     assertThat(FinalizableReferenceQueue.getStartFinalizer(finalizerCopy)).isNotNull();
   }

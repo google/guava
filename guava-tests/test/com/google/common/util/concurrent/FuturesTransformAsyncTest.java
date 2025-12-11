@@ -151,7 +151,7 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
     BadFuture badInput = new BadFuture(immediateFuture(20));
     ListenableFuture<String> chain = buildChainingFuture(badInput);
     ExecutionException e = assertThrows(ExecutionException.class, () -> chain.get());
-    assertSame(RuntimeException.class, e.getCause().getClass());
+    assertThat(e.getCause()).isInstanceOf(BadFutureRuntimeException.class);
   }
 
   /** Proxy to throw a {@link RuntimeException} out of the {@link #get()} method. */
@@ -162,7 +162,9 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
 
     @Override
     public Integer get() {
-      throw new RuntimeException("Oops");
+      throw new BadFutureRuntimeException();
     }
   }
+
+  private static final class BadFutureRuntimeException extends RuntimeException {}
 }

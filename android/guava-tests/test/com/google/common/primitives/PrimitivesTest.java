@@ -41,15 +41,15 @@ public class PrimitivesTest extends TestCase {
   }
 
   public void testWrap() {
-    assertThat(Primitives.wrap(int.class)).isSameInstanceAs(Integer.class);
-    assertThat(Primitives.wrap(Integer.class)).isSameInstanceAs(Integer.class);
-    assertThat(Primitives.wrap(String.class)).isSameInstanceAs(String.class);
+    assertThat(Primitives.wrap(int.class)).isEqualTo(Integer.class);
+    assertThat(Primitives.wrap(Integer.class)).isEqualTo(Integer.class);
+    assertThat(Primitives.wrap(String.class)).isEqualTo(String.class);
   }
 
   public void testUnwrap() {
-    assertThat(Primitives.unwrap(Integer.class)).isSameInstanceAs(int.class);
-    assertThat(Primitives.unwrap(int.class)).isSameInstanceAs(int.class);
-    assertThat(Primitives.unwrap(String.class)).isSameInstanceAs(String.class);
+    assertThat(Primitives.unwrap(Integer.class)).isEqualTo(int.class);
+    assertThat(Primitives.unwrap(int.class)).isEqualTo(int.class);
+    assertThat(Primitives.unwrap(String.class)).isEqualTo(String.class);
   }
 
   public void testAllPrimitiveTypes() {

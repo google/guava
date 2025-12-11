@@ -231,9 +231,9 @@ public class ObjectArraysTest extends TestCase {
         arrayEquals(expected, actual));
   }
 
-  private static boolean arrayEquals(Object[] array1, Object[] array2) {
-    assertSame(array1.getClass(), array2.getClass());
-    return Arrays.equals(array1, array2);
+  private static boolean arrayEquals(Object[] expected, Object[] actual) {
+    assertThat(actual.getClass()).isEqualTo(expected.getClass());
+    return Arrays.equals(expected, actual);
   }
 
   private static void doTestNewArrayEquals(Object[] expected, int length) {

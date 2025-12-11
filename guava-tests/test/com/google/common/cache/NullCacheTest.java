@@ -55,7 +55,7 @@ public class NullCacheTest extends TestCase {
     RemovalNotification<Object, Object> notification = listener.remove();
     assertThat(notification.getKey()).isSameInstanceAs(key);
     assertThat(notification.getValue()).isSameInstanceAs(computed);
-    assertThat(notification.getCause()).isSameInstanceAs(RemovalCause.SIZE);
+    assertThat(notification.getCause()).isEqualTo(RemovalCause.SIZE);
     assertThat(listener.isEmpty()).isTrue();
     checkEmpty(cache);
   }
@@ -73,7 +73,7 @@ public class NullCacheTest extends TestCase {
     RemovalNotification<Object, Object> notification = listener.remove();
     assertThat(notification.getKey()).isSameInstanceAs(key);
     assertThat(notification.getValue()).isSameInstanceAs(computed);
-    assertThat(notification.getCause()).isSameInstanceAs(RemovalCause.SIZE);
+    assertThat(notification.getCause()).isEqualTo(RemovalCause.SIZE);
     assertThat(listener.isEmpty()).isTrue();
     checkEmpty(cache);
   }
@@ -91,7 +91,7 @@ public class NullCacheTest extends TestCase {
     RemovalNotification<Object, Object> notification = listener.remove();
     assertThat(notification.getKey()).isSameInstanceAs(key);
     assertThat(notification.getValue()).isSameInstanceAs(computed);
-    assertThat(notification.getCause()).isSameInstanceAs(RemovalCause.SIZE);
+    assertThat(notification.getCause()).isEqualTo(RemovalCause.SIZE);
     assertThat(listener.isEmpty()).isTrue();
     checkEmpty(cache);
   }

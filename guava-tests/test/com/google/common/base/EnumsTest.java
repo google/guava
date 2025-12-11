@@ -100,7 +100,7 @@ public class EnumsTest extends TestCase {
     @SuppressWarnings("unchecked")
     Class<TestEnum> shadowTestEnum =
         (Class<TestEnum>) Class.forName(TestEnum.class.getName(), false, shadowLoader);
-    assertNotSame(shadowTestEnum, TestEnum.class);
+    assertThat(shadowTestEnum).isNotEqualTo(TestEnum.class);
     // We can't write Set<TestEnum> because that is a Set of the TestEnum from the original
     // ClassLoader.
     Set<Object> shadowConstants = new HashSet<>();

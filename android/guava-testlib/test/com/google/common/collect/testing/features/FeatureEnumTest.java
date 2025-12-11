@@ -61,12 +61,12 @@ public class FeatureEnumTest extends TestCase {
       assertTrue(
           rootLocaleFormat("%s.%s() must return an array.", annotationClass, propertyName),
           returnType.isArray());
-      assertSame(
-          rootLocaleFormat(
-              "%s.%s() must return an array of %s.",
-              annotationClass, propertyName, annotationClass.getDeclaringClass()),
-          annotationClass.getDeclaringClass(),
-          returnType.getComponentType());
+      assertWithMessage(
+              rootLocaleFormat(
+                  "%s.%s() must return an array of %s.",
+                  annotationClass, propertyName, annotationClass.getDeclaringClass()))
+          .that(returnType.getComponentType())
+          .isEqualTo(annotationClass.getDeclaringClass());
     }
   }
 
