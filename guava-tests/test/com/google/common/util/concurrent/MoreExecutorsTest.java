@@ -137,8 +137,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertEquals(Thread.State.TERMINATED, otherThread.getState());
     Throwable throwable = throwableFromOtherThread.get();
     assertWithMessage(
-            "Throwable from other thread: "
-                + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)))
+            "Throwable from other thread: %s",
+            throwable == null ? null : Throwables.getStackTraceAsString(throwable))
         .that(throwableFromOtherThread.get())
         .isNull();
   }
@@ -245,8 +245,8 @@ public class MoreExecutorsTest extends JSR166TestCase {
     assertEquals(Thread.State.TERMINATED, otherThread.getState());
     Throwable throwable = throwableFromOtherThread.get();
     assertWithMessage(
-            "Throwable from other thread: "
-                + (throwable == null ? null : Throwables.getStackTraceAsString(throwable)))
+            "Throwable from other thread: %s",
+            throwable == null ? null : Throwables.getStackTraceAsString(throwable))
         .that(throwableFromOtherThread.get())
         .isNull();
   }

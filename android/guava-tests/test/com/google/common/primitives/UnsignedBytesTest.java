@@ -84,7 +84,7 @@ public class UnsignedBytesTest extends TestCase {
       UnsignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
     } catch (IllegalArgumentException ex) {
-      assertWithMessage(value + " not found in exception text: " + ex.getMessage())
+      assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
           .that(ex.getMessage().contains(String.valueOf(value)))
           .isTrue();
     }
@@ -98,7 +98,7 @@ public class UnsignedBytesTest extends TestCase {
         byte x = VALUES[i];
         byte y = VALUES[j];
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y)
+        assertWithMessage("%s, %s", x, y)
             .that(signum(UnsignedBytes.compare(x, y)))
             .isEqualTo(signum(Integer.compare(i, j)));
       }

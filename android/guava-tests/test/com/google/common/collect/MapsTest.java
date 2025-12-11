@@ -173,7 +173,7 @@ public class MapsTest extends TestCase {
     for (int i = 1; i < size; i++) {
       map1.put(i, null);
     }
-    assertWithMessage("table size after adding " + size + " elements")
+    assertWithMessage("table size after adding %s elements", size)
         .that(bucketsOf(map1))
         .isEqualTo(initialBuckets);
 
@@ -182,7 +182,7 @@ public class MapsTest extends TestCase {
      * once; make sure that passes too.
      */
     map2.putAll(map1);
-    assertWithMessage("table size after adding " + size + " elements")
+    assertWithMessage("table size after adding %s elements", size)
         .that(bucketsOf(map1))
         .isEqualTo(initialBuckets);
 
@@ -192,7 +192,7 @@ public class MapsTest extends TestCase {
     for (int i = 0; i < size; i++) {
       referenceMap.put(i, null);
     }
-    assertWithMessage("table size after adding " + size + " elements")
+    assertWithMessage("table size after adding %s elements", size)
         .that(initialBuckets)
         .isAtMost(bucketsOf(referenceMap));
   }

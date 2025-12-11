@@ -98,7 +98,7 @@ public class FloatsTest extends TestCase {
     for (float x : VALUES) {
       for (float y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y).that(Floats.compare(x, y)).isEqualTo(Float.compare(x, y));
+        assertWithMessage("%s, %s", x, y).that(Floats.compare(x, y)).isEqualTo(Float.compare(x, y));
       }
     }
   }
@@ -113,7 +113,7 @@ public class FloatsTest extends TestCase {
     assertThat(Floats.contains(ARRAY234, 4.0f)).isTrue();
 
     for (float value : NUMBERS) {
-      assertWithMessage("" + value).that(Floats.contains(new float[] {5f, value}, value)).isTrue();
+      assertWithMessage("%s", value).that(Floats.contains(new float[] {5f, value}, value)).isTrue();
     }
     assertThat(Floats.contains(new float[] {5f, NaN}, NaN)).isFalse();
   }
@@ -129,7 +129,7 @@ public class FloatsTest extends TestCase {
     assertThat(Floats.indexOf(new float[] {2.0f, 3.0f, 2.0f, 3.0f}, 3.0f)).isEqualTo(1);
 
     for (float value : NUMBERS) {
-      assertWithMessage("" + value)
+      assertWithMessage("%s", value)
           .that(Floats.indexOf(new float[] {5f, value}, value))
           .isEqualTo(1);
     }
@@ -164,7 +164,7 @@ public class FloatsTest extends TestCase {
         .isEqualTo(-1);
 
     for (float value : NUMBERS) {
-      assertWithMessage("" + value)
+      assertWithMessage("%s", value)
           .that(Floats.indexOf(new float[] {5f, value, value, 5f}, new float[] {value, value}))
           .isEqualTo(1);
     }
@@ -183,7 +183,7 @@ public class FloatsTest extends TestCase {
     assertThat(Floats.lastIndexOf(new float[] {2.0f, 3.0f, 2.0f, 3.0f}, 3.0f)).isEqualTo(3);
 
     for (float value : NUMBERS) {
-      assertWithMessage("" + value)
+      assertWithMessage("%s", value)
           .that(Floats.lastIndexOf(new float[] {value, 5f}, value))
           .isEqualTo(0);
     }

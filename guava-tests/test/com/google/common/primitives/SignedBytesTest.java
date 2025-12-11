@@ -75,7 +75,7 @@ public class SignedBytesTest extends TestCase {
       SignedBytes.checkedCast(value);
       fail("Cast to byte should have failed: " + value);
     } catch (IllegalArgumentException ex) {
-      assertWithMessage(value + " not found in exception text: " + ex.getMessage())
+      assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
           .that(ex.getMessage().contains(String.valueOf(value)))
           .isTrue();
     }
@@ -88,13 +88,13 @@ public class SignedBytesTest extends TestCase {
         int expected = Byte.compare(x, y);
         int actual = SignedBytes.compare(x, y);
         if (expected == 0) {
-          assertWithMessage(x + ", " + y).that(actual).isEqualTo(expected);
+          assertWithMessage("%s, %s", x, y).that(actual).isEqualTo(expected);
         } else if (expected < 0) {
-          assertWithMessage(x + ", " + y + " (expected: " + expected + ", actual" + actual + ")")
+          assertWithMessage("%s, %s (expected: %s, actual%s)", x, y, expected, actual)
               .that(actual < 0)
               .isTrue();
         } else {
-          assertWithMessage(x + ", " + y + " (expected: " + expected + ", actual" + actual + ")")
+          assertWithMessage("%s, %s (expected: %s, actual%s)", x, y, expected, actual)
               .that(actual > 0)
               .isTrue();
         }

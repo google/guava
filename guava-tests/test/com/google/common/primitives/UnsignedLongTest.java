@@ -151,7 +151,7 @@ public class UnsignedLongTest extends TestCase {
   public void testFloatValue() {
     for (long value : TEST_LONGS) {
       UnsignedLong unsignedValue = UnsignedLong.fromLongBits(value);
-      assertWithMessage("Float value of " + unsignedValue)
+      assertWithMessage("Float value of %s", unsignedValue)
           .that(unsignedValue.floatValue())
           .isEqualTo(unsignedValue.bigIntegerValue().floatValue());
     }
@@ -160,7 +160,7 @@ public class UnsignedLongTest extends TestCase {
   public void testDoubleValue() {
     for (long value : TEST_LONGS) {
       UnsignedLong unsignedValue = UnsignedLong.fromLongBits(value);
-      assertWithMessage("Double value of " + unsignedValue)
+      assertWithMessage("Double value of %s", unsignedValue)
           .that(unsignedValue.doubleValue())
           .isEqualTo(unsignedValue.bigIntegerValue().doubleValue());
     }

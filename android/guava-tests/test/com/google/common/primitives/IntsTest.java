@@ -90,7 +90,7 @@ public class IntsTest extends TestCase {
       Ints.checkedCast(value);
       fail("Cast to int should have failed: " + value);
     } catch (IllegalArgumentException ex) {
-      assertWithMessage(value + " not found in exception text: " + ex.getMessage())
+      assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
           .that(ex.getMessage().contains(String.valueOf(value)))
           .isTrue();
     }
@@ -102,7 +102,7 @@ public class IntsTest extends TestCase {
     for (int x : VALUES) {
       for (int y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y).that(Ints.compare(x, y)).isEqualTo(Integer.compare(x, y));
+        assertWithMessage("%s, %s", x, y).that(Ints.compare(x, y)).isEqualTo(Integer.compare(x, y));
       }
     }
   }
@@ -673,11 +673,11 @@ public class IntsTest extends TestCase {
       radixEncodeParseAndAssertEquals(-8000, radix);
       radixEncodeParseAndAssertEquals(GREATEST, radix);
       radixEncodeParseAndAssertEquals(LEAST, radix);
-      assertWithMessage("Radix: " + radix).that(Ints.tryParse("9999999999999999", radix)).isNull();
-      assertWithMessage("Radix: " + radix)
+      assertWithMessage("Radix: %s", radix).that(Ints.tryParse("9999999999999999", radix)).isNull();
+      assertWithMessage("Radix: %s", radix)
           .that(Ints.tryParse(Long.toString((long) GREATEST + 1, radix), radix))
           .isNull();
-      assertWithMessage("Radix: " + radix)
+      assertWithMessage("Radix: %s", radix)
           .that(Ints.tryParse(Long.toString((long) LEAST - 1, radix), radix))
           .isNull();
     }
@@ -690,7 +690,7 @@ public class IntsTest extends TestCase {
    * to parse the result. Asserts the result is the same as what we started with.
    */
   private static void radixEncodeParseAndAssertEquals(Integer value, int radix) {
-    assertWithMessage("Radix: " + radix)
+    assertWithMessage("Radix: %s", radix)
         .that(Ints.tryParse(Integer.toString(value, radix), radix))
         .isEqualTo(value);
   }

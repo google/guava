@@ -77,7 +77,7 @@ public class BooleansTest extends TestCase {
     for (boolean x : VALUES) {
       for (boolean y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y)
+        assertWithMessage("%s, %s", x, y)
             .that(Booleans.compare(x, y))
             .isEqualTo(Boolean.valueOf(x).compareTo(y));
       }

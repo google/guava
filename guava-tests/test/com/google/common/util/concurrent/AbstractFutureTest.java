@@ -324,8 +324,7 @@ public class AbstractFutureTest extends TestCase {
       overWaitNanosFirstDigit = '9';
     }
     String nanosRegex = "[4-" + overWaitNanosFirstDigit + "][0-9]+";
-    assertWithMessage(
-            "Spent " + thread.timeSpentBlocked + " ns blocked; slept for " + toWaitMillis + " ms")
+    assertWithMessage("Spent %s ns blocked; slept for %s ms", thread.timeSpentBlocked, toWaitMillis)
         .that(thread.exception)
         .hasMessageThat()
         .matches(

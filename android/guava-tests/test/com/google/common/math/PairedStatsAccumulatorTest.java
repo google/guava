@@ -206,16 +206,16 @@ public class PairedStatsAccumulatorTest extends TestCase {
       double populationCovarianceByAddAllPartitionedPairedStats =
           accumulatorByAddAllPartitionedPairedStats.populationCovariance();
       if (values.hasAnyNonFinite()) {
-        assertWithMessage("population covariance of " + values).that(populationCovariance).isNaN();
-        assertWithMessage("population covariance by addAll(PairedStats) of " + values)
+        assertWithMessage("population covariance of %s", values).that(populationCovariance).isNaN();
+        assertWithMessage("population covariance by addAll(PairedStats) of %s", values)
             .that(populationCovarianceByAddAllPartitionedPairedStats)
             .isNaN();
       } else {
-        assertWithMessage("population covariance of " + values)
+        assertWithMessage("population covariance of %s", values)
             .that(populationCovariance)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_PRODUCTS_OF_DELTAS / MANY_VALUES_COUNT);
-        assertWithMessage("population covariance by addAll(PairedStats) of " + values)
+        assertWithMessage("population covariance by addAll(PairedStats) of %s", values)
             .that(populationCovarianceByAddAllPartitionedPairedStats)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_PRODUCTS_OF_DELTAS / MANY_VALUES_COUNT);
@@ -314,21 +314,21 @@ public class PairedStatsAccumulatorTest extends TestCase {
       double pearsonsCorrelationCoefficientByAddAllPartitionedPairedStats =
           accumulatorByAddAllPartitionedPairedStats.pearsonsCorrelationCoefficient();
       if (values.hasAnyNonFinite()) {
-        assertWithMessage("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of %s", values)
             .that(pearsonsCorrelationCoefficient)
             .isNaN();
-        assertWithMessage("Pearson's correlation coefficient by addAll(PairedStats) of " + values)
+        assertWithMessage("Pearson's correlation coefficient by addAll(PairedStats) of %s", values)
             .that(pearsonsCorrelationCoefficient)
             .isNaN();
       } else {
-        assertWithMessage("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of %s", values)
             .that(pearsonsCorrelationCoefficient)
             .isWithin(ALLOWED_ERROR)
             .of(
                 accumulator.populationCovariance()
                     / (accumulator.xStats().populationStandardDeviation()
                         * accumulator.yStats().populationStandardDeviation()));
-        assertWithMessage("Pearson's correlation coefficient by addAll(PairedStats) of " + values)
+        assertWithMessage("Pearson's correlation coefficient by addAll(PairedStats) of %s", values)
             .that(pearsonsCorrelationCoefficientByAddAllPartitionedPairedStats)
             .isWithin(ALLOWED_ERROR)
             .of(
