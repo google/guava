@@ -1709,6 +1709,7 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("TruthGetOrDefault") // We are testing our implementation of getOrDefault.
   public void testGetOrDefault() {
     LocalCache<Object, Object> map =
         makeLocalCache(createCacheBuilder().concurrencyLevel(1).initialCapacity(1));

@@ -18,6 +18,7 @@ package com.google.common.collect.testing.features;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.errorprone.annotations.FormatMethod;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
@@ -111,6 +112,7 @@ public class FeatureEnumTest extends TestCase {
     assertGoodFeatureEnum(MapFeature.class);
   }
 
+  @FormatMethod
   private static String rootLocaleFormat(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
   }
