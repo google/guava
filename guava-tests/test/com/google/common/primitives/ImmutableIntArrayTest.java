@@ -37,6 +37,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -89,6 +90,15 @@ public class ImmutableIntArrayTest extends TestCase {
     assertThat(ImmutableIntArray.of(0, 1, 3, 6, 10, 15, 21).asList())
         .containsExactly(0, 1, 3, 6, 10, 15, 21)
         .inOrder();
+  }
+
+  public void testAsListIterator() {
+    PrimitiveIterator.OfInt intIterator =
+        (PrimitiveIterator.OfInt) ImmutableIntArray.of(1, 2, 3).asList().iterator();
+    assertThat(intIterator.nextInt()).isEqualTo(1);
+    assertThat(intIterator.nextInt()).isEqualTo(2);
+    assertThat(intIterator.nextInt()).isEqualTo(3);
+    assertThat(intIterator.hasNext()).isFalse();
   }
 
   public void testCopyOf_array_empty() {

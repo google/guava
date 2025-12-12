@@ -528,14 +528,13 @@ public final class ImmutableDoubleArray implements Serializable {
       return parent.subArray(fromIndex, toIndex).asList();
     }
 
-    // The default List spliterator is not efficiently splittable
-    @Override
     /*
      * This is an override that is not directly visible to callers, so NewApi will catch calls to
      * Collection.spliterator() where necessary.
      */
     @IgnoreJRERequirement
-    public Spliterator<Double> spliterator() {
+    @Override
+    public Spliterator.OfDouble spliterator() {
       return parent.spliterator();
     }
 

@@ -37,6 +37,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.DoubleStream;
@@ -91,6 +92,15 @@ public class ImmutableDoubleArrayTest extends TestCase {
     assertThat(ImmutableDoubleArray.of(0, 1, 3, 6, 10, 15, 21).asList())
         .containsExactly(0.0, 1.0, 3.0, 6.0, 10.0, 15.0, 21.0)
         .inOrder();
+  }
+
+  public void testAsListIterator() {
+    PrimitiveIterator.OfDouble doubleIterator =
+        (PrimitiveIterator.OfDouble) ImmutableDoubleArray.of(1.0, 2.0, 3.0).asList().iterator();
+    assertThat(doubleIterator.nextDouble()).isEqualTo(1.0);
+    assertThat(doubleIterator.nextDouble()).isEqualTo(2.0);
+    assertThat(doubleIterator.nextDouble()).isEqualTo(3.0);
+    assertThat(doubleIterator.hasNext()).isFalse();
   }
 
   public void testCopyOf_array_empty() {

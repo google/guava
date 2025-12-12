@@ -26,6 +26,7 @@ import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.RandomAccess;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -519,10 +520,14 @@ public final class ImmutableLongArray implements Serializable {
       return parent.subArray(fromIndex, toIndex).asList();
     }
 
-    // The default List spliterator is not efficiently splittable
     @Override
-    public Spliterator<Long> spliterator() {
+    public Spliterator.OfLong spliterator() {
       return parent.spliterator();
+    }
+
+    @Override
+    public PrimitiveIterator.OfLong iterator() {
+      return Spliterators.iterator(spliterator());
     }
 
     @Override
