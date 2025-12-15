@@ -84,3 +84,16 @@ again.
 
 [individual CLA]: https://cla.developers.google.com/about/google-individual
 [corporate CLA]: https://cla.developers.google.com/about/google-corporate
+
+## Building and Testing
+
+The most reliable way to build and test Guava is:
+
+```shell
+./mvnw clean install
+```
+
+(Our benchmarks, however, are
+[not set up to run easily externally][benchmarks-run].)
+
+[benchmarks-run]: https://github.com/google/guava/issues/1642#issuecomment-1983655039
