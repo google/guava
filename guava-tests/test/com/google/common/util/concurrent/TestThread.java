@@ -138,7 +138,7 @@ public final class TestThread<L> extends Thread implements TearDown {
     checkNotNull(methodName);
     checkNotNull(arguments);
     sendRequest(methodName, arguments);
-    assertEquals(expected, getResponse(methodName).getThrowable().getClass());
+    assertThat(getResponse(methodName).getThrowable()).isInstanceOf(expected);
   }
 
   /**

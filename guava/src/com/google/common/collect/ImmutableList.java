@@ -609,8 +609,14 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
+  @GwtIncompatible("Spliterator")
   public Spliterator<E> spliterator() {
-    return CollectSpliterators.indexed(size(), SPLITERATOR_CHARACTERISTICS, this::get);
+    return spliteratorWithCharacteristics(SPLITERATOR_CHARACTERISTICS);
+  }
+
+  @GwtIncompatible("Spliterator")
+  Spliterator<E> spliteratorWithCharacteristics(int characteristics) {
+    return CollectSpliterators.indexed(size(), characteristics, this::get);
   }
 
   @Override

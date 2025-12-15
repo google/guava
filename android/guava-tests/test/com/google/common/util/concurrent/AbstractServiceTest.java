@@ -32,8 +32,8 @@ import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -352,29 +352,15 @@ public class AbstractServiceTest extends TestCase {
 
   public void testAwaitTerminated_failedService() throws Exception {
     ManualSwitchedService service = new ManualSwitchedService();
-    AtomicReference<Throwable> exception = Atomics.newReference();
-    Thread waiter =
-        new Thread() {
-          @Override
-          public void run() {
-            try {
-              service.awaitTerminated();
-              fail("Expected an IllegalStateException");
-            } catch (Throwable t) {
-              exception.set(t);
-            }
-          }
-        };
-    waiter.start();
+    FutureTask<IllegalStateException> waiter =
+        new FutureTask<>(() -> assertThrows(IllegalStateException.class, service::awaitTerminated));
+    new Thread(waiter).start();
     service.startAsync();
     service.notifyStarted();
     assertEquals(State.RUNNING, service.state());
     service.notifyFailed(EXCEPTION);
     assertEquals(State.FAILED, service.state());
-    waiter.join(LONG_TIMEOUT_MILLIS);
-    assertFalse(waiter.isAlive());
-    assertThat(exception.get()).isInstanceOf(IllegalStateException.class);
-    assertThat(exception.get()).hasCauseThat().isEqualTo(EXCEPTION);
+    assertThat(waiter.get()).hasCauseThat().isEqualTo(EXCEPTION);
   }
 
   public void testThreadedServiceStartAndWaitStopAndWait() throws Throwable {
@@ -804,7 +790,7 @@ public class AbstractServiceTest extends TestCase {
     @Override
     public synchronized void starting() {
       assertTrue(stateHistory.isEmpty());
-      assertNotSame(State.NEW, service.state());
+      assertThat(service.state()).isNotEqualTo(State.NEW);
       stateHistory.add(State.STARTING);
     }
 
@@ -813,7 +799,7 @@ public class AbstractServiceTest extends TestCase {
       assertEquals(State.STARTING, Iterables.getOnlyElement(stateHistory));
       stateHistory.add(State.RUNNING);
       service.awaitRunning();
-      assertNotSame(State.STARTING, service.state());
+      assertThat(service.state()).isNotEqualTo(State.STARTING);
     }
 
     @Override
@@ -831,7 +817,7 @@ public class AbstractServiceTest extends TestCase {
               .isEqualTo("Expected the service " + service + " to be RUNNING, but was STOPPING");
         }
       }
-      assertNotSame(from, service.state());
+      assertThat(service.state()).isNotEqualTo(from);
     }
 
     @Override

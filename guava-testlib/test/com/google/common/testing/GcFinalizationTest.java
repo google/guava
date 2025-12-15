@@ -181,7 +181,7 @@ public class GcFinalizationTest extends TestCase {
   public void testAwaitClear_interrupted() {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());
     try {
-      WeakReference<Object> ref = new WeakReference<Object>(Boolean.TRUE);
+      WeakReference<Object> ref = new WeakReference<>(new Foo());
       RuntimeException expected =
           assertThrows(RuntimeException.class, () -> GcFinalization.awaitClear(ref));
       assertWrapsInterruptedException(expected);
@@ -190,6 +190,8 @@ public class GcFinalizationTest extends TestCase {
       Thread.interrupted();
     }
   }
+
+  private static final class Foo {}
 
   public void testAwaitDone_finalizationPredicate_interrupted() {
     Interruptenator interruptenator = new Interruptenator(Thread.currentThread());

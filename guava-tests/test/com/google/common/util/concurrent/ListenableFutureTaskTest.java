@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -117,7 +118,7 @@ public class ListenableFutureTaskTest extends TestCase {
     taskLatch.countDown();
 
     ExecutionException e = assertThrows(ExecutionException.class, () -> task.get(5, SECONDS));
-    assertEquals(IllegalStateException.class, e.getCause().getClass());
+    assertThat(e).hasCauseThat().isInstanceOf(IllegalStateException.class);
 
     assertTrue(listenerLatch.await(5, SECONDS));
     assertTrue(task.isDone());

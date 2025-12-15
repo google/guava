@@ -18,7 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.collect.MapMakerInternalMap.Strength.STRONG;
 import static com.google.common.collect.MapMakerInternalMap.Strength.WEAK;
+import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
+import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.ArgumentMatchers.isA;
@@ -31,6 +33,7 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.google.MultisetTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringMultisetGenerator;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
@@ -92,8 +95,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     return new TestStringMultisetGenerator() {
       @Override
       protected Multiset<String> create(String[] elements) {
-        Multiset<String> multiset =
-            new ConcurrentHashMultiset<>(new ConcurrentSkipListMap<String, AtomicInteger>());
+        Multiset<String> multiset = ConcurrentHashMultiset.create(new ConcurrentSkipListMap<>());
         Collections.addAll(multiset, elements);
         return multiset;
       }
@@ -116,7 +118,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     backingMap = mock(ConcurrentMap.class);
     when(backingMap.isEmpty()).thenReturn(true);
 
-    multiset = new ConcurrentHashMultiset<>(backingMap);
+    multiset = ConcurrentHashMultiset.create(backingMap);
   }
 
   public void testCount_elementPresent() {
@@ -307,6 +309,54 @@ public class ConcurrentHashMultisetTest extends TestCase {
     when(backingMap.get(KEY)).thenReturn(null);
 
     assertEquals(0, multiset.setCount(KEY, 0));
+  }
+
+  public void testSerialCycle() {
+    ConcurrentHashMultiset<ContainsMultiset> multiset = ConcurrentHashMultiset.create();
+    ContainsMultiset containsMultiset = new ContainsMultiset(multiset);
+    multiset.add(containsMultiset);
+    ContainsBothWithMultisetFirst multisetFirst =
+        new ContainsBothWithMultisetFirst(multiset, containsMultiset);
+    ContainsBothWithContainsMultisetFirst containsMultisetFirst =
+        new ContainsBothWithContainsMultisetFirst(containsMultiset, multiset);
+
+    ContainsBothWithMultisetFirst reMultisetFirst = reserialize(multisetFirst);
+    assertThat(reMultisetFirst.a.isEmpty()).isFalse();
+    // The following NPE is a side effect of our changes to avoid mutating `final` fields.
+    assertThrows(NullPointerException.class, () -> reMultisetFirst.z.multiset.isEmpty());
+
+    ContainsBothWithContainsMultisetFirst reContainsMultisetFirst =
+        reserialize(containsMultisetFirst);
+    assertThat(reContainsMultisetFirst.a.multiset.isEmpty()).isFalse();
+    assertThat(reContainsMultisetFirst.z.isEmpty()).isFalse();
+  }
+
+  private static final class ContainsMultiset implements Serializable {
+    private final ConcurrentHashMultiset<?> multiset;
+
+    ContainsMultiset(ConcurrentHashMultiset<?> multiset) {
+      this.multiset = multiset;
+    }
+  }
+
+  private static final class ContainsBothWithMultisetFirst implements Serializable {
+    private final ConcurrentHashMultiset<?> a;
+    private final ContainsMultiset z;
+
+    ContainsBothWithMultisetFirst(ConcurrentHashMultiset<?> a, ContainsMultiset z) {
+      this.a = a;
+      this.z = z;
+    }
+  }
+
+  private static final class ContainsBothWithContainsMultisetFirst implements Serializable {
+    private final ContainsMultiset a;
+    private final ConcurrentHashMultiset<?> z;
+
+    ContainsBothWithContainsMultisetFirst(ContainsMultiset a, ConcurrentHashMultiset<?> z) {
+      this.a = a;
+      this.z = z;
+    }
   }
 
   public void testCreate() {

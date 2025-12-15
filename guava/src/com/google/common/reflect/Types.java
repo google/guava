@@ -608,7 +608,7 @@ final class Types {
        * logic in the static initializer, which does not check for getTypeName specifically. We
        * should really validate that it works as desired for all Android versions that we support.
        */
-      @SuppressWarnings("AndroidJdkLibsChecker")
+      @SuppressWarnings("NewApi")
       @Override
       String typeName(Type type) {
         return type.getTypeName();
@@ -625,6 +625,7 @@ final class Types {
         return JAVA8.usedInGenericType(type);
       }
 
+      @SuppressWarnings("NewApi") // see JAVA8.typeName
       @Override
       String typeName(Type type) {
         return type.getTypeName();

@@ -57,8 +57,8 @@ public class MapMakerInternalMapTest extends TestCase {
   public void testDefaults() {
     MapMakerInternalMap<Object, Object, ?, ?> map = makeMap(createMapMaker());
 
-    assertSame(Strength.STRONG, map.keyStrength());
-    assertSame(Strength.STRONG, map.valueStrength());
+    assertThat(map.keyStrength()).isEqualTo(Strength.STRONG);
+    assertThat(map.valueStrength()).isEqualTo(Strength.STRONG);
     assertSame(map.keyStrength().defaultEquivalence(), map.keyEquivalence);
     assertSame(map.valueStrength().defaultEquivalence(), map.valueEquivalence());
 
@@ -172,8 +172,8 @@ public class MapMakerInternalMapTest extends TestCase {
 
   private static void checkStrength(
       MapMakerInternalMap<Object, Object, ?, ?> map, Strength keyStrength, Strength valueStrength) {
-    assertSame(keyStrength, map.keyStrength());
-    assertSame(valueStrength, map.valueStrength());
+    assertThat(map.keyStrength()).isEqualTo(keyStrength);
+    assertThat(map.valueStrength()).isEqualTo(valueStrength);
     assertSame(keyStrength.defaultEquivalence(), map.keyEquivalence);
     assertSame(valueStrength.defaultEquivalence(), map.valueEquivalence());
   }

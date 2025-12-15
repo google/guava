@@ -88,7 +88,7 @@ public class CharsTest extends TestCase {
       Chars.checkedCast(value);
       fail("Cast to char should have failed: " + value);
     } catch (IllegalArgumentException ex) {
-      assertWithMessage(value + " not found in exception text: " + ex.getMessage())
+      assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
           .that(ex.getMessage().contains(String.valueOf(value)))
           .isTrue();
     }
@@ -99,7 +99,7 @@ public class CharsTest extends TestCase {
   public void testCompare() {
     for (char x : VALUES) {
       for (char y : VALUES) {
-        assertWithMessage(x + ", " + y)
+        assertWithMessage("%s, %s", x, y)
             .that(Math.signum(Chars.compare(x, y)))
             .isEqualTo(Math.signum(Character.compare(x, y)));
       }

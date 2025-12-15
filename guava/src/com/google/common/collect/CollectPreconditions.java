@@ -20,12 +20,13 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /** Precondition checks useful in collection implementations. */
 @GwtCompatible
 final class CollectPreconditions {
 
-  static void checkEntryNotNull(Object key, Object value) {
+  static void checkEntryNotNull(@Nullable Object key, @Nullable Object value) {
     if (key == null) {
       throw new NullPointerException("null key in entry: null=" + value);
     } else if (value == null) {

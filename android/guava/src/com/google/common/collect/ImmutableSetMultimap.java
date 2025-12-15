@@ -512,6 +512,14 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    */
   private final transient ImmutableSet<V> emptySet;
 
+  /**
+   * An instance created in {@link #readObject} to be returned from {@link #readResolve}. This field
+   * is used only by those methods, and it is never set in a "normal" instance.
+   *
+   * <p>For more background, see {@code ConcurrentHashMultiset.deserializationReplacement}.
+   */
+  private transient @Nullable ImmutableSetMultimap<?, ?> deserializationReplacement;
+
   ImmutableSetMultimap(
       ImmutableMap<K, ImmutableSet<V>> map,
       int size,
@@ -656,8 +664,8 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   private static <V> ImmutableSet.Builder<V> valuesBuilder(
       @Nullable Comparator<? super V> valueComparator) {
     return (valueComparator == null)
-        ? new ImmutableSet.Builder<V>()
-        : new ImmutableSortedSet.Builder<V>(valueComparator);
+        ? new ImmutableSet.Builder<>()
+        : new ImmutableSortedSet.Builder<>(valueComparator);
   }
 
   /**
@@ -680,18 +688,9 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
 
   @GwtIncompatible
   @J2ktIncompatible
-  private static final class SetFieldSettersHolder {
-    static final Serialization.FieldSetter<? super ImmutableSetMultimap<?, ?>>
-        EMPTY_SET_FIELD_SETTER =
-            Serialization.getFieldSetter(ImmutableSetMultimap.class, "emptySet");
-  }
-
-  @GwtIncompatible
-  @J2ktIncompatible
-  // Serialization type safety is at the caller's mercy.
-  @SuppressWarnings("unchecked")
-  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
+    @SuppressWarnings("unchecked") // reading data stored by writeObject
     Comparator<Object> valueComparator = (Comparator<Object>) stream.readObject();
     int keyCount = stream.readInt();
     if (keyCount < 0) {
@@ -726,9 +725,13 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
       throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);
     }
 
-    FieldSettersHolder.MAP_FIELD_SETTER.set(this, tmpMap);
-    FieldSettersHolder.SIZE_FIELD_SETTER.set(this, tmpSize);
-    SetFieldSettersHolder.EMPTY_SET_FIELD_SETTER.set(this, emptySet(valueComparator));
+    deserializationReplacement = new ImmutableSetMultimap<>(tmpMap, tmpSize, valueComparator);
+  }
+
+  @GwtIncompatible
+  @J2ktIncompatible
+    private Object readResolve() {
+    return requireNonNull(deserializationReplacement); // set by readObject
   }
 
   @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;

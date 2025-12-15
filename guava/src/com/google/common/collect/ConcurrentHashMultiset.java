@@ -27,8 +27,6 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.annotations.VisibleForTesting;
-import com.google.common.collect.Serialization.FieldSetter;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.WeakOuter;
@@ -74,22 +72,36 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   /** The number of occurrences of each element. */
   private final transient ConcurrentMap<E, AtomicInteger> countMap;
 
-  // This constant allows the deserialization code to set a final field. This holder class
-  // makes sure it is not initialized unless an instance is deserialized.
-  private static final class FieldSettersHolder {
-    static final FieldSetter<? super ConcurrentHashMultiset<?>> COUNT_MAP_FIELD_SETTER =
-        Serialization.getFieldSetter(ConcurrentHashMultiset.class, "countMap");
-  }
+  /**
+   * An instance created in {@link #readObject} to be returned from {@link #readResolve}. This field
+   * is used only by those methods, and it is never set in a "normal" instance.
+   *
+   * <p>This class needs to write deserialized data into fields that are {@code final transient}.
+   * Such writes will become impossible to perform in {@link #readObject} after JEP 500. Instead, we
+   * must create a new instance with the desired field values, stash it in this field, and then
+   * instruct Java serialization to use it instead of the originally created object.
+   *
+   * <p>We have chosen this approach over at least two alternatives:
+   *
+   * <ul>
+   *   <li>We could change the serialization of this class incompatibly. We have reserved the right
+   *       to make such changes to our serialized forms, and we have made them before, usually
+   *       without trouble. In this case, my guess is that our chosen approach is even less likely
+   *       to lead to trouble than an incompatible change would be.
+   *   <li>We could make {@link #countMap} no longer be {@code final}. Then we could write to it
+   *       directly during deserialization. However, we would lose Java's guarantees for {@code
+   *       final} fields, including that their values are guaranteed to be visible even when an
+   *       instance is unsafely published.
+   * </ul>
+   */
+  private transient @Nullable ConcurrentHashMultiset<E> deserializationReplacement;
 
   /**
    * Creates a new, empty {@code ConcurrentHashMultiset} using the default initial capacity, load
    * factor, and concurrency settings.
    */
   public static <E> ConcurrentHashMultiset<E> create() {
-    // TODO(schmoe): provide a way to use this class with other (possibly arbitrary)
-    // ConcurrentMap implementors. One possibility is to extract most of this class into
-    // an AbstractConcurrentMapMultiset.
-    return new ConcurrentHashMultiset<>(new ConcurrentHashMap<E, AtomicInteger>());
+    return create(new ConcurrentHashMap<>());
   }
 
   /**
@@ -101,7 +113,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @param elements the elements that the multiset should contain
    */
   public static <E> ConcurrentHashMultiset<E> create(Iterable<? extends E> elements) {
-    ConcurrentHashMultiset<E> multiset = ConcurrentHashMultiset.create();
+    ConcurrentHashMultiset<E> multiset = create();
     Iterables.addAll(multiset, elements);
     return multiset;
   }
@@ -121,12 +133,11 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @since 20.0
    */
   public static <E> ConcurrentHashMultiset<E> create(ConcurrentMap<E, AtomicInteger> countMap) {
+    checkArgument(countMap.isEmpty(), "the backing map (%s) must be empty", countMap);
     return new ConcurrentHashMultiset<>(countMap);
   }
 
-  @VisibleForTesting
-  ConcurrentHashMultiset(ConcurrentMap<E, AtomicInteger> countMap) {
-    checkArgument(countMap.isEmpty(), "the backing map (%s) must be empty", countMap);
+  private ConcurrentHashMultiset(ConcurrentMap<E, AtomicInteger> countMap) {
     this.countMap = countMap;
   }
 
@@ -160,26 +171,36 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   /*
-   * Note: the superclass toArray() methods assume that size() gives a correct
-   * answer, which ours does not.
+   * We override the toArray methods for two reasons:
+   *
+   * 1. Both superclass toArray methods assume that size() gives a correct answer, while our size()
+   * might not (and the answer might change while we're building the array).
+   *
+   * TODO: cpovirk - Is this an issue anywhere anymore? It looks to have been fixed for Java 8
+   * (https://bugs.openjdk.org/browse/JDK-7121314) and before Lollipop
+   * (https://r.android.com/47508). We *would* need to worry for J2KT, whose own concurrency support
+   * is evolving (b/381065164, b/458160722), but this class is @J2ktIncompatible.
+   *
+   * 2. The superclass toArray() method declares the more general return type `@Nullable Object[]`,
+   * but we know that our values will never be `null`.
    */
 
   @Override
   public Object[] toArray() {
-    return snapshot().toArray();
+    return snapshotElementsToList().toArray();
   }
 
   @Override
   @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
   public <T extends @Nullable Object> T[] toArray(T[] array) {
-    return snapshot().toArray(array);
+    return snapshotElementsToList().toArray(array);
   }
 
   /*
    * We'd love to use 'new ArrayList(this)' or 'list.addAll(this)', but
    * either of these would recurse back to us again!
    */
-  private List<E> snapshot() {
+  private List<E> snapshotElementsToList() {
     List<E> list = newArrayListWithExpectedSize(size());
     for (Multiset.Entry<E> entry : entrySet()) {
       E element = entry.getElement();
@@ -593,18 +614,21 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   /**
    * @serialData the ConcurrentMap of elements and their counts.
    */
-  private void writeObject(ObjectOutputStream stream) throws IOException {
+    private void writeObject(ObjectOutputStream stream) throws IOException {
     stream.defaultWriteObject();
     stream.writeObject(countMap);
   }
 
-  @J2ktIncompatible // serialization
-  private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
+    private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
     @SuppressWarnings("unchecked") // reading data stored by writeObject
-    ConcurrentMap<E, Integer> deserializedCountMap =
-        (ConcurrentMap<E, Integer>) requireNonNull(stream.readObject());
-    FieldSettersHolder.COUNT_MAP_FIELD_SETTER.set(this, deserializedCountMap);
+    ConcurrentMap<E, AtomicInteger> deserializedCountMap =
+        (ConcurrentMap<E, AtomicInteger>) requireNonNull(stream.readObject());
+    deserializationReplacement = new ConcurrentHashMultiset<>(deserializedCountMap);
+  }
+
+    private Object readResolve() {
+    return requireNonNull(deserializationReplacement); // set by readObject
   }
 
   private static final long serialVersionUID = 1;

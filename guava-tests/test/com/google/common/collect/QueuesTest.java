@@ -26,6 +26,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Stopwatch;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -86,14 +87,14 @@ public class QueuesTest extends TestCase {
   private static <T> int drain(
       BlockingQueue<T> q,
       Collection<? super T> buffer,
-      int maxElements,
+      int numElements,
       long timeout,
       TimeUnit unit,
       boolean interruptibly)
       throws InterruptedException {
     return interruptibly
-        ? Queues.drain(q, buffer, maxElements, timeout, unit)
-        : Queues.drainUninterruptibly(q, buffer, maxElements, timeout, unit);
+        ? Queues.drain(q, buffer, numElements, timeout, unit)
+        : Queues.drainUninterruptibly(q, buffer, numElements, timeout, unit);
   }
 
   public void testMultipleProducers() throws Exception {
@@ -153,6 +154,15 @@ public class QueuesTest extends TestCase {
         q.poll(); // not necessarily there if producer was interrupted
       }
     }
+  }
+
+  public void testDrainOverflow() throws InterruptedException {
+    Queues.drain(new SynchronousQueue<>(), new ArrayList<>(), /* numElements= */ 0, MAX_DURATION);
+  }
+
+  public void testDrainUninterruptiblyOverflow() {
+    Queues.drainUninterruptibly(
+        new SynchronousQueue<>(), new ArrayList<>(), /* numElements= */ 0, MAX_DURATION);
   }
 
   public void testZeroElements() throws Exception {
@@ -341,4 +351,6 @@ public class QueuesTest extends TestCase {
       }
     }
   }
+
+  private static final Duration MAX_DURATION = Duration.ofSeconds(Long.MAX_VALUE, 999_999_999);
 }

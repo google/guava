@@ -21,7 +21,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Map;
 import org.jspecify.annotations.Nullable;
@@ -38,17 +37,6 @@ import org.jspecify.annotations.Nullable;
 @J2ktIncompatible
 final class Serialization {
   private Serialization() {}
-
-  /**
-   * Reads a count corresponding to a serialized map, multiset, or multimap. It returns the size of
-   * a map serialized by {@link #writeMap(Map, ObjectOutputStream)}, the number of distinct elements
-   * in a multiset serialized by {@link #writeMultiset(Multiset, ObjectOutputStream)}, or the number
-   * of distinct keys in a multimap serialized by {@link #writeMultimap(Multimap,
-   * ObjectOutputStream)}.
-   */
-  static int readCount(ObjectInputStream stream) throws IOException {
-    return stream.readInt();
-  }
 
   /**
    * Stores the contents of a map in an output stream, as part of serialization. It does not support
@@ -78,7 +66,7 @@ final class Serialization {
 
   /**
    * Populates a map by reading an input stream, as part of deserialization. See {@link #writeMap}
-   * for the data format. The size is determined by a prior call to {@link #readCount}.
+   * for the data format.
    */
   static <K extends @Nullable Object, V extends @Nullable Object> void populateMap(
       Map<K, V> map, ObjectInputStream stream, int size)
@@ -121,8 +109,7 @@ final class Serialization {
 
   /**
    * Populates a multiset by reading an input stream, as part of deserialization. See {@link
-   * #writeMultiset} for the data format. The number of distinct elements is determined by a prior
-   * call to {@link #readCount}.
+   * #writeMultiset} for the data format.
    */
   static <E extends @Nullable Object> void populateMultiset(
       Multiset<E> multiset, ObjectInputStream stream, int distinctElements)
@@ -168,8 +155,7 @@ final class Serialization {
 
   /**
    * Populates a multimap by reading an input stream, as part of deserialization. See {@link
-   * #writeMultimap} for the data format. The number of distinct keys is determined by a prior call
-   * to {@link #readCount}.
+   * #writeMultimap} for the data format.
    */
   static <K extends @Nullable Object, V extends @Nullable Object> void populateMultimap(
       Multimap<K, V> multimap, ObjectInputStream stream, int distinctKeys)
@@ -183,42 +169,6 @@ final class Serialization {
         @SuppressWarnings("unchecked") // reading data stored by writeMultimap
         V value = (V) stream.readObject();
         values.add(value);
-      }
-    }
-  }
-
-  // Secret sauce for setting final fields; don't make it public.
-  static <T> FieldSetter<T> getFieldSetter(Class<T> clazz, String fieldName) {
-    try {
-      Field field = clazz.getDeclaredField(fieldName);
-      return new FieldSetter<>(field);
-    } catch (NoSuchFieldException e) {
-      throw new AssertionError(e); // programmer error
-    }
-  }
-
-  // Secret sauce for setting final fields; don't make it public.
-  static final class FieldSetter<T> {
-    private final Field field;
-
-    private FieldSetter(Field field) {
-      this.field = field;
-      field.setAccessible(true);
-    }
-
-    void set(T instance, Object value) {
-      try {
-        field.set(instance, value);
-      } catch (IllegalAccessException impossible) {
-        throw new AssertionError(impossible);
-      }
-    }
-
-    void set(T instance, int value) {
-      try {
-        field.set(instance, value);
-      } catch (IllegalAccessException impossible) {
-        throw new AssertionError(impossible);
       }
     }
   }

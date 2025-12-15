@@ -34,9 +34,11 @@ import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestEnumMapGenerator;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.CollectorTester;
+import com.google.common.truth.Truth;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Spliterator;
 import java.util.stream.Collector;
 import java.util.stream.Stream;
 import junit.framework.Test;
@@ -144,5 +146,32 @@ public class ImmutableEnumMapTest extends TestCase {
             mapEntry(AnEnum.B, 2),
             mapEntry(AnEnum.C, 3),
             mapEntry(AnEnum.B, 2));
+  }
+
+  @GwtIncompatible
+  @J2ktIncompatible
+  public void testEntrySetSpliteratorCharacteristics() {
+    int expectedCharacteristics =
+        Spliterator.DISTINCT | Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE;
+    Spliterator<Entry<AnEnum, String>> spliterator =
+        Maps.immutableEnumMap(ImmutableMap.of(AnEnum.A, "a", AnEnum.B, "b"))
+            .entrySet()
+            .spliterator();
+    Truth.assertWithMessage(spliterator.getClass().toString())
+        .that(spliterator.characteristics() & expectedCharacteristics)
+        .isEqualTo(expectedCharacteristics);
+  }
+
+  @GwtIncompatible
+  @J2ktIncompatible
+  public void testKeySetCharacteristics() {
+    int expectedCharacteristics = Spliterator.ORDERED | Spliterator.NONNULL;
+    assertThat(
+            Maps.immutableEnumMap(ImmutableMap.of(AnEnum.A, "a"))
+                    .keySet()
+                    .spliterator()
+                    .characteristics()
+                & expectedCharacteristics)
+        .isEqualTo(expectedCharacteristics);
   }
 }

@@ -1759,7 +1759,7 @@ public final class Multimaps {
 
     @Override
     public Spliterator<K> spliterator() {
-      return CollectSpliterators.map(multimap.entries().spliterator(), Map.Entry::getKey);
+      return CollectSpliterators.map(multimap.entries().spliterator(), 0, Map.Entry::getKey);
     }
 
     @Override

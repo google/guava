@@ -417,7 +417,7 @@ public class ArbitraryInstancesTest extends TestCase {
   private static void assertFreshInstanceReturned(Class<?>... mutableClasses) {
     for (Class<?> mutableClass : mutableClasses) {
       Object instance = ArbitraryInstances.get(mutableClass);
-      assertWithMessage("Expected to return non-null for: " + mutableClass)
+      assertWithMessage("Expected to return non-null for: %s", mutableClass)
           .that(instance)
           .isNotNull();
       assertNotSame(

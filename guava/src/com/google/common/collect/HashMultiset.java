@@ -88,7 +88,7 @@ public final class HashMultiset<E extends @Nullable Object> extends AbstractMapB
   @J2ktIncompatible
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    int distinctElements = Serialization.readCount(stream);
+    int distinctElements = stream.readInt();
     setBackingMap(new HashMap<>());
     Serialization.populateMultiset(this, stream, distinctElements);
   }

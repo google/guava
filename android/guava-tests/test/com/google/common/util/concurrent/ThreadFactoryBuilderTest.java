@@ -198,7 +198,7 @@ public class ThreadFactoryBuilderTest extends TestCase {
     assertEquals(THREAD_PRIORITY, thread.getPriority());
     assertEquals(THREAD_DAEMON, thread.isDaemon());
     assertSame(UNCAUGHT_EXCEPTION_HANDLER, thread.getUncaughtExceptionHandler());
-    assertSame(Thread.State.NEW, thread.getState());
+    assertThat(thread.getState()).isEqualTo(Thread.State.NEW);
 
     assertFalse(completed);
     thread.start();

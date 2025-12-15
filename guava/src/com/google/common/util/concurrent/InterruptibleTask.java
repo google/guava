@@ -92,10 +92,9 @@ abstract class InterruptibleTask<T extends @Nullable Object>
     }
   }
 
-  @SuppressWarnings({
-    "Interruption", // We are restoring an interrupt on this thread.
-    "ThreadPriorityCheck", // TODO: b/175898629 - Consider onSpinWait.
-  })
+  @SuppressWarnings(
+    "Interruption" // We are restoring an interrupt on this thread.
+  )
   private void waitForInterrupt(Thread currentThread) {
     /*
      * If someone called cancel(true), it is possible that the interrupted bit hasn't been set yet.
@@ -147,8 +146,6 @@ abstract class InterruptibleTask<T extends @Nullable Object>
           restoreInterruptedBit = Thread.interrupted() || restoreInterruptedBit;
           LockSupport.park(blocker);
         }
-      } else {
-        Thread.yield();
       }
       state = get();
     }

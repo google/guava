@@ -320,8 +320,12 @@ public final class Tables {
     }
 
     @Override
+    @GwtIncompatible("Spliterator")
     Spliterator<Cell<C, R, V>> cellSpliterator() {
-      return CollectSpliterators.map(original.cellSet().spliterator(), Tables::transposeCell);
+      return CollectSpliterators.map(
+          original.cellSet().spliterator(),
+          Spliterator.DISTINCT | Spliterator.NONNULL,
+          Tables::transposeCell);
     }
   }
 
@@ -488,8 +492,12 @@ public final class Tables {
     }
 
     @Override
+    @GwtIncompatible("Spliterator")
     Spliterator<Cell<R, C, V2>> cellSpliterator() {
-      return CollectSpliterators.map(fromTable.cellSet().spliterator(), this::applyToValue);
+      return CollectSpliterators.map(
+          fromTable.cellSet().spliterator(),
+          Spliterator.NONNULL | Spliterator.DISTINCT,
+          this::applyToValue);
     }
 
     @Override

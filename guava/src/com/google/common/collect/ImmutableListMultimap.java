@@ -432,6 +432,14 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     return new ImmutableListMultimap<>(builder.buildOrThrow(), size);
   }
 
+  /**
+   * An instance created in {@link #readObject} to be returned from {@link #readResolve}. This field
+   * is used only by those methods, and it is never set in a "normal" instance.
+   *
+   * <p>For more background, see {@code ConcurrentHashMultiset.deserializationReplacement}.
+   */
+  private transient @Nullable ImmutableListMultimap<?, ?> deserializationReplacement;
+
   ImmutableListMultimap(ImmutableMap<K, ImmutableList<V>> map, int size) {
     super(map, size);
   }
@@ -549,8 +557,13 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
       throw (InvalidObjectException) new InvalidObjectException(e.getMessage()).initCause(e);
     }
 
-    FieldSettersHolder.MAP_FIELD_SETTER.set(this, tmpMap);
-    FieldSettersHolder.SIZE_FIELD_SETTER.set(this, tmpSize);
+    deserializationReplacement = new ImmutableListMultimap<>(tmpMap, tmpSize);
+  }
+
+  @GwtIncompatible
+  @J2ktIncompatible
+    private Object readResolve() {
+    return requireNonNull(deserializationReplacement); // set by readObject
   }
 
   @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;

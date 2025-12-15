@@ -14,6 +14,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Internal.toNanosSaturated;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
@@ -295,8 +296,7 @@ public final class Queues {
   public static <E> int drain(
       BlockingQueue<E> q, Collection<? super E> buffer, int numElements, Duration timeout)
       throws InterruptedException {
-    // TODO(b/126049426): Consider using saturateToNanos(timeout) instead.
-    return drain(q, buffer, numElements, timeout.toNanos(), NANOSECONDS);
+    return drain(q, buffer, numElements, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -365,8 +365,7 @@ public final class Queues {
   @IgnoreJRERequirement // Users will use this only if they're already using Duration
   public static <E> int drainUninterruptibly(
       BlockingQueue<E> q, Collection<? super E> buffer, int numElements, Duration timeout) {
-    // TODO(b/126049426): Consider using saturateToNanos(timeout) instead.
-    return drainUninterruptibly(q, buffer, numElements, timeout.toNanos(), NANOSECONDS);
+    return drainUninterruptibly(q, buffer, numElements, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**

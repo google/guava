@@ -488,7 +488,8 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
 
   @Override
   Spliterator<Entry<K, V>> entrySpliterator() {
-    return Spliterators.spliterator(entries(), Spliterator.DISTINCT | Spliterator.ORDERED);
+    return Spliterators.spliterator(
+        entries(), Spliterator.DISTINCT | Spliterator.ORDERED | Spliterator.NONNULL);
   }
 
   @Override
@@ -498,7 +499,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
 
   @Override
   Spliterator<V> valueSpliterator() {
-    return CollectSpliterators.map(entrySpliterator(), Entry::getValue);
+    return CollectSpliterators.map(entrySpliterator(), Spliterator.ORDERED, Entry::getValue);
   }
 
   /**

@@ -525,14 +525,13 @@ public final class ImmutableLongArray implements Serializable {
       return parent.subArray(fromIndex, toIndex).asList();
     }
 
-    // The default List spliterator is not efficiently splittable
-    @Override
     /*
      * This is an override that is not directly visible to callers, so NewApi will catch calls to
      * Collection.spliterator() where necessary.
      */
     @IgnoreJRERequirement
-    public Spliterator<Long> spliterator() {
+    @Override
+    public Spliterator.OfLong spliterator() {
       return parent.spliterator();
     }
 

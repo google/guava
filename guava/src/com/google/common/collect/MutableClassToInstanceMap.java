@@ -111,9 +111,12 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
       }
 
       @Override
+      @GwtIncompatible("Spliterator")
       public Spliterator<Entry<Class<? extends @NonNull B>, B>> spliterator() {
         return CollectSpliterators.map(
-            delegate().spliterator(), MutableClassToInstanceMap::checkedEntry);
+            delegate().spliterator(),
+            Spliterator.DISTINCT | Spliterator.NONNULL,
+            MutableClassToInstanceMap::checkedEntry);
       }
 
       @Override

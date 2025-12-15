@@ -96,7 +96,7 @@ public final class LinkedHashMultiset<E extends @Nullable Object>
   @J2ktIncompatible
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    int distinctElements = Serialization.readCount(stream);
+    int distinctElements = stream.readInt();
     setBackingMap(new LinkedHashMap<E, Count>());
     Serialization.populateMultiset(this, stream, distinctElements);
   }

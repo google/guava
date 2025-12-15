@@ -80,7 +80,9 @@ public class QuantilesAlgorithmTest extends TestCase {
     assertThat(referenceQuantiles.keySet()).isEqualTo(indexes);
     for (QuantilesAlgorithm algorithm : NON_REFERENCE_ALGORITHMS) {
       Map<Integer, Double> quantiles = algorithm.multipleQuantiles(indexes, 100, dataset.clone());
-      assertWithMessage("Wrong keys from " + algorithm).that(quantiles.keySet()).isEqualTo(indexes);
+      assertWithMessage("Wrong keys from %s", algorithm)
+          .that(quantiles.keySet())
+          .isEqualTo(indexes);
       for (int i : indexes) {
         assertWithMessage("Mismatch between %s and %s at %s", algorithm, REFERENCE_ALGORITHM, i)
             .that(quantiles.get(i))

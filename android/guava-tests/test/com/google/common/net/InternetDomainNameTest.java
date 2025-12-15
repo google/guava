@@ -117,10 +117,10 @@ public final class InternetDomainNameTest extends TestCase {
           "co.uk.", // Trailing dot
           "co\uFF61uk", // Alternate dot character
           "com",
-          "foo.bd",
+          "gov.ck",
+          "org.ck",
           "org.mK",
           "us",
-          "xxxxxx.bd",
           // keep-sorted end
           "j\u00f8rpeland.no", // "jorpeland.no" (first o slashed)
           "xn--jrpeland-54a.no" // IDNA (punycode) encoding of above

@@ -37,6 +37,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.PrimitiveIterator;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.LongStream;
@@ -91,6 +92,15 @@ public class ImmutableLongArrayTest extends TestCase {
     assertThat(ImmutableLongArray.of(0, 1, 3, 6, 10, 15, 21).asList())
         .containsExactly(0L, 1L, 3L, 6L, 10L, 15L, 21L)
         .inOrder();
+  }
+
+  public void testAsListIterator() {
+    PrimitiveIterator.OfLong longIterator =
+        (PrimitiveIterator.OfLong) ImmutableLongArray.of(1, 2, 3).asList().iterator();
+    assertThat(longIterator.nextLong()).isEqualTo(1);
+    assertThat(longIterator.nextLong()).isEqualTo(2);
+    assertThat(longIterator.nextLong()).isEqualTo(3);
+    assertThat(longIterator.hasNext()).isFalse();
   }
 
   public void testCopyOf_array_empty() {

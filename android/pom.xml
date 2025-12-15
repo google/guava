@@ -57,6 +57,7 @@
     <animal-sniffer-maven-plugin.version>1.24</animal-sniffer-maven-plugin.version>
     <asm.version>9.8</asm.version>
     <build-helper-maven-plugin.version>3.6.1</build-helper-maven-plugin.version>
+    <caliper.version>1.0-beta-3</caliper.version>
     <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
     <error_prone_annotations.version>2.42.0</error_prone_annotations.version>
     <error_prone_core.version>2.36.0</error_prone_core.version>
@@ -68,6 +69,7 @@
     <j2objc.version>3.1</j2objc.version>
     <java18-signature.version>1.0</java18-signature.version>
     <javahome-resolver-maven-plugin.version>1.0.2</javahome-resolver-maven-plugin.version>
+    <jimfs.version>1.3.1</jimfs.version>
     <jspecify.version>1.0.0</jspecify.version>
     <jsr305.version>3.0.2</jsr305.version>
     <junit.version>4.13.2</junit.version>
@@ -85,6 +87,7 @@
     <maven-source-plugin.version>3.3.1</maven-source-plugin.version>
     <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
     <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
+    <mockito.version>4.11.0</mockito.version>
     <plexus-io.version>3.5.1</plexus-io.version> <!-- We need at least 3.5.1 to avoid https://github.com/codehaus-plexus/plexus-io/issues/109. Once we upgrade maven-jar-plugin itself to a version new enough to depend on 3.5.1 or higher, we can remove this override. -->
     <toolchains-maven-plugin.version>4.5.0</toolchains-maven-plugin.version>
     <truth.version>1.4.5</truth.version>

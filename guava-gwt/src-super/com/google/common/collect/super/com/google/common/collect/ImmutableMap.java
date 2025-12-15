@@ -32,7 +32,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Spliterator;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -475,10 +474,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return entryIterator.next().getKey();
       }
     };
-  }
-
-  Spliterator<K> keySpliterator() {
-    return CollectSpliterators.map(entrySet().spliterator(), Entry::getKey);
   }
 
   private transient @Nullable ImmutableCollection<V> cachedValues = null;

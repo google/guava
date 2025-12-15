@@ -264,7 +264,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   @J2ktIncompatible
     private void readObject(ObjectInputStream stream) throws IOException, ClassNotFoundException {
     stream.defaultReadObject();
-    int distinctElements = Serialization.readCount(stream);
+    int distinctElements = stream.readInt();
     backingMap = newBackingMap(ObjectCountHashMap.DEFAULT_SIZE);
     Serialization.populateMultiset(this, stream, distinctElements);
   }

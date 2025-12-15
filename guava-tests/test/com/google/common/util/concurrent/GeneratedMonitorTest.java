@@ -769,7 +769,7 @@ public class GeneratedMonitorTest extends TestCase {
           method.invoke(monitor1, arguments.toArray());
           fail("expected IllegalMonitorStateException");
         } catch (InvocationTargetException e) {
-          assertEquals(IllegalMonitorStateException.class, e.getTargetException().getClass());
+          assertThat(e.getTargetException()).isInstanceOf(IllegalMonitorStateException.class);
         } finally {
           if (occupyMonitor) {
             monitor1.leave();
@@ -808,7 +808,7 @@ public class GeneratedMonitorTest extends TestCase {
           method.invoke(monitor, arguments.toArray());
           fail("expected IllegalMonitorStateException");
         } catch (InvocationTargetException e) {
-          assertEquals(IllegalMonitorStateException.class, e.getTargetException().getClass());
+          assertThat(e.getTargetException()).isInstanceOf(IllegalMonitorStateException.class);
         }
       }
     };

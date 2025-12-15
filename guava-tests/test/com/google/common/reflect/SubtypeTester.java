@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.errorprone.annotations.Keep;
+import com.google.errorprone.annotations.Modifier;
 import com.google.errorprone.annotations.RequiredModifiers;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
@@ -30,7 +31,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Comparator;
-import javax.lang.model.element.Modifier;
 import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
 
@@ -71,7 +71,7 @@ import org.jspecify.annotations.Nullable;
 abstract class SubtypeTester implements Cloneable {
 
   /** Annotates a public method that declares subtype assertion. */
-  @RequiredModifiers(Modifier.PUBLIC)
+  @RequiredModifiers(modifier = Modifier.PUBLIC)
   @Retention(RetentionPolicy.RUNTIME)
   @Target(ElementType.METHOD)
   @Keep

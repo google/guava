@@ -104,9 +104,9 @@ public class PairedStatsTest extends TestCase {
       PairedStats stats = createPairedStatsOf(values.asIterable(), OTHER_MANY_VALUES);
       double populationCovariance = stats.populationCovariance();
       if (values.hasAnyNonFinite()) {
-        assertWithMessage("population covariance of " + values).that(populationCovariance).isNaN();
+        assertWithMessage("population covariance of %s", values).that(populationCovariance).isNaN();
       } else {
-        assertWithMessage("population covariance of " + values)
+        assertWithMessage("population covariance of %s", values)
             .that(populationCovariance)
             .isWithin(ALLOWED_ERROR)
             .of(MANY_VALUES_SUM_OF_PRODUCTS_OF_DELTAS / MANY_VALUES_COUNT);
@@ -153,11 +153,11 @@ public class PairedStatsTest extends TestCase {
       PairedStats stats = createPairedStatsOf(MANY_VALUES, values.asIterable());
       double pearsonsCorrelationCoefficient = stats.pearsonsCorrelationCoefficient();
       if (values.hasAnyNonFinite()) {
-        assertWithMessage("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of %s", values)
             .that(pearsonsCorrelationCoefficient)
             .isNaN();
       } else {
-        assertWithMessage("Pearson's correlation coefficient of " + values)
+        assertWithMessage("Pearson's correlation coefficient of %s", values)
             .that(pearsonsCorrelationCoefficient)
             .isWithin(ALLOWED_ERROR)
             .of(

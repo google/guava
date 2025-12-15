@@ -187,7 +187,7 @@ public class UnsignedIntegerTest extends TestCase {
         int expected =
             force32(aUnsigned.bigIntegerValue().multiply(bUnsigned.bigIntegerValue()).intValue());
         UnsignedInteger unsignedMul = aUnsigned.times(bUnsigned);
-        assertWithMessage(aUnsigned + " * " + bUnsigned)
+        assertWithMessage("%s * %s", aUnsigned, bUnsigned)
             .that(unsignedMul.intValue())
             .isEqualTo(expected);
       }

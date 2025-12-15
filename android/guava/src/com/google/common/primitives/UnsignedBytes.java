@@ -33,6 +33,7 @@ import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Objects;
+import org.jspecify.annotations.Nullable;
 import sun.misc.Unsafe;
 
 /**
@@ -285,23 +286,32 @@ public final class UnsignedBytes {
     return LexicographicalComparatorHolder.PureJavaComparator.INSTANCE;
   }
 
-  /**
-   * Provides a lexicographical comparator implementation; either a Java implementation or a faster
-   * implementation based on {@link Unsafe}.
-   *
-   * <p>Uses reflection to gracefully fall back to the Java implementation if {@code Unsafe} isn't
-   * available.
-   */
+  /** Provides a lexicographical comparator implementation selected based on the current runtime. */
   @VisibleForTesting
   static final class LexicographicalComparatorHolder {
+    /**
+     * Interface implemented by {@link UnsafeComparator}, extracted so that we can refer to it
+     * without referring to {@link UnsafeComparator} itself.
+     */
+    interface LexicographicalComparator extends Comparator<byte[]> {
+      /** Returns whether this implementation is available for use on the current platform. */
+      boolean isFunctional();
+    }
+
     static final String UNSAFE_COMPARATOR_NAME =
         LexicographicalComparatorHolder.class.getName() + "$UnsafeComparator";
 
     static final Comparator<byte[]> BEST_COMPARATOR = getBestComparator();
 
-    @SuppressWarnings("SunApi") // b/345822163
+    @SuppressWarnings({
+      // b/345822163
+      "SunApi",
+      "deprecation",
+      // The `deprecation` suppression is for Unsafe APIs that aren't deprecated under some versions
+      "UnnecessaryJavacSuppressWarnings"
+    })
     @VisibleForTesting
-    enum UnsafeComparator implements Comparator<byte[]> {
+    enum UnsafeComparator implements LexicographicalComparator {
       INSTANCE;
 
       static final boolean BIG_ENDIAN = ByteOrder.nativeOrder().equals(ByteOrder.BIG_ENDIAN);
@@ -322,29 +332,44 @@ public final class UnsignedBytes {
        * them while (final or not) local variables are run time values.
        */
 
-      static final Unsafe theUnsafe = getUnsafe();
+      /**
+       * Value stored in {@link #BYTE_ARRAY_BASE_OFFSET} to indicate that the current runtime does
+       * not support the {@link Unsafe} comparator.
+       */
+      static final int OFFSET_UNSAFE_APPROACH_IS_UNAVAILABLE = -1;
 
-      /** The offset to the first element in a byte array. */
-      static final int BYTE_ARRAY_BASE_OFFSET = theUnsafe.arrayBaseOffset(byte[].class);
+      static final @Nullable Unsafe theUnsafe = getUnsafe();
 
-      static {
-        // fall back to the safer pure java implementation unless we're in
-        // a 64-bit JVM with an 8-byte aligned field offset.
-        if (!(Objects.equals(System.getProperty("sun.arch.data.model"), "64")
-            && (BYTE_ARRAY_BASE_OFFSET % 8) == 0
-            // sanity check - this should never fail
-            && theUnsafe.arrayIndexScale(byte[].class) == 1)) {
-          throw new Error(); // force fallback to PureJavaComparator
+      /**
+       * The offset to the first element in a byte array, or {@link
+       * #OFFSET_UNSAFE_APPROACH_IS_UNAVAILABLE}.
+       */
+      static final int BYTE_ARRAY_BASE_OFFSET = getByteArrayBaseOffset();
+
+      private static int getByteArrayBaseOffset() {
+        if (theUnsafe == null) {
+          return OFFSET_UNSAFE_APPROACH_IS_UNAVAILABLE;
+        }
+
+        try {
+          int offset = theUnsafe.arrayBaseOffset(byte[].class);
+          int scale = theUnsafe.arrayIndexScale(byte[].class);
+
+          // Use Unsafe only if we're in a 64-bit JVM with an 8-byte aligned field offset.
+          if (Objects.equals(System.getProperty("sun.arch.data.model"), "64")
+              && (offset % 8) == 0
+              // sanity check - this should never fail
+              && scale == 1) {
+            return offset;
+          }
+
+          return OFFSET_UNSAFE_APPROACH_IS_UNAVAILABLE;
+        } catch (UnsupportedOperationException e) {
+          return OFFSET_UNSAFE_APPROACH_IS_UNAVAILABLE;
         }
       }
 
-      /**
-       * Returns a sun.misc.Unsafe. Suitable for use in a 3rd party package. Replace with a simple
-       * call to Unsafe.getUnsafe when integrating into a jdk.
-       *
-       * @return a sun.misc.Unsafe
-       */
-      private static Unsafe getUnsafe() {
+      private static @Nullable Unsafe getUnsafe() {
         try {
           return Unsafe.getUnsafe();
         } catch (SecurityException e) {
@@ -362,15 +387,23 @@ public final class UnsignedBytes {
                         return k.cast(x);
                       }
                     }
-                    throw new NoSuchFieldError("the Unsafe");
+                    return null;
                   });
         } catch (PrivilegedActionException e) {
-          throw new RuntimeException("Could not initialize intrinsics", e.getCause());
+          return null;
         }
       }
 
       @Override
+      public boolean isFunctional() {
+        return BYTE_ARRAY_BASE_OFFSET != OFFSET_UNSAFE_APPROACH_IS_UNAVAILABLE;
+      }
+
+      @Override
       public int compare(byte[] left, byte[] right) {
+        // If theUnsafe weren't available, we wouldn't have selected this Comparator implementation.
+        Unsafe theUnsafe = requireNonNull(UnsafeComparator.theUnsafe);
+
         int stride = 8;
         int minLength = Math.min(left.length, right.length);
         int strideLimit = minLength & ~(stride - 1);
@@ -437,22 +470,35 @@ public final class UnsignedBytes {
       }
     }
 
-    /**
-     * Returns the Unsafe-using Comparator, or falls back to the pure-Java implementation if unable
-     * to do so.
-     */
+    /** Returns the best comparator supported by the current runtime. */
     static Comparator<byte[]> getBestComparator() {
       try {
-        Class<?> theClass = Class.forName(UNSAFE_COMPARATOR_NAME);
-
+        Class<? extends LexicographicalComparator> unsafeImpl =
+            Class.forName(UNSAFE_COMPARATOR_NAME).asSubclass(LexicographicalComparator.class);
         // requireNonNull is safe because the class is an enum.
-        Object[] constants = requireNonNull(theClass.getEnumConstants());
-
-        // yes, UnsafeComparator does implement Comparator<byte[]>
-        @SuppressWarnings("unchecked")
-        Comparator<byte[]> comparator = (Comparator<byte[]>) constants[0];
-        return comparator;
+        LexicographicalComparator unsafeComparator =
+            requireNonNull(unsafeImpl.getEnumConstants())[0];
+        return unsafeComparator.isFunctional()
+            ? unsafeComparator
+            : lexicographicalComparatorJavaImpl();
       } catch (Throwable t) { // ensure we really catch *everything*
+        /*
+         * Now that UnsafeComparator is implemented to initialize successfully even when we know we
+         * can't use it, this `catch` block might now be necessary only:
+         *
+         * - in the Android flavor or anywhere else that users might be applying an optimizer that
+         * might strip UnsafeComparator entirely. (TODO(cpovirk): Are we confident that optimizers
+         * aren't stripping UnsafeComparator today? Should we have Proguard configuration for it?)
+         *
+         * - if Unsafe is removed entirely from JDKs (or already absent in some unusual environment
+         * today). TODO: b/392974826 - Check for the existence of Unsafe and its methods
+         * reflectively before attempting to access UnsafeComparator. Or, better yet, allow
+         * UnsafeComparator to still initialize correctly even if Unsafe is unavailable. This would
+         * protect against users that automatically preinitialize internal classes that they've seen
+         * initialized in their apps in the past. To do that, we may need to move the references to
+         * Unsafe to another class and then ensure that the preinitialization logic doesn't start
+         * picking up the new class as part of loading UnsafeComparator!
+         */
         return lexicographicalComparatorJavaImpl();
       }
     }

@@ -116,6 +116,14 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   private final transient GeneralRange<E> range;
   private final transient AvlNode<E> header;
 
+  /**
+   * An instance created in {@link #readObject} to be returned from {@link #readResolve}. This field
+   * is used only by those methods, and it is never set in a "normal" instance.
+   *
+   * <p>For more background, see {@code ConcurrentHashMultiset.deserializationReplacement}.
+   */
+  private transient @Nullable TreeMultiset<E> deserializationReplacement;
+
   TreeMultiset(Reference<AvlNode<E>> rootReference, GeneralRange<E> range, AvlNode<E> endLink) {
     super(range.comparator());
     this.rootReference = rootReference;
@@ -1068,15 +1076,14 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
     @SuppressWarnings("unchecked")
     // reading data stored by writeObject
     Comparator<? super E> comparator = (Comparator<? super E>) requireNonNull(stream.readObject());
-    Serialization.getFieldSetter(AbstractSortedMultiset.class, "comparator").set(this, comparator);
-    Serialization.getFieldSetter(TreeMultiset.class, "range")
-        .set(this, GeneralRange.all(comparator));
-    Serialization.getFieldSetter(TreeMultiset.class, "rootReference")
-        .set(this, new Reference<AvlNode<E>>());
-    AvlNode<E> header = new AvlNode<>();
-    Serialization.getFieldSetter(TreeMultiset.class, "header").set(this, header);
-    successor(header, header);
-    Serialization.populateMultiset(this, stream);
+    deserializationReplacement = new TreeMultiset<>(comparator);
+    Serialization.populateMultiset(deserializationReplacement, stream);
+  }
+
+  @J2ktIncompatible
+  @GwtIncompatible
+    private Object readResolve() {
+    return requireNonNull(deserializationReplacement); // set by readObject
   }
 
   @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;

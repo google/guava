@@ -64,6 +64,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Spliterator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collector;
@@ -1168,5 +1169,12 @@ public class ImmutableMapTest extends TestCase {
     assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
     entryList.get(0).setValue("3");
     assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
+  }
+
+  @GwtIncompatible
+  public void testEntrySetSpliteratorDistinct() {
+    ImmutableMap<String, String> map = ImmutableMap.of("foo", "bar", "baz", "quux");
+    assertThat(map.entrySet().spliterator().characteristics() & Spliterator.DISTINCT)
+        .isNotEqualTo(0);
   }
 }

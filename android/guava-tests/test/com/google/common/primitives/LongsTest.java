@@ -60,7 +60,7 @@ public class LongsTest extends TestCase {
   @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
     for (long value : VALUES) {
-      assertWithMessage("hashCode for " + value)
+      assertWithMessage("hashCode for %s", value)
           .that(Longs.hashCode(value))
           .isEqualTo(Long.hashCode(value));
     }
@@ -72,7 +72,7 @@ public class LongsTest extends TestCase {
     for (long x : VALUES) {
       for (long y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y).that(Longs.compare(x, y)).isEqualTo(Long.compare(x, y));
+        assertWithMessage("%s, %s", x, y).that(Longs.compare(x, y)).isEqualTo(Long.compare(x, y));
       }
     }
   }
@@ -202,7 +202,7 @@ public class LongsTest extends TestCase {
 
   private static void assertByteArrayEquals(byte[] expected, byte[] actual) {
     assertWithMessage(
-            "Expected: " + Arrays.toString(expected) + ", but got: " + Arrays.toString(actual))
+            "Expected: %s, but got: %s", Arrays.toString(expected), Arrays.toString(actual))
         .that(Arrays.equals(expected, actual))
         .isTrue();
   }
@@ -272,7 +272,7 @@ public class LongsTest extends TestCase {
 
       r.nextBytes(b);
       long value = Longs.fromByteArray(b);
-      assertWithMessage("" + value).that(Arrays.equals(b, Longs.toByteArray(value))).isTrue();
+      assertWithMessage("%s", value).that(Arrays.equals(b, Longs.toByteArray(value))).isTrue();
     }
   }
 
@@ -662,13 +662,13 @@ public class LongsTest extends TestCase {
       radixEncodeParseAndAssertEquals(-8000L, radix);
       radixEncodeParseAndAssertEquals(MAX_VALUE, radix);
       radixEncodeParseAndAssertEquals(MIN_VALUE, radix);
-      assertWithMessage("Radix: " + radix)
+      assertWithMessage("Radix: %s", radix)
           .that(Longs.tryParse("999999999999999999999999", radix))
           .isNull();
-      assertWithMessage("Radix: " + radix)
+      assertWithMessage("Radix: %s", radix)
           .that(Longs.tryParse(BigInteger.valueOf(MAX_VALUE).add(BigInteger.ONE).toString(), radix))
           .isNull();
-      assertWithMessage("Radix: " + radix)
+      assertWithMessage("Radix: %s", radix)
           .that(
               Longs.tryParse(
                   BigInteger.valueOf(MIN_VALUE).subtract(BigInteger.ONE).toString(), radix))
@@ -685,7 +685,7 @@ public class LongsTest extends TestCase {
    * parse the result. Asserts the result is the same as what we started with.
    */
   private static void radixEncodeParseAndAssertEquals(Long value, int radix) {
-    assertWithMessage("Radix: " + radix)
+    assertWithMessage("Radix: %s", radix)
         .that(Longs.tryParse(Long.toString(value, radix), radix))
         .isEqualTo(value);
   }

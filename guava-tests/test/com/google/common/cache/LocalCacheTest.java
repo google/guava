@@ -299,7 +299,7 @@ public class LocalCacheTest extends TestCase {
     assertThat(map.refreshNanos).isEqualTo(0);
     assertThat(map.maxWeight).isEqualTo(CacheBuilder.UNSET_INT);
 
-    assertThat(map.entryFactory).isSameInstanceAs(EntryFactory.STRONG);
+    assertThat(map.entryFactory).isEqualTo(EntryFactory.STRONG);
     assertThat(map.removalListener).isSameInstanceAs(CacheBuilder.NullListener.INSTANCE);
     assertThat(map.removalNotificationQueue).isSameInstanceAs(DISCARDING_QUEUE);
     assertThat(map.ticker).isSameInstanceAs(NULL_TICKER);
@@ -501,25 +501,25 @@ public class LocalCacheTest extends TestCase {
   public void testSetWeakKeys() {
     LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder().weakKeys());
     checkStrength(map, Strength.WEAK, Strength.STRONG);
-    assertThat(map.entryFactory).isSameInstanceAs(EntryFactory.WEAK);
+    assertThat(map.entryFactory).isEqualTo(EntryFactory.WEAK);
   }
 
   public void testSetWeakValues() {
     LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder().weakValues());
     checkStrength(map, Strength.STRONG, Strength.WEAK);
-    assertThat(map.entryFactory).isSameInstanceAs(EntryFactory.STRONG);
+    assertThat(map.entryFactory).isEqualTo(EntryFactory.STRONG);
   }
 
   public void testSetSoftValues() {
     LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder().softValues());
     checkStrength(map, Strength.STRONG, Strength.SOFT);
-    assertThat(map.entryFactory).isSameInstanceAs(EntryFactory.STRONG);
+    assertThat(map.entryFactory).isEqualTo(EntryFactory.STRONG);
   }
 
   private static void checkStrength(
       LocalCache<Object, Object> map, Strength keyStrength, Strength valueStrength) {
-    assertThat(map.keyStrength).isSameInstanceAs(keyStrength);
-    assertThat(map.valueStrength).isSameInstanceAs(valueStrength);
+    assertThat(map.keyStrength).isEqualTo(keyStrength);
+    assertThat(map.valueStrength).isEqualTo(valueStrength);
     assertThat(map.keyEquivalence).isSameInstanceAs(keyStrength.defaultEquivalence());
     assertThat(map.valueEquivalence).isSameInstanceAs(valueStrength.defaultEquivalence());
   }
@@ -621,21 +621,20 @@ public class LocalCacheTest extends TestCase {
 
   public void testEntryFactory() {
     assertThat(EntryFactory.getFactory(Strength.STRONG, false, false))
-        .isSameInstanceAs(EntryFactory.STRONG);
+        .isEqualTo(EntryFactory.STRONG);
     assertThat(EntryFactory.getFactory(Strength.STRONG, true, false))
-        .isSameInstanceAs(EntryFactory.STRONG_ACCESS);
+        .isEqualTo(EntryFactory.STRONG_ACCESS);
     assertThat(EntryFactory.getFactory(Strength.STRONG, false, true))
-        .isSameInstanceAs(EntryFactory.STRONG_WRITE);
+        .isEqualTo(EntryFactory.STRONG_WRITE);
     assertThat(EntryFactory.getFactory(Strength.STRONG, true, true))
-        .isSameInstanceAs(EntryFactory.STRONG_ACCESS_WRITE);
-    assertThat(EntryFactory.getFactory(Strength.WEAK, false, false))
-        .isSameInstanceAs(EntryFactory.WEAK);
+        .isEqualTo(EntryFactory.STRONG_ACCESS_WRITE);
+    assertThat(EntryFactory.getFactory(Strength.WEAK, false, false)).isEqualTo(EntryFactory.WEAK);
     assertThat(EntryFactory.getFactory(Strength.WEAK, true, false))
-        .isSameInstanceAs(EntryFactory.WEAK_ACCESS);
+        .isEqualTo(EntryFactory.WEAK_ACCESS);
     assertThat(EntryFactory.getFactory(Strength.WEAK, false, true))
-        .isSameInstanceAs(EntryFactory.WEAK_WRITE);
+        .isEqualTo(EntryFactory.WEAK_WRITE);
     assertThat(EntryFactory.getFactory(Strength.WEAK, true, true))
-        .isSameInstanceAs(EntryFactory.WEAK_ACCESS_WRITE);
+        .isEqualTo(EntryFactory.WEAK_ACCESS_WRITE);
   }
 
   // computation tests
@@ -1135,7 +1134,7 @@ public class LocalCacheTest extends TestCase {
     RemovalNotification<K, V> notification = listener.remove();
     assertThat(notification.getKey()).isSameInstanceAs(key);
     assertThat(notification.getValue()).isSameInstanceAs(value);
-    assertThat(notification.getCause()).isSameInstanceAs(cause);
+    assertThat(notification.getCause()).isEqualTo(cause);
   }
 
   // Segment core tests
@@ -1710,6 +1709,7 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("TruthGetOrDefault") // We are testing our implementation of getOrDefault.
   public void testGetOrDefault() {
     LocalCache<Object, Object> map =
         makeLocalCache(createCacheBuilder().concurrencyLevel(1).initialCapacity(1));

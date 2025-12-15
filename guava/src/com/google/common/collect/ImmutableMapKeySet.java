@@ -51,6 +51,7 @@ final class ImmutableMapKeySet<K, V> extends IndexedImmutableSet<K> {
   }
 
   @Override
+  @GwtIncompatible("Spliterator")
   public Spliterator<K> spliterator() {
     return map.keySpliterator();
   }

@@ -24,7 +24,6 @@ import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 import static java.math.RoundingMode.UNNECESSARY;
 import static java.math.RoundingMode.UP;
-import static java.math.RoundingMode.values;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -73,7 +72,7 @@ public class BigDecimalMathTest extends TestCase {
       for (Map.Entry<RoundingMode, Double> entry : expectedValues.entrySet()) {
         RoundingMode mode = entry.getKey();
         Double expectation = entry.getValue();
-        assertWithMessage("roundToDouble(" + input + ", " + mode + ")")
+        assertWithMessage("roundToDouble(%s, %s)", input, mode)
             .that(BigDecimalMath.roundToDouble(input, mode))
             .isEqualTo(expectation);
       }
@@ -91,7 +90,7 @@ public class BigDecimalMathTest extends TestCase {
   }
 
   public void testRoundToDouble_zero() {
-    new RoundToDoubleTester(BigDecimal.ZERO).setExpectation(0.0, values()).test();
+    new RoundToDoubleTester(BigDecimal.ZERO).setExpectation(0.0, RoundingMode.values()).test();
   }
 
   public void testRoundToDouble_oneThird() {
@@ -124,12 +123,14 @@ public class BigDecimalMathTest extends TestCase {
   }
 
   public void testRoundToDouble_smallPositive() {
-    new RoundToDoubleTester(BigDecimal.valueOf(16)).setExpectation(16.0, values()).test();
+    new RoundToDoubleTester(BigDecimal.valueOf(16))
+        .setExpectation(16.0, RoundingMode.values())
+        .test();
   }
 
   public void testRoundToDouble_maxPreciselyRepresentable() {
     new RoundToDoubleTester(BigDecimal.valueOf(1L << 53))
-        .setExpectation(Math.pow(2, 53), values())
+        .setExpectation(Math.pow(2, 53), RoundingMode.values())
         .test();
   }
 
@@ -179,14 +180,14 @@ public class BigDecimalMathTest extends TestCase {
 
   public void testRoundToDouble_twoToThe54PlusFour() {
     new RoundToDoubleTester(BigDecimal.valueOf((1L << 54) + 4))
-        .setExpectation(Math.pow(2, 54) + 4, values())
+        .setExpectation(Math.pow(2, 54) + 4, RoundingMode.values())
         .test();
   }
 
   public void testRoundToDouble_maxDouble() {
     BigDecimal maxDoubleAsBigDecimal = new BigDecimal(Double.MAX_VALUE);
     new RoundToDoubleTester(maxDoubleAsBigDecimal)
-        .setExpectation(Double.MAX_VALUE, values())
+        .setExpectation(Double.MAX_VALUE, RoundingMode.values())
         .test();
   }
 
@@ -209,12 +210,14 @@ public class BigDecimalMathTest extends TestCase {
   }
 
   public void testRoundToDouble_smallNegative() {
-    new RoundToDoubleTester(BigDecimal.valueOf(-16)).setExpectation(-16.0, values()).test();
+    new RoundToDoubleTester(BigDecimal.valueOf(-16))
+        .setExpectation(-16.0, RoundingMode.values())
+        .test();
   }
 
   public void testRoundToDouble_minPreciselyRepresentable() {
     new RoundToDoubleTester(BigDecimal.valueOf(-1L << 53))
-        .setExpectation(-Math.pow(2, 53), values())
+        .setExpectation(-Math.pow(2, 53), RoundingMode.values())
         .test();
   }
 
@@ -247,14 +250,14 @@ public class BigDecimalMathTest extends TestCase {
 
   public void testRoundToDouble_negativeTwoToThe54MinusFour() {
     new RoundToDoubleTester(BigDecimal.valueOf((-1L << 54) - 4))
-        .setExpectation(-Math.pow(2, 54) - 4, values())
+        .setExpectation(-Math.pow(2, 54) - 4, RoundingMode.values())
         .test();
   }
 
   public void testRoundToDouble_minDouble() {
     BigDecimal minDoubleAsBigDecimal = new BigDecimal(-Double.MAX_VALUE);
     new RoundToDoubleTester(minDoubleAsBigDecimal)
-        .setExpectation(-Double.MAX_VALUE, values())
+        .setExpectation(-Double.MAX_VALUE, RoundingMode.values())
         .test();
   }
 

@@ -37,6 +37,9 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet.CachingAsList<Entry<K, V>> {
+  private static final int SPLITERATOR_CHARACTERISTICS =
+      Spliterator.ORDERED | Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.IMMUTABLE;
+
   static final class RegularEntrySet<K, V> extends ImmutableMapEntrySet<K, V> {
     private final transient ImmutableMap<K, V> map;
     private final transient ImmutableList<Entry<K, V>> entries;
@@ -67,8 +70,9 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet.CachingAsList<Ent
     }
 
     @Override
+    @GwtIncompatible("Spliterator")
     public Spliterator<Entry<K, V>> spliterator() {
-      return entries.spliterator();
+      return entries.spliteratorWithCharacteristics(SPLITERATOR_CHARACTERISTICS);
     }
 
     @Override

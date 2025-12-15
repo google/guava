@@ -45,6 +45,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Map.Entry;
+import java.util.Spliterator;
 import java.util.function.BiPredicate;
 import java.util.stream.Collector;
 import junit.framework.Test;
@@ -570,6 +571,13 @@ public class ImmutableListMultimapTest extends TestCase {
     assertEquals(
         ImmutableListMultimap.of('f', "foo", 'o', "foo", 'o', "foo"),
         ImmutableListMultimap.of("foo", 'f', "foo", 'o', "foo", 'o').inverse());
+  }
+
+  public void testNotDistinctEntrySpliterator() {
+    ImmutableListMultimap<String, String> multimap =
+        ImmutableListMultimap.of("foo", "bar", "foo", "bar");
+    assertThat(multimap.entries().spliterator().characteristics() & Spliterator.DISTINCT)
+        .isEqualTo(0);
   }
 
   public void testInverseMinimizesWork() {

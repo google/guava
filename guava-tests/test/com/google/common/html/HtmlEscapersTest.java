@@ -32,7 +32,7 @@ public class HtmlEscapersTest extends TestCase {
   public void testHtmlEscaper() throws Exception {
     assertEquals("xxx", htmlEscaper().escape("xxx"));
     assertEquals("&quot;test&quot;", htmlEscaper().escape("\"test\""));
-    assertEquals("&#39;test&#39;", htmlEscaper().escape("\'test'"));
+    assertEquals("&#39;test&#39;", htmlEscaper().escape("'test'"));
     assertEquals("test &amp; test &amp; test", htmlEscaper().escape("test & test & test"));
     assertEquals("test &lt;&lt; 1", htmlEscaper().escape("test << 1"));
     assertEquals("test &gt;&gt; 1", htmlEscaper().escape("test >> 1"));

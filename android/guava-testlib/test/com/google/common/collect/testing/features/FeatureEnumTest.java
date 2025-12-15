@@ -18,6 +18,7 @@ package com.google.common.collect.testing.features;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.errorprone.annotations.FormatMethod;
 import java.lang.annotation.Annotation;
 import java.lang.annotation.Inherited;
 import java.lang.annotation.Retention;
@@ -61,12 +62,12 @@ public class FeatureEnumTest extends TestCase {
       assertTrue(
           rootLocaleFormat("%s.%s() must return an array.", annotationClass, propertyName),
           returnType.isArray());
-      assertSame(
-          rootLocaleFormat(
-              "%s.%s() must return an array of %s.",
-              annotationClass, propertyName, annotationClass.getDeclaringClass()),
-          annotationClass.getDeclaringClass(),
-          returnType.getComponentType());
+      assertWithMessage(
+              rootLocaleFormat(
+                  "%s.%s() must return an array of %s.",
+                  annotationClass, propertyName, annotationClass.getDeclaringClass()))
+          .that(returnType.getComponentType())
+          .isEqualTo(annotationClass.getDeclaringClass());
     }
   }
 
@@ -111,6 +112,7 @@ public class FeatureEnumTest extends TestCase {
     assertGoodFeatureEnum(MapFeature.class);
   }
 
+  @FormatMethod
   private static String rootLocaleFormat(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
   }

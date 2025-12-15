@@ -103,7 +103,9 @@ public class DoublesTest extends TestCase {
     for (double x : VALUES) {
       for (double y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y).that(Doubles.compare(x, y)).isEqualTo(Double.compare(x, y));
+        assertWithMessage("%s, %s", x, y)
+            .that(Doubles.compare(x, y))
+            .isEqualTo(Double.compare(x, y));
       }
     }
   }
@@ -118,7 +120,7 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.contains(ARRAY234, 4.0)).isTrue();
 
     for (double value : NUMBERS) {
-      assertWithMessage("" + value)
+      assertWithMessage("%s", value)
           .that(Doubles.contains(new double[] {5.0, value}, value))
           .isTrue();
     }
@@ -136,7 +138,7 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.indexOf(new double[] {2.0, 3.0, 2.0, 3.0}, 3.0)).isEqualTo(1);
 
     for (double value : NUMBERS) {
-      assertWithMessage("" + value)
+      assertWithMessage("%s", value)
           .that(Doubles.indexOf(new double[] {5.0, value}, value))
           .isEqualTo(1);
     }
@@ -169,7 +171,7 @@ public class DoublesTest extends TestCase {
         .isEqualTo(-1);
 
     for (double value : NUMBERS) {
-      assertWithMessage("" + value)
+      assertWithMessage("%s", value)
           .that(Doubles.indexOf(new double[] {5.0, value, value, 5.0}, new double[] {value, value}))
           .isEqualTo(1);
     }
@@ -188,7 +190,7 @@ public class DoublesTest extends TestCase {
     assertThat(Doubles.lastIndexOf(new double[] {2.0, 3.0, 2.0, 3.0}, 3.0)).isEqualTo(3);
 
     for (double value : NUMBERS) {
-      assertWithMessage("" + value)
+      assertWithMessage("%s", value)
           .that(Doubles.lastIndexOf(new double[] {value, 5.0}, value))
           .isEqualTo(0);
     }

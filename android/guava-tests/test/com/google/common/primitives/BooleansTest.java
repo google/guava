@@ -77,7 +77,7 @@ public class BooleansTest extends TestCase {
     for (boolean x : VALUES) {
       for (boolean y : VALUES) {
         // note: spec requires only that the sign is the same
-        assertWithMessage(x + ", " + y)
+        assertWithMessage("%s, %s", x, y)
             .that(Booleans.compare(x, y))
             .isEqualTo(Boolean.valueOf(x).compareTo(y));
       }
@@ -593,9 +593,11 @@ public class BooleansTest extends TestCase {
     List<Boolean> list = Booleans.asList(true, false);
     assertThat(list.get(0)).isSameInstanceAs(true);
     assertThat(list.get(1)).isSameInstanceAs(false);
-    @SuppressWarnings("deprecation")
+    // The constructor is deprecated only in some versions of java.lang.Boolean.
+    @SuppressWarnings({"deprecation", "UnnecessaryJavacSuppressWarnings"})
     Boolean anotherTrue = new Boolean(true);
-    @SuppressWarnings("deprecation")
+    // The constructor is deprecated only in some versions of java.lang.Boolean.
+    @SuppressWarnings({"deprecation", "UnnecessaryJavacSuppressWarnings"})
     Boolean anotherFalse = new Boolean(false);
     list.set(0, anotherTrue);
     assertThat(list.get(0)).isSameInstanceAs(true);
