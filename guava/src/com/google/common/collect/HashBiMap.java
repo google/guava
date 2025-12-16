@@ -726,6 +726,9 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
             delete(delegate);
             BiEntry<K, V> newEntry =
                 new BiEntry<>(key, keyHash, delegate.getValue(), delegate.valueHash);
+            if (toRemove == delegate) {
+              toRemove = newEntry;
+            }
             delegate = newEntry;
             insert(newEntry, null);
             expectedModCount = modCount;

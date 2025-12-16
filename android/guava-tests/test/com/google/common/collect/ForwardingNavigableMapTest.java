@@ -287,7 +287,8 @@ public class ForwardingNavigableMapTest extends TestCase {
             .suppressing(
                 MapEntrySetTester.getSetValueMethod(),
                 MapEntrySetTester.getSetValueWithNullValuesAbsentMethod(),
-                MapEntrySetTester.getSetValueWithNullValuesPresentMethod())
+                MapEntrySetTester.getSetValueWithNullValuesPresentMethod(),
+                MapEntrySetTester.getIteratorSetValueAndRemove())
             .createTestSuite());
     // TODO(lowasser): add forwarding-to-ImmutableSortedMap test
     return suite;

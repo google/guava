@@ -20,6 +20,7 @@ import static com.google.common.collect.testing.Helpers.getMethod;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.ONE;
+import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEYS;
 import static com.google.common.collect.testing.features.MapFeature.ALLOWS_NULL_KEY_QUERIES;
@@ -59,13 +60,37 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
 
   @CollectionSize.Require(ONE)
   @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
-  public void testEntrySetIteratorRemove() {
+  public void testIteratorRemoveOnly() {
     Set<Entry<K, V>> entrySet = getMap().entrySet();
     Iterator<Entry<K, V>> entryItr = entrySet.iterator();
     assertEquals(e0(), entryItr.next());
     entryItr.remove();
     assertTrue(getMap().isEmpty());
     assertFalse(entrySet.contains(e0()));
+  }
+
+  @CollectionSize.Require(SEVERAL)
+  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
+  public void testIteratorRemoveMultiple() {
+    Iterator<Entry<K, V>> entryItr = getMap().entrySet().iterator();
+    while (entryItr.hasNext()) {
+      entryItr.next();
+      entryItr.remove();
+    }
+    assertTrue(getMap().isEmpty());
+  }
+
+  @CollectionSize.Require(absent = ZERO)
+  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
+  @MapFeature.Require(SUPPORTS_PUT)
+  public void testIteratorSetValueAndRemove() {
+    Iterator<Entry<K, V>> entryItr = getMap().entrySet().iterator();
+    while (entryItr.hasNext()) {
+      Entry<K, V> entry = entryItr.next();
+      entry.setValue(e3().getValue());
+      entryItr.remove();
+    }
+    assertTrue(getMap().isEmpty());
   }
 
   public void testContainsEntryWithIncomparableKey() {
@@ -170,5 +195,11 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   @GwtIncompatible // reflection
   public static Method getSetValueWithNullValuesAbsentMethod() {
     return getMethod(MapEntrySetTester.class, "testSetValueWithNullValuesAbsent");
+  }
+
+  @J2ktIncompatible
+  @GwtIncompatible // reflection
+  public static Method getIteratorSetValueAndRemove() {
+    return getMethod(MapEntrySetTester.class, "testIteratorSetValueAndRemove");
   }
 }

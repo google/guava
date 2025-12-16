@@ -161,7 +161,8 @@ public class TestsForMapsInJavaUtil {
     return asList(
         MapEntrySetTester.getSetValueMethod(),
         MapEntrySetTester.getSetValueWithNullValuesAbsentMethod(),
-        MapEntrySetTester.getSetValueWithNullValuesPresentMethod());
+        MapEntrySetTester.getSetValueWithNullValuesPresentMethod(),
+        MapEntrySetTester.getIteratorSetValueAndRemove());
   }
 
   public Test testsForCheckedMap() {
