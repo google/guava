@@ -88,25 +88,32 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return bimap;
   }
 
-  static final class BiEntry<K extends @Nullable Object, V extends @Nullable Object>
-      extends SimpleImmutableEntry<K, V> {
+  /**
+   * An immutable key-value pair with mutable links to other pairs in its hash buckets and in
+   * iteration order.
+   */
+  static final class Node<K extends @Nullable Object, V extends @Nullable Object> {
+    @ParametricNullness final K key;
+    @ParametricNullness final V value;
+
     final int keyHash;
     final int valueHash;
 
-    // All BiEntry instances are strongly reachable from owning HashBiMap through
-    // "HashBiMap.hashTableKToV" and "BiEntry.nextInKToVBucket" references.
+    // All Node instances are strongly reachable from owning HashBiMap through
+    // "HashBiMap.hashTableKToV" and "Node.nextInKToVBucket" references.
     // Under that assumption, the remaining references can be safely marked as @Weak.
-    // Using @Weak is necessary to avoid retain-cycles between BiEntry instances on iOS,
-    // which would cause memory leaks when non-empty HashBiMap with cyclic BiEntry
+    // Using @Weak is necessary to avoid retain-cycles between Node instances on iOS,
+    // which would cause memory leaks when non-empty HashBiMap with cyclic Node
     // instances is deallocated.
-    @Nullable BiEntry<K, V> nextInKToVBucket;
-    @Weak @Nullable BiEntry<K, V> nextInVToKBucket;
+    @Nullable Node<K, V> nextInKToVBucket;
+    @Weak @Nullable Node<K, V> nextInVToKBucket;
 
-    @Weak @Nullable BiEntry<K, V> nextInKeyInsertionOrder;
-    @Weak @Nullable BiEntry<K, V> prevInKeyInsertionOrder;
+    @Weak @Nullable Node<K, V> nextInKeyInsertionOrder;
+    @Weak @Nullable Node<K, V> prevInKeyInsertionOrder;
 
-    BiEntry(@ParametricNullness K key, int keyHash, @ParametricNullness V value, int valueHash) {
-      super(key, value);
+    Node(@ParametricNullness K key, int keyHash, @ParametricNullness V value, int valueHash) {
+      this.key = key;
+      this.value = value;
       this.keyHash = keyHash;
       this.valueHash = valueHash;
     }
@@ -120,13 +127,13 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * constructor calls (as does readObject()).
    */
   @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
-  private transient @Nullable BiEntry<K, V>[] hashTableKToV;
+  private transient @Nullable Node<K, V>[] hashTableKToV;
 
   @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
-  private transient @Nullable BiEntry<K, V>[] hashTableVToK;
+  private transient @Nullable Node<K, V>[] hashTableVToK;
 
-  @Weak private transient @Nullable BiEntry<K, V> firstInKeyInsertionOrder;
-  @Weak private transient @Nullable BiEntry<K, V> lastInKeyInsertionOrder;
+  @Weak private transient @Nullable Node<K, V> firstInKeyInsertionOrder;
+  @Weak private transient @Nullable Node<K, V> lastInKeyInsertionOrder;
   private transient int size;
   private transient int mask;
   private transient int modCount;
@@ -148,88 +155,96 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   /**
-   * Finds and removes {@code entry} from the bucket linked lists in both the key-to-value direction
-   * and the value-to-key direction.
+   * Finds and removes {@code node} from the key-to-value hash table, the value-to-key hash table,
+   * and the iteration-order chain, leaving its own references to other nodes intact.
    */
-  private void delete(BiEntry<K, V> entry) {
-    int keyBucket = entry.keyHash & mask;
-    BiEntry<K, V> prevBucketEntry = null;
-    for (BiEntry<K, V> bucketEntry = hashTableKToV[keyBucket];
+  /*
+   * TODO: cl/778043974 - Currently, callers are inconsistent about whether they clear the node's
+   * references to other nodes: None clear the bucket-chain fields, but some clear the
+   * iteration-order fields. (Some callers need to be careful not to clear the iteration-order
+   * fields too soon.) Do we need to clear fields at all, given that this Node will no longer be
+   * referenced after it's deleted from the map (except possibly through Entry objects from an
+   * earlier iteration over the map)? If we do, should we be more consistent about it?
+   */
+  private void delete(Node<K, V> node) {
+    int keyBucket = node.keyHash & mask;
+    Node<K, V> prevBucketNode = null;
+    for (Node<K, V> bucketNode = hashTableKToV[keyBucket];
         true;
-        bucketEntry = bucketEntry.nextInKToVBucket) {
-      if (bucketEntry == entry) {
-        if (prevBucketEntry == null) {
-          hashTableKToV[keyBucket] = entry.nextInKToVBucket;
+        bucketNode = bucketNode.nextInKToVBucket) {
+      if (bucketNode == node) {
+        if (prevBucketNode == null) {
+          hashTableKToV[keyBucket] = node.nextInKToVBucket;
         } else {
-          prevBucketEntry.nextInKToVBucket = entry.nextInKToVBucket;
+          prevBucketNode.nextInKToVBucket = node.nextInKToVBucket;
         }
         break;
       }
-      prevBucketEntry = bucketEntry;
+      prevBucketNode = bucketNode;
     }
 
-    int valueBucket = entry.valueHash & mask;
-    prevBucketEntry = null;
-    for (BiEntry<K, V> bucketEntry = hashTableVToK[valueBucket];
+    int valueBucket = node.valueHash & mask;
+    prevBucketNode = null;
+    for (Node<K, V> bucketNode = hashTableVToK[valueBucket];
         true;
-        bucketEntry = bucketEntry.nextInVToKBucket) {
-      if (bucketEntry == entry) {
-        if (prevBucketEntry == null) {
-          hashTableVToK[valueBucket] = entry.nextInVToKBucket;
+        bucketNode = bucketNode.nextInVToKBucket) {
+      if (bucketNode == node) {
+        if (prevBucketNode == null) {
+          hashTableVToK[valueBucket] = node.nextInVToKBucket;
         } else {
-          prevBucketEntry.nextInVToKBucket = entry.nextInVToKBucket;
+          prevBucketNode.nextInVToKBucket = node.nextInVToKBucket;
         }
         break;
       }
-      prevBucketEntry = bucketEntry;
+      prevBucketNode = bucketNode;
     }
 
-    if (entry.prevInKeyInsertionOrder == null) {
-      firstInKeyInsertionOrder = entry.nextInKeyInsertionOrder;
+    if (node.prevInKeyInsertionOrder == null) {
+      firstInKeyInsertionOrder = node.nextInKeyInsertionOrder;
     } else {
-      entry.prevInKeyInsertionOrder.nextInKeyInsertionOrder = entry.nextInKeyInsertionOrder;
+      node.prevInKeyInsertionOrder.nextInKeyInsertionOrder = node.nextInKeyInsertionOrder;
     }
 
-    if (entry.nextInKeyInsertionOrder == null) {
-      lastInKeyInsertionOrder = entry.prevInKeyInsertionOrder;
+    if (node.nextInKeyInsertionOrder == null) {
+      lastInKeyInsertionOrder = node.prevInKeyInsertionOrder;
     } else {
-      entry.nextInKeyInsertionOrder.prevInKeyInsertionOrder = entry.prevInKeyInsertionOrder;
+      node.nextInKeyInsertionOrder.prevInKeyInsertionOrder = node.prevInKeyInsertionOrder;
     }
 
     size--;
     modCount++;
   }
 
-  private void insert(BiEntry<K, V> entry, @Nullable BiEntry<K, V> oldEntryForKey) {
-    int keyBucket = entry.keyHash & mask;
-    entry.nextInKToVBucket = hashTableKToV[keyBucket];
-    hashTableKToV[keyBucket] = entry;
+  private void insert(Node<K, V> node, @Nullable Node<K, V> oldNodeForKey) {
+    int keyBucket = node.keyHash & mask;
+    node.nextInKToVBucket = hashTableKToV[keyBucket];
+    hashTableKToV[keyBucket] = node;
 
-    int valueBucket = entry.valueHash & mask;
-    entry.nextInVToKBucket = hashTableVToK[valueBucket];
-    hashTableVToK[valueBucket] = entry;
+    int valueBucket = node.valueHash & mask;
+    node.nextInVToKBucket = hashTableVToK[valueBucket];
+    hashTableVToK[valueBucket] = node;
 
-    if (oldEntryForKey == null) {
-      entry.prevInKeyInsertionOrder = lastInKeyInsertionOrder;
-      entry.nextInKeyInsertionOrder = null;
+    if (oldNodeForKey == null) {
+      node.prevInKeyInsertionOrder = lastInKeyInsertionOrder;
+      node.nextInKeyInsertionOrder = null;
       if (lastInKeyInsertionOrder == null) {
-        firstInKeyInsertionOrder = entry;
+        firstInKeyInsertionOrder = node;
       } else {
-        lastInKeyInsertionOrder.nextInKeyInsertionOrder = entry;
+        lastInKeyInsertionOrder.nextInKeyInsertionOrder = node;
       }
-      lastInKeyInsertionOrder = entry;
+      lastInKeyInsertionOrder = node;
     } else {
-      entry.prevInKeyInsertionOrder = oldEntryForKey.prevInKeyInsertionOrder;
-      if (entry.prevInKeyInsertionOrder == null) {
-        firstInKeyInsertionOrder = entry;
+      node.prevInKeyInsertionOrder = oldNodeForKey.prevInKeyInsertionOrder;
+      if (node.prevInKeyInsertionOrder == null) {
+        firstInKeyInsertionOrder = node;
       } else {
-        entry.prevInKeyInsertionOrder.nextInKeyInsertionOrder = entry;
+        node.prevInKeyInsertionOrder.nextInKeyInsertionOrder = node;
       }
-      entry.nextInKeyInsertionOrder = oldEntryForKey.nextInKeyInsertionOrder;
-      if (entry.nextInKeyInsertionOrder == null) {
-        lastInKeyInsertionOrder = entry;
+      node.nextInKeyInsertionOrder = oldNodeForKey.nextInKeyInsertionOrder;
+      if (node.nextInKeyInsertionOrder == null) {
+        lastInKeyInsertionOrder = node;
       } else {
-        entry.nextInKeyInsertionOrder.prevInKeyInsertionOrder = entry;
+        node.nextInKeyInsertionOrder.prevInKeyInsertionOrder = node;
       }
     }
 
@@ -237,23 +252,23 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     modCount++;
   }
 
-  private @Nullable BiEntry<K, V> seekByKey(@Nullable Object key, int keyHash) {
-    for (BiEntry<K, V> entry = hashTableKToV[keyHash & mask];
-        entry != null;
-        entry = entry.nextInKToVBucket) {
-      if (keyHash == entry.keyHash && Objects.equals(key, entry.getKey())) {
-        return entry;
+  private @Nullable Node<K, V> seekByKey(@Nullable Object key, int keyHash) {
+    for (Node<K, V> node = hashTableKToV[keyHash & mask];
+        node != null;
+        node = node.nextInKToVBucket) {
+      if (keyHash == node.keyHash && Objects.equals(key, node.key)) {
+        return node;
       }
     }
     return null;
   }
 
-  private @Nullable BiEntry<K, V> seekByValue(@Nullable Object value, int valueHash) {
-    for (BiEntry<K, V> entry = hashTableVToK[valueHash & mask];
-        entry != null;
-        entry = entry.nextInVToKBucket) {
-      if (valueHash == entry.valueHash && Objects.equals(value, entry.getValue())) {
-        return entry;
+  private @Nullable Node<K, V> seekByValue(@Nullable Object value, int valueHash) {
+    for (Node<K, V> node = hashTableVToK[valueHash & mask];
+        node != null;
+        node = node.nextInVToKBucket) {
+      if (valueHash == node.valueHash && Objects.equals(value, node.value)) {
+        return node;
       }
     }
     return null;
@@ -281,7 +296,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   @Override
   public @Nullable V get(@Nullable Object key) {
-    return Maps.valueOrNull(seekByKey(key, smearedHash(key)));
+    return valueOrNull(seekByKey(key, smearedHash(key)));
   }
 
   @CanIgnoreReturnValue
@@ -294,31 +309,31 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     int keyHash = smearedHash(key);
     int valueHash = smearedHash(value);
 
-    BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
-    if (oldEntryForKey != null
-        && valueHash == oldEntryForKey.valueHash
-        && Objects.equals(value, oldEntryForKey.getValue())) {
+    Node<K, V> oldNodeForKey = seekByKey(key, keyHash);
+    if (oldNodeForKey != null
+        && valueHash == oldNodeForKey.valueHash
+        && Objects.equals(value, oldNodeForKey.value)) {
       return value;
     }
 
-    BiEntry<K, V> oldEntryForValue = seekByValue(value, valueHash);
-    if (oldEntryForValue != null) {
+    Node<K, V> oldNodeForValue = seekByValue(value, valueHash);
+    if (oldNodeForValue != null) {
       if (force) {
-        delete(oldEntryForValue);
+        delete(oldNodeForValue);
       } else {
         throw new IllegalArgumentException("value already present: " + value);
       }
     }
 
-    BiEntry<K, V> newEntry = new BiEntry<>(key, keyHash, value, valueHash);
-    if (oldEntryForKey != null) {
-      delete(oldEntryForKey);
-      insert(newEntry, oldEntryForKey);
-      oldEntryForKey.prevInKeyInsertionOrder = null;
-      oldEntryForKey.nextInKeyInsertionOrder = null;
-      return oldEntryForKey.getValue();
+    Node<K, V> newNode = new Node<>(key, keyHash, value, valueHash);
+    if (oldNodeForKey != null) {
+      delete(oldNodeForKey);
+      insert(newNode, oldNodeForKey);
+      oldNodeForKey.prevInKeyInsertionOrder = null;
+      oldNodeForKey.nextInKeyInsertionOrder = null;
+      return oldNodeForKey.value;
     } else {
-      insert(newEntry, null);
+      insert(newNode, null);
       rehashIfNecessary();
       return null;
     }
@@ -336,48 +351,47 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     int valueHash = smearedHash(value);
     int keyHash = smearedHash(key);
 
-    BiEntry<K, V> oldEntryForValue = seekByValue(value, valueHash);
-    BiEntry<K, V> oldEntryForKey = seekByKey(key, keyHash);
-    if (oldEntryForValue != null
-        && keyHash == oldEntryForValue.keyHash
-        && Objects.equals(key, oldEntryForValue.getKey())) {
+    Node<K, V> oldNodeForValue = seekByValue(value, valueHash);
+    Node<K, V> oldNodeForKey = seekByKey(key, keyHash);
+    if (oldNodeForValue != null
+        && keyHash == oldNodeForValue.keyHash
+        && Objects.equals(key, oldNodeForValue.key)) {
       return key;
-    } else if (oldEntryForKey != null && !force) {
+    } else if (oldNodeForKey != null && !force) {
       throw new IllegalArgumentException("key already present: " + key);
     }
 
     /*
-     * The ordering here is important: if we deleted the key entry and then the value entry,
-     * the key entry's prev or next pointer might point to the dead value entry, and when we
-     * put the new entry in the key entry's position in iteration order, it might invalidate
-     * the linked list.
+     * The ordering here is important: if we deleted the key node and then the value node, the key
+     * node's prev or next pointer might point to the dead value node, and when we put the new node
+     * in the key node's position in iteration order, it might invalidate the linked list.
      */
 
-    if (oldEntryForValue != null) {
-      delete(oldEntryForValue);
+    if (oldNodeForValue != null) {
+      delete(oldNodeForValue);
     }
 
-    if (oldEntryForKey != null) {
-      delete(oldEntryForKey);
+    if (oldNodeForKey != null) {
+      delete(oldNodeForKey);
     }
 
-    BiEntry<K, V> newEntry = new BiEntry<>(key, keyHash, value, valueHash);
-    insert(newEntry, oldEntryForKey);
+    Node<K, V> newNode = new Node<>(key, keyHash, value, valueHash);
+    insert(newNode, oldNodeForKey);
 
-    if (oldEntryForKey != null) {
-      oldEntryForKey.prevInKeyInsertionOrder = null;
-      oldEntryForKey.nextInKeyInsertionOrder = null;
+    if (oldNodeForKey != null) {
+      oldNodeForKey.prevInKeyInsertionOrder = null;
+      oldNodeForKey.nextInKeyInsertionOrder = null;
     }
-    if (oldEntryForValue != null) {
-      oldEntryForValue.prevInKeyInsertionOrder = null;
-      oldEntryForValue.nextInKeyInsertionOrder = null;
+    if (oldNodeForValue != null) {
+      oldNodeForValue.prevInKeyInsertionOrder = null;
+      oldNodeForValue.nextInKeyInsertionOrder = null;
     }
     rehashIfNecessary();
-    return Maps.keyOrNull(oldEntryForValue);
+    return keyOrNull(oldNodeForValue);
   }
 
   private void rehashIfNecessary() {
-    @Nullable BiEntry<K, V>[] oldKToV = hashTableKToV;
+    @Nullable Node<K, V>[] oldKToV = hashTableKToV;
     if (Hashing.needsResizing(size, oldKToV.length, LOAD_FACTOR)) {
       int newTableSize = oldKToV.length * 2;
 
@@ -386,31 +400,31 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       this.mask = newTableSize - 1;
       this.size = 0;
 
-      for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
-          entry != null;
-          entry = entry.nextInKeyInsertionOrder) {
-        insert(entry, entry);
+      for (Node<K, V> node = firstInKeyInsertionOrder;
+          node != null;
+          node = node.nextInKeyInsertionOrder) {
+        insert(node, node);
       }
       this.modCount++;
     }
   }
 
   @SuppressWarnings({"unchecked", "rawtypes"})
-  private @Nullable BiEntry<K, V>[] createTable(int length) {
-    return new @Nullable BiEntry[length];
+  private @Nullable Node<K, V>[] createTable(int length) {
+    return new @Nullable Node[length];
   }
 
   @CanIgnoreReturnValue
   @Override
   public @Nullable V remove(@Nullable Object key) {
-    BiEntry<K, V> entry = seekByKey(key, smearedHash(key));
-    if (entry == null) {
+    Node<K, V> node = seekByKey(key, smearedHash(key));
+    if (node == null) {
       return null;
     } else {
-      delete(entry);
-      entry.prevInKeyInsertionOrder = null;
-      entry.nextInKeyInsertionOrder = null;
-      return entry.getValue();
+      delete(node);
+      node.prevInKeyInsertionOrder = null;
+      node.nextInKeyInsertionOrder = null;
+      return node.value;
     }
   }
 
@@ -429,48 +443,59 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return size;
   }
 
-  private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
-    @Nullable BiEntry<K, V> next = firstInKeyInsertionOrder;
-    @Nullable BiEntry<K, V> toRemove = null;
-    int expectedModCount = modCount;
-    int remaining = size();
+  private abstract static class BiIterator<
+          K extends @Nullable Object, V extends @Nullable Object, T extends @Nullable Object>
+      implements Iterator<T> {
+    final HashBiMap<K, V> biMap;
+
+    @Nullable Node<K, V> next;
+    @Nullable Node<K, V> toRemove;
+    int expectedModCount;
+    int remaining;
+
+    BiIterator(HashBiMap<K, V> biMap) {
+      this.biMap = biMap;
+      next = biMap.firstInKeyInsertionOrder;
+      expectedModCount = biMap.modCount;
+      remaining = biMap.size();
+    }
 
     @Override
-    public boolean hasNext() {
-      if (modCount != expectedModCount) {
+    public final boolean hasNext() {
+      if (biMap.modCount != expectedModCount) {
         throw new ConcurrentModificationException();
       }
       return next != null && remaining > 0;
     }
 
     @Override
-    public T next() {
+    public final T next() {
       if (!hasNext()) {
         throw new NoSuchElementException();
       }
 
       // requireNonNull is safe because of the hasNext check.
-      BiEntry<K, V> entry = requireNonNull(next);
-      next = entry.nextInKeyInsertionOrder;
-      toRemove = entry;
+      Node<K, V> node = requireNonNull(next);
+      next = node.nextInKeyInsertionOrder;
+      toRemove = node;
       remaining--;
-      return output(entry);
+      return output(node);
     }
 
     @Override
-    public void remove() {
-      if (modCount != expectedModCount) {
+    public final void remove() {
+      if (biMap.modCount != expectedModCount) {
         throw new ConcurrentModificationException();
       }
       if (toRemove == null) {
         throw new IllegalStateException("no calls to next() since the last call to remove()");
       }
-      delete(toRemove);
-      expectedModCount = modCount;
+      biMap.delete(toRemove);
+      expectedModCount = biMap.modCount;
       toRemove = null;
     }
 
-    abstract T output(BiEntry<K, V> entry);
+    abstract T output(Node<K, V> node);
   }
 
   @Override
@@ -485,24 +510,24 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
     @Override
     public Iterator<K> iterator() {
-      return new Itr<K>() {
+      return new BiIterator<K, V, K>(HashBiMap.this) {
         @Override
         @ParametricNullness
-        K output(BiEntry<K, V> entry) {
-          return entry.getKey();
+        K output(Node<K, V> node) {
+          return node.key;
         }
       };
     }
 
     @Override
     public boolean remove(@Nullable Object o) {
-      BiEntry<K, V> entry = seekByKey(o, smearedHash(o));
-      if (entry == null) {
+      Node<K, V> node = seekByKey(o, smearedHash(o));
+      if (node == null) {
         return false;
       } else {
-        delete(entry);
-        entry.prevInKeyInsertionOrder = null;
-        entry.nextInKeyInsertionOrder = null;
+        delete(node);
+        node.prevInKeyInsertionOrder = null;
+        node.nextInKeyInsertionOrder = null;
         return true;
       }
     }
@@ -515,51 +540,50 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   @Override
   Iterator<Entry<K, V>> entryIterator() {
-    return new Itr<Entry<K, V>>() {
+    return new BiIterator<K, V, Entry<K, V>>(HashBiMap.this) {
       @Override
-      Entry<K, V> output(BiEntry<K, V> entry) {
-        return new MapEntry(entry);
+      Entry<K, V> output(Node<K, V> node) {
+        return new MapEntry(node);
       }
 
       final class MapEntry extends AbstractMapEntry<K, V> {
-        private BiEntry<K, V> delegate;
+        private Node<K, V> node;
 
-        MapEntry(BiEntry<K, V> entry) {
-          this.delegate = entry;
+        MapEntry(Node<K, V> node) {
+          this.node = node;
         }
 
         @Override
         @ParametricNullness
         public K getKey() {
-          return delegate.getKey();
+          return node.key;
         }
 
         @Override
         @ParametricNullness
         public V getValue() {
-          return delegate.getValue();
+          return node.value;
         }
 
         @Override
         @ParametricNullness
         public V setValue(@ParametricNullness V value) {
-          V oldValue = delegate.getValue();
+          V oldValue = node.value;
           int valueHash = smearedHash(value);
-          if (valueHash == delegate.valueHash && Objects.equals(value, oldValue)) {
+          if (valueHash == node.valueHash && Objects.equals(value, oldValue)) {
             return value;
           }
           checkArgument(seekByValue(value, valueHash) == null, "value already present: %s", value);
-          delete(delegate);
-          BiEntry<K, V> newEntry =
-              new BiEntry<>(delegate.getKey(), delegate.keyHash, value, valueHash);
-          insert(newEntry, delegate);
-          delegate.prevInKeyInsertionOrder = null;
-          delegate.nextInKeyInsertionOrder = null;
+          delete(node);
+          Node<K, V> newNode = new Node<>(node.key, node.keyHash, value, valueHash);
+          insert(newNode, node);
+          node.prevInKeyInsertionOrder = null;
+          node.nextInKeyInsertionOrder = null;
           expectedModCount = modCount;
-          if (toRemove == delegate) {
-            toRemove = newEntry;
+          if (Objects.equals(toRemove, node)) {
+            toRemove = newNode;
           }
-          delegate = newEntry;
+          node = newNode;
           return oldValue;
         }
       }
@@ -569,20 +593,20 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public void forEach(BiConsumer<? super K, ? super V> action) {
     checkNotNull(action);
-    for (BiEntry<K, V> entry = firstInKeyInsertionOrder;
-        entry != null;
-        entry = entry.nextInKeyInsertionOrder) {
-      action.accept(entry.getKey(), entry.getValue());
+    for (Node<K, V> node = firstInKeyInsertionOrder;
+        node != null;
+        node = node.nextInKeyInsertionOrder) {
+      action.accept(node.key, node.value);
     }
   }
 
   @Override
   public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
     checkNotNull(function);
-    BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
+    Node<K, V> oldFirst = firstInKeyInsertionOrder;
     clear();
-    for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
-      put(entry.getKey(), function.apply(entry.getKey(), entry.getValue()));
+    for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
+      put(node.key, function.apply(node.key, node.value));
     }
   }
 
@@ -591,62 +615,72 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public BiMap<V, K> inverse() {
     BiMap<V, K> result = inverse;
-    return (result == null) ? inverse = new Inverse() : result;
+    return (result == null) ? inverse = new Inverse<>(this) : result;
   }
 
-  private final class Inverse extends IteratorBasedAbstractMap<V, K>
-      implements BiMap<V, K>, Serializable {
-    BiMap<K, V> forward() {
-      return HashBiMap.this;
+  private static final class Inverse<K extends @Nullable Object, V extends @Nullable Object>
+      extends IteratorBasedAbstractMap<V, K> implements BiMap<V, K>, Serializable {
+    final HashBiMap<K, V> obverse;
+
+    Inverse(HashBiMap<K, V> obverse) {
+      this.obverse = obverse;
     }
 
     @Override
     public int size() {
-      return size;
+      return obverse.size;
     }
 
     @Override
     public void clear() {
-      forward().clear();
+      obverse.clear();
     }
 
     @Override
-    public boolean containsKey(@Nullable Object value) {
-      return forward().containsValue(value);
+    public boolean containsKey(@Nullable Object key) {
+      Object obverseValue = key;
+      return obverse.containsValue(obverseValue);
     }
 
     @Override
-    public @Nullable K get(@Nullable Object value) {
-      return Maps.keyOrNull(seekByValue(value, smearedHash(value)));
+    public @Nullable K get(@Nullable Object key) {
+      Object obverseValue = key;
+      return keyOrNull(obverse.seekByValue(obverseValue, smearedHash(obverseValue)));
     }
 
     @CanIgnoreReturnValue
     @Override
-    public @Nullable K put(@ParametricNullness V value, @ParametricNullness K key) {
-      return putInverse(value, key, false);
+    public @Nullable K put(@ParametricNullness V key, @ParametricNullness K value) {
+      K obverseKey = value;
+      V obverseValue = key;
+      return obverse.putInverse(obverseValue, obverseKey, false);
     }
 
+    @CanIgnoreReturnValue
     @Override
-    public @Nullable K forcePut(@ParametricNullness V value, @ParametricNullness K key) {
-      return putInverse(value, key, true);
+    public @Nullable K forcePut(@ParametricNullness V key, @ParametricNullness K value) {
+      K obverseKey = value;
+      V obverseValue = key;
+      return obverse.putInverse(obverseValue, obverseKey, true);
     }
 
+    @CanIgnoreReturnValue
     @Override
-    public @Nullable K remove(@Nullable Object value) {
-      BiEntry<K, V> entry = seekByValue(value, smearedHash(value));
-      if (entry == null) {
+    public @Nullable K remove(@Nullable Object key) {
+      Object obverseValue = key;
+      Node<K, V> node = obverse.seekByValue(obverseValue, smearedHash(obverseValue));
+      if (node == null) {
         return null;
-      } else {
-        delete(entry);
-        entry.prevInKeyInsertionOrder = null;
-        entry.nextInKeyInsertionOrder = null;
-        return entry.getKey();
       }
+      obverse.delete(node);
+      node.prevInKeyInsertionOrder = null;
+      node.nextInKeyInsertionOrder = null;
+      return node.key;
     }
 
     @Override
     public BiMap<K, V> inverse() {
-      return forward();
+      return obverse;
     }
 
     @Override
@@ -661,22 +695,22 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
       @Override
       public boolean remove(@Nullable Object o) {
-        BiEntry<K, V> entry = seekByValue(o, smearedHash(o));
-        if (entry == null) {
+        Node<K, V> node = obverse.seekByValue(o, smearedHash(o));
+        if (node == null) {
           return false;
         } else {
-          delete(entry);
+          obverse.delete(node);
           return true;
         }
       }
 
       @Override
       public Iterator<V> iterator() {
-        return new Itr<V>() {
+        return new BiIterator<K, V, V>(obverse) {
           @Override
           @ParametricNullness
-          V output(BiEntry<K, V> entry) {
-            return entry.getValue();
+          V output(Node<K, V> node) {
+            return node.value;
           }
         };
       }
@@ -684,55 +718,63 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
     @Override
     public Set<K> values() {
-      return forward().keySet();
+      return obverse.keySet();
     }
 
     @Override
     Iterator<Entry<V, K>> entryIterator() {
-      return new Itr<Entry<V, K>>() {
+      return new BiIterator<K, V, Entry<V, K>>(obverse) {
         @Override
-        Entry<V, K> output(BiEntry<K, V> entry) {
-          return new InverseEntry(entry);
+        Entry<V, K> output(Node<K, V> node) {
+          return new InverseEntry(node);
         }
 
         final class InverseEntry extends AbstractMapEntry<V, K> {
-          private BiEntry<K, V> delegate;
+          private Node<K, V> node;
 
-          InverseEntry(BiEntry<K, V> entry) {
-            this.delegate = entry;
+          InverseEntry(Node<K, V> node) {
+            this.node = node;
           }
 
           @Override
           @ParametricNullness
           public V getKey() {
-            return delegate.getValue();
+            return node.value;
           }
 
           @Override
           @ParametricNullness
           public K getValue() {
-            return delegate.getKey();
+            return node.key;
           }
 
           @Override
           @ParametricNullness
-          public K setValue(@ParametricNullness K key) {
-            K oldKey = delegate.getKey();
-            int keyHash = smearedHash(key);
-            if (keyHash == delegate.keyHash && Objects.equals(key, oldKey)) {
-              return key;
+          public K setValue(@ParametricNullness K value) {
+            K obverseKey = value;
+            return setObverseKey(obverseKey);
+          }
+
+          @ParametricNullness
+          private K setObverseKey(@ParametricNullness K obverseKey) {
+            int obverseKeyHash = smearedHash(obverseKey);
+            if (obverseKeyHash == node.keyHash && Objects.equals(obverseKey, node.key)) {
+              return obverseKey;
             }
-            checkArgument(seekByKey(key, keyHash) == null, "value already present: %s", key);
-            delete(delegate);
-            BiEntry<K, V> newEntry =
-                new BiEntry<>(key, keyHash, delegate.getValue(), delegate.valueHash);
-            if (toRemove == delegate) {
-              toRemove = newEntry;
+            checkArgument(
+                obverse.seekByKey(obverseKey, obverseKeyHash) == null,
+                "value already present: %s",
+                obverseKey);
+            obverse.delete(node);
+            Node<K, V> newNode = new Node<>(obverseKey, obverseKeyHash, node.value, node.valueHash);
+            obverse.insert(newNode, /* oldNodeForKey= */ null);
+            expectedModCount = obverse.modCount;
+            K oldObverseKey = node.key;
+            if (Objects.equals(toRemove, node)) {
+              toRemove = newNode;
             }
-            delegate = newEntry;
-            insert(newEntry, null);
-            expectedModCount = modCount;
-            return oldKey;
+            node = newNode;
+            return oldObverseKey;
           }
         }
       };
@@ -741,21 +783,21 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @Override
     public void forEach(BiConsumer<? super V, ? super K> action) {
       checkNotNull(action);
-      HashBiMap.this.forEach((k, v) -> action.accept(v, k));
+      obverse.forEach((k, v) -> action.accept(v, k));
     }
 
     @Override
     public void replaceAll(BiFunction<? super V, ? super K, ? extends K> function) {
       checkNotNull(function);
-      BiEntry<K, V> oldFirst = firstInKeyInsertionOrder;
+      Node<K, V> oldFirst = obverse.firstInKeyInsertionOrder;
       clear();
-      for (BiEntry<K, V> entry = oldFirst; entry != null; entry = entry.nextInKeyInsertionOrder) {
-        put(entry.getValue(), function.apply(entry.getValue(), entry.getKey()));
+      for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
+        put(node.value, function.apply(node.value, node.key));
       }
     }
 
     Object writeReplace() {
-      return new InverseSerializedForm<>(HashBiMap.this);
+      return new InverseSerializedForm<>(obverse);
     }
 
     @GwtIncompatible
@@ -763,6 +805,14 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         private void readObject(ObjectInputStream in) throws InvalidObjectException {
       throw new InvalidObjectException("Use InverseSerializedForm");
     }
+  }
+
+  private static <K extends @Nullable Object> @Nullable K keyOrNull(@Nullable Node<K, ?> node) {
+    return node == null ? null : node.key;
+  }
+
+  private static <V extends @Nullable Object> @Nullable V valueOrNull(@Nullable Node<?, V> node) {
+    return node == null ? null : node.value;
   }
 
   private static final class InverseSerializedForm<
