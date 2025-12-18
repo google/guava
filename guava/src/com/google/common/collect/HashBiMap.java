@@ -156,15 +156,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   /**
    * Finds and removes {@code node} from the key-to-value hash table, the value-to-key hash table,
-   * and the iteration-order chain, leaving its own references to other nodes intact.
-   */
-  /*
-   * TODO: cl/778043974 - Currently, callers are inconsistent about whether they clear the node's
-   * references to other nodes: None clear the bucket-chain fields, but some clear the
-   * iteration-order fields. (Some callers need to be careful not to clear the iteration-order
-   * fields too soon.) Do we need to clear fields at all, given that this Node will no longer be
-   * referenced after it's deleted from the map (except possibly through Entry objects from an
-   * earlier iteration over the map)? If we do, should we be more consistent about it?
+   * and the iteration-order chain. This includes clearing its own references to other entries.
    */
   private void delete(Node<K, V> node) {
     int keyBucket = node.keyHash & mask;
@@ -211,11 +203,49 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       node.nextInKeyInsertionOrder.prevInKeyInsertionOrder = node.prevInKeyInsertionOrder;
     }
 
+    node.prevInKeyInsertionOrder = null;
+    node.nextInKeyInsertionOrder = null;
+    node.nextInKToVBucket = null;
+    node.nextInVToKBucket = null;
+
     size--;
     modCount++;
   }
 
-  private void insert(Node<K, V> node, @Nullable Node<K, V> oldNodeForKey) {
+  private void insertPlacingAtEndOfIterationOrder(Node<K, V> node) {
+    insertIntoHashBucketsOnly(node);
+
+    node.prevInKeyInsertionOrder = lastInKeyInsertionOrder;
+    if (lastInKeyInsertionOrder == null) {
+      firstInKeyInsertionOrder = node;
+    } else {
+      lastInKeyInsertionOrder.nextInKeyInsertionOrder = node;
+    }
+    lastInKeyInsertionOrder = node;
+  }
+
+  private void insertSplicingIntoIterationOrder(
+      Node<K, V> node,
+      @Nullable Node<K, V> prevInKeyInsertionOrder,
+      @Nullable Node<K, V> nextInKeyInsertionOrder) {
+    insertIntoHashBucketsOnly(node);
+
+    node.prevInKeyInsertionOrder = prevInKeyInsertionOrder;
+    if (prevInKeyInsertionOrder == null) {
+      firstInKeyInsertionOrder = node;
+    } else {
+      prevInKeyInsertionOrder.nextInKeyInsertionOrder = node;
+    }
+
+    node.nextInKeyInsertionOrder = nextInKeyInsertionOrder;
+    if (nextInKeyInsertionOrder == null) {
+      lastInKeyInsertionOrder = node;
+    } else {
+      nextInKeyInsertionOrder.prevInKeyInsertionOrder = node;
+    }
+  }
+
+  private void insertIntoHashBucketsOnly(Node<K, V> node) {
     int keyBucket = node.keyHash & mask;
     node.nextInKToVBucket = hashTableKToV[keyBucket];
     hashTableKToV[keyBucket] = node;
@@ -224,32 +254,15 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     node.nextInVToKBucket = hashTableVToK[valueBucket];
     hashTableVToK[valueBucket] = node;
 
-    if (oldNodeForKey == null) {
-      node.prevInKeyInsertionOrder = lastInKeyInsertionOrder;
-      node.nextInKeyInsertionOrder = null;
-      if (lastInKeyInsertionOrder == null) {
-        firstInKeyInsertionOrder = node;
-      } else {
-        lastInKeyInsertionOrder.nextInKeyInsertionOrder = node;
-      }
-      lastInKeyInsertionOrder = node;
-    } else {
-      node.prevInKeyInsertionOrder = oldNodeForKey.prevInKeyInsertionOrder;
-      if (node.prevInKeyInsertionOrder == null) {
-        firstInKeyInsertionOrder = node;
-      } else {
-        node.prevInKeyInsertionOrder.nextInKeyInsertionOrder = node;
-      }
-      node.nextInKeyInsertionOrder = oldNodeForKey.nextInKeyInsertionOrder;
-      if (node.nextInKeyInsertionOrder == null) {
-        lastInKeyInsertionOrder = node;
-      } else {
-        node.nextInKeyInsertionOrder.prevInKeyInsertionOrder = node;
-      }
-    }
-
     size++;
     modCount++;
+  }
+
+  private void replaceNodeForKey(Node<K, V> oldNode, Node<K, V> newNode) {
+    Node<K, V> prevInKeyInsertionOrder = oldNode.prevInKeyInsertionOrder;
+    Node<K, V> nextInKeyInsertionOrder = oldNode.nextInKeyInsertionOrder;
+    delete(oldNode); // clears the two fields we just read
+    insertSplicingIntoIterationOrder(newNode, prevInKeyInsertionOrder, nextInKeyInsertionOrder);
   }
 
   private @Nullable Node<K, V> seekByKey(@Nullable Object key, int keyHash) {
@@ -327,13 +340,10 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
     Node<K, V> newNode = new Node<>(key, keyHash, value, valueHash);
     if (oldNodeForKey != null) {
-      delete(oldNodeForKey);
-      insert(newNode, oldNodeForKey);
-      oldNodeForKey.prevInKeyInsertionOrder = null;
-      oldNodeForKey.nextInKeyInsertionOrder = null;
+      replaceNodeForKey(oldNodeForKey, newNode);
       return oldNodeForKey.value;
     } else {
-      insert(newNode, null);
+      insertPlacingAtEndOfIterationOrder(newNode);
       rehashIfNecessary();
       return null;
     }
@@ -361,31 +371,18 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       throw new IllegalArgumentException("key already present: " + key);
     }
 
-    /*
-     * The ordering here is important: if we deleted the key node and then the value node, the key
-     * node's prev or next pointer might point to the dead value node, and when we put the new node
-     * in the key node's position in iteration order, it might invalidate the linked list.
-     */
-
     if (oldNodeForValue != null) {
       delete(oldNodeForValue);
     }
 
-    if (oldNodeForKey != null) {
-      delete(oldNodeForKey);
-    }
-
     Node<K, V> newNode = new Node<>(key, keyHash, value, valueHash);
-    insert(newNode, oldNodeForKey);
-
     if (oldNodeForKey != null) {
-      oldNodeForKey.prevInKeyInsertionOrder = null;
-      oldNodeForKey.nextInKeyInsertionOrder = null;
+      replaceNodeForKey(oldNodeForKey, newNode);
+    } else {
+      insertPlacingAtEndOfIterationOrder(newNode);
     }
-    if (oldNodeForValue != null) {
-      oldNodeForValue.prevInKeyInsertionOrder = null;
-      oldNodeForValue.nextInKeyInsertionOrder = null;
-    }
+
+    // TODO(cpovirk): Don't perform rehash check if we replaced an existing entry (as in `put`)?
     rehashIfNecessary();
     return keyOrNull(oldNodeForValue);
   }
@@ -403,7 +400,8 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       for (Node<K, V> node = firstInKeyInsertionOrder;
           node != null;
           node = node.nextInKeyInsertionOrder) {
-        insert(node, node);
+        insertSplicingIntoIterationOrder(
+            node, node.prevInKeyInsertionOrder, node.nextInKeyInsertionOrder);
       }
       this.modCount++;
     }
@@ -574,11 +572,8 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
             return value;
           }
           checkArgument(seekByValue(value, valueHash) == null, "value already present: %s", value);
-          delete(node);
           Node<K, V> newNode = new Node<>(node.key, node.keyHash, value, valueHash);
-          insert(newNode, node);
-          node.prevInKeyInsertionOrder = null;
-          node.nextInKeyInsertionOrder = null;
+          replaceNodeForKey(node, newNode);
           expectedModCount = modCount;
           if (Objects.equals(toRemove, node)) {
             toRemove = newNode;
@@ -767,7 +762,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
                 obverseKey);
             obverse.delete(node);
             Node<K, V> newNode = new Node<>(obverseKey, obverseKeyHash, node.value, node.valueHash);
-            obverse.insert(newNode, /* oldNodeForKey= */ null);
+            obverse.insertPlacingAtEndOfIterationOrder(newNode);
             expectedModCount = obverse.modCount;
             K oldObverseKey = node.key;
             if (Objects.equals(toRemove, node)) {
