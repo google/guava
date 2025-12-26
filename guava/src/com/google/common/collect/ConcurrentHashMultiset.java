@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.CollectPreconditions.checkPositive;
 import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
 import static com.google.common.collect.Maps.safeGet;
 import static java.lang.Math.max;
@@ -229,7 +230,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     if (occurrences == 0) {
       return count(element);
     }
-    CollectPreconditions.checkPositive(occurrences, "occurrences");
+    checkPositive(occurrences, "occurrences");
 
     while (true) {
       AtomicInteger existingCounter = safeGet(countMap, element);
@@ -295,7 +296,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     if (occurrences == 0) {
       return count(element);
     }
-    CollectPreconditions.checkPositive(occurrences, "occurrences");
+    checkPositive(occurrences, "occurrences");
 
     AtomicInteger existingCounter = safeGet(countMap, element);
     if (existingCounter == null) {
@@ -336,7 +337,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     if (occurrences == 0) {
       return true;
     }
-    CollectPreconditions.checkPositive(occurrences, "occurrences");
+    checkPositive(occurrences, "occurrences");
 
     AtomicInteger existingCounter = safeGet(countMap, element);
     if (existingCounter == null) {

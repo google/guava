@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkPositionIndex;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
+import static com.google.common.collect.Hashing.closedTableSize;
 import static com.google.common.collect.ImmutableMapEntry.createEntryArray;
 import static java.util.Objects.requireNonNull;
 
@@ -112,7 +113,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     @SuppressWarnings("nullness")
     Entry<K, V>[] entries =
         (n == entryArray.length) ? (Entry<K, V>[]) entryArray : createEntryArray(n);
-    int tableSize = Hashing.closedTableSize(n, MAX_LOAD_FACTOR);
+    int tableSize = closedTableSize(n, MAX_LOAD_FACTOR);
     @Nullable ImmutableMapEntry<K, V>[] table = createEntryArray(tableSize);
     int mask = tableSize - 1;
     // If duplicates are allowed, this IdentityHashMap will record the final Entry for each
@@ -161,7 +162,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
     if (duplicates != null) {
       entries = removeDuplicates(entries, n, n - dupCount, duplicates);
-      int newTableSize = Hashing.closedTableSize(entries.length, MAX_LOAD_FACTOR);
+      int newTableSize = closedTableSize(entries.length, MAX_LOAD_FACTOR);
       if (newTableSize != tableSize) {
         return fromEntryArrayCheckingBucketOverflow(
             entries.length, entries, /* throwIfDuplicateKeys= */ true);

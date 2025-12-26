@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Hashing.closedTableSize;
+import static com.google.common.collect.Hashing.smearedHash;
 import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -69,7 +71,7 @@ final class CompactHashing {
    */
   static int tableSize(int expectedSize) {
     // We use entries next == 0 to indicate UNSET, so actual capacity is 1 less than requested.
-    return max(MIN_HASH_TABLE_SIZE, Hashing.closedTableSize(expectedSize + 1, 1.0));
+    return max(MIN_HASH_TABLE_SIZE, closedTableSize(expectedSize + 1, 1.0));
   }
 
   /** Creates and returns a properly-sized array with the given number of buckets. */
@@ -164,7 +166,7 @@ final class CompactHashing {
       int[] entries,
       @Nullable Object[] keys,
       @Nullable Object @Nullable [] values) {
-    int hash = Hashing.smearedHash(key);
+    int hash = smearedHash(key);
     int tableIndex = hash & mask;
     int next = tableGet(table, tableIndex);
     if (next == UNSET) {

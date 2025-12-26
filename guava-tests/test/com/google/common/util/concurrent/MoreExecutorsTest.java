@@ -42,7 +42,9 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.inOrder;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -76,7 +78,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
 import org.mockito.InOrder;
-import org.mockito.Mockito;
 
 /**
  * Tests for MoreExecutors.
@@ -517,9 +518,9 @@ public class MoreExecutorsTest extends JSR166TestCase {
     TestApplication application = new TestApplication();
     ExecutorService service = mock(ExecutorService.class);
     application.addDelayedShutdownHook(service, 2, SECONDS);
-    verify(service, Mockito.never()).shutdown();
+    verify(service, never()).shutdown();
     application.shutdown();
-    InOrder shutdownFirst = Mockito.inOrder(service);
+    InOrder shutdownFirst = inOrder(service);
     shutdownFirst.verify(service).shutdown();
     shutdownFirst.verify(service).awaitTermination(2, SECONDS);
   }

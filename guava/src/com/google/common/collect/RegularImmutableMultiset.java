@@ -15,6 +15,8 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.collect.Hashing.closedTableSize;
+import static com.google.common.collect.Hashing.smearedHash;
 import static com.google.common.collect.ImmutableList.asImmutableList;
 
 import com.google.common.annotations.GwtCompatible;
@@ -48,7 +50,7 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     if (distinct == 0) {
       return new RegularImmutableMultiset<>(entryArray, EMPTY_ARRAY, 0, 0, ImmutableSet.of());
     }
-    int tableSize = Hashing.closedTableSize(distinct, MAX_LOAD_FACTOR);
+    int tableSize = closedTableSize(distinct, MAX_LOAD_FACTOR);
     int mask = tableSize - 1;
     @SuppressWarnings({"unchecked", "rawtypes"})
     @Nullable ImmutableEntry<E>[] hashTable = new @Nullable ImmutableEntry[tableSize];
@@ -162,7 +164,7 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     if (element == null || hashTable.length == 0) {
       return 0;
     }
-    int hash = Hashing.smearedHash(element);
+    int hash = smearedHash(element);
     int mask = hashTable.length - 1;
     for (ImmutableEntry<?> entry = hashTable[hash & mask];
         entry != null;

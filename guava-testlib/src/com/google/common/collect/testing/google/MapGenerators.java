@@ -18,13 +18,13 @@ package com.google.common.collect.testing.google;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterables.getOnlyElement;
+import static com.google.common.collect.Maps.immutableEnumMap;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.testing.AnEnum;
 import com.google.common.collect.testing.SampleElements;
@@ -162,7 +162,7 @@ public class MapGenerators {
         checkNotNull(entry);
         map.put(entry.getKey(), entry.getValue());
       }
-      return Maps.immutableEnumMap(map);
+      return immutableEnumMap(map);
     }
   }
 

@@ -34,6 +34,7 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 
@@ -77,7 +78,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.mockito.Mockito;
 
 /**
  * Tests for {@link ClosingFuture}. Subclasses exercise either the {@link
@@ -109,7 +109,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
   final Waiter waiter = new Waiter();
   final CountDownLatch futureCancelled = new CountDownLatch(1);
   final Exception exception = new Exception();
-  final Closeable mockCloseable = Mockito.mock(Closeable.class);
+  final Closeable mockCloseable = mock(Closeable.class);
 
   @Override
   protected void tearDown() throws Exception {

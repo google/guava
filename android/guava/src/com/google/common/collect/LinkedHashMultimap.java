@@ -18,6 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Hashing.closedTableSize;
+import static com.google.common.collect.Hashing.smearedHash;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
@@ -269,7 +271,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     ValueSet(@ParametricNullness K key, int expectedValues) {
       this.key = key;
       // Round expected values up to a power of 2 to get the table size.
-      int tableSize = Hashing.closedTableSize(expectedValues, VALUE_SET_LOAD_FACTOR);
+      int tableSize = closedTableSize(expectedValues, VALUE_SET_LOAD_FACTOR);
 
       @SuppressWarnings({"rawtypes", "unchecked"})
       @Nullable ValueEntry<K, V>[] hashTable = new @Nullable ValueEntry[tableSize];
@@ -354,7 +356,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
 
     @Override
     public boolean contains(@Nullable Object o) {
-      int smearedHash = Hashing.smearedHash(o);
+      int smearedHash = smearedHash(o);
       for (ValueEntry<K, V> entry = hashTable[smearedHash & mask()];
           entry != null;
           entry = entry.nextInValueBucket) {
@@ -367,7 +369,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
 
     @Override
     public boolean add(@ParametricNullness V value) {
-      int smearedHash = Hashing.smearedHash(value);
+      int smearedHash = smearedHash(value);
       int bucket = smearedHash & mask();
       ValueEntry<K, V> rowHead = hashTable[bucket];
       for (ValueEntry<K, V> entry = rowHead; entry != null; entry = entry.nextInValueBucket) {
@@ -406,7 +408,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
     @CanIgnoreReturnValue
     @Override
     public boolean remove(@Nullable Object o) {
-      int smearedHash = Hashing.smearedHash(o);
+      int smearedHash = smearedHash(o);
       int bucket = smearedHash & mask();
       ValueEntry<K, V> prev = null;
       for (ValueEntry<K, V> entry = hashTable[bucket];

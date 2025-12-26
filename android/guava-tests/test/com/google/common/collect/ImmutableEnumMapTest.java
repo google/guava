@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Maps.immutableEnumMap;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.ALLOWS_NULL_QUERIES;
 import static com.google.common.collect.testing.features.CollectionFeature.SERIALIZABLE;
@@ -55,7 +56,7 @@ public class ImmutableEnumMapTest extends TestCase {
       for (Entry<AnEnum, String> entry : entries) {
         map.put(entry.getKey(), entry.getValue());
       }
-      return Maps.immutableEnumMap(map);
+      return immutableEnumMap(map);
     }
   }
 
@@ -87,18 +88,18 @@ public class ImmutableEnumMapTest extends TestCase {
                 return ae;
               }
             });
-    ImmutableMap<AnEnum, AnEnum> copy = Maps.immutableEnumMap(map);
+    ImmutableMap<AnEnum, AnEnum> copy = immutableEnumMap(map);
     assertThat(copy.entrySet()).containsExactly(mapEntry(AnEnum.A, AnEnum.A));
   }
 
   public void testEmptyImmutableEnumMap() {
-    ImmutableMap<AnEnum, String> map = Maps.immutableEnumMap(ImmutableMap.<AnEnum, String>of());
+    ImmutableMap<AnEnum, String> map = immutableEnumMap(ImmutableMap.<AnEnum, String>of());
     assertEquals(ImmutableMap.of(), map);
   }
 
   public void testImmutableEnumMapOrdering() {
     ImmutableMap<AnEnum, String> map =
-        Maps.immutableEnumMap(ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
+        immutableEnumMap(ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
 
     assertThat(map.entrySet())
         .containsExactly(mapEntry(AnEnum.A, "a"), mapEntry(AnEnum.C, "c"), mapEntry(AnEnum.E, "e"))

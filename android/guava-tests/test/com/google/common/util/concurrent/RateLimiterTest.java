@@ -24,6 +24,7 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.mock;
 
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableSet;
@@ -39,7 +40,6 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
-import org.mockito.Mockito;
 
 /**
  * Tests for RateLimiter.
@@ -533,7 +533,7 @@ public class RateLimiterTest extends TestCase {
 
   @AndroidIncompatible // Mockito loses its ability to mock doGetRate as of Android 21
   public void testMockingMockito() throws Exception {
-    RateLimiter mock = Mockito.mock(RateLimiter.class);
+    RateLimiter mock = mock(RateLimiter.class);
     for (Method method : RateLimiter.class.getMethods()) {
       if (!isStatic(method.getModifiers())
           && !NOT_WORKING_ON_MOCKS.contains(method.getName())

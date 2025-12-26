@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Hashing.smearedHash;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
 import static com.google.common.collect.NullnessCasts.unsafeNull;
 
@@ -187,12 +188,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       hashTableVToK = createFilledWithAbsent(newTableSize);
 
       for (int entryToRehash = 0; entryToRehash < size; entryToRehash++) {
-        int keyHash = Hashing.smearedHash(keys[entryToRehash]);
+        int keyHash = smearedHash(keys[entryToRehash]);
         int keyBucket = bucket(keyHash);
         nextInBucketKToV[entryToRehash] = hashTableKToV[keyBucket];
         hashTableKToV[keyBucket] = entryToRehash;
 
-        int valueHash = Hashing.smearedHash(values[entryToRehash]);
+        int valueHash = smearedHash(values[entryToRehash]);
         int valueBucket = bucket(valueHash);
         nextInBucketVToK[entryToRehash] = hashTableVToK[valueBucket];
         hashTableVToK[valueBucket] = entryToRehash;
@@ -210,7 +211,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   /** Given a key, returns the index of the entry in the tables, or ABSENT if not found. */
   private int findEntryByKey(@Nullable Object key) {
-    return findEntryByKey(key, Hashing.smearedHash(key));
+    return findEntryByKey(key, smearedHash(key));
   }
 
   /**
@@ -222,7 +223,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   /** Given a value, returns the index of the entry in the tables, or ABSENT if not found. */
   private int findEntryByValue(@Nullable Object value) {
-    return findEntryByValue(value, Hashing.smearedHash(value));
+    return findEntryByValue(value, smearedHash(value));
   }
 
   /**
@@ -285,7 +286,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   private @Nullable V put(@ParametricNullness K key, @ParametricNullness V value, boolean force) {
-    int keyHash = Hashing.smearedHash(key);
+    int keyHash = smearedHash(key);
     int entryForKey = findEntryByKey(key, keyHash);
     if (entryForKey != ABSENT) {
       V oldValue = values[entryForKey];
@@ -297,7 +298,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       }
     }
 
-    int valueHash = Hashing.smearedHash(value);
+    int valueHash = smearedHash(value);
     int valueEntry = findEntryByValue(value, valueHash);
     if (force) {
       if (valueEntry != ABSENT) {
@@ -330,7 +331,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @CanIgnoreReturnValue
   private @Nullable K putInverse(
       @ParametricNullness V value, @ParametricNullness K key, boolean force) {
-    int valueHash = Hashing.smearedHash(value);
+    int valueHash = smearedHash(value);
     int entryForValue = findEntryByValue(value, valueHash);
     if (entryForValue != ABSENT) {
       K oldKey = keys[entryForValue];
@@ -343,7 +344,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     int predecessor = lastInInsertionOrder;
-    int keyHash = Hashing.smearedHash(key);
+    int keyHash = smearedHash(key);
     int keyEntry = findEntryByKey(key, keyHash);
     if (force) {
       if (keyEntry != ABSENT) {
@@ -476,7 +477,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    */
   private void replaceValueInEntry(int entry, @ParametricNullness V newValue, boolean force) {
     checkArgument(entry != ABSENT);
-    int newValueHash = Hashing.smearedHash(newValue);
+    int newValueHash = smearedHash(newValue);
     int newValueIndex = findEntryByValue(newValue, newValueHash);
     if (newValueIndex != ABSENT) {
       if (force) {
@@ -489,7 +490,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       }
     }
     // we do *not* update insertion order, and it isn't a structural modification!
-    deleteFromTableVToK(entry, Hashing.smearedHash(values[entry]));
+    deleteFromTableVToK(entry, smearedHash(values[entry]));
     values[entry] = newValue;
     insertIntoTableVToK(entry, newValueHash);
   }
@@ -501,7 +502,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
    */
   private void replaceKeyInEntry(int entry, @ParametricNullness K newKey, boolean force) {
     checkArgument(entry != ABSENT);
-    int newKeyHash = Hashing.smearedHash(newKey);
+    int newKeyHash = smearedHash(newKey);
     int newKeyIndex = findEntryByKey(newKey, newKeyHash);
 
     int newPredecessor = lastInInsertionOrder;
@@ -534,9 +535,9 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     int oldSuccessor = nextInInsertionOrder[entry];
     setSucceeds(oldPredecessor, oldSuccessor); // remove from insertion order linked list
 
-    deleteFromTableKToV(entry, Hashing.smearedHash(keys[entry]));
+    deleteFromTableKToV(entry, smearedHash(keys[entry]));
     keys[entry] = newKey;
-    insertIntoTableKToV(entry, Hashing.smearedHash(newKey));
+    insertIntoTableKToV(entry, smearedHash(newKey));
 
     // insert into insertion order linked list, usually at the end
     setSucceeds(newPredecessor, entry);
@@ -546,7 +547,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @CanIgnoreReturnValue
   @Override
   public @Nullable V remove(@Nullable Object key) {
-    int keyHash = Hashing.smearedHash(key);
+    int keyHash = smearedHash(key);
     int entry = findEntryByKey(key, keyHash);
     if (entry == ABSENT) {
       return null;
@@ -558,7 +559,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   private @Nullable K removeInverse(@Nullable Object value) {
-    int valueHash = Hashing.smearedHash(value);
+    int valueHash = smearedHash(value);
     int entry = findEntryByValue(value, valueHash);
     if (entry == ABSENT) {
       return null;
@@ -571,7 +572,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   /** Removes the entry at the specified index with no additional data. */
   private void removeEntry(int entry) {
-    removeEntryKeyHashKnown(entry, Hashing.smearedHash(keys[entry]));
+    removeEntryKeyHashKnown(entry, smearedHash(keys[entry]));
   }
 
   /** Removes the entry at the specified index, given the hash of its key and value. */
@@ -593,12 +594,12 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   /** Removes the entry at the specified index, given the hash of its key. */
   private void removeEntryKeyHashKnown(int entry, int keyHash) {
-    removeEntry(entry, keyHash, Hashing.smearedHash(values[entry]));
+    removeEntry(entry, keyHash, smearedHash(values[entry]));
   }
 
   /** Removes the entry at the specified index, given the hash of its value. */
   private void removeEntryValueHashKnown(int entry, int valueHash) {
-    removeEntry(entry, Hashing.smearedHash(keys[entry]), valueHash);
+    removeEntry(entry, smearedHash(keys[entry]), valueHash);
   }
 
   /**
@@ -621,7 +622,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     values[dest] = value;
 
     // update pointers in hashTableKToV
-    int keyHash = Hashing.smearedHash(key);
+    int keyHash = smearedHash(key);
     int keyBucket = bucket(keyHash);
     if (hashTableKToV[keyBucket] == src) {
       hashTableKToV[keyBucket] = dest;
@@ -641,7 +642,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     nextInBucketKToV[src] = ABSENT;
 
     // update pointers in hashTableVToK
-    int valueHash = Hashing.smearedHash(value);
+    int valueHash = smearedHash(value);
     int valueBucket = bucket(valueHash);
     if (hashTableVToK[valueBucket] == src) {
       hashTableVToK[valueBucket] = dest;
@@ -778,7 +779,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
     @Override
     public boolean remove(@Nullable Object o) {
-      int oHash = Hashing.smearedHash(o);
+      int oHash = smearedHash(o);
       int entry = findEntryByKey(o, oHash);
       if (entry != ABSENT) {
         removeEntryKeyHashKnown(entry, oHash);
@@ -816,7 +817,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
     @Override
     public boolean remove(@Nullable Object o) {
-      int oHash = Hashing.smearedHash(o);
+      int oHash = smearedHash(o);
       int entry = findEntryByValue(o, oHash);
       if (entry != ABSENT) {
         removeEntryValueHashKnown(entry, oHash);
@@ -859,7 +860,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         Entry<?, ?> e = (Entry<?, ?>) o;
         Object k = e.getKey();
         Object v = e.getValue();
-        int kHash = Hashing.smearedHash(k);
+        int kHash = smearedHash(k);
         int eIndex = findEntryByKey(k, kHash);
         if (eIndex != ABSENT && Objects.equals(v, values[eIndex])) {
           removeEntryKeyHashKnown(eIndex, kHash);
@@ -1067,7 +1068,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         Entry<?, ?> e = (Entry<?, ?>) o;
         Object obverseValue = e.getKey();
         Object obverseKey = e.getValue();
-        int obverseValueHash = Hashing.smearedHash(obverseValue);
+        int obverseValueHash = smearedHash(obverseValue);
         int eIndex = obverse.findEntryByValue(obverseValue, obverseValueHash);
         if (eIndex != ABSENT && Objects.equals(obverse.keys[eIndex], obverseKey)) {
           obverse.removeEntryValueHashKnown(eIndex, obverseValueHash);

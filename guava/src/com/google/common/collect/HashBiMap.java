@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
+import static com.google.common.collect.Hashing.closedTableSize;
 import static com.google.common.collect.Hashing.smearedHash;
 import static java.util.Objects.requireNonNull;
 
@@ -144,7 +145,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   private void init(int expectedSize) {
     checkNonnegative(expectedSize, "expectedSize");
-    int tableSize = Hashing.closedTableSize(expectedSize, LOAD_FACTOR);
+    int tableSize = closedTableSize(expectedSize, LOAD_FACTOR);
     this.hashTableKToV = createTable(tableSize);
     this.hashTableVToK = createTable(tableSize);
     this.firstInKeyInsertionOrder = null;

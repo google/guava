@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Hashing.smearedHash;
 import static java.lang.System.arraycopy;
 
 import com.google.common.annotations.GwtCompatible;
@@ -58,7 +59,7 @@ final class RegularImmutableSet<E> extends ImmutableSet.CachingAsList<E> {
     if (target == null || table.length == 0) {
       return false;
     }
-    for (int i = Hashing.smearedHash(target); ; i++) {
+    for (int i = smearedHash(target); ; i++) {
       i &= mask;
       Object candidate = table[i];
       if (candidate == null) {

@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Maps.immutableEnumMap;
 import static com.google.common.collect.Maps.toImmutableEnumMap;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.mapEntry;
@@ -63,7 +64,7 @@ public class ImmutableEnumMapTest extends TestCase {
       for (Entry<AnEnum, String> entry : entries) {
         map.put(entry.getKey(), entry.getValue());
       }
-      return Maps.immutableEnumMap(map);
+      return immutableEnumMap(map);
     }
   }
 
@@ -95,18 +96,18 @@ public class ImmutableEnumMapTest extends TestCase {
                 return ae;
               }
             });
-    ImmutableMap<AnEnum, AnEnum> copy = Maps.immutableEnumMap(map);
+    ImmutableMap<AnEnum, AnEnum> copy = immutableEnumMap(map);
     assertThat(copy.entrySet()).containsExactly(mapEntry(AnEnum.A, AnEnum.A));
   }
 
   public void testEmptyImmutableEnumMap() {
-    ImmutableMap<AnEnum, String> map = Maps.immutableEnumMap(ImmutableMap.<AnEnum, String>of());
+    ImmutableMap<AnEnum, String> map = immutableEnumMap(ImmutableMap.<AnEnum, String>of());
     assertEquals(ImmutableMap.of(), map);
   }
 
   public void testImmutableEnumMapOrdering() {
     ImmutableMap<AnEnum, String> map =
-        Maps.immutableEnumMap(ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
+        immutableEnumMap(ImmutableMap.of(AnEnum.C, "c", AnEnum.A, "a", AnEnum.E, "e"));
 
     assertThat(map.entrySet())
         .containsExactly(mapEntry(AnEnum.A, "a"), mapEntry(AnEnum.C, "c"), mapEntry(AnEnum.E, "e"))
@@ -154,9 +155,7 @@ public class ImmutableEnumMapTest extends TestCase {
     int expectedCharacteristics =
         Spliterator.DISTINCT | Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.IMMUTABLE;
     Spliterator<Entry<AnEnum, String>> spliterator =
-        Maps.immutableEnumMap(ImmutableMap.of(AnEnum.A, "a", AnEnum.B, "b"))
-            .entrySet()
-            .spliterator();
+        immutableEnumMap(ImmutableMap.of(AnEnum.A, "a", AnEnum.B, "b")).entrySet().spliterator();
     Truth.assertWithMessage(spliterator.getClass().toString())
         .that(spliterator.characteristics() & expectedCharacteristics)
         .isEqualTo(expectedCharacteristics);
@@ -167,7 +166,7 @@ public class ImmutableEnumMapTest extends TestCase {
   public void testKeySetCharacteristics() {
     int expectedCharacteristics = Spliterator.ORDERED | Spliterator.NONNULL;
     assertThat(
-            Maps.immutableEnumMap(ImmutableMap.of(AnEnum.A, "a"))
+            immutableEnumMap(ImmutableMap.of(AnEnum.A, "a"))
                     .keySet()
                     .spliterator()
                     .characteristics()
