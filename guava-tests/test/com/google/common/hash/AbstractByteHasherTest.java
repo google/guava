@@ -100,7 +100,7 @@ public class AbstractByteHasherTest extends TestCase {
     assertThrows(IndexOutOfBoundsException.class, () -> hasher.putBytes(new byte[8], 0, -1));
   }
 
-  private class TestHasher extends AbstractByteHasher {
+  private static final class TestHasher extends AbstractByteHasher {
 
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 

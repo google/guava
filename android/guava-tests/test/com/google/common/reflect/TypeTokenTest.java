@@ -1292,6 +1292,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   private static class TwoTypeArgs<K, V> {
+    @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
     class InnerType<K2, V2> {}
   }
 
@@ -1738,6 +1739,7 @@ public class TypeTokenTest extends TestCase {
     assertHasTypeVariable(new TypeCapture<Map<String, ? super T[]>>() {}.capture());
   }
 
+  @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
   private static class From<K> {
     class To<V> {
       Type type() {
@@ -1872,6 +1874,7 @@ public class TypeTokenTest extends TestCase {
     return type.where(new TypeParameter<X>() {}, arg);
   }
 
+  @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
   private abstract static class ToReproduceGenericSignatureFormatError<V> {
     private abstract class BaseOuter {
       abstract class BaseInner {}

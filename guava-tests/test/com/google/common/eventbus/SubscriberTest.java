@@ -125,7 +125,7 @@ public class SubscriberTest extends TestCase {
   }
 
   /** Local exception subclass to check variety of exception thrown. */
-  class IntentionalException extends Exception {
+  static final class IntentionalException extends Exception {
 
     private static final long serialVersionUID = -2500191180248181379L;
   }
@@ -140,7 +140,7 @@ public class SubscriberTest extends TestCase {
   public void threadSafeMethod(Object arg) {}
 
   /** Local Error subclass to check variety of error thrown. */
-  class JudgmentError extends Error {
+  static final class JudgmentError extends Error {
 
     private static final long serialVersionUID = 634248373797713373L;
   }

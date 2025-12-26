@@ -294,7 +294,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     fail("expected failure not reported");
   }
 
-  private class ForwardingRunnable implements Runnable {
+  private static class ForwardingRunnable implements Runnable {
 
     private final Runnable runnable;
 
@@ -317,7 +317,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     int add(int a, int b);
   }
 
-  private static class ForwardingArithmetic implements Arithmetic {
+  private static final class ForwardingArithmetic implements Arithmetic {
     private final Arithmetic arithmetic;
 
     ForwardingArithmetic(Arithmetic arithmetic) {
@@ -340,7 +340,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
   }
 
-  private static class FailsToForwardParameters implements Adder {
+  private static final class FailsToForwardParameters implements Adder {
     private final Adder adder;
 
     FailsToForwardParameters(Adder adder) {
@@ -358,7 +358,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
   }
 
-  private static class FailsToForwardReturnValue implements Adder {
+  private static final class FailsToForwardReturnValue implements Adder {
     private final Adder adder;
 
     FailsToForwardReturnValue(Adder adder) {
@@ -376,7 +376,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
   }
 
-  private static class FailsToPropagateException implements Adder {
+  private static final class FailsToPropagateException implements Adder {
     private final Adder adder;
 
     FailsToPropagateException(Adder adder) {
@@ -404,7 +404,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     int minus(int a, int b);
   }
 
-  private static class ForwardsToTheWrongMethod implements Arithmetic {
+  private static final class ForwardsToTheWrongMethod implements Arithmetic {
     private final Arithmetic arithmetic;
 
     ForwardsToTheWrongMethod(Arithmetic arithmetic) {
@@ -514,7 +514,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     String getId();
   }
 
-  private static class ForwardingSub implements Sub {
+  private static final class ForwardingSub implements Sub {
     private final Sub delegate;
 
     ForwardingSub(Sub delegate) {
@@ -590,7 +590,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     ChainingCalls nonChainingCall();
   }
 
-  private static class ForwardingChainingCalls implements ChainingCalls {
+  private static final class ForwardingChainingCalls implements ChainingCalls {
     final ChainingCalls delegate;
 
     ForwardingChainingCalls(ChainingCalls delegate) {

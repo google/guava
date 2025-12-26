@@ -44,7 +44,7 @@ public class FuturesTransformTest extends AbstractChainedListenableFutureTest<St
     return RESULT_DATA;
   }
 
-  private class ComposeFunction implements Function<Integer, String> {
+  private static final class ComposeFunction implements Function<Integer, String> {
     @Override
     public String apply(Integer input) {
       if (input.intValue() == VALID_INPUT_DATA) {

@@ -47,7 +47,7 @@ public class ReentrantEventsTest extends TestCase {
         hater.eventsReceived);
   }
 
-  public class ReentrantEventsHater {
+  public final class ReentrantEventsHater {
     boolean ready = true;
     final List<Object> eventsReceived = new ArrayList<>();
 
@@ -84,14 +84,14 @@ public class ReentrantEventsTest extends TestCase {
         recorder.eventsReceived);
   }
 
-  public class EventProcessor {
+  public final class EventProcessor {
     @Subscribe
     public void listenForStrings(String event) {
       bus.post(SECOND);
     }
   }
 
-  public class EventRecorder {
+  static final class EventRecorder {
     final List<Object> eventsReceived = new ArrayList<>();
 
     @Subscribe

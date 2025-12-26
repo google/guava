@@ -106,6 +106,7 @@ public class ToStringHelperTest extends TestCase {
   @GwtIncompatible // Class names are obfuscated in GWT
   public void testToStringHelper_localInnerNestedClass() {
     class LocalInnerClass {
+      @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
       class LocalInnerNestedClass {}
     }
     String toTest =
@@ -115,6 +116,7 @@ public class ToStringHelperTest extends TestCase {
 
   public void testToStringHelperLenient_localInnerNestedClass() {
     class LocalInnerClass {
+      @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
       class LocalInnerNestedClass {}
     }
     String toTest =

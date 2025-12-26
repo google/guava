@@ -484,6 +484,7 @@ public class InvokableTest extends TestCase {
     assertFalse(delegate.isVarArgs());
   }
 
+  @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
   private class InnerWithDefaultConstructor {
     class NestedInner {}
   }
@@ -499,6 +500,7 @@ public class InvokableTest extends TestCase {
     assertEquals(0, Invokable.from(constructor).getParameters().size());
   }
 
+  @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
   private class InnerWithOneParameterConstructor {
     @SuppressWarnings("unused") // called by reflection
     InnerWithOneParameterConstructor(String s) {}
@@ -512,6 +514,7 @@ public class InvokableTest extends TestCase {
     assertEquals(TypeToken.of(String.class), invokable.getParameters().get(0).getType());
   }
 
+  @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
   private class InnerWithAnnotatedConstructorParameter {
     @SuppressWarnings("unused") // called by reflection
     InnerWithAnnotatedConstructorParameter(@Nullable String s) {}
@@ -525,6 +528,7 @@ public class InvokableTest extends TestCase {
     assertEquals(TypeToken.of(String.class), invokable.getParameters().get(0).getType());
   }
 
+  @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
   private class InnerWithGenericConstructorParameter {
     @SuppressWarnings("unused") // called by reflection
     InnerWithGenericConstructorParameter(Iterable<String> it, String s) {}

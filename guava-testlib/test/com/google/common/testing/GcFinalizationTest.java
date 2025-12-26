@@ -115,7 +115,7 @@ public class GcFinalizationTest extends TestCase {
   // Trickier than it looks, because runFinalization swallows interrupts.
   // ----------------------------------------------------------------
 
-  class Interruptenator extends Thread {
+  static final class Interruptenator extends Thread {
     final AtomicBoolean shutdown;
 
     Interruptenator(Thread interruptee) {

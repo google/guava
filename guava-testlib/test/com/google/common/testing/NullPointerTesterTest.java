@@ -1461,6 +1461,7 @@ public class NullPointerTesterTest extends TestCase {
         Visibility.PACKAGE.isVisible(VisibilityMethods.class.getDeclaredMethod("publicMethod")));
   }
 
+  @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
   private class Inner {
     @Keep
     public Inner(String s) {

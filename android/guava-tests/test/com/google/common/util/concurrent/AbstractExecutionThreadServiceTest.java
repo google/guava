@@ -304,7 +304,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     assertThat(e).hasMessageThat().contains(Service.State.STARTING.toString());
   }
 
-  private class TimeoutOnStartUp extends AbstractExecutionThreadService {
+  private static final class TimeoutOnStartUp extends AbstractExecutionThreadService {
     @Override
     protected Executor executor() {
       return new Executor() {

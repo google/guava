@@ -168,7 +168,7 @@ public class FutureCallbackTest extends TestCase {
     addCallback(f, callback, directExecutor());
   }
 
-  private class CountingSameThreadExecutor implements Executor {
+  private static final class CountingSameThreadExecutor implements Executor {
     int runCount = 0;
 
     @Override
@@ -178,7 +178,7 @@ public class FutureCallbackTest extends TestCase {
     }
   }
 
-  private final class MockCallback implements FutureCallback<String> {
+  private static final class MockCallback implements FutureCallback<String> {
     @Nullable private String value = null;
     @Nullable private Throwable failure = null;
     private boolean wasCalled = false;

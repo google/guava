@@ -130,7 +130,7 @@ public class ExecutionListTest extends TestCase {
     assertEquals(10, integer.get());
   }
 
-  private class MockRunnable implements Runnable {
+  private static final class MockRunnable implements Runnable {
     final CountDownLatch countDownLatch;
 
     MockRunnable(CountDownLatch countDownLatch) {

@@ -227,6 +227,7 @@ public class TypeTokenResolutionTest extends TestCase {
   private static class ParameterizedOuter<T> {
     @Keep public Inner field;
 
+    @SuppressWarnings("ClassCanBeStatic") // We want to test an inner class.
     class Inner {}
   }
 
