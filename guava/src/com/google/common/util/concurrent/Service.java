@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -111,7 +112,7 @@ public interface Service {
    * @since 28.0
    */
   default void awaitRunning(Duration timeout) throws TimeoutException {
-    awaitRunning(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    awaitRunning(toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -147,7 +148,7 @@ public interface Service {
    * @since 28.0
    */
   default void awaitTerminated(Duration timeout) throws TimeoutException {
-    awaitTerminated(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    awaitTerminated(toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**

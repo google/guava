@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -120,7 +121,7 @@ public interface ListeningExecutorService extends ExecutorService {
   @J2ktIncompatible
   default <T extends @Nullable Object> List<Future<T>> invokeAll(
       Collection<? extends Callable<T>> tasks, Duration timeout) throws InterruptedException {
-    return invokeAll(tasks, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return invokeAll(tasks, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -132,7 +133,7 @@ public interface ListeningExecutorService extends ExecutorService {
   default <T extends @Nullable Object> T invokeAny(
       Collection<? extends Callable<T>> tasks, Duration timeout)
       throws InterruptedException, ExecutionException, TimeoutException {
-    return invokeAny(tasks, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return invokeAny(tasks, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -142,6 +143,6 @@ public interface ListeningExecutorService extends ExecutorService {
    */
   @J2ktIncompatible
   default boolean awaitTermination(Duration timeout) throws InterruptedException {
-    return awaitTermination(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return awaitTermination(toNanosSaturated(timeout), NANOSECONDS);
   }
 }

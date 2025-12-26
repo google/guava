@@ -15,6 +15,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -50,7 +51,7 @@ public interface ListeningScheduledExecutorService
    */
   @J2ktIncompatible
   default ListenableScheduledFuture<?> schedule(Runnable command, Duration delay) {
-    return schedule(command, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
+    return schedule(command, toNanosSaturated(delay), NANOSECONDS);
   }
 
   /**
@@ -68,7 +69,7 @@ public interface ListeningScheduledExecutorService
   @J2ktIncompatible
   default <V extends @Nullable Object> ListenableScheduledFuture<V> schedule(
       Callable<V> callable, Duration delay) {
-    return schedule(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS);
+    return schedule(callable, toNanosSaturated(delay), NANOSECONDS);
   }
 
   /**
@@ -87,7 +88,7 @@ public interface ListeningScheduledExecutorService
   default ListenableScheduledFuture<?> scheduleAtFixedRate(
       Runnable command, Duration initialDelay, Duration period) {
     return scheduleAtFixedRate(
-        command, toNanosSaturated(initialDelay), toNanosSaturated(period), TimeUnit.NANOSECONDS);
+        command, toNanosSaturated(initialDelay), toNanosSaturated(period), NANOSECONDS);
   }
 
   /**
@@ -106,6 +107,6 @@ public interface ListeningScheduledExecutorService
   default ListenableScheduledFuture<?> scheduleWithFixedDelay(
       Runnable command, Duration initialDelay, Duration delay) {
     return scheduleWithFixedDelay(
-        command, toNanosSaturated(initialDelay), toNanosSaturated(delay), TimeUnit.NANOSECONDS);
+        command, toNanosSaturated(initialDelay), toNanosSaturated(delay), NANOSECONDS);
   }
 }

@@ -20,6 +20,7 @@ import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.Objects.requireNonNull;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -232,7 +233,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   // TODO(cpovirk): Return ListenableScheduledFuture?
   public static <O extends @Nullable Object> ListenableFuture<O> scheduleAsync(
       AsyncCallable<O> callable, Duration delay, ScheduledExecutorService executorService) {
-    return scheduleAsync(callable, toNanosSaturated(delay), TimeUnit.NANOSECONDS, executorService);
+    return scheduleAsync(callable, toNanosSaturated(delay), NANOSECONDS, executorService);
   }
 
   /**
@@ -387,7 +388,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static <V extends @Nullable Object> ListenableFuture<V> withTimeout(
       ListenableFuture<V> delegate, Duration time, ScheduledExecutorService scheduledExecutor) {
-    return withTimeout(delegate, toNanosSaturated(time), TimeUnit.NANOSECONDS, scheduledExecutor);
+    return withTimeout(delegate, toNanosSaturated(time), NANOSECONDS, scheduledExecutor);
   }
 
   /**
@@ -1278,7 +1279,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static <V extends @Nullable Object, X extends Exception> V getChecked(
       Future<V> future, Class<X> exceptionClass, Duration timeout) throws X {
-    return getChecked(future, exceptionClass, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return getChecked(future, exceptionClass, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**

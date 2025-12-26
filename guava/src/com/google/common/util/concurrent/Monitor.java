@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -389,7 +390,7 @@ public final class Monitor {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enter(Duration time) {
-    return enter(toNanosSaturated(time), TimeUnit.NANOSECONDS);
+    return enter(toNanosSaturated(time), NANOSECONDS);
   }
 
   /**
@@ -409,7 +410,7 @@ public final class Monitor {
       long startTime = System.nanoTime();
       for (long remainingNanos = timeoutNanos; ; ) {
         try {
-          return lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS);
+          return lock.tryLock(remainingNanos, NANOSECONDS);
         } catch (InterruptedException interrupt) {
           interrupted = true;
           remainingNanos = remainingNanos(startTime, timeoutNanos);
@@ -439,7 +440,7 @@ public final class Monitor {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterInterruptibly(Duration time) throws InterruptedException {
-    return enterInterruptibly(toNanosSaturated(time), TimeUnit.NANOSECONDS);
+    return enterInterruptibly(toNanosSaturated(time), NANOSECONDS);
   }
 
   /**
@@ -500,7 +501,7 @@ public final class Monitor {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterWhen(Guard guard, Duration time) throws InterruptedException {
-    return enterWhen(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
+    return enterWhen(guard, toNanosSaturated(time), NANOSECONDS);
   }
 
   /**
@@ -596,7 +597,7 @@ public final class Monitor {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterWhenUninterruptibly(Guard guard, Duration time) {
-    return enterWhenUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
+    return enterWhenUninterruptibly(guard, toNanosSaturated(time), NANOSECONDS);
   }
 
   /**
@@ -620,7 +621,7 @@ public final class Monitor {
         startTime = initNanoTime(timeoutNanos);
         for (long remainingNanos = timeoutNanos; ; ) {
           try {
-            if (lock.tryLock(remainingNanos, TimeUnit.NANOSECONDS)) {
+            if (lock.tryLock(remainingNanos, NANOSECONDS)) {
               break;
             } else {
               return false;
@@ -697,7 +698,7 @@ public final class Monitor {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterIf(Guard guard, Duration time) {
-    return enterIf(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
+    return enterIf(guard, toNanosSaturated(time), NANOSECONDS);
   }
 
   /**
@@ -757,7 +758,7 @@ public final class Monitor {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean enterIfInterruptibly(Guard guard, Duration time) throws InterruptedException {
-    return enterIfInterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
+    return enterIfInterruptibly(guard, toNanosSaturated(time), NANOSECONDS);
   }
 
   /**
@@ -838,7 +839,7 @@ public final class Monitor {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean waitFor(Guard guard, Duration time) throws InterruptedException {
-    return waitFor(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
+    return waitFor(guard, toNanosSaturated(time), NANOSECONDS);
   }
 
   /**
@@ -884,7 +885,7 @@ public final class Monitor {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public boolean waitForUninterruptibly(Guard guard, Duration time) {
-    return waitForUninterruptibly(guard, toNanosSaturated(time), TimeUnit.NANOSECONDS);
+    return waitForUninterruptibly(guard, toNanosSaturated(time), NANOSECONDS);
   }
 
   /**

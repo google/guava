@@ -16,6 +16,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -273,7 +274,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
   @GwtIncompatible // ScheduledExecutorService
   public final FluentFuture<V> withTimeout(
       Duration timeout, ScheduledExecutorService scheduledExecutor) {
-    return withTimeout(toNanosSaturated(timeout), TimeUnit.NANOSECONDS, scheduledExecutor);
+    return withTimeout(toNanosSaturated(timeout), NANOSECONDS, scheduledExecutor);
   }
 
   /**

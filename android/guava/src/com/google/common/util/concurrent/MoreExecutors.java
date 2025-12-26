@@ -23,6 +23,8 @@ import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.Executors.defaultThreadFactory;
 import static java.util.concurrent.Executors.unconfigurableExecutorService;
 import static java.util.concurrent.Executors.unconfigurableScheduledExecutorService;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -88,8 +90,7 @@ public final class MoreExecutors {
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static ExecutorService getExitingExecutorService(
       ThreadPoolExecutor executor, Duration terminationTimeout) {
-    return getExitingExecutorService(
-        executor, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);
+    return getExitingExecutorService(executor, toNanosSaturated(terminationTimeout), NANOSECONDS);
   }
 
   /**
@@ -151,7 +152,7 @@ public final class MoreExecutors {
   public static ScheduledExecutorService getExitingScheduledExecutorService(
       ScheduledThreadPoolExecutor executor, Duration terminationTimeout) {
     return getExitingScheduledExecutorService(
-        executor, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);
+        executor, toNanosSaturated(terminationTimeout), NANOSECONDS);
   }
 
   /**
@@ -211,7 +212,7 @@ public final class MoreExecutors {
   @GwtIncompatible // java.time.Duration
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static void addDelayedShutdownHook(ExecutorService service, Duration terminationTimeout) {
-    addDelayedShutdownHook(service, toNanosSaturated(terminationTimeout), TimeUnit.NANOSECONDS);
+    addDelayedShutdownHook(service, toNanosSaturated(terminationTimeout), NANOSECONDS);
   }
 
   /**
@@ -248,7 +249,7 @@ public final class MoreExecutors {
     }
 
     final ExecutorService getExitingExecutorService(ThreadPoolExecutor executor) {
-      return getExitingExecutorService(executor, 120, TimeUnit.SECONDS);
+      return getExitingExecutorService(executor, 120, SECONDS);
     }
 
     final ScheduledExecutorService getExitingScheduledExecutorService(
@@ -261,7 +262,7 @@ public final class MoreExecutors {
 
     final ScheduledExecutorService getExitingScheduledExecutorService(
         ScheduledThreadPoolExecutor executor) {
-      return getExitingScheduledExecutorService(executor, 120, TimeUnit.SECONDS);
+      return getExitingScheduledExecutorService(executor, 120, SECONDS);
     }
 
     final void addDelayedShutdownHook(
@@ -696,8 +697,7 @@ public final class MoreExecutors {
       boolean timed,
       Duration timeout)
       throws InterruptedException, ExecutionException, TimeoutException {
-    return invokeAnyImpl(
-        executorService, tasks, timed, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return invokeAnyImpl(executorService, tasks, timed, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -754,7 +754,7 @@ public final class MoreExecutors {
           } else if (active == 0) {
             break;
           } else if (timed) {
-            f = futureQueue.poll(timeoutNanos, TimeUnit.NANOSECONDS);
+            f = futureQueue.poll(timeoutNanos, NANOSECONDS);
             if (f == null) {
               throw new TimeoutException();
             }
@@ -994,7 +994,7 @@ public final class MoreExecutors {
   @GwtIncompatible // java.time.Duration
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static boolean shutdownAndAwaitTermination(ExecutorService service, Duration timeout) {
-    return shutdownAndAwaitTermination(service, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return shutdownAndAwaitTermination(service, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -1035,11 +1035,11 @@ public final class MoreExecutors {
     service.shutdown();
     try {
       // Wait for half the duration of the timeout for existing tasks to terminate
-      if (!service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS)) {
+      if (!service.awaitTermination(halfTimeoutNanos, NANOSECONDS)) {
         // Cancel currently executing tasks
         service.shutdownNow();
         // Wait the other half of the timeout for tasks to respond to being cancelled
-        service.awaitTermination(halfTimeoutNanos, TimeUnit.NANOSECONDS);
+        service.awaitTermination(halfTimeoutNanos, NANOSECONDS);
       }
     } catch (InterruptedException ie) {
       // Preserve interrupt status

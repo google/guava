@@ -18,6 +18,7 @@ import static com.google.common.collect.Streams.findLast;
 import static com.google.common.collect.Streams.stream;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toCollection;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -34,7 +35,6 @@ import java.util.OptionalInt;
 import java.util.OptionalLong;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -94,7 +94,7 @@ public class StreamsTest extends TestCase {
     // test with a large, not-subsized Spliterator
     @SuppressWarnings("JdkObsolete")
     List<Integer> list =
-        IntStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
+        IntStream.rangeClosed(0, 10000).boxed().collect(toCollection(LinkedList::new));
     assertThat(findLast(list.stream())).hasValue(10000);
 
     // no way to find out the stream is empty without walking its spliterator
@@ -108,7 +108,7 @@ public class StreamsTest extends TestCase {
     // test with a large, not-subsized Spliterator
     @SuppressWarnings("JdkObsolete")
     List<Integer> list =
-        IntStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
+        IntStream.rangeClosed(0, 10000).boxed().collect(toCollection(LinkedList::new));
     assertThat(findLast(list.stream().mapToInt(i -> i))).isEqualTo(OptionalInt.of(10000));
 
     // no way to find out the stream is empty without walking its spliterator
@@ -123,7 +123,7 @@ public class StreamsTest extends TestCase {
     // test with a large, not-subsized Spliterator
     @SuppressWarnings("JdkObsolete")
     List<Long> list =
-        LongStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
+        LongStream.rangeClosed(0, 10000).boxed().collect(toCollection(LinkedList::new));
     assertThat(findLast(list.stream().mapToLong(i -> i))).isEqualTo(OptionalLong.of(10000));
 
     // no way to find out the stream is empty without walking its spliterator
@@ -138,7 +138,7 @@ public class StreamsTest extends TestCase {
     // test with a large, not-subsized Spliterator
     @SuppressWarnings("JdkObsolete")
     List<Long> list =
-        LongStream.rangeClosed(0, 10000).boxed().collect(Collectors.toCollection(LinkedList::new));
+        LongStream.rangeClosed(0, 10000).boxed().collect(toCollection(LinkedList::new));
     assertThat(findLast(list.stream().mapToDouble(i -> i))).isEqualTo(OptionalDouble.of(10000));
 
     // no way to find out the stream is empty without walking its spliterator

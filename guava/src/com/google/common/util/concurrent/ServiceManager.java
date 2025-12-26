@@ -31,6 +31,7 @@ import static com.google.common.util.concurrent.Service.State.STOPPING;
 import static com.google.common.util.concurrent.Service.State.TERMINATED;
 import static java.util.Collections.sort;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -312,7 +313,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public void awaitHealthy(Duration timeout) throws TimeoutException {
-    awaitHealthy(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    awaitHealthy(toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -364,7 +365,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    * @since 28.0 (but only since 33.4.0 in the Android flavor)
    */
   public void awaitStopped(Duration timeout) throws TimeoutException {
-    awaitStopped(toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    awaitStopped(toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**

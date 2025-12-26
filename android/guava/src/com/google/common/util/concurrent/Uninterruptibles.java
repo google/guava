@@ -82,7 +82,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static boolean awaitUninterruptibly(CountDownLatch latch, Duration timeout) {
-    return awaitUninterruptibly(latch, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return awaitUninterruptibly(latch, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -124,7 +124,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static boolean awaitUninterruptibly(Condition condition, Duration timeout) {
-    return awaitUninterruptibly(condition, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return awaitUninterruptibly(condition, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -188,7 +188,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static void joinUninterruptibly(Thread toJoin, Duration timeout) {
-    joinUninterruptibly(toJoin, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    joinUninterruptibly(toJoin, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -284,7 +284,7 @@ public final class Uninterruptibles {
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static <V extends @Nullable Object> V getUninterruptibly(
       Future<V> future, Duration timeout) throws ExecutionException, TimeoutException {
-    return getUninterruptibly(future, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return getUninterruptibly(future, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -391,7 +391,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static void sleepUninterruptibly(Duration sleepFor) {
-    sleepUninterruptibly(toNanosSaturated(sleepFor), TimeUnit.NANOSECONDS);
+    sleepUninterruptibly(toNanosSaturated(sleepFor), NANOSECONDS);
   }
 
   // TODO(user): Support Sleeper somehow (wrapper or interface method)?
@@ -431,7 +431,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static boolean tryAcquireUninterruptibly(Semaphore semaphore, Duration timeout) {
-    return tryAcquireUninterruptibly(semaphore, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return tryAcquireUninterruptibly(semaphore, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -459,8 +459,7 @@ public final class Uninterruptibles {
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static boolean tryAcquireUninterruptibly(
       Semaphore semaphore, int permits, Duration timeout) {
-    return tryAcquireUninterruptibly(
-        semaphore, permits, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return tryAcquireUninterruptibly(semaphore, permits, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**
@@ -505,7 +504,7 @@ public final class Uninterruptibles {
   @GwtIncompatible // concurrency
   @IgnoreJRERequirement // Users will use this only if they're already using Duration.
   public static boolean tryLockUninterruptibly(Lock lock, Duration timeout) {
-    return tryLockUninterruptibly(lock, toNanosSaturated(timeout), TimeUnit.NANOSECONDS);
+    return tryLockUninterruptibly(lock, toNanosSaturated(timeout), NANOSECONDS);
   }
 
   /**

@@ -18,6 +18,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
+import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.base.CaseFormat;
 import com.google.common.collect.ImmutableList;
@@ -514,12 +515,11 @@ public class GeneratedMonitorTest extends TestCase {
         (expectedOutcome == Outcome.HANG)
             ? EXPECTED_HANG_DELAY_MILLIS
             : UNEXPECTED_HANG_DELAY_MILLIS;
-    boolean hung =
-        !awaitUninterruptibly(callCompletedLatch, hangDelayMillis, TimeUnit.MILLISECONDS);
+    boolean hung = !awaitUninterruptibly(callCompletedLatch, hangDelayMillis, MILLISECONDS);
     if (hung) {
       assertEquals(expectedOutcome, Outcome.HANG);
     } else {
-      assertThat(task.get(UNEXPECTED_HANG_DELAY_MILLIS, TimeUnit.MILLISECONDS)).isNull();
+      assertThat(task.get(UNEXPECTED_HANG_DELAY_MILLIS, MILLISECONDS)).isNull();
     }
   }
 
@@ -540,7 +540,7 @@ public class GeneratedMonitorTest extends TestCase {
     tearDownLatch.countDown();
     assertTrue(
         "Monitor still occupied in tearDown()",
-        monitor.enter(UNEXPECTED_HANG_DELAY_MILLIS, TimeUnit.MILLISECONDS));
+        monitor.enter(UNEXPECTED_HANG_DELAY_MILLIS, MILLISECONDS));
     try {
       guard.setSatisfied(true);
     } finally {
@@ -656,7 +656,7 @@ public class GeneratedMonitorTest extends TestCase {
     }
     if (isLongTimeUnitBased(method)) {
       arguments.add(timeout.millis);
-      arguments.add(TimeUnit.MILLISECONDS);
+      arguments.add(MILLISECONDS);
     }
     if (isDurationBased(method)) {
       arguments.add(Duration.ofMillis(timeout.millis));
@@ -757,7 +757,7 @@ public class GeneratedMonitorTest extends TestCase {
         }
         if (isLongTimeUnitBased(method)) {
           arguments.add(0L);
-          arguments.add(TimeUnit.MILLISECONDS);
+          arguments.add(MILLISECONDS);
         }
         boolean occupyMonitor = isWaitFor(method);
         if (occupyMonitor) {
@@ -802,7 +802,7 @@ public class GeneratedMonitorTest extends TestCase {
         }
         if (isLongTimeUnitBased(method)) {
           arguments.add(0L);
-          arguments.add(TimeUnit.MILLISECONDS);
+          arguments.add(MILLISECONDS);
         }
         try {
           method.invoke(monitor, arguments.toArray());
