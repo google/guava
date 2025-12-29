@@ -1,8 +1,0 @@
-OK: com.google.common.collect.BinaryTreeTraverser Class
-OK: com.google.common.base.Predicates Method assignableFrom(java.lang.Class<?>)
-OK: com.google.common.util.concurrent.Futures Method dereference(com.google.common.util.concurrent.ListenableFuture<? extends com.google.common.util.concurrent.ListenableFuture<? extends V>>)
-MISSING @SINCE TAG: com.google.common.graph.Graphs Method equivalent(com.google.common.graph.Graph<?>, com.google.common.graph.Graph<?>)
-MISSING @SINCE TAG: com.google.common.graph.Graphs Method equivalent(com.google.common.graph.Network<?, ?>, com.google.common.graph.Network<?, ?>)
-MISSING @SINCE TAG: com.google.common.graph.Graphs Method equivalent(com.google.common.graph.ValueGraph<?, ?>, com.google.common.graph.ValueGraph<?, ?>)
-OK: com.google.common.io.Files Method fileTreeTraverser()
-OK: com.google.common.util.concurrent.MoreExecutors Method sequentialExecutor(java.util.concurrent.Executor)

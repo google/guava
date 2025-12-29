@@ -1,5 +1,0 @@
-OK: com.google.common.graph.Traverser Method breadthFirst(java.lang.Iterable<? extends N>)
-OK: com.google.common.graph.Traverser Method depthFirstPostOrder(java.lang.Iterable<? extends N>)
-OK: com.google.common.graph.Traverser Method depthFirstPreOrder(java.lang.Iterable<? extends N>)
-OK: com.google.common.net.MediaType Field L16_AUDIO
-OK: com.google.common.net.HttpHeaders Field X_DOWNLOAD_OPTIONS

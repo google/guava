@@ -325,6 +325,13 @@ move_generated_files() {
     clean_directory_move "$TEMPDIR/$flavor/androiddiffs" "$releasedir/api/androiddiffs"
     echo " Done."
   fi
+
+  if [[ "$RELEASE" != "snapshot" ]]; then
+    echo -n "Archiving $releasedir to a tarball..."
+    tar -czf "$releasedir.tar.gz" -C "$(dirname "$releasedir")" "$(basename "$releasedir")"
+    rm -rf "$releasedir"
+    echo " Done."
+  fi
 }
 
 # Commits the generated Javadoc and JDiff to git.

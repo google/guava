@@ -1,7 +1,0 @@
-OK: com.google.common.net.InternetDomainName Method hasRegistrySuffix()
-OK: com.google.common.net.InternetDomainName Method isRegistrySuffix()
-OK: com.google.common.net.InternetDomainName Method isTopDomainUnderRegistrySuffix()
-OK: com.google.common.net.InternetDomainName Method isUnderRegistrySuffix()
-OK: com.google.common.util.concurrent.MoreExecutors Method newSequentialExecutor(java.util.concurrent.Executor)
-OK: com.google.common.net.InternetDomainName Method registrySuffix()
-OK: com.google.common.net.InternetDomainName Method topDomainUnderRegistrySuffix()

@@ -1,2 +1,0 @@
-OK: com.google.common.net.HttpHeaders.ReferrerPolicyValues Class
-OK: com.google.common.net.HttpHeaders Field REFERRER_POLICY

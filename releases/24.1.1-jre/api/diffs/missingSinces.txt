@@ -1,2 +1,0 @@
-MISSING @SINCE TAG: com.google.common.io.MoreFiles Method directoryTreeTraverser()
-OK: com.google.common.io.Files Method fileTreeTraverser()

@@ -1,3 +1,0 @@
-OK: com.google.common.util.concurrent.Uninterruptibles Method awaitUninterruptibly(java.util.concurrent.locks.Condition, long, java.util.concurrent.TimeUnit)
-OK: com.google.common.util.concurrent.Futures.FutureCombiner Method run(java.lang.Runnable, java.util.concurrent.Executor)
-OK: com.google.common.net.HttpHeaders Field SERVER_TIMING

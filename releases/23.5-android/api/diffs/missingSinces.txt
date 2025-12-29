@@ -1,2 +1,0 @@
-OK: com.google.common.io.Files Method fileTraverser()
-OK: com.google.common.collect.ImmutableMap Method getOrDefault(java.lang.Object, V)

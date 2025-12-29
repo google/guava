@@ -1,6 +1,0 @@
-NO DOC BLOCK: com.google.common.collect.ImmutableSet Method asList()
-NO DOC BLOCK: com.google.common.collect.HashBiMap Method entrySet()
-NO DOC BLOCK: com.google.common.reflect.MutableTypeToInstanceMap Method putInstance(com.google.common.reflect.TypeToken<T>, T extends B)
-NO DOC BLOCK: com.google.common.reflect.MutableTypeToInstanceMap Method putInstance(java.lang.Class<T>, T extends B)
-MISSING @SINCE TAG: com.google.common.reflect.TypeToInstanceMap Method putInstance(com.google.common.reflect.TypeToken<T>, T extends B)
-MISSING @SINCE TAG: com.google.common.reflect.TypeToInstanceMap Method putInstance(java.lang.Class<T>, T extends B)

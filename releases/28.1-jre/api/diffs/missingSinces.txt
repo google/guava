@@ -1,6 +1,0 @@
-MISSING @SINCE TAG: com.google.common.collect.ImmutableRangeMap Method merge(com.google.common.collect.Range<K>, V, java.util.function.BiFunction<? super V, ? super V, ? extends V>)
-OK: com.google.common.collect.RangeMap Method merge(com.google.common.collect.Range<K>, V, java.util.function.BiFunction<? super V, ? super V, ? extends V>)
-NO DOC BLOCK: com.google.common.collect.TreeRangeMap Method merge(com.google.common.collect.Range<K>, V, java.util.function.BiFunction<? super V, ? super V, ? extends V>)
-OK: com.google.common.net.MediaType Field HEIF
-OK: com.google.common.net.MediaType Field JP2K
-OK: com.google.common.net.HttpHeaders Field UPGRADE_INSECURE_REQUESTS
