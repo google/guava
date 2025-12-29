@@ -79,7 +79,8 @@ final class Platform {
     return stringIsNullOrEmpty(string) ? null : string;
   }
 
-  static String lenientFormat(@Nullable String template, @Nullable Object @Nullable ... args) {
+  static String lenientFormat(
+      @Nullable String template, @Nullable Object @Nullable ... args) {
     return Strings.lenientFormat(template, args);
   }
 

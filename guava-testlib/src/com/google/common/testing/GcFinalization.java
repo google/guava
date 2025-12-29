@@ -22,6 +22,7 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.DoNotMock;
+import com.google.errorprone.annotations.FormatMethod;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.ref.WeakReference;
 import java.util.Locale;
@@ -316,6 +317,7 @@ public final class GcFinalization {
     System.runFinalization();
   }
 
+  @FormatMethod
   private static RuntimeException formatRuntimeException(String format, Object... args) {
     return new RuntimeException(String.format(Locale.ROOT, format, args));
   }

@@ -22,6 +22,7 @@ import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDAT
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
+import com.google.errorprone.annotations.FormatMethod;
 import java.lang.reflect.Method;
 import java.math.BigInteger;
 import junit.framework.TestCase;
@@ -76,6 +77,7 @@ public class DoubleUtilsTest extends TestCase {
     assertEquals(DoubleUtils.ONE_BITS, Double.doubleToRawLongBits(1.0));
   }
 
+  @FormatMethod
   private static void failFormat(String template, Object... args) {
     fail(String.format(template, args));
   }

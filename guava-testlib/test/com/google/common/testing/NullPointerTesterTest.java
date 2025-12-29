@@ -39,6 +39,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.anotherpackage.SomeClassThatDoesNotUseNullable;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.FormatMethod;
 import com.google.errorprone.annotations.Keep;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
@@ -1477,6 +1478,7 @@ public class NullPointerTesterTest extends TestCase {
     assertThat(expected).hasMessageThat().contains("inner class");
   }
 
+  @FormatMethod
   private static String rootLocaleFormat(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
   }

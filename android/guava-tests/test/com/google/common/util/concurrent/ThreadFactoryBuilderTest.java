@@ -21,6 +21,7 @@ import static java.util.concurrent.Executors.defaultThreadFactory;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.testing.NullPointerTester;
+import com.google.errorprone.annotations.FormatMethod;
 import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Locale;
 import java.util.concurrent.ThreadFactory;
@@ -180,6 +181,8 @@ public class ThreadFactoryBuilderTest extends TestCase {
     boolean THREAD_DAEMON = false;
     ThreadFactory backingThreadFactory =
         new ThreadFactory() {
+          // We need to test that we don't override the value set by the factory.
+          @SuppressWarnings("ThreadPriorityCheck")
           @Override
           public Thread newThread(Runnable r) {
             Thread thread = new Thread(r);
@@ -213,6 +216,7 @@ public class ThreadFactoryBuilderTest extends TestCase {
     npTester.testAllPublicInstanceMethods(builder);
   }
 
+  @FormatMethod
   private static String rootLocaleFormat(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
   }

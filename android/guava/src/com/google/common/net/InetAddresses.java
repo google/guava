@@ -27,6 +27,7 @@ import com.google.common.hash.Hashing;
 import com.google.common.io.ByteStreams;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.FormatMethod;
 import java.math.BigInteger;
 import java.net.Inet4Address;
 import java.net.Inet6Address;
@@ -1231,6 +1232,7 @@ public final class InetAddresses {
     return true;
   }
 
+  @FormatMethod
   private static IllegalArgumentException formatIllegalArgumentException(
       String format, Object... args) {
     return new IllegalArgumentException(String.format(Locale.ROOT, format, args));

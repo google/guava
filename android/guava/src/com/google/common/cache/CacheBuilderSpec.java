@@ -28,6 +28,7 @@ import com.google.common.base.Splitter;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.errorprone.annotations.FormatMethod;
 import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
@@ -486,6 +487,7 @@ public final class CacheBuilderSpec {
     }
   }
 
+  @FormatMethod
   private static String format(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
   }

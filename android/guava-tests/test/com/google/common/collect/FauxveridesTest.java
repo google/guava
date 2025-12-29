@@ -25,6 +25,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
 import com.google.common.base.Joiner;
+import com.google.errorprone.annotations.FormatMethod;
 import java.lang.reflect.Method;
 import java.lang.reflect.Type;
 import java.lang.reflect.TypeVariable;
@@ -289,6 +290,7 @@ public class FauxveridesTest extends TestCase {
         }
       };
 
+  @FormatMethod
   private static String rootLocaleFormat(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
   }

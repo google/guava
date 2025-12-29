@@ -217,6 +217,8 @@ public final class ThreadFactoryBuilder {
     };
   }
 
+  // weird case in which users pass the format string but not the associated arguments
+  @SuppressWarnings("AnnotateFormatMethod")
   private static String format(String format, Object... args) {
     return String.format(Locale.ROOT, format, args);
   }

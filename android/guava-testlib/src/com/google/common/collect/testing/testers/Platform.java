@@ -17,6 +17,7 @@
 package com.google.common.collect.testing.testers;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.errorprone.annotations.FormatMethod;
 import java.util.Locale;
 
 /**
@@ -28,6 +29,7 @@ import java.util.Locale;
 final class Platform {
 
   /** Format the template with args, only supports the placeholder {@code %s}. */
+  @FormatMethod
   static String format(String template, Object... args) {
     return String.format(Locale.ROOT, template, args);
   }
