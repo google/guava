@@ -650,6 +650,7 @@ public class CacheLoadingTest extends TestCase {
             return one;
           }
 
+          @SuppressWarnings("CacheLoaderNull") // test of broken user implementation
           @Override
           public ListenableFuture<Object> reload(Object key, Object oldValue) {
             return null;
@@ -823,6 +824,7 @@ public class CacheLoadingTest extends TestCase {
                     throw new AssertionError();
                   }
 
+                  @SuppressWarnings("CacheLoaderNull") // test of broken user implementation
                   @Override
                   public Map<Object, Object> loadAll(Iterable<?> keys) {
                     return null;
