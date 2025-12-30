@@ -113,6 +113,8 @@
     <otherVariant.version>999.0.0-HEAD-android-SNAPSHOT</otherVariant.version>
     <otherVariant.jvmEnvironment>android</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>android</otherVariant.jvmEnvironmentVariantName>
+
+    <sonar.organization>cosmoewanda</sonar.organization>
   </properties>
   <dependencyManagement>
     <dependencies>
