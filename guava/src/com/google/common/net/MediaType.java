@@ -808,6 +808,14 @@ public final class MediaType {
    */
   public static final MediaType FONT_WOFF2 = createConstant(FONT_TYPE, "woff2");
 
+  /**
+   * Media type for the <a href="https://yaml.org">YAML Format</a>, as standardized in <a
+   * href="https://www.rfc-editor.org/info/rfc9512">RFC 9512</a> in February 2024.
+   *
+   * @since 33.6
+   */
+  public static final MediaType YAML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "yaml");
+
   private final String type;
   private final String subtype;
   private final ImmutableListMultimap<String, String> parameters;
