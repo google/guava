@@ -240,7 +240,7 @@ function latest_release {
   else
     local ceiling="${SNAPSHOT_CEILING}"
   fi
-  local non_rc_releases="$(ls releases | grep -v "rc" | grep -v "snapshot")"
+  local non_rc_releases="$(ls releases | grep -v "rc" | grep -v "snapshot" | sed -e "s/[.]tar[.]gz//")"
 
   if [[ "$ceiling" =~ ^.+-android(-SNAPSHOT)?$ ]]; then
     # If the release we're looking at is an android release, only look at other
