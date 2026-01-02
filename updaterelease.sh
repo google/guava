@@ -223,7 +223,7 @@ jdiff() {
   rm $output_dir/user_comments_for_Guava_*
   # Change changes.html to index.html, making the url for a diff just releases/<release>/api/diffs/
   mv "$output_dir/changes.html" "$output_dir/index.html"
-  # Change references to ../changes.html in the changes/ subdirectory  to reference the new URL (just ..)
+  # Change references to ../changes.html in the changes/ subdirectory to reference the new URL (just ..)
   find "$output_dir/changes" -name "*.html" -exec "$SED" -i -re 's#\.\./changes.html#..#g' {} ";"
 
   remove_unnecessary_comments "$output_dir/index.html"
@@ -258,7 +258,10 @@ jdiff_vs_previous_release() {
     echo "$prev_release"
   fi
 
+  local prev_jdiff_xml="${prev_release}/api/diffs/${prev_release}.xml"
+  tar -C releases -zxf "releases/${prev_release}.tar.gz" "${prev_jdiff_xml}"
   jdiff "$TEMPDIR/$flavor" "$prev_release" "diffs"
+  rm "releases/${prev_jdiff_xml}"
 }
 
 # Generates the JDiff report comparing the current android version to the
