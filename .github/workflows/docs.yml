@@ -28,7 +28,8 @@ jobs:
             tar -xzf "$file"
             rm "$file"
           done
-          chmod -R a+rx .
+          chmod -R a+rwx .
+          find . -name src-html -type d -prune -print0 | xargs -0 rm -rf
 
       - name: Setup Pages
         uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
