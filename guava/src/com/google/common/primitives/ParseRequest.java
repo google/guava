@@ -28,7 +28,7 @@ final class ParseRequest {
   }
 
   static ParseRequest fromString(String stringValue) {
-    if (stringValue.length() == 0) {
+    if (stringValue.isEmpty()) {
       throw new NumberFormatException("empty string");
     }
 
