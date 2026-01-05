@@ -732,7 +732,7 @@ public final class Files {
    */
   public static String simplifyPath(String pathname) {
     checkNotNull(pathname);
-    if (pathname.length() == 0) {
+    if (pathname.isEmpty()) {
       return ".";
     }
 

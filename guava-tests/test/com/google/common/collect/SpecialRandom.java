@@ -30,7 +30,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public final class SpecialRandom extends Random {
   public static SpecialRandom valueOf(String s) {
-    return (s.length() == 0) ? new SpecialRandom() : new SpecialRandom(Long.parseLong(s));
+    return s.isEmpty() ? new SpecialRandom() : new SpecialRandom(Long.parseLong(s));
   }
 
   private final boolean hasSeed;
