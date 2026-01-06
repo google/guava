@@ -282,7 +282,7 @@ public class ContiguousSetTest extends TestCase {
     assertFalse(set.contains(4));
   }
 
-  // TODO: https://youtrack.jetbrains.com/issue/KT-71001/ - Enable when Kotlin throws expected CCE.
+  // TODO: user - Enable when Kotlin throws expected CCE.
   @J2ktIncompatible
   public void testContains_typeMismatch() {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.open(0, 4), integers());
@@ -299,7 +299,7 @@ public class ContiguousSetTest extends TestCase {
     }
   }
 
-  // TODO: https://youtrack.jetbrains.com/issue/KT-71001/ - Enable when Kotlin throws expected CCE.
+  // TODO: user - Enable when Kotlin throws expected CCE.
   @J2ktIncompatible
   public void testContainsAll_typeMismatch() {
     ImmutableSortedSet<Integer> set = ContiguousSet.create(Range.closed(1, 3), integers());

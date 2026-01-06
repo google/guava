@@ -29,3 +29,13 @@ updates:
         applies-to: version-updates
         patterns:
           - "*"
+  - package-ecosystem: "github-actions"
+    target-branch: "gh-pages"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    groups:
+      github-actions:
+        applies-to: version-updates
+        patterns:
+          - "*"
