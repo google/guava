@@ -526,7 +526,7 @@ public final class MoreExecutors {
     }
 
     /*
-     * TODO: user - In addition to overriding `execute`, also
+     * TODO: https://github.com/google/guava/issues/2143 - In addition to overriding `execute`, also
      * override the `Future`-returning methods of `ExecutorService` to propagate cancellation from
      * our `TrustedListenableFutureTask` to a `Future` returned by the delegate executor?
      */

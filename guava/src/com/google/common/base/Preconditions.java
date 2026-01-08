@@ -458,7 +458,7 @@ public final class Preconditions {
    */
   public static void checkArgument(
       boolean expression,
-      // TODO: user - Make errorMessageTemplate consistently @Nullable across overloads.
+      // TODO: cl/604933487 - Make errorMessageTemplate consistently @Nullable across overloads.
       @Nullable String errorMessageTemplate,
       @Nullable Object p1,
       @Nullable Object p2) {

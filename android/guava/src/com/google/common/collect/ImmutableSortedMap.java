@@ -66,6 +66,25 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   /**
    * Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
    * keys and values are the result of applying the provided mapping functions to the input
+   * elements. The generated map is sorted by the natural ordering of the keys.
+   *
+   * <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
+   * the collection operation is performed. (This differs from the {@code Collector} returned by
+   * {@link Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
+   *
+   * @since NEXT
+   */
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object, K extends Comparable<? super K>, V>
+      Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction) {
+    return CollectCollectors.toImmutableSortedMap(Ordering.natural(), keyFunction, valueFunction);
+  }
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
+   * keys and values are the result of applying the provided mapping functions to the input
    * elements. The generated map is sorted by the specified comparator.
    *
    * <p>If the mapped keys contain duplicates (according to the specified comparator), an {@code
@@ -89,9 +108,28 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
    * keys and values are the result of applying the provided mapping functions to the input
    * elements.
    *
+   * <p>If the mapped keys contain duplicates, the values are merged using the specified merging
+   * function.
+   *
+   * @since NEXT
+   */
+  @IgnoreJRERequirement // Users will use this only if they're already using streams.
+  public static <T extends @Nullable Object, K extends Comparable<? super K>, V>
+      Collector<T, ?, ImmutableSortedMap<K, V>> toImmutableSortedMap(
+          Function<? super T, ? extends K> keyFunction,
+          Function<? super T, ? extends V> valueFunction,
+          BinaryOperator<V> mergeFunction) {
+    return CollectCollectors.toImmutableSortedMap(
+        Ordering.natural(), keyFunction, valueFunction, mergeFunction);
+  }
+
+  /**
+   * Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
+   * keys and values are the result of applying the provided mapping functions to the input
+   * elements.
+   *
    * <p>If the mapped keys contain duplicates (according to the comparator), the values are merged
-   * using the specified merging function. Entries will appear in the encounter order of the first
-   * occurrence of the key.
+   * using the specified merging function.
    *
    * @since 33.2.0 (available since 21.0 in guava-jre)
    */
