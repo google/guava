@@ -21930,6 +21930,24 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
+ keys and values are the result of applying the provided mapping functions to the input
+ elements. The generated map is sorted by the natural ordering of the keys.
+
+ <p>If the mapped keys contain duplicates, an {@code IllegalArgumentException} is thrown when
+ the collection operation is performed. (This differs from the {@code Collector} returned by
+ {@link Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="toImmutableSortedMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="comparator" type="java.util.Comparator&lt;? super K&gt;"/>
       <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
       <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
@@ -21950,6 +21968,24 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
+      <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
+      <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
+      <param name="mergeFunction" type="java.util.function.BinaryOperator&lt;V&gt;"/>
+      <doc>
+      <![CDATA[Returns a {@link Collector} that accumulates elements into an {@code ImmutableSortedMap} whose
+ keys and values are the result of applying the provided mapping functions to the input
+ elements.
+
+ <p>If the mapped keys contain duplicates, the values are merged using the specified merging
+ function.
+
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="toImmutableSortedMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
       <param name="comparator" type="java.util.Comparator&lt;? super K&gt;"/>
       <param name="keyFunction" type="java.util.function.Function&lt;? super T, ? extends K&gt;"/>
       <param name="valueFunction" type="java.util.function.Function&lt;? super T, ? extends V&gt;"/>
@@ -21960,8 +21996,7 @@
  elements.
 
  <p>If the mapped keys contain duplicates (according to the comparator), the values are merged
- using the specified merging function. Entries will appear in the encounter order of the first
- occurrence of the key.
+ using the specified merging function.
 
  @since 33.2.0 (available since 21.0 in guava-jre)]]>
       </doc>

@@ -536,6 +536,23 @@ elements.</div>
 keys and values are the result of applying the provided mapping functions to the input
 elements.</div>
 </div>
+<div class="col-first even-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>, K extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;? super K&gt;, V&gt;<br><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T, ?, <a href="../ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,<wbr>V&gt;&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">ImmutableSortedMap.</span><code><a href="../ImmutableSortedMap.html#toImmutableSortedMap(java.util.function.Function,java.util.function.Function)" class="member-name-link">toImmutableSortedMap</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;? super T, ? extends K&gt;&nbsp;keyFunction,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;? super T, ? extends V&gt;&nbsp;valueFunction)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link"><code>Collector</code></a> that accumulates elements into an <code>ImmutableSortedMap</code> whose
+keys and values are the result of applying the provided mapping functions to the input
+elements.</div>
+</div>
+<div class="col-first odd-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>, K extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Comparable.html" title="class or interface in java.lang" class="external-link">Comparable</a>&lt;? super K&gt;, V&gt;<br><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T, ?, <a href="../ImmutableSortedMap.html" title="class in com.google.common.collect">ImmutableSortedMap</a>&lt;K,<wbr>V&gt;&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">ImmutableSortedMap.</span><code><a href="../ImmutableSortedMap.html#toImmutableSortedMap(java.util.function.Function,java.util.function.Function,java.util.function.BinaryOperator)" class="member-name-link">toImmutableSortedMap</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;? super T, ? extends K&gt;&nbsp;keyFunction,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/Function.html" title="class or interface in java.util.function" class="external-link">Function</a>&lt;? super T, ? extends V&gt;&nbsp;valueFunction,
+ <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/function/BinaryOperator.html" title="class or interface in java.util.function" class="external-link">BinaryOperator</a>&lt;V&gt;&nbsp;mergeFunction)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Returns a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/stream/Collector.html" title="class or interface in java.util.stream" class="external-link"><code>Collector</code></a> that accumulates elements into an <code>ImmutableSortedMap</code> whose
+keys and values are the result of applying the provided mapping functions to the input
+elements.</div>
+</div>
 </div>
 </section>
 </li>

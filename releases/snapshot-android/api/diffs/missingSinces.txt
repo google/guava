@@ -1,2 +1,4 @@
 OK: com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy Class
+OK: com.google.common.collect.ImmutableSortedMap Method toImmutableSortedMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends V>)
+OK: com.google.common.collect.ImmutableSortedMap Method toImmutableSortedMap(java.util.function.Function<? super T, ? extends K>, java.util.function.Function<? super T, ? extends V>, java.util.function.BinaryOperator<V>)
 OK: com.google.common.graph.Graphs Method transitiveClosure(com.google.common.graph.Graph<N>, com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy)
