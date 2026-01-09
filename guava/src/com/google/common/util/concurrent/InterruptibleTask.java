@@ -92,9 +92,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
     }
   }
 
-  @SuppressWarnings(
-    "Interruption" // We are restoring an interrupt on this thread.
-  )
+  @SuppressWarnings("Interruption") // We are restoring an interrupt on this thread.
   private void waitForInterrupt(Thread currentThread) {
     /*
      * If someone called cancel(true), it is possible that the interrupted bit hasn't been set yet.

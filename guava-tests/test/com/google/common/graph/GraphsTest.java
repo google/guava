@@ -95,8 +95,8 @@ public class GraphsTest {
     expectedClosure.putEdge(N2, N3);
     expectedClosure.addNode(N4);
 
-    assertThat(
-        transitiveClosure(directedGraph, ADD_SELF_LOOPS_FOR_CYCLES)).isEqualTo(expectedClosure);
+    assertThat(transitiveClosure(directedGraph, ADD_SELF_LOOPS_FOR_CYCLES))
+        .isEqualTo(expectedClosure);
   }
 
   @Test
@@ -117,8 +117,8 @@ public class GraphsTest {
     expectedClosure.putEdge(N3, N3);
     expectedClosure.putEdge(N4, N4);
 
-    assertThat(
-      transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_ALWAYS)).isEqualTo(expectedClosure);
+    assertThat(transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_ALWAYS))
+        .isEqualTo(expectedClosure);
   }
 
   @Test
@@ -139,8 +139,8 @@ public class GraphsTest {
     expectedClosure.putEdge(N3, N3);
     expectedClosure.addNode(N4); // N4 is isolated => no incident edges in this transitive closure
 
-    assertThat(
-      transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_FOR_CYCLES)).isEqualTo(expectedClosure);
+    assertThat(transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_FOR_CYCLES))
+        .isEqualTo(expectedClosure);
   }
 
   @Test
@@ -180,8 +180,8 @@ public class GraphsTest {
     expectedClosure.putEdge(N2, N4);
     expectedClosure.putEdge(N3, N4);
 
-    assertThat(
-        transitiveClosure(directedGraph, ADD_SELF_LOOPS_FOR_CYCLES)).isEqualTo(expectedClosure);
+    assertThat(transitiveClosure(directedGraph, ADD_SELF_LOOPS_FOR_CYCLES))
+        .isEqualTo(expectedClosure);
   }
 
   @Test
@@ -204,8 +204,8 @@ public class GraphsTest {
     expectedClosure.putEdge(N3, N4);
     expectedClosure.putEdge(N4, N4);
 
-    assertThat(
-      transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_ALWAYS)).isEqualTo(expectedClosure);
+    assertThat(transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_ALWAYS))
+        .isEqualTo(expectedClosure);
   }
 
   @Test
@@ -228,8 +228,8 @@ public class GraphsTest {
     expectedClosure.putEdge(N3, N4);
     expectedClosure.putEdge(N4, N4);
 
-    assertThat(
-      transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_FOR_CYCLES)).isEqualTo(expectedClosure);
+    assertThat(transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_FOR_CYCLES))
+        .isEqualTo(expectedClosure);
   }
 
   @Test
@@ -287,8 +287,8 @@ public class GraphsTest {
     expectedClosure.putEdge(N4, N3);
     expectedClosure.putEdge(N4, N4);
 
-    assertThat(
-        transitiveClosure(directedGraph, ADD_SELF_LOOPS_FOR_CYCLES)).isEqualTo(expectedClosure);
+    assertThat(transitiveClosure(directedGraph, ADD_SELF_LOOPS_FOR_CYCLES))
+        .isEqualTo(expectedClosure);
   }
 
   @Test
@@ -312,8 +312,8 @@ public class GraphsTest {
     expectedClosure.putEdge(N3, N4);
     expectedClosure.putEdge(N4, N4);
 
-    assertThat(
-      transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_ALWAYS)).isEqualTo(expectedClosure);
+    assertThat(transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_ALWAYS))
+        .isEqualTo(expectedClosure);
   }
 
   @Test
@@ -337,8 +337,8 @@ public class GraphsTest {
     expectedClosure.putEdge(N3, N4);
     expectedClosure.putEdge(N4, N4);
 
-    assertThat(
-        transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_FOR_CYCLES)).isEqualTo(expectedClosure);
+    assertThat(transitiveClosure(undirectedGraph, ADD_SELF_LOOPS_FOR_CYCLES))
+        .isEqualTo(expectedClosure);
   }
 
   @Test

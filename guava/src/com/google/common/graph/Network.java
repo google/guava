@@ -225,7 +225,7 @@ public interface Network<N, E> extends ArchetypeGraph<N> {
    *
    * @throws IllegalArgumentException if {@code node} is not an element of this network
    */
-   @Override
+  @Override
   int degree(N node);
 
   /**
@@ -416,7 +416,7 @@ public interface Network<N, E> extends ArchetypeGraph<N> {
    *
    * @since 27.1
    */
-   @Override
+  @Override
   boolean hasEdgeConnecting(EndpointPair<N> endpoints);
 
   //

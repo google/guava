@@ -14,7 +14,6 @@
 
 package com.google.thirdparty.publicsuffix;
 
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
