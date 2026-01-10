@@ -164,8 +164,7 @@ public class FakeTickerTest extends TestCase {
   @GwtIncompatible // concurrency
   private void runConcurrentTest(int numberOfThreads, Callable<@Nullable Void> callable)
           throws Exception {
-    ExecutorService executorService = newFixedThreadPool(numberOfThreads);
-    try { //   1.  <---try
+    try (ExecutorService executorService = newFixedThreadPool(numberOfThreads)) {
       CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
       CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
       for (int i = numberOfThreads; i > 0; i--) {
@@ -184,8 +183,6 @@ public class FakeTickerTest extends TestCase {
                         });
       }
       doneLatch.await();
-    } finally {     // 2.  <---finally
-      executorService.shutdown();
     }
   }
 }
