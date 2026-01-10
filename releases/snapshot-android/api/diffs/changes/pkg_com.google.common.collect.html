@@ -18,7 +18,7 @@ com.google.common.collect
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 999.0.0-HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava </tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>
@@ -49,9 +49,104 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
 </H2>
 <p>
 <a NAME="Changed"></a>
-<TABLE summary="Changed Classes" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
+<TABLE summary="Changed Classes and Interfaces" BORDER="1" CELLPADDING="3" CELLSPACING="0" WIDTH="100%">
 <TR BGCOLOR="#CCCCFF" CLASS="TableHeadingColor">
-  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes</B></FONT></TD>
+  <TD VALIGN="TOP" COLSPAN=2><FONT SIZE="+1"><B>Changed Classes and Interfaces</B></FONT></TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="EnumMultiset"></A>
+  <nobr><A HREF="com.google.common.collect.EnumMultiset.html">EnumMultiset</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">Multiset implementation specialized for enum elements, supporting all single-element operations
+ in O(1).</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="FluentIterable"></A>
+  <nobr><A HREF="com.google.common.collect.FluentIterable.html">FluentIterable</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An expanded {@code Iterable} API, providing functionality similar to Java 8's powerful <a href=
+ "https://docs.oracle.com/javase/8/docs/api/java/util/stream/package-summary.html#package.description"
+ >streams library</a> in a slightly different way.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ForwardingNavigableMap.StandardDescendingMap"></A>
+  <nobr><A HREF="com.google.common.collect.ForwardingNavigableMap.StandardDescendingMap.html">ForwardingNavigableMap.<br>StandardDescendingMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A sensible implementation of <A HREF="../../docs/com/google/common/collect/ForwardingNavigableMap/StandardDescendingMap/NavigableMap.html#descendingMap"><TT>NavigableMap.descendingMap</TT></A> in terms of the methods of this
+ {@code NavigableMap}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="HashBiMap"></A>
+  <nobr><A HREF="com.google.common.collect.HashBiMap.html">HashBiMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/HashBiMap/BiMap.html"><TT>BiMap</TT></A> backed by two hash tables.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableCollection"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableCollection.html">ImmutableCollection</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableCollection/Collection.html"><TT>Collection</TT></A> whose contents will never change, and which offers a few additional
+ guarantees detailed below.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableList"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableList.html">ImmutableList</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableList/List.html"><TT>List</TT></A> whose contents will never change, with many other important properties detailed at
+ <A HREF="../../docs/com/google/common/collect/ImmutableList/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableList.Builder"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableList.Builder.html">ImmutableList.Builder</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A builder for creating immutable list instances, especially {@code public static final} lists
+ ("constant lists").</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableMap"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableMap.html">ImmutableMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableMap/Map.html"><TT>Map</TT></A> whose contents will never change, with many other important properties detailed at
+ <A HREF="../../docs/com/google/common/collect/ImmutableMap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableMultimap"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableMultimap.html">ImmutableMultimap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableMultimap/Multimap.html"><TT>Multimap</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableMultimap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableRangeMap"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableRangeMap.html">ImmutableRangeMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableRangeMap/RangeMap.html"><TT>RangeMap</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableRangeMap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableSet"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableSet.html">ImmutableSet</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableSet/Set.html"><TT>Set</TT></A> whose contents will never change, with many other important properties detailed at
+ <A HREF="../../docs/com/google/common/collect/ImmutableSet/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableSet.Builder"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableSet.Builder.html">ImmutableSet.Builder</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A builder for creating {@code ImmutableSet} instances.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
@@ -60,6 +155,77 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
   </TD>
   <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableSortedMap/NavigableMap.html"><TT>NavigableMap</TT></A> whose contents will never change, with many other important properties
  detailed at <A HREF="../../docs/com/google/common/collect/ImmutableSortedMap/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="ImmutableSortedSet"></A>
+  <nobr><A HREF="com.google.common.collect.ImmutableSortedSet.html">ImmutableSortedSet</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A <A HREF="../../docs/com/google/common/collect/ImmutableSortedSet/NavigableSet.html"><TT>NavigableSet</TT></A> whose contents will never change, with many other important properties
+ detailed at <A HREF="../../docs/com/google/common/collect/ImmutableSortedSet/ImmutableCollection.html"><TT>ImmutableCollection</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Multimap"></A>
+  <nobr><A HREF="com.google.common.collect.Multimap.html"><I>Multimap</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A collection that maps keys to values, similar to <A HREF="../../docs/com/google/common/collect/Multimap/Map.html"><TT>Map</TT></A>, but in which each key may be
+ associated with <i>multiple</i> values.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Multiset"></A>
+  <nobr><A HREF="com.google.common.collect.Multiset.html"><I>Multiset</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A collection that supports order-independent equality, like <A HREF="../../docs/com/google/common/collect/Multiset/Set.html"><TT>Set</TT></A>, but may have duplicate
+ elements.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Range"></A>
+  <nobr><A HREF="com.google.common.collect.Range.html">Range</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A range (or "interval") defines the <i>boundaries</i> around a contiguous span of values of some
+ {@code Comparable} type; for example, "integers from 1 to 100 inclusive." Note that it is not
+ possible to <i>iterate</i> over these contained values.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="RangeMap"></A>
+  <nobr><A HREF="com.google.common.collect.RangeMap.html"><I>RangeMap</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A mapping from disjoint nonempty ranges to non-null values.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="RangeSet"></A>
+  <nobr><A HREF="com.google.common.collect.RangeSet.html"><I>RangeSet</I></A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A set comprising zero or more <A HREF="../../docs/com/google/common/collect/RangeSet/lain.html"><TT>Range#isEmpty nonempty</TT></A>, <A HREF="../../docs/com/google/common/collect/RangeSet/lain.html"><TT> Range#isConnected(Range) disconnected</TT></A> ranges of type {@code C}.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="Sets.SetView"></A>
+  <nobr><A HREF="com.google.common.collect.Sets.SetView.html">Sets.SetView</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An unmodifiable view of a set which may be backed by other sets; this view will change as the
+ backing sets do.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="TreeMultiset"></A>
+  <nobr><A HREF="com.google.common.collect.TreeMultiset.html">TreeMultiset</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">A multiset which maintains the ordering of its elements, according to either their natural order
+ or an explicit <A HREF="../../docs/com/google/common/collect/TreeMultiset/Comparator.html"><TT>Comparator</TT></A>.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="TreeRangeMap"></A>
+  <nobr><A HREF="com.google.common.collect.TreeRangeMap.html">TreeRangeMap</A></nobr>
+  </TD>
+  <TD VALIGN="TOP">An implementation of {@code RangeMap} based on a {@code TreeMap}, supporting all optional
+ operations.</TD>
 </TR>
 </TABLE>
 &nbsp;
@@ -70,7 +236,7 @@ Package <A HREF="../../docs/com/google/common/collect/package-summary.html" targ
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 999.0.0-HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/collect/package-summary.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava </tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Package</B></FONT>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1"> &nbsp;<FONT CLASS="NavBarFont1">Class</FONT>&nbsp;</TD>

@@ -18,7 +18,7 @@ com.google.common.graph.Network
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/Network.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 999.0.0-HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/Network.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava </tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.graph.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -31,7 +31,7 @@ com.google.common.graph.Network
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.graph.Graphs.html"><B>PREV CLASS</B></A>
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.graph.ValueGraph.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.graph.Network.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
@@ -59,43 +59,60 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Ne
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.graph.Network.adjacentNodes_removed(N)"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-android/api/docs/com/google/common/graph/Network.html#adjacentNodes(N)" target="_top"><tt>adjacentNodes</tt></A>(<code>N</code>)</nobr>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-jre/api/docs/com/google/common/graph/Network.html#adjacentNodes(N)" target="_top"><tt>adjacentNodes</tt></A>(<code>N</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">Returns a live view of the nodes which have an incident edge in common with {@code node} in
- this network.</TD>
+ this graph.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.graph.Network.allowsSelfLoops_removed()"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../../../33.5.0-android/api/docs/com/google/common/graph/Network.html#allowsSelfLoops()" target="_top"><tt>allowsSelfLoops</tt></A>()</nobr>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../../../33.5.0-jre/api/docs/com/google/common/graph/Network.html#allowsSelfLoops()" target="_top"><tt>allowsSelfLoops</tt></A>()</nobr>
   </TD>
   <TD VALIGN="TOP">Returns true if this network allows self-loops (edges that connect a node to itself).</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.edgeConnecting_removed(N, N)"></A>
+  <nobr><code>Optional&lt;E&gt;</code>&nbsp;<A HREF="../../../../33.5.0-jre/api/docs/com/google/common/graph/Network.html#edgeConnecting(N, N)" target="_top"><tt>edgeConnecting</tt></A>(<code>N,</nobr> N<nobr><nobr></code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns the single edge that directly connects {@code nodeU} to {@code nodeV}, if one is
+ present, or {@code Optional.empty()} if no such edge exists.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
+  <A NAME="com.google.common.graph.Network.edgeConnecting_removed(com.google.common.graph.EndpointPair<N>)"></A>
+  <nobr><code>Optional&lt;E&gt;</code>&nbsp;<A HREF="../../../../33.5.0-jre/api/docs/com/google/common/graph/Network.html#edgeConnecting(com.google.common.graph.EndpointPair<N>)" target="_top"><tt>edgeConnecting</tt></A>(<code>EndpointPair&lt;N&gt;</code>)</nobr>
+  </TD>
+  <TD VALIGN="TOP">Returns the single edge that directly connects {@code endpoints} (in the order, if any,
+ specified by {@code endpoints}), if one is present, or {@code Optional.empty()} if no such edge
+ exists.</TD>
+</TR>
+<TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
+  <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.graph.Network.isDirected_removed()"></A>
-  <nobr><code>boolean</code>&nbsp;<A HREF="../../../../33.5.0-android/api/docs/com/google/common/graph/Network.html#isDirected()" target="_top"><tt>isDirected</tt></A>()</nobr>
+  <nobr><code>boolean</code>&nbsp;<A HREF="../../../../33.5.0-jre/api/docs/com/google/common/graph/Network.html#isDirected()" target="_top"><tt>isDirected</tt></A>()</nobr>
   </TD>
   <TD VALIGN="TOP">Returns true if the edges in this network are directed.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.graph.Network.nodeOrder_removed()"></A>
-  <nobr><code>ElementOrder&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-android/api/docs/com/google/common/graph/Network.html#nodeOrder()" target="_top"><tt>nodeOrder</tt></A>()</nobr>
+  <nobr><code>ElementOrder&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-jre/api/docs/com/google/common/graph/Network.html#nodeOrder()" target="_top"><tt>nodeOrder</tt></A>()</nobr>
   </TD>
   <TD VALIGN="TOP">Returns the order of iteration for the elements of <A HREF="../../docs/.html#nodes()"><TT>.nodes()</TT></A>.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.graph.Network.nodes_removed()"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-android/api/docs/com/google/common/graph/Network.html#nodes()" target="_top"><tt>nodes</tt></A>()</nobr>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-jre/api/docs/com/google/common/graph/Network.html#nodes()" target="_top"><tt>nodes</tt></A>()</nobr>
   </TD>
   <TD VALIGN="TOP">Returns all nodes in this network, in the order specified by <A HREF="../../docs/.html#nodeOrder()"><TT>.nodeOrder()</TT></A>.</TD>
 </TR>
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.graph.Network.predecessors_removed(N)"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-android/api/docs/com/google/common/graph/Network.html#predecessors(N)" target="_top"><tt>predecessors</tt></A>(<code>N</code>)</nobr>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-jre/api/docs/com/google/common/graph/Network.html#predecessors(N)" target="_top"><tt>predecessors</tt></A>(<code>N</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">Returns a live view of all nodes in this network adjacent to {@code node} which can be reached
  by traversing {@code node}'s incoming edges <i>against</i> the direction (if any) of the edge.</TD>
@@ -103,7 +120,7 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Ne
 <TR BGCOLOR="#FFFFFF" CLASS="TableRowColor">
   <TD VALIGN="TOP" WIDTH="25%">
   <A NAME="com.google.common.graph.Network.successors_removed(N)"></A>
-  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-android/api/docs/com/google/common/graph/Network.html#successors(N)" target="_top"><tt>successors</tt></A>(<code>N</code>)</nobr>
+  <nobr><code>Set&lt;N&gt;</code>&nbsp;<A HREF="../../../../33.5.0-jre/api/docs/com/google/common/graph/Network.html#successors(N)" target="_top"><tt>successors</tt></A>(<code>N</code>)</nobr>
   </TD>
   <TD VALIGN="TOP">Returns a live view of all nodes in this network adjacent to {@code node} which can be reached
  by traversing {@code node}'s outgoing edges in the direction (if any) of the edge.</TD>
@@ -118,7 +135,7 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Ne
     <TD COLSPAN=2 BGCOLOR="#EEEEFF" CLASS="NavBarCell1">
     <TABLE summary="Navigation bar" BORDER="0" CELLPADDING="0" CELLSPACING="3">
     <TR ALIGN="center" VALIGN="top">
-      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/Network.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava 999.0.0-HEAD-android-SNAPSHOT</tt></B></FONT></A>&nbsp;</TD>
+      <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="../../docs/com/google/common/graph/Network.html" target="_top"><FONT CLASS="NavBarFont1"><B><tt>Guava </tt></B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="changes-summary.html"><FONT CLASS="NavBarFont1"><B>Overview</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#EEEEFF" CLASS="NavBarCell1"> <A HREF="pkg_com.google.common.graph.html"><FONT CLASS="NavBarFont1"><B>Package</B></FONT></A>&nbsp;</TD>
       <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell1Rev"> &nbsp;<FONT CLASS="NavBarFont1Rev"><B>Class</B></FONT>&nbsp;</TD>
@@ -131,7 +148,7 @@ Interface com.google.common.graph.<A HREF="../../docs/com/google/common/graph/Ne
 <TR>
   <TD BGCOLOR="#FFFFFF" CLASS="NavBarCell2"><FONT SIZE="-2">
 &nbsp;<A HREF="com.google.common.graph.Graphs.html"><B>PREV CLASS</B></A>
-&nbsp;<B>NEXT CLASS</B>&nbsp;
+&nbsp;<A HREF="com.google.common.graph.ValueGraph.html"><B>NEXT CLASS</B></A>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <A HREF=".." TARGET="_top"><B>FRAMES</B></A>  &nbsp;
   &nbsp;<A HREF="com.google.common.graph.Network.html" TARGET="_top"><B>NO FRAMES</B></A></FONT></TD>
