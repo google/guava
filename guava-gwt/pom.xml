@@ -167,7 +167,6 @@
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/failureaccess-sources</outputDirectory>
               <type>java-source</type>
-              <silent>false</silent>
             </configuration>
           </execution>
           <execution>
@@ -181,7 +180,6 @@
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/guava-sources</outputDirectory>
               <type>java-source</type>
-              <silent>false</silent>
             </configuration>
           </execution>
           <execution>
@@ -195,7 +193,6 @@
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/guava-test-sources</outputDirectory>
               <type>java-source</type>
-              <silent>false</silent>
             </configuration>
           </execution>
           <execution>
@@ -209,7 +206,6 @@
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/guava-test-sources</outputDirectory>
               <type>java-source</type>
-              <silent>false</silent>
             </configuration>
           </execution>
           <execution>
@@ -223,7 +219,6 @@
               <excludes>META-INF/MANIFEST.MF</excludes>
               <outputDirectory>${project.build.directory}/guava-test-sources</outputDirectory>
               <type>java-source</type>
-              <silent>false</silent>
             </configuration>
           </execution>
         </executions>
