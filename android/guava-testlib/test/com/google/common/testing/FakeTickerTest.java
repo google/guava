@@ -167,23 +167,27 @@ public class FakeTickerTest extends TestCase {
   private void runConcurrentTest(int numberOfThreads, Callable<@Nullable Void> callable)
       throws Exception {
     ExecutorService executorService = newFixedThreadPool(numberOfThreads);
-    CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
-    CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
-    for (int i = numberOfThreads; i > 0; i--) {
-      @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
-      Future<?> possiblyIgnoredError =
-          executorService.submit(
-              new Callable<@Nullable Void>() {
-                @Override
-                public @Nullable Void call() throws Exception {
-                  startLatch.countDown();
-                  startLatch.await();
-                  callable.call();
-                  doneLatch.countDown();
-                  return null;
-                }
-              });
+    try {
+      CountDownLatch startLatch = new CountDownLatch(numberOfThreads);
+      CountDownLatch doneLatch = new CountDownLatch(numberOfThreads);
+      for (int i = numberOfThreads; i > 0; i--) {
+        @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
+        Future<?> possiblyIgnoredError =
+            executorService.submit(
+                new Callable<@Nullable Void>() {
+                  @Override
+                  public @Nullable Void call() throws Exception {
+                    startLatch.countDown();
+                    startLatch.await();
+                    callable.call();
+                    doneLatch.countDown();
+                    return null;
+                  }
+                });
+      }
+      doneLatch.await();
+    } finally {
+      executorService.shutdown();
     }
-    doneLatch.await();
   }
 }
