@@ -45,7 +45,7 @@
   </issueManagement>
 
   <properties>
-    <central-publishing-maven-plugin.version>0.9.0</central-publishing-maven-plugin.version>
+    <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
   </properties>
 
