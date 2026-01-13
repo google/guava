@@ -119,7 +119,7 @@ generate_javadoc() {
   # Save the build classpath to a file in the tempdir.
   echo -n "Compiling and generating Javadoc for Guava $version..."
   "${mvnw}" \
-    -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
+    -ntp \
     clean \
     compile \
     javadoc:javadoc \
@@ -423,7 +423,7 @@ main() {
   git_checkout_ref "$RELEASE_REF"
 
   # We run this separately so that its change to the default toolchain doesn't affect anything else.
-  ./mvnw -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' initialize -P print-java-11-home
+  ./mvnw -ntp --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' initialize -P print-java-11-home
   export JAVA_11_HOME=$(<target/java_11_home)
 
   for flavor in "${FLAVORS[@]}"; do

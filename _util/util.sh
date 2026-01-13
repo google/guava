@@ -29,7 +29,7 @@ function guava_version {
     mvnw=../mvnw # We're in the android subdirectory of the main directory.
   fi
   "${mvnw}" org.apache.maven.plugins:maven-help-plugin:2.1.1:evaluate \
-      -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn \
+      -ntp \
       -Dexpression=project.version \
       -pl guava 2> /dev/null \
       | grep -Ev '(^\[|Download.+:)'
