@@ -2,12 +2,26 @@
 
 set -eu
 
-./mvnw clean install --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' -Dmaven.test.skip=true -Dmaven.javadoc.skip=true
-./mvnw clean install --projects '!guava-testlib,!guava-tests,!guava-bom' -Dmaven.test.skip=true -Dmaven.javadoc.skip=true -f android
+./mvnw \
+  --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' \
+  -Dmaven.test.skip=true \
+  -Dmaven.javadoc.skip=true \
+  -ntp \
+  clean install
+./mvnw \
+  -f android \
+  --projects '!guava-testlib,!guava-tests,!guava-bom' \
+  -Dmaven.test.skip=true \
+  -Dmaven.javadoc.skip=true \
+  -ntp \
+  clean install
 
 # We run this separately so that its change to the default toolchain doesn't affect anything else.
 # (And we run it after the main build so that that build has already downloaded Java 11 if necessary.)
-./mvnw --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' initialize -P print-java-11-home
+./mvnw \
+  --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' \
+  -ntp \
+  initialize -P print-java-11-home
 export JAVA_HOME=$(<target/java_11_home)
 
 # Gradle Wrapper overwrites some files when it runs.

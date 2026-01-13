@@ -5,7 +5,7 @@
 set -e -u
 
 function mvn_deploy() {
-  ./mvnw clean deploy -DskipTests=true "$@"
+  ./mvnw -ntp -DskipTests=true clean deploy "$@"
 }
 
 echo "Publishing Maven snapshot..."
