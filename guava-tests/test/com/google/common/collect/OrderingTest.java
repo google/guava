@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.collect.Iterators.singletonIterator;
+import static com.google.common.collect.ObjectArrays.newArray;
 import static com.google.common.collect.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.collect.testing.Helpers.testComparator;
 import static com.google.common.testing.SerializableTester.reserialize;
@@ -895,7 +896,7 @@ public class OrderingTest extends TestCase {
     List<T> list = asList(strictlyOrderedElements);
 
     // for use calling Collection.toArray later
-    T[] emptyArray = Platform.newArray(strictlyOrderedElements, 0);
+    T[] emptyArray = newArray(strictlyOrderedElements, 0);
 
     // shoot me, but I didn't want to deal with wildcards through the whole test
     @SuppressWarnings("unchecked")

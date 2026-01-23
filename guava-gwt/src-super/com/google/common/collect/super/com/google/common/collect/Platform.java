@@ -16,7 +16,8 @@
 
 package com.google.common.collect;
 
-import java.util.Arrays;
+import static com.google.common.collect.ObjectArrays.newArray;
+
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.LinkedHashSet;
@@ -85,11 +86,6 @@ final class Platform {
    */
   static <E extends @Nullable Object> Set<E> preservesInsertionOrderOnAddsSet() {
     return new LinkedHashSet<>();
-  }
-
-  static <T extends @Nullable Object> T[] newArray(T[] reference, int length) {
-    T[] empty = reference.length == 0 ? reference : Arrays.copyOf(reference, 0);
-    return Arrays.copyOf(empty, length);
   }
 
   /** Equivalent to Arrays.copyOfRange(source, from, to, arrayOfType.getClass()). */
