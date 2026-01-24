@@ -15,6 +15,7 @@
 package com.google.common.escape;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.lang.Character.charCount;
 
 import com.google.common.annotations.GwtCompatible;
 import org.jspecify.annotations.Nullable;
@@ -134,7 +135,7 @@ public abstract class UnicodeEscaper extends Escaper {
       if (cp < 0 || escape(cp) != null) {
         break;
       }
-      index += Character.isSupplementaryCodePoint(cp) ? 2 : 1;
+      index += charCount(cp);
     }
     return index;
   }
@@ -171,7 +172,7 @@ public abstract class UnicodeEscaper extends Escaper {
       // (for performance reasons) yield some false positives but it must never
       // give false negatives.
       char[] escaped = escape(cp);
-      int nextIndex = index + (Character.isSupplementaryCodePoint(cp) ? 2 : 1);
+      int nextIndex = index + charCount(cp);
       if (escaped != null) {
         int charsSkipped = index - unescapedChunkStart;
 
