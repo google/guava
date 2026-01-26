@@ -2287,7 +2287,13 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
           removeLoadingValue(key, hash, computingValueReference);
           return null;
         } else {
-          removeEntry(e, hash, RemovalCause.EXPLICIT);
+          // If the value was garbage collected, report COLLECTED; otherwise EXPLICIT.
+          V oldValue = valueReference.get();
+          RemovalCause cause =
+              (oldValue == null && valueReference.isActive())
+                  ? RemovalCause.COLLECTED
+                  : RemovalCause.EXPLICIT;
+          removeEntry(e, hash, cause);
           return null;
         }
       } finally {
