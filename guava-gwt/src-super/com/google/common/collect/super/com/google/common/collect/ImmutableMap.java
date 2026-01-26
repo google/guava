@@ -435,6 +435,17 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     return values().contains(value);
   }
 
+  @Override
+  public final @Nullable V getOrDefault(@Nullable Object key, @Nullable V defaultValue) {
+    V result = get(key);
+    // TODO(b/192579700): Use a ternary once it no longer confuses our nullness checker.
+    if (result != null) {
+      return result;
+    } else {
+      return defaultValue;
+    }
+  }
+
   private transient @Nullable ImmutableSet<Entry<K, V>> cachedEntrySet = null;
 
   @Override
