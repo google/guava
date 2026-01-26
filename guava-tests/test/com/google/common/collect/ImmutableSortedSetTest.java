@@ -55,6 +55,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.Spliterator;
 import java.util.TreeSet;
 import java.util.function.BiPredicate;
 import java.util.stream.Collector;
@@ -1224,5 +1225,34 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     ImmutableSortedSet<Integer> unused = builder.build();
     assertThat(compares[0]).isAtMost(10000);
     // hopefully something quadratic would have more digits
+  }
+
+  @GwtIncompatible // Spliterator
+  public void testSpliteratorComparator_naturalOrdering() {
+    // Per Spliterator.getComparator() contract, null indicates natural ordering
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(1, 2, 3);
+    Spliterator<Integer> spliterator = set.spliterator();
+    assertThat(spliterator.hasCharacteristics(Spliterator.SORTED)).isTrue();
+    assertThat(spliterator.getComparator()).isNull();
+  }
+
+  @GwtIncompatible // Spliterator
+  public void testSpliteratorComparator_customComparator() {
+    // Custom comparator should be returned from getComparator()
+    Comparator<Integer> comparator = Comparator.reverseOrder();
+    ImmutableSortedSet<Integer> set =
+        ImmutableSortedSet.orderedBy(comparator).add(1, 2, 3).build();
+    Spliterator<Integer> spliterator = set.spliterator();
+    assertThat(spliterator.hasCharacteristics(Spliterator.SORTED)).isTrue();
+    assertThat(spliterator.getComparator()).isEqualTo(comparator);
+  }
+
+  @GwtIncompatible // Spliterator
+  public void testAsListSpliteratorComparator_naturalOrdering() {
+    // asList().spliterator() should also return null for natural ordering
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(1, 2, 3);
+    Spliterator<Integer> spliterator = set.asList().spliterator();
+    assertThat(spliterator.hasCharacteristics(Spliterator.SORTED)).isTrue();
+    assertThat(spliterator.getComparator()).isNull();
   }
 }
