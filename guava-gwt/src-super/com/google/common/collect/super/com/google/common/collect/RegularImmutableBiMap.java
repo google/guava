@@ -29,7 +29,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   static final RegularImmutableBiMap<Object, Object> EMPTY =
       new RegularImmutableBiMap<Object, Object>();
 
-  private final ImmutableBiMap<V, K> inverse;
+  private final transient ImmutableBiMap<V, K> inverse;
 
   @SuppressWarnings("unchecked") // used only for the empty map, which works for any types
   RegularImmutableBiMap() {
