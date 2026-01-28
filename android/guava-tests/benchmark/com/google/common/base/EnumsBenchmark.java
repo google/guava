@@ -45,6 +45,11 @@ public class EnumsBenchmark {
   void setUp() throws ClassNotFoundException {
     Preconditions.checkArgument(hitRate >= 0 && hitRate <= 1, "hitRate must be in the range [0,1]");
 
+    // Validate enumSize to prevent unsafe reflection
+    if (!"Small".equals(enumSize) && !"Medium".equals(enumSize) && !"Large".equals(enumSize)) {
+      throw new IllegalArgumentException("enumSize must be one of: Small, Medium, Large");
+    }
+
     enumType =
         Class.forName(EnumsBenchmark.class.getCanonicalName() + "$" + enumSize + "Enum")
             .asSubclass(Enum.class);
