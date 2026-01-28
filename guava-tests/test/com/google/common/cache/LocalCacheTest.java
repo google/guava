@@ -1104,7 +1104,7 @@ public class LocalCacheTest extends TestCase {
 
     // Now call compute() with a function that returns null
     // Since the value was collected, the removal cause should be COLLECTED, not EXPLICIT
-    map.compute(key, (k, v) -> {
+    Object unused = map.compute(key, (k, v) -> {
       // The value should be null since it was collected
       assertThat(v).isNull();
       return null;
