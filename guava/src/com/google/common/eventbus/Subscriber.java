@@ -70,7 +70,13 @@ class Subscriber {
             invokeSubscriberMethod(event);
           } catch (InvocationTargetException e) {
             bus.handleSubscriberException(e.getCause(), context(event));
+          } catch (Exception e) {
+            bus.handleSubscriberException(e, context(event));
+          } catch (StackOverflowError e) {
+            // Catch StackOverflowError to preserve stack trace for debugging (issue #7728)
+            bus.handleSubscriberException(e, context(event));
           }
+          // Don't catch any other errors - let them propagate (like ExecutionList pattern)
         });
   }
 
