@@ -17,7 +17,6 @@
 package com.google.common.collect.testing.testers;
 
 import static com.google.common.collect.testing.features.CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION;
-import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_ITERATOR_REMOVE;
 import static com.google.common.collect.testing.features.CollectionFeature.SUPPORTS_REMOVE;
 import static com.google.common.collect.testing.features.CollectionSize.SEVERAL;
 import static com.google.common.collect.testing.features.CollectionSize.ZERO;
@@ -44,13 +43,13 @@ import org.junit.Ignore;
 // @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
 @SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
-  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   public void testRemoveIf_alwaysFalse() {
     assertFalse("removeIf(x -> false) should return false", collection.removeIf(x -> false));
     expectUnchanged();
   }
 
-  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveIf_sometimesTrue() {
     assertTrue(
@@ -59,14 +58,14 @@ public class CollectionRemoveIfTester<E> extends AbstractCollectionTester<E> {
     expectMissing(samples.e0());
   }
 
-  @CollectionFeature.Require(SUPPORTS_ITERATOR_REMOVE)
+  @CollectionFeature.Require(SUPPORTS_REMOVE)
   @CollectionSize.Require(absent = ZERO)
   public void testRemoveIf_allPresent() {
     assertTrue("removeIf(x -> true) should return true", collection.removeIf(x -> true));
     expectContents();
   }
 
-  @CollectionFeature.Require({SUPPORTS_ITERATOR_REMOVE, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
+  @CollectionFeature.Require({SUPPORTS_REMOVE, FAILS_FAST_ON_CONCURRENT_MODIFICATION})
   @CollectionSize.Require(SEVERAL)
   public void testRemoveIfSomeMatchesConcurrentWithIteration() {
     assertThrows(
