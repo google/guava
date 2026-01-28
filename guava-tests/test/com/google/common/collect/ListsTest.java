@@ -57,6 +57,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
+import java.util.Spliterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -997,5 +998,69 @@ public class ListsTest extends TestCase {
   @J2ktIncompatible // too slow
   public void testPartitionSize_2() {
     assertEquals(2, partition(nCopies(0x40000001, 1), 0x40000000).size());
+  }
+
+  @GwtIncompatible // Spliterator
+  @J2ktIncompatible
+  public void testAsListSpliteratorIsImmutable() {
+    List<String> list = Lists.asList("a", new String[] {"b", "c"});
+    int characteristics = list.spliterator().characteristics();
+    assertTrue("asList should report IMMUTABLE", (characteristics & Spliterator.IMMUTABLE) != 0);
+    assertTrue("asList should report ORDERED", (characteristics & Spliterator.ORDERED) != 0);
+    assertTrue("asList should report SIZED", (characteristics & Spliterator.SIZED) != 0);
+  }
+
+  @GwtIncompatible // Spliterator
+  @J2ktIncompatible
+  public void testAsListSpliteratorIteration() {
+    List<String> list = Lists.asList("a", new String[] {"b", "c"});
+    List<String> collected = new ArrayList<>();
+    list.spliterator().forEachRemaining(collected::add);
+    assertEquals(asList("a", "b", "c"), collected);
+  }
+
+  @GwtIncompatible // Spliterator
+  @J2ktIncompatible
+  public void testAsListTwoSpliteratorIsImmutable() {
+    List<String> list = Lists.asList("a", "b", new String[] {"c"});
+    int characteristics = list.spliterator().characteristics();
+    assertTrue(
+        "asList(2+) should report IMMUTABLE", (characteristics & Spliterator.IMMUTABLE) != 0);
+  }
+
+  @GwtIncompatible // Spliterator
+  @J2ktIncompatible
+  public void testAsListTwoSpliteratorIteration() {
+    List<String> list = Lists.asList("a", "b", new String[] {"c"});
+    List<String> collected = new ArrayList<>();
+    list.spliterator().forEachRemaining(collected::add);
+    assertEquals(asList("a", "b", "c"), collected);
+  }
+
+  @GwtIncompatible // Spliterator
+  @J2ktIncompatible
+  public void testCharactersOfSpliteratorCharacteristics() {
+    List<Character> chars = Lists.charactersOf("hello");
+    int characteristics = chars.spliterator().characteristics();
+    assertTrue("charactersOf should report ORDERED", (characteristics & Spliterator.ORDERED) != 0);
+    assertTrue("charactersOf should report NONNULL", (characteristics & Spliterator.NONNULL) != 0);
+    assertTrue("charactersOf should report SIZED", (characteristics & Spliterator.SIZED) != 0);
+  }
+
+  @GwtIncompatible // Spliterator
+  @J2ktIncompatible
+  public void testCharactersOfSpliteratorIteration() {
+    List<Character> chars = Lists.charactersOf("hello");
+    List<Character> collected = new ArrayList<>();
+    chars.spliterator().forEachRemaining(collected::add);
+    assertEquals(asList('h', 'e', 'l', 'l', 'o'), collected);
+  }
+
+  @GwtIncompatible // CopyOnWriteArrayList
+  @J2ktIncompatible
+  public void testAbstractListWrapperSpliteratorDelegates() {
+    CopyOnWriteArrayList<String> cow = new CopyOnWriteArrayList<>(asList("a", "b", "c"));
+    int cowCharacteristics = cow.spliterator().characteristics();
+    assertTrue((cowCharacteristics & Spliterator.IMMUTABLE) != 0);
   }
 }
