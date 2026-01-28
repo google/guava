@@ -25,7 +25,9 @@ import com.google.common.collect.Maps;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
 import com.google.errorprone.annotations.InlineMe;
+import java.util.Collections;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * A {@link Network} whose elements and structural relationships will never change. Instances of
@@ -77,6 +79,36 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
   @Override
   public ImmutableGraph<N> asGraph() {
     return new ImmutableGraph<>(super.asGraph()); // safe because the view is effectively immutable
+  }
+
+  @Override
+  public Set<N> nodes() {
+    return Collections.unmodifiableSet(super.nodes());
+  }
+
+  @Override
+  public Set<E> edges() {
+    return Collections.unmodifiableSet(super.edges());
+  }
+
+  @Override
+  public Set<N> adjacentNodes(N node) {
+    return Collections.unmodifiableSet(super.adjacentNodes(node));
+  }
+
+  @Override
+  public Set<N> predecessors(N node) {
+    return Collections.unmodifiableSet(super.predecessors(node));
+  }
+
+  @Override
+  public Set<N> successors(N node) {
+    return Collections.unmodifiableSet(super.successors(node));
+  }
+
+  @Override
+  public Set<E> incidentEdges(N node) {
+    return Collections.unmodifiableSet(super.incidentEdges(node));
   }
 
   private static <N, E> Map<N, NetworkConnections<N, E>> getNodeConnections(Network<N, E> network) {
