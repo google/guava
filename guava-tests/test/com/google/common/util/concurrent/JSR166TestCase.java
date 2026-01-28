@@ -300,7 +300,7 @@ abstract class JSR166TestCase extends TestCase {
    * <p>Triggers test case failure if any thread assertions have failed, by rethrowing, in the test
    * harness thread, any exception recorded earlier by threadRecordFailure.
    *
-   * <p>Triggers test case failure if interrupt status is set in the main thread.
+   * <p>Triggers test case failure if interrupted status is set in the main thread.
    */
   @Override
   public void tearDown() throws Exception {
@@ -316,7 +316,9 @@ abstract class JSR166TestCase extends TestCase {
       }
     }
 
-    if (Thread.interrupted()) throw new AssertionFailedError("interrupt status set in main thread");
+    if (Thread.interrupted()) {
+      throw new AssertionFailedError("interrupted status set in main thread");
+    }
   }
 
   /**

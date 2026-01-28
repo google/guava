@@ -528,7 +528,7 @@ public final class Monitor {
     locked:
     {
       if (!fair) {
-        // Check interrupt status to get behavior consistent with fair case.
+        // Check interrupted status to get behavior consistent with the fair case.
         if (Thread.interrupted()) {
           throw new InterruptedException();
         }

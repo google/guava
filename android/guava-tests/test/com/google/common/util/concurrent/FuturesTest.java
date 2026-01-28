@@ -2617,7 +2617,7 @@ public class FuturesTest extends TestCase {
               shouldCompleteFunction.await();
               combinerCompletedWithoutInterrupt.countDown();
             } catch (InterruptedException e) {
-              // Ensure the thread's interrupt status is preserved.
+              // Ensure the thread's interrupted status is preserved.
               Thread.currentThread().interrupt();
               throw new RuntimeException(e);
             }
@@ -2655,7 +2655,7 @@ public class FuturesTest extends TestCase {
             try {
               new CountDownLatch(1).await(); // wait for interrupt
             } catch (InterruptedException expected) {
-              // Ensure the thread's interrupt status is preserved.
+              // Ensure the thread's interrupted status is preserved.
               Thread.currentThread().interrupt();
               gotException.countDown();
             }

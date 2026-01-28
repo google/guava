@@ -845,7 +845,7 @@ public class UninterruptiblesTest extends TestCase {
   }
 
   /**
-   * Await an interrupt, then clear the interrupt status. Similar to {@code
+   * Awaits an interrupt, then clears the interrupted status. Similar to {@code
    * assertTrue(Thread.interrupted())} except that this version tolerates late interrupts.
    */
   private static void assertInterrupted() {

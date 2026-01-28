@@ -68,7 +68,7 @@ public abstract class CacheLoader<K, V> {
    * @throws Exception if unable to load the result
    * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is
    *     treated like any other {@code Exception} in all respects except that, when it is caught,
-   *     the thread's interrupt status is set
+   *     the thread's interrupted status is set
    */
   public abstract V load(K key) throws Exception;
 
@@ -90,7 +90,7 @@ public abstract class CacheLoader<K, V> {
    * @throws Exception if unable to reload the result
    * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is
    *     treated like any other {@code Exception} in all respects except that, when it is caught,
-   *     the thread's interrupt status is set
+   *     the thread's interrupted status is set
    * @since 11.0
    */
   @GwtIncompatible // Futures
@@ -119,7 +119,7 @@ public abstract class CacheLoader<K, V> {
    * @throws Exception if unable to load the result
    * @throws InterruptedException if this method is interrupted. {@code InterruptedException} is
    *     treated like any other {@code Exception} in all respects except that, when it is caught,
-   *     the thread's interrupt status is set
+   *     the thread's interrupted status is set
    * @since 11.0
    */
   public Map<K, V> loadAll(Iterable<? extends K> keys) throws Exception {

@@ -151,9 +151,9 @@ abstract class InterruptibleTask<T extends @Nullable Object>
       currentThread.interrupt();
     }
     /*
-     * TODO(cpovirk): Clear interrupt status here? We currently don't, which means that an interrupt
-     * before, during, or after runInterruptibly() (unless it produced an InterruptedException
-     * caught above) can linger and affect listeners.
+     * TODO(cpovirk): Clear interrupted status here? We currently don't, which means that an
+     * interrupt before, during, or after runInterruptibly() (unless it produced an
+     * InterruptedException caught above) can linger and affect listeners.
      */
   }
 

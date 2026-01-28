@@ -1037,7 +1037,7 @@ public final class MoreExecutors {
         service.awaitTermination(halfTimeoutNanos, NANOSECONDS);
       }
     } catch (InterruptedException ie) {
-      // Preserve interrupt status
+      // Preserve interrupted status
       Thread.currentThread().interrupt();
       // (Re-)Cancel if current thread also interrupted
       service.shutdownNow();

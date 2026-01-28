@@ -76,7 +76,10 @@ public class CacheLoadingTest extends TestCase {
   @Override
   public void tearDown() throws Exception {
     super.tearDown();
-    // TODO(cpovirk): run tests in other thread instead of messing with main thread interrupt status
+    /*
+     * TODO(cpovirk): Run tests in another thread instead of messing with main thread's interrupted
+     * status.
+     */
     Thread.interrupted();
     LocalCache.logger.removeHandler(logHandler);
   }
