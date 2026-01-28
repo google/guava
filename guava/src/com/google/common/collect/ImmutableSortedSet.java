@@ -833,6 +833,9 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
 
       @Override
       public Comparator<? super E> getComparator() {
+        if (comparator == Ordering.natural() || comparator == Comparator.naturalOrder()) {
+          return null;
+        }
         return comparator;
       }
     };

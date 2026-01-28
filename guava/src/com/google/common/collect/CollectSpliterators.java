@@ -53,6 +53,11 @@ final class CollectSpliterators {
     if (comparator != null) {
       checkArgument((extraCharacteristics & Spliterator.SORTED) != 0);
     }
+    // Per Spliterator.getComparator() contract, return null for natural ordering
+    @Nullable Comparator<? super T> spliteratorComparator =
+        (comparator == Ordering.natural() || comparator == Comparator.naturalOrder())
+            ? null
+            : comparator;
     final class WithCharacteristics implements Spliterator<T> {
       private final Spliterator.OfInt delegate;
 
@@ -92,7 +97,7 @@ final class CollectSpliterators {
       @Override
       public @Nullable Comparator<? super T> getComparator() {
         if (hasCharacteristics(Spliterator.SORTED)) {
-          return comparator;
+          return spliteratorComparator;
         } else {
           throw new IllegalStateException();
         }
