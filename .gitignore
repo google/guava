@@ -6,6 +6,7 @@ target/
 
 # IntelliJ Idea
 .idea/
+!.idea/icon.png
 out/
 *.ipr
 *.iws
