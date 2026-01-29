@@ -39,26 +39,16 @@ final class InterruptionUtil {
 
   /** Runnable which will interrupt the target thread repeatedly when run. */
   private static final class Interruptenator implements Runnable {
-    private final long everyMillis;
     private final Thread interruptee;
     private volatile boolean shouldStop = false;
 
-    Interruptenator(Thread interruptee, long everyMillis) {
-      this.everyMillis = everyMillis;
+    Interruptenator(Thread interruptee) {
       this.interruptee = interruptee;
     }
 
     @Override
     public void run() {
-      while (true) {
-        try {
-          Thread.sleep(everyMillis);
-        } catch (InterruptedException e) {
-          // ok. just stop sleeping.
-        }
-        if (shouldStop) {
-          break;
-        }
+      while (!shouldStop) {
         interruptee.interrupt();
       }
     }
@@ -87,10 +77,8 @@ final class InterruptionUtil {
         .start();
   }
 
-  static void repeatedlyInterruptTestThread(
-      long interruptPeriodMillis, TearDownAccepter tearDownAccepter) {
-    Interruptenator interruptingTask =
-        new Interruptenator(Thread.currentThread(), interruptPeriodMillis);
+  static void repeatedlyInterruptTestThread(TearDownAccepter tearDownAccepter) {
+    Interruptenator interruptingTask = new Interruptenator(Thread.currentThread());
     Thread interruptingThread = new Thread(interruptingTask);
     interruptingThread.start();
     tearDownAccepter.addTearDown(

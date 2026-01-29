@@ -81,7 +81,6 @@ public class UninterruptibleFutureTest extends TestCase {
    * behavior of futures so that you can contrast the next test with it.
    */
   public void testRegularFutureInterrupted() throws ExecutionException {
-
     /*
      * Here's the order of events that we want.
      *
@@ -120,8 +119,7 @@ public class UninterruptibleFutureTest extends TestCase {
 
   public void testMakeUninterruptible_timeoutPreservedThroughInterruption()
       throws ExecutionException {
-
-    repeatedlyInterruptTestThread(100, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
 
     assertThrows(
         TimeoutException.class, () -> getUninterruptibly(delayedFuture, 500, MILLISECONDS));

@@ -244,7 +244,7 @@ public class UninterruptiblesTest extends TestCase {
 
   public void testPutMultiInterrupt() {
     TimedPutQueue queue = TimedPutQueue.createWithDelay(100);
-    repeatedlyInterruptTestThread(20, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     queue.putSuccessfully();
     assertInterrupted();
   }
@@ -273,7 +273,7 @@ public class UninterruptiblesTest extends TestCase {
 
   public void testTakeMultiInterrupt() {
     TimedTakeQueue queue = TimedTakeQueue.createWithDelay(100);
-    repeatedlyInterruptTestThread(20, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     queue.takeSuccessfully();
     assertInterrupted();
   }
@@ -334,14 +334,14 @@ public class UninterruptiblesTest extends TestCase {
 
   public void testJoinMultiInterrupt() {
     TimedThread thread = TimedThread.createWithDelay(100);
-    repeatedlyInterruptTestThread(20, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     thread.joinSuccessfully();
     assertInterrupted();
   }
 
   public void testJoinTimeoutMultiInterruptNoExpire() {
     TimedThread thread = TimedThread.createWithDelay(100);
-    repeatedlyInterruptTestThread(20, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     thread.joinSuccessfully(LONG_DELAY_MS);
     assertInterrupted();
   }
@@ -353,7 +353,7 @@ public class UninterruptiblesTest extends TestCase {
      * appropriately decreased on each progressive join() call.
      */
     TimedThread thread = TimedThread.createWithDelay(LONG_DELAY_MS);
-    repeatedlyInterruptTestThread(20, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     thread.joinUnsuccessfully(70);
     assertInterrupted();
   }
@@ -370,7 +370,7 @@ public class UninterruptiblesTest extends TestCase {
   }
 
   public void testSleepMultiInterrupt() {
-    repeatedlyInterruptTestThread(10, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     sleepSuccessfully(100);
     assertInterrupted();
   }
@@ -413,7 +413,7 @@ public class UninterruptiblesTest extends TestCase {
 
   public void testTryAcquireTimeoutMultiInterruptNoExpire() {
     TimedSemaphore semaphore = TimedSemaphore.createWithDelay(100);
-    repeatedlyInterruptTestThread(20, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     semaphore.tryAcquireSuccessfully(LONG_DELAY_MS);
     assertInterrupted();
   }
@@ -425,7 +425,7 @@ public class UninterruptiblesTest extends TestCase {
      * appropriately decreased on each progressive tryAcquire() call.
      */
     TimedSemaphore semaphore = TimedSemaphore.createWithDelay(LONG_DELAY_MS);
-    repeatedlyInterruptTestThread(20, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     semaphore.tryAcquireUnsuccessfully(70);
     assertInterrupted();
   }
@@ -467,7 +467,7 @@ public class UninterruptiblesTest extends TestCase {
 
   public void testTryAcquireTimeoutMultiInterruptNoExpireMultiPermit() {
     TimedSemaphore semaphore = TimedSemaphore.createWithDelay(100);
-    repeatedlyInterruptTestThread(20, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     semaphore.tryAcquireSuccessfully(10, LONG_DELAY_MS);
     assertInterrupted();
   }
@@ -479,7 +479,7 @@ public class UninterruptiblesTest extends TestCase {
      * appropriately decreased on each progressive tryAcquire() call.
      */
     TimedSemaphore semaphore = TimedSemaphore.createWithDelay(LONG_DELAY_MS);
-    repeatedlyInterruptTestThread(20, tearDownStack);
+    repeatedlyInterruptTestThread(tearDownStack);
     semaphore.tryAcquireUnsuccessfully(10, 70);
     assertInterrupted();
   }
