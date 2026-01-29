@@ -57,6 +57,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
+import java.util.Spliterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -890,6 +891,24 @@ public class ListsTest extends TestCase {
     iterator.remove();
     assertEquals(asList("1", "2", "3"), list);
     assertFalse(iterator.hasNext());
+  }
+
+  @J2ktIncompatible // CopyOnWriteArrayList
+  @GwtIncompatible // CopyOnWriteArrayList
+  public void testTransformSpliteratorPreservesCharacteristics() {
+    // Test for Issue #8165: Lists.transform should preserve spliterator characteristics
+    CopyOnWriteArrayList<Integer> cow = new CopyOnWriteArrayList<>(asList(1, 2, 3));
+
+    // CopyOnWriteArrayList's spliterator has IMMUTABLE characteristic
+    int cowCharacteristics = cow.spliterator().characteristics();
+    assertTrue((cowCharacteristics & Spliterator.IMMUTABLE) != 0);
+
+    // Lists.transform should preserve the IMMUTABLE characteristic
+    List<Integer> transformed = transform(cow, x -> x);
+    int transformedCharacteristics = transformed.spliterator().characteristics();
+    assertTrue(
+        "Lists.transform should preserve IMMUTABLE characteristic from CopyOnWriteArrayList",
+        (transformedCharacteristics & Spliterator.IMMUTABLE) != 0);
   }
 
   public void testPartition_badSize() {

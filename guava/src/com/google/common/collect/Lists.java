@@ -50,6 +50,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.RandomAccess;
+import java.util.Spliterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import org.jspecify.annotations.Nullable;
@@ -605,6 +606,12 @@ public final class Lists {
       return fromList.removeIf(element -> filter.test(function.apply(element)));
     }
 
+    @Override
+    @GwtIncompatible("Spliterator")
+    public Spliterator<T> spliterator() {
+      return CollectSpliterators.map(fromList.spliterator(), 0, function);
+    }
+
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
@@ -676,6 +683,12 @@ public final class Lists {
     @Override
     public int size() {
       return fromList.size();
+    }
+
+    @Override
+    @GwtIncompatible("Spliterator")
+    public Spliterator<T> spliterator() {
+      return CollectSpliterators.map(fromList.spliterator(), 0, function);
     }
 
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
