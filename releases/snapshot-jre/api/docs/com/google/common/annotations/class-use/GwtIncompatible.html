@@ -1694,15 +1694,15 @@ uninterruptibly.</div>
  long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a>
-uninterruptibly.</div>
+<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a> in a way
+that more conveniently supports uninterruptible waits.</div>
 </div>
 <div class="col-first even-row-color"><code>static boolean</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Uninterruptibles.</span><code><a href="../../util/concurrent/Uninterruptibles.html#awaitUninterruptibly(java.util.concurrent.locks.Condition,java.time.Duration)" class="member-name-link">awaitUninterruptibly</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html" title="class or interface in java.util.concurrent.locks" class="external-link">Condition</a>&nbsp;condition,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</code></div>
 <div class="col-last even-row-color">
-<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a>
-uninterruptibly.</div>
+<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a> in a way
+that more conveniently supports uninterruptible waits.</div>
 </div>
 <div class="col-first odd-row-color"><code>static &lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>, X extends <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Exception.html" title="class or interface in java.lang" class="external-link">Exception</a>&gt;<br>V</code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">Futures.</span><code><a href="../../util/concurrent/Futures.html#getChecked(java.util.concurrent.Future,java.lang.Class)" class="member-name-link">getChecked</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V&gt;&nbsp;future,

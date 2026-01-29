@@ -74728,9 +74728,18 @@
       <param name="condition" type="java.util.concurrent.locks.Condition"/>
       <param name="timeout" type="java.time.Duration"/>
       <doc>
-      <![CDATA[Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
- uninterruptibly.
+      <![CDATA[Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)} in a way
+ that more conveniently supports uninterruptible waits.
 
+ <p>If the underlying {@code await} call is interrupted, then {@code awaitUninterruptibly}
+ converts that into a <a
+ href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
+ wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
+ {@link Uninterruptibles}. Still, this method allows callers to write <a
+ href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a {@code
+ Condition}</a> but without the need to handle interruption.
+
+ @return {@code false} if the waiting time detectably elapsed before return from the method
  @since 33.4.0 (but since 28.0 in the JRE flavor)]]>
       </doc>
     </method>
@@ -74742,9 +74751,18 @@
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
-      <![CDATA[Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)}
- uninterruptibly.
+      <![CDATA[Invokes {@code condition.}{@link Condition#await(long, TimeUnit) await(timeout, unit)} in a way
+ that more conveniently supports uninterruptible waits.
 
+ <p>If the underlying {@code await} call is interrupted, then {@code awaitUninterruptibly}
+ converts that into a <a
+ href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
+ wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
+ {@link Uninterruptibles}. Still, this method allows callers to write <a
+ href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a {@code
+ Condition}</a> but without the need to handle interruption.
+
+ @return {@code false} if the waiting time detectably elapsed before return from the method
  @since 23.6]]>
       </doc>
     </method>

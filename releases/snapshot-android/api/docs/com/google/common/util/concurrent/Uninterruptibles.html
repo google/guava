@@ -167,15 +167,15 @@ uninterruptibly.</div>
  long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a>
-uninterruptibly.</div>
+<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a> in a way
+that more conveniently supports uninterruptible waits.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#awaitUninterruptibly(java.util.concurrent.locks.Condition,java.time.Duration)" class="member-name-link">awaitUninterruptibly</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html" title="class or interface in java.util.concurrent.locks" class="external-link">Condition</a>&nbsp;condition,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a>
-uninterruptibly.</div>
+<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a> in a way
+that more conveniently supports uninterruptible waits.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br>V</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#getUninterruptibly(java.util.concurrent.Future)" class="member-name-link">getUninterruptibly</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Future.html" title="class or interface in java.util.concurrent" class="external-link">Future</a>&lt;V&gt;&nbsp;future)</code></div>
@@ -347,9 +347,17 @@ uninterruptibly.</div>
 <div class="member-signature"><span class="annotations"><a href="../../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">awaitUninterruptibly</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html" title="class or interface in java.util.concurrent.locks" class="external-link">Condition</a>&nbsp;condition,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/time/Duration.html" title="class or interface in java.time" class="external-link">Duration</a>&nbsp;timeout)</span></div>
-<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a>
-uninterruptibly.</div>
+<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a> in a way
+that more conveniently supports uninterruptible waits.
+
+<p>If the underlying <code>await</code> call is interrupted, then <code>awaitUninterruptibly</code>
+converts that into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
+wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
+<a href="Uninterruptibles.html" title="class in com.google.common.util.concurrent"><code>Uninterruptibles</code></a>. Still, this method allows callers to write <a href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a <code>
+Condition</code></a> but without the need to handle interruption.</div>
 <dl class="notes">
+<dt>Returns:</dt>
+<dd><code>false</code> if the waiting time detectably elapsed before return from the method</dd>
 <dt>Since:</dt>
 <dd>33.4.0 (but since 28.0 in the JRE flavor)</dd>
 </dl>
@@ -364,9 +372,17 @@ uninterruptibly.</div>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">awaitUninterruptibly</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html" title="class or interface in java.util.concurrent.locks" class="external-link">Condition</a>&nbsp;condition,
  long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="class or interface in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
-<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a>
-uninterruptibly.</div>
+<div class="block">Invokes <code>condition.</code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#await(long,java.util.concurrent.TimeUnit)" title="class or interface in java.util.concurrent.locks" class="external-link"><code>await(timeout, unit)</code></a> in a way
+that more conveniently supports uninterruptible waits.
+
+<p>If the underlying <code>await</code> call is interrupted, then <code>awaitUninterruptibly</code>
+converts that into a <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
+wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
+<a href="Uninterruptibles.html" title="class in com.google.common.util.concurrent"><code>Uninterruptibles</code></a>. Still, this method allows callers to write <a href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a <code>
+Condition</code></a> but without the need to handle interruption.</div>
 <dl class="notes">
+<dt>Returns:</dt>
+<dd><code>false</code> if the waiting time detectably elapsed before return from the method</dd>
 <dt>Since:</dt>
 <dd>23.6</dd>
 </dl>
