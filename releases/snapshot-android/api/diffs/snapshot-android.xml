@@ -1445,7 +1445,7 @@
  assigned characters, including important CJK characters and emoji.
 
  <p>Supplementary characters are <a
- href="https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html#supplementary">encoded
+ href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Character.html#supplementary">encoded
  into a {@code String} using surrogate pairs</a>, and a {@code CharMatcher} treats these just as
  two separate characters. {@link #countIn} counts each supplementary character as 2 {@code char}s.
 
@@ -6386,7 +6386,7 @@
  <p><b>Note:</b> For most string-formatting needs, use {@link String#format String.format},
  {@link java.io.PrintWriter#format PrintWriter.format}, and related methods. These support the
  full range of <a
- href="https://docs.oracle.com/javase/9/docs/api/java/util/Formatter.html#syntax">format
+ href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Formatter.html#syntax">format
  specifiers</a>, and alert you to usage errors by throwing {@link
  java.util.IllegalFormatException}.
 
@@ -17832,8 +17832,9 @@
  <p>Expressing the immutability guarantee directly in the type that user code references is a
  powerful advantage. Although Java offers certain immutable collection factory methods, such as
  {@link Collections#singleton(Object)} and <a
- href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable">{@code Set.of}</a>,
- we recommend using <i>these</i> classes instead for this reason (as well as for consistency).
+ href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html#unmodifiable">{@code
+ Set.of}</a>, we recommend using <i>these</i> classes instead for this reason (as well as for
+ consistency).
 
  <h4>Creation</h4>
 
@@ -47467,7 +47468,7 @@
     <doc>
     <![CDATA[A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
  {@linkplain #close closed}. This was intended to approximately emulate the behavior of Java 7's
- <a href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
+ <a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
  >try-with-resources</a> statement in JDK6-compatible code. Code using this should be
  approximately equivalent in behavior to the same code written with try-with-resources.
 
@@ -50110,7 +50111,7 @@
  }
 
  @throws ArithmeticException if {@code m <= 0}
- @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
+ @see <a href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a>]]>
       </doc>
     </method>
@@ -50642,7 +50643,7 @@
  }
 
  @throws ArithmeticException if {@code m <= 0}
- @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
+ @see <a href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a>]]>
       </doc>
     </method>
@@ -50667,7 +50668,7 @@
  }
 
  @throws ArithmeticException if {@code m <= 0}
- @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
+ @see <a href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a>]]>
       </doc>
     </method>
@@ -64817,8 +64818,8 @@
       <doc>
       <![CDATA[Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
  according to <a
- href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
- arguments</a> introduced with Java generics.
+ href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5.1">the rules for
+ type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
       </doc>
@@ -64831,8 +64832,8 @@
       <doc>
       <![CDATA[Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
  according to <a
- href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
- arguments</a> introduced with Java generics.
+ href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5.1">the rules for
+ type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
       </doc>
@@ -64845,8 +64846,8 @@
       <doc>
       <![CDATA[Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
  according to <a
- href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
- arguments</a> introduced with Java generics.
+ href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5.1">the rules for
+ type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
       </doc>
@@ -64859,8 +64860,8 @@
       <doc>
       <![CDATA[Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
  according to <a
- href="http://docs.oracle.com/javase/specs/jls/se8/html/jls-4.html#jls-4.5.1">the rules for type
- arguments</a> introduced with Java generics.
+ href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5.1">the rules for
+ type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
       </doc>
@@ -66451,7 +66452,7 @@
  href="#bitEquals">bitwise equal</a> to the expected value.
 
  <p>May <a
- href="http://download.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/package-summary.html#Spurious">
+ href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html#Spurious">
  fail spuriously</a> and does not provide ordering guarantees, so is only rarely an appropriate
  alternative to {@code compareAndSet}.
 
@@ -66679,7 +66680,7 @@
  value is <a href="#bitEquals">bitwise equal</a> to the expected value.
 
  <p>May <a
- href="http://download.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/package-summary.html#Spurious">
+ href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html#Spurious">
  fail spuriously</a> and does not provide ordering guarantees, so is only rarely an appropriate
  alternative to {@code compareAndSet}.
 
@@ -71451,7 +71452,7 @@
  Futures#addCallback addCallback()}.
 
  <p>Memory consistency effects: Actions in a thread prior to adding a listener <a
- href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
+ href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.4.5">
  <i>happen-before</i></a> its execution begins, perhaps in another thread.
 
  <p>Guava implementations of {@code ListenableFuture} promptly release references to listeners

@@ -151,8 +151,9 @@ appropriate <code>copyOf</code> method itself.
 
 <p>Expressing the immutability guarantee directly in the type that user code references is a
 powerful advantage. Although Java offers certain immutable collection factory methods, such as
-<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html#singleton(T)" title="class or interface in java.util" class="external-link"><code>Collections.singleton(Object)</code></a> and <a href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable"><code>Set.of</code></a>,
-we recommend using <i>these</i> classes instead for this reason (as well as for consistency).
+<a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collections.html#singleton(T)" title="class or interface in java.util" class="external-link"><code>Collections.singleton(Object)</code></a> and <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html#unmodifiable"><code>
+Set.of</code></a>, we recommend using <i>these</i> classes instead for this reason (as well as for
+consistency).
 
 <h4 id="creation-heading">Creation</h4>
 
