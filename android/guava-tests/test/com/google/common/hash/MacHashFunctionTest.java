@@ -54,7 +54,9 @@ public class MacHashFunctionTest extends TestCase {
   private static final SecretKey SHA512_KEY =
       new SecretKeySpec("secret key".getBytes(UTF_8), "HmacSHA512");
 
-  // From http://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#Mac
+  // From https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#Mac
+  // TODO(cpovirk): Evaluate newer list:
+  // https://docs.oracle.com/en/java/javase/25/docs/specs/security/standard-names.html#mac-algorithms
   private static final ImmutableTable<String, SecretKey, HashFunction> ALGORITHMS =
       new ImmutableTable.Builder<String, SecretKey, HashFunction>()
           .put("HmacMD5", MD5_KEY, Hashing.hmacMd5(MD5_KEY))

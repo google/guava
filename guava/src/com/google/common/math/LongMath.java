@@ -444,7 +444,7 @@ public final class LongMath {
    * }
    *
    * @throws ArithmeticException if {@code m <= 0}
-   * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
+   * @see <a href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.17.3">
    *     Remainder Operator</a>
    */
   @GwtIncompatible // TODO
@@ -468,7 +468,7 @@ public final class LongMath {
    * }
    *
    * @throws ArithmeticException if {@code m <= 0}
-   * @see <a href="http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.17.3">
+   * @see <a href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.17.3">
    *     Remainder Operator</a>
    */
   @GwtIncompatible // TODO

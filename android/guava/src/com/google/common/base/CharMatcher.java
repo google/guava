@@ -41,7 +41,7 @@ import java.util.BitSet;
  * assigned characters, including important CJK characters and emoji.
  *
  * <p>Supplementary characters are <a
- * href="https://docs.oracle.com/javase/8/docs/api/java/lang/Character.html#supplementary">encoded
+ * href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Character.html#supplementary">encoded
  * into a {@code String} using surrogate pairs</a>, and a {@code CharMatcher} treats these just as
  * two separate characters. {@link #countIn} counts each supplementary character as 2 {@code char}s.
  *

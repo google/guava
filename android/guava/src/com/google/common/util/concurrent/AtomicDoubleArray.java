@@ -154,7 +154,7 @@ public class AtomicDoubleArray implements Serializable {
    * value is <a href="#bitEquals">bitwise equal</a> to the expected value.
    *
    * <p>May <a
-   * href="http://download.oracle.com/javase/7/docs/api/java/util/concurrent/atomic/package-summary.html#Spurious">
+   * href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/atomic/package-summary.html#Spurious">
    * fail spuriously</a> and does not provide ordering guarantees, so is only rarely an appropriate
    * alternative to {@code compareAndSet}.
    *

@@ -93,8 +93,9 @@ import org.jspecify.annotations.Nullable;
  * <p>Expressing the immutability guarantee directly in the type that user code references is a
  * powerful advantage. Although Java offers certain immutable collection factory methods, such as
  * {@link Collections#singleton(Object)} and <a
- * href="https://docs.oracle.com/javase/9/docs/api/java/util/Set.html#immutable">{@code Set.of}</a>,
- * we recommend using <i>these</i> classes instead for this reason (as well as for consistency).
+ * href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html#unmodifiable">{@code
+ * Set.of}</a>, we recommend using <i>these</i> classes instead for this reason (as well as for
+ * consistency).
  *
  * <h4>Creation</h4>
  *

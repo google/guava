@@ -1397,6 +1397,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * try-catch block.
    *
    * If you think you would use this method, let us know. You might also look into the
-   * Fork-Join framework: http://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html
+   * Fork-Join framework: https://docs.oracle.com/javase/tutorial/essential/concurrency/forkjoin.html
    */
 }

@@ -165,8 +165,8 @@ public class FluentIterableTest extends TestCase {
    * This test passes if the {@code concat(…).filter(…).filter(…)} statement at the end compiles.
    * That statement compiles only if {@link FluentIterable#concat concat(aIterable, bIterable)}
    * returns a {@link FluentIterable} of elements of an anonymous type whose supertypes are the <a
-   * href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-4.html#jls-4.9">intersection</a> of
-   * the supertypes of {@code A} and the supertypes of {@code B}.
+   * href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.9">intersection</a>
+   * of the supertypes of {@code A} and the supertypes of {@code B}.
    */
   public void testConcatIntersectionType() {
     Iterable<A> aIterable = ImmutableList.of();

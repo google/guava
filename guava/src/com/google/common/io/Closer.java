@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
 /**
  * A {@link Closeable} that collects {@code Closeable} resources and closes them all when it is
  * {@linkplain #close closed}. This was intended to approximately emulate the behavior of Java 7's
- * <a href="http://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
+ * <a href="https://docs.oracle.com/javase/tutorial/essential/exceptions/tryResourceClose.html"
  * >try-with-resources</a> statement in JDK6-compatible code. Code using this should be
  * approximately equivalent in behavior to the same code written with try-with-resources.
  *

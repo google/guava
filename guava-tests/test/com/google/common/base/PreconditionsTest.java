@@ -426,7 +426,7 @@ public class PreconditionsTest extends TestCase {
   // 'test' to demonstrate some potentially ambiguous overloads.  This 'test' is kind of strange,
   // but essentially each line will be a call to a Preconditions method that, but for a documented
   // change would be a compiler error.
-  // See http://docs.oracle.com/javase/specs/jls/se7/html/jls-15.html#jls-15.12.2 for the spec on
+  // See https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.12.2 for the spec on
   // how javac selects overloads
   @SuppressWarnings("null")
   public void overloadSelection() {

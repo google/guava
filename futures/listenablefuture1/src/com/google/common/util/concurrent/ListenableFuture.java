@@ -143,7 +143,7 @@ public interface ListenableFuture<V extends @Nullable Object> extends Future<V> 
    * Futures#addCallback addCallback()}.
    *
    * <p>Memory consistency effects: Actions in a thread prior to adding a listener <a
-   * href="https://docs.oracle.com/javase/specs/jls/se7/html/jls-17.html#jls-17.4.5">
+   * href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.4.5">
    * <i>happen-before</i></a> its execution begins, perhaps in another thread.
    *
    * <p>Guava implementations of {@code ListenableFuture} promptly release references to listeners
