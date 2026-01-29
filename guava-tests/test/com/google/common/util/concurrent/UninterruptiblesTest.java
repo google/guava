@@ -117,13 +117,19 @@ public class UninterruptiblesTest extends TestCase {
   // CountDownLatch.await() tests
 
   // Condition.await() tests
+
+  /*
+   * Our tests for awaitUninterruptibly are written under the assumption that no spurious wakeups
+   * occur except for those produced by awaitUninterruptibly itself in response to interrupts.
+   */
+
   public void testConditionAwaitTimeoutExceeded() {
     Stopwatch stopwatch = Stopwatch.createStarted();
     Condition condition = TestCondition.create();
 
-    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 500, MILLISECONDS);
+    boolean returnedBeforeTimeout = awaitUninterruptibly(condition, 500, MILLISECONDS);
 
-    assertFalse(signaledBeforeTimeout);
+    assertFalse(returnedBeforeTimeout);
     assertAtLeastTimePassed(stopwatch, 500);
     assertNotInterrupted();
   }
@@ -132,9 +138,9 @@ public class UninterruptiblesTest extends TestCase {
     Stopwatch stopwatch = Stopwatch.createStarted();
     Condition condition = TestCondition.createAndSignalAfter(500, MILLISECONDS);
 
-    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1500, MILLISECONDS);
+    boolean returnedBeforeTimeout = awaitUninterruptibly(condition, 1500, MILLISECONDS);
 
-    assertTrue(signaledBeforeTimeout);
+    assertTrue(returnedBeforeTimeout);
     assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
     assertNotInterrupted();
   }
@@ -144,10 +150,10 @@ public class UninterruptiblesTest extends TestCase {
     Condition condition = TestCondition.create();
     requestInterruptIn(500);
 
-    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1000, MILLISECONDS);
+    boolean returnedBeforeTimeout = awaitUninterruptibly(condition, 1000, MILLISECONDS);
 
-    assertFalse(signaledBeforeTimeout);
-    assertAtLeastTimePassed(stopwatch, 1000);
+    assertTrue(returnedBeforeTimeout);
+    assertAtLeastTimePassed(stopwatch, 500);
     assertInterrupted();
   }
 
@@ -156,9 +162,21 @@ public class UninterruptiblesTest extends TestCase {
     Condition condition = TestCondition.createAndSignalAfter(1000, MILLISECONDS);
     requestInterruptIn(500);
 
-    boolean signaledBeforeTimeout = awaitUninterruptibly(condition, 1500, MILLISECONDS);
+    boolean returnedBeforeTimeout = awaitUninterruptibly(condition, 1500, MILLISECONDS);
 
-    assertTrue(signaledBeforeTimeout);
+    assertTrue(returnedBeforeTimeout);
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+    assertInterrupted();
+  }
+
+  public void testConditionAwaitMultiInterrupt() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    Condition condition = TestCondition.createAndSignalAfter(1000, MILLISECONDS);
+    repeatedlyInterruptTestThread(tearDownStack);
+
+    boolean returnedBeforeTimeout = awaitUninterruptibly(condition, Duration.ofHours(1));
+
+    assertTrue(returnedBeforeTimeout);
     assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
     assertInterrupted();
   }
@@ -184,9 +202,9 @@ public class UninterruptiblesTest extends TestCase {
     Lock lock = new ReentrantLock();
     acquireFor(lock, 500, MILLISECONDS);
 
-    boolean signaledBeforeTimeout = tryLockUninterruptibly(lock, 1500, MILLISECONDS);
+    boolean acquired = tryLockUninterruptibly(lock, 1500, MILLISECONDS);
 
-    assertTrue(signaledBeforeTimeout);
+    assertTrue(acquired);
     assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
     assertNotInterrupted();
   }
@@ -197,9 +215,9 @@ public class UninterruptiblesTest extends TestCase {
     Thread lockThread = acquireFor(lock, 5, SECONDS);
     requestInterruptIn(500);
 
-    boolean signaledBeforeTimeout = tryLockUninterruptibly(lock, 1000, MILLISECONDS);
+    boolean acquired = tryLockUninterruptibly(lock, 1000, MILLISECONDS);
 
-    assertFalse(signaledBeforeTimeout);
+    assertFalse(acquired);
     assertAtLeastTimePassed(stopwatch, 1000);
     assertInterrupted();
 
@@ -213,9 +231,9 @@ public class UninterruptiblesTest extends TestCase {
     acquireFor(lock, 1000, MILLISECONDS);
     requestInterruptIn(500);
 
-    boolean signaledBeforeTimeout = tryLockUninterruptibly(lock, 1500, MILLISECONDS);
+    boolean acquired = tryLockUninterruptibly(lock, 1500, MILLISECONDS);
 
-    assertTrue(signaledBeforeTimeout);
+    assertTrue(acquired);
     assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
     assertInterrupted();
   }
@@ -876,8 +894,9 @@ public class UninterruptiblesTest extends TestCase {
           @Override
           public void run() {
             lock.lock();
-            latch.countDown();
             try {
+
+              latch.countDown();
               Thread.sleep(unit.toMillis(duration));
             } catch (InterruptedException e) {
               // simply finish execution
