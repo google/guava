@@ -70,6 +70,10 @@ class Subscriber {
             invokeSubscriberMethod(event);
           } catch (InvocationTargetException e) {
             bus.handleSubscriberException(e.getCause(), context(event));
+          } catch (StackOverflowError e) {
+            // StackOverflowError can occur from deep recursion in subscriber methods.
+            // We catch it to allow the SubscriberExceptionHandler to log it for debugging.
+            bus.handleSubscriberException(e, context(event));
           }
         });
   }

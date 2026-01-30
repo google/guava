@@ -163,6 +163,31 @@ public class EventBusTest extends TestCase {
     eventBus.post(EVENT);
   }
 
+  public void testSubscriberThrowsStackOverflowError() throws Exception {
+    RecordingSubscriberExceptionHandler handler = new RecordingSubscriberExceptionHandler();
+    EventBus eventBus = new EventBus(handler);
+    StackOverflowError error = new StackOverflowError("deep recursion");
+    Object subscriber =
+        new Object() {
+          @Subscribe
+          public void throwStackOverflowOn(String message) {
+            throw error;
+          }
+        };
+    eventBus.register(subscriber);
+    eventBus.post(EVENT);
+
+    assertEquals("StackOverflowError should be caught by handler.", error, handler.exception);
+    assertEquals("EventBus should be available.", eventBus, handler.context.getEventBus());
+    assertEquals("Event should be available.", EVENT, handler.context.getEvent());
+    assertEquals("Subscriber should be available.", subscriber, handler.context.getSubscriber());
+    assertEquals(
+        "Method should be available.",
+        subscriber.getClass().getMethod("throwStackOverflowOn", String.class),
+        handler.context.getSubscriberMethod());
+  }
+
+
   public void testDeadEventForwarding() {
     GhostCatcher catcher = new GhostCatcher();
     bus.register(catcher);
