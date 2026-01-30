@@ -115,6 +115,80 @@ public class UninterruptiblesTest extends TestCase {
   // IncrementableCountDownLatch.await() tests
 
   // CountDownLatch.await() tests
+  public void testAwaitWithNoWait() {
+    Stopwatch stopwatch = Stopwatch.createStarted();
+    CountDownLatch latch = new CountDownLatch(0);
+    awaitUninterruptibly(latch);
+    assertTrue(awaitUninterruptibly(latch, 0, MILLISECONDS));
+    assertTrue(awaitUninterruptibly(latch, -42, MILLISECONDS));
+    assertTrue(awaitUninterruptibly(latch, LONG_DELAY_MS, MILLISECONDS));
+    assertTimeNotPassed(stopwatch, LONG_DELAY_MS);
+  }
+
+  public void testAwaitNoInterrupt() {
+    TimedLatch latch = new TimedLatch(/* countdownInMillis= */ 20);
+    latch.awaitSuccessfully();
+    assertNotInterrupted();
+  }
+
+  public void testAwaitTimeoutNoInterruptNotExpired() {
+    TimedLatch latch = new TimedLatch(/* countdownInMillis= */ 20);
+    latch.awaitSuccessfully(LONG_DELAY_MS);
+    assertNotInterrupted();
+  }
+
+  public void testAwaitTimeoutNoInterruptExpired() {
+    TimedLatch latch = new TimedLatch(/* countdownInMillis= */ LONG_DELAY_MS);
+    latch.awaitUnsuccessfully(30);
+    assertNotInterrupted();
+  }
+
+  public void testAwaitSingleInterrupt() {
+    TimedLatch latch = new TimedLatch(/* countdownInMillis= */ 50);
+    requestInterruptIn(10);
+    latch.awaitSuccessfully();
+    assertInterrupted();
+  }
+
+  public void testAwaitTimeoutSingleInterruptNoExpire() {
+    TimedLatch latch = new TimedLatch(/* countdownInMillis= */ 50);
+    requestInterruptIn(10);
+    latch.awaitSuccessfully(LONG_DELAY_MS);
+    assertInterrupted();
+  }
+
+  public void testAwaitTimeoutSingleInterruptExpired() {
+    TimedLatch latch = new TimedLatch(/* countdownInMillis= */ LONG_DELAY_MS);
+    requestInterruptIn(10);
+    latch.awaitUnsuccessfully(50);
+    assertInterrupted();
+  }
+
+  public void testAwaitMultiInterrupt() {
+    TimedLatch latch = new TimedLatch(/* countdownInMillis= */ 100);
+    repeatedlyInterruptTestThread(tearDownStack);
+    latch.awaitSuccessfully();
+    assertInterrupted();
+  }
+
+  public void testAwaitTimeoutMultiInterruptNoExpire() {
+    TimedLatch latch = new TimedLatch(/* countdownInMillis= */ 100);
+    repeatedlyInterruptTestThread(tearDownStack);
+    latch.awaitSuccessfully(LONG_DELAY_MS);
+    assertInterrupted();
+  }
+
+  public void testAwaitTimeoutMultiInterruptExpired() {
+    /*
+     * We don't "need" to schedule a countDown() call at all here, but by doing
+     * so, we come the closest we can to testing that the wait time is
+     * appropriately decreased on each progressive await() call.
+     */
+    TimedLatch latch = new TimedLatch(/* countdownInMillis= */ LONG_DELAY_MS);
+    repeatedlyInterruptTestThread(tearDownStack);
+    latch.awaitUnsuccessfully(70);
+    assertInterrupted();
+  }
 
   // Condition.await() tests
 
@@ -596,7 +670,72 @@ public class UninterruptiblesTest extends TestCase {
         elapsedMillis + 5 >= expectedMillis);
   }
 
-  // TODO(cpovirk): Split this into separate CountDownLatch and IncrementableCountDownLatch classes.
+  /** Manages a countdown and associated timings. */
+  private abstract static class AbstractTimedLatch {
+    final Completion completed;
+
+    AbstractTimedLatch(long countdownInMillis) {
+      this.completed = new Completion(countdownInMillis);
+    }
+
+    /** Awaits the latch and asserts that operation completed in the expected timeframe. */
+    final void awaitSuccessfully() {
+      awaitLatchUninterruptibly();
+      completed.assertCompletionExpected();
+      assertEquals(0, getCount());
+    }
+
+    /**
+     * Awaits the latch with a timeout and asserts that operation completed in the expected
+     * timeframe.
+     */
+    final void awaitSuccessfully(long timeoutMillis) {
+      assertTrue(awaitLatchUninterruptibly(timeoutMillis, MILLISECONDS));
+      completed.assertCompletionExpected();
+    }
+
+    /**
+     * Awaits the latch with a timeout and asserts that the wait returned within the expected
+     * timeout.
+     */
+    final void awaitUnsuccessfully(long timeoutMillis) {
+      assertFalse(awaitLatchUninterruptibly(timeoutMillis, MILLISECONDS));
+      completed.assertCompletionNotExpected(timeoutMillis);
+    }
+
+    abstract void awaitLatchUninterruptibly();
+
+    abstract boolean awaitLatchUninterruptibly(long timeout, TimeUnit unit);
+
+    abstract long getCount();
+  }
+
+  /** Manages a {@link CountDownLatch} and associated timings. */
+  private static final class TimedLatch extends AbstractTimedLatch {
+    final CountDownLatch latch;
+
+    TimedLatch(long countdownInMillis) {
+      super(countdownInMillis);
+      this.latch = new CountDownLatch(1);
+      // TODO(cpovirk): automatically fail the test if this thread throws
+      new Thread(new CountDown(latch, countdownInMillis)).start();
+    }
+
+    @Override
+    void awaitLatchUninterruptibly() {
+      Uninterruptibles.awaitUninterruptibly(latch);
+    }
+
+    @Override
+    boolean awaitLatchUninterruptibly(long timeout, TimeUnit unit) {
+      return Uninterruptibles.awaitUninterruptibly(latch, timeout, unit);
+    }
+
+    @Override
+    long getCount() {
+      return latch.getCount();
+    }
+  }
 
   /** Manages a {@link BlockingQueue} and associated timings for a {@code put} call. */
   private static final class TimedPutQueue {
@@ -911,6 +1050,8 @@ public class UninterruptiblesTest extends TestCase {
     return thread;
   }
 
+  // We are implementing Condition, so our callers are responsible for the loop.
+  @SuppressWarnings("WaitNotInLoop")
   private static class TestCondition implements Condition {
     private final Lock lock;
     private final Condition condition;
