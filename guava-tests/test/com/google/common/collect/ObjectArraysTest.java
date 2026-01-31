@@ -197,6 +197,24 @@ public class ObjectArraysTest extends TestCase {
     assertThat(result).asList().containsExactly("foo", "bar", "baz").inOrder();
   }
 
+  public void testPrependIncompatibleType_throwsArrayStoreException() {
+    try {
+      Object[] unused = ObjectArrays.concat(0, new String[] {"foo"});
+      fail("Expected ArrayStoreException");
+    } catch (ArrayStoreException expected) {
+      // Expected behavior: cannot store Integer in String[]
+    }
+  }
+
+  public void testAppendIncompatibleType_throwsArrayStoreException() {
+    try {
+      Object[] unused = ObjectArrays.concat(new String[] {"foo"}, 0);
+      fail("Expected ArrayStoreException");
+    } catch (ArrayStoreException expected) {
+      // Expected behavior: cannot store Integer in String[]
+    }
+  }
+
   public void testEmptyArrayToEmpty() {
     doTestNewArrayEquals(new Object[0], 0);
   }
