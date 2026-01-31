@@ -64,6 +64,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.Spliterator;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentMap;
 import junit.framework.TestCase;
@@ -1623,5 +1624,32 @@ public class MapsTest extends TestCase {
     assertEquals(
         ImmutableSortedMap.of(2, 0, 4, 0, 6, 0, 8, 0, 10, 0),
         Maps.subMap(map, Range.<Integer>all()));
+  }
+
+  @GwtIncompatible // Spliterator
+  @J2ktIncompatible
+  public void testKeySetSpliteratorIsDistinct() {
+    HashMap<String, Integer> map = new HashMap<>();
+    map.put("a", 1);
+    map.put("b", 2);
+    int characteristics = map.keySet().spliterator().characteristics();
+    assertTrue(
+        "keySet spliterator should report DISTINCT",
+        (characteristics & Spliterator.DISTINCT) != 0);
+  }
+
+  @GwtIncompatible // Spliterator
+  @J2ktIncompatible
+  public void testValuesSpliteratorCharacteristics() {
+    HashMap<String, Integer> map = new HashMap<>();
+    map.put("a", 1);
+    map.put("b", 2);
+    Spliterator<Integer> valuesSpliterator = map.values().spliterator();
+    assertTrue(
+        "values spliterator should report SIZED",
+        (valuesSpliterator.characteristics() & Spliterator.SIZED) != 0);
+    assertFalse(
+        "values spliterator should NOT report DISTINCT",
+        (valuesSpliterator.characteristics() & Spliterator.DISTINCT) != 0);
   }
 }
