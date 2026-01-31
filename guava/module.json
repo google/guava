@@ -78,6 +78,101 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-annotations",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-base",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-concurrent",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-io",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-primitives",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-jdk5",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.sonatype.sisu",
+          "name": "sisu-guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.hudsonci.lib.guava",
+          "name": "guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.apache.servicemix.bundles",
+          "name": "org.apache.servicemix.bundles.guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-cache",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-collect",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-concurrent",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-core",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-eventbus",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-io",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-parse",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-reflect",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.apache.servicemix.bundles",
+          "name": "org.apache.servicemix.bundles.guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.googlecode.guava-osgi",
+          "name": "guava-osgi",
+          "version": "${pom.version}"
         }
       ]
     },
@@ -143,6 +238,101 @@
         {
           "group": "com.google.collections",
           "name": "google-collections",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-annotations",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-base",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-concurrent",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-io",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-primitives",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-jdk5",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.sonatype.sisu",
+          "name": "sisu-guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.hudsonci.lib.guava",
+          "name": "guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.apache.servicemix.bundles",
+          "name": "org.apache.servicemix.bundles.guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-cache",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-collect",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-concurrent",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-core",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-eventbus",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-io",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-parse",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-reflect",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.apache.servicemix.bundles",
+          "name": "org.apache.servicemix.bundles.guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.googlecode.guava-osgi",
+          "name": "guava-osgi",
           "version": "${pom.version}"
         }
       ]
@@ -210,6 +400,101 @@
           "group": "com.google.collections",
           "name": "google-collections",
           "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-annotations",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-base",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-concurrent",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-io",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-primitives",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-jdk5",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.sonatype.sisu",
+          "name": "sisu-guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.hudsonci.lib.guava",
+          "name": "guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.apache.servicemix.bundles",
+          "name": "org.apache.servicemix.bundles.guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-cache",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-collect",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-concurrent",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-core",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-eventbus",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-io",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-parse",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-reflect",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.apache.servicemix.bundles",
+          "name": "org.apache.servicemix.bundles.guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.googlecode.guava-osgi",
+          "name": "guava-osgi",
+          "version": "${pom.version}"
         }
       ]
     },
@@ -275,6 +560,101 @@
         {
           "group": "com.google.collections",
           "name": "google-collections",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-annotations",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-base",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-concurrent",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-io",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-primitives",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.google.guava",
+          "name": "guava-jdk5",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.sonatype.sisu",
+          "name": "sisu-guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.hudsonci.lib.guava",
+          "name": "guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.apache.servicemix.bundles",
+          "name": "org.apache.servicemix.bundles.guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-cache",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-collect",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-concurrent",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-core",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-eventbus",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-io",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-parse",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.diffplug.guava",
+          "name": "guava-reflect",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "org.apache.servicemix.bundles",
+          "name": "org.apache.servicemix.bundles.guava",
+          "version": "${pom.version}"
+        },
+        {
+          "group": "com.googlecode.guava-osgi",
+          "name": "guava-osgi",
           "version": "${pom.version}"
         }
       ]
