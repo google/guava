@@ -23,6 +23,7 @@ import com.google.common.base.Predicate;
 import com.google.common.base.VerifyException;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.UnsupportedCharsetException;
 import java.util.ConcurrentModificationException;
@@ -136,6 +137,7 @@ final class ReflectionFreeAssertThrows {
           .put(ExecutionException.class, e -> e instanceof ExecutionException)
           .put(IllegalArgumentException.class, e -> e instanceof IllegalArgumentException)
           .put(IllegalStateException.class, e -> e instanceof IllegalStateException)
+          .put(IOException.class, e -> e instanceof IOException)
           .put(IndexOutOfBoundsException.class, e -> e instanceof IndexOutOfBoundsException)
           .put(NoSuchElementException.class, e -> e instanceof NoSuchElementException)
           .put(NullPointerException.class, e -> e instanceof NullPointerException)
