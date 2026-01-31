@@ -1077,6 +1077,44 @@ public class LocalCacheTest extends TestCase {
     assertThat(listener.isEmpty()).isTrue();
   }
 
+  // Test for https://github.com/google/guava/issues/7985
+  // When compute() returns null for a collected entry, the removal cause should be COLLECTED.
+  public void testComputeRemovalCause_collected() {
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCache<Object, Object> map =
+        makeLocalCache(
+            createCacheBuilder().concurrencyLevel(1).softValues().removalListener(listener));
+    Segment<Object, Object> segment = map.segments[0];
+    assertThat(listener.isEmpty()).isTrue();
+
+    Object key = new Object();
+    Object value = new Object();
+
+    // Put an entry into the cache
+    map.put(key, value);
+    assertThat(listener.isEmpty()).isTrue();
+
+    // Get the entry and clear its value reference to simulate garbage collection
+    int hash = map.hash(key);
+    ReferenceEntry<Object, Object> entry = segment.getEntry(key, hash);
+    ValueReference<Object, Object> valueReference = entry.getValueReference();
+
+    // Simulate garbage collection by clearing the value reference
+    ((java.lang.ref.Reference<?>) valueReference).clear();
+
+    // Now call compute() with a function that returns null
+    // Since the value was collected, the removal cause should be COLLECTED, not EXPLICIT
+    Object unused = map.compute(key, (k, v) -> {
+      // The value should be null since it was collected
+      assertThat(v).isNull();
+      return null;
+    });
+
+    // Verify the removal notification has COLLECTED cause
+    assertNotified(listener, key, null, RemovalCause.COLLECTED);
+    assertThat(listener.isEmpty()).isTrue();
+  }
+
   public void testRemovalListener_expired() {
     FakeTicker ticker = new FakeTicker();
     QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
