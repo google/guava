@@ -22,8 +22,8 @@ import com.google.common.collect.testing.testers.ConcurrentMapPutIfAbsentTester;
 import com.google.common.collect.testing.testers.ConcurrentMapRemoveTester;
 import com.google.common.collect.testing.testers.ConcurrentMapReplaceEntryTester;
 import com.google.common.collect.testing.testers.ConcurrentMapReplaceTester;
-import com.google.common.collect.testing.testers.ConcurrentMapSpliteratorTester;
 import java.util.List;
+import java.util.Map.Entry;
 
 /**
  * Creates, based on your criteria, a JUnit test suite that exhaustively tests a ConcurrentMap
@@ -45,8 +45,7 @@ public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, 
           ConcurrentMapPutIfAbsentTester.class,
           ConcurrentMapRemoveTester.class,
           ConcurrentMapReplaceTester.class,
-          ConcurrentMapReplaceEntryTester.class,
-          ConcurrentMapSpliteratorTester.class);
+          ConcurrentMapReplaceEntryTester.class);
 
   @SuppressWarnings("rawtypes") // class literals
   @Override
@@ -54,5 +53,22 @@ public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, 
     List<Class<? extends AbstractTester>> testers = copyToList(super.getTesters());
     testers.addAll(TESTERS);
     return testers;
+  }
+
+  @Override
+  protected SetTestSuiteBuilder<Entry<K, V>> createDerivedEntrySetSuite(
+      TestSetGenerator<Entry<K, V>> entrySetGenerator) {
+    return ConcurrentSetTestSuiteBuilder.using(entrySetGenerator);
+  }
+
+  @Override
+  protected SetTestSuiteBuilder<K> createDerivedKeySetSuite(TestSetGenerator<K> keySetGenerator) {
+    return ConcurrentSetTestSuiteBuilder.using(keySetGenerator);
+  }
+
+  @Override
+  protected CollectionTestSuiteBuilder<V> createDerivedValueCollectionSuite(
+      TestCollectionGenerator<V> valueCollectionGenerator) {
+    return ConcurrentCollectionTestSuiteBuilder.using(valueCollectionGenerator);
   }
 }
