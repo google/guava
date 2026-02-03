@@ -75,6 +75,56 @@ public class CollectionSpliteratorTester<E> extends AbstractCollectionTester<E> 
     assertFalse(collection.spliterator().hasCharacteristics(Spliterator.IMMUTABLE));
   }
 
+  /**
+   * Tests that the spliterator does not report both {@code CONCURRENT} and {@code SIZED}
+   * characteristics, which are incompatible per the {@link Spliterator} specification.
+   */
+  public void testSpliteratorNotConcurrentAndSized() {
+    Spliterator<E> spliterator = collection.spliterator();
+    assertFalse(
+        "spliterator should not have both CONCURRENT and SIZED characteristics",
+        spliterator.hasCharacteristics(Spliterator.CONCURRENT)
+            && spliterator.hasCharacteristics(Spliterator.SIZED));
+  }
+
+  /**
+   * Tests that the spliterator does not report both {@code CONCURRENT} and {@code IMMUTABLE}
+   * characteristics, which are incompatible per the {@link Spliterator} specification.
+   */
+  public void testSpliteratorNotConcurrentAndImmutable() {
+    Spliterator<E> spliterator = collection.spliterator();
+    assertFalse(
+        "spliterator should not have both CONCURRENT and IMMUTABLE characteristics",
+        spliterator.hasCharacteristics(Spliterator.CONCURRENT)
+            && spliterator.hasCharacteristics(Spliterator.IMMUTABLE));
+  }
+
+  /**
+   * Tests that if the spliterator reports {@code SORTED}, it also reports {@code ORDERED}, as
+   * required by the {@link Spliterator} specification.
+   */
+  public void testSpliteratorSortedRequiresOrdered() {
+    Spliterator<E> spliterator = collection.spliterator();
+    if (spliterator.hasCharacteristics(Spliterator.SORTED)) {
+      assertTrue(
+          "spliterator reporting SORTED must also report ORDERED",
+          spliterator.hasCharacteristics(Spliterator.ORDERED));
+    }
+  }
+
+  /**
+   * Tests that if the spliterator reports {@code SUBSIZED}, it also reports {@code SIZED}, as
+   * required by the {@link Spliterator} specification.
+   */
+  public void testSpliteratorSubsizedRequiresSized() {
+    Spliterator<E> spliterator = collection.spliterator();
+    if (spliterator.hasCharacteristics(Spliterator.SUBSIZED)) {
+      assertTrue(
+          "spliterator reporting SUBSIZED must also report SIZED",
+          spliterator.hasCharacteristics(Spliterator.SIZED));
+    }
+  }
+
   @J2ktIncompatible
   @GwtIncompatible // reflection
   public static Method getSpliteratorNotImmutableCollectionAllowsAddMethod() {
