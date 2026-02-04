@@ -54,7 +54,8 @@ public final class MoreObjects {
    * first.or(supplier)}.
    *
    * <p><b>Java 9 users:</b> use {@code java.util.Objects.requireNonNullElse(first, second)}
-   * instead.
+   * instead. For lazy evaluation of the fallback, use {@code
+   * java.util.Objects.requireNonNullElseGet(first, supplier)}.
    *
    * @return {@code first} if it is non-null; otherwise {@code second} if it is non-null
    * @throws NullPointerException if both {@code first} and {@code second} are null
