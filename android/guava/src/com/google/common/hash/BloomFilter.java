@@ -220,9 +220,17 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
         -Math.log1p(-fractionOfBitsSet) * bitSize / numHashFunctions, RoundingMode.HALF_UP);
   }
 
-  /** Returns the number of bits in the underlying bit array. */
-  @VisibleForTesting
-  long bitSize() {
+  /**
+   * Returns the number of bits in the underlying bit array.
+   *
+   * <p>This can be useful when pre-allocating space for serialization. The number of bytes written
+   * by {@link #writeTo(OutputStream)} is {@code bitSize() / 8 + 6} (6 bytes for the header: 1 byte
+   * for the strategy, 1 byte for the number of hash functions, and 4 bytes for the array length).
+   *
+   * @return the number of bits in this Bloom filter's underlying bit array
+   * @since 35.0
+   */
+  public long bitSize() {
     return bits.bitSize();
   }
 

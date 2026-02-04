@@ -353,6 +353,47 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
+  /**
+   * Tests that bitSize() can be used to predict the serialization size produced by writeTo().
+   *
+   * <p>The serialization format consists of a 6-byte header (1 byte strategy, 1 byte hash
+   * functions, 4 bytes array length) followed by the bit array data (bitSize / 8 bytes).
+   */
+  public void testBitSizeMatchesSerializationSize() throws Exception {
+    int[] expectedInsertionValues = {1, 10, 100, 1000, 10000};
+    double[] fppValues = {0.01, 0.03, 0.1};
+
+    for (int expectedInsertions : expectedInsertionValues) {
+      for (double fpp : fppValues) {
+        BloomFilter<String> bf =
+            BloomFilter.create(Funnels.unencodedCharsFunnel(), expectedInsertions, fpp);
+
+        // Add some elements
+        for (int i = 0; i < expectedInsertions / 2; i++) {
+          bf.put("element" + i);
+        }
+
+        // Calculate expected size based on bitSize()
+        // Header: 1 byte (strategy) + 1 byte (hash functions) + 4 bytes (array length) = 6 bytes
+        // Data: bitSize / 8 bytes
+        long predictedSize = bf.bitSize() / 8 + 6;
+
+        // Serialize and measure actual size
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        bf.writeTo(out);
+        int actualSize = out.size();
+
+        assertEquals(
+            "Serialization size mismatch for expectedInsertions="
+                + expectedInsertions
+                + " fpp="
+                + fpp,
+            predictedSize,
+            actualSize);
+      }
+    }
+  }
+
   public void testApproximateElementCount() {
     int numInsertions = 1000;
     BloomFilter<Integer> bf = BloomFilter.create(Funnels.integerFunnel(), numInsertions);
