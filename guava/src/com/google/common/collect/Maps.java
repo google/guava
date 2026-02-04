@@ -1324,7 +1324,12 @@ public final class Maps {
   @CanIgnoreReturnValue
   public static <K, V> ImmutableMap<K, V> uniqueIndex(
       Iterable<V> values, Function<? super V, K> keyFunction) {
-    if (values instanceof Collection) {
+    // Avoid calling size() on FilteredCollection or FilteredMultimapValues, as their size()
+    // methods iterate through all elements, causing double iteration when combined with
+    // the subsequent uniqueIndex iteration.
+    if (values instanceof Collection
+        && !(values instanceof Collections2.FilteredCollection)
+        && !(values instanceof FilteredMultimapValues)) {
       return uniqueIndex(
           values.iterator(),
           keyFunction,
