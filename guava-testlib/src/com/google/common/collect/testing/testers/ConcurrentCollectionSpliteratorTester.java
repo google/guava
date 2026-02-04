@@ -31,7 +31,7 @@ import org.junit.Ignore;
  * com.google.common.collect.testing.ConcurrentCollectionTestSuiteBuilder} or {@link
  * com.google.common.collect.testing.ConcurrentSetTestSuiteBuilder}.
  *
- * @author Guava Authors
+ * @author Nickita Khylkouski
  */
 @GwtCompatible
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")

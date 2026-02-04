@@ -29,7 +29,7 @@ import java.util.List;
  * <p>This builder adds {@link ConcurrentCollectionSpliteratorTester} to verify that the set's
  * spliterator has the {@link java.util.Spliterator#CONCURRENT} characteristic.
  *
- * @author Guava Authors
+ * @author Nickita Khylkouski
  */
 @GwtIncompatible
 public class ConcurrentSetTestSuiteBuilder<E> extends SetTestSuiteBuilder<E> {
