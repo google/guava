@@ -3037,12 +3037,13 @@
  lazy evaluation of the fallback instance, using {@link Optional#or(Supplier)
  first.or(supplier)}.
 
- <p><b>Java 9 users:</b> use {@code java.util.Objects.requireNonNullElse(first, second)}
- instead.
+ <p><b>Java 9 users:</b> use {@link Objects#requireNonNullElse} instead. For lazy evaluation of
+ the fallback, use {@link Objects#requireNonNullElseGet Objects.requireNonNullElseGet(first, ()
+ -> second)}}.
 
  @return {@code first} if it is non-null; otherwise {@code second} if it is non-null
  @throws NullPointerException if both {@code first} and {@code second} are null
- @since 18.0 (since 3.0 as {@code Objects.firstNonNull()}).]]>
+ @since 18.0 (since 3.0 as {@code Objects.firstNonNull}).]]>
       </doc>
     </method>
     <method name="toStringHelper" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3088,7 +3089,7 @@
 
  @param self the object to generate the string for (typically {@code this}), used only for its
      class name
- @since 18.0 (since 2.0 as {@code Objects.toStringHelper()}).]]>
+ @since 18.0 (since 2.0 as {@code Objects.toStringHelper}).]]>
       </doc>
     </method>
     <method name="toStringHelper" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3104,7 +3105,7 @@
  <p>Note that in GWT, class names are often obfuscated.
 
  @param clazz the {@link Class} of the instance
- @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).]]>
+ @since 18.0 (since 7.0 as {@code Objects.toStringHelper}).]]>
       </doc>
     </method>
     <method name="toStringHelper" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3118,12 +3119,12 @@
  Object#getClass()}.
 
  @param className the name of the instance type
- @since 18.0 (since 7.0 as {@code Objects.toStringHelper()}).]]>
+ @since 18.0 (since 7.0 as {@code Objects.toStringHelper}).]]>
       </doc>
     </method>
     <doc>
     <![CDATA[Helper functions that operate on any {@code Object}, and are not already provided in {@link
- java.util.Objects}.
+ Objects}.
 
  <p>See the Guava User Guide on <a
  href="https://github.com/google/guava/wiki/CommonObjectUtilitiesExplained">writing {@code Object}
@@ -3148,7 +3149,7 @@
  value. The order of calling this method, relative to the {@code add()}/{@code addValue()}
  methods, is not significant.
 
- @since 18.0 (since 12.0 as {@code Objects.ToStringHelper.omitNullValues()}).]]>
+ @since 18.0 (since 12.0 as {@code Objects.ToStringHelper.omitNullValues}).]]>
       </doc>
     </method>
     <method name="omitEmptyValues" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3189,7 +3190,7 @@
       <doc>
       <![CDATA[Adds a name/value pair to the formatted output in {@code name=value} format.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add}).]]>
       </doc>
     </method>
     <method name="add" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3201,7 +3202,7 @@
       <doc>
       <![CDATA[Adds a name/value pair to the formatted output in {@code name=value} format.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add}).]]>
       </doc>
     </method>
     <method name="add" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3213,7 +3214,7 @@
       <doc>
       <![CDATA[Adds a name/value pair to the formatted output in {@code name=value} format.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add}).]]>
       </doc>
     </method>
     <method name="add" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3225,7 +3226,7 @@
       <doc>
       <![CDATA[Adds a name/value pair to the formatted output in {@code name=value} format.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add}).]]>
       </doc>
     </method>
     <method name="add" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3237,7 +3238,7 @@
       <doc>
       <![CDATA[Adds a name/value pair to the formatted output in {@code name=value} format.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add}).]]>
       </doc>
     </method>
     <method name="add" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3249,7 +3250,7 @@
       <doc>
       <![CDATA[Adds a name/value pair to the formatted output in {@code name=value} format.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.add}).]]>
       </doc>
     </method>
     <method name="addValue" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3275,7 +3276,7 @@
  <p>It is strongly encouraged to use {@link #add(String, boolean)} instead and give value a
  readable name.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue}).]]>
       </doc>
     </method>
     <method name="addValue" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3289,7 +3290,7 @@
  <p>It is strongly encouraged to use {@link #add(String, char)} instead and give value a
  readable name.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue}).]]>
       </doc>
     </method>
     <method name="addValue" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3303,7 +3304,7 @@
  <p>It is strongly encouraged to use {@link #add(String, double)} instead and give value a
  readable name.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue}).]]>
       </doc>
     </method>
     <method name="addValue" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3317,7 +3318,7 @@
  <p>It is strongly encouraged to use {@link #add(String, float)} instead and give value a
  readable name.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue}).]]>
       </doc>
     </method>
     <method name="addValue" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3331,7 +3332,7 @@
  <p>It is strongly encouraged to use {@link #add(String, int)} instead and give value a
  readable name.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue}).]]>
       </doc>
     </method>
     <method name="addValue" return="com.google.common.base.MoreObjects.ToStringHelper"
@@ -3345,7 +3346,7 @@
  <p>It is strongly encouraged to use {@link #add(String, long)} instead and give value a
  readable name.
 
- @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue()}).]]>
+ @since 18.0 (since 11.0 as {@code Objects.ToStringHelper.addValue}).]]>
       </doc>
     </method>
     <method name="toString" return="java.lang.String"

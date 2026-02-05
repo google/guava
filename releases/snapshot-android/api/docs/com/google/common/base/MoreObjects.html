@@ -180,15 +180,16 @@ Predicates.notNull())</code>, static importing as necessary.
 accomplished with <a href="Optional.html#or(T)"><code>first.or(second)</code></a>. That approach also allows for
 lazy evaluation of the fallback instance, using <a href="Optional.html#or(com.google.common.base.Supplier)"><code>first.or(supplier)</code></a>.
 
-<p><b>Java 9 users:</b> use <code>java.util.Objects.requireNonNullElse(first, second)</code>
-instead.</div>
+<p><b>Java 9 users:</b> use <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Objects.html#requireNonNullElse(T,T)" title="class or interface in java.util" class="external-link"><code>Objects.requireNonNullElse(T, T)</code></a> instead. For lazy evaluation of
+the fallback, use <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Objects.html#requireNonNullElseGet(T,java.util.function.Supplier)" title="class or interface in java.util" class="external-link"><code>Objects.requireNonNullElseGet(first, ()
+-&gt; second)</code></a>}.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd><code>first</code> if it is non-null; otherwise <code>second</code> if it is non-null</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/NullPointerException.html" title="class or interface in java.lang" class="external-link">NullPointerException</a></code> - if both <code>first</code> and <code>second</code> are null</dd>
 <dt>Since:</dt>
-<dd>18.0 (since 3.0 as <code>Objects.firstNonNull()</code>).</dd>
+<dd>18.0 (since 3.0 as <code>Objects.firstNonNull</code>).</dd>
 </dl>
 </div>
 </section>
@@ -239,7 +240,7 @@ MoreObjects.toStringHelper(this)
 <dd><code>self</code> - the object to generate the string for (typically <code>this</code>), used only for its
     class name</dd>
 <dt>Since:</dt>
-<dd>18.0 (since 2.0 as <code>Objects.toStringHelper()</code>).</dd>
+<dd>18.0 (since 2.0 as <code>Objects.toStringHelper</code>).</dd>
 </dl>
 </div>
 </section>
@@ -257,7 +258,7 @@ instance's <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base
 <dt>Parameters:</dt>
 <dd><code>clazz</code> - the <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Class.html" title="class or interface in java.lang" class="external-link"><code>Class</code></a> of the instance</dd>
 <dt>Since:</dt>
-<dd>18.0 (since 7.0 as <code>Objects.toStringHelper()</code>).</dd>
+<dd>18.0 (since 7.0 as <code>Objects.toStringHelper</code>).</dd>
 </dl>
 </div>
 </section>
@@ -272,7 +273,7 @@ instance's <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base
 <dt>Parameters:</dt>
 <dd><code>className</code> - the name of the instance type</dd>
 <dt>Since:</dt>
-<dd>18.0 (since 7.0 as <code>Objects.toStringHelper()</code>).</dd>
+<dd>18.0 (since 7.0 as <code>Objects.toStringHelper</code>).</dd>
 </dl>
 </div>
 </section>
