@@ -54906,6 +54906,10 @@
 
  <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
 
+ <p>IPv4-mapped IPv6 addresses (e.g. {@code "::ffff:192.168.0.1"}) are returned as {@link
+ Inet4Address} objects, not {@link Inet6Address}. This is consistent with the behavior of {@link
+ InetAddress}.
+
  <p>This method accepts non-ASCII digits, for example {@code "１９２.１６８.０.１"} (those are fullwidth
  characters). That is consistent with {@link InetAddress}, but not with various RFCs. If you
  want to accept ASCII digits only, you can use something like {@code

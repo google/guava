@@ -365,6 +365,8 @@ otherwise.</div>
 
 <p>This deliberately avoids all nameservice lookups (e.g. no DNS).
 
+<p>IPv4-mapped IPv6 addresses (e.g. <code>"::ffff:192.168.0.1"</code>) are returned as <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/Inet4Address.html" title="class or interface in java.net" class="external-link"><code>Inet4Address</code></a> objects, not <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/Inet6Address.html" title="class or interface in java.net" class="external-link"><code>Inet6Address</code></a>. This is consistent with the behavior of <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/InetAddress.html" title="class or interface in java.net" class="external-link"><code>InetAddress</code></a>.
+
 <p>This method accepts non-ASCII digits, for example <code>"１９２.１６８.０.１"</code> (those are fullwidth
 characters). That is consistent with <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/net/InetAddress.html" title="class or interface in java.net" class="external-link"><code>InetAddress</code></a>, but not with various RFCs. If you
 want to accept ASCII digits only, you can use something like <code>
