@@ -64,6 +64,9 @@ public final class CharStreams {
    */
   @CanIgnoreReturnValue
   public static long copy(Readable from, Appendable to) throws IOException {
+    checkNotNull(from);
+    checkNotNull(to);
+
     // The most common case is that from is a Reader (like InputStreamReader or StringReader) so
     // take advantage of that.
     if (from instanceof Reader) {
@@ -75,8 +78,6 @@ public final class CharStreams {
       }
     }
 
-    checkNotNull(from);
-    checkNotNull(to);
     long total = 0;
     CharBuffer buf = createBuffer();
     while (from.read(buf) != -1) {
