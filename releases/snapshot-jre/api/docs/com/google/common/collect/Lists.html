@@ -398,7 +398,7 @@ syntax</a>.</div>
 <div class="block">Creates a <i>mutable</i> <code>LinkedList</code> instance containing the given elements; a very thin
 shortcut for creating an empty list then calling <a href="Iterables.html#addAll(java.util.Collection,java.lang.Iterable)"><code>Iterables.addAll(Collection, Iterable)</code></a>.
 
-<p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="ImmutableList.html#copyOf(java.lang.Iterable)"><code>ImmutableList.copyOf(Iterable)</code></a> instead. (Or, change <code>elements</code> to be a <a href="FluentIterable.html" title="class in com.google.common.collect"><code>FluentIterable</code></a> and call <code>elements.toList()</code>.)
+<p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="ImmutableList.html#copyOf(java.lang.Iterable)"><code>ImmutableList.copyOf(Iterable)</code></a> instead.
 
 <p><b>Performance note:</b> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayList.html" title="class or interface in java.util" class="external-link"><code>ArrayList</code></a> and <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/ArrayDeque.html" title="class or interface in java.util" class="external-link"><code>ArrayDeque</code></a> consistently
 outperform <code>LinkedList</code> except in certain rare and specific situations. Unless you have

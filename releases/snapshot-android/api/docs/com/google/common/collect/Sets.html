@@ -500,7 +500,7 @@ This method is not actually very useful and will likely be deprecated in the fut
 <div class="block">Creates a <i>mutable</i> <code>HashSet</code> instance containing the given elements. A very thin
 convenience for creating an empty set then calling <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Collection.html#addAll(java.util.Collection)" title="class or interface in java.util" class="external-link"><code>Collection.addAll(Collection)</code></a> or <a href="Iterables.html#addAll(java.util.Collection,java.lang.Iterable)"><code>Iterables.addAll(Collection, Iterable)</code></a>.
 
-<p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="ImmutableSet.html#copyOf(java.lang.Iterable)"><code>ImmutableSet.copyOf(Iterable)</code></a> instead. (Or, change <code>elements</code> to be a <a href="FluentIterable.html" title="class in com.google.common.collect"><code>FluentIterable</code></a> and call <code>elements.toSet()</code>.)
+<p><b>Note:</b> if mutability is not required and the elements are non-null, use <a href="ImmutableSet.html#copyOf(java.lang.Iterable)"><code>ImmutableSet.copyOf(Iterable)</code></a> instead.
 
 <p><b>Note:</b> if <code>E</code> is an <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Enum.html" title="class or interface in java.lang" class="external-link"><code>Enum</code></a> type, use <a href="#newEnumSet(java.lang.Iterable,java.lang.Class)"><code>newEnumSet(Iterable, Class)</code></a>
 instead.
