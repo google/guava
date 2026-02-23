@@ -867,8 +867,7 @@ empty, passed directly to this method, and no reference to the map is retained, 
 in the following code fragment:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-newSetFromMap(java.util.Map)1"><code class="language-java">Set&lt;Object&gt; identityHashSet = Sets.newSetFromMap(
-    new IdentityHashMap&lt;Object, Boolean&gt;());
+<pre class="snippet" id="snippet-newSetFromMap(java.util.Map)1"><code class="language-java">Set&lt;Object&gt; identityHashSet = Sets.newSetFromMap(new IdentityHashMap&lt;Object, Boolean&gt;());
 </code></pre>
 </div>
 
@@ -930,8 +929,7 @@ Set&lt;String&gt; manyBadStrings = ...
 
 // impossible for a non-String to be in the intersection
 SuppressWarnings("unchecked")
-Set&lt;String&gt; badStrings = (Set) Sets.intersection(
-    aFewBadObjects, manyBadStrings);
+Set&lt;String&gt; badStrings = (Set) Sets.intersection(aFewBadObjects, manyBadStrings);
 </code></pre>
 </div>
 
@@ -1087,9 +1085,7 @@ sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_produc
 product</a>" of the sets. For example:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-cartesianProduct(java.util.List)3"><code class="language-java">Sets.cartesianProduct(ImmutableList.of(
-    ImmutableSet.of(1, 2),
-    ImmutableSet.of("A", "B", "C")))
+<pre class="snippet" id="snippet-cartesianProduct(java.util.List)3"><code class="language-java">Sets.cartesianProduct(ImmutableList.of(ImmutableSet.of(1, 2), ImmutableSet.of("A", "B", "C")))
 </code></pre>
 </div>
 
@@ -1157,9 +1153,7 @@ sets in order; the "n-ary <a href="http://en.wikipedia.org/wiki/Cartesian_produc
 product</a>" of the sets. For example:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-cartesianProduct(java.util.Set...)1"><code class="language-java">Sets.cartesianProduct(
-    ImmutableSet.of(1, 2),
-    ImmutableSet.of("A", "B", "C"))
+<pre class="snippet" id="snippet-cartesianProduct(java.util.Set...)1"><code class="language-java">Sets.cartesianProduct(ImmutableSet.of(1, 2), ImmutableSet.of("A", "B", "C"))
 </code></pre>
 </div>
 
@@ -1352,7 +1346,7 @@ synchronized (set) {
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-synchronizedNavigableSet(java.util.NavigableSet)2"><code class="language-java">NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());
 NavigableSet&lt;E&gt; set2 = set.descendingSet().headSet(foo);
- ...
+...
 synchronized (set) { // Note: set, not set2!!!
   // Must be in the synchronized block
   Iterator&lt;E&gt; it = set2.descendingIterator();

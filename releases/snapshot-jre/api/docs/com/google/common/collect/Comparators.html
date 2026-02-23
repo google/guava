@@ -265,8 +265,7 @@ are broken arbitrarily.
 <p>For example:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-least(int,java.util.Comparator)1"><code class="language-java">Stream.of("foo", "quux", "banana", "elephant")
-    .collect(least(2, comparingInt(String::length)))
+<pre class="snippet" id="snippet-least(int,java.util.Comparator)1"><code class="language-java">Stream.of("foo", "quux", "banana", "elephant").collect(least(2, comparingInt(String::length)))
 // returns {"foo", "quux"}
 </code></pre>
 </div>

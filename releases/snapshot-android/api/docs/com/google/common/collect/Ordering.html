@@ -622,8 +622,7 @@ the returned instance these are implemented by simply copying the source list.
 <p>Example:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-allEqual()1"><code class="language-java">Ordering.allEqual().nullsLast().sortedCopy(
-    asList(t, null, e, s, null, t, null))
+<pre class="snippet" id="snippet-allEqual()1"><code class="language-java">Ordering.allEqual().nullsLast().sortedCopy(asList(t, null, e, s, null, t, null))
 </code></pre>
 </div>
 
@@ -729,8 +728,7 @@ then comparing those results using <code>this</code>. For example, to compare ob
 string forms, in a case-insensitive manner, use:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-onResultOf(com.google.common.base.Function)2"><code class="language-java">Ordering.from(String.CASE_INSENSITIVE_ORDER)
-    .onResultOf(Functions.toStringFunction())
+<pre class="snippet" id="snippet-onResultOf(com.google.common.base.Function)2"><code class="language-java">Ordering.from(String.CASE_INSENSITIVE_ORDER).onResultOf(Functions.toStringFunction())
 </code></pre>
 </div>
 

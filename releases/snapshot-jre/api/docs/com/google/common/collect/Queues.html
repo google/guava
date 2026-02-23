@@ -631,9 +631,9 @@ queue's iterator:
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-synchronizedQueue(java.util.Queue)1"><code class="language-java">Queue&lt;E&gt; queue = Queues.synchronizedQueue(MinMaxPriorityQueue.&lt;E&gt;create());
 ...
-queue.add(element);  // Needn't be in synchronized block
+queue.add(element); // Needn't be in synchronized block
 ...
-synchronized (queue) {  // Must synchronize on queue!
+synchronized (queue) { // Must synchronize on queue!
   Iterator&lt;E&gt; i = queue.iterator(); // Must be in synchronized block
   while (i.hasNext()) {
     foo(i.next());
@@ -672,9 +672,9 @@ of the deque's iterators:
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-synchronizedDeque(java.util.Deque)1"><code class="language-java">Deque&lt;E&gt; deque = Queues.synchronizedDeque(Queues.newArrayDeque());
 ...
-deque.add(element);  // Needn't be in synchronized block
+deque.add(element); // Needn't be in synchronized block
 ...
-synchronized (deque) {  // Must synchronize on deque!
+synchronized (deque) { // Must synchronize on deque!
   Iterator&lt;E&gt; i = deque.iterator(); // Must be in synchronized block
   while (i.hasNext()) {
     foo(i.next());

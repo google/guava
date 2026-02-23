@@ -1103,8 +1103,7 @@ Example usage:
 ...
 ImmutableSet&lt;Color&gt; allColors = ImmutableSet.of(red, green, blue);
 
-ImmutableMap&lt;String, Color&gt; colorForName =
-    uniqueIndex(allColors, c -&gt; c.toString());
+ImmutableMap&lt;String, Color&gt; colorForName = uniqueIndex(allColors, c -&gt; c.toString());
 assertThat(colorForName).containsEntry("red", red);
 </code></pre>
 </div>
@@ -1158,8 +1157,7 @@ Example usage:
 ...
 Iterator&lt;Color&gt; allColors = ImmutableSet.of(red, green, blue).iterator();
 
-Map&lt;String, Color&gt; colorForName =
-    uniqueIndex(allColors, toStringFunction());
+Map&lt;String, Color&gt; colorForName = uniqueIndex(allColors, toStringFunction());
 assertThat(colorForName).containsEntry("red", red);
 </code></pre>
 </div>
@@ -1259,9 +1257,9 @@ of its collection views:
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-synchronizedBiMap(com.google.common.collect.BiMap)1"><code class="language-java">BiMap&lt;Long, String&gt; map = Maps.synchronizedBiMap(HashBiMap.create());
 ...
-Set&lt;Long&gt; set = map.keySet();  // Needn't be in synchronized block
+Set&lt;Long&gt; set = map.keySet(); // Needn't be in synchronized block
 ...
-synchronized (map) {  // Synchronizing on map, not set!
+synchronized (map) { // Synchronizing on map, not set!
   Iterator&lt;Long&gt; it = set.iterator(); // Must be in synchronized block
   while (it.hasNext()) {
     foo(it.next());
@@ -1355,8 +1353,7 @@ properties of the map, such as iteration order, are left intact. For example, th
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-transformValues(java.util.SortedMap,com.google.common.base.Function)1"><code class="language-java">SortedMap&lt;String, Integer&gt; map = ImmutableSortedMap.of("a", 4, "b", 9);
 Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
-SortedMap&lt;String, Double&gt; transformed =
-     Maps.transformValues(map, sqrt);
+SortedMap&lt;String, Double&gt; transformed = Maps.transformValues(map, sqrt);
 System.out.println(transformed);
 </code></pre>
 </div>
@@ -1401,8 +1398,7 @@ properties of the map, such as iteration order, are left intact. For example, th
 map.put("a", 4);
 map.put("b", 9);
 Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
-NavigableMap&lt;String, Double&gt; transformed =
-     Maps.transformNavigableValues(map, sqrt);
+NavigableMap&lt;String, Double&gt; transformed = Maps.transformNavigableValues(map, sqrt);
 System.out.println(transformed);
 </code></pre>
 </div>
@@ -1446,16 +1442,10 @@ well as the value.
 example, the code:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-transformEntries(java.util.Map,com.google.common.collect.Maps.EntryTransformer)1"><code class="language-java">Map&lt;String, Boolean&gt; options =
-    ImmutableMap.of("verbose", true, "sort", false);
+<pre class="snippet" id="snippet-transformEntries(java.util.Map,com.google.common.collect.Maps.EntryTransformer)1"><code class="language-java">Map&lt;String, Boolean&gt; options = ImmutableMap.of("verbose", true, "sort", false);
 EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
-    new EntryTransformer&lt;String, Boolean, String&gt;() {
-      public String transformEntry(String key, Boolean value) {
-        return value ? key : "no" + key;
-      }
-    };
-Map&lt;String, String&gt; transformed =
-    Maps.transformEntries(options, flagPrefixer);
+    (key, value) -&gt; value ? key : "no" + key;
+Map&lt;String, String&gt; transformed = Maps.transformEntries(options, flagPrefixer);
 System.out.println(transformed);
 </code></pre>
 </div>
@@ -1505,22 +1495,16 @@ the key as well as the value.
 example, the code:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-transformEntries(java.util.SortedMap,com.google.common.collect.Maps.EntryTransformer)1"><code class="language-java">Map&lt;String, Boolean&gt; options =
-    ImmutableSortedMap.of("verbose", true, "sort", false);
+<pre class="snippet" id="snippet-transformEntries(java.util.SortedMap,com.google.common.collect.Maps.EntryTransformer)1"><code class="language-java">Map&lt;String, Boolean&gt; options = ImmutableSortedMap.of("verbose", true, "sort", false);
 EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
-    new EntryTransformer&lt;String, Boolean, String&gt;() {
-      public String transformEntry(String key, Boolean value) {
-        return value ? key : "yes" + key;
-      }
-    };
-SortedMap&lt;String, String&gt; transformed =
-    Maps.transformEntries(options, flagPrefixer);
+    (key, value) -&gt; value ? key : "no" + key;
+SortedMap&lt;String, String&gt; transformed = Maps.transformEntries(options, flagPrefixer);
 System.out.println(transformed);
 </code></pre>
 </div>
 
 
-... prints <code>{sort=yessort, verbose=verbose}</code>.
+... prints <code>{sort=nosort, verbose=verbose}</code>.
 
 <p>Changes in the underlying map are reflected in this view. Conversely, this view supports
 removal operations, and these are reflected in the underlying map.
@@ -1569,19 +1553,14 @@ example, the code:
 options.put("verbose", false);
 options.put("sort", true);
 EntryTransformer&lt;String, Boolean, String&gt; flagPrefixer =
-    new EntryTransformer&lt;String, Boolean, String&gt;() {
-      public String transformEntry(String key, Boolean value) {
-        return value ? key : ("yes" + key);
-      }
-    };
-NavigableMap&lt;String, String&gt; transformed =
-    LabsMaps.transformNavigableEntries(options, flagPrefixer);
+    (key, value) -&gt; value ? key : "no" + key;
+NavigableMap&lt;String, String&gt; transformed = Maps.transformEntries(options, flagPrefixer);
 System.out.println(transformed);
 </code></pre>
 </div>
 
 
-... prints <code>{sort=yessort, verbose=verbose}</code>.
+... prints <code>{sort=nosort, verbose=verbose}</code>.
 
 <p>Changes in the underlying map are reflected in this view. Conversely, this view supports
 removal operations, and these are reflected in the underlying map.

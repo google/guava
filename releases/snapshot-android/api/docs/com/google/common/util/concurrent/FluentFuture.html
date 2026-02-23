@@ -506,8 +506,7 @@ this input <code>Future</code> fails, the returned <code>Future</code> fails wit
 the function is not invoked). Example usage:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-transform(com.google.common.base.Function,java.util.concurrent.Executor)1"><code class="language-java">ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture =
-    queryFuture.transform(QueryResult::getRows, executor);
+<pre class="snippet" id="snippet-transform(com.google.common.base.Function,java.util.concurrent.Executor)1"><code class="language-java">ListenableFuture&lt;List&lt;Row&gt;&gt; rowsFuture = queryFuture.transform(QueryResult::getRows, executor);
 </code></pre>
 </div>
 

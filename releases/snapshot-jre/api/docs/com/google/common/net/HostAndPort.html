@@ -98,14 +98,17 @@ implements <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base
 
 <p>Example usage:
 
-<pre>
-HostAndPort hp = HostAndPort.fromString("[2001:db8::1]")
-    .withDefaultPort(80)
-    .requireBracketsForIPv6();
-hp.getHost();   // returns "2001:db8::1"
-hp.getPort();   // returns 80
-hp.toString();  // returns "[2001:db8::1]:80"
-</pre>
+<div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
+<pre class="snippet" id="snippet-com.google.common.net.HostAndPort1"><code class="language-java">HostAndPort hp =
+    HostAndPort.fromString("[2001:db8::1]")
+        .withDefaultPort(80)
+        .requireBracketsForIPv6();
+hp.getHost();  // returns "2001:db8::1"
+hp.getPort();  // returns 80
+hp.toString(); // returns "[2001:db8::1]:80"
+</code></pre>
+</div>
+
 
 <p>Here are some examples of recognized formats:
 

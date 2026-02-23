@@ -5504,8 +5504,7 @@
  (is a subtype of) {@code clazz}. Example:
 
  {@snippet :
- List<Class<?>> classes = Arrays.asList(
-     Object.class, String.class, Number.class, Long.class);
+ List<Class<?>> classes = Arrays.asList(Object.class, String.class, Number.class, Long.class);
  return Iterables.filter(classes, subtypeOf(Number.class));
  }
 
@@ -5904,9 +5903,7 @@
  behavior:
 
  {@snippet :
- private static final Splitter MY_SPLITTER = Splitter.on(',')
-     .trimResults()
-     .omitEmptyStrings();
+ private static final Splitter MY_SPLITTER = Splitter.on(',').trimResults().omitEmptyStrings();
  }
 
  <p>Now {@code MY_SPLITTER.split("foo,,, bar ,")} returns just {@code ["foo", "bar"]}. Note that
@@ -11041,8 +11038,7 @@
  <p>For example:
 
  {@snippet :
- Stream.of("foo", "quux", "banana", "elephant")
-     .collect(least(2, comparingInt(String::length)))
+ Stream.of("foo", "quux", "banana", "elephant").collect(least(2, comparingInt(String::length)))
  // returns {"foo", "quux"}
  }
 
@@ -28575,8 +28571,7 @@
  ...
  ImmutableSet<Color> allColors = ImmutableSet.of(red, green, blue);
 
- ImmutableMap<String, Color> colorForName =
-     uniqueIndex(allColors, c -> c.toString());
+ ImmutableMap<String, Color> colorForName = uniqueIndex(allColors, c -> c.toString());
  assertThat(colorForName).containsEntry("red", red);
  }
 
@@ -28622,8 +28617,7 @@
  ...
  Iterator<Color> allColors = ImmutableSet.of(red, green, blue).iterator();
 
- Map<String, Color> colorForName =
-     uniqueIndex(allColors, toStringFunction());
+ Map<String, Color> colorForName = uniqueIndex(allColors, toStringFunction());
  assertThat(colorForName).containsEntry("red", red);
  }
 
@@ -28708,9 +28702,9 @@
  {@snippet :
  BiMap<Long, String> map = Maps.synchronizedBiMap(HashBiMap.create());
  ...
- Set<Long> set = map.keySet();  // Needn't be in synchronized block
+ Set<Long> set = map.keySet(); // Needn't be in synchronized block
  ...
- synchronized (map) {  // Synchronizing on map, not set!
+ synchronized (map) { // Synchronizing on map, not set!
    Iterator<Long> it = set.iterator(); // Must be in synchronized block
    while (it.hasNext()) {
      foo(it.next());
@@ -28791,8 +28785,7 @@
  {@snippet :
  SortedMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
  Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
- SortedMap<String, Double> transformed =
-      Maps.transformValues(map, sqrt);
+ SortedMap<String, Double> transformed = Maps.transformValues(map, sqrt);
  System.out.println(transformed);
  }
 
@@ -28831,8 +28824,7 @@
  map.put("a", 4);
  map.put("b", 9);
  Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
- NavigableMap<String, Double> transformed =
-      Maps.transformNavigableValues(map, sqrt);
+ NavigableMap<String, Double> transformed = Maps.transformNavigableValues(map, sqrt);
  System.out.println(transformed);
  }
 
@@ -28871,16 +28863,10 @@
  example, the code:
 
  {@snippet :
- Map<String, Boolean> options =
-     ImmutableMap.of("verbose", true, "sort", false);
+ Map<String, Boolean> options = ImmutableMap.of("verbose", true, "sort", false);
  EntryTransformer<String, Boolean, String> flagPrefixer =
-     new EntryTransformer<String, Boolean, String>() {
-       public String transformEntry(String key, Boolean value) {
-         return value ? key : "no" + key;
-       }
-     };
- Map<String, String> transformed =
-     Maps.transformEntries(options, flagPrefixer);
+     (key, value) -> value ? key : "no" + key;
+ Map<String, String> transformed = Maps.transformEntries(options, flagPrefixer);
  System.out.println(transformed);
  }
 
@@ -28925,20 +28911,14 @@
  example, the code:
 
  {@snippet :
- Map<String, Boolean> options =
-     ImmutableSortedMap.of("verbose", true, "sort", false);
+ Map<String, Boolean> options = ImmutableSortedMap.of("verbose", true, "sort", false);
  EntryTransformer<String, Boolean, String> flagPrefixer =
-     new EntryTransformer<String, Boolean, String>() {
-       public String transformEntry(String key, Boolean value) {
-         return value ? key : "yes" + key;
-       }
-     };
- SortedMap<String, String> transformed =
-     Maps.transformEntries(options, flagPrefixer);
+     (key, value) -> value ? key : "no" + key;
+ SortedMap<String, String> transformed = Maps.transformEntries(options, flagPrefixer);
  System.out.println(transformed);
  }
 
- ... prints {@code {sort=yessort, verbose=verbose}}.
+ ... prints {@code {sort=nosort, verbose=verbose}}.
 
  <p>Changes in the underlying map are reflected in this view. Conversely, this view supports
  removal operations, and these are reflected in the underlying map.
@@ -28983,17 +28963,12 @@
  options.put("verbose", false);
  options.put("sort", true);
  EntryTransformer<String, Boolean, String> flagPrefixer =
-     new EntryTransformer<String, Boolean, String>() {
-       public String transformEntry(String key, Boolean value) {
-         return value ? key : ("yes" + key);
-       }
-     };
- NavigableMap<String, String> transformed =
-     LabsMaps.transformNavigableEntries(options, flagPrefixer);
+     (key, value) -> value ? key : "no" + key;
+ NavigableMap<String, String> transformed = Maps.transformEntries(options, flagPrefixer);
  System.out.println(transformed);
  }
 
- ... prints {@code {sort=yessort, verbose=verbose}}.
+ ... prints {@code {sort=nosort, verbose=verbose}}.
 
  <p>Changes in the underlying map are reflected in this view. Conversely, this view supports
  removal operations, and these are reflected in the underlying map.
@@ -30941,9 +30916,9 @@
  {@snippet :
  Multimap<K, V> multimap = Multimaps.synchronizedMultimap(HashMultimap.create());
  ...
- Collection<V> values = multimap.get(key);  // Needn't be in synchronized block
+ Collection<V> values = multimap.get(key); // Needn't be in synchronized block
  ...
- synchronized (multimap) {  // Synchronizing on multimap, not values!
+ synchronized (multimap) { // Synchronizing on multimap, not values!
    Iterator<V> i = values.iterator(); // Must be in synchronized block
    while (i.hasNext()) {
      foo(i.next());
@@ -31195,14 +31170,9 @@
  {@snippet :
  Multimap<String, Integer> multimap =
      ImmutableSetMultimap.of("a", 2, "b", -3, "b", -3, "a", 4, "c", 6);
- Function<Integer, String> square = new Function<Integer, String>() {
-     public String apply(Integer in) {
-       return Integer.toString(in * in);
-     }
- };
- Multimap<String, String> transformed =
-     Multimaps.transformValues(multimap, square);
-   System.out.println(transformed);
+ Function<Integer, String> square = in -> Integer.toString(in * in);
+ Multimap<String, String> transformed = Multimaps.transformValues(multimap, square);
+ System.out.println(transformed);
  }
 
  ... prints {@code {a=[4, 16], b=[9, 9], c=[36]}}.
@@ -31242,11 +31212,9 @@
  code:
 
  {@snippet :
- ListMultimap<String, Integer> multimap =
-      ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
+ ListMultimap<String, Integer> multimap = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
  Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
- ListMultimap<String, Double> transformed = Multimaps.transformValues(map,
-     sqrt);
+ ListMultimap<String, Double> transformed = Multimaps.transformValues(multimap, sqrt);
  System.out.println(transformed);
  }
 
@@ -31287,16 +31255,10 @@
  For example, the code:
 
  {@snippet :
- SetMultimap<String, Integer> multimap =
-     ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);
+ SetMultimap<String, Integer> multimap = ImmutableSetMultimap.of("a", 1, "a", 4, "b", -6);
  EntryTransformer<String, Integer, String> transformer =
-     new EntryTransformer<String, Integer, String>() {
-       public String transformEntry(String key, Integer value) {
-          return (value >= 0) ? key : "no" + key;
-       }
-     };
- Multimap<String, String> transformed =
-     Multimaps.transformEntries(multimap, transformer);
+     (key, value) -> value >= 0 ? key : "no" + key;
+ Multimap<String, String> transformed = Multimaps.transformEntries(multimap, transformer);
  System.out.println(transformed);
  }
 
@@ -31345,16 +31307,9 @@
  For example, the code:
 
  {@snippet :
- Multimap<String, Integer> multimap =
-     ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
- EntryTransformer<String, Integer, String> transformer =
-     new EntryTransformer<String, Integer, String>() {
-       public String transformEntry(String key, Integer value) {
-         return key + value;
-       }
-     };
- Multimap<String, String> transformed =
-     Multimaps.transformEntries(multimap, transformer);
+ Multimap<String, Integer> multimap = ImmutableMultimap.of("a", 1, "a", 4, "b", 6);
+ EntryTransformer<String, Integer, String> transformer = (key, value) -> key + value;
+ Multimap<String, String> transformed = Multimaps.transformEntries(multimap, transformer);
  System.out.println(transformed);
  }
 
@@ -31403,11 +31358,9 @@
  <p>For example,
 
  {@snippet :
- List<String> badGuys =
-     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
+ List<String> badGuys = Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
  Function<String, Integer> stringLengthFunction = ...;
- Multimap<Integer, String> index =
-     Multimaps.index(badGuys, stringLengthFunction);
+ Multimap<Integer, String> index = Multimaps.index(badGuys, stringLengthFunction);
  System.out.println(index);
  }
 
@@ -31445,11 +31398,9 @@
  <p>For example,
 
  {@snippet :
- List<String> badGuys =
-     Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
+ List<String> badGuys = Arrays.asList("Inky", "Blinky", "Pinky", "Pinky", "Clyde");
  Function<String, Integer> stringLengthFunction = ...;
- Multimap<Integer, String> index =
-     Multimaps.index(badGuys.iterator(), stringLengthFunction);
+ Multimap<Integer, String> index = Multimaps.index(badGuys.iterator(), stringLengthFunction);
  System.out.println(index);
  }
 
@@ -32183,8 +32134,7 @@
  if:
 
  {@snippet :
- Objects.equals(a.getElement(), b.getElement())
-     && a.getCount() == b.getCount()
+ Objects.equals(a.getElement(), b.getElement()) && a.getCount() == b.getCount()
  }]]>
       </doc>
     </method>
@@ -32828,8 +32778,7 @@
  <p>Example:
 
  {@snippet :
- Ordering.allEqual().nullsLast().sortedCopy(
-     asList(t, null, e, s, null, t, null))
+ Ordering.allEqual().nullsLast().sortedCopy(asList(t, null, e, s, null, t, null))
  }
 
  <p>Assuming {@code t}, {@code e} and {@code s} are non-null, this returns {@code [t, e, s, t,
@@ -32929,8 +32878,7 @@
  string forms, in a case-insensitive manner, use:
 
  {@snippet :
- Ordering.from(String.CASE_INSENSITIVE_ORDER)
-     .onResultOf(Functions.toStringFunction())
+ Ordering.from(String.CASE_INSENSITIVE_ORDER).onResultOf(Functions.toStringFunction())
  }
 
  <p><b>Java 8+ users:</b> Use {@code Comparator.comparing(function, thisComparator)} instead
@@ -33815,9 +33763,9 @@
  {@snippet :
  Queue<E> queue = Queues.synchronizedQueue(MinMaxPriorityQueue.<E>create());
  ...
- queue.add(element);  // Needn't be in synchronized block
+ queue.add(element); // Needn't be in synchronized block
  ...
- synchronized (queue) {  // Must synchronize on queue!
+ synchronized (queue) { // Must synchronize on queue!
    Iterator<E> i = queue.iterator(); // Must be in synchronized block
    while (i.hasNext()) {
      foo(i.next());
@@ -33850,9 +33798,9 @@
  {@snippet :
  Deque<E> deque = Queues.synchronizedDeque(Queues.newArrayDeque());
  ...
- deque.add(element);  // Needn't be in synchronized block
+ deque.add(element); // Needn't be in synchronized block
  ...
- synchronized (deque) {  // Must synchronize on deque!
+ synchronized (deque) { // Must synchronize on deque!
    Iterator<E> i = deque.iterator(); // Must be in synchronized block
    while (i.hasNext()) {
      foo(i.next());
@@ -35570,8 +35518,7 @@
  in the following code fragment:
 
  {@snippet :
- Set<Object> identityHashSet = Sets.newSetFromMap(
-     new IdentityHashMap<Object, Boolean>());
+ Set<Object> identityHashSet = Sets.newSetFromMap(new IdentityHashMap<Object, Boolean>());
  }
 
  <p>The returned set is serializable if the backing map is.
@@ -35626,8 +35573,7 @@
 
  // impossible for a non-String to be in the intersection
  SuppressWarnings("unchecked")
- Set<String> badStrings = (Set) Sets.intersection(
-     aFewBadObjects, manyBadStrings);
+ Set<String> badStrings = (Set) Sets.intersection(aFewBadObjects, manyBadStrings);
  }
 
  <p>This is unfortunate, but should come up only very rarely.]]>
@@ -35774,9 +35720,7 @@
  product</a>" of the sets. For example:
 
  {@snippet :
- Sets.cartesianProduct(ImmutableList.of(
-     ImmutableSet.of(1, 2),
-     ImmutableSet.of("A", "B", "C")))
+ Sets.cartesianProduct(ImmutableList.of(ImmutableSet.of(1, 2), ImmutableSet.of("A", "B", "C")))
  }
 
  <p>returns a set containing six lists:
@@ -35833,9 +35777,7 @@
  product</a>" of the sets. For example:
 
  {@snippet :
- Sets.cartesianProduct(
-     ImmutableSet.of(1, 2),
-     ImmutableSet.of("A", "B", "C"))
+ Sets.cartesianProduct(ImmutableSet.of(1, 2), ImmutableSet.of("A", "B", "C"))
  }
 
  <p>returns a set containing six lists:
@@ -35994,7 +35936,7 @@
  {@snippet :
  NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<E>());
  NavigableSet<E> set2 = set.descendingSet().headSet(foo);
-  ...
+ ...
  synchronized (set) { // Note: set, not set2!!!
    // Must be in the synchronized block
    Iterator<E> it = set2.descendingIterator();
@@ -36664,9 +36606,9 @@
 
  {@snippet :
  Streams.zip(
-   Stream.of("foo1", "foo2", "foo3"),
-   Stream.of("bar1", "bar2"),
-   (arg1, arg2) -> arg1 + ":" + arg2)
+     Stream.of("foo1", "foo2", "foo3"),
+     Stream.of("bar1", "bar2"),
+     (arg1, arg2) -> arg1 + ":" + arg2)
  }
 
  <p>will return {@code Stream.of("foo1:bar1", "foo2:bar2")}.
@@ -36697,9 +36639,9 @@
 
  {@snippet :
  Streams.forEachPair(
-   Stream.of("foo1", "foo2", "foo3"),
-   Stream.of("bar1", "bar2"),
-   (arg1, arg2) -> System.out.println(arg1 + ":" + arg2)
+     Stream.of("foo1", "foo2", "foo3"),
+     Stream.of("bar1", "bar2"),
+     (arg1, arg2) -> System.out.println(arg1 + ":" + arg2)
  }
 
  <p>will print:
@@ -37579,9 +37521,9 @@
  {@snippet :
  Table<R, C, V> table = Tables.synchronizedTable(HashBasedTable.create());
  ...
- Map<C, V> row = table.row(rowKey);  // Needn't be in synchronized block
+ Map<C, V> row = table.row(rowKey); // Needn't be in synchronized block
  ...
- synchronized (table) {  // Synchronizing on table, not row!
+ synchronized (table) { // Synchronizing on table, not row!
    Iterator<Entry<C, V>> i = row.entrySet().iterator(); // Must be in synchronized block
    while (i.hasNext()) {
      foo(i.next());
@@ -42864,8 +42806,7 @@
  number of nodes as follows:
 
  {@snippet :
- Iterables.limit(
-     Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);
+ Iterables.limit(Traverser.forGraph(graph).depthFirstPreOrder(node), maxNumberOfNodes);
  }
 
  <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
@@ -42917,8 +42858,7 @@
  number of nodes as follows:
 
  {@snippet :
- Iterables.limit(
-     Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);
+ Iterables.limit(Traverser.forGraph(graph).depthFirstPostOrder(node), maxNumberOfNodes);
  }
 
  <p>See <a href="https://en.wikipedia.org/wiki/Depth-first_search">Wikipedia</a> for more info.
@@ -47212,8 +47152,8 @@
  {@snippet :
  try (Stream<String> lines = source.lines()) {
    lines.map(...)
-      .filter(...)
-      .forEach(...);
+       .filter(...)
+       .forEach(...);
  }
  }
 
@@ -51781,8 +51721,7 @@
  <p>To compute median and the 90th and 99th percentiles:
 
  {@snippet :
- Map<Integer, Double> myPercentiles =
-     percentiles().indexes(50, 90, 99).compute(myDataset);
+ Map<Integer, Double> myPercentiles = percentiles().indexes(50, 90, 99).compute(myDataset);
  }
 
  where {@link #percentiles()} has been statically imported: {@code myPercentiles} maps the keys
@@ -53036,14 +52975,15 @@
 
  <p>Example usage:
 
- <pre>
- HostAndPort hp = HostAndPort.fromString("[2001:db8::1]")
-     .withDefaultPort(80)
-     .requireBracketsForIPv6();
- hp.getHost();   // returns "2001:db8::1"
- hp.getPort();   // returns 80
- hp.toString();  // returns "[2001:db8::1]:80"
- </pre>
+ {@snippet :
+ HostAndPort hp =
+     HostAndPort.fromString("[2001:db8::1]")
+         .withDefaultPort(80)
+         .requireBracketsForIPv6();
+ hp.getHost();  // returns "2001:db8::1"
+ hp.getPort();  // returns 80
+ hp.toString(); // returns "[2001:db8::1]:80"
+ }
 
  <p>Here are some examples of recognized formats:
 
@@ -68677,15 +68617,15 @@
  final ClosingFuture<BufferedReader> file1ReaderFuture = ...;
  final ClosingFuture<BufferedReader> file2ReaderFuture = ...;
  ListenableFuture<Integer> numberOfDifferentLines =
-       ClosingFuture.whenAllSucceed(file1ReaderFuture, file2ReaderFuture)
-           .call(
-               (closer, peeker) -> {
-                 BufferedReader file1Reader = peeker.getDone(file1ReaderFuture);
-                 BufferedReader file2Reader = peeker.getDone(file2ReaderFuture);
-                 return countDifferentLines(file1Reader, file2Reader);
-               },
-               executor)
-           .closing(executor);
+     ClosingFuture.whenAllSucceed(file1ReaderFuture, file2ReaderFuture)
+         .call(
+             (closer, peeker) -> {
+               BufferedReader file1Reader = peeker.getDone(file1ReaderFuture);
+               BufferedReader file2Reader = peeker.getDone(file2ReaderFuture);
+               return countDifferentLines(file1Reader, file2Reader);
+             },
+             executor)
+         .closing(executor);
  }]]>
     </doc>
   </class>
@@ -69815,7 +69755,7 @@
  }
 
  CycleDetectingLockFactory.WithExplicitOrdering<MyLockOrder> factory =
-   CycleDetectingLockFactory.newInstanceWithExplicitOrdering(Policies.THROW);
+     CycleDetectingLockFactory.newInstanceWithExplicitOrdering(Policies.THROW);
 
  Lock lock1 = factory.newReentrantLock(MyLockOrder.FIRST);
  Lock lock2 = factory.newReentrantLock(MyLockOrder.SECOND);
@@ -69823,7 +69763,7 @@
 
  lock1.lock();
  lock3.lock();
- lock2.lock();  // will throw an IllegalStateException
+ lock2.lock(); // will throw an IllegalStateException
  }
 
  <p>As with all locks created by instances of {@code CycleDetectingLockFactory} explicitly
@@ -69838,9 +69778,9 @@
 
  {@snippet :
  CycleDetectingLockFactory.WithExplicitOrdering<MyLockOrder> factory1 =
-   CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
+     CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
  CycleDetectingLockFactory.WithExplicitOrdering<MyLockOrder> factory2 =
-   CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
+     CycleDetectingLockFactory.newInstanceWithExplicitOrdering(...);
 
  Lock lockA = factory1.newReentrantLock(MyLockOrder.FIRST);
  Lock lockB = factory1.newReentrantLock(MyLockOrder.FIRST);
@@ -69848,10 +69788,10 @@
 
  lockA.lock();
 
- lockB.lock();  // will throw an IllegalStateException
- lockC.lock();  // will throw an IllegalStateException
+ lockB.lock(); // will throw an IllegalStateException
+ lockC.lock(); // will throw an IllegalStateException
 
- lockA.lock();  // reentrant acquisition is okay
+ lockA.lock(); // reentrant acquisition is okay
  }
 
  <p>It is the responsibility of the application to ensure that multiple lock instances with the
@@ -70391,8 +70331,7 @@
  the function is not invoked). Example usage:
 
  {@snippet :
- ListenableFuture<List<Row>> rowsFuture =
-     queryFuture.transform(QueryResult::getRows, executor);
+ ListenableFuture<List<Row>> rowsFuture = queryFuture.transform(QueryResult::getRows, executor);
  }
 
  <p>When selecting an executor, note that {@code directExecutor} is dangerous in some cases. See
@@ -74657,7 +74596,7 @@
          }
        }
      });
-     manager.startAsync();  // start all the services asynchronously
+     manager.startAsync(); // start all the services asynchronously
    }
  }
  }

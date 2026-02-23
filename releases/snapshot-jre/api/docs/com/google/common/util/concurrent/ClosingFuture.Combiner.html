@@ -105,15 +105,15 @@ instantiate this class.
 <pre class="snippet" id="snippet-com.google.common.util.concurrent.ClosingFuture.Combiner1"><code class="language-java">final ClosingFuture&lt;BufferedReader&gt; file1ReaderFuture = ...;
 final ClosingFuture&lt;BufferedReader&gt; file2ReaderFuture = ...;
 ListenableFuture&lt;Integer&gt; numberOfDifferentLines =
-      ClosingFuture.whenAllSucceed(file1ReaderFuture, file2ReaderFuture)
-          .call(
-              (closer, peeker) -&gt; {
-                BufferedReader file1Reader = peeker.getDone(file1ReaderFuture);
-                BufferedReader file2Reader = peeker.getDone(file2ReaderFuture);
-                return countDifferentLines(file1Reader, file2Reader);
-              },
-              executor)
-          .closing(executor);
+    ClosingFuture.whenAllSucceed(file1ReaderFuture, file2ReaderFuture)
+        .call(
+            (closer, peeker) -&gt; {
+              BufferedReader file1Reader = peeker.getDone(file1ReaderFuture);
+              BufferedReader file2Reader = peeker.getDone(file2ReaderFuture);
+              return countDifferentLines(file1Reader, file2Reader);
+            },
+            executor)
+        .closing(executor);
 </code></pre>
 </div>
 </div>
