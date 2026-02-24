@@ -53551,6 +53551,17 @@
       <![CDATA[The HTTP {@code Allow} header field name.]]>
       </doc>
     </field>
+    <field name="CDN_CACHE_CONTROL" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/rfc9213/">{@code CDN-Cache-Control}</a>
+ header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="CONTENT_DISPOSITION" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
