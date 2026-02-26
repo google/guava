@@ -105,16 +105,15 @@ once the data reaches a configurable size.
 user or, in the case of Android, the current app. If that is not possible (as is the case under
 the very old Android Ice Cream Sandwich release), then this stream throws an exception instead of
 creating a file that would be more accessible. (This behavior is new in Guava 32.0.0. Previous
-versions would create a file that is more accessible, as discussed in <a href="https://github.com/google/guava/issues/2575">Guava issue 2575</a>. TODO: b/283778848 - Fill
-in CVE number once it's available.)
+versions would create a file that is more accessible, as discussed in <a href="https://nvd.nist.gov/vuln/detail/cve-2023-2976">CVE-2023-2976</a>.
 
 <p>Temporary files created by this stream may live in the local filesystem until either:
 
 <ul>
   <li><a href="#reset()"><code>reset()</code></a> is called (removing the data in this stream and deleting the file), or...
-  <li>this stream (or, more precisely, its <a href="#asByteSource()"><code>asByteSource()</code></a> view) is finalized during
-      garbage collection, <strong>AND</strong> this stream was not constructed with <a href="#%3Cinit%3E(int)">the 1-arg constructor</a> or the <a href="#%3Cinit%3E(int,boolean)">2-arg constructor</a> passing <code>false</code> in the
-      second parameter.
+  <li>this stream (or, more precisely, its <a href="#asByteSource()"><code>asByteSource()</code></a> view) is garbage collected,
+      <strong>AND</strong> this stream was constructed with <a href="#%3Cinit%3E(int,boolean)">the two-arg constructor</a> with <code>true</code> for the
+      second parameter. Relying on this second approach is discouraged.
 </ul>
 
 <p>This class is thread-safe.</div>
@@ -139,13 +138,13 @@ in CVE number once it's available.)
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E(int)" class="member-name-link">FileBackedOutputStream</a><wbr>(int&nbsp;fileThreshold)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Creates a new instance that uses the given file threshold, and does not reset the data when the
-<a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
+<a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is garbage collected.</div>
 </div>
 <div class="col-constructor-name odd-row-color"><code><a href="#%3Cinit%3E(int,boolean)" class="member-name-link">FileBackedOutputStream</a><wbr>(int&nbsp;fileThreshold,
- boolean&nbsp;resetOnFinalize)</code></div>
+ boolean&nbsp;resetWhenGarbageCollected)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Creates a new instance that uses the given file threshold, and optionally resets the data when
-the <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
+the <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is garbage collected.</div>
 </div>
 </div>
 </section>
@@ -215,7 +214,7 @@ state, for reuse.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">FileBackedOutputStream</span><wbr><span class="parameters">(int&nbsp;fileThreshold)</span></div>
 <div class="block">Creates a new instance that uses the given file threshold, and does not reset the data when the
-<a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
+<a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is garbage collected.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>fileThreshold</code> - the number of bytes before the stream should switch to buffering to a file</dd>
@@ -230,13 +229,15 @@ state, for reuse.</div>
 <h3>FileBackedOutputStream</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="element-name">FileBackedOutputStream</span><wbr><span class="parameters">(int&nbsp;fileThreshold,
- boolean&nbsp;resetOnFinalize)</span></div>
+ boolean&nbsp;resetWhenGarbageCollected)</span></div>
 <div class="block">Creates a new instance that uses the given file threshold, and optionally resets the data when
-the <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is finalized.</div>
+the <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is garbage collected. Prefer to <a href="#reset()"><code>reset()</code></a> the stream explicitly, rather than rely on garbage collection: If you call <a href="#reset()"><code>reset()</code></a> explicitly, you can call it more promptly, and you can appropriately handle any
+exception that results.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>fileThreshold</code> - the number of bytes before the stream should switch to buffering to a file</dd>
-<dd><code>resetOnFinalize</code> - if true, the <a href="#reset()"><code>reset()</code></a> method will be called when the <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is finalized.</dd>
+<dd><code>resetWhenGarbageCollected</code> - if true, the <a href="#reset()"><code>reset()</code></a> method will be called when the
+    <a href="ByteSource.html" title="class in com.google.common.io"><code>ByteSource</code></a> returned by <a href="#asByteSource()"><code>asByteSource()</code></a> is garbage collected.</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class or interface in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>fileThreshold</code> is negative</dd>
 </dl>
