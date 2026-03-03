@@ -21,8 +21,6 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.CharMatcher;
-import com.google.common.base.Joiner;
-import com.google.common.base.Optional;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -78,7 +76,6 @@ public final class InternetDomainName {
 
   private static final CharMatcher DOTS_MATCHER = CharMatcher.anyOf(".\u3002\uFF0E\uFF61");
   private static final Splitter DOT_SPLITTER = Splitter.on('.');
-  private static final Joiner DOT_JOINER = Joiner.on('.');
 
   /**
    * Value of {@link #publicSuffixIndex()} or {@link #registrySuffixIndex()} which indicates that no
@@ -181,7 +178,7 @@ public final class InternetDomainName {
     int publicSuffixIndexLocal = publicSuffixIndexCache;
     if (publicSuffixIndexLocal == SUFFIX_NOT_INITIALIZED) {
       publicSuffixIndexCache =
-          publicSuffixIndexLocal = findSuffixOfType(Optional.<PublicSuffixType>absent());
+          publicSuffixIndexLocal = PublicSuffixPatterns.TRIE.findSuffixIndex(parts);
     }
     return publicSuffixIndexLocal;
   }
@@ -196,46 +193,10 @@ public final class InternetDomainName {
     int registrySuffixIndexLocal = registrySuffixIndexCache;
     if (registrySuffixIndexLocal == SUFFIX_NOT_INITIALIZED) {
       registrySuffixIndexCache =
-          registrySuffixIndexLocal = findSuffixOfType(Optional.of(PublicSuffixType.REGISTRY));
+          registrySuffixIndexLocal =
+              PublicSuffixPatterns.TRIE.findSuffixIndex(parts, PublicSuffixType.REGISTRY);
     }
     return registrySuffixIndexLocal;
-  }
-
-  /**
-   * Returns the index of the leftmost part of the suffix, or -1 if not found. Note that the value
-   * defined as a suffix may not produce {@code true} results from {@link #isPublicSuffix()} or
-   * {@link #isRegistrySuffix()} if the domain ends with an excluded domain pattern such as {@code
-   * "nhs.uk"}.
-   *
-   * <p>If a {@code desiredType} is specified, this method only finds suffixes of the given type.
-   * Otherwise, it finds the first suffix of any type.
-   */
-  private int findSuffixOfType(Optional<PublicSuffixType> desiredType) {
-    int partsSize = parts.size();
-
-    for (int i = 0; i < partsSize; i++) {
-      String ancestorName = DOT_JOINER.join(parts.subList(i, partsSize));
-
-      if (i > 0
-          && matchesType(
-              desiredType, Optional.fromNullable(PublicSuffixPatterns.UNDER.get(ancestorName)))) {
-        return i - 1;
-      }
-
-      if (matchesType(
-          desiredType, Optional.fromNullable(PublicSuffixPatterns.EXACT.get(ancestorName)))) {
-        return i;
-      }
-
-      // Excluded domains (e.g. !nhs.uk) use the next highest
-      // domain as the effective public suffix (e.g. uk).
-
-      if (PublicSuffixPatterns.EXCLUDED.containsKey(ancestorName)) {
-        return i + 1;
-      }
-    }
-
-    return NO_SUFFIX_FOUND;
   }
 
   /**
@@ -648,15 +609,6 @@ public final class InternetDomainName {
     } catch (IllegalArgumentException e) {
       return false;
     }
-  }
-
-  /**
-   * If a {@code desiredType} is specified, returns true only if the {@code actualType} is
-   * identical. Otherwise, returns true as long as {@code actualType} is present.
-   */
-  private static boolean matchesType(
-      Optional<PublicSuffixType> desiredType, Optional<PublicSuffixType> actualType) {
-    return desiredType.isPresent() ? desiredType.equals(actualType) : actualType.isPresent();
   }
 
   /** Returns the domain name, normalized to all lower case. */
