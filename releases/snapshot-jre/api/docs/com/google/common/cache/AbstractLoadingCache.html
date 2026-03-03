@@ -300,7 +300,8 @@ be ignored.</div>
 <section class="detail" id="refresh(K)">
 <h3 id="refresh(java.lang.Object)">refresh</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refresh</span><wbr><span class="parameters">(<a href="#type-param-K" title="type parameter in AbstractLoadingCache">K</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
+</span><span class="modifiers">public</span>&nbsp;<span class="return-type">void</span>&nbsp;<span class="element-name">refresh</span><wbr><span class="parameters">(<a href="#type-param-K" title="type parameter in AbstractLoadingCache">K</a>&nbsp;key)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="LoadingCache.html#refresh(K)">LoadingCache</a></code></span></div>
 <div class="block">Loads a new value for <code>key</code>, possibly asynchronously. While the new value is loading the
 previous value (if any) will continue to be returned by <code>get(key)</code> unless it is evicted.
