@@ -79,6 +79,8 @@ import static java.lang.Math.sqrt;
 import static java.util.Arrays.stream;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.math.StatsTesting.ManyValues;
 import com.google.common.primitives.Ints;
@@ -99,6 +101,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Pete Gillin
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class StatsTest extends TestCase {
 
   public void testCount() {

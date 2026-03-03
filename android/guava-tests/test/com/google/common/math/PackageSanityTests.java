@@ -16,6 +16,8 @@
 
 package com.google.common.math;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -26,6 +28,8 @@ import org.jspecify.annotations.NullUnmarked;
  */
 
 @NullUnmarked
+@J2ktIncompatible
+@GwtIncompatible
 public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     publicApiOnly();

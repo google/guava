@@ -19,6 +19,8 @@ package com.google.common.math;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import java.util.Map;
@@ -31,6 +33,8 @@ import org.jspecify.annotations.NullUnmarked;
  * returning more-or-less the same answers.
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class QuantilesAlgorithmTest extends TestCase {
 
   private static final Random rng = new Random(82674067L);

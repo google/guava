@@ -31,6 +31,7 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtCompatible
 @NullUnmarked
 public class ArrayBasedEscaperMapTest extends TestCase {
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testNullMap() {
     assertThrows(NullPointerException.class, () -> ArrayBasedEscaperMap.create(null));
   }

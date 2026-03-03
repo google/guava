@@ -29,6 +29,7 @@ import static java.math.RoundingMode.UP;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigDecimal;
 import java.math.MathContext;
@@ -40,6 +41,7 @@ import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
 @GwtIncompatible
+@J2ktIncompatible
 @NullUnmarked
 public class BigDecimalMathTest extends TestCase {
   private static final class RoundToDoubleTester {

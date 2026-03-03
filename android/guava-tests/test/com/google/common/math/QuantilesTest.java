@@ -29,6 +29,8 @@ import static java.math.RoundingMode.FLOOR;
 import static java.math.RoundingMode.UNNECESSARY;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Ordering;
@@ -52,6 +54,8 @@ import org.jspecify.annotations.Nullable;
  * @author Pete Gillin
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class QuantilesTest extends TestCase {
 
   /*

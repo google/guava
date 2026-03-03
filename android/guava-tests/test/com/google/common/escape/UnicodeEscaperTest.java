@@ -122,6 +122,7 @@ public class UnicodeEscaperTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> escapeAsString(SIMPLE_ESCAPER, test));
   }
 
+  @SuppressWarnings("nullness") // test of bogus call
   public void testNullInput() {
     UnicodeEscaper e = SIMPLE_ESCAPER;
     assertThrows(NullPointerException.class, () -> e.escape((String) null));

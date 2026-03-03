@@ -227,7 +227,8 @@ public class MathPreconditionsTest extends TestCase {
         assertThrows(
             ArithmeticException.class,
             () -> MathPreconditions.checkInRangeForRoundingInputs(false, 1.0, RoundingMode.UP));
-    assertThat(expected).hasMessageThat().contains("1.0");
+    // b/38490623: The string contains "1.0" under most environment but just "1" under J2CL.
+    assertThat(expected).hasMessageThat().contains("1");
     assertThat(expected).hasMessageThat().contains("UP");
   }
 

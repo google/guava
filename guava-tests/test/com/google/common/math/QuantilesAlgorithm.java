@@ -16,6 +16,8 @@
 
 package com.google.common.math;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap;
 import java.math.RoundingMode;
 import java.util.Arrays;
@@ -32,6 +34,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Pete Gillin
  * @since 20.0
  */
+@GwtIncompatible
+@J2ktIncompatible
 @NullUnmarked
 enum QuantilesAlgorithm {
 

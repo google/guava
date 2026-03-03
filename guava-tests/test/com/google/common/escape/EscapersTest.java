@@ -25,6 +25,7 @@ import com.google.common.escape.testing.EscaperAsserts;
 import java.io.IOException;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * @author David Beaumont
@@ -89,7 +90,7 @@ public class EscapersTest extends TestCase {
   static CharEscaper createSimpleCharEscaper(ImmutableMap<Character, char[]> replacementMap) {
     return new CharEscaper() {
       @Override
-      protected char[] escape(char c) {
+      protected char @Nullable [] escape(char c) {
         return replacementMap.get(c);
       }
     };
@@ -99,7 +100,7 @@ public class EscapersTest extends TestCase {
   static UnicodeEscaper createSimpleUnicodeEscaper(ImmutableMap<Integer, char[]> replacementMap) {
     return new UnicodeEscaper() {
       @Override
-      protected char[] escape(int cp) {
+      protected char @Nullable [] escape(int cp) {
         return replacementMap.get(cp);
       }
     };

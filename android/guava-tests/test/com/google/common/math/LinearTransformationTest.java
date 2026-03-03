@@ -23,6 +23,8 @@ import static com.google.common.math.StatsTesting.assertVerticalLinearTransforma
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -31,6 +33,8 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Pete Gillin
  */
+@GwtIncompatible
+@J2ktIncompatible
 @NullUnmarked
 public class LinearTransformationTest extends TestCase {
 

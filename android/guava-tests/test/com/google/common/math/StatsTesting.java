@@ -24,6 +24,8 @@ import static java.lang.Double.NaN;
 import static java.lang.Double.POSITIVE_INFINITY;
 import static org.junit.Assert.fail;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -42,6 +44,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Pete Gillin
  */
 @NullUnmarked
+@J2ktIncompatible
+@GwtIncompatible
 class StatsTesting {
   // TODO(cpovirk): Convince myself that this larger error makes sense.
   static final double ALLOWED_ERROR = isAndroid() ? .25 : 1e-10;

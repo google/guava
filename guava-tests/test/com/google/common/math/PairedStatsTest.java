@@ -50,6 +50,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.math.StatsTesting.ManyValues;
 import com.google.common.testing.EqualsTester;
@@ -66,6 +68,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Pete Gillin
  */
 @NullUnmarked
+@J2ktIncompatible
+@GwtIncompatible
 public class PairedStatsTest extends TestCase {
 
   public void testCount() {

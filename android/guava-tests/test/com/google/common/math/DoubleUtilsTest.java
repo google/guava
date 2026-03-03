@@ -21,6 +21,7 @@ import static com.google.common.math.MathTesting.POSITIVE_FINITE_DOUBLE_CANDIDAT
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.FormatMethod;
 import java.math.BigInteger;
 import junit.framework.TestCase;
@@ -31,6 +32,7 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Louis Wasserman
  */
+@GwtIncompatible
 @NullUnmarked
 public class DoubleUtilsTest extends TestCase {
   @AndroidIncompatible // TODO(cpovirk): File bug for BigDecimal.doubleValue().
