@@ -25,6 +25,8 @@ import static com.google.common.math.MathTesting.POSITIVE_BIGINTEGER_CANDIDATES;
 import static com.google.common.math.ReflectionFreeAssertThrows.assertThrows;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.lang.Math.nextDown;
+import static java.lang.Math.nextUp;
 import static java.math.BigInteger.ONE;
 import static java.math.BigInteger.TEN;
 import static java.math.BigInteger.ZERO;
@@ -580,7 +582,7 @@ public class BigIntegerMathTest extends TestCase {
     // 2^53+1 is halfway between, so HALF_UP will go up and HALF_DOWN will go down.
     new RoundToDoubleTester(BigInteger.valueOf((1L << 53) + 1))
         .setExpectation(twoToThe53, DOWN, FLOOR, HALF_DOWN, HALF_EVEN)
-        .setExpectation(Math.nextUp(twoToThe53), CEILING, UP, HALF_UP)
+        .setExpectation(nextUp(twoToThe53), CEILING, UP, HALF_UP)
         .roundUnnecessaryShouldThrow()
         .test();
   }
@@ -593,7 +595,7 @@ public class BigIntegerMathTest extends TestCase {
     // 2^54+1 is less than halfway between, so HALF_DOWN and HALF_UP will both go down.
     new RoundToDoubleTester(BigInteger.valueOf((1L << 54) + 1))
         .setExpectation(twoToThe54, DOWN, FLOOR, HALF_DOWN, HALF_UP, HALF_EVEN)
-        .setExpectation(Math.nextUp(twoToThe54), CEILING, UP)
+        .setExpectation(nextUp(twoToThe54), CEILING, UP)
         .roundUnnecessaryShouldThrow()
         .test();
   }
@@ -606,7 +608,7 @@ public class BigIntegerMathTest extends TestCase {
     // 2^54+3 is more than halfway between, so HALF_DOWN and HALF_UP will both go up.
     new RoundToDoubleTester(BigInteger.valueOf((1L << 54) + 3))
         .setExpectation(twoToThe54, DOWN, FLOOR)
-        .setExpectation(Math.nextUp(twoToThe54), CEILING, UP, HALF_DOWN, HALF_UP, HALF_EVEN)
+        .setExpectation(nextUp(twoToThe54), CEILING, UP, HALF_DOWN, HALF_UP, HALF_EVEN)
         .roundUnnecessaryShouldThrow()
         .test();
   }
@@ -674,7 +676,7 @@ public class BigIntegerMathTest extends TestCase {
     // -2^53-1 is halfway between, so HALF_UP will go up and HALF_DOWN will go down.
     new RoundToDoubleTester(BigInteger.valueOf((-1L << 53) - 1))
         .setExpectation(-Math.pow(2, 53), DOWN, CEILING, HALF_DOWN, HALF_EVEN)
-        .setExpectation(DoubleUtils.nextDown(-Math.pow(2, 53)), FLOOR, UP, HALF_UP)
+        .setExpectation(nextDown(-Math.pow(2, 53)), FLOOR, UP, HALF_UP)
         .roundUnnecessaryShouldThrow()
         .test();
   }
@@ -684,7 +686,7 @@ public class BigIntegerMathTest extends TestCase {
   public void testRoundToDouble_negativeTwoToThe54MinusOne() {
     new RoundToDoubleTester(BigInteger.valueOf((-1L << 54) - 1))
         .setExpectation(-Math.pow(2, 54), DOWN, CEILING, HALF_DOWN, HALF_UP, HALF_EVEN)
-        .setExpectation(DoubleUtils.nextDown(-Math.pow(2, 54)), FLOOR, UP)
+        .setExpectation(nextDown(-Math.pow(2, 54)), FLOOR, UP)
         .roundUnnecessaryShouldThrow()
         .test();
   }
@@ -694,8 +696,7 @@ public class BigIntegerMathTest extends TestCase {
   public void testRoundToDouble_negativeTwoToThe54MinusThree() {
     new RoundToDoubleTester(BigInteger.valueOf((-1L << 54) - 3))
         .setExpectation(-Math.pow(2, 54), DOWN, CEILING)
-        .setExpectation(
-            DoubleUtils.nextDown(-Math.pow(2, 54)), FLOOR, UP, HALF_DOWN, HALF_UP, HALF_EVEN)
+        .setExpectation(nextDown(-Math.pow(2, 54)), FLOOR, UP, HALF_DOWN, HALF_UP, HALF_EVEN)
         .roundUnnecessaryShouldThrow()
         .test();
   }

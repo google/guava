@@ -37,10 +37,6 @@ import java.math.BigInteger;
 final class DoubleUtils {
   private DoubleUtils() {}
 
-  static double nextDown(double d) {
-    return -Math.nextUp(-d);
-  }
-
   // The mask for the significand, according to the {@link
   // Double#doubleToRawLongBits(double)} spec.
   static final long SIGNIFICAND_MASK = 0x000fffffffffffffL;

@@ -22,6 +22,8 @@ import static com.google.common.math.MathPreconditions.checkPositive;
 import static com.google.common.math.MathPreconditions.checkRoundingUnnecessary;
 import static java.lang.Math.abs;
 import static java.lang.Math.min;
+import static java.lang.Math.nextDown;
+import static java.lang.Math.nextUp;
 import static java.math.RoundingMode.HALF_EVEN;
 import static java.math.RoundingMode.HALF_UP;
 
@@ -1262,26 +1264,20 @@ public final class LongMath {
         checkRoundingUnnecessary(cmpXToRoundArbitrarily == 0);
         return roundArbitrarily;
       case FLOOR:
-        return (cmpXToRoundArbitrarily >= 0)
-            ? roundArbitrarily
-            : DoubleUtils.nextDown(roundArbitrarily);
+        return (cmpXToRoundArbitrarily >= 0) ? roundArbitrarily : nextDown(roundArbitrarily);
       case CEILING:
-        return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+        return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : nextUp(roundArbitrarily);
       case DOWN:
         if (x >= 0) {
-          return (cmpXToRoundArbitrarily >= 0)
-              ? roundArbitrarily
-              : DoubleUtils.nextDown(roundArbitrarily);
+          return (cmpXToRoundArbitrarily >= 0) ? roundArbitrarily : nextDown(roundArbitrarily);
         } else {
-          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : nextUp(roundArbitrarily);
         }
       case UP:
         if (x >= 0) {
-          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : Math.nextUp(roundArbitrarily);
+          return (cmpXToRoundArbitrarily <= 0) ? roundArbitrarily : nextUp(roundArbitrarily);
         } else {
-          return (cmpXToRoundArbitrarily >= 0)
-              ? roundArbitrarily
-              : DoubleUtils.nextDown(roundArbitrarily);
+          return (cmpXToRoundArbitrarily >= 0) ? roundArbitrarily : nextDown(roundArbitrarily);
         }
       case HALF_DOWN:
       case HALF_UP:
@@ -1295,12 +1291,12 @@ public final class LongMath {
           if (cmpXToRoundArbitrarily >= 0) {
             roundFloorAsDouble = roundArbitrarily;
             roundFloor = roundArbitrarilyAsLong;
-            roundCeilingAsDouble = Math.nextUp(roundArbitrarily);
+            roundCeilingAsDouble = nextUp(roundArbitrarily);
             roundCeiling = (long) Math.ceil(roundCeilingAsDouble);
           } else {
             roundCeilingAsDouble = roundArbitrarily;
             roundCeiling = roundArbitrarilyAsLong;
-            roundFloorAsDouble = DoubleUtils.nextDown(roundArbitrarily);
+            roundFloorAsDouble = nextDown(roundArbitrarily);
             roundFloor = (long) Math.floor(roundFloorAsDouble);
           }
 
