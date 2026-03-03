@@ -14,6 +14,8 @@
 
 package com.google.common.base;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -294,6 +296,10 @@ public class FinalizableReferenceQueue implements Closeable {
       if (disabled) {
         return null;
       }
+      if (isAndroid()) {
+        // We need not worry about class unloading under Android. Plus, this approach wouldn't work.
+        return null;
+      }
       ClassLoader systemLoader;
       try {
         systemLoader = ClassLoader.getSystemClassLoader();
@@ -328,6 +334,9 @@ public class FinalizableReferenceQueue implements Closeable {
 
     @Override
     public @Nullable Class<?> loadFinalizer() {
+      if (isAndroid()) {
+        // We need not worry about class unloading under Android. Plus, this approach wouldn't work.
+      }
       /*
        * We use URLClassLoader because it's the only concrete class loader implementation in the
        * JDK. If we used our own ClassLoader subclass, Finalizer would indirectly reference this
@@ -395,5 +404,9 @@ public class FinalizableReferenceQueue implements Closeable {
     } catch (NoSuchMethodException e) {
       throw new AssertionError(e);
     }
+  }
+
+  private static boolean isAndroid() {
+    return requireNonNull(System.getProperty("java.runtime.name", "")).contains("Android");
   }
 }

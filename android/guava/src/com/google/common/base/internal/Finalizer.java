@@ -14,6 +14,8 @@
 
 package com.google.common.base.internal;
 
+import static java.util.Objects.requireNonNull;
+
 import java.lang.ref.PhantomReference;
 import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
@@ -230,6 +232,16 @@ public class Finalizer implements Runnable {
   }
 
   private static @Nullable Field getInheritableThreadLocalsField() {
+    if (isAndroid()) {
+      /*
+       * We need not worry about class unloading under Android. Plus, this approach doesn't always
+       * work under Android.
+       *
+       * (Clearing inheritableThreadLocals could still be useful independent of class unloading, but
+       * that's a larger problem, which we don't attempt to solve anywhere else in Guava.)
+       */
+      return null;
+    }
     try {
       Field inheritableThreadLocals = Thread.class.getDeclaredField("inheritableThreadLocals");
       inheritableThreadLocals.setAccessible(true);
@@ -251,5 +263,9 @@ public class Finalizer implements Runnable {
       // Probably pre Java 9. We'll fall back to Thread.inheritableThreadLocals.
       return null;
     }
+  }
+
+  private static boolean isAndroid() {
+    return requireNonNull(System.getProperty("java.runtime.name", "")).contains("Android");
   }
 }
