@@ -15,6 +15,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -133,6 +134,7 @@ public abstract class AbstractCache<K, V> implements Cache<K, V> {
   }
 
   @Override
+  @J2ktIncompatible // Thread safety complexity
   public ConcurrentMap<K, V> asMap() {
     throw new UnsupportedOperationException();
   }

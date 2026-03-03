@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
@@ -214,6 +215,7 @@ public class CacheBuilderGwtTest {
 
   @SuppressWarnings("ContainsEntryAfterGetInteger") // we are testing our implementation of Map.get
   @Test
+  @J2ktIncompatible
   public void mapMethods() {
     Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
 
@@ -331,13 +333,22 @@ public class CacheBuilderGwtTest {
     assertThat(cache.getIfPresent(10)).isEqualTo(20);
     assertThat(cache.getIfPresent(30)).isEqualTo(50);
     assertThat(cache.getIfPresent(60)).isEqualTo(90);
+  }
 
+  @Test
+  @J2ktIncompatible
+  public void asMap_putAll() {
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().build();
     cache.asMap().putAll(ImmutableMap.of(10, 50, 30, 20, 60, 70, 5, 5));
 
     assertThat(cache.getIfPresent(10)).isEqualTo(50);
     assertThat(cache.getIfPresent(30)).isEqualTo(20);
     assertThat(cache.getIfPresent(60)).isEqualTo(70);
     assertThat(cache.getIfPresent(5)).isEqualTo(5);
+  }
+
+  private static <K> boolean containsKey(Cache<K, ?> cache, K key) {
+    return cache.getIfPresent(key) != null;
   }
 
   @Test
@@ -350,9 +361,9 @@ public class CacheBuilderGwtTest {
 
     cache.invalidate(654);
 
-    assertThat(cache.asMap().containsKey(654)).isFalse();
-    assertThat(cache.asMap().containsKey(2456)).isTrue();
-    assertThat(cache.asMap().containsKey(2)).isTrue();
+    assertThat(containsKey(cache, 654)).isFalse();
+    assertThat(containsKey(cache, 2456)).isTrue();
+    assertThat(containsKey(cache, 2)).isTrue();
   }
 
   @Test
@@ -364,9 +375,9 @@ public class CacheBuilderGwtTest {
     cache.put(2, 15);
 
     cache.invalidateAll();
-    assertThat(cache.asMap().containsKey(654)).isFalse();
-    assertThat(cache.asMap().containsKey(2456)).isFalse();
-    assertThat(cache.asMap().containsKey(2)).isFalse();
+    assertThat(containsKey(cache, 654)).isFalse();
+    assertThat(containsKey(cache, 2456)).isFalse();
+    assertThat(containsKey(cache, 2)).isFalse();
 
     cache.put(654, 2675);
     cache.put(2456, 56);
@@ -375,13 +386,14 @@ public class CacheBuilderGwtTest {
 
     cache.invalidateAll(ImmutableSet.of(1, 2));
 
-    assertThat(cache.asMap().containsKey(1)).isFalse();
-    assertThat(cache.asMap().containsKey(2)).isFalse();
-    assertThat(cache.asMap().containsKey(654)).isTrue();
-    assertThat(cache.asMap().containsKey(2456)).isTrue();
+    assertThat(containsKey(cache, 1)).isFalse();
+    assertThat(containsKey(cache, 2)).isFalse();
+    assertThat(containsKey(cache, 654)).isTrue();
+    assertThat(containsKey(cache, 2456)).isTrue();
   }
 
   @Test
+  @J2ktIncompatible
   public void asMap_containsValue() {
     Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder().expireAfterWrite(20000, MILLISECONDS).ticker(fakeTicker).build();
@@ -401,6 +413,7 @@ public class CacheBuilderGwtTest {
   // we are testing our implementation of Map.containsKey
   @SuppressWarnings("ContainsEntryAfterGetInteger")
   @Test
+  @J2ktIncompatible
   public void asMap_containsKey() {
     Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder().expireAfterWrite(20000, MILLISECONDS).ticker(fakeTicker).build();
@@ -420,6 +433,7 @@ public class CacheBuilderGwtTest {
   // we are testing our implementation of Map.values().contains
   @SuppressWarnings("ValuesContainsValue")
   @Test
+  @J2ktIncompatible
   public void asMapValues_contains() {
     Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
@@ -437,6 +451,7 @@ public class CacheBuilderGwtTest {
   }
 
   @Test
+  @J2ktIncompatible
   public void asMapKeySet() {
     Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
@@ -454,6 +469,7 @@ public class CacheBuilderGwtTest {
   }
 
   @Test
+  @J2ktIncompatible
   public void asMapKeySet_contains() {
     Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
@@ -471,6 +487,7 @@ public class CacheBuilderGwtTest {
   }
 
   @Test
+  @J2ktIncompatible
   public void asMapEntrySet() {
     Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();
@@ -490,6 +507,7 @@ public class CacheBuilderGwtTest {
   }
 
   @Test
+  @J2ktIncompatible
   public void asMapValues_iteratorRemove() {
     Cache<Integer, Integer> cache =
         CacheBuilder.newBuilder().expireAfterWrite(1000, MILLISECONDS).ticker(fakeTicker).build();

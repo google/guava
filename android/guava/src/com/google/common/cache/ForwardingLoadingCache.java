@@ -15,6 +15,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -64,6 +65,8 @@ public abstract class ForwardingLoadingCache<K, V> extends ForwardingCache<K, V>
     return delegate().apply(key);
   }
 
+  @GwtIncompatible
+  @J2ktIncompatible
   @Override
   public void refresh(K key) {
     delegate().refresh(key);

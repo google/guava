@@ -349,6 +349,7 @@ public class CacheBuilderTest extends TestCase {
     assertThrows(IllegalStateException.class, () -> builder.removalListener(testListener));
   }
 
+  @J2ktIncompatible // asMap
   public void testValuesIsNotASet() {
     assertThat(CacheBuilder.newBuilder().build().asMap().values() instanceof Set).isFalse();
   }

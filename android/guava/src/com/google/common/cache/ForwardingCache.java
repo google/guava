@@ -15,6 +15,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ForwardingObject;
 import com.google.common.collect.ImmutableMap;
@@ -115,6 +116,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   }
 
   @Override
+  @J2ktIncompatible
   public ConcurrentMap<K, V> asMap() {
     return delegate().asMap();
   }

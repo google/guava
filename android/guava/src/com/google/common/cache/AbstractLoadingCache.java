@@ -15,6 +15,7 @@
 package com.google.common.cache;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -72,6 +73,8 @@ public abstract class AbstractLoadingCache<K, V> extends AbstractCache<K, V>
   }
 
   @Override
+  @GwtIncompatible
+  @J2ktIncompatible
   public void refresh(K key) {
     throw new UnsupportedOperationException();
   }

@@ -20,6 +20,7 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Ticker;
 import com.google.common.cache.AbstractCache.StatsCounter;
@@ -27,11 +28,12 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.util.concurrent.ExecutionError;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
@@ -50,11 +52,14 @@ import org.jspecify.annotations.Nullable;
  * @author Charles Fry
  * @author Jon Donovan
  */
-// TODO(b/474587250): If we keep sharing this with j2kt-native, we'll need to ensure thread safety.
 final class LocalCache<K, V> implements ConcurrentMap<K, V> {
   static final int UNSET_INT = CacheBuilder.UNSET_INT;
 
+  private final Object lock = new Object();
+
+  @GuardedBy("lock")
   private final CapacityEnforcingMap<K, V> cachingHashMap;
+
   private final @Nullable CacheLoader<? super K, V> loader;
   private final @Nullable RemovalListener<? super K, ? super V> removalListener;
   private final StatsCounter statsCounter;
@@ -86,152 +91,181 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
 
   @Override
   public int size() {
-    return cachingHashMap.size();
+    synchronized (lock) {
+      return cachingHashMap.size();
+    }
   }
 
   @Override
   public boolean isEmpty() {
-    return cachingHashMap.isEmpty();
+    synchronized (lock) {
+      return cachingHashMap.isEmpty();
+    }
   }
 
   @Override
   public @Nullable V get(@Nullable Object key) {
-    checkNotNull(key);
-    Timestamped<V> value = cachingHashMap.get(key);
+    Timestamped<V> value;
+    synchronized (lock) {
+      checkNotNull(key);
+      value = cachingHashMap.get(key);
 
-    if (value == null) {
-      statsCounter.recordMisses(1);
-      return null;
-    } else if (!isExpired(value)) {
-      statsCounter.recordHits(1);
-      value.updateTimestamp();
-      return value.getValue();
-    } else {
+      if (value == null) {
+        statsCounter.recordMisses(1);
+        return null;
+      }
+      if (!isExpired(value)) {
+        statsCounter.recordHits(1);
+        value.updateTimestamp();
+        return value.getValue();
+      }
+
       statsCounter.recordEviction();
       statsCounter.recordMisses(1);
-      // `key` was in the cache, so it's a K.
-      // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
-      @SuppressWarnings("unchecked")
-      K castKey = (K) key;
-      alertListenerIfPresent(castKey, value.getValue(), RemovalCause.EXPIRED);
       cachingHashMap.remove(key);
-      return null;
     }
+    // `key` was in the cache, so it's a K.
+    // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
+    @SuppressWarnings("unchecked")
+    K castKey = (K) key;
+    alertListenerIfPresent(castKey, value.getValue(), RemovalCause.EXPIRED);
+    return null;
   }
 
   @CanIgnoreReturnValue
   @Override
   public @Nullable V put(K key, V value) {
-    checkNotNull(key);
-    checkNotNull(value);
-    Timestamped<V> oldValue = cachingHashMap.put(key, new Timestamped<V>(value, ticker));
-    if (oldValue == null) {
-      return null;
+    synchronized (lock) {
+      checkNotNull(key);
+      checkNotNull(value);
+      Timestamped<V> oldValue = cachingHashMap.put(key, new Timestamped<V>(value, ticker));
+      if (oldValue == null) {
+        return null;
+      }
+      alertListenerIfPresent(key, oldValue.getValue(), RemovalCause.REPLACED);
+      return oldValue.getValue();
     }
-    alertListenerIfPresent(key, oldValue.getValue(), RemovalCause.REPLACED);
-    return oldValue.getValue();
   }
 
   @CanIgnoreReturnValue
   @Override
   public @Nullable V remove(@Nullable Object key) {
-    Timestamped<V> stamped = cachingHashMap.remove(key);
-    if (stamped != null) {
-      V value = stamped.getValue();
-      // `key` was in the cache, so it's a K.
-      // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
-      @SuppressWarnings({"unchecked", "nullness"})
-      K castKey = (K) key;
+    synchronized (lock) {
+      Timestamped<V> stamped = cachingHashMap.remove(key);
+      if (stamped != null) {
+        V value = stamped.getValue();
+        // `key` was in the cache, so it's a K.
+        // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
+        @SuppressWarnings({"unchecked", "nullness"})
+        K castKey = (K) key;
 
-      if (!isExpired(stamped)) {
-        alertListenerIfPresent(castKey, value, RemovalCause.EXPLICIT);
-        return value;
+        if (!isExpired(stamped)) {
+          alertListenerIfPresent(castKey, value, RemovalCause.EXPLICIT);
+          return value;
+        }
+
+        alertListenerIfPresent(castKey, value, RemovalCause.EXPIRED);
       }
-
-      alertListenerIfPresent(castKey, value, RemovalCause.EXPIRED);
+      return null;
     }
-    return null;
   }
 
   @Override
   public void putAll(Map<? extends K, ? extends V> m) {
-    for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
-      put(entry.getKey(), entry.getValue());
+    synchronized (lock) {
+      for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
+        put(entry.getKey(), entry.getValue());
+      }
     }
   }
 
   @Override
   public void clear() {
-    if (removalListener != null) {
-      for (Entry<K, Timestamped<V>> entry : cachingHashMap.entrySet()) {
-        alertListenerIfPresent(entry.getKey(), entry.getValue().getValue(), RemovalCause.EXPLICIT);
+    synchronized (lock) {
+      if (removalListener != null) {
+        for (Entry<K, Timestamped<V>> entry : cachingHashMap.entrySet()) {
+          alertListenerIfPresent(
+              entry.getKey(), entry.getValue().getValue(), RemovalCause.EXPLICIT);
+        }
       }
+      cachingHashMap.clear();
     }
-    cachingHashMap.clear();
   }
 
   @Override
   public @Nullable V putIfAbsent(K key, V value) {
-    V currentValue = get(key);
-    if (currentValue != null) {
-      return currentValue;
+    synchronized (lock) {
+      V currentValue = get(key);
+      if (currentValue != null) {
+        return currentValue;
+      }
+      return put(key, value);
     }
-    return put(key, value);
   }
 
   @CanIgnoreReturnValue
   @Override
   public boolean remove(@Nullable Object key, @Nullable Object value) {
-    if (Objects.equals(value, get(key))) {
-      // `key` was in the cache, so it's a K.
-      // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
-      @SuppressWarnings({"unchecked", "nullness"})
-      K castKey = (K) key;
-      @SuppressWarnings({"unchecked", "nullness"}) // similar to the above
-      V castValue = (V) value;
+    synchronized (lock) {
+      if (Objects.equals(value, get(key))) {
+        // `key` was in the cache, so it's a K.
+        // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
+        @SuppressWarnings({"unchecked", "nullness"})
+        K castKey = (K) key;
+        @SuppressWarnings({"unchecked", "nullness"}) // similar to the above
+        V castValue = (V) value;
 
-      alertListenerIfPresent(castKey, castValue, RemovalCause.EXPLICIT);
-      remove(key);
-      return true;
+        alertListenerIfPresent(castKey, castValue, RemovalCause.EXPLICIT);
+        remove(key);
+        return true;
+      }
+      return false;
     }
-    return false;
   }
 
   @Override
   public boolean replace(K key, V oldValue, V newValue) {
-    if (oldValue.equals(get(key))) {
-      alertListenerIfPresent(key, oldValue, RemovalCause.REPLACED);
-      put(key, newValue);
-      return true;
+    synchronized (lock) {
+      if (oldValue.equals(get(key))) {
+        alertListenerIfPresent(key, oldValue, RemovalCause.REPLACED);
+        put(key, newValue);
+        return true;
+      }
+      return false;
     }
-    return false;
   }
 
   @Override
   public @Nullable V replace(K key, V value) {
-    V currentValue = get(key);
-    if (currentValue != null) {
-      alertListenerIfPresent(key, currentValue, RemovalCause.REPLACED);
-      return put(key, value);
+    synchronized (lock) {
+      V currentValue = get(key);
+      if (currentValue != null) {
+        alertListenerIfPresent(key, currentValue, RemovalCause.REPLACED);
+        return put(key, value);
+      }
+      return null;
     }
-    return null;
   }
 
   @Override
   public boolean containsKey(@Nullable Object key) {
-    return cachingHashMap.containsKey(key) && !isExpired(cachingHashMap.get(key));
+    synchronized (lock) {
+      return cachingHashMap.containsKey(key) && !isExpired(cachingHashMap.get(key));
+    }
   }
 
   @Override
   public boolean containsValue(@Nullable Object value) {
-    for (Timestamped<V> val : cachingHashMap.values()) {
-      if (val.getValue().equals(value)) {
-        if (!isExpired(val)) {
-          return true;
+    synchronized (lock) {
+      for (Timestamped<V> val : cachingHashMap.values()) {
+        if (val.getValue().equals(value)) {
+          if (!isExpired(val)) {
+            return true;
+          }
         }
       }
+      return false;
     }
-    return false;
   }
 
   private boolean isExpired(Timestamped<V> stamped) {
@@ -292,31 +326,35 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
 
   private @Nullable V getIfPresent(Object key) {
     checkNotNull(key);
-    Timestamped<V> value = cachingHashMap.get(key);
+    Timestamped<V> value;
+    synchronized (lock) {
+      value = cachingHashMap.get(key);
 
-    if (value == null) {
-      return null;
-    } else if (!isExpired(value)) {
-      value.updateTimestamp();
-      return value.getValue();
-    } else {
-      // `key` was in the cache, so it's a K.
-      // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
-      @SuppressWarnings("unchecked")
-      K castKey = (K) key;
-
-      alertListenerIfPresent(castKey, value.getValue(), RemovalCause.EXPIRED);
+      if (value == null) {
+        return null;
+      }
+      if (!isExpired(value)) {
+        value.updateTimestamp();
+        return value.getValue();
+      }
       cachingHashMap.remove(key);
-      return null;
     }
+    // `key` was in the cache, so it's a K.
+    // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
+    @SuppressWarnings("unchecked")
+    K castKey = (K) key;
+    alertListenerIfPresent(castKey, value.getValue(), RemovalCause.EXPIRED);
+    return null;
   }
 
   private V getOrLoad(K key) throws ExecutionException {
-    V value = get(key);
-    if (value != null) {
-      return value;
+    synchronized (lock) {
+      V value = get(key);
+      if (value != null) {
+        return value;
+      }
+      return load(key);
     }
-    return load(key);
   }
 
   @SuppressWarnings("GoodTime") // timestamps as numeric primitives
@@ -382,18 +420,20 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
 
     @Override
     public V get(K key, Callable<? extends V> valueLoader) throws ExecutionException {
-      V value = localCache.get(key);
-      if (value != null) {
-        return value;
-      }
+      synchronized (localCache.lock) { // Prevent concurrent loads for the same key
+        V value = localCache.get(key);
+        if (value != null) {
+          return value;
+        }
 
-      try {
-        V newValue = valueLoader.call();
-        // TODO(b/147136275): Perform a null check on the result.
-        localCache.put(key, newValue);
-        return newValue;
-      } catch (Exception e) {
-        throw new ExecutionException(e);
+        try {
+          V newValue = valueLoader.call();
+          // TODO(b/147136275): Perform a null check on the result.
+          localCache.put(key, newValue);
+          return newValue;
+        } catch (Exception e) {
+          throw new ExecutionException(e);
+        }
       }
     }
 
@@ -424,6 +464,7 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
+    @J2ktIncompatible // Thread safety complexity
     public ConcurrentMap<K, V> asMap() {
       return localCache;
     }
@@ -460,22 +501,17 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    public final V apply(K key) {
+    public V apply(K key) {
       return getUnchecked(key);
     }
 
     @Override
     public ImmutableMap<K, V> getAll(Iterable<? extends K> keys) throws ExecutionException {
-      Map<K, V> map = new HashMap<K, V>();
+      Map<K, V> map = new LinkedHashMap<K, V>();
       for (K key : keys) {
         map.put(key, localCache.getOrLoad(key));
       }
       return ImmutableMap.copyOf(map);
-    }
-
-    @Override
-    public void refresh(K key) {
-      throw new UnsupportedOperationException();
     }
   }
 
