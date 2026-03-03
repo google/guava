@@ -336,6 +336,7 @@ public class FinalizableReferenceQueue implements Closeable {
     public @Nullable Class<?> loadFinalizer() {
       if (isAndroid()) {
         // We need not worry about class unloading under Android. Plus, this approach wouldn't work.
+        return null;
       }
       try {
         /*
