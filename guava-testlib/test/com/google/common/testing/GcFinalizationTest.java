@@ -37,7 +37,6 @@ import org.jspecify.annotations.Nullable;
  * @author Martin Buchholz
  * @author mike nonemacher
  */
-@AndroidIncompatible // depends on details of gc
 
 @NullUnmarked
 public class GcFinalizationTest extends TestCase {
@@ -94,9 +93,13 @@ public class GcFinalizationTest extends TestCase {
   }
 
   public void testAwaitClear() {
-    WeakReference<Object> ref = new WeakReference<>(new Object());
+    WeakReference<Object> ref = createWeakReference();
     GcFinalization.awaitClear(ref);
     assertThat(ref.get()).isNull();
+  }
+
+  private WeakReference<Object> createWeakReference() {
+    return new WeakReference<>(new Object());
   }
 
   public void testAwaitDone_finalizationPredicate() {
@@ -210,15 +213,7 @@ public class GcFinalizationTest extends TestCase {
    */
   public void testAwaitFullGc() {
     CountDownLatch finalizerRan = new CountDownLatch(1);
-    WeakReference<Object> ref =
-        new WeakReference<>(
-            new Object() {
-              @SuppressWarnings({"removal", "Finalize"}) // b/487687332
-              @Override
-              protected void finalize() {
-                finalizerRan.countDown();
-              }
-            });
+    WeakReference<Object> ref = createWeakReferenceWithFinalizer(finalizerRan);
 
     // Don't copy this into your own test!
     // Use e.g. awaitClear or await(CountDownLatch) instead.
@@ -229,6 +224,17 @@ public class GcFinalizationTest extends TestCase {
 
     assertEquals(0, finalizerRan.getCount());
     assertThat(ref.get()).isNull();
+  }
+
+  private WeakReference<Object> createWeakReferenceWithFinalizer(CountDownLatch finalizerRan) {
+    return new WeakReference<>(
+        new Object() {
+          @SuppressWarnings({"removal", "Finalize"}) // b/487687332
+          @Override
+          protected void finalize() {
+            finalizerRan.countDown();
+          }
+        });
   }
 
   // We call the method only after checking that it's present.

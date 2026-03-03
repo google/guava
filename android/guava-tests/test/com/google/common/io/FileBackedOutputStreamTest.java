@@ -204,18 +204,32 @@ public class FileBackedOutputStreamTest extends IoTestCase {
   }
 
 
-  @AndroidIncompatible // depends on details of GC
   public void testResetWhenGarbageCollected() throws Exception {
+    FileAndWeakByteSource fileAndSource = leakFileBackedOutputStream();
+    File file = fileAndSource.file;
+    WeakReference<ByteSource> sourceRef = fileAndSource.sourceRef;
+    fileAndSource = null;
+    awaitClear(sourceRef);
+    awaitDone(() -> !file.exists());
+  }
+
+  private static final class FileAndWeakByteSource {
+    final File file;
+    final WeakReference<ByteSource> sourceRef;
+
+    FileAndWeakByteSource(File file, WeakReference<ByteSource> sourceRef) {
+      this.file = file;
+      this.sourceRef = sourceRef;
+    }
+  }
+
+  private FileAndWeakByteSource leakFileBackedOutputStream() throws IOException {
     FileBackedOutputStream out =
         new FileBackedOutputStream(0, /* resetWhenGarbageCollected= */ true);
     out.write(new byte[10]);
     File file = out.getFile();
     assertThat(file.exists()).isTrue();
     reachabilityFence(out); // not sure if this is necessary even in theory
-
-    WeakReference<ByteSource> sourceRef = new WeakReference<>(out.asByteSource());
-    out = null;
-    awaitClear(sourceRef);
-    awaitDone(() -> !file.exists());
+    return new FileAndWeakByteSource(file, new WeakReference<>(out.asByteSource()));
   }
 }

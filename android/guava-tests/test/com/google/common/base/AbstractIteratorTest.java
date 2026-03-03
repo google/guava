@@ -153,7 +153,6 @@ public class AbstractIteratorTest extends TestCase {
 
   @GwtIncompatible // weak references
   @J2ktIncompatible
-  @AndroidIncompatible // depends on details of GC
   public void testFreesNextReference() {
     Iterator<Object> itr =
         new AbstractIterator<Object>() {
@@ -162,8 +161,13 @@ public class AbstractIteratorTest extends TestCase {
             return new Object();
           }
         };
-    WeakReference<Object> ref = new WeakReference<>(itr.next());
+    WeakReference<Object> ref = doNextAndGetWeakReference(itr);
     GcFinalization.awaitClear(ref);
+  }
+
+  @GwtIncompatible // weak references
+  private WeakReference<Object> doNextAndGetWeakReference(Iterator<Object> itr) {
+    return new WeakReference<>(itr.next());
   }
 
   public void testReentrantHasNext() {

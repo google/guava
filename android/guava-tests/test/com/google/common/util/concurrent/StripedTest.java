@@ -128,32 +128,40 @@ public class StripedTest extends TestCase {
     assertTrue(Striped.lazyWeakLock(256).size() == 256);
   }
 
-  @AndroidIncompatible // Presumably GC doesn't trigger, despite our efforts.
   public void testWeakImplementations() {
     for (Striped<?> striped : weakImplementations()) {
-      WeakReference<Object> weakRef = new WeakReference<>(striped.get(new Object()));
+      WeakReference<Object> weakRef = getWeakReferenceToStripe(striped);
       GcFinalization.awaitClear(weakRef);
     }
   }
 
-  @AndroidIncompatible // Presumably GC doesn't trigger, despite our efforts.
+  private WeakReference<Object> getWeakReferenceToStripe(Striped<?> striped) {
+    return new WeakReference<>(striped.get(new Object()));
+  }
+
   public void testWeakReadWrite() {
     Striped<ReadWriteLock> striped = Striped.lazyWeakReadWriteLock(1000);
     Object key = new Object();
     Lock readLock = striped.get(key).readLock();
-    WeakReference<Object> garbage = new WeakReference<>(new Object());
+    WeakReference<Object> garbage = createGarbage();
     GcFinalization.awaitClear(garbage);
     Lock writeLock = striped.get(key).writeLock();
     readLock.lock();
-    assertFalse(writeLock.tryLock());
-    readLock.unlock();
+    try {
+      assertFalse(writeLock.tryLock());
+    } finally {
+      readLock.unlock();
+    }
   }
 
-  @AndroidIncompatible // Presumably GC doesn't trigger, despite our efforts.
+  private WeakReference<Object> createGarbage() {
+    return new WeakReference<>(new Object());
+  }
+
   public void testStrongImplementations() {
     for (Striped<?> striped : strongImplementations()) {
-      WeakReference<Object> weakRef = new WeakReference<>(striped.get(new Object()));
-      WeakReference<Object> garbage = new WeakReference<>(new Object());
+      WeakReference<Object> weakRef = getWeakReferenceToStripe(striped);
+      WeakReference<Object> garbage = createGarbage();
       GcFinalization.awaitClear(garbage);
       assertThat(weakRef.get()).isNotNull();
     }

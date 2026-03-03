@@ -27,7 +27,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.TestLogHandler;
-import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
@@ -154,8 +153,6 @@ public class ExecutionSequencerTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible
-  @J2ObjCIncompatible // gc
-  @AndroidIncompatible
   public void testCancellationWithReferencedObject() throws Exception {
     Object toBeGCed = new Object();
     WeakReference<Object> ref = new WeakReference<>(toBeGCed);

@@ -298,23 +298,27 @@ public final class GcFinalization {
    * @throws RuntimeException if timed out or interrupted while waiting
    * @since 12.0
    */
-  @SuppressWarnings({"removal", "Finalize"}) // b/487687332
   public static void awaitFullGc() {
     CountDownLatch finalizerRan = new CountDownLatch(1);
-    WeakReference<Object> ref =
-        new WeakReference<>(
-            new Object() {
-              @Override
-              protected void finalize() {
-                finalizerRan.countDown();
-              }
-            });
+    WeakReference<Object> ref = createWeakReferenceWithFinalizer(finalizerRan);
 
     await(finalizerRan);
     awaitClear(ref);
 
     // Hope to catch some stragglers queued up behind our finalizable object
     System.runFinalization();
+  }
+
+  @SuppressWarnings({"removal", "Finalize"}) // b/487687332
+  private static WeakReference<Object> createWeakReferenceWithFinalizer(
+      CountDownLatch finalizerRan) {
+    return new WeakReference<>(
+        new Object() {
+          @Override
+          protected void finalize() {
+            finalizerRan.countDown();
+          }
+        });
   }
 
   @FormatMethod

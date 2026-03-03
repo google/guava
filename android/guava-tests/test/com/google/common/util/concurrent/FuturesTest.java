@@ -2700,7 +2700,6 @@ public class FuturesTest extends TestCase {
     assertSame(partialResultException, expected.getCause());
   }
 
-  @AndroidIncompatible
   @J2ktIncompatible
   @GwtIncompatible
   public void testWhenAllSucceed_releasesInputFuturesUponSubmission() throws Exception {
@@ -2736,7 +2735,6 @@ public class FuturesTest extends TestCase {
     GcFinalization.awaitClear(future2Ref);
   }
 
-  @AndroidIncompatible
   @J2ktIncompatible
   @GwtIncompatible
   public void testWhenAllComplete_releasesInputFuturesUponCancellation() throws Exception {
@@ -2760,7 +2758,6 @@ public class FuturesTest extends TestCase {
     GcFinalization.awaitClear(futureRef);
   }
 
-  @AndroidIncompatible
   @J2ktIncompatible
   @GwtIncompatible
   public void testWhenAllSucceed_releasesCallable() throws Exception {
@@ -3623,7 +3620,6 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // reference is never cleared under some versions of the emulator
   @J2ktIncompatible
   @GwtIncompatible
   public void testInputGCedIfUnreferenced() throws Exception {
