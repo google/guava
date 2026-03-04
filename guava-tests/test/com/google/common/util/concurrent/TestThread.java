@@ -81,11 +81,27 @@ public final class TestThread<L> extends Thread implements TearDown {
    */
   @Override
   public void tearDown() throws Exception {
+    // First, try to interrupt the thread. This allows interruptible threads (like those in
+    // InterruptibleMonitorTest) to clean up gracefully. For uninterruptible threads, this
+    // will have no effect, but we try stop() next as a fallback for older JDKs.
+    interrupt();
     try {
-      Thread.class.getMethod("stop").invoke(this);
-      join();
-    } catch (ReflectiveOperationException e) {
-      // stop() threw or did not exist. Don't join() the thread, which might hang forever.
+      // Give the thread a chance to respond to the interrupt before trying stop().
+      join(DUE_DILIGENCE_MILLIS);
+    } catch (InterruptedException e) {
+      Thread.currentThread().interrupt();
+    }
+
+    if (isAlive()) {
+      // Thread didn't respond to interrupt. Try stop() for older JDKs (pre-Java 20).
+      // On Java 20+, stop() throws UnsupportedOperationException, so the thread will
+      // remain alive. This is unavoidable for uninterruptible threads.
+      try {
+        Thread.class.getMethod("stop").invoke(this);
+        join();
+      } catch (ReflectiveOperationException e) {
+        // stop() threw or did not exist. Don't join() the thread, which might hang forever.
+      }
     }
 
     if (uncaughtThrowable != null) {
