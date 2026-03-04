@@ -49,9 +49,6 @@ public class Finalizer implements Runnable {
 
   private static final Logger logger = Logger.getLogger(Finalizer.class.getName());
 
-  /** Name of FinalizableReference.class. */
-  private static final String FINALIZABLE_REFERENCE = "com.google.common.base.FinalizableReference";
-
   /**
    * Starts the Finalizer thread. FinalizableReferenceQueue calls this method reflectively.
    *
@@ -66,16 +63,13 @@ public class Finalizer implements Runnable {
       ReferenceQueue<Object> queue,
       PhantomReference<Object> frqReference) {
     /*
-     * We use FinalizableReference.class for two things:
+     * We use finalizableReferenceClass for two things:
      *
      * 1) To invoke FinalizableReference.finalizeReferent()
      *
      * 2) To detect when FinalizableReference's class loader has to be garbage collected, at which
      * point, Finalizer can stop running
      */
-    if (!finalizableReferenceClass.getName().equals(FINALIZABLE_REFERENCE)) {
-      throw new IllegalArgumentException("Expected " + FINALIZABLE_REFERENCE + ".");
-    }
 
     Finalizer finalizer = new Finalizer(finalizableReferenceClass, queue, frqReference);
     String threadName = Finalizer.class.getName();
