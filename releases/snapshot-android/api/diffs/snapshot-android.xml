@@ -67854,7 +67854,7 @@
     deprecated="not deprecated">
     <method name="call" return="com.google.common.util.concurrent.ClosingFuture&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="combiningCallable" type="com.google.common.util.concurrent.ClosingFuture.Combiner.CombiningCallable&lt;V&gt;"/>
       <param name="executor" type="java.util.concurrent.Executor"/>
@@ -67875,7 +67875,7 @@
     </method>
     <method name="callAsync" return="com.google.common.util.concurrent.ClosingFuture&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="combiningCallable" type="com.google.common.util.concurrent.ClosingFuture.Combiner.AsyncCombiningCallable&lt;V&gt;"/>
       <param name="executor" type="java.util.concurrent.Executor"/>
@@ -67930,8 +67930,8 @@
  <p>Example:
 
  {@snippet :
- final ClosingFuture<BufferedReader> file1ReaderFuture = ...;
- final ClosingFuture<BufferedReader> file2ReaderFuture = ...;
+ ClosingFuture<BufferedReader> file1ReaderFuture = ...;
+ ClosingFuture<BufferedReader> file2ReaderFuture = ...;
  ListenableFuture<Integer> numberOfDifferentLines =
      ClosingFuture.whenAllSucceed(file1ReaderFuture, file2ReaderFuture)
          .call(
@@ -67941,7 +67941,7 @@
                return countDifferentLines(file1Reader, file2Reader);
              },
              executor)
-         .closing(executor);
+         .finishToFuture();
  }]]>
     </doc>
   </class>
@@ -68635,7 +68635,7 @@
     deprecated="not deprecated">
     <method name="getDone" return="D extends java.lang.Object"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="closingFuture" type="com.google.common.util.concurrent.ClosingFuture&lt;D&gt;"/>
       <exception name="ExecutionException" type="java.util.concurrent.ExecutionException"/>

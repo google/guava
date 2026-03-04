@@ -102,8 +102,8 @@ instantiate this class.
 <p>Example:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-com.google.common.util.concurrent.ClosingFuture.Combiner1"><code class="language-java">final ClosingFuture&lt;BufferedReader&gt; file1ReaderFuture = ...;
-final ClosingFuture&lt;BufferedReader&gt; file2ReaderFuture = ...;
+<pre class="snippet" id="snippet-com.google.common.util.concurrent.ClosingFuture.Combiner1"><code class="language-java">ClosingFuture&lt;BufferedReader&gt; file1ReaderFuture = ...;
+ClosingFuture&lt;BufferedReader&gt; file2ReaderFuture = ...;
 ListenableFuture&lt;Integer&gt; numberOfDifferentLines =
     ClosingFuture.whenAllSucceed(file1ReaderFuture, file2ReaderFuture)
         .call(
@@ -113,7 +113,7 @@ ListenableFuture&lt;Integer&gt; numberOfDifferentLines =
               return countDifferentLines(file1Reader, file2Reader);
             },
             executor)
-        .closing(executor);
+        .finishToFuture();
 </code></pre>
 </div>
 </div>
@@ -173,14 +173,14 @@ ListenableFuture&lt;Integer&gt; numberOfDifferentLines =
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a><wbr>&lt;V&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a><wbr>&lt;V&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#call(com.google.common.util.concurrent.ClosingFuture.Combiner.CombiningCallable,java.util.concurrent.Executor)" class="member-name-link">call</a><wbr>(<a href="ClosingFuture.Combiner.CombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.CombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
 combining function to their values.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a><wbr>&lt;V&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final &lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;<br><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a><wbr>&lt;V&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#callAsync(com.google.common.util.concurrent.ClosingFuture.Combiner.AsyncCombiningCallable,java.util.concurrent.Executor)" class="member-name-link">callAsync</a><wbr>(<a href="ClosingFuture.Combiner.AsyncCombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.AsyncCombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -224,7 +224,7 @@ combining function to their values.</div>
 <section class="detail" id="call(com.google.common.util.concurrent.ClosingFuture.Combiner.CombiningCallable,java.util.concurrent.Executor)">
 <h3>call</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;</span>&nbsp;<span class="element-name">call</span><wbr><span class="parameters">(<a href="ClosingFuture.Combiner.CombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.CombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
@@ -246,7 +246,7 @@ cancelled.
 <section class="detail" id="callAsync(com.google.common.util.concurrent.ClosingFuture.Combiner.AsyncCombiningCallable,java.util.concurrent.Executor)">
 <h3>callAsync</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="type-parameters">&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="type-parameters">&lt;V extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="class or interface in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Object.html" title="class or interface in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent">ClosingFuture</a>&lt;V&gt;</span>&nbsp;<span class="element-name">callAsync</span><wbr><span class="parameters">(<a href="ClosingFuture.Combiner.AsyncCombiningCallable.html" title="interface in com.google.common.util.concurrent">ClosingFuture.Combiner.AsyncCombiningCallable</a>&lt;V&gt;&nbsp;combiningCallable,
  <a href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/Executor.html" title="class or interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Returns a new <code>ClosingFuture</code> pipeline step derived from the inputs by applying a
