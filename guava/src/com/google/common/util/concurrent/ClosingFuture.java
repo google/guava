@@ -1141,7 +1141,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      *     AsyncCombiningCallable#call(DeferredCloser, Peeker)}
      */
     @ParametricNullness
-    public final <D extends @Nullable Object> D getDone(ClosingFuture<D> closingFuture)
+    public <D extends @Nullable Object> D getDone(ClosingFuture<D> closingFuture)
         throws ExecutionException {
       checkState(beingCalled);
       checkArgument(futures.contains(closingFuture));
@@ -1185,8 +1185,8 @@ public final class ClosingFuture<V extends @Nullable Object> {
    * <p>Example:
    *
    * {@snippet :
-   * final ClosingFuture<BufferedReader> file1ReaderFuture = ...;
-   * final ClosingFuture<BufferedReader> file2ReaderFuture = ...;
+   * ClosingFuture<BufferedReader> file1ReaderFuture = ...;
+   * ClosingFuture<BufferedReader> file2ReaderFuture = ...;
    * ListenableFuture<Integer> numberOfDifferentLines =
    *     ClosingFuture.whenAllSucceed(file1ReaderFuture, file2ReaderFuture)
    *         .call(
@@ -1196,7 +1196,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
    *               return countDifferentLines(file1Reader, file2Reader);
    *             },
    *             executor)
-   *         .closing(executor);
+   *         .finishToFuture();
    * }
    */
   @DoNotMock("Use ClosingFuture.whenAllSucceed() or .whenAllComplete() instead.")
@@ -1270,7 +1270,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * <p>If the combiningCallable throws an {@code ExecutionException}, the cause of the thrown
      * {@code ExecutionException} will be extracted and used as the failure of the derived step.
      */
-    public <V extends @Nullable Object> ClosingFuture<V> call(
+    public final <V extends @Nullable Object> ClosingFuture<V> call(
         CombiningCallable<V> combiningCallable, Executor executor) {
       Callable<V> callable =
           new Callable<V>() {
@@ -1326,7 +1326,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
      * <p>The same warnings about doing heavyweight operations within {@link
      * ClosingFuture#transformAsync(AsyncClosingFunction, Executor)} apply here.
      */
-    public <V extends @Nullable Object> ClosingFuture<V> callAsync(
+    public final <V extends @Nullable Object> ClosingFuture<V> callAsync(
         AsyncCombiningCallable<V> combiningCallable, Executor executor) {
       AsyncCallable<V> asyncCallable =
           new AsyncCallable<V>() {
