@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.base.internal.Finalizer;
 import java.io.Closeable;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -383,17 +384,13 @@ public class FinalizableReferenceQueue implements Closeable {
   }
 
   /**
-   * Loads Finalizer directly using the current class loader. We won't be able to garbage collect
-   * this class loader, but at least the world doesn't end.
+   * Returns the {@code Finalizer} class from the current class loader. If that class gets used,
+   * then we won't be able garbage collect this class loader, but at least the world doesn't end.
    */
   private static final class DirectLoader implements FinalizerLoader {
     @Override
     public Class<?> loadFinalizer() {
-      try {
-        return Class.forName(FINALIZER_CLASS_NAME);
-      } catch (ClassNotFoundException e) {
-        throw new AssertionError(e);
-      }
+      return Finalizer.class;
     }
   }
 
