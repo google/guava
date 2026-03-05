@@ -199,11 +199,15 @@ final class CollectSpliterators {
 
       @Override
       public int characteristics() {
+        // IMMUTABLE and CONCURRENT describe the source, not the elements, so filtering
+        // does not invalidate them.  This matches JDK Stream.filter(), which only clears SIZED.
         return fromSpliterator.characteristics()
             & (Spliterator.DISTINCT
                 | Spliterator.NONNULL
                 | Spliterator.ORDERED
-                | Spliterator.SORTED);
+                | Spliterator.SORTED
+                | Spliterator.IMMUTABLE
+                | Spliterator.CONCURRENT);
       }
     }
     return new Splitr();

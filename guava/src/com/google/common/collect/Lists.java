@@ -50,6 +50,7 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.RandomAccess;
+import java.util.Spliterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.function.Predicate;
 import org.jspecify.annotations.Nullable;
@@ -355,6 +356,14 @@ public final class Lists {
       return (index == 0) ? first : rest[index - 1];
     }
 
+    @Override
+    @GwtIncompatible
+    @J2ktIncompatible
+    public Spliterator<E> spliterator() {
+      return CollectSpliterators.indexed(
+          size(), Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.SIZED, this::get);
+    }
+
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
@@ -391,6 +400,14 @@ public final class Lists {
           checkElementIndex(index, size());
           return rest[index - 2];
       }
+    }
+
+    @Override
+    @GwtIncompatible
+    @J2ktIncompatible
+    public Spliterator<E> spliterator() {
+      return CollectSpliterators.indexed(
+          size(), Spliterator.ORDERED | Spliterator.IMMUTABLE | Spliterator.SIZED, this::get);
     }
 
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
@@ -828,6 +845,14 @@ public final class Lists {
     public int size() {
       return sequence.length();
     }
+
+    @Override
+    @GwtIncompatible
+    @J2ktIncompatible
+    public Spliterator<Character> spliterator() {
+      return CollectSpliterators.indexed(
+          size(), Spliterator.ORDERED | Spliterator.NONNULL | Spliterator.SIZED, this::get);
+    }
   }
 
   /**
@@ -1199,6 +1224,13 @@ public final class Lists {
     @Override
     public int size() {
       return backingList.size();
+    }
+
+    @Override
+    @GwtIncompatible
+    @J2ktIncompatible
+    public Spliterator<E> spliterator() {
+      return backingList.spliterator();
     }
   }
 
