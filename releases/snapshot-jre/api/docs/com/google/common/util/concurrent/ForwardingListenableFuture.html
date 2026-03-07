@@ -102,6 +102,14 @@ implements <a href="ListenableFuture.html" title="interface in com.google.common
 should override one or more methods to modify the behavior of the backing future as desired per
 the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
 
+<p><b>Warning:</b> The methods of <code>ForwardingListenableFuture</code> forward
+<b>indiscriminately</b> to the methods of the delegate. For example, overriding <a href="ForwardingFuture.html#get(long,java.util.concurrent.TimeUnit)"><code>ForwardingFuture.get(long, TimeUnit)</code></a> alone <b>will not</b> change the behavior of <a href="ForwardingFuture.html#get()"><code>ForwardingFuture.get()</code></a>, which can lead to
+unexpected behavior. In this case, you should override <code>get()</code> as well.
+
+<p><b><code>default</code> method warning:</b> This class does <i>not</i> forward calls to <code>
+default</code> methods. Instead, it inherits their default implementations. When those implementations
+invoke methods, they invoke methods on the <code>ForwardingListenableFuture</code>.
+
 <p>Most subclasses can just use <a href="ForwardingListenableFuture.SimpleForwardingListenableFuture.html" title="class in com.google.common.util.concurrent"><code>ForwardingListenableFuture.SimpleForwardingListenableFuture</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
