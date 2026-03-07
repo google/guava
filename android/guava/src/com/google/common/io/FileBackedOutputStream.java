@@ -72,9 +72,6 @@ import org.jspecify.annotations.Nullable;
 @GwtIncompatible
 @J2ObjCIncompatible
 public final class FileBackedOutputStream extends OutputStream {
-  private static final FinalizableReferenceQueue referenceQueue = new FinalizableReferenceQueue();
-  private static final Set<Reference<ByteSource>> references = newConcurrentHashSet();
-
   private final FbosByteSource byteSource;
   private final State state;
 
@@ -125,16 +122,23 @@ public final class FileBackedOutputStream extends OutputStream {
     this.byteSource = new FbosByteSource(state);
 
     if (resetWhenGarbageCollected) {
-      references.add(new FinalizableReference(byteSource, state));
+      FinalizableReference.register(byteSource);
     }
   }
 
   private static final class FinalizableReference extends FinalizablePhantomReference<ByteSource> {
+    static final FinalizableReferenceQueue referenceQueue = new FinalizableReferenceQueue();
+    static final Set<FinalizableReference> references = newConcurrentHashSet();
+
+    static void register(FbosByteSource referent) {
+      references.add(new FinalizableReference(referent));
+    }
+
     final State state;
 
-    FinalizableReference(ByteSource referent, State state) {
+    FinalizableReference(FbosByteSource referent) {
       super(referent, referenceQueue);
-      this.state = state;
+      this.state = referent.state;
     }
 
     @Override
