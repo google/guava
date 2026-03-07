@@ -23,6 +23,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.util.concurrent.Service.Listener;
@@ -43,6 +45,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Jesse Wilson
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AbstractServiceTest extends TestCase {
 
   private static final long LONG_TIMEOUT_MILLIS = 10000;

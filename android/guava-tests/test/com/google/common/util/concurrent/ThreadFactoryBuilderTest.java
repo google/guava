@@ -20,6 +20,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.Executors.defaultThreadFactory;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.errorprone.annotations.FormatMethod;
 import java.lang.Thread.UncaughtExceptionHandler;
@@ -35,6 +37,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Martin Buchholz
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ThreadFactoryBuilderTest extends TestCase {
   private final Runnable monitoredRunnable =
       new Runnable() {

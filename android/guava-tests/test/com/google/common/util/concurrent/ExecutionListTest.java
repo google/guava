@@ -20,6 +20,8 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.Executor;
@@ -34,6 +36,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Sven Mawson
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ExecutionListTest extends TestCase {
 
   private final ExecutionList list = new ExecutionList();

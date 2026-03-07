@@ -18,6 +18,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
@@ -30,6 +32,8 @@ import org.jspecify.annotations.Nullable;
 
 /** Utilities for the AbstractFutureBenchmarks */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 final class AbstractFutureBenchmarks {
   private AbstractFutureBenchmarks() {}
 

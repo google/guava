@@ -104,6 +104,7 @@ import org.jspecify.annotations.Nullable;
  */
 @NullMarked
 @GwtCompatible
+@SuppressWarnings("nullness") // TODO(cpovirk): fix errors
 public class FuturesTest extends TestCase {
   private static final Logger aggregateFutureLogger =
       Logger.getLogger(AggregateFuture.class.getName());

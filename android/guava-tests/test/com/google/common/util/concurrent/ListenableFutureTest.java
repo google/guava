@@ -18,6 +18,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertWithMessage;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
@@ -25,6 +27,8 @@ import org.jspecify.annotations.NullUnmarked;
 
 /** Test for {@link ListenableFuture}. */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ListenableFutureTest extends TestCase {
   public void testNoNewApis() throws Exception {
     assertWithMessage(

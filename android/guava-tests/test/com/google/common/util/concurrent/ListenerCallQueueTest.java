@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ConcurrentHashMultiset;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMultiset;
@@ -35,6 +37,8 @@ import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link ListenerCallQueue}. */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ListenerCallQueueTest extends TestCase {
 
   private static final ListenerCallQueue.Event<Object> THROWING_EVENT =

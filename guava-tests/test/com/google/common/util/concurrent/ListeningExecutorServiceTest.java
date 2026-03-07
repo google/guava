@@ -21,6 +21,8 @@ import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.Collections;
@@ -35,6 +37,8 @@ import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public final class ListeningExecutorServiceTest extends TestCase {
 
   private Collection<? extends Callable<?>> recordedTasks;

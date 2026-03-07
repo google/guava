@@ -26,6 +26,8 @@ import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 import static org.mockito.Mockito.mock;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.NullPointerTester;
@@ -47,6 +49,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Dimitris Andreou
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class RateLimiterTest extends TestCase {
   private static final double EPSILON = 1e-8;
 

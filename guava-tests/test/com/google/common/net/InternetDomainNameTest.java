@@ -38,6 +38,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtCompatible
 @NullUnmarked
+@SuppressWarnings("nullness") // TODO(cpovirk): fix errors
 public final class InternetDomainNameTest extends TestCase {
   private static final InternetDomainName UNICODE_EXAMPLE =
       InternetDomainName.from("j\u00f8rpeland.no");

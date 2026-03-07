@@ -19,6 +19,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.InterruptibleTask.Blocker;
 import java.nio.channels.spi.AbstractInterruptibleChannel;
 import java.util.concurrent.CountDownLatch;
@@ -29,6 +31,8 @@ import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
 
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public final class InterruptibleTaskTest extends TestCase {
 
   // Regression test for a deadlock where a task could be stuck busy waiting for the task to

@@ -18,6 +18,8 @@ package com.google.common.net;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -34,6 +36,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Craig Berry
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public final class HostSpecifierTest extends TestCase {
 
   private static final ImmutableList<String> GOOD_IPS =

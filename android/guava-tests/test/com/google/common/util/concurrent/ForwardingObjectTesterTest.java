@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ForwardingObject;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -26,6 +28,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Ben Yu
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ForwardingObjectTesterTest extends TestCase {
 
   public void testFailsToForward() {

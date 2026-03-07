@@ -22,6 +22,8 @@ import static com.google.common.util.concurrent.Runnables.doNothing;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
@@ -44,6 +46,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Chris Nokleberg
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class WrappingExecutorServiceTest extends TestCase {
   private static final String RESULT_VALUE = "ran";
 

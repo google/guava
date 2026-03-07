@@ -19,6 +19,8 @@ import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.atomic.AtomicReference;
@@ -71,6 +73,8 @@ import org.jspecify.annotations.NullUnmarked;
   "ConstantCaseForConstants",
 })
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 abstract class JSR166TestCase extends TestCase {
   private static final long LONG_DELAY_MS = 10000;
 

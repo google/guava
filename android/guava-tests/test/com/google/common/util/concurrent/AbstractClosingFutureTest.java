@@ -38,6 +38,8 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.timeout;
 import static org.mockito.Mockito.verify;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import com.google.common.reflect.Reflection;
 import com.google.common.truth.FailureStrategy;
@@ -86,6 +88,8 @@ import org.jspecify.annotations.NullUnmarked;
  * {@link ClosingFuture} pipeline.
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public abstract class AbstractClosingFutureTest extends TestCase {
   // TODO(dpb): Use Expect once that supports JUnit 3, or we can use JUnit 4.
   final List<AssertionError> failures = new ArrayList<>();

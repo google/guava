@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ObjectArrays;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.AbstractQueue;
@@ -54,6 +56,8 @@ import org.jspecify.annotations.Nullable;
  */
 // TODO(kak): consider removing some of the @CanIgnoreReturnValue annotations as appropriate
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class MonitorBasedArrayBlockingQueue<E> extends AbstractQueue<E>
     implements BlockingQueue<E> {
 

@@ -21,6 +21,8 @@ import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Range;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -38,6 +40,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Jens Nyman
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class SimpleTimeLimiterTest extends TestCase {
 
   private static final long DELAY_MS = 50;

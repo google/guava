@@ -20,6 +20,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.testing.MockFutureListener;
 import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
@@ -32,6 +34,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Nishant Thakkar
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
   protected static final int EXCEPTION_DATA = -1;
   protected static final int VALID_INPUT_DATA = 1;

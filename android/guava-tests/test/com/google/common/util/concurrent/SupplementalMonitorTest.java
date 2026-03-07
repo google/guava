@@ -21,6 +21,8 @@ import static com.google.common.util.concurrent.GeneratedMonitorTest.startThread
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.GeneratedMonitorTest.FlagGuard;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -37,6 +39,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Justin T. Sampson
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class SupplementalMonitorTest extends TestCase {
 
   public void testLeaveWithoutEnterThrowsIMSE() {

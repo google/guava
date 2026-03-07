@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.lang.reflect.Method;
 import java.net.URLClassLoader;
@@ -35,6 +37,8 @@ import org.jspecify.annotations.NullUnmarked;
 @AndroidIncompatible // custom classloading
 
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AbstractFutureCancellationCauseTest extends TestCase {
 
   private ClassLoader oldClassLoader;

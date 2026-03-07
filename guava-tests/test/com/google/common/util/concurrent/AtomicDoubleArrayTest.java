@@ -24,6 +24,8 @@ import org.jspecify.annotations.NullUnmarked;
 
 /** Unit test for {@link AtomicDoubleArray}. */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AtomicDoubleArrayTest extends JSR166TestCase {
 
   private static final double[] VALUES = {

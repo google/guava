@@ -32,6 +32,8 @@ import static com.google.common.util.concurrent.FuturesGetCheckedInputs.UNCHECKE
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.GcFinalization;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithBadConstructor;
 import com.google.common.util.concurrent.FuturesGetCheckedInputs.ExceptionWithGoodAndBadConstructor;
@@ -53,6 +55,8 @@ import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link Futures#getChecked(Future, Class)}. */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class FuturesGetCheckedTest extends TestCase {
   // Boring untimed-get tests:
 

@@ -24,6 +24,8 @@ import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
 import java.util.concurrent.Callable;
@@ -43,6 +45,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Chris Povirk
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class UninterruptibleFutureTest extends TestCase {
   private SleepingRunnable sleeper;
   private Future<Boolean> delayedFuture;

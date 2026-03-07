@@ -20,6 +20,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Joiner;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policies;
 import com.google.common.util.concurrent.CycleDetectingLockFactory.Policy;
@@ -37,6 +39,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Darick Tong
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class CycleDetectingLockFactoryTest extends TestCase {
 
   private ReentrantLock lockA;

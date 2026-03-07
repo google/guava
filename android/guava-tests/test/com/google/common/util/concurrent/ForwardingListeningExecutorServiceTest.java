@@ -16,11 +16,15 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Unit tests for {@link ForwardingListeningExecutorService} */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ForwardingListeningExecutorServiceTest extends TestCase {
   public void testForwarding() {
     ForwardingObjectTester.testForwardingObject(ForwardingListeningExecutorService.class);

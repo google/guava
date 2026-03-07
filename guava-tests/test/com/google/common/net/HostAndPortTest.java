@@ -33,6 +33,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 @NullUnmarked
+@SuppressWarnings("nullness") // TODO(cpovirk): fix errors
 public class HostAndPortTest extends TestCase {
 
   public void testFromStringWellFormed() {

@@ -18,6 +18,8 @@ package com.google.common.net;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ascii;
 import com.google.common.base.Joiner;
 import com.google.common.base.Splitter;
@@ -36,6 +38,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Kurt Alfred Kluever
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class HttpHeadersTest extends TestCase {
 
   public void testConstantNameMatchesString() throws Exception {

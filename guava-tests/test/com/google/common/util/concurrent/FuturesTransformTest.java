@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import java.lang.reflect.UndeclaredThrowableException;
 import org.jspecify.annotations.NullUnmarked;
@@ -29,6 +31,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Nishant Thakkar
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class FuturesTransformTest extends AbstractChainedListenableFutureTest<String> {
   private static final String RESULT_DATA = "SUCCESS";
   private static final UndeclaredThrowableException WRAPPED_EXCEPTION =

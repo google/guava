@@ -22,6 +22,8 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownStack;
 import com.google.common.util.concurrent.testing.TestingExecutors;
@@ -40,6 +42,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Jesse Wilson
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AbstractExecutionThreadServiceTest extends TestCase {
 
   private final TearDownStack tearDownStack = new TearDownStack(true);

@@ -24,6 +24,8 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableList;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author JJ Furman
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class SequentialExecutorTest extends TestCase {
 
   private static class FakeExecutor implements Executor {

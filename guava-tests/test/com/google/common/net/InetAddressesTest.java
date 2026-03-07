@@ -19,6 +19,8 @@ package com.google.common.net;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.NullPointerTester;
 import java.math.BigInteger;
@@ -38,6 +40,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Erik Kline
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class InetAddressesTest extends TestCase {
 
   public void testNulls() {

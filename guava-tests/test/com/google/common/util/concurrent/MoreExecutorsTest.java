@@ -49,6 +49,8 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.ClassSanityTester;
@@ -85,6 +87,8 @@ import org.mockito.InOrder;
  * @author Kyle Littlefield (klittle)
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class MoreExecutorsTest extends JSR166TestCase {
 
   private static final Runnable EMPTY_RUNNABLE =

@@ -17,6 +17,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -28,6 +30,8 @@ import org.jspecify.annotations.NullUnmarked;
  * Android.
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AbstractFutureDefaultAtomicHelperTest extends TestCase {
   public void testUsingExpectedAtomicHelper() throws Exception {
     if (isJava8() || isAndroid()) {

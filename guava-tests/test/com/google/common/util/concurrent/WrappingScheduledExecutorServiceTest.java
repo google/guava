@@ -21,6 +21,8 @@ import static java.util.concurrent.Executors.callable;
 import static java.util.concurrent.TimeUnit.MINUTES;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
@@ -39,6 +41,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Luke Sandberg
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class WrappingScheduledExecutorServiceTest extends TestCase {
   private static final Runnable DO_NOTHING =
       new Runnable() {

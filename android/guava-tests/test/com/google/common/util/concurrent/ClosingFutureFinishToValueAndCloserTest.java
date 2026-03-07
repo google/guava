@@ -24,6 +24,8 @@ import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.ClosingFuture.ClosingCallable;
 import com.google.common.util.concurrent.ClosingFuture.DeferredCloser;
 import com.google.common.util.concurrent.ClosingFuture.ValueAndCloser;
@@ -40,6 +42,8 @@ import org.jspecify.annotations.NullUnmarked;
  * ClosingFuture#finishToValueAndCloser(ValueAndCloserConsumer, Executor)}.
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ClosingFutureFinishToValueAndCloserTest extends AbstractClosingFutureTest {
   private final ExecutorService finishToValueAndCloserExecutor = newSingleThreadExecutor();
   private volatile ValueAndCloser<?> valueAndCloser;

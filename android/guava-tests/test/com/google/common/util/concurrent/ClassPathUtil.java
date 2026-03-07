@@ -17,6 +17,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import java.io.File;
@@ -28,6 +30,8 @@ import org.jspecify.annotations.NullUnmarked;
 // TODO(b/65488446): Make this a public API.
 /** Utility method to parse the system class path. */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 final class ClassPathUtil {
   private ClassPathUtil() {}
 

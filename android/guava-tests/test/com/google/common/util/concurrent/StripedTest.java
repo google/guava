@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.collect.Iterables.concat;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Functions;
 import com.google.common.base.Supplier;
 import com.google.common.collect.ImmutableList;
@@ -46,6 +48,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Dimitris Andreou
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class StripedTest extends TestCase {
   private static List<Striped<?>> strongImplementations() {
     return ImmutableList.of(

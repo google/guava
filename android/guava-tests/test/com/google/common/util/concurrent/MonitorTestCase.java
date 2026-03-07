@@ -16,6 +16,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.TearDownStack;
 import java.util.Random;
@@ -28,6 +30,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Justin T. Sampson
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public abstract class MonitorTestCase extends TestCase {
 
   public class TestGuard extends Monitor.Guard {

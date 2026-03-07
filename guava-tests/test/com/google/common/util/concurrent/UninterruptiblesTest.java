@@ -30,6 +30,8 @@ import static java.util.concurrent.Executors.newScheduledThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Stopwatch;
 import com.google.common.testing.NullPointerTester;
@@ -58,6 +60,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Anthony Zana
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class UninterruptiblesTest extends TestCase {
   private static final String EXPECTED_TAKE = "expectedTake";
 

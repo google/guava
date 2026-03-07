@@ -20,6 +20,8 @@ import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
@@ -31,6 +33,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Jens Nyman
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class FakeTimeLimiterTest extends TestCase {
 
   private static final int DELAY_MS = 50;

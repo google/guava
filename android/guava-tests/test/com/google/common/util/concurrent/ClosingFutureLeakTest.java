@@ -20,6 +20,8 @@ import static com.google.common.testing.GcFinalization.awaitClear;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.AbstractClosingFutureTest.TestCloseable;
 import java.lang.ref.WeakReference;
 import junit.framework.TestCase;
@@ -27,6 +29,8 @@ import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link ClosingFuture} leaks. */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ClosingFutureLeakTest extends TestCase {
   public void testLeak() {
     TestCloseable closeable = new TestCloseable("closeable");

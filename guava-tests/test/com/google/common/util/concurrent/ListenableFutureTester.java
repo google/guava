@@ -26,6 +26,8 @@ import static junit.framework.Assert.assertTrue;
 import static junit.framework.Assert.fail;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -39,6 +41,8 @@ import org.jspecify.annotations.Nullable;
  * @author Sven Mawson
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ListenableFutureTester {
 
   private final ExecutorService exec;

@@ -20,6 +20,8 @@ import static org.mockito.Answers.CALLS_REAL_METHODS;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.collect.ForwardingObject;
 import com.google.common.collect.Iterables;
@@ -36,6 +38,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Ben Yu
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 final class ForwardingObjectTester {
 
   private static final Method DELEGATE_METHOD;

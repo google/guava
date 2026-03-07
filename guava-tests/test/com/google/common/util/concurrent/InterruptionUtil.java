@@ -21,6 +21,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static junit.framework.Assert.fail;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.TearDown;
 import com.google.common.testing.TearDownAccepter;
 import java.util.concurrent.TimeUnit;
@@ -34,6 +36,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Chris Povirk
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 final class InterruptionUtil {
   private static final Logger logger = Logger.getLogger(InterruptionUtil.class.getName());
 

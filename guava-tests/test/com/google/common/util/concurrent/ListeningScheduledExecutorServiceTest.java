@@ -21,6 +21,8 @@ import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import java.time.Duration;
 import java.util.List;
@@ -32,6 +34,8 @@ import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for default methods of the interface. */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ListeningScheduledExecutorServiceTest extends TestCase {
 
   private Runnable recordedCommand;

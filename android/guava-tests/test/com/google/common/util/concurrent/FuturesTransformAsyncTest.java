@@ -23,6 +23,8 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
@@ -35,6 +37,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Nishant Thakkar
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTest<String> {
   protected static final int SLOW_OUTPUT_VALID_INPUT_DATA = 2;
   protected static final int SLOW_FUNC_VALID_INPUT_DATA = 3;

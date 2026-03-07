@@ -24,6 +24,8 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.util.concurrent.FuturesTest.ExecutorSpy;
 import java.util.concurrent.CountDownLatch;
@@ -43,6 +45,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Kurt Alfred Kluever
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class JdkFutureAdaptersTest extends TestCase {
   private static final String DATA1 = "data";
 

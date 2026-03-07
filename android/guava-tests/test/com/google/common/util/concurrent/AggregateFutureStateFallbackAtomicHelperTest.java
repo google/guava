@@ -14,6 +14,8 @@
 
 package com.google.common.util.concurrent;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSet;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -47,6 +49,8 @@ import org.jspecify.annotations.NullUnmarked;
  */
 
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
 
   /**

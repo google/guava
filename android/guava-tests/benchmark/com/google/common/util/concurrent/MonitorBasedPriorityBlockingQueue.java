@@ -18,6 +18,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.AbstractQueue;
 import java.util.Collection;
@@ -85,6 +87,8 @@ import org.jspecify.annotations.Nullable;
  * @param <E> the type of elements held in this collection
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class MonitorBasedPriorityBlockingQueue<E> extends AbstractQueue<E>
     implements BlockingQueue<E> {
 

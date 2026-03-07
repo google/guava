@@ -60,6 +60,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtCompatible
 @NullUnmarked
+@SuppressWarnings("nullness") // TODO(cpovirk): fix errors
 public class MediaTypeTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // reflection

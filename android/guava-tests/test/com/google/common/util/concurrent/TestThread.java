@@ -22,6 +22,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertSame;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.TearDown;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -49,6 +51,8 @@ import org.jspecify.annotations.Nullable;
  * @author Justin T. Sampson
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public final class TestThread<L> extends Thread implements TearDown {
 
   private static final long DUE_DILIGENCE_MILLIS = 100;

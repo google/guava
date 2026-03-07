@@ -17,6 +17,8 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.StandardSystemProperty.JAVA_SPECIFICATION_VERSION;
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableSet;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -42,6 +44,8 @@ import org.jspecify.annotations.NullUnmarked;
  */
 
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
 
   // stash these in static fields to avoid loading them over and over again (speeds up test

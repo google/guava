@@ -25,6 +25,8 @@ import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -57,6 +59,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Chris Nokleberg
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ServiceManagerTest extends TestCase {
 
   private static class NoOpService extends AbstractService {

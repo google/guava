@@ -19,6 +19,8 @@ package com.google.common.util.concurrent;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.UncaughtExceptionHandlers.Exiter;
 import com.google.common.util.concurrent.UncaughtExceptionHandlers.RuntimeWrapper;
 import junit.framework.TestCase;
@@ -28,6 +30,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Gregory Kick
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class UncaughtExceptionHandlersTest extends TestCase {
 
   private RuntimeWrapper runtimeMock;

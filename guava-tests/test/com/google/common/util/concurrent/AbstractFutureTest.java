@@ -69,6 +69,8 @@ import org.jspecify.annotations.Nullable;
  * @author Brian Stoler
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AbstractFutureTest extends TestCase {
   public void testSuccess() throws ExecutionException, InterruptedException {
     Object value = new Object();

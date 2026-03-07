@@ -22,6 +22,8 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.ClosingFuture.ClosingCallable;
 import com.google.common.util.concurrent.ClosingFuture.DeferredCloser;
 import java.io.Closeable;
@@ -30,6 +32,8 @@ import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link ClosingFuture} that exercise {@link ClosingFuture#finishToFuture()}. */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ClosingFutureFinishToFutureTest extends AbstractClosingFutureTest {
   public void testFinishToFuture_throwsIfCalledTwice() throws Exception {
     ClosingFuture<Closeable> closingFuture =

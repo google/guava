@@ -16,6 +16,8 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -27,6 +29,8 @@ import org.jspecify.annotations.NullUnmarked;
  * under Android.
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AggregateFutureStateDefaultAtomicHelperTest extends TestCase {
   public void testUsingExpectedAtomicHelper() throws Exception {
     assertThat(AggregateFutureState.atomicHelperTypeForTest()).isEqualTo("SafeAtomicHelper");

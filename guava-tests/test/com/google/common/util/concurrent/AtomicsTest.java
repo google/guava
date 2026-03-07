@@ -18,6 +18,8 @@ package com.google.common.util.concurrent;
 
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import junit.framework.TestCase;
@@ -29,6 +31,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Kurt Alfred Kluever
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class AtomicsTest extends TestCase {
 
   private static final Object OBJECT = new Object();

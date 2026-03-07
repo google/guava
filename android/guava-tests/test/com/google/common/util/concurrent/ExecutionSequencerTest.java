@@ -42,6 +42,8 @@ import org.jspecify.annotations.Nullable;
 
 /** Tests for {@link ExecutionSequencer} */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class ExecutionSequencerTest extends TestCase {
 
   ExecutorService executor;
