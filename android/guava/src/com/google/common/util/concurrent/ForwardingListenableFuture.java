@@ -24,6 +24,15 @@ import org.jspecify.annotations.Nullable;
  * should override one or more methods to modify the behavior of the backing future as desired per
  * the <a href="http://en.wikipedia.org/wiki/Decorator_pattern">decorator pattern</a>.
  *
+ * <p><b>Warning:</b> The methods of {@code ForwardingListenableFuture} forward
+ * <b>indiscriminately</b> to the methods of the delegate. For example, overriding {@link #get(long,
+ * TimeUnit)} alone <b>will not</b> change the behavior of {@link #get()}, which can lead to
+ * unexpected behavior. In this case, you should override {@code get()} as well.
+ *
+ * <p><b>{@code default} method warning:</b> This class does <i>not</i> forward calls to {@code
+ * default} methods. Instead, it inherits their default implementations. When those implementations
+ * invoke methods, they invoke methods on the {@code ForwardingListenableFuture}.
+ *
  * <p>Most subclasses can just use {@link SimpleForwardingListenableFuture}.
  *
  * @author Shardul Deo

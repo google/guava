@@ -124,6 +124,17 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
     public final boolean cancel(boolean mayInterruptIfRunning) {
       return super.cancel(mayInterruptIfRunning);
     }
+
+    @Override
+    @ParametricNullness
+    public final V resultNow() {
+      return super.resultNow();
+    }
+
+    @Override
+    public final Throwable exceptionNow() {
+      return super.exceptionNow();
+    }
   }
 
   /** Listeners form a Treiber stack through the {@link #listeners} field. */
@@ -321,6 +332,52 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
   public boolean isCancelled() {
     @RetainedLocalRef Object localValue = value();
     return localValue instanceof Cancellation;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since NEXT. Note, however, that Java 19+ users can call this method with any version of Guava.
+   */
+  @SuppressWarnings("MissingOverride") // not an override under J2CL
+  @ParametricNullness
+  public V resultNow() {
+    Object localValue = value();
+    if (localValue == null | localValue instanceof DelegatingToFuture) {
+      throw new IllegalStateException("Task has not completed");
+    }
+    if (localValue instanceof Failure) {
+      throw new IllegalStateException("Task completed with exception");
+    }
+    if (localValue instanceof Cancellation) {
+      throw new IllegalStateException("Task was cancelled");
+    }
+    if (localValue == NULL) {
+      return uncheckedNull();
+    }
+    @SuppressWarnings("unchecked") // The only other option is a V from set(V)
+    V asV = (V) localValue;
+    return asV;
+  }
+
+  /**
+   * {@inheritDoc}
+   *
+   * @since NEXT. Note, however, that Java 19+ users can call this method with any version of Guava.
+   */
+  @SuppressWarnings("MissingOverride") // not an override under J2CL
+  public Throwable exceptionNow() {
+    Object localValue = value();
+    if (localValue instanceof Failure) {
+      return ((Failure) localValue).exception;
+    }
+    if (localValue == null | localValue instanceof DelegatingToFuture) {
+      throw new IllegalStateException("Task has not completed");
+    }
+    if (localValue instanceof Cancellation) {
+      throw new IllegalStateException("Task was cancelled");
+    }
+    throw new IllegalStateException("Task completed with a result");
   }
 
   /**
