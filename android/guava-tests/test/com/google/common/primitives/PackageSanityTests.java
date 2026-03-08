@@ -16,6 +16,8 @@
 
 package com.google.common.primitives;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -26,6 +28,8 @@ import org.jspecify.annotations.NullUnmarked;
  */
 
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class PackageSanityTests extends AbstractPackageSanityTests {
   public PackageSanityTests() {
     setDefault(String.class, "string");

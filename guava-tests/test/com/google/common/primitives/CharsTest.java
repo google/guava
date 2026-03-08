@@ -631,6 +631,7 @@ public class CharsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testToArray_withNull() {
     List<@Nullable Character> list = Arrays.asList((char) 0, (char) 1, null);
     assertThrows(NullPointerException.class, () -> Chars.toArray(list));

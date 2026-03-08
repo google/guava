@@ -524,6 +524,7 @@ public class IntsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testToArray_withNull() {
     List<@Nullable Integer> list = Arrays.asList((int) 0, (int) 1, null);
     assertThrows(NullPointerException.class, () -> Ints.toArray(list));
@@ -682,7 +683,7 @@ public class IntsTest extends TestCase {
           .isNull();
     }
     assertWithMessage("Hex string and dec parm").that(Ints.tryParse("FFFF", 10)).isNull();
-    assertWithMessage("Mixed hex case").that((int) Ints.tryParse("ffFF", 16)).isEqualTo(65535);
+    assertWithMessage("Mixed hex case").that(Ints.tryParse("ffFF", 16)).isEqualTo(65535);
   }
 
   /**
@@ -703,6 +704,7 @@ public class IntsTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> Ints.tryParse("0", Character.MIN_RADIX - 1));
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testTryParse_withNullGwt() {
     assertThat(Ints.tryParse("null")).isNull();
     assertThrows(NullPointerException.class, () -> Ints.tryParse(null));

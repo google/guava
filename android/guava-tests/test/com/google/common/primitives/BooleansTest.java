@@ -506,6 +506,7 @@ public class BooleansTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testToArray_withNull() {
     List<@Nullable Boolean> list = Arrays.asList(false, true, null);
     assertThrows(NullPointerException.class, () -> Booleans.toArray(list));
@@ -581,6 +582,7 @@ public class BooleansTest extends TestCase {
     assertThat(Booleans.asList(ARRAY_FALSE_TRUE).toString()).isEqualTo("[false, true]");
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testAsListSet() {
     List<Boolean> list = Booleans.asList(ARRAY_FALSE);
     assertThat(list.set(0, true)).isFalse();

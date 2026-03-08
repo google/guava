@@ -512,6 +512,7 @@ public class LongsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testToArray_withNull() {
     List<@Nullable Long> list = Arrays.asList(0L, 1L, null);
     assertThrows(NullPointerException.class, () -> Longs.toArray(list));
@@ -700,6 +701,7 @@ public class LongsTest extends TestCase {
         IllegalArgumentException.class, () -> Longs.tryParse("0", Character.MIN_RADIX - 1));
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testTryParse_withNullGwt() {
     assertThat(Longs.tryParse("null")).isNull();
     assertThrows(NullPointerException.class, () -> Longs.tryParse(null));

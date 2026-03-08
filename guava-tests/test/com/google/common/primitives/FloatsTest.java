@@ -521,6 +521,7 @@ public class FloatsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testToArray_withNull() {
     List<@Nullable Float> list = Arrays.asList(0.0f, 1.0f, null);
     assertThrows(NullPointerException.class, () -> Floats.toArray(list));

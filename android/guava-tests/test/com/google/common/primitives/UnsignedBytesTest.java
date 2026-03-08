@@ -24,6 +24,8 @@ import static java.lang.Byte.toUnsignedInt;
 import static java.lang.Math.signum;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.testing.Helpers;
 import com.google.common.primitives.UnsignedBytes.LexicographicalComparatorHolder.UnsafeComparator;
 import com.google.common.testing.NullPointerTester;
@@ -42,6 +44,8 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Louis Wasserman
  */
 @NullUnmarked
+@GwtIncompatible
+@J2ktIncompatible
 public class UnsignedBytesTest extends TestCase {
   private static final byte LEAST = 0;
   private static final byte GREATEST = (byte) 255;

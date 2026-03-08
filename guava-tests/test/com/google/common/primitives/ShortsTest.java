@@ -547,6 +547,7 @@ public class ShortsTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testToArray_withNull() {
     List<@Nullable Short> list = Arrays.asList((short) 0, (short) 1, null);
     assertThrows(NullPointerException.class, () -> Shorts.toArray(list));

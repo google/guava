@@ -210,6 +210,7 @@ public class BytesTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testToArray_withNull() {
     List<@Nullable Byte> list = Arrays.asList((byte) 0, (byte) 1, null);
     assertThrows(NullPointerException.class, () -> Bytes.toArray(list));

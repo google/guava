@@ -535,6 +535,7 @@ public class DoublesTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testToArray_withNull() {
     List<@Nullable Double> list = Arrays.asList(0.0, 1.0, null);
     assertThrows(NullPointerException.class, () -> Doubles.toArray(list));
