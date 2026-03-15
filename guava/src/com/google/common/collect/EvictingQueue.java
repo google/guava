@@ -86,7 +86,8 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
    * Adds the given element to this queue. If the queue is currently full, the element at the head
    * of the queue is evicted to make room.
    *
-   * @return {@code true} always
+   * @return {@code true} if the queue was modified as a result of this call, which is always the
+   *     case unless {@code maxSize} is zero
    */
   @Override
   @CanIgnoreReturnValue
@@ -98,14 +99,15 @@ public final class EvictingQueue<E> extends ForwardingQueue<E> implements Serial
    * Adds the given element to this queue. If the queue is currently full, the element at the head
    * of the queue is evicted to make room.
    *
-   * @return {@code true} always
+   * @return {@code true} if the queue was modified as a result of this call, which is always the
+   *     case unless {@code maxSize} is zero
    */
   @Override
   @CanIgnoreReturnValue
   public boolean add(E e) {
     checkNotNull(e); // check before removing
     if (maxSize == 0) {
-      return true;
+      return false;
     }
     if (size() == maxSize) {
       delegate.remove();

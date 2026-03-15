@@ -47,10 +47,10 @@ public class EvictingQueueTest extends TestCase {
     EvictingQueue<String> queue = EvictingQueue.create(0);
     assertEquals(0, queue.size());
 
-    assertTrue(queue.add("hi"));
+    assertFalse(queue.add("hi"));
     assertEquals(0, queue.size());
 
-    assertTrue(queue.offer("hi"));
+    assertFalse(queue.offer("hi"));
     assertEquals(0, queue.size());
 
     assertFalse(queue.remove("hi"));
