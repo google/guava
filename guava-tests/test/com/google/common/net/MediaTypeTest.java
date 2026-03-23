@@ -379,6 +379,7 @@ public class MediaTypeTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=1; b"));
     assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=1; b="));
     assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\u2025"));
+    assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"\n\""));
   }
 
   // https://github.com/google/guava/issues/6663

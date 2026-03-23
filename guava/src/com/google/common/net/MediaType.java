@@ -85,7 +85,7 @@ public final class MediaType {
           .and(CharMatcher.isNot(' '))
           .and(CharMatcher.noneOf("()<>@,;:\\\"/[]?="));
 
-  private static final CharMatcher QUOTED_TEXT_MATCHER = ascii().and(CharMatcher.noneOf("\"\\\r"));
+  private static final CharMatcher QUOTED_TEXT_MATCHER = ascii().and(CharMatcher.noneOf("\"\\\r\n"));
 
   /*
    * This matches the same characters as linear-white-space from RFC 822, but we make no effort to
