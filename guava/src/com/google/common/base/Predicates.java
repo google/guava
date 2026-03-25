@@ -317,6 +317,22 @@ public final class Predicates {
       }
 
       @Override
+      public Predicate<@Nullable Object> and(Predicate<@Nullable Object> other) {
+        return checkNotNull(other);
+      }
+
+      @Override
+      public Predicate<@Nullable Object> negate() {
+        return ObjectPredicate.ALWAYS_FALSE;
+      }
+
+      @Override
+      public Predicate<@Nullable Object> or(Predicate<@Nullable Object> other) {
+        checkNotNull(other);
+        return this;
+      }
+
+      @Override
       public String toString() {
         return "Predicates.alwaysTrue()";
       }
@@ -328,6 +344,21 @@ public final class Predicates {
       @Override
       public boolean apply(@Nullable Object o) {
         return false;
+      }
+
+      @Override
+      public Predicate<@Nullable Object> and(Predicate<@Nullable Object> other) {
+        return this;
+      }
+
+      @Override
+      public Predicate<@Nullable Object> negate() {
+        return ObjectPredicate.ALWAYS_TRUE;
+      }
+
+      @Override
+      public Predicate<@Nullable Object> or(Predicate<@Nullable Object> other) {
+        return checkNotNull(other);
       }
 
       @Override
@@ -345,6 +376,11 @@ public final class Predicates {
       }
 
       @Override
+      public Predicate<@Nullable Object> negate() {
+        return ObjectPredicate.NOT_NULL;
+      }
+
+      @Override
       public String toString() {
         return "Predicates.isNull()";
       }
@@ -356,6 +392,11 @@ public final class Predicates {
       @Override
       public boolean apply(@Nullable Object o) {
         return o != null;
+      }
+
+      @Override
+      public Predicate<@Nullable Object> negate() {
+        return ObjectPredicate.IS_NULL;
       }
 
       @Override
