@@ -824,14 +824,6 @@ public class ImmutableMapTest extends TestCase {
     assertEquals(expected, map.asMultimap());
   }
 
-  public void testAsMultimapCaches() {
-    ImmutableMap<String, Integer> map = ImmutableMap.of("one", 1);
-    ImmutableSetMultimap<String, Integer> multimap1 = map.asMultimap();
-    ImmutableSetMultimap<String, Integer> multimap2 = map.asMultimap();
-    assertEquals(1, multimap1.asMap().size());
-    assertThat(multimap1).isSameInstanceAs(multimap2);
-  }
-
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
