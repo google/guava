@@ -795,6 +795,76 @@ public class LocalCacheTest extends TestCase {
     assertThat(notifications).isEmpty();
   }
 
+  public void testComputeIfAbsent_existingEntryWriteTimeNotChanged() {
+    FakeTicker ticker = new FakeTicker();
+    LocalCache<Object, Object> map =
+        makeLocalCache(
+            createCacheBuilder()
+                .concurrencyLevel(1)
+                .ticker(ticker)
+                .expireAfterWrite(10, NANOSECONDS));
+
+    Object key = new Object();
+    Object value = new Object();
+    map.put(key, value);
+    ReferenceEntry<Object, Object> entry = map.getEntry(key);
+    long originalWriteTime = entry.getWriteTime();
+
+    ticker.advance(5, NANOSECONDS);
+
+    // computeIfAbsent on an existing key should NOT update write time
+    Object result = map.computeIfAbsent(key, k -> new Object());
+    assertThat(result).isSameInstanceAs(value);
+    assertThat(entry.getWriteTime()).isEqualTo(originalWriteTime);
+  }
+
+  public void testComputeIfAbsent_existingEntryExpiresAfterWrite() {
+    FakeTicker ticker = new FakeTicker();
+    LocalCache<Object, Object> map =
+        makeLocalCache(
+            createCacheBuilder()
+                .concurrencyLevel(1)
+                .ticker(ticker)
+                .expireAfterWrite(10, NANOSECONDS));
+
+    Object key = new Object();
+    Object value = new Object();
+    map.put(key, value);
+
+    // Repeatedly call computeIfAbsent before expiry
+    for (int i = 0; i < 5; i++) {
+      ticker.advance(3, NANOSECONDS);
+      map.computeIfAbsent(key, k -> new Object());
+    }
+
+    // After 15ns total (> 10ns expiry), the entry must be expired
+    assertThat(map.get(key)).isNull();
+  }
+
+  public void testCompute_returningNewValueUpdatesWriteTime() {
+    FakeTicker ticker = new FakeTicker();
+    LocalCache<Object, Object> map =
+        makeLocalCache(
+            createCacheBuilder()
+                .concurrencyLevel(1)
+                .ticker(ticker)
+                .expireAfterWrite(10, NANOSECONDS));
+
+    Object key = new Object();
+    Object value = new Object();
+    map.put(key, value);
+    ReferenceEntry<Object, Object> entry = map.getEntry(key);
+    long originalWriteTime = entry.getWriteTime();
+
+    ticker.advance(5, NANOSECONDS);
+
+    // compute() that returns a NEW value SHOULD update write time
+    Object newValue = new Object();
+    Object result = map.compute(key, (k, v) -> newValue);
+    assertThat(result).isSameInstanceAs(newValue);
+    assertThat(entry.getWriteTime()).isGreaterThan(originalWriteTime);
+  }
+
   public void testCopyEntry_computing() {
     CountDownLatch startSignal = new CountDownLatch(1);
     CountDownLatch computingSignal = new CountDownLatch(1);
