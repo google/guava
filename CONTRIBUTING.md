@@ -39,6 +39,33 @@ Some examples of types of pull requests that are immediately helpful:
   - Fixing or improving documentation.
   - Improvements to Maven configuration.
 
+First-time contributor path
+---------------------------
+
+If you'd like to make a small first contribution, this checklist is a good
+starting point:
+
+1. Pick a small scoped change (docs fix, targeted bug fix, or one test
+   improvement) and open an [issue][] to discuss it before coding.
+2. Fork the repo and create a branch for your change.
+3. Make your changes in the main source tree (usually **not** under
+   `android/`, which is mirrored automatically).
+4. Add or update tests for behavior changes.
+5. Run the test/build command locally:
+
+   ```shell
+   ./mvnw clean install
+   ```
+
+6. Open a pull request with:
+   - what you changed,
+   - why the change is needed,
+   - and any test output.
+
+If you're unsure where to start, documentation fixes and focused tests are
+great first pull requests and are often the easiest way to get familiar with
+the codebase.
+
 Guidelines for any code contributions:
 
 1.  Any significant changes should be accompanied by tests. The project already
