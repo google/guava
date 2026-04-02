@@ -488,6 +488,9 @@ public class ClassPathTest extends TestCase {
         ClassPath.locationsFrom(getClass().getClassLoader());
     assertThat(locations).isNotEmpty();
     for (ClassPath.LocationInfo location : locations) {
+      if (isInBuildOutputDirectory(location.file())) {
+        continue;
+      }
       ImmutableSet<ResourceInfo> resources = location.scanResources();
       assertThat(location.scanResources()).containsExactlyElementsIn(resources);
     }
@@ -620,6 +623,13 @@ public class ClassPathTest extends TestCase {
       }
     }
     return builder.build();
+  }
+
+  // Build output directories (e.g., target/, build/) may have files written during test execution.
+  private static boolean isInBuildOutputDirectory(File file) {
+    String path = file.getPath();
+    return path.contains(File.separator + "target" + File.separator)
+        || path.contains(File.separator + "build" + File.separator);
   }
 
   private static boolean isWindows() {
