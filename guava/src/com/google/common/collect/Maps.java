@@ -3322,7 +3322,8 @@ public final class Maps {
     }
   }
 
-  static final class FilteredEntryBiMap<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class FilteredEntryBiMap<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends FilteredEntryMap<K, V> implements BiMap<K, V> {
     @RetainedWith private final BiMap<V, K> inverse;
 

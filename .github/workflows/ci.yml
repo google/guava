@@ -32,7 +32,7 @@ jobs:
     steps:
       # Cancel any previous runs for the same branch that are still running.
       - name: 'Cancel previous runs'
-        uses: styfle/cancel-workflow-action@3155a141048f8f89c06b4cdae32e7853e97536bc # 0.13.0
+        uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
         with:
           access_token: ${{ github.token }}
       - name: 'Check out repository'
@@ -62,7 +62,7 @@ jobs:
         run: ./util/print_surefire_reports.sh
       - name: 'Set up Gradle'
         if: matrix.java == 11 # used only by the integration tests below
-        uses: gradle/actions/setup-gradle@0723195856401067f7a2779048b490ace7a47d7c # v5.0.2
+        uses: gradle/actions/setup-gradle@39e147cb9de83bb9910b8ef8bd7fff0ee20fcd6f # v6.0.1
       - name: 'Integration Test'
         if: matrix.java == 11
         shell: bash

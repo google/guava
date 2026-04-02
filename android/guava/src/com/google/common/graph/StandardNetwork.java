@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_EDGE_COUNT;
@@ -65,9 +66,8 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   StandardNetwork(NetworkBuilder<? super N, ? super E> builder) {
     this(
         builder,
-        builder.nodeOrder.<N, NetworkConnections<N, E>>createMap(
-            builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
-        builder.edgeOrder.<E, N>createMap(builder.expectedEdgeCount.or(DEFAULT_EDGE_COUNT)));
+        builder.nodeOrder.createMap(firstNonNull(builder.expectedNodeCount, DEFAULT_NODE_COUNT)),
+        builder.edgeOrder.createMap(firstNonNull(builder.expectedEdgeCount, DEFAULT_EDGE_COUNT)));
   }
 
   /**

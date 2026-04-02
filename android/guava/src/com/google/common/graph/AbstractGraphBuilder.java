@@ -16,7 +16,7 @@
 
 package com.google.common.graph;
 
-import com.google.common.base.Optional;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A base class for builders that construct graphs with user-defined properties.
@@ -29,7 +29,7 @@ abstract class AbstractGraphBuilder<N> {
   ElementOrder<N> nodeOrder = ElementOrder.insertion();
   ElementOrder<N> incidentEdgeOrder = ElementOrder.unordered();
 
-  Optional<Integer> expectedNodeCount = Optional.absent();
+  @Nullable Integer expectedNodeCount = null;
 
   /**
    * Creates a new instance with the specified edge directionality.

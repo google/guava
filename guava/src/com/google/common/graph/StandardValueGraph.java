@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.GraphConstants.DEFAULT_NODE_COUNT;
 import static com.google.common.graph.Graphs.checkNonNegative;
@@ -56,8 +57,7 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
   StandardValueGraph(AbstractGraphBuilder<? super N> builder) {
     this(
         builder,
-        builder.nodeOrder.<N, GraphConnections<N, V>>createMap(
-            builder.expectedNodeCount.or(DEFAULT_NODE_COUNT)),
+        builder.nodeOrder.createMap(firstNonNull(builder.expectedNodeCount, DEFAULT_NODE_COUNT)),
         0L);
   }
 
@@ -75,8 +75,8 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
     // Prefer the heavier "MapRetrievalCache" for nodes if lookup is expensive.
     this.nodeConnections =
         (nodeConnections instanceof TreeMap)
-            ? new MapRetrievalCache<N, GraphConnections<N, V>>(nodeConnections)
-            : new MapIteratorCache<N, GraphConnections<N, V>>(nodeConnections);
+            ? new MapRetrievalCache<>(nodeConnections)
+            : new MapIteratorCache<>(nodeConnections);
     this.edgeCount = checkNonNegative(edgeCount);
   }
 

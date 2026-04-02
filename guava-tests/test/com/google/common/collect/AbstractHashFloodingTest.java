@@ -181,7 +181,8 @@ public abstract class AbstractHashFloodingTest<T> extends TestCase {
    * Returns a list of objects with the same hash code, of size 2^power, counting calls to equals,
    * hashCode, and compareTo in counter.
    */
-  static List<CountsHashCodeAndEquals> createAdversarialInput(int power, CallsCounter counter) {
+  private static List<CountsHashCodeAndEquals> createAdversarialInput(
+      int power, CallsCounter counter) {
     String str1 = "Aa";
     String str2 = "BB";
     assertEquals(str1.hashCode(), str2.hashCode());

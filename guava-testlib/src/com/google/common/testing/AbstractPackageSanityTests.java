@@ -23,7 +23,6 @@ import static com.google.common.testing.AbstractPackageSanityTests.Chopper.suffi
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.ImmutableList;
@@ -44,6 +43,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.junit.Test;
 
 /**
@@ -346,9 +346,9 @@ public abstract class AbstractPackageSanityTests extends TestCase {
     Multimap<Class<?>, Class<?>> testClasses = HashMultimap.create();
     LinkedHashSet<Class<?>> candidateClasses = new LinkedHashSet<>();
     for (Class<?> cls : classes) {
-      Optional<String> testedClassName = TEST_SUFFIX.chop(cls.getName());
-      if (testedClassName.isPresent()) {
-        Class<?> testedClass = classMap.get(testedClassName.get());
+      String testedClassName = TEST_SUFFIX.chop(cls.getName());
+      if (testedClassName != null) {
+        Class<?> testedClass = classMap.get(testedClassName);
         if (testedClass != null) {
           testClasses.put(testedClass, cls);
         }
@@ -416,22 +416,23 @@ public abstract class AbstractPackageSanityTests extends TestCase {
       Chopper i = this;
       return new Chopper() {
         @Override
-        Optional<String> chop(String str) {
-          return i.chop(str).or(you.chop(str));
+        @Nullable String chop(String str) {
+          String result = i.chop(str);
+          return result != null ? result : you.chop(str);
         }
       };
     }
 
-    abstract Optional<String> chop(String str);
+    abstract @Nullable String chop(String str);
 
     static Chopper suffix(String suffix) {
       return new Chopper() {
         @Override
-        Optional<String> chop(String str) {
+        @Nullable String chop(String str) {
           if (str.endsWith(suffix)) {
-            return Optional.of(str.substring(0, str.length() - suffix.length()));
+            return str.substring(0, str.length() - suffix.length());
           } else {
-            return Optional.absent();
+            return null;
           }
         }
       };

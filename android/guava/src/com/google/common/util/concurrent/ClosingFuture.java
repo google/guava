@@ -211,7 +211,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
   public static final class DeferredCloser {
     @RetainedWith private final CloseableList list;
 
-    DeferredCloser(CloseableList list) {
+    private DeferredCloser(CloseableList list) {
       this.list = list;
     }
 
@@ -326,7 +326,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
 
     private final State<? extends V> state;
 
-    ValueAndCloser(State<? extends V> state) {
+    private ValueAndCloser(State<? extends V> state) {
       this.state = state;
     }
 

@@ -111,22 +111,22 @@ import org.jspecify.annotations.Nullable;
 public abstract class FluentIterable<E extends @Nullable Object> implements Iterable<E> {
   // We store 'iterable' and use it instead of 'this' to allow Iterables to perform instanceof
   // checks on the _original_ iterable when FluentIterable.from is used.
-  // To avoid a self retain cycle under j2objc, we store Optional.absent() instead of
-  // Optional.of(this). To access the delegate iterable, call #getDelegate(), which converts to
-  // absent() back to 'this'.
-  private final Optional<Iterable<E>> iterableDelegate;
+  // To avoid a self retain cycle under j2objc, we store null instead of
+  // a reference to 'this'. To access the delegate iterable, call #getDelegate(), which converts
+  // null back to 'this'.
+  private final @Nullable Iterable<E> iterableDelegate;
 
   /** Constructor for use by subclasses. */
   protected FluentIterable() {
-    this.iterableDelegate = Optional.absent();
+    this.iterableDelegate = null;
   }
 
   FluentIterable(Iterable<E> iterable) {
-    this.iterableDelegate = Optional.of(iterable);
+    this.iterableDelegate = checkNotNull(iterable);
   }
 
   private Iterable<E> getDelegate() {
-    return iterableDelegate.or(this);
+    return iterableDelegate != null ? iterableDelegate : this;
   }
 
   /**

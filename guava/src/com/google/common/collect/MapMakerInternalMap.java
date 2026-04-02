@@ -2122,7 +2122,7 @@ final class MapMakerInternalMap<
 
     @SuppressWarnings("unchecked")
     @Override
-    public StrongKeyDummyValueEntry<K> castForTesting(InternalEntry<K, Dummy, ?> entry) {
+    StrongKeyDummyValueEntry<K> castForTesting(InternalEntry<K, Dummy, ?> entry) {
       return (StrongKeyDummyValueEntry<K>) entry;
     }
   }
@@ -2195,19 +2195,18 @@ final class MapMakerInternalMap<
 
     @SuppressWarnings("unchecked")
     @Override
-    public @Nullable WeakKeyWeakValueEntry<K, V> castForTesting(
-        @Nullable InternalEntry<K, V, ?> entry) {
+    @Nullable WeakKeyWeakValueEntry<K, V> castForTesting(@Nullable InternalEntry<K, V, ?> entry) {
       return (WeakKeyWeakValueEntry<K, V>) entry;
     }
 
     @Override
-    public WeakValueReference<K, V, WeakKeyWeakValueEntry<K, V>> getWeakValueReferenceForTesting(
+    WeakValueReference<K, V, WeakKeyWeakValueEntry<K, V>> getWeakValueReferenceForTesting(
         InternalEntry<K, V, ?> e) {
       return castForTesting(e).getValueReference();
     }
 
     @Override
-    public WeakValueReference<K, V, WeakKeyWeakValueEntry<K, V>> newWeakValueReferenceForTesting(
+    WeakValueReference<K, V, WeakKeyWeakValueEntry<K, V>> newWeakValueReferenceForTesting(
         InternalEntry<K, V, ?> e, V value) {
       return new WeakValueReferenceImpl<>(queueForValues, value, castForTesting(e));
     }
@@ -2260,7 +2259,7 @@ final class MapMakerInternalMap<
 
     @SuppressWarnings("unchecked")
     @Override
-    public WeakKeyDummyValueEntry<K> castForTesting(InternalEntry<K, Dummy, ?> entry) {
+    WeakKeyDummyValueEntry<K> castForTesting(InternalEntry<K, Dummy, ?> entry) {
       return (WeakKeyDummyValueEntry<K>) entry;
     }
 

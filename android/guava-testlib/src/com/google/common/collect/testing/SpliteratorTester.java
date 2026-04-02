@@ -159,7 +159,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
    * ordering, if Spliterator.ORDERED is not present).
    */
   @IgnoreJRERequirement // *should* be redundant with the annotation on SpliteratorTester
-  enum SpliteratorDecompositionStrategy {
+  private enum SpliteratorDecompositionStrategy {
     NO_SPLIT_FOR_EACH_REMAINING {
       @Override
       <E extends @Nullable Object> void forEach(

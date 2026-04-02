@@ -742,7 +742,8 @@ public class CycleDetectingLockFactory {
     }
   }
 
-  final class CycleDetectingReentrantLock extends ReentrantLock implements CycleDetectingLock {
+  private final class CycleDetectingReentrantLock extends ReentrantLock
+      implements CycleDetectingLock {
 
     private final LockGraphNode lockGraphNode;
 
@@ -815,7 +816,7 @@ public class CycleDetectingLockFactory {
     }
   }
 
-  final class CycleDetectingReentrantReadWriteLock extends ReentrantReadWriteLock
+  private final class CycleDetectingReentrantReadWriteLock extends ReentrantReadWriteLock
       implements CycleDetectingLock {
 
     // These ReadLock/WriteLock implementations shadow those in the

@@ -176,14 +176,8 @@ public final class Suppliers {
       implements Supplier<T> {
     private final Object lock = new Object();
 
-    @SuppressWarnings("UnnecessaryLambda") // Must be a fixed singleton object
-    private static final Supplier<@Nullable Void> SUCCESSFULLY_COMPUTED =
-        () -> {
-          throw new IllegalStateException(); // Should never get called.
-        };
-
-    private volatile Supplier<T> delegate;
-    // "value" does not need to be volatile; visibility piggy-backs on volatile read of "delegate".
+    private volatile @Nullable Supplier<T> delegate;
+    // `value` does not need to be volatile; visibility piggy-backs on volatile read of `delegate`.
     private @Nullable T value;
 
     NonSerializableMemoizingSupplier(Supplier<T> delegate) {
@@ -192,15 +186,14 @@ public final class Suppliers {
 
     @Override
     @ParametricNullness
-    @SuppressWarnings("unchecked") // Cast from Supplier<Void> to Supplier<T> is always valid
     public T get() {
       // Because Supplier is read-heavy, we use the "double-checked locking" pattern.
-      if (delegate != SUCCESSFULLY_COMPUTED) {
+      if (delegate != null) {
         synchronized (lock) {
-          if (delegate != SUCCESSFULLY_COMPUTED) {
+          if (delegate != null) {
             T t = delegate.get();
             value = t;
-            delegate = (Supplier<T>) SUCCESSFULLY_COMPUTED;
+            delegate = null;
             return t;
           }
         }
@@ -213,9 +206,7 @@ public final class Suppliers {
     public String toString() {
       Supplier<T> delegate = this.delegate;
       return "Suppliers.memoize("
-          + (delegate == SUCCESSFULLY_COMPUTED
-              ? "<supplier that returned " + value + ">"
-              : delegate)
+          + (delegate == null ? "<supplier that returned " + value + ">" : delegate)
           + ")";
     }
   }

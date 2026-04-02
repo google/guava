@@ -1007,7 +1007,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
   }
 
-  static final class StrongAccessEntry<K, V> extends StrongEntry<K, V> {
+  private static final class StrongAccessEntry<K, V> extends StrongEntry<K, V> {
     StrongAccessEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1053,7 +1053,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
   }
 
-  static final class StrongWriteEntry<K, V> extends StrongEntry<K, V> {
+  private static final class StrongWriteEntry<K, V> extends StrongEntry<K, V> {
     StrongWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1099,7 +1099,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
   }
 
-  static final class StrongAccessWriteEntry<K, V> extends StrongEntry<K, V> {
+  private static final class StrongAccessWriteEntry<K, V> extends StrongEntry<K, V> {
     StrongAccessWriteEntry(K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(key, hash, next);
     }
@@ -1294,7 +1294,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
   }
 
-  static final class WeakAccessEntry<K, V> extends WeakEntry<K, V> {
+  private static final class WeakAccessEntry<K, V> extends WeakEntry<K, V> {
     WeakAccessEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
@@ -1340,7 +1340,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
   }
 
-  static final class WeakWriteEntry<K, V> extends WeakEntry<K, V> {
+  private static final class WeakWriteEntry<K, V> extends WeakEntry<K, V> {
     WeakWriteEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
     }
@@ -1386,7 +1386,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
   }
 
-  static final class WeakAccessWriteEntry<K, V> extends WeakEntry<K, V> {
+  private static final class WeakAccessWriteEntry<K, V> extends WeakEntry<K, V> {
     WeakAccessWriteEntry(
         ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       super(queue, key, hash, next);
@@ -1612,7 +1612,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   /** References a weak value. */
-  static final class WeightedWeakValueReference<K, V> extends WeakValueReference<K, V> {
+  private static final class WeightedWeakValueReference<K, V> extends WeakValueReference<K, V> {
     final int weight;
 
     WeightedWeakValueReference(
@@ -1634,7 +1634,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   /** References a soft value. */
-  static final class WeightedSoftValueReference<K, V> extends SoftValueReference<K, V> {
+  private static final class WeightedSoftValueReference<K, V> extends SoftValueReference<K, V> {
     final int weight;
 
     WeightedSoftValueReference(
@@ -1656,7 +1656,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   /** References a strong value. */
-  static final class WeightedStrongValueReference<K, V> extends StrongValueReference<K, V> {
+  private static final class WeightedStrongValueReference<K, V> extends StrongValueReference<K, V> {
     final int weight;
 
     WeightedStrongValueReference(V referent, int weight) {
@@ -4784,7 +4784,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
    * <p>Unfortunately, readResolve() doesn't get called when a circular dependency is present, so
    * the proxy must be able to behave as the cache itself.
    */
-  static final class LoadingSerializationProxy<K, V> extends ManualSerializationProxy<K, V>
+  private static final class LoadingSerializationProxy<K, V> extends ManualSerializationProxy<K, V>
       implements LoadingCache<K, V> {
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 1;
 

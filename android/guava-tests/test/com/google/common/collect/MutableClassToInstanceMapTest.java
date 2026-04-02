@@ -19,8 +19,8 @@ package com.google.common.collect;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
-import com.google.common.collect.ImmutableClassToInstanceMapTest.Impl;
-import com.google.common.collect.ImmutableClassToInstanceMapTest.TestClassToInstanceMapGenerator;
+import com.google.common.collect.ClassToInstanceMapTesting.Impl;
+import com.google.common.collect.ClassToInstanceMapTesting.TestClassToInstanceMapGenerator;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -51,11 +51,11 @@ public class MutableClassToInstanceMapTest extends TestCase {
                   // but here we have to do some serious fudging
                   @Override
                   @SuppressWarnings({"unchecked", "rawtypes"})
-                  public Map<Class, Impl> create(Object... elements) {
+                  public Map<Class<?>, Impl> create(Object... elements) {
                     MutableClassToInstanceMap<Impl> map = MutableClassToInstanceMap.create();
                     for (Object object : elements) {
-                      Entry<Class, Impl> entry = (Entry<Class, Impl>) object;
-                      map.putInstance(entry.getKey(), entry.getValue());
+                      Entry<?, ?> entry = (Entry<?, ?>) object;
+                      map.putInstance((Class) entry.getKey(), (Impl) entry.getValue());
                     }
                     return (Map) map;
                   }

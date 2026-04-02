@@ -19,8 +19,8 @@ package com.google.common.graph;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.graph.Graphs.checkNonNegative;
 
-import com.google.common.base.Optional;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A builder for constructing instances of {@link MutableNetwork} or {@link ImmutableNetwork} with
@@ -74,7 +74,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
   boolean allowsParallelEdges = false;
   ElementOrder<? super E> edgeOrder = ElementOrder.insertion();
-  Optional<Integer> expectedEdgeCount = Optional.absent();
+  @Nullable Integer expectedEdgeCount = null;
 
   /** Creates a new instance with the specified edge directionality. */
   private NetworkBuilder(boolean directed) {
@@ -151,7 +151,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    */
   @CanIgnoreReturnValue
   public NetworkBuilder<N, E> expectedNodeCount(int expectedNodeCount) {
-    this.expectedNodeCount = Optional.of(checkNonNegative(expectedNodeCount));
+    this.expectedNodeCount = checkNonNegative(expectedNodeCount);
     return this;
   }
 
@@ -162,7 +162,7 @@ public final class NetworkBuilder<N, E> extends AbstractGraphBuilder<N> {
    */
   @CanIgnoreReturnValue
   public NetworkBuilder<N, E> expectedEdgeCount(int expectedEdgeCount) {
-    this.expectedEdgeCount = Optional.of(checkNonNegative(expectedEdgeCount));
+    this.expectedEdgeCount = checkNonNegative(expectedEdgeCount);
     return this;
   }
 

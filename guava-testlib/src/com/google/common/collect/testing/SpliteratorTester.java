@@ -154,7 +154,7 @@ public final class SpliteratorTester<E extends @Nullable Object> {
    * Different ways of decomposing a Spliterator, all of which must produce the same elements (up to
    * ordering, if Spliterator.ORDERED is not present).
    */
-  enum SpliteratorDecompositionStrategy {
+  private enum SpliteratorDecompositionStrategy {
     NO_SPLIT_FOR_EACH_REMAINING {
       @Override
       <E extends @Nullable Object> void forEach(

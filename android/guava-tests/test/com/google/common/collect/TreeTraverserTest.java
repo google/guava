@@ -77,16 +77,16 @@ public class TreeTraverserTest extends TestCase {
   //   /|\      |
   //  / | \     f
   // a  b  c
-  static final Tree a = new Tree('a');
-  static final Tree b = new Tree('b');
-  static final Tree c = new Tree('c');
-  static final Tree d = new Tree('d', a, b, c);
-  static final Tree e = new Tree('e');
-  static final Tree f = new Tree('f');
-  static final Tree g = new Tree('g', f);
-  static final Tree h = new Tree('h', d, e, g);
+  private static final Tree a = new Tree('a');
+  private static final Tree b = new Tree('b');
+  private static final Tree c = new Tree('c');
+  private static final Tree d = new Tree('d', a, b, c);
+  private static final Tree e = new Tree('e');
+  private static final Tree f = new Tree('f');
+  private static final Tree g = new Tree('g', f);
+  private static final Tree h = new Tree('h', d, e, g);
 
-  static String iterationOrder(Iterable<? extends Node> iterable) {
+  private static String iterationOrder(Iterable<? extends Node> iterable) {
     StringBuilder builder = new StringBuilder();
     for (Node t : iterable) {
       builder.append(t.value);

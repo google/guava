@@ -634,7 +634,7 @@ public final class ClassSanityTester {
       Object shouldBeEqualArg = generateDummyArg(param, newFreshValueGenerator());
       if (arg != shouldBeEqualArg
           && Objects.equals(arg, shouldBeEqualArg)
-          && hashCodeInsensitiveToArgReference(factory, args, i, checkNotNull(shouldBeEqualArg))
+          && hashCodeInsensitiveToArgReference(factory, args, i, shouldBeEqualArg)
           && hashCodeInsensitiveToArgReference(
               factory, args, i, generateDummyArg(param, newFreshValueGenerator()))) {
         // If the implementation uses identityHashCode(), referential equality is

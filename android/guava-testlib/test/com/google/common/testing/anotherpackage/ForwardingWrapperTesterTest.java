@@ -313,7 +313,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
   }
 
-  public interface Arithmetic extends Adder {
+  private interface Arithmetic extends Adder {
     int minus(int a, int b);
   }
 
