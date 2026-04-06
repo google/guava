@@ -572,6 +572,34 @@ public class BaseEncodingTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // Writer,OutputStream
+  public void testEncodingStreamCloseIsIdempotent() throws IOException {
+    StringWriter writer = new StringWriter();
+    OutputStream encodingStream = base64().encodingStream(writer);
+    encodingStream.write(0);
+    encodingStream.close();
+    assertThat(writer.toString()).isEqualTo("AA==");
+    // Closing again should have no effect.
+    encodingStream.close();
+    assertThat(writer.toString()).isEqualTo("AA==");
+  }
+
+  @GwtIncompatible // Writer,OutputStream
+  public void testEncodingStreamWriteAfterClose() throws IOException {
+    StringWriter writer = new StringWriter();
+    OutputStream encodingStream = base64().encodingStream(writer);
+    encodingStream.close();
+    assertThrows(IOException.class, () -> encodingStream.write(0));
+  }
+
+  @GwtIncompatible // Writer,OutputStream
+  public void testEncodingStreamFlushAfterClose() throws IOException {
+    StringWriter writer = new StringWriter();
+    OutputStream encodingStream = base64().encodingStream(writer);
+    encodingStream.close();
+    assertThrows(IOException.class, () -> encodingStream.flush());
+  }
+
   public void testToString() {
     assertThat(base64().toString()).isEqualTo("BaseEncoding.base64().withPadChar('=')");
     assertThat(base32Hex().omitPadding().toString())
