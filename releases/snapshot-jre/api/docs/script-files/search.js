@@ -423,7 +423,8 @@ $.widget("custom.catcomplete", $.ui.autocomplete, {
         var label = getResultLabel(item);
         var resultDesc = getResultDescription(item);
         return $("<li/>")
-            .append($("<div/>")
+            .append($("<a/>")
+                .attr("href", item.indexItem ? pathtoroot + getURL(item.indexItem, item.category) : null)
                 .append($("<span/>").addClass("search-result-label").html(label))
                 .append($("<span/>").addClass("search-result-desc").html(resultDesc)))
             .appendTo(ul);
@@ -515,7 +516,7 @@ $(function() {
             this.menu.previousFilter = "_";
             this.menu.filterTimer = this.menu._delay(function() {
                 delete this.previousFilter;
-            }, 1000);
+            }, 500);
             return doSearch(request, response);
         },
         response: function(event, ui) {
@@ -531,6 +532,11 @@ $(function() {
             collision: "flip"
         },
         select: function(event, ui) {
+            for (var e = event.originalEvent; e != null; e = e.originalEvent) {
+                if (e.type === "click") {
+                    return;
+                }
+            }
             if (ui.item.indexItem) {
                 var url = getURL(ui.item.indexItem, ui.item.category);
                 window.location.href = pathtoroot + url;

@@ -1445,7 +1445,7 @@
  assigned characters, including important CJK characters and emoji.
 
  <p>Supplementary characters are <a
- href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/lang/Character.html#supplementary">encoded
+ href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Character.html#supplementary">encoded
  into a {@code String} using surrogate pairs</a>, and a {@code CharMatcher} treats these just as
  two separate characters. {@link #countIn} counts each supplementary character as 2 {@code char}s.
 
@@ -6384,7 +6384,7 @@
  <p><b>Note:</b> For most string-formatting needs, use {@link String#format String.format},
  {@link java.io.PrintWriter#format PrintWriter.format}, and related methods. These support the
  full range of <a
- href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Formatter.html#syntax">format
+ href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Formatter.html#syntax">format
  specifiers</a>, and alert you to usage errors by throwing {@link
  java.util.IllegalFormatException}.
 
@@ -17829,7 +17829,7 @@
  <p>Expressing the immutability guarantee directly in the type that user code references is a
  powerful advantage. Although Java offers certain immutable collection factory methods, such as
  {@link Collections#singleton(Object)} and <a
- href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/Set.html#unmodifiable">{@code
+ href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html#unmodifiable">{@code
  Set.of}</a>, we recommend using <i>these</i> classes instead for this reason (as well as for
  consistency).
 
@@ -50064,7 +50064,7 @@
  }
 
  @throws ArithmeticException if {@code m <= 0}
- @see <a href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.17.3">
+ @see <a href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a>]]>
       </doc>
     </method>
@@ -50596,7 +50596,7 @@
  }
 
  @throws ArithmeticException if {@code m <= 0}
- @see <a href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.17.3">
+ @see <a href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a>]]>
       </doc>
     </method>
@@ -50621,7 +50621,7 @@
  }
 
  @throws ArithmeticException if {@code m <= 0}
- @see <a href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-15.html#jls-15.17.3">
+ @see <a href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a>]]>
       </doc>
     </method>
@@ -64786,7 +64786,7 @@
       <doc>
       <![CDATA[Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
  according to <a
- href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5.1">the rules for
+ href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
  type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
@@ -64800,7 +64800,7 @@
       <doc>
       <![CDATA[Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
  according to <a
- href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5.1">the rules for
+ href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
  type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
@@ -64814,7 +64814,7 @@
       <doc>
       <![CDATA[Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
  according to <a
- href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5.1">the rules for
+ href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
  type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
@@ -64828,7 +64828,7 @@
       <doc>
       <![CDATA[Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
  according to <a
- href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-4.html#jls-4.5.1">the rules for
+ href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
  type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
@@ -71447,7 +71447,7 @@
  Futures#addCallback addCallback()}.
 
  <p>Memory consistency effects: Actions in a thread prior to adding a listener <a
- href="https://docs.oracle.com/javase/specs/jls/se25/html/jls-17.html#jls-17.4.5">
+ href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-17.html#jls-17.4.5">
  <i>happen-before</i></a> its execution begins, perhaps in another thread.
 
  <p>Guava implementations of {@code ListenableFuture} promptly release references to listeners
@@ -74728,7 +74728,7 @@
 
  <p>If the underlying {@code await} call is interrupted, then {@code awaitUninterruptibly}
  converts that into a <a
- href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
+ href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
  wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
  {@link Uninterruptibles}. Still, this method allows callers to write <a
  href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a {@code
@@ -74751,7 +74751,7 @@
 
  <p>If the underlying {@code await} call is interrupted, then {@code awaitUninterruptibly}
  converts that into a <a
- href="https://docs.oracle.com/en/java/javase/25/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
+ href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
  wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
  {@link Uninterruptibles}. Still, this method allows callers to write <a
  href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a {@code

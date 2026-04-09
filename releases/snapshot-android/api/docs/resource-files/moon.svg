@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl/
+-->
+
+<svg version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#fff" stroke-linecap="round">
+        <path d="m34.834 21.49a29.94 29.94 0 0 1 33.103 12.994 29.94 29.94 0 0 1-2.6651 35.462 29.94 29.94 0 0 1-34.674 7.9004" stroke-width="7.6"/>
+        <path d="m35.411 22.187a42.812 42.812 0 0 1-4.6466 55.023" stroke-width="7.6892"/>
+    </g>
+</svg>

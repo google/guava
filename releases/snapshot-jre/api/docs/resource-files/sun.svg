@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ Copyright (c) 2025, Oracle and/or its affiliates. All rights reserved.
+ DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
+
+ Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl/
+-->
+
+<svg version="1.1" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <g fill="none" stroke="#fff" stroke-linecap="round">
+        <circle cx="49.932" cy="50.193" r="24.947" stroke-width="7.6"/>
+        <path d="m50.882 5.5255v10.822" stroke-width="7.533"/>
+        <path d="m24.315 74.134-7.6524 7.6524" stroke-width="7.533"/>
+        <path d="m75.461 73.989 7.6524 7.6524" stroke-width="7.533"/>
+        <path d="m18.223 16.442c7.6524 7.6524 7.6524 7.6524 7.6524 7.6524" stroke-width="7.533"/>
+        <path d="m83.27 19.68-7.6524 7.6524" stroke-width="7.533"/>
+        <path d="m50.014 84.417v10.822" stroke-width="7.533"/>
+        <path d="m95.53 49.53h-10.822" stroke-width="7.533"/>
+        <path d="m15.446 49.162h-10.822" stroke-width="7.533"/>
+    </g>
+</svg>

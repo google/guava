@@ -8,6 +8,6 @@
 -->
 
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-    <path d="m8 8 84 84" style="fill:#c6c6c6;fill-opacity:1;stroke:#505050;stroke-width:15;stroke-dasharray:none;stroke-opacity:1"/>
-    <path d="M8 92 92 8" style="fill:#000;stroke:#505050;stroke-width:15;stroke-dasharray:none;stroke-opacity:1"/>
+    <path d="m8 8 84 84" style="stroke:#505050;stroke-width:15"/>
+    <path d="M8 92 92 8" style="stroke:#505050;stroke-width:15"/>
 </svg>
