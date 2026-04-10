@@ -1255,7 +1255,7 @@ public final class MediaType {
     StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');
     for (int i = 0; i < value.length(); i++) {
       char ch = value.charAt(i);
-      if (ch == '\r' || ch == '\\' || ch == '"') {
+      if (ch == '\r' || ch == '\n' || ch == '\\' || ch == '"') {
         escaped.append('\\');
       }
       escaped.append(ch);

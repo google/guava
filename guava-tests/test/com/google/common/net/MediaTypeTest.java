@@ -494,4 +494,23 @@ public class MediaTypeTest extends TestCase {
             "text/plain; something=\"cr@zy\"; something-else=\"crazy with spaces\";"
                 + " and-another-thing=\"\"; normal-thing=foo");
   }
+
+  public void testEscapeAndQuote_newlineEscaped() {
+    // Newline characters must be escaped in quoted parameter values to prevent
+    // HTTP header injection when MediaType.toString() is used in HTTP headers.
+    MediaType mediaType =
+        MediaType.create("text", "plain").withParameter("param", "value\ninjected");
+    String result = mediaType.toString();
+    // The \n must be backslash-escaped, not present as a raw 0x0A byte
+    assertThat(result).doesNotContain("\n");
+    assertThat(result).isEqualTo("text/plain; param=\"value\\\ninjected\"");
+  }
+
+  public void testEscapeAndQuote_crEscaped() {
+    // Carriage return was already escaped (pre-existing behavior)
+    MediaType mediaType =
+        MediaType.create("text", "plain").withParameter("param", "value\rinjected");
+    String result = mediaType.toString();
+    assertThat(result).doesNotContain("\r");
+  }
 }
