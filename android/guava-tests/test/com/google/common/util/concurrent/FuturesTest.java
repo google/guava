@@ -2929,6 +2929,39 @@ public class FuturesTest extends TestCase {
     assertThat(results).containsExactly(null, DATA2).inOrder();
   }
 
+  public void testSuccessfulAsList_withNullAndFailure() throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    ListenableFuture<List<@Nullable String>> compound = successfulAsList(future1, future2);
+
+    future1.set(null);
+    future2.setException(new Exception());
+
+    assertThat(getDone(compound)).containsExactly(null, null).inOrder();
+  }
+
+  public void testSuccessfulAsList_withCancellation() throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    ListenableFuture<List<@Nullable String>> compound = successfulAsList(future1, future2);
+
+    future1.cancel(false);
+    future2.set(DATA2);
+
+    assertThat(getDone(compound)).containsExactly(null, DATA2).inOrder();
+  }
+
+  public void testAllAsList_withNull() throws Exception {
+    SettableFuture<String> future1 = SettableFuture.create();
+    SettableFuture<String> future2 = SettableFuture.create();
+    ListenableFuture<List<@Nullable String>> compound = allAsList(future1, future2);
+
+    future1.set(null);
+    future2.set(DATA2);
+
+    assertThat(getDone(compound)).containsExactly(null, DATA2).inOrder();
+  }
+
   public void testSuccessfulAsList_totalFailure() throws Exception {
     SingleCallListener listener = new SingleCallListener();
     SettableFuture<String> future1 = SettableFuture.create();
