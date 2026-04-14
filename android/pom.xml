@@ -6,7 +6,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.guava</groupId>
   <artifactId>guava-parent</artifactId>
-  <version>999.0.0-HEAD-android-SNAPSHOT</version>
+  <version>33.6.0-android</version>
   <packaging>pom</packaging>
   <name>Guava Maven Parent</name>
   <description>Parent for guava artifacts</description>
@@ -91,7 +91,7 @@
     <mockito.version>4.11.0</mockito.version>
     <toolchains-maven-plugin.version>4.5.0</toolchains-maven-plugin.version>
     <truth.version>1.4.5</truth.version>
-    <project.build.outputTimestamp>2026-01-02T00:00:00Z</project.build.outputTimestamp>
+    <project.build.outputTimestamp>2026-04-14T17:46:33Z</project.build.outputTimestamp>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <!--
     Some tests need reflective access to the internals of these packages. It is only the
@@ -106,10 +106,10 @@
       --add-opens java.base/java.util=ALL-UNNAMED
       --add-opens java.base/sun.security.jca=ALL-UNNAMED
     </test.add.opens>
-    <module.status>integration</module.status>
+    <module.status>release</module.status>
     <variant.jvmEnvironment>android</variant.jvmEnvironment>
     <variant.jvmEnvironmentVariantName>android</variant.jvmEnvironmentVariantName>
-    <otherVariant.version>999.0.0-HEAD-jre-SNAPSHOT</otherVariant.version>
+    <otherVariant.version>33.6.0-jre</otherVariant.version>
     <otherVariant.jvmEnvironment>standard-jvm</otherVariant.jvmEnvironment>
     <otherVariant.jvmEnvironmentVariantName>jre</otherVariant.jvmEnvironmentVariantName>
   </properties>
