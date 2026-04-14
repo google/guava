@@ -279,9 +279,13 @@ jdiff_android_vs_non_android() {
   # jdiff function will be able to find it the same way it finds a previous
   # version.
   local jre_jdiff_xml="${jre_version}/api/diffs/${jre_version}.xml"
-  tar -C releases -zxf "releases/${jre_version}.tar.gz" "${jre_jdiff_xml}"
+  if [[ "$RELEASE" != "snapshot" ]]; then
+    tar -C releases -zxf "releases/${jre_version}.tar.gz" "${jre_jdiff_xml}"
+  fi
   jdiff "$TEMPDIR/android" "$jre_version" "androiddiffs"
-  rm "releases/${jre_jdiff_xml}"
+  if [[ "$RELEASE" != "snapshot" ]]; then
+    rm "releases/${jre_jdiff_xml}"
+  fi
 }
 
 # Given a source directory and target path, moves the source to the target path,
