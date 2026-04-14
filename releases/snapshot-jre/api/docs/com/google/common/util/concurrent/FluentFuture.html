@@ -243,7 +243,7 @@ fallback</code>.</div>
 </div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-com.google.common.util.concurrent.AbstractFuture">Methods inherited from class&nbsp;<a href="AbstractFuture.html#method-summary" title="class in com.google.common.util.concurrent">AbstractFuture</a></h3>
-<code><a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)" title="addListener(Runnable, Executor)">addListener</a>, <a href="AbstractFuture.html#afterDone()" title="afterDone()">afterDone</a>, <a href="AbstractFuture.html#cancel(boolean)" title="cancel(boolean)">cancel</a>, <a href="AbstractFuture.html#exceptionNow()" title="exceptionNow()">exceptionNow</a>, <a href="AbstractFuture.html#get()" title="get()">get</a>, <a href="AbstractFuture.html#get(long,java.util.concurrent.TimeUnit)" title="get(long, TimeUnit)">get</a>, <a href="AbstractFuture.html#interruptTask()" title="interruptTask()">interruptTask</a>, <a href="AbstractFuture.html#isCancelled()" title="isCancelled()">isCancelled</a>, <a href="AbstractFuture.html#isDone()" title="isDone()">isDone</a>, <a href="AbstractFuture.html#pendingToString()" title="pendingToString()">pendingToString</a>, <a href="AbstractFuture.html#resultNow()" title="resultNow()">resultNow</a>, <a href="AbstractFuture.html#set(V)" title="set(V)">set</a>, <a href="AbstractFuture.html#setException(java.lang.Throwable)" title="setException(Throwable)">setException</a>, <a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)" title="setFuture(ListenableFuture)">setFuture</a>, <a href="AbstractFuture.html#toString()" title="toString()">toString</a>, <a href="AbstractFuture.html#tryInternalFastPathGetFailure()" title="tryInternalFastPathGetFailure()">tryInternalFastPathGetFailure</a>, <a href="AbstractFuture.html#wasInterrupted()" title="wasInterrupted()">wasInterrupted</a></code>
+<code><a href="AbstractFuture.html#addListener(java.lang.Runnable,java.util.concurrent.Executor)" title="addListener(Runnable, Executor)">addListener</a>, <a href="AbstractFuture.html#afterDone()" title="afterDone()">afterDone</a>, <a href="AbstractFuture.html#cancel(boolean)" title="cancel(boolean)">cancel</a>, <a href="AbstractFuture.html#get()" title="get()">get</a>, <a href="AbstractFuture.html#get(long,java.util.concurrent.TimeUnit)" title="get(long, TimeUnit)">get</a>, <a href="AbstractFuture.html#interruptTask()" title="interruptTask()">interruptTask</a>, <a href="AbstractFuture.html#isCancelled()" title="isCancelled()">isCancelled</a>, <a href="AbstractFuture.html#isDone()" title="isDone()">isDone</a>, <a href="AbstractFuture.html#pendingToString()" title="pendingToString()">pendingToString</a>, <a href="AbstractFuture.html#set(V)" title="set(V)">set</a>, <a href="AbstractFuture.html#setException(java.lang.Throwable)" title="setException(Throwable)">setException</a>, <a href="AbstractFuture.html#setFuture(com.google.common.util.concurrent.ListenableFuture)" title="setFuture(ListenableFuture)">setFuture</a>, <a href="AbstractFuture.html#toString()" title="toString()">toString</a>, <a href="AbstractFuture.html#tryInternalFastPathGetFailure()" title="tryInternalFastPathGetFailure()">tryInternalFastPathGetFailure</a>, <a href="AbstractFuture.html#wasInterrupted()" title="wasInterrupted()">wasInterrupted</a></code>
 <div class="summary-table three-column-summary">
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Method</div>
@@ -262,35 +262,29 @@ fallback</code>.</div>
 <div class="col-first even-row-color"><code>boolean</code></div>
 <div class="col-second even-row-color"><code><a href="AbstractFuture.html#cancel(boolean)" class="member-name-link">cancel</a><wbr>(boolean&nbsp;mayInterruptIfRunning)</code></div>
 <div class="col-last even-row-color"></div>
-<div class="col-first odd-row-color"><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html" title="class in java.lang" class="external-link">Throwable</a></code></div>
-<div class="col-second odd-row-color"><code><a href="AbstractFuture.html#exceptionNow()" class="member-name-link">exceptionNow</a>()</code></div>
+<div class="col-first odd-row-color"><code><a href="#type-param-V" title="type parameter in FluentFuture">V</a></code></div>
+<div class="col-second odd-row-color"><code><a href="AbstractFuture.html#get()" class="member-name-link">get</a>()</code></div>
 <div class="col-last odd-row-color"></div>
 <div class="col-first even-row-color"><code><a href="#type-param-V" title="type parameter in FluentFuture">V</a></code></div>
-<div class="col-second even-row-color"><code><a href="AbstractFuture.html#get()" class="member-name-link">get</a>()</code></div>
-<div class="col-last even-row-color"></div>
-<div class="col-first odd-row-color"><code><a href="#type-param-V" title="type parameter in FluentFuture">V</a></code></div>
-<div class="col-second odd-row-color"><code><a href="AbstractFuture.html#get(long,java.util.concurrent.TimeUnit)" class="member-name-link">get</a><wbr>(long&nbsp;timeout,
+<div class="col-second even-row-color"><code><a href="AbstractFuture.html#get(long,java.util.concurrent.TimeUnit)" class="member-name-link">get</a><wbr>(long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="enum in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
-<div class="col-last odd-row-color"></div>
-<div class="col-first even-row-color"><code>protected void</code></div>
-<div class="col-second even-row-color"><code><a href="AbstractFuture.html#interruptTask()" class="member-name-link">interruptTask</a>()</code></div>
-<div class="col-last even-row-color">
+<div class="col-last even-row-color"></div>
+<div class="col-first odd-row-color"><code>protected void</code></div>
+<div class="col-second odd-row-color"><code><a href="AbstractFuture.html#interruptTask()" class="member-name-link">interruptTask</a>()</code></div>
+<div class="col-last odd-row-color">
 <div class="block">Subclasses can override this method to implement interruption of the future's computation.</div>
 </div>
-<div class="col-first odd-row-color"><code>boolean</code></div>
-<div class="col-second odd-row-color"><code><a href="AbstractFuture.html#isCancelled()" class="member-name-link">isCancelled</a>()</code></div>
-<div class="col-last odd-row-color">&nbsp;</div>
 <div class="col-first even-row-color"><code>boolean</code></div>
-<div class="col-second even-row-color"><code><a href="AbstractFuture.html#isDone()" class="member-name-link">isDone</a>()</code></div>
+<div class="col-second even-row-color"><code><a href="AbstractFuture.html#isCancelled()" class="member-name-link">isCancelled</a>()</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code>protected <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color"><code><a href="AbstractFuture.html#pendingToString()" class="member-name-link">pendingToString</a>()</code></div>
-<div class="col-last odd-row-color">
+<div class="col-first odd-row-color"><code>boolean</code></div>
+<div class="col-second odd-row-color"><code><a href="AbstractFuture.html#isDone()" class="member-name-link">isDone</a>()</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code>protected <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color"><code><a href="AbstractFuture.html#pendingToString()" class="member-name-link">pendingToString</a>()</code></div>
+<div class="col-last even-row-color">
 <div class="block">Provide a human-readable explanation of why this future has not yet completed.</div>
 </div>
-<div class="col-first even-row-color"><code><a href="#type-param-V" title="type parameter in FluentFuture">V</a></code></div>
-<div class="col-second even-row-color"><code><a href="AbstractFuture.html#resultNow()" class="member-name-link">resultNow</a>()</code></div>
-<div class="col-last even-row-color"></div>
 <div class="col-first odd-row-color"><code>protected boolean</code></div>
 <div class="col-second odd-row-color"><code><a href="AbstractFuture.html#set(V)" class="member-name-link">set</a><wbr>(<a href="#type-param-V" title="type parameter in FluentFuture">V</a>&nbsp;value)</code></div>
 <div class="col-last odd-row-color">
@@ -332,7 +326,7 @@ true</code>.</div>
 <code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#clone()" title="clone()" class="external-link">clone</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" title="equals(Object)" class="external-link">equals</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#finalize()" title="finalize()" class="external-link">finalize</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#getClass()" title="getClass()" class="external-link">getClass</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#hashCode()" title="hashCode()" class="external-link">hashCode</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#notify()" title="notify()" class="external-link">notify</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#notifyAll()" title="notifyAll()" class="external-link">notifyAll</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#wait()" title="wait()" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#wait(long)" title="wait(long)" class="external-link">wait</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#wait(long,int)" title="wait(long, int)" class="external-link">wait</a></code></div>
 <div class="inherited-list">
 <h3 id="methods-inherited-from-class-java.util.concurrent.Future">Methods inherited from interface&nbsp;<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Future.html#method-summary" title="interface in java.util.concurrent" class="external-link">Future</a></h3>
-<code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Future.html#state()" title="state()" class="external-link">state</a></code></div>
+<code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Future.html#exceptionNow()" title="exceptionNow()" class="external-link">exceptionNow</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Future.html#resultNow()" title="resultNow()" class="external-link">resultNow</a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Future.html#state()" title="state()" class="external-link">state</a></code></div>
 </section>
 </li>
 </ul>

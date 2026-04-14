@@ -65732,26 +65732,6 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
-    <method name="resultNow" return="V extends java.lang.Object"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[{@inheritDoc}
-
- @since NEXT. Note, however, that Java 19+ users can call this method with any version of Guava.]]>
-      </doc>
-    </method>
-    <method name="exceptionNow" return="java.lang.Throwable"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
-      deprecated="not deprecated">
-      <doc>
-      <![CDATA[{@inheritDoc}
-
- @since NEXT. Note, however, that Java 19+ users can call this method with any version of Guava.]]>
-      </doc>
-    </method>
     <method name="cancel" return="boolean"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
