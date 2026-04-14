@@ -22118,7 +22118,7 @@
  the collection operation is performed. (This differs from the {@code Collector} returned by
  {@link Collectors#toMap(Function, Function)}, which throws an {@code IllegalStateException}.)
 
- @since NEXT]]>
+ @since 33.6.0]]>
       </doc>
     </method>
     <method name="toImmutableSortedMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;&gt;"
@@ -22156,7 +22156,7 @@
  <p>If the mapped keys contain duplicates, the values are merged using the specified merging
  function.
 
- @since NEXT]]>
+ @since 33.6.0]]>
       </doc>
     </method>
     <method name="toImmutableSortedMap" return="java.util.stream.Collector&lt;T, ?, com.google.common.collect.ImmutableSortedMap&lt;K, V&gt;&gt;"
@@ -40767,7 +40767,7 @@
  of the transitive closure of {@code graph}. In other words, the returned {@link Graph} will not
  be updated after modifications to {@code graph}.
 
- @since NEXT]]>
+ @since 33.6.0]]>
       </doc>
     </method>
     <method name="transitiveClosure" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
@@ -40943,7 +40943,7 @@
 
  <p>The strategies differ based on how they define "cycle incident to a node".
 
- @since NEXT]]>
+ @since 33.6.0]]>
     </doc>
   </class>
   <!-- end class com.google.common.graph.Graphs.TransitiveClosureSelfLoopStrategy -->
@@ -43627,7 +43627,7 @@
  size before writing to pre-allocated space (e.g., for memory-mapped files or fixed-size
  records).
 
- @since NEXT]]>
+ @since 33.6.0]]>
       </doc>
     </method>
     <method name="isCompatible" return="boolean"
@@ -53573,7 +53573,7 @@
       <![CDATA[The HTTP <a href="https://datatracker.ietf.org/doc/rfc9213/">{@code CDN-Cache-Control}</a>
  header field name.
 
- @since NEXT]]>
+ @since 33.6.0]]>
       </doc>
     </field>
     <field name="CONTENT_DISPOSITION" type="java.lang.String"
