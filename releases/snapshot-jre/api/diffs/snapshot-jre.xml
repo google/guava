@@ -1456,10 +1456,9 @@
  points</a> in the range {@code 0x10000} to {@code 0x10FFFF} which includes the majority of
  assigned characters, including important CJK characters and emoji.
 
- <p>Supplementary characters are <a
- href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Character.html#supplementary">encoded
- into a {@code String} using surrogate pairs</a>, and a {@code CharMatcher} treats these just as
- two separate characters. {@link #countIn} counts each supplementary character as 2 {@code char}s.
+ <p>Supplementary characters are {@linkplain Character##supplementary encoded into a string using
+ surrogate pairs}, and a {@code CharMatcher} treats these just as two separate characters. {@link
+ #countIn} counts each supplementary character as 2 {@code char}s.
 
  <p>For up-to-date Unicode character properties (digit, letter, etc.) and support for
  supplementary code points, use ICU4J UCharacter and UnicodeSet (freeze() after building). For
@@ -6393,10 +6392,8 @@
 
  <p><b>Note:</b> For most string-formatting needs, use {@link String#format String.format},
  {@link java.io.PrintWriter#format PrintWriter.format}, and related methods. These support the
- full range of <a
- href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Formatter.html#syntax">format
- specifiers</a>, and alert you to usage errors by throwing {@link
- java.util.IllegalFormatException}.
+ full range of {@linkplain java.util.Formatter##syntax format specifiers}, and alert you to
+ usage errors by throwing {@link java.util.IllegalFormatException}.
 
  <p>In certain cases, such as outputting debugging information or constructing a message to be
  used for another unchecked exception, an exception during string formatting would serve little
@@ -17876,10 +17873,8 @@
 
  <p>Expressing the immutability guarantee directly in the type that user code references is a
  powerful advantage. Although Java offers certain immutable collection factory methods, such as
- {@link Collections#singleton(Object)} and <a
- href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html#unmodifiable">{@code
- Set.of}</a>, we recommend using <i>these</i> classes instead for this reason (as well as for
- consistency).
+ {@link Collections#singleton(Object)} and {@link Set##unmodifiable Set.of}, we recommend using
+ <i>these</i> classes instead for this reason (as well as for consistency).
 
  <h4>Creation</h4>
 
@@ -75674,10 +75669,9 @@
  that more conveniently supports uninterruptible waits.
 
  <p>If the underlying {@code await} call is interrupted, then {@code awaitUninterruptibly}
- converts that into a <a
- href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
- wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
- {@link Uninterruptibles}. Still, this method allows callers to write <a
+ converts that into a {@linkplain Condition##implementation-considerations-heading spurious
+ wakeup}. This means that resulting wait is not "uninterruptible" in the normal sense of {@link
+ Uninterruptibles}. Still, this method allows callers to write <a
  href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a {@code
  Condition}</a> but without the need to handle interruption.
 
@@ -75697,10 +75691,9 @@
  that more conveniently supports uninterruptible waits.
 
  <p>If the underlying {@code await} call is interrupted, then {@code awaitUninterruptibly}
- converts that into a <a
- href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
- wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
- {@link Uninterruptibles}. Still, this method allows callers to write <a
+ converts that into a {@linkplain Condition##implementation-considerations-heading spurious
+ wakeup}. This means that resulting wait is not "uninterruptible" in the normal sense of {@link
+ Uninterruptibles}. Still, this method allows callers to write <a
  href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a {@code
  Condition}</a> but without the need to handle interruption.
 

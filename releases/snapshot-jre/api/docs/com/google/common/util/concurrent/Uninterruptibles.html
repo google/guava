@@ -358,9 +358,8 @@ uninterruptibly.</div>
 that more conveniently supports uninterruptible waits.
 
 <p>If the underlying <code>await</code> call is interrupted, then <code>awaitUninterruptibly</code>
-converts that into a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
-wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
-<a href="Uninterruptibles.html" title="class in com.google.common.util.concurrent"><code>Uninterruptibles</code></a>. Still, this method allows callers to write <a href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a <code>
+converts that into a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading" class="external-link">spurious
+wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of <a href="Uninterruptibles.html" title="class in com.google.common.util.concurrent"><code>Uninterruptibles</code></a>. Still, this method allows callers to write <a href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a <code>
 Condition</code></a> but without the need to handle interruption.</div>
 <dl class="notes">
 <dt>Returns:</dt>
@@ -383,9 +382,8 @@ Condition</code></a> but without the need to handle interruption.</div>
 that more conveniently supports uninterruptible waits.
 
 <p>If the underlying <code>await</code> call is interrupted, then <code>awaitUninterruptibly</code>
-converts that into a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading">spurious
-wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of
-<a href="Uninterruptibles.html" title="class in com.google.common.util.concurrent"><code>Uninterruptibles</code></a>. Still, this method allows callers to write <a href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a <code>
+converts that into a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/locks/Condition.html#implementation-considerations-heading" class="external-link">spurious
+wakeup</a>. This means that resulting wait is not "uninterruptible" in the normal sense of <a href="Uninterruptibles.html" title="class in com.google.common.util.concurrent"><code>Uninterruptibles</code></a>. Still, this method allows callers to write <a href="https://errorprone.info/bugpattern/WaitNotInLoop">the standard, required loop for waiting on a <code>
 Condition</code></a> but without the need to handle interruption.</div>
 <dl class="notes">
 <dt>Returns:</dt>
