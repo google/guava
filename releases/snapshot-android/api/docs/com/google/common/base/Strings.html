@@ -302,10 +302,13 @@ with as many copies of <code>padChar</code> as are necessary to reach that lengt
 <section class="detail" id="repeat(java.lang.String,int)">
 <h3>repeat</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">repeat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;string,
+<div class="member-signature"><span class="annotations">@InlineMe(replacement="string.repeat(count)")
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></span>&nbsp;<span class="element-name">repeat</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;string,
  int&nbsp;count)</span></div>
 <div class="block">Returns a string consisting of a specific number of concatenated copies of an input string. For
-example, <code>repeat("hey", 3)</code> returns the string <code>"heyheyhey"</code>.</div>
+example, <code>repeat("hey", 3)</code> returns the string <code>"heyheyhey"</code>.
+
+<p><b>Java 11+ users and Android users:</b> use <code>string.repeat(count)</code> instead.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>string</code> - any non-null string</dd>
