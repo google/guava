@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
-import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.Executors.callable;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 
@@ -27,17 +26,12 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.google.common.util.concurrent.CollectionFuture.ListFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateCancelledFuture;
 import com.google.common.util.concurrent.ImmediateFuture.ImmediateFailedFuture;
-import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
-import com.google.common.util.concurrent.internal.InternalFutures;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.RetainedLocalRef;
 import java.time.Duration;
 import java.util.Collection;
 import java.util.List;
@@ -50,7 +44,6 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.concurrent.atomic.AtomicInteger;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -786,40 +779,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     return output;
   }
 
-  /** A wrapped future that does not propagate cancellation to its delegate. */
-  private static final class NonCancellationPropagatingFuture<V extends @Nullable Object>
-      extends AbstractFuture.TrustedFuture<V> implements Runnable {
-    @LazyInit private @Nullable ListenableFuture<V> delegate;
-
-    NonCancellationPropagatingFuture(ListenableFuture<V> delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override
-    public void run() {
-      // This prevents cancellation from propagating because we don't call setFuture(delegate) until
-      // delegate is already done, so calling cancel() on this future won't affect it.
-      @RetainedLocalRef ListenableFuture<V> localDelegate = delegate;
-      if (localDelegate != null) {
-        setFuture(localDelegate);
-      }
-    }
-
-    @Override
-    protected @Nullable String pendingToString() {
-      @RetainedLocalRef ListenableFuture<V> localDelegate = delegate;
-      if (localDelegate != null) {
-        return "delegate=[" + localDelegate + "]";
-      }
-      return null;
-    }
-
-    @Override
-    protected void afterDone() {
-      delegate = null;
-    }
-  }
-
   /**
    * Creates a new {@code ListenableFuture} whose value is a list containing the values of all its
    * successful input futures. The list of results is in the same order as the input list, and if
@@ -934,117 +893,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
     return (ListenableFuture<? extends T>[]) collection.toArray(new ListenableFuture<?>[0]);
   }
 
-  // This can't be a TrustedFuture, because TrustedFuture has clever optimizations that
-  // mean cancel won't be called if this Future is passed into setFuture, and then
-  // cancelled.
-  private static final class InCompletionOrderFuture<T extends @Nullable Object>
-      extends AbstractFuture<T> {
-    private @Nullable InCompletionOrderState<T> state;
-
-    private InCompletionOrderFuture(InCompletionOrderState<T> state) {
-      this.state = state;
-    }
-
-    @Override
-    public boolean cancel(boolean interruptIfRunning) {
-      InCompletionOrderState<T> localState = state;
-      if (super.cancel(interruptIfRunning)) {
-        /*
-         * requireNonNull is generally safe: If cancel succeeded, then this Future was still
-         * pending, so its `state` field hasn't been nulled out yet.
-         *
-         * OK, it's technically possible for this to fail in the presence of unsafe publishing, as
-         * discussed in the comments in TimeoutFuture. TODO(cpovirk): Maybe check for null before
-         * calling recordOutputCancellation?
-         */
-        requireNonNull(localState).recordOutputCancellation(interruptIfRunning);
-        return true;
-      }
-      return false;
-    }
-
-    @Override
-    protected void afterDone() {
-      state = null;
-    }
-
-    @Override
-    protected @Nullable String pendingToString() {
-      InCompletionOrderState<T> localState = state;
-      if (localState != null) {
-        // Don't print the actual array! We don't want inCompletionOrder(list).toString() to have
-        // quadratic output.
-        return "inputCount=["
-            + localState.inputFutures.length
-            + "], remaining=["
-            + localState.incompleteOutputCount.get()
-            + "]";
-      }
-      return null;
-    }
-  }
-
-  private static final class InCompletionOrderState<T extends @Nullable Object> {
-    // A happens-before edge between the writes of these fields and their reads exists, because
-    // in order to read these fields, the corresponding write to incompleteOutputCount must have
-    // been read.
-    private boolean wasCancelled = false;
-    private boolean shouldInterrupt = true;
-    private final AtomicInteger incompleteOutputCount;
-    // We set the elements of the array to null as they complete.
-    private final @Nullable ListenableFuture<? extends T>[] inputFutures;
-    private volatile int delegateIndex = 0;
-
-    private InCompletionOrderState(ListenableFuture<? extends T>[] inputFutures) {
-      this.inputFutures = inputFutures;
-      incompleteOutputCount = new AtomicInteger(inputFutures.length);
-    }
-
-    private void recordOutputCancellation(boolean interruptIfRunning) {
-      wasCancelled = true;
-      // If all the futures were cancelled with interruption, cancel the input futures
-      // with interruption; otherwise cancel without
-      if (!interruptIfRunning) {
-        shouldInterrupt = false;
-      }
-      recordCompletion();
-    }
-
-    private void recordInputCompletion(
-        ImmutableList<AbstractFuture<T>> delegates, int inputFutureIndex) {
-      /*
-       * requireNonNull is safe because we accepted an Iterable of non-null Future instances, and we
-       * don't overwrite an element in the array until after reading it.
-       */
-      ListenableFuture<? extends T> inputFuture = requireNonNull(inputFutures[inputFutureIndex]);
-      // Null out our reference to this future, so it can be GCed
-      inputFutures[inputFutureIndex] = null;
-      for (int i = delegateIndex; i < delegates.size(); i++) {
-        if (delegates.get(i).setFuture(inputFuture)) {
-          recordCompletion();
-          // this is technically unnecessary, but should speed up later accesses
-          delegateIndex = i + 1;
-          return;
-        }
-      }
-      // If all the delegates were complete, no reason for the next listener to have to
-      // go through the whole list. Avoids O(n^2) behavior when the entire output list is
-      // cancelled.
-      delegateIndex = delegates.size();
-    }
-
-    @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
-    private void recordCompletion() {
-      if (incompleteOutputCount.decrementAndGet() == 0 && wasCancelled) {
-        for (ListenableFuture<? extends T> toCancel : inputFutures) {
-          if (toCancel != null) {
-            toCancel.cancel(shouldInterrupt);
-          }
-        }
-      }
-    }
-  }
-
   /**
    * Registers separate success and failure callbacks to be run when the {@code Future}'s
    * computation is {@linkplain java.util.concurrent.Future#isDone() complete} or, if the
@@ -1090,46 +938,6 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       ListenableFuture<V> future, FutureCallback<? super V> callback, Executor executor) {
     Preconditions.checkNotNull(callback);
     future.addListener(new CallbackListener<V>(future, callback), executor);
-  }
-
-  /** See {@link #addCallback(ListenableFuture, FutureCallback, Executor)} for behavioral notes. */
-  private static final class CallbackListener<V extends @Nullable Object> implements Runnable {
-    final ListenableFuture<V> future;
-    final FutureCallback<? super V> callback;
-
-    CallbackListener(ListenableFuture<V> future, FutureCallback<? super V> callback) {
-      this.future = future;
-      this.callback = callback;
-    }
-
-    @Override
-    public void run() {
-      if (future instanceof InternalFutureFailureAccess) {
-        Throwable failure =
-            InternalFutures.tryInternalFastPathGetFailure((InternalFutureFailureAccess) future);
-        if (failure != null) {
-          callback.onFailure(failure);
-          return;
-        }
-      }
-      V value;
-      try {
-        value = getDone(future);
-      } catch (ExecutionException e) {
-        callback.onFailure(e.getCause());
-        return;
-      } catch (Throwable e) {
-        // Any Exception is either a RuntimeException or sneaky checked exception.
-        callback.onFailure(e);
-        return;
-      }
-      callback.onSuccess(value);
-    }
-
-    @Override
-    public String toString() {
-      return MoreObjects.toStringHelper(this).addValue(callback).toString();
-    }
   }
 
   /**

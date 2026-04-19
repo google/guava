@@ -46,8 +46,8 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * To force selection of our fallback strategies we load {@link AggregateFutureState} (and all of
  * {@code com.google.common.util.concurrent}) in degenerate class loaders which make certain
- * platform classes unavailable. Then we construct a test suite so we can run the normal FuturesTest
- * test methods in these degenerate classloaders.
+ * platform classes unavailable. Then we construct a test suite so we can run the aggregate-focused
+ * {@link FuturesAggregateTest} methods in these degenerate classloaders.
  */
 
 @NullUnmarked
@@ -70,11 +70,11 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
               AtomicReferenceFieldUpdater.class.getName()));
 
   public static TestSuite suite() {
-    // we create a test suite containing a test for every FuturesTest test method and we
-    // set it as the name of the test.  Then in runTest we can reflectively load and invoke the
-    // corresponding method on FuturesTest in the correct classloader.
+    // We create a test suite containing a test for every FuturesAggregateTest test method and we
+    // set it as the name of the test. Then in runTest we can reflectively load and invoke the
+    // corresponding method on FuturesAggregateTest in the correct classloader.
     TestSuite suite = new TestSuite(AggregateFutureStateFallbackAtomicHelperTest.class.getName());
-    for (Method method : FuturesTest.class.getDeclaredMethods()) {
+    for (Method method : FuturesAggregateTest.class.getDeclaredMethods()) {
       if (Modifier.isPublic(method.getModifiers())
           && method.getName().startsWith("test")
           /*
@@ -109,14 +109,14 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
   }
 
   /**
-   * Runs the corresponding {@link FuturesTest} test method in a new classloader that disallows
-   * certain core JDK classes.
+   * Runs the corresponding {@link FuturesAggregateTest} test method in a new classloader that
+   * disallows certain core JDK classes.
    */
   private void runTestMethod(ClassLoader classLoader) throws Exception {
     ClassLoader oldClassLoader = Thread.currentThread().getContextClassLoader();
     Thread.currentThread().setContextClassLoader(classLoader);
     try {
-      Class<?> test = classLoader.loadClass(FuturesTest.class.getName());
+      Class<?> test = classLoader.loadClass(FuturesAggregateTest.class.getName());
       Object testInstance = test.getDeclaredConstructor().newInstance();
       test.getMethod("setUp").invoke(testInstance);
       test.getMethod(getName()).invoke(testInstance);

@@ -18,7 +18,7 @@ package com.google.common.util.concurrent;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.util.concurrent.FuturesTest.pseudoTimedGetUninterruptibly;
+import static com.google.common.util.concurrent.AbstractFuturesTest.pseudoTimedGetUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
