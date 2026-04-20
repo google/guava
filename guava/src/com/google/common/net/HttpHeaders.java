@@ -395,7 +395,7 @@ public final class HttpHeaders {
 
   /**
    * The HTTP <a href="https://github.com/WICG/nav-speculation/blob/main/no-vary-search.md">{@code
-   * No-Vary-Seearch}</a> header field name.
+   * No-Vary-Search}</a> header field name.
    *
    * @since 32.0.0
    */

@@ -214,7 +214,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
 
   /**
    * Using this as the blocker object allows introspection and debugging tools to see that the
-   * currentRunner thread is blocked on the progress of the interruptor thread, which can help
+   * currentRunner thread is blocked on the progress of the interrupter thread, which can help
    * identify deadlocks.
    */
   @VisibleForTesting
