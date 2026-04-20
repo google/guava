@@ -63,7 +63,7 @@ final class Types {
     if (componentType instanceof WildcardType) {
       WildcardType wildcard = (WildcardType) componentType;
       Type[] lowerBounds = wildcard.getLowerBounds();
-      checkArgument(lowerBounds.length <= 1, "Wildcard cannot have more than one lower bounds.");
+      checkArgument(lowerBounds.length <= 1, "Wildcard cannot have more than one lower bound.");
       if (lowerBounds.length == 1) {
         return supertypeOf(newArrayType(lowerBounds[0]));
       } else {
