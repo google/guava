@@ -930,7 +930,7 @@ instead, which has an <a href="ImmutableIntArray.html#asList()"><code>asList</co
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Integer.html" title="class in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">tryParse</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;string)</span></div>
 <div class="block">Parses the specified string as a signed decimal integer value. The ASCII character <code>'-'</code>
-(<code>'&#92;u002D'</code>) is recognized as the minus sign.
+(U+002D) is recognized as the minus sign.
 
 <p>Unlike <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Integer.html#parseInt(java.lang.String)" class="external-link"><code>Integer.parseInt(String)</code></a>, this method returns <code>null</code> instead of
 throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
@@ -958,7 +958,7 @@ and returns <code>null</code> if non-ASCII digits are present in the string.
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Integer.html" title="class in java.lang" class="external-link">Integer</a></span>&nbsp;<span class="element-name">tryParse</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;string,
  int&nbsp;radix)</span></div>
 <div class="block">Parses the specified string as a signed integer value using the specified radix. The ASCII
-character <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+character <code>'-'</code> (U+002D) is recognized as the minus sign.
 
 <p>Unlike <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Integer.html#parseInt(java.lang.String,int)" class="external-link"><code>Integer.parseInt(String, int)</code></a>, this method returns <code>null</code> instead of
 throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,

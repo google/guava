@@ -58316,7 +58316,7 @@
       <param name="string" type="java.lang.String"/>
       <doc>
       <![CDATA[Parses the specified string as a double-precision floating point value. The ASCII character
- {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+ {@code '-'} (U+002D) is recognized as the minus sign.
 
  <p>Unlike {@link Double#parseDouble(String)}, this method returns {@code null} instead of
  throwing an exception if parsing fails. Valid inputs are exactly those accepted by {@link
@@ -58759,7 +58759,7 @@
       <param name="string" type="java.lang.String"/>
       <doc>
       <![CDATA[Parses the specified string as a single-precision floating point value. The ASCII character
- {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+ {@code '-'} (U+002D) is recognized as the minus sign.
 
  <p>Unlike {@link Float#parseFloat(String)}, this method returns {@code null} instead of
  throwing an exception if parsing fails. Valid inputs are exactly those accepted by {@link
@@ -60620,7 +60620,7 @@
       <param name="string" type="java.lang.String"/>
       <doc>
       <![CDATA[Parses the specified string as a signed decimal integer value. The ASCII character {@code '-'}
- (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+ (U+002D) is recognized as the minus sign.
 
  <p>Unlike {@link Integer#parseInt(String)}, this method returns {@code null} instead of
  throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
@@ -60644,7 +60644,7 @@
       <param name="radix" type="int"/>
       <doc>
       <![CDATA[Parses the specified string as a signed integer value using the specified radix. The ASCII
- character {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+ character {@code '-'} (U+002D) is recognized as the minus sign.
 
  <p>Unlike {@link Integer#parseInt(String, int)}, this method returns {@code null} instead of
  throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
@@ -60917,8 +60917,8 @@
       deprecated="not deprecated">
       <param name="string" type="java.lang.String"/>
       <doc>
-      <![CDATA[Parses the specified string as a signed decimal long value. The ASCII character {@code '-'} (
- <code>'&#92;u002D'</code>) is recognized as the minus sign.
+      <![CDATA[Parses the specified string as a signed decimal long value. The ASCII character {@code '-'}
+ (U+002D) is recognized as the minus sign.
 
  <p>Unlike {@link Long#parseLong(String)}, this method returns {@code null} instead of throwing
  an exception if parsing fails. Additionally, this method only accepts ASCII digits, and returns
@@ -60942,7 +60942,7 @@
       <param name="radix" type="int"/>
       <doc>
       <![CDATA[Parses the specified string as a signed long value using the specified radix. The ASCII
- character {@code '-'} (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+ character {@code '-'} (U+002D) is recognized as the minus sign.
 
  <p>Unlike {@link Long#parseLong(String, int)}, this method returns {@code null} instead of
  throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
@@ -75090,7 +75090,7 @@
     <![CDATA[{@code Escaper} instances suitable for strings to be included in XML attribute values and
  elements' text contents. When possible, avoid manual escaping by using templating systems and
  high-level APIs that provide autoescaping. For example, consider <a
- href="http://www.xom.nu/">XOM</a>.
+ href="https://www.xom.nu/">XOM</a>.
 
  <p><b>Note:</b> Currently the escapers provided by this class do not escape any characters
  outside the ASCII character range. Unlike HTML escaping the XML escapers will not escape

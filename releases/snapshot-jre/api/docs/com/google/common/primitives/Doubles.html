@@ -819,7 +819,7 @@ is used as a parameter to any of its methods.
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html" title="class in java.lang" class="external-link">Double</a></span>&nbsp;<span class="element-name">tryParse</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;string)</span></div>
 <div class="block">Parses the specified string as a double-precision floating point value. The ASCII character
-<code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+<code>'-'</code> (U+002D) is recognized as the minus sign.
 
 <p>Unlike <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#parseDouble(java.lang.String)" class="external-link"><code>Double.parseDouble(String)</code></a>, this method returns <code>null</code> instead of
 throwing an exception if parsing fails. Valid inputs are exactly those accepted by <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#valueOf(java.lang.String)" class="external-link"><code>Double.valueOf(String)</code></a>, except that leading and trailing whitespace is not permitted.

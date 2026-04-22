@@ -653,8 +653,8 @@ order; equivalent to <code>Longs.fromByteArray(new byte[] {b1, b2, b3, b4, b5, b
 <h3>tryParse</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Long.html" title="class in java.lang" class="external-link">Long</a></span>&nbsp;<span class="element-name">tryParse</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;string)</span></div>
-<div class="block">Parses the specified string as a signed decimal long value. The ASCII character <code>'-'</code> (
-<code>'&#92;u002D'</code>) is recognized as the minus sign.
+<div class="block">Parses the specified string as a signed decimal long value. The ASCII character <code>'-'</code>
+(U+002D) is recognized as the minus sign.
 
 <p>Unlike <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Long.html#parseLong(java.lang.String)" class="external-link"><code>Long.parseLong(String)</code></a>, this method returns <code>null</code> instead of throwing
 an exception if parsing fails. Additionally, this method only accepts ASCII digits, and returns
@@ -682,7 +682,7 @@ an exception if parsing fails. Additionally, this method only accepts ASCII digi
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Long.html" title="class in java.lang" class="external-link">Long</a></span>&nbsp;<span class="element-name">tryParse</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;string,
  int&nbsp;radix)</span></div>
 <div class="block">Parses the specified string as a signed long value using the specified radix. The ASCII
-character <code>'-'</code> (<code>'&#92;u002D'</code>) is recognized as the minus sign.
+character <code>'-'</code> (U+002D) is recognized as the minus sign.
 
 <p>Unlike <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Long.html#parseLong(java.lang.String,int)" class="external-link"><code>Long.parseLong(String, int)</code></a>, this method returns <code>null</code> instead of
 throwing an exception if parsing fails. Additionally, this method only accepts ASCII digits,
