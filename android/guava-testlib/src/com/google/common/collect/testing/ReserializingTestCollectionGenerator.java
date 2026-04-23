@@ -56,7 +56,22 @@ public class ReserializingTestCollectionGenerator<E> implements TestCollectionGe
       ByteArrayOutputStream bytes = new ByteArrayOutputStream();
       ObjectOutputStream out = new ObjectOutputStream(bytes);
       out.writeObject(object);
-      ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()));
+      ObjectInputStream in =
+          new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray())) {
+            @Override
+            protected Class<?> resolveClass(java.io.ObjectStreamClass desc)
+                throws IOException, ClassNotFoundException {
+              String name = desc.getName();
+              if (!name.startsWith("java.")
+                  && !name.startsWith("javax.")
+                  && !name.startsWith("[")
+                  && !name.startsWith("com.google.")) {
+                throw new java.io.InvalidClassException(
+                    "Unexpected class during deserialization: " + name);
+              }
+              return super.resolveClass(desc);
+            }
+          };
       return (T) in.readObject();
     } catch (IOException | ClassNotFoundException e) {
       throw new AssertionError(e);
