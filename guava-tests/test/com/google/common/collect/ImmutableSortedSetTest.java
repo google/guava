@@ -57,6 +57,7 @@ import java.util.Iterator;
 import java.util.NoSuchElementException;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.Spliterator;
 import java.util.TreeSet;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.BiPredicate;
@@ -1219,6 +1220,43 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
     ImmutableSortedSet<Integer> unused = builder.build();
     assertThat(compares[0]).isAtMost(10000);
     // hopefully something quadratic would have more digits
+  }
+
+  // Regression tests for https://github.com/google/guava/issues/6187:
+  // Spliterator.getComparator() must return null for naturally-ordered sources so that
+  // stream optimizations (e.g. Stream.sorted() as a no-op) kick in.
+
+  public void testSpliteratorGetComparator_naturalOrdering_returnsNull() {
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(1, 2, 3, 4);
+    assertThat(set.spliterator().getComparator()).isNull();
+  }
+
+  public void testSpliteratorGetComparator_comparatorNaturalOrder_returnsNull() {
+    ImmutableSortedSet<Integer> set =
+        ImmutableSortedSet.copyOf(Comparator.<Integer>naturalOrder(), asList(1, 2, 3, 4));
+    assertThat(set.spliterator().getComparator()).isNull();
+  }
+
+  public void testSpliteratorGetComparator_customOrdering_returnsComparator() {
+    Comparator<Integer> reverse = Comparator.reverseOrder();
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.copyOf(reverse, asList(1, 2, 3, 4));
+    assertThat(set.spliterator().getComparator()).isEqualTo(reverse);
+  }
+
+  public void testSpliteratorHasSortedCharacteristic() {
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(1, 2, 3, 4);
+    assertThat(set.spliterator().hasCharacteristics(Spliterator.SORTED)).isTrue();
+  }
+
+  public void testAsListSpliteratorGetComparator_naturalOrdering_returnsNull() {
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.of(1, 2, 3, 4);
+    assertThat(set.asList().spliterator().getComparator()).isNull();
+  }
+
+  public void testAsListSpliteratorGetComparator_customOrdering_returnsComparator() {
+    Comparator<Integer> reverse = Comparator.reverseOrder();
+    ImmutableSortedSet<Integer> set = ImmutableSortedSet.copyOf(reverse, asList(1, 2, 3, 4));
+    assertThat(set.asList().spliterator().getComparator()).isEqualTo(reverse);
   }
 
   private static <E extends @Nullable Object> SortedSet<E> newTreeSetWithComparator(
