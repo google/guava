@@ -4406,6 +4406,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
 
     @Override
+    @IgnoreJRERequirement // used only from APIs with Java 8 types in them
     public Spliterator<T> spliterator() {
       return Spliterators.spliteratorUnknownSize(
           iterator(), Spliterator.CONCURRENT | Spliterator.DISTINCT | Spliterator.NONNULL);
