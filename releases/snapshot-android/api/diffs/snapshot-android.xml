@@ -56400,6 +56400,17 @@
  @since 20.0]]>
       </doc>
     </field>
+    <field name="PEM" type="com.google.common.net.MediaType"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The <a href="https://pki-tutorial.readthedocs.io/en/latest/mime.html">PEM format</a>. See also
+ <a href="https://github.com/ietf-wg-acme/acme/issues/120">ietf-wg-acme proposal</a>.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="NACL_PORTABLE_APPLICATION" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
