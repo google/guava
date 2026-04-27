@@ -1087,7 +1087,7 @@ public final class Iterators {
 
     @Override
     @ParametricNullness
-    protected T get(int index) {
+    T get(int index) {
       return array[index];
     }
   }

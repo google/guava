@@ -33,7 +33,7 @@ public final class ImmutableTypeToInstanceMap<B> extends ForwardingMap<TypeToken
 
   /** Returns an empty type to instance map. */
   public static <B> ImmutableTypeToInstanceMap<B> of() {
-    return new ImmutableTypeToInstanceMap<>(ImmutableMap.<TypeToken<? extends B>, B>of());
+    return new ImmutableTypeToInstanceMap<>(ImmutableMap.of());
   }
 
   /** Returns a new builder. */

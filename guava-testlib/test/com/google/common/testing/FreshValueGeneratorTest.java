@@ -498,7 +498,7 @@ public class FreshValueGeneratorTest extends TestCase {
 
   public void testAddSampleInstances_noInstance() {
     FreshValueGenerator generator = new FreshValueGenerator();
-    generator.addSampleInstances(String.class, ImmutableList.<String>of());
+    generator.addSampleInstances(String.class, ImmutableList.of());
     assertThat(generator.generateFresh(String.class))
         .isEqualTo(new FreshValueGenerator().generateFresh(String.class));
   }

@@ -292,7 +292,7 @@ public class MultisetsTest extends TestCase {
             Multisets.<Multiset.Entry<String>, String, Multiset<String>>toMultiset(
                 Multiset.Entry::getElement, Multiset.Entry::getCount, LinkedHashMultiset::create),
             equivalence)
-        .expectCollects(ImmutableMultiset.<String>of())
+        .expectCollects(ImmutableMultiset.of())
         .expectCollects(
             ImmutableMultiset.of("a", "a", "b", "c", "c", "c"),
             Multisets.immutableEntry("a", 1),

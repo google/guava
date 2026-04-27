@@ -338,7 +338,7 @@ public class FunctionsTest extends TestCase {
   }
 
   public void testConstant() {
-    Function<@Nullable Object, Object> f = Functions.<Object>constant("correct");
+    Function<@Nullable Object, Object> f = Functions.constant("correct");
     assertEquals("correct", f.apply(new Object()));
     assertEquals("correct", f.apply(null));
 

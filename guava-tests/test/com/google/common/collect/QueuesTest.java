@@ -61,7 +61,7 @@ public class QueuesTest extends TestCase {
    */
 
   public static List<BlockingQueue<Object>> blockingQueues() {
-    return ImmutableList.<BlockingQueue<Object>>of(
+    return ImmutableList.of(
         new LinkedBlockingQueue<Object>(),
         new LinkedBlockingQueue<Object>(10),
         new SynchronousQueue<Object>(),

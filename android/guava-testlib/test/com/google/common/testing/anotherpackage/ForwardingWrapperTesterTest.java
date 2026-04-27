@@ -181,9 +181,7 @@ public class ForwardingWrapperTesterTest extends TestCase {
   public void testNotInterfaceType() {
     assertThrows(
         IllegalArgumentException.class,
-        () ->
-            new ForwardingWrapperTester()
-                .testForwarding(String.class, Functions.<String>identity()));
+        () -> new ForwardingWrapperTester().testForwarding(String.class, Functions.identity()));
   }
 
   public void testNulls() {

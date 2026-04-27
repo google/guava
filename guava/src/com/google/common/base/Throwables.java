@@ -508,9 +508,8 @@ public final class Throwables {
 
   /**
    * Returns the Method that can be used to return the size of a stack, or null if that method
-   * cannot be found (it is only to be found in fairly recent JDKs). Tries to test method {@link
-   * sun.misc.JavaLangAccess#getStackTraceDepth(Throwable) getStackTraceDepth} prior to return it
-   * (might fail some JDKs).
+   * cannot be found (it is only to be found in fairly recent JDKs). Tries to test method {@code
+   * sun.misc.JavaLangAccess.getStackTraceDepth} prior to return it (might fail some JDKs).
    *
    * <p>See <a href="https://github.com/google/guava/issues/2887">Throwables#lazyStackTrace throws
    * UnsupportedOperationException</a>.

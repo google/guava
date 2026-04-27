@@ -210,7 +210,7 @@ public class ImmutableMultisetTest extends TestCase {
   @SuppressWarnings("ArrayAsKeyOfSetOrMap")
   public void testCreation_arrayOfArray() {
     String[] array = new String[] {"a"};
-    Multiset<String[]> multiset = ImmutableMultiset.<String[]>of(array);
+    Multiset<String[]> multiset = ImmutableMultiset.of(array);
     Multiset<String[]> expected = HashMultiset.create();
     expected.add(array);
     assertEquals(expected, multiset);

@@ -202,7 +202,7 @@ public class ListsTest extends TestCase {
                   @Override
                   protected List<String> create(String[] elements) {
                     List<String> fromList = Lists.newArrayList(elements);
-                    return transform(fromList, Functions.<String>identity());
+                    return transform(fromList, Functions.identity());
                   }
                 })
             .named("Lists.transform, random access, nulls")
@@ -219,7 +219,7 @@ public class ListsTest extends TestCase {
                   @Override
                   protected List<String> create(String[] elements) {
                     List<String> fromList = new LinkedList<>(asList(elements));
-                    return transform(fromList, Functions.<String>identity());
+                    return transform(fromList, Functions.identity());
                   }
                 })
             .named("Lists.transform, sequential access, nulls")

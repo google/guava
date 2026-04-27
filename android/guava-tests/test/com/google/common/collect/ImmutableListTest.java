@@ -218,7 +218,7 @@ public class ImmutableListTest extends TestCase {
 
   public void testCreation_arrayOfArray() {
     String[] array = new String[] {"a"};
-    List<String[]> list = ImmutableList.<String[]>of(array);
+    List<String[]> list = ImmutableList.of(array);
     assertEquals(singletonList(array), list);
   }
 

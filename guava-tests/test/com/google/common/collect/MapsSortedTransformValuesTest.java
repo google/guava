@@ -35,7 +35,7 @@ import org.jspecify.annotations.NullMarked;
 public class MapsSortedTransformValuesTest extends AbstractMapsTransformValuesTest {
   @Override
   protected SortedMap<String, String> makeEmptyMap() {
-    return transformValues(Maps.<String, String>newTreeMap(), Functions.<String>identity());
+    return transformValues(Maps.newTreeMap(), Functions.identity());
   }
 
   @Override

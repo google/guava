@@ -38,7 +38,7 @@ abstract class AbstractIndexedListIterator<E extends @Nullable Object>
 
   /** Returns the element with the specified index. This method is called by {@link #next()}. */
   @ParametricNullness
-  protected abstract E get(int index);
+  abstract E get(int index);
 
   /**
    * Constructs an iterator across a sequence of the given size whose initial position is 0. That
@@ -47,7 +47,7 @@ abstract class AbstractIndexedListIterator<E extends @Nullable Object>
    *
    * @throws IllegalArgumentException if {@code size} is negative
    */
-  protected AbstractIndexedListIterator(int size) {
+  AbstractIndexedListIterator(int size) {
     this(size, 0);
   }
 
@@ -61,7 +61,7 @@ abstract class AbstractIndexedListIterator<E extends @Nullable Object>
    *     size}
    * @throws IllegalArgumentException if {@code size} is negative
    */
-  protected AbstractIndexedListIterator(int size, int position) {
+  AbstractIndexedListIterator(int size, int position) {
     checkPositionIndex(position, size);
     this.size = size;
     this.position = position;

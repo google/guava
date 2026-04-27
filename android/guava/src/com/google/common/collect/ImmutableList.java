@@ -405,7 +405,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     }
 
     @Override
-    protected E get(int index) {
+    E get(int index) {
       return list.get(index);
     }
   }

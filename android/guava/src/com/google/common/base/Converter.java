@@ -110,7 +110,7 @@ import org.jspecify.annotations.Nullable;
  *   protected Integer doBackward(String s) {
  *     return parseUnsignedInt(s, 16);
  *   }
- * }
+ * };
  * }
  *
  * @author Mike Ward

@@ -219,14 +219,14 @@ public final class OptionalTest extends TestCase {
 
   public void testPresentInstances_somePresent() {
     List<Optional<String>> optionals =
-        ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
+        ImmutableList.of(Optional.of("a"), Optional.absent(), Optional.of("c"));
     assertThat(Optional.presentInstances(optionals)).containsExactly("a", "c").inOrder();
   }
 
   @SuppressWarnings("DuplicateAssertion") // We intentionally iterate multiple times.
   public void testPresentInstances_callingIteratorTwice() {
     List<Optional<String>> optionals =
-        ImmutableList.of(Optional.of("a"), Optional.<String>absent(), Optional.of("c"));
+        ImmutableList.of(Optional.of("a"), Optional.absent(), Optional.of("c"));
     Iterable<String> onlyPresent = Optional.presentInstances(optionals);
     assertThat(onlyPresent).containsExactly("a", "c").inOrder();
     assertThat(onlyPresent).containsExactly("a", "c").inOrder();
@@ -234,7 +234,7 @@ public final class OptionalTest extends TestCase {
 
   public void testPresentInstances_wildcards() {
     List<Optional<? extends Number>> optionals =
-        ImmutableList.<Optional<? extends Number>>of(Optional.<Double>absent(), Optional.of(2));
+        ImmutableList.of(Optional.<Double>absent(), Optional.of(2));
     Iterable<Number> onlyPresent = Optional.presentInstances(optionals);
     assertThat(onlyPresent).containsExactly(2);
   }
@@ -244,7 +244,7 @@ public final class OptionalTest extends TestCase {
   }
 
   private static FluentIterable<? extends Number> getSomeNumbers() {
-    return FluentIterable.from(ImmutableList.<Number>of());
+    return FluentIterable.from(ImmutableList.of());
   }
 
   /*

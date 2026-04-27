@@ -65,28 +65,28 @@ import org.jspecify.annotations.Nullable;
  *       TypeToken.of(method.getGenericReturnType())}.
  *   <li>Capture a generic type with a (usually anonymous) subclass. For example:
  *       {@snippet :
- * new TypeToken<List<String>>() {}
- * }
+ *       new TypeToken<List<String>>() {}
+ *       }
  *       <p>Note that it's critical that the actual type argument is carried by a subclass. The
  *       following code is wrong because it only captures the {@code <T>} type variable of the
  *       {@code listType()} method signature; while {@code <String>} is lost in erasure:
  *       {@snippet :
- * class Util {
- *   static <T> TypeToken<List<T>> listType() {
- *     return new TypeToken<List<T>>() {};
- *   }
- * }
+ *       class Util {
+ *         static <T> TypeToken<List<T>> listType() {
+ *           return new TypeToken<List<T>>() {};
+ *         }
+ *       }
  *
- * TypeToken<List<String>> stringListType = Util.<String>listType();
- * }
+ *       TypeToken<List<String>> stringListType = Util.listType();
+ *       }
  *   <li>Capture a generic type with a (usually anonymous) subclass and resolve it against a context
  *       class that knows what the type parameters are. For example:
  *       {@snippet :
- * abstract class IKnowMyType<T> {
- *   TypeToken<T> type = new TypeToken<T>(getClass()) {};
- * }
- * new IKnowMyType<String>() {}.type => String
- * }
+ *       abstract class IKnowMyType<T> {
+ *         TypeToken<T> type = new TypeToken<T>(getClass()) {};
+ *       }
+ *       new IKnowMyType<String>() {}.type => String
+ *       }
  * </ul>
  *
  * <p>{@code TypeToken} is serializable when no type variable is contained in the type.

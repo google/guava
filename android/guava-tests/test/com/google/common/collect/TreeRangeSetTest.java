@@ -46,7 +46,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
   static {
     ImmutableList.Builder<Range<Integer>> queryBuilder = ImmutableList.builder();
 
-    queryBuilder.add(Range.<Integer>all());
+    queryBuilder.add(Range.all());
 
     for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {
       for (BoundType boundType : BoundType.values()) {
@@ -95,8 +95,8 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       cutsToTest.add(Cut.belowValue(i));
       cutsToTest.add(Cut.aboveValue(i));
     }
-    cutsToTest.add(Cut.<Integer>aboveAll());
-    cutsToTest.add(Cut.<Integer>belowAll());
+    cutsToTest.add(Cut.aboveAll());
+    cutsToTest.add(Cut.belowAll());
     CUTS_TO_TEST = ImmutableList.copyOf(cutsToTest);
   }
 
@@ -152,7 +152,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testEnclosing(RangeSet<Integer> rangeSet) {
-    assertTrue(rangeSet.enclosesAll(ImmutableList.<Range<Integer>>of()));
+    assertTrue(rangeSet.enclosesAll(ImmutableList.of()));
     for (Range<Integer> query : QUERY_RANGES) {
       boolean expectEnclose = false;
       for (Range<Integer> expectedRange : rangeSet.asRanges()) {
@@ -179,7 +179,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
       rangeSet.add(range);
 
       TreeRangeSet<Integer> complement = TreeRangeSet.create();
-      complement.add(Range.<Integer>all());
+      complement.add(Range.all());
       complement.remove(range);
 
       assertEquals(complement, rangeSet.complement());
@@ -194,7 +194,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testEmptyIntersecting() {
-    testIntersects(TreeRangeSet.<Integer>create());
+    testIntersects(TreeRangeSet.create());
     testIntersects(TreeRangeSet.<Integer>create().complement());
   }
 
@@ -220,7 +220,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
   }
 
   public void testEmptyEnclosing() {
-    testEnclosing(TreeRangeSet.<Integer>create());
+    testEnclosing(TreeRangeSet.create());
     testEnclosing(TreeRangeSet.<Integer>create().complement());
   }
 
@@ -270,7 +270,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
 
   private RangeSet<Integer> expectedComplement(RangeSet<Integer> rangeSet) {
     RangeSet<Integer> expected = TreeRangeSet.create();
-    expected.add(Range.<Integer>all());
+    expected.add(Range.all());
     expected.removeAll(rangeSet);
     return expected;
   }

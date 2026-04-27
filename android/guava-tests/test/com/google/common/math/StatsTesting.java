@@ -310,7 +310,7 @@ class StatsTesting {
   // PairedStats instances:
 
   static final PairedStats EMPTY_PAIRED_STATS =
-      createPairedStatsOf(ImmutableList.<Double>of(), ImmutableList.<Double>of());
+      createPairedStatsOf(ImmutableList.of(), ImmutableList.of());
   static final PairedStats ONE_VALUE_PAIRED_STATS =
       createPairedStatsOf(ImmutableList.of(ONE_VALUE), ImmutableList.of(OTHER_ONE_VALUE));
   static final PairedStats TWO_VALUES_PAIRED_STATS =

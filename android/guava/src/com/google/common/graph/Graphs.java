@@ -188,7 +188,7 @@ public final class Graphs extends GraphsBridgeMethods {
   public static <N> ImmutableGraph<N> transitiveClosure(
       Graph<N> graph, TransitiveClosureSelfLoopStrategy strategy) {
     ImmutableGraph.Builder<N> transitiveClosure =
-        GraphBuilder.from(graph).allowsSelfLoops(true).<N>immutable();
+        GraphBuilder.from(graph).allowsSelfLoops(true).immutable();
 
     for (N node : graph.nodes()) {
       // add each node explicitly to include isolated nodes

@@ -498,7 +498,7 @@ public class IntsTest extends TestCase {
 
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
-    List<Integer> none = Arrays.<Integer>asList();
+    List<Integer> none = Arrays.asList();
     assertThat(Ints.toArray(none)).isEqualTo(EMPTY);
 
     List<Integer> one = asList((int) 1);

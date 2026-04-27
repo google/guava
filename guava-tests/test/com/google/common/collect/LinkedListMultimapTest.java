@@ -299,8 +299,7 @@ public class LinkedListMultimapTest extends TestCase {
     Entry<String, Collection<Integer>> barEntry = entries.next();
     assertThat(barEntry.getKey()).isEqualTo("bar");
     assertThat(barEntry.getValue()).containsExactly(1, 3).inOrder();
-    assertThrows(
-        UnsupportedOperationException.class, () -> barEntry.setValue(Arrays.<Integer>asList()));
+    assertThrows(UnsupportedOperationException.class, () -> barEntry.setValue(Arrays.asList()));
     entries.remove(); // clear
     Entry<String, Collection<Integer>> fooEntry = entries.next();
     assertThat(fooEntry.getKey()).isEqualTo("foo");

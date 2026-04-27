@@ -133,7 +133,7 @@ public class MultimapsTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableArrayListMultimap() {
     Multimap<String, Integer> unmodifiable =
-        prepareUnmodifiableTests(ArrayListMultimap.<String, Integer>create(), true, null, null);
+        prepareUnmodifiableTests(ArrayListMultimap.create(), true, null, null);
     SerializableTester.reserializeAndAssert(unmodifiable);
   }
 
@@ -164,20 +164,20 @@ public class MultimapsTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableHashMultimap() {
     Multimap<String, Integer> unmodifiable =
-        prepareUnmodifiableTests(HashMultimap.<String, Integer>create(), false, null, null);
+        prepareUnmodifiableTests(HashMultimap.create(), false, null, null);
     SerializableTester.reserializeAndAssert(unmodifiable);
   }
 
   @GwtIncompatible // slow (~10s)
   public void testUnmodifiableTreeMultimap() {
-    checkUnmodifiableMultimap(TreeMultimap.<String, Integer>create(), false, "null", 42);
+    checkUnmodifiableMultimap(TreeMultimap.create(), false, "null", 42);
   }
 
   @J2ktIncompatible
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableTreeMultimap() {
     Multimap<String, Integer> unmodifiable =
-        prepareUnmodifiableTests(TreeMultimap.<String, Integer>create(), false, "null", 42);
+        prepareUnmodifiableTests(TreeMultimap.create(), false, "null", 42);
     SerializableTester.reserializeAndAssert(unmodifiable);
   }
 
@@ -194,10 +194,7 @@ public class MultimapsTest extends TestCase {
   public void testSerializingUnmodifiableSynchronizedArrayListMultimap() {
     Multimap<String, Integer> unmodifiable =
         prepareUnmodifiableTests(
-            synchronizedListMultimap(ArrayListMultimap.<String, Integer>create()),
-            true,
-            null,
-            null);
+            synchronizedListMultimap(ArrayListMultimap.create()), true, null, null);
     SerializableTester.reserializeAndAssert(unmodifiable);
   }
 
@@ -212,8 +209,7 @@ public class MultimapsTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedHashMultimap() {
     Multimap<String, Integer> unmodifiable =
-        prepareUnmodifiableTests(
-            synchronizedSetMultimap(HashMultimap.<String, Integer>create()), false, null, null);
+        prepareUnmodifiableTests(synchronizedSetMultimap(HashMultimap.create()), false, null, null);
     SerializableTester.reserializeAndAssert(unmodifiable);
   }
 
@@ -221,7 +217,7 @@ public class MultimapsTest extends TestCase {
   @J2ktIncompatible // Synchronized
   public void testUnmodifiableSynchronizedTreeMultimap() {
     TreeMultimap<String, Integer> delegate =
-        TreeMultimap.create(Ordering.<String>natural(), INT_COMPARATOR);
+        TreeMultimap.create(Ordering.natural(), INT_COMPARATOR);
     SortedSetMultimap<String, Integer> multimap = synchronizedSortedSetMultimap(delegate);
     checkUnmodifiableMultimap(multimap, false, "null", 42);
     assertThat(multimap.valueComparator()).isEqualTo(INT_COMPARATOR);
@@ -231,7 +227,7 @@ public class MultimapsTest extends TestCase {
   @GwtIncompatible // SerializableTester
   public void testSerializingUnmodifiableSynchronizedTreeMultimap() {
     TreeMultimap<String, Integer> delegate =
-        TreeMultimap.create(Ordering.<String>natural(), INT_COMPARATOR);
+        TreeMultimap.create(Ordering.natural(), INT_COMPARATOR);
     SortedSetMultimap<String, Integer> multimap = synchronizedSortedSetMultimap(delegate);
     Multimap<String, Integer> unmodifiable = prepareUnmodifiableTests(multimap, false, "null", 42);
     SerializableTester.reserializeAndAssert(unmodifiable);
@@ -359,8 +355,7 @@ public class MultimapsTest extends TestCase {
     ImmutableMultimap<Integer, String> empty = ImmutableMultimap.of();
 
     // typical usage example - sad that ArrayListMultimap.create() won't work
-    Multimap<String, Integer> multimap =
-        Multimaps.invertFrom(empty, ArrayListMultimap.<String, Integer>create());
+    Multimap<String, Integer> multimap = Multimaps.invertFrom(empty, ArrayListMultimap.create());
     assertTrue(multimap.isEmpty());
 
     ImmutableMultimap<Integer, String> single =
@@ -430,7 +425,7 @@ public class MultimapsTest extends TestCase {
     assertThrows(UnsupportedOperationException.class, () -> multimapView.putAll(multimap));
     assertThrows(
         UnsupportedOperationException.class,
-        () -> multimapView.replaceValues("foo", Collections.<Integer>emptySet()));
+        () -> multimapView.replaceValues("foo", Collections.emptySet()));
     multimapView.remove("bar", 2);
     assertFalse(multimapView.containsKey("bar"));
     assertFalse(map.containsKey("bar"));
@@ -922,7 +917,7 @@ public class MultimapsTest extends TestCase {
       void genericTestSynchronizedMultimapSampleCodeCompilation() {
     K key = null;
 
-    Multimap<K, V> multimap = synchronizedMultimap(HashMultimap.<K, V>create());
+    Multimap<K, V> multimap = synchronizedMultimap(HashMultimap.create());
     Collection<V> values = multimap.get(key); // Needn't be in synchronized block
     synchronized (multimap) { // Synchronizing on multimap, not values!
       Iterator<V> i = values.iterator(); // Must be in synchronized block
@@ -943,7 +938,7 @@ public class MultimapsTest extends TestCase {
 
     SetMultimap<String, Integer> filtered = filterKeys(multimap, in(ImmutableSet.of("foo", "bar")));
 
-    assertEquals(ImmutableSet.of(), filtered.replaceValues("baz", ImmutableSet.<Integer>of()));
+    assertEquals(ImmutableSet.of(), filtered.replaceValues("baz", ImmutableSet.of()));
 
     assertThrows(
         IllegalArgumentException.class, () -> filtered.replaceValues("baz", ImmutableSet.of(5)));

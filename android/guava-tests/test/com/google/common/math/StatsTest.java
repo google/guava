@@ -493,7 +493,7 @@ public class StatsTest extends TestCase {
 
   public void testMeanOf() {
     assertThrows(IllegalArgumentException.class, Stats::meanOf);
-    assertThrows(IllegalArgumentException.class, () -> Stats.meanOf(ImmutableList.<Number>of()));
+    assertThrows(IllegalArgumentException.class, () -> Stats.meanOf(ImmutableList.of()));
     assertThat(Stats.meanOf(ONE_VALUE)).isWithin(ALLOWED_ERROR).of(ONE_VALUE);
     assertThat(Stats.meanOf(POSITIVE_INFINITY)).isPositiveInfinity();
     assertThat(Stats.meanOf(NEGATIVE_INFINITY)).isNegativeInfinity();

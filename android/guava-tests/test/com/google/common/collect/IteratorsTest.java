@@ -496,7 +496,7 @@ public class IteratorsTest extends TestCase {
 
   public void testCycleOfEmpty() {
     // "<String>" for javac 1.5.
-    Iterator<String> cycle = Iterators.<String>cycle();
+    Iterator<String> cycle = Iterators.cycle();
     assertFalse(cycle.hasNext());
   }
 
@@ -807,7 +807,7 @@ public class IteratorsTest extends TestCase {
   public void testAddAllWithEmptyIterator() {
     List<String> alreadyThere = Lists.newArrayList("already", "there");
 
-    boolean changed = Iterators.addAll(alreadyThere, Iterators.<String>emptyIterator());
+    boolean changed = Iterators.addAll(alreadyThere, Iterators.emptyIterator());
     assertThat(alreadyThere).containsExactly("already", "there").inOrder();
     assertFalse(changed);
   }
@@ -841,7 +841,7 @@ public class IteratorsTest extends TestCase {
   @GwtIncompatible // Only used by @GwtIncompatible code
   private abstract static class EmptyIteratorTester extends IteratorTester<Integer> {
     EmptyIteratorTester() {
-      super(3, MODIFIABLE, Collections.<Integer>emptySet(), IteratorTester.KnownOrder.KNOWN_ORDER);
+      super(3, MODIFIABLE, Collections.emptySet(), IteratorTester.KnownOrder.KNOWN_ORDER);
     }
   }
 

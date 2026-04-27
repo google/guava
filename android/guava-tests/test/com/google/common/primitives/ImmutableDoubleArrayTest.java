@@ -111,7 +111,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
   }
 
   public void testCopyOf_iterable_notCollection_empty() {
-    Iterable<Double> iterable = iterable(Collections.<Double>emptySet());
+    Iterable<Double> iterable = iterable(Collections.emptySet());
     assertThat(ImmutableDoubleArray.copyOf(iterable)).isSameInstanceAs(ImmutableDoubleArray.of());
   }
 

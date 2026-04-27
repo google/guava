@@ -297,7 +297,7 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
             /* lazily generate the iterators on each input only as needed */
             new AbstractIndexedListIterator<Iterator<? extends T>>(inputs.length) {
               @Override
-              public Iterator<? extends T> get(int i) {
+              Iterator<? extends T> get(int i) {
                 return inputs[i].iterator();
               }
             });

@@ -124,7 +124,7 @@ public enum CaseFormat {
   /**
    * Converts the specified {@code String str} from this format to the specified {@code format}. A
    * "best effort" approach is taken; if {@code str} does not conform to the assumed format, then
-   * the behavior of this method is undefined but we make a reasonable effort at converting anyway.
+   * the behavior of this method is undefined, but we make a reasonable effort at converting anyway.
    */
   public final String to(CaseFormat format, String str) {
     checkNotNull(format);

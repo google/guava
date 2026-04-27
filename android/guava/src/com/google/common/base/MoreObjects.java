@@ -356,7 +356,7 @@ public final class MoreObjects {
       } else if (value instanceof Map) {
         return ((Map<?, ?>) value).isEmpty();
       } else if (value instanceof Optional) {
-        return !((Optional) value).isPresent();
+        return !((Optional<?>) value).isPresent();
       } else if (value.getClass().isArray()) {
         return Array.getLength(value) == 0;
       }

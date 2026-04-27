@@ -39,7 +39,7 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public class GeneralRangeTest extends TestCase {
   private static final Ordering<@Nullable Integer> ORDERING =
-      Ordering.<Integer>natural().<Integer>nullsFirst();
+      Ordering.<Integer>natural().nullsFirst();
 
   private static final List<@Nullable Integer> IN_ORDER_VALUES =
       unmodifiableList(Arrays.<@Nullable Integer>asList(null, 1, 2, 3, 4, 5));

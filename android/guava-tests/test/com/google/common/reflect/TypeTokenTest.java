@@ -330,7 +330,7 @@ public class TypeTokenTest extends TestCase {
   // Tests to make sure assertSubtypeBeforeSupertype() works.
 
   public void testAssertSubtypeTokenBeforeSupertypeToken_empty() {
-    assertSubtypeTokenBeforeSupertypeToken(ImmutableList.<TypeToken<?>>of());
+    assertSubtypeTokenBeforeSupertypeToken(ImmutableList.of());
   }
 
   public void testAssertSubtypeTokenBeforeSupertypeToken_oneType() {
@@ -363,7 +363,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testAssertSubtypeBeforeSupertype_empty() {
-    assertSubtypeBeforeSupertype(ImmutableList.<Class<?>>of());
+    assertSubtypeBeforeSupertype(ImmutableList.of());
   }
 
   public void testAssertSubtypeBeforeSupertype_oneType() {

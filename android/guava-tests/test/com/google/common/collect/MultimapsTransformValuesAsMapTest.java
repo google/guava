@@ -38,7 +38,7 @@ public class MultimapsTransformValuesAsMapTest extends AbstractMultimapAsMapImpl
   @Override
   protected Map<String, Collection<Integer>> makeEmptyMap() {
     return Multimaps.transformValues(
-            ArrayListMultimap.<String, Integer>create(), Functions.<Integer>identity())
+            ArrayListMultimap.<String, Integer>create(), Functions.identity())
         .asMap();
   }
 
@@ -46,6 +46,6 @@ public class MultimapsTransformValuesAsMapTest extends AbstractMultimapAsMapImpl
   protected Map<String, Collection<Integer>> makePopulatedMap() {
     ListMultimap<String, Integer> delegate = ArrayListMultimap.create();
     populate(delegate);
-    return Multimaps.transformValues(delegate, Functions.<Integer>identity()).asMap();
+    return Multimaps.transformValues(delegate, Functions.identity()).asMap();
   }
 }

@@ -406,8 +406,8 @@ public class PreconditionsTest extends TestCase {
     ImmutableSet.Builder<ImmutableList<Class<?>>> allOverloads = ImmutableSet.builder();
     // The first two are for the overloads that don't take formatting args, e.g.
     // checkArgument(boolean) and checkArgument(boolean, Object)
-    allOverloads.add(ImmutableList.<Class<?>>of(predicateType));
-    allOverloads.add(ImmutableList.<Class<?>>of(predicateType, Object.class));
+    allOverloads.add(ImmutableList.of(predicateType));
+    allOverloads.add(ImmutableList.of(predicateType, Object.class));
 
     List<List<Class<?>>> typesLists = new ArrayList<>();
     for (int i = 0; i < 2; i++) {

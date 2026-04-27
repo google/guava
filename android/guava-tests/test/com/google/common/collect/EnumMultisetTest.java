@@ -120,7 +120,7 @@ public class EnumMultisetTest extends TestCase {
   }
 
   public void testCreateEmptyWithClass() {
-    Multiset<Color> ms = EnumMultiset.create(ImmutableList.<Color>of(), Color.class);
+    Multiset<Color> ms = EnumMultiset.create(ImmutableList.of(), Color.class);
     ms.add(Color.RED);
   }
 

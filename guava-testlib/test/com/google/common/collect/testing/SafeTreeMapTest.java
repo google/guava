@@ -83,9 +83,7 @@ public class SafeTreeMapTest extends TestCase {
                   @Override
                   public Iterable<Entry<String, String>> order(
                       List<Entry<String, String>> insertionOrder) {
-                    sort(
-                        insertionOrder,
-                        Helpers.<String, String>entryComparator(NullsBeforeTwo.INSTANCE));
+                    sort(insertionOrder, Helpers.entryComparator(NullsBeforeTwo.INSTANCE));
                     return insertionOrder;
                   }
                 })

@@ -18,7 +18,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.RestrictedApi;
 
 /**
- * Pluggable interface for compiling a regex pattern. By default this package uses the {@code
+ * Pluggable interface for compiling a regex pattern. By default, this package uses the {@code
  * java.util.regex} library, but an alternate implementation can be supplied using the {@link
  * java.util.ServiceLoader} mechanism.
  */

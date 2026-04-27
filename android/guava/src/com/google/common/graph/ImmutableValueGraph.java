@@ -131,8 +131,7 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
     Builder(ValueGraphBuilder<N, V> graphBuilder) {
       // The incidentEdgeOrder for immutable graphs is always stable. However, we don't want to
       // modify this builder, so we make a copy instead.
-      this.mutableValueGraph =
-          graphBuilder.copy().incidentEdgeOrder(ElementOrder.<N>stable()).build();
+      this.mutableValueGraph = graphBuilder.copy().incidentEdgeOrder(ElementOrder.stable()).build();
     }
 
     /**

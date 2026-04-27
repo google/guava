@@ -411,7 +411,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   public UnmodifiableListIterator<E> listIterator(int index) {
     return new AbstractIndexedListIterator<E>(size(), index) {
       @Override
-      protected E get(int index) {
+      E get(int index) {
         return ImmutableList.this.get(index);
       }
     };

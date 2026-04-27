@@ -351,7 +351,7 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
 
   public void testDenseSerialization_rowOrder() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
-    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.orderRowsBy(Ordering.natural());
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");
@@ -362,7 +362,7 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
 
   public void testDenseSerialization_columnOrder() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
-    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.orderColumnsBy(Ordering.natural());
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");
@@ -373,8 +373,8 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
 
   public void testDenseSerialization_bothOrders() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
-    builder.orderRowsBy(Ordering.<Character>natural());
-    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.orderRowsBy(Ordering.natural());
+    builder.orderColumnsBy(Ordering.natural());
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");
@@ -397,7 +397,7 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
 
   public void testSparseSerialization_rowOrder() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
-    builder.orderRowsBy(Ordering.<Character>natural());
+    builder.orderRowsBy(Ordering.natural());
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");
@@ -410,7 +410,7 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
 
   public void testSparseSerialization_columnOrder() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
-    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.orderColumnsBy(Ordering.natural());
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");
@@ -423,8 +423,8 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
 
   public void testSparseSerialization_bothOrders() {
     ImmutableTable.Builder<Character, Integer, String> builder = ImmutableTable.builder();
-    builder.orderRowsBy(Ordering.<Character>natural());
-    builder.orderColumnsBy(Ordering.<Integer>natural());
+    builder.orderRowsBy(Ordering.natural());
+    builder.orderColumnsBy(Ordering.natural());
     builder.put('b', 2, "foo");
     builder.put('b', 1, "bar");
     builder.put('a', 2, "baz");

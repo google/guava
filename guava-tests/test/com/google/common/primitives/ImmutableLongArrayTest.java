@@ -120,7 +120,7 @@ public class ImmutableLongArrayTest extends TestCase {
   }
 
   public void testCopyOf_iterable_notCollection_empty() {
-    Iterable<Long> iterable = iterable(Collections.<Long>emptySet());
+    Iterable<Long> iterable = iterable(Collections.emptySet());
     assertThat(ImmutableLongArray.copyOf(iterable)).isSameInstanceAs(ImmutableLongArray.of());
   }
 

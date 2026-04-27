@@ -352,9 +352,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilderPutAllWithEmptyMap() {
     ImmutableMap<String, Integer> map =
-        new Builder<String, Integer>()
-            .putAll(Collections.<String, Integer>emptyMap())
-            .buildOrThrow();
+        new Builder<String, Integer>().putAll(Collections.emptyMap()).buildOrThrow();
     assertEquals(Collections.<String, Integer>emptyMap(), map);
   }
 
@@ -437,15 +435,13 @@ public class ImmutableMapTest extends TestCase {
   public void testBuilderPutNullKeyViaPutAll() {
     Builder<String, Integer> builder = new Builder<>();
     assertThrows(
-        NullPointerException.class,
-        () -> builder.putAll(Collections.<String, Integer>singletonMap(null, 1)));
+        NullPointerException.class, () -> builder.putAll(Collections.singletonMap(null, 1)));
   }
 
   public void testBuilderPutNullValueViaPutAll() {
     Builder<String, Integer> builder = new Builder<>();
     assertThrows(
-        NullPointerException.class,
-        () -> builder.putAll(Collections.<String, Integer>singletonMap("one", null)));
+        NullPointerException.class, () -> builder.putAll(Collections.singletonMap("one", null)));
   }
 
   public void testPuttingTheSameKeyTwiceThrowsOnBuild() {
@@ -767,8 +763,7 @@ public class ImmutableMapTest extends TestCase {
   }
 
   public void testCopyOfEmptyMap() {
-    ImmutableMap<String, Integer> copy =
-        ImmutableMap.copyOf(Collections.<String, Integer>emptyMap());
+    ImmutableMap<String, Integer> copy = ImmutableMap.copyOf(Collections.emptyMap());
     assertEquals(Collections.<String, Integer>emptyMap(), copy);
     assertThat(ImmutableMap.copyOf(copy)).isSameInstanceAs(copy);
   }

@@ -216,7 +216,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
 
   public void testCreateEmptyRowsXColumns() {
     ArrayTable<String, String, Character> table =
-        ArrayTable.create(Arrays.<String>asList(), Arrays.<String>asList());
+        ArrayTable.create(Arrays.asList(), Arrays.asList());
     assertThat(table).isEmpty();
     assertThat(table).hasSize(0);
     assertThat(table.columnKeyList()).isEmpty();
@@ -229,7 +229,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
   @GwtIncompatible // toArray
   public void testEmptyToArry() {
     ArrayTable<String, String, Character> table =
-        ArrayTable.create(Arrays.<String>asList(), Arrays.<String>asList());
+        ArrayTable.create(Arrays.asList(), Arrays.asList());
     assertThat(table.toArray(Character.class)).asList().isEmpty();
   }
 
@@ -274,7 +274,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
 
   public void testCreateCopyEmptyArrayTable() {
     Table<String, Integer, @Nullable Character> original =
-        ArrayTable.create(Arrays.<String>asList(), Arrays.<Integer>asList());
+        ArrayTable.create(Arrays.asList(), Arrays.asList());
     ArrayTable<String, Integer, Character> copy = ArrayTable.create(original);
     assertThat(copy).isEqualTo(original);
     assertThat(copy).isEmpty();

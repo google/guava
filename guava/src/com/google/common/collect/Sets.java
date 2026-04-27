@@ -1746,7 +1746,7 @@ public final class Sets {
     public Iterator<Set<E>> iterator() {
       return new AbstractIndexedListIterator<Set<E>>(size()) {
         @Override
-        protected Set<E> get(int setBits) {
+        Set<E> get(int setBits) {
           return new SubSet<>(inputSet, setBits);
         }
       };

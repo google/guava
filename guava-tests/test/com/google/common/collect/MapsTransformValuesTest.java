@@ -35,7 +35,7 @@ import org.jspecify.annotations.NullMarked;
 public class MapsTransformValuesTest extends AbstractMapsTransformValuesTest {
   @Override
   protected Map<String, String> makeEmptyMap() {
-    return transformValues(new HashMap<String, String>(), Functions.<String>identity());
+    return transformValues(new HashMap<String, String>(), Functions.identity());
   }
 
   @Override

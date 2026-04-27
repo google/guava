@@ -67,7 +67,7 @@ public class TreeMultimapExplicitTest extends TestCase {
 
   /** Decreasing integer values. A {@code null} comes before any non-null value. */
   private static final Comparator<@Nullable Integer> DECREASING_INT_COMPARATOR =
-      Ordering.<Integer>natural().reverse().<Integer>nullsFirst();
+      Ordering.<Integer>natural().reverse().nullsFirst();
 
   private SetMultimap<String, Integer> create() {
     return TreeMultimap.create(StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);

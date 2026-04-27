@@ -17,6 +17,7 @@ package com.google.common.hash;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.Immutable;
 import java.security.Key;
 import java.util.ArrayList;
@@ -61,6 +62,7 @@ public final class Hashing {
    * @return a hash function, described above, that produces hash codes of length {@code
    *     minimumBits} or greater
    */
+  @J2ktIncompatible
   public static HashFunction goodFastHash(int minimumBits) {
     int bits = checkPositiveAndMakeMultipleOf32(minimumBits);
 
@@ -105,6 +107,7 @@ public final class Hashing {
    */
   @Deprecated
   @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
+  @J2ktIncompatible
   public static HashFunction murmur3_32(int seed) {
     return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ false);
   }
@@ -124,6 +127,7 @@ public final class Hashing {
    */
   @Deprecated
   @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
+  @J2ktIncompatible
   public static HashFunction murmur3_32() {
     return Murmur3_32HashFunction.MURMUR3_32;
   }
@@ -141,6 +145,7 @@ public final class Hashing {
    * @since 31.0
    */
   @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
+  @J2ktIncompatible
   public static HashFunction murmur3_32_fixed(int seed) {
     return new Murmur3_32HashFunction(seed, /* supplementaryPlaneFix= */ true);
   }
@@ -158,6 +163,7 @@ public final class Hashing {
    * @since 31.0
    */
   @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
+  @J2ktIncompatible
   public static HashFunction murmur3_32_fixed() {
     return Murmur3_32HashFunction.MURMUR3_32_FIXED;
   }
@@ -170,6 +176,7 @@ public final class Hashing {
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
   @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
+  @J2ktIncompatible
   public static HashFunction murmur3_128(int seed) {
     return new Murmur3_128HashFunction(seed);
   }
@@ -182,6 +189,7 @@ public final class Hashing {
    * <p>The exact C++ equivalent is the MurmurHash3_x64_128 function (Murmur3F).
    */
   @SuppressWarnings("IdentifierName") // the best we could do for adjacent digit blocks
+  @J2ktIncompatible
   public static HashFunction murmur3_128() {
     return Murmur3_128HashFunction.MURMUR3_128;
   }
@@ -192,6 +200,7 @@ public final class Hashing {
    *
    * @since 15.0
    */
+  @J2ktIncompatible
   public static HashFunction sipHash24() {
     return SipHashFunction.SIP_HASH_24;
   }
@@ -202,6 +211,7 @@ public final class Hashing {
    *
    * @since 15.0
    */
+  @J2ktIncompatible
   public static HashFunction sipHash24(long k0, long k1) {
     return new SipHashFunction(2, 4, k0, k1);
   }
@@ -263,6 +273,7 @@ public final class Hashing {
    *
    * @since 19.0
    */
+  @J2ktIncompatible
   public static HashFunction sha384() {
     return Sha384Holder.SHA_384;
   }
@@ -273,6 +284,7 @@ public final class Hashing {
   }
 
   /** Returns a hash function implementing the SHA-512 algorithm (512 hash bits). */
+  @J2ktIncompatible
   public static HashFunction sha512() {
     return Sha512Holder.SHA_512;
   }
@@ -294,6 +306,7 @@ public final class Hashing {
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
    * @since 20.0
    */
+  @J2ktIncompatible
   public static HashFunction hmacMd5(Key key) {
     return new MacHashFunction("HmacMD5", key, hmacToString("hmacMd5", key));
   }
@@ -310,6 +323,7 @@ public final class Hashing {
    * @param key the key material of the secret key
    * @since 20.0
    */
+  @J2ktIncompatible
   public static HashFunction hmacMd5(byte[] key) {
     return hmacMd5(new SecretKeySpec(checkNotNull(key), "HmacMD5"));
   }
@@ -322,6 +336,7 @@ public final class Hashing {
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
    * @since 20.0
    */
+  @J2ktIncompatible
   public static HashFunction hmacSha1(Key key) {
     return new MacHashFunction("HmacSHA1", key, hmacToString("hmacSha1", key));
   }
@@ -334,6 +349,7 @@ public final class Hashing {
    * @param key the key material of the secret key
    * @since 20.0
    */
+  @J2ktIncompatible
   public static HashFunction hmacSha1(byte[] key) {
     return hmacSha1(new SecretKeySpec(checkNotNull(key), "HmacSHA1"));
   }
@@ -346,6 +362,7 @@ public final class Hashing {
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
    * @since 20.0
    */
+  @J2ktIncompatible
   public static HashFunction hmacSha256(Key key) {
     return new MacHashFunction("HmacSHA256", key, hmacToString("hmacSha256", key));
   }
@@ -358,6 +375,7 @@ public final class Hashing {
    * @param key the key material of the secret key
    * @since 20.0
    */
+  @J2ktIncompatible
   public static HashFunction hmacSha256(byte[] key) {
     return hmacSha256(new SecretKeySpec(checkNotNull(key), "HmacSHA256"));
   }
@@ -370,6 +388,7 @@ public final class Hashing {
    * @throws IllegalArgumentException if the given key is inappropriate for initializing this MAC
    * @since 20.0
    */
+  @J2ktIncompatible
   public static HashFunction hmacSha512(Key key) {
     return new MacHashFunction("HmacSHA512", key, hmacToString("hmacSha512", key));
   }
@@ -382,6 +401,7 @@ public final class Hashing {
    * @param key the key material of the secret key
    * @since 20.0
    */
+  @J2ktIncompatible
   public static HashFunction hmacSha512(byte[] key) {
     return hmacSha512(new SecretKeySpec(checkNotNull(key), "HmacSHA512"));
   }
@@ -406,6 +426,7 @@ public final class Hashing {
    *
    * @since 18.0
    */
+  @J2ktIncompatible
   public static HashFunction crc32c() {
     return Crc32cHashFunction.CRC_32_C;
   }
@@ -422,6 +443,7 @@ public final class Hashing {
    *
    * @since 14.0
    */
+  @J2ktIncompatible
   public static HashFunction crc32() {
     return ChecksumType.CRC_32.hashFunction;
   }
@@ -438,11 +460,13 @@ public final class Hashing {
    *
    * @since 14.0
    */
+  @J2ktIncompatible
   public static HashFunction adler32() {
     return ChecksumType.ADLER_32.hashFunction;
   }
 
   @Immutable
+  @J2ktIncompatible
   enum ChecksumType implements ImmutableSupplier<Checksum> {
     CRC_32("Hashing.crc32()") {
       @Override
@@ -506,6 +530,7 @@ public final class Hashing {
    *
    * @since 31.1
    */
+  @J2ktIncompatible
   public static HashFunction fingerprint2011() {
     return Fingerprint2011.FINGERPRINT_2011;
   }
@@ -540,6 +565,7 @@ public final class Hashing {
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
    */
+  @J2ktIncompatible
   public static int consistentHash(HashCode hashCode, int buckets) {
     return consistentHash(hashCode.padToLong(), buckets);
   }
@@ -574,6 +600,7 @@ public final class Hashing {
    * <p>See the <a href="http://en.wikipedia.org/wiki/Consistent_hashing">Wikipedia article on
    * consistent hashing</a> for more information.
    */
+  @J2ktIncompatible
   public static int consistentHash(long input, int buckets) {
     checkArgument(buckets > 0, "buckets must be positive: %s", buckets);
     LinearCongruentialGenerator generator = new LinearCongruentialGenerator(input);
@@ -600,6 +627,7 @@ public final class Hashing {
    * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all
    *     have the same bit length
    */
+  @J2ktIncompatible
   public static HashCode combineOrdered(Iterable<HashCode> hashCodes) {
     Iterator<HashCode> iterator = hashCodes.iterator();
     checkArgument(iterator.hasNext(), "Must be at least 1 hash code to combine.");
@@ -625,6 +653,7 @@ public final class Hashing {
    * @throws IllegalArgumentException if {@code hashCodes} is empty, or the hash codes do not all
    *     have the same bit length
    */
+  @J2ktIncompatible
   public static HashCode combineUnordered(Iterable<HashCode> hashCodes) {
     Iterator<HashCode> iterator = hashCodes.iterator();
     checkArgument(iterator.hasNext(), "Must be at least 1 hash code to combine.");
@@ -656,6 +685,7 @@ public final class Hashing {
    *
    * @since 19.0
    */
+  @J2ktIncompatible
   public static HashFunction concatenating(
       HashFunction first, HashFunction second, HashFunction... rest) {
     // We can't use Lists.asList() here because there's no hash->collect dependency
@@ -676,6 +706,7 @@ public final class Hashing {
    *
    * @since 19.0
    */
+  @J2ktIncompatible
   public static HashFunction concatenating(Iterable<HashFunction> hashFunctions) {
     checkNotNull(hashFunctions);
     // We can't use Iterables.toArray() here because there's no hash->collect dependency
@@ -687,6 +718,7 @@ public final class Hashing {
     return new ConcatenatedHashFunction(list.toArray(new HashFunction[0]));
   }
 
+  @J2ktIncompatible
   private static final class ConcatenatedHashFunction extends AbstractCompositeHashFunction {
 
     private ConcatenatedHashFunction(HashFunction... functions) {

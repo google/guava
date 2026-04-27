@@ -133,7 +133,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
     Builder(GraphBuilder<N> graphBuilder) {
       // The incidentEdgeOrder for immutable graphs is always stable. However, we don't want to
       // modify this builder, so we make a copy instead.
-      this.mutableGraph = graphBuilder.copy().incidentEdgeOrder(ElementOrder.<N>stable()).build();
+      this.mutableGraph = graphBuilder.copy().incidentEdgeOrder(ElementOrder.stable()).build();
     }
 
     /**

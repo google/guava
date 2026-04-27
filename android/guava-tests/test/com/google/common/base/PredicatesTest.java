@@ -747,7 +747,7 @@ public class PredicatesTest extends TestCase {
   public void testIn_compilesWithExplicitSupertype() {
     Collection<Number> nums = ImmutableSet.of();
     Predicate<Number> p1 = Predicates.in(nums);
-    Predicate<Object> p2 = Predicates.<Object>in(nums);
+    Predicate<Object> p2 = Predicates.in(nums);
     // The next two lines are not expected to compile.
     // Predicate<Integer> p3 = Predicates.in(nums);
     // Predicate<Integer> p4 = Predicates.<Integer>in(nums);

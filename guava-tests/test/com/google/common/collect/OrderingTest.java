@@ -136,7 +136,7 @@ public class OrderingTest extends TestCase {
     assertTrue(caseInsensitiveOrdering.compare("B", "a") > 0);
 
     @SuppressWarnings({"deprecation", "InlineMeInliner"}) // test of a deprecated method
-    Ordering<String> orderingFromOrdering = Ordering.from(Ordering.<String>natural());
+    Ordering<String> orderingFromOrdering = Ordering.from(Ordering.natural());
     new EqualsTester()
         .addEqualityGroup(caseInsensitiveOrdering, Ordering.from(String.CASE_INSENSITIVE_ORDER))
         .addEqualityGroup(orderingFromOrdering, Ordering.natural())
@@ -144,7 +144,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testExplicit_none() {
-    Comparator<Integer> c = Ordering.explicit(Collections.<Integer>emptyList());
+    Comparator<Integer> c = Ordering.explicit(Collections.emptyList());
     IncomparableValueException expected =
         assertThrows(IncomparableValueException.class, () -> c.compare(0, 0));
     assertEquals(0, expected.value);
@@ -424,7 +424,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testNullsFirst() {
-    Ordering<@Nullable Integer> ordering = Ordering.<Integer>natural().<Integer>nullsFirst();
+    Ordering<@Nullable Integer> ordering = Ordering.<Integer>natural().nullsFirst();
     Helpers.<@Nullable Integer>testComparator(ordering, null, Integer.MIN_VALUE, 0, 1);
 
     new EqualsTester()
@@ -435,7 +435,7 @@ public class OrderingTest extends TestCase {
   }
 
   public void testNullsLast() {
-    Ordering<@Nullable Integer> ordering = Ordering.<Integer>natural().<Integer>nullsLast();
+    Ordering<@Nullable Integer> ordering = Ordering.<Integer>natural().nullsLast();
     Helpers.<@Nullable Integer>testComparator(ordering, 0, 1, Integer.MAX_VALUE, null);
 
     new EqualsTester()
@@ -499,28 +499,28 @@ public class OrderingTest extends TestCase {
   }
 
   public void testLeastOfIterable_empty_0() {
-    List<Integer> result = numberOrdering.leastOf(Arrays.<Integer>asList(), 0);
+    List<Integer> result = numberOrdering.leastOf(Arrays.asList(), 0);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
 
   public void testLeastOfIterator_empty_0() {
-    List<Integer> result = numberOrdering.leastOf(Iterators.<Integer>emptyIterator(), 0);
+    List<Integer> result = numberOrdering.leastOf(Iterators.emptyIterator(), 0);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
 
   public void testLeastOfIterable_empty_1() {
-    List<Integer> result = numberOrdering.leastOf(Arrays.<Integer>asList(), 1);
+    List<Integer> result = numberOrdering.leastOf(Arrays.asList(), 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
   }
 
   public void testLeastOfIterator_empty_1() {
-    List<Integer> result = numberOrdering.leastOf(Iterators.<Integer>emptyIterator(), 1);
+    List<Integer> result = numberOrdering.leastOf(Iterators.emptyIterator(), 1);
     assertTrue(result instanceof RandomAccess);
     assertListImmutable(result);
     assertEquals(ImmutableList.<Integer>of(), result);
@@ -852,7 +852,7 @@ public class OrderingTest extends TestCase {
   private static final int RECURSE_DEPTH = 2;
 
   public void testCombinationsExhaustively_startingFromNatural() {
-    testExhaustively(Ordering.<String>natural(), "a", "b", "d");
+    testExhaustively(Ordering.natural(), "a", "b", "d");
   }
 
   @GwtIncompatible // too slow
@@ -1055,10 +1055,7 @@ public class OrderingTest extends TestCase {
           composites.add(new Composite<T>(t, 2));
         }
         Ordering<Composite<T>> ordering =
-            scenario
-                .ordering
-                .onResultOf(Composite.<T>getValueFunction())
-                .compound(Ordering.natural());
+            scenario.ordering.onResultOf(Composite.getValueFunction()).compound(Ordering.natural());
         return new Scenario<Composite<T>>(
             ordering, composites, (Composite<T>[]) new Composite<?>[0]);
       }
@@ -1076,7 +1073,7 @@ public class OrderingTest extends TestCase {
         }
         Ordering<Composite<T>> ordering =
             Ordering.<Composite<T>>natural()
-                .compound(scenario.ordering.onResultOf(Composite.<T>getValueFunction()));
+                .compound(scenario.ordering.onResultOf(Composite.getValueFunction()));
         return new Scenario<Composite<T>>(
             ordering, composites, (Composite<T>[]) new Composite<?>[0]);
       }
@@ -1086,7 +1083,7 @@ public class OrderingTest extends TestCase {
       @Override
       <T extends @Nullable Object> Scenario<?> mutate(Scenario<T> scenario) {
         List<Iterable<T>> words = new ArrayList<>();
-        words.add(Collections.<T>emptyList());
+        words.add(Collections.emptyList());
         for (T t : scenario.strictlyOrderedList) {
           words.add(asList(t));
           for (T s : scenario.strictlyOrderedList) {

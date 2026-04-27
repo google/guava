@@ -286,7 +286,7 @@ public class TreeRangeMapTest extends TestCase {
   static {
     ImmutableList.Builder<Range<Integer>> builder = ImmutableList.builder();
 
-    builder.add(Range.<Integer>all());
+    builder.add(Range.all());
 
     // Add one-ended ranges
     for (int i = MIN_BOUND; i <= MAX_BOUND; i++) {

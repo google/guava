@@ -223,8 +223,7 @@ public class SynchronizedMultimapTest extends TestCase {
   }
 
   public void testSynchronizedListMultimap() {
-    ListMultimap<String, Integer> multimap =
-        synchronizedListMultimap(ArrayListMultimap.<String, Integer>create());
+    ListMultimap<String, Integer> multimap = synchronizedListMultimap(ArrayListMultimap.create());
     multimap.putAll("foo", asList(3, -1, 2, 4, 1));
     multimap.putAll("bar", asList(1, 2, 3, 1));
     assertThat(multimap.removeAll("foo")).containsExactly(3, -1, 2, 4, 1).inOrder();
@@ -235,7 +234,7 @@ public class SynchronizedMultimapTest extends TestCase {
 
   public void testSynchronizedSortedSetMultimap() {
     SortedSetMultimap<String, Integer> multimap =
-        synchronizedSortedSetMultimap(TreeMultimap.<String, Integer>create());
+        synchronizedSortedSetMultimap(TreeMultimap.create());
     multimap.putAll("foo", asList(3, -1, 2, 4, 1));
     multimap.putAll("bar", asList(1, 2, 3, 1));
     assertThat(multimap.removeAll("foo")).containsExactly(-1, 1, 2, 3, 4).inOrder();

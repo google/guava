@@ -470,7 +470,7 @@ public class BooleansTest extends TestCase {
 
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
-    List<Boolean> none = Arrays.<Boolean>asList();
+    List<Boolean> none = Arrays.asList();
     assertThat(Booleans.toArray(none)).isEqualTo(EMPTY);
 
     List<Boolean> one = asList(false);

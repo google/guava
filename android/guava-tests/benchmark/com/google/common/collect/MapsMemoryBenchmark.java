@@ -38,7 +38,7 @@ import org.jspecify.annotations.NullUnmarked;
 public class MapsMemoryBenchmark {
   static final Map<String, MapsImplEnum> mapEnums =
       uniqueIndex(
-          Iterables.<MapsImplEnum>concat(
+          Iterables.concat(
               asList(MapImpl.values()), asList(SortedMapImpl.values()), asList(BiMapImpl.values())),
           toStringFunction());
 

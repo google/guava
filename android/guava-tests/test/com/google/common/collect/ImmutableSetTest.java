@@ -271,7 +271,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
 
   public void testCreation_arrayOfArray() {
     String[] array = new String[] {"a"};
-    Set<String[]> set = ImmutableSet.<String[]>of(array);
+    Set<String[]> set = ImmutableSet.of(array);
     assertEquals(singleton(array), set);
   }
 

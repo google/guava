@@ -46,7 +46,7 @@ public class CompactHashSetTest extends TestCase {
   @AndroidIncompatible // test-suite builders
   public static Test suite() {
     List<Feature<?>> allFeatures =
-        Arrays.<Feature<?>>asList(
+        Arrays.asList(
             CollectionSize.ANY,
             CollectionFeature.ALLOWS_NULL_VALUES,
             CollectionFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,

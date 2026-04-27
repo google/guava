@@ -150,8 +150,7 @@ public class ImmutableMultimapTest extends TestCase {
   public void testUnhashableMixedValues() {
     SampleElements<UnhashableObject> unhashables = new Unhashables();
     Multimap<Integer, Object> multimap =
-        ImmutableMultimap.<Integer, Object>of(
-            0, unhashables.e0(), 2, "hey you", 0, unhashables.e1());
+        ImmutableMultimap.of(0, unhashables.e0(), 2, "hey you", 0, unhashables.e1());
     assertEquals(2, multimap.get(0).size());
     assertTrue(multimap.get(0).contains(unhashables.e0()));
     assertTrue(multimap.get(0).contains(unhashables.e1()));

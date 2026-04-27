@@ -87,9 +87,7 @@ public final class EndpointPairTest {
   @Test
   public void testAdjacentNode_nodeNotIncident() {
     ImmutableList<MutableNetwork<Integer, String>> testNetworks =
-        ImmutableList.of(
-            NetworkBuilder.directed().<Integer, String>build(),
-            NetworkBuilder.undirected().<Integer, String>build());
+        ImmutableList.of(NetworkBuilder.directed().build(), NetworkBuilder.undirected().build());
     for (MutableNetwork<Integer, String> network : testNetworks) {
       network.addEdge(1, 2, "1-2");
       EndpointPair<Integer> endpointPair = network.incidentNodes("1-2");

@@ -202,7 +202,7 @@ public class MutableTypeToInstanceMapTest extends TestCase {
   public void testPutInstance_withTypeVariable() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> map.putInstance(this.<Integer>anyIterableType(), ImmutableList.of(1)));
+        () -> map.putInstance(this.anyIterableType(), ImmutableList.of(1)));
   }
 
   private <T> TypeToken<Iterable<T>> anyIterableType() {

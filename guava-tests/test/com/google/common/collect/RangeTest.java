@@ -278,10 +278,10 @@ public class RangeTest extends TestCase {
     // path, so we test that separately
     assertTrue(range.containsAll(ImmutableSortedSet.of(3, 3, 4, 5)));
     assertTrue(range.containsAll(ImmutableSortedSet.of(3)));
-    assertTrue(range.containsAll(ImmutableSortedSet.<Integer>of()));
+    assertTrue(range.containsAll(ImmutableSortedSet.of()));
     assertFalse(range.containsAll(ImmutableSortedSet.of(3, 3, 4, 5, 6)));
 
-    assertTrue(Range.openClosed(3, 3).containsAll(Collections.<Integer>emptySet()));
+    assertTrue(Range.openClosed(3, 3).containsAll(Collections.emptySet()));
   }
 
   public void testEncloses_open() {
@@ -299,7 +299,7 @@ public class RangeTest extends TestCase {
     assertFalse(range.encloses(Range.lessThan(3)));
     assertFalse(range.encloses(Range.atLeast(3)));
     assertFalse(range.encloses(Range.atMost(3)));
-    assertFalse(range.encloses(Range.<Integer>all()));
+    assertFalse(range.encloses(Range.all()));
   }
 
   public void testEncloses_closed() {
@@ -316,7 +316,7 @@ public class RangeTest extends TestCase {
     assertFalse(range.encloses(Range.lessThan(3)));
     assertFalse(range.encloses(Range.atLeast(3)));
     assertFalse(range.encloses(Range.atMost(3)));
-    assertFalse(range.encloses(Range.<Integer>all()));
+    assertFalse(range.encloses(Range.all()));
   }
 
   public void testIntersection_empty() {
@@ -507,7 +507,7 @@ public class RangeTest extends TestCase {
 
     // enclosing, exterior
     assertEquals(Range.closed(2, 10), range.span(Range.closed(2, 10)));
-    assertEquals(Range.<Integer>all(), range.span(Range.<Integer>all()));
+    assertEquals(Range.<Integer>all(), range.span(Range.all()));
 
     // overlap above
     assertEquals(Range.closed(4, 10), range.span(Range.closed(6, 10)));

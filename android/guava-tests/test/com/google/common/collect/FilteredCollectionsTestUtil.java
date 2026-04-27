@@ -60,7 +60,7 @@ public final class FilteredCollectionsTestUtil {
 
   private static final ImmutableList<? extends List<Integer>> SAMPLE_INPUTS =
       ImmutableList.of(
-          ImmutableList.<Integer>of(),
+          ImmutableList.of(),
           ImmutableList.of(1),
           ImmutableList.of(2),
           ImmutableList.of(2, 3),

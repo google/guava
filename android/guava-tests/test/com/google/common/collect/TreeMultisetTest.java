@@ -291,7 +291,7 @@ public class TreeMultisetTest extends TestCase {
   }
 
   public void testNullAcceptingComparator() throws Exception {
-    Comparator<@Nullable String> comparator = Ordering.<String>natural().<String>nullsFirst();
+    Comparator<@Nullable String> comparator = Ordering.<String>natural().nullsFirst();
     TreeMultiset<@Nullable String> ms = TreeMultiset.create(comparator);
 
     ms.add("b");

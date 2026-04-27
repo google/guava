@@ -182,7 +182,7 @@ public class BytesTest extends TestCase {
 
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
-    List<Byte> none = Arrays.<Byte>asList();
+    List<Byte> none = Arrays.asList();
     assertThat(Bytes.toArray(none)).isEqualTo(EMPTY);
 
     List<Byte> one = asList((byte) 1);

@@ -602,7 +602,7 @@ public class CharsTest extends TestCase {
 
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
-    List<Character> none = Arrays.<Character>asList();
+    List<Character> none = Arrays.asList();
     assertThat(Chars.toArray(none)).isEqualTo(EMPTY);
 
     List<Character> one = Arrays.asList((char) 1);

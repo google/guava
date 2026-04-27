@@ -133,7 +133,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> and(
       Predicate<? super T> first, Predicate<? super T> second) {
-    return new AndPredicate<>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
+    return new AndPredicate<>(Predicates.asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
@@ -173,7 +173,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> or(
       Predicate<? super T> first, Predicate<? super T> second) {
-    return new OrPredicate<>(Predicates.<T>asList(checkNotNull(first), checkNotNull(second)));
+    return new OrPredicate<>(Predicates.asList(checkNotNull(first), checkNotNull(second)));
   }
 
   /**
@@ -186,7 +186,7 @@ public final class Predicates {
    */
   public static <T extends @Nullable Object> Predicate<T> equalTo(@ParametricNullness T target) {
     return (target == null)
-        ? Predicates.<T>isNull()
+        ? Predicates.isNull()
         : new IsEqualToPredicate(target).withNarrowedType();
   }
 
@@ -792,7 +792,7 @@ public final class Predicates {
   private static <T extends @Nullable Object> List<Predicate<? super T>> asList(
       Predicate<? super T> first, Predicate<? super T> second) {
     // TODO(kevinb): understand why we still get a warning despite @SafeVarargs!
-    return Arrays.<Predicate<? super T>>asList(first, second);
+    return Arrays.asList(first, second);
   }
 
   private static <T> List<T> defensiveCopy(T... array) {

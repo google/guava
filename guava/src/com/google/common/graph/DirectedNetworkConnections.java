@@ -40,7 +40,7 @@ final class DirectedNetworkConnections<N, E> extends AbstractDirectedNetworkConn
 
   static <N, E> DirectedNetworkConnections<N, E> of() {
     return new DirectedNetworkConnections<>(
-        HashBiMap.<E, N>create(EXPECTED_DEGREE), HashBiMap.<E, N>create(EXPECTED_DEGREE), 0);
+        HashBiMap.create(EXPECTED_DEGREE), HashBiMap.create(EXPECTED_DEGREE), 0);
   }
 
   static <N, E> DirectedNetworkConnections<N, E> ofImmutable(

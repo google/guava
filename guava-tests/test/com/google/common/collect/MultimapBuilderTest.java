@@ -54,15 +54,11 @@ public class MultimapBuilderTest extends TestCase {
   }
 
   public void testGenerics_gwtCompatible() {
-    ListMultimap<String, Integer> unusedA =
-        MultimapBuilder.hashKeys().arrayListValues().<String, Integer>build();
+    ListMultimap<String, Integer> unusedA = MultimapBuilder.hashKeys().arrayListValues().build();
     SortedSetMultimap<String, Integer> unusedB =
-        rawtypeToWildcard(MultimapBuilder.linkedHashKeys().treeSetValues())
-            .<String, Integer>build();
+        rawtypeToWildcard(MultimapBuilder.linkedHashKeys().treeSetValues()).build();
     SetMultimap<String, Integer> unusedC =
-        MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER)
-            .hashSetValues()
-            .<String, Integer>build();
+        MultimapBuilder.treeKeys(String.CASE_INSENSITIVE_ORDER).hashSetValues().build();
   }
 
   @J2ktIncompatible
@@ -75,7 +71,7 @@ public class MultimapBuilderTest extends TestCase {
 
   public void testTreeKeys_gwtCompatible() {
     ListMultimap<String, Integer> multimap =
-        rawtypeToWildcard(MultimapBuilder.treeKeys()).arrayListValues().<String, Integer>build();
+        rawtypeToWildcard(MultimapBuilder.treeKeys()).arrayListValues().build();
     assertTrue(multimap.keySet() instanceof SortedSet);
     assertTrue(multimap.asMap() instanceof SortedMap);
   }

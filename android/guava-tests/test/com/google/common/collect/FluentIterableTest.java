@@ -314,11 +314,11 @@ public class FluentIterableTest extends TestCase {
 
   public void testAppend() {
     FluentIterable<Integer> result =
-        FluentIterable.<Integer>from(asList(1, 2, 3)).append(newArrayList(4, 5, 6));
+        FluentIterable.from(asList(1, 2, 3)).append(newArrayList(4, 5, 6));
     assertEquals(asList(1, 2, 3, 4, 5, 6), newArrayList(result));
     assertThat(result.toString()).isEqualTo("[1, 2, 3, 4, 5, 6]");
 
-    result = FluentIterable.<Integer>from(asList(1, 2, 3)).append(4, 5, 6);
+    result = FluentIterable.from(asList(1, 2, 3)).append(4, 5, 6);
     assertEquals(asList(1, 2, 3, 4, 5, 6), newArrayList(result));
     assertThat(result.toString()).isEqualTo("[1, 2, 3, 4, 5, 6]");
   }
@@ -330,7 +330,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testAppend_emptyList() {
     FluentIterable<Integer> result =
-        FluentIterable.<Integer>from(asList(1, 2, 3)).append(new ArrayList<Integer>());
+        FluentIterable.from(asList(1, 2, 3)).append(new ArrayList<Integer>());
     assertEquals(asList(1, 2, 3), newArrayList(result));
   }
 
@@ -339,7 +339,7 @@ public class FluentIterableTest extends TestCase {
         NullPointerException.class,
         () -> {
           FluentIterable<Integer> unused =
-              FluentIterable.<Integer>from(asList(1, 2)).append((List<Integer>) null);
+              FluentIterable.from(asList(1, 2)).append((List<Integer>) null);
         });
   }
 
@@ -379,7 +379,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testAnyMatch() {
     ArrayList<String> list = new ArrayList<>();
-    FluentIterable<String> iterable = FluentIterable.<String>from(list);
+    FluentIterable<String> iterable = FluentIterable.from(list);
     Predicate<String> predicate = equalTo("pants");
 
     assertFalse(iterable.anyMatch(predicate));
@@ -391,7 +391,7 @@ public class FluentIterableTest extends TestCase {
 
   public void testAllMatch() {
     List<String> list = new ArrayList<>();
-    FluentIterable<String> iterable = FluentIterable.<String>from(list);
+    FluentIterable<String> iterable = FluentIterable.from(list);
     Predicate<String> predicate = equalTo("cool");
 
     assertTrue(iterable.allMatch(predicate));
@@ -671,8 +671,8 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testIsEmpty() {
-    assertTrue(FluentIterable.<String>from(Collections.<String>emptyList()).isEmpty());
-    assertFalse(FluentIterable.<String>from(newArrayList("foo")).isEmpty());
+    assertTrue(FluentIterable.from(Collections.emptyList()).isEmpty());
+    assertFalse(FluentIterable.from(newArrayList("foo")).isEmpty());
   }
 
   public void testToList() {

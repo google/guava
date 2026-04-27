@@ -210,7 +210,7 @@ public class ImmutableBiMapTest extends TestCase {
 
   public void testBuilderPutAllWithEmptyMap() {
     ImmutableBiMap<String, Integer> map =
-        new Builder<String, Integer>().putAll(Collections.<String, Integer>emptyMap()).build();
+        new Builder<String, Integer>().putAll(Collections.emptyMap()).build();
     assertEquals(Collections.<String, Integer>emptyMap(), map);
   }
 
@@ -253,15 +253,13 @@ public class ImmutableBiMapTest extends TestCase {
   public void testBuilderPutNullKeyViaPutAll() {
     Builder<String, Integer> builder = new Builder<>();
     assertThrows(
-        NullPointerException.class,
-        () -> builder.putAll(Collections.<String, Integer>singletonMap(null, 1)));
+        NullPointerException.class, () -> builder.putAll(Collections.singletonMap(null, 1)));
   }
 
   public void testBuilderPutNullValueViaPutAll() {
     Builder<String, Integer> builder = new Builder<>();
     assertThrows(
-        NullPointerException.class,
-        () -> builder.putAll(Collections.<String, Integer>singletonMap("one", null)));
+        NullPointerException.class, () -> builder.putAll(Collections.singletonMap("one", null)));
   }
 
   @SuppressWarnings("AlwaysThrows")
@@ -507,8 +505,7 @@ public class ImmutableBiMapTest extends TestCase {
   }
 
   public void testCopyOfEmptyMap() {
-    ImmutableBiMap<String, Integer> copy =
-        ImmutableBiMap.copyOf(Collections.<String, Integer>emptyMap());
+    ImmutableBiMap<String, Integer> copy = ImmutableBiMap.copyOf(Collections.emptyMap());
     assertEquals(Collections.<String, Integer>emptyMap(), copy);
     assertThat(ImmutableBiMap.copyOf(copy)).isSameInstanceAs(copy);
     assertThat(copy).isSameInstanceAs(ImmutableBiMap.of());

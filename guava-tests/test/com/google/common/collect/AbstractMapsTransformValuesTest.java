@@ -89,7 +89,7 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
 
   public void testTransformIdentityFunctionEquality() {
     Map<String, Integer> underlying = ImmutableMap.of("a", 1);
-    Map<String, Integer> map = transformValues(underlying, Functions.<Integer>identity());
+    Map<String, Integer> map = transformValues(underlying, Functions.identity());
     assertMapsEqual(underlying, map);
   }
 
@@ -199,13 +199,13 @@ abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, 
 
   public void testTransformEquals() {
     Map<String, Integer> underlying = ImmutableMap.of("a", 0, "b", 1, "c", 2);
-    Map<String, Integer> expected = transformValues(underlying, Functions.<Integer>identity());
+    Map<String, Integer> expected = transformValues(underlying, Functions.identity());
 
     assertMapsEqual(expected, expected);
 
     Map<String, Integer> equalToUnderlying = newTreeMap();
     equalToUnderlying.putAll(underlying);
-    Map<String, Integer> map = transformValues(equalToUnderlying, Functions.<Integer>identity());
+    Map<String, Integer> map = transformValues(equalToUnderlying, Functions.identity());
     assertMapsEqual(expected, map);
 
     map =

@@ -567,8 +567,7 @@ public class ImmutableSortedMultisetTest extends TestCase {
     // synchronized collections can be safely copied.
     SortedMultiset<String> toCopy = mock(SortedMultiset.class);
     TestHashSet<Entry<String>> entrySet = new TestHashSet<>();
-    when((Comparator<Comparable<String>>) toCopy.comparator())
-        .thenReturn(Ordering.<Comparable<String>>natural());
+    when((Comparator<Comparable<String>>) toCopy.comparator()).thenReturn(Ordering.natural());
     when(toCopy.entrySet()).thenReturn(entrySet);
     ImmutableSortedMultiset<String> unused = ImmutableSortedMultiset.copyOfSorted(toCopy);
     assertTrue(entrySet.toArrayCalled);

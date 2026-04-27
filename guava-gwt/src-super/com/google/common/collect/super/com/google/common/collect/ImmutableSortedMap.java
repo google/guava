@@ -422,7 +422,7 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
     // we make a copy here, instead of creating a view of it.
     //
     // TODO: revisit if it's unbearably slow or when GWT supports
-    // TreeMap.navigatbleKeySet().
+    // TreeMap.navigableKeySet().
     return ImmutableSortedSet.copyOf(comparator, sortedDelegate.keySet());
   }
 

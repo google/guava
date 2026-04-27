@@ -106,8 +106,7 @@ public final class MediaType {
   private static final Map<MediaType, MediaType> knownTypes = new HashMap<>();
 
   private static MediaType createConstant(String type, String subtype) {
-    MediaType mediaType =
-        addKnownType(new MediaType(type, subtype, ImmutableListMultimap.<String, String>of()));
+    MediaType mediaType = addKnownType(new MediaType(type, subtype, ImmutableListMultimap.of()));
     mediaType.parsedCharset = Optional.absent();
     return mediaType;
   }
@@ -1009,7 +1008,7 @@ public final class MediaType {
    *     type, but not the subtype.
    */
   public static MediaType create(String type, String subtype) {
-    MediaType mediaType = create(type, subtype, ImmutableListMultimap.<String, String>of());
+    MediaType mediaType = create(type, subtype, ImmutableListMultimap.of());
     mediaType.parsedCharset = Optional.absent();
     return mediaType;
   }

@@ -45,7 +45,7 @@ public class RegularImmutableTableTest extends AbstractImmutableTableTest {
 
   @Override
   Iterable<ImmutableTable<Character, Integer, String>> getTestInstances() {
-    return ImmutableList.<ImmutableTable<Character, Integer, String>>of(SPARSE, DENSE);
+    return ImmutableList.of(SPARSE, DENSE);
   }
 
   public void testCellSet() {

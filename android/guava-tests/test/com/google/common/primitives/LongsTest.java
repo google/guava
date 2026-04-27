@@ -486,7 +486,7 @@ public class LongsTest extends TestCase {
 
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
-    List<Long> none = Arrays.<Long>asList();
+    List<Long> none = Arrays.asList();
     assertThat(Longs.toArray(none)).isEqualTo(EMPTY);
 
     List<Long> one = asList(1L);

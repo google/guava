@@ -117,7 +117,7 @@ public abstract class Optional<T> implements Serializable {
    * {@code Optional.ofNullable}.
    */
   public static <T> Optional<T> fromNullable(@Nullable T nullableReference) {
-    return (nullableReference == null) ? Optional.<T>absent() : new Present<T>(nullableReference);
+    return (nullableReference == null) ? Optional.absent() : new Present<>(nullableReference);
   }
 
   /**

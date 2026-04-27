@@ -499,7 +499,7 @@ public class TableCollectionTest extends TestCase {
                           (Cell<String, Integer, Character>) element;
                       table.put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
                     }
-                    return transformValues(table, Functions.<Character>identity()).cellSet();
+                    return transformValues(table, Functions.identity()).cellSet();
                   }
                 })
             .named("TransformValues.cellSet")
@@ -514,7 +514,7 @@ public class TableCollectionTest extends TestCase {
                 new TestCellSetGenerator() {
                   @Override
                   Table<String, Integer, Character> createTable() {
-                    return unmodifiableTable(HashBasedTable.<String, Integer, Character>create());
+                    return unmodifiableTable(HashBasedTable.create());
                   }
 
                   @Override
@@ -538,8 +538,7 @@ public class TableCollectionTest extends TestCase {
                 new TestCellSetGenerator() {
                   @Override
                   RowSortedTable<String, Integer, Character> createTable() {
-                    return unmodifiableRowSortedTable(
-                        TreeBasedTable.<String, Integer, Character>create());
+                    return unmodifiableRowSortedTable(TreeBasedTable.create());
                   }
 
                   @Override

@@ -521,7 +521,7 @@ public class ShortsTest extends TestCase {
 
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
-    List<Short> none = Arrays.<Short>asList();
+    List<Short> none = Arrays.asList();
     assertThat(Shorts.toArray(none)).isEqualTo(EMPTY);
 
     List<Short> one = asList((short) 1);

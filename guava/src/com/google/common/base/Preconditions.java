@@ -18,6 +18,7 @@ import static com.google.common.base.Strings.lenientFormat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -90,9 +91,9 @@ import org.jspecify.annotations.Nullable;
  * <h3>{@code java.util.Objects.requireNonNull()}</h3>
  *
  * <p>Projects which use {@code com.google.common} should generally avoid the use of {@link
- * java.util.Objects#requireNonNull(Object)}. Instead, use whichever of {@link
- * #checkNotNull(Object)} or {@link Verify#verifyNotNull(Object)} is appropriate to the situation.
- * (The same goes for the message-accepting overloads.)
+ * Objects#requireNonNull(Object)}. Instead, use whichever of {@link #checkNotNull(Object)} or
+ * {@link Verify#verifyNotNull(Object)} is appropriate to the situation. (The same goes for the
+ * message-accepting overloads.)
  *
  * <h3>Only {@code %s} is supported</h3>
  *
@@ -1462,9 +1463,9 @@ public final class Preconditions {
    * Ensures that {@code index} specifies a valid <i>position</i> in an array, list or string of
    * size {@code size}. A position index may range from zero to {@code size}, inclusive.
    *
-   * <p><b>Java 9 users:</b> consider using {@link java.util.Objects#checkIndex(index, size)}
-   * instead. However, note that {@code checkIndex()} throws {@code IndexOutOfBoundsException} when
-   * {@code size} is negative, while this method throws {@code IllegalArgumentException}.
+   * <p><b>Java 9 users:</b> consider using {@link Objects#checkIndex} instead. However, note that
+   * {@code checkIndex()} throws {@code IndexOutOfBoundsException} when {@code size} is negative,
+   * while this method throws {@code IllegalArgumentException}.
    *
    * @param index a user-supplied index identifying a position in an array, list or string
    * @param size the size of that array, list or string

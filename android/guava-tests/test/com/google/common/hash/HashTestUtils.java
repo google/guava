@@ -20,12 +20,7 @@ import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
 import static com.google.common.truth.Truth.assertThat;
 import static java.lang.Math.log;
 import static java.lang.System.arraycopy;
-import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.US_ASCII;
-import static java.nio.charset.StandardCharsets.UTF_16;
-import static java.nio.charset.StandardCharsets.UTF_16BE;
-import static java.nio.charset.StandardCharsets.UTF_16LE;
-import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -636,10 +631,6 @@ final class HashTestUtils {
     assertEquals(hashFunction.hashLong(l), hashFunction.newHasher().putLong(l).hash());
   }
 
-  // TODO: b/484953702 - Put a list in TestPlatform so that J2KT can omit some of these.
-  private static final ImmutableSet<Charset> CHARSETS =
-      ImmutableSet.of(ISO_8859_1, US_ASCII, UTF_16, UTF_16BE, UTF_16LE, UTF_8);
-
   private static void assertHashStringEquivalence(HashFunction hashFunction, Random random) {
     // Test that only data and data-order is important, not the individual operations.
     new EqualsTester()
@@ -666,7 +657,7 @@ final class HashTestUtils {
     assertEquals(
         hashFunction.hashUnencodedChars(string),
         hashFunction.newHasher().putUnencodedChars(string).hash());
-    for (Charset charset : CHARSETS) {
+    for (Charset charset : TestPlatform.getCharsets()) {
       assertEquals(
           hashFunction.hashString(string, charset),
           hashFunction.newHasher().putString(string, charset).hash());

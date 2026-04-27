@@ -33,7 +33,7 @@ public class FeatureSpecificTestSuiteBuilderTest extends TestCase {
     @SuppressWarnings("rawtypes") // class literals
     @Override
     protected List<Class<? extends AbstractTester>> getTesters() {
-      return Collections.<Class<? extends AbstractTester>>singletonList(MyTester.class);
+      return Collections.singletonList(MyTester.class);
     }
   }
 

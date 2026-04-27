@@ -748,7 +748,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testGet_emptyList() {
-    testGetOnEmpty(Collections.<String>emptyList());
+    testGetOnEmpty(Collections.emptyList());
   }
 
   public void testGet_sortedSet() {
@@ -756,7 +756,7 @@ public class IterablesTest extends TestCase {
   }
 
   public void testGet_emptySortedSet() {
-    testGetOnEmpty(ImmutableSortedSet.<String>of());
+    testGetOnEmpty(ImmutableSortedSet.of());
   }
 
   public void testGet_iterable() {
@@ -1300,7 +1300,7 @@ public class IterablesTest extends TestCase {
     Iterable<Iterable<Integer>> iterables = ImmutableList.of(iterable0);
 
     // Test & Verify
-    verifyMergeSorted(iterables, ImmutableList.<Integer>of());
+    verifyMergeSorted(iterables, ImmutableList.of());
   }
 
   public void testMergeSorted_single() {

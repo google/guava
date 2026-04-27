@@ -100,8 +100,7 @@ public class InternersTest extends TestCase {
     String canonical = "a";
     String not = new String("a");
 
-    Function<String, String> internerFunction =
-        Interners.asFunction(Interners.<String>newStrongInterner());
+    Function<String, String> internerFunction = Interners.asFunction(Interners.newStrongInterner());
 
     assertThat(internerFunction.apply(canonical)).isSameInstanceAs(canonical);
     assertThat(internerFunction.apply(not)).isSameInstanceAs(canonical);

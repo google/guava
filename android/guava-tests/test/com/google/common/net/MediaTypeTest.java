@@ -283,7 +283,7 @@ public class MediaTypeTest extends TestCase {
   public void testWithParametersIterable() {
     assertEquals(
         MediaType.parse("text/plain"),
-        MediaType.parse("text/plain; a=1; a=2").withParameters("a", ImmutableSet.<String>of()));
+        MediaType.parse("text/plain; a=1; a=2").withParameters("a", ImmutableSet.of()));
     assertEquals(
         MediaType.parse("text/plain; a=1"),
         MediaType.parse("text/plain").withParameters("a", ImmutableSet.of("1")));

@@ -52,7 +52,7 @@ public class JoinerTest extends TestCase {
   private static final Joiner J = Joiner.on("-");
 
   // <Integer> needed to prevent warning :(
-  private static final Iterable<Integer> iterable = Arrays.<Integer>asList();
+  private static final Iterable<Integer> iterable = Arrays.asList();
   private static final Iterable<Integer> iterable1 = asList(1);
   private static final Iterable<Integer> iterable12 = asList(1, 2);
   private static final Iterable<Integer> iterable123 = asList(1, 2, 3);

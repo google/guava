@@ -495,7 +495,7 @@ public class FloatsTest extends TestCase {
 
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
-    List<Float> none = Arrays.<Float>asList();
+    List<Float> none = Arrays.asList();
     assertThat(Floats.toArray(none)).isEqualTo(EMPTY);
 
     List<Float> one = asList(1.0f);

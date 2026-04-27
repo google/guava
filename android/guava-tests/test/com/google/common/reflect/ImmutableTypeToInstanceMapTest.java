@@ -125,8 +125,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
 
   public void testGetInstance_containsTypeVariable() {
     ImmutableTypeToInstanceMap<Iterable<Number>> map = ImmutableTypeToInstanceMap.of();
-    assertThrows(
-        IllegalArgumentException.class, () -> map.getInstance(this.<Number>anyIterableType()));
+    assertThrows(IllegalArgumentException.class, () -> map.getInstance(this.anyIterableType()));
   }
 
   public void testPut_containsTypeVariable() {
@@ -134,7 +133,7 @@ public class ImmutableTypeToInstanceMapTest extends TestCase {
         ImmutableTypeToInstanceMap.builder();
     assertThrows(
         IllegalArgumentException.class,
-        () -> builder.put(this.<Integer>anyIterableType(), ImmutableList.of(1)));
+        () -> builder.put(this.anyIterableType(), ImmutableList.of(1)));
   }
 
   private <T> TypeToken<Iterable<T>> anyIterableType() {

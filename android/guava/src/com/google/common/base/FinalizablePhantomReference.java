@@ -23,7 +23,8 @@ import org.jspecify.annotations.Nullable;
 /**
  * Phantom reference with a {@code finalizeReferent()} method which a background thread invokes
  * after the garbage collector reclaims the referent. This is a simpler alternative to using a
- * {@link ReferenceQueue}.
+ * {@link ReferenceQueue}. Java 9+ users should prefer {@link java.lang.ref.Cleaner Cleaner}, as
+ * discussed in {@link FinalizableReferenceQueue}.
  *
  * <p>Unlike a normal phantom reference, this reference will be cleared automatically.
  *

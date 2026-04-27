@@ -34,7 +34,7 @@ import junit.framework.TestCase;
 public class MinimalIterableTest extends TestCase {
 
   public void testOf_empty() {
-    Iterable<String> iterable = MinimalIterable.<String>of();
+    Iterable<String> iterable = MinimalIterable.of();
     Iterator<String> iterator = iterable.iterator();
     assertFalse(iterator.hasNext());
     assertThrows(NoSuchElementException.class, iterator::next);
@@ -52,7 +52,7 @@ public class MinimalIterableTest extends TestCase {
   }
 
   public void testFrom_empty() {
-    Iterable<String> iterable = MinimalIterable.from(Collections.<String>emptySet());
+    Iterable<String> iterable = MinimalIterable.from(Collections.emptySet());
     Iterator<String> iterator = iterable.iterator();
     assertFalse(iterator.hasNext());
     assertThrows(NoSuchElementException.class, iterator::next);

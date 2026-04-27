@@ -329,20 +329,19 @@ public class Collections2Test extends TestCase {
   }
 
   public void testPermutationSetEmpty() {
-    Collection<List<Integer>> permutationSet =
-        Collections2.permutations(Collections.<Integer>emptyList());
+    Collection<List<Integer>> permutationSet = Collections2.permutations(Collections.emptyList());
 
     assertEquals(1, permutationSet.size());
     assertTrue(permutationSet.contains(Collections.<Integer>emptyList()));
 
     Iterator<List<Integer>> permutations = permutationSet.iterator();
-    assertNextPermutation(Collections.<Integer>emptyList(), permutations);
+    assertNextPermutation(Collections.emptyList(), permutations);
     assertNoMorePermutations(permutations);
   }
 
   public void testPermutationSetOneElement() {
     Iterator<List<Integer>> permutations =
-        Collections2.permutations(Collections.<Integer>singletonList(1)).iterator();
+        Collections2.permutations(Collections.singletonList(1)).iterator();
     assertNextPermutation(newArrayList(1), permutations);
     assertNoMorePermutations(permutations);
   }

@@ -204,9 +204,7 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testBuilderPutAllWithEmptyMap() {
     ImmutableSortedMap<String, Integer> map =
-        ImmutableSortedMap.<String, Integer>naturalOrder()
-            .putAll(Collections.<String, Integer>emptyMap())
-            .build();
+        ImmutableSortedMap.<String, Integer>naturalOrder().putAll(Collections.emptyMap()).build();
     assertEquals(Collections.<String, Integer>emptyMap(), map);
   }
 
@@ -246,15 +244,13 @@ public class ImmutableSortedMapTest extends TestCase {
   public void testBuilderPutNullKeyViaPutAll() {
     Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
     assertThrows(
-        NullPointerException.class,
-        () -> builder.putAll(Collections.<String, Integer>singletonMap(null, 1)));
+        NullPointerException.class, () -> builder.putAll(Collections.singletonMap(null, 1)));
   }
 
   public void testBuilderPutNullValueViaPutAll() {
     Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
     assertThrows(
-        NullPointerException.class,
-        () -> builder.putAll(Collections.<String, Integer>singletonMap("one", null)));
+        NullPointerException.class, () -> builder.putAll(Collections.singletonMap("one", null)));
   }
 
   public void testPuttingTheSameKeyTwiceThrowsOnBuild() {
@@ -444,8 +440,7 @@ public class ImmutableSortedMapTest extends TestCase {
   }
 
   public void testCopyOfEmptyMap() {
-    ImmutableSortedMap<String, Integer> copy =
-        ImmutableSortedMap.copyOf(Collections.<String, Integer>emptyMap());
+    ImmutableSortedMap<String, Integer> copy = ImmutableSortedMap.copyOf(Collections.emptyMap());
     assertEquals(Collections.<String, Integer>emptyMap(), copy);
     assertThat(ImmutableSortedMap.copyOf(copy)).isSameInstanceAs(copy);
     assertThat(copy.comparator()).isEqualTo(Ordering.natural());

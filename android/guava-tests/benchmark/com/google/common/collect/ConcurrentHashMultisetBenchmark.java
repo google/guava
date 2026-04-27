@@ -155,7 +155,7 @@ public class ConcurrentHashMultisetBenchmark {
     SYNCHRONIZED_MULTISET() {
       @Override
       Multiset<Integer> get() {
-        return Synchronized.multiset(HashMultiset.<Integer>create(), null);
+        return Synchronized.multiset(HashMultiset.create(), null);
       }
     },
     ;

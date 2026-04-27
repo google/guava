@@ -509,7 +509,7 @@ public class DoublesTest extends TestCase {
 
   public void testToArray() {
     // need explicit type parameter to avoid javac warning!?
-    List<Double> none = Arrays.<Double>asList();
+    List<Double> none = Arrays.asList();
     assertThat(Doubles.toArray(none)).isEqualTo(EMPTY);
 
     List<Double> one = asList(1.0);

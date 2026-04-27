@@ -230,7 +230,7 @@ public class MultimapsCollectionTest extends TestCase {
                   @Override
                   protected ListMultimap<String, String> create(Entry<String, String>[] entries) {
                     ListMultimap<String, String> multimap =
-                        synchronizedListMultimap(ArrayListMultimap.<String, String>create());
+                        synchronizedListMultimap(ArrayListMultimap.create());
                     for (Entry<String, String> entry : entries) {
                       multimap.put(entry.getKey(), entry.getValue());
                     }

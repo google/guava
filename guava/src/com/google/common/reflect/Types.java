@@ -535,7 +535,7 @@ final class Types {
   }
 
   private static Iterable<Type> filterUpperBounds(Iterable<Type> bounds) {
-    return filter(bounds, not(Predicates.<Type>equalTo(Object.class)));
+    return filter(bounds, not(Predicates.equalTo(Object.class)));
   }
 
   private static void disallowPrimitiveType(Type[] types, String usedAs) {

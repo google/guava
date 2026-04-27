@@ -151,8 +151,8 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     assertThat(rangeSet.asRanges()).contains(Range.<Integer>all());
     assertTrue(rangeSet.contains(0));
     assertTrue(rangeSet.intersects(Range.singleton(0)));
-    assertTrue(rangeSet.intersects(Range.<Integer>all()));
-    assertTrue(rangeSet.encloses(Range.<Integer>all()));
+    assertTrue(rangeSet.intersects(Range.all()));
+    assertTrue(rangeSet.encloses(Range.all()));
     assertTrue(rangeSet.enclosesAll(rangeSet));
     assertEquals(ImmutableRangeSet.<Integer>of(), rangeSet.complement());
   }
@@ -339,8 +339,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .build();
 
     assertThrows(
-        UnsupportedOperationException.class,
-        () -> rangeSet.addAll(ImmutableRangeSet.<Integer>of()));
+        UnsupportedOperationException.class, () -> rangeSet.addAll(ImmutableRangeSet.of()));
   }
 
   @SuppressWarnings("DoNotCall")
@@ -363,8 +362,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
             .build();
 
     assertThrows(
-        UnsupportedOperationException.class,
-        () -> rangeSet.removeAll(ImmutableRangeSet.<Integer>of()));
+        UnsupportedOperationException.class, () -> rangeSet.removeAll(ImmutableRangeSet.of()));
 
     assertThrows(
         UnsupportedOperationException.class,
@@ -375,8 +373,8 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
   public void testExhaustive() {
     ImmutableSet<Range<Integer>> ranges =
         ImmutableSet.of(
-            Range.<Integer>all(),
-            Range.<Integer>closedOpen(3, 5),
+            Range.all(),
+            Range.closedOpen(3, 5),
             Range.singleton(1),
             Range.lessThan(2),
             Range.greaterThan(10),
@@ -531,7 +529,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
 
   public void testSubRangeSet() {
     ImmutableList.Builder<Range<Integer>> rangesBuilder = ImmutableList.builder();
-    rangesBuilder.add(Range.<Integer>all());
+    rangesBuilder.add(Range.all());
     for (int i = -2; i <= 2; i++) {
       for (BoundType boundType : BoundType.values()) {
         rangesBuilder.add(Range.upTo(i, boundType));

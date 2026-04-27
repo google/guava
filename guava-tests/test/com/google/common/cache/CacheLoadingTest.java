@@ -336,9 +336,7 @@ public class CacheLoadingTest extends TestCase {
 
   public void testBulkLoad_default() throws ExecutionException {
     LoadingCache<Integer, Integer> cache =
-        CacheBuilder.newBuilder()
-            .recordStats()
-            .build(TestingCacheLoaders.<Integer>identityLoader());
+        CacheBuilder.newBuilder().recordStats().build(TestingCacheLoaders.identityLoader());
     CacheStats stats = cache.stats();
     assertThat(stats.missCount()).isEqualTo(0);
     assertThat(stats.loadSuccessCount()).isEqualTo(0);
@@ -391,7 +389,7 @@ public class CacheLoadingTest extends TestCase {
     assertThat(stats.loadExceptionCount()).isEqualTo(0);
     assertThat(stats.hitCount()).isEqualTo(0);
 
-    assertThat(cache.getAll(ImmutableList.<Integer>of())).containsExactly();
+    assertThat(cache.getAll(ImmutableList.of())).containsExactly();
     assertThat(stats.missCount()).isEqualTo(0);
     assertThat(stats.loadSuccessCount()).isEqualTo(0);
     assertThat(stats.loadExceptionCount()).isEqualTo(0);

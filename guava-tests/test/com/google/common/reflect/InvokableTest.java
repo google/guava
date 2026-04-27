@@ -53,12 +53,12 @@ public class InvokableTest extends TestCase {
   // `boolean canAccess(Object)` and `boolean trySetAccessible()`.
   public void testApiCompatibleWithAccessibleObject() {
     ImmutableSet<String> invokableMethods =
-        publicMethodSignatures(Invokable.class, ImmutableSet.<String>of());
+        publicMethodSignatures(Invokable.class, ImmutableSet.of());
     ImmutableSet<String> accessibleObjectMethods =
         publicMethodSignatures(AccessibleObject.class, ImmutableSet.of("canAccess"));
     assertThat(invokableMethods).containsAtLeastElementsIn(accessibleObjectMethods);
     ImmutableSet<String> genericDeclarationMethods =
-        publicMethodSignatures(GenericDeclaration.class, ImmutableSet.<String>of());
+        publicMethodSignatures(GenericDeclaration.class, ImmutableSet.of());
     assertThat(invokableMethods).containsAtLeastElementsIn(genericDeclarationMethods);
   }
 

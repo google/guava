@@ -169,7 +169,7 @@ public class ConverterTest extends TestCase {
     Function<String, Integer> forward = Integer::parseInt;
     Function<Object, String> backward = toStringFunction();
 
-    Converter<String, Number> converter = Converter.<String, Number>from(forward, backward);
+    Converter<String, Number> converter = Converter.from(forward, backward);
 
     assertThat(converter.convert(null)).isNull();
     assertThat(converter.reverse().convert(null)).isNull();

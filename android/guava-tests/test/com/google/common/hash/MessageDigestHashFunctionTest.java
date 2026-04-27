@@ -16,15 +16,12 @@
 
 package com.google.common.hash;
 
-import static com.google.common.hash.Hashing.md5;
-import static com.google.common.hash.Hashing.sha1;
-import static com.google.common.hash.Hashing.sha256;
-import static com.google.common.hash.Hashing.sha384;
 import static com.google.common.hash.Hashing.sha512;
 import static com.google.common.truth.Truth.assertThat;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.junit.Assert.assertThrows;
 
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import java.security.MessageDigest;
@@ -42,33 +39,15 @@ import org.jspecify.annotations.NullUnmarked;
 public class MessageDigestHashFunctionTest extends TestCase {
   private static final ImmutableSet<String> INPUTS = ImmutableSet.of("", "Z", "foobar");
 
-  // From "How Provider Implementations Are Requested and Supplied" from
-  // https://docs.oracle.com/en/java/javase/26/security/java-cryptography-architecture-jca-reference-guide.html#:~:text=How%20Provider%20Implementations%20Are%20Requested%20and%20Supplied
-  //  - Some providers may choose to also include alias names.
-  //  - For example, the "SHA-1" algorithm might be referred to as "SHA1".
-  //  - The algorithm name is not case-sensitive.
-  @SuppressWarnings("deprecation") // We still need to test our deprecated APIs.
-  // TODO: b/484953702 - Put a list in TestPlatform so that J2KT can omit some of these.
-  private static final ImmutableMap<String, HashFunction> ALGORITHMS =
-      new ImmutableMap.Builder<String, HashFunction>()
-          .put("MD5", md5())
-          .put("SHA", sha1()) // Not the official name, but still works
-          .put("SHA1", sha1()) // Not the official name, but still works
-          .put("sHa-1", sha1()) // Not the official name, but still works
-          .put("SHA-1", sha1())
-          .put("SHA-256", sha256())
-          .put("SHA-384", sha384())
-          .put("SHA-512", sha512())
-          .build();
-
   public void testHashing() throws Exception {
     for (String stringToTest : INPUTS) {
-      for (String algorithmToTest : ALGORITHMS.keySet()) {
+      for (String algorithmToTest : TestPlatform.getAlgorithms().keySet()) {
         assertMessageDigestHashing(HashTestUtils.ascii(stringToTest), algorithmToTest);
       }
     }
   }
 
+  @J2ktIncompatible
   public void testPutAfterHash() {
     Hasher hasher = sha512().newHasher();
 
@@ -82,6 +61,7 @@ public class MessageDigestHashFunctionTest extends TestCase {
     assertThrows(IllegalStateException.class, () -> hasher.putInt(42));
   }
 
+  @J2ktIncompatible
   public void testHashTwice() {
     Hasher hasher = sha512().newHasher();
 
@@ -97,17 +77,27 @@ public class MessageDigestHashFunctionTest extends TestCase {
 
   @SuppressWarnings("deprecation") // We still need to test our deprecated APIs.
   public void testToString() {
-    assertThat(md5().toString()).isEqualTo("Hashing.md5()");
-    assertThat(sha1().toString()).isEqualTo("Hashing.sha1()");
-    assertThat(sha256().toString()).isEqualTo("Hashing.sha256()");
-    assertThat(sha512().toString()).isEqualTo("Hashing.sha512()");
+    ImmutableMap<String, HashFunction> algorithms = TestPlatform.getAlgorithms();
+    if (algorithms.containsKey("MD5")) {
+      assertThat(algorithms.get("MD5").toString()).isEqualTo("Hashing.md5()");
+    }
+    if (algorithms.containsKey("SHA-1")) {
+      assertThat(algorithms.get("SHA-1").toString()).isEqualTo("Hashing.sha1()");
+    }
+    if (algorithms.containsKey("SHA-256")) {
+      assertThat(algorithms.get("SHA-256").toString()).isEqualTo("Hashing.sha256()");
+    }
+    if (algorithms.containsKey("SHA-512")) {
+      assertThat(algorithms.get("SHA-512").toString()).isEqualTo("Hashing.sha512()");
+    }
   }
 
   private static void assertMessageDigestHashing(byte[] input, String algorithmName)
       throws NoSuchAlgorithmException {
     MessageDigest digest = MessageDigest.getInstance(algorithmName);
     assertEquals(
-        HashCode.fromBytes(digest.digest(input)), ALGORITHMS.get(algorithmName).hashBytes(input));
+        HashCode.fromBytes(digest.digest(input)),
+        TestPlatform.getAlgorithms().get(algorithmName).hashBytes(input));
     for (int bytes = 4; bytes <= digest.getDigestLength(); bytes++) {
       assertEquals(
           HashCode.fromBytes(Arrays.copyOf(digest.digest(input), bytes)),

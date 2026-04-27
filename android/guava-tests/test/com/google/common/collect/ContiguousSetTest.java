@@ -117,7 +117,7 @@ public class ContiguousSetTest extends TestCase {
     // not testing hashCode for these because it takes forever to compute
     assertEquals(
         ContiguousSet.closed(Integer.MIN_VALUE, Integer.MAX_VALUE),
-        ContiguousSet.create(Range.<Integer>all(), integers()));
+        ContiguousSet.create(Range.all(), integers()));
     assertEquals(
         ContiguousSet.closed(Integer.MIN_VALUE, Integer.MAX_VALUE),
         ContiguousSet.create(Range.atLeast(Integer.MIN_VALUE), integers()));
@@ -140,7 +140,7 @@ public class ContiguousSetTest extends TestCase {
      * Make sure that we're using RegularContiguousSet.SerializedForm and not
      * ImmutableSet.SerializedForm, which would be enormous.
      */
-    ContiguousSet<Integer> enormous = ContiguousSet.create(Range.<Integer>all(), integers());
+    ContiguousSet<Integer> enormous = ContiguousSet.create(Range.all(), integers());
     assertTrue(enormous instanceof RegularContiguousSet);
     // We can't use reserializeAndAssert because it calls hashCode, which is enormously slow.
     ContiguousSet<Integer> enormousReserialized = reserialize(enormous);
@@ -257,16 +257,14 @@ public class ContiguousSetTest extends TestCase {
     assertEquals(1, ContiguousSet.create(Range.closed(1, 3), integers()).first().intValue());
     assertEquals(1, ContiguousSet.create(Range.open(0, 4), integers()).first().intValue());
     assertEquals(
-        Integer.MIN_VALUE,
-        ContiguousSet.create(Range.<Integer>all(), integers()).first().intValue());
+        Integer.MIN_VALUE, ContiguousSet.create(Range.all(), integers()).first().intValue());
   }
 
   public void testLast() {
     assertEquals(3, ContiguousSet.create(Range.closed(1, 3), integers()).last().intValue());
     assertEquals(3, ContiguousSet.create(Range.open(0, 4), integers()).last().intValue());
     assertEquals(
-        Integer.MAX_VALUE,
-        ContiguousSet.create(Range.<Integer>all(), integers()).last().intValue());
+        Integer.MAX_VALUE, ContiguousSet.create(Range.all(), integers()).last().intValue());
   }
 
   public void testContains() {
@@ -359,15 +357,14 @@ public class ContiguousSetTest extends TestCase {
   public void testRange_unboundedRange() {
     assertEquals(
         Range.closed(Integer.MIN_VALUE, Integer.MAX_VALUE),
-        ContiguousSet.create(Range.<Integer>all(), integers()).range());
+        ContiguousSet.create(Range.all(), integers()).range());
     assertEquals(
         Range.atLeast(Integer.MIN_VALUE),
-        ContiguousSet.create(Range.<Integer>all(), integers()).range(CLOSED, OPEN));
-    assertEquals(
-        Range.all(), ContiguousSet.create(Range.<Integer>all(), integers()).range(OPEN, OPEN));
+        ContiguousSet.create(Range.all(), integers()).range(CLOSED, OPEN));
+    assertEquals(Range.all(), ContiguousSet.create(Range.all(), integers()).range(OPEN, OPEN));
     assertEquals(
         Range.atMost(Integer.MAX_VALUE),
-        ContiguousSet.create(Range.<Integer>all(), integers()).range(OPEN, CLOSED));
+        ContiguousSet.create(Range.all(), integers()).range(OPEN, CLOSED));
   }
 
   public void testIntersection_empty() {
