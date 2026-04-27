@@ -766,84 +766,63 @@ array and the SHA-512 algorithm.</div>
 SHA-512 (512 hash bits) hash function and the given secret key.</div>
 </div>
 <div class="col-first odd-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#md5()" class="member-name-link">md5</a>()</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_128()" class="member-name-link">murmur3_128</a>()</code></div>
 <div class="col-last odd-row-color">
-<div class="block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">If you must interoperate with a system that requires MD5, then use this method,
-    despite its deprecation.</div>
-</div>
-</div>
-<div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_128()" class="member-name-link">murmur3_128</a>()</code></div>
-<div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
 algorithm, x64 variant</a> (little-endian variant), using a seed value of zero.</div>
 </div>
-<div class="col-first odd-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_128(int)" class="member-name-link">murmur3_128</a><wbr>(int&nbsp;seed)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_128(int)" class="member-name-link">murmur3_128</a><wbr>(int&nbsp;seed)</code></div>
+<div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">128-bit murmur3
 algorithm, x64 variant</a> (little-endian variant), using the given seed value.</div>
 </div>
-<div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_32()" class="member-name-link">murmur3_32</a>()</code></div>
-<div class="col-last even-row-color">
-<div class="block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">This implementation produces incorrect hash values from the <a href="../../hash/HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(CharSequence, Charset)</code></a> method if the string contains non-BMP characters.</div>
-</div>
-</div>
 <div class="col-first odd-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_32(int)" class="member-name-link">murmur3_32</a><wbr>(int&nbsp;seed)</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_32()" class="member-name-link">murmur3_32</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">This implementation produces incorrect hash values from the <a href="../../hash/HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(CharSequence, Charset)</code></a> method if the string contains non-BMP characters.</div>
 </div>
 </div>
 <div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_32_fixed()" class="member-name-link">murmur3_32_fixed</a>()</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_32(int)" class="member-name-link">murmur3_32</a><wbr>(int&nbsp;seed)</code></div>
 <div class="col-last even-row-color">
+<div class="block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">This implementation produces incorrect hash values from the <a href="../../hash/HashFunction.html#hashString(java.lang.CharSequence,java.nio.charset.Charset)"><code>HashFunction.hashString(CharSequence, Charset)</code></a> method if the string contains non-BMP characters.</div>
+</div>
+</div>
+<div class="col-first odd-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_32_fixed()" class="member-name-link">murmur3_32_fixed</a>()</code></div>
+<div class="col-last odd-row-color">
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
 algorithm, x86 variant</a> (little-endian variant), using a seed value of zero.</div>
 </div>
-<div class="col-first odd-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_32_fixed(int)" class="member-name-link">murmur3_32_fixed</a><wbr>(int&nbsp;seed)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#murmur3_32_fixed(int)" class="member-name-link">murmur3_32_fixed</a><wbr>(int&nbsp;seed)</code></div>
+<div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the <a href="https://github.com/aappleby/smhasher/blob/master/src/MurmurHash3.cpp">32-bit murmur3
 algorithm, x86 variant</a> (little-endian variant), using the given seed value.</div>
 </div>
-<div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sha1()" class="member-name-link">sha1</a>()</code></div>
-<div class="col-last even-row-color">
-<div class="block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">If you must interoperate with a system that requires SHA-1, then use this method,
-    despite its deprecation.</div>
-</div>
-</div>
 <div class="col-first odd-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sha256()" class="member-name-link">sha256</a>()</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sha384()" class="member-name-link">sha384</a>()</code></div>
 <div class="col-last odd-row-color">
-<div class="block">Returns a hash function implementing the SHA-256 algorithm (256 hash bits).</div>
-</div>
-<div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sha384()" class="member-name-link">sha384</a>()</code></div>
-<div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the SHA-384 algorithm (384 hash bits).</div>
 </div>
-<div class="col-first odd-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sha512()" class="member-name-link">sha512</a>()</code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sha512()" class="member-name-link">sha512</a>()</code></div>
+<div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the SHA-512 algorithm (512 hash bits).</div>
 </div>
-<div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sipHash24()" class="member-name-link">sipHash24</a>()</code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sipHash24()" class="member-name-link">sipHash24</a>()</code></div>
+<div class="col-last odd-row-color">
 <div class="block">Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
 SipHash-2-4 algorithm</a> using a seed value of <code>k = 00 01 02 ...</code>.</div>
 </div>
-<div class="col-first odd-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sipHash24(long,long)" class="member-name-link">sipHash24</a><wbr>(long&nbsp;k0,
+<div class="col-first even-row-color"><code>static <a href="../../hash/HashFunction.html" title="interface in com.google.common.hash">HashFunction</a></code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Hashing.</span><code><a href="../../hash/Hashing.html#sipHash24(long,long)" class="member-name-link">sipHash24</a><wbr>(long&nbsp;k0,
  long&nbsp;k1)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-last even-row-color">
 <div class="block">Returns a hash function implementing the <a href="https://131002.net/siphash/">64-bit
 SipHash-2-4 algorithm</a> using the given seed.</div>
 </div>
