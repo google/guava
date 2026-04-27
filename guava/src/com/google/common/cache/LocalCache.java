@@ -4622,6 +4622,12 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     public boolean contains(Object o) {
       return LocalCache.this.containsValue(o);
     }
+
+    @Override
+    public Spliterator<V> spliterator() {
+      return Spliterators.spliteratorUnknownSize(
+          iterator(), Spliterator.CONCURRENT | Spliterator.NONNULL);
+    }
   }
 
   final class EntrySet extends AbstractCacheSet<Entry<K, V>> {

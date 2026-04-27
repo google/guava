@@ -27,8 +27,6 @@ import org.junit.Ignore;
  * A generic JUnit test which tests spliterator characteristics on derived views of a concurrent
  * map. Can't be invoked directly; please see {@link
  * com.google.common.collect.testing.ConcurrentMapTestSuiteBuilder}.
- *
- * @author Louis Wasserman
  */
 @GwtCompatible
 @Ignore("test runners must not instantiate and run this directly, only via suites we build")
