@@ -235,8 +235,9 @@ similar to those in this class for non-precondition checks.
 
 <h3 id="java-util-objects-requirenonnull--heading"><code>java.util.Objects.requireNonNull()</code></h3>
 
-<p>Projects which use <code>com.google.common</code> should generally avoid the use of <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Objects.html#requireNonNull(T)" class="external-link"><code>Objects.requireNonNull(Object)</code></a>. Instead, use whichever of <a href="#checkNotNull(T)"><code>checkNotNull(Object)</code></a> or <a href="Verify.html#verifyNotNull(T)"><code>Verify.verifyNotNull(Object)</code></a> is appropriate to the situation.
-(The same goes for the message-accepting overloads.)
+<p>Projects which use <code>com.google.common</code> should generally avoid the use of <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Objects.html#requireNonNull(T)" class="external-link"><code>Objects.requireNonNull(Object)</code></a>. Instead, use whichever of <a href="#checkNotNull(T)"><code>checkNotNull(Object)</code></a> or
+<a href="Verify.html#verifyNotNull(T)"><code>Verify.verifyNotNull(Object)</code></a> is appropriate to the situation. (The same goes for the
+message-accepting overloads.)
 
 <h3 id="only-s-is-supported-heading">Only <code>%s</code> is supported</h3>
 
@@ -2434,9 +2435,9 @@ involving any parameters to the calling method.
 <div class="block">Ensures that <code>index</code> specifies a valid <i>position</i> in an array, list or string of
 size <code>size</code>. A position index may range from zero to <code>size</code>, inclusive.
 
-<p><b>Java 9 users:</b> consider using <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Objects.html#checkIndex(long,long)" class="external-link"><code>Objects.checkIndex(index, size)</code></a>
-instead. However, note that <code>checkIndex()</code> throws <code>IndexOutOfBoundsException</code> when
-<code>size</code> is negative, while this method throws <code>IllegalArgumentException</code>.</div>
+<p><b>Java 9 users:</b> consider using <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Objects.html#checkIndex(int,int)" class="external-link"><code>Objects.checkIndex(int, int)</code></a> instead. However, note that
+<code>checkIndex()</code> throws <code>IndexOutOfBoundsException</code> when <code>size</code> is negative,
+while this method throws <code>IllegalArgumentException</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>index</code> - a user-supplied index identifying a position in an array, list or string</dd>

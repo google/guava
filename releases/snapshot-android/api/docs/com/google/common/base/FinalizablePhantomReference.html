@@ -96,7 +96,8 @@ initTheme();
 implements <a href="FinalizableReference.html" title="interface in com.google.common.base">FinalizableReference</a></span></div>
 <div class="block">Phantom reference with a <code>finalizeReferent()</code> method which a background thread invokes
 after the garbage collector reclaims the referent. This is a simpler alternative to using a
-<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/ref/ReferenceQueue.html" title="class in java.lang.ref" class="external-link"><code>ReferenceQueue</code></a>.
+<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/ref/ReferenceQueue.html" title="class in java.lang.ref" class="external-link"><code>ReferenceQueue</code></a>. Java 9+ users should prefer <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/ref/Cleaner.html" title="class in java.lang.ref" class="external-link"><code>Cleaner</code></a>, as
+discussed in <a href="FinalizableReferenceQueue.html" title="class in com.google.common.base"><code>FinalizableReferenceQueue</code></a>.
 
 <p>Unlike a normal phantom reference, this reference will be cleared automatically.</div>
 <dl class="notes">
