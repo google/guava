@@ -62,7 +62,7 @@ jobs:
         run: ./util/print_surefire_reports.sh
       - name: 'Set up Gradle'
         if: matrix.java == 11 # used only by the integration tests below
-        uses: gradle/actions/setup-gradle@39e147cb9de83bb9910b8ef8bd7fff0ee20fcd6f # v6.0.1
+        uses: gradle/actions/setup-gradle@50e97c2cd7a37755bbfafc9c5b7cafaece252f6e # v6.1.0
       - name: 'Integration Test'
         if: matrix.java == 11
         shell: bash
