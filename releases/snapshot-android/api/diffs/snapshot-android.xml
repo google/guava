@@ -35243,7 +35243,7 @@
  in the following code fragment:
 
  {@snippet :
- Set<Object> identityHashSet = Sets.newSetFromMap(new IdentityHashMap<Object, Boolean>());
+ Set<Object> identityHashSet = Sets.newSetFromMap(new IdentityHashMap<>());
  }
 
  <p>The returned set is serializable if the backing map is.
@@ -35645,7 +35645,7 @@
  {@code tailSet} views.
 
  {@snippet :
- NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<E>());
+ NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<>());
   ...
  synchronized (set) {
    // Must be in the synchronized block
@@ -35659,7 +35659,7 @@
  <p>or:
 
  {@snippet :
- NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<E>());
+ NavigableSet<E> set = synchronizedNavigableSet(new TreeSet<>());
  NavigableSet<E> set2 = set.descendingSet().headSet(foo);
  ...
  synchronized (set) { // Note: set, not set2!!!

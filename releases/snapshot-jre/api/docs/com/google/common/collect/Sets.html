@@ -874,7 +874,7 @@ empty, passed directly to this method, and no reference to the map is retained, 
 in the following code fragment:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-newSetFromMap(java.util.Map)1"><code class="language-java">Set&lt;Object&gt; identityHashSet = Sets.newSetFromMap(new IdentityHashMap&lt;Object, Boolean&gt;());
+<pre class="snippet" id="snippet-newSetFromMap(java.util.Map)1"><code class="language-java">Set&lt;Object&gt; identityHashSet = Sets.newSetFromMap(new IdentityHashMap&lt;&gt;());
 </code></pre>
 </div>
 
@@ -1335,7 +1335,7 @@ iterating over it or any of its <code>descendingSet</code>, <code>subSet</code>,
 <code>tailSet</code> views.
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-synchronizedNavigableSet(java.util.NavigableSet)1"><code class="language-java">NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());
+<pre class="snippet" id="snippet-synchronizedNavigableSet(java.util.NavigableSet)1"><code class="language-java">NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;&gt;());
  ...
 synchronized (set) {
   // Must be in the synchronized block
@@ -1351,7 +1351,7 @@ synchronized (set) {
 <p>or:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
-<pre class="snippet" id="snippet-synchronizedNavigableSet(java.util.NavigableSet)2"><code class="language-java">NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;E&gt;());
+<pre class="snippet" id="snippet-synchronizedNavigableSet(java.util.NavigableSet)2"><code class="language-java">NavigableSet&lt;E&gt; set = synchronizedNavigableSet(new TreeSet&lt;&gt;());
 NavigableSet&lt;E&gt; set2 = set.descendingSet().headSet(foo);
 ...
 synchronized (set) { // Note: set, not set2!!!
