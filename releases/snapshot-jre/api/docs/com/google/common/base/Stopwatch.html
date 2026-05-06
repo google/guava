@@ -116,7 +116,7 @@ are inherently approximate, routinely affected by periodic clock corrections. Be
 <p>The one downside of <code>Stopwatch</code> relative to <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/System.html#nanoTime()" class="external-link"><code>System.nanoTime()</code></a> is that <code>
 Stopwatch</code> requires object allocation and additional method calls, which can reduce the accuracy
 of the elapsed times reported. <code>Stopwatch</code> is still suitable for logging and metrics where
-reasonably accurate values are sufficient. If the uncommon case that you need to maximize
+reasonably accurate values are sufficient. In the uncommon case that you need to maximize
 accuracy, use <code>System.nanoTime()</code> directly instead.
 
 <p>Basic usage:
