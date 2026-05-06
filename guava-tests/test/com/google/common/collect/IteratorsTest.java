@@ -477,6 +477,58 @@ public class IteratorsTest extends TestCase {
     assertThrows(NumberFormatException.class, () -> result.next());
   }
 
+  public void testTransformWithJdkFunction() {
+    Iterator<String> input = asList("1", "2", "3").iterator();
+    Iterator<Integer> result =
+        transform(
+            input,
+            new java.util.function.Function<String, Integer>() {
+              @Override
+              public Integer apply(String from) {
+                return Integer.valueOf(from);
+              }
+            });
+
+    List<Integer> actual = Lists.newArrayList(result);
+    List<Integer> expected = asList(1, 2, 3);
+    assertEquals(expected, actual);
+  }
+
+  public void testTransformWithJdkFunctionRemove() {
+    List<String> list = Lists.newArrayList("1", "2", "3");
+    Iterator<String> input = list.iterator();
+    Iterator<Integer> iterator =
+        transform(
+            input,
+            new java.util.function.Function<String, Integer>() {
+              @Override
+              public Integer apply(String from) {
+                return Integer.valueOf(from);
+              }
+            });
+
+    assertEquals(Integer.valueOf(1), iterator.next());
+    assertEquals(Integer.valueOf(2), iterator.next());
+    iterator.remove();
+    assertEquals(asList("1", "3"), list);
+  }
+
+  public void testPoorlyBehavedTransformWithJdkFunction() {
+    Iterator<String> input = asList("1", "not a number", "3").iterator();
+    Iterator<Integer> result =
+        transform(
+            input,
+            new java.util.function.Function<String, Integer>() {
+              @Override
+              public Integer apply(String from) {
+                return Integer.valueOf(from);
+              }
+            });
+
+    result.next();
+    assertThrows(NumberFormatException.class, () -> result.next());
+  }
+
   public void testNullFriendlyTransform() {
     Iterator<@Nullable Integer> input = Arrays.<@Nullable Integer>asList(1, 2, null, 3).iterator();
     Iterator<String> result =

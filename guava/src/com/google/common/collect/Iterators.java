@@ -833,6 +833,28 @@ public final class Iterators {
   }
 
   /**
+   * Returns a view containing the result of applying {@code function} to each element of {@code
+   * fromIterator}.
+   *
+   * <p>The returned iterator supports {@code remove()} if {@code fromIterator} does. After a
+   * successful {@code remove()} call, {@code fromIterator} no longer contains the corresponding
+   * element.
+   *
+   * @since 34.0
+   */
+  public static <F extends @Nullable Object, T extends @Nullable Object> Iterator<T> transform(
+      Iterator<F> fromIterator, java.util.function.Function<? super F, ? extends T> function) {
+    checkNotNull(function);
+    return new TransformedIterator<F, T>(fromIterator) {
+      @ParametricNullness
+      @Override
+      T transform(@ParametricNullness F from) {
+        return function.apply(from);
+      }
+    };
+  }
+
+  /**
    * Advances {@code iterator} {@code position + 1} times, returning the element at the {@code
    * position}th position.
    *
