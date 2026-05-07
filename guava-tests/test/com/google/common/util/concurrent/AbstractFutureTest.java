@@ -599,6 +599,16 @@ public class AbstractFutureTest extends TestCase {
     executor.shutdown();
   }
 
+  // Made the test concerning cpovirk test request in AbstractFuture
+  public void testAssertNoClinit() {
+      java.lang.reflect.Method[] abstractFutureMethods = AbstractFuture.class.getDeclaredMethods();
+      for (java.lang.reflect.Method abstractFutureMethod : abstractFutureMethods) {
+          if (abstractFutureMethod.getName().equals("<clinit>")) {
+              fail("Abstract future method has a static initalizer method");
+          }
+      }
+  }
+
   // setFuture and cancel() interact in more complicated ways than the other setters.
   @J2ktIncompatible
   public void testSetFutureCancelBash() {
