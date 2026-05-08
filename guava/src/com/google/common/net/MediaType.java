@@ -517,6 +517,15 @@ public final class MediaType {
    */
   public static final MediaType JOSE_JSON = createConstant(APPLICATION_TYPE, "jose+json");
 
+  /**
+   * <a href="https://datatracker.ietf.org/doc/html/rfc8259">RFC 8259</a> (The JavaScript Object
+   * Notation (JSON) Data Interchange Format) does not define a charset parameter for the {@code
+   * application/json} media type. The charset is always UTF-8.
+   *
+   * @deprecated Use {@link #APPLICATION_JSON} or call {@link #withoutParameters()} on an
+   *     {@code application/json} media type instance instead.
+   */
+  @Deprecated
   public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
 
   /**
