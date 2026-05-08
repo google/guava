@@ -56,6 +56,8 @@ import org.jspecify.annotations.Nullable;
 /**
  * Static utility methods pertaining to the {@link Future} interface.
  *
+ * <p>For uninterruptible operations, see {@link Uninterruptibles#getUninterruptibly}.
+ *
  * <p>Many of these methods use the {@link ListenableFuture} API; consult the Guava User Guide
  * article on <a href="https://github.com/google/guava/wiki/ListenableFutureExplained">{@code
  * ListenableFuture}</a>.
