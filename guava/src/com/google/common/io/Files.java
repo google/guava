@@ -86,7 +86,17 @@ public final class Files {
   public static BufferedReader newReader(File file, Charset charset) throws FileNotFoundException {
     checkNotNull(file);
     checkNotNull(charset);
-    return new BufferedReader(new InputStreamReader(new FileInputStream(file), charset));
+    FileInputStream fis = new FileInputStream(file);
+    try {
+      return new BufferedReader(new InputStreamReader(fis, charset));
+    } catch (Throwable t) {
+      try {
+        fis.close();
+      } catch (IOException e) {
+        // Suppressed; propagate the original exception.
+      }
+      throw t;
+    }
   }
 
   /**
@@ -104,7 +114,17 @@ public final class Files {
   public static BufferedWriter newWriter(File file, Charset charset) throws FileNotFoundException {
     checkNotNull(file);
     checkNotNull(charset);
-    return new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), charset));
+    FileOutputStream fos = new FileOutputStream(file);
+    try {
+      return new BufferedWriter(new OutputStreamWriter(fos, charset));
+    } catch (Throwable t) {
+      try {
+        fos.close();
+      } catch (IOException e) {
+        // Suppressed; propagate the original exception.
+      }
+      throw t;
+    }
   }
 
   /**

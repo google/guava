@@ -1037,10 +1037,11 @@ public final class MoreExecutors {
         service.awaitTermination(halfTimeoutNanos, NANOSECONDS);
       }
     } catch (InterruptedException ie) {
-      // Preserve interrupted status
-      Thread.currentThread().interrupt();
       // (Re-)Cancel if current thread also interrupted
       service.shutdownNow();
+      // Preserve interrupted status after shutdownNow to avoid potential deadlock
+      // where interrupt flag is set before shutdownNow completes
+      Thread.currentThread().interrupt();
     }
     return service.isTerminated();
   }
