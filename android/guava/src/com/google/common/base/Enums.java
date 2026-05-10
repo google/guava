@@ -46,6 +46,7 @@ public final class Enums {
    *
    * @since 12.0
    */
+  @GwtIncompatible // reflection
   public static Field getField(Enum<?> enumValue) {
     Class<?> clazz = enumValue.getDeclaringClass();
     try {
@@ -69,9 +70,11 @@ public final class Enums {
     return Platform.getEnumIfPresent(enumClass, value);
   }
 
+  @GwtIncompatible // java.lang.ref.WeakReference
   private static final Map<Class<? extends Enum<?>>, Map<String, WeakReference<? extends Enum<?>>>>
       enumConstantCache = new WeakHashMap<>();
 
+  @GwtIncompatible // java.lang.ref.WeakReference
   private static <T extends Enum<T>> Map<String, WeakReference<? extends Enum<?>>> populateCache(
       Class<T> enumClass) {
     Map<String, WeakReference<? extends Enum<?>>> result = new HashMap<>();
@@ -82,6 +85,7 @@ public final class Enums {
     return result;
   }
 
+  @GwtIncompatible // java.lang.ref.WeakReference
   static <T extends Enum<T>> Map<String, WeakReference<? extends Enum<?>>> getEnumConstants(
       Class<T> enumClass) {
     synchronized (enumConstantCache) {
@@ -101,10 +105,12 @@ public final class Enums {
    *
    * @since 16.0
    */
+  @GwtIncompatible
   public static <T extends Enum<T>> Converter<String, T> stringConverter(Class<T> enumClass) {
     return new StringConverter<>(enumClass);
   }
 
+  @GwtIncompatible
   private static final class StringConverter<T extends Enum<T>> extends Converter<String, T>
       implements Serializable {
 
@@ -143,6 +149,6 @@ public final class Enums {
       return "Enums.stringConverter(" + enumClass.getName() + ".class)";
     }
 
-    @J2ktIncompatible private static final long serialVersionUID = 0L;
+    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0L;
   }
 }
