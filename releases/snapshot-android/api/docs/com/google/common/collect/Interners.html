@@ -190,8 +190,7 @@ acceptable, this implementation may perform better than <a href="#newWeakInterne
 <section class="detail" id="newWeakInterner()">
 <h3>newWeakInterner</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
-</span><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;</span>&nbsp;<span class="element-name">newWeakInterner</span>()</div>
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="Interner.html" title="interface in com.google.common.collect">Interner</a>&lt;E&gt;</span>&nbsp;<span class="element-name">newWeakInterner</span>()</div>
 <div class="block">Returns a new thread-safe interner which retains a weak reference to each instance it has
 interned, and so does not prevent these instances from being garbage-collected. This most
 likely does not perform as well as <a href="#newStrongInterner()"><code>newStrongInterner()</code></a>, but is the best alternative when
