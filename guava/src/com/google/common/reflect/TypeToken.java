@@ -836,6 +836,9 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
    */
   @Override
   public boolean equals(@Nullable Object o) {
+    if (o == this) {
+      return true;
+    }
     if (o instanceof TypeToken) {
       TypeToken<?> that = (TypeToken<?>) o;
       return runtimeType.equals(that.runtimeType);
