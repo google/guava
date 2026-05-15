@@ -55650,31 +55650,49 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Wildcard matching any media type.]]>
+      </doc>
     </field>
     <field name="ANY_TEXT_TYPE" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Wildcard matching any "text" top-level media type.]]>
+      </doc>
     </field>
     <field name="ANY_IMAGE_TYPE" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Wildcard matching any "image" top-level media type.]]>
+      </doc>
     </field>
     <field name="ANY_AUDIO_TYPE" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Wildcard matching any "audio" top-level media type.]]>
+      </doc>
     </field>
     <field name="ANY_VIDEO_TYPE" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Wildcard matching any "video" top-level media type.]]>
+      </doc>
     </field>
     <field name="ANY_APPLICATION_TYPE" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Wildcard matching any "application" top-level media type.]]>
+      </doc>
     </field>
     <field name="ANY_FONT_TYPE" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -55690,26 +55708,43 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://web.archive.org/web/20190215171256/https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache#The_cache_manifest_file">Cache
+ Manifest</a>.]]>
+      </doc>
     </field>
     <field name="CSS_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc2318.html">CSS</a>.]]>
+      </doc>
     </field>
     <field name="CSV_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc4180.html">CSV</a>.]]>
+      </doc>
     </field>
     <field name="HTML_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc2854.html">HTML</a>.]]>
+      </doc>
     </field>
     <field name="I_CALENDAR_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc5545.html">iCalendar</a>.]]>
+      </doc>
     </field>
     <field name="MD_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -55726,6 +55761,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.1">Plain text</a>.]]>
+      </doc>
     </field>
     <field name="TEXT_JAVASCRIPT_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -55752,6 +55790,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc6350.html">vCard</a>.]]>
+      </doc>
     </field>
     <field name="WML_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -55814,21 +55855,34 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types#gif_graphics_interchange_format">GIF</a>.]]>
+      </doc>
     </field>
     <field name="ICO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.iana.org/assignments/media-types/image/vnd.microsoft.icon">ICO</a>.]]>
+      </doc>
     </field>
     <field name="JPEG" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.2">JPEG</a>.]]>
+      </doc>
     </field>
     <field name="PNG" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc2083.html">PNG</a>.]]>
+      </doc>
     </field>
     <field name="PSD" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -55856,11 +55910,17 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.w3.org/TR/SVG11/mimereg.html">SVG</a>.]]>
+      </doc>
     </field>
     <field name="TIFF" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc3302.html">TIFF</a>.]]>
+      </doc>
     </field>
     <field name="AVIF" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -55906,21 +55966,33 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc4337.html">MP4 audio</a>.]]>
+      </doc>
     </field>
     <field name="MPEG_AUDIO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc3003.html">MPEG audio</a>.]]>
+      </doc>
     </field>
     <field name="OGG_AUDIO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc5334.html">Ogg audio</a>.]]>
+      </doc>
     </field>
     <field name="WEBM_AUDIO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.webmproject.org/docs/container/">WebM audio</a>.]]>
+      </doc>
     </field>
     <field name="L16_AUDIO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56023,31 +56095,51 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc4337.html">MP4 video</a>.]]>
+      </doc>
     </field>
     <field name="MPEG_VIDEO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.4">MPEG video</a>.]]>
+      </doc>
     </field>
     <field name="OGG_VIDEO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc5334.html">Ogg video</a>.]]>
+      </doc>
     </field>
     <field name="QUICKTIME" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.iana.org/assignments/media-types/video/quicktime">QuickTime video</a>.]]>
+      </doc>
     </field>
     <field name="WEBM_VIDEO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.webmproject.org/docs/container/">WebM video</a>.]]>
+      </doc>
     </field>
     <field name="WMV" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/wmp/file-name-extensions">Windows
+ Media Video</a>.]]>
+      </doc>
     </field>
     <field name="FLV_VIDEO" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56101,11 +56193,17 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc4287.html">Atom feeds</a>.]]>
+      </doc>
     </field>
     <field name="BZIP2" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[bzip2 archives.]]>
+      </doc>
     </field>
     <field name="DART_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56160,6 +56258,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.1">HTML form data</a>.]]>
+      </doc>
     </field>
     <field name="KEY_ARCHIVE" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56215,6 +56316,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Gzip-compressed data.]]>
+      </doc>
     </field>
     <field name="HAL_JSON" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56263,6 +56367,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc8259.html">JSON</a>.]]>
+      </doc>
     </field>
     <field name="JWT" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56428,46 +56535,87 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.5.1">Binary data</a>.]]>
+      </doc>
     </field>
     <field name="OGG_CONTAINER" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc5334.html">Ogg container</a>.]]>
+      </doc>
     </field>
     <field name="OOXML_DOCUMENT" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.wordprocessingml.document">OOXML
+ Document</a>.]]>
+      </doc>
     </field>
     <field name="OOXML_PRESENTATION" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.presentationml.presentation">OOXML
+ Presentation</a>.]]>
+      </doc>
     </field>
     <field name="OOXML_SHEET" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">OOXML
+ Sheet</a>.]]>
+      </doc>
     </field>
     <field name="OPENDOCUMENT_GRAPHICS" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://www.iana.org/assignments/media-types/application/vnd.oasis.opendocument.graphics">OpenDocument
+ Graphics</a>.]]>
+      </doc>
     </field>
     <field name="OPENDOCUMENT_PRESENTATION" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://www.iana.org/assignments/media-types/application/vnd.oasis.opendocument.presentation">OpenDocument
+ Presentation</a>.]]>
+      </doc>
     </field>
     <field name="OPENDOCUMENT_SPREADSHEET" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://www.iana.org/assignments/media-types/application/vnd.oasis.opendocument.spreadsheet">OpenDocument
+ Spreadsheet</a>.]]>
+      </doc>
     </field>
     <field name="OPENDOCUMENT_TEXT" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a
+ href="https://www.iana.org/assignments/media-types/application/vnd.oasis.opendocument.text">OpenDocument
+ Text</a>.]]>
+      </doc>
     </field>
     <field name="OPENSEARCH_DESCRIPTION_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56485,11 +56633,17 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc3778.html">PDF</a>.]]>
+      </doc>
     </field>
     <field name="POSTSCRIPT" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.5.2">PostScript</a>.]]>
+      </doc>
     </field>
     <field name="PROTOBUF" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56518,6 +56672,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.iana.org/assignments/media-types/application/rtf">RTF</a>.]]>
+      </doc>
     </field>
     <field name="SFNT" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56535,6 +56692,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Adobe Flash content.]]>
+      </doc>
     </field>
     <field name="SKETCHUP" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56567,6 +56727,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[tar archives.]]>
+      </doc>
     </field>
     <field name="WOFF" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56596,6 +56759,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.rfc-editor.org/rfc/rfc3236.html">XHTML</a>.]]>
+      </doc>
     </field>
     <field name="XRD_UTF_8" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
@@ -56614,6 +56780,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[<a href="https://www.iana.org/assignments/media-types/application/zip">ZIP archives</a>.]]>
+      </doc>
     </field>
     <field name="FONT_COLLECTION" type="com.google.common.net.MediaType"
       transient="false" volatile="false"
