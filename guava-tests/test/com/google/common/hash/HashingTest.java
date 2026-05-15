@@ -257,6 +257,24 @@ public class HashingTest extends TestCase {
     assertEquals(Hashing.consistentHash(equivLong, 5555), Hashing.consistentHash(hashCode, 5555));
   }
 
+  @J2ktIncompatible
+  public void testConsistentHash_singleBucketAlwaysReturnsZero() {
+    for (long input = 0; input < 1000; input++) {
+      assertEquals(0, Hashing.consistentHash(input, 1));
+    }
+  }
+
+  @J2ktIncompatible
+  public void testConsistentHash_largeBucketCountResultInRange() {
+    Random rng = new Random(0);
+    int buckets = Integer.MAX_VALUE;
+    for (int i = 0; i < 10_000; i++) {
+      int result = Hashing.consistentHash(rng.nextLong(), buckets);
+      assertThat(result).isAtLeast(0);
+      assertThat(result).isLessThan(buckets);
+    }
+  }
+
   /**
    * Check a few "golden" values to see that implementations across languages are equivalent.
    *
