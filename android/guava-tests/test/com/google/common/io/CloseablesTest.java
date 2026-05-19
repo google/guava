@@ -16,12 +16,11 @@
 
 package com.google.common.io;
 
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
+import static com.google.common.io.TestOption.CLOSE_THROWS;
+import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import java.io.ByteArrayInputStream;
-import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Reader;
@@ -32,54 +31,52 @@ import org.jspecify.annotations.NullUnmarked;
  * Unit tests for {@link Closeables}.
  *
  * <p>Checks proper closing behavior, and ensures that IOExceptions on Closeable.close() are not
- * propagated out from the {@link Closeables#close} method if {@code swallowException} is true.
+ * propagated out from the {@link Closeables#close} method if {@code swallowIOException} is true.
  *
  * @author Michael Lancaster
  */
 @NullUnmarked
 public class CloseablesTest extends TestCase {
-  private Closeable mockCloseable;
+  public void testClose_closeableClean_doNotSwallowException() throws IOException {
+    TestInputStream closeable = new TestInputStream(emptyStream());
+    Closeables.close(closeable, /* swallowIOException= */ false);
+    assertThat(closeable.closed()).isTrue();
+  }
 
-  public void testClose_closeableClean() throws IOException {
-    // make sure that no exception is thrown regardless of value of
-    // 'swallowException' when the mock does not throw an exception.
-    setupCloseable(false);
-    doClose(mockCloseable, false, false);
-
-    setupCloseable(false);
-    doClose(mockCloseable, true, false);
+  public void testClose_closeableClean_swallowIOException() throws IOException {
+    TestInputStream closeable = new TestInputStream(emptyStream());
+    Closeables.close(closeable, /* swallowIOException= */ true);
+    assertThat(closeable.closed()).isTrue();
   }
 
   public void testClose_closeableWithEatenException() throws IOException {
-    // make sure that no exception is thrown if 'swallowException' is true
-    // when the mock does throw an exception.
-    setupCloseable(true);
-    doClose(mockCloseable, true);
+    TestInputStream closeable = new TestInputStream(emptyStream(), CLOSE_THROWS);
+    Closeables.close(closeable, /* swallowIOException= */ true);
+    assertThat(closeable.closed()).isTrue();
   }
 
   public void testClose_closeableWithThrownException() throws IOException {
-    // make sure that the exception is thrown if 'swallowException' is false
-    // when the mock does throw an exception.
-    setupCloseable(true);
-    doClose(mockCloseable, false);
+    TestInputStream closeable = new TestInputStream(emptyStream(), CLOSE_THROWS);
+    assertThrows(
+        IOException.class, () -> Closeables.close(closeable, /* swallowIOException= */ false));
+    assertThat(closeable.closed()).isTrue();
   }
 
   public void testCloseQuietly_inputStreamWithEatenException() throws IOException {
-    TestInputStream in =
-        new TestInputStream(new ByteArrayInputStream(new byte[1]), TestOption.CLOSE_THROWS);
+    TestInputStream in = new TestInputStream(emptyStream(), CLOSE_THROWS);
     Closeables.closeQuietly(in);
-    assertTrue(in.closed());
+    assertThat(in.closed()).isTrue();
   }
 
   public void testCloseQuietly_readerWithEatenException() throws IOException {
-    TestReader in = new TestReader(TestOption.CLOSE_THROWS);
-    Closeables.closeQuietly(in);
-    assertTrue(in.closed());
+    TestReader reader = new TestReader(CLOSE_THROWS);
+    Closeables.closeQuietly(reader);
+    assertThat(reader.closed()).isTrue();
   }
 
   public void testCloseNull() throws IOException {
-    Closeables.close(null, true);
-    Closeables.close(null, false);
+    Closeables.close(null, /* swallowIOException= */ true);
+    Closeables.close(null, /* swallowIOException= */ false);
   }
 
   public void testCloseQuietlyNull_inputStream() {
@@ -90,36 +87,7 @@ public class CloseablesTest extends TestCase {
     Closeables.closeQuietly((Reader) null);
   }
 
-  // Set up a closeable to expect to be closed, and optionally to throw an
-  // exception.
-  private void setupCloseable(boolean shouldThrow) throws IOException {
-    mockCloseable = mock(Closeable.class);
-    if (shouldThrow) {
-      doThrow(new IOException("This should only appear in the logs. It should not be rethrown."))
-          .when(mockCloseable)
-          .close();
-    }
-  }
-
-  private void doClose(Closeable closeable, boolean swallowException) throws IOException {
-    doClose(closeable, swallowException, !swallowException);
-  }
-
-  // Close the closeable using the Closeables, passing in the swallowException
-  // parameter. expectThrown determines whether we expect an exception to
-  // be thrown by Closeables.close;
-  private void doClose(Closeable closeable, boolean swallowException, boolean expectThrown)
-      throws IOException {
-    try {
-      Closeables.close(closeable, swallowException);
-      if (expectThrown) {
-        fail("Didn't throw exception.");
-      }
-    } catch (IOException e) {
-      if (!expectThrown) {
-        fail("Threw exception");
-      }
-    }
-    verify(closeable).close();
+  private static ByteArrayInputStream emptyStream() {
+    return new ByteArrayInputStream(new byte[0]);
   }
 }

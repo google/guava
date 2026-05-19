@@ -23,21 +23,20 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Random;
-import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A byte source for testing that has configurable behavior.
  *
  * @author Colin Decker
  */
-@NullUnmarked
+@NullMarked
 public final class TestByteSource extends ByteSource implements TestStreamSupplier {
-
   private final byte[] bytes;
   private final ImmutableSet<TestOption> options;
 
-  private boolean inputStreamOpened;
-  private boolean inputStreamClosed;
+  private @Nullable TestInputStream mostRecentStream;
 
   TestByteSource(byte[] bytes, TestOption... options) {
     this.bytes = checkNotNull(bytes);
@@ -46,30 +45,17 @@ public final class TestByteSource extends ByteSource implements TestStreamSuppli
 
   @Override
   public boolean wasStreamOpened() {
-    return inputStreamOpened;
+    return mostRecentStream != null;
   }
 
   @Override
   public boolean wasStreamClosed() {
-    return inputStreamClosed;
+    return mostRecentStream != null && mostRecentStream.closed();
   }
 
   @Override
   public InputStream openStream() throws IOException {
-    inputStreamOpened = true;
-    return new RandomAmountInputStream(new In(), new Random());
-  }
-
-  private final class In extends TestInputStream {
-
-    In() throws IOException {
-      super(new ByteArrayInputStream(bytes), options);
-    }
-
-    @Override
-    public void close() throws IOException {
-      inputStreamClosed = true;
-      super.close();
-    }
+    mostRecentStream = new TestInputStream(new ByteArrayInputStream(bytes), options);
+    return new RandomAmountInputStream(mostRecentStream, new Random());
   }
 }
