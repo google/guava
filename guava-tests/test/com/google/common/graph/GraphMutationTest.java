@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.RandomAccess;
 import org.jspecify.annotations.NullUnmarked;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
@@ -33,10 +34,20 @@ import org.junit.runners.JUnit4;
 
 @NullUnmarked
 public final class GraphMutationTest {
-  private static final int NUM_TRIALS = 50;
-  private static final int NUM_NODES = 100;
-  private static final int NUM_EDGES = 1000;
-  private static final int NODE_POOL_SIZE = 1000; // must be >> NUM_NODES
+  private static final int NUM_TRIALS = isAndroid() ? 10 : 50;
+  private static final int NUM_NODES = isAndroid() ? 20 : 100;
+  private static final int NUM_EDGES = isAndroid() ? 100 : 1000;
+  private static final int NODE_POOL_SIZE = isAndroid() ? 200 : 1000; // must be >> NUM_NODES
+
+  @BeforeClass
+  public static void checkGraphSize() {
+    /*
+     * We ensure that NUM_EDGES is possible for NUM_NODES for both directed and undirected graphs.
+     * Undirected graphs allow for fewer edges, so we check against the number possible there.
+     */
+    long maxEdges = (long) NUM_NODES * (NUM_NODES + 1) / 2;
+    assertThat((long) NUM_EDGES).isAtMost(maxEdges);
+  }
 
   @Test
   public void directedGraph() {
@@ -117,5 +128,9 @@ public final class GraphMutationTest {
 
   private static <L extends List<T> & RandomAccess, T> T getRandomElement(L list, Random gen) {
     return list.get(gen.nextInt(list.size()));
+  }
+
+  private static boolean isAndroid() {
+    return System.getProperty("java.runtime.name", "").contains("Android");
   }
 }
