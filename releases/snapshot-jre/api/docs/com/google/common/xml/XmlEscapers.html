@@ -94,7 +94,7 @@ outside the ASCII character range. Unlike HTML escaping the XML escapers will no
 non-ASCII characters to their numeric entity replacements. These XML escapers provide the minimal
 level of escaping to ensure that the output can be safely included in a Unicode XML document.
 
-<p>For details on the behavior of the escapers in this class, see sections <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> and <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.</div>
+<p>For details on the behavior of the escapers in this class, see sections <a href="https://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> and <a href="https://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>15.0</dd>
@@ -151,15 +151,15 @@ safely be included in an XML document as element content.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../escape/Escaper.html" title="class in com.google.common.escape">Escaper</a></span>&nbsp;<span class="element-name">xmlContentEscaper</span>()</div>
 <div class="block">Returns an <a href="../escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a string so it can
-safely be included in an XML document as element content. See section <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.
+safely be included in an XML document as element content. See section <a href="https://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.
 
 <p><b>Note:</b> Double and single quotes are not escaped, so it is <b>not safe</b> to use this
 escaper to escape attribute values. Use <a href="#xmlContentEscaper()"><code>xmlContentEscaper()</code></a> if the output can appear in
 element content or <a href="#xmlAttributeEscaper()"><code>xmlAttributeEscaper()</code></a> in attribute values.
 
-<p>This escaper substitutes <code>0xFFFD</code> for non-whitespace control characters and the
-character values <code>0xFFFE</code> and <code>0xFFFF</code> which are not permitted in XML. For more
-detail see section <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
+<p>This escaper substitutes <code>U+FFFD</code> for non-whitespace control characters and the
+noncharacters <code>U+FFFE</code> and <code>U+FFFF</code>, which are not permitted in XML. For more
+detail, see section <a href="https://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
 the XML specification.
 
 <p>This escaper does not escape non-ASCII characters to their numeric character references
@@ -178,12 +178,12 @@ validation on its input.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="../escape/Escaper.html" title="class in com.google.common.escape">Escaper</a></span>&nbsp;<span class="element-name">xmlAttributeEscaper</span>()</div>
 <div class="block">Returns an <a href="../escape/Escaper.html" title="class in com.google.common.escape"><code>Escaper</code></a> instance that escapes special characters in a string so it can
-safely be included in XML document as an attribute value. See section <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a> of the XML
+safely be included in XML document as an attribute value. See section <a href="https://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a> of the XML
 specification.
 
-<p>This escaper substitutes <code>0xFFFD</code> for non-whitespace control characters and the
-character values <code>0xFFFE</code> and <code>0xFFFF</code> which are not permitted in XML. For more
-detail see section <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
+<p>This escaper substitutes <code>U+FFFD</code> for non-whitespace control characters and the
+noncharacters <code>U+FFFE</code> and <code>U+FFFF</code>, which are not permitted in XML. For more
+detail, see section <a href="https://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
 the XML specification.
 
 <p>This escaper does not escape non-ASCII characters to their numeric character references

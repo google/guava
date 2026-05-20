@@ -226,8 +226,8 @@ initTheme();
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Represents an <a href="http://en.wikipedia.org/wiki/Internet_media_type">Internet Media Type</a>
 (also known as a MIME Type or Content Type). This class also supports the concept of media ranges
-<a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1">defined by HTTP/1.1</a>.
-As such, the <code>*</code> character is treated as a wildcard and is used to represent any acceptable
+<a href="https://datatracker.ietf.org/doc/html/rfc2616#section-14.1">defined by HTTP/1.1</a>. As
+such, the <code>*</code> character is treated as a wildcard and is used to represent any acceptable
 type or subtype value. A media type may not have wildcard type with a declared subtype. The
 <code>*</code> character has no special meaning as part of a parameter. All values for type, subtype,
 parameter attributes or parameter values must be valid according to RFCs <a href="https://tools.ietf.org/html/rfc2045">2045</a> and <a href="https://tools.ietf.org/html/rfc2046">2046</a>.
@@ -555,7 +555,7 @@ compressed using the ZIP format into KMZ archives.</div>
 <div class="col-first odd-row-color"><code>static final <a href="MediaType.html" title="class in com.google.common.net">MediaType</a></code></div>
 <div class="col-second odd-row-color"><code><a href="#MANIFEST_JSON_UTF_8" class="member-name-link">MANIFEST_JSON_UTF_8</a></code></div>
 <div class="col-last odd-row-color">
-<div class="block">The <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.</div>
+<div class="block">The <a href="https://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.</div>
 </div>
 <div class="col-first even-row-color"><code>static final <a href="MediaType.html" title="class in com.google.common.net">MediaType</a></code></div>
 <div class="col-second even-row-color"><code><a href="#MBOX" class="member-name-link">MBOX</a></code></div>
@@ -950,8 +950,8 @@ situations for compatibility.</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#is(com.google.common.net.MediaType)" class="member-name-link">is</a><wbr>(<a href="MediaType.html" title="class in com.google.common.net">MediaType</a>&nbsp;mediaTypeRange)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns <code>true</code> if this instance falls within the range (as defined by <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">the HTTP Accept header</a>) given
-by the argument according to three criteria:
+<div class="block">Returns <code>true</code> if this instance falls within the range (as defined by <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">the HTTP Accept header</a>)
+given by the argument according to three criteria:
 
 
   The type of the argument is the wildcard or equal to the type of this instance.</div>
@@ -1894,7 +1894,7 @@ Serialization</a>.</div>
 <h3>MANIFEST_JSON_UTF_8</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static final</span>&nbsp;<span class="return-type"><a href="MediaType.html" title="class in com.google.common.net">MediaType</a></span>&nbsp;<span class="element-name">MANIFEST_JSON_UTF_8</span></div>
-<div class="block">The <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.</div>
+<div class="block">The <a href="https://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>19.0</dd>
@@ -2266,7 +2266,7 @@ situations for compatibility.</div>
 (<code>application/soap+xml</code>) is used to identify SOAP 1.2 message envelopes that have been
 serialized with XML 1.0.
 
-<p>For SOAP 1.1 messages, see <code>XML_UTF_8</code> per <a href="http://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C Note on Simple Object Access Protocol
+<p>For SOAP 1.1 messages, see <code>XML_UTF_8</code> per <a href="https://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C Note on Simple Object Access Protocol
 (SOAP) 1.1</a></div>
 <dl class="notes">
 <dt>Since:</dt>
@@ -2569,8 +2569,8 @@ representable as a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/j
 <h3>is</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">is</span><wbr><span class="parameters">(<a href="MediaType.html" title="class in com.google.common.net">MediaType</a>&nbsp;mediaTypeRange)</span></div>
-<div class="block">Returns <code>true</code> if this instance falls within the range (as defined by <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">the HTTP Accept header</a>) given
-by the argument according to three criteria:
+<div class="block">Returns <code>true</code> if this instance falls within the range (as defined by <a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">the HTTP Accept header</a>)
+given by the argument according to three criteria:
 
 <ol>
   <li>The type of the argument is the wildcard or equal to the type of this instance.
