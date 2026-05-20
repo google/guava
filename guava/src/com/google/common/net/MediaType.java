@@ -49,8 +49,8 @@ import org.jspecify.annotations.Nullable;
 /**
  * Represents an <a href="http://en.wikipedia.org/wiki/Internet_media_type">Internet Media Type</a>
  * (also known as a MIME Type or Content Type). This class also supports the concept of media ranges
- * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1">defined by HTTP/1.1</a>.
- * As such, the {@code *} character is treated as a wildcard and is used to represent any acceptable
+ * <a href="https://datatracker.ietf.org/doc/html/rfc2616#section-14.1">defined by HTTP/1.1</a>. As
+ * such, the {@code *} character is treated as a wildcard and is used to represent any acceptable
  * type or subtype value. A media type may not have wildcard type with a declared subtype. The
  * {@code *} character has no special meaning as part of a parameter. All values for type, subtype,
  * parameter attributes or parameter values must be valid according to RFCs <a
@@ -594,7 +594,7 @@ public final class MediaType {
   public static final MediaType JWT = createConstant(APPLICATION_TYPE, "jwt");
 
   /**
-   * The <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.
+   * The <a href="https://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.
    *
    * @since 19.0
    */
@@ -834,7 +834,7 @@ public final class MediaType {
    * serialized with XML 1.0.
    *
    * <p>For SOAP 1.1 messages, see {@code XML_UTF_8} per <a
-   * href="http://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C Note on Simple Object Access Protocol
+   * href="https://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C Note on Simple Object Access Protocol
    * (SOAP) 1.1</a>
    *
    * @since 20.0
@@ -1087,8 +1087,8 @@ public final class MediaType {
 
   /**
    * Returns {@code true} if this instance falls within the range (as defined by <a
-   * href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">the HTTP Accept header</a>) given
-   * by the argument according to three criteria:
+   * href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">the HTTP Accept header</a>)
+   * given by the argument according to three criteria:
    *
    * <ol>
    *   <li>The type of the argument is the wildcard or equal to the type of this instance.
