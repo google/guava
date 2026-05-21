@@ -37,16 +37,6 @@ final class Platform {
 
   static <T extends Enum<T>> Optional<T> getEnumIfPresent(Class<T> enumClass, String value) {
     WeakReference<? extends Enum<?>> ref = Enums.getEnumConstants(enumClass).get(value);
-    /*
-     * We use `fromNullable` instead of `of` because `WeakReference.get()` has a nullable return
-     * type.
-     *
-     * In practice, we are very unlikely to see `null`: The `WeakReference` to the enum constant
-     * won't be cleared as long as the enum constant is referenced somewhere, and the enum constant
-     * is referenced somewhere for as long as the enum class is loaded. *Maybe in theory* the enum
-     * class could be unloaded after the above call to `getEnumConstants` but before we call
-     * `get()`, but that is vanishingly unlikely.
-     */
     return ref == null ? Optional.absent() : Optional.fromNullable(enumClass.cast(ref.get()));
   }
 
@@ -58,22 +48,10 @@ final class Platform {
     return string == null || string.isEmpty();
   }
 
-  /**
-   * Returns the string if it is not null, or an empty string otherwise.
-   *
-   * @param string the string to test and possibly return
-   * @return {@code string} if it is not null; {@code ""} otherwise
-   */
   static String nullToEmpty(@Nullable String string) {
     return (string == null) ? "" : string;
   }
 
-  /**
-   * Returns the string if it is not empty, or a null string otherwise.
-   *
-   * @param string the string to test and possibly return
-   * @return {@code string} if it is not empty; {@code null} otherwise
-   */
   static @Nullable String emptyToNull(@Nullable String string) {
     return stringIsNullOrEmpty(string) ? null : string;
   }
@@ -114,6 +92,32 @@ final class Platform {
     @Override
     public boolean isPcreLike() {
       return true;
+    }
+  }
+
+  private static @Nullable ThreadLocal<char @Nullable []> destTl;
+
+  /** Acquires a thread-local 1024-char buffer if available, or returns null if busy. */
+  static char @Nullable [] acquireCharBuffer() {
+    ThreadLocal<char @Nullable []> tl = destTl;
+    if (tl == null) {
+      destTl = tl = new ThreadLocal<char @Nullable []>();
+    }
+    char[] buffer = tl.get();
+    if (buffer == null) {
+      return new char[1024];
+    }
+    tl.set(null);
+    return buffer;
+  }
+
+  /** Releases the acquired thread-local buffer. */
+  static void releaseCharBuffer(char[] buffer) {
+    if (buffer.length == 1024) {
+      ThreadLocal<char @Nullable []> tl = destTl;
+      if (tl != null) {
+        tl.set(buffer);
+      }
     }
   }
 }
