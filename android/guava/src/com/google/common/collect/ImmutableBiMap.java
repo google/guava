@@ -44,6 +44,10 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+@SuppressWarnings({
+  "TooManyParameters",
+  "AssignmentExpression"
+}) // fundamental factory methods and concise assignments
 public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements BiMap<K, V> {
 
   /**
@@ -527,6 +531,8 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
         return bimap;
       }
     }
+    // Map.forEach is avoided in the Android java7 branch to maintain compatibility with Android
+    // APIs < 24.
     return copyOf(map.entrySet());
   }
 

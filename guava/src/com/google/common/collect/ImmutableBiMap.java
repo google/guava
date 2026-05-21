@@ -32,6 +32,7 @@ import java.io.ObjectInputStream;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Map;
+import java.util.function.BiConsumer;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -46,6 +47,10 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @GwtCompatible
+@SuppressWarnings({
+  "TooManyParameters",
+  "AssignmentExpression"
+}) // fundamental factory methods and concise assignments
 public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements BiMap<K, V> {
 
   /**
@@ -541,7 +546,39 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
         return bimap;
       }
     }
-    return copyOf(map.entrySet());
+    int size = map.size();
+    if (size == 0) {
+      return of();
+    }
+    // safe since array is only populated with Entry<K, V> instances
+    @SuppressWarnings("unchecked")
+    Entry<K, V>[] entries = (Entry<K, V>[]) new Entry<?, ?>[size];
+    // BiConsumer iterates directly to bypass iterator and Entry wrapper allocations for
+    // lazy/transformed views
+    class EntryCollector implements BiConsumer<K, V> {
+      Entry<K, V>[] array = entries;
+      int index = 0;
+
+      @Override
+      public void accept(K k, V v) {
+        if (index >= array.length) {
+          // Use multiplicative growth to efficiently handle concurrent map expansion
+          array = Arrays.copyOf(array, array.length + (array.length >> 1) + 1);
+        }
+        array[index++] = entryOf(k, v);
+      }
+    }
+    EntryCollector collector = new EntryCollector();
+    map.forEach(collector);
+    int finalSize = collector.index;
+    Entry<K, V>[] finalEntries = collector.array;
+    if (finalSize < finalEntries.length) {
+      finalEntries = Arrays.copyOf(finalEntries, finalSize);
+    }
+    if (finalSize == 0) {
+      return of();
+    }
+    return RegularImmutableBiMap.fromEntryArray(finalSize, finalEntries);
   }
 
   /**
