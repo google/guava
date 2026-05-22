@@ -123,6 +123,52 @@ subprojects {
             }
             ?.apply { select(this) }
         }
+        withCapability("com.google.guava:listenablefuture") {
+          candidates
+            .find {
+              val idField =
+                it.javaClass.getDeclaredMethod("getId")
+              (idField.invoke(it) as ModuleComponentIdentifier).module == "guava"
+            }
+            ?.apply { select(this) }
+        }
+        // Resolution strategies for the 4 new capability declarations from PR 7990
+        withCapability("com.google.guava:guava-base") {
+          candidates
+            .find {
+              val idField =
+                it.javaClass.getDeclaredMethod("getId")
+              (idField.invoke(it) as ModuleComponentIdentifier).module == "guava"
+            }
+            ?.apply { select(this) }
+        }
+        withCapability("com.google.guava:guava-jdk5") {
+          candidates
+            .find {
+              val idField =
+                it.javaClass.getDeclaredMethod("getId")
+              (idField.invoke(it) as ModuleComponentIdentifier).module == "guava"
+            }
+            ?.apply { select(this) }
+        }
+        withCapability("org.sonatype.sisu:sisu-guava") {
+          candidates
+            .find {
+              val idField =
+                it.javaClass.getDeclaredMethod("getId")
+              (idField.invoke(it) as ModuleComponentIdentifier).module == "guava"
+            }
+            ?.apply { select(this) }
+        }
+        withCapability("org.hudsonci.lib.guava:guava") {
+          candidates
+            .find {
+              val idField =
+                it.javaClass.getDeclaredMethod("getId")
+              (idField.invoke(it) as ModuleComponentIdentifier).module == "guava"
+            }
+            ?.apply { select(this) }
+        }
       }
     }
 
