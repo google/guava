@@ -84,6 +84,19 @@
       </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <!--
+            Move the reports directory outside of any directory that ends up on
+            java.class.path. By default, Surefire writes reports to
+            target/surefire-reports/ during test execution, and that directory
+            can appear on java.class.path, causing
+            ClassPathTest.testLocationsFrom_idempotentScan to flake: new report
+            files written between the test's two scanResources() calls make the
+            second scan find files the first scan didn't.
+            See: https://github.com/google/guava/issues/8295
+          -->
+          <reportsDirectory>${project.build.directory}/surefire-reports-classpath-safe</reportsDirectory>
+        </configuration>
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
