@@ -59,12 +59,12 @@ public final class StandardMutableDirectedGraphTest extends AbstractStandardDire
   }
 
   @Override
-  final void addNode(Integer n) {
+  void addNode(Integer n) {
     graphAsMutableGraph.addNode(n);
   }
 
   @Override
-  final void putEdge(Integer n1, Integer n2) {
+  void putEdge(Integer n1, Integer n2) {
     graphAsMutableGraph.putEdge(n1, n2);
   }
 }

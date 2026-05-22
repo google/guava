@@ -257,7 +257,7 @@ public abstract class AbstractScheduledService implements Service {
     private final Runnable task = new Task();
 
     @Override
-    protected final void doStart() {
+    protected void doStart() {
       executorService = renamingDecorator(executor(), () -> serviceName() + " " + state());
       executorService.execute(
           () -> {
@@ -285,7 +285,7 @@ public abstract class AbstractScheduledService implements Service {
     }
 
     @Override
-    protected final void doStop() {
+    protected void doStop() {
       // Both requireNonNull calls are safe because doStop can run only after a successful doStart.
       requireNonNull(runningTask);
       requireNonNull(executorService);

@@ -3497,12 +3497,12 @@ public final class Maps {
     }
 
     @Override
-    public final @Nullable Entry<K, V> pollFirstEntry() {
+    public @Nullable Entry<K, V> pollFirstEntry() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public final @Nullable Entry<K, V> pollLastEntry() {
+    public @Nullable Entry<K, V> pollLastEntry() {
       throw new UnsupportedOperationException();
     }
 

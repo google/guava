@@ -414,7 +414,7 @@ public final class ClassPath {
     }
 
     /** Returns the file this location is from. */
-    public final File file() {
+    public File file() {
       return home;
     }
 

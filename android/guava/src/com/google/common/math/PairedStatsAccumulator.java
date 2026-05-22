@@ -143,7 +143,7 @@ public final class PairedStatsAccumulator {
    *
    * @throws IllegalStateException if the dataset is empty or contains a single pair of values
    */
-  public final double sampleCovariance() {
+  public double sampleCovariance() {
     checkState(count() > 1);
     return sumOfProductsOfDeltas / (count() - 1);
   }
@@ -164,7 +164,7 @@ public final class PairedStatsAccumulator {
    * @throws IllegalStateException if the dataset is empty or contains a single pair of values, or
    *     either the {@code x} and {@code y} dataset has zero population variance
    */
-  public final double pearsonsCorrelationCoefficient() {
+  public double pearsonsCorrelationCoefficient() {
     checkState(count() > 1);
     if (isNaN(sumOfProductsOfDeltas)) {
       return NaN;
@@ -211,7 +211,7 @@ public final class PairedStatsAccumulator {
    * @throws IllegalStateException if the dataset is empty or contains a single pair of values, or
    *     both the {@code x} and {@code y} dataset have zero population variance
    */
-  public final LinearTransformation leastSquaresFit() {
+  public LinearTransformation leastSquaresFit() {
     checkState(count() > 1);
     if (isNaN(sumOfProductsOfDeltas)) {
       return LinearTransformation.forNaN();

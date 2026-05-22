@@ -49,11 +49,11 @@ public final class TesterRequirements {
     this(emptySet(), emptySet());
   }
 
-  public final Set<Feature<?>> getPresentFeatures() {
+  public Set<Feature<?>> getPresentFeatures() {
     return presentFeatures;
   }
 
-  public final Set<Feature<?>> getAbsentFeatures() {
+  public Set<Feature<?>> getAbsentFeatures() {
     return absentFeatures;
   }
 

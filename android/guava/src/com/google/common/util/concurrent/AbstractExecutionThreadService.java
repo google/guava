@@ -40,7 +40,7 @@ public abstract class AbstractExecutionThreadService implements Service {
   private final Service delegate =
       new AbstractService() {
         @Override
-        protected final void doStart() {
+        protected void doStart() {
           Executor executor = renamingDecorator(executor(), () -> serviceName());
           executor.execute(
               () -> {

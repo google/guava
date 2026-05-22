@@ -1118,7 +1118,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final @Nullable Entry<K, V> pollFirstEntry() {
+  public @Nullable Entry<K, V> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
 
@@ -1132,7 +1132,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final @Nullable Entry<K, V> pollLastEntry() {
+  public @Nullable Entry<K, V> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
 

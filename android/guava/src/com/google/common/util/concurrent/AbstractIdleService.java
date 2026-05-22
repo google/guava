@@ -56,7 +56,7 @@ public abstract class AbstractIdleService implements Service {
   @WeakOuter
   private final class DelegateService extends AbstractService {
     @Override
-    protected final void doStart() {
+    protected void doStart() {
       renamingDecorator(executor(), threadNameSupplier)
           .execute(
               () -> {
@@ -71,7 +71,7 @@ public abstract class AbstractIdleService implements Service {
     }
 
     @Override
-    protected final void doStop() {
+    protected void doStop() {
       renamingDecorator(executor(), threadNameSupplier)
           .execute(
               () -> {

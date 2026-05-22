@@ -1845,7 +1845,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   @SuppressWarnings("unchecked")
-  final Segment<K, V>[] newSegmentArray(int ssize) {
+  Segment<K, V>[] newSegmentArray(int ssize) {
     return (Segment<K, V>[]) new Segment<?, ?>[ssize];
   }
 
