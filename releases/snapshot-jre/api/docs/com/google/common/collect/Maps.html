@@ -715,7 +715,11 @@ that the method isn't inadvertently <i>oversizing</i> the returned map.</div>
 <h3>newConcurrentMap</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;K,<wbr>V&gt;</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/ConcurrentMap.html" title="interface in java.util.concurrent" class="external-link">ConcurrentMap</a>&lt;K,<wbr>V&gt;</span>&nbsp;<span class="element-name">newConcurrentMap</span>()</div>
-<div class="block">Creates a new empty <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html" title="class in java.util.concurrent" class="external-link"><code>ConcurrentHashMap</code></a> instance.</div>
+<div class="block">Creates a new empty <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/ConcurrentHashMap.html" title="class in java.util.concurrent" class="external-link"><code>ConcurrentHashMap</code></a> instance.
+
+<p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+use the <code>ConcurrentHashMap</code> constructor directly, taking advantage of <a href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+syntax</a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>3.0</dd>
