@@ -170,13 +170,13 @@ statistics had been added directly.</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the number of pairs in the dataset.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#leastSquaresFit()" class="member-name-link">leastSquaresFit</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns a linear transformation giving the best fit to the data according to <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
 regression</a> of <code>y</code> as a function of <code>x</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#pearsonsCorrelationCoefficient()" class="member-name-link">pearsonsCorrelationCoefficient</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
@@ -187,7 +187,7 @@ product-moment correlation coefficient</a> of the values.</div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the population covariance of the values.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final double</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#sampleCovariance()" class="member-name-link">sampleCovariance</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the sample covariance of the values.</div>
@@ -322,7 +322,7 @@ times, due to numerical errors.
 <section class="detail" id="sampleCovariance()">
 <h3>sampleCovariance</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">sampleCovariance</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">sampleCovariance</span>()</div>
 <div class="block">Returns the sample covariance of the values. The count must be greater than one.
 
 <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
@@ -342,7 +342,7 @@ multiple times, due to numerical errors.
 <section class="detail" id="pearsonsCorrelationCoefficient()">
 <h3>pearsonsCorrelationCoefficient</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">pearsonsCorrelationCoefficient</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">pearsonsCorrelationCoefficient</span>()</div>
 <div class="block">Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
 product-moment correlation coefficient</a> of the values. The count must greater than one, and
 the <code>x</code> and <code>y</code> values must both have non-zero population variance (i.e. <code>
@@ -365,7 +365,7 @@ numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1
 <section class="detail" id="leastSquaresFit()">
 <h3>leastSquaresFit</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name">leastSquaresFit</span>()</div>
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="LinearTransformation.html" title="class in com.google.common.math">LinearTransformation</a></span>&nbsp;<span class="element-name">leastSquaresFit</span>()</div>
 <div class="block">Returns a linear transformation giving the best fit to the data according to <a href="http://mathworld.wolfram.com/LeastSquaresFitting.html">Ordinary Least Squares linear
 regression</a> of <code>y</code> as a function of <code>x</code>. The count must be greater than one, and
 either the <code>x</code> or <code>y</code> data must have a non-zero population variance (i.e. <code>

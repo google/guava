@@ -22569,7 +22569,7 @@
     </method>
     <method name="pollFirstEntry" return="Map.Entry"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="Unsupported operation.">
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
@@ -22580,7 +22580,7 @@
     </method>
     <method name="pollLastEntry" return="Map.Entry"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="Unsupported operation.">
       <doc>
       <![CDATA[Guaranteed to throw an exception and leave the map unmodified.
@@ -51162,7 +51162,7 @@
     </method>
     <method name="sampleCovariance" return="double"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the sample covariance of the values. The count must be greater than one.
@@ -51180,7 +51180,7 @@
     </method>
     <method name="pearsonsCorrelationCoefficient" return="double"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the <a href="http://mathworld.wolfram.com/CorrelationCoefficient.html">Pearson's or
@@ -51201,7 +51201,7 @@
     </method>
     <method name="leastSquaresFit" return="com.google.common.math.LinearTransformation"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a linear transformation giving the best fit to the data according to <a
@@ -52268,7 +52268,7 @@
     </method>
     <method name="sum" return="double"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the sum of the values.
@@ -52285,7 +52285,7 @@
     </method>
     <method name="populationVariance" return="double"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Variance#Population_variance">population
@@ -52305,7 +52305,7 @@
     </method>
     <method name="populationStandardDeviation" return="double"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the <a
@@ -52326,7 +52326,7 @@
     </method>
     <method name="sampleVariance" return="double"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the <a href="http://en.wikipedia.org/wiki/Variance#Sample_variance">unbiased sample
@@ -52347,7 +52347,7 @@
     </method>
     <method name="sampleStandardDeviation" return="double"
       abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the <a
