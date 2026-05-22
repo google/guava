@@ -63,7 +63,7 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
-    implements List<E>, RandomAccess {
+    implements ImmList<E>, RandomAccess {
 
   /**
    * Returns a {@code Collector} that accumulates the input elements into a new {@code

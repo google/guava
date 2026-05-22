@@ -39,7 +39,7 @@ import org.jspecify.annotations.Nullable;
  */
 @SuppressWarnings("serial") // we're overriding default serialization
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
-    implements List<E>, RandomAccess {
+    implements ImmList<E>, RandomAccess {
 
   ImmutableList() {}
 
