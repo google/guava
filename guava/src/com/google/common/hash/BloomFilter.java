@@ -653,6 +653,12 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       strategyOrdinal = din.readByte();
       numHashFunctions = toUnsignedInt(din.readByte());
       dataLength = din.readInt();
+      checkArgument(dataLength >= 0, "Corrupt BloomFilter: dataLength (%s) must be >= 0", dataLength);
+      checkArgument(
+          dataLength <= Integer.MAX_VALUE / 64,
+          "Corrupt BloomFilter: dataLength (%s) is unreasonably large (max: %s)",
+          dataLength,
+          Integer.MAX_VALUE / 64);
 
       /*
        * We document in BloomFilterStrategies that we must not change the ordering, and we have a
