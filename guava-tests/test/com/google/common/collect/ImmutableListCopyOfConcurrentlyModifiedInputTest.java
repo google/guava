@@ -121,7 +121,7 @@ public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
     return new ListFrobber() {
       @Override
       public void perform(List<Integer> list) {
-        list.remove(0);
+        list.remove(/* index */ 0);
       }
     };
   }
