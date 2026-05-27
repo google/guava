@@ -40,6 +40,8 @@ import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
 import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
@@ -531,6 +533,83 @@ public class BloomFilterTest extends TestCase {
         BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel);
     assertThat(read).isEqualTo(bf);
     assertThat(read.expectedFpp()).isGreaterThan(0);
+  }
+
+  public void testCustomSerializationWithAllowedSize() throws Exception {
+    Funnel<byte[]> funnel = byteArrayFunnel();
+    BloomFilter<byte[]> bf = BloomFilter.create(funnel, 100);
+    for (int i = 0; i < 100; i++) {
+      bf.put(Ints.toByteArray(i));
+    }
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    bf.writeTo(out);
+
+    // Deserializing with a maxAllowedSizeInBits equal to the actual bit size should succeed
+    BloomFilter<byte[]> read =
+        BloomFilter.readFrom(new ByteArrayInputStream(out.toByteArray()), funnel, bf.bitSize());
+    assertThat(read).isEqualTo(bf);
+    assertThat(read.expectedFpp()).isGreaterThan(0);
+
+    // Deserializing with a maxAllowedSizeInBits larger than the actual bit size should succeed
+    BloomFilter<byte[]> readLarger =
+        BloomFilter.readFrom(
+            new ByteArrayInputStream(out.toByteArray()), funnel, bf.bitSize() + 100);
+    assertThat(readLarger).isEqualTo(bf);
+
+    // Deserializing with a maxAllowedSizeInBits smaller than the actual bit size should fail
+    long maxAllowedSizeInBits = bf.bitSize() - 1;
+    IOException expected =
+        assertThrows(
+            IOException.class,
+            () ->
+                BloomFilter.readFrom(
+                    new ByteArrayInputStream(out.toByteArray()), funnel, maxAllowedSizeInBits));
+    assertThat(expected).hasCauseThat().isInstanceOf(IllegalArgumentException.class);
+
+    int longArraySize = (out.toByteArray().length - 6) / 8;
+    assertThat(expected)
+        .hasCauseThat()
+        .hasMessageThat()
+        .isEqualTo(
+            String.format(
+                "longArraySize (%s) must be <= %s", longArraySize, maxAllowedSizeInBits / 64));
+  }
+
+  public void testCustomSerializationWithInvalidDataLength() throws Exception {
+    Funnel<byte[]> funnel = byteArrayFunnel();
+
+    // 1 byte strategy, 1 byte numHashFunctions, 4 bytes longArraySize (int), followed by longs.
+    // Let's write a stream where longArraySize is -1 (0xFFFFFFFF)
+    byte[] invalidDataLengthBytes;
+    try (ByteArrayOutputStream out = new ByteArrayOutputStream();
+        DataOutputStream dataOut = new DataOutputStream(out)) {
+      dataOut.writeByte(0x01); // strategy ordinal
+      dataOut.writeByte(0x05); // numHashFunctions
+      dataOut.writeInt(-1); // longArraySize = -1
+      invalidDataLengthBytes = out.toByteArray();
+    }
+
+    IOException expected =
+        assertThrows(
+            IOException.class,
+            () -> BloomFilter.readFrom(new ByteArrayInputStream(invalidDataLengthBytes), funnel));
+    assertThat(expected).hasCauseThat().isInstanceOf(IllegalArgumentException.class);
+    assertThat(expected)
+        .hasCauseThat()
+        .hasMessageThat()
+        .isEqualTo("longArraySize (-1) must be >= 0");
+  }
+
+  public void testReadFromWithNegativeMaxAllowedSizeInBits() throws Exception {
+    Funnel<byte[]> funnel = byteArrayFunnel();
+    ByteArrayInputStream emptyStream = new ByteArrayInputStream(new byte[] {});
+
+    IllegalArgumentException expected =
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> BloomFilter.readFrom(emptyStream, funnel, /* maxAllowedSizeInBits= */ -1));
+    assertThat(expected).hasMessageThat().isEqualTo("maxAllowedSizeInBits (-1) must be >= 0");
   }
 
   /**
