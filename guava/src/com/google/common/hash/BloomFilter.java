@@ -320,6 +320,11 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     this.bits.putAll(that.bits);
   }
 
+  /**
+   * Indicates whether another object is equal to this Bloom filter; <b>discouraged</b>. This method
+   * performs a potentially expensive comparison of all data and configuration of the two Bloom
+   * filters.
+   */
   @Override
   public boolean equals(@Nullable Object object) {
     if (object == this) {
@@ -335,6 +340,10 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     return false;
   }
 
+  /**
+   * Returns a hash code value for this Bloom filter; <b>discouraged</b>. This method performs a
+   * potentially expensive hashing operation on all data and configuration of this Bloom filter.
+   */
   @Override
   public int hashCode() {
     return Objects.hash(numHashFunctions, funnel, strategy, bits);
