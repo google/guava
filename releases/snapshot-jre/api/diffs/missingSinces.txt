@@ -1,1 +1,2 @@
+OK: com.google.common.hash.BloomFilter Method readFrom(java.io.InputStream, com.google.common.hash.Funnel<? super T>, long)
 OK: com.google.common.net.MediaType Field PEM

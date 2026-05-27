@@ -43869,7 +43869,7 @@
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
       <![CDATA[Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code
- BloomFilter}.
+ BloomFilter}, allocating as much memory as the byte stream requests.
 
  <p>The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
  <b>Warning:</b> the funnel provided <b>must</b> behave identically to the one used to populate
@@ -43877,6 +43877,32 @@
 
  @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
      appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.]]>
+      </doc>
+    </method>
+    <method name="readFrom" return="com.google.common.hash.BloomFilter&lt;T&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="in" type="java.io.InputStream"/>
+      <param name="funnel" type="com.google.common.hash.Funnel&lt;? super T&gt;"/>
+      <param name="maxAllowedSizeInBits" type="long"/>
+      <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code
+ BloomFilter}, allocating at most {@code maxAllowedSizeInBits} for the backing array.
+
+ <p>The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
+ <b>Warning:</b> the funnel provided <b>must</b> behave identically to the one used to populate
+ the original Bloom filter!
+
+ @param in the InputStream to read from
+ @param funnel the funnel to use for the Bloom filter
+ @param maxAllowedSizeInBits the maximum number of bits that the Bloom filter can have
+ @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
+     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.
+ @throws IllegalArgumentException if {@code maxAllowedSizeInBits} is negative, or if the number
+     of bits in the stream is greater than {@code maxAllowedSizeInBits}.
+ @since NEXT]]>
       </doc>
     </method>
     <doc>

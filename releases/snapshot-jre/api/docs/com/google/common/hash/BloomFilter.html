@@ -90,6 +90,7 @@ initTheme();
 <li><a href="#create(com.google.common.hash.Funnel,long)" tabindex="0">create(Funnel, long)</a></li>
 <li><a href="#writeTo(java.io.OutputStream)" tabindex="0">writeTo(OutputStream)</a></li>
 <li><a href="#readFrom(java.io.InputStream,com.google.common.hash.Funnel)" tabindex="0">readFrom(InputStream, Funnel)</a></li>
+<li><a href="#readFrom(java.io.InputStream,com.google.common.hash.Funnel,long)" tabindex="0">readFrom(InputStream, Funnel, long)</a></li>
 </ol>
 </li>
 </ol>
@@ -253,37 +254,45 @@ underlying data.</div>
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>
-BloomFilter</code>.</div>
+BloomFilter</code>, allocating as much memory as the byte stream requests.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#serializedSize()" class="member-name-link">serializedSize</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#readFrom(java.io.InputStream,com.google.common.hash.Funnel,long)" class="member-name-link">readFrom</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/InputStream.html" title="class in java.io" class="external-link">InputStream</a>&nbsp;in,
+ <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+ long&nbsp;maxAllowedSizeInBits)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>
+BloomFilter</code>, allocating at most <code>maxAllowedSizeInBits</code> for the backing array.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#serializedSize()" class="member-name-link">serializedSize</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the number of bytes required to serialize this bloom filter using the <a href="#writeTo(java.io.OutputStream)"><code>writeTo(OutputStream)</code></a> method.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#test(T)" class="member-name-link">test</a><wbr>(<a href="#type-param-T" title="type parameter in BloomFilter">T</a>&nbsp;input)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#test(T)" class="member-name-link">test</a><wbr>(<a href="#type-param-T" title="type parameter in BloomFilter">T</a>&nbsp;input)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">Provided only to satisfy the <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/function/Predicate.html" title="interface in java.util.function" class="external-link"><code>Predicate</code></a> interface; use
     <a href="#mightContain(T)"><code>mightContain(T)</code></a> instead.</div>
 </div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/stream/Collector.html" title="interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T, ?, <a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toBloomFilter(com.google.common.hash.Funnel,long)" class="member-name-link">toBloomFilter</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/stream/Collector.html" title="interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T, ?, <a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toBloomFilter(com.google.common.hash.Funnel,long)" class="member-name-link">toBloomFilter</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a <code>Collector</code> expecting the specified number of insertions, and yielding a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with false positive probability 3%.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/stream/Collector.html" title="interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T, ?, <a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toBloomFilter(com.google.common.hash.Funnel,long,double)" class="member-name-link">toBloomFilter</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/stream/Collector.html" title="interface in java.util.stream" class="external-link">Collector</a><wbr>&lt;T, ?, <a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toBloomFilter(com.google.common.hash.Funnel,long,double)" class="member-name-link">toBloomFilter</a><wbr>(<a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;expectedInsertions,
  double&nbsp;fpp)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a <code>Collector</code> expecting the specified number of insertions, and yielding a <a href="BloomFilter.html" title="class in com.google.common.hash"><code>BloomFilter</code></a> with the specified expected false positive probability.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeTo(java.io.OutputStream)" class="member-name-link">writeTo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/OutputStream.html" title="class in java.io" class="external-link">OutputStream</a>&nbsp;out)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#writeTo(java.io.OutputStream)" class="member-name-link">writeTo</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/OutputStream.html" title="class in java.io" class="external-link">OutputStream</a>&nbsp;out)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Writes this <code>BloomFilter</code> to an output stream, with a custom format (not Java
 serialization).</div>
 </div>
@@ -748,7 +757,7 @@ serialization.
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</span>
                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>
-BloomFilter</code>.
+BloomFilter</code>, allocating as much memory as the byte stream requests.
 
 <p>The <code>Funnel</code> to be used is not encoded in the stream, so it must be provided here.
 <b>Warning:</b> the funnel provided <b>must</b> behave identically to the one used to populate
@@ -757,6 +766,37 @@ the original Bloom filter!</div>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></code> - if the InputStream throws an <code>IOException</code>, or if its data does not
     appear to be a BloomFilter serialized using the <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a> method.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="readFrom(java.io.InputStream,com.google.common.hash.Funnel,long)">
+<h3>readFrom</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</span>
+<span class="return-type"><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;</span>&nbsp;<span class="element-name">readFrom</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/InputStream.html" title="class in java.io" class="external-link">InputStream</a>&nbsp;in,
+ <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+ long&nbsp;maxAllowedSizeInBits)</span>
+                 throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></span></div>
+<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>
+BloomFilter</code>, allocating at most <code>maxAllowedSizeInBits</code> for the backing array.
+
+<p>The <code>Funnel</code> to be used is not encoded in the stream, so it must be provided here.
+<b>Warning:</b> the funnel provided <b>must</b> behave identically to the one used to populate
+the original Bloom filter!</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>in</code> - the InputStream to read from</dd>
+<dd><code>funnel</code> - the funnel to use for the Bloom filter</dd>
+<dd><code>maxAllowedSizeInBits</code> - the maximum number of bits that the Bloom filter can have</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></code> - if the InputStream throws an <code>IOException</code>, or if its data does not
+    appear to be a BloomFilter serialized using the <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a> method.</dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>maxAllowedSizeInBits</code> is negative, or if the number
+    of bits in the stream is greater than <code>maxAllowedSizeInBits</code>.</dd>
+<dt>Since:</dt>
+<dd>NEXT</dd>
 </dl>
 </div>
 </section>

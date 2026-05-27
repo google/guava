@@ -121,7 +121,15 @@ positive probability.</div>
  <a href="../Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Reads a byte stream, which was written by <a href="../BloomFilter.html#writeTo(java.io.OutputStream)">BloomFilter.writeTo(OutputStream)</a>, into a <code>
-BloomFilter</code>.</div>
+BloomFilter</code>, allocating as much memory as the byte stream requests.</div>
+</div>
+<div class="col-first even-row-color"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="../BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">BloomFilter.</span><code><a href="../BloomFilter.html#readFrom(java.io.InputStream,com.google.common.hash.Funnel,long)" class="member-name-link">readFrom</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/InputStream.html" title="class in java.io" class="external-link">InputStream</a>&nbsp;in,
+ <a href="../Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
+ long&nbsp;maxAllowedSizeInBits)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Reads a byte stream, which was written by <a href="../BloomFilter.html#writeTo(java.io.OutputStream)">BloomFilter.writeTo(OutputStream)</a>, into a <code>
+BloomFilter</code>, allocating at most <code>maxAllowedSizeInBits</code> for the backing array.</div>
 </div>
 </div>
 <div class="caption"><span>Methods in <a href="../package-summary.html">com.google.common.hash</a> that return types with arguments of type <a href="../BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></span></div>
