@@ -319,6 +319,12 @@ public final class ExecutionSequencer {
       this.sequencer = sequencer;
     }
 
+    /*
+     * We compare two Thread instances with ==: For concurrency correctness, we need to know whether
+     * they are actually the same thread, even if they are instances of some user subclass that
+     * overrides Thread.equals.
+     */
+    @SuppressWarnings("ReferenceEquality")
     @Override
     public void execute(Runnable task) {
       // If this operation was successfully cancelled already, calling the runnable will be a noop.
@@ -375,7 +381,15 @@ public final class ExecutionSequencer {
       }
     }
 
-    @SuppressWarnings("ShortCircuitBoolean")
+    @SuppressWarnings({
+      "ShortCircuitBoolean",
+      /*
+       * We compare two Thread instances with ==: For concurrency correctness, we need to know
+       * whether they are actually the same thread, even if they are instances of some user subclass
+       * that overrides Thread.equals.
+       */
+      "ReferenceEquality",
+    })
     @Override
     public void run() {
       Thread currentThread = Thread.currentThread();

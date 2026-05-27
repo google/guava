@@ -58,6 +58,7 @@ public abstract class AbstractInvocationHandler implements InvocationHandler {
    *   <li>other method calls are dispatched to {@link #handleInvocation}.
    * </ul>
    */
+  @SuppressWarnings("ReferenceEquality") // == fast path
   @Override
   public final @Nullable Object invoke(
       Object proxy, Method method, @Nullable Object @Nullable [] args) throws Throwable {

@@ -134,6 +134,7 @@ class MapIteratorCache<K, V> {
 
   // Internal methods (package-visible, but treat as only subclass-visible)
 
+  @SuppressWarnings("ReferenceEquality") // see comment below
   @Nullable V getIfCached(@Nullable Object key) {
     Entry<K, V> entry = cacheEntry; // store local reference for thread-safety
 

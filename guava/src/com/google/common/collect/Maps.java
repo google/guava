@@ -3862,6 +3862,7 @@ public final class Maps {
   }
 
   /** An implementation of {@link Map#equals}. */
+  @SuppressWarnings("ReferenceEquality") // == fast path
   static boolean equalsImpl(Map<?, ?> map, @Nullable Object object) {
     if (map == object) {
       return true;

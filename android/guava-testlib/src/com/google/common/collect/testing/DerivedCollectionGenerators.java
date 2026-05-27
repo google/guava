@@ -18,7 +18,6 @@ package com.google.common.collect.testing;
 
 import static com.google.common.collect.testing.Helpers.castOrCopyToList;
 import static com.google.common.collect.testing.Helpers.entryComparator;
-import static com.google.common.collect.testing.Helpers.equal;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static java.util.Arrays.asList;
 import static java.util.Collections.sort;
@@ -30,6 +29,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -265,7 +265,7 @@ public final class DerivedCollectionGenerators {
 
             int indexOfEntryWithValue(V value) {
               for (int i = 0; i < orderedEntries.size(); i++) {
-                if (equal(orderedEntries.get(i).getValue(), value)) {
+                if (Objects.equals(orderedEntries.get(i).getValue(), value)) {
                   return i;
                 }
               }

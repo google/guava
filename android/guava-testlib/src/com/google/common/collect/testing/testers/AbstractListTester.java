@@ -22,6 +22,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
@@ -63,7 +64,7 @@ public class AbstractListTester<E extends @Nullable Object> extends AbstractColl
     for (int i = 0; i < expectedList.size(); i++) {
       E expected = expectedList.get(i);
       E actual = getList().get(i);
-      if (expected != actual && (expected == null || !expected.equals(actual))) {
+      if (!Objects.equals(actual, expected)) {
         fail("mismatch at index " + i + ": " + reportContext(expectedList));
       }
     }

@@ -865,6 +865,7 @@ public final class Multisets {
   }
 
   /** An implementation of {@link Multiset#equals}. */
+  @SuppressWarnings("ReferenceEquality") // == fast path
   static boolean equalsImpl(Multiset<?> multiset, @Nullable Object object) {
     if (object == multiset) {
       return true;

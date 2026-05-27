@@ -145,6 +145,7 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
     return nodeInvalidatableSet(checkedConnections(node).adjacentNodes(), node);
   }
 
+  @SuppressWarnings("ReferenceEquality") // see comment below
   @Override
   public Set<E> edgesConnecting(N nodeU, N nodeV) {
     NetworkConnections<N, E> connectionsU = checkedConnections(nodeU);

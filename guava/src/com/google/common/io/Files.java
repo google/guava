@@ -368,6 +368,8 @@ public final class Files {
    *
    * @throws IOException if an I/O error occurs
    */
+  // performance optimization to avoid lexicographical comparison in File.equals
+  @SuppressWarnings("ReferenceEquality")
   public static boolean equal(File file1, File file2) throws IOException {
     checkNotNull(file1);
     checkNotNull(file2);

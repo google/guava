@@ -54,6 +54,7 @@ final class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
 
   // Internal methods (package-visible, but treat as only subclass-visible)
 
+  @SuppressWarnings("ReferenceEquality") // see comment below
   @Override
   @Nullable V getIfCached(@Nullable Object key) {
     V value = super.getIfCached(key);

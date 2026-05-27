@@ -816,6 +816,8 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    * <p>This is an implementation of last resort for when certain basic VM features are broken (like
    * AtomicReferenceFieldUpdater).
    */
+  // We use identity equality like all AtomicHelper implementations necessarily (and correctly) do.
+  @SuppressWarnings("ReferenceEquality")
   private static final class SynchronizedHelper extends AtomicHelper {
     @Override
     void putThread(Waiter waiter, Thread newValue) {
