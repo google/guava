@@ -216,7 +216,7 @@ positive probability.</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Indicates whether another object is equal to this predicate.</div>
+<div class="block">Indicates whether another object is equal to this Bloom filter; <b>discouraged</b>.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#expectedFpp()" class="member-name-link">expectedFpp</a>()</code></div>
@@ -226,7 +226,9 @@ true</code> for an object that has not actually been put in the <code>BloomFilte
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
+<div class="block">Returns a hash code value for this Bloom filter; <b>discouraged</b>.</div>
+</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isCompatible(com.google.common.hash.BloomFilter)" class="member-name-link">isCompatible</a><wbr>(<a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;<a href="#type-param-T" title="type parameter in BloomFilter">T</a>&gt;&nbsp;that)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
@@ -506,15 +508,9 @@ filters are appropriately sized to avoid saturating them.</div>
 <h3>equals</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">equals</span><wbr><span class="parameters">(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&nbsp;object)</span></div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="../base/Predicate.html#equals(java.lang.Object)">Predicate</a></code></span></div>
-<div class="block">Indicates whether another object is equal to this predicate.
-
-<p><b>Warning: do not depend</b> on the behavior of this method.
-
-<p>Historically, <code>Predicate</code> instances in this library have implemented this method to
-recognize certain cases where distinct <code>Predicate</code> instances would in fact behave
-identically. However, as code migrates to <code>java.util.function</code>, that behavior will
-disappear. It is best not to depend on it.</div>
+<div class="block">Indicates whether another object is equal to this Bloom filter; <b>discouraged</b>. This method
+performs a potentially expensive comparison of all data and configuration of the two Bloom
+filters.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="../base/Predicate.html#equals(java.lang.Object)">equals</a></code>&nbsp;in interface&nbsp;<code><a href="../base/Predicate.html" title="interface in com.google.common.base">Predicate</a>&lt;<a href="#type-param-T" title="type parameter in BloomFilter">T</a> extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</code></dd>
@@ -529,6 +525,8 @@ disappear. It is best not to depend on it.</div>
 <h3>hashCode</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">hashCode</span>()</div>
+<div class="block">Returns a hash code value for this Bloom filter; <b>discouraged</b>. This method performs a
+potentially expensive hashing operation on all data and configuration of this Bloom filter.</div>
 <dl class="notes">
 <dt>Overrides:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#hashCode()" class="external-link">hashCode</a></code>&nbsp;in class&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a></code></dd>

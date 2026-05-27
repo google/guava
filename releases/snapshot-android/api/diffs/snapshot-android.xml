@@ -43262,11 +43262,20 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="object" type="Object"/>
+      <doc>
+      <![CDATA[Indicates whether another object is equal to this Bloom filter; <b>discouraged</b>. This method
+ performs a potentially expensive comparison of all data and configuration of the two Bloom
+ filters.]]>
+      </doc>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Returns a hash code value for this Bloom filter; <b>discouraged</b>. This method performs a
+ potentially expensive hashing operation on all data and configuration of this Bloom filter.]]>
+      </doc>
     </method>
     <method name="toBloomFilter" return="java.util.stream.Collector&lt;T, ?, com.google.common.hash.BloomFilter&lt;T&gt;&gt;"
       abstract="false" native="false" synchronized="false"
