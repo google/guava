@@ -21728,7 +21728,9 @@
 
  <p>Because an inverse of a set multimap cannot contain multiple pairs with the same key and
  value, this method returns an {@code ImmutableSetMultimap} rather than the {@code
- ImmutableMultimap} specified in the {@code ImmutableMultimap} class.]]>
+ ImmutableMultimap} specified in the {@code ImmutableMultimap} class.
+
+ @since 11.0]]>
       </doc>
     </method>
     <method name="removeAll" return="com.google.common.collect.ImmutableSet&lt;V&gt;"
