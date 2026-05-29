@@ -203,30 +203,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
   }
 
-  abstract static class Indexed<E> extends ImmutableSet<E> {
-    abstract E get(int index);
-
-    @Override
-    public UnmodifiableIterator<E> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    ImmutableList<E> createAsList() {
-      return new ImmutableAsList<E>() {
-        @Override
-        public E get(int index) {
-          return Indexed.this.get(index);
-        }
-
-        @Override
-        Indexed<E> delegateCollection() {
-          return Indexed.this;
-        }
-      };
-    }
-  }
-
   public static <E> Builder<E> builder() {
     return new Builder<E>();
   }

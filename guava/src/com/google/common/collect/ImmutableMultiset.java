@@ -601,7 +601,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
     }
   }
 
-  static final class ElementSet<E> extends ImmutableSet.Indexed<E> {
+  static final class ElementSet<E> extends IndexedImmutableSet<E> {
     private final List<Entry<E>> entries;
     // TODO(cpovirk): @Weak?
     private final Multiset<E> delegate;

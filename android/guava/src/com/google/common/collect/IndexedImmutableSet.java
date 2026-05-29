@@ -38,6 +38,7 @@ abstract class IndexedImmutableSet<E> extends ImmutableSet<E> {
 
   @Override
   ImmutableList<E> createAsList() {
+    // TODO(cpovirk): Use ImmutableAsList, as in the mainline?
     return new ImmutableList<E>() {
       @Override
       public E get(int index) {
