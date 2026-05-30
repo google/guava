@@ -522,6 +522,7 @@ public class CacheBuilderTest extends TestCase {
    * Calls get() repeatedly from many different threads, and tests that all of the removed entries
    * (removed because of size limits or expiration) trigger appropriate removal notifications.
    */
+  @AndroidIncompatible // ~40s; doable but probably not worth it. We could try reducing nTasks, etc.
   @J2ktIncompatible
   @GwtIncompatible // QueuingRemovalListener
 

@@ -29,8 +29,7 @@ import java.lang.annotation.Target;
 
 /**
  * Signifies that a test should not be run under Android. This annotation is respected only by our
- * Google-internal Android suite generators. Note that those generators also suppress any test
- * annotated with LargeTest.
+ * Google-internal Android suite generators.
  *
  * <p>Why use a custom annotation instead of {@code android.test.suitebuilder.annotation.Suppress}?
  * I'm not completely sure that this is the right choice, but it has various advantages:
@@ -48,7 +47,7 @@ import java.lang.annotation.Target;
  *       continuing to run {@code FooTest} itself. This is exactly what happens with {@code
  *       AndroidIncompatible}. But I'm not sure what would happen if we annotated the {@code
  *       suite()} method with {@code Suppress}. Would {@code FooTest} itself be suppressed, too?
- *   <li>In at least one case, a use of {@code sun.misc.FpUtils}, the test will not even
+ *   <li>In at least one historical case, a use of {@code sun.misc.FpUtils}, the test did not even
  *       <i>compile</i> against Android. Now, this might be an artifact of our build system, one
  *       that we could probably work around. Or we could manually strip the test from open-source
  *       Guava while continuing to run it internally, as we do with many other tests. This would

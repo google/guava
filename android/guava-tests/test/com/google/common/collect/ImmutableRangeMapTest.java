@@ -200,6 +200,7 @@ public class ImmutableRangeMapTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // ~40s; doable but probably not worth it. We could test on fewer ranges
 
   public void testSubRangeMap() {
     for (Range<Integer> range1 : RANGES) {

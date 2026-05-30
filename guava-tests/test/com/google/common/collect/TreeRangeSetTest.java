@@ -275,6 +275,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     return expected;
   }
 
+  @AndroidIncompatible // ~40s; doable but probably not worth it. We could test on fewer ranges
 
   public void testSubRangeSet() {
     for (Range<Integer> range1 : QUERY_RANGES) {
@@ -314,6 +315,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  @AndroidIncompatible // ~70s; doable but probably not worth it. We could test on fewer ranges
 
   public void testSubRangeSetOfComplement() {
     for (Range<Integer> range1 : QUERY_RANGES) {
@@ -330,6 +332,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
+  @AndroidIncompatible // ~120s; doable but probably not worth it. We could test on fewer ranges
 
   public void testComplementOfSubRangeSet() {
     for (Range<Integer> range1 : QUERY_RANGES) {

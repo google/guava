@@ -716,6 +716,7 @@ public class LongMathTest extends TestCase {
   }
 
 
+  @AndroidIncompatible // slow enough to cause a timeout
   @J2ktIncompatible // slow enough to cause flakiness
   @GwtIncompatible // far too slow
   public void testSqrtOfPerfectSquareAsDoubleIsPerfect() {

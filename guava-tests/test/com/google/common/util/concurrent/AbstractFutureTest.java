@@ -631,8 +631,9 @@ public class AbstractFutureTest extends TestCase {
     executor.shutdown();
   }
 
-  // setFuture and cancel() interact in more complicated ways than the other setters.
+  @AndroidIncompatible // ~40s; doable but probably not worth it. We could try reducing `size`
   @J2ktIncompatible
+  // setFuture and cancel() interact in more complicated ways than the other setters.
   public void testSetFutureCancelBash() {
     if (isWindows()) {
       return; // TODO: b/136041958 - Running very slowly on Windows CI.
