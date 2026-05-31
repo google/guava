@@ -33,6 +33,7 @@ import java.util.List;
 import java.util.OptionalDouble;
 import java.util.OptionalInt;
 import java.util.OptionalLong;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 import java.util.stream.DoubleStream;
@@ -506,6 +507,70 @@ public class StreamsTest extends TestCase {
     Streams.forEachPair(
         Stream.of("a", "b", "c"), Stream.iterate(1, i -> i + 1), (a, b) -> list.add(a + ":" + b));
     assertThat(list).containsExactly("a:1", "b:2", "c:3");
+  }
+
+  public void testForEachWithIndex() {
+    List<String> result = new ArrayList<>();
+    Streams.forEachWithIndex(Stream.of("a", "b", "c"), (e, i) -> result.add(i + ":" + e));
+    assertThat(result).containsExactly("0:a", "1:b", "2:c").inOrder();
+  }
+
+  public void testForEachWithIndex_emptyStream() {
+    List<String> result = new ArrayList<>();
+    Streams.forEachWithIndex(Stream.<String>of(), (e, i) -> result.add(i + ":" + e));
+    assertThat(result).isEmpty();
+  }
+
+  public void testForEachWithIndex_nullElement() {
+    List<@Nullable String> collected = new ArrayList<>();
+    List<Long> indices = new ArrayList<>();
+    Streams.forEachWithIndex(
+        Stream.<@Nullable String>of("a", null, "c"),
+        (e, i) -> {
+          collected.add(e);
+          indices.add(i);
+        });
+    assertThat(collected).containsExactly("a", null, "c").inOrder();
+    assertThat(indices).containsExactly(0L, 1L, 2L).inOrder();
+  }
+
+  public void testForEachWithIndex_nullChecks() {
+    try {
+      Streams.forEachWithIndex(null, (e, i) -> {});
+      fail();
+    } catch (NullPointerException expected) {
+    }
+
+    try {
+      Streams.forEachWithIndex(Stream.of("a"), null);
+      fail();
+    } catch (NullPointerException expected) {
+    }
+  }
+
+  public void testForEachWithIndex_unsizedSource() {
+    List<String> result = new ArrayList<>();
+    Streams.forEachWithIndex(
+        Stream.<@Nullable Object>of((Object) null)
+            .flatMap(unused -> ImmutableList.of("a", "b", "c").stream()),
+        (e, i) -> result.add(i + ":" + e));
+    assertThat(result).containsExactly("0:a", "1:b", "2:c").inOrder();
+  }
+
+  public void testForEachWithIndex_parallelStream() {
+    int n = 200;
+    List<String> input = new ArrayList<>();
+    for (int j = 0; j < n; j++) {
+      input.add("e" + j);
+    }
+
+    ConcurrentHashMap<String, Long> result = new ConcurrentHashMap<>();
+    Streams.forEachWithIndex(input.stream().parallel(), (e, i) -> result.put(e, i));
+
+    assertThat(result).hasSize(n);
+    for (int j = 0; j < n; j++) {
+      assertThat(result).containsEntry("e" + j, (long) j);
+    }
   }
 
   public void testForEachPair_parallel() {
