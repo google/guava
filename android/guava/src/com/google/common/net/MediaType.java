@@ -934,6 +934,14 @@ public final class MediaType {
    */
   public static final MediaType FONT_WOFF2 = createConstant(FONT_TYPE, "woff2");
 
+  /**
+   * <a href="https://yaml.org">YAML</a>, as standardized in <a
+   * href="https://www.rfc-editor.org/info/rfc9512">RFC 9512</a>.
+   *
+   * @since NEXT
+   */
+  public static final MediaType YAML = createConstant(APPLICATION_TYPE, "yaml");
+
   private final String type;
   private final String subtype;
   private final ImmutableListMultimap<String, String> parameters;
