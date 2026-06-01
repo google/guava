@@ -19,7 +19,6 @@ package com.google.common.collect.testing;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Math.max;
 import static java.util.Arrays.asList;
-import static java.util.Collections.singletonMap;
 import static java.util.Collections.sort;
 import static junit.framework.Assert.assertEquals;
 import static junit.framework.Assert.assertFalse;
@@ -33,6 +32,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.AbstractList;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -43,6 +43,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.Set;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -50,11 +51,6 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 @NullMarked
 public class Helpers {
-  // Clone of Objects.equals
-  static boolean equal(@Nullable Object a, @Nullable Object b) {
-    return a == b || (a != null && a.equals(b));
-  }
-
   // Clone of Lists.newArrayList
   public static <E extends @Nullable Object> List<E> copyToList(Iterable<? extends E> elements) {
     List<E> list = new ArrayList<>();
@@ -77,10 +73,9 @@ public class Helpers {
     return copyToSet(asList(elements));
   }
 
-  // Would use Maps.immutableEntry
   public static <K extends @Nullable Object, V extends @Nullable Object> Entry<K, V> mapEntry(
       K key, V value) {
-    return singletonMap(key, value).entrySet().iterator().next();
+    return new SimpleImmutableEntry<>(key, value);
   }
 
   private static boolean isEmpty(Iterable<?> iterable) {
@@ -106,7 +101,7 @@ public class Helpers {
     Iterator<?> actualIter = actual.iterator();
 
     while (expectedIter.hasNext() && actualIter.hasNext()) {
-      if (!equal(expectedIter.next(), actualIter.next())) {
+      if (!Objects.equals(expectedIter.next(), actualIter.next())) {
         fail(
             "contents were not equal and in the same order: "
                 + "expected = "
@@ -165,7 +160,7 @@ public class Helpers {
       contained = ((Collection<?>) actual).contains(expected);
     } else {
       for (Object o : actual) {
-        if (equal(o, expected)) {
+        if (Objects.equals(o, expected)) {
           contained = true;
           break;
         }
@@ -432,7 +427,7 @@ public class Helpers {
           Entry<K, V> e = (Entry<K, V>) o;
           e.setValue(value); // muhahaha!
 
-          return equal(this.getKey(), e.getKey()) && equal(this.getValue(), e.getValue());
+          return Objects.equals(key, e.getKey()) && Objects.equals(value, e.getValue());
         }
         return false;
       }

@@ -264,7 +264,7 @@ public final class StatsAccumulator {
    * If it contains {@link Double#NEGATIVE_INFINITY} and finite values only or {@link
    * Double#NEGATIVE_INFINITY} only, the result is {@link Double#NEGATIVE_INFINITY}.
    */
-  public final double sum() {
+  public double sum() {
     return mean * count;
   }
 
@@ -283,7 +283,7 @@ public final class StatsAccumulator {
    *
    * @throws IllegalStateException if the dataset is empty
    */
-  public final double populationVariance() {
+  public double populationVariance() {
     checkState(count != 0);
     if (isNaN(sumOfSquaresOfDeltas)) {
       return NaN;
@@ -310,7 +310,7 @@ public final class StatsAccumulator {
    *
    * @throws IllegalStateException if the dataset is empty
    */
-  public final double populationStandardDeviation() {
+  public double populationStandardDeviation() {
     return Math.sqrt(populationVariance());
   }
 
@@ -330,7 +330,7 @@ public final class StatsAccumulator {
    *
    * @throws IllegalStateException if the dataset is empty or contains a single value
    */
-  public final double sampleVariance() {
+  public double sampleVariance() {
     checkState(count > 1);
     if (isNaN(sumOfSquaresOfDeltas)) {
       return NaN;
@@ -356,7 +356,7 @@ public final class StatsAccumulator {
    *
    * @throws IllegalStateException if the dataset is empty or contains a single value
    */
-  public final double sampleStandardDeviation() {
+  public double sampleStandardDeviation() {
     return Math.sqrt(sampleVariance());
   }
 

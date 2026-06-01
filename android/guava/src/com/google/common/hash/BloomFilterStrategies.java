@@ -219,7 +219,7 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
      * final long[] will be a "rolling snapshot" of the state of the bit array. This is usually good
      * enough, but should be kept in mind.
      */
-    public static long[] toPlainArray(AtomicLongArray atomicLongArray) {
+    static long[] toPlainArray(AtomicLongArray atomicLongArray) {
       long[] array = new long[atomicLongArray.length()];
       for (int i = 0; i < array.length; ++i) {
         array[i] = atomicLongArray.get(i);

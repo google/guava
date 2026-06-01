@@ -1008,6 +1008,7 @@ public final class Lists {
   }
 
   /** An implementation of {@link List#equals(Object)}. */
+  @SuppressWarnings("ReferenceEquality") // == fast path
   static boolean equalsImpl(List<?> thisList, @Nullable Object other) {
     if (other == checkNotNull(thisList)) {
       return true;

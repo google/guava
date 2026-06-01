@@ -520,7 +520,6 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         @SuppressWarnings("RedundantOverride")
         @Override
         @J2ktIncompatible
-        @GwtIncompatible
                 Object writeReplace() {
           return super.writeReplace();
         }
@@ -632,7 +631,6 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     @Override
-    @GwtIncompatible // NavigableSet
     public UnmodifiableIterator<C> descendingIterator() {
       return new AbstractIterator<C>() {
         final Iterator<Range<C>> rangeItr = ranges.reverse().iterator();

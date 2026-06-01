@@ -82,7 +82,6 @@ public class EnumsTest extends TestCase {
   }
 
 
-  @J2ktIncompatible
   @AndroidIncompatible // depends on details of GC and classloading
   public void testGetIfPresent_doesNotPreventClassUnloading() throws Exception {
     WeakReference<?> shadowLoaderReference = doTestClassUnloading();
@@ -94,7 +93,7 @@ public class EnumsTest extends TestCase {
   // new ClassLoader. If Enums.getIfPresent does caching that prevents the shadow TestEnum
   // (and therefore its ClassLoader) from being unloaded, then this WeakReference will never be
   // cleared.
-  @J2ktIncompatible
+
   private WeakReference<?> doTestClassUnloading() throws Exception {
     URLClassLoader shadowLoader = new URLClassLoader(getClassPathUrls(), null);
     @SuppressWarnings("unchecked")
@@ -136,7 +135,6 @@ public class EnumsTest extends TestCase {
     assertThat(converter.reverse().convert(TestEnum.POODLE)).isEqualTo("POODLE");
   }
 
-  @J2ktIncompatible
   public void testStringConverter_nullPointerTester() throws Exception {
     Converter<String, TestEnum> converter = Enums.stringConverter(TestEnum.class);
     NullPointerTester tester = new NullPointerTester();
@@ -149,7 +147,6 @@ public class EnumsTest extends TestCase {
     assertThat(converter.reverse().convert(null)).isNull();
   }
 
-  @J2ktIncompatible
   public void testStringConverter_toString() {
     assertThat(Enums.stringConverter(TestEnum.class).toString())
         .isEqualTo("Enums.stringConverter(com.google.common.base.EnumsTest$TestEnum.class)");
@@ -159,7 +156,6 @@ public class EnumsTest extends TestCase {
     reserializeAndAssert(Enums.stringConverter(TestEnum.class));
   }
 
-  @J2ktIncompatible
   public void testNullPointerExceptions() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(Enums.class);
@@ -174,7 +170,6 @@ public class EnumsTest extends TestCase {
     BAR
   }
 
-  @J2ktIncompatible
   public void testGetField() {
     Field foo = Enums.getField(AnEnum.FOO);
     assertThat(foo.getName()).isEqualTo("FOO");
@@ -185,7 +180,6 @@ public class EnumsTest extends TestCase {
     assertFalse(bar.isAnnotationPresent(ExampleAnnotation.class));
   }
 
-  @J2ktIncompatible
   private URL[] getClassPathUrls() {
     ClassLoader classLoader = getClass().getClassLoader();
     return classLoader instanceof URLClassLoader
@@ -198,7 +192,7 @@ public class EnumsTest extends TestCase {
    * System#getProperty system property}.
    */
   // TODO(b/65488446): Make this a public API.
-  @J2ktIncompatible
+
   private static ImmutableList<URL> parseJavaClassPath() {
     ImmutableList.Builder<URL> urls = ImmutableList.builder();
     for (String entry : Splitter.on(PATH_SEPARATOR.value()).split(JAVA_CLASS_PATH.value())) {

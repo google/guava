@@ -20,11 +20,11 @@ jobs:
     strategy:
       matrix:
         os: [ ubuntu-latest ]
-        java: [ 8, 11, 17, 21 ]
+        java: [ 8, 11, 17, 25 ]
         root-pom: [ 'pom.xml', 'android/pom.xml' ]
         include:
           - os: windows-latest
-            java: 21
+            java: 25
             root-pom: pom.xml
     runs-on: ${{ matrix.os }}
     env:

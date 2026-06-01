@@ -20,23 +20,22 @@ import com.google.common.collect.ImmutableSet;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * A byte sink for testing that has configurable behavior.
  *
  * @author Colin Decker
  */
-@NullUnmarked
-public class TestByteSink extends ByteSink implements TestStreamSupplier {
-
+@NullMarked
+final class TestByteSink extends ByteSink implements TestStreamSupplier {
   private final ByteArrayOutputStream bytes = new ByteArrayOutputStream();
   private final ImmutableSet<TestOption> options;
 
-  private boolean outputStreamOpened;
-  private boolean outputStreamClosed;
+  private @Nullable TestOutputStream mostRecentStream;
 
-  public TestByteSink(TestOption... options) {
+  TestByteSink(TestOption... options) {
     this.options = ImmutableSet.copyOf(options);
   }
 
@@ -46,31 +45,18 @@ public class TestByteSink extends ByteSink implements TestStreamSupplier {
 
   @Override
   public boolean wasStreamOpened() {
-    return outputStreamOpened;
+    return mostRecentStream != null;
   }
 
   @Override
   public boolean wasStreamClosed() {
-    return outputStreamClosed;
+    return mostRecentStream != null && mostRecentStream.closed();
   }
 
   @Override
   public OutputStream openStream() throws IOException {
-    outputStreamOpened = true;
+    mostRecentStream = new TestOutputStream(bytes, options);
     bytes.reset(); // truncate
-    return new Out();
-  }
-
-  private final class Out extends TestOutputStream {
-
-    Out() throws IOException {
-      super(bytes, options);
-    }
-
-    @Override
-    public void close() throws IOException {
-      outputStreamClosed = true;
-      super.close();
-    }
+    return mostRecentStream;
   }
 }

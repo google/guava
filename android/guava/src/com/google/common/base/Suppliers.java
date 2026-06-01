@@ -416,7 +416,7 @@ public final class Suppliers {
       return "Suppliers.synchronizedSupplier(" + delegate + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

@@ -112,7 +112,6 @@ public class EnumHashBiMapTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // suite
   @AndroidIncompatible // test-suite builders
   public static Test suite() {
@@ -228,12 +227,10 @@ public class EnumHashBiMapTest extends TestCase {
   }
 
   @GwtIncompatible
-  @J2ktIncompatible
     public void testSerializable() {
     reserializeAndAssert(EnumHashBiMap.create(Currency.class));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(EnumHashBiMap.class);

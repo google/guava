@@ -480,7 +480,7 @@ public final class HttpHeaders {
   public static final String STRICT_TRANSPORT_SECURITY = "Strict-Transport-Security";
 
   /**
-   * The HTTP <a href="http://www.w3.org/TR/resource-timing/#cross-origin-resources">{@code
+   * The HTTP <a href="https://www.w3.org/TR/resource-timing/#sec-timing-allow-origin">{@code
    * Timing-Allow-Origin}</a> header field name.
    *
    * @since 15.0

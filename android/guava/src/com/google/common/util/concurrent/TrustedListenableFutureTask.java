@@ -118,7 +118,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
     }
 
     @Override
-    final boolean isDone() {
+    boolean isDone() {
       return TrustedListenableFutureTask.this.isDone();
     }
 
@@ -154,7 +154,7 @@ class TrustedListenableFutureTask<V extends @Nullable Object> extends FluentFutu
     }
 
     @Override
-    final boolean isDone() {
+    boolean isDone() {
       return TrustedListenableFutureTask.this.isDone();
     }
 

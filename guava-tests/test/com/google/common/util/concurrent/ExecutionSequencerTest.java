@@ -139,8 +139,6 @@ public class ExecutionSequencerTest extends TestCase {
     assertThat(getDone(future2)).isFalse();
   }
 
-  @J2ktIncompatible
-  @GwtIncompatible
   public void testCancellationWithReferencedObject() throws Exception {
     Object toBeGCed = new Object();
     WeakReference<Object> ref = new WeakReference<>(toBeGCed);
@@ -244,8 +242,6 @@ public class ExecutionSequencerTest extends TestCase {
   private static final int ITERATION_COUNT = 50_000;
   private static final int DIRECT_EXECUTIONS_PER_THREAD = 100;
 
-  @J2ktIncompatible
-  @GwtIncompatible // threads
   public void testAvoidsStackOverflow_multipleThreads() throws Exception {
     LongHolder holder = new LongHolder();
     ArrayList<ListenableFuture<Integer>> lengthChecks = new ArrayList<>();

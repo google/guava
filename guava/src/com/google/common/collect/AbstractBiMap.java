@@ -100,6 +100,8 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     delegate = forward;
   }
 
+  // We check that we aren't using the same (empty) map instance for both directions.
+  @SuppressWarnings("ReferenceEquality")
   private AbstractBiMap<V, K> checkMapsAndMakeInverse(Map<K, V> forward, Map<V, K> backward) {
     checkArgument(forward.isEmpty());
     checkArgument(backward.isEmpty());

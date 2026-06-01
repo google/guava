@@ -45,6 +45,10 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Range;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
+import java.io.InputStream;
+import java.lang.classfile.ClassFile;
+import java.lang.classfile.ClassModel;
+import java.lang.classfile.MethodModel;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -85,6 +89,34 @@ public class AbstractFutureTest extends TestCase {
               }
             }.get())
         .isEqualTo(value);
+  }
+
+  @J2ktIncompatible
+  @AndroidIncompatible
+  @SuppressWarnings({
+    "Java8ApiChecker", // We check isJava8 before Runtime and Runtime before using ClassModel
+    "deprecation", // Version.feature() isn't available until 10, so we use major() to support 9
+  })
+  public void testAssertNoClinit() throws Exception {
+    if (isJava8() || Runtime.version().major() < 24) {
+      return;
+    }
+
+    String abstractFuturePath = AbstractFuture.class.getName().replace('.', '/') + ".class";
+
+    try (InputStream stream =
+        AbstractFuture.class.getClassLoader().getResourceAsStream(abstractFuturePath)) {
+      ClassModel classModel = ClassFile.of().parse(stream.readAllBytes());
+
+      for (MethodModel method : classModel.methods()) {
+        if (method.methodName().stringValue().equals("<clinit>")) {
+          assertWithMessage(
+                  "AbstractFuture should not have a static initializer (<clinit>) "
+                      + "to prevent potential class-loading deadlocks.")
+              .fail();
+        }
+      }
+    }
   }
 
   @J2ktIncompatible // J2KT ExecutionException differs in stack trace
@@ -599,8 +631,9 @@ public class AbstractFutureTest extends TestCase {
     executor.shutdown();
   }
 
-  // setFuture and cancel() interact in more complicated ways than the other setters.
+  @AndroidIncompatible // ~40s; doable but probably not worth it. We could try reducing `size`
   @J2ktIncompatible
+  // setFuture and cancel() interact in more complicated ways than the other setters.
   public void testSetFutureCancelBash() {
     if (isWindows()) {
       return; // TODO: b/136041958 - Running very slowly on Windows CI.
@@ -814,7 +847,6 @@ public class AbstractFutureTest extends TestCase {
   // Verify that StackOverflowError in a long chain of SetFuture doesn't cause the entire toString
   // call to fail
   @J2ktIncompatible
-  @GwtIncompatible
   @AndroidIncompatible // b/391667564: crashes from stack overflows
   public void testSetFutureToString_stackOverflow() {
     SettableFuture<String> orig = SettableFuture.create();
@@ -1289,5 +1321,9 @@ public class AbstractFutureTest extends TestCase {
 
   private static boolean isWindows() {
     return OS_NAME.value().startsWith("Windows");
+  }
+
+  private static boolean isJava8() {
+    return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
   }
 }

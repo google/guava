@@ -58,8 +58,6 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     assertEquals(Double.doubleToRawLongBits(x), Double.doubleToRawLongBits(y));
   }
 
-  @J2ktIncompatible
-  @GwtIncompatible // NullPointerTester
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(AtomicDoubleArray.class);
     new NullPointerTester().testAllPublicConstructors(AtomicDoubleArray.class);
@@ -291,13 +289,14 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   }
 
   /** a deserialized serialized array holds same values */
+  @SuppressWarnings("ReferenceEquality")
   public void testSerialization() throws Exception {
     AtomicDoubleArray x = new AtomicDoubleArray(SIZE);
     for (int i = 0; i < SIZE; i++) {
       x.set(i, (double) -i);
     }
     AtomicDoubleArray y = serialClone(x);
-    assertTrue(x != y);
+    assertThat(y).isNotSameInstanceAs(x);
     assertEquals(x.length(), y.length());
     for (int i = 0; i < SIZE; i++) {
       assertBitEquals(x.get(i), y.get(i));

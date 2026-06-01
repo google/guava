@@ -72,7 +72,7 @@ abstract class ImmutableAsList<E> extends ImmutableList<E> {
       return collection.asList();
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   @GwtIncompatible

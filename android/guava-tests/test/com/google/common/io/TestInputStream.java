@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.io.TestOption.AVAILABLE_ALWAYS_ZERO;
 import static com.google.common.io.TestOption.CLOSE_THROWS;
 import static com.google.common.io.TestOption.OPEN_THROWS;
 import static com.google.common.io.TestOption.READ_THROWS;
@@ -24,7 +25,6 @@ import static com.google.common.io.TestOption.SKIP_THROWS;
 import static java.util.Arrays.asList;
 
 import com.google.common.collect.ImmutableSet;
-import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import org.jspecify.annotations.NullUnmarked;
@@ -33,22 +33,22 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Colin Decker
  */
 @NullUnmarked
-public class TestInputStream extends FilterInputStream {
-
+final class TestInputStream extends InputStream {
+  private final InputStream delegate;
   private final ImmutableSet<TestOption> options;
   private boolean closed;
 
-  public TestInputStream(InputStream in, TestOption... options) throws IOException {
-    this(in, asList(options));
+  TestInputStream(InputStream delegate, TestOption... options) throws IOException {
+    this(delegate, asList(options));
   }
 
-  public TestInputStream(InputStream in, Iterable<TestOption> options) throws IOException {
-    super(checkNotNull(in));
+  TestInputStream(InputStream delegate, Iterable<TestOption> options) throws IOException {
+    this.delegate = checkNotNull(delegate);
     this.options = ImmutableSet.copyOf(options);
     throwIf(OPEN_THROWS);
   }
 
-  public boolean closed() {
+  boolean closed() {
     return closed;
   }
 
@@ -56,34 +56,41 @@ public class TestInputStream extends FilterInputStream {
   public int read() throws IOException {
     throwIf(closed);
     throwIf(READ_THROWS);
-    return in.read();
+    return delegate.read();
+  }
+
+  @Override
+  public int read(byte[] b) throws IOException {
+    throwIf(closed);
+    throwIf(READ_THROWS);
+    return delegate.read(b);
   }
 
   @Override
   public int read(byte[] b, int off, int len) throws IOException {
     throwIf(closed);
     throwIf(READ_THROWS);
-    return in.read(b, off, len);
+    return delegate.read(b, off, len);
   }
 
   @Override
   public long skip(long n) throws IOException {
     throwIf(closed);
     throwIf(SKIP_THROWS);
-    return in.skip(n);
+    return delegate.skip(n);
   }
 
   @Override
   public int available() throws IOException {
     throwIf(closed);
-    return options.contains(TestOption.AVAILABLE_ALWAYS_ZERO) ? 0 : in.available();
+    return options.contains(AVAILABLE_ALWAYS_ZERO) ? 0 : delegate.available();
   }
 
   @Override
   public void close() throws IOException {
     closed = true;
+    delegate.close();
     throwIf(CLOSE_THROWS);
-    in.close();
   }
 
   private void throwIf(TestOption option) throws IOException {

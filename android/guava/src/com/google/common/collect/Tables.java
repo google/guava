@@ -698,6 +698,7 @@ public final class Tables {
     return Synchronized.table(table, null);
   }
 
+  @SuppressWarnings("ReferenceEquality") // == fast path
   static boolean equalsImpl(Table<?, ?, ?> table, @Nullable Object obj) {
     if (obj == table) {
       return true;

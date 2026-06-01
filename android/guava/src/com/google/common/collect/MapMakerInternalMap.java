@@ -1157,7 +1157,7 @@ final class MapMakerInternalMap<
   }
 
   @SuppressWarnings("unchecked")
-  final Segment<K, V, E, S>[] newSegmentArray(int ssize) {
+  Segment<K, V, E, S>[] newSegmentArray(int ssize) {
     return (Segment<K, V, E, S>[]) new Segment<?, ?, ?, ?>[ssize];
   }
 
@@ -2797,7 +2797,6 @@ final class MapMakerInternalMap<
         this);
   }
 
-  @J2ktIncompatible // java.io.ObjectInputStream
   private void readObject(ObjectInputStream in) throws InvalidObjectException {
     throw new InvalidObjectException("Use SerializationProxy");
   }
@@ -2847,7 +2846,6 @@ final class MapMakerInternalMap<
       out.writeObject(null); // terminate entries
     }
 
-    @J2ktIncompatible // java.io.ObjectInputStream
     MapMaker readMapMaker(ObjectInputStream in) throws IOException {
       int size = in.readInt();
       return new MapMaker()
@@ -2859,7 +2857,6 @@ final class MapMakerInternalMap<
     }
 
     @SuppressWarnings("unchecked")
-    @J2ktIncompatible // java.io.ObjectInputStream
     void readEntries(ObjectInputStream in) throws IOException, ClassNotFoundException {
       while (true) {
         K key = (K) in.readObject();
@@ -2895,7 +2892,6 @@ final class MapMakerInternalMap<
       writeMapTo(out);
     }
 
-    @J2ktIncompatible // java.io.ObjectInputStream
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
       in.defaultReadObject();
       MapMaker mapMaker = readMapMaker(in);

@@ -127,6 +127,7 @@ public class EmptyCachesTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // ~70s; doable but probably not worth it
 
   public void testKeySet_clear() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -191,6 +192,7 @@ public class EmptyCachesTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // ~70s; doable but probably not worth it
 
   public void testValues_clear() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -258,6 +260,7 @@ public class EmptyCachesTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // ~100s; doable but probably not worth it
 
   public void testEntrySet_clear() {
     for (LoadingCache<Object, Object> cache : caches()) {

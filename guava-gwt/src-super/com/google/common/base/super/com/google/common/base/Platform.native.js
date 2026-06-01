@@ -19,7 +19,7 @@ Platform.nullToEmpty = function(str) {
 
 /**
  * @param {?string} str
- * @return {string} Original str, if it is non-empty. Otherwise null;
+ * @return {string} Original str, if it is non-empty. Otherwise null.
  */
 Platform.emptyToNull = function(str) {
   return str || null;

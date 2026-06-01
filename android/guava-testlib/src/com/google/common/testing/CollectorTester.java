@@ -88,8 +88,8 @@ public final class CollectorTester<
     /** Get one accumulator and accumulate the elements into it sequentially. */
     SEQUENTIAL {
       @Override
-      final <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
-          A result(Collector<T, A, R> collector, Iterable<T> inputs) {
+      <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object> A result(
+          Collector<T, A, R> collector, Iterable<T> inputs) {
         A accum = collector.supplier().get();
         for (T input : inputs) {
           collector.accumulator().accept(accum, input);
@@ -100,8 +100,8 @@ public final class CollectorTester<
     /** Get one accumulator for each element and merge the accumulators left-to-right. */
     MERGE_LEFT_ASSOCIATIVE {
       @Override
-      final <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
-          A result(Collector<T, A, R> collector, Iterable<T> inputs) {
+      <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object> A result(
+          Collector<T, A, R> collector, Iterable<T> inputs) {
         A accum = collector.supplier().get();
         for (T input : inputs) {
           A newAccum = collector.supplier().get();
@@ -114,8 +114,8 @@ public final class CollectorTester<
     /** Get one accumulator for each element and merge the accumulators right-to-left. */
     MERGE_RIGHT_ASSOCIATIVE {
       @Override
-      final <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object>
-          A result(Collector<T, A, R> collector, Iterable<T> inputs) {
+      <T extends @Nullable Object, A extends @Nullable Object, R extends @Nullable Object> A result(
+          Collector<T, A, R> collector, Iterable<T> inputs) {
         List<A> stack = new ArrayList<>();
         for (T input : inputs) {
           A newAccum = collector.supplier().get();

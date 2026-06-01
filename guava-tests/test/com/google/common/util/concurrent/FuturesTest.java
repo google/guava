@@ -240,7 +240,7 @@ public class FuturesTest extends TestCase {
   public void testTransform_genericsHierarchy() throws Exception {
     ListenableFuture<@Nullable FooChild> future = immediateFuture(null);
     BarChild barChild = new BarChild();
-    Function<Foo, BarChild> function = unused -> barChild;
+    Function<@Nullable Foo, BarChild> function = unused -> barChild;
     Bar bar = getDone(transform(future, function, directExecutor()));
     assertThat(bar).isEqualTo(barChild);
   }
@@ -1411,18 +1411,16 @@ public class FuturesTest extends TestCase {
     assertThat(getDone(chainedFuture)).isEqualTo("hi");
   }
 
+  // We declare a variable to be sure that we're testing a return of LF<BarChild> specifically.
+  @SuppressWarnings("InlineRedundantLocalVariable")
   @J2ktIncompatible // TODO(b/324550390): Enable
   public void testTransformAsync_genericsHierarchy_asyncFunction() throws Exception {
     ListenableFuture<@Nullable FooChild> future = immediateFuture(null);
     BarChild barChild = new BarChild();
-    AsyncFunction<Foo, BarChild> function =
-        new AsyncFunction<Foo, BarChild>() {
-          @Override
-          public AbstractFuture<BarChild> apply(Foo unused) {
-            AbstractFuture<BarChild> future = new AbstractFuture<BarChild>() {};
-            future.set(barChild);
-            return future;
-          }
+    AsyncFunction<@Nullable Foo, BarChild> function =
+        unused -> {
+          ListenableFuture<BarChild> childTyped = immediateFuture(barChild);
+          return childTyped;
         };
     Bar bar = getDone(transformAsync(future, function, directExecutor()));
     assertThat(bar).isEqualTo(barChild);

@@ -39,7 +39,7 @@ import com.google.common.escape.Escapers;
 public final class HtmlEscapers {
   /**
    * Returns an {@link Escaper} instance that escapes HTML metacharacters as specified by <a
-   * href="http://www.w3.org/TR/html4/">HTML 4.01</a>. The resulting strings can be used both in
+   * href="https://www.w3.org/TR/html4/">HTML 4.01</a>. The resulting strings can be used both in
    * attribute values and in <em>most</em> elements' text contents, provided that the HTML
    * document's character encoding can encode any non-ASCII code points in the input (as UTF-8 and
    * other Unicode encodings can).

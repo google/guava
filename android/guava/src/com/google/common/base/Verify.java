@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
  *       (such as by passing an invalid argument), use the utilities of the {@link Preconditions}
  *       class instead.
  *   <li>If checking an <i>impossible</i> condition (which <i>cannot</i> happen unless your own
- *       class or its <i>trusted</i> dependencies is badly broken), this is what ordinary Java
+ *       class or its <i>trusted</i> dependencies are badly broken), this is what ordinary Java
  *       assertions are for. Note that assertions are not enabled by default; they are essentially
  *       considered "compiled comments."
  *   <li>An explicit {@code if/throw} (as illustrated below) is always acceptable; we still

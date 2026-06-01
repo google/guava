@@ -30,8 +30,8 @@ import com.google.common.escape.Escapers;
  * level of escaping to ensure that the output can be safely included in a Unicode XML document.
  *
  * <p>For details on the behavior of the escapers in this class, see sections <a
- * href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> and <a
- * href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.
+ * href="https://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> and <a
+ * href="https://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.
  *
  * @author Alex Matevossian
  * @author David Beaumont
@@ -50,15 +50,15 @@ public class XmlEscapers {
   /**
    * Returns an {@link Escaper} instance that escapes special characters in a string so it can
    * safely be included in an XML document as element content. See section <a
-   * href="http://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.
+   * href="https://www.w3.org/TR/2008/REC-xml-20081126/#syntax">2.4</a> of the XML specification.
    *
    * <p><b>Note:</b> Double and single quotes are not escaped, so it is <b>not safe</b> to use this
    * escaper to escape attribute values. Use {@link #xmlContentEscaper} if the output can appear in
    * element content or {@link #xmlAttributeEscaper} in attribute values.
    *
-   * <p>This escaper substitutes {@code 0xFFFD} for non-whitespace control characters and the
-   * character values {@code 0xFFFE} and {@code 0xFFFF} which are not permitted in XML. For more
-   * detail see section <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
+   * <p>This escaper substitutes {@code U+FFFD} for non-whitespace control characters and the
+   * noncharacters {@code U+FFFE} and {@code U+FFFF}, which are not permitted in XML. For more
+   * detail, see section <a href="https://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
    * the XML specification.
    *
    * <p>This escaper does not escape non-ASCII characters to their numeric character references
@@ -76,12 +76,12 @@ public class XmlEscapers {
   /**
    * Returns an {@link Escaper} instance that escapes special characters in a string so it can
    * safely be included in XML document as an attribute value. See section <a
-   * href="http://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a> of the XML
+   * href="https://www.w3.org/TR/2008/REC-xml-20081126/#AVNormalize">3.3.3</a> of the XML
    * specification.
    *
-   * <p>This escaper substitutes {@code 0xFFFD} for non-whitespace control characters and the
-   * character values {@code 0xFFFE} and {@code 0xFFFF} which are not permitted in XML. For more
-   * detail see section <a href="http://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
+   * <p>This escaper substitutes {@code U+FFFD} for non-whitespace control characters and the
+   * noncharacters {@code U+FFFE} and {@code U+FFFF}, which are not permitted in XML. For more
+   * detail, see section <a href="https://www.w3.org/TR/2008/REC-xml-20081126/#charsets">2.2</a> of
    * the XML specification.
    *
    * <p>This escaper does not escape non-ASCII characters to their numeric character references
@@ -102,7 +102,7 @@ public class XmlEscapers {
 
   static {
     Escapers.Builder builder = Escapers.builder();
-    // The char values U+FFFE and U+FFFF are explicitly not allowed in XML
+    // The noncharacters U+FFFE and U+FFFF are explicitly not allowed in XML
     // (Unicode code points above U+FFFF are represented via surrogate pairs
     // which means they are treated as pairs of safe characters).
     builder.setSafeRange(Character.MIN_VALUE, '\uFFFD');

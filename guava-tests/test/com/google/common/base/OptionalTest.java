@@ -70,6 +70,7 @@ public final class OptionalTest extends TestCase {
     assertThat(Optional.of("training").get()).isEqualTo("training");
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testOf_null() {
     assertThrows(NullPointerException.class, () -> Optional.of(null));
   }
@@ -182,12 +183,19 @@ public final class OptionalTest extends TestCase {
     assertEquals(Optional.of("42"), Optional.of(42).transform(Functions.toStringFunction()));
   }
 
+  @SuppressWarnings("nullness") // test of a bogus call
   public void testTransform_present_functionReturnsNull() {
     assertThrows(NullPointerException.class, () -> Optional.of("a").transform(input -> null));
   }
 
-  public void testTransform_absent_functionReturnsNull() {
-    assertEquals(Optional.absent(), Optional.absent().transform(input -> null));
+  public void testTransform_absent_functionNotCalled() {
+    assertThat(
+            Optional.absent()
+                .transform(
+                    input -> {
+                      throw new AssertionError();
+                    }))
+        .isAbsent();
   }
 
   public void testEqualsAndHashCode() {

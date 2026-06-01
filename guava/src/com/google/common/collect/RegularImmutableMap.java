@@ -365,7 +365,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         return map.keySet();
       }
 
-      @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+      private static final long serialVersionUID = 0;
     }
   }
 
@@ -420,7 +420,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
         return map.values();
       }
 
-      @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+      private static final long serialVersionUID = 0;
     }
   }
 

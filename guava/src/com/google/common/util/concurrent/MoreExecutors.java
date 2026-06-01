@@ -625,7 +625,6 @@ public final class MoreExecutors {
       }
     }
 
-    @GwtIncompatible // TODO
     private static final class NeverSuccessfulListenableFutureTask
         extends AbstractFuture.TrustedFuture<@Nullable Void> implements Runnable {
       private final Runnable delegate;

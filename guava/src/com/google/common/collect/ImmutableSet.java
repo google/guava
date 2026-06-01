@@ -48,7 +48,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.Spliterator;
-import java.util.function.Consumer;
 import java.util.stream.Collector;
 import org.jspecify.annotations.Nullable;
 
@@ -337,67 +336,6 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     }
   }
 
-  abstract static class Indexed<E> extends CachingAsList<E> {
-    abstract E get(int index);
-
-    @Override
-    public UnmodifiableIterator<E> iterator() {
-      return asList().iterator();
-    }
-
-    @Override
-    public Spliterator<E> spliterator() {
-      return CollectSpliterators.indexed(size(), SPLITERATOR_CHARACTERISTICS, this::get);
-    }
-
-    @Override
-    public void forEach(Consumer<? super E> consumer) {
-      checkNotNull(consumer);
-      int n = size();
-      for (int i = 0; i < n; i++) {
-        consumer.accept(get(i));
-      }
-    }
-
-    @Override
-    int copyIntoArray(@Nullable Object[] dst, int offset) {
-      return asList().copyIntoArray(dst, offset);
-    }
-
-    @Override
-    ImmutableList<E> createAsList() {
-      return new ImmutableAsList<E>() {
-        @Override
-        public E get(int index) {
-          return Indexed.this.get(index);
-        }
-
-        @Override
-        Indexed<E> delegateCollection() {
-          return Indexed.this;
-        }
-
-        // redeclare to help optimizers with b/310253115
-        @SuppressWarnings("RedundantOverride")
-        @Override
-        @J2ktIncompatible
-        @GwtIncompatible
-                Object writeReplace() {
-          return super.writeReplace();
-        }
-      };
-    }
-
-    // redeclare to help optimizers with b/310253115
-    @SuppressWarnings("RedundantOverride")
-    @Override
-    @J2ktIncompatible
-    @GwtIncompatible
-        Object writeReplace() {
-      return super.writeReplace();
-    }
-  }
-
   /*
    * This class is used to serialize all ImmutableSet instances, except for
    * ImmutableEnumSet/ImmutableSortedSet, regardless of implementation type. It
@@ -417,7 +355,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
       return copyOf(elements);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override

@@ -127,6 +127,6 @@ final class ImmutableMapValues<K, V> extends ImmutableCollection<V> {
       return map.values();
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 }

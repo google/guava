@@ -308,6 +308,11 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     this.bits.putAll(that.bits);
   }
 
+  /**
+   * Indicates whether another object is equal to this Bloom filter; <b>discouraged</b>. This method
+   * performs a potentially expensive comparison of all data and configuration of the two Bloom
+   * filters.
+   */
   @Override
   public boolean equals(@Nullable Object object) {
     if (object == this) {
@@ -323,6 +328,10 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
     return false;
   }
 
+  /**
+   * Returns a hash code value for this Bloom filter; <b>discouraged</b>. This method performs a
+   * potentially expensive hashing operation on all data and configuration of this Bloom filter.
+   */
   @Override
   public int hashCode() {
     return Objects.hash(numHashFunctions, funnel, strategy, bits);
@@ -618,7 +627,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
 
   /**
    * Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code
-   * BloomFilter}.
+   * BloomFilter}, allocating as much memory as the byte stream requests.
    *
    * <p>The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
    * <b>Warning:</b> the funnel provided <b>must</b> behave identically to the one used to populate
@@ -630,11 +639,36 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public static <T extends @Nullable Object> BloomFilter<T> readFrom(
       InputStream in, Funnel<? super T> funnel) throws IOException {
+    return readFrom(in, funnel, Long.MAX_VALUE);
+  }
+
+  /**
+   * Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code
+   * BloomFilter}, allocating at most {@code maxAllowedSizeInBits} for the backing array.
+   *
+   * <p>The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
+   * <b>Warning:</b> the funnel provided <b>must</b> behave identically to the one used to populate
+   * the original Bloom filter!
+   *
+   * @param in the InputStream to read from
+   * @param funnel the funnel to use for the Bloom filter
+   * @param maxAllowedSizeInBits the maximum number of bits that the Bloom filter can have
+   * @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
+   *     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.
+   * @throws IllegalArgumentException if {@code maxAllowedSizeInBits} is negative, or if the number
+   *     of bits in the stream is greater than {@code maxAllowedSizeInBits}.
+   * @since NEXT
+   */
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
+  public static <T extends @Nullable Object> BloomFilter<T> readFrom(
+      InputStream in, Funnel<? super T> funnel, long maxAllowedSizeInBits) throws IOException {
     checkNotNull(in, "InputStream");
     checkNotNull(funnel, "Funnel");
+    checkArgument(
+        maxAllowedSizeInBits >= 0, "maxAllowedSizeInBits (%s) must be >= 0", maxAllowedSizeInBits);
     int strategyOrdinal = -1;
     int numHashFunctions = -1;
-    int dataLength = -1;
+    int longArraySize = -1;
     try {
       DataInputStream din = new DataInputStream(in);
       // currently this assumes there is no negative ordinal; will have to be updated if we
@@ -642,7 +676,14 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       // Strategy.ordinal()).
       strategyOrdinal = din.readByte();
       numHashFunctions = toUnsignedInt(din.readByte());
-      dataLength = din.readInt();
+      longArraySize = din.readInt();
+
+      checkArgument(longArraySize >= 0, "longArraySize (%s) must be >= 0", longArraySize);
+      checkArgument(
+          longArraySize <= maxAllowedSizeInBits / 64,
+          "longArraySize (%s) must be <= %s",
+          longArraySize,
+          maxAllowedSizeInBits / 64);
 
       /*
        * We document in BloomFilterStrategies that we must not change the ordering, and we have a
@@ -651,8 +692,8 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
       @SuppressWarnings("EnumOrdinal")
       Strategy strategy = BloomFilterStrategies.values()[strategyOrdinal];
 
-      LockFreeBitArray dataArray = new LockFreeBitArray(Math.multiplyExact(dataLength, 64L));
-      for (int i = 0; i < dataLength; i++) {
+      LockFreeBitArray dataArray = new LockFreeBitArray(Math.multiplyExact(longArraySize, 64L));
+      for (int i = 0; i < longArraySize; i++) {
         dataArray.putData(i, din.readLong());
       }
 
@@ -666,8 +707,8 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
               + strategyOrdinal
               + " numHashFunctions: "
               + numHashFunctions
-              + " dataLength: "
-              + dataLength;
+              + " longArraySize: "
+              + longArraySize;
       throw new IOException(message, e);
     }
   }

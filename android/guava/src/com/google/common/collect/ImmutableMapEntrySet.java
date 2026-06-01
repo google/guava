@@ -140,6 +140,6 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
       return map.entrySet();
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 }

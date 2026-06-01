@@ -74,7 +74,7 @@ final class SingletonImmutableSet<E> extends ImmutableSet<E> {
   }
 
   @Override
-  public final int hashCode() {
+  public int hashCode() {
     return element.hashCode();
   }
 

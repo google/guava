@@ -1312,7 +1312,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return new Builder<>(size);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible private static final long serialVersionUID = 0;
   }
 
   /**

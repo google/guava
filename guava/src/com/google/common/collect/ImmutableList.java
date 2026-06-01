@@ -747,7 +747,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
       return copyOf(elements);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible private static final long serialVersionUID = 0;
   }
 
   @J2ktIncompatible // serialization

@@ -803,7 +803,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality", "ReferenceEquality"})
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameIntegerInstance) {
         SameIntegerInstance that = (SameIntegerInstance) obj;
@@ -826,7 +826,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality", "ReferenceEquality"})
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameLongInstance) {
         SameLongInstance that = (SameLongInstance) obj;
@@ -849,7 +849,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality", "ReferenceEquality"})
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameFloatInstance) {
         SameFloatInstance that = (SameFloatInstance) obj;
@@ -872,7 +872,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality", "ReferenceEquality"})
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameDoubleInstance) {
         SameDoubleInstance that = (SameDoubleInstance) obj;
@@ -895,7 +895,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality", "ReferenceEquality"})
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameShortInstance) {
         SameShortInstance that = (SameShortInstance) obj;
@@ -918,7 +918,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality"})
+    @SuppressWarnings({"BoxedPrimitiveEquality", "NumericEquality", "ReferenceEquality"})
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameByteInstance) {
         SameByteInstance that = (SameByteInstance) obj;
@@ -941,7 +941,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("BoxedPrimitiveEquality")
+    @SuppressWarnings({"BoxedPrimitiveEquality", "ReferenceEquality"})
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameCharacterInstance) {
         SameCharacterInstance that = (SameCharacterInstance) obj;
@@ -964,7 +964,7 @@ public class ClassSanityTesterTest extends TestCase {
     }
 
     @Override
-    @SuppressWarnings("BoxedPrimitiveEquality")
+    @SuppressWarnings({"BoxedPrimitiveEquality", "ReferenceEquality"})
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameBooleanInstance) {
         SameBooleanInstance that = (SameBooleanInstance) obj;
@@ -986,6 +986,7 @@ public class ClassSanityTesterTest extends TestCase {
       return s.hashCode();
     }
 
+    @SuppressWarnings("ReferenceEquality")
     @Override
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameStringInstance) {
@@ -1008,6 +1009,7 @@ public class ClassSanityTesterTest extends TestCase {
       return s.hashCode();
     }
 
+    @SuppressWarnings("ReferenceEquality")
     @Override
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameObjectInstance) {
@@ -1030,6 +1032,7 @@ public class ClassSanityTesterTest extends TestCase {
       return s.hashCode();
     }
 
+    @SuppressWarnings("ReferenceEquality")
     @Override
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameInterfaceInstance) {
@@ -1052,6 +1055,7 @@ public class ClassSanityTesterTest extends TestCase {
       return System.identityHashCode(s);
     }
 
+    @SuppressWarnings("ReferenceEquality")
     @Override
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof SameListInstance) {
@@ -1084,6 +1088,7 @@ public class ClassSanityTesterTest extends TestCase {
       return s.hashCode();
     }
 
+    @SuppressWarnings("ReferenceEquality")
     @Override
     public boolean equals(@Nullable Object obj) {
       if (obj instanceof UsesReferentialEquality) {

@@ -605,7 +605,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
       return new Builder<>(size);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override

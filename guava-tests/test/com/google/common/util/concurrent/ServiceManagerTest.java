@@ -566,54 +566,54 @@ public class ServiceManagerTest extends TestCase {
           final NoOpService delegate = new NoOpService();
 
           @Override
-          public final void addListener(Listener listener, Executor executor) {
+          public void addListener(Listener listener, Executor executor) {
             service1.startAsync();
             delegate.addListener(listener, executor);
           }
 
           // Delegates from here on down
           @Override
-          public final Service startAsync() {
+          public Service startAsync() {
             return delegate.startAsync();
           }
 
           @Override
-          public final Service stopAsync() {
+          public Service stopAsync() {
             return delegate.stopAsync();
           }
 
           @Override
-          public final void awaitRunning() {
+          public void awaitRunning() {
             delegate.awaitRunning();
           }
 
           @Override
-          public final void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
+          public void awaitRunning(long timeout, TimeUnit unit) throws TimeoutException {
             delegate.awaitRunning(timeout, unit);
           }
 
           @Override
-          public final void awaitTerminated() {
+          public void awaitTerminated() {
             delegate.awaitTerminated();
           }
 
           @Override
-          public final void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
+          public void awaitTerminated(long timeout, TimeUnit unit) throws TimeoutException {
             delegate.awaitTerminated(timeout, unit);
           }
 
           @Override
-          public final boolean isRunning() {
+          public boolean isRunning() {
             return delegate.isRunning();
           }
 
           @Override
-          public final State state() {
+          public State state() {
             return delegate.state();
           }
 
           @Override
-          public final Throwable failureCause() {
+          public Throwable failureCause() {
             return delegate.failureCause();
           }
         };

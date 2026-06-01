@@ -560,11 +560,11 @@ public class ListsTest extends TestCase {
     assertEquals(asList(6, 4, 3, 9, 2, 5), toList);
     fromList.remove(Integer.valueOf(2));
     assertEquals(asList(6, 4, 3, 9, 5), toList);
-    fromList.remove(3);
+    fromList.remove(/* index */ 3);
     assertEquals(asList(6, 3, 9, 5), toList);
 
     /* toList modifications reflected in fromList */
-    toList.remove(0);
+    toList.remove(/* index */ 0);
     assertEquals(asList(5, 9, 3), fromList);
     toList.add(7);
     assertEquals(asList(7, 5, 9, 3), fromList);
@@ -717,7 +717,7 @@ public class ListsTest extends TestCase {
     assertEquals(asList("5", "2", "3", "4", "6"), toList);
     fromList.remove(Integer.valueOf(2));
     assertEquals(asList("5", "3", "4", "6"), toList);
-    fromList.remove(2);
+    fromList.remove(/* index */ 2);
     assertEquals(asList("5", "3", "6"), toList);
 
     /* toList modifications reflected in fromList */

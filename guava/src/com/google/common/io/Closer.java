@@ -232,6 +232,7 @@ public final class Closer implements Closeable {
    * Suppresses exceptions by adding them to the exception that will be thrown using the
    * addSuppressed(Throwable) mechanism.
    */
+  @SuppressWarnings("ReferenceEquality") // checking == to match Throwable.addSuppressed
   private static final Suppressor SUPPRESSING_SUPPRESSOR =
       (closeable, thrown, suppressed) -> {
         // ensure no exceptions from addSuppressed

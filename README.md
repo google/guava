@@ -124,11 +124,11 @@ class by appending the class name to guava.dev. For example,
 5.  Our classes are not designed to protect against a malicious caller. You
     should not use them for communication between trusted and untrusted code.
 
-6.  For the mainline flavor, we test the libraries using OpenJDK 8, 11, and 17
-    on Linux, with some additional testing on newer JDKs and on Windows. Some
-    features, especially in `com.google.common.io`, may not work correctly in
-    non-Linux environments. For the Android flavor, our unit tests also run on
-    API level 23 (Marshmallow).
+6.  For the mainline flavor, we test the libraries using a range of OpenJDK
+    versions on Linux and Windows. Some features, especially in
+    `com.google.common.io`, may not work correctly in non-Linux environments.
+    For the Android flavor, our unit tests also run on API level 23
+    (Marshmallow).
 
 [guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/

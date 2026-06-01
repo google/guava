@@ -65,7 +65,6 @@ public final class Interners {
      * @see Interners#newWeakInterner()
      */
     @CanIgnoreReturnValue
-    @GwtIncompatible // java.lang.ref.WeakReference
     public InternerBuilder weak() {
       this.strong = false;
       return this;
@@ -110,7 +109,6 @@ public final class Interners {
    * likely does not perform as well as {@link #newStrongInterner}, but is the best alternative when
    * the memory usage of that implementation is unacceptable.
    */
-  @GwtIncompatible // java.lang.ref.WeakReference
   public static <E> Interner<E> newWeakInterner() {
     return newBuilder().weak().build();
   }

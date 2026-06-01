@@ -1876,6 +1876,7 @@ public final class Sets {
   }
 
   /** An implementation for {@link Set#equals(Object)}. */
+  @SuppressWarnings("ReferenceEquality") // == fast path
   static boolean equalsImpl(Set<?> s, @Nullable Object object) {
     if (s == object) {
       return true;

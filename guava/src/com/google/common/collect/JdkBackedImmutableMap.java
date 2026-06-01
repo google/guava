@@ -135,7 +135,6 @@ final class JdkBackedImmutableMap<K, V> extends ImmutableMap<K, V> {
   @SuppressWarnings("RedundantOverride")
   @Override
   @J2ktIncompatible
-  @GwtIncompatible
     Object writeReplace() {
     return super.writeReplace();
   }

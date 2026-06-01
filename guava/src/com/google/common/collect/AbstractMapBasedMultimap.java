@@ -351,6 +351,11 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
      * <p>For a subcollection, refresh its ancestor and validate that the ancestor delegate hasn't
      * changed.
      */
+    /*
+     * Concurrent-modification checks are based on whether the backing collection was replaced,
+     * regardless of its contents.
+     */
+    @SuppressWarnings("ReferenceEquality")
     void refreshIfEmpty() {
       if (ancestor != null) {
         ancestor.refreshIfEmpty();
@@ -462,6 +467,11 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       /**
        * If the delegate changed since the iterator was created, the iterator is no longer valid.
        */
+      /*
+       * Concurrent-modification checks are based on whether the backing collection was replaced,
+       * regardless of its contents.
+       */
+      @SuppressWarnings("ReferenceEquality")
       void validateIterator() {
         refreshIfEmpty();
         if (delegate != originalDelegate) {
@@ -1403,6 +1413,11 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return submap.toString();
     }
 
+    /*
+     * We're using `submap == map` to check "Is this a restricted view of the original map?" rather
+     * than as a comparison of contents.
+     */
+    @SuppressWarnings("ReferenceEquality")
     @Override
     public void clear() {
       if (submap == map) {

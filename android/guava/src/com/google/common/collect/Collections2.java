@@ -310,6 +310,7 @@ public final class Collections2 {
   }
 
   /** An implementation of {@link Collection#toString()}. */
+  @SuppressWarnings("ReferenceEquality") // using == to detect direct infinite recursion
   static String toStringImpl(Collection<?> collection) {
     StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');
     boolean first = true;

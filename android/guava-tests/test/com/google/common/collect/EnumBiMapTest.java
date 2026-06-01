@@ -116,7 +116,6 @@ public class EnumBiMapTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // suite
   @AndroidIncompatible // test-suite builders
   public static Test suite() {
@@ -293,12 +292,10 @@ public class EnumBiMapTest extends TestCase {
   }
 
   @GwtIncompatible
-  @J2ktIncompatible
     public void testSerializable() {
     reserializeAndAssert(EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CANADA)));
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() {
     new NullPointerTester().testAllPublicStaticMethods(EnumBiMap.class);

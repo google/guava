@@ -143,6 +143,6 @@ public final class Enums {
       return "Enums.stringConverter(" + enumClass.getName() + ".class)";
     }
 
-    @J2ktIncompatible private static final long serialVersionUID = 0L;
+    private static final long serialVersionUID = 0L;
   }
 }

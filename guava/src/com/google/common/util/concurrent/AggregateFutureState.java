@@ -193,6 +193,8 @@ abstract class AggregateFutureState<OutputT extends @Nullable Object>
     }
   }
 
+  // We use identity equality like all AtomicHelper implementations necessarily (and correctly) do.
+  @SuppressWarnings("ReferenceEquality")
   private static final class SynchronizedAtomicHelper extends AtomicHelper {
     @Override
     void compareAndSetSeenExceptions(

@@ -356,6 +356,11 @@ public final class Maps {
   /**
    * Creates a new empty {@link ConcurrentHashMap} instance.
    *
+   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
+   * use the {@code ConcurrentHashMap} constructor directly, taking advantage of <a
+   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   * syntax</a>.
+   *
    * @since 3.0
    */
   public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
@@ -1089,7 +1094,6 @@ public final class Maps {
     }
 
     @Override
-    @GwtIncompatible // Spliterator
     Spliterator<Entry<K, V>> entrySpliterator() {
       return CollectSpliterators.map(
           set.spliterator(),
@@ -3498,12 +3502,12 @@ public final class Maps {
     }
 
     @Override
-    public final @Nullable Entry<K, V> pollFirstEntry() {
+    public @Nullable Entry<K, V> pollFirstEntry() {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public final @Nullable Entry<K, V> pollLastEntry() {
+    public @Nullable Entry<K, V> pollLastEntry() {
       throw new UnsupportedOperationException();
     }
 
@@ -3858,6 +3862,7 @@ public final class Maps {
   }
 
   /** An implementation of {@link Map#equals}. */
+  @SuppressWarnings("ReferenceEquality") // == fast path
   static boolean equalsImpl(Map<?, ?> map, @Nullable Object object) {
     if (map == object) {
       return true;

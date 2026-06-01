@@ -147,6 +147,6 @@ final class ImmutableEnumMap<K extends Enum<K>, V> extends IteratorBasedImmutabl
       return new ImmutableEnumMap<>(delegate);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible private static final long serialVersionUID = 0;
   }
 }

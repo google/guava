@@ -49,8 +49,8 @@ import org.jspecify.annotations.Nullable;
 /**
  * Represents an <a href="http://en.wikipedia.org/wiki/Internet_media_type">Internet Media Type</a>
  * (also known as a MIME Type or Content Type). This class also supports the concept of media ranges
- * <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1">defined by HTTP/1.1</a>.
- * As such, the {@code *} character is treated as a wildcard and is used to represent any acceptable
+ * <a href="https://datatracker.ietf.org/doc/html/rfc2616#section-14.1">defined by HTTP/1.1</a>. As
+ * such, the {@code *} character is treated as a wildcard and is used to represent any acceptable
  * type or subtype value. A media type may not have wildcard type with a declared subtype. The
  * {@code *} character has no special meaning as part of a parameter. All values for type, subtype,
  * parameter attributes or parameter values must be valid according to RFCs <a
@@ -133,11 +133,22 @@ public final class MediaType {
    * "_UTF_8".
    */
 
+  /** Wildcard matching any media type. */
   public static final MediaType ANY_TYPE = createConstant(WILDCARD, WILDCARD);
+
+  /** Wildcard matching any "text" top-level media type. */
   public static final MediaType ANY_TEXT_TYPE = createConstant(TEXT_TYPE, WILDCARD);
+
+  /** Wildcard matching any "image" top-level media type. */
   public static final MediaType ANY_IMAGE_TYPE = createConstant(IMAGE_TYPE, WILDCARD);
+
+  /** Wildcard matching any "audio" top-level media type. */
   public static final MediaType ANY_AUDIO_TYPE = createConstant(AUDIO_TYPE, WILDCARD);
+
+  /** Wildcard matching any "video" top-level media type. */
   public static final MediaType ANY_VIDEO_TYPE = createConstant(VIDEO_TYPE, WILDCARD);
+
+  /** Wildcard matching any "application" top-level media type. */
   public static final MediaType ANY_APPLICATION_TYPE = createConstant(APPLICATION_TYPE, WILDCARD);
 
   /**
@@ -148,11 +159,24 @@ public final class MediaType {
   public static final MediaType ANY_FONT_TYPE = createConstant(FONT_TYPE, WILDCARD);
 
   /* text types */
+  /**
+   * <a
+   * href="https://web.archive.org/web/20190215171256/https://developer.mozilla.org/en-US/docs/Web/HTML/Using_the_application_cache#The_cache_manifest_file">Cache
+   * Manifest</a>.
+   */
   public static final MediaType CACHE_MANIFEST_UTF_8 =
       createConstantUtf8(TEXT_TYPE, "cache-manifest");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc2318.html">CSS</a>. */
   public static final MediaType CSS_UTF_8 = createConstantUtf8(TEXT_TYPE, "css");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc4180.html">CSV</a>. */
   public static final MediaType CSV_UTF_8 = createConstantUtf8(TEXT_TYPE, "csv");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc2854.html">HTML</a>. */
   public static final MediaType HTML_UTF_8 = createConstantUtf8(TEXT_TYPE, "html");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc5545.html">iCalendar</a>. */
   public static final MediaType I_CALENDAR_UTF_8 = createConstantUtf8(TEXT_TYPE, "calendar");
 
   /**
@@ -163,6 +187,7 @@ public final class MediaType {
    */
   public static final MediaType MD_UTF_8 = createConstantUtf8(TEXT_TYPE, "markdown");
 
+  /** <a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.1">Plain text</a>. */
   public static final MediaType PLAIN_TEXT_UTF_8 = createConstantUtf8(TEXT_TYPE, "plain");
 
   /**
@@ -180,6 +205,7 @@ public final class MediaType {
    */
   public static final MediaType TSV_UTF_8 = createConstantUtf8(TEXT_TYPE, "tab-separated-values");
 
+  /** <a href="https://www.rfc-editor.org/rfc/rfc6350.html">vCard</a>. */
   public static final MediaType VCARD_UTF_8 = createConstantUtf8(TEXT_TYPE, "vcard");
 
   /**
@@ -225,9 +251,19 @@ public final class MediaType {
    */
   public static final MediaType CRW = createConstant(IMAGE_TYPE, "x-canon-crw");
 
+  /**
+   * <a
+   * href="https://developer.mozilla.org/en-US/docs/Web/Media/Guides/Formats/Image_types#gif_graphics_interchange_format">GIF</a>.
+   */
   public static final MediaType GIF = createConstant(IMAGE_TYPE, "gif");
+
+  /** <a href="https://www.iana.org/assignments/media-types/image/vnd.microsoft.icon">ICO</a>. */
   public static final MediaType ICO = createConstant(IMAGE_TYPE, "vnd.microsoft.icon");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.2">JPEG</a>. */
   public static final MediaType JPEG = createConstant(IMAGE_TYPE, "jpeg");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc2083.html">PNG</a>. */
   public static final MediaType PNG = createConstant(IMAGE_TYPE, "png");
 
   /**
@@ -249,7 +285,10 @@ public final class MediaType {
    */
   public static final MediaType PSD = createConstant(IMAGE_TYPE, "vnd.adobe.photoshop");
 
+  /** <a href="https://www.w3.org/TR/SVG11/mimereg.html">SVG</a>. */
   public static final MediaType SVG_UTF_8 = createConstantUtf8(IMAGE_TYPE, "svg+xml");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc3302.html">TIFF</a>. */
   public static final MediaType TIFF = createConstant(IMAGE_TYPE, "tiff");
 
   /**
@@ -281,9 +320,16 @@ public final class MediaType {
   public static final MediaType JP2K = createConstant(IMAGE_TYPE, "jp2");
 
   /* audio types */
+  /** <a href="https://www.rfc-editor.org/rfc/rfc4337.html">MP4 audio</a>. */
   public static final MediaType MP4_AUDIO = createConstant(AUDIO_TYPE, "mp4");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc3003.html">MPEG audio</a>. */
   public static final MediaType MPEG_AUDIO = createConstant(AUDIO_TYPE, "mpeg");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc5334.html">Ogg audio</a>. */
   public static final MediaType OGG_AUDIO = createConstant(AUDIO_TYPE, "ogg");
+
+  /** <a href="https://www.webmproject.org/docs/container/">WebM audio</a>. */
   public static final MediaType WEBM_AUDIO = createConstant(AUDIO_TYPE, "webm");
 
   /**
@@ -357,11 +403,26 @@ public final class MediaType {
   public static final MediaType VND_WAVE_AUDIO = createConstant(AUDIO_TYPE, "vnd.wave");
 
   /* video types */
+  /** <a href="https://www.rfc-editor.org/rfc/rfc4337.html">MP4 video</a>. */
   public static final MediaType MP4_VIDEO = createConstant(VIDEO_TYPE, "mp4");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.4">MPEG video</a>. */
   public static final MediaType MPEG_VIDEO = createConstant(VIDEO_TYPE, "mpeg");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc5334.html">Ogg video</a>. */
   public static final MediaType OGG_VIDEO = createConstant(VIDEO_TYPE, "ogg");
+
+  /** <a href="https://www.iana.org/assignments/media-types/video/quicktime">QuickTime video</a>. */
   public static final MediaType QUICKTIME = createConstant(VIDEO_TYPE, "quicktime");
+
+  /** <a href="https://www.webmproject.org/docs/container/">WebM video</a>. */
   public static final MediaType WEBM_VIDEO = createConstant(VIDEO_TYPE, "webm");
+
+  /**
+   * <a
+   * href="https://learn.microsoft.com/en-us/previous-versions/windows/desktop/wmp/file-name-extensions">Windows
+   * Media Video</a>.
+   */
   public static final MediaType WMV = createConstant(VIDEO_TYPE, "x-ms-wmv");
 
   /**
@@ -401,7 +462,10 @@ public final class MediaType {
    */
   public static final MediaType APPLICATION_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xml");
 
+  /** <a href="https://www.rfc-editor.org/rfc/rfc4287.html">Atom feeds</a>. */
   public static final MediaType ATOM_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "atom+xml");
+
+  /** bzip2 archives. */
   public static final MediaType BZIP2 = createConstant(APPLICATION_TYPE, "x-bzip2");
 
   /**
@@ -442,6 +506,7 @@ public final class MediaType {
    */
   public static final MediaType EPUB = createConstant(APPLICATION_TYPE, "epub+zip");
 
+  /** <a href="https://www.w3.org/TR/html401/interact/forms.html#h-17.13.4.1">HTML form data</a>. */
   public static final MediaType FORM_DATA =
       createConstant(APPLICATION_TYPE, "x-www-form-urlencoded");
 
@@ -483,6 +548,7 @@ public final class MediaType {
    */
   public static final MediaType GEO_JSON = createConstant(APPLICATION_TYPE, "geo+json");
 
+  /** Gzip-compressed data. */
   public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
 
   /**
@@ -517,6 +583,7 @@ public final class MediaType {
    */
   public static final MediaType JOSE_JSON = createConstant(APPLICATION_TYPE, "jose+json");
 
+  /** <a href="https://www.rfc-editor.org/rfc/rfc8259.html">JSON</a>. */
   public static final MediaType JSON_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "json");
 
   /**
@@ -527,7 +594,7 @@ public final class MediaType {
   public static final MediaType JWT = createConstant(APPLICATION_TYPE, "jwt");
 
   /**
-   * The <a href="http://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.
+   * The <a href="https://www.w3.org/TR/appmanifest/">Manifest for a web application</a>.
    *
    * @since 19.0
    */
@@ -640,23 +707,67 @@ public final class MediaType {
   public static final MediaType NACL_PORTABLE_APPLICATION =
       createConstant(APPLICATION_TYPE, "x-pnacl");
 
+  /** <a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.5.1">Binary data</a>. */
   public static final MediaType OCTET_STREAM = createConstant(APPLICATION_TYPE, "octet-stream");
 
+  /** <a href="https://www.rfc-editor.org/rfc/rfc5334.html">Ogg container</a>. */
   public static final MediaType OGG_CONTAINER = createConstant(APPLICATION_TYPE, "ogg");
+
+  /**
+   * <a
+   * href="https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.wordprocessingml.document">OOXML
+   * Document</a>.
+   */
   public static final MediaType OOXML_DOCUMENT =
       createConstant(
           APPLICATION_TYPE, "vnd.openxmlformats-officedocument.wordprocessingml.document");
+
+  /**
+   * <a
+   * href="https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.presentationml.presentation">OOXML
+   * Presentation</a>.
+   */
   public static final MediaType OOXML_PRESENTATION =
       createConstant(
           APPLICATION_TYPE, "vnd.openxmlformats-officedocument.presentationml.presentation");
+
+  /**
+   * <a
+   * href="https://www.iana.org/assignments/media-types/application/vnd.openxmlformats-officedocument.spreadsheetml.sheet">OOXML
+   * Sheet</a>.
+   */
   public static final MediaType OOXML_SHEET =
       createConstant(APPLICATION_TYPE, "vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+
+  /**
+   * <a
+   * href="https://www.iana.org/assignments/media-types/application/vnd.oasis.opendocument.graphics">OpenDocument
+   * Graphics</a>.
+   */
   public static final MediaType OPENDOCUMENT_GRAPHICS =
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.graphics");
+
+  /**
+   * <a
+   * href="https://www.iana.org/assignments/media-types/application/vnd.oasis.opendocument.presentation">OpenDocument
+   * Presentation</a>.
+   */
   public static final MediaType OPENDOCUMENT_PRESENTATION =
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.presentation");
+
+  /**
+   * <a
+   * href="https://www.iana.org/assignments/media-types/application/vnd.oasis.opendocument.spreadsheet">OpenDocument
+   * Spreadsheet</a>.
+   */
   public static final MediaType OPENDOCUMENT_SPREADSHEET =
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.spreadsheet");
+
+  /**
+   * <a
+   * href="https://www.iana.org/assignments/media-types/application/vnd.oasis.opendocument.text">OpenDocument
+   * Text</a>.
+   */
   public static final MediaType OPENDOCUMENT_TEXT =
       createConstant(APPLICATION_TYPE, "vnd.oasis.opendocument.text");
 
@@ -670,7 +781,10 @@ public final class MediaType {
   public static final MediaType OPENSEARCH_DESCRIPTION_UTF_8 =
       createConstantUtf8(APPLICATION_TYPE, "opensearchdescription+xml");
 
+  /** <a href="https://www.rfc-editor.org/rfc/rfc3778.html">PDF</a>. */
   public static final MediaType PDF = createConstant(APPLICATION_TYPE, "pdf");
+
+  /** <a href="https://www.rfc-editor.org/rfc/rfc2046.html#section-4.5.2">PostScript</a>. */
   public static final MediaType POSTSCRIPT = createConstant(APPLICATION_TYPE, "postscript");
 
   /**
@@ -690,6 +804,7 @@ public final class MediaType {
    */
   public static final MediaType RDF_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rdf+xml");
 
+  /** <a href="https://www.iana.org/assignments/media-types/application/rtf">RTF</a>. */
   public static final MediaType RTF_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "rtf");
 
   /**
@@ -701,6 +816,7 @@ public final class MediaType {
    */
   public static final MediaType SFNT = createConstant(APPLICATION_TYPE, "font-sfnt");
 
+  /** Adobe Flash content. */
   public static final MediaType SHOCKWAVE_FLASH =
       createConstant(APPLICATION_TYPE, "x-shockwave-flash");
 
@@ -718,13 +834,14 @@ public final class MediaType {
    * serialized with XML 1.0.
    *
    * <p>For SOAP 1.1 messages, see {@code XML_UTF_8} per <a
-   * href="http://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C Note on Simple Object Access Protocol
+   * href="https://www.w3.org/TR/2000/NOTE-SOAP-20000508/">W3C Note on Simple Object Access Protocol
    * (SOAP) 1.1</a>
    *
    * @since 20.0
    */
   public static final MediaType SOAP_XML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "soap+xml");
 
+  /** tar archives. */
   public static final MediaType TAR = createConstant(APPLICATION_TYPE, "x-tar");
 
   /**
@@ -745,6 +862,7 @@ public final class MediaType {
    */
   public static final MediaType WOFF2 = createConstant(APPLICATION_TYPE, "font-woff2");
 
+  /** <a href="https://www.rfc-editor.org/rfc/rfc3236.html">XHTML</a>. */
   public static final MediaType XHTML_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xhtml+xml");
 
   /**
@@ -757,6 +875,7 @@ public final class MediaType {
    */
   public static final MediaType XRD_UTF_8 = createConstantUtf8(APPLICATION_TYPE, "xrd+xml");
 
+  /** <a href="https://www.iana.org/assignments/media-types/application/zip">ZIP archives</a>. */
   public static final MediaType ZIP = createConstant(APPLICATION_TYPE, "zip");
 
   /* font types */
@@ -968,8 +1087,8 @@ public final class MediaType {
 
   /**
    * Returns {@code true} if this instance falls within the range (as defined by <a
-   * href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">the HTTP Accept header</a>) given
-   * by the argument according to three criteria:
+   * href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html">the HTTP Accept header</a>)
+   * given by the argument according to three criteria:
    *
    * <ol>
    *   <li>The type of the argument is the wildcard or equal to the type of this instance.

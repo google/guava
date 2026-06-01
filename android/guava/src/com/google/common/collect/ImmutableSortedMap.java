@@ -475,7 +475,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
     if (map instanceof ImmutableSortedMap) {
       // TODO(kevinb): Prove that this cast is safe, even though
       // Collections.unmodifiableSortedMap requires the same key type.
-      @SuppressWarnings("unchecked")
+
       ImmutableSortedMap<K, V> kvMap = (ImmutableSortedMap<K, V>) map;
       if (!kvMap.isPartialView()) {
         return kvMap;
@@ -1153,7 +1153,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final @Nullable Entry<K, V> pollFirstEntry() {
+  public @Nullable Entry<K, V> pollFirstEntry() {
     throw new UnsupportedOperationException();
   }
 
@@ -1167,7 +1167,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   @Deprecated
   @Override
   @DoNotCall("Always throws UnsupportedOperationException")
-  public final @Nullable Entry<K, V> pollLastEntry() {
+  public @Nullable Entry<K, V> pollLastEntry() {
     throw new UnsupportedOperationException();
   }
 
@@ -1219,7 +1219,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
       return new Builder<>(comparator);
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @GwtIncompatible private static final long serialVersionUID = 0;
   }
 
   @Override

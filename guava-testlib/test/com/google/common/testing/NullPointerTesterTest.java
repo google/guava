@@ -76,7 +76,6 @@ public class NullPointerTesterTest extends TestCase {
    * Class for testing all permutations of static/non-static one-argument methods using
    * methodParameter().
    */
-  @SuppressWarnings("unused") // used by reflection
   public static class OneArg {
 
     public static void staticOneArgCorrectlyThrowsNpe(String s) {
@@ -508,7 +507,6 @@ public class NullPointerTesterTest extends TestCase {
    */
 
   /** Lots of well-behaved methods. */
-  @SuppressWarnings("unused") // used by reflection
   private static class PassObject extends SomeClassThatDoesNotUseNullable {
     @Keep
     public static void doThrow(Object arg) {
@@ -805,7 +803,6 @@ public class NullPointerTesterTest extends TestCase {
     shouldPass(new PassTwoNullableArgsNeitherThrowsAnything());
   }
 
-  @SuppressWarnings("unused") // for NullPointerTester
   private abstract static class BaseClassThatFailsToThrow {
     @Keep
     public void oneArg(String s) {}
@@ -817,7 +814,6 @@ public class NullPointerTesterTest extends TestCase {
     shouldFail(new SubclassWithBadSuperclass());
   }
 
-  @SuppressWarnings("unused") // for NullPointerTester
   private abstract static class BaseClassThatFailsToThrowForPackagePrivate {
     void packagePrivateOneArg(String s) {}
   }
@@ -829,7 +825,6 @@ public class NullPointerTesterTest extends TestCase {
     shouldFail(new SubclassWithBadSuperclassForPackagePrivate(), Visibility.PACKAGE);
   }
 
-  @SuppressWarnings("unused") // for NullPointerTester
   private abstract static class BaseClassThatFailsToThrowForProtected {
     @Keep
     protected void protectedOneArg(String s) {}
@@ -851,7 +846,6 @@ public class NullPointerTesterTest extends TestCase {
     shouldPass(new SubclassThatOverridesBadSuperclassMethod());
   }
 
-  @SuppressWarnings("unused") // for NullPointerTester
   private static class SubclassOverridesTheWrongMethod extends BaseClassThatFailsToThrow {
     @Keep
     public void oneArg(@Nullable CharSequence s) {}
@@ -861,7 +855,6 @@ public class NullPointerTesterTest extends TestCase {
     shouldFail(new SubclassOverridesTheWrongMethod());
   }
 
-  @SuppressWarnings("unused") // for NullPointerTester
   private static class ClassThatFailsToThrowForStatic {
     static void staticOneArg(String s) {}
   }
@@ -889,7 +882,6 @@ public class NullPointerTesterTest extends TestCase {
     private HardToCreate(String unused) {}
   }
 
-  @SuppressWarnings("unused") // used by reflection
   private static class CanCreateDefault {
     @Keep
     public void foo(@Nullable HardToCreate ignored, String required) {
@@ -901,7 +893,6 @@ public class NullPointerTesterTest extends TestCase {
     shouldPass(new CanCreateDefault());
   }
 
-  @SuppressWarnings("unused") // used by reflection
   private static class CannotCreateDefault {
     @Keep
     public void foo(HardToCreate ignored, String required) {
@@ -954,7 +945,6 @@ public class NullPointerTesterTest extends TestCase {
     shouldFail(cls, Visibility.PACKAGE);
   }
 
-  @SuppressWarnings("unused") // used by reflection
   private static class PrivateClassWithPrivateConstructor {
     private PrivateClassWithPrivateConstructor(@Nullable Integer argument) {}
   }
@@ -1024,7 +1014,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class AllDefaultValuesChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkDefaultValuesForTheseTypes(
         Gender gender,
@@ -1099,7 +1088,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class ObjectArrayDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(Object[] array, String s) {
       calledWith(array, s);
@@ -1118,7 +1106,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class StringArrayDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(String[] array, String s) {
       calledWith(array, s);
@@ -1137,7 +1124,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class IntArrayDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(int[] array, String s) {
       calledWith(array, s);
@@ -1158,7 +1144,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class EmptyEnumDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(EmptyEnum object, String s) {
       calledWith(object, s);
@@ -1180,7 +1165,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class GenericClassTypeDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(Class<? extends List<?>> cls, String s) {
       calledWith(cls, s);
@@ -1199,7 +1183,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class NonGenericClassTypeDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(@SuppressWarnings("rawtypes") Class cls, String s) {
       calledWith(cls, s);
@@ -1218,7 +1201,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class GenericTypeTokenDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(TypeToken<? extends List<? super Number>> type, String s) {
       calledWith(type, s);
@@ -1237,7 +1219,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class NonGenericTypeTokenDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(@SuppressWarnings("rawtypes") TypeToken type, String s) {
       calledWith(type, s);
@@ -1258,7 +1239,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class GenericInterfaceDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(FromTo<String, Integer> f, String s) {
       calledWith(f, s);
@@ -1282,7 +1262,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class NullRejectingInterfaceDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(NullRejectingFromTo<String, Integer> f, String s) {
       calledWith(f, s);
@@ -1307,7 +1286,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class MultipleInterfacesDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public <T extends FromTo<String, Integer> & Supplier<Long>> void checkArray(T f, String s) {
       calledWith(f, s);
@@ -1328,7 +1306,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class GenericInterface2DefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(FromTo<String, FromTo<Integer, String>> f, String s) {
       calledWith(f, s);
@@ -1348,7 +1325,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private abstract static class AbstractGenericDefaultValueChecker<T> extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkGeneric(T value, String s) {
       calledWith(value, s);
@@ -1370,7 +1346,6 @@ public class NullPointerTesterTest extends TestCase {
   private abstract static class AbstractGenericDefaultValueForPackagePrivateMethodChecker<T>
       extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     void checkGeneric(T value, String s) {
       calledWith(value, s);
     }
@@ -1390,7 +1365,6 @@ public class NullPointerTesterTest extends TestCase {
 
   private static class ConverterDefaultValueChecker extends DefaultValueChecker {
 
-    @SuppressWarnings("unused") // called by NullPointerTester
     @Keep
     public void checkArray(Converter<String, Integer> c, String s) {
       calledWith(c, s);

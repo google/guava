@@ -52,7 +52,6 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class EnumMultisetTest extends TestCase {
 
-  @J2ktIncompatible
   @GwtIncompatible // suite
   @AndroidIncompatible // test-suite builders
   public static Test suite() {
@@ -164,7 +163,6 @@ public class EnumMultisetTest extends TestCase {
     }
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testEquals() throws Exception {
     new ClassSanityTester()
@@ -174,7 +172,6 @@ public class EnumMultisetTest extends TestCase {
         .testEquals();
   }
 
-  @J2ktIncompatible
   @GwtIncompatible // reflection
   public void testNulls() throws Exception {
     new NullPointerTester()

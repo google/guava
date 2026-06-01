@@ -104,6 +104,7 @@ class Subscriber {
     return (31 + method.hashCode()) * 31 + System.identityHashCode(target);
   }
 
+  @SuppressWarnings("ReferenceEquality") // see comment below
   @Override
   public final boolean equals(@Nullable Object obj) {
     if (obj instanceof Subscriber) {

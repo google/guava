@@ -290,14 +290,13 @@ public final class SpliteratorTester<E extends @Nullable Object> {
     this.spliteratorSuppliers = checkNotNull(spliteratorSuppliers);
   }
 
-  @SafeVarargs
   @CanIgnoreReturnValue
-  public final Ordered expect(Object... elements) {
+  public Ordered expect(Object... elements) {
     return expect(asList(elements));
   }
 
   @CanIgnoreReturnValue
-  public final Ordered expect(Iterable<?> elements) {
+  public Ordered expect(Iterable<?> elements) {
     List<List<E>> resultsForAllStrategies = new ArrayList<>();
     for (Supplier<GeneralSpliterator<E>> spliteratorSupplier : spliteratorSuppliers) {
       GeneralSpliterator<E> spliterator = spliteratorSupplier.get();

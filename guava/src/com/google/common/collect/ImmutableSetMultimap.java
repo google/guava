@@ -30,7 +30,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
-import com.google.j2objc.annotations.Weak;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -555,6 +554,8 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * <p>Because an inverse of a set multimap cannot contain multiple pairs with the same key and
    * value, this method returns an {@code ImmutableSetMultimap} rather than the {@code
    * ImmutableMultimap} specified in the {@code ImmutableMultimap} class.
+   *
+   * @since 11.0
    */
   @Override
   public ImmutableSetMultimap<V, K> inverse() {
@@ -613,7 +614,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   }
 
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
-    @Weak private final transient ImmutableSetMultimap<K, V> multimap;
+    private final transient ImmutableSetMultimap<K, V> multimap;
 
     EntrySet(ImmutableSetMultimap<K, V> multimap) {
       this.multimap = multimap;

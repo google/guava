@@ -261,7 +261,7 @@ public final class Strings {
    *     non-null values are converted to strings using {@link Object#toString()}.
    * @since 25.1
    */
-  // TODO(diamondm) consider using Arrays.toString() for array parameters
+  // TODO: b/136042644 - consider using Arrays.toString() for array parameters
   public static String lenientFormat(
       @Nullable String template, @Nullable Object @Nullable ... args) {
     template = String.valueOf(template); // null -> "null"

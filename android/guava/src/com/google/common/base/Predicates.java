@@ -588,7 +588,7 @@ public final class Predicates {
       return "Predicates.instanceOf(" + clazz.getName() + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -627,7 +627,7 @@ public final class Predicates {
       return "Predicates.subtypeOf(" + clazz.getName() + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    private static final long serialVersionUID = 0;
   }
 
   /**
@@ -766,7 +766,7 @@ public final class Predicates {
       return "Predicates.contains(" + patternString + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   /**
@@ -784,7 +784,7 @@ public final class Predicates {
       return "Predicates.containsPattern(" + pattern.pattern() + ")";
     }
 
-    @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+    @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
   private static <T> List<T> defensiveCopy(T[] array) {

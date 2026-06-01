@@ -59,7 +59,6 @@ final class JdkBackedImmutableSet<E> extends IndexedImmutableSet<E> {
   @SuppressWarnings("RedundantOverride")
   @Override
   @J2ktIncompatible
-  @GwtIncompatible
     Object writeReplace() {
     return super.writeReplace();
   }
