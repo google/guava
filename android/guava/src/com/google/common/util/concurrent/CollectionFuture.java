@@ -15,14 +15,13 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.collect.Lists.newArrayListWithCapacity;
+import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableCollection;
-import com.google.common.collect.Lists;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedLocalRef;
-import java.util.Collections;
 import java.util.List;
 import org.jspecify.annotations.Nullable;
 
@@ -36,7 +35,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
    * there: cancel() never reads this field, only writes to it. That makes the race here completely
    * harmless, rather than just 99.99% harmless.
    */
-  @LazyInit private @Nullable List<@Nullable Present<V>> values;
+  @LazyInit private @Nullable List<@Nullable Object> values;
 
   @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   CollectionFuture(
@@ -44,10 +43,8 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
       boolean allMustSucceed) {
     super(futures, allMustSucceed, true);
 
-    List<@Nullable Present<V>> values =
-        futures.isEmpty()
-            ? Collections.<@Nullable Present<V>>emptyList()
-            : Lists.<@Nullable Present<V>>newArrayListWithCapacity(futures.size());
+    List<@Nullable Object> values =
+        futures.isEmpty() ? emptyList() : newArrayListWithCapacity(futures.size());
 
     // Populate the results list with null initially.
     for (int i = 0; i < futures.size(); ++i) {
@@ -59,15 +56,15 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
 
   @Override
   final void collectOneValue(int index, @ParametricNullness V returnValue) {
-    @RetainedLocalRef List<@Nullable Present<V>> localValues = values;
+    @RetainedLocalRef List<@Nullable Object> localValues = values;
     if (localValues != null) {
-      localValues.set(index, new Present<>(returnValue));
+      localValues.set(index, returnValue == null ? NULL : returnValue);
     }
   }
 
   @Override
   final void handleAllCompleted() {
-    @RetainedLocalRef List<@Nullable Present<V>> localValues = values;
+    @RetainedLocalRef List<@Nullable Object> localValues = values;
     if (localValues != null) {
       set(combine(localValues));
     }
@@ -79,7 +76,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
     this.values = null;
   }
 
-  abstract C combine(List<@Nullable Present<V>> values);
+  abstract C combine(List<@Nullable Object> values);
 
   /** Used for {@link Futures#allAsList} and {@link Futures#successfulAsList}. */
   static final class ListFuture<V extends @Nullable Object>
@@ -92,21 +89,16 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
     }
 
     @Override
-    public List<@Nullable V> combine(List<@Nullable Present<V>> values) {
+    public List<@Nullable V> combine(List<@Nullable Object> values) {
       List<@Nullable V> result = newArrayListWithCapacity(values.size());
-      for (Present<V> element : values) {
-        result.add(element != null ? element.value : null);
+      for (Object element : values) {
+        @SuppressWarnings("unchecked") // we stored either V or NULL
+        V value = (element == null || element == NULL) ? null : (V) element;
+        result.add(value);
       }
       return unmodifiableList(result);
     }
   }
 
-  /** The result of a successful {@code Future}. */
-  private static final class Present<V extends @Nullable Object> {
-    @ParametricNullness final V value;
-
-    Present(@ParametricNullness V value) {
-      this.value = value;
-    }
-  }
+  private static final Object NULL = new Object();
 }
