@@ -387,6 +387,8 @@
               <exclude>%regex[.*[$]\d+.class]</exclude>
             </excludes>
             <redirectTestOutputToFile>true</redirectTestOutputToFile>
+            <!-- https://github.com/google/guava/issues/8295 -->
+            <useManifestOnlyJar>false</useManifestOnlyJar>
             <runOrder>alphabetical</runOrder>
             <!-- Set max heap for tests. -->
             <!-- Catch dependencies on the default locale by setting it to hi-IN. -->
