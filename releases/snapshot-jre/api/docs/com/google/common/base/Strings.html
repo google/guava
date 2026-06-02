@@ -230,7 +230,7 @@ with as many copies of <code>padChar</code> as are necessary to reach that lengt
 <p>Consider normalizing your string references with <a href="#nullToEmpty(java.lang.String)"><code>nullToEmpty(String)</code></a>. If you do, you can
 use <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html#isEmpty()" class="external-link"><code>String.isEmpty()</code></a> instead of this method, and you won't need special null-safe forms
 of methods like <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html#toUpperCase(java.util.Locale)" class="external-link"><code>String.toUpperCase(Locale)</code></a> either. Or, if you'd like to normalize "in the other
-direction," converting empty strings to <code>null</code>, you can use <a href="#emptyToNull(java.lang.String)"><code>emptyToNull(String)</code></a>.</div>
+direction" (converting empty strings to <code>null</code>), you can use <a href="#emptyToNull(java.lang.String)"><code>emptyToNull(String)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>string</code> - a string reference to check</dd>
