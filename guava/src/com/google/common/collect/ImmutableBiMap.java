@@ -587,7 +587,7 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
    * #entrySet}.
    */
   @Override
-  public ImmutableSet<V> values() {
+  public final ImmutableSet<V> values() {
     return inverse().keySet();
   }
 

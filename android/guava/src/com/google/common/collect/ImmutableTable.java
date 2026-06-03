@@ -312,7 +312,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   }
 
   @Override
-  public ImmutableCollection<V> values() {
+  public final ImmutableCollection<V> values() {
     return (ImmutableCollection<V>) super.values();
   }
 
@@ -337,7 +337,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   }
 
   @Override
-  public ImmutableSet<C> columnKeySet() {
+  public final ImmutableSet<C> columnKeySet() {
     return columnMap().keySet();
   }
 
@@ -356,13 +356,13 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
    * @throws NullPointerException if {@code rowKey} is {@code null}
    */
   @Override
-  public ImmutableMap<C, V> row(R rowKey) {
+  public final ImmutableMap<C, V> row(R rowKey) {
     checkNotNull(rowKey, "rowKey");
     return MoreObjects.firstNonNull((ImmutableMap<C, V>) rowMap().get(rowKey), ImmutableMap.of());
   }
 
   @Override
-  public ImmutableSet<R> rowKeySet() {
+  public final ImmutableSet<R> rowKeySet() {
     return rowMap().keySet();
   }
 
@@ -376,12 +376,12 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   public abstract ImmutableMap<R, Map<C, V>> rowMap();
 
   @Override
-  public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
+  public final boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
     return get(rowKey, columnKey) != null;
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public final boolean containsValue(@Nullable Object value) {
     return values().contains(value);
   }
 

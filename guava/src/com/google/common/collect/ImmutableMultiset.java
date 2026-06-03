@@ -258,7 +258,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   @LazyInit private transient @Nullable ImmutableList<E> asList;
 
   @Override
-  public ImmutableList<E> asList() {
+  public final ImmutableList<E> asList() {
     ImmutableList<E> result = asList;
     return (result == null) ? asList = super.asList() : result;
   }
@@ -326,7 +326,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
 
   @GwtIncompatible // not present in emulated superclass
   @Override
-  int copyIntoArray(@Nullable Object[] dst, int offset) {
+  final int copyIntoArray(@Nullable Object[] dst, int offset) {
     for (Multiset.Entry<E> entry : entrySet()) {
       Arrays.fill(dst, offset, offset + entry.getCount(), entry.getElement());
       offset += entry.getCount();
@@ -335,7 +335,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public final boolean equals(@Nullable Object object) {
     return Multisets.equalsImpl(this, object);
   }
 
@@ -345,7 +345,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return entrySet().toString();
   }
 
@@ -358,7 +358,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   @LazyInit private transient @Nullable ImmutableSet<Entry<E>> entrySet;
 
   @Override
-  public ImmutableSet<Entry<E>> entrySet() {
+  public final ImmutableSet<Entry<E>> entrySet() {
     ImmutableSet<Entry<E>> es = entrySet;
     return (es == null) ? (entrySet = createEntrySet()) : es;
   }

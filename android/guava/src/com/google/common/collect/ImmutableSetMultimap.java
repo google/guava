@@ -542,7 +542,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * parameters used to build this multimap.
    */
   @Override
-  public ImmutableSet<V> get(K key) {
+  public final ImmutableSet<V> get(K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableSet<V> set = (ImmutableSet<V>) map.get(key);
     return MoreObjects.firstNonNull(set, emptySet);
@@ -560,7 +560,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * @since 11.0
    */
   @Override
-  public ImmutableSetMultimap<V, K> inverse() {
+  public final ImmutableSetMultimap<V, K> inverse() {
     ImmutableSetMultimap<V, K> result = inverse;
     return (result == null) ? (inverse = invert()) : result;
   }
@@ -610,7 +610,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
    * the values for the first key, the values for the second key, and so on.
    */
   @Override
-  public ImmutableSet<Entry<K, V>> entries() {
+  public final ImmutableSet<Entry<K, V>> entries() {
     ImmutableSet<Entry<K, V>> result = entries;
     return result == null ? (entries = new EntrySet<>(this)) : result;
   }

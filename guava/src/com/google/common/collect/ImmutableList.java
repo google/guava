@@ -403,7 +403,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
-  public UnmodifiableListIterator<E> listIterator() {
+  public final UnmodifiableListIterator<E> listIterator() {
     return listIterator(0);
   }
 
@@ -619,7 +619,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @GwtIncompatible // Spliterator
-  Spliterator<E> spliteratorWithCharacteristics(int characteristics) {
+  final Spliterator<E> spliteratorWithCharacteristics(int characteristics) {
     return CollectSpliterators.indexed(size(), characteristics, this::get);
   }
 
@@ -714,12 +714,12 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     return equalsImpl(this, obj);
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     int hashCode = 1;
     int n = size();
     for (int i = 0; i < n; i++) {

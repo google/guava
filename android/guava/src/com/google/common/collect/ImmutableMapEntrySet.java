@@ -84,12 +84,12 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   abstract ImmutableMap<K, V> map();
 
   @Override
-  public int size() {
+  public final int size() {
     return map().size();
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public final boolean contains(@Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> entry = (Entry<?, ?>) object;
       V value = map().get(entry.getKey());
@@ -99,7 +99,7 @@ abstract class ImmutableMapEntrySet<K, V> extends ImmutableSet<Entry<K, V>> {
   }
 
   @Override
-  boolean isPartialView() {
+  final boolean isPartialView() {
     return map().isPartialView();
   }
 

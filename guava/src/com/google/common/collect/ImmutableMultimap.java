@@ -542,24 +542,24 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    * to determine whether {@code copyOf} implementations should make an explicit copy to avoid
    * memory leaks.
    */
-  boolean isPartialView() {
+  final boolean isPartialView() {
     return map.isPartialView();
   }
 
   // accessors
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public /* TODO(cpovirk): final */ boolean containsKey(@Nullable Object key) {
     return map.containsKey(key);
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public final boolean containsValue(@Nullable Object value) {
     return value != null && super.containsValue(value);
   }
 
   @Override
-  public int size() {
+  public final int size() {
     return size;
   }
 
@@ -570,12 +570,12 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    * appear in this multimap.
    */
   @Override
-  public ImmutableSet<K> keySet() {
+  public /* TODO(cpovirk): final */ ImmutableSet<K> keySet() {
     return map.keySet();
   }
 
   @Override
-  Set<K> createKeySet() {
+  final Set<K> createKeySet() {
     throw new AssertionError("unreachable");
   }
 
@@ -590,7 +590,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   }
 
   @Override
-  Map<K, Collection<V>> createAsMap() {
+  final Map<K, Collection<V>> createAsMap() {
     throw new AssertionError("should never be called");
   }
 
@@ -601,7 +601,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   }
 
   @Override
-  ImmutableCollection<Entry<K, V>> createEntries() {
+  final ImmutableCollection<Entry<K, V>> createEntries() {
     return new EntryCollection<>(this);
   }
 
@@ -649,7 +649,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   }
 
   @Override
-  UnmodifiableIterator<Entry<K, V>> entryIterator() {
+  final UnmodifiableIterator<Entry<K, V>> entryIterator() {
     return new UnmodifiableIterator<Entry<K, V>>() {
       final Iterator<? extends Entry<K, ? extends ImmutableCollection<V>>> asMapItr =
           map.entrySet().iterator();
@@ -679,7 +679,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
 
   @Override
   @GwtIncompatible // Spliterator
-  Spliterator<Entry<K, V>> entrySpliterator() {
+  final Spliterator<Entry<K, V>> entrySpliterator() {
     return CollectSpliterators.flatMap(
         asMap().entrySet().spliterator(),
         keyToValueCollectionEntry -> {
@@ -695,7 +695,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   }
 
   @Override
-  public void forEach(BiConsumer<? super K, ? super V> action) {
+  public final void forEach(BiConsumer<? super K, ? super V> action) {
     checkNotNull(action);
     asMap()
         .forEach(
@@ -708,12 +708,12 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    * each key, use {@link #keySet}.
    */
   @Override
-  public ImmutableMultiset<K> keys() {
+  public final ImmutableMultiset<K> keys() {
     return (ImmutableMultiset<K>) super.keys();
   }
 
   @Override
-  ImmutableMultiset<K> createKeys() {
+  final ImmutableMultiset<K> createKeys() {
     return new Keys();
   }
 
@@ -785,17 +785,17 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    * values for the first key, the values for the second key, and so on.
    */
   @Override
-  public ImmutableCollection<V> values() {
+  public /* TODO(cpovirk): final */ ImmutableCollection<V> values() {
     return (ImmutableCollection<V>) super.values();
   }
 
   @Override
-  ImmutableCollection<V> createValues() {
+  final ImmutableCollection<V> createValues() {
     return new Values<>(this);
   }
 
   @Override
-  UnmodifiableIterator<V> valueIterator() {
+  final UnmodifiableIterator<V> valueIterator() {
     return new UnmodifiableIterator<V>() {
       final Iterator<? extends ImmutableCollection<V>> valueCollectionItr = map.values().iterator();
       Iterator<V> valueItr = emptyIterator();

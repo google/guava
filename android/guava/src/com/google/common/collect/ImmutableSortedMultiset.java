@@ -402,7 +402,7 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   public abstract ImmutableSortedMultiset<E> headMultiset(E upperBound, BoundType boundType);
 
   @Override
-  public ImmutableSortedMultiset<E> subMultiset(
+  public final ImmutableSortedMultiset<E> subMultiset(
       E lowerBound, BoundType lowerBoundType, E upperBound, BoundType upperBoundType) {
     checkArgument(
         comparator().compare(lowerBound, upperBound) <= 0,

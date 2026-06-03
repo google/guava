@@ -864,7 +864,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   @Override
-  public boolean isEmpty() {
+  public final boolean isEmpty() {
     return size() == 0;
   }
 
@@ -1004,7 +1004,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
    *
    * @since 14.0
    */
-  public ImmutableSetMultimap<K, V> asMultimap() {
+  public final ImmutableSetMultimap<K, V> asMultimap() {
     if (isEmpty()) {
       return ImmutableSetMultimap.of();
     }
@@ -1110,7 +1110,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   @Override
-  public String toString() {
+  public /* TODO(cpovirk): final */ String toString() {
     return toStringImpl(this);
   }
 

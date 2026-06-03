@@ -595,7 +595,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
     }
   }
 
-  int unsafeCompare(Object a, @Nullable Object b) {
+  final int unsafeCompare(Object a, @Nullable Object b) {
     return unsafeCompare(comparator, a, b);
   }
 
@@ -620,7 +620,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
    * SortedSet#comparator()}, which returns {@code null} to indicate natural ordering.
    */
   @Override
-  public Comparator<? super E> comparator() {
+  public final Comparator<? super E> comparator() {
     return comparator;
   }
 
