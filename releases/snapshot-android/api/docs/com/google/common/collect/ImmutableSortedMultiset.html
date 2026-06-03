@@ -430,7 +430,7 @@ ordering.</div>
 <div class="block">Returns a builder that creates immutable sorted multisets whose elements are ordered by the
 reverse of their natural ordering.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a><wbr>&lt;<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a><wbr>&lt;<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#subMultiset(E,com.google.common.collect.BoundType,E,com.google.common.collect.BoundType)" class="member-name-link">subMultiset</a><wbr>(<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;lowerBound,
  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
  <a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;upperBound,
@@ -494,7 +494,7 @@ equal to the result of applying <code>countFunction</code> to the inputs.</div>
 <div class="deprecation-comment">Unsupported operation.</div>
 </div>
 </div>
-<div class="col-first odd-row-color"><code><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a><wbr>&lt;<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code>final <a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a><wbr>&lt;<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="ImmutableMultiset.html#asList()" class="member-name-link">asList</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns an <code>ImmutableList</code> containing the same elements, in the same order, as this
@@ -505,13 +505,13 @@ collection.</div>
 <div class="col-last even-row-color">
 <div class="block">Determines whether this multiset contains the specified element.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a><wbr>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&gt;</code></div>
+<div class="col-first odd-row-color"><code>final <a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a><wbr>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&gt;&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="ImmutableMultiset.html#entrySet()" class="member-name-link">entrySet</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
 each providing an element of the multiset and the count of that element.</div>
 </div>
-<div class="col-first even-row-color"><code>boolean</code></div>
+<div class="col-first even-row-color"><code>final boolean</code></div>
 <div class="col-second even-row-color"><code><a href="ImmutableMultiset.html#equals(java.lang.Object)" class="member-name-link">equals</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&nbsp;object)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Compares the specified object with this multiset for equality.</div>
@@ -551,7 +551,7 @@ each providing an element of the multiset and the count of that element.</div>
 <div class="deprecation-comment">Unsupported operation.</div>
 </div>
 </div>
-<div class="col-first even-row-color"><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
+<div class="col-first even-row-color"><code>final <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
 <div class="col-second even-row-color"><code><a href="ImmutableMultiset.html#toString()" class="member-name-link">toString</a>()</code></div>
 <div class="col-last even-row-color"></div>
 </div>
@@ -1111,7 +1111,7 @@ elements outside its range.</div>
 <section class="detail" id="subMultiset(E,com.google.common.collect.BoundType,E,com.google.common.collect.BoundType)">
 <h3 id="subMultiset(java.lang.Object,com.google.common.collect.BoundType,java.lang.Object,com.google.common.collect.BoundType)">subMultiset</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">subMultiset</span><wbr><span class="parameters">(<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;lowerBound,
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableSortedMultiset.html" title="class in com.google.common.collect">ImmutableSortedMultiset</a>&lt;<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">subMultiset</span><wbr><span class="parameters">(<a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;lowerBound,
  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;lowerBoundType,
  <a href="#type-param-E" title="type parameter in ImmutableSortedMultiset">E</a>&nbsp;upperBound,
  <a href="BoundType.html" title="enum in com.google.common.collect">BoundType</a>&nbsp;upperBoundType)</span></div>

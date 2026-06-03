@@ -17285,7 +17285,7 @@
     </method>
     <method name="values" return="com.google.common.collect.ImmutableSet&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an immutable set of the values in this map, in the same order they appear in {@link
@@ -18330,7 +18330,7 @@
     </method>
     <method name="listIterator" return="com.google.common.collect.UnmodifiableListIterator&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="listIterator" return="com.google.common.collect.UnmodifiableListIterator&lt;E&gt;"
@@ -18451,13 +18451,13 @@
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="builder" return="com.google.common.collect.ImmutableList.Builder&lt;E&gt;"
@@ -18823,7 +18823,7 @@
     </method>
     <method name="inverse" return="com.google.common.collect.ImmutableListMultimap&lt;V, K&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[{@inheritDoc}
@@ -19391,7 +19391,7 @@
     </method>
     <method name="isEmpty" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="containsKey" return="boolean"
@@ -19460,7 +19460,7 @@
     </method>
     <method name="asMultimap" return="com.google.common.collect.ImmutableSetMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a multimap view of the map.
@@ -19918,13 +19918,13 @@
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="value" type="Object"/>
     </method>
     <method name="size" return="int"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="keySet" return="com.google.common.collect.ImmutableSet&lt;K&gt;"
@@ -19955,7 +19955,7 @@
     </method>
     <method name="keys" return="com.google.common.collect.ImmutableMultiset&lt;K&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an immutable multiset containing all the keys in this multimap, in the same order and
@@ -20335,7 +20335,7 @@
     </method>
     <method name="asList" return="com.google.common.collect.ImmutableList&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="contains" return="boolean"
@@ -20399,7 +20399,7 @@
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="object" type="Object"/>
     </method>
@@ -20410,7 +20410,7 @@
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="elementSet" return="com.google.common.collect.ImmutableSet&lt;E&gt;"
@@ -20423,7 +20423,7 @@
     </method>
     <method name="entrySet" return="com.google.common.collect.ImmutableSet&lt;com.google.common.collect.Multiset.Entry&lt;E&gt;&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="builder" return="com.google.common.collect.ImmutableMultiset.Builder&lt;E&gt;"
@@ -20638,19 +20638,19 @@
     </method>
     <method name="get" return="V"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="key" type="K extends java.lang.Comparable&lt;?&gt;"/>
     </method>
     <method name="getEntry" return="Map.Entry"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="key" type="K extends java.lang.Comparable&lt;?&gt;"/>
     </method>
     <method name="span" return="com.google.common.collect.Range&lt;K&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="put"
@@ -20716,12 +20716,12 @@
     </method>
     <method name="asMapOfRanges" return="com.google.common.collect.ImmutableMap&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="asDescendingMapOfRanges" return="com.google.common.collect.ImmutableMap&lt;com.google.common.collect.Range&lt;K&gt;, V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="subRangeMap" return="com.google.common.collect.ImmutableRangeMap&lt;K, V&gt;"
@@ -20732,18 +20732,18 @@
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="o" type="Object"/>
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <doc>
@@ -21710,7 +21710,7 @@
     </method>
     <method name="get" return="com.google.common.collect.ImmutableSet&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="key" type="K"/>
       <doc>
@@ -21721,7 +21721,7 @@
     </method>
     <method name="inverse" return="com.google.common.collect.ImmutableSetMultimap&lt;V, K&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[{@inheritDoc}
@@ -21760,7 +21760,7 @@
     </method>
     <method name="entries" return="com.google.common.collect.ImmutableSet&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses
@@ -23399,7 +23399,7 @@
     </method>
     <method name="subMultiset" return="com.google.common.collect.ImmutableSortedMultiset&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="lowerBound" type="E"/>
       <param name="lowerBoundType" type="com.google.common.collect.BoundType"/>
@@ -24099,7 +24099,7 @@
     </method>
     <method name="comparator" return="java.util.Comparator&lt;? super E&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the comparator that orders the elements, which is {@link Ordering#natural()} when the
@@ -24666,7 +24666,7 @@
     </method>
     <method name="values" return="com.google.common.collect.ImmutableCollection&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="column" return="com.google.common.collect.ImmutableMap&lt;R, V&gt;"
@@ -24682,7 +24682,7 @@
     </method>
     <method name="columnKeySet" return="com.google.common.collect.ImmutableSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="columnMap" return="com.google.common.collect.ImmutableMap&lt;C, java.util.Map&lt;R, V&gt;&gt;"
@@ -24698,7 +24698,7 @@
     </method>
     <method name="row" return="com.google.common.collect.ImmutableMap&lt;C, V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="rowKey" type="R"/>
       <doc>
@@ -24709,7 +24709,7 @@
     </method>
     <method name="rowKeySet" return="com.google.common.collect.ImmutableSet&lt;R&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="rowMap" return="com.google.common.collect.ImmutableMap&lt;R, java.util.Map&lt;C, V&gt;&gt;"
@@ -24725,14 +24725,14 @@
     </method>
     <method name="contains" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="rowKey" type="Object"/>
       <param name="columnKey" type="Object"/>
     </method>
     <method name="containsValue" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="value" type="Object"/>
     </method>

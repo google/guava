@@ -215,7 +215,7 @@ key</code> and the value <code>value</code>.</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the hash code for this multimap.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>,<wbr><a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>,<wbr><a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#inverse()" class="member-name-link">inverse</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns an immutable multimap which is the inverse of this one.</div>
@@ -338,7 +338,7 @@ multimap.</div>
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the key <code>
 key</code>.</div>
 </div>
-<div class="col-first odd-row-color"><code>boolean</code></div>
+<div class="col-first odd-row-color"><code>final boolean</code></div>
 <div class="col-second odd-row-color"><code><a href="ImmutableMultimap.html#containsValue(java.lang.Object)" class="member-name-link">containsValue</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&nbsp;value)</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the value
@@ -349,7 +349,7 @@ key</code>.</div>
 <div class="col-last even-row-color">
 <div class="block">Returns an immutable collection of all key-value pairs in the multimap.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a><wbr>&lt;<a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code>final <a href="ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a><wbr>&lt;<a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="ImmutableMultimap.html#keys()" class="member-name-link">keys</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns an immutable multiset containing all the keys in this multimap, in the same order and
@@ -393,7 +393,7 @@ appear in this multimap.</div>
 <div class="deprecation-comment">Unsupported operation.</div>
 </div>
 </div>
-<div class="col-first odd-row-color"><code>int</code></div>
+<div class="col-first odd-row-color"><code>final int</code></div>
 <div class="col-second odd-row-color"><code><a href="ImmutableMultimap.html#size()" class="member-name-link">size</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns the number of key-value pairs in this multimap.</div>
@@ -689,7 +689,7 @@ parameters used to build this multimap.</div>
 <section class="detail" id="inverse()">
 <h3>inverse</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>,<wbr><a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&gt;</span>&nbsp;<span class="element-name">inverse</span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableListMultimap.html" title="class in com.google.common.collect">ImmutableListMultimap</a>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>,<wbr><a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&gt;</span>&nbsp;<span class="element-name">inverse</span>()</div>
 <div class="block">Returns an immutable multimap which is the inverse of this one. For every key-value mapping in
 the original, the result will have a mapping with key and value reversed.
 
