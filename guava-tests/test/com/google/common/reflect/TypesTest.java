@@ -244,6 +244,19 @@ public class TypesTest extends TestCase {
     reserializeAndAssert(subtypeOf(Object.class));
   }
 
+  interface SomeInterface {}
+
+  public void testNewWildcardType_multipleUpperBounds() {
+    WildcardType wildcard =
+        new Types.WildcardTypeImpl(new Type[0], new Type[] {Object.class, SomeInterface.class});
+    String expected =
+        "? extends "
+            + Types.JavaVersion.CURRENT.typeName(Object.class)
+            + " & "
+            + Types.JavaVersion.CURRENT.typeName(SomeInterface.class);
+    assertThat(wildcard.toString()).isEqualTo(expected);
+  }
+
   private static void assertEqualWildcardType(WildcardType expected, WildcardType actual) {
     assertThat(actual.toString()).isEqualTo(expected.toString());
     assertEquals(actual.toString(), expected.hashCode(), actual.hashCode());

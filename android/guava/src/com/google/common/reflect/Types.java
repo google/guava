@@ -16,15 +16,17 @@ package com.google.common.reflect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Predicates.equalTo;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.Iterables.filter;
+import static com.google.common.collect.Iterables.isEmpty;
+import static com.google.common.collect.Iterables.size;
 import static com.google.common.collect.Iterables.transform;
 import static java.util.Arrays.asList;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Joiner;
-import com.google.common.base.Predicates;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.errorprone.annotations.Keep;
@@ -57,6 +59,8 @@ final class Types {
 
   /** Class#toString without the "class " and "interface " prefixes */
   private static final Joiner COMMA_JOINER = Joiner.on(", ").useForNull("null");
+
+  private static final Joiner AMPERSAND_JOINER = Joiner.on(" & ");
 
   /** Returns the array type of {@code componentType}. */
   static Type newArrayType(Type componentType) {
@@ -521,8 +525,11 @@ final class Types {
       for (Type lowerBound : lowerBounds) {
         builder.append(" super ").append(JavaVersion.CURRENT.typeName(lowerBound));
       }
-      for (Type upperBound : filterUpperBounds(upperBounds)) {
-        builder.append(" extends ").append(JavaVersion.CURRENT.typeName(upperBound));
+      Iterable<Type> filteredUpperBounds = filterUpperBounds(upperBounds);
+      if (!isEmpty(filteredUpperBounds)) {
+        builder.append(" extends ");
+        AMPERSAND_JOINER.appendTo(
+            builder, transform(filteredUpperBounds, JavaVersion.CURRENT::typeName));
       }
       return builder.toString();
     }
@@ -535,7 +542,10 @@ final class Types {
   }
 
   private static Iterable<Type> filterUpperBounds(Iterable<Type> bounds) {
-    return filter(bounds, not(Predicates.equalTo(Object.class)));
+    if (size(bounds) > 1) {
+      return bounds;
+    }
+    return filter(bounds, not(equalTo(Object.class)));
   }
 
   private static void disallowPrimitiveType(Type[] types, String usedAs) {
