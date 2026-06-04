@@ -171,7 +171,7 @@ public final class Splitter {
         (splitter, toSplit) ->
             new SplittingIterator(splitter, toSplit) {
               @Override
-              public int separatorStart(int start) {
+              int separatorStart(int start) {
                 int separatorLength = separator.length();
 
                 positions:
@@ -187,7 +187,7 @@ public final class Splitter {
               }
 
               @Override
-              public int separatorEnd(int separatorPosition) {
+              int separatorEnd(int separatorPosition) {
                 return separatorPosition + separator.length();
               }
             });
@@ -220,12 +220,12 @@ public final class Splitter {
           CommonMatcher matcher = separatorPattern.matcher(toSplit);
           return new SplittingIterator(splitter, toSplit) {
             @Override
-            public int separatorStart(int start) {
+            int separatorStart(int start) {
               return matcher.find(start) ? matcher.start() : -1;
             }
 
             @Override
-            public int separatorEnd(int separatorPosition) {
+            int separatorEnd(int separatorPosition) {
               return matcher.end();
             }
           };
@@ -274,13 +274,13 @@ public final class Splitter {
         (splitter, toSplit) ->
             new SplittingIterator(splitter, toSplit) {
               @Override
-              public int separatorStart(int start) {
+              int separatorStart(int start) {
                 int nextChunkStart = start + length;
                 return (nextChunkStart < toSplit.length() ? nextChunkStart : -1);
               }
 
               @Override
-              public int separatorEnd(int separatorPosition) {
+              int separatorEnd(int separatorPosition) {
                 return separatorPosition;
               }
             });

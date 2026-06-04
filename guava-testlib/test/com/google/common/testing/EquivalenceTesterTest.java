@@ -41,7 +41,7 @@ public class EquivalenceTesterTest extends TestCase {
   private MockEquivalence equivalenceMock;
 
   @Override
-  public void setUp() throws Exception {
+  protected void setUp() throws Exception {
     super.setUp();
     this.equivalenceMock = new MockEquivalence();
     this.tester = EquivalenceTester.of(equivalenceMock);

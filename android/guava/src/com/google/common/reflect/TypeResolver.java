@@ -306,7 +306,7 @@ public final class TypeResolver {
       TypeTable guarded =
           new TypeTable() {
             @Override
-            public Type resolveInternal(TypeVariable<?> intermediateVar, TypeTable forDependent) {
+            Type resolveInternal(TypeVariable<?> intermediateVar, TypeTable forDependent) {
               if (intermediateVar.getGenericDeclaration().equals(var.getGenericDeclaration())) {
                 return intermediateVar;
               }

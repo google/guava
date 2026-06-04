@@ -49,7 +49,7 @@ public class ThreadFactoryBuilderTest extends TestCase {
   private volatile boolean completed = false;
 
   @Override
-  public void setUp() {
+  protected void setUp() {
     builder = new ThreadFactoryBuilder();
   }
 

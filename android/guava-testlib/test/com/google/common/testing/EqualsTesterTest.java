@@ -46,7 +46,7 @@ public class EqualsTesterTest extends TestCase {
   private ValidTestObject notEqualObject1;
 
   @Override
-  public void setUp() throws Exception {
+  protected void setUp() throws Exception {
     super.setUp();
     reference = new ValidTestObject(1, 2);
     equalsTester = new EqualsTester();

@@ -45,7 +45,7 @@ public class ForwardingLoadingCacheTest extends TestCase {
 
   @SuppressWarnings({"unchecked", "DoNotMock"}) // mock
   @Override
-  public void setUp() throws Exception {
+  protected void setUp() throws Exception {
     super.setUp();
     /*
      * Class parameters must be raw, so we can't create a proxy with generic

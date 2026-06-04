@@ -53,7 +53,7 @@ public abstract class AbstractTableReadTest<C extends @Nullable Character> exten
   }
 
   @Override
-  public void setUp() throws Exception {
+  protected void setUp() throws Exception {
     super.setUp();
     table = create();
   }

@@ -670,12 +670,12 @@ public class MoreFilesTest extends TestCase {
   private enum DirectoryDeleteMethod {
     DELETE_DIRECTORY_CONTENTS {
       @Override
-      public void delete(Path path, RecursiveDeleteOption... options) throws IOException {
+      void delete(Path path, RecursiveDeleteOption... options) throws IOException {
         MoreFiles.deleteDirectoryContents(path, options);
       }
 
       @Override
-      public void assertDeleteSucceeded(Path path) throws IOException {
+      void assertDeleteSucceeded(Path path) throws IOException {
         assertEquals(
             "contents of directory " + path + " not deleted with delete method " + this,
             0,
@@ -684,12 +684,12 @@ public class MoreFilesTest extends TestCase {
     },
     DELETE_RECURSIVELY {
       @Override
-      public void delete(Path path, RecursiveDeleteOption... options) throws IOException {
+      void delete(Path path, RecursiveDeleteOption... options) throws IOException {
         MoreFiles.deleteRecursively(path, options);
       }
 
       @Override
-      public void assertDeleteSucceeded(Path path) throws IOException {
+      void assertDeleteSucceeded(Path path) throws IOException {
         assertFalse("file " + path + " not deleted with delete method " + this, Files.exists(path));
       }
     };

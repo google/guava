@@ -82,7 +82,7 @@ public class Collections2Test extends TestCase {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
               @Override
-              public Collection<String> create(String[] elements) {
+              protected Collection<String> create(String[] elements) {
                 List<String> unfiltered = new ArrayList<>();
                 unfiltered.add("yyy");
                 Collections.addAll(unfiltered, elements);
@@ -107,7 +107,7 @@ public class Collections2Test extends TestCase {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
               @Override
-              public Collection<String> create(String[] elements) {
+              protected Collection<String> create(String[] elements) {
                 List<String> unfiltered = new ArrayList<>();
                 Collections.addAll(unfiltered, elements);
                 return Collections2.filter(unfiltered, NOT_YYY_ZZZ);
@@ -130,7 +130,7 @@ public class Collections2Test extends TestCase {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
               @Override
-              public Collection<String> create(String[] elements) {
+              protected Collection<String> create(String[] elements) {
                 List<String> unfiltered = new LinkedList<>();
                 unfiltered.add("yyy");
                 Collections.addAll(unfiltered, elements);
@@ -155,7 +155,7 @@ public class Collections2Test extends TestCase {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
               @Override
-              public Collection<String> create(String[] elements) {
+              protected Collection<String> create(String[] elements) {
                 List<String> unfiltered = new ArrayList<>();
                 unfiltered.add("yyy");
                 unfiltered.addAll(ImmutableList.copyOf(elements));
@@ -180,7 +180,7 @@ public class Collections2Test extends TestCase {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
               @Override
-              public Collection<String> create(String[] elements) {
+              protected Collection<String> create(String[] elements) {
                 List<String> unfiltered = new ArrayList<>();
                 unfiltered.add("yyy");
                 unfiltered.addAll(ImmutableList.copyOf(elements));
@@ -206,7 +206,7 @@ public class Collections2Test extends TestCase {
     return CollectionTestSuiteBuilder.using(
             new TestStringCollectionGenerator() {
               @Override
-              public Collection<@Nullable String> create(@Nullable String[] elements) {
+              protected Collection<@Nullable String> create(@Nullable String[] elements) {
                 List<@Nullable String> list = new ArrayList<>();
                 for (String element : elements) {
                   list.add((element == null) ? null : "q" + element);

@@ -887,7 +887,7 @@ public final class Maps {
     }
 
     @Override
-    public Set<K> createKeySet() {
+    Set<K> createKeySet() {
       return removeOnlySet(backingSet());
     }
 
@@ -934,7 +934,7 @@ public final class Maps {
     }
 
     @Override
-    protected Set<Entry<K, V>> createEntrySet() {
+    Set<Entry<K, V>> createEntrySet() {
       @WeakOuter
       final class EntrySetImpl extends EntrySet<K, V> {
         @Override
@@ -2856,7 +2856,7 @@ public final class Maps {
     }
 
     @Override
-    protected Set<Entry<K, V>> createEntrySet() {
+    Set<Entry<K, V>> createEntrySet() {
       return filter(unfiltered.entrySet(), predicate);
     }
 
@@ -2888,7 +2888,7 @@ public final class Maps {
     }
 
     @Override
-    protected Set<Entry<K, V>> createEntrySet() {
+    Set<Entry<K, V>> createEntrySet() {
       return new EntrySet();
     }
 

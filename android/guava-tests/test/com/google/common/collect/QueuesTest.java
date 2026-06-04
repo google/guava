@@ -78,12 +78,12 @@ public class QueuesTest extends TestCase {
   private ExecutorService threadPool;
 
   @Override
-  public void setUp() {
+  protected void setUp() {
     threadPool = newCachedThreadPool();
   }
 
   @Override
-  public void tearDown() throws InterruptedException {
+  protected void tearDown() throws InterruptedException {
     threadPool.shutdown();
     assertTrue("Some worker didn't finish in time", threadPool.awaitTermination(10, SECONDS));
   }

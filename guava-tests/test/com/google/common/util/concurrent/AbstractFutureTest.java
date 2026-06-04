@@ -300,7 +300,7 @@ public class AbstractFutureTest extends TestCase {
     AbstractFuture<Object> testFuture =
         new AbstractFuture<Object>() {
           @Override
-          public String pendingToString() {
+          protected String pendingToString() {
             return "cause=[Because this test isn't done]";
           }
         };
@@ -317,7 +317,7 @@ public class AbstractFutureTest extends TestCase {
     AbstractFuture<Object> testFuture =
         new AbstractFuture<Object>() {
           @Override
-          public String pendingToString() {
+          protected String pendingToString() {
             // Complete ourselves during the toString calculation
             this.set(true);
             return "cause=[Because this test isn't done]";
@@ -384,7 +384,7 @@ public class AbstractFutureTest extends TestCase {
     AbstractFuture<Object> testFuture2 =
         new AbstractFuture<Object>() {
           @Override
-          public String pendingToString() {
+          protected String pendingToString() {
             return "cause=[Someday...]";
           }
         };
@@ -412,7 +412,7 @@ public class AbstractFutureTest extends TestCase {
     assertThat(
             new AbstractFuture<Object>() {
               @Override
-              public String pendingToString() {
+              protected String pendingToString() {
                 throw new RuntimeException("I'm a misbehaving implementation");
               }
             }.toString())

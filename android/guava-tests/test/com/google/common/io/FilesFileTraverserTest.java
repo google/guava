@@ -36,7 +36,7 @@ public class FilesFileTraverserTest extends IoTestCase {
   private File rootDir;
 
   @Override
-  public void setUp() throws IOException {
+  protected void setUp() throws IOException {
     rootDir = createTempDir();
   }
 

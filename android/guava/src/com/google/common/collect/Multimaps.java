@@ -248,7 +248,7 @@ public final class Multimaps {
     }
 
     @Override
-    protected Collection<V> createCollection() {
+    Collection<V> createCollection() {
       return factory.get();
     }
 
@@ -369,7 +369,7 @@ public final class Multimaps {
     }
 
     @Override
-    protected List<V> createCollection() {
+    List<V> createCollection() {
       return factory.get();
     }
 
@@ -455,7 +455,7 @@ public final class Multimaps {
     }
 
     @Override
-    protected Set<V> createCollection() {
+    Set<V> createCollection() {
       return factory.get();
     }
 
@@ -564,7 +564,7 @@ public final class Multimaps {
     }
 
     @Override
-    protected SortedSet<V> createCollection() {
+    SortedSet<V> createCollection() {
       return factory.get();
     }
 
@@ -806,7 +806,7 @@ public final class Multimaps {
     }
 
     @Override
-    public ListMultimap<K, V> delegate() {
+    protected ListMultimap<K, V> delegate() {
       return (ListMultimap<K, V>) super.delegate();
     }
 
@@ -836,7 +836,7 @@ public final class Multimaps {
     }
 
     @Override
-    public SetMultimap<K, V> delegate() {
+    protected SetMultimap<K, V> delegate() {
       return (SetMultimap<K, V>) super.delegate();
     }
 
@@ -1860,7 +1860,7 @@ public final class Multimaps {
     }
 
     @Override
-    protected Set<Entry<K, Collection<V>>> createEntrySet() {
+    Set<Entry<K, Collection<V>>> createEntrySet() {
       return new EntrySet();
     }
 

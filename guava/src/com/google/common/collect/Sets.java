@@ -1111,7 +1111,7 @@ public final class Sets {
         Iterator<? extends E> itr2 = set2.iterator();
         return new AbstractIterator<E>() {
           @Override
-          public @Nullable E computeNext() {
+          protected @Nullable E computeNext() {
             while (itr1.hasNext()) {
               E elem1 = itr1.next();
               if (!set2.contains(elem1)) {

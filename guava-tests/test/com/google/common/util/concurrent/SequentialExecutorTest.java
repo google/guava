@@ -81,7 +81,7 @@ public class SequentialExecutorTest extends TestCase {
   private SequentialExecutor e;
 
   @Override
-  public void setUp() {
+  protected void setUp() {
     fakePool = new FakeExecutor();
     e = new SequentialExecutor(fakePool);
   }

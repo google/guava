@@ -40,13 +40,13 @@ public class MoreFilesFileTraverserTest extends TestCase {
   private Path rootDir;
 
   @Override
-  public void setUp() throws IOException {
+  protected void setUp() throws IOException {
     rootDir = Jimfs.newFileSystem(Configuration.unix()).getPath("/tmp");
     Files.createDirectory(rootDir);
   }
 
   @Override
-  public void tearDown() throws IOException {
+  protected void tearDown() throws IOException {
     rootDir.getFileSystem().close();
   }
 

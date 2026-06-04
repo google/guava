@@ -813,7 +813,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
-    protected Set<Entry<R, Map<C, V>>> createEntrySet() {
+    Set<Entry<R, Map<C, V>>> createEntrySet() {
       return new EntrySet();
     }
 
@@ -883,7 +883,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
-    public Set<Entry<C, Map<R, V>>> createEntrySet() {
+    Set<Entry<C, Map<R, V>>> createEntrySet() {
       return new ColumnMapEntrySet();
     }
 

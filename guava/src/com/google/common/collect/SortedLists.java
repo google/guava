@@ -115,7 +115,7 @@ final class SortedLists {
      */
     FIRST_AFTER {
       @Override
-      public <E extends @Nullable Object> int resultIndex(
+      <E extends @Nullable Object> int resultIndex(
           Comparator<? super E> comparator,
           @ParametricNullness E key,
           List<? extends E> list,
@@ -129,7 +129,7 @@ final class SortedLists {
      */
     LAST_BEFORE {
       @Override
-      public <E extends @Nullable Object> int resultIndex(
+      <E extends @Nullable Object> int resultIndex(
           Comparator<? super E> comparator,
           @ParametricNullness E key,
           List<? extends E> list,
@@ -166,7 +166,7 @@ final class SortedLists {
      */
     NEXT_HIGHER {
       @Override
-      public int resultIndex(int higherIndex) {
+      int resultIndex(int higherIndex) {
         return higherIndex;
       }
     },
@@ -184,7 +184,7 @@ final class SortedLists {
      */
     INVERTED_INSERTION_INDEX {
       @Override
-      public int resultIndex(int higherIndex) {
+      int resultIndex(int higherIndex) {
         return ~higherIndex;
       }
     };

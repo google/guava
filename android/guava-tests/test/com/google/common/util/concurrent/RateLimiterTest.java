@@ -503,7 +503,7 @@ public class RateLimiterTest extends TestCase {
     final List<String> events = new ArrayList<>();
 
     @Override
-    public long readMicros() {
+    protected long readMicros() {
       return NANOSECONDS.toMicros(instant);
     }
 

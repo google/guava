@@ -51,7 +51,7 @@ public class StandardMutableUndirectedGraphTest extends AbstractStandardUndirect
   }
 
   @Override
-  public MutableGraph<Integer> createGraph() {
+  MutableGraph<Integer> createGraph() {
     return GraphBuilder.undirected()
         .allowsSelfLoops(allowsSelfLoops)
         .incidentEdgeOrder(incidentEdgeOrder)

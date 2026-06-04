@@ -548,7 +548,7 @@ public class MultimapsTest extends TestCase {
      * reserializing the multimap.
      */
     @SuppressWarnings("JdkObsolete")
-    public Queue<Integer> getImpl() {
+    Queue<Integer> getImpl() {
       return new LinkedList<>();
     }
 
@@ -642,7 +642,7 @@ public class MultimapsTest extends TestCase {
 
   private static class ListSupplier extends CountingSupplier<LinkedList<Integer>> {
     @Override
-    public LinkedList<Integer> getImpl() {
+    LinkedList<Integer> getImpl() {
       return new LinkedList<>();
     }
 
@@ -678,7 +678,7 @@ public class MultimapsTest extends TestCase {
 
   private static class SetSupplier extends CountingSupplier<Set<Integer>> {
     @Override
-    public Set<Integer> getImpl() {
+    Set<Integer> getImpl() {
       return new HashSet<>(4);
     }
 
@@ -710,7 +710,7 @@ public class MultimapsTest extends TestCase {
 
   private static class SortedSetSupplier extends CountingSupplier<TreeSet<Integer>> {
     @Override
-    public TreeSet<Integer> getImpl() {
+    TreeSet<Integer> getImpl() {
       return newTreeSet(INT_COMPARATOR);
     }
 

@@ -44,7 +44,7 @@ public final class StandardImmutableUndirectedGraphTest
   }
 
   @Override
-  public Graph<Integer> createGraph() {
+  Graph<Integer> createGraph() {
     graphBuilder = GraphBuilder.undirected().allowsSelfLoops(allowsSelfLoops).immutable();
     return graphBuilder.build();
   }

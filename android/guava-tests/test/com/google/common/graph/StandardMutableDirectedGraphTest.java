@@ -51,7 +51,7 @@ public final class StandardMutableDirectedGraphTest extends AbstractStandardDire
   }
 
   @Override
-  public MutableGraph<Integer> createGraph() {
+  MutableGraph<Integer> createGraph() {
     return GraphBuilder.directed()
         .allowsSelfLoops(allowsSelfLoops)
         .incidentEdgeOrder(incidentEdgeOrder)

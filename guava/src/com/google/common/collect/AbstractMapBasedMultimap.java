@@ -1352,7 +1352,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    protected Set<Entry<K, Collection<V>>> createEntrySet() {
+    Set<Entry<K, Collection<V>>> createEntrySet() {
       return new AsMapEntries();
     }
 

@@ -2034,7 +2034,7 @@ final class MapMakerInternalMap<
 
     @SuppressWarnings("unchecked")
     @Override
-    public @Nullable StrongKeyStrongValueEntry<K, V> castForTesting(
+    @Nullable StrongKeyStrongValueEntry<K, V> castForTesting(
         @Nullable InternalEntry<K, V, ?> entry) {
       return (StrongKeyStrongValueEntry<K, V>) entry;
     }
@@ -2064,25 +2064,24 @@ final class MapMakerInternalMap<
 
     @SuppressWarnings("unchecked")
     @Override
-    public @Nullable StrongKeyWeakValueEntry<K, V> castForTesting(
-        @Nullable InternalEntry<K, V, ?> entry) {
+    @Nullable StrongKeyWeakValueEntry<K, V> castForTesting(@Nullable InternalEntry<K, V, ?> entry) {
       return (StrongKeyWeakValueEntry<K, V>) entry;
     }
 
     @Override
-    public WeakValueReference<K, V, StrongKeyWeakValueEntry<K, V>> getWeakValueReferenceForTesting(
+    WeakValueReference<K, V, StrongKeyWeakValueEntry<K, V>> getWeakValueReferenceForTesting(
         InternalEntry<K, V, ?> e) {
       return castForTesting(e).getValueReference();
     }
 
     @Override
-    public WeakValueReference<K, V, StrongKeyWeakValueEntry<K, V>> newWeakValueReferenceForTesting(
+    WeakValueReference<K, V, StrongKeyWeakValueEntry<K, V>> newWeakValueReferenceForTesting(
         InternalEntry<K, V, ?> e, V value) {
       return new WeakValueReferenceImpl<>(queueForValues, value, castForTesting(e));
     }
 
     @Override
-    public void setWeakValueReferenceForTesting(
+    void setWeakValueReferenceForTesting(
         InternalEntry<K, V, ?> e,
         WeakValueReference<K, V, ? extends InternalEntry<K, V, ?>> valueReference) {
       StrongKeyWeakValueEntry<K, V> entry = castForTesting(e);
@@ -2151,7 +2150,7 @@ final class MapMakerInternalMap<
 
     @SuppressWarnings("unchecked")
     @Override
-    public WeakKeyStrongValueEntry<K, V> castForTesting(InternalEntry<K, V, ?> entry) {
+    WeakKeyStrongValueEntry<K, V> castForTesting(InternalEntry<K, V, ?> entry) {
       return (WeakKeyStrongValueEntry<K, V>) entry;
     }
 
@@ -2212,7 +2211,7 @@ final class MapMakerInternalMap<
     }
 
     @Override
-    public void setWeakValueReferenceForTesting(
+    void setWeakValueReferenceForTesting(
         InternalEntry<K, V, ?> e,
         WeakValueReference<K, V, ? extends InternalEntry<K, V, ?>> valueReference) {
       WeakKeyWeakValueEntry<K, V> entry = castForTesting(e);

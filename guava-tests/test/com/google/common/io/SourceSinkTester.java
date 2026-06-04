@@ -108,7 +108,7 @@ public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends T
   }
 
   @Override
-  public void tearDown() throws IOException {
+  protected void tearDown() throws IOException {
     factory.tearDown();
   }
 

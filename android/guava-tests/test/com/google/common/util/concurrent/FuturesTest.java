@@ -114,12 +114,14 @@ public class FuturesTest extends TestCase {
   private static final String DATA3 = "most data";
 
   @Override
+  // `public` so AggregateFutureStateFallbackAtomicHelperTest can call it without setAccessible
   public void setUp() throws Exception {
     super.setUp();
     aggregateFutureLogger.addHandler(aggregateFutureLogHandler);
   }
 
   @Override
+  // `public` so AggregateFutureStateFallbackAtomicHelperTest can call it without setAccessible
   public void tearDown() throws Exception {
     /*
      * Clear interrupt for future tests.

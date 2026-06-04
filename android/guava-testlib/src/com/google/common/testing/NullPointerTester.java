@@ -615,7 +615,7 @@ public final class NullPointerTester {
      */
     NPE_OR_UOE() {
       @Override
-      public boolean isExpectedType(Throwable cause) {
+      boolean isExpectedType(Throwable cause) {
         return cause instanceof NullPointerException
             || cause instanceof UnsupportedOperationException;
       }
@@ -627,7 +627,7 @@ public final class NullPointerTester {
      */
     NPE_IAE_OR_UOE() {
       @Override
-      public boolean isExpectedType(Throwable cause) {
+      boolean isExpectedType(Throwable cause) {
         return cause instanceof NullPointerException
             || cause instanceof IllegalArgumentException
             || cause instanceof UnsupportedOperationException;

@@ -53,7 +53,7 @@ public class ExecutionSequencerTest extends TestCase {
   private TestCallable firstCallable;
 
   @Override
-  public void setUp() throws Exception {
+  protected void setUp() throws Exception {
     executor = newCachedThreadPool();
     serializer = ExecutionSequencer.create();
     firstFuture = SettableFuture.create();
@@ -61,7 +61,7 @@ public class ExecutionSequencerTest extends TestCase {
   }
 
   @Override
-  public void tearDown() throws Exception {
+  protected void tearDown() throws Exception {
     executor.shutdown();
   }
 

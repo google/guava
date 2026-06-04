@@ -119,7 +119,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
   }
 
   @Override
-  public void setUp() throws IOException {
+  protected void setUp() throws IOException {
     source = factory.createSource(data);
   }
 

@@ -92,7 +92,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
     }
 
     @Override
-    public List<@Nullable V> combine(List<@Nullable Present<V>> values) {
+    List<@Nullable V> combine(List<@Nullable Present<V>> values) {
       List<@Nullable V> result = newArrayListWithCapacity(values.size());
       for (Present<V> element : values) {
         result.add(element != null ? element.value : null);
@@ -102,7 +102,7 @@ abstract class CollectionFuture<V extends @Nullable Object, C extends @Nullable 
   }
 
   /** The result of a successful {@code Future}. */
-  private static final class Present<V extends @Nullable Object> {
+  static final class Present<V extends @Nullable Object> {
     @ParametricNullness final V value;
 
     Present(@ParametricNullness V value) {

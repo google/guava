@@ -51,7 +51,7 @@ public class AbstractIteratorTest extends TestCase {
           private int rep;
 
           @Override
-          public @Nullable Integer computeNext() {
+          protected @Nullable Integer computeNext() {
             switch (rep++) {
               case 0:
                 return 0;
@@ -88,7 +88,7 @@ public class AbstractIteratorTest extends TestCase {
           boolean haveBeenCalled;
 
           @Override
-          public Integer computeNext() {
+          protected Integer computeNext() {
             if (haveBeenCalled) {
               throw new AssertionError("Should not have been called again");
             } else {
@@ -109,7 +109,7 @@ public class AbstractIteratorTest extends TestCase {
     Iterator<Integer> iter =
         new AbstractIterator<Integer>() {
           @Override
-          public Integer computeNext() {
+          protected Integer computeNext() {
             throw exception;
           }
         };
@@ -123,7 +123,7 @@ public class AbstractIteratorTest extends TestCase {
     Iterator<Integer> iter =
         new AbstractIterator<Integer>() {
           @Override
-          public Integer computeNext() {
+          protected Integer computeNext() {
             endOfData();
             throw new SomeUncheckedException();
           }
@@ -137,7 +137,7 @@ public class AbstractIteratorTest extends TestCase {
           boolean haveBeenCalled;
 
           @Override
-          public Integer computeNext() {
+          protected Integer computeNext() {
             if (haveBeenCalled) {
               endOfData();
             }
@@ -158,7 +158,7 @@ public class AbstractIteratorTest extends TestCase {
     Iterator<Object> itr =
         new AbstractIterator<Object>() {
           @Override
-          public Object computeNext() {
+          protected Object computeNext() {
             return new Object();
           }
         };

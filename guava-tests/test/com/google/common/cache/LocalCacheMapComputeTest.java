@@ -49,7 +49,7 @@ public class LocalCacheMapComputeTest extends TestCase {
   }
 
   @Override
-  public void setUp() throws Exception {
+  protected void setUp() throws Exception {
     super.setUp();
     this.cache =
         CacheBuilder.newBuilder()

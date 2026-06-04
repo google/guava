@@ -44,7 +44,7 @@ public class CharSinkTest extends IoTestCase {
   private TestCharSink sink;
 
   @Override
-  public void setUp() {
+  protected void setUp() {
     sink = new TestCharSink();
   }
 

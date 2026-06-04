@@ -43,7 +43,7 @@ public final class StandardImmutableDirectedGraphTest extends AbstractStandardDi
   }
 
   @Override
-  public Graph<Integer> createGraph() {
+  Graph<Integer> createGraph() {
     graphBuilder = GraphBuilder.directed().allowsSelfLoops(allowsSelfLoops).immutable();
     return graphBuilder.build();
   }

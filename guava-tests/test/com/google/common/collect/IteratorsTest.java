@@ -1450,7 +1450,7 @@ public class IteratorsTest extends TestCase {
     return ListTestSuiteBuilder.using(
             new TestStringListGenerator() {
               @Override
-              public List<String> create(String[] elements) {
+              protected List<String> create(String[] elements) {
                 List<String> delegate = newArrayList(elements);
                 return new ForwardingList<String>() {
                   @Override

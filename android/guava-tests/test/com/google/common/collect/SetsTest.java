@@ -183,7 +183,7 @@ public class SetsTest extends TestCase {
     return SetTestSuiteBuilder.using(
             new TestStringSetGenerator() {
               @Override
-              public Set<String> create(String[] elements) {
+              protected Set<String> create(String[] elements) {
                 Set<String> unfiltered = new LinkedHashSet<>();
                 unfiltered.add("yyy");
                 Collections.addAll(unfiltered, elements);
@@ -210,7 +210,7 @@ public class SetsTest extends TestCase {
         SetTestSuiteBuilder.using(
                 new TestStringSetGenerator() {
                   @Override
-                  public Set<String> create(String[] elements) {
+                  protected Set<String> create(String[] elements) {
                     Set<String> unfiltered = new LinkedHashSet<>();
                     unfiltered.add("yyy");
                     unfiltered.addAll(ImmutableList.copyOf(elements));
@@ -230,7 +230,7 @@ public class SetsTest extends TestCase {
         NavigableSetTestSuiteBuilder.using(
                 new TestStringSetGenerator() {
                   @Override
-                  public NavigableSet<String> create(String[] elements) {
+                  protected NavigableSet<String> create(String[] elements) {
                     NavigableSet<String> unfiltered = newTreeSet();
                     unfiltered.add("yyy");
                     unfiltered.addAll(ImmutableList.copyOf(elements));
@@ -261,7 +261,7 @@ public class SetsTest extends TestCase {
     return SetTestSuiteBuilder.using(
             new TestStringSetGenerator() {
               @Override
-              public Set<String> create(String[] elements) {
+              protected Set<String> create(String[] elements) {
                 Set<String> unfiltered = new LinkedHashSet<>();
                 unfiltered.add("yyy");
                 unfiltered.addAll(ImmutableList.copyOf(elements));

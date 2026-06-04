@@ -41,7 +41,7 @@ public class ArrayTableRowTest extends RowTests {
   }
 
   @Override
-  protected Table<Character, String, Integer> makeTable() {
+  Table<Character, String, Integer> makeTable() {
     return ArrayTable.create(asList('a', 'b', 'c'), asList("one", "two", "three", "four"));
   }
 }

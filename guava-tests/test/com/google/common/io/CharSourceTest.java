@@ -72,7 +72,7 @@ public class CharSourceTest extends IoTestCase {
   private TestCharSource source;
 
   @Override
-  public void setUp() {
+  protected void setUp() {
     source = new TestCharSource(STRING);
   }
 

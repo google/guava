@@ -165,7 +165,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
             new CheckedRunnable() {
               @Override
               @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
-              public void realRun() {
+              void realRun() {
                 while (!a.compareAndSet(0, 2.0, 3.0)) {
                   Thread.yield();
                 }
@@ -250,7 +250,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
 
     @SuppressWarnings("DoubleAtLeastJUnit") // causes timeouts under Android
     @Override
-    public void realRun() {
+    void realRun() {
       for (; ; ) {
         boolean done = true;
         for (int i = 0; i < aa.length(); i++) {

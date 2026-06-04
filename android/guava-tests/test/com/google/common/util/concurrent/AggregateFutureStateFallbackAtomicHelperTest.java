@@ -91,7 +91,7 @@ public class AggregateFutureStateFallbackAtomicHelperTest extends TestCase {
   }
 
   @Override
-  public void runTest() throws Exception {
+  protected void runTest() throws Exception {
     /*
      * Note that we do not run this test under Android at the moment. For Android testing, see
      * AggregateFutureStateDefaultAtomicHelperTest.

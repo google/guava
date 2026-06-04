@@ -113,7 +113,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
             new CheckedRunnable() {
               @Override
               @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
-              public void realRun() {
+              void realRun() {
                 while (!at.compareAndSet(2.0, 3.0)) {
                   Thread.yield();
                 }

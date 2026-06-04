@@ -904,7 +904,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     @Override
-    protected void doAction() {
+    void doAction() {
       latch.countDown();
     }
   }
@@ -920,7 +920,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     @Override
-    protected void doAction() {
+    void doAction() {
       assertThat(queue.remove()).isNotNull();
     }
   }
@@ -935,7 +935,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     @Override
-    protected void doAction() {
+    void doAction() {
       assertTrue(queue.offer(EXPECTED_TAKE));
     }
   }
@@ -979,7 +979,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     @Override
-    protected void doAction() {}
+    void doAction() {}
   }
 
   private static class Release extends DelayedActionRunnable {
@@ -991,7 +991,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     @Override
-    protected void doAction() {
+    void doAction() {
       semaphore.release(10);
     }
   }
@@ -1002,7 +1002,7 @@ public class UninterruptiblesTest extends TestCase {
     }
 
     @Override
-    protected void doAction() {}
+    void doAction() {}
   }
 
   private static void sleepSuccessfully(long sleepMillis) {
