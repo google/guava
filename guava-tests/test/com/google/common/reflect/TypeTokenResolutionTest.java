@@ -493,6 +493,7 @@ public class TypeTokenResolutionTest extends TestCase {
     return new TypeToken<Map<Object, Object>>() {};
   }
 
+  @SuppressWarnings("UnusedMethod")
   // Looks like recursive, but legit.
   private interface WithFalseRecursiveType<K, V> {
     WithFalseRecursiveType<List<V>, String> keyShouldNotResolveToStringList();
@@ -502,6 +503,7 @@ public class TypeTokenResolutionTest extends TestCase {
     SubtypeOfWithFalseRecursiveType<List<V>, List<K>> evenSubtypeWorks();
   }
 
+  @SuppressWarnings("UnusedMethod")
   private interface SubtypeOfWithFalseRecursiveType<K1, V1>
       extends WithFalseRecursiveType<List<K1>, List<V1>> {
     SubtypeOfWithFalseRecursiveType<V1, K1> revertKeyAndValueTypes();

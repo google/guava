@@ -25,6 +25,7 @@ import static java.lang.Math.min;
 import static java.lang.System.arraycopy;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
+import com.google.errorprone.annotations.Keep;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -277,7 +278,7 @@ public class SourceSinkFactories {
     }
 
     // acts as an override in subclasses that implement SourceSinkFactory
-    @SuppressWarnings("EffectivelyPrivate")
+    @Keep
     public final void tearDown() throws IOException {
       if (!fileThreadLocal.get().delete()) {
         logger.warning("Unable to delete file: " + fileThreadLocal.get());

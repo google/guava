@@ -1474,6 +1474,7 @@ public class TypeTokenTest extends TestCase {
     assertThat(arrayOf(int.class).getRawType()).isEqualTo(int[].class);
   }
 
+  @SuppressWarnings("UnusedMethod")
   @Keep
   private static class Holder<T> {
     List<T>[] matrix;
@@ -1635,6 +1636,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   private interface Loser<E extends Throwable> {
+    @SuppressWarnings("UnusedMethod")
     void lose() throws E;
   }
 
@@ -1779,6 +1781,7 @@ public class TypeTokenTest extends TestCase {
     TypeToken.of(type).rejectTypeVariables();
   }
 
+  @SuppressWarnings("UnusedMethod")
   private abstract static class RawTypeConsistencyTester<T extends Enum<T> & CharSequence> {
     abstract T returningT();
 
