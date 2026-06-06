@@ -74,6 +74,8 @@ import org.jspecify.annotations.Nullable;
  * <p>An exception that is suppressed is added to the exception that <i>will</i> be thrown using
  * {@code Throwable.addSuppressed(Throwable)}.
  *
+ * <p>This class is not thread-safe.
+ *
  * @author Colin Decker
  * @since 14.0
  */
