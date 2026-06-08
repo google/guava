@@ -1474,7 +1474,7 @@ public class TypeTokenTest extends TestCase {
     assertThat(arrayOf(int.class).getRawType()).isEqualTo(int[].class);
   }
 
-  @SuppressWarnings("UnusedMethod")
+  @SuppressWarnings({"UnusedVariable", "UnusedMethod"})
   @Keep
   private static class Holder<T> {
     List<T>[] matrix;
@@ -1684,6 +1684,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   private static class Container<T> {
+    @SuppressWarnings("UnusedVariable")
     @Keep
     public Container(T data) {}
   }

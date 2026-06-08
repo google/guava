@@ -115,6 +115,7 @@ public class ClassSanityTesterTest extends TestCase {
 
   private static class BadEqualsFactory {
     /** oneConstantOnly matters now since it can be either null or the constant. */
+    @SuppressWarnings("UnusedVariable")
     @Keep
     public static Object bad(String a, int b, @Nullable OneConstantEnum oneConstantOnly) {
       return new GoodEquals(a, b);
@@ -1067,11 +1068,9 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   static class WithStreamParameter {
-    private final List<?> list;
-
-    // This should be ignored.
     public WithStreamParameter(Stream<?> s, String str) {
-      this.list = s.collect(Collectors.toList());
+      // We just want to test that `collect` doesn't throw.
+      List<?> unused = s.collect(Collectors.toList());
       checkNotNull(str);
     }
   }
@@ -1338,12 +1337,14 @@ public class ClassSanityTesterTest extends TestCase {
   private enum EnumFailsToCheckNull {
     A;
 
+    @SuppressWarnings("UnusedVariable")
     @Keep
     public void failToCheckNull(String s) {}
   }
 
   private interface AnInterface {}
 
+  @SuppressWarnings("UnusedVariable")
   private abstract static class AnAbstractClass {
     @Keep
     public AnAbstractClass(String s) {}

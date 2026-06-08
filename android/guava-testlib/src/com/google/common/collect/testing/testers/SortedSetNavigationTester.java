@@ -48,9 +48,8 @@ public class SortedSetNavigationTester<E extends @Nullable Object> extends Abstr
 
   private SortedSet<E> sortedSet;
   private List<E> values;
-  private @Nullable E a;
-  private @Nullable E b;
-  private @Nullable E c;
+  private @Nullable E first;
+  private @Nullable E third;
 
   @Override
   public void setUp() throws Exception {
@@ -64,10 +63,9 @@ public class SortedSetNavigationTester<E extends @Nullable Object> extends Abstr
 
     // some tests assume SEVERAL == 3
     if (values.size() >= 1) {
-      a = values.get(0);
+      first = values.get(0);
       if (values.size() >= 3) {
-        b = values.get(1);
-        c = values.get(2);
+        third = values.get(2);
       }
     }
   }
@@ -82,23 +80,18 @@ public class SortedSetNavigationTester<E extends @Nullable Object> extends Abstr
     assertThrows(NoSuchElementException.class, () -> sortedSet.last());
   }
 
-  @CollectionSize.Require(ONE)
-  public void testSingletonSetFirst() {
-    assertEquals(a, sortedSet.first());
+  @CollectionSize.Require(absent = ZERO)
+  public void testFirst() {
+    assertEquals(first, sortedSet.first());
   }
 
   @CollectionSize.Require(ONE)
   public void testSingletonSetLast() {
-    assertEquals(a, sortedSet.last());
+    assertEquals(first, sortedSet.last());
   }
 
   @CollectionSize.Require(SEVERAL)
-  public void testFirst() {
-    assertEquals(a, sortedSet.first());
-  }
-
-  @CollectionSize.Require(SEVERAL)
-  public void testLast() {
-    assertEquals(c, sortedSet.last());
+  public void testLargerSetLast() {
+    assertEquals(third, sortedSet.last());
   }
 }

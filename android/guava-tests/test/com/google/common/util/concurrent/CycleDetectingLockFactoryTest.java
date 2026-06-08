@@ -56,7 +56,10 @@ public class CycleDetectingLockFactoryTest extends TestCase {
   private ReentrantLock lock2;
   private ReentrantLock lock3;
   private ReentrantLock lock01;
+
+  @SuppressWarnings("UnusedVariable")
   private ReentrantLock lock02;
+
   private ReentrantLock lock03;
 
   @Override
@@ -107,12 +110,11 @@ public class CycleDetectingLockFactoryTest extends TestCase {
     lockB.unlock();
 
     // The opposite order should fail (Policies.THROW).
-    PotentialDeadlockException firstException = null;
     lockB.lock();
     PotentialDeadlockException expected =
         assertThrows(PotentialDeadlockException.class, () -> lockA.lock());
     checkMessage(expected, "LockB -> LockA", "LockA -> LockB");
-    firstException = expected;
+    PotentialDeadlockException firstException = expected;
     // Second time should also fail, with a cached causal chain.
     expected = assertThrows(PotentialDeadlockException.class, () -> lockA.lock());
     checkMessage(expected, "LockB -> LockA", "LockA -> LockB");

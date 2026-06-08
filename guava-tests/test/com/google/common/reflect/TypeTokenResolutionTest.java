@@ -418,6 +418,7 @@ public class TypeTokenResolutionTest extends TestCase {
     assertEquals(newArrayType(int[].class), listType.getActualTypeArguments()[0]);
   }
 
+  @SuppressWarnings("UnusedVariable")
   private abstract class WithGenericBound<A> {
 
     @Keep

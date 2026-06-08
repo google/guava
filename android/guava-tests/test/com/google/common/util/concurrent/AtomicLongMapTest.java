@@ -17,6 +17,7 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.testing.SerializableTester.reserialize;
+import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -487,7 +488,7 @@ public class AtomicLongMapTest extends TestCase {
       map.put(key, newValue);
       assertTrue(map.containsKey(key));
 
-      long before = map.get(key);
+      assertThat(map.get(key)).isEqualTo(newValue);
       assertFalse(map.remove(key, newValue + 1));
       assertFalse(map.remove(key, newValue - 1));
       assertTrue(map.remove(key, newValue));
