@@ -96,6 +96,13 @@ address in IPv4 or IPv6 notation, or a domain name.
 URI, the domain name case is further restricted to include only those domain names which end in a
 recognized public suffix; see <a href="InternetDomainName.html#isPublicSuffix()"><code>InternetDomainName.isPublicSuffix()</code></a> for details.
 
+<p>In this context, "URI" is used in the general sense, and <code>HostSpecifier</code> does not
+guarantee that every URI or URL parser will accept the original input without additional
+normalization. <code>HostSpecifier</code> follows the syntactic rules of <a href="InetAddresses.html" title="class in com.google.common.net"><code>InetAddresses</code></a> and
+<a href="InternetDomainName.html" title="class in com.google.common.net"><code>InternetDomainName</code></a>, including their documented acceptance of some inputs that particular
+URI implementations may reject, such as non-ASCII digits, non-ASCII domain names, or domain
+labels containing underscores.
+
 <p>Note that no network lookups are performed by any <code>HostSpecifier</code> methods. No attempt is
 made to verify that a provided specifier corresponds to a real or accessible host. Only syntactic
 and pattern-based checks are performed.
