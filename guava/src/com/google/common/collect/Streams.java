@@ -754,7 +754,7 @@ public final class Streams {
     R apply(@ParametricNullness T from, long index);
   }
 
-  private abstract static class MapWithIndexSpliterator<
+  abstract static class MapWithIndexSpliterator<
           F extends Spliterator<?>,
           R extends @Nullable Object,
           S extends MapWithIndexSpliterator<F, R, S>>
