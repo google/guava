@@ -42,7 +42,7 @@ public final class Interners {
    *
    * @since 21.0
    */
-  public static class InternerBuilder {
+  public static final class InternerBuilder {
     private final MapMaker mapMaker = new MapMaker();
     private boolean strong = true;
 

@@ -38,7 +38,7 @@ import com.google.common.escape.Escapers;
  * @since 15.0
  */
 @GwtCompatible
-public class XmlEscapers {
+public final class XmlEscapers {
   private XmlEscapers() {}
 
   private static final char MIN_ASCII_CONTROL_CHAR = 0x00;

@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
  * collected, and this class can detect when the main class loader has been garbage collected and
  * stop itself.
  */
-public class Finalizer implements Runnable {
+public final class Finalizer implements Runnable {
 
   private static final Logger logger = Logger.getLogger(Finalizer.class.getName());
 

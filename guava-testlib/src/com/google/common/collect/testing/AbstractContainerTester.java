@@ -182,7 +182,7 @@ public abstract class AbstractContainerTester<C, E extends @Nullable Object>
     return array;
   }
 
-  public static class ArrayWithDuplicate<E extends @Nullable Object> {
+  public static final class ArrayWithDuplicate<E extends @Nullable Object> {
     public final E[] elements;
     public final E duplicate;
 

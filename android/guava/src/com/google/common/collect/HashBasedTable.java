@@ -50,7 +50,7 @@ import java.util.Map;
  * @since 7.0
  */
 @GwtCompatible
-public class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
+public final class HashBasedTable<R, C, V> extends StandardTable<R, C, V> {
   private static final class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {
     final int expectedSize;
 

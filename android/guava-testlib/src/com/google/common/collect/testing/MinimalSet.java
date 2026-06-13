@@ -36,7 +36,8 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 @NullMarked
-public class MinimalSet<E extends @Nullable Object> extends MinimalCollection<E> implements Set<E> {
+public final class MinimalSet<E extends @Nullable Object> extends MinimalCollection<E>
+    implements Set<E> {
 
   @SuppressWarnings("unchecked") // empty Object[] as E[]
   public static <E extends @Nullable Object> MinimalSet<E> of(E... contents) {
