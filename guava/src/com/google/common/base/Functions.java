@@ -226,8 +226,7 @@ public final class Functions {
 
     @Override
     public String toString() {
-      // TODO(cpovirk): maybe remove "defaultValue=" to make this look like the method call does
-      return "Functions.forMap(" + map + ", defaultValue=" + defaultValue + ")";
+      return "Functions.forMap(" + map + ", " + defaultValue + ")";
     }
 
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
@@ -284,8 +283,7 @@ public final class Functions {
 
     @Override
     public String toString() {
-      // TODO(cpovirk): maybe make this look like the method call does ("Functions.compose(...)")
-      return g + "(" + f + ")";
+      return "Functions.compose(" + g + ", " + f + ")";
     }
 
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
