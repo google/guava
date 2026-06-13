@@ -16662,7 +16662,7 @@
   <!-- start class com.google.common.collect.HashBasedTable -->
   <class name="HashBasedTable" extends="com.google.common.collect.StandardTable&lt;R, C, V&gt;"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="create" return="com.google.common.collect.HashBasedTable&lt;R, C, V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -25194,7 +25194,7 @@
   <!-- start class com.google.common.collect.Interners.InternerBuilder -->
   <class name="Interners.InternerBuilder" extends="java.lang.Object"
     abstract="false"
-    static="true" final="false" visibility="public"
+    static="true" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="strong" return="com.google.common.collect.Interners.InternerBuilder"
       abstract="false" native="false" synchronized="false"
@@ -49860,7 +49860,7 @@
   <!-- start class com.google.common.math.BigDecimalMath -->
   <class name="BigDecimalMath" extends="java.lang.Object"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="roundToDouble" return="double"
       abstract="false" native="false" synchronized="false"
@@ -76240,7 +76240,7 @@
   <!-- start class com.google.common.xml.XmlEscapers -->
   <class name="XmlEscapers" extends="java.lang.Object"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="xmlContentEscaper" return="com.google.common.escape.Escaper"
       abstract="false" native="false" synchronized="false"
