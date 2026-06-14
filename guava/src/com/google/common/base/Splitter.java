@@ -16,6 +16,7 @@ package com.google.common.base;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static java.util.Collections.unmodifiableList;
 import static java.util.Collections.unmodifiableMap;
 
@@ -349,10 +350,14 @@ public final class Splitter {
    * @param trimmer a {@link CharMatcher} that determines whether a character should be removed from
    *     the beginning/end of a subsequence
    * @return a splitter with the desired configuration
+   * @throws IllegalStateException if a trimmer was already specified on this splitter
    */
-  // TODO(kevinb): throw if a trimmer was already specified!
   public Splitter trimResults(CharMatcher trimmer) {
     checkNotNull(trimmer);
+    checkState(
+        this.trimmer == CharMatcher.none(),
+        "A trimmer was already specified: %s",
+        this.trimmer);
     return new Splitter(strategy, omitEmptyStrings, trimmer, limit);
   }
 
