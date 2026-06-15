@@ -43,5 +43,11 @@ public class DefaultsTest extends TestCase {
     assertThat(Defaults.defaultValue(double.class).doubleValue()).isEqualTo(0.0d);
     assertThat(Defaults.defaultValue(void.class)).isNull();
     assertThat(Defaults.defaultValue(String.class)).isNull();
+
+    // Verifies that wrapper classes are treated as reference types and return null
+    assertThat(Defaults.defaultValue(Boolean.class)).isNull();
+    assertThat(Defaults.defaultValue(Character.class)).isNull();
+    assertThat(Defaults.defaultValue(Integer.class)).isNull();
+    assertThat(Defaults.defaultValue(Double.class)).isNull();
   }
 }
