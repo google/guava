@@ -14,6 +14,7 @@
 
 package com.google.common.net;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.Math.max;
 
@@ -87,10 +88,9 @@ public final class PercentEscaper extends UnicodeEscaper {
     // TODO(dbeaumont): Support escapers where alphanumeric chars are not safe.
     checkNotNull(safeChars); // eager for GWT.
     // Avoid any misunderstandings about the behavior of this escaper
-    if (safeChars.matches(".*[0-9A-Za-z].*")) {
-      throw new IllegalArgumentException(
-          "Alphanumeric characters are always 'safe' and should not be explicitly specified");
-    }
+    checkArgument(
+        !safeChars.matches(".*[0-9A-Za-z].*"),
+        "Alphanumeric characters are always 'safe' and should not be explicitly specified");
     safeChars += "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     // Avoid ambiguous parameters. Safe characters are never modified so if
     // space is a safe character then setting plusForSpace is meaningless.

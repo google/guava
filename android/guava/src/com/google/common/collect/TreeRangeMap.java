@@ -353,10 +353,9 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
         @Override
         public void putAll(RangeMap<Comparable<?>, ? extends Object> rangeMap) {
-          if (!rangeMap.asMapOfRanges().isEmpty()) {
-            throw new IllegalArgumentException(
-                "Cannot putAll(nonEmptyRangeMap) into an empty subRangeMap");
-          }
+          checkArgument(
+              rangeMap.asMapOfRanges().isEmpty(),
+              "Cannot putAll(nonEmptyRangeMap) into an empty subRangeMap");
         }
 
         @Override
