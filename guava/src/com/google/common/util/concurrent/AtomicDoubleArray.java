@@ -95,7 +95,8 @@ public class AtomicDoubleArray implements Serializable {
   }
 
   /**
-   * Gets the current value at position {@code i}.
+   * Returns the current value of the element at index {@code i}, with memory effects as specified
+   * by {@link java.lang.invoke.VarHandle#getVolatile VarHandle.getVolatile}.
    *
    * @param i the index
    * @return the current value
@@ -105,7 +106,8 @@ public class AtomicDoubleArray implements Serializable {
   }
 
   /**
-   * Atomically sets the element at position {@code i} to the given value.
+   * Sets the element at index {@code i} to {@code newValue}, with memory effects as specified by
+   * {@link java.lang.invoke.VarHandle#setVolatile VarHandle.setVolatile}.
    *
    * @param i the index
    * @param newValue the new value
@@ -116,7 +118,8 @@ public class AtomicDoubleArray implements Serializable {
   }
 
   /**
-   * Eventually sets the element at position {@code i} to the given value.
+   * Sets the element at index {@code i} to {@code newValue}, with memory effects as specified by
+   * {@link java.lang.invoke.VarHandle#setRelease VarHandle.setRelease}.
    *
    * @param i the index
    * @param newValue the new value
