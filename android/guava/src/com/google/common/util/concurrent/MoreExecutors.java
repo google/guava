@@ -291,6 +291,8 @@ public final class MoreExecutors {
     void addShutdownHook(Thread hook) {
       Runtime.getRuntime().addShutdownHook(hook);
     }
+
+    Application() {}
   }
 
   @J2ktIncompatible

@@ -879,6 +879,8 @@ public final class Streams {
          */
         return requireNonNull(value);
       }
+
+      OptionalState() {}
     }
     OptionalState state = new OptionalState();
 

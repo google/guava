@@ -241,4 +241,6 @@ public final class ForwardingWrapperTester {
       return "dummy " + interfaceType.getSimpleName();
     }
   }
+
+  public ForwardingWrapperTester() {}
 }
