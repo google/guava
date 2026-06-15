@@ -66810,7 +66810,8 @@
       deprecated="not deprecated">
       <param name="i" type="int"/>
       <doc>
-      <![CDATA[Gets the current value at position {@code i}.
+      <![CDATA[Returns the current value of the element at index {@code i}, with memory effects as specified
+ by {@link java.lang.invoke.VarHandle#getVolatile VarHandle.getVolatile}.
 
  @param i the index
  @return the current value]]>
@@ -66823,7 +66824,8 @@
       <param name="i" type="int"/>
       <param name="newValue" type="double"/>
       <doc>
-      <![CDATA[Atomically sets the element at position {@code i} to the given value.
+      <![CDATA[Sets the element at index {@code i} to {@code newValue}, with memory effects as specified by
+ {@link java.lang.invoke.VarHandle#setVolatile VarHandle.setVolatile}.
 
  @param i the index
  @param newValue the new value]]>
@@ -66836,7 +66838,8 @@
       <param name="i" type="int"/>
       <param name="newValue" type="double"/>
       <doc>
-      <![CDATA[Eventually sets the element at position {@code i} to the given value.
+      <![CDATA[Sets the element at index {@code i} to {@code newValue}, with memory effects as specified by
+ {@link java.lang.invoke.VarHandle#setRelease VarHandle.setRelease}.
 
  @param i the index
  @param newValue the new value]]>

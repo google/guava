@@ -8824,7 +8824,8 @@ geospatial data interchange format based on JSON.</div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/AtomicDoubleArray.html#get(int)" class="member-name-link">get(int)</a> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicDoubleArray.html" title="class in com.google.common.util.concurrent">AtomicDoubleArray</a></dt>
 <dd>
-<div class="block">Gets the current value at position <code>i</code>.</div>
+<div class="block">Returns the current value of the element at index <code>i</code>, with memory effects as specified
+by <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/invoke/VarHandle.html#getVolatile(java.lang.Object...)" class="external-link"><code>VarHandle.getVolatile</code></a>.</div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/AbstractFuture.html#get(long,java.util.concurrent.TimeUnit)" class="member-name-link">get(long, TimeUnit)</a> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AbstractFuture.html" title="class in com.google.common.util.concurrent">AbstractFuture</a></dt>
 <dt><a href="com/google/common/util/concurrent/SettableFuture.html#get(long,java.util.concurrent.TimeUnit)" class="member-name-link">get(long, TimeUnit)</a> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/SettableFuture.html" title="class in com.google.common.util.concurrent">SettableFuture</a></dt>
@@ -12223,7 +12224,8 @@ such index exists.</div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/AtomicDoubleArray.html#lazySet(int,double)" class="member-name-link">lazySet(int, double)</a> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicDoubleArray.html" title="class in com.google.common.util.concurrent">AtomicDoubleArray</a></dt>
 <dd>
-<div class="block">Eventually sets the element at position <code>i</code> to the given value.</div>
+<div class="block">Sets the element at index <code>i</code> to <code>newValue</code>, with memory effects as specified by
+<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/invoke/VarHandle.html#setRelease(java.lang.Object...)" class="external-link"><code>VarHandle.setRelease</code></a>.</div>
 </dd>
 <dt><a href="com/google/common/base/Throwables.html#lazyStackTrace(java.lang.Throwable)" class="member-name-link">lazyStackTrace(Throwable)</a> - Static method in class com.google.common.base.<a href="com/google/common/base/Throwables.html" title="class in com.google.common.base">Throwables</a></dt>
 <dd>
@@ -18375,7 +18377,8 @@ Service-Worker-Allowed</code></a> header field name.</div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/AtomicDoubleArray.html#set(int,double)" class="member-name-link">set(int, double)</a> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicDoubleArray.html" title="class in com.google.common.util.concurrent">AtomicDoubleArray</a></dt>
 <dd>
-<div class="block">Atomically sets the element at position <code>i</code> to the given value.</div>
+<div class="block">Sets the element at index <code>i</code> to <code>newValue</code>, with memory effects as specified by
+<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/invoke/VarHandle.html#setVolatile(java.lang.Object...)" class="external-link"><code>VarHandle.setVolatile</code></a>.</div>
 </dd>
 <dt><a href="com/google/common/collect/ArrayTable.html#set(int,int,V)" class="member-name-link">set(int, int, V)</a> - Method in class com.google.common.collect.<a href="com/google/common/collect/ArrayTable.html" title="class in com.google.common.collect">ArrayTable</a></dt>
 <dd>
