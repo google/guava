@@ -16,6 +16,8 @@
 
 package com.google.common.collect.testing;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import java.util.Collection;
@@ -36,9 +38,7 @@ public class MinimalCollectionTest extends TestCase {
               protected Collection<String> create(String[] elements) {
                 // TODO: MinimalCollection should perhaps throw
                 for (Object element : elements) {
-                  if (element == null) {
-                    throw new NullPointerException();
-                  }
+                  requireNonNull(element);
                 }
                 return MinimalCollection.of(elements);
               }
