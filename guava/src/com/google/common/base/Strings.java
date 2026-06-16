@@ -280,7 +280,7 @@ public final class Strings {
         break;
       }
       builder.append(template, templateStart, placeholderStart);
-      builder.append(lenientToString(args[i++]));
+      builder.append(safeToString(args[i++]));
       templateStart = placeholderStart + 2;
     }
     builder.append(template, templateStart, template.length());
@@ -290,7 +290,7 @@ public final class Strings {
       String prefix = " [";
       for (; i < args.length; i++) {
         builder.append(prefix);
-        builder.append(lenientToString(args[i]));
+        builder.append(safeToString(args[i]));
         prefix = ", ";
       }
       builder.append(']');
@@ -300,7 +300,7 @@ public final class Strings {
   }
 
   @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
-  private static String lenientToString(@Nullable Object o) {
+  private static String safeToString(@Nullable Object o) {
     if (o == null) {
       return "null";
     }
