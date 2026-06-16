@@ -33,12 +33,13 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.FileSystems;
-import java.nio.file.Paths;
+import java.nio.file.Path;
 import java.nio.file.attribute.AclEntry;
 import java.nio.file.attribute.AclEntryPermission;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermissions;
 import java.nio.file.attribute.UserPrincipal;
+import java.security.SecureRandom;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -112,9 +113,15 @@ abstract class TempFileCreator {
     @Override
     File createTempDir() {
       try {
-        return java.nio.file.Files.createTempDirectory(
-                Paths.get(JAVA_IO_TMPDIR.value()), /* prefix= */ null, directoryPermissions.get())
-            .toFile();
+        Path path = java.nio.file.Files.createTempDirectory(/* prefix= */ null, directoryPermissions.get());
+        if (FileSystems.getDefault().supportedFileAttributeViews().contains("acl")) {
+          try {
+            java.nio.file.Files.setAttribute(path, "acl:protected", true);
+          } catch (IOException | UnsupportedOperationException e) {
+            // Best-effort at blocking inheritance.
+          }
+        }
+        return path.toFile();
       } catch (IOException e) {
         throw new IllegalStateException("Failed to create directory", e);
       }
@@ -122,12 +129,18 @@ abstract class TempFileCreator {
 
     @Override
     File createTempFile(String prefix) throws IOException {
-      return java.nio.file.Files.createTempFile(
-              Paths.get(JAVA_IO_TMPDIR.value()),
+      Path path = java.nio.file.Files.createTempFile(
               /* prefix= */ prefix,
               /* suffix= */ null,
-              filePermissions.get())
-          .toFile();
+              filePermissions.get());
+      if (FileSystems.getDefault().supportedFileAttributeViews().contains("acl")) {
+        try {
+          java.nio.file.Files.setAttribute(path, "acl:protected", true);
+        } catch (IOException | UnsupportedOperationException e) {
+          // Best-effort at blocking inheritance.
+        }
+      }
+      return path.toFile();
     }
 
     @IgnoreJRERequirement // see enclosing class (whose annotation Animal Sniffer ignores here...)
@@ -240,6 +253,8 @@ abstract class TempFileCreator {
   }
 
   private static final class JavaIoCreator extends TempFileCreator {
+    private static final SecureRandom random = new SecureRandom();
+
     @Override
     File createTempDir() {
       File baseDir = new File(JAVA_IO_TMPDIR.value());
@@ -247,7 +262,7 @@ abstract class TempFileCreator {
       String baseName = System.currentTimeMillis() + "-";
 
       for (int counter = 0; counter < TEMP_DIR_ATTEMPTS; counter++) {
-        File tempDir = new File(baseDir, baseName + counter);
+        File tempDir = new File(baseDir, baseName + Integer.toUnsignedString(random.nextInt()));
         if (tempDir.mkdir()) {
           return tempDir;
         }
