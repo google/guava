@@ -56,12 +56,12 @@
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <animal-sniffer-maven-plugin.version>1.27</animal-sniffer-maven-plugin.version>
-    <asm.version>9.9.1</asm.version>
+    <asm.version>9.10.1</asm.version>
     <build-helper-maven-plugin.version>3.6.1</build-helper-maven-plugin.version>
     <caliper.version>1.0-beta-3</caliper.version>
-    <central-publishing-maven-plugin.version>0.10.0</central-publishing-maven-plugin.version>
-    <error_prone_annotations.version>2.47.0</error_prone_annotations.version>
-    <error_prone_core.version>2.47.0</error_prone_core.version>
+    <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
+    <error_prone_annotations.version>2.50.0</error_prone_annotations.version>
+    <error_prone_core.version>2.50.0</error_prone_core.version>
     <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
     <failureaccess.version>1.0.3</failureaccess.version>
     <gummy-bears-api-23-version>0.12.0</gummy-bears-api-23-version>
@@ -80,18 +80,18 @@
     <maven-bundle-plugin.version>5.1.9</maven-bundle-plugin.version>
     <maven-clean-plugin.version>3.5.0</maven-clean-plugin.version>
     <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
-    <maven-dependency-plugin.version>3.10.0</maven-dependency-plugin.version>
+    <maven-dependency-plugin.version>3.11.0</maven-dependency-plugin.version>
     <maven-deploy-plugin.version>3.1.4</maven-deploy-plugin.version>
-    <maven-enforcer-plugin.version>3.6.2</maven-enforcer-plugin.version>
+    <maven-enforcer-plugin.version>3.6.3</maven-enforcer-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
     <maven-install-plugin.version>3.1.4</maven-install-plugin.version>
     <maven-jar-plugin.version>3.5.0</maven-jar-plugin.version>
     <maven-javadoc-plugin.version>3.12.0</maven-javadoc-plugin.version>
     <maven-release-plugin.version>3.3.1</maven-release-plugin.version>
-    <maven-resources-plugin.version>3.4.0</maven-resources-plugin.version>
-    <maven-site-plugin.version>3.21.0</maven-site-plugin.version>
+    <maven-resources-plugin.version>3.5.0</maven-resources-plugin.version>
+    <maven-site-plugin.version>3.22.0</maven-site-plugin.version>
     <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
-    <maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
+    <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
     <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
     <mockito.version>4.11.0</mockito.version>
     <toolchains-maven-plugin.version>4.5.0</toolchains-maven-plugin.version>
@@ -221,15 +221,7 @@
               <arg>--should-stop=ifError=FLOW</arg>
 
               <!-- https://errorprone.info/docs/installation#maven -->
-              <!-- TODO(cpovirk): Enable NullArgumentForNonNullParameter for
-                   prod code. It's disabled automatically for "test code"
-                   (which is good: our tests have intentional violations), but
-                   Error Prone doesn't know it's building test code unless we
-                   pass -XepCompilingTestOnlyCode, and that argument needs to
-                   be passed as part of the same <arg> as -Xplugin:ErrorProne,
-                   and I gave up trying to figure out how to do that for test
-                   compilation only. -->
-              <arg>-Xplugin:ErrorProne -Xep:NullArgumentForNonNullParameter:OFF -Xep:Java8ApiChecker:ERROR -XepDisableAllWarnings</arg>
+              <arg>-Xplugin:ErrorProne -Xep:Java8ApiChecker:ERROR -XepDisableAllWarnings</arg>
               <!-- https://github.com/google/error-prone/blob/f8e33bc460be82ab22256a7ef8b979d7a2cacaba/docs/installation.md#jdk-16 -->
               <!-- TODO(cpovirk): Use .mvn/jvm.config instead (per
                    https://errorprone.info/docs/installation#maven). -->
