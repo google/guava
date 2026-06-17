@@ -1444,12 +1444,12 @@ public final class Preconditions {
   public static int checkElementIndex(int index, int size, String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index >= size) {
-      throw new IndexOutOfBoundsException(badElementIndex(index, size, desc));
+      throw new IndexOutOfBoundsException(formatElementIndexMessage(index, size, desc));
     }
     return index;
   }
 
-  private static String badElementIndex(int index, int size, String desc) {
+  private static String formatElementIndexMessage(int index, int size, String desc) {
     if (index < 0) {
       return lenientFormat("%s (%s) must not be negative", desc, index);
     } else if (size < 0) {
@@ -1493,12 +1493,12 @@ public final class Preconditions {
   public static int checkPositionIndex(int index, int size, String desc) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (index < 0 || index > size) {
-      throw new IndexOutOfBoundsException(badPositionIndex(index, size, desc));
+      throw new IndexOutOfBoundsException(formatPositionIndexMessage(index, size, desc));
     }
     return index;
   }
 
-  private static String badPositionIndex(int index, int size, String desc) {
+  private static String formatPositionIndexMessage(int index, int size, String desc) {
     if (index < 0) {
       return lenientFormat("%s (%s) must not be negative", desc, index);
     } else if (size < 0) {
@@ -1523,16 +1523,16 @@ public final class Preconditions {
   public static void checkPositionIndexes(int start, int end, int size) {
     // Carefully optimized for execution by hotspot (explanatory comment above)
     if (start < 0 || end < start || end > size) {
-      throw new IndexOutOfBoundsException(badPositionIndexes(start, end, size));
+      throw new IndexOutOfBoundsException(formatPositionIndexMessagees(start, end, size));
     }
   }
 
-  private static String badPositionIndexes(int start, int end, int size) {
+  private static String formatPositionIndexMessagees(int start, int end, int size) {
     if (start < 0 || start > size) {
-      return badPositionIndex(start, size, "start index");
+      return formatPositionIndexMessage(start, size, "start index");
     }
     if (end < 0 || end > size) {
-      return badPositionIndex(end, size, "end index");
+      return formatPositionIndexMessage(end, size, "end index");
     }
     // end < start
     return lenientFormat("end index (%s) must not be less than start index (%s)", end, start);
