@@ -229,4 +229,6 @@ final class ListenerCallQueue<L> {
       }
     }
   }
+
+  ListenerCallQueue() {}
 }

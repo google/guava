@@ -462,6 +462,8 @@ public final class MoreObjects {
       @Nullable String name;
       @Nullable Object value;
       @Nullable ValueHolder next;
+
+      ValueHolder() {}
     }
 
     /**
