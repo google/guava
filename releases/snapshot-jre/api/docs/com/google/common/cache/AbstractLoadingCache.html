@@ -101,14 +101,13 @@ initTheme();
 </span><span class="modifiers">public abstract class </span><span class="element-name type-name-label">AbstractLoadingCache&lt;K,<wbr>V&gt;</span>
 <span class="extends-implements">extends <a href="AbstractCache.html" title="class in com.google.common.cache">AbstractCache</a>&lt;K,<wbr>V&gt;
 implements <a href="LoadingCache.html" title="interface in com.google.common.cache">LoadingCache</a>&lt;K,<wbr>V&gt;</span></div>
-<div class="block">This class provides a skeletal implementation of the <code>Cache</code> interface to minimize the
-effort required to implement this interface.
+<div class="block">This class provides a skeletal implementation of the <code>LoadingCache</code> interface to minimize
+the effort required to implement this interface.
 
-<p>To implement a cache, the programmer needs only to extend this class and provide an
-implementation for the <a href="LoadingCache.html#get(K)"><code>LoadingCache.get(Object)</code></a> and <a href="Cache.html#getIfPresent(java.lang.Object)"><code>Cache.getIfPresent(Object)</code></a> methods. <a href="#getUnchecked(K)"><code>getUnchecked(K)</code></a>, <a href="AbstractCache.html#get(K,java.util.concurrent.Callable)"><code>AbstractCache.get(Object, Callable)</code></a>, and <a href="#getAll(java.lang.Iterable)"><code>getAll(Iterable)</code></a> are implemented in terms of
-<code>get</code>; <a href="AbstractCache.html#getAllPresent(java.lang.Iterable)"><code>AbstractCache.getAllPresent(Iterable)</code></a> is implemented in terms of <code>getIfPresent</code>; <a href="AbstractCache.html#putAll(java.util.Map)"><code>AbstractCache.putAll(Map)</code></a> is implemented in terms of <a href="AbstractCache.html#put(K,V)"><code>AbstractCache.put(K, V)</code></a>, <a href="AbstractCache.html#invalidateAll(java.lang.Iterable)"><code>AbstractCache.invalidateAll(Iterable)</code></a> is implemented
-in terms of <a href="AbstractCache.html#invalidate(java.lang.Object)"><code>AbstractCache.invalidate(Object)</code></a>. The method <a href="AbstractCache.html#cleanUp()"><code>AbstractCache.cleanUp()</code></a> is a no-op. All other methods throw
-an <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class in java.lang" class="external-link"><code>UnsupportedOperationException</code></a>.</div>
+<p>To implement a loading cache, the programmer needs only to extend this class and provide an
+implementation for the <a href="LoadingCache.html#get(K)"><code>LoadingCache.get(Object)</code></a> and <a href="Cache.html#getIfPresent(java.lang.Object)"><code>Cache.getIfPresent(Object)</code></a> methods. <a href="#getUnchecked(K)"><code>getUnchecked(K)</code></a> and <a href="#getAll(java.lang.Iterable)"><code>getAll(Iterable)</code></a> are implemented in terms of <code>get</code>; <a href="#apply(K)"><code>apply(K)</code></a> is
+implemented in terms of <code>getUnchecked</code>. The method <a href="#refresh(K)"><code>refresh(K)</code></a> throws an <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class in java.lang" class="external-link"><code>UnsupportedOperationException</code></a>; for the methods inherited from <a href="AbstractCache.html" title="class in com.google.common.cache"><code>AbstractCache</code></a>, see that
+class's documentation.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>11.0</dd>
