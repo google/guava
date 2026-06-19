@@ -1048,7 +1048,7 @@ code:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-transformValues(com.google.common.collect.ListMultimap,com.google.common.base.Function)1"><code class="language-java">ListMultimap&lt;String, Integer&gt; multimap = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
-Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
+Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt(in);
 ListMultimap&lt;String, Double&gt; transformed = Multimaps.transformValues(multimap, sqrt);
 System.out.println(transformed);
 </code></pre>

@@ -1325,7 +1325,7 @@ the map, such as iteration order, are left intact. For example, the code:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-transformValues(java.util.Map,com.google.common.base.Function)1"><code class="language-java">Map&lt;String, Integer&gt; map = ImmutableMap.of("a", 4, "b", 9);
-Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
+Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt(in);
 Map&lt;String, Double&gt; transformed = Maps.transformValues(map, sqrt);
 System.out.println(transformed);
 </code></pre>
@@ -1363,7 +1363,7 @@ properties of the map, such as iteration order, are left intact. For example, th
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-transformValues(java.util.SortedMap,com.google.common.base.Function)1"><code class="language-java">SortedMap&lt;String, Integer&gt; map = ImmutableSortedMap.of("a", 4, "b", 9);
-Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
+Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt(in);
 SortedMap&lt;String, Double&gt; transformed = Maps.transformValues(map, sqrt);
 System.out.println(transformed);
 </code></pre>
@@ -1408,7 +1408,7 @@ properties of the map, such as iteration order, are left intact. For example, th
 <pre class="snippet" id="snippet-transformValues(java.util.NavigableMap,com.google.common.base.Function)1"><code class="language-java">NavigableMap&lt;String, Integer&gt; map = Maps.newTreeMap();
 map.put("a", 4);
 map.put("b", 9);
-Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt((int) in);
+Function&lt;Integer, Double&gt; sqrt = (Integer in) -&gt; Math.sqrt(in);
 NavigableMap&lt;String, Double&gt; transformed = Maps.transformNavigableValues(map, sqrt);
 System.out.println(transformed);
 </code></pre>
