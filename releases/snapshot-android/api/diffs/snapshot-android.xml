@@ -26797,7 +26797,7 @@
   <!-- start class com.google.common.collect.LinkedListMultimap -->
   <class name="LinkedListMultimap" extends="com.google.common.collect.AbstractMultimap&lt;K, V&gt;"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.collect.ListMultimap&lt;K, V&gt;"/>
     <implements name="java.io.Serializable"/>
@@ -37274,7 +37274,7 @@
   <!-- start class com.google.common.collect.TreeBasedTable -->
   <class name="TreeBasedTable" extends="com.google.common.collect.StandardRowSortedTable&lt;R, C, V&gt;"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="create" return="com.google.common.collect.TreeBasedTable&lt;R, C, V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -37391,7 +37391,7 @@
   <!-- start class com.google.common.collect.TreeMultimap -->
   <class name="TreeMultimap" extends="com.google.common.collect.AbstractSortedKeySortedSetMultimap&lt;K, V&gt;"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="create" return="com.google.common.collect.TreeMultimap&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
