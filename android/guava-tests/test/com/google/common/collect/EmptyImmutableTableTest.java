@@ -24,7 +24,7 @@ import com.google.common.testing.EqualsTester;
 import org.jspecify.annotations.NullMarked;
 
 /**
- * Tests {@link EmptyImmutableTable}
+ * Tests an empty {@link ImmutableTable}.
  *
  * @author Gregory Kick
  */

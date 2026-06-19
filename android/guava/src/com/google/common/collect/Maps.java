@@ -1496,7 +1496,7 @@ public final class Maps {
     };
   }
 
-  /** The implementation of {@link Multimaps#unmodifiableEntries}. */
+  /** The implementation of {@code Multimaps.unmodifiableEntries}. */
   static class UnmodifiableEntries<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingCollection<Entry<K, V>> {
     private final Collection<Entry<K, V>> entries;
@@ -1716,7 +1716,7 @@ public final class Maps {
    *
    * {@snippet :
    * Map<String, Integer> map = ImmutableMap.of("a", 4, "b", 9);
-   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt(in);
    * Map<String, Double> transformed = Maps.transformValues(map, sqrt);
    * System.out.println(transformed);
    * }
@@ -1751,7 +1751,7 @@ public final class Maps {
    *
    * {@snippet :
    * SortedMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
-   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt(in);
    * SortedMap<String, Double> transformed = Maps.transformValues(map, sqrt);
    * System.out.println(transformed);
    * }
@@ -1791,7 +1791,7 @@ public final class Maps {
    * NavigableMap<String, Integer> map = Maps.newTreeMap();
    * map.put("a", 4);
    * map.put("b", 9);
-   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt(in);
    * NavigableMap<String, Double> transformed = Maps.transformNavigableValues(map, sqrt);
    * System.out.println(transformed);
    * }
@@ -3685,7 +3685,7 @@ public final class Maps {
     return false;
   }
 
-  /** An implementation of {@link Map#toString}. */
+  /** An implementation of {@code Map.toString()}. */
   static String toStringImpl(Map<?, ?> map) {
     StringBuilder sb = newStringBuilderForCollection(map.size()).append('{');
     boolean first = true;

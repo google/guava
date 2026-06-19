@@ -158,8 +158,7 @@ public class ImmutableMultisetTest extends TestCase {
                       checkArgument(set.add(s));
                       builder.addCopies(s, 2);
                     }
-                    ImmutableSet<String> elementSet =
-                        (ImmutableSet<String>) builder.build().elementSet();
+                    ImmutableSet<String> elementSet = builder.build().elementSet();
                     return elementSet.asList();
                   }
                 })
@@ -237,7 +236,7 @@ public class ImmutableMultisetTest extends TestCase {
 
   public void testCreation_arrayContainingOnlyNull() {
     @Nullable String[] array = new @Nullable String[] {null};
-    assertThrows(NullPointerException.class, () -> ImmutableMultiset.copyOf((String[]) array));
+    assertThrows(NullPointerException.class, () -> ImmutableMultiset.copyOf(array));
   }
 
   public void testCopyOf_collection_empty() {
@@ -260,8 +259,7 @@ public class ImmutableMultisetTest extends TestCase {
 
   public void testCopyOf_collectionContainingNull() {
     Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
-    assertThrows(
-        NullPointerException.class, () -> ImmutableMultiset.copyOf((Collection<String>) c));
+    assertThrows(NullPointerException.class, () -> ImmutableMultiset.copyOf(c));
   }
 
   public void testCopyOf_multiset_empty() {
@@ -285,7 +283,7 @@ public class ImmutableMultisetTest extends TestCase {
   public void testCopyOf_multisetContainingNull() {
     Multiset<@Nullable String> c =
         HashMultiset.create(Arrays.<@Nullable String>asList("a", null, "b"));
-    assertThrows(NullPointerException.class, () -> ImmutableMultiset.copyOf((Multiset<String>) c));
+    assertThrows(NullPointerException.class, () -> ImmutableMultiset.copyOf(c));
   }
 
   public void testCopyOf_iterator_empty() {
@@ -309,8 +307,7 @@ public class ImmutableMultisetTest extends TestCase {
   public void testCopyOf_iteratorContainingNull() {
     Iterator<@Nullable String> iterator =
         Arrays.<@Nullable String>asList("a", null, "b").iterator();
-    assertThrows(
-        NullPointerException.class, () -> ImmutableMultiset.copyOf((Iterator<String>) iterator));
+    assertThrows(NullPointerException.class, () -> ImmutableMultiset.copyOf(iterator));
   }
 
   public void testToImmutableMultiset() {
@@ -520,15 +517,14 @@ public class ImmutableMultisetTest extends TestCase {
     {
       ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
       List<@Nullable String> listWithNulls = asList("a", null, "b");
-      assertThrows(NullPointerException.class, () -> builder.addAll((List<String>) listWithNulls));
+      assertThrows(NullPointerException.class, () -> builder.addAll(listWithNulls));
     }
 
     {
       ImmutableMultiset.Builder<String> builder = ImmutableMultiset.builder();
       Multiset<@Nullable String> multisetWithNull =
           LinkedHashMultiset.create(Arrays.<@Nullable String>asList("a", null, "b"));
-      assertThrows(
-          NullPointerException.class, () -> builder.addAll((Multiset<String>) multisetWithNull));
+      assertThrows(NullPointerException.class, () -> builder.addAll(multisetWithNull));
     }
   }
 

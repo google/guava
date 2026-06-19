@@ -397,7 +397,7 @@ public class TableCollectionTest extends TestCase {
                     return new SampleElements<>(
                         immutableCell("bar", 1, 'a'),
                         immutableCell("bar", 2, 'b'),
-                        immutableCell("bar", 3, (Character) null),
+                        immutableCell("bar", 3, null),
                         immutableCell("bar", 4, 'b'),
                         immutableCell("bar", 5, 'b'));
                   }

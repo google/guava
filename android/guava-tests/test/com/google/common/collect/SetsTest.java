@@ -729,10 +729,10 @@ public class SetsTest extends TestCase {
     Set<Integer> x = set(1, 2);
     Set<String> y = set("3", "4");
 
-    List<Object> exp1 = list((Object) 1, "3");
-    List<Object> exp2 = list((Object) 1, "4");
-    List<Object> exp3 = list((Object) 2, "3");
-    List<Object> exp4 = list((Object) 2, "4");
+    List<Object> exp1 = list(1, "3");
+    List<Object> exp2 = list(1, "4");
+    List<Object> exp3 = list(2, "3");
+    List<Object> exp4 = list(2, "4");
 
     assertThat(Sets.<Object>cartesianProduct(x, y))
         .containsExactly(exp1, exp2, exp3, exp4)

@@ -30,7 +30,7 @@ final class Platform {
   static void checkCast(Class<?> clazz, Object obj) {}
 
   static <T> T[] clone(T[] array) {
-    return (T[]) Arrays.copyOfRange(array, 0, array.length);
+    return Arrays.copyOfRange(array, 0, array.length);
   }
 
   // TODO: Consolidate different copies in one single place.

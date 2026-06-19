@@ -870,9 +870,7 @@ public class MultimapsTest extends TestCase {
 
   public void testIndex_nullValue() {
     List<@Nullable Integer> values = Arrays.asList(1, null);
-    assertThrows(
-        NullPointerException.class,
-        () -> Multimaps.index((List<Integer>) values, Functions.identity()));
+    assertThrows(NullPointerException.class, () -> Multimaps.index(values, Functions.identity()));
   }
 
   public void testIndex_nullKey() {

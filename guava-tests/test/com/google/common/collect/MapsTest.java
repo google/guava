@@ -922,9 +922,7 @@ public class MapsTest extends TestCase {
 
   public void testToMapWithNullKeys() {
     Iterable<@Nullable String> strings = asList("one", null, "three");
-    assertThrows(
-        NullPointerException.class,
-        () -> toMap((Iterable<String>) strings, Functions.constant("foo")));
+    assertThrows(NullPointerException.class, () -> toMap(strings, Functions.constant("foo")));
   }
 
   public void testToMapWithNullValues() {
@@ -978,8 +976,7 @@ public class MapsTest extends TestCase {
   public void testUniqueIndexNullValue() {
     List<@Nullable String> listWithNull = Lists.newArrayList((String) null);
     assertThrows(
-        NullPointerException.class,
-        () -> Maps.uniqueIndex((List<String>) listWithNull, Functions.constant(1)));
+        NullPointerException.class, () -> Maps.uniqueIndex(listWithNull, Functions.constant(1)));
   }
 
   /** Null keys aren't allowed either. */
@@ -1133,9 +1130,7 @@ public class MapsTest extends TestCase {
     biMap.put("one", 1);
     biMap.put("two", 2);
     biMap.put("three", null);
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> Maps.asConverter((BiMap<String, Integer>) biMap).convert("three"));
+    assertThrows(IllegalArgumentException.class, () -> Maps.asConverter(biMap).convert("three"));
   }
 
   public void testAsConverter_toString() {
@@ -1214,7 +1209,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testImmutableEntryNull() {
-    Entry<@Nullable String, @Nullable Integer> e = immutableEntry((String) null, (Integer) null);
+    Entry<@Nullable String, @Nullable Integer> e = immutableEntry(null, null);
     assertThat(e.getKey()).isNull();
     assertThat(e.getValue()).isNull();
     assertThrows(UnsupportedOperationException.class, () -> e.setValue(null));

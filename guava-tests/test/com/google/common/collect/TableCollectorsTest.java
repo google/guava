@@ -218,7 +218,7 @@ public class TableCollectorsTest extends TestCase {
             Cell::getRowKey,
             Cell::getColumnKey,
             Cell::getValue,
-            (BinaryOperator<Integer>) mergeFunction,
+            mergeFunction,
             HashBasedTable::create);
     BiPredicate<Table<String, String, Integer>, Table<String, String, Integer>> equivalence =
         pairwiseOnResultOf(Table::cellSet);
@@ -238,12 +238,10 @@ public class TableCollectorsTest extends TestCase {
             () -> {
               Table<String, String, @Nullable Integer> table =
                   ArrayTable.create(ImmutableList.of("one"), ImmutableList.of("uno"));
-              return (Table<String, String, Integer>) table;
+              return table;
             });
     Cell<String, String, @Nullable Integer> cell = immutableCell("one", "uno", null);
-    assertThrows(
-        NullPointerException.class,
-        () -> Stream.of((Cell<String, String, Integer>) cell).collect(collector));
+    assertThrows(NullPointerException.class, () -> Stream.of(cell).collect(collector));
   }
 
   public void testToTableConflict() {

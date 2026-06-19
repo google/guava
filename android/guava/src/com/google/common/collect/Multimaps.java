@@ -1351,7 +1351,7 @@ public final class Multimaps {
    *
    * {@snippet :
    * ListMultimap<String, Integer> multimap = ImmutableListMultimap.of("a", 4, "a", 16, "b", 9);
-   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt(in);
    * ListMultimap<String, Double> transformed = Multimaps.transformValues(multimap, sqrt);
    * System.out.println(transformed);
    * }

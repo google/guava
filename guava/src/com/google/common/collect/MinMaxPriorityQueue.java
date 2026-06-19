@@ -923,8 +923,8 @@ public final class MinMaxPriorityQueue<E> extends AbstractQueue<E> {
 
   /**
    * Returns the comparator used to order the elements in this queue. Obeys the general contract of
-   * {@link PriorityQueue#comparator}, but returns {@link Ordering#natural} instead of {@code null}
-   * to indicate natural ordering.
+   * {@link PriorityQueue#comparator()}, but returns {@link Ordering#natural()} instead of {@code
+   * null} to indicate natural ordering.
    */
   public Comparator<? super E> comparator() {
     return minHeap.ordering;

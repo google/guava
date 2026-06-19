@@ -769,9 +769,8 @@ public class IteratorsTest extends TestCase {
   /** Illustrates the somewhat bizarre behavior when a null is passed in. */
   public void testConcatContainingNull() {
     Iterator<Iterator<Integer>> input =
-        (Iterator<Iterator<Integer>>)
-            Arrays.<@Nullable Iterator<Integer>>asList(iterateOver(1, 2), null, iterateOver(3))
-                .iterator();
+        Arrays.<@Nullable Iterator<Integer>>asList(iterateOver(1, 2), null, iterateOver(3))
+            .iterator();
     Iterator<Integer> result = concat(input);
     assertEquals(1, (int) result.next());
     assertEquals(2, (int) result.next());

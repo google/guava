@@ -51,7 +51,6 @@ import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.function.BiPredicate;
@@ -178,9 +177,8 @@ public class ImmutableSortedMapTest extends TestCase {
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = ImmutableSortedMap.naturalOrder();
-    assertThrows(
-        NullPointerException.class, () -> builder.put(immutableEntry("one", (Integer) null)));
-    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry((String) null, 1)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry("one", null)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry(null, 1)));
   }
 
   private static class StringHolder {
@@ -697,9 +695,7 @@ public class ImmutableSortedMapTest extends TestCase {
           source.put(k, k);
         }
         source.put(j, null);
-        assertThrows(
-            NullPointerException.class,
-            () -> ImmutableSortedMap.copyOf((Map<Integer, Integer>) source));
+        assertThrows(NullPointerException.class, () -> ImmutableSortedMap.copyOf(source));
       }
     }
   }
@@ -713,8 +709,7 @@ public class ImmutableSortedMapTest extends TestCase {
         }
         source.put(j, null);
         assertThrows(
-            NullPointerException.class,
-            () -> ImmutableSortedMap.copyOf((Set<Entry<Integer, Integer>>) source.entrySet()));
+            NullPointerException.class, () -> ImmutableSortedMap.copyOf(source.entrySet()));
       }
     }
   }

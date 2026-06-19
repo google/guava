@@ -124,8 +124,7 @@ public abstract class AbstractTableReadTest<C extends @Nullable Character> exten
   public void testEquals() {
     table = create("foo", 1, 'a', "bar", 1, 'b', "foo", 3, 'c');
     // We know that we have only added non-null Characters.
-    Table<String, Integer, Character> hashCopy =
-        HashBasedTable.create((Table<String, Integer, ? extends Character>) table);
+    Table<String, Integer, Character> hashCopy = HashBasedTable.create(table);
     Table<String, Integer, C> reordered = create("foo", 3, 'c', "foo", 1, 'a', "bar", 1, 'b');
     Table<String, Integer, C> smaller = create("foo", 1, 'a', "bar", 1, 'b');
     Table<String, Integer, C> swapOuter = create("bar", 1, 'a', "foo", 1, 'b', "bar", 3, 'c');

@@ -129,7 +129,7 @@ import org.jspecify.annotations.Nullable;
  *       unnecessary; for example, {@code copyOf(copyOf(anArrayList))} should copy the data only
  *       once. This reduces the expense of habitually making defensive copies at API boundaries.
  *       However, the precise conditions for skipping the copy operation are undefined.
- *   <li><b>Warning:</b> a view collection such as {@link ImmutableMap#keySet} or {@link
+ *   <li><b>Warning:</b> a view collection such as {@link ImmutableMap#keySet()} or {@link
  *       ImmutableList#subList} may retain a reference to the entire data set, preventing it from
  *       being garbage collected. If some of the data is no longer reachable through other means,
  *       this constitutes a memory leak. Pass the view collection to the appropriate {@code copyOf}

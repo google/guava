@@ -117,7 +117,7 @@ public class ImmutableClassToInstanceMapTest extends TestCase {
   }
 
   public void testCopyOf_map_nulls() {
-    Map<Class<? extends Number>, Number> nullKey = singletonMap(null, (Number) 1.0);
+    Map<Class<? extends Number>, Number> nullKey = singletonMap(null, 1.0);
     assertThrows(NullPointerException.class, () -> ImmutableClassToInstanceMap.copyOf(nullKey));
 
     Map<? extends Class<? extends Number>, Number> nullValue = singletonMap(Number.class, null);

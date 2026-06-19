@@ -416,11 +416,11 @@ public class LinkedHashMultimapTest extends TestCase {
     Set<Entry<String, Collection<Integer>>> set =
         new LinkedHashSet<>(
             asList(
-                immutableEntry("foo", (Collection<Integer>) newHashSet(2, 3, 6)),
-                immutableEntry("bar", (Collection<Integer>) newHashSet(4, 5, 10, 11)),
-                immutableEntry("baz", (Collection<Integer>) newHashSet(7, 8)),
-                immutableEntry("dog", (Collection<Integer>) newHashSet(9)),
-                immutableEntry("cat", (Collection<Integer>) newHashSet(12, 13, 14))));
+                immutableEntry("foo", newHashSet(2, 3, 6)),
+                immutableEntry("bar", newHashSet(4, 5, 10, 11)),
+                immutableEntry("baz", newHashSet(7, 8)),
+                immutableEntry("dog", newHashSet(9)),
+                immutableEntry("cat", newHashSet(12, 13, 14))));
     new IteratorTester<Entry<String, Collection<Integer>>>(
         6, MODIFIABLE, set, IteratorTester.KnownOrder.KNOWN_ORDER) {
       private @Nullable SetMultimap<String, Integer> multimap;

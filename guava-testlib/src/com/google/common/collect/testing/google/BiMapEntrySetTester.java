@@ -73,6 +73,6 @@ public class BiMapEntrySetTester<K, V> extends AbstractBiMapTester<K, V> {
         entry.setValue(null);
       }
     }
-    expectReplacement(entry(k0(), (V) null));
+    expectReplacement(entry(k0(), null));
   }
 }
