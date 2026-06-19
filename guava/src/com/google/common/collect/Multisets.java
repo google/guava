@@ -1026,7 +1026,7 @@ public final class Multisets {
     abstract Multiset<E> multiset();
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public final boolean contains(@Nullable Object o) {
       if (o instanceof Entry) {
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
@@ -1056,7 +1056,7 @@ public final class Multisets {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       multiset().clear();
     }
   }

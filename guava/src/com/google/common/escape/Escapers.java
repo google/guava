@@ -169,7 +169,7 @@ public final class Escapers {
    * @return the replacement string, or {@code null} if no escaping was needed
    */
   public static @Nullable String computeReplacement(CharEscaper escaper, char c) {
-    return stringOrNull(escaper.escape(c));
+    return stringOrNull(escaper.escapeInternal(c));
   }
 
   /**
@@ -182,7 +182,7 @@ public final class Escapers {
    * @return the replacement string, or {@code null} if no escaping was needed
    */
   public static @Nullable String computeReplacement(UnicodeEscaper escaper, int cp) {
-    return stringOrNull(escaper.escape(cp));
+    return stringOrNull(escaper.escapeInternal(cp));
   }
 
   private static @Nullable String stringOrNull(char @Nullable [] in) {

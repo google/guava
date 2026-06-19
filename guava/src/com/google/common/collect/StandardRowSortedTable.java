@@ -72,7 +72,7 @@ class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
    * Table} interface.
    */
   @Override
-  public SortedSet<R> rowKeySet() {
+  public final SortedSet<R> rowKeySet() {
     return (SortedSet<R>) rowMap().keySet();
   }
 
@@ -83,12 +83,12 @@ class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
    * Table} interface.
    */
   @Override
-  public SortedMap<R, Map<C, V>> rowMap() {
+  public final SortedMap<R, Map<C, V>> rowMap() {
     return (SortedMap<R, Map<C, V>>) super.rowMap();
   }
 
   @Override
-  SortedMap<R, Map<C, V>> createRowMap() {
+  final SortedMap<R, Map<C, V>> createRowMap() {
     return new RowSortedMap();
   }
 

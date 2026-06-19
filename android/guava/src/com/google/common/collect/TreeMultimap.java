@@ -73,7 +73,7 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-public class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object>
+public final class TreeMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractSortedKeySortedSetMultimap<K, V> {
   private transient Comparator<? super K> keyComparator;
   private transient Comparator<? super V> valueComparator;

@@ -103,7 +103,7 @@ public abstract class ForwardingSortedMultiset<E extends @Nullable Object>
     public StandardDescendingMultiset() {}
 
     @Override
-    SortedMultiset<E> forwardMultiset() {
+    final SortedMultiset<E> forwardMultiset() {
       return ForwardingSortedMultiset.this;
     }
   }

@@ -49,34 +49,34 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
   }
 
   @Override
-  public NavigableSet<E> elementSet() {
+  public final NavigableSet<E> elementSet() {
     return (NavigableSet<E>) super.elementSet();
   }
 
   @Override
-  NavigableSet<E> createElementSet() {
+  final NavigableSet<E> createElementSet() {
     return new SortedMultisets.NavigableElementSet<>(this);
   }
 
   @Override
-  public Comparator<? super E> comparator() {
+  public final Comparator<? super E> comparator() {
     return comparator;
   }
 
   @Override
-  public @Nullable Entry<E> firstEntry() {
+  public final @Nullable Entry<E> firstEntry() {
     Iterator<Entry<E>> entryIterator = entryIterator();
     return entryIterator.hasNext() ? entryIterator.next() : null;
   }
 
   @Override
-  public @Nullable Entry<E> lastEntry() {
+  public final @Nullable Entry<E> lastEntry() {
     Iterator<Entry<E>> entryIterator = descendingEntryIterator();
     return entryIterator.hasNext() ? entryIterator.next() : null;
   }
 
   @Override
-  public @Nullable Entry<E> pollFirstEntry() {
+  public final @Nullable Entry<E> pollFirstEntry() {
     Iterator<Entry<E>> entryIterator = entryIterator();
     if (entryIterator.hasNext()) {
       Entry<E> result = entryIterator.next();
@@ -88,7 +88,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
   }
 
   @Override
-  public @Nullable Entry<E> pollLastEntry() {
+  public final @Nullable Entry<E> pollLastEntry() {
     Iterator<Entry<E>> entryIterator = descendingEntryIterator();
     if (entryIterator.hasNext()) {
       Entry<E> result = entryIterator.next();
@@ -100,7 +100,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
   }
 
   @Override
-  public SortedMultiset<E> subMultiset(
+  public final SortedMultiset<E> subMultiset(
       @ParametricNullness E fromElement,
       BoundType fromBoundType,
       @ParametricNullness E toElement,
@@ -113,19 +113,19 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   abstract Iterator<Entry<E>> descendingEntryIterator();
 
-  Iterator<E> descendingIterator() {
+  final Iterator<E> descendingIterator() {
     return Multisets.iteratorImpl(descendingMultiset());
   }
 
   @LazyInit private transient @Nullable SortedMultiset<E> descendingMultiset;
 
   @Override
-  public SortedMultiset<E> descendingMultiset() {
+  public final SortedMultiset<E> descendingMultiset() {
     SortedMultiset<E> result = descendingMultiset;
     return (result == null) ? descendingMultiset = createDescendingMultiset() : result;
   }
 
-  SortedMultiset<E> createDescendingMultiset() {
+  final SortedMultiset<E> createDescendingMultiset() {
     @WeakOuter
     final class DescendingMultisetImpl extends DescendingMultiset<E> {
       @Override

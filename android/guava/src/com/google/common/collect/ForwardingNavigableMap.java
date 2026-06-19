@@ -279,7 +279,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
     public StandardDescendingMap() {}
 
     @Override
-    NavigableMap<K, V> forward() {
+    final NavigableMap<K, V> forward() {
       return ForwardingNavigableMap.this;
     }
 

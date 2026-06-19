@@ -99,7 +99,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 @SuppressWarnings("WrongCommentType") // false positive
-public class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable Object>
+public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractMultimap<K, V> implements ListMultimap<K, V>, Serializable {
   /*
    * Order is maintained using a linked list containing all key-value pairs. In

@@ -71,7 +71,7 @@ import org.jspecify.annotations.Nullable;
  * @since 7.0
  */
 @GwtCompatible
-public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
+public final class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
 
   private static final class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {
