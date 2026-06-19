@@ -239,18 +239,18 @@ abstract class AbstractTable<
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     return Tables.equalsImpl(this, obj);
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return cellSet().hashCode();
   }
 
   /** Returns the string representation {@code rowMap().toString()}. */
   @Override
-  public String toString() {
+  public final String toString() {
     return rowMap().toString();
   }
 }

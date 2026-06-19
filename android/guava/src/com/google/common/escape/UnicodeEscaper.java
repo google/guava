@@ -81,6 +81,10 @@ public abstract class UnicodeEscaper extends Escaper {
    */
   protected abstract char @Nullable [] escape(int cp);
 
+  final char @Nullable [] escapeInternal(int cp) {
+    return escape(cp);
+  }
+
   /**
    * Returns the escaped form of a given literal string.
    *

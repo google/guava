@@ -124,12 +124,12 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
   @WeakOuter
   class Entries extends Multimaps.Entries<K, V> {
     @Override
-    Multimap<K, V> multimap() {
+    final Multimap<K, V> multimap() {
       return AbstractMultimap.this;
     }
 
     @Override
-    public Iterator<Entry<K, V>> iterator() {
+    public final Iterator<Entry<K, V>> iterator() {
       return entryIterator();
     }
 
@@ -262,7 +262,7 @@ abstract class AbstractMultimap<K extends @Nullable Object, V extends @Nullable 
    * @return a string representation of the multimap
    */
   @Override
-  public String toString() {
+  public final String toString() {
     return asMap().toString();
   }
 }

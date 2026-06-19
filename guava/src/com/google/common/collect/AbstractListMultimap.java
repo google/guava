@@ -44,7 +44,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    *
    * @param map place to store the mapping from each key to its corresponding values
    */
-  protected AbstractListMultimap(Map<K, Collection<V>> map) {
+  AbstractListMultimap(Map<K, Collection<V>> map) {
     super(map);
   }
 
@@ -53,18 +53,18 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
 
   @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
   @Override
-  List<V> createUnmodifiableEmptyCollection() {
+  final List<V> createUnmodifiableEmptyCollection() {
     return emptyList();
   }
 
   @Override
-  <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
+  final <E extends @Nullable Object> Collection<E> unmodifiableCollectionSubclass(
       Collection<E> collection) {
     return unmodifiableList((List<E>) collection);
   }
 
   @Override
-  Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
+  final Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
     return wrapList(key, (List<V>) collection, null);
   }
 
@@ -78,7 +78,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    * Multimap} interface.
    */
   @Override
-  public List<V> get(@ParametricNullness K key) {
+  public final List<V> get(@ParametricNullness K key) {
     return (List<V>) super.get(key);
   }
 
@@ -91,7 +91,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> removeAll(@Nullable Object key) {
+  public final List<V> removeAll(@Nullable Object key) {
     return (List<V>) super.removeAll(key);
   }
 
@@ -104,7 +104,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    */
   @CanIgnoreReturnValue
   @Override
-  public List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public final List<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return (List<V>) super.replaceValues(key, values);
   }
 
@@ -117,7 +117,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
+  public final boolean put(@ParametricNullness K key, @ParametricNullness V value) {
     return super.put(key, value);
   }
 
@@ -128,7 +128,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    * values.
    */
   @Override
-  public Map<K, Collection<V>> asMap() {
+  public final Map<K, Collection<V>> asMap() {
     return super.asMap();
   }
 
@@ -139,7 +139,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    * in the same order. If the value orderings disagree, the multimaps will not be considered equal.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public final boolean equals(@Nullable Object object) {
     return super.equals(object);
   }
 

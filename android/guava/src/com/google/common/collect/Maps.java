@@ -3814,7 +3814,7 @@ public final class Maps {
     }
 
     @Override
-    NavigableMap<K, V> map() {
+    final NavigableMap<K, V> map() {
       return (NavigableMap<K, V>) map;
     }
 
@@ -4170,7 +4170,7 @@ public final class Maps {
 
     abstract Iterator<Entry<K, V>> entryIterator();
 
-    Set<Entry<K, V>> createEntrySet() {
+    final Set<Entry<K, V>> createEntrySet() {
       @WeakOuter
       final class EntrySetImpl extends EntrySet<K, V> {
         @Override
