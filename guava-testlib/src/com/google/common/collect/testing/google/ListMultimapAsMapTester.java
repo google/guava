@@ -85,8 +85,8 @@ public class ListMultimapAsMapTester<K extends @Nullable Object, V extends @Null
   public void testEntrySetEquals() {
     resetContainer(mapEntry(k0(), v0()), mapEntry(k1(), v0()), mapEntry(k0(), v3()));
     Set<Entry<K, Collection<V>>> expected = new HashSet<>();
-    expected.add(mapEntry(k0(), (Collection<V>) newArrayList(v0(), v3())));
-    expected.add(mapEntry(k1(), (Collection<V>) newArrayList(v0())));
+    expected.add(mapEntry(k0(), newArrayList(v0(), v3())));
+    expected.add(mapEntry(k1(), newArrayList(v0())));
     new EqualsTester().addEqualityGroup(expected, multimap().asMap().entrySet()).testEquals();
   }
 

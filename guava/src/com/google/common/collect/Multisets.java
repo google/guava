@@ -1154,7 +1154,7 @@ public final class Multisets {
   public static <E> ImmutableMultiset<E> copyHighestCountFirst(Multiset<E> multiset) {
     @SuppressWarnings("unchecked") // generics+arrays
     // TODO(cpovirk): Consider storing an Entry<?> instead of Entry<E>.
-    Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray((Entry<E>[]) new Entry<?>[0]);
+    Entry<E>[] entries = multiset.entrySet().toArray((Entry<E>[]) new Entry<?>[0]);
     sort(entries, DecreasingCount.INSTANCE);
     return ImmutableMultiset.copyFromEntries(asList(entries));
   }

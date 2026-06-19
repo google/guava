@@ -151,9 +151,8 @@ public class ImmutableListMultimapTest extends TestCase {
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = new Builder<>();
-    assertThrows(
-        NullPointerException.class, () -> builder.put(immutableEntry("one", (Integer) null)));
-    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry((String) null, 1)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry("one", null)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry(null, 1)));
   }
 
   private static class StringHolder {
@@ -273,8 +272,7 @@ public class ImmutableListMultimapTest extends TestCase {
     assertThrows(NullPointerException.class, () -> builder.put(null, 1));
     assertThrows(NullPointerException.class, () -> builder.putAll(null, Arrays.asList(1, 2, 3)));
     assertThrows(NullPointerException.class, () -> builder.putAll(null, 1, 2, 3));
-    assertThrows(
-        NullPointerException.class, () -> builder.putAll((Multimap<String, Integer>) toPut));
+    assertThrows(NullPointerException.class, () -> builder.putAll(toPut));
   }
 
   public void testBuilderPutNullValue() {
@@ -285,8 +283,7 @@ public class ImmutableListMultimapTest extends TestCase {
     assertThrows(
         NullPointerException.class, () -> builder.putAll("foo", Arrays.asList(1, null, 3)));
     assertThrows(NullPointerException.class, () -> builder.putAll("foo", 1, null, 3));
-    assertThrows(
-        NullPointerException.class, () -> builder.putAll((Multimap<String, Integer>) toPut));
+    assertThrows(NullPointerException.class, () -> builder.putAll(toPut));
   }
 
   public void testBuilderOrderKeysBy() {
@@ -393,17 +390,13 @@ public class ImmutableListMultimapTest extends TestCase {
   public void testCopyOfNullKey() {
     ArrayListMultimap<@Nullable String, Integer> input = ArrayListMultimap.create();
     input.put(null, 1);
-    assertThrows(
-        NullPointerException.class,
-        () -> ImmutableListMultimap.copyOf((ArrayListMultimap<String, Integer>) input));
+    assertThrows(NullPointerException.class, () -> ImmutableListMultimap.copyOf(input));
   }
 
   public void testCopyOfNullValue() {
     ArrayListMultimap<String, @Nullable Integer> input = ArrayListMultimap.create();
     input.putAll("foo", Arrays.<@Nullable Integer>asList(1, null, 3));
-    assertThrows(
-        NullPointerException.class,
-        () -> ImmutableListMultimap.copyOf((ArrayListMultimap<String, Integer>) input));
+    assertThrows(NullPointerException.class, () -> ImmutableListMultimap.copyOf(input));
   }
 
   public void testToImmutableListMultimap() {

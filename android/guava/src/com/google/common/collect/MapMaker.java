@@ -116,7 +116,7 @@ public final class MapMaker {
    *
    * <p>By default, the map uses {@link Equivalence#identity} to determine key equality when {@link
    * #weakKeys} is specified, and {@link Equivalence#equals()} otherwise. The only place this is
-   * used is in {@link Interners.WeakInterner}.
+   * used is in {@link Interners}.
    */
   @CanIgnoreReturnValue
   @GwtIncompatible // To be supported

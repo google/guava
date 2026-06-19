@@ -78,8 +78,7 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
      * of non-null entries.
      */
     @SuppressWarnings("nullness")
-    Entry<K, V>[] entries =
-        (n == entryArray.length) ? (Entry<K, V>[]) entryArray : createEntryArray(n);
+    Entry<K, V>[] entries = (n == entryArray.length) ? entryArray : createEntryArray(n);
     int hashCode = 0;
 
     for (int i = 0; i < n; i++) {

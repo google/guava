@@ -153,12 +153,11 @@ public class TreeMultimapNaturalTest extends TestCase {
                   @Override
                   public SampleElements<Entry<String, Collection<String>>> samples() {
                     return new SampleElements<>(
-                        mapEntry("a", (Collection<String>) ImmutableSortedSet.of("alex")),
-                        mapEntry("b", (Collection<String>) ImmutableSortedSet.of("bob", "bagel")),
-                        mapEntry("c", (Collection<String>) ImmutableSortedSet.of("carl", "carol")),
-                        mapEntry("d", (Collection<String>) ImmutableSortedSet.of("david", "dead")),
-                        mapEntry(
-                            "e", (Collection<String>) ImmutableSortedSet.of("eric", "elaine")));
+                        mapEntry("a", ImmutableSortedSet.of("alex")),
+                        mapEntry("b", ImmutableSortedSet.of("bob", "bagel")),
+                        mapEntry("c", ImmutableSortedSet.of("carl", "carol")),
+                        mapEntry("d", ImmutableSortedSet.of("david", "dead")),
+                        mapEntry("e", ImmutableSortedSet.of("eric", "elaine")));
                   }
 
                   @SuppressWarnings("unchecked")
@@ -193,22 +192,22 @@ public class TreeMultimapNaturalTest extends TestCase {
 
                   @Override
                   public Entry<String, Collection<String>> belowSamplesLesser() {
-                    return mapEntry("-- a", (Collection<String>) ImmutableSortedSet.of("--below"));
+                    return mapEntry("-- a", ImmutableSortedSet.of("--below"));
                   }
 
                   @Override
                   public Entry<String, Collection<String>> belowSamplesGreater() {
-                    return mapEntry("-- b", (Collection<String>) ImmutableSortedSet.of("--below"));
+                    return mapEntry("-- b", ImmutableSortedSet.of("--below"));
                   }
 
                   @Override
                   public Entry<String, Collection<String>> aboveSamplesLesser() {
-                    return mapEntry("~~ b", (Collection<String>) ImmutableSortedSet.of("~above"));
+                    return mapEntry("~~ b", ImmutableSortedSet.of("~above"));
                   }
 
                   @Override
                   public Entry<String, Collection<String>> aboveSamplesGreater() {
-                    return mapEntry("~~ c", (Collection<String>) ImmutableSortedSet.of("~above"));
+                    return mapEntry("~~ c", ImmutableSortedSet.of("~above"));
                   }
                 })
             .named("TreeMultimap.asMap")

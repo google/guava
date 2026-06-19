@@ -653,7 +653,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
     /**
      * Associates {@code key} with {@code value} in the built map. Duplicate keys, according to the
      * comparator (which might be the keys' natural order), are not allowed, and will cause {@link
-     * #build} to fail.
+     * #build()} to fail.
      */
     @CanIgnoreReturnValue
     @Override
@@ -665,7 +665,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
     /**
      * Adds the given {@code entry} to the map, making it immutable if necessary. Duplicate keys,
      * according to the comparator (which might be the keys' natural order), are not allowed, and
-     * will cause {@link #build} to fail.
+     * will cause {@link #build()} to fail.
      *
      * @since 11.0
      */
@@ -679,7 +679,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
     /**
      * Associates all of the given map's keys and values in the built map. Duplicate keys, according
      * to the comparator (which might be the keys' natural order), are not allowed, and will cause
-     * {@link #build} to fail.
+     * {@link #build()} to fail.
      *
      * @throws NullPointerException if any key or value in {@code map} is null
      */
@@ -692,7 +692,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
 
     /**
      * Adds all the given entries to the built map. Duplicate keys, according to the comparator
-     * (which might be the keys' natural order), are not allowed, and will cause {@link #build} to
+     * (which might be the keys' natural order), are not allowed, and will cause {@link #build()} to
      * fail.
      *
      * @throws NullPointerException if any key, value, or entry is null

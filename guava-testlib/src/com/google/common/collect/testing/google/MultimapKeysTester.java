@@ -64,7 +64,7 @@ public class MultimapKeysTester<K, V> extends AbstractMultimapTester<K, V, Multi
   @CollectionSize.Require(SEVERAL)
   @MapFeature.Require(ALLOWS_NULL_KEYS)
   public void testKeysWithNullKey() {
-    resetContainer(mapEntry((K) null, v0()), mapEntry((K) null, v1()), mapEntry(k1(), v0()));
+    resetContainer(mapEntry(null, v0()), mapEntry(null, v1()), mapEntry(k1(), v0()));
     Multiset<K> keys = multimap().keys();
     assertEquals(2, keys.count(null));
     assertEquals(1, keys.count(k1()));

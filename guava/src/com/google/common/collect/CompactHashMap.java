@@ -70,8 +70,8 @@ import org.jspecify.annotations.Nullable;
  * than {@code size()}. Furthermore, this structure places significantly reduced load on the garbage
  * collector by only using a constant number of internal objects.
  *
- * <p>If there are no removals, then iteration order for the {@link #entrySet}, {@link #keySet}, and
- * {@link #values} views is the same as insertion order. Any removal invalidates any ordering
+ * <p>If there are no removals, then iteration order for the {@link #entrySet()}, {@link #keySet()},
+ * and {@link #values()} views is the same as insertion order. Any removal invalidates any ordering
  * guarantees.
  *
  * <p>This class should not be assumed to be universally superior to {@code java.util.HashMap}.

@@ -316,7 +316,7 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
 
   @SuppressWarnings("unchecked")
   private RangeMap<K, V> emptySubRangeMap() {
-    return (RangeMap<K, V>) (RangeMap<?, ?>) EMPTY_SUB_RANGE_MAP;
+    return (RangeMap<K, V>) EMPTY_SUB_RANGE_MAP;
   }
 
   @SuppressWarnings("ConstantCaseForConstants") // This RangeMap is immutable.

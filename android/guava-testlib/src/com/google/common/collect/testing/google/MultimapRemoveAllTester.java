@@ -83,7 +83,7 @@ public class MultimapRemoveAllTester<K, V> extends AbstractMultimapTester<K, V, 
 
     assertContentsAnyOrder(multimap().removeAll(null), getValueForNullKey());
 
-    expectMissing(mapEntry((K) null, getValueForNullKey()));
+    expectMissing(mapEntry(null, getValueForNullKey()));
   }
 
   @MapFeature.Require({SUPPORTS_REMOVE, ALLOWS_ANY_NULL_QUERIES})

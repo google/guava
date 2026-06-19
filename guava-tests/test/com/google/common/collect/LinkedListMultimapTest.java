@@ -457,11 +457,11 @@ public class LinkedListMultimapTest extends TestCase {
     Set<Entry<String, Collection<Integer>>> set =
         new LinkedHashSet<>(
             asList(
-                immutableEntry("foo", (Collection<Integer>) asList(2, 3, 6)),
-                immutableEntry("bar", (Collection<Integer>) asList(4, 5, 10, 11)),
-                immutableEntry("baz", (Collection<Integer>) asList(7, 8)),
-                immutableEntry("dog", (Collection<Integer>) asList(9)),
-                immutableEntry("cat", (Collection<Integer>) asList(12, 13, 14))));
+                immutableEntry("foo", asList(2, 3, 6)),
+                immutableEntry("bar", asList(4, 5, 10, 11)),
+                immutableEntry("baz", asList(7, 8)),
+                immutableEntry("dog", asList(9)),
+                immutableEntry("cat", asList(12, 13, 14))));
 
     new IteratorTester<Entry<String, Collection<Integer>>>(
         6, MODIFIABLE, set, IteratorTester.KnownOrder.KNOWN_ORDER) {

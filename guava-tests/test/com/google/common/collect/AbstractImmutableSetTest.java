@@ -146,7 +146,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testCopyOf_arrayContainingOnlyNull() {
     @Nullable String[] array = new @Nullable String[] {null};
-    assertThrows(NullPointerException.class, () -> copyOf((String[]) array));
+    assertThrows(NullPointerException.class, () -> copyOf(array));
   }
 
   public void testCopyOf_collection_empty() {
@@ -178,7 +178,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testCopyOf_collectionContainingNull() {
     Collection<@Nullable String> c = MinimalCollection.of("a", null, "b");
-    assertThrows(NullPointerException.class, () -> copyOf((Collection<String>) c));
+    assertThrows(NullPointerException.class, () -> copyOf(c));
   }
 
   enum TestEnum {
@@ -224,7 +224,7 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
   public void testCopyOf_iteratorContainingNull() {
     Iterator<@Nullable String> c = Iterators.forArray("a", null, "b");
-    assertThrows(NullPointerException.class, () -> copyOf((Iterator<String>) c));
+    assertThrows(NullPointerException.class, () -> copyOf(c));
   }
 
   private static class CountingIterable implements Iterable<String> {
@@ -403,12 +403,12 @@ public abstract class AbstractImmutableSetTest extends TestCase {
 
     {
       ImmutableSet.Builder<String> builder = this.builder();
-      assertThrows(NullPointerException.class, () -> builder.add("a", (String) null));
+      assertThrows(NullPointerException.class, () -> builder.add("a", null));
     }
 
     {
       ImmutableSet.Builder<String> builder = this.builder();
-      assertThrows(NullPointerException.class, () -> builder.add("a", "b", (String) null));
+      assertThrows(NullPointerException.class, () -> builder.add("a", "b", null));
     }
 
     {
@@ -436,14 +436,13 @@ public abstract class AbstractImmutableSetTest extends TestCase {
     {
       ImmutableSet.Builder<String> builder = this.builder();
       List<@Nullable String> listWithNulls = asList("a", null, "b");
-      assertThrows(NullPointerException.class, () -> builder.addAll((List<String>) listWithNulls));
+      assertThrows(NullPointerException.class, () -> builder.addAll(listWithNulls));
     }
 
     {
       ImmutableSet.Builder<String> builder = this.builder();
       Iterable<@Nullable String> iterableWithNulls = MinimalIterable.of("a", null, "b");
-      assertThrows(
-          NullPointerException.class, () -> builder.addAll((Iterable<String>) iterableWithNulls));
+      assertThrows(NullPointerException.class, () -> builder.addAll(iterableWithNulls));
     }
   }
 

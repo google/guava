@@ -154,7 +154,7 @@ public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
         break;
       }
     }
-    expectReplacement(entry(k0(), (V) null));
+    expectReplacement(entry(k0(), null));
   }
 
   @MapFeature.Require(value = SUPPORTS_PUT, absent = ALLOWS_NULL_VALUES)

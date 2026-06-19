@@ -604,9 +604,9 @@ public class RangeTest extends TestCase {
 
   public void testEncloseAll_nullValue() {
     List<@Nullable Integer> nullFirst = newArrayList(null, 0);
-    assertThrows(NullPointerException.class, () -> Range.encloseAll((List<Integer>) nullFirst));
+    assertThrows(NullPointerException.class, () -> Range.encloseAll(nullFirst));
     List<@Nullable Integer> nullNotFirst = newArrayList(0, null);
-    assertThrows(NullPointerException.class, () -> Range.encloseAll((List<Integer>) nullNotFirst));
+    assertThrows(NullPointerException.class, () -> Range.encloseAll(nullNotFirst));
   }
 
   public void testEquivalentFactories() {

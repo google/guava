@@ -146,7 +146,7 @@ public final class DerivedCollectionGenerators {
 
     @Override
     public Iterable<K> order(List<K> insertionOrder) {
-      V v = ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator()).samples().e0().getValue();
+      V v = mapGenerator.getInnerGenerator().samples().e0().getValue();
       List<Entry<K, V>> entries = new ArrayList<>();
       for (K element : insertionOrder) {
         entries.add(mapEntry(element, v));
@@ -384,7 +384,7 @@ public final class DerivedCollectionGenerators {
 
     @Override
     public SortedSet<E> create(Object... elements) {
-      List<?> normalValues = (List<?>) asList(elements);
+      List<?> normalValues = asList(elements);
       List<E> extremeValues = new ArrayList<>();
 
       // nulls are usually out of bounds for a subset, so ban them altogether
