@@ -17,11 +17,7 @@
 package com.google.common.collect.testing;
 
 import com.google.common.annotations.GwtIncompatible;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import com.google.common.testing.SerializableTester;
 import java.util.Collection;
 import java.util.List;
 
@@ -50,17 +46,8 @@ public class ReserializingTestCollectionGenerator<E> implements TestCollectionGe
     return reserialize(delegate.create(elements));
   }
 
-  @SuppressWarnings("unchecked")
   static <T> T reserialize(T object) {
-    try {
-      ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-      ObjectOutputStream out = new ObjectOutputStream(bytes);
-      out.writeObject(object);
-      ObjectInputStream in = new ObjectInputStream(new ByteArrayInputStream(bytes.toByteArray()));
-      return (T) in.readObject();
-    } catch (IOException | ClassNotFoundException e) {
-      throw new AssertionError(e);
-    }
+    return SerializableTester.reserialize(object);
   }
 
   @Override
