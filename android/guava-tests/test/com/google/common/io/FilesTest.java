@@ -151,6 +151,7 @@ public class FilesTest extends IoTestCase {
     assertThat(Files.toString(temp, UTF_16LE)).isEqualTo(I18N + I18N + I18N);
   }
 
+  @SuppressWarnings({"PreferCharsetOverload", "JdkObsolete"}) // requires Java 10 / API Level 33
   public void testCopyToOutputStream() throws IOException {
     File i18nFile = getTestFile("i18n.txt");
     ByteArrayOutputStream out = new ByteArrayOutputStream();
