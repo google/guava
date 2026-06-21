@@ -99,6 +99,7 @@ public class ResourcesTest extends IoTestCase {
     assertThat(result.get(result.size() - 1)).isEqualTo("THE END");
   }
 
+  @SuppressWarnings({"PreferCharsetOverload", "JdkObsolete"}) // requires Java 10 / API Level 33
   public void testCopyToOutputStream() throws IOException {
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     URL resource = getClass().getResource("testdata/i18n.txt");
@@ -133,6 +134,7 @@ public class ResourcesTest extends IoTestCase {
     assertThat(Resources.getResource(getClass(), "testdata/i18n.txt")).isNotNull();
   }
 
+  @SuppressWarnings({"PreferCharsetOverload", "JdkObsolete"}) // requires Java 10 / API Level 33
   public void testGetResource_contextClassLoader() throws IOException {
     // Check that we can find a resource if it is visible to the context class
     // loader, even if it is not visible to the loader of the Resources class.
