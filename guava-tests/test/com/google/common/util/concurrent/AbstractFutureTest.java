@@ -147,7 +147,7 @@ public class AbstractFutureTest extends TestCase {
     assertTrue(future.cancel(false));
     assertTrue(future.isCancelled());
     assertTrue(future.isDone());
-    assertFalse(future.wasInterrupted());
+    assertFalse(future.doWasInterrupted());
     assertFalse(future.interruptTaskWasCalled);
     CancellationException e = assertThrows(CancellationException.class, future::get);
     assertThat(e).hasCauseThat().isNull();
@@ -158,7 +158,7 @@ public class AbstractFutureTest extends TestCase {
     assertTrue(future.cancel(true));
     assertTrue(future.isCancelled());
     assertTrue(future.isDone());
-    assertTrue(future.wasInterrupted());
+    assertTrue(future.doWasInterrupted());
     assertTrue(future.interruptTaskWasCalled);
     CancellationException e = assertThrows(CancellationException.class, future::get);
     assertThat(e).hasCauseThat().isNull();
@@ -196,7 +196,7 @@ public class AbstractFutureTest extends TestCase {
           }
         };
     AbstractFuture<String> normalFuture = new AbstractFuture<String>() {};
-    normalFuture.setFuture(evilFuture);
+    normalFuture.setFutureInternal(evilFuture);
     assertTrue(normalFuture.isDone());
     ExecutionException e = assertThrows(ExecutionException.class, normalFuture::get);
     assertThat(e).hasCauseThat().isEqualTo(exception);
@@ -223,7 +223,7 @@ public class AbstractFutureTest extends TestCase {
     LockSupport.unpark(waiter2); // spurious wakeup
     waiter2.awaitWaiting(); // should eventually re-park
 
-    future.set(null);
+    future.setInternal(null);
     waiter2.join();
   }
 
@@ -248,7 +248,7 @@ public class AbstractFutureTest extends TestCase {
 
     // This should wake up waiter1 and cause the waiter1 node to be removed.
     waiter.join();
-    future.set(null);
+    future.setInternal(null);
     poller.join();
   }
 
@@ -389,7 +389,7 @@ public class AbstractFutureTest extends TestCase {
           }
         };
     AbstractFuture<Object> testFuture3 = new AbstractFuture<Object>() {};
-    testFuture3.setFuture(testFuture2);
+    testFuture3.setFutureInternal(testFuture2);
     assertThat(testFuture3.toString())
         .matches(
             "[^\\[]+\\[status=PENDING, setFuture=\\[[^\\[]+\\[status=PENDING,"
@@ -436,7 +436,7 @@ public class AbstractFutureTest extends TestCase {
           });
       executor.execute(
           () -> {
-            future.setException(new IllegalArgumentException("failure"));
+            future.setExceptionInternal(new IllegalArgumentException("failure"));
             if (!future.isDone()) {
               errorMessage.set("SetException call exited before future was complete.");
             }
@@ -615,7 +615,7 @@ public class AbstractFutureTest extends TestCase {
       Object result = getOnlyElement(finalResults);
       if (result == CancellationException.class) {
         assertTrue(future.isCancelled());
-        if (future.wasInterrupted()) {
+        if (future.wasInterruptedInternal()) {
           // We were cancelled, it is possible that setFuture could have succeeded too.
           assertThat(numSuccessfulSetCalls.get()).isIn(Range.closed(1, 2));
         } else {
@@ -734,7 +734,7 @@ public class AbstractFutureTest extends TestCase {
           // If setFuture fails or set on the future fails then it must be because that future was
           // cancelled
           assertTrue(setFuture.isCancelled());
-          assertTrue(setFuture.wasInterrupted()); // we only call cancel(true)
+          assertTrue(setFuture.wasInterruptedInternal()); // we only call cancel(true)
         }
       } else {
         // set on the future completed
@@ -951,7 +951,7 @@ public class AbstractFutureTest extends TestCase {
     orig.cancel(true);
     assertTrue(orig.isCancelled());
     assertTrue(prev.isCancelled());
-    assertTrue(prev.wasInterrupted());
+    assertTrue(prev.wasInterruptedInternal());
   }
 
   public void testSetFutureSelf_cancel() {
@@ -1016,7 +1016,7 @@ public class AbstractFutureTest extends TestCase {
             assertThat(ranImmediately.get()).isTrue();
           }
         };
-    f.set("foo");
+    f.setInternal("foo");
   }
 
   // Regression test for a case where we would fail to execute listeners immediately on done futures
@@ -1053,7 +1053,7 @@ public class AbstractFutureTest extends TestCase {
 
   public void testCatchesUndeclaredThrowableFromListener() {
     AbstractFuture<String> f = new AbstractFuture<String>() {};
-    f.set("foo");
+    f.setInternal("foo");
     f.addListener(() -> sneakyThrow(new SomeCheckedException()), directExecutor());
   }
 
@@ -1062,51 +1062,51 @@ public class AbstractFutureTest extends TestCase {
   public void testTrustedGetFailure_completed() {
     SettableFuture<String> future = SettableFuture.create();
     future.set("261");
-    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+    assertThat(future.tryInternalFastPathGetFailureInternal()).isNull();
   }
 
   public void testTrustedGetFailure_failed() {
     SettableFuture<String> future = SettableFuture.create();
     Throwable failure = new Throwable();
     future.setException(failure);
-    assertThat(future.tryInternalFastPathGetFailure()).isEqualTo(failure);
+    assertThat(future.tryInternalFastPathGetFailureInternal()).isEqualTo(failure);
   }
 
   public void testTrustedGetFailure_notCompleted() {
     SettableFuture<String> future = SettableFuture.create();
     assertThat(future.isDone()).isFalse();
-    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+    assertThat(future.tryInternalFastPathGetFailureInternal()).isNull();
   }
 
   public void testTrustedGetFailure_canceledNoCause() {
     SettableFuture<String> future = SettableFuture.create();
     future.cancel(false);
-    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+    assertThat(future.tryInternalFastPathGetFailureInternal()).isNull();
   }
 
   public void testGetFailure_completed() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
-    future.set("261");
-    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+    future.setInternal("261");
+    assertThat(future.tryInternalFastPathGetFailureInternal()).isNull();
   }
 
   public void testGetFailure_failed() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     Throwable failure = new Throwable();
-    future.setException(failure);
-    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+    future.setExceptionInternal(failure);
+    assertThat(future.tryInternalFastPathGetFailureInternal()).isNull();
   }
 
   public void testGetFailure_notCompleted() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     assertThat(future.isDone()).isFalse();
-    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+    assertThat(future.tryInternalFastPathGetFailureInternal()).isNull();
   }
 
   public void testGetFailure_canceledNoCause() {
     AbstractFuture<String> future = new AbstractFuture<String>() {};
     future.cancel(false);
-    assertThat(future.tryInternalFastPathGetFailure()).isNull();
+    assertThat(future.tryInternalFastPathGetFailureInternal()).isNull();
   }
 
   public void testForwardExceptionFastPath() throws Exception {
@@ -1316,6 +1316,11 @@ public class AbstractFutureTest extends TestCase {
     protected void interruptTask() {
       assertFalse(interruptTaskWasCalled);
       interruptTaskWasCalled = true;
+    }
+
+    // substitute for wasInterruptedInternal to work around the b/320650932 / KT-67447 runtime crash
+    boolean doWasInterrupted() {
+      return wasInterrupted();
     }
   }
 
