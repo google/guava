@@ -567,7 +567,7 @@ public final class Multisets {
 
       @Override
       public int count(@Nullable Object element) {
-        return multiset1.count(element) + multiset2.count(element);
+        return IntMath.saturatedAdd(multiset1.count(element), multiset2.count(element));
       }
 
       @Override
@@ -590,7 +590,7 @@ public final class Multisets {
             if (iterator1.hasNext()) {
               Entry<? extends E> entry1 = iterator1.next();
               E element = entry1.getElement();
-              int count = entry1.getCount() + multiset2.count(element);
+              int count = IntMath.saturatedAdd(entry1.getCount(), multiset2.count(element));
               return immutableEntry(element, count);
             }
             while (iterator2.hasNext()) {

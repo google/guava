@@ -161,6 +161,37 @@ public class MultisetsTest extends TestCase {
     assertThat(sum(ms1, ms2)).containsExactly("a", "b", "a");
   }
 
+  public void testSumEntryIteratorOverflow() {
+    // Counts in each multiset that sum to more than Integer.MAX_VALUE,
+    // causing integer overflow in sum's entryIterator().
+    int count = Integer.MAX_VALUE / 2 + 1;
+    Multiset<String> ms1 = HashMultiset.create();
+    ms1.add("a", count);
+    Multiset<String> ms2 = HashMultiset.create();
+    ms2.add("a", count);
+    Multiset<String> summed = sum(ms1, ms2);
+    // The entry iterator should produce a saturated count (Integer.MAX_VALUE)
+    // rather than overflowing to a negative value and throwing.
+    java.util.Iterator<Multiset.Entry<String>> it = summed.entrySet().iterator();
+    assertTrue("entry set should have an entry", it.hasNext());
+    Multiset.Entry<String> entry = it.next();
+    assertEquals("a", entry.getElement());
+    // The count should be Integer.MAX_VALUE (saturated), not negative.
+    assertTrue("count should be non-negative but was " + entry.getCount(), entry.getCount() > 0);
+  }
+
+  public void testSumCountOverflow() {
+    // count() on the sum view should also handle overflow.
+    int count = Integer.MAX_VALUE / 2 + 1;
+    Multiset<String> ms1 = HashMultiset.create();
+    ms1.add("a", count);
+    Multiset<String> ms2 = HashMultiset.create();
+    ms2.add("a", count);
+    Multiset<String> summed = sum(ms1, ms2);
+    // count("a") should saturate to Integer.MAX_VALUE, not overflow.
+    assertTrue("count should be positive but was " + summed.count("a"), summed.count("a") > 0);
+  }
+
   public void testDifferenceWithNoRemovedElements() {
     Multiset<String> ms1 = HashMultiset.create(asList("a", "b", "a"));
     Multiset<String> ms2 = HashMultiset.create(asList("a"));
