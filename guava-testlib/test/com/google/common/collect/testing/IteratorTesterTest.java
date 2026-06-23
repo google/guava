@@ -157,7 +157,7 @@ public class IteratorTesterTest extends TestCase {
 
   static class TesterThatCountsCalls extends IteratorTester<Integer> {
     TesterThatCountsCalls() {
-      super(STEPS, MODIFIABLE, newArrayList(1), IteratorTester.KnownOrder.KNOWN_ORDER);
+      super(STEPS, MODIFIABLE, newArrayList(1), KnownOrder.KNOWN_ORDER);
     }
 
     int numCallsToNewTargetIterator;

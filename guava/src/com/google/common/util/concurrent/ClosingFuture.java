@@ -57,7 +57,6 @@ import java.lang.ref.Reference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.IdentityHashMap;
-import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CancellationException;
@@ -2266,7 +2265,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
         }
         closed = true;
       }
-      for (Map.Entry<AutoCloseable, Executor> entry : entrySet()) {
+      for (Entry<AutoCloseable, Executor> entry : entrySet()) {
         closeQuietly(entry.getKey(), entry.getValue());
       }
       clear();

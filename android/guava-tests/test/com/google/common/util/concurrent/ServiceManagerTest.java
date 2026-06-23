@@ -358,7 +358,7 @@ public class ServiceManagerTest extends TestCase {
 
           @Override
           protected void doCancelStart() {
-            assertThat(state()).isEqualTo(Service.State.STOPPING);
+            assertThat(state()).isEqualTo(State.STOPPING);
             notifyStopped();
           }
 

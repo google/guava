@@ -84,7 +84,7 @@ public abstract class FluentFuture<V extends @Nullable Object>
    * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
    */
   abstract static class TrustedFuture<V extends @Nullable Object> extends FluentFuture<V>
-      implements AbstractFuture.Trusted<V> {
+      implements Trusted<V> {
     @CanIgnoreReturnValue
     @Override
     @ParametricNullness

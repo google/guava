@@ -1232,7 +1232,7 @@ public class AbstractFutureTest extends TestCase {
     }
 
     private boolean isBlocked() {
-      return getState() == Thread.State.WAITING && LockSupport.getBlocker(this) == future;
+      return getState() == State.WAITING && LockSupport.getBlocker(this) == future;
     }
   }
 
@@ -1275,7 +1275,7 @@ public class AbstractFutureTest extends TestCase {
     }
 
     private boolean isBlocked() {
-      return getState() == Thread.State.TIMED_WAITING && LockSupport.getBlocker(this) == future;
+      return getState() == State.TIMED_WAITING && LockSupport.getBlocker(this) == future;
     }
   }
 

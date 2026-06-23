@@ -408,7 +408,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     protected void shutDown() throws Exception {
       assertEquals(1, startupCalled);
       assertEquals(0, shutdownCalled);
-      assertThat(state()).isEqualTo(Service.State.STOPPING);
+      assertThat(state()).isEqualTo(State.STOPPING);
       shutdownCalled++;
     }
 

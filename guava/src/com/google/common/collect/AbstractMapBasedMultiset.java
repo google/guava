@@ -81,7 +81,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
    * was retrieved.
    */
   @Override
-  public final Set<Multiset.Entry<E>> entrySet() {
+  public final Set<Entry<E>> entrySet() {
     return super.entrySet();
   }
 
@@ -117,7 +117,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   @Override
   final Iterator<Entry<E>> entryIterator() {
     Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
-    return new Iterator<Multiset.Entry<E>>() {
+    return new Iterator<Entry<E>>() {
       Map.@Nullable Entry<E, Count> toRemove;
 
       @Override
@@ -126,7 +126,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
       }
 
       @Override
-      public Multiset.Entry<E> next() {
+      public Entry<E> next() {
         Map.Entry<E, Count> mapEntry = backingEntries.next();
         toRemove = mapEntry;
         return new Multisets.AbstractEntry<E>() {

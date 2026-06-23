@@ -68,6 +68,11 @@ import org.jspecify.annotations.Nullable;
  * @author Mike Bostock
  * @author Jared Levy
  */
+/*
+ * Explicitly distinguishing between Map.Entry and Multiset.Entry doesn't buy us much when we're
+ * mostly just implementing each method to delegate to the corresponding method on another object.
+ */
+@SuppressWarnings("SameNameButDifferent")
 @J2ktIncompatible
 @GwtCompatible
 /*
@@ -500,7 +505,7 @@ final class Synchronized {
   static final class SynchronizedMultiset<E extends @Nullable Object>
       extends SynchronizedCollection<E> implements Multiset<E> {
     transient @Nullable Set<E> elementSet;
-    transient @Nullable Set<Multiset.Entry<E>> entrySet;
+    transient @Nullable Set<Entry<E>> entrySet;
 
     SynchronizedMultiset(Multiset<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
@@ -557,7 +562,7 @@ final class Synchronized {
     }
 
     @Override
-    public Set<Multiset.Entry<E>> entrySet() {
+    public Set<Entry<E>> entrySet() {
       synchronized (mutex) {
         if (entrySet == null) {
           entrySet = typePreservingSet(delegate().entrySet(), mutex);
@@ -1067,7 +1072,7 @@ final class Synchronized {
       extends SynchronizedObject implements Map<K, V> {
     transient @Nullable Set<K> keySet;
     transient @Nullable Collection<V> values;
-    transient @Nullable Set<Map.Entry<K, V>> entrySet;
+    transient @Nullable Set<Entry<K, V>> entrySet;
 
     SynchronizedMap(Map<K, V> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
@@ -1101,7 +1106,7 @@ final class Synchronized {
     }
 
     @Override
-    public Set<Map.Entry<K, V>> entrySet() {
+    public Set<Entry<K, V>> entrySet() {
       synchronized (mutex) {
         if (entrySet == null) {
           entrySet = set(delegate().entrySet(), mutex);
@@ -1396,7 +1401,7 @@ final class Synchronized {
 
   static final class SynchronizedAsMap<K extends @Nullable Object, V extends @Nullable Object>
       extends SynchronizedMap<K, Collection<V>> {
-    transient @Nullable Set<Map.Entry<K, Collection<V>>> asMapEntrySet;
+    transient @Nullable Set<Entry<K, Collection<V>>> asMapEntrySet;
     transient @Nullable Collection<Collection<V>> asMapValues;
 
     SynchronizedAsMap(Map<K, Collection<V>> delegate, @Nullable Object mutex) {
@@ -1412,7 +1417,7 @@ final class Synchronized {
     }
 
     @Override
-    public Set<Map.Entry<K, Collection<V>>> entrySet() {
+    public Set<Entry<K, Collection<V>>> entrySet() {
       synchronized (mutex) {
         if (asMapEntrySet == null) {
           asMapEntrySet = new SynchronizedAsMapEntries<>(delegate().entrySet(), mutex);
@@ -1616,7 +1621,7 @@ final class Synchronized {
     }
 
     @Override
-    public Map.@Nullable Entry<K, V> ceilingEntry(K key) {
+    public @Nullable Entry<K, V> ceilingEntry(K key) {
       synchronized (mutex) {
         return nullableSynchronizedEntry(delegate().ceilingEntry(key), mutex);
       }
@@ -1654,14 +1659,14 @@ final class Synchronized {
     }
 
     @Override
-    public Map.@Nullable Entry<K, V> firstEntry() {
+    public @Nullable Entry<K, V> firstEntry() {
       synchronized (mutex) {
         return nullableSynchronizedEntry(delegate().firstEntry(), mutex);
       }
     }
 
     @Override
-    public Map.@Nullable Entry<K, V> floorEntry(K key) {
+    public @Nullable Entry<K, V> floorEntry(K key) {
       synchronized (mutex) {
         return nullableSynchronizedEntry(delegate().floorEntry(key), mutex);
       }
@@ -1687,7 +1692,7 @@ final class Synchronized {
     }
 
     @Override
-    public Map.@Nullable Entry<K, V> higherEntry(K key) {
+    public @Nullable Entry<K, V> higherEntry(K key) {
       synchronized (mutex) {
         return nullableSynchronizedEntry(delegate().higherEntry(key), mutex);
       }
@@ -1701,14 +1706,14 @@ final class Synchronized {
     }
 
     @Override
-    public Map.@Nullable Entry<K, V> lastEntry() {
+    public @Nullable Entry<K, V> lastEntry() {
       synchronized (mutex) {
         return nullableSynchronizedEntry(delegate().lastEntry(), mutex);
       }
     }
 
     @Override
-    public Map.@Nullable Entry<K, V> lowerEntry(K key) {
+    public @Nullable Entry<K, V> lowerEntry(K key) {
       synchronized (mutex) {
         return nullableSynchronizedEntry(delegate().lowerEntry(key), mutex);
       }
@@ -1739,14 +1744,14 @@ final class Synchronized {
     }
 
     @Override
-    public Map.@Nullable Entry<K, V> pollFirstEntry() {
+    public @Nullable Entry<K, V> pollFirstEntry() {
       synchronized (mutex) {
         return nullableSynchronizedEntry(delegate().pollFirstEntry(), mutex);
       }
     }
 
     @Override
-    public Map.@Nullable Entry<K, V> pollLastEntry() {
+    public @Nullable Entry<K, V> pollLastEntry() {
       synchronized (mutex) {
         return nullableSynchronizedEntry(delegate().pollLastEntry(), mutex);
       }
