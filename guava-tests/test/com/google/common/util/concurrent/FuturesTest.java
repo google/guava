@@ -339,7 +339,7 @@ public class FuturesTest extends TestCase {
         };
     assertTrue(transformAsync(input, function, directExecutor()).cancel(false));
     assertTrue(input.isCancelled());
-    assertFalse(input.wasInterruptedInternal());
+    assertFalse(input.wasInterrupted());
   }
 
   public void testTransformAsync_interruptPropagatesToInput() throws Exception {
@@ -350,7 +350,7 @@ public class FuturesTest extends TestCase {
         };
     assertTrue(transformAsync(input, function, directExecutor()).cancel(true));
     assertTrue(input.isCancelled());
-    assertTrue(input.wasInterruptedInternal());
+    assertTrue(input.wasInterrupted());
   }
 
   @J2ktIncompatible
@@ -394,7 +394,7 @@ public class FuturesTest extends TestCase {
     AsyncFunction<Foo, Bar> function = unused -> secondary;
     assertTrue(transformAsync(immediate, function, directExecutor()).cancel(false));
     assertTrue(secondary.isCancelled());
-    assertFalse(secondary.wasInterruptedInternal());
+    assertFalse(secondary.wasInterrupted());
   }
 
   public void testTransformAsync_interruptPropagatesToAsyncOutput() throws Exception {
@@ -403,7 +403,7 @@ public class FuturesTest extends TestCase {
     AsyncFunction<Foo, Bar> function = unused -> secondary;
     assertTrue(transformAsync(immediate, function, directExecutor()).cancel(true));
     assertTrue(secondary.isCancelled());
-    assertTrue(secondary.wasInterruptedInternal());
+    assertTrue(secondary.wasInterrupted());
   }
 
   public void testTransformAsync_inputCancelButNotInterruptPropagatesToOutput() throws Exception {
@@ -417,7 +417,7 @@ public class FuturesTest extends TestCase {
      * We might like to propagate interruption, too, but it's not clear that it matters. For now, we
      * test for the behavior that we have today.
      */
-    assertFalse(((AbstractFuture<?>) f2).wasInterruptedInternal());
+    assertFalse(((AbstractFuture<?>) f2).wasInterrupted());
   }
 
   @J2ktIncompatible
@@ -902,7 +902,7 @@ public class FuturesTest extends TestCase {
         catchingAsync(primary, Throwable.class, fallback, directExecutor());
     derived.cancel(true);
     assertTrue(primary.isCancelled());
-    assertTrue(primary.wasInterruptedInternal());
+    assertTrue(primary.wasInterrupted());
   }
 
   public void testCatchingAsync_resultCancelledBeforeFallback() throws Exception {
@@ -912,7 +912,7 @@ public class FuturesTest extends TestCase {
         catchingAsync(primary, Throwable.class, fallback, directExecutor());
     derived.cancel(false);
     assertTrue(primary.isCancelled());
-    assertFalse(primary.wasInterruptedInternal());
+    assertFalse(primary.wasInterrupted());
   }
 
   public void testCatchingAsync_resultCancelledAfterFallback() throws Exception {
@@ -931,7 +931,7 @@ public class FuturesTest extends TestCase {
         catchingAsync(failingFuture, Throwable.class, fallback, directExecutor());
     derived.cancel(false);
     assertTrue(secondary.isCancelled());
-    assertFalse(secondary.wasInterruptedInternal());
+    assertFalse(secondary.wasInterrupted());
     fallback.verifyCallCount(1);
   }
 
@@ -1120,7 +1120,7 @@ public class FuturesTest extends TestCase {
         catching(primary, Throwable.class, fallback, directExecutor());
     derived.cancel(true);
     assertTrue(primary.isCancelled());
-    assertTrue(primary.wasInterruptedInternal());
+    assertTrue(primary.wasInterrupted());
   }
 
   public void testCatching_resultCancelledBeforeFallback() throws Exception {
@@ -1130,7 +1130,7 @@ public class FuturesTest extends TestCase {
         catching(primary, Throwable.class, fallback, directExecutor());
     derived.cancel(false);
     assertTrue(primary.isCancelled());
-    assertFalse(primary.wasInterruptedInternal());
+    assertFalse(primary.wasInterrupted());
   }
 
   // catching() uses a plain Function, so there's no testCatching_resultCancelledAfterFallback().
@@ -1901,7 +1901,7 @@ public class FuturesTest extends TestCase {
     assertTrue(compound.cancel(false));
     assertTrue(compound.isCancelled());
     assertTrue(future1.isCancelled());
-    assertFalse(future1.wasInterruptedInternal());
+    assertFalse(future1.wasInterrupted());
   }
 
   public void testAllAsList_resultCancelledInterrupted_withSecondaryListFuture() throws Exception {
@@ -1914,9 +1914,9 @@ public class FuturesTest extends TestCase {
 
     assertTrue(compound.cancel(true));
     assertTrue(future1.isCancelled());
-    assertTrue(future1.wasInterruptedInternal());
+    assertTrue(future1.wasInterrupted());
     assertTrue(future2.isCancelled());
-    assertTrue(future2.wasInterruptedInternal());
+    assertTrue(future2.wasInterrupted());
     assertTrue(otherCompound.isCancelled());
   }
 
@@ -1929,9 +1929,9 @@ public class FuturesTest extends TestCase {
 
     assertTrue(compound.cancel(false));
     assertTrue(future1.isCancelled());
-    assertFalse(future1.wasInterruptedInternal());
+    assertFalse(future1.wasInterrupted());
     assertTrue(future2.isCancelled());
-    assertFalse(future2.wasInterruptedInternal());
+    assertFalse(future2.wasInterrupted());
   }
 
   public void testAllAsList_resultInterrupted() throws Exception {
@@ -1944,7 +1944,7 @@ public class FuturesTest extends TestCase {
     assertTrue(compound.cancel(true));
     assertTrue(compound.isCancelled());
     assertTrue(future1.isCancelled());
-    assertTrue(future1.wasInterruptedInternal());
+    assertTrue(future1.wasInterrupted());
   }
 
   /**
@@ -2976,7 +2976,7 @@ public class FuturesTest extends TestCase {
     assertTrue(compound.cancel(false));
     assertTrue(compound.isCancelled());
     assertTrue(future1.isCancelled());
-    assertFalse(future1.wasInterruptedInternal());
+    assertFalse(future1.wasInterrupted());
   }
 
   public void testSuccessfulAsList_resultCancelledRacingInputDone() throws Exception {
@@ -3039,7 +3039,7 @@ public class FuturesTest extends TestCase {
     assertTrue(compound.cancel(true));
     assertTrue(compound.isCancelled());
     assertTrue(future1.isCancelled());
-    assertTrue(future1.wasInterruptedInternal());
+    assertTrue(future1.wasInterrupted());
   }
 
   public void testSuccessfulAsList_mixed() throws Exception {
@@ -3262,9 +3262,9 @@ public class FuturesTest extends TestCase {
     futures.get(2).cancel(false);
 
     assertTrue(future1.isCancelled());
-    assertFalse(future1.wasInterruptedInternal());
+    assertFalse(future1.wasInterrupted());
     assertTrue(future3.isCancelled());
-    assertFalse(future3.wasInterruptedInternal());
+    assertFalse(future3.wasInterrupted());
   }
 
   public void testCancellingADelegatePropagates() throws Exception {
@@ -3287,7 +3287,7 @@ public class FuturesTest extends TestCase {
 
     // All futures are now complete; outstanding inputs are cancelled
     assertTrue(future3.isCancelled());
-    assertTrue(future3.wasInterruptedInternal());
+    assertTrue(future3.wasInterrupted());
   }
 
   @AndroidIncompatible // runs out of memory under some versions of the emulator

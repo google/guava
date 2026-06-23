@@ -3725,7 +3725,7 @@ public final class Maps {
     }
   }
 
-    abstract static class IteratorBasedAbstractMap<
+  abstract static class IteratorBasedAbstractMap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMap<K, V> {
     @Override
@@ -3895,7 +3895,7 @@ public final class Maps {
     }
   }
 
-    static class KeySet<K extends @Nullable Object, V extends @Nullable Object>
+  static class KeySet<K extends @Nullable Object, V extends @Nullable Object>
       extends Sets.ImprovedAbstractSet<K> {
     @Weak final Map<K, V> map;
 
@@ -3957,7 +3957,7 @@ public final class Maps {
     return (entry == null) ? null : entry.getValue();
   }
 
-    static class SortedKeySet<K extends @Nullable Object, V extends @Nullable Object>
+  static class SortedKeySet<K extends @Nullable Object, V extends @Nullable Object>
       extends KeySet<K, V> implements SortedSet<K> {
     SortedKeySet(SortedMap<K, V> map) {
       super(map);
@@ -4002,7 +4002,7 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-    static class NavigableKeySet<K extends @Nullable Object, V extends @Nullable Object>
+  static class NavigableKeySet<K extends @Nullable Object, V extends @Nullable Object>
       extends SortedKeySet<K, V> implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, V> map) {
       super(map);
@@ -4088,7 +4088,7 @@ public final class Maps {
     }
   }
 
-    static class Values<K extends @Nullable Object, V extends @Nullable Object>
+  static class Values<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractCollection<V> {
     @Weak final Map<K, V> map;
 
@@ -4178,7 +4178,7 @@ public final class Maps {
     }
   }
 
-    abstract static class EntrySet<K extends @Nullable Object, V extends @Nullable Object>
+  abstract static class EntrySet<K extends @Nullable Object, V extends @Nullable Object>
       extends Sets.ImprovedAbstractSet<Entry<K, V>> {
     abstract Map<K, V> map();
 
@@ -4254,7 +4254,7 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-    abstract static class DescendingMap<K extends @Nullable Object, V extends @Nullable Object>
+  abstract static class DescendingMap<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingMap<K, V> implements NavigableMap<K, V> {
 
     abstract NavigableMap<K, V> forward();

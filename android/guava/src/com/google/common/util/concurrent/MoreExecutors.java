@@ -1068,7 +1068,7 @@ public final class MoreExecutors {
       try {
         delegate.execute(command);
       } catch (RejectedExecutionException e) {
-        future.setExceptionInternal(e);
+        future.setException(e);
       }
     };
   }

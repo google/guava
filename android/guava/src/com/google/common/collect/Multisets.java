@@ -998,7 +998,7 @@ public final class Multisets {
     };
   }
 
-    abstract static class ElementSet<E extends @Nullable Object> extends Sets.ImprovedAbstractSet<E> {
+  abstract static class ElementSet<E extends @Nullable Object> extends Sets.ImprovedAbstractSet<E> {
     abstract Multiset<E> multiset();
 
     @Override

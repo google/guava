@@ -16,11 +16,8 @@
 
 package com.google.common.util.concurrent;
 
-import static com.google.common.truth.Truth.assertThat;
-
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
-import com.google.common.util.concurrent.SettableAbstractFuture.UntrustedAbstractFuture;
 import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
 
@@ -30,12 +27,11 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 @NullUnmarked
-public class UntrustedInputFutureTest
-    extends AbstractAbstractFutureTest<UntrustedAbstractFuture<@Nullable Integer>> {
+public class UntrustedInputFutureTest extends AbstractAbstractFutureTest {
   @Override
-  UntrustedAbstractFuture<@Nullable Integer> newDelegate() {
-    UntrustedAbstractFuture<@Nullable Integer> future = new UntrustedAbstractFuture<>();
-    assertThat(future).isNotInstanceOf(TrustedFuture.class); // sanity check
+  AbstractFuture<@Nullable Integer> newDelegate() {
+    AbstractFuture<@Nullable Integer> future = new AbstractFuture<@Nullable Integer>() {};
+    assertFalse(future instanceof TrustedFuture); // sanity check
     return future;
   }
 }
