@@ -120,7 +120,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
        */
       timeoutFutureRef = null;
       if (delegate.isDone()) {
-        timeoutFuture.setFutureInternal(delegate);
+        timeoutFuture.setFuture(delegate);
       } else {
         try {
           @RetainedLocalRef ScheduledFuture<?> timer = timeoutFuture.timer;

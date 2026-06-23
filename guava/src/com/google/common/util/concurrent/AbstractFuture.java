@@ -87,7 +87,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
    * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring
    * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
    */
-    abstract static class TrustedFuture<V extends @Nullable Object> extends AbstractFuture<V>
+  abstract static class TrustedFuture<V extends @Nullable Object> extends AbstractFuture<V>
       implements Trusted<V> {
     @CanIgnoreReturnValue
     @Override
@@ -450,10 +450,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
     return (localValue instanceof Cancellation) && ((Cancellation) localValue).wasInterrupted;
   }
 
-  final boolean wasInterruptedInternal() {
-    return wasInterrupted();
-  }
-
   /**
    * {@inheritDoc}
    *
@@ -515,11 +511,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
     return false;
   }
 
-  @CanIgnoreReturnValue
-  final boolean setInternal(@ParametricNullness V value) {
-    return set(value);
-  }
-
   /**
    * Sets the failed result of this {@code Future} unless this {@code Future} has already been
    * cancelled or set (including {@linkplain #setFuture set asynchronously}). When a call to this
@@ -543,11 +534,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
       return true;
     }
     return false;
-  }
-
-  @CanIgnoreReturnValue
-  final boolean setExceptionInternal(Throwable throwable) {
-    return setException(throwable);
   }
 
   /**
@@ -631,11 +617,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
       future.cancel(((Cancellation) localValue).wasInterrupted);
     }
     return false;
-  }
-
-  @CanIgnoreReturnValue
-  final boolean setFutureInternal(ListenableFuture<? extends V> future) {
-    return setFuture(future);
   }
 
   /**
@@ -856,10 +837,6 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
       }
     }
     return null;
-  }
-
-  final @Nullable Throwable tryInternalFastPathGetFailureInternal() {
-    return tryInternalFastPathGetFailure();
   }
 
   /**

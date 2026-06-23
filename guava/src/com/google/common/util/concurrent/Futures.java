@@ -1022,7 +1022,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       // Null out our reference to this future, so it can be GCed
       inputFutures[inputFutureIndex] = null;
       for (int i = delegateIndex; i < delegates.size(); i++) {
-        if (delegates.get(i).setFutureInternal(inputFuture)) {
+        if (delegates.get(i).setFuture(inputFuture)) {
           recordCompletion();
           // this is technically unnecessary, but should speed up later accesses
           delegateIndex = i + 1;
