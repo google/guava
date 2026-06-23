@@ -1070,7 +1070,7 @@ public abstract class BaseEncoding {
       }
 
       @Override
-      public int read(char[] cbuf, int off, int len) throws IOException {
+      public int read(char[] cbuf, int off, int len) {
         throw new UnsupportedOperationException();
       }
 
@@ -1123,7 +1123,7 @@ public abstract class BaseEncoding {
       }
 
       @Override
-      public void write(char[] chars, int off, int len) throws IOException {
+      public void write(char[] chars, int off, int len) {
         throw new UnsupportedOperationException();
       }
 
