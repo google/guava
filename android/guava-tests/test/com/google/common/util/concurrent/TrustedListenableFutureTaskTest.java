@@ -58,7 +58,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     task.cancel(false);
     assertTrue(task.isDone());
     assertTrue(task.isCancelled());
-    assertFalse(task.wasInterrupted());
+    assertFalse(task.wasInterruptedInternal());
     assertThrows(CancellationException.class, () -> getDone(task));
     verifyThreadWasNotInterrupted();
   }

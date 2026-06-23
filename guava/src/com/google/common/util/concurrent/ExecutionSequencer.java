@@ -225,7 +225,7 @@ public final class ExecutionSequencer {
             // Since the value of oldFuture can only ever be immediateVoidFuture() or setFuture of a
             // future that eventually came from immediateVoidFuture(), this doesn't leak throwables
             // or completion values.
-            newFuture.setFuture(oldFuture);
+            newFuture.setFutureInternal(oldFuture);
           } else if (outputFuture.isCancelled() && taskExecutor.trySetCancelled()) {
             // If this CAS succeeds, we know that the provided callable will never be invoked,
             // so when oldFuture completes it is safe to allow the next submitted task to

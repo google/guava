@@ -41,7 +41,7 @@ final class SortedMultisets {
 
   /** A skeleton implementation for {@link SortedMultiset#elementSet}. */
   @SuppressWarnings("JdkObsolete") // TODO(b/6160855): Switch GWT emulations to NavigableSet.
-  static class ElementSet<E extends @Nullable Object> extends Multisets.ElementSet<E>
+    static class ElementSet<E extends @Nullable Object> extends Multisets.ElementSet<E>
       implements SortedSet<E> {
     @Weak private final SortedMultiset<E> multiset;
 
@@ -94,7 +94,7 @@ final class SortedMultisets {
 
   /** A skeleton navigable implementation for {@link SortedMultiset#elementSet}. */
   @GwtIncompatible // Navigable
-  static class NavigableElementSet<E extends @Nullable Object> extends ElementSet<E>
+    static class NavigableElementSet<E extends @Nullable Object> extends ElementSet<E>
       implements NavigableSet<E> {
     NavigableElementSet(SortedMultiset<E> multiset) {
       super(multiset);
