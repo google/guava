@@ -187,7 +187,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
               final List<String> list = new ArrayList<>();
 
               @Override
-              public boolean processLine(String line) throws IOException {
+              public boolean processLine(String line) {
                 list.add(line);
                 return true;
               }
@@ -208,7 +208,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
               final List<String> list = new ArrayList<>();
 
               @Override
-              public boolean processLine(String line) throws IOException {
+              public boolean processLine(String line) {
                 list.add(line);
                 return false;
               }

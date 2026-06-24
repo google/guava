@@ -279,7 +279,7 @@ public class SourceSinkFactories {
 
     // acts as an override in subclasses that implement SourceSinkFactory
     @Keep
-    public final void tearDown() throws IOException {
+    public final void tearDown() {
       if (!fileThreadLocal.get().delete()) {
         logger.warning("Unable to delete file: " + fileThreadLocal.get());
       }

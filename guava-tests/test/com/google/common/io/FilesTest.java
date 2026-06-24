@@ -617,7 +617,7 @@ public class FilesTest extends IoTestCase {
           private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
           @Override
-          public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
+          public boolean processBytes(byte[] buffer, int offset, int length) {
             if (length >= 0) {
               out.write(buffer, offset, length);
             }
@@ -641,7 +641,7 @@ public class FilesTest extends IoTestCase {
           private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
           @Override
-          public boolean processBytes(byte[] buffer, int offset, int length) throws IOException {
+          public boolean processBytes(byte[] buffer, int offset, int length) {
             if (length > 0) {
               out.write(buffer, offset, 1);
               return false;

@@ -176,13 +176,13 @@ public class CharMatcherTest extends TestCase {
     doTestNull(forPredicate(equalTo('c')));
   }
 
-  private void doTestEmpty(CharMatcher matcher) throws Exception {
+  private void doTestEmpty(CharMatcher matcher) {
     reallyTestEmpty(matcher);
     reallyTestEmpty(matcher.negate());
     reallyTestEmpty(matcher.precomputed());
   }
 
-  private void reallyTestEmpty(CharMatcher matcher) throws Exception {
+  private void reallyTestEmpty(CharMatcher matcher) {
     assertEquals(-1, matcher.indexIn(""));
     assertEquals(-1, matcher.indexIn("", 0));
     assertThrows(IndexOutOfBoundsException.class, () -> matcher.indexIn("", 1));
@@ -200,7 +200,7 @@ public class CharMatcherTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  private static void doTestNull(CharMatcher matcher) throws Exception {
+  private static void doTestNull(CharMatcher matcher) {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(matcher);
   }

@@ -140,7 +140,7 @@ public class TearDownStackTest extends TestCase {
     }
 
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() {
       ran = true;
       throw new RuntimeException(id);
     }
@@ -158,7 +158,7 @@ public class TearDownStackTest extends TestCase {
     }
 
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() {
       if (callback != null) {
         callback.run();
       }

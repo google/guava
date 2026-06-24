@@ -515,7 +515,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     assertEquals(0, (int) mmHeap.peekLast());
   }
 
-  private <T extends Comparable<T>> void runIterator(List<T> values, int steps) throws Exception {
+  private <T extends Comparable<T>> void runIterator(List<T> values, int steps) {
     IteratorTester<T> tester =
         new IteratorTester<T>(
             steps,

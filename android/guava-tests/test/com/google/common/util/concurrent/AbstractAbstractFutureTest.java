@@ -35,7 +35,6 @@ import com.google.common.util.concurrent.AbstractFutureTest.TimedWaiterThread;
 import com.google.common.util.concurrent.SettableAbstractFuture.UntrustedAbstractFuture;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeoutException;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
@@ -422,7 +421,7 @@ abstract class AbstractAbstractFutureTest<
           FutureT extends
               AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
       void assertSuccessful(FutureT future, @Nullable Integer expectedResult)
-          throws InterruptedException, TimeoutException, ExecutionException {
+          throws ExecutionException {
     assertDone(future);
     assertThat(future.isCancelled()).isFalse();
 
@@ -433,8 +432,7 @@ abstract class AbstractAbstractFutureTest<
   private static <
           FutureT extends
               AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
-      void assertFailed(FutureT future, Throwable expectedException)
-          throws InterruptedException, TimeoutException {
+      void assertFailed(FutureT future, Throwable expectedException) {
     assertDone(future);
     assertThat(future.isCancelled()).isFalse();
 
@@ -449,8 +447,7 @@ abstract class AbstractAbstractFutureTest<
   private static <
           FutureT extends
               AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
-      void assertCancelled(FutureT future, boolean expectWasInterrupted)
-          throws InterruptedException, TimeoutException, ExecutionException {
+      void assertCancelled(FutureT future, boolean expectWasInterrupted) {
     assertDone(future);
     assertThat(future.isCancelled()).isTrue();
     assertThat(future.doWasInterrupted()).isEqualTo(expectWasInterrupted);

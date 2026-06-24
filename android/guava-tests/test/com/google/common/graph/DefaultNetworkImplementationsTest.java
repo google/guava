@@ -70,7 +70,7 @@ public final class DefaultNetworkImplementationsTest {
   }
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     NetworkBuilder<Object, Object> builder =
         (edgeType == EdgeType.DIRECTED) ? NetworkBuilder.directed() : NetworkBuilder.undirected();
 

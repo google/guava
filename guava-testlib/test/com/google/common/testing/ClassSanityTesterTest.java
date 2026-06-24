@@ -381,7 +381,7 @@ public class ClassSanityTesterTest extends TestCase {
     assertBadUseOfReferentialEquality(SameInterfaceInstance.class);
   }
 
-  private void assertBadUseOfReferentialEquality(Class<?> cls) throws Exception {
+  private void assertBadUseOfReferentialEquality(Class<?> cls) {
     try {
       tester.testEquals(cls);
     } catch (AssertionError expected) {

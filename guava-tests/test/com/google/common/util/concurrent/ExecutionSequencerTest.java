@@ -345,7 +345,7 @@ public class ExecutionSequencerTest extends TestCase {
     }
 
     @Override
-    public ListenableFuture<@Nullable Void> call() throws Exception {
+    public ListenableFuture<@Nullable Void> call() {
       called = true;
       return future;
     }

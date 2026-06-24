@@ -216,7 +216,7 @@ public class FuturesTest extends TestCase {
 
   private static final class CallerClass2 {
     @CanIgnoreReturnValue
-    static <V> V get(ListenableFuture<V> future) throws ExecutionException, InterruptedException {
+    static <V> V get(ListenableFuture<V> future) throws ExecutionException {
       return getDone(future);
     }
   }
@@ -864,7 +864,7 @@ public class FuturesTest extends TestCase {
   }
 
   private void runExpectedExceptionCatchingAsyncTest(
-      Exception expectedException, boolean wrapInFuture) throws Exception {
+      Exception expectedException, boolean wrapInFuture) {
     AsyncFunctionSpy<Throwable, Integer> fallback =
         spy(
             (Throwable unused) -> {
@@ -1092,8 +1092,7 @@ public class FuturesTest extends TestCase {
    * or testCatching_fallbackReturnsCheckedException().
    */
 
-  private void runExpectedExceptionCatchingTest(RuntimeException expectedException)
-      throws Exception {
+  private void runExpectedExceptionCatchingTest(RuntimeException expectedException) {
     FunctionSpy<Throwable, Integer> fallback =
         spy(
             (Function<Throwable, Integer>)
@@ -2994,7 +2993,7 @@ public class FuturesTest extends TestCase {
     }
   }
 
-  private static void doTestSuccessfulAsListResultCancelledRacingInputDone() throws Exception {
+  private static void doTestSuccessfulAsListResultCancelledRacingInputDone() {
     // Simple (combined.cancel -> input.cancel -> setOneValue):
     successfulAsList(ImmutableList.of(SettableFuture.create())).cancel(true);
 

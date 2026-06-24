@@ -85,7 +85,7 @@ public class AbstractScheduledServiceTest extends TestCase {
 
   private final class NullService extends AbstractScheduledService {
     @Override
-    protected void runOneIteration() throws Exception {}
+    protected void runOneIteration() {}
 
     @Override
     protected Scheduler scheduler() {
@@ -208,7 +208,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     AbstractScheduledService service =
         new AbstractScheduledService() {
           @Override
-          protected void runOneIteration() throws Exception {}
+          protected void runOneIteration() {}
 
           @Override
           protected ScheduledExecutorService executor() {
@@ -240,7 +240,7 @@ public class AbstractScheduledServiceTest extends TestCase {
           }
 
           @Override
-          protected void runOneIteration() throws Exception {}
+          protected void runOneIteration() {}
 
           @Override
           protected ScheduledExecutorService executor() {
@@ -292,7 +292,7 @@ public class AbstractScheduledServiceTest extends TestCase {
           }
 
           @Override
-          protected void runOneIteration() throws Exception {}
+          protected void runOneIteration() {}
 
           @Override
           protected String serviceName() {
@@ -471,7 +471,7 @@ public class AbstractScheduledServiceTest extends TestCase {
           protected Scheduler scheduler() {
             return new CustomScheduler() {
               @Override
-              protected Schedule getNextSchedule() throws Exception {
+              protected Schedule getNextSchedule() {
                 return new Schedule(Long.MAX_VALUE, SECONDS);
               }
             };
@@ -488,7 +488,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     final AtomicInteger scheduleCounter = new AtomicInteger(0);
 
     @Override
-    protected Schedule getNextSchedule() throws Exception {
+    protected Schedule getNextSchedule() {
       scheduleCounter.incrementAndGet();
       return new Schedule(0, SECONDS);
     }
@@ -574,7 +574,7 @@ public class AbstractScheduledServiceTest extends TestCase {
             return new CustomScheduler() {
               @Override
               @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
-              protected Schedule getNextSchedule() throws Exception {
+              protected Schedule getNextSchedule() {
                 // Explicitly yield to increase the probability of a pathological scheduling.
                 Thread.yield();
                 return new Schedule(0, SECONDS);
@@ -619,7 +619,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     protected Scheduler scheduler() {
       return new CustomScheduler() {
         @Override
-        protected Schedule getNextSchedule() throws Exception {
+        protected Schedule getNextSchedule() {
           return new Schedule(DELAY, UNIT);
         }
       };
@@ -662,7 +662,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     protected Scheduler scheduler() {
       return new CustomScheduler() {
         @Override
-        protected Schedule getNextSchedule() throws Exception {
+        protected Schedule getNextSchedule() {
           if (numIterations.get() > 2) {
             throw new IllegalStateException("Failed");
           }

@@ -375,11 +375,11 @@ public class CloserTest extends TestCase {
     private final Throwable throwOnClose;
     private boolean closed;
 
-    static TestCloseable normal() throws IOException {
+    static TestCloseable normal() {
       return new TestCloseable(null);
     }
 
-    static TestCloseable throwsOnClose(Throwable throwOnClose) throws IOException {
+    static TestCloseable throwsOnClose(Throwable throwOnClose) {
       return new TestCloseable(throwOnClose);
     }
 

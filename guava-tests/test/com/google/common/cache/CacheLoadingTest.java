@@ -433,12 +433,12 @@ public class CacheLoadingTest extends TestCase {
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
-          public Object load(Object key) throws Exception {
+          public Object load(Object key) {
             return new Object();
           }
 
           @Override
-          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+          public Map<Object, Object> loadAll(Iterable<?> keys) {
             Map<Object, Object> result = new HashMap<>();
             for (Object key : keys) {
               Object value = new Object();
@@ -470,12 +470,12 @@ public class CacheLoadingTest extends TestCase {
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
-          public Object load(Object key) throws Exception {
+          public Object load(Object key) {
             throw new AssertionError();
           }
 
           @Override
-          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+          public Map<Object, Object> loadAll(Iterable<?> keys) {
             Map<Object, Object> result = new HashMap<>();
             for (Object key : keys) {
               Object value = new Object();
@@ -508,12 +508,12 @@ public class CacheLoadingTest extends TestCase {
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
-          public Object load(Object key) throws Exception {
+          public Object load(Object key) {
             throw new AssertionError();
           }
 
           @Override
-          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+          public Map<Object, Object> loadAll(Iterable<?> keys) {
             Map<Object, Object> result = new HashMap<>();
             for (Object key : keys) {
               Object value = new Object();
@@ -544,12 +544,12 @@ public class CacheLoadingTest extends TestCase {
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
-          public Object load(Object key) throws Exception {
+          public Object load(Object key) {
             throw new AssertionError();
           }
 
           @Override
-          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+          public Map<Object, Object> loadAll(Iterable<?> keys) {
             Map<Object, Object> result = new HashMap<>();
             for (Object key : keys) {
               Object value = new Object();
@@ -580,12 +580,12 @@ public class CacheLoadingTest extends TestCase {
     CacheLoader<Object, Object> loader =
         new CacheLoader<Object, Object>() {
           @Override
-          public Object load(Object key) throws Exception {
+          public Object load(Object key) {
             throw new AssertionError();
           }
 
           @Override
-          public Map<Object, Object> loadAll(Iterable<?> keys) throws Exception {
+          public Map<Object, Object> loadAll(Iterable<?> keys) {
             Map<Object, Object> result = new HashMap<>();
             // ignore request keys
             result.put(extraKey, extraValue);

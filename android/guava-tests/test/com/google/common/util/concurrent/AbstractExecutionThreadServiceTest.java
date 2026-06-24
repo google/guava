@@ -312,7 +312,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
 
     @Override
-    protected void run() throws Exception {}
+    protected void run() {}
   }
 
   public void testStopWhileStarting_runNotCalled() throws Exception {
@@ -356,7 +356,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     Service service =
         new AbstractExecutionThreadService() {
           @Override
-          protected void run() throws Exception {}
+          protected void run() {}
 
           @Override
           protected ScheduledExecutorService executor() {

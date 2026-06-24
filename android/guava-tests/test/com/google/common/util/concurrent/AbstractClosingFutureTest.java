@@ -261,7 +261,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
               return ClosingFuture.submit(
                   new ClosingCallable<TestCloseable>() {
                     @Override
-                    public TestCloseable call(DeferredCloser deferredCloser) throws Exception {
+                    public TestCloseable call(DeferredCloser deferredCloser) {
                       return closeable2;
                     }
                   },
@@ -286,8 +286,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
                       return ClosingFuture.submit(
                           new ClosingCallable<TestCloseable>() {
                             @Override
-                            public TestCloseable call(DeferredCloser deferredCloser)
-                                throws Exception {
+                            public TestCloseable call(DeferredCloser deferredCloser) {
                               deferredCloser.eventuallyClose(closeable3, closingExecutor);
                               return closeable3;
                             }
@@ -1325,19 +1324,17 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertThat(e).hasCauseThat().isEqualTo(exception);
   }
 
-  static void assertThatFutureBecomesCancelled(Future<?> future) throws ExecutionException {
+  static void assertThatFutureBecomesCancelled(Future<?> future) {
     assertThrows(CancellationException.class, () -> getUninterruptibly(future));
   }
 
-  private static void assertStillOpen(TestCloseable closeable1, TestCloseable... moreCloseables)
-      throws IOException {
+  private static void assertStillOpen(TestCloseable closeable1, TestCloseable... moreCloseables) {
     for (TestCloseable closeable : asList(closeable1, moreCloseables)) {
       assertWithMessage("%s.stillOpen()", closeable).that(closeable.stillOpen()).isTrue();
     }
   }
 
-  static void assertClosed(TestCloseable closeable1, TestCloseable... moreCloseables)
-      throws IOException {
+  static void assertClosed(TestCloseable closeable1, TestCloseable... moreCloseables) {
     for (TestCloseable closeable : asList(closeable1, moreCloseables)) {
       assertWithMessage("%s.isClosed()", closeable).that(closeable.awaitClosed()).isTrue();
     }
@@ -1375,7 +1372,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
       latch.countDown();
     }
 

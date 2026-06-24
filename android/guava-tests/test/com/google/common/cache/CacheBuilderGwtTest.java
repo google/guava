@@ -58,7 +58,7 @@ public class CacheBuilderGwtTest {
           private int i = 0;
 
           @Override
-          public Integer call() throws Exception {
+          public Integer call() {
             return ++i;
           }
         };
@@ -110,7 +110,7 @@ public class CacheBuilderGwtTest {
           int i = 0;
 
           @Override
-          public Integer load(Integer key) throws Exception {
+          public Integer load(Integer key) {
             return i++;
           }
         };

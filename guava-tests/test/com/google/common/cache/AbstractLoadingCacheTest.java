@@ -103,7 +103,7 @@ public class AbstractLoadingCacheTest extends TestCase {
     LoadingCache<Object, Object> cache =
         new AbstractLoadingCache<Object, Object>() {
           @Override
-          public Object get(Object key) throws ExecutionException {
+          public Object get(Object key) {
             Object v = valueRef.get();
             if (v == null) {
               throw new ExecutionError(cause);

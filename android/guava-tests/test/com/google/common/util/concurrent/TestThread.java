@@ -227,7 +227,7 @@ public final class TestThread<L> extends Thread implements TearDown {
     return getMethod(methodName, arguments).invoke(lockLikeObject, arguments);
   }
 
-  private Method getMethod(String methodName, Object... arguments) throws Exception {
+  private Method getMethod(String methodName, Object... arguments) {
     METHODS:
     for (Method method : lockLikeObject.getClass().getMethods()) {
       Class<?>[] parameterTypes = method.getParameterTypes();
