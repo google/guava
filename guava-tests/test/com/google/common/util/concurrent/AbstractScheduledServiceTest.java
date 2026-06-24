@@ -469,7 +469,7 @@ public class AbstractScheduledServiceTest extends TestCase {
         new TestAbstractScheduledCustomService() {
           @Override
           protected Scheduler scheduler() {
-            return new AbstractScheduledService.CustomScheduler() {
+            return new CustomScheduler() {
               @Override
               protected Schedule getNextSchedule() throws Exception {
                 return new Schedule(Long.MAX_VALUE, SECONDS);
@@ -571,7 +571,7 @@ public class AbstractScheduledServiceTest extends TestCase {
         new TestAbstractScheduledCustomService() {
           @Override
           protected Scheduler scheduler() {
-            return new AbstractScheduledService.CustomScheduler() {
+            return new CustomScheduler() {
               @Override
               @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
               protected Schedule getNextSchedule() throws Exception {

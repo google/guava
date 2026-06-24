@@ -205,7 +205,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    */
   private List<E> snapshotElementsToList() {
     List<E> list = newArrayListWithExpectedSize(size());
-    for (Multiset.Entry<E> entry : entrySet()) {
+    for (Entry<E> entry : entrySet()) {
       E element = entry.getElement();
       for (int i = entry.getCount(); i > 0; i--) {
         list.add(element);
@@ -512,7 +512,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    */
   @Deprecated
   @Override
-  public Set<Multiset.Entry<E>> createEntrySet() {
+  public Set<Entry<E>> createEntrySet() {
     return new EntrySet();
   }
 

@@ -145,7 +145,7 @@ final class CharSequenceReader extends Reader {
   }
 
   @Override
-  public synchronized void close() throws IOException {
+  public synchronized void close() {
     seq = null;
   }
 }

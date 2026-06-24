@@ -574,7 +574,7 @@ public abstract class AbstractScheduledService implements Service {
       }
 
       @Override
-      public @Nullable Void call() throws Exception {
+      public @Nullable Void call() {
         wrappedRunnable.run();
         reschedule();
         return null;

@@ -156,12 +156,12 @@ public final class Multisets {
       return (es == null) ? elementSet = createElementSet() : es;
     }
 
-    @LazyInit transient @Nullable Set<Multiset.Entry<E>> entrySet;
+    @LazyInit transient @Nullable Set<Entry<E>> entrySet;
 
     @SuppressWarnings("unchecked")
     @Override
-    public Set<Multiset.Entry<E>> entrySet() {
-      Set<Multiset.Entry<E>> es = entrySet;
+    public Set<Entry<E>> entrySet() {
+      Set<Entry<E>> es = entrySet;
       return (es == null)
           // Safe because the returned set is made unmodifiable and Entry
           // itself is readonly

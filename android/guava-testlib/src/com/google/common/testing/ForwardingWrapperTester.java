@@ -140,8 +140,7 @@ public final class ForwardingWrapperTester {
             interfaceType,
             new AbstractInvocationHandler() {
               @Override
-              protected Object handleInvocation(Object p, Method m, @Nullable Object[] args)
-                  throws Throwable {
+              protected Object handleInvocation(Object p, Method m, @Nullable Object[] args) {
                 throw exception;
               }
             });
@@ -205,7 +204,7 @@ public final class ForwardingWrapperTester {
 
     @Override
     protected @Nullable Object handleInvocation(
-        Object p, Method calledMethod, @Nullable Object[] args) throws Throwable {
+        Object p, Method calledMethod, @Nullable Object[] args) {
       assertEquals(method, calledMethod);
       assertEquals(method + " invoked more than once.", 0, called.get());
       for (int i = 0; i < passedArgs.length; i++) {
