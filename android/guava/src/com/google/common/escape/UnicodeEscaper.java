@@ -291,6 +291,10 @@ public abstract class UnicodeEscaper extends Escaper {
     throw new IndexOutOfBoundsException("Index exceeds specified range");
   }
 
+  static int codePointAtInternal(CharSequence seq, int index, int end) {
+    return codePointAt(seq, index, end);
+  }
+
   /**
    * Helper method to grow the character buffer as needed, this only happens once in a while so it's
    * ok if it's in a method call. If the index passed in is 0 then no copying will be done.
