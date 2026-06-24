@@ -32,6 +32,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.util.concurrent.AbstractFutureTest.TimedWaiterThread;
+import com.google.common.util.concurrent.SettableAbstractFuture.UntrustedAbstractFuture;
 import java.util.concurrent.CancellationException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -45,18 +46,21 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 @NullUnmarked
-abstract class AbstractAbstractFutureTest extends TestCase {
+abstract class AbstractAbstractFutureTest<
+        FutureT extends
+            AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
+    extends TestCase {
   @SuppressWarnings("initialization.field.uninitialized")
-  private TestedFuture<@Nullable Integer> future;
+  private UntrustedAbstractFuture<@Nullable Integer> future;
 
   @SuppressWarnings("initialization.field.uninitialized")
-  private AbstractFuture<@Nullable Integer> delegate;
+  private FutureT delegate;
 
-  abstract AbstractFuture<@Nullable Integer> newDelegate();
+  abstract FutureT newDelegate();
 
   @Override
   protected void setUp() {
-    future = TestedFuture.create();
+    future = new UntrustedAbstractFuture<>();
     delegate = newDelegate();
   }
 
@@ -65,13 +69,13 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testSuccessful() throws Exception {
-    assertThat(future.set(1)).isTrue();
+    assertThat(future.doSet(1)).isTrue();
     assertSuccessful(future, 1);
   }
 
   public void testFailed() throws Exception {
     Exception cause = new Exception();
-    assertThat(future.setException(cause)).isTrue();
+    assertThat(future.doSetException(cause)).isTrue();
     assertFailed(future, cause);
   }
 
@@ -86,56 +90,56 @@ abstract class AbstractAbstractFutureTest extends TestCase {
   }
 
   public void testSetFuturePending() throws Exception {
-    assertThat(future.setFuture(delegate)).isTrue();
+    assertThat(future.doSetFuture(delegate)).isTrue();
     assertSetAsynchronously(future);
   }
 
   public void testSetFutureThenCancel() throws Exception {
-    assertThat(future.setFuture(delegate)).isTrue();
+    assertThat(future.doSetFuture(delegate)).isTrue();
     assertThat(future.cancel(/* mayInterruptIfRunning= */ false)).isTrue();
     assertCancelled(future, false);
     assertCancelled(delegate, false);
   }
 
   public void testSetFutureThenInterrupt() throws Exception {
-    assertThat(future.setFuture(delegate)).isTrue();
+    assertThat(future.doSetFuture(delegate)).isTrue();
     assertThat(future.cancel(/* mayInterruptIfRunning= */ true)).isTrue();
     assertCancelled(future, true);
     assertCancelled(delegate, true);
   }
 
   public void testSetFutureDelegateAlreadySuccessful() throws Exception {
-    delegate.set(5);
-    assertThat(future.setFuture(delegate)).isTrue();
+    delegate.doSet(5);
+    assertThat(future.doSetFuture(delegate)).isTrue();
     assertSuccessful(future, 5);
   }
 
   public void testSetFutureDelegateLaterSuccessful() throws Exception {
-    assertThat(future.setFuture(delegate)).isTrue();
-    delegate.set(6);
+    assertThat(future.doSetFuture(delegate)).isTrue();
+    delegate.doSet(6);
     assertSuccessful(future, 6);
   }
 
   public void testSetFutureDelegateAlreadyCancelled() throws Exception {
     delegate.cancel(/* mayInterruptIfRunning= */ false);
-    assertThat(future.setFuture(delegate)).isTrue();
+    assertThat(future.doSetFuture(delegate)).isTrue();
     assertCancelled(future, false);
   }
 
   public void testSetFutureDelegateLaterCancelled() throws Exception {
-    assertThat(future.setFuture(delegate)).isTrue();
+    assertThat(future.doSetFuture(delegate)).isTrue();
     delegate.cancel(/* mayInterruptIfRunning= */ false);
     assertCancelled(future, false);
   }
 
   public void testSetFutureDelegateAlreadyInterrupted() throws Exception {
     delegate.cancel(/* mayInterruptIfRunning= */ true);
-    assertThat(future.setFuture(delegate)).isTrue();
+    assertThat(future.doSetFuture(delegate)).isTrue();
     assertCancelled(future, /* expectWasInterrupted= */ false);
   }
 
   public void testSetFutureDelegateLaterInterrupted() throws Exception {
-    assertThat(future.setFuture(delegate)).isTrue();
+    assertThat(future.doSetFuture(delegate)).isTrue();
     delegate.cancel(/* mayInterruptIfRunning= */ true);
     assertCancelled(future, /* expectWasInterrupted= */ false);
   }
@@ -146,7 +150,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     future.addListener(listener, directExecutor());
     listener.assertNotRun();
 
-    future.set(1);
+    future.doSet(1);
     listener.assertRun();
   }
 
@@ -156,7 +160,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     future.addListener(listener, directExecutor());
     listener.assertNotRun();
 
-    future.setException(new Exception());
+    future.doSetException(new Exception());
     listener.assertRun();
   }
 
@@ -186,7 +190,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     future.addListener(listener, directExecutor());
     listener.assertNotRun();
 
-    future.setFuture(delegate);
+    future.doSetFuture(delegate);
     listener.assertNotRun();
   }
 
@@ -196,9 +200,9 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     CountingRunnable after = new CountingRunnable();
 
     future.addListener(before, directExecutor());
-    future.setFuture(delegate);
+    future.doSetFuture(delegate);
     future.addListener(inBetween, directExecutor());
-    delegate.set(1);
+    delegate.doSet(1);
     future.addListener(after, directExecutor());
 
     before.assertRun();
@@ -212,9 +216,9 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     CountingRunnable after = new CountingRunnable();
 
     future.addListener(before, directExecutor());
-    future.setFuture(delegate);
+    future.doSetFuture(delegate);
     future.addListener(inBetween, directExecutor());
-    delegate.setException(new Exception());
+    delegate.doSetException(new Exception());
     future.addListener(after, directExecutor());
 
     before.assertRun();
@@ -228,7 +232,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     CountingRunnable after = new CountingRunnable();
 
     future.addListener(before, directExecutor());
-    future.setFuture(delegate);
+    future.doSetFuture(delegate);
     future.addListener(inBetween, directExecutor());
     delegate.cancel(false);
     future.addListener(after, directExecutor());
@@ -244,7 +248,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     CountingRunnable after = new CountingRunnable();
 
     future.addListener(before, directExecutor());
-    future.setFuture(delegate);
+    future.doSetFuture(delegate);
     future.addListener(inBetween, directExecutor());
     delegate.cancel(true);
     future.addListener(after, directExecutor());
@@ -260,7 +264,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     CountingRunnable after = new CountingRunnable();
 
     future.addListener(before, directExecutor());
-    future.setFuture(delegate);
+    future.doSetFuture(delegate);
     future.addListener(inBetween, directExecutor());
     future.cancel(false);
     future.addListener(after, directExecutor());
@@ -276,7 +280,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     CountingRunnable after = new CountingRunnable();
 
     future.addListener(before, directExecutor());
-    future.setFuture(delegate);
+    future.doSetFuture(delegate);
     future.addListener(inBetween, directExecutor());
     future.cancel(true);
     future.addListener(after, directExecutor());
@@ -286,21 +290,19 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     after.assertRun();
   }
 
-  public void testMisbehavingListenerAlreadyDone() {
-    class BadRunnableException extends RuntimeException {}
+  private static final class BadRunnableException extends RuntimeException {}
 
+  public void testMisbehavingListenerAlreadyDone() {
     Runnable bad =
         () -> {
           throw new BadRunnableException();
         };
 
-    future.set(1);
+    future.doSet(1);
     future.addListener(bad, directExecutor()); // BadRunnableException must not propagate.
   }
 
   public void testMisbehavingListenerLaterDone() {
-    class BadRunnableException extends RuntimeException {}
-
     CountingRunnable before = new CountingRunnable();
     Runnable bad =
         () -> {
@@ -312,7 +314,7 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     future.addListener(bad, directExecutor());
     future.addListener(after, directExecutor());
 
-    future.set(1); // BadRunnableException must not propagate.
+    future.doSet(1); // BadRunnableException must not propagate.
 
     before.assertRun();
     after.assertRun();
@@ -330,12 +332,12 @@ abstract class AbstractAbstractFutureTest extends TestCase {
 
   @SuppressWarnings("nullness") // test of a bogus call
   public void testNullTimeUnit() throws Exception {
-    future.set(1);
+    future.doSet(1);
     assertThrows(NullPointerException.class, () -> future.get(0, null));
   }
 
   public void testNegativeTimeout() throws Exception {
-    future.set(1);
+    future.doSet(1);
     assertEquals(1, future.get(-1, SECONDS).intValue());
   }
 
@@ -351,39 +353,32 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     waiter.start();
     waiter.awaitWaiting();
 
-    future.set(1);
+    future.doSet(1);
     waiter.join();
   }
 
   @J2ktIncompatible // TODO(b/324550390): Enable
   public void testSetNull() throws Exception {
-    future.set(null);
+    future.doSet(null);
     assertSuccessful(future, null);
   }
 
   @SuppressWarnings("nullness") // test of a bogus call
   public void testSetExceptionNull() throws Exception {
-    assertThrows(NullPointerException.class, () -> future.setException(null));
+    assertThrows(NullPointerException.class, () -> future.doSetException(null));
 
     assertThat(future.isDone()).isFalse();
-    assertThat(future.set(1)).isTrue();
+    assertThat(future.doSet(1)).isTrue();
     assertSuccessful(future, 1);
   }
 
   @SuppressWarnings("nullness") // test of a bogus call
   public void testSetFutureNull() throws Exception {
-    assertThrows(NullPointerException.class, () -> future.setFuture(null));
+    assertThrows(NullPointerException.class, () -> future.doSetFuture(null));
 
     assertThat(future.isDone()).isFalse();
-    assertThat(future.set(1)).isTrue();
+    assertThat(future.doSet(1)).isTrue();
     assertSuccessful(future, 1);
-  }
-
-  /** Concrete subclass for testing. */
-  private static class TestedFuture<V extends @Nullable Object> extends AbstractFuture<V> {
-    private static <V extends @Nullable Object> TestedFuture<V> create() {
-      return new TestedFuture<V>();
-    }
   }
 
   private static final class CountingRunnable implements Runnable {
@@ -403,7 +398,10 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     }
   }
 
-  private static void assertSetAsynchronously(AbstractFuture<@Nullable Integer> future) {
+  private static <
+          FutureT extends
+              AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
+      void assertSetAsynchronously(FutureT future) {
     assertCannotSet(future);
     assertPending(future);
   }
@@ -420,9 +418,11 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     verifyTimedGetOnPendingFuture(future);
   }
 
-  private static void assertSuccessful(
-      AbstractFuture<@Nullable Integer> future, @Nullable Integer expectedResult)
-      throws InterruptedException, TimeoutException, ExecutionException {
+  private static <
+          FutureT extends
+              AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
+      void assertSuccessful(FutureT future, @Nullable Integer expectedResult)
+          throws InterruptedException, TimeoutException, ExecutionException {
     assertDone(future);
     assertThat(future.isCancelled()).isFalse();
 
@@ -430,9 +430,11 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertThat(getDoneFromTimeoutOverload(future)).isEqualTo(expectedResult);
   }
 
-  private static void assertFailed(
-      AbstractFuture<@Nullable Integer> future, Throwable expectedException)
-      throws InterruptedException, TimeoutException {
+  private static <
+          FutureT extends
+              AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
+      void assertFailed(FutureT future, Throwable expectedException)
+          throws InterruptedException, TimeoutException {
     assertDone(future);
     assertThat(future.isCancelled()).isFalse();
 
@@ -444,19 +446,24 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertThat(e2).hasCauseThat().isEqualTo(expectedException);
   }
 
-  private static void assertCancelled(
-      AbstractFuture<@Nullable Integer> future, boolean expectWasInterrupted)
-      throws InterruptedException, TimeoutException, ExecutionException {
+  private static <
+          FutureT extends
+              AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
+      void assertCancelled(FutureT future, boolean expectWasInterrupted)
+          throws InterruptedException, TimeoutException, ExecutionException {
     assertDone(future);
     assertThat(future.isCancelled()).isTrue();
-    assertThat(future.wasInterrupted()).isEqualTo(expectWasInterrupted);
+    assertThat(future.doWasInterrupted()).isEqualTo(expectWasInterrupted);
 
     assertThrows(CancellationException.class, () -> getDone(future));
 
     assertThrows(CancellationException.class, () -> getDoneFromTimeoutOverload(future));
   }
 
-  private static void assertDone(AbstractFuture<@Nullable Integer> future) {
+  private static <
+          FutureT extends
+              AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
+      void assertDone(FutureT future) {
     CountingRunnable listener = new CountingRunnable();
     future.addListener(listener, directExecutor());
     listener.assertRun();
@@ -466,11 +473,14 @@ abstract class AbstractAbstractFutureTest extends TestCase {
     assertCannotCancel(future);
   }
 
-  private static void assertCannotSet(AbstractFuture<@Nullable Integer> future) {
-    assertThat(future.set(99)).isFalse();
-    assertThat(future.setException(new IndexOutOfBoundsException())).isFalse();
-    assertThat(future.setFuture(new AbstractFuture<Integer>() {})).isFalse();
-    assertThat(future.setFuture(immediateFuture(99))).isFalse();
+  private static <
+          FutureT extends
+              AbstractFuture<@Nullable Integer> & SettableAbstractFuture<@Nullable Integer>>
+      void assertCannotSet(FutureT future) {
+    assertThat(future.doSet(99)).isFalse();
+    assertThat(future.doSetException(new IndexOutOfBoundsException())).isFalse();
+    assertThat(future.doSetFuture(new AbstractFuture<Integer>() {})).isFalse();
+    assertThat(future.doSetFuture(immediateFuture(99))).isFalse();
   }
 
   private static void assertCannotCancel(AbstractFuture<?> future) {

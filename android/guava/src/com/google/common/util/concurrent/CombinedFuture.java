@@ -172,7 +172,7 @@ final class CombinedFuture<V extends @Nullable Object>
 
     @Override
     void setValue(ListenableFuture<V> value) {
-      CombinedFuture.this.setFuture(value);
+      CombinedFuture.this.setFutureInternal(value);
     }
 
     @Override

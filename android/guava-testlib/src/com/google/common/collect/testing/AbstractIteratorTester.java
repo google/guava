@@ -503,10 +503,10 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
     };
   }
 
-  abstract static class Stimulus<E extends @Nullable Object, T extends Iterator<E>> {
+    abstract static class Stimulus<E extends @Nullable Object, T extends Iterator<E>> {
     private final String toString;
 
-    protected Stimulus(String toString) {
+    Stimulus(String toString) {
       this.toString = toString;
     }
 

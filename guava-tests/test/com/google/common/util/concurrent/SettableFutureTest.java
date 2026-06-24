@@ -174,7 +174,7 @@ public class SettableFutureTest extends TestCase {
     async.setFuture(inner);
     async.cancel(true);
     assertTrue(inner.isCancelled());
-    assertTrue(inner.wasInterrupted());
+    assertTrue(inner.wasInterruptedInternal());
     assertThrows(CancellationException.class, inner::get);
   }
 
@@ -184,7 +184,7 @@ public class SettableFutureTest extends TestCase {
     async.setFuture(inner);
     async.cancel(false);
     assertTrue(inner.isCancelled());
-    assertFalse(inner.wasInterrupted());
+    assertFalse(inner.wasInterruptedInternal());
     assertThrows(CancellationException.class, inner::get);
   }
 
@@ -201,7 +201,7 @@ public class SettableFutureTest extends TestCase {
     SettableFuture<Object> inner = SettableFuture.create();
     assertFalse(async.setFuture(inner));
     assertTrue(inner.isCancelled());
-    assertFalse(inner.wasInterrupted());
+    assertFalse(inner.wasInterruptedInternal());
   }
 
   public void testCancel_multipleBeforeSetFuture_interruptFirst() throws Exception {
@@ -211,6 +211,6 @@ public class SettableFutureTest extends TestCase {
     SettableFuture<Object> inner = SettableFuture.create();
     assertFalse(async.setFuture(inner));
     assertTrue(inner.isCancelled());
-    assertTrue(inner.wasInterrupted());
+    assertTrue(inner.wasInterruptedInternal());
   }
 }

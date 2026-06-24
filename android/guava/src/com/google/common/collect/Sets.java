@@ -90,7 +90,7 @@ public final class Sets {
    * {@link AbstractSet} substitute without the potentially-quadratic {@code removeAll}
    * implementation.
    */
-  abstract static class ImprovedAbstractSet<E extends @Nullable Object> extends AbstractSet<E> {
+    abstract static class ImprovedAbstractSet<E extends @Nullable Object> extends AbstractSet<E> {
     @Override
     public boolean removeAll(Collection<?> c) {
       return removeAllImpl(this, c);
@@ -2084,7 +2084,7 @@ public final class Sets {
   }
 
   @GwtIncompatible // NavigableSet
-  static class DescendingSet<E extends @Nullable Object> extends ForwardingNavigableSet<E> {
+    static class DescendingSet<E extends @Nullable Object> extends ForwardingNavigableSet<E> {
     private final NavigableSet<E> forward;
 
     DescendingSet(NavigableSet<E> forward) {

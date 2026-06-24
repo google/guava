@@ -309,7 +309,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   @Override
   public abstract UnmodifiableIterator<E> iterator();
 
-  abstract static class CachingAsList<E> extends ImmutableSet<E> {
+    abstract static class CachingAsList<E> extends ImmutableSet<E> {
     @LazyInit @RetainedWith private transient @Nullable ImmutableList<E> asList;
 
     @Override
