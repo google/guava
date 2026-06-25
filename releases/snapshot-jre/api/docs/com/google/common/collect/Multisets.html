@@ -429,10 +429,13 @@ equivalence relations (as <code>HashMultiset</code> and <code>TreeMultiset</code
 <span class="return-type"><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E&gt;</span>&nbsp;<span class="element-name">sum</span><wbr><span class="parameters">(<a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
  <a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</span></div>
 <div class="block">Returns an unmodifiable view of the sum of two multisets. In the returned multiset, the count
-of each element is the <i>sum</i> of its counts in the two backing multisets. The iteration
-order of the returned multiset matches that of the element set of <code>multiset1</code> followed by
-the members of the element set of <code>multiset2</code> that are not contained in <code>
-multiset1</code>, with repeated occurrences of the same element appearing consecutively.
+of each element is the <i>sum</i> of its counts in the two backing multisets. Sums are capped
+at <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Integer.html#MAX_VALUE" class="external-link"><code>Integer.MAX_VALUE</code></a>.
+
+<p>The iteration order of the returned multiset matches that of the element set of <code>
+multiset1</code> followed by the members of the element set of <code>multiset2</code> that are not
+contained in <code>multiset1</code>, with repeated occurrences of the same element appearing
+consecutively.
 
 <p>Results are undefined if <code>multiset1</code> and <code>multiset2</code> are based on different
 equivalence relations (as <code>HashMultiset</code> and <code>TreeMultiset</code> are).</div>

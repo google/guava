@@ -32344,10 +32344,13 @@
       <param name="multiset2" type="com.google.common.collect.Multiset&lt;? extends E&gt;"/>
       <doc>
       <![CDATA[Returns an unmodifiable view of the sum of two multisets. In the returned multiset, the count
- of each element is the <i>sum</i> of its counts in the two backing multisets. The iteration
- order of the returned multiset matches that of the element set of {@code multiset1} followed by
- the members of the element set of {@code multiset2} that are not contained in {@code
- multiset1}, with repeated occurrences of the same element appearing consecutively.
+ of each element is the <i>sum</i> of its counts in the two backing multisets. Sums are capped
+ at {@link Integer#MAX_VALUE}.
+
+ <p>The iteration order of the returned multiset matches that of the element set of {@code
+ multiset1} followed by the members of the element set of {@code multiset2} that are not
+ contained in {@code multiset1}, with repeated occurrences of the same element appearing
+ consecutively.
 
  <p>Results are undefined if {@code multiset1} and {@code multiset2} are based on different
  equivalence relations (as {@code HashMultiset} and {@code TreeMultiset} are).
