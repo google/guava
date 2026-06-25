@@ -19,6 +19,7 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
@@ -26,8 +27,9 @@ import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableTable;
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.junit.Before;
+import org.junit.Test;
 
 /**
  * Tests for {@link EquivalenceTester}.
@@ -36,27 +38,30 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @GwtCompatible
 @NullUnmarked
-public class EquivalenceTesterTest extends TestCase {
+public class EquivalenceTesterTest {
   private EquivalenceTester<Object> tester;
   private MockEquivalence equivalenceMock;
 
-  @Override
-  protected void setUp() throws Exception {
-    super.setUp();
+  @Before
+  public void setUp() throws Exception {
+
     this.equivalenceMock = new MockEquivalence();
     this.tester = EquivalenceTester.of(equivalenceMock);
   }
 
   /** Test null reference yields error */
-  public void testOf_nullPointerException() {
+  @Test
+  public void of_nullPointerException() {
     assertThrows(NullPointerException.class, () -> EquivalenceTester.of(null));
   }
 
-  public void testTest_noData() {
+  @Test
+  public void test_noData() {
     tester.test();
   }
 
-  public void testTest() {
+  @Test
+  public void test() {
     Object group1Item1 = new TestObject(1, 1);
     Object group1Item2 = new TestObject(1, 2);
     Object group2Item1 = new TestObject(2, 1);
@@ -88,7 +93,8 @@ public class EquivalenceTesterTest extends TestCase {
         .test();
   }
 
-  public void testTest_symmetric() {
+  @Test
+  public void test_symmetric() {
     Object group1Item1 = new TestObject(1, 1);
     Object group1Item2 = new TestObject(1, 2);
 
@@ -113,7 +119,8 @@ public class EquivalenceTesterTest extends TestCase {
     fail();
   }
 
-  public void testTest_transitive() {
+  @Test
+  public void test_transitive() {
     Object group1Item1 = new TestObject(1, 1);
     Object group1Item2 = new TestObject(1, 2);
     Object group1Item3 = new TestObject(1, 3);
@@ -144,7 +151,8 @@ public class EquivalenceTesterTest extends TestCase {
     fail();
   }
 
-  public void testTest_inequivalence() {
+  @Test
+  public void test_inequivalence() {
     Object group1Item1 = new TestObject(1, 1);
     Object group2Item1 = new TestObject(2, 1);
 
@@ -169,7 +177,8 @@ public class EquivalenceTesterTest extends TestCase {
     fail();
   }
 
-  public void testTest_hash() {
+  @Test
+  public void test_hash() {
     Object group1Item1 = new TestObject(1, 1);
     Object group1Item2 = new TestObject(1, 2);
 

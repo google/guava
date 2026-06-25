@@ -18,12 +18,14 @@ package com.google.common.testing;
 
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.fail;
 
 import java.io.Serializable;
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
+import org.junit.Test;
 
 /**
  * Tests for {@link SerializableTester}.
@@ -31,14 +33,16 @@ import org.jspecify.annotations.Nullable;
  * @author Nick Kralevich
  */
 @NullUnmarked
-public class SerializableTesterTest extends TestCase {
-  public void testStringAssertions() {
+public class SerializableTesterTest {
+  @Test
+  public void stringAssertions() {
     String original = "hello world";
     String copy = reserializeAndAssert(original);
     assertThat(copy).isNotSameInstanceAs(original);
   }
 
-  public void testClassWhichDoesNotImplementEquals() {
+  @Test
+  public void classWhichDoesNotImplementEquals() {
     ClassWhichDoesNotImplementEquals orig = new ClassWhichDoesNotImplementEquals();
     boolean errorNotThrown = false;
     try {
@@ -51,7 +55,8 @@ public class SerializableTesterTest extends TestCase {
     assertFalse(errorNotThrown);
   }
 
-  public void testClassWhichIsAlwaysEqualButHasDifferentHashcodes() {
+  @Test
+  public void classWhichIsAlwaysEqualButHasDifferentHashcodes() {
     ClassWhichIsAlwaysEqualButHasDifferentHashcodes orig =
         new ClassWhichIsAlwaysEqualButHasDifferentHashcodes();
     boolean errorNotThrown = false;
@@ -65,7 +70,8 @@ public class SerializableTesterTest extends TestCase {
     assertFalse(errorNotThrown);
   }
 
-  public void testObjectWhichIsEqualButChangesClass() {
+  @Test
+  public void objectWhichIsEqualButChangesClass() {
     ObjectWhichIsEqualButChangesClass orig = new ObjectWhichIsEqualButChangesClass();
     boolean errorNotThrown = false;
     try {
