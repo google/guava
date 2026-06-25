@@ -107,7 +107,7 @@ public class ExecutionListTest extends TestCase {
     assertTrue(countDownLatch.await(1L, SECONDS));
   }
 
-  public void testOrdering() throws Exception {
+  public void testOrdering() {
     AtomicInteger integer = new AtomicInteger();
     for (int i = 0; i < 10; i++) {
       int expectedCount = i;

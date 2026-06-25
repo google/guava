@@ -106,7 +106,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
   }
 
   /** compareAndSet in one thread enables another waiting for value to succeed */
-  public void testCompareAndSetInMultipleThreads() throws Exception {
+  public void testCompareAndSetInMultipleThreads() {
     AtomicDouble at = new AtomicDouble(1.0);
     Thread t =
         newStartedThread(
@@ -279,7 +279,7 @@ public class AtomicDoubleTest extends JSR166TestCase {
   }
 
   /** a deserialized serialized atomic holds same value */
-  public void testSerialization() throws Exception {
+  public void testSerialization() {
     AtomicDouble a = new AtomicDouble();
     AtomicDouble b = serialClone(a);
     assertThat(b).isNotSameInstanceAs(a);

@@ -283,7 +283,7 @@ public class IterablesTest extends TestCase {
   private static class HasBoth extends TypeA implements TypeB {}
 
   @GwtIncompatible // Iterables.filter(Iterable, Class)
-  public void testFilterByType_iterator() throws Exception {
+  public void testFilterByType_iterator() {
     HasBoth hasBoth = new HasBoth();
     Iterable<TypeA> alist = newArrayList(new TypeA(), new TypeA(), hasBoth, new TypeA());
     Iterable<TypeB> blist = filter(alist, TypeB.class);
@@ -519,7 +519,7 @@ public class IterablesTest extends TestCase {
   }
 
   // More exhaustive tests are in IteratorsTest.
-  public void testElementsEqual() throws Exception {
+  public void testElementsEqual() {
     Iterable<?> a;
     Iterable<?> b;
 
@@ -655,7 +655,7 @@ public class IterablesTest extends TestCase {
     }.test();
   }
 
-  public void testSkip_nonStructurallyModifiedList() throws Exception {
+  public void testSkip_nonStructurallyModifiedList() {
     List<String> list = newArrayList("a", "b", "c");
     Iterable<String> tail = skip(list, 1);
     Iterator<String> tailIterator = tail.iterator();
@@ -665,7 +665,7 @@ public class IterablesTest extends TestCase {
     assertFalse(tailIterator.hasNext());
   }
 
-  public void testSkip_structurallyModifiedSkipSome() throws Exception {
+  public void testSkip_structurallyModifiedSkipSome() {
     Collection<String> set = new LinkedHashSet<>(asList("a", "b", "c"));
     Iterable<String> tail = skip(set, 1);
     set.remove("b");
@@ -673,7 +673,7 @@ public class IterablesTest extends TestCase {
     assertThat(tail).containsExactly("c", "A", "B", "C").inOrder();
   }
 
-  public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
+  public void testSkip_structurallyModifiedSkipSomeList() {
     List<String> list = newArrayList("a", "b", "c");
     Iterable<String> tail = skip(list, 1);
     list.subList(1, 3).clear();
@@ -681,7 +681,7 @@ public class IterablesTest extends TestCase {
     assertThat(tail).containsExactly("B", "C", "a").inOrder();
   }
 
-  public void testSkip_structurallyModifiedSkipAll() throws Exception {
+  public void testSkip_structurallyModifiedSkipAll() {
     Collection<String> set = new LinkedHashSet<>(asList("a", "b", "c"));
     Iterable<String> tail = skip(set, 2);
     set.remove("a");
@@ -689,7 +689,7 @@ public class IterablesTest extends TestCase {
     assertFalse(tail.iterator().hasNext());
   }
 
-  public void testSkip_structurallyModifiedSkipAllList() throws Exception {
+  public void testSkip_structurallyModifiedSkipAllList() {
     List<String> list = newArrayList("a", "b", "c");
     Iterable<String> tail = skip(list, 2);
     list.subList(0, 2).clear();

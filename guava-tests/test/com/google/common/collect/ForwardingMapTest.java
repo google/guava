@@ -303,7 +303,7 @@ public class ForwardingMapTest extends TestCase {
     verifyNoMoreInteractions(map);
   }
 
-  public void testToStringWithNullKeys() throws Exception {
+  public void testToStringWithNullKeys() {
     Map<String, String> hashmap = new HashMap<>();
     hashmap.put("foo", "bar");
     hashmap.put(null, "baz");
@@ -316,7 +316,7 @@ public class ForwardingMapTest extends TestCase {
     assertThat(forwardingMap.toString()).isEqualTo(hashmap.toString());
   }
 
-  public void testToStringWithNullValues() throws Exception {
+  public void testToStringWithNullValues() {
     Map<String, String> hashmap = new HashMap<>();
     hashmap.put("foo", "bar");
     hashmap.put("baz", null);

@@ -173,7 +173,7 @@ public class EnumMultisetTest extends TestCase {
   }
 
   @GwtIncompatible // reflection
-  public void testNulls() throws Exception {
+  public void testNulls() {
     new NullPointerTester()
         .setDefault(Class.class, Color.class)
         .setDefault(Iterable.class, EnumSet.allOf(Color.class))

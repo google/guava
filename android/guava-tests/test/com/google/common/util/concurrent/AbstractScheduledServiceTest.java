@@ -75,7 +75,7 @@ public class AbstractScheduledServiceTest extends TestCase {
         }
       };
 
-  public void testServiceStartStop() throws Exception {
+  public void testServiceStartStop() {
     NullService service = new NullService();
     service.startAsync().awaitRunning();
     assertFalse(future.isDone());
@@ -447,8 +447,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     }
   }
 
-  public void testFixedDelayScheduleFarFuturePotentiallyOverflowingScheduleIsNeverReached()
-      throws Exception {
+  public void testFixedDelayScheduleFarFuturePotentiallyOverflowingScheduleIsNeverReached() {
     TestAbstractScheduledCustomService service =
         new TestAbstractScheduledCustomService() {
           @Override
@@ -463,8 +462,7 @@ public class AbstractScheduledServiceTest extends TestCase {
     service.awaitTerminated();
   }
 
-  public void testCustomSchedulerFarFuturePotentiallyOverflowingScheduleIsNeverReached()
-      throws Exception {
+  public void testCustomSchedulerFarFuturePotentiallyOverflowingScheduleIsNeverReached() {
     TestAbstractScheduledCustomService service =
         new TestAbstractScheduledCustomService() {
           @Override

@@ -361,7 +361,7 @@ public class MoreExecutorsTest extends TestCase {
   }
 
   @J2ktIncompatible
-  public void testListeningDecorator_cancelled() throws Exception {
+  public void testListeningDecorator_cancelled() {
     ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
     BlockingQueue<?> delegateQueue = delegate.getQueue();
     ListeningScheduledExecutorService service = listeningDecorator(delegate);
@@ -654,7 +654,7 @@ public class MoreExecutorsTest extends TestCase {
   private static final long HALF_SECOND_NANOS = NANOSECONDS.convert(1L, SECONDS) / 2;
 
   @J2ktIncompatible
-  public void testShutdownAndAwaitTermination_immediateShutdown() throws Exception {
+  public void testShutdownAndAwaitTermination_immediateShutdown() {
     ExecutorService service = Executors.newSingleThreadExecutor();
     assertTrue(shutdownAndAwaitTermination(service, 1L, SECONDS));
     assertTrue(service.isTerminated());

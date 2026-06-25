@@ -1492,7 +1492,7 @@ public class NullPointerTesterTest extends TestCase {
         .testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
   }
 
-  public void testConstructor_shouldFail() throws Exception {
+  public void testConstructor_shouldFail() {
     try {
       new NullPointerTester().testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
     } catch (AssertionError expected) {

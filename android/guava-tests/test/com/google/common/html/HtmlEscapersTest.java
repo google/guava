@@ -30,7 +30,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class HtmlEscapersTest extends TestCase {
 
-  public void testHtmlEscaper() throws Exception {
+  public void testHtmlEscaper() {
     assertThat(htmlEscaper().escape("xxx")).isEqualTo("xxx");
     assertThat(htmlEscaper().escape("\"test\"")).isEqualTo("&quot;test&quot;");
     assertThat(htmlEscaper().escape("'test'")).isEqualTo("&#39;test&#39;");

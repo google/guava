@@ -103,7 +103,7 @@ public class FeatureEnumTest extends TestCase {
     }
   }
 
-  public void testFeatureEnums() throws Exception {
+  public void testFeatureEnums() {
     assertGoodFeatureEnum(CollectionFeature.class);
     assertGoodFeatureEnum(ListFeature.class);
     assertGoodFeatureEnum(SetFeature.class);

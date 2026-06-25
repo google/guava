@@ -56,7 +56,7 @@ public class TestingExecutorsTest extends TestCase {
     assertTrue(executor.isTerminated());
   }
 
-  public void testNoOpScheduledExecutorInvokeAll() throws ExecutionException, InterruptedException {
+  public void testNoOpScheduledExecutorInvokeAll() throws InterruptedException {
     ListeningScheduledExecutorService executor = TestingExecutors.noOpScheduledExecutor();
     taskDone = false;
     Callable<Boolean> task =
@@ -84,7 +84,7 @@ public class TestingExecutorsTest extends TestCase {
     assertEquals(6, (int) future.get());
   }
 
-  public void testSameThreadScheduledExecutorWithException() throws InterruptedException {
+  public void testSameThreadScheduledExecutorWithException() {
     Runnable runnable =
         () -> {
           throw new RuntimeException("Oh no!");

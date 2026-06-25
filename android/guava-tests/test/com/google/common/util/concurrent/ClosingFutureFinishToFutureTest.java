@@ -33,7 +33,7 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtIncompatible
 @J2ktIncompatible
 public class ClosingFutureFinishToFutureTest extends AbstractClosingFutureTest {
-  public void testFinishToFuture_throwsIfCalledTwice() throws Exception {
+  public void testFinishToFuture_throwsIfCalledTwice() {
     ClosingFuture<Closeable> closingFuture =
         ClosingFuture.submit(closer -> closer.eventuallyClose(mockCloseable, executor), executor);
     FluentFuture<Closeable> unused = closingFuture.finishToFuture();
@@ -44,7 +44,7 @@ public class ClosingFutureFinishToFutureTest extends AbstractClosingFutureTest {
         });
   }
 
-  public void testFinishToFuture_throwsAfterCallingFinishToValueAndCloser() throws Exception {
+  public void testFinishToFuture_throwsAfterCallingFinishToValueAndCloser() {
     ClosingFuture<Closeable> closingFuture =
         ClosingFuture.submit(closer -> closer.eventuallyClose(mockCloseable, executor), executor);
     closingFuture.finishToValueAndCloser(new NoOpValueAndCloserConsumer<>(), directExecutor());
@@ -72,7 +72,7 @@ public class ClosingFutureFinishToFutureTest extends AbstractClosingFutureTest {
   }
 
   @Override
-  void assertBecomesCanceled(ClosingFuture<?> closingFuture) throws ExecutionException {
+  void assertBecomesCanceled(ClosingFuture<?> closingFuture) {
     assertThatFutureBecomesCancelled(closingFuture.finishToFuture());
   }
 

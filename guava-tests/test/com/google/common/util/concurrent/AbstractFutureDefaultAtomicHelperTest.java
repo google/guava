@@ -33,7 +33,7 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtIncompatible
 @J2ktIncompatible
 public class AbstractFutureDefaultAtomicHelperTest extends TestCase {
-  public void testUsingExpectedAtomicHelper() throws Exception {
+  public void testUsingExpectedAtomicHelper() {
     if (isJava8() || isAndroid()) {
       assertThat(AbstractFutureState.atomicHelperTypeForTest()).isEqualTo("UnsafeAtomicHelper");
     } else {

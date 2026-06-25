@@ -31,7 +31,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class ReflectionTest extends TestCase {
 
-  public void testGetPackageName() throws Exception {
+  public void testGetPackageName() {
     assertThat(Reflection.getPackageName(Iterable.class)).isEqualTo("java.lang");
     assertThat(Reflection.getPackageName("java.MyType")).isEqualTo("java");
     assertThat(Reflection.getPackageName(Iterable.class.getName())).isEqualTo("java.lang");
@@ -39,12 +39,12 @@ public class ReflectionTest extends TestCase {
     assertThat(Reflection.getPackageName(Map.Entry.class)).isEqualTo("java.util");
   }
 
-  public void testNewProxy() throws Exception {
+  public void testNewProxy() {
     Runnable runnable = Reflection.newProxy(Runnable.class, X_RETURNER);
     assertThat(runnable.toString()).isEqualTo("x");
   }
 
-  public void testNewProxyCantWorkOnAClass() throws Exception {
+  public void testNewProxyCantWorkOnAClass() {
     assertThrows(
         IllegalArgumentException.class, () -> Reflection.newProxy(Object.class, X_RETURNER));
   }

@@ -41,7 +41,7 @@ public class TypeTokenSubtypeTest extends TestCase {
    * This test reproduces the bug in canonicalizeWildcardType() when the type variable is
    * recursively bounded.
    */
-  public void testRecursiveWildcardSubtypeBug() throws Exception {
+  public void testRecursiveWildcardSubtypeBug() {
     Exception e =
         assertThrows(
             Exception.class, () -> new RecursiveTypeBoundBugExample<>().testAllDeclarations());

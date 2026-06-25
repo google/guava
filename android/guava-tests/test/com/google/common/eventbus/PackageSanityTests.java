@@ -45,7 +45,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
     @Subscribe
     public void handle(@Nullable Object unused) {}
 
-    Subscriber toSubscriber() throws Exception {
+    Subscriber toSubscriber() {
       return Subscriber.create(eventBus, this, subscriberMethod());
     }
 

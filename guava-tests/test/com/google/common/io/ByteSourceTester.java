@@ -175,7 +175,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
     assertEquals(expected.length, source.size());
   }
 
-  public void testSizeIfKnown() throws IOException {
+  public void testSizeIfKnown() {
     Optional<Long> sizeIfKnown = source.sizeIfKnown();
     if (sizeIfKnown.isPresent()) {
       assertEquals(expected.length, (long) sizeIfKnown.get());

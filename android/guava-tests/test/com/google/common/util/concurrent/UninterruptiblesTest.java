@@ -104,7 +104,7 @@ public class UninterruptiblesTest extends TestCase {
     }
   }
 
-  public void testNull() throws Exception {
+  public void testNull() {
     new NullPointerTester()
         .setDefault(CountDownLatch.class, new CountDownLatch(0))
         .setDefault(Semaphore.class, new Semaphore(999))

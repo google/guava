@@ -76,7 +76,7 @@ public class ByteSourceTest extends IoTestCase {
   private TestByteSource source;
 
   @Override
-  protected void setUp() throws Exception {
+  protected void setUp() {
     source = new TestByteSource(bytes);
   }
 

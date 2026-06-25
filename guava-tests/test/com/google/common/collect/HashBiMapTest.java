@@ -94,7 +94,7 @@ public class HashBiMapTest extends TestCase {
 
   private static final int N = 1000;
 
-  public void testBashIt() throws Exception {
+  public void testBashIt() {
     BiMap<Integer, Integer> bimap = HashBiMap.create(N);
     BiMap<Integer, Integer> inverse = bimap.inverse();
 

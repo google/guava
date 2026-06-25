@@ -137,7 +137,7 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // SerializableTester
-  public void testMemoizeNonSerializable() throws Exception {
+  public void testMemoizeNonSerializable() {
     CountingSupplier countingSupplier = new CountingSupplier();
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
     assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
@@ -154,7 +154,7 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // SerializableTester
-  public void testMemoizeSerializable() throws Exception {
+  public void testMemoizeSerializable() {
     SerializableCountingSupplier countingSupplier = new SerializableCountingSupplier();
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
     assertThat(memoizedSupplier.toString()).isEqualTo("Suppliers.memoize(CountingSupplier)");
@@ -223,7 +223,7 @@ public class SuppliersTest extends TestCase {
   }
 
   @SuppressWarnings("DoNotCall")
-  public void testMemoizeWithExpiration_longTimeUnitNegative() throws InterruptedException {
+  public void testMemoizeWithExpiration_longTimeUnitNegative() {
     assertThrows(
         IllegalArgumentException.class,
         () -> Suppliers.memoizeWithExpiration(() -> "", 0, MILLISECONDS));
@@ -235,7 +235,7 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible // Duration
   @GwtIncompatible // Duration
-  public void testMemoizeWithExpiration_durationNegative() throws InterruptedException {
+  public void testMemoizeWithExpiration_durationNegative() {
     assertThrows(
         IllegalArgumentException.class,
         () -> Suppliers.memoizeWithExpiration(() -> "", Duration.ZERO));

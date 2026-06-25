@@ -147,7 +147,7 @@ public class EventBusTest extends TestCase {
         handler.context.getSubscriberMethod());
   }
 
-  public void testSubscriberThrowsExceptionHandlerThrowsException() throws Exception {
+  public void testSubscriberThrowsExceptionHandlerThrowsException() {
     EventBus eventBus =
         new EventBus(
             new SubscriberExceptionHandler() {
@@ -254,7 +254,7 @@ public class EventBusTest extends TestCase {
     }
   }
 
-  public void testToString() throws Exception {
+  public void testToString() {
     EventBus eventBus = new EventBus("a b ; - \" < > / \\ €");
     assertThat(eventBus.toString()).isEqualTo("EventBus{a b ; - \" < > / \\ €}");
   }

@@ -219,7 +219,7 @@ public class ServiceManagerTest extends TestCase {
     assertTrue(listener.failedServices.isEmpty());
   }
 
-  public void testFailStart() throws Exception {
+  public void testFailStart() {
     Service a = new NoOpService();
     Service b = new FailStartService();
     Service c = new NoOpService();
@@ -242,7 +242,7 @@ public class ServiceManagerTest extends TestCase {
     assertTrue(listener.stoppedCalled);
   }
 
-  public void testFailRun() throws Exception {
+  public void testFailRun() {
     Service a = new NoOpService();
     Service b = new FailRunService();
     ServiceManager manager = new ServiceManager(asList(a, b));
@@ -260,7 +260,7 @@ public class ServiceManagerTest extends TestCase {
     assertTrue(listener.stoppedCalled);
   }
 
-  public void testFailStop() throws Exception {
+  public void testFailStop() {
     Service a = new NoOpService();
     Service b = new FailStopService();
     Service c = new NoOpService();
@@ -279,7 +279,7 @@ public class ServiceManagerTest extends TestCase {
     assertState(manager, Service.State.TERMINATED, a, c);
   }
 
-  public void testToString() throws Exception {
+  public void testToString() {
     Service a = new NoOpService();
     Service b = new FailStartService();
     ServiceManager manager = new ServiceManager(asList(a, b));

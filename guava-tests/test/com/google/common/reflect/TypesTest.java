@@ -53,7 +53,7 @@ import org.jspecify.annotations.NullUnmarked;
 @AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 @NullUnmarked
 public class TypesTest extends TestCase {
-  public void testNewParameterizedType_ownerTypeImplied() throws Exception {
+  public void testNewParameterizedType_ownerTypeImplied() {
     ParameterizedType jvmType =
         (ParameterizedType) new TypeCapture<Entry<String, Integer>>() {}.capture();
     ParameterizedType ourType = newParameterizedType(Entry.class, String.class, Integer.class);
@@ -325,7 +325,7 @@ public class TypesTest extends TestCase {
         () -> newArtificialTypeVariable(List.class, "E", int.class));
   }
 
-  public void testNewTypeVariable_serializable() throws Exception {
+  public void testNewTypeVariable_serializable() {
     assertThrows(
         RuntimeException.class, () -> reserialize(newArtificialTypeVariable(List.class, "E")));
   }

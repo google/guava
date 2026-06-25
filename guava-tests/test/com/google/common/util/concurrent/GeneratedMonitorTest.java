@@ -513,7 +513,7 @@ public class GeneratedMonitorTest extends TestCase {
   }
 
   @Override
-  protected void tearDown() throws Exception {
+  protected void tearDown() {
     // We don't want to leave stray threads running after each test. At this point, every thread
     // launched by this test is either:
     //

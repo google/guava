@@ -32,7 +32,7 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtIncompatible
 @J2ktIncompatible
 public class AggregateFutureStateDefaultAtomicHelperTest extends TestCase {
-  public void testUsingExpectedAtomicHelper() throws Exception {
+  public void testUsingExpectedAtomicHelper() {
     assertThat(AggregateFutureState.atomicHelperTypeForTest()).isEqualTo("SafeAtomicHelper");
   }
 }

@@ -51,7 +51,7 @@ import org.jspecify.annotations.NullUnmarked;
 public class JdkFutureAdaptersTest extends TestCase {
   private static final String DATA1 = "data";
 
-  public void testListenInPoolThreadReturnsSameFuture() throws Exception {
+  public void testListenInPoolThreadReturnsSameFuture() {
     ListenableFuture<String> listenableFuture = immediateFuture(DATA1);
     assertThat(listenInPoolThread(listenableFuture)).isSameInstanceAs(listenableFuture);
   }

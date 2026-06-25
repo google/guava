@@ -482,7 +482,7 @@ public class TypeTokenResolutionTest extends TestCase {
     assertEquals(String.class, wildcardType.getUpperBounds()[0]);
   }
 
-  public void testInterfaceTypeParameterResolution() throws Exception {
+  public void testInterfaceTypeParameterResolution() {
     assertEquals(
         String.class,
         TypeToken.of(new TypeToken<ArrayList<String>>() {}.getType())

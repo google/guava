@@ -47,11 +47,11 @@ public class FuturesGetDoneTest extends TestCase {
     assertThat(expected).hasCauseThat().isEqualTo(failureCause);
   }
 
-  public void testCancelled() throws ExecutionException {
+  public void testCancelled() {
     assertThrows(CancellationException.class, () -> getDone(immediateCancelledFuture()));
   }
 
-  public void testPending() throws ExecutionException {
+  public void testPending() {
     assertThrows(IllegalStateException.class, () -> getDone(SettableFuture.create()));
   }
 }

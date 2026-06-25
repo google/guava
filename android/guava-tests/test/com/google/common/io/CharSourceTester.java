@@ -165,7 +165,7 @@ public class CharSourceTester extends SourceSinkTester<CharSource, String, CharS
     assertEquals(expected.length(), source.length());
   }
 
-  public void testLengthIfKnown() throws IOException {
+  public void testLengthIfKnown() {
     Optional<Long> lengthIfKnown = source.lengthIfKnown();
     if (lengthIfKnown.isPresent()) {
       assertEquals(expected.length(), (long) lengthIfKnown.get());

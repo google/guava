@@ -144,7 +144,7 @@ public class AbstractFutureTest extends TestCase {
     checkStackTrace(ee2);
   }
 
-  public void testCancel_notDoneNoInterrupt() throws Exception {
+  public void testCancel_notDoneNoInterrupt() {
     InterruptibleFuture future = new InterruptibleFuture();
     assertTrue(future.cancel(false));
     assertTrue(future.isCancelled());
@@ -155,7 +155,7 @@ public class AbstractFutureTest extends TestCase {
     assertThat(e).hasCauseThat().isNull();
   }
 
-  public void testCancel_notDoneInterrupt() throws Exception {
+  public void testCancel_notDoneInterrupt() {
     InterruptibleFuture future = new InterruptibleFuture();
     assertTrue(future.cancel(true));
     assertTrue(future.isCancelled());
@@ -166,7 +166,7 @@ public class AbstractFutureTest extends TestCase {
     assertThat(e).hasCauseThat().isNull();
   }
 
-  public void testCancel_done() throws Exception {
+  public void testCancel_done() {
     AbstractFuture<String> future =
         new AbstractFuture<String>() {
           {
@@ -188,7 +188,7 @@ public class AbstractFutureTest extends TestCase {
     assertThat(future.get(0, SECONDS)).isEqualTo("foo");
   }
 
-  public void testEvilFuture_setFuture() throws Exception {
+  public void testEvilFuture_setFuture() {
     RuntimeException exception = new RuntimeException("you didn't say the magic word!");
     AbstractFuture<String> evilFuture =
         new AbstractFuture<String>() {
@@ -254,12 +254,12 @@ public class AbstractFutureTest extends TestCase {
     poller.join();
   }
 
-  public void testToString_allUnique() throws Exception {
+  public void testToString_allUnique() {
     // Two futures should not have the same toString, to avoid people asserting on it
     assertThat(SettableFuture.create().toString()).isNotEqualTo(SettableFuture.create().toString());
   }
 
-  public void testToString_oom() throws Exception {
+  public void testToString_oom() {
     SettableFuture<Object> future = SettableFuture.create();
     future.set(
         new Object() {
@@ -298,7 +298,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   @J2ktIncompatible // J2KT TimeoutException lacks message
-  public void testToString_notDone() throws Exception {
+  public void testToString_notDone() {
     AbstractFuture<Object> testFuture =
         new AbstractFuture<Object>() {
           @Override
@@ -315,7 +315,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   @J2ktIncompatible // J2KT Exception lacks message
-  public void testToString_completesDuringToString() throws Exception {
+  public void testToString_completesDuringToString() {
     AbstractFuture<Object> testFuture =
         new AbstractFuture<Object>() {
           @Override
@@ -382,7 +382,7 @@ public class AbstractFutureTest extends TestCase {
   }
 
   @J2ktIncompatible // J2KT Exception lacks message
-  public void testToString_completed() throws Exception {
+  public void testToString_completed() {
     AbstractFuture<Object> testFuture2 =
         new AbstractFuture<Object>() {
           @Override
@@ -401,7 +401,7 @@ public class AbstractFutureTest extends TestCase {
         .matches("[^\\[]+\\[status=SUCCESS, result=\\[java.lang.String@\\w+\\]\\]");
   }
 
-  public void testToString_cancelled() throws Exception {
+  public void testToString_cancelled() {
     assertThat(immediateCancelledFuture().toString()).matches("[^\\[]+\\[status=CANCELLED\\]");
   }
 
@@ -410,7 +410,7 @@ public class AbstractFutureTest extends TestCase {
         .matches("[^\\[]+\\[status=FAILURE, cause=\\[java.lang.RuntimeException: foo\\]\\]");
   }
 
-  public void testToString_misbehaving() throws Exception {
+  public void testToString_misbehaving() {
     assertThat(
             new AbstractFuture<Object>() {
               @Override
@@ -903,7 +903,7 @@ public class AbstractFutureTest extends TestCase {
     assertThat(expected).hasCauseThat().hasMessageThat().contains(badFuture.toString());
   }
 
-  public void testSetFuture_misbehavingFutureDoesNotThrow() throws Exception {
+  public void testSetFuture_misbehavingFutureDoesNotThrow() {
     SettableFuture<String> future = SettableFuture.create();
     ListenableFuture<String> badFuture =
         new ListenableFuture<String>() {
@@ -1111,7 +1111,7 @@ public class AbstractFutureTest extends TestCase {
     assertThat(future.doTryInternalFastPathGetFailure()).isNull();
   }
 
-  public void testForwardExceptionFastPath() throws Exception {
+  public void testForwardExceptionFastPath() {
     class FailFuture extends InternalFutureFailureAccess implements ListenableFuture<String> {
       final Throwable failure;
 
@@ -1135,13 +1135,12 @@ public class AbstractFutureTest extends TestCase {
       }
 
       @Override
-      public String get() throws InterruptedException, ExecutionException {
+      public String get() {
         throw new AssertionFailedError("get() shouldn't be called on this object");
       }
 
       @Override
-      public String get(long timeout, TimeUnit unit)
-          throws InterruptedException, ExecutionException, TimeoutException {
+      public String get(long timeout, TimeUnit unit) {
         return get();
       }
 

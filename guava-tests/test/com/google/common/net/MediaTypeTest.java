@@ -60,7 +60,7 @@ import org.jspecify.annotations.NullUnmarked;
 public class MediaTypeTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // reflection
-  public void testParse_useConstants() throws Exception {
+  public void testParse_useConstants() {
     for (MediaType constant : getConstants()) {
       assertThat(MediaType.parse(constant.toString())).isSameInstanceAs(constant);
     }
@@ -68,7 +68,7 @@ public class MediaTypeTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // reflection
-  public void testCreate_useConstants() throws Exception {
+  public void testCreate_useConstants() {
     for (MediaType constant : getConstants()) {
       assertThat(
               MediaType.create(constant.type(), constant.subtype())

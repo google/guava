@@ -205,7 +205,7 @@ public class PeekingIteratorTest extends TestCase {
     }
   }
 
-  public void testPeekingIteratorDoesntAdvancePrematurely() throws Exception {
+  public void testPeekingIteratorDoesntAdvancePrematurely() {
     /*
      * This test will catch problems where the underlying iterator
      * throws a RuntimeException when retrieving the nth element.

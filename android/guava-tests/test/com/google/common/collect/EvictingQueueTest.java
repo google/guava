@@ -39,11 +39,11 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public class EvictingQueueTest extends TestCase {
 
-  public void testCreateWithNegativeSize() throws Exception {
+  public void testCreateWithNegativeSize() {
     assertThrows(IllegalArgumentException.class, () -> EvictingQueue.create(-1));
   }
 
-  public void testCreateWithZeroSize() throws Exception {
+  public void testCreateWithZeroSize() {
     EvictingQueue<String> queue = EvictingQueue.create(0);
     assertEquals(0, queue.size());
 
@@ -86,7 +86,7 @@ public class EvictingQueueTest extends TestCase {
     assertEquals(0, queue.remainingCapacity());
   }
 
-  public void testEvictingAfterOne() throws Exception {
+  public void testEvictingAfterOne() {
     EvictingQueue<String> queue = EvictingQueue.create(1);
     assertEquals(0, queue.size());
     assertEquals(1, queue.remainingCapacity());
@@ -108,7 +108,7 @@ public class EvictingQueueTest extends TestCase {
     assertEquals(1, queue.remainingCapacity());
   }
 
-  public void testEvictingAfterThree() throws Exception {
+  public void testEvictingAfterThree() {
     EvictingQueue<String> queue = EvictingQueue.create(3);
     assertEquals(0, queue.size());
     assertEquals(3, queue.remainingCapacity());
@@ -132,7 +132,7 @@ public class EvictingQueueTest extends TestCase {
     assertEquals(1, queue.remainingCapacity());
   }
 
-  public void testAddAll() throws Exception {
+  public void testAddAll() {
     EvictingQueue<String> queue = EvictingQueue.create(3);
     assertEquals(0, queue.size());
     assertEquals(3, queue.remainingCapacity());

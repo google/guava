@@ -148,7 +148,7 @@ public class HashingInputStreamTest extends TestCase {
     assertEquals(expectedHash, in.hash());
   }
 
-  public void testChecksForNull() throws Exception {
+  public void testChecksForNull() {
     NullPointerTester tester = new NullPointerTester();
 
     tester.testAllPublicInstanceMethods(new HashingInputStream(sha512(), buffer));

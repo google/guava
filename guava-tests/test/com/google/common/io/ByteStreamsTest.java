@@ -530,7 +530,7 @@ public class ByteStreamsTest extends IoTestCase {
     assertThat(ByteStreams.nullOutputStream()).isSameInstanceAs(ByteStreams.nullOutputStream());
   }
 
-  public void testNullOutputStream_exceptions() throws Exception {
+  public void testNullOutputStream_exceptions() {
     OutputStream nos = ByteStreams.nullOutputStream();
     assertThrows(NullPointerException.class, () -> nos.write(null));
     assertThrows(NullPointerException.class, () -> nos.write(null, 0, 1));
@@ -628,7 +628,7 @@ public class ByteStreamsTest extends IoTestCase {
 
   private static class UnmarkableInputStream extends InputStream {
     @Override
-    public int read() throws IOException {
+    public int read() {
       return 0;
     }
 

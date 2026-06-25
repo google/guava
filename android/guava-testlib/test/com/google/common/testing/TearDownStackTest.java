@@ -34,7 +34,7 @@ public class TearDownStackTest extends TestCase {
 
   private final TearDownStack tearDownStack = new TearDownStack();
 
-  public void testSingleTearDown() throws Exception {
+  public void testSingleTearDown() {
     TearDownStack stack = buildTearDownStack();
 
     SimpleTearDown tearDown = new SimpleTearDown();
@@ -47,7 +47,7 @@ public class TearDownStackTest extends TestCase {
     assertEquals("tearDown should have run", true, tearDown.ran);
   }
 
-  public void testMultipleTearDownsHappenInOrder() throws Exception {
+  public void testMultipleTearDownsHappenInOrder() {
     TearDownStack stack = buildTearDownStack();
 
     SimpleTearDown tearDownOne = new SimpleTearDown();
@@ -74,7 +74,7 @@ public class TearDownStackTest extends TestCase {
     assertEquals("tearDownTwo should have run", true, tearDownTwo.ran);
   }
 
-  public void testThrowingTearDown() throws Exception {
+  public void testThrowingTearDown() {
     TearDownStack stack = buildTearDownStack();
 
     ThrowingTearDown tearDownOne = new ThrowingTearDown("one");

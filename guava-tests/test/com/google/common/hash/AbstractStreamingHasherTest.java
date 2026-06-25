@@ -132,7 +132,7 @@ public class AbstractStreamingHasherTest extends TestCase {
    * process()/processRemaining() invocations, due to alignment.
    */
   @AndroidIncompatible // slow. TODO(cpovirk): Maybe just reduce iterations under Android.
-  public void testExhaustive() throws Exception {
+  public void testExhaustive() {
     Random random = new Random(0); // will iteratively make more debuggable, each time it breaks
     for (int totalInsertions = 0; totalInsertions < 200; totalInsertions++) {
 

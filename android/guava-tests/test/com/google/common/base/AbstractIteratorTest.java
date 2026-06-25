@@ -82,7 +82,7 @@ public class AbstractIteratorTest extends TestCase {
     assertThrows(NoSuchElementException.class, iter::next);
   }
 
-  public void testSneakyThrow() throws Exception {
+  public void testSneakyThrow() {
     Iterator<Integer> iter =
         new AbstractIterator<Integer>() {
           boolean haveBeenCalled;

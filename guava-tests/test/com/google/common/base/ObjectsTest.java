@@ -40,7 +40,7 @@ public class ObjectsTest extends TestCase {
     "EqualsFloat", // b/273939864
     "YodaCondition", // test of reversed call
   })
-  public void testEqual() throws Exception {
+  public void testEqual() {
     assertTrue(Objects.equal(1, 1));
     assertTrue(Objects.equal(null, null));
 
@@ -55,7 +55,7 @@ public class ObjectsTest extends TestCase {
     assertFalse(Objects.equal("1", 1));
   }
 
-  public void testHashCode() throws Exception {
+  public void testHashCode() {
     int h1 = Objects.hashCode(1, "two", 3.0);
     int h2 = Objects.hashCode(Integer.valueOf(1), new String("two"), Double.valueOf(3.0));
     // repeatable

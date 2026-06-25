@@ -387,7 +387,7 @@ public class MapsTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> newEnumMap(original));
   }
 
-  public void testToStringImplWithNullKeys() throws Exception {
+  public void testToStringImplWithNullKeys() {
     Map<@Nullable String, String> hashmap = new HashMap<>();
     hashmap.put("foo", "bar");
     hashmap.put(null, "baz");
@@ -395,7 +395,7 @@ public class MapsTest extends TestCase {
     assertThat(Maps.toStringImpl(hashmap)).isEqualTo(hashmap.toString());
   }
 
-  public void testToStringImplWithNullValues() throws Exception {
+  public void testToStringImplWithNullValues() {
     Map<String, @Nullable String> hashmap = new HashMap<>();
     hashmap.put("foo", "bar");
     hashmap.put("baz", null);
@@ -1067,7 +1067,7 @@ public class MapsTest extends TestCase {
     assertThrows(ClassCastException.class, () -> Maps.fromProperties(properties));
   }
 
-  public void testAsConverter_nominal() throws Exception {
+  public void testAsConverter_nominal() {
     ImmutableBiMap<String, Integer> biMap =
         ImmutableBiMap.of(
             "one", 1,
@@ -1078,7 +1078,7 @@ public class MapsTest extends TestCase {
     }
   }
 
-  public void testAsConverter_inverse() throws Exception {
+  public void testAsConverter_inverse() {
     ImmutableBiMap<String, Integer> biMap =
         ImmutableBiMap.of(
             "one", 1,
@@ -1089,7 +1089,7 @@ public class MapsTest extends TestCase {
     }
   }
 
-  public void testAsConverter_noMapping() throws Exception {
+  public void testAsConverter_noMapping() {
     ImmutableBiMap<String, Integer> biMap =
         ImmutableBiMap.of(
             "one", 1,
@@ -1098,7 +1098,7 @@ public class MapsTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> converter.convert("three"));
   }
 
-  public void testAsConverter_nullConversions() throws Exception {
+  public void testAsConverter_nullConversions() {
     ImmutableBiMap<String, Integer> biMap =
         ImmutableBiMap.of(
             "one", 1,
@@ -1108,7 +1108,7 @@ public class MapsTest extends TestCase {
     assertThat(converter.reverse().convert(null)).isNull();
   }
 
-  public void testAsConverter_isAView() throws Exception {
+  public void testAsConverter_isAView() {
     BiMap<String, Integer> biMap = HashBiMap.create();
     biMap.put("one", 1);
     biMap.put("two", 2);
@@ -1125,7 +1125,7 @@ public class MapsTest extends TestCase {
     assertEquals((Integer) 3, converter.convert("three"));
   }
 
-  public void testAsConverter_withNullMapping() throws Exception {
+  public void testAsConverter_withNullMapping() {
     BiMap<String, @Nullable Integer> biMap = HashBiMap.create();
     biMap.put("one", 1);
     biMap.put("two", 2);

@@ -539,7 +539,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     tester.test();
   }
 
-  public void testIteratorTester() throws Exception {
+  public void testIteratorTester() {
     Random random = new Random(0);
     List<Integer> list = new ArrayList<>();
     for (int i = 0; i < 3; i++) {
@@ -548,7 +548,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     runIterator(list, 6);
   }
 
-  public void testIteratorTesterLarger() throws Exception {
+  public void testIteratorTesterLarger() {
     runIterator(newArrayList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), 5);
   }
 

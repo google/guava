@@ -601,7 +601,7 @@ public class BloomFilterTest extends TestCase {
         .isEqualTo("longArraySize (-1) must be >= 0");
   }
 
-  public void testReadFromWithNegativeMaxAllowedSizeInBits() throws Exception {
+  public void testReadFromWithNegativeMaxAllowedSizeInBits() {
     Funnel<byte[]> funnel = byteArrayFunnel();
     ByteArrayInputStream emptyStream = new ByteArrayInputStream(new byte[] {});
 
@@ -626,7 +626,7 @@ public class BloomFilterTest extends TestCase {
   }
 
 
-  public void testNoRaceConditions() throws Exception {
+  public void testNoRaceConditions() {
     BloomFilter<Integer> bloomFilter = BloomFilter.create(integerFunnel(), 15_000_000, 0.01);
 
     // This check has to be BEFORE the loop because the random insertions can

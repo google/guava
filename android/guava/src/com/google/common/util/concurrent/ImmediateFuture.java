@@ -18,7 +18,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.util.concurrent.AbstractFuture.TrustedFuture;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
@@ -73,7 +72,7 @@ class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V>
 
   @Override
   @ParametricNullness
-  public V get(long timeout, TimeUnit unit) throws ExecutionException {
+  public V get(long timeout, TimeUnit unit) {
     checkNotNull(unit);
     return get();
   }

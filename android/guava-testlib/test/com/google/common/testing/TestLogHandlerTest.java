@@ -53,7 +53,7 @@ public class TestLogHandlerTest extends TestCase {
         });
   }
 
-  public void test() throws Exception {
+  public void test() {
     assertTrue(handler.getStoredLogRecords().isEmpty());
     ExampleClassUnderTest.foo();
     LogRecord record = handler.getStoredLogRecords().get(0);
@@ -62,7 +62,7 @@ public class TestLogHandlerTest extends TestCase {
     assertThat(record.getThrown()).isEqualTo(EXCEPTION);
   }
 
-  public void testConcurrentModification() throws Exception {
+  public void testConcurrentModification() {
     // Tests for the absence of a bug where logging while iterating over the
     // stored log records causes a ConcurrentModificationException
     assertTrue(handler.getStoredLogRecords().isEmpty());

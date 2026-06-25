@@ -42,7 +42,7 @@ public class SubscriberTest extends TestCase {
   private @Nullable Object methodArgument;
 
   @Override
-  protected void setUp() throws Exception {
+  protected void setUp() {
     bus = new EventBus();
     methodCalled = false;
     methodArgument = null;
@@ -69,7 +69,7 @@ public class SubscriberTest extends TestCase {
         methodArgument == FIXTURE_ARGUMENT);
   }
 
-  public void testInvokeSubscriberMethod_exceptionWrapping() throws Throwable {
+  public void testInvokeSubscriberMethod_exceptionWrapping() {
     Method method = getTestSubscriberMethod("exceptionThrowingMethod");
     Subscriber subscriber = Subscriber.create(bus, this, method);
 
@@ -80,7 +80,7 @@ public class SubscriberTest extends TestCase {
     assertThat(expected).hasCauseThat().isInstanceOf(IntentionalException.class);
   }
 
-  public void testInvokeSubscriberMethod_errorPassthrough() throws Throwable {
+  public void testInvokeSubscriberMethod_errorPassthrough() {
     Method method = getTestSubscriberMethod("errorThrowingMethod");
     Subscriber subscriber = Subscriber.create(bus, this, method);
 

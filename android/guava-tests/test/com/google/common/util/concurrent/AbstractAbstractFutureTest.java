@@ -72,35 +72,35 @@ abstract class AbstractAbstractFutureTest<
     assertSuccessful(future, 1);
   }
 
-  public void testFailed() throws Exception {
+  public void testFailed() {
     Exception cause = new Exception();
     assertThat(future.doSetException(cause)).isTrue();
     assertFailed(future, cause);
   }
 
-  public void testCanceled() throws Exception {
+  public void testCanceled() {
     assertThat(future.cancel(/* mayInterruptIfRunning= */ false)).isTrue();
     assertCancelled(future, false);
   }
 
-  public void testInterrupted() throws Exception {
+  public void testInterrupted() {
     assertThat(future.cancel(/* mayInterruptIfRunning= */ true)).isTrue();
     assertCancelled(future, true);
   }
 
-  public void testSetFuturePending() throws Exception {
+  public void testSetFuturePending() {
     assertThat(future.doSetFuture(delegate)).isTrue();
     assertSetAsynchronously(future);
   }
 
-  public void testSetFutureThenCancel() throws Exception {
+  public void testSetFutureThenCancel() {
     assertThat(future.doSetFuture(delegate)).isTrue();
     assertThat(future.cancel(/* mayInterruptIfRunning= */ false)).isTrue();
     assertCancelled(future, false);
     assertCancelled(delegate, false);
   }
 
-  public void testSetFutureThenInterrupt() throws Exception {
+  public void testSetFutureThenInterrupt() {
     assertThat(future.doSetFuture(delegate)).isTrue();
     assertThat(future.cancel(/* mayInterruptIfRunning= */ true)).isTrue();
     assertCancelled(future, true);
@@ -119,25 +119,25 @@ abstract class AbstractAbstractFutureTest<
     assertSuccessful(future, 6);
   }
 
-  public void testSetFutureDelegateAlreadyCancelled() throws Exception {
+  public void testSetFutureDelegateAlreadyCancelled() {
     delegate.cancel(/* mayInterruptIfRunning= */ false);
     assertThat(future.doSetFuture(delegate)).isTrue();
     assertCancelled(future, false);
   }
 
-  public void testSetFutureDelegateLaterCancelled() throws Exception {
+  public void testSetFutureDelegateLaterCancelled() {
     assertThat(future.doSetFuture(delegate)).isTrue();
     delegate.cancel(/* mayInterruptIfRunning= */ false);
     assertCancelled(future, false);
   }
 
-  public void testSetFutureDelegateAlreadyInterrupted() throws Exception {
+  public void testSetFutureDelegateAlreadyInterrupted() {
     delegate.cancel(/* mayInterruptIfRunning= */ true);
     assertThat(future.doSetFuture(delegate)).isTrue();
     assertCancelled(future, /* expectWasInterrupted= */ false);
   }
 
-  public void testSetFutureDelegateLaterInterrupted() throws Exception {
+  public void testSetFutureDelegateLaterInterrupted() {
     assertThat(future.doSetFuture(delegate)).isTrue();
     delegate.cancel(/* mayInterruptIfRunning= */ true);
     assertCancelled(future, /* expectWasInterrupted= */ false);
@@ -330,7 +330,7 @@ abstract class AbstractAbstractFutureTest<
   }
 
   @SuppressWarnings("nullness") // test of a bogus call
-  public void testNullTimeUnit() throws Exception {
+  public void testNullTimeUnit() {
     future.doSet(1);
     assertThrows(NullPointerException.class, () -> future.get(0, null));
   }

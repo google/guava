@@ -44,7 +44,7 @@ public class TypeParameterTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> new TypeParameter<String>() {});
   }
 
-  public <A, B> void testEquals() throws Exception {
+  public <A, B> void testEquals() {
     new EqualsTester()
         .addEqualityGroup(new TypeParameter<A>() {}, new TypeParameter<A>() {})
         .addEqualityGroup(new TypeParameter<B>() {})

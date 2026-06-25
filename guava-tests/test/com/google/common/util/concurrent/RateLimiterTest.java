@@ -470,7 +470,7 @@ public class RateLimiterTest extends TestCase {
     tester.testInstanceMethods(RateLimiter.create(5.0, stopwatch), Visibility.PACKAGE);
   }
 
-  public void testVerySmallDoubleValues() throws Exception {
+  public void testVerySmallDoubleValues() {
     RateLimiter rateLimiter = RateLimiter.create(Double.MIN_VALUE, stopwatch);
     assertTrue("Should acquire initial permit", rateLimiter.tryAcquire());
     assertFalse("Should not acquire additional permit", rateLimiter.tryAcquire());

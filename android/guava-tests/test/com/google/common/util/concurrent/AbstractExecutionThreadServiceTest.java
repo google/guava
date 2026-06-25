@@ -293,7 +293,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
   }
 
-  public void testServiceTimeoutOnStartUp() throws Exception {
+  public void testServiceTimeoutOnStartUp() {
     TimeoutOnStartUp service = new TimeoutOnStartUp();
 
     TimeoutException e =
@@ -315,7 +315,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     protected void run() {}
   }
 
-  public void testStopWhileStarting_runNotCalled() throws Exception {
+  public void testStopWhileStarting_runNotCalled() {
     CountDownLatch started = new CountDownLatch(1);
     FakeService service =
         new FakeService() {
@@ -397,7 +397,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
 
     @Override
-    protected void run() throws Exception {
+    protected void run() {
       assertEquals(1, startupCalled);
       assertEquals(0, runCalled);
       assertEquals(0, shutdownCalled);
@@ -405,7 +405,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
 
     @Override
-    protected void shutDown() throws Exception {
+    protected void shutDown() {
       assertEquals(1, startupCalled);
       assertEquals(0, shutdownCalled);
       assertThat(state()).isEqualTo(State.STOPPING);
@@ -418,7 +418,7 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     }
 
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() {
       executor.shutdown();
     }
   }

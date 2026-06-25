@@ -235,7 +235,7 @@ public class SourceSinkFactories {
   private static class StringSourceFactory implements CharSourceFactory {
 
     @Override
-    public CharSource createSource(String data) throws IOException {
+    public CharSource createSource(String data) {
       return CharSource.wrap(data);
     }
 
@@ -245,13 +245,13 @@ public class SourceSinkFactories {
     }
 
     @Override
-    public void tearDown() throws IOException {}
+    public void tearDown() {}
   }
 
   private static class ByteArraySourceFactory implements ByteSourceFactory {
 
     @Override
-    public ByteSource createSource(byte[] bytes) throws IOException {
+    public ByteSource createSource(byte[] bytes) {
       return ByteSource.wrap(bytes);
     }
 
@@ -261,13 +261,13 @@ public class SourceSinkFactories {
     }
 
     @Override
-    public void tearDown() throws IOException {}
+    public void tearDown() {}
   }
 
   private static class EmptyCharSourceFactory implements CharSourceFactory {
 
     @Override
-    public CharSource createSource(String data) throws IOException {
+    public CharSource createSource(String data) {
       return CharSource.empty();
     }
 
@@ -277,13 +277,13 @@ public class SourceSinkFactories {
     }
 
     @Override
-    public void tearDown() throws IOException {}
+    public void tearDown() {}
   }
 
   private static class EmptyByteSourceFactory implements ByteSourceFactory {
 
     @Override
-    public ByteSource createSource(byte[] bytes) throws IOException {
+    public ByteSource createSource(byte[] bytes) {
       return ByteSource.empty();
     }
 
@@ -293,7 +293,7 @@ public class SourceSinkFactories {
     }
 
     @Override
-    public void tearDown() throws IOException {}
+    public void tearDown() {}
   }
 
   private abstract static class FileFactory {

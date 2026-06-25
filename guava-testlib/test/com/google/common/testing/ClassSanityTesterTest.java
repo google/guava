@@ -314,7 +314,7 @@ public class ClassSanityTesterTest extends TestCase {
     private FactoryThatReturnsNullAndAnnotated() {}
   }
 
-  public void testGoodEquals() throws Exception {
+  public void testGoodEquals() {
     tester.testEquals(GoodEquals.class);
   }
 
@@ -330,7 +330,7 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testEquals(OneConstantEnum.class);
   }
 
-  public void testBadEquals() throws Exception {
+  public void testBadEquals() {
     try {
       tester.testEquals(BadEquals.class);
     } catch (AssertionError expected) {
@@ -340,7 +340,7 @@ public class ClassSanityTesterTest extends TestCase {
     fail("should have failed");
   }
 
-  public void testBadEquals_withParameterizedType() throws Exception {
+  public void testBadEquals_withParameterizedType() {
     try {
       tester.testEquals(BadEqualsWithParameterizedType.class);
     } catch (AssertionError expected) {
@@ -350,24 +350,24 @@ public class ClassSanityTesterTest extends TestCase {
     fail("should have failed");
   }
 
-  public void testBadEquals_withSingleParameterValue() throws Exception {
+  public void testBadEquals_withSingleParameterValue() {
     assertThrows(
         ParameterHasNoDistinctValueException.class,
         () -> tester.doTestEquals(ConstructorParameterWithOptionalNotInstantiable.class));
   }
 
-  public void testGoodReferentialEqualityComparison() throws Exception {
+  public void testGoodReferentialEqualityComparison() {
     tester.testEquals(UsesEnum.class);
     tester.testEquals(UsesReferentialEquality.class);
     tester.testEquals(SameListInstance.class);
   }
 
-  public void testStreamParameterSkippedForNullTesting() throws Exception {
+  public void testStreamParameterSkippedForNullTesting() {
     tester.testNulls(WithStreamParameter.class);
   }
 
   @AndroidIncompatible // problem with equality of Type objects?
-  public void testEqualsUsingReferentialEquality() throws Exception {
+  public void testEqualsUsingReferentialEquality() {
     assertBadUseOfReferentialEquality(SameIntegerInstance.class);
     assertBadUseOfReferentialEquality(SameLongInstance.class);
     assertBadUseOfReferentialEquality(SameFloatInstance.class);
@@ -391,30 +391,30 @@ public class ClassSanityTesterTest extends TestCase {
     fail("should have failed for " + cls);
   }
 
-  public void testParameterNotInstantiableForEqualsTest() throws Exception {
+  public void testParameterNotInstantiableForEqualsTest() {
     assertThrows(
         ParameterNotInstantiableException.class,
         () -> tester.doTestEquals(ConstructorParameterNotInstantiable.class));
   }
 
-  public void testNoDistinctValueForEqualsTest() throws Exception {
+  public void testNoDistinctValueForEqualsTest() {
     assertThrows(
         ParameterHasNoDistinctValueException.class,
         () -> tester.doTestEquals(ConstructorParameterSingleValue.class));
   }
 
-  public void testConstructorThrowsForEqualsTest() throws Exception {
+  public void testConstructorThrowsForEqualsTest() {
     assertThrows(
         InvocationTargetException.class, () -> tester.doTestEquals(ConstructorThrows.class));
   }
 
-  public void testFactoryMethodReturnsNullForEqualsTest() throws Exception {
+  public void testFactoryMethodReturnsNullForEqualsTest() {
     assertThrows(
         FactoryMethodReturnsNullException.class,
         () -> tester.doTestEquals(FactoryMethodReturnsNullAndAnnotated.class));
   }
 
-  public void testFactoryMethodReturnsNullButNotAnnotatedInEqualsTest() throws Exception {
+  public void testFactoryMethodReturnsNullButNotAnnotatedInEqualsTest() {
     try {
       tester.testEquals(FactoryMethodReturnsNullButNotAnnotated.class);
     } catch (AssertionError expected) {
@@ -423,21 +423,21 @@ public class ClassSanityTesterTest extends TestCase {
     fail("should have failed");
   }
 
-  public void testNoEqualsChecksOnEnum() throws Exception {
+  public void testNoEqualsChecksOnEnum() {
     tester.testEquals(OneConstantEnum.class);
     tester.testEquals(NoConstantEnum.class);
     tester.testEquals(TimeUnit.class);
   }
 
-  public void testNoEqualsChecksOnInterface() throws Exception {
+  public void testNoEqualsChecksOnInterface() {
     tester.testEquals(Runnable.class);
   }
 
-  public void testNoEqualsChecksOnAnnotation() throws Exception {
+  public void testNoEqualsChecksOnAnnotation() {
     tester.testEquals(MyAnnotation.class);
   }
 
-  public void testGoodNulls() throws Exception {
+  public void testGoodNulls() {
     tester.testNulls(GoodNulls.class);
   }
 
@@ -453,17 +453,17 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testNulls(AnAbstractClass.class);
   }
 
-  public void testNulls_enum() throws Exception {
+  public void testNulls_enum() {
     tester.testNulls(OneConstantEnum.class);
     tester.testNulls(NoConstantEnum.class);
     tester.testNulls(TimeUnit.class);
   }
 
-  public void testNulls_parameterOptionalNotInstantiable() throws Exception {
+  public void testNulls_parameterOptionalNotInstantiable() {
     tester.testNulls(ConstructorParameterWithOptionalNotInstantiable.class);
   }
 
-  public void testEnumFailsToCheckNull() throws Exception {
+  public void testEnumFailsToCheckNull() {
     try {
       tester.testNulls(EnumFailsToCheckNull.class);
     } catch (AssertionError expected) {
@@ -472,15 +472,15 @@ public class ClassSanityTesterTest extends TestCase {
     fail("should have failed");
   }
 
-  public void testNoNullChecksOnInterface() throws Exception {
+  public void testNoNullChecksOnInterface() {
     tester.testNulls(Runnable.class);
   }
 
-  public void testNoNullChecksOnAnnotation() throws Exception {
+  public void testNoNullChecksOnAnnotation() {
     tester.testNulls(MyAnnotation.class);
   }
 
-  public void testBadNulls() throws Exception {
+  public void testBadNulls() {
     try {
       tester.testNulls(BadNulls.class);
     } catch (AssertionError expected) {
@@ -500,7 +500,7 @@ public class ClassSanityTesterTest extends TestCase {
     fail("should have failed");
   }
 
-  public void testInstantiate_factoryMethodReturnsNullAndAnnotated() throws Exception {
+  public void testInstantiate_factoryMethodReturnsNullAndAnnotated() {
     assertThrows(
         FactoryMethodReturnsNullException.class,
         () -> tester.instantiate(FactoryMethodReturnsNullAndAnnotated.class));
@@ -565,23 +565,23 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testEquals(ConstructorParameterMapOfNotInstantiable.class);
   }
 
-  public void testInstantiate_constructorThrows() throws Exception {
+  public void testInstantiate_constructorThrows() {
     assertThrows(
         InvocationTargetException.class, () -> tester.instantiate(ConstructorThrows.class));
   }
 
-  public void testInstantiate_factoryMethodThrows() throws Exception {
+  public void testInstantiate_factoryMethodThrows() {
     assertThrows(
         InvocationTargetException.class, () -> tester.instantiate(FactoryMethodThrows.class));
   }
 
-  public void testInstantiate_constructorParameterNotInstantiable() throws Exception {
+  public void testInstantiate_constructorParameterNotInstantiable() {
     assertThrows(
         ParameterNotInstantiableException.class,
         () -> tester.instantiate(ConstructorParameterNotInstantiable.class));
   }
 
-  public void testInstantiate_factoryMethodParameterNotInstantiable() throws Exception {
+  public void testInstantiate_factoryMethodParameterNotInstantiable() {
     assertThrows(
         ParameterNotInstantiableException.class,
         () -> tester.instantiate(FactoryMethodParameterNotInstantiable.class));
@@ -657,7 +657,7 @@ public class ClassSanityTesterTest extends TestCase {
     assertThat(tester.instantiate(InstantiableConstructorChosen.class).name).isEqualTo("good");
   }
 
-  public void testEquals_setOfNonInstantiable() throws Exception {
+  public void testEquals_setOfNonInstantiable() {
     assertThrows(
         ParameterNotInstantiableException.class,
         () -> new ClassSanityTester().doTestEquals(SetWrapper.class));

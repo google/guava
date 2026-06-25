@@ -74,7 +74,7 @@ public class CharSequenceReaderTest extends TestCase {
     assertFullyRead(reader);
   }
 
-  public void testIllegalArguments() throws IOException {
+  public void testIllegalArguments() {
     CharSequenceReader reader = new CharSequenceReader("12345");
 
     char[] buf = new char[10];
@@ -95,7 +95,7 @@ public class CharSequenceReaderTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> reader.mark(-1));
   }
 
-  public void testMethodsThrowWhenClosed() throws IOException {
+  public void testMethodsThrowWhenClosed() {
     CharSequenceReader reader = new CharSequenceReader("");
     reader.close();
 

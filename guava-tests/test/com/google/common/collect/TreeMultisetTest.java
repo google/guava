@@ -266,7 +266,7 @@ public class TreeMultisetTest extends TestCase {
     assertEquals(3, ms.size());
   }
 
-  public void testCustomComparator() throws Exception {
+  public void testCustomComparator() {
     Comparator<String> comparator =
         new Comparator<String>() {
           @Override
@@ -290,7 +290,7 @@ public class TreeMultisetTest extends TestCase {
     assertEquals(comparator, elementSet.comparator());
   }
 
-  public void testNullAcceptingComparator() throws Exception {
+  public void testNullAcceptingComparator() {
     Comparator<@Nullable String> comparator = Ordering.<String>natural().nullsFirst();
     TreeMultiset<@Nullable String> ms = TreeMultiset.create(comparator);
 
@@ -318,7 +318,7 @@ public class TreeMultisetTest extends TestCase {
       };
 
   /** Test a TreeMultiset with a comparator that can return 0 when comparing unequal values. */
-  public void testDegenerateComparator() throws Exception {
+  public void testDegenerateComparator() {
     TreeMultiset<String> ms = TreeMultiset.create(DEGENERATE_COMPARATOR);
 
     ms.add("foo");
