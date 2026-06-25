@@ -32,7 +32,9 @@ import java.util.concurrent.TimeUnit;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Useful suppliers.
+ * Static utility methods pertaining to {@link Supplier com.google.common.base.Supplier} instances;
+ * see that class for information about migrating to {@link java.util.function.Supplier
+ * java.util.function}.
  *
  * <p>All methods return serializable suppliers as long as they're given serializable parameters.
  *
