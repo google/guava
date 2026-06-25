@@ -527,10 +527,13 @@ public final class Multisets {
 
   /**
    * Returns an unmodifiable view of the sum of two multisets. In the returned multiset, the count
-   * of each element is the <i>sum</i> of its counts in the two backing multisets. The iteration
-   * order of the returned multiset matches that of the element set of {@code multiset1} followed by
-   * the members of the element set of {@code multiset2} that are not contained in {@code
-   * multiset1}, with repeated occurrences of the same element appearing consecutively.
+   * of each element is the <i>sum</i> of its counts in the two backing multisets. Sums are capped
+   * at {@link Integer#MAX_VALUE}.
+   *
+   * <p>The iteration order of the returned multiset matches that of the element set of {@code
+   * multiset1} followed by the members of the element set of {@code multiset2} that are not
+   * contained in {@code multiset1}, with repeated occurrences of the same element appearing
+   * consecutively.
    *
    * <p>Results are undefined if {@code multiset1} and {@code multiset2} are based on different
    * equivalence relations (as {@code HashMultiset} and {@code TreeMultiset} are).
@@ -561,7 +564,7 @@ public final class Multisets {
 
       @Override
       public int count(@Nullable Object element) {
-        return multiset1.count(element) + multiset2.count(element);
+        return IntMath.saturatedAdd(multiset1.count(element), multiset2.count(element));
       }
 
       @Override
@@ -584,7 +587,7 @@ public final class Multisets {
             if (iterator1.hasNext()) {
               Entry<? extends E> entry1 = iterator1.next();
               E element = entry1.getElement();
-              int count = entry1.getCount() + multiset2.count(element);
+              int count = IntMath.saturatedAdd(entry1.getCount(), multiset2.count(element));
               return immutableEntry(element, count);
             }
             while (iterator2.hasNext()) {
