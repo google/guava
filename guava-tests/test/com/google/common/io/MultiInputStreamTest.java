@@ -51,19 +51,21 @@ public class MultiInputStreamTest extends IoTestCase {
 
   public void testOnlyOneOpen() throws Exception {
     ByteSource source = newByteSource(0, 50);
-    int[] counter = new int[1];
     ByteSource checker =
         new ByteSource() {
+
+          private int counter = 0;
+
           @Override
           public InputStream openStream() throws IOException {
-            if (counter[0]++ != 0) {
+            if (counter++ != 0) {
               throw new IllegalStateException("More than one source open");
             }
             return new FilterInputStream(source.openStream()) {
               @Override
               public void close() throws IOException {
                 super.close();
-                counter[0]--;
+                counter--;
               }
             };
           }
