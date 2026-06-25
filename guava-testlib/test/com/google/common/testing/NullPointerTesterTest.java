@@ -39,6 +39,7 @@ import com.google.common.reflect.TypeToken;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.testing.anotherpackage.SomeClassThatDoesNotUseNullable;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.FormatMethod;
 import com.google.errorprone.annotations.Keep;
 import java.lang.reflect.Constructor;
@@ -194,6 +195,7 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   private static class ThrowsUoe {
+    @DoNotCall
     @Keep
     public static void christenPoodle(String unused) {
       throw new UnsupportedOperationException();
@@ -201,6 +203,7 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   private static class ThrowsSomethingElse {
+    @DoNotCall
     @Keep
     public static void christenPoodle(String unused) {
       throw new RuntimeException();
@@ -240,35 +243,24 @@ public class NullPointerTesterTest extends TestCase {
   public void testInterfaceStaticMethod() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(InterfaceStaticMethodChecksNull.class);
-    try {
-      tester.testAllPublicStaticMethods(InterfaceStaticMethodFailsToCheckNull.class);
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () -> tester.testAllPublicStaticMethods(InterfaceStaticMethodFailsToCheckNull.class));
   }
 
   public void testInterfaceDefaultMethod() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(InterfaceDefaultMethodChecksNull.create());
-    try {
-      tester.testAllPublicInstanceMethods(InterfaceDefaultMethodFailsToCheckNull.create());
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () -> tester.testAllPublicInstanceMethods(InterfaceDefaultMethodFailsToCheckNull.create()));
   }
 
   public void testDontAcceptIae() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(ThrowsNpe.class);
     tester.testAllPublicStaticMethods(ThrowsUoe.class);
-    try {
-      tester.testAllPublicStaticMethods(ThrowsIae.class);
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(AssertionError.class, () -> tester.testAllPublicStaticMethods(ThrowsIae.class));
   }
 
   public void testStaticOneArgMethodsThatShouldPass() throws Exception {
@@ -285,13 +277,10 @@ public class NullPointerTesterTest extends TestCase {
   public void testStaticOneArgMethodsThatShouldFail() throws Exception {
     for (String methodName : STATIC_ONE_ARG_METHODS_SHOULD_FAIL) {
       Method method = OneArg.class.getMethod(methodName, String.class);
-      boolean foundProblem = false;
-      try {
-        new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
-      } catch (AssertionError expected) {
-        foundProblem = true;
-      }
-      assertTrue("Should report error in method " + methodName, foundProblem);
+      assertThrows(
+          "Should report error in method " + methodName,
+          AssertionError.class,
+          () -> new NullPointerTester().testMethodParameter(new OneArg(), method, 0));
     }
   }
 
@@ -311,40 +300,31 @@ public class NullPointerTesterTest extends TestCase {
     OneArg foo = new OneArg();
     for (String methodName : NONSTATIC_ONE_ARG_METHODS_SHOULD_FAIL) {
       Method method = OneArg.class.getMethod(methodName, String.class);
-      boolean foundProblem = false;
-      try {
-        new NullPointerTester().testMethodParameter(foo, method, 0);
-      } catch (AssertionError expected) {
-        foundProblem = true;
-      }
-      assertTrue("Should report error in method " + methodName, foundProblem);
+      assertThrows(
+          "Should report error in method " + methodName,
+          AssertionError.class,
+          () -> new NullPointerTester().testMethodParameter(foo, method, 0));
     }
   }
 
   public void testMessageOtherException() throws Exception {
     Method method = OneArg.class.getMethod("staticOneArgThrowsOtherThanNpe", String.class);
-    boolean foundProblem = false;
-    try {
-      new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
-    } catch (AssertionError expected) {
-      assertThat(expected).hasMessageThat().contains("index 0");
-      assertThat(expected).hasMessageThat().contains("[null]");
-      foundProblem = true;
-    }
-    assertTrue("Should report error when different exception is thrown", foundProblem);
+    AssertionError expected =
+        assertThrows(
+            AssertionError.class,
+            () -> new NullPointerTester().testMethodParameter(new OneArg(), method, 0));
+    assertThat(expected).hasMessageThat().contains("index 0");
+    assertThat(expected).hasMessageThat().contains("[null]");
   }
 
   public void testMessageNoException() throws Exception {
     Method method = OneArg.class.getMethod("staticOneArgShouldThrowNpeButDoesnt", String.class);
-    boolean foundProblem = false;
-    try {
-      new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
-    } catch (AssertionError expected) {
-      assertThat(expected).hasMessageThat().contains("index 0");
-      assertThat(expected).hasMessageThat().contains("[null]");
-      foundProblem = true;
-    }
-    assertTrue("Should report error when no exception is thrown", foundProblem);
+    AssertionError expected =
+        assertThrows(
+            AssertionError.class,
+            () -> new NullPointerTester().testMethodParameter(new OneArg(), method, 0));
+    assertThat(expected).hasMessageThat().contains("index 0");
+    assertThat(expected).hasMessageThat().contains("[null]");
   }
 
   /**
@@ -438,14 +418,10 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   public void verifyBarFail(Method method, TwoArg bar) {
-    try {
-      new NullPointerTester().testMethod(bar, method);
-    } catch (AssertionError expected) {
-      return; // good...we wanted a failure
-    }
-    String errorMessage =
-        rootLocaleFormat("Should have flagged method %s for %s", method.getName(), bar);
-    fail(errorMessage);
+    assertThrows(
+        rootLocaleFormat("Should have flagged method %s for %s", method.getName(), bar),
+        AssertionError.class,
+        () -> new NullPointerTester().testMethod(bar, method));
   }
 
   public void testTwoArgNormalNormal() throws Exception {
@@ -509,7 +485,7 @@ public class NullPointerTesterTest extends TestCase {
   /** Lots of well-behaved methods. */
   private static class PassObject extends SomeClassThatDoesNotUseNullable {
     @Keep
-    public static void doThrow(Object arg) {
+    public static void throwFooExceptionIfNull(Object arg) {
       if (arg == null) {
         throw new FooException();
       }
@@ -537,13 +513,13 @@ public class NullPointerTesterTest extends TestCase {
 
     @Keep
     public void oneNullableArgThrows(@Nullable String s) {
-      doThrow(s);
+      throwFooExceptionIfNull(s);
     }
 
     @Keep
     public void twoArg(String s, Integer i) {
       checkNotNull(s);
-      i.intValue();
+      checkNotNull(i);
     }
 
     @Keep
@@ -559,13 +535,13 @@ public class NullPointerTesterTest extends TestCase {
     @Keep
     public void twoMixedArgsThrows(String s, @Nullable Integer i) {
       checkNotNull(s);
-      doThrow(i);
+      throwFooExceptionIfNull(i);
     }
 
     @Keep
     public void twoMixedArgsThrows(@Nullable Integer i, String s) {
       checkNotNull(s);
-      doThrow(i);
+      throwFooExceptionIfNull(i);
     }
 
     @Keep
@@ -573,12 +549,12 @@ public class NullPointerTesterTest extends TestCase {
 
     @Keep
     public void twoNullableArgsThrowsFirstArg(@Nullable String s, @Nullable Integer i) {
-      doThrow(s);
+      throwFooExceptionIfNull(s);
     }
 
     @Keep
     public void twoNullableArgsThrowsSecondArg(@Nullable String s, @Nullable Integer i) {
-      doThrow(i);
+      throwFooExceptionIfNull(i);
     }
 
     @Keep
@@ -591,7 +567,7 @@ public class NullPointerTesterTest extends TestCase {
 
     @Keep
     public static void staticOneNullableArgThrows(@Nullable String s) {
-      doThrow(s);
+      throwFooExceptionIfNull(s);
     }
   }
 
@@ -613,7 +589,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class FailOneArgThrowsWrongType extends PassObject {
     @Override
     public void oneArg(String s) {
-      doThrow(s); // Fail: throwing non-NPE exception for null s
+      throwFooExceptionIfNull(s); // Fail: throwing non-NPE exception for null s
     }
   }
 
@@ -636,7 +612,7 @@ public class NullPointerTesterTest extends TestCase {
     @Override
     public void twoArg(String s, Integer i) {
       // Fail: missing NPE for s
-      i.intValue();
+      checkNotNull(i);
     }
   }
 
@@ -647,8 +623,8 @@ public class NullPointerTesterTest extends TestCase {
   private static class FailTwoArgsFirstArgThrowsWrongType extends PassObject {
     @Override
     public void twoArg(String s, Integer i) {
-      doThrow(s); // Fail: throwing non-NPE exception for null s
-      i.intValue();
+      throwFooExceptionIfNull(s); // Fail: throwing non-NPE exception for null s
+      checkNotNull(i);
     }
   }
 
@@ -672,7 +648,7 @@ public class NullPointerTesterTest extends TestCase {
     @Override
     public void twoArg(String s, Integer i) {
       checkNotNull(s);
-      doThrow(i); // Fail: throwing non-NPE exception for null i
+      throwFooExceptionIfNull(i); // Fail: throwing non-NPE exception for null i
     }
   }
 
@@ -694,7 +670,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class FailTwoMixedArgsFirstArgThrowsWrongType extends PassObject {
     @Override
     public void twoMixedArgs(String s, @Nullable Integer i) {
-      doThrow(s); // Fail: throwing non-NPE exception for null s
+      throwFooExceptionIfNull(s); // Fail: throwing non-NPE exception for null s
     }
   }
 
@@ -706,7 +682,7 @@ public class NullPointerTesterTest extends TestCase {
     @Override
     public void twoMixedArgs(String s, @Nullable Integer i) {
       checkNotNull(s);
-      i.intValue(); // ok to throw NPE?
+      checkNotNull(i); // ok to throw NPE?
     }
   }
 
@@ -718,7 +694,7 @@ public class NullPointerTesterTest extends TestCase {
     @Override
     public void twoMixedArgs(String s, @Nullable Integer i) {
       checkNotNull(s);
-      doThrow(i); // ok to throw non-NPE exception for null i
+      throwFooExceptionIfNull(i); // ok to throw non-NPE exception for null i
     }
   }
 
@@ -740,7 +716,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class FailTwoMixedArgsSecondArgThrowsWrongType extends PassObject {
     @Override
     public void twoMixedArgs(@Nullable Integer i, String s) {
-      doThrow(s); // Fail: throwing non-NPE exception for null s
+      throwFooExceptionIfNull(s); // Fail: throwing non-NPE exception for null s
     }
   }
 
@@ -762,7 +738,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class PassTwoNullableArgsFirstThrowsOther extends PassObject {
     @Override
     public void twoNullableArgs(@Nullable String s, @Nullable Integer i) {
-      doThrow(s); // ok to throw non-NPE exception for null s
+      throwFooExceptionIfNull(s); // ok to throw non-NPE exception for null s
     }
   }
 
@@ -773,7 +749,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class PassTwoNullableArgsSecondThrowsNpe extends PassObject {
     @Override
     public void twoNullableArgs(@Nullable String s, @Nullable Integer i) {
-      i.intValue(); // ok to throw NPE?
+      checkNotNull(i); // ok to throw NPE?
     }
   }
 
@@ -784,7 +760,7 @@ public class NullPointerTesterTest extends TestCase {
   private static class PassTwoNullableArgsSecondThrowsOther extends PassObject {
     @Override
     public void twoNullableArgs(@Nullable String s, @Nullable Integer i) {
-      doThrow(i); // ok to throw non-NPE exception for null i
+      throwFooExceptionIfNull(i); // ok to throw non-NPE exception for null i
     }
   }
 
@@ -918,12 +894,13 @@ public class NullPointerTesterTest extends TestCase {
   // TODO(cpovirk): eliminate surprising Object/Class overloading of shouldFail
 
   private static void shouldFail(Object instance, Visibility visibility) {
-    try {
-      new NullPointerTester().testInstanceMethods(instance, visibility);
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail("Should detect problem in " + instance.getClass().getSimpleName());
+    assertThrows(
+        "Expected NullPointerTester to fail for "
+            + instance.getClass().getSimpleName()
+            + " with visibility "
+            + visibility,
+        AssertionError.class,
+        () -> new NullPointerTester().testInstanceMethods(instance, visibility));
   }
 
   private static void shouldFail(Object instance) {
@@ -933,12 +910,13 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   private static void shouldFail(Class<?> cls, Visibility visibility) {
-    try {
-      new NullPointerTester().testStaticMethods(cls, visibility);
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail("Should detect problem in " + cls.getSimpleName());
+    assertThrows(
+        "Expected NullPointerTester to fail for static methods of "
+            + cls.getSimpleName()
+            + " with visibility "
+            + visibility,
+        AssertionError.class,
+        () -> new NullPointerTester().testStaticMethods(cls, visibility));
   }
 
   private static void shouldFail(Class<?> cls) {
@@ -1061,7 +1039,7 @@ public class NullPointerTesterTest extends TestCase {
       runTester()
           .assertNonNullValues(
               Gender.MALE,
-              Integer.valueOf(0),
+              0,
               0,
               "",
               "",
@@ -1150,12 +1128,7 @@ public class NullPointerTesterTest extends TestCase {
     }
 
     void check() {
-      try {
-        runTester();
-      } catch (AssertionError expected) {
-        return;
-      }
-      fail("Should have failed because enum has no constant");
+      assertThrows(AssertionError.class, () -> runTester());
     }
   }
 
@@ -1272,11 +1245,7 @@ public class NullPointerTesterTest extends TestCase {
       NullRejectingFromTo<?, ?> defaultFunction =
           (NullRejectingFromTo<?, ?>) getDefaultParameterValue(0);
       assertThat(defaultFunction).isNotNull();
-      try {
-        defaultFunction.apply(null);
-        fail("Proxy Should have rejected null");
-      } catch (NullPointerException expected) {
-      }
+      assertThrows(NullPointerException.class, () -> defaultFunction.apply(null));
     }
   }
 
@@ -1493,12 +1462,10 @@ public class NullPointerTesterTest extends TestCase {
   }
 
   public void testConstructor_shouldFail() {
-    try {
-      new NullPointerTester().testAllPublicConstructors(FailOnOneOfTwoConstructors.class);
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail("Should detect problem in " + FailOnOneOfTwoConstructors.class.getSimpleName());
+    assertThrows(
+        "Expected NullPointerTester to fail for constructors of FailOnOneOfTwoConstructors",
+        AssertionError.class,
+        () -> new NullPointerTester().testAllPublicConstructors(FailOnOneOfTwoConstructors.class));
   }
 
   public static class NullBounds<T extends @Nullable Object, U extends T, X> {
