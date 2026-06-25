@@ -52,7 +52,7 @@ public class AbstractFutureFootprintBenchmark {
   private final Set<Thread> blockedThreads = new HashSet<>();
 
   @BeforeExperiment
-  void setUp() throws Exception {
+  void setUp() {
     if (state != State.NOT_DONE && (numListeners != 0 || numThreads != 0)) {
       throw new SkipThisScenarioException();
     }

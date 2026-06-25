@@ -61,7 +61,7 @@ public class ConcurrentHashMultisetBenchmark {
   private ExecutorService threadPool;
 
   @BeforeExperiment
-  void setUp() throws Exception {
+  void setUp() {
     multiset = implSupplier.get();
     ImmutableList.Builder<Integer> builder = ImmutableList.builder();
     for (int i = 0; i < size; i++) {

@@ -78,7 +78,7 @@ public class MapsMemoryBenchmark {
   int elements;
 
   @BeforeExperiment
-  public void prepareContents() throws Exception {
+  public void prepareContents() {
     mapsImpl = mapEnums.get(implName);
     elems = new CollectionBenchmarkSampleData(elements);
     contents = new HashMap<>();
@@ -90,7 +90,7 @@ public class MapsMemoryBenchmark {
 
   @Benchmark
   @Footprint(exclude = Element.class)
-  public Map<Element, Element> create() throws Exception {
+  public Map<Element, Element> create() {
     return mapsImpl.create(contents);
   }
 

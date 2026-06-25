@@ -30,7 +30,7 @@ import org.jspecify.annotations.Nullable;
 @NullUnmarked
 public class PackageSanityTests extends AbstractPackageSanityTests {
 
-  public PackageSanityTests() throws Exception {
+  public PackageSanityTests() {
     DummySubscriber dummySubscriber = new DummySubscriber();
     setDefault(Subscriber.class, dummySubscriber.toSubscriber());
     setDefault(Method.class, DummySubscriber.subscriberMethod());

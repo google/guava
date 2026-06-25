@@ -39,7 +39,7 @@ public class ComparatorDelegationOverheadBenchmark {
   int n;
 
   @BeforeExperiment
-  void setUp() throws Exception {
+  void setUp() {
     Random rng = new Random();
     for (int i = 0; i < 0x100; i++) {
       Integer[] array = new Integer[n];

@@ -1311,7 +1311,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
   abstract void assertFinallyFailsWithException(ClosingFuture<?> closingFuture);
 
   /** Waits for the given step to be canceled. */
-  abstract void assertBecomesCanceled(ClosingFuture<?> closingFuture) throws ExecutionException;
+  abstract void assertBecomesCanceled(ClosingFuture<?> closingFuture);
 
   /** Waits for the given step's closeables to be closed. */
   void waitUntilClosed(ClosingFuture<?> closingFuture) {
