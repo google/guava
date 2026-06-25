@@ -2612,8 +2612,9 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Static utility methods pertaining to {@code com.google.common.base.Function} instances; see that
- class for information about migrating to {@code java.util.function}.
+    <![CDATA[Static utility methods pertaining to {@link Function com.google.common.base.Function} instances;
+ see that class for information about migrating to {@link java.util.function.Function
+ java.util.function}.
 
  <p>All methods return serializable functions as long as they're given serializable parameters.
 
@@ -5592,7 +5593,9 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Static utility methods pertaining to {@code Predicate} instances.
+    <![CDATA[Static utility methods pertaining to {@link Predicate com.google.common.base.Predicate}
+ instances; see that class for information about migrating to {@link java.util.function.Predicate
+ java.util.function}.
 
  <p>All methods return serializable predicates as long as they're given serializable parameters.
 
@@ -6612,7 +6615,9 @@
       </doc>
     </method>
     <doc>
-    <![CDATA[Useful suppliers.
+    <![CDATA[Static utility methods pertaining to {@link Supplier com.google.common.base.Supplier} instances;
+ see that class for information about migrating to {@link java.util.function.Supplier
+ java.util.function}.
 
  <p>All methods return serializable suppliers as long as they're given serializable parameters.
 
@@ -58724,7 +58729,7 @@
  unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
  value} is greater than {@code max}, {@code max} is returned.
 
- <p><b>Java 21+ users:</b> Use {@code Math.clamp} instead.
+ <p><b>Java 21+ users:</b> Use {@link Math#clamp(double, double, double)} instead.
 
  @param value the {@code double} value to constrain
  @param min the lower bound (inclusive) of the range to constrain {@code value} to
@@ -59170,7 +59175,7 @@
  unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
  value} is greater than {@code max}, {@code max} is returned.
 
- <p><b>Java 21+ users:</b> Use {@code Math.clamp} instead.
+ <p><b>Java 21+ users:</b> Use {@link Math#clamp(float, float, float)} instead.
 
  @param value the {@code float} value to constrain
  @param min the lower bound (inclusive) of the range to constrain {@code value} to
@@ -60990,8 +60995,8 @@
  unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
  value} is greater than {@code max}, {@code max} is returned.
 
- <p><b>Java 21+ users:</b> Use {@code Math.clamp} instead. Note that that method is capable of
- constraining a {@code long} input to an {@code int} range.
+ <p><b>Java 21+ users:</b> Use {@link Math#clamp(long, int, int)} instead. Note that that method
+ is capable of constraining a {@code long} input to an {@code int} range.
 
  @param value the {@code int} value to constrain
  @param min the lower bound (inclusive) of the range to constrain {@code value} to
@@ -61487,7 +61492,8 @@
  unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
  value} is greater than {@code max}, {@code max} is returned.
 
- <p><b>Java 21+ users:</b> Use {@code Math.clamp} instead. Note that that method is capable of
+ <p><b>Java 21+ users:</b> Use {@link Math#clamp(long, long, long)} instead. Note that that
+ method comes with {@linkplain Math#clamp(long, int, int) an overload} that is capable of
  constraining a {@code long} input to an {@code int} range.
 
  @param value the {@code long} value to constrain
