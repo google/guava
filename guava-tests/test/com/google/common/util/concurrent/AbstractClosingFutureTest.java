@@ -137,7 +137,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertFinallyFailsWithException(failedClosingFuture());
   }
 
-  public void testFrom_cancelledInput() throws Exception {
+  public void testFrom_cancelledInput() {
     assertBecomesCanceled(ClosingFuture.from(immediateCancelledFuture()));
   }
 
@@ -162,7 +162,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
             Futures.<Closeable>immediateFailedFuture(exception), closingExecutor));
   }
 
-  public void testEventuallyClosing_cancelledInput() throws Exception {
+  public void testEventuallyClosing_cancelledInput() {
     assertBecomesCanceled(
         ClosingFuture.eventuallyClosing(
             Futures.<Closeable>immediateCancelledFuture(), closingExecutor));
