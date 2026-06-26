@@ -210,15 +210,13 @@ public class ForwardingWrapperTesterTest {
       Class<T> interfaceType,
       Function<T, ? extends T> wrapperFunction,
       String... expectedMessages) {
-    try {
-      tester.testForwarding(interfaceType, wrapperFunction);
-    } catch (AssertionFailedError expected) {
-      for (String message : expectedMessages) {
-        assertThat(expected).hasMessageThat().contains(message);
-      }
-      return;
+    AssertionFailedError expected =
+        assertThrows(
+            AssertionFailedError.class,
+            () -> tester.testForwarding(interfaceType, wrapperFunction));
+    for (String message : expectedMessages) {
+      assertThat(expected).hasMessageThat().contains(message);
     }
-    fail("expected failure not reported");
   }
 
   private static class ForwardingRunnable implements Runnable {

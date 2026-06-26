@@ -68,12 +68,9 @@ public class UnsignedIntsTest extends TestCase {
   }
 
   private static void assertCastFails(long value) {
-    try {
-      UnsignedInts.checkedCast(value);
-      fail("Cast to int should have failed: " + value);
-    } catch (IllegalArgumentException ex) {
-      assertThat(ex).hasMessageThat().contains(String.valueOf(value));
-    }
+    IllegalArgumentException ex =
+        assertThrows(IllegalArgumentException.class, () -> UnsignedInts.checkedCast(value));
+    assertThat(ex).hasMessageThat().contains(String.valueOf(value));
   }
 
   public void testSaturatedCast() {
@@ -221,11 +218,10 @@ public class UnsignedIntsTest extends TestCase {
   public void testDivide() {
     for (long a : UNSIGNED_INTS) {
       for (long b : UNSIGNED_INTS) {
-        try {
+        if (b == 0) {
+          assertThrows(ArithmeticException.class, () -> UnsignedInts.divide((int) a, (int) b));
+        } else {
           assertThat(UnsignedInts.divide((int) a, (int) b)).isEqualTo((int) (a / b));
-          assertThat(b).isNotEqualTo(0);
-        } catch (ArithmeticException e) {
-          assertThat(b).isEqualTo(0);
         }
       }
     }
@@ -234,11 +230,10 @@ public class UnsignedIntsTest extends TestCase {
   public void testRemainder() {
     for (long a : UNSIGNED_INTS) {
       for (long b : UNSIGNED_INTS) {
-        try {
+        if (b == 0) {
+          assertThrows(ArithmeticException.class, () -> UnsignedInts.remainder((int) a, (int) b));
+        } else {
           assertThat(UnsignedInts.remainder((int) a, (int) b)).isEqualTo((int) (a % b));
-          assertThat(b).isNotEqualTo(0);
-        } catch (ArithmeticException e) {
-          assertThat(b).isEqualTo(0);
         }
       }
     }

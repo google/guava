@@ -86,12 +86,8 @@ public class ClosingFutureFinishToValueAndCloserTest extends AbstractClosingFutu
   void assertFinallyFailsWithException(ClosingFuture<?> closingFuture) {
     assertThatFutureFailsWithException(closingFuture.statusFuture());
     ValueAndCloser<?> valueAndCloser = finishToValueAndCloser(closingFuture);
-    try {
-      valueAndCloser.get();
-      fail();
-    } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isEqualTo(exception);
-    }
+    ExecutionException expected = assertThrows(ExecutionException.class, valueAndCloser::get);
+    assertThat(expected).hasCauseThat().isEqualTo(exception);
     valueAndCloser.closeAsync();
   }
 

@@ -276,11 +276,7 @@ public class DoublesTest extends TestCase {
     double[] sharedArray = new double[arraysDim2];
     Arrays.fill(arrays, sharedArray);
 
-    try {
-      Doubles.concat(arrays);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Doubles.concat(arrays));
   }
 
   public void testEnsureCapacity() {

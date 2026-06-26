@@ -17,6 +17,7 @@
 package com.google.common.reflect;
 
 import static com.google.common.reflect.Types.subtypeOf;
+import static org.junit.Assert.assertThrows;
 
 import java.lang.reflect.GenericArrayType;
 import java.lang.reflect.ParameterizedType;
@@ -103,16 +104,8 @@ public class TypeVisitorTest extends TestCase {
 
   private static void assertVisited(Type type) {
     TypeVisitor visitor = new BaseTypeVisitor();
-    try {
-      visitor.visit(type);
-      fail("Type not visited");
-    } catch (UnsupportedOperationException expected) {
-    }
-    try {
-      visitor.visit(new Type[] {type});
-      fail("Type not visited");
-    } catch (UnsupportedOperationException expected) {
-    }
+    assertThrows(UnsupportedOperationException.class, () -> visitor.visit(type));
+    assertThrows(UnsupportedOperationException.class, () -> visitor.visit(new Type[] {type}));
   }
 
   private static class BaseTypeVisitor extends TypeVisitor {

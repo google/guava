@@ -87,14 +87,11 @@ public class UnsignedBytesTest extends TestCase {
   }
 
   private static void assertCastFails(long value) {
-    try {
-      UnsignedBytes.checkedCast(value);
-      fail("Cast to byte should have failed: " + value);
-    } catch (IllegalArgumentException ex) {
-      assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
-          .that(ex.getMessage().contains(String.valueOf(value)))
-          .isTrue();
-    }
+    IllegalArgumentException ex =
+        assertThrows(IllegalArgumentException.class, () -> UnsignedBytes.checkedCast(value));
+    assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
+        .that(ex.getMessage().contains(String.valueOf(value)))
+        .isTrue();
   }
 
   public void testCompare() {
@@ -134,19 +131,11 @@ public class UnsignedBytesTest extends TestCase {
   }
 
   private static void assertParseFails(String value) {
-    try {
-      UnsignedBytes.parseUnsignedByte(value);
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> UnsignedBytes.parseUnsignedByte(value));
   }
 
   private static void assertParseFails(String value, int radix) {
-    try {
-      UnsignedBytes.parseUnsignedByte(value, radix);
-      fail();
-    } catch (NumberFormatException expected) {
-    }
+    assertThrows(NumberFormatException.class, () -> UnsignedBytes.parseUnsignedByte(value, radix));
   }
 
   public void testParseUnsignedByte() {

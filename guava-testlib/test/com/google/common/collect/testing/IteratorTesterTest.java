@@ -18,9 +18,11 @@ package com.google.common.collect.testing;
 
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.ImmutableList;
+import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -137,20 +139,17 @@ public class IteratorTesterTest extends TestCase {
   }
 
   public void testCanCatchJdkBug6529795InTargetIterator() {
-    try {
-      /* Choose 4 steps to get sequence [next, next, next, remove] */
-      new IteratorTester<Integer>(
-          4, MODIFIABLE, newArrayList(1, 2), IteratorTester.KnownOrder.KNOWN_ORDER) {
-        @Override
-        protected Iterator<Integer> newTargetIterator() {
-          Iterator<Integer> iterator = newArrayList(1, 2).iterator();
-          return new IteratorWithJdkBug6529795<>(iterator);
-        }
-      }.test();
-    } catch (AssertionError e) {
-      return;
-    }
-    fail("Should have caught jdk6 bug in target iterator");
+    IteratorTester<Integer> tester =
+        new IteratorTester<Integer>(
+            // We choose 4 steps to get the sequence [next, next, next, remove].
+            4, MODIFIABLE, newArrayList(1, 2), IteratorTester.KnownOrder.KNOWN_ORDER) {
+          @Override
+          protected Iterator<Integer> newTargetIterator() {
+            Iterator<Integer> iterator = newArrayList(1, 2).iterator();
+            return new IteratorWithJdkBug6529795<>(iterator);
+          }
+        };
+    assertFailure(tester);
   }
 
   private static final int STEPS = 3;
@@ -202,13 +201,7 @@ public class IteratorTesterTest extends TestCase {
             throw new AssertionError(message);
           }
         };
-    AssertionError actual = null;
-    try {
-      tester.test();
-    } catch (AssertionError e) {
-      actual = e;
-    }
-    assertNotNull("verify() should be able to cause test failure", actual);
+    AssertionError actual = assertFailure(tester);
     assertTrue(
         "AssertionError should have info about why test failed",
         actual.getCause().getMessage().contains(message));
@@ -318,13 +311,9 @@ public class IteratorTesterTest extends TestCase {
     assertFailure(tester);
   }
 
-  private static void assertFailure(IteratorTester<?> tester) {
-    try {
-      tester.test();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+  @CanIgnoreReturnValue
+  private static AssertionError assertFailure(IteratorTester<?> tester) {
+    return assertThrows(AssertionError.class, tester::test);
   }
 
   private static final class ThrowingIterator<E> implements Iterator<E> {

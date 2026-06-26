@@ -269,11 +269,7 @@ public class FloatsTest extends TestCase {
     float[] sharedArray = new float[arraysDim2];
     Arrays.fill(arrays, sharedArray);
 
-    try {
-      Floats.concat(arrays);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Floats.concat(arrays));
   }
 
   public void testEnsureCapacity() {

@@ -343,23 +343,19 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testAssertSubtypeTokenBeforeSupertypeToken_supertypeFirst() {
-    try {
-      assertSubtypeTokenBeforeSupertypeToken(
-          ImmutableList.of(TypeToken.of(CharSequence.class), TypeToken.of(String.class)));
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () ->
+            assertSubtypeTokenBeforeSupertypeToken(
+                ImmutableList.of(TypeToken.of(CharSequence.class), TypeToken.of(String.class))));
   }
 
   public void testAssertSubtypeTokenBeforeSupertypeToken_duplicate() {
-    try {
-      assertSubtypeTokenBeforeSupertypeToken(
-          ImmutableList.of(TypeToken.of(String.class), TypeToken.of(String.class)));
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () ->
+            assertSubtypeTokenBeforeSupertypeToken(
+                ImmutableList.of(TypeToken.of(String.class), TypeToken.of(String.class))));
   }
 
   public void testAssertSubtypeBeforeSupertype_empty() {
@@ -375,21 +371,15 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testAssertSubtypeBeforeSupertype_supertypeFirst() {
-    try {
-      assertSubtypeBeforeSupertype(ImmutableList.of(CharSequence.class, String.class));
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () -> assertSubtypeBeforeSupertype(ImmutableList.of(CharSequence.class, String.class)));
   }
 
   public void testAssertSubtypeBeforeSupertype_duplicate() {
-    try {
-      assertSubtypeBeforeSupertype(ImmutableList.of(String.class, String.class));
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () -> assertSubtypeBeforeSupertype(ImmutableList.of(String.class, String.class)));
   }
 
   public void testGetGenericSuperclass_noSuperclass() {
@@ -1768,11 +1758,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   private static void assertHasTypeVariable(Type type) {
-    try {
-      TypeToken.of(type).rejectTypeVariables();
-      fail("Should contain TypeVariable");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> TypeToken.of(type).rejectTypeVariables());
   }
 
   private static void assertNoTypeVariable(Type type) {

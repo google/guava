@@ -19,7 +19,6 @@ package com.google.common.testing;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
-import static org.junit.Assert.fail;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Equivalence;
@@ -105,17 +104,15 @@ public class EquivalenceTesterTest {
 
     equivalenceMock.replay();
 
-    try {
-      tester.addEquivalenceGroup(group1Item1, group1Item2).test();
-    } catch (AssertionFailedError expected) {
-      assertThat(expected)
-          .hasMessageThat()
-          .contains(
-              "TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
-                  + "TestObject{group=1, item=1} [group 1, item 1]");
-      return;
-    }
-    fail();
+    AssertionFailedError expected =
+        assertThrows(
+            AssertionFailedError.class,
+            () -> tester.addEquivalenceGroup(group1Item1, group1Item2).test());
+    assertThat(expected)
+        .hasMessageThat()
+        .contains(
+            "TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
+                + "TestObject{group=1, item=1} [group 1, item 1]");
   }
 
   @Test
@@ -137,17 +134,15 @@ public class EquivalenceTesterTest {
 
     equivalenceMock.replay();
 
-    try {
-      tester.addEquivalenceGroup(group1Item1, group1Item2, group1Item3).test();
-    } catch (AssertionFailedError expected) {
-      assertThat(expected)
-          .hasMessageThat()
-          .contains(
-              "TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
-                  + "TestObject{group=1, item=3} [group 1, item 3]");
-      return;
-    }
-    fail();
+    AssertionFailedError expected =
+        assertThrows(
+            AssertionFailedError.class,
+            () -> tester.addEquivalenceGroup(group1Item1, group1Item2, group1Item3).test());
+    assertThat(expected)
+        .hasMessageThat()
+        .contains(
+            "TestObject{group=1, item=2} [group 1, item 2] must be equivalent to "
+                + "TestObject{group=1, item=3} [group 1, item 3]");
   }
 
   @Test
@@ -163,17 +158,15 @@ public class EquivalenceTesterTest {
 
     equivalenceMock.replay();
 
-    try {
-      tester.addEquivalenceGroup(group1Item1).addEquivalenceGroup(group2Item1).test();
-    } catch (AssertionFailedError expected) {
-      assertThat(expected)
-          .hasMessageThat()
-          .contains(
-              "TestObject{group=1, item=1} [group 1, item 1] must not be equivalent to "
-                  + "TestObject{group=2, item=1} [group 2, item 1]");
-      return;
-    }
-    fail();
+    AssertionFailedError expected =
+        assertThrows(
+            AssertionFailedError.class,
+            () -> tester.addEquivalenceGroup(group1Item1).addEquivalenceGroup(group2Item1).test());
+    assertThat(expected)
+        .hasMessageThat()
+        .contains(
+            "TestObject{group=1, item=1} [group 1, item 1] must not be equivalent to "
+                + "TestObject{group=2, item=1} [group 2, item 1]");
   }
 
   @Test
@@ -189,18 +182,14 @@ public class EquivalenceTesterTest {
 
     equivalenceMock.replay();
 
-    try {
-      tester.addEquivalenceGroup(group1Item1, group1Item2).test();
-    } catch (AssertionFailedError expected) {
-      String expectedMessage =
-          "the hash (1) of TestObject{group=1, item=1} [group 1, item 1] must be "
-              + "equal to the hash (2) of TestObject{group=1, item=2} [group 1, item 2]";
-      if (!expected.getMessage().contains(expectedMessage)) {
-        fail("<" + expected.getMessage() + "> expected to contain <" + expectedMessage + ">");
-      }
-      return;
-    }
-    fail();
+    AssertionFailedError expected =
+        assertThrows(
+            AssertionFailedError.class,
+            () -> tester.addEquivalenceGroup(group1Item1, group1Item2).test());
+    String expectedMessage =
+        "the hash (1) of TestObject{group=1, item=1} [group 1, item 1] must be "
+            + "equal to the hash (2) of TestObject{group=1, item=2} [group 1, item 2]";
+    assertThat(expected).hasMessageThat().contains(expectedMessage);
   }
 
   /** An object with a friendly {@link #toString()}. */
