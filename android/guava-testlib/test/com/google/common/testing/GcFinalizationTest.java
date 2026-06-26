@@ -40,7 +40,6 @@ import org.junit.Test;
  * @author Martin Buchholz
  * @author mike nonemacher
  */
-
 @NullUnmarked
 public class GcFinalizationTest {
 

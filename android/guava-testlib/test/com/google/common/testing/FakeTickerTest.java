@@ -133,7 +133,6 @@ public class FakeTickerTest {
 
   @Test
   @GwtIncompatible // concurrency
-
   public void concurrentAdvance() throws Exception {
     FakeTicker ticker = new FakeTicker();
 
@@ -153,7 +152,6 @@ public class FakeTickerTest {
 
   @Test
   @GwtIncompatible // concurrency
-
   public void concurrentAutoIncrementStep() throws Exception {
     int incrementByNanos = 3;
     FakeTicker ticker = new FakeTicker().setAutoIncrementStep(incrementByNanos, NANOSECONDS);
