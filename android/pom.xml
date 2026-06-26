@@ -93,6 +93,7 @@
     <maven-surefire-plugin.version>3.5.6</maven-surefire-plugin.version>
     <maven-toolchains-plugin.version>3.2.0</maven-toolchains-plugin.version>
     <mockito.version>4.11.0</mockito.version>
+    <test-parameter-injector.version>1.22</test-parameter-injector.version>
     <toolchains-maven-plugin.version>4.5.0</toolchains-maven-plugin.version>
     <truth.version>1.4.5</truth.version>
     <project.build.outputTimestamp>2026-01-02T00:00:00Z</project.build.outputTimestamp>

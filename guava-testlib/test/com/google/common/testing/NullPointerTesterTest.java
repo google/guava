@@ -46,6 +46,8 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.FormatMethod;
 import com.google.errorprone.annotations.Keep;
+import com.google.testing.junit.testparameterinjector.TestParameter;
+import com.google.testing.junit.testparameterinjector.TestParameterInjector;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.util.HashMap;
@@ -58,6 +60,7 @@ import javax.annotation.CheckForNull;
 import org.jspecify.annotations.NullUnmarked;
 import org.jspecify.annotations.Nullable;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
 /**
  * Unit test for {@link NullPointerTester}.
@@ -70,6 +73,7 @@ import org.junit.Test;
   "unused", // many methods tested reflectively -- maybe prefer local @Keep annotations?
 })
 @NullUnmarked
+@RunWith(TestParameterInjector.class)
 public class NullPointerTesterTest {
 
   /** Non-NPE RuntimeException. */
@@ -161,29 +165,6 @@ public class NullPointerTesterTest {
     }
   }
 
-  private static final ImmutableSet<String> STATIC_ONE_ARG_METHODS_SHOULD_PASS =
-      ImmutableSet.of(
-          "staticOneArgCorrectlyThrowsNpe",
-          "staticOneArgCheckForNullCorrectlyDoesNotThrowNpe",
-          "staticOneArgCheckForNullCorrectlyThrowsOtherThanNpe",
-          "staticOneArgCheckForNullThrowsNpe",
-          "staticOneArgNullableCorrectlyDoesNotThrowNpe",
-          "staticOneArgNullableCorrectlyThrowsOtherThanNpe",
-          "staticOneArgNullableThrowsNpe");
-  private static final ImmutableSet<String> STATIC_ONE_ARG_METHODS_SHOULD_FAIL =
-      ImmutableSet.of("staticOneArgThrowsOtherThanNpe", "staticOneArgShouldThrowNpeButDoesnt");
-  private static final ImmutableSet<String> NONSTATIC_ONE_ARG_METHODS_SHOULD_PASS =
-      ImmutableSet.of(
-          "oneArgCorrectlyThrowsNpe",
-          "oneArgCheckForNullCorrectlyDoesNotThrowNpe",
-          "oneArgCheckForNullCorrectlyThrowsOtherThanNpe",
-          "oneArgCheckForNullThrowsNpe",
-          "oneArgNullableCorrectlyDoesNotThrowNpe",
-          "oneArgNullableCorrectlyThrowsOtherThanNpe",
-          "oneArgNullableThrowsNpe");
-  private static final ImmutableSet<String> NONSTATIC_ONE_ARG_METHODS_SHOULD_FAIL =
-      ImmutableSet.of("oneArgThrowsOtherThanNpe", "oneArgShouldThrowNpeButDoesnt");
-
   private static class ThrowsIae {
     @Keep
     public static void christenPoodle(String name) {
@@ -271,51 +252,63 @@ public class NullPointerTesterTest {
   }
 
   @Test
-  public void staticOneArgMethodsThatShouldPass() throws Exception {
-    for (String methodName : STATIC_ONE_ARG_METHODS_SHOULD_PASS) {
-      Method method = OneArg.class.getMethod(methodName, String.class);
-      try {
-        new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
-      } catch (AssertionError unexpected) {
-        throw new AssertionError("Should not have flagged method " + methodName, unexpected);
-      }
-    }
+  public void staticOneArgMethodsThatShouldPass(
+      @TestParameter({
+            "staticOneArgCorrectlyThrowsNpe",
+            "staticOneArgCheckForNullCorrectlyDoesNotThrowNpe",
+            "staticOneArgCheckForNullCorrectlyThrowsOtherThanNpe",
+            "staticOneArgCheckForNullThrowsNpe",
+            "staticOneArgNullableCorrectlyDoesNotThrowNpe",
+            "staticOneArgNullableCorrectlyThrowsOtherThanNpe",
+            "staticOneArgNullableThrowsNpe"
+          })
+          String methodName)
+      throws Exception {
+    Method method = OneArg.class.getMethod(methodName, String.class);
+    new NullPointerTester().testMethodParameter(new OneArg(), method, 0);
   }
 
   @Test
-  public void staticOneArgMethodsThatShouldFail() throws Exception {
-    for (String methodName : STATIC_ONE_ARG_METHODS_SHOULD_FAIL) {
-      Method method = OneArg.class.getMethod(methodName, String.class);
-      assertThrows(
-          "Should report error in method " + methodName,
-          AssertionError.class,
-          () -> new NullPointerTester().testMethodParameter(new OneArg(), method, 0));
-    }
+  public void staticOneArgMethodsThatShouldFail(
+      @TestParameter({"staticOneArgThrowsOtherThanNpe", "staticOneArgShouldThrowNpeButDoesnt"})
+          String methodName)
+      throws Exception {
+    Method method = OneArg.class.getMethod(methodName, String.class);
+    assertThrows(
+        "Should report error in method " + methodName,
+        AssertionError.class,
+        () -> new NullPointerTester().testMethodParameter(new OneArg(), method, 0));
   }
 
   @Test
-  public void nonStaticOneArgMethodsThatShouldPass() throws Exception {
+  public void nonStaticOneArgMethodsThatShouldPass(
+      @TestParameter({
+            "oneArgCorrectlyThrowsNpe",
+            "oneArgCheckForNullCorrectlyDoesNotThrowNpe",
+            "oneArgCheckForNullCorrectlyThrowsOtherThanNpe",
+            "oneArgCheckForNullThrowsNpe",
+            "oneArgNullableCorrectlyDoesNotThrowNpe",
+            "oneArgNullableCorrectlyThrowsOtherThanNpe",
+            "oneArgNullableThrowsNpe"
+          })
+          String methodName)
+      throws Exception {
     OneArg foo = new OneArg();
-    for (String methodName : NONSTATIC_ONE_ARG_METHODS_SHOULD_PASS) {
-      Method method = OneArg.class.getMethod(methodName, String.class);
-      try {
-        new NullPointerTester().testMethodParameter(foo, method, 0);
-      } catch (AssertionError unexpected) {
-        throw new AssertionError("Should not have flagged method " + methodName, unexpected);
-      }
-    }
+    Method method = OneArg.class.getMethod(methodName, String.class);
+    new NullPointerTester().testMethodParameter(foo, method, 0);
   }
 
   @Test
-  public void nonStaticOneArgMethodsThatShouldFail() throws Exception {
+  public void nonStaticOneArgMethodsThatShouldFail(
+      @TestParameter({"oneArgThrowsOtherThanNpe", "oneArgShouldThrowNpeButDoesnt"})
+          String methodName)
+      throws Exception {
     OneArg foo = new OneArg();
-    for (String methodName : NONSTATIC_ONE_ARG_METHODS_SHOULD_FAIL) {
-      Method method = OneArg.class.getMethod(methodName, String.class);
-      assertThrows(
-          "Should report error in method " + methodName,
-          AssertionError.class,
-          () -> new NullPointerTester().testMethodParameter(foo, method, 0));
-    }
+    Method method = OneArg.class.getMethod(methodName, String.class);
+    assertThrows(
+        "Should report error in method " + methodName,
+        AssertionError.class,
+        () -> new NullPointerTester().testMethodParameter(foo, method, 0));
   }
 
   @Test
@@ -438,59 +431,47 @@ public class NullPointerTesterTest {
   }
 
   @Test
-  public void twoArgNormalNormal() throws Exception {
+  public void twoArgNormalNormal(
+      @TestParameter TwoArg.Action first, @TestParameter TwoArg.Action second) throws Exception {
     Method method = TwoArg.class.getMethod("normalNormal", String.class, Integer.class);
-    for (TwoArg.Action first : TwoArg.Action.values()) {
-      for (TwoArg.Action second : TwoArg.Action.values()) {
-        TwoArg bar = new TwoArg(first, second);
-        if (first.equals(TwoArg.Action.THROW_A_NPE) && second.equals(TwoArg.Action.THROW_A_NPE)) {
-          verifyBarPass(method, bar); // require both params to throw NPE
-        } else {
-          verifyBarFail(method, bar);
-        }
-      }
+    TwoArg bar = new TwoArg(first, second);
+    if (first.equals(TwoArg.Action.THROW_A_NPE) && second.equals(TwoArg.Action.THROW_A_NPE)) {
+      verifyBarPass(method, bar); // require both params to throw NPE
+    } else {
+      verifyBarFail(method, bar);
     }
   }
 
   @Test
-  public void twoArgNormalNullable() throws Exception {
+  public void twoArgNormalNullable(
+      @TestParameter TwoArg.Action first, @TestParameter TwoArg.Action second) throws Exception {
     Method method = TwoArg.class.getMethod("normalNullable", String.class, Integer.class);
-    for (TwoArg.Action first : TwoArg.Action.values()) {
-      for (TwoArg.Action second : TwoArg.Action.values()) {
-        TwoArg bar = new TwoArg(first, second);
-        if (first.equals(TwoArg.Action.THROW_A_NPE)) {
-          verifyBarPass(method, bar); // only pass if 1st param throws NPE
-        } else {
-          verifyBarFail(method, bar);
-        }
-      }
+    TwoArg bar = new TwoArg(first, second);
+    if (first.equals(TwoArg.Action.THROW_A_NPE)) {
+      verifyBarPass(method, bar); // only pass if 1st param throws NPE
+    } else {
+      verifyBarFail(method, bar);
     }
   }
 
   @Test
-  public void twoArgNullableNormal() throws Exception {
+  public void twoArgNullableNormal(
+      @TestParameter TwoArg.Action first, @TestParameter TwoArg.Action second) throws Exception {
     Method method = TwoArg.class.getMethod("nullableNormal", String.class, Integer.class);
-    for (TwoArg.Action first : TwoArg.Action.values()) {
-      for (TwoArg.Action second : TwoArg.Action.values()) {
-        TwoArg bar = new TwoArg(first, second);
-        if (second.equals(TwoArg.Action.THROW_A_NPE)) {
-          verifyBarPass(method, bar); // only pass if 2nd param throws NPE
-        } else {
-          verifyBarFail(method, bar);
-        }
-      }
+    TwoArg bar = new TwoArg(first, second);
+    if (second.equals(TwoArg.Action.THROW_A_NPE)) {
+      verifyBarPass(method, bar); // only pass if 2nd param throws NPE
+    } else {
+      verifyBarFail(method, bar);
     }
   }
 
   @Test
-  public void twoArgNullableNullable() throws Exception {
+  public void twoArgNullableNullable(
+      @TestParameter TwoArg.Action first, @TestParameter TwoArg.Action second) throws Exception {
     Method method = TwoArg.class.getMethod("nullableNullable", String.class, Integer.class);
-    for (TwoArg.Action first : TwoArg.Action.values()) {
-      for (TwoArg.Action second : TwoArg.Action.values()) {
-        TwoArg bar = new TwoArg(first, second);
-        verifyBarPass(method, bar); // All args nullable:  anything goes!
-      }
-    }
+    TwoArg bar = new TwoArg(first, second);
+    verifyBarPass(method, bar); // All args nullable:  anything goes!
   }
 
   /*
