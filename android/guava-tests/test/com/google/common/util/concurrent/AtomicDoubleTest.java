@@ -225,10 +225,10 @@ public class AtomicDoubleTest extends JSR166TestCase {
   /** floatValue returns current value. */
   public void testFloatValue() {
     AtomicDouble at = new AtomicDouble();
-    assertEquals(0.0f, at.floatValue());
+    assertThat(at.floatValue()).isEqualTo(0.0f);
     for (double x : VALUES) {
       at.set(x);
-      assertEquals((float) x, at.floatValue());
+      assertThat(at.floatValue()).isEqualTo((float) x);
     }
   }
 
