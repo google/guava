@@ -43,8 +43,7 @@ public class EquivalenceTesterTest {
   private MockEquivalence equivalenceMock;
 
   @Before
-  public void setUp() throws Exception {
-
+  public void setUp() {
     this.equivalenceMock = new MockEquivalence();
     this.tester = EquivalenceTester.of(equivalenceMock);
   }

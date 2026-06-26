@@ -165,8 +165,8 @@ public class ArbitraryInstancesTest {
     assertEquals(Integer.valueOf(0), ArbitraryInstances.get(Integer.class));
     assertEquals(Long.valueOf(0), ArbitraryInstances.get(long.class));
     assertEquals(Long.valueOf(0), ArbitraryInstances.get(Long.class));
-    assertEquals(Float.valueOf(0), ArbitraryInstances.get(float.class), 0.0f);
-    assertEquals(Float.valueOf(0), ArbitraryInstances.get(Float.class), 0.0f);
+    assertThat(ArbitraryInstances.get(float.class)).isEqualTo(Float.valueOf(0));
+    assertThat(ArbitraryInstances.get(Float.class)).isEqualTo(Float.valueOf(0));
     assertThat(ArbitraryInstances.get(double.class)).isEqualTo(Double.valueOf(0));
     assertThat(ArbitraryInstances.get(Double.class)).isEqualTo(Double.valueOf(0));
     assertEquals(UnsignedInteger.ZERO, ArbitraryInstances.get(UnsignedInteger.class));

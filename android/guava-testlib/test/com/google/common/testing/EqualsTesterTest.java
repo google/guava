@@ -48,8 +48,7 @@ public class EqualsTesterTest {
   private ValidTestObject notEqualObject1;
 
   @Before
-  public void setUp() throws Exception {
-
+  public void setUp() {
     reference = new ValidTestObject(1, 2);
     equalsTester = new EqualsTester();
     equalObject1 = new ValidTestObject(1, 2);
