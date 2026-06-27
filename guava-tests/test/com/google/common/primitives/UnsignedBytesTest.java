@@ -89,9 +89,7 @@ public class UnsignedBytesTest extends TestCase {
   private static void assertCastFails(long value) {
     IllegalArgumentException ex =
         assertThrows(IllegalArgumentException.class, () -> UnsignedBytes.checkedCast(value));
-    assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
-        .that(ex.getMessage().contains(String.valueOf(value)))
-        .isTrue();
+    assertThat(ex).hasMessageThat().contains(String.valueOf(value));
   }
 
   public void testCompare() {

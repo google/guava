@@ -90,9 +90,7 @@ public class ShortsTest extends TestCase {
   private static void assertCastFails(long value) {
     IllegalArgumentException ex =
         assertThrows(IllegalArgumentException.class, () -> Shorts.checkedCast(value));
-    assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
-        .that(ex.getMessage().contains(String.valueOf(value)))
-        .isTrue();
+    assertThat(ex).hasMessageThat().contains(String.valueOf(value));
   }
 
   // We need to test that our method behaves like the JDK method.

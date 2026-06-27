@@ -72,14 +72,9 @@ public class SignedBytesTest extends TestCase {
   }
 
   private static void assertCastFails(long value) {
-    try {
-      SignedBytes.checkedCast(value);
-      fail("Cast to byte should have failed: " + value);
-    } catch (IllegalArgumentException ex) {
-      assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
-          .that(ex.getMessage().contains(String.valueOf(value)))
-          .isTrue();
-    }
+    IllegalArgumentException ex =
+        assertThrows(IllegalArgumentException.class, () -> SignedBytes.checkedCast(value));
+    assertThat(ex).hasMessageThat().contains(String.valueOf(value));
   }
 
   public void testCompare() {

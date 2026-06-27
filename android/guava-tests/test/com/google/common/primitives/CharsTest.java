@@ -86,9 +86,7 @@ public class CharsTest extends TestCase {
   private void assertCastFails(long value) {
     IllegalArgumentException ex =
         assertThrows(IllegalArgumentException.class, () -> Chars.checkedCast(value));
-    assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
-        .that(ex.getMessage().contains(String.valueOf(value)))
-        .isTrue();
+    assertThat(ex).hasMessageThat().contains(String.valueOf(value));
   }
 
   // We need to test that our method behaves like the JDK method.
