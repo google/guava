@@ -402,6 +402,14 @@ public final class HttpHeaders {
   public static final String NO_VARY_SEARCH = "No-Vary-Search";
 
   /**
+   * The HTTP <a href="https://github.com/explainers-by-googlers/prefetch-activation-beacon">{@code
+   * on-prefetch-activation}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String ON_PREFETCH_ACTIVATION = "on-prefetch-activation";
+
+  /**
    * The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>
    * header field name.
    *
