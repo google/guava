@@ -1,3 +1,4 @@
 OK: com.google.common.hash.BloomFilter Method readFrom(java.io.InputStream, com.google.common.hash.Funnel<? super T>, long)
+OK: com.google.common.net.HttpHeaders Field ON_PREFETCH_ACTIVATION
 OK: com.google.common.net.MediaType Field PEM
 OK: com.google.common.net.MediaType Field YAML

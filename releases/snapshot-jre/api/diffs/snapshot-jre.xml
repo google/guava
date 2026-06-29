@@ -53841,6 +53841,17 @@
  @since 32.0.0]]>
       </doc>
     </field>
+    <field name="ON_PREFETCH_ACTIVATION" type="java.lang.String"
+      transient="false" volatile="false"
+      static="true" final="true" visibility="public"
+      deprecated="not deprecated">
+      <doc>
+      <![CDATA[The HTTP <a href="https://github.com/explainers-by-googlers/prefetch-activation-beacon">{@code
+ on-prefetch-activation}</a> header field name.
+
+ @since NEXT]]>
+      </doc>
+    </field>
     <field name="ORIGIN_TRIAL" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
