@@ -31,8 +31,8 @@ import org.jspecify.annotations.NullUnmarked;
  */
 
 @NullUnmarked
-public class PackageSanityTests extends AbstractPackageSanityTests {
-  public PackageSanityTests() {
+public class PackageSanityTest extends AbstractPackageSanityTests {
+  public PackageSanityTest() {
     setDefault(BaseEncoding.class, BaseEncoding.base64());
     setDefault(int.class, 32);
     setDefault(String.class, "abcd");

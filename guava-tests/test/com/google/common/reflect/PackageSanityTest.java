@@ -14,24 +14,12 @@
  * limitations under the License.
  */
 
-package com.google.common.primitives;
+package com.google.common.reflect;
 
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
-/**
- * Tests basic sanity for each class in the package.
- *
- * @author Ben Yu
- */
+/** Tests nulls for the entire package. */
 
 @NullUnmarked
-@GwtIncompatible
-@J2ktIncompatible
-public class PackageSanityTests extends AbstractPackageSanityTests {
-  public PackageSanityTests() {
-    setDefault(String.class, "string");
-  }
-}
+public class PackageSanityTest extends AbstractPackageSanityTests {}

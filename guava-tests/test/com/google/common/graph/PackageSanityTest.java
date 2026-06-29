@@ -29,7 +29,7 @@ import org.jspecify.annotations.NullUnmarked;
  */
 
 @NullUnmarked
-public class PackageSanityTests extends AbstractPackageSanityTests {
+public class PackageSanityTest extends AbstractPackageSanityTests {
 
   private static final AbstractGraphBuilder<?> graphBuilderA =
       GraphBuilder.directed().expectedNodeCount(10);
@@ -51,7 +51,7 @@ public class PackageSanityTests extends AbstractPackageSanityTests {
   private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_B =
       NetworkBuilder.directed().<String, String>immutable().addNode("B").build();
 
-  public PackageSanityTests() {
+  public PackageSanityTest() {
     MutableNetwork<String, String> mutableNetworkA = NetworkBuilder.directed().build();
     mutableNetworkA.addNode("a");
     MutableNetwork<String, String> mutableNetworkB = NetworkBuilder.directed().build();

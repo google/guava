@@ -14,11 +14,24 @@
  * limitations under the License.
  */
 
-package com.google.common.testing;
+package com.google.common.math;
 
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
-/** Test nulls for the entire package. */
+/**
+ * Basic sanity tests for the entire package.
+ *
+ * @author Ben Yu
+ */
 
 @NullUnmarked
-public class PackageSanityTests extends AbstractPackageSanityTests {}
+@J2ktIncompatible
+@GwtIncompatible
+public class PackageSanityTest extends AbstractPackageSanityTests {
+  public PackageSanityTest() {
+    publicApiOnly();
+  }
+}

@@ -14,12 +14,21 @@
  * limitations under the License.
  */
 
-package com.google.common.reflect;
+package com.google.common.collect;
 
 import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
-/** Tests nulls for the entire package. */
+/**
+ * Covers basic sanity checks for the entire package.
+ *
+ * @author Ben Yu
+ */
 
 @NullUnmarked
-public class PackageSanityTests extends AbstractPackageSanityTests {}
+public class PackageSanityTest extends AbstractPackageSanityTests {
+  public PackageSanityTest() {
+    publicApiOnly(); // Many package-private classes are tested through the public API.
+    setDefault(DiscreteDomain.class, DiscreteDomain.integers());
+  }
+}

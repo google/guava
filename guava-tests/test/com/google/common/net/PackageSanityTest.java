@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.google.common.hash;
+package com.google.common.net;
 
+import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -28,12 +28,10 @@ import org.jspecify.annotations.NullUnmarked;
  */
 
 @NullUnmarked
+@GwtIncompatible
 @J2ktIncompatible
-public class PackageSanityTests extends AbstractPackageSanityTests {
-  public PackageSanityTests() {
-    setDefault(LockFreeBitArray.class, new LockFreeBitArray(1));
-    setDefault(HashCode.class, HashCode.fromInt(1));
-    setDefault(String.class, "MD5");
-    setDefault(int.class, 32);
+public class PackageSanityTest extends AbstractPackageSanityTests {
+  public PackageSanityTest() {
+    setDefault(InternetDomainName.class, InternetDomainName.from("google.com"));
   }
 }

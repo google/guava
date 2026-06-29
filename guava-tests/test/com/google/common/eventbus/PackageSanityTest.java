@@ -28,9 +28,9 @@ import org.jspecify.annotations.Nullable;
  */
 
 @NullUnmarked
-public class PackageSanityTests extends AbstractPackageSanityTests {
+public class PackageSanityTest extends AbstractPackageSanityTests {
 
-  public PackageSanityTests() {
+  public PackageSanityTest() {
     DummySubscriber dummySubscriber = new DummySubscriber();
     setDefault(Subscriber.class, dummySubscriber.toSubscriber());
     setDefault(Method.class, DummySubscriber.subscriberMethod());
