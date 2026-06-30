@@ -9135,9 +9135,12 @@
     abstract="false"
     static="true" final="true" visibility="public"
     deprecated="not deprecated">
-    <constructor name="InvalidCacheLoadException" type="java.lang.String"
+    <constructor name="InvalidCacheLoadException" type="String"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructs a new {@code InvalidCacheLoadException} with the specified detail message.]]>
+      </doc>
     </constructor>
     <doc>
     <![CDATA[Thrown to indicate that an invalid response was returned from a call to {@link CacheLoader}.
@@ -9520,6 +9523,9 @@
     <constructor name="SimpleForwardingCache" type="com.google.common.cache.Cache&lt;K, V&gt;"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="delegate" return="com.google.common.cache.Cache&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -9605,6 +9611,9 @@
     <constructor name="SimpleForwardingLoadingCache" type="com.google.common.cache.LoadingCache&lt;K, V&gt;"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="delegate" return="com.google.common.cache.LoadingCache&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -20767,6 +20776,9 @@
     <constructor name="Builder"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructs a new builder.]]>
+      </doc>
     </constructor>
     <method name="put" return="com.google.common.collect.ImmutableRangeMap.Builder&lt;K, V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -21099,6 +21111,9 @@
     <constructor name="Builder"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructs a new builder.]]>
+      </doc>
     </constructor>
     <method name="add" return="com.google.common.collect.ImmutableRangeSet.Builder&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
@@ -25049,6 +25064,9 @@
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Builds and returns a new interner.]]>
+      </doc>
     </method>
     <doc>
     <![CDATA[Builder for {@link Interner} instances.
@@ -48497,6 +48515,9 @@
     <constructor name="InsecureRecursiveDeleteException" type="String"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructs a new {@code InsecureRecursiveDeleteException} for the specified file.]]>
+      </doc>
     </constructor>
     <doc>
     <![CDATA[Exception indicating that a recursive delete can't be performed because the file system does not
@@ -54463,41 +54484,65 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[The {@code no-referrer} referrer policy.]]>
+      </doc>
     </field>
     <field name="NO_REFFERER_WHEN_DOWNGRADE" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[The {@code no-referrer-when-downgrade} referrer policy.]]>
+      </doc>
     </field>
     <field name="SAME_ORIGIN" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[The {@code same-origin} referrer policy.]]>
+      </doc>
     </field>
     <field name="ORIGIN" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[The {@code origin} referrer policy.]]>
+      </doc>
     </field>
     <field name="STRICT_ORIGIN" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[The {@code strict-origin} referrer policy.]]>
+      </doc>
     </field>
     <field name="ORIGIN_WHEN_CROSS_ORIGIN" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[The {@code origin-when-cross-origin} referrer policy.]]>
+      </doc>
     </field>
     <field name="STRICT_ORIGIN_WHEN_CROSS_ORIGIN" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[The {@code strict-origin-when-cross-origin} referrer policy.]]>
+      </doc>
     </field>
     <field name="UNSAFE_URL" type="java.lang.String"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[The {@code unsafe-url} referrer policy.]]>
+      </doc>
     </field>
     <doc>
     <![CDATA[Values for the <a href="https://www.w3.org/TR/referrer-policy/">{@code Referrer-Policy}</a>
@@ -62670,16 +62715,25 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[An {@code UnsignedInteger} constant holding the value 0.]]>
+      </doc>
     </field>
     <field name="ONE" type="com.google.common.primitives.UnsignedInteger"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[An {@code UnsignedInteger} constant holding the value 1.]]>
+      </doc>
     </field>
     <field name="MAX_VALUE" type="com.google.common.primitives.UnsignedInteger"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[An {@code UnsignedInteger} constant holding the maximum value, 2^32 - 1.]]>
+      </doc>
     </field>
     <doc>
     <![CDATA[A wrapper class for unsigned {@code int} values, supporting arithmetic operations.
@@ -63237,16 +63291,25 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[An {@code UnsignedLong} constant holding the value 0.]]>
+      </doc>
     </field>
     <field name="ONE" type="com.google.common.primitives.UnsignedLong"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[An {@code UnsignedLong} constant holding the value 1.]]>
+      </doc>
     </field>
     <field name="MAX_VALUE" type="com.google.common.primitives.UnsignedLong"
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[An {@code UnsignedLong} constant holding the maximum value, 2^64 - 1.]]>
+      </doc>
     </field>
     <doc>
     <![CDATA[A wrapper class for unsigned {@code long} values, supporting arithmetic operations.
@@ -63527,6 +63590,9 @@
       transient="false" volatile="false"
       static="true" final="true" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[A constant holding the maximum value an unsigned {@code long} can have, 2^64 - 1.]]>
+      </doc>
     </field>
     <doc>
     <![CDATA[Static utility methods pertaining to {@code long} primitives that interpret values as
@@ -64666,6 +64732,9 @@
     <constructor name="TypeParameter"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
@@ -64706,6 +64775,9 @@
     <constructor name="TypeResolver"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructs a new {@code TypeResolver} with no type mappings.]]>
+      </doc>
     </constructor>
     <method name="where" return="com.google.common.reflect.TypeResolver"
       abstract="false" native="false" synchronized="false"
@@ -70454,6 +70526,9 @@
     <constructor name="SimpleForwardingFuture" type="java.util.concurrent.Future&lt;V&gt;"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="delegate" return="java.util.concurrent.Future&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -70522,6 +70597,9 @@
     <constructor name="SimpleForwardingListenableFuture" type="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       static="false" final="false" visibility="protected"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructor for use by subclasses.]]>
+      </doc>
     </constructor>
     <method name="delegate" return="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -74898,18 +74976,30 @@
     <constructor name="UncheckedTimeoutException"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructs a new {@code UncheckedTimeoutException} with {@code null} as its detail message.]]>
+      </doc>
     </constructor>
     <constructor name="UncheckedTimeoutException" type="String"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructs a new {@code UncheckedTimeoutException} with the specified detail message.]]>
+      </doc>
     </constructor>
     <constructor name="UncheckedTimeoutException" type="Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructs a new {@code UncheckedTimeoutException} with the specified cause.]]>
+      </doc>
     </constructor>
     <constructor name="UncheckedTimeoutException" type="String, Throwable"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
+      <doc>
+      <![CDATA[Constructs a new {@code UncheckedTimeoutException} with the specified detail message and cause.]]>
+      </doc>
     </constructor>
     <doc>
     <![CDATA[Unchecked version of {@link java.util.concurrent.TimeoutException}.
