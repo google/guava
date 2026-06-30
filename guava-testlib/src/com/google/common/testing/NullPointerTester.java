@@ -87,6 +87,7 @@ public final class NullPointerTester {
    * NullPointerTester. But if you are a user who is reading this because this change caused you
    * trouble, please let us know: https://github.com/google/guava/issues/new
    */
+  /** Constructs a new {@code NullPointerTester}. */
   @IgnoreJRERequirement
   public NullPointerTester() {
     try {

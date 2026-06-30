@@ -192,13 +192,28 @@ public final class HttpHeaders {
   public static final class ReferrerPolicyValues {
     private ReferrerPolicyValues() {}
 
+    /** The {@code no-referrer} referrer policy. */
     public static final String NO_REFERRER = "no-referrer";
+
+    /** The {@code no-referrer-when-downgrade} referrer policy. */
     public static final String NO_REFFERER_WHEN_DOWNGRADE = "no-referrer-when-downgrade";
+
+    /** The {@code same-origin} referrer policy. */
     public static final String SAME_ORIGIN = "same-origin";
+
+    /** The {@code origin} referrer policy. */
     public static final String ORIGIN = "origin";
+
+    /** The {@code strict-origin} referrer policy. */
     public static final String STRICT_ORIGIN = "strict-origin";
+
+    /** The {@code origin-when-cross-origin} referrer policy. */
     public static final String ORIGIN_WHEN_CROSS_ORIGIN = "origin-when-cross-origin";
+
+    /** The {@code strict-origin-when-cross-origin} referrer policy. */
     public static final String STRICT_ORIGIN_WHEN_CROSS_ORIGIN = "strict-origin-when-cross-origin";
+
+    /** The {@code unsafe-url} referrer policy. */
     public static final String UNSAFE_URL = "unsafe-url";
   }
 

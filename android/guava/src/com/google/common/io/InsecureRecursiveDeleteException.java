@@ -42,6 +42,7 @@ import org.jspecify.annotations.Nullable;
 @IgnoreJRERequirement
 public final class InsecureRecursiveDeleteException extends FileSystemException {
 
+  /** Constructs a new {@code InsecureRecursiveDeleteException} for the specified file. */
   public InsecureRecursiveDeleteException(@Nullable String file) {
     super(file, null, "unable to guarantee security of recursive delete");
   }

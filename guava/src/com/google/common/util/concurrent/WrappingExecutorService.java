@@ -48,6 +48,7 @@ import org.jspecify.annotations.Nullable;
 abstract class WrappingExecutorService implements ExecutorService {
   private final ExecutorService delegate;
 
+  /** Constructor for use by subclasses. */
   protected WrappingExecutorService(ExecutorService delegate) {
     this.delegate = checkNotNull(delegate);
   }

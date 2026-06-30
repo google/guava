@@ -81,6 +81,10 @@ public final class EquivalenceTester<T> {
     return this;
   }
 
+  /**
+   * Adds a group of objects that are supposed to be equivalent to each other and not equivalent to
+   * objects in any other equivalence group added to this tester.
+   */
   @CanIgnoreReturnValue
   public EquivalenceTester<T> addEquivalenceGroup(Iterable<T> group) {
     delegate.addRelatedGroup(group);

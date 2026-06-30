@@ -241,5 +241,6 @@ public final class ForwardingWrapperTester {
     }
   }
 
+  /** Constructs a new {@code ForwardingWrapperTester}. */
   public ForwardingWrapperTester() {}
 }

@@ -44,5 +44,6 @@ public abstract class SloppyTearDown implements TearDown {
     }
   }
 
+  /** Performs the actual teardown. Exceptions thrown by this method will be caught and logged. */
   public abstract void sloppyTearDown() throws Exception;
 }

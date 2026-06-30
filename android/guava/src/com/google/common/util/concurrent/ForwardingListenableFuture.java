@@ -64,6 +64,7 @@ public abstract class ForwardingListenableFuture<V extends @Nullable Object>
       extends ForwardingListenableFuture<V> {
     private final ListenableFuture<V> delegate;
 
+    /** Constructor for use by subclasses. */
     protected SimpleForwardingListenableFuture(ListenableFuture<V> delegate) {
       this.delegate = Preconditions.checkNotNull(delegate);
     }

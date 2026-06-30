@@ -23,10 +23,13 @@ import com.google.common.annotations.GwtCompatible;
  */
 @GwtCompatible
 abstract class CommonPattern {
+  /** Returns a {@link CommonMatcher} for the given input. */
   public abstract CommonMatcher matcher(CharSequence t);
 
+  /** Returns the pattern string. */
   public abstract String pattern();
 
+  /** Returns the flags used to compile this pattern. */
   public abstract int flags();
 
   // Re-declare this as abstract to force subclasses to override.

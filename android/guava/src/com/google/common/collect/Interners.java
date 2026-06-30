@@ -81,6 +81,7 @@ public final class Interners {
       return this;
     }
 
+    /** Builds and returns a new interner. */
     public <E> Interner<E> build() {
       if (!strong) {
         mapMaker.weakKeys();

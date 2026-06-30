@@ -230,5 +230,6 @@ final class ListenerCallQueue<L> {
     }
   }
 
+  /** Constructs a new {@code ListenerCallQueue}. */
   ListenerCallQueue() {}
 }

@@ -41,8 +41,13 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
 
   private static final long UNSIGNED_MASK = 0x7fffffffffffffffL;
 
+  /** An {@code UnsignedLong} constant holding the value 0. */
   public static final UnsignedLong ZERO = new UnsignedLong(0);
+
+  /** An {@code UnsignedLong} constant holding the value 1. */
   public static final UnsignedLong ONE = new UnsignedLong(1);
+
+  /** An {@code UnsignedLong} constant holding the maximum value, 2^64 - 1. */
   public static final UnsignedLong MAX_VALUE = new UnsignedLong(-1L);
 
   private final long value;

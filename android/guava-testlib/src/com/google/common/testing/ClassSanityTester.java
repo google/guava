@@ -116,6 +116,7 @@ public final class ClassSanityTester {
   private final ListMultimap<Class<?>, Object> distinctValues = ArrayListMultimap.create();
   private final NullPointerTester nullPointerTester = new NullPointerTester();
 
+  /** Constructs a new {@code ClassSanityTester}. */
   public ClassSanityTester() {
     // TODO(benyu): bake these into ArbitraryInstances.
     setDefault(byte.class, (byte) 1);

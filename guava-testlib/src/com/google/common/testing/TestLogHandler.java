@@ -79,6 +79,7 @@ public class TestLogHandler extends Handler {
   @Override
   public void close() {}
 
+  /** Clears all stored log records. */
   public void clear() {
     synchronized (lock) {
       list.clear();

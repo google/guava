@@ -41,8 +41,13 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtCompatible
 public final class UnsignedInteger extends Number implements Comparable<UnsignedInteger> {
+  /** An {@code UnsignedInteger} constant holding the value 0. */
   public static final UnsignedInteger ZERO = fromIntBits(0);
+
+  /** An {@code UnsignedInteger} constant holding the value 1. */
   public static final UnsignedInteger ONE = fromIntBits(1);
+
+  /** An {@code UnsignedInteger} constant holding the maximum value, 2^32 - 1. */
   public static final UnsignedInteger MAX_VALUE = fromIntBits(-1);
 
   private final int value;

@@ -48,12 +48,24 @@ public class TearDownStack implements TearDownAccepter {
   @GuardedBy("lock")
   final Deque<TearDown> stack = new ArrayDeque<>();
 
+  /*
+   * TODO(cpovirk): Rework the "suppress" terminology in this class for Java's "new" concept of
+   * "suppressed exceptions." At the moment, we use addSuppressed only if suppressThrows is *false*!
+   */
+
   private final boolean suppressThrows;
 
+  /**
+   * Constructs a new {@code TearDownStack} that does not suppress exceptions throw during teardown.
+   */
   public TearDownStack() {
     this.suppressThrows = false;
   }
 
+  /**
+   * Constructs a new {@code TearDownStack}, specifying whether to suppress exceptions thrown during
+   * teardown.
+   */
   public TearDownStack(boolean suppressThrows) {
     this.suppressThrows = suppressThrows;
   }

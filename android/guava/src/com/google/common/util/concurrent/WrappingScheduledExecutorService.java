@@ -36,6 +36,7 @@ abstract class WrappingScheduledExecutorService extends WrappingExecutorService
     implements ScheduledExecutorService {
   final ScheduledExecutorService delegate;
 
+  /** Constructor for use by subclasses. */
   protected WrappingScheduledExecutorService(ScheduledExecutorService delegate) {
     super(delegate);
     this.delegate = delegate;
