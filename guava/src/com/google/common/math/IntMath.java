@@ -386,11 +386,15 @@ public final class IntMath {
    * @see <a href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-15.html#jls-15.17.3">
    *     Remainder Operator</a>
    */
+  @SuppressWarnings("all") // suppressing floorMod suggestions on fundamental mod implementation
   public static int mod(int x, int m) {
     if (m <= 0) {
       throw new ArithmeticException("Modulus " + m + " must be > 0");
     }
-    return Math.floorMod(x, m);
+    // When m is a positive power of two, x & (m - 1) extracts the lowest bits in two's complement,
+    // yielding the exact positive remainder in [0, m - 1] and bypassing expensive division
+    // instructions.
+    return ((m & (m - 1)) == 0) ? (x & (m - 1)) : Math.floorMod(x, m);
   }
 
   /**
