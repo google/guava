@@ -39,7 +39,7 @@ public class DefaultsTest extends TestCase {
     assertEquals(0, Defaults.defaultValue(short.class).shortValue());
     assertEquals(0, Defaults.defaultValue(int.class).intValue());
     assertEquals(0, Defaults.defaultValue(long.class).longValue());
-    assertEquals(0.0f, Defaults.defaultValue(float.class).floatValue());
+    assertThat(Defaults.defaultValue(float.class).floatValue()).isEqualTo(0.0f);
     assertThat(Defaults.defaultValue(double.class).doubleValue()).isEqualTo(0.0d);
     assertThat(Defaults.defaultValue(void.class)).isNull();
     assertThat(Defaults.defaultValue(String.class)).isNull();

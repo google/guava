@@ -55,7 +55,7 @@ public class FakeTimeLimiterTest extends TestCase {
     assertThat(result).isEqualTo(RETURN_VALUE);
   }
 
-  public void testCallWithTimeout_wrapsCheckedException() throws Exception {
+  public void testCallWithTimeout_wrapsCheckedException() {
     Exception exception = new SampleCheckedException();
     ExecutionException e =
         assertThrows(
@@ -64,7 +64,7 @@ public class FakeTimeLimiterTest extends TestCase {
     assertThat(e).hasCauseThat().isEqualTo(exception);
   }
 
-  public void testCallWithTimeout_wrapsUncheckedException() throws Exception {
+  public void testCallWithTimeout_wrapsUncheckedException() {
     Exception exception = new RuntimeException("test");
     UncheckedExecutionException e =
         assertThrows(
@@ -85,7 +85,7 @@ public class FakeTimeLimiterTest extends TestCase {
     timeLimiter.runWithTimeout(Runnables.doNothing(), DELAY_MS, MILLISECONDS);
   }
 
-  public void testRunWithTimeout_wrapsUncheckedException() throws Exception {
+  public void testRunWithTimeout_wrapsUncheckedException() {
     RuntimeException exception = new RuntimeException("test");
     UncheckedExecutionException e =
         assertThrows(
@@ -94,7 +94,7 @@ public class FakeTimeLimiterTest extends TestCase {
     assertThat(e).hasCauseThat().isEqualTo(exception);
   }
 
-  public void testRunUninterruptiblyWithTimeout_wrapsUncheckedException() throws Exception {
+  public void testRunUninterruptiblyWithTimeout_wrapsUncheckedException() {
     RuntimeException exception = new RuntimeException("test");
     UncheckedExecutionException e =
         assertThrows(

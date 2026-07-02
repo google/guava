@@ -51,7 +51,8 @@ import java.util.Comparator;
 public final class UnsignedLongs {
   private UnsignedLongs() {}
 
-  public static final long MAX_VALUE = -1L; // Equivalent to 2^64 - 1
+  /** A constant holding the maximum value an unsigned {@code long} can have, 2^64 - 1. */
+  public static final long MAX_VALUE = -1L;
 
   /**
    * A (self-inverse) bijection which converts the ordering on unsigned longs to the ordering on

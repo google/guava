@@ -94,6 +94,7 @@ public abstract class ForwardingFuture<V extends @Nullable Object> extends Forwa
       extends ForwardingFuture<V> {
     private final Future<V> delegate;
 
+    /** Constructor for use by subclasses. */
     protected SimpleForwardingFuture(Future<V> delegate) {
       this.delegate = Preconditions.checkNotNull(delegate);
     }

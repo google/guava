@@ -182,7 +182,7 @@ public class QueuesTest extends TestCase {
     }
   }
 
-  public void testEmpty() throws Exception {
+  public void testEmpty() {
     for (BlockingQueue<Object> q : blockingQueues()) {
       checkEmpty(q);
     }
@@ -211,7 +211,7 @@ public class QueuesTest extends TestCase {
     q.take();
   }
 
-  public void testDrain_throws() throws Exception {
+  public void testDrain_throws() {
     for (BlockingQueue<Object> q : blockingQueues()) {
       checkDrainThrows(q);
     }
@@ -225,7 +225,7 @@ public class QueuesTest extends TestCase {
         () -> drain(q, ImmutableList.of(), 100, MAX_VALUE, NANOSECONDS));
   }
 
-  public void testDrainUninterruptibly_doesNotThrow() throws Exception {
+  public void testDrainUninterruptibly_doesNotThrow() {
     for (BlockingQueue<Object> q : blockingQueues()) {
       testDrainUninterruptiblyDoesNotThrow(q);
     }

@@ -505,7 +505,7 @@ public class HashingTest extends TestCase {
    * testSeededHashFunctionEquals}.
    */
   @J2ktIncompatible
-  public void testGoodFastHashEquals() throws Exception {
+  public void testGoodFastHashEquals() {
     HashFunction hashFunction1a = Hashing.goodFastHash(1);
     HashFunction hashFunction1b = Hashing.goodFastHash(32);
     HashFunction hashFunction2a = Hashing.goodFastHash(33);

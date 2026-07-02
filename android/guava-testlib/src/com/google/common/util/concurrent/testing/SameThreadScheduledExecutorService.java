@@ -156,8 +156,7 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
     }
 
     @Override
-    public V get(long timeout, TimeUnit unit)
-        throws InterruptedException, ExecutionException, TimeoutException {
+    public V get(long timeout, TimeUnit unit) throws InterruptedException, ExecutionException {
       Preconditions.checkNotNull(unit, "unit must not be null!");
       return get();
     }

@@ -245,7 +245,7 @@ public class ExecutionListBenchmark {
   }
 
   @AfterExperiment
-  void tearDown() throws Exception {
+  void tearDown() {
     executorService.shutdown();
   }
 

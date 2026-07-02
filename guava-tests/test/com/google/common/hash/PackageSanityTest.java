@@ -14,14 +14,11 @@
  * limitations under the License.
  */
 
-package com.google.common.io;
+package com.google.common.hash;
 
-import static java.nio.charset.StandardCharsets.UTF_8;
-
+import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.testing.AbstractPackageSanityTests;
-import java.lang.reflect.Method;
-import java.nio.channels.FileChannel.MapMode;
-import java.nio.charset.CharsetEncoder;
 import org.jspecify.annotations.NullUnmarked;
 
 /**
@@ -31,13 +28,12 @@ import org.jspecify.annotations.NullUnmarked;
  */
 
 @NullUnmarked
-public class PackageSanityTests extends AbstractPackageSanityTests {
-  public PackageSanityTests() {
-    setDefault(BaseEncoding.class, BaseEncoding.base64());
+@J2ktIncompatible
+public class PackageSanityTest extends AbstractPackageSanityTests {
+  public PackageSanityTest() {
+    setDefault(LockFreeBitArray.class, new LockFreeBitArray(1));
+    setDefault(HashCode.class, HashCode.fromInt(1));
+    setDefault(String.class, "MD5");
     setDefault(int.class, 32);
-    setDefault(String.class, "abcd");
-    setDefault(Method.class, AbstractPackageSanityTests.class.getDeclaredMethods()[0]);
-    setDefault(MapMode.class, MapMode.READ_ONLY);
-    setDefault(CharsetEncoder.class, UTF_8.newEncoder());
   }
 }

@@ -77,7 +77,7 @@ public class MutableClassToInstanceMapTest extends TestCase {
   private ClassToInstanceMap<Number> map;
 
   @Override
-  protected void setUp() throws Exception {
+  protected void setUp() {
     map = MutableClassToInstanceMap.create();
   }
 

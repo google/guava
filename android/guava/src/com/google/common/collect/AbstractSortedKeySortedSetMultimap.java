@@ -46,7 +46,7 @@ abstract class AbstractSortedKeySortedSetMultimap<
   }
 
   @Override
-  SortedMap<K, Collection<V>> backingMap() {
+  final SortedMap<K, Collection<V>> backingMap() {
     return (SortedMap<K, Collection<V>>) super.backingMap();
   }
 
@@ -56,7 +56,7 @@ abstract class AbstractSortedKeySortedSetMultimap<
   }
 
   @Override
-  Set<K> createKeySet() {
+  final Set<K> createKeySet() {
     return createMaybeNavigableKeySet();
   }
 }

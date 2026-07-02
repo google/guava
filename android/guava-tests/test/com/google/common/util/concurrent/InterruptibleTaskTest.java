@@ -120,7 +120,7 @@ public final class InterruptibleTaskTest extends TestCase {
     InterruptibleTask<@Nullable Void> task =
         new InterruptibleTask<@Nullable Void>() {
           @Override
-          @Nullable Void runInterruptibly() throws Exception {
+          @Nullable Void runInterruptibly() {
             slowChannel.doBegin();
             isInterruptibleRegistered.countDown();
             try {

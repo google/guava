@@ -320,7 +320,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   @GwtIncompatible // not present in emulated superclass
   @Override
   final int copyIntoArray(@Nullable Object[] dst, int offset) {
-    for (Multiset.Entry<E> entry : entrySet()) {
+    for (Entry<E> entry : entrySet()) {
       Arrays.fill(dst, offset, offset + entry.getCount(), entry.getElement());
       offset += entry.getCount();
     }

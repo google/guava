@@ -57,6 +57,7 @@ public class HttpHeadersTest extends TestCase {
             .put("SEC_WEBSOCKET_VERSION", "Sec-WebSocket-Version")
             .put("X_WEBKIT_CSP", "X-WebKit-CSP")
             .put("X_WEBKIT_CSP_REPORT_ONLY", "X-WebKit-CSP-Report-Only")
+            .put("ON_PREFETCH_ACTIVATION", "on-prefetch-activation")
             .buildOrThrow();
     ImmutableSet<String> uppercaseAcronyms =
         ImmutableSet.of(

@@ -112,6 +112,7 @@ public class ImmutableRangeMap<K extends Comparable<?>, V> implements RangeMap<K
   public static final class Builder<K extends Comparable<?>, V> {
     private final List<Entry<Range<K>, V>> entries;
 
+    /** Constructs a new builder. */
     public Builder() {
       this.entries = new ArrayList<>();
     }

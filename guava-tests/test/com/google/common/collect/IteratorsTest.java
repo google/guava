@@ -769,9 +769,8 @@ public class IteratorsTest extends TestCase {
   /** Illustrates the somewhat bizarre behavior when a null is passed in. */
   public void testConcatContainingNull() {
     Iterator<Iterator<Integer>> input =
-        (Iterator<Iterator<Integer>>)
-            Arrays.<@Nullable Iterator<Integer>>asList(iterateOver(1, 2), null, iterateOver(3))
-                .iterator();
+        Arrays.<@Nullable Iterator<Integer>>asList(iterateOver(1, 2), null, iterateOver(3))
+            .iterator();
     Iterator<Integer> result = concat(input);
     assertEquals(1, (int) result.next());
     assertEquals(2, (int) result.next());
@@ -841,21 +840,21 @@ public class IteratorsTest extends TestCase {
   @GwtIncompatible // Only used by @GwtIncompatible code
   private abstract static class EmptyIteratorTester extends IteratorTester<Integer> {
     EmptyIteratorTester() {
-      super(3, MODIFIABLE, Collections.emptySet(), IteratorTester.KnownOrder.KNOWN_ORDER);
+      super(3, MODIFIABLE, Collections.emptySet(), KnownOrder.KNOWN_ORDER);
     }
   }
 
   @GwtIncompatible // Only used by @GwtIncompatible code
   private abstract static class SingletonIteratorTester extends IteratorTester<Integer> {
     SingletonIteratorTester() {
-      super(3, MODIFIABLE, singleton(1), IteratorTester.KnownOrder.KNOWN_ORDER);
+      super(3, MODIFIABLE, singleton(1), KnownOrder.KNOWN_ORDER);
     }
   }
 
   @GwtIncompatible // Only used by @GwtIncompatible code
   private abstract static class DoubletonIteratorTester extends IteratorTester<Integer> {
     DoubletonIteratorTester() {
-      super(5, MODIFIABLE, newArrayList(1, 2), IteratorTester.KnownOrder.KNOWN_ORDER);
+      super(5, MODIFIABLE, newArrayList(1, 2), KnownOrder.KNOWN_ORDER);
     }
   }
 

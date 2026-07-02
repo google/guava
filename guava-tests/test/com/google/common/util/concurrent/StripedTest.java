@@ -92,7 +92,7 @@ public class StripedTest extends TestCase {
     return concat(strongImplementations(), weakImplementations());
   }
 
-  public void testNull() throws Exception {
+  public void testNull() {
     for (Striped<?> striped : allImplementations()) {
       new NullPointerTester().testAllPublicInstanceMethods(striped);
     }

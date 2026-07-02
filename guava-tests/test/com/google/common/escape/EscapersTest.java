@@ -21,7 +21,6 @@ import static com.google.common.truth.Truth.assertWithMessage;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.testing.EscaperAsserts;
-import java.io.IOException;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -31,7 +30,7 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtCompatible
 @NullUnmarked
 public class EscapersTest extends TestCase {
-  public void testNullEscaper() throws IOException {
+  public void testNullEscaper() {
     Escaper escaper = Escapers.nullEscaper();
     EscaperAsserts.assertBasic(escaper);
     String s = "\0\n\t\\az09~\uD800\uDC00\uFFFF";

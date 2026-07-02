@@ -114,7 +114,7 @@ abstract class AbstractTable<
 
   @Override
   public void putAll(Table<? extends R, ? extends C, ? extends V> table) {
-    for (Table.Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
+    for (Cell<? extends R, ? extends C, ? extends V> cell : table.cellSet()) {
       put(cell.getRowKey(), cell.getColumnKey(), cell.getValue());
     }
   }
@@ -131,9 +131,9 @@ abstract class AbstractTable<
     return new CellSet();
   }
 
-  abstract Iterator<Table.Cell<R, C, V>> cellIterator();
+  abstract Iterator<Cell<R, C, V>> cellIterator();
 
-  Spliterator<Table.Cell<R, C, V>> cellSpliterator() {
+  Spliterator<Cell<R, C, V>> cellSpliterator() {
     return Spliterators.spliterator(cellSet(), Spliterator.NONNULL | Spliterator.DISTINCT);
   }
 
@@ -206,7 +206,7 @@ abstract class AbstractTable<
 
   @GwtIncompatible // Spliterator
   Spliterator<V> valuesSpliterator() {
-    return CollectSpliterators.map(cellSpliterator(), 0, Table.Cell::getValue);
+    return CollectSpliterators.map(cellSpliterator(), 0, Cell::getValue);
   }
 
   @WeakOuter
@@ -239,18 +239,18 @@ abstract class AbstractTable<
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     return Tables.equalsImpl(this, obj);
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return cellSet().hashCode();
   }
 
   /** Returns the string representation {@code rowMap().toString()}. */
   @Override
-  public String toString() {
+  public final String toString() {
     return rowMap().toString();
   }
 }

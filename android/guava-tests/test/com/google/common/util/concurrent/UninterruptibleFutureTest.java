@@ -193,7 +193,7 @@ public class UninterruptibleFutureTest extends TestCase {
   /**
    * Confirms that the test code triggers {@link InterruptedException} in a standard {@link Future}.
    */
-  public void testMakeUninterruptible_plainFutureSanityCheck() throws Exception {
+  public void testMakeUninterruptible_plainFutureSanityCheck() {
     SettableFuture<String> future = SettableFuture.create();
     FutureTask<Boolean> wasInterrupted = untimedInterruptReporter(future, true);
 

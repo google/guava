@@ -157,12 +157,12 @@ public final class Multisets {
       return (es == null) ? elementSet = createElementSet() : es;
     }
 
-    @LazyInit transient @Nullable Set<Multiset.Entry<E>> entrySet;
+    @LazyInit transient @Nullable Set<Entry<E>> entrySet;
 
     @SuppressWarnings("unchecked")
     @Override
-    public Set<Multiset.Entry<E>> entrySet() {
-      Set<Multiset.Entry<E>> es = entrySet;
+    public Set<Entry<E>> entrySet() {
+      Set<Entry<E>> es = entrySet;
       return (es == null)
           // Safe because the returned set is made unmodifiable and Entry
           // itself is readonly
@@ -533,10 +533,13 @@ public final class Multisets {
 
   /**
    * Returns an unmodifiable view of the sum of two multisets. In the returned multiset, the count
-   * of each element is the <i>sum</i> of its counts in the two backing multisets. The iteration
-   * order of the returned multiset matches that of the element set of {@code multiset1} followed by
-   * the members of the element set of {@code multiset2} that are not contained in {@code
-   * multiset1}, with repeated occurrences of the same element appearing consecutively.
+   * of each element is the <i>sum</i> of its counts in the two backing multisets. Sums are capped
+   * at {@link Integer#MAX_VALUE}.
+   *
+   * <p>The iteration order of the returned multiset matches that of the element set of {@code
+   * multiset1} followed by the members of the element set of {@code multiset2} that are not
+   * contained in {@code multiset1}, with repeated occurrences of the same element appearing
+   * consecutively.
    *
    * <p>Results are undefined if {@code multiset1} and {@code multiset2} are based on different
    * equivalence relations (as {@code HashMultiset} and {@code TreeMultiset} are).
@@ -567,7 +570,7 @@ public final class Multisets {
 
       @Override
       public int count(@Nullable Object element) {
-        return multiset1.count(element) + multiset2.count(element);
+        return IntMath.saturatedAdd(multiset1.count(element), multiset2.count(element));
       }
 
       @Override
@@ -590,7 +593,7 @@ public final class Multisets {
             if (iterator1.hasNext()) {
               Entry<? extends E> entry1 = iterator1.next();
               E element = entry1.getElement();
-              int count = entry1.getCount() + multiset2.count(element);
+              int count = IntMath.saturatedAdd(entry1.getCount(), multiset2.count(element));
               return immutableEntry(element, count);
             }
             while (iterator2.hasNext()) {
@@ -984,7 +987,7 @@ public final class Multisets {
     };
   }
 
-  abstract static class ElementSet<E extends @Nullable Object> extends Sets.ImprovedAbstractSet<E> {
+    abstract static class ElementSet<E extends @Nullable Object> extends Sets.ImprovedAbstractSet<E> {
     abstract Multiset<E> multiset();
 
     @Override
@@ -1026,7 +1029,7 @@ public final class Multisets {
     abstract Multiset<E> multiset();
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public final boolean contains(@Nullable Object o) {
       if (o instanceof Entry) {
         Entry<?> entry = (Entry<?>) o;
         if (entry.getCount() <= 0) {
@@ -1056,7 +1059,7 @@ public final class Multisets {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       multiset().clear();
     }
   }
@@ -1154,7 +1157,7 @@ public final class Multisets {
   public static <E> ImmutableMultiset<E> copyHighestCountFirst(Multiset<E> multiset) {
     @SuppressWarnings("unchecked") // generics+arrays
     // TODO(cpovirk): Consider storing an Entry<?> instead of Entry<E>.
-    Entry<E>[] entries = (Entry<E>[]) multiset.entrySet().toArray((Entry<E>[]) new Entry<?>[0]);
+    Entry<E>[] entries = multiset.entrySet().toArray((Entry<E>[]) new Entry<?>[0]);
     sort(entries, DecreasingCount.INSTANCE);
     return ImmutableMultiset.copyFromEntries(asList(entries));
   }

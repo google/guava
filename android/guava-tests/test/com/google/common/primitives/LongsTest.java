@@ -196,11 +196,7 @@ public class LongsTest extends TestCase {
     long[] sharedArray = new long[arraysDim2];
     Arrays.fill(arrays, sharedArray);
 
-    try {
-      Longs.concat(arrays);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Longs.concat(arrays));
   }
 
   private static void assertByteArrayEquals(byte[] expected, byte[] actual) {
@@ -615,7 +611,7 @@ public class LongsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testStringConverter_nullPointerTester() throws Exception {
+  public void testStringConverter_nullPointerTester() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Longs.stringConverter());
   }

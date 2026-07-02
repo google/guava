@@ -772,6 +772,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
   public static class Builder<C extends Comparable<?>> {
     private final List<Range<C>> ranges;
 
+    /** Constructs a new builder. */
     public Builder() {
       this.ranges = new ArrayList<>();
     }

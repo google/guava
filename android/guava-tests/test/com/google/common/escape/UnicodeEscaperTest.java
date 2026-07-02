@@ -16,6 +16,7 @@
 
 package com.google.common.escape;
 
+import static com.google.common.escape.UnicodeEscaper.codePointAtInternal;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
@@ -168,8 +169,7 @@ public class UnicodeEscaperTest extends TestCase {
   }
 
   public void testCodePointAt_indexOutOfBoundsException() {
-    assertThrows(
-        IndexOutOfBoundsException.class, () -> UnicodeEscaper.codePointAt("Testing...", 4, 2));
+    assertThrows(IndexOutOfBoundsException.class, () -> codePointAtInternal("Testing...", 4, 2));
   }
 
   private static String escapeAsString(Escaper e, String s) {

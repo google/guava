@@ -228,7 +228,8 @@ public final class Longs {
    * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
    * value} is greater than {@code max}, {@code max} is returned.
    *
-   * <p><b>Java 21+ users:</b> Use {@code Math.clamp} instead. Note that that method is capable of
+   * <p><b>Java 21+ users:</b> Use {@link Math#clamp(long, long, long)} instead. Note that that
+   * method comes with {@linkplain Math#clamp(long, int, int) an overload} that is capable of
    * constraining a {@code long} input to an {@code int} range.
    *
    * @param value the {@code long} value to constrain

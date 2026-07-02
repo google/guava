@@ -57,7 +57,7 @@ public class FinalizableReferenceQueueTest {
   private @Nullable FinalizableReferenceQueue frq;
 
   @After
-  public void tearDown() throws Exception {
+  public void tearDown() {
     frq = null;
   }
 
@@ -165,7 +165,7 @@ public class FinalizableReferenceQueueTest {
   }
 
   @Test
-  public void testFinalizeClassHasNoNestedClasses() throws Exception {
+  public void testFinalizeClassHasNoNestedClasses() {
     // Ensure that the Finalizer class has no nested classes.
     // See https://github.com/google/guava/issues/1505
     assertThat(Finalizer.class.getDeclaredClasses()).isEmpty();

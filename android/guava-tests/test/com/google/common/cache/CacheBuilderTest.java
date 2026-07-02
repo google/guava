@@ -606,7 +606,7 @@ public class CacheBuilderTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testNullParameters() throws Exception {
+  public void testNullParameters() {
     NullPointerTester tester = new NullPointerTester();
     CacheBuilder<Object, Object> builder = CacheBuilder.newBuilder();
     tester.testAllPublicInstanceMethods(builder);

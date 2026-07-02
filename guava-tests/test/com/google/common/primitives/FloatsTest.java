@@ -269,11 +269,7 @@ public class FloatsTest extends TestCase {
     float[] sharedArray = new float[arraysDim2];
     Arrays.fill(arrays, sharedArray);
 
-    try {
-      Floats.concat(arrays);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Floats.concat(arrays));
   }
 
   public void testEnsureCapacity() {
@@ -735,7 +731,7 @@ public class FloatsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testStringConverter_nullPointerTester() throws Exception {
+  public void testStringConverter_nullPointerTester() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Floats.stringConverter());
   }

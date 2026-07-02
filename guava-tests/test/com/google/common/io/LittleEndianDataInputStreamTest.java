@@ -76,19 +76,19 @@ public class LittleEndianDataInputStreamTest extends TestCase {
     assertEquals(asList(data), asList(b));
   }
 
-  public void testReadUnsignedByte_eof() throws IOException {
+  public void testReadUnsignedByte_eof() {
     DataInput in = new LittleEndianDataInputStream(new ByteArrayInputStream(new byte[0]));
     assertThrows(EOFException.class, in::readUnsignedByte);
   }
 
-  public void testReadUnsignedShort_eof() throws IOException {
+  public void testReadUnsignedShort_eof() {
     byte[] buf = {23};
     DataInput in = new LittleEndianDataInputStream(new ByteArrayInputStream(buf));
     assertThrows(EOFException.class, in::readUnsignedShort);
   }
 
   @SuppressWarnings("DoNotCall")
-  public void testReadLine() throws IOException {
+  public void testReadLine() {
     DataInput in = new LittleEndianDataInputStream(new ByteArrayInputStream(data));
     UnsupportedOperationException expected =
         assertThrows(UnsupportedOperationException.class, in::readLine);

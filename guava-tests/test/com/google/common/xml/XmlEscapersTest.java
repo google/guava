@@ -36,7 +36,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class XmlEscapersTest extends TestCase {
 
-  public void testXmlContentEscaper() throws Exception {
+  public void testXmlContentEscaper() {
     CharEscaper xmlContentEscaper = (CharEscaper) XmlEscapers.xmlContentEscaper();
     assertBasicXmlEscaper(xmlContentEscaper, false, false);
     // Test quotes are not escaped.
@@ -44,7 +44,7 @@ public class XmlEscapersTest extends TestCase {
     assertThat(xmlContentEscaper.escape("'test'")).isEqualTo("'test'");
   }
 
-  public void testXmlAttributeEscaper() throws Exception {
+  public void testXmlAttributeEscaper() {
     CharEscaper xmlAttributeEscaper = (CharEscaper) XmlEscapers.xmlAttributeEscaper();
     assertBasicXmlEscaper(xmlAttributeEscaper, true, true);
     // Test quotes are escaped.

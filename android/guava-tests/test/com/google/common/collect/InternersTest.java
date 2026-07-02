@@ -82,7 +82,7 @@ public class InternersTest extends TestCase {
   }
 
 
-  public void testWeak_afterGC() throws InterruptedException {
+  public void testWeak_afterGC() {
     MyInteger canonical = new MyInteger(5);
     MyInteger not = new MyInteger(5);
 

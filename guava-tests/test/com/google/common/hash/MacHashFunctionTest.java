@@ -128,7 +128,7 @@ public class MacHashFunctionTest extends TestCase {
             .hash());
   }
 
-  public void testCustomKey() throws Exception {
+  public void testCustomKey() {
     SecretKey customKey =
         new SecretKey() {
           @Override
@@ -153,7 +153,7 @@ public class MacHashFunctionTest extends TestCase {
         .isEqualTo("ad262969c53bc16032f160081c4a07a0");
   }
 
-  public void testBadKey_emptyKey() throws Exception {
+  public void testBadKey_emptyKey() {
     SecretKey badKey =
         new SecretKey() {
           @Override

@@ -44,7 +44,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
    *
    * @param map place to store the mapping from each key to its corresponding values
    */
-  protected AbstractSortedSetMultimap(Map<K, Collection<V>> map) {
+  AbstractSortedSetMultimap(Map<K, Collection<V>> map) {
     super(map);
   }
 
@@ -52,12 +52,12 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
   abstract SortedSet<V> createCollection();
 
   @Override
-  SortedSet<V> createUnmodifiableEmptyCollection() {
+  final SortedSet<V> createUnmodifiableEmptyCollection() {
     return unmodifiableCollectionSubclass(createCollection());
   }
 
   @Override
-  <E extends @Nullable Object> SortedSet<E> unmodifiableCollectionSubclass(
+  final <E extends @Nullable Object> SortedSet<E> unmodifiableCollectionSubclass(
       Collection<E> collection) {
     if (collection instanceof NavigableSet) {
       return unmodifiableNavigableSet((NavigableSet<E>) collection);
@@ -67,7 +67,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
   }
 
   @Override
-  Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
+  final Collection<V> wrapCollection(@ParametricNullness K key, Collection<V> collection) {
     if (collection instanceof NavigableSet) {
       return new WrappedNavigableSet(key, (NavigableSet<V>) collection, null);
     } else {
@@ -101,7 +101,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> removeAll(@Nullable Object key) {
+  public final SortedSet<V> removeAll(@Nullable Object key) {
     return (SortedSet<V>) super.removeAll(key);
   }
 
@@ -117,7 +117,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
    */
   @CanIgnoreReturnValue
   @Override
-  public SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
+  public final SortedSet<V> replaceValues(@ParametricNullness K key, Iterable<? extends V> values) {
     return (SortedSet<V>) super.replaceValues(key, values);
   }
 
@@ -145,7 +145,7 @@ abstract class AbstractSortedSetMultimap<K extends @Nullable Object, V extends @
    * comparator.
    */
   @Override
-  public Collection<V> values() {
+  public final Collection<V> values() {
     return super.values();
   }
 

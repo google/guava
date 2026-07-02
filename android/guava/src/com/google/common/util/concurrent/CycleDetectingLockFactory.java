@@ -442,7 +442,7 @@ public class CycleDetectingLockFactory {
     }
   }
 
-  //////// Implementation /////////
+  // Implementation
 
   private static final LazyLogger logger = new LazyLogger(CycleDetectingLockFactory.class);
 
@@ -750,7 +750,7 @@ public class CycleDetectingLockFactory {
       this.lockGraphNode = Preconditions.checkNotNull(lockGraphNode);
     }
 
-    ///// CycleDetectingLock methods. /////
+    // CycleDetectingLock methods.
 
     @Override
     public LockGraphNode getLockGraphNode() {
@@ -762,7 +762,7 @@ public class CycleDetectingLockFactory {
       return isHeldByCurrentThread();
     }
 
-    ///// Overridden ReentrantLock methods. /////
+    // Overridden ReentrantLock methods.
 
     @Override
     public void lock() {
@@ -833,7 +833,7 @@ public class CycleDetectingLockFactory {
       this.lockGraphNode = Preconditions.checkNotNull(lockGraphNode);
     }
 
-    ///// Overridden ReentrantReadWriteLock methods. /////
+    // Overridden ReentrantReadWriteLock methods.
 
     @Override
     public ReadLock readLock() {
@@ -845,7 +845,7 @@ public class CycleDetectingLockFactory {
       return writeLock;
     }
 
-    ///// CycleDetectingLock methods. /////
+    // CycleDetectingLock methods.
 
     @Override
     public LockGraphNode getLockGraphNode() {

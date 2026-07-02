@@ -39,7 +39,7 @@ public class CycleDetectingLockFactoryBenchmark {
   private Lock[] detectingLocks;
 
   @BeforeExperiment
-  void setUp() throws Exception {
+  void setUp() {
     this.factory = CycleDetectingLockFactory.newInstance(CycleDetectingLockFactory.Policies.WARN);
     this.plainLocks = new Lock[lockNestingDepth];
     for (int i = 0; i < lockNestingDepth; i++) {

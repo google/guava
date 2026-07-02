@@ -69,7 +69,7 @@ public abstract class ForwardingSortedMultiset<E extends @Nullable Object>
    *
    * @since 15.0
    */
-  protected class StandardElementSet extends SortedMultisets.NavigableElementSet<E> {
+    protected class StandardElementSet extends SortedMultisets.NavigableElementSet<E> {
     /** Constructor for use by subclasses. */
     public StandardElementSet() {
       super(ForwardingSortedMultiset.this);
@@ -98,12 +98,12 @@ public abstract class ForwardingSortedMultiset<E extends @Nullable Object>
    *
    * @since 15.0
    */
-  protected abstract class StandardDescendingMultiset extends DescendingMultiset<E> {
+    protected abstract class StandardDescendingMultiset extends DescendingMultiset<E> {
     /** Constructor for use by subclasses. */
     public StandardDescendingMultiset() {}
 
     @Override
-    SortedMultiset<E> forwardMultiset() {
+    final SortedMultiset<E> forwardMultiset() {
       return ForwardingSortedMultiset.this;
     }
   }

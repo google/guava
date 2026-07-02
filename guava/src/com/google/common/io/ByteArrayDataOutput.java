@@ -23,6 +23,9 @@ import java.io.IOException;
  * An extension of {@code DataOutput} for writing to in-memory byte arrays; its methods offer
  * identical functionality but do not throw {@link IOException}.
  *
+ * <p>To create an instance, use {@link ByteStreams#newDataOutput()} or the other overload of that
+ * method.
+ *
  * @author Jayaprabhakar Kadarkarai
  * @since 1.0
  */

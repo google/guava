@@ -91,12 +91,9 @@ public class ImmutableTableTest extends AbstractTableReadTest<Character> {
 
   public void testBuilder_withImmutableCellAndNullContents() {
     ImmutableTable.Builder<Character, Integer, String> builder = new ImmutableTable.Builder<>();
-    assertThrows(
-        NullPointerException.class, () -> builder.put(immutableCell((Character) null, 1, "foo")));
-    assertThrows(
-        NullPointerException.class, () -> builder.put(immutableCell('a', (Integer) null, "foo")));
-    assertThrows(
-        NullPointerException.class, () -> builder.put(immutableCell('a', 1, (String) null)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableCell(null, 1, "foo")));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableCell('a', null, "foo")));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableCell('a', 1, null)));
   }
 
   private static class StringHolder {

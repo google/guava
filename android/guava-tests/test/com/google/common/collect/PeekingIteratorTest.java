@@ -60,7 +60,7 @@ public class PeekingIteratorTest extends TestCase {
     private @Nullable List<T> targetList;
 
     PeekingIteratorTester(Collection<T> master) {
-      super(master.size() + 3, MODIFIABLE, master, IteratorTester.KnownOrder.KNOWN_ORDER);
+      super(master.size() + 3, MODIFIABLE, master, KnownOrder.KNOWN_ORDER);
       this.master = master;
     }
 
@@ -205,7 +205,7 @@ public class PeekingIteratorTest extends TestCase {
     }
   }
 
-  public void testPeekingIteratorDoesntAdvancePrematurely() throws Exception {
+  public void testPeekingIteratorDoesntAdvancePrematurely() {
     /*
      * This test will catch problems where the underlying iterator
      * throws a RuntimeException when retrieving the nth element.

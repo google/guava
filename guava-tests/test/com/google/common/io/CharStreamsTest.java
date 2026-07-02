@@ -122,7 +122,7 @@ public class CharStreamsTest extends IoTestCase {
     assertThat(sb.toString()).isEqualTo("ab");
   }
 
-  public void testSkipFully_eof() throws IOException {
+  public void testSkipFully_eof() {
     Reader reader = new StringReader("abcde");
     assertThrows(EOFException.class, () -> CharStreams.skipFully(reader, 6));
   }

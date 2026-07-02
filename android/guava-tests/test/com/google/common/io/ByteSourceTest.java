@@ -76,7 +76,7 @@ public class ByteSourceTest extends IoTestCase {
   private TestByteSource source;
 
   @Override
-  protected void setUp() throws Exception {
+  protected void setUp() {
     source = new TestByteSource(bytes);
   }
 
@@ -138,7 +138,7 @@ public class ByteSourceTest extends IoTestCase {
           int pos;
 
           @Override
-          public boolean processBytes(byte[] buf, int off, int len) throws IOException {
+          public boolean processBytes(byte[] buf, int off, int len) {
             arraycopy(buf, off, processedBytes, pos, len);
             pos += len;
             return true;
@@ -162,7 +162,7 @@ public class ByteSourceTest extends IoTestCase {
           boolean firstCall = true;
 
           @Override
-          public boolean processBytes(byte[] buf, int off, int len) throws IOException {
+          public boolean processBytes(byte[] buf, int off, int len) {
             assertTrue("consume() called twice", firstCall);
             firstCall = false;
             return false;

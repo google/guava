@@ -160,11 +160,7 @@ public class BytesTest extends TestCase {
     byte[] sharedArray = new byte[arraysDim2];
     Arrays.fill(arrays, sharedArray);
 
-    try {
-      Bytes.concat(arrays);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Bytes.concat(arrays));
   }
 
   public void testEnsureCapacity() {

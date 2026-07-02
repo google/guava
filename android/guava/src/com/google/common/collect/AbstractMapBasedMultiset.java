@@ -228,7 +228,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   /** Allocation-free implementation of {@code target.addAll(this)}. */
-  void addTo(Multiset<? super E> target) {
+  final void addTo(Multiset<? super E> target) {
     checkNotNull(target);
     for (int i = backingMap.firstIndex(); i >= 0; i = backingMap.nextIndex(i)) {
       target.add(backingMap.getKey(i), backingMap.getValue(i));

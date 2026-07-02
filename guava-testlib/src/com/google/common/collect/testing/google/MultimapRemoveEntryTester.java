@@ -72,7 +72,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
 
     assertTrue(multimap().remove(null, getValueForNullKey()));
 
-    expectMissing(mapEntry((K) null, getValueForNullKey()));
+    expectMissing(mapEntry(null, getValueForNullKey()));
     assertGet(getKeyForNullValue(), ImmutableList.of());
   }
 
@@ -83,7 +83,7 @@ public class MultimapRemoveEntryTester<K, V> extends AbstractMultimapTester<K, V
 
     assertTrue(multimap().remove(getKeyForNullValue(), null));
 
-    expectMissing(mapEntry(getKeyForNullValue(), (V) null));
+    expectMissing(mapEntry(getKeyForNullValue(), null));
     assertGet(getKeyForNullValue(), ImmutableList.of());
   }
 

@@ -14,24 +14,28 @@
  * limitations under the License.
  */
 
-package com.google.common.net;
+package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
-/**
- * Basic sanity tests for the entire package.
- *
- * @author Ben Yu
- */
+/** Basic sanity tests for classes in {@code common.base}. */
 
-@NullUnmarked
-@GwtIncompatible
 @J2ktIncompatible
-public class PackageSanityTests extends AbstractPackageSanityTests {
-  public PackageSanityTests() {
-    setDefault(InternetDomainName.class, InternetDomainName.from("google.com"));
+@GwtIncompatible
+@NullUnmarked
+public class PackageSanityTest extends AbstractPackageSanityTests {
+  private static final ImmutableSet<Class<?>> IGNORED_CLASSES =
+      ImmutableSet.of(
+          Preconditions.class,
+          Verify.class);
+
+  public PackageSanityTest() {
+    // package private classes like FunctionalEquivalence are tested through the public API.
+    publicApiOnly();
+    ignoreClasses(IGNORED_CLASSES::contains);
   }
 }

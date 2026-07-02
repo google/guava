@@ -43,7 +43,7 @@ public class CloserTest extends TestCase {
   private TestSuppressor suppressor;
 
   @Override
-  protected void setUp() throws Exception {
+  protected void setUp() {
     suppressor = new TestSuppressor();
   }
 
@@ -67,7 +67,7 @@ public class CloserTest extends TestCase {
     assertTrue(suppressor.suppressions.isEmpty());
   }
 
-  public void testExceptionThrown_fromTryBlock() throws IOException {
+  public void testExceptionThrown_fromTryBlock() {
     Closer closer = new Closer(suppressor);
 
     TestCloseable c1 = closer.register(TestCloseable.normal());
@@ -93,7 +93,7 @@ public class CloserTest extends TestCase {
     assertTrue(suppressor.suppressions.isEmpty());
   }
 
-  public void testExceptionThrown_whenCreatingCloseables() throws IOException {
+  public void testExceptionThrown_whenCreatingCloseables() {
     Closer closer = new Closer(suppressor);
 
     TestCloseable c1 = null;
@@ -120,7 +120,7 @@ public class CloserTest extends TestCase {
     assertTrue(suppressor.suppressions.isEmpty());
   }
 
-  public void testExceptionThrown_whileClosingLastCloseable() throws IOException {
+  public void testExceptionThrown_whileClosingLastCloseable() {
     Closer closer = new Closer(suppressor);
 
     IOException exception = new IOException();
@@ -141,7 +141,7 @@ public class CloserTest extends TestCase {
     assertTrue(suppressor.suppressions.isEmpty());
   }
 
-  public void testExceptionThrown_whileClosingFirstCloseable() throws IOException {
+  public void testExceptionThrown_whileClosingFirstCloseable() {
     Closer closer = new Closer(suppressor);
 
     IOException exception = new IOException();
@@ -162,7 +162,7 @@ public class CloserTest extends TestCase {
     assertTrue(suppressor.suppressions.isEmpty());
   }
 
-  public void testCloseExceptionsSuppressed_whenExceptionThrownFromTryBlock() throws IOException {
+  public void testCloseExceptionsSuppressed_whenExceptionThrownFromTryBlock() {
     Closer closer = new Closer(suppressor);
 
     IOException tryException = new IOException();
@@ -192,8 +192,7 @@ public class CloserTest extends TestCase {
         new Suppression(c1, tryException, c1Exception));
   }
 
-  public void testCloseExceptionsSuppressed_whenExceptionThrownClosingFirstCloseable()
-      throws IOException {
+  public void testCloseExceptionsSuppressed_whenExceptionThrownClosingFirstCloseable() {
     Closer closer = new Closer(suppressor);
 
     IOException c1Exception = new IOException();
@@ -219,7 +218,7 @@ public class CloserTest extends TestCase {
         new Suppression(c1, c3Exception, c1Exception));
   }
 
-  public void testRuntimeExceptions() throws IOException {
+  public void testRuntimeExceptions() {
     Closer closer = new Closer(suppressor);
 
     RuntimeException tryException = new RuntimeException();
@@ -249,7 +248,7 @@ public class CloserTest extends TestCase {
         new Suppression(c1, tryException, c1Exception));
   }
 
-  public void testErrors() throws IOException {
+  public void testErrors() {
     Closer closer = new Closer(suppressor);
 
     Error c1Exception = new Error();
@@ -275,7 +274,7 @@ public class CloserTest extends TestCase {
         new Suppression(c1, c3Exception, c1Exception));
   }
 
-  public void testSuppressingSuppressor() throws IOException {
+  public void testSuppressingSuppressor() {
     Closer closer = Closer.create();
 
     IOException thrownException = new IOException();
@@ -375,11 +374,11 @@ public class CloserTest extends TestCase {
     private final Throwable throwOnClose;
     private boolean closed;
 
-    static TestCloseable normal() throws IOException {
+    static TestCloseable normal() {
       return new TestCloseable(null);
     }
 
-    static TestCloseable throwsOnClose(Throwable throwOnClose) throws IOException {
+    static TestCloseable throwsOnClose(Throwable throwOnClose) {
       return new TestCloseable(throwOnClose);
     }
 

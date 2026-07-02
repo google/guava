@@ -97,9 +97,9 @@ public class TypeTokenTest extends TestCase {
     assertEquals(StringList.class.getGenericInterfaces()[0], token.getType());
   }
 
-  @SuppressWarnings("rawtypes") // Trying to test TypeToken.of(List.class)
+  @SuppressWarnings("rawtypes") // test of a raw type
   public void testGetClass() {
-    TypeToken<List> token = TypeToken.of(List.class);
+    TypeToken<?> token = TypeToken.of(List.class);
     assertEquals(new TypeToken<List>() {}, token);
   }
 
@@ -343,23 +343,19 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testAssertSubtypeTokenBeforeSupertypeToken_supertypeFirst() {
-    try {
-      assertSubtypeTokenBeforeSupertypeToken(
-          ImmutableList.of(TypeToken.of(CharSequence.class), TypeToken.of(String.class)));
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () ->
+            assertSubtypeTokenBeforeSupertypeToken(
+                ImmutableList.of(TypeToken.of(CharSequence.class), TypeToken.of(String.class))));
   }
 
   public void testAssertSubtypeTokenBeforeSupertypeToken_duplicate() {
-    try {
-      assertSubtypeTokenBeforeSupertypeToken(
-          ImmutableList.of(TypeToken.of(String.class), TypeToken.of(String.class)));
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () ->
+            assertSubtypeTokenBeforeSupertypeToken(
+                ImmutableList.of(TypeToken.of(String.class), TypeToken.of(String.class))));
   }
 
   public void testAssertSubtypeBeforeSupertype_empty() {
@@ -375,21 +371,15 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testAssertSubtypeBeforeSupertype_supertypeFirst() {
-    try {
-      assertSubtypeBeforeSupertype(ImmutableList.of(CharSequence.class, String.class));
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () -> assertSubtypeBeforeSupertype(ImmutableList.of(CharSequence.class, String.class)));
   }
 
   public void testAssertSubtypeBeforeSupertype_duplicate() {
-    try {
-      assertSubtypeBeforeSupertype(ImmutableList.of(String.class, String.class));
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () -> assertSubtypeBeforeSupertype(ImmutableList.of(String.class, String.class)));
   }
 
   public void testGetGenericSuperclass_noSuperclass() {
@@ -593,7 +583,7 @@ public class TypeTokenTest extends TestCase {
 
   public void testAssignableClassToClass() {
     @SuppressWarnings("rawtypes") // To test TypeToken<List>
-    TypeToken<List> tokL = new TypeToken<List>() {};
+    TypeToken<?> tokL = new TypeToken<List>() {};
     assertTrue(tokL.isSupertypeOf(List.class));
     assertTrue(tokL.isSupertypeOf(ArrayList.class));
     assertFalse(tokL.isSupertypeOf(List[].class));
@@ -716,31 +706,31 @@ public class TypeTokenTest extends TestCase {
 
   public void testAssignableParameterizedTypeToClass() {
     @SuppressWarnings("rawtypes") // Trying to test raw class
-    TypeToken<List> tokL = new TypeToken<List>() {};
+    TypeToken<?> tokL = new TypeToken<List>() {};
     assertTrue(tokL.isSupertypeOf(StringList.class));
     assertTrue(tokL.isSupertypeOf(StringList.class.getGenericInterfaces()[0]));
 
     @SuppressWarnings("rawtypes") // Trying to test raw class
-    TypeToken<Second> tokS = new TypeToken<Second>() {};
+    TypeToken<?> tokS = new TypeToken<Second>() {};
     assertTrue(tokS.isSupertypeOf(Second.class));
     assertTrue(tokS.isSupertypeOf(Third.class.getGenericSuperclass()));
   }
 
   public void testAssignableArrayToClass() {
     @SuppressWarnings("rawtypes") // Trying to test raw class
-    TypeToken<List[]> tokL = new TypeToken<List[]>() {};
+    TypeToken<?> tokL = new TypeToken<List[]>() {};
     assertTrue(tokL.isSupertypeOf(List[].class));
     assertFalse(tokL.isSupertypeOf(List.class));
 
     @SuppressWarnings("rawtypes") // Trying to test raw class
-    TypeToken<Second[]> tokS = new TypeToken<Second[]>() {};
+    TypeToken<?> tokS = new TypeToken<Second[]>() {};
     assertTrue(tokS.isSupertypeOf(Second[].class));
     assertTrue(tokS.isSupertypeOf(Third[].class));
   }
 
   @SuppressWarnings("rawtypes") // Trying to test raw class
   public void testAssignableTokenToClass() {
-    TypeToken<List> tokL = new TypeToken<List>() {};
+    TypeToken<?> tokL = new TypeToken<List>() {};
     assertTrue(tokL.isSupertypeOf(new TypeToken<List>() {}));
     assertTrue(tokL.isSupertypeOf(new TypeToken<List<String>>() {}));
     assertTrue(tokL.isSupertypeOf(new TypeToken<List<?>>() {}));
@@ -1050,8 +1040,7 @@ public class TypeTokenTest extends TestCase {
   public void testToGenericType() {
     assertEquals(TypeToken.of(String.class), TypeToken.toGenericType(String.class));
     assertEquals(new TypeToken<int[]>() {}, TypeToken.toGenericType(int[].class));
-    @SuppressWarnings("rawtypes") // Iterable.class
-    TypeToken<? extends Iterable> genericType = TypeToken.toGenericType(Iterable.class);
+    TypeToken<?> genericType = TypeToken.toGenericType(Iterable.class);
     assertThat(genericType.getRawType()).isEqualTo(Iterable.class);
     assertEquals(
         newParameterizedType(Iterable.class, Iterable.class.getTypeParameters()[0]),
@@ -1153,11 +1142,12 @@ public class TypeTokenTest extends TestCase {
         new TypeToken<List>() {}.getSupertype(Iterable.class).getType());
   }
 
-  @SuppressWarnings({"rawtypes", "unchecked"}) // purpose is to test raw type
   public void testGetSupertype_notSupertype() {
+    @SuppressWarnings("unchecked") // test of a bogus call
+    Class<Object> stringClass = (Class<Object>) (Class<?>) String.class;
     assertThrows(
         IllegalArgumentException.class,
-        () -> new TypeToken<List<String>>() {}.getSupertype((Class) String.class));
+        () -> new TypeToken<List<String>>() {}.getSupertype(stringClass));
   }
 
   public void testGetSupertype_fromArray() {
@@ -1384,9 +1374,9 @@ public class TypeTokenTest extends TestCase {
 
   public void testGetSubtype_genericSubtypeOfRawTypeWithFewerTypeParameters() {
     @SuppressWarnings("rawtypes") // test of raw types
-    TypeToken<List> supertype = new TypeToken<List>() {};
+    TypeToken<?> supertype = new TypeToken<List>() {};
     @SuppressWarnings("rawtypes") // test of raw types
-    TypeToken<MySpecialList> subtype = new TypeToken<MySpecialList>() {};
+    TypeToken<?> subtype = new TypeToken<MySpecialList>() {};
     assertTrue(subtype.isSubtypeOf(supertype));
     Class<?> actualSubtype = (Class<?>) supertype.getSubtype(subtype.getRawType()).getType();
     assertThat(actualSubtype).isEqualTo(MySpecialList.class);
@@ -1648,8 +1638,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   public void testConstructor_getOwnerType() throws NoSuchMethodException {
-    @SuppressWarnings("rawtypes") // raw class ArrayList.class
-    Constructor<ArrayList> constructor = ArrayList.class.getConstructor();
+    Constructor<?> constructor = ArrayList.class.getConstructor();
     assertEquals(
         TypeToken.of(ArrayList.class),
         TypeToken.of(ArrayList.class).constructor(constructor).getOwnerType());
@@ -1691,8 +1680,7 @@ public class TypeTokenTest extends TestCase {
 
   public <T extends Container<String>> void testConstructor_parameterTypes()
       throws NoSuchMethodException {
-    @SuppressWarnings("rawtypes") // Reflection API skew
-    Constructor<Container> constructor = Container.class.getConstructor(Object.class);
+    Constructor<?> constructor = Container.class.getConstructor(Object.class);
     Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.constructor(constructor);
     ImmutableList<Parameter> params = invokable.getParameters();
     assertEquals(1, params.size());
@@ -1706,8 +1694,7 @@ public class TypeTokenTest extends TestCase {
 
   public <T extends CannotConstruct<AssertionError>> void testConstructor_exceptionTypes()
       throws NoSuchMethodException {
-    @SuppressWarnings("rawtypes") // Reflection API skew
-    Constructor<CannotConstruct> constructor = CannotConstruct.class.getConstructor();
+    Constructor<?> constructor = CannotConstruct.class.getConstructor();
     Invokable<T, ?> invokable = new TypeToken<T>(getClass()) {}.constructor(constructor);
     assertThat(invokable.getExceptionTypes()).contains(TypeToken.of(AssertionError.class));
   }
@@ -1771,11 +1758,7 @@ public class TypeTokenTest extends TestCase {
   }
 
   private static void assertHasTypeVariable(Type type) {
-    try {
-      TypeToken.of(type).rejectTypeVariables();
-      fail("Should contain TypeVariable");
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> TypeToken.of(type).rejectTypeVariables());
   }
 
   private static void assertNoTypeVariable(Type type) {

@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.collect.Multisets.difference;
 import static com.google.common.collect.Multisets.intersection;
 import static com.google.common.collect.Multisets.sum;
@@ -27,6 +28,7 @@ import static java.util.Arrays.asList;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.DerivedComparable;
 import com.google.common.testing.CollectorTester;
 import com.google.common.testing.NullPointerTester;
@@ -159,6 +161,25 @@ public class MultisetsTest extends TestCase {
     Multiset<String> ms1 = HashMultiset.create(asList("a", "b", "a"));
     Multiset<String> ms2 = HashMultiset.create();
     assertThat(sum(ms1, ms2)).containsExactly("a", "b", "a");
+  }
+
+  public void testSumEntryIteratorOverflow() {
+    int count = Integer.MAX_VALUE / 2 + 1;
+    Multiset<String> ms1 = HashMultiset.create();
+    ms1.add("a", count);
+    Multiset<String> ms2 = HashMultiset.create();
+    ms2.add("a", count);
+    Entry<String> sumEntry = getOnlyElement(sum(ms1, ms2).entrySet());
+    assertThat(sumEntry.getCount()).isEqualTo(Integer.MAX_VALUE);
+  }
+
+  public void testSumCountOverflow() {
+    int count = Integer.MAX_VALUE / 2 + 1;
+    Multiset<String> ms1 = HashMultiset.create();
+    ms1.add("a", count);
+    Multiset<String> ms2 = HashMultiset.create();
+    ms2.add("a", count);
+    assertThat(sum(ms1, ms2).count("a")).isEqualTo(Integer.MAX_VALUE);
   }
 
   public void testDifferenceWithNoRemovedElements() {

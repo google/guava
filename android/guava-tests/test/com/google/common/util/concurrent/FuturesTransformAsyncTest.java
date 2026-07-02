@@ -90,23 +90,23 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
     listener.assertException(EXCEPTION);
   }
 
-  public void testFutureGetThrowsCancellationIfInputCancelled() throws Exception {
+  public void testFutureGetThrowsCancellationIfInputCancelled() {
     inputFuture.cancel(true); // argument is ignored
     assertThrows(CancellationException.class, () -> resultFuture.get());
   }
 
-  public void testFutureGetThrowsCancellationIfOutputCancelled() throws Exception {
+  public void testFutureGetThrowsCancellationIfOutputCancelled() {
     inputFuture.set(SLOW_OUTPUT_VALID_INPUT_DATA);
     outputFuture.cancel(true); // argument is ignored
     assertThrows(CancellationException.class, () -> resultFuture.get());
   }
 
-  public void testAsyncToString() throws Exception {
+  public void testAsyncToString() {
     inputFuture.set(SLOW_OUTPUT_VALID_INPUT_DATA);
     assertThat(resultFuture.toString()).contains(outputFuture.toString());
   }
 
-  public void testFutureCancelBeforeInputCompletion() throws Exception {
+  public void testFutureCancelBeforeInputCompletion() {
     assertTrue(resultFuture.cancel(true));
     assertTrue(resultFuture.isCancelled());
     assertTrue(inputFuture.isCancelled());
@@ -114,7 +114,7 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
     assertThrows(CancellationException.class, () -> resultFuture.get());
   }
 
-  public void testFutureCancellableBeforeOutputCompletion() throws Exception {
+  public void testFutureCancellableBeforeOutputCompletion() {
     inputFuture.set(SLOW_OUTPUT_VALID_INPUT_DATA);
     assertTrue(resultFuture.cancel(true));
     assertTrue(resultFuture.isCancelled());
@@ -153,7 +153,7 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
     assertThat(resultFuture.get()).isEqualTo(RESULT_DATA);
   }
 
-  public void testFutureGetThrowsRuntimeException() throws Exception {
+  public void testFutureGetThrowsRuntimeException() {
     BadFuture badInput = new BadFuture(immediateFuture(VALID_INPUT_DATA));
     ListenableFuture<String> chain = buildChainingFuture(badInput);
     ExecutionException e = assertThrows(ExecutionException.class, chain::get);

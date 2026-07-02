@@ -81,6 +81,7 @@ public abstract class ForwardingLoadingCache<K, V> extends ForwardingCache<K, V>
       extends ForwardingLoadingCache<K, V> {
     private final LoadingCache<K, V> delegate;
 
+    /** Constructor for use by subclasses. */
     protected SimpleForwardingLoadingCache(LoadingCache<K, V> delegate) {
       this.delegate = Preconditions.checkNotNull(delegate);
     }

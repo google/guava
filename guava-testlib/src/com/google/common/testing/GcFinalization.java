@@ -251,6 +251,7 @@ public final class GcFinalization {
    */
   @DoNotMock("Implement with a lambda")
   public interface FinalizationPredicate {
+    /** Returns {@code true} if the finalization condition is met. */
     boolean isDone();
   }
 

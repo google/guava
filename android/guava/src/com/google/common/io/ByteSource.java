@@ -622,7 +622,7 @@ public abstract class ByteSource {
     }
 
     @Override
-    public HashCode hash(HashFunction hashFunction) throws IOException {
+    public HashCode hash(HashFunction hashFunction) {
       return hashFunction.hashBytes(bytes, offset, length);
     }
 

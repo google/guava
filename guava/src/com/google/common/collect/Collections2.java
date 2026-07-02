@@ -335,7 +335,7 @@ public final class Collections2 {
     return true;
   }
 
-  /** An implementation of {@link Collection#toString()}. */
+  /** An implementation of {@code Collection.toString()}. */
   @SuppressWarnings("ReferenceEquality") // using == to detect direct infinite recursion
   static String toStringImpl(Collection<?> collection) {
     StringBuilder sb = newStringBuilderForCollection(collection.size()).append('[');

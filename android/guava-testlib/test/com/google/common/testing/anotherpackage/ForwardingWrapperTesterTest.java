@@ -18,6 +18,7 @@ package com.google.common.testing.anotherpackage;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
+import static org.junit.Assert.fail;
 
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
@@ -35,8 +36,8 @@ import java.nio.charset.Charset;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 import junit.framework.AssertionFailedError;
-import junit.framework.TestCase;
 import org.jspecify.annotations.Nullable;
+import org.junit.Test;
 
 /**
  * Tests for {@link ForwardingWrapperTester}. Live in a different package to detect reflection
@@ -44,20 +45,23 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Ben Yu
  */
-public class ForwardingWrapperTesterTest extends TestCase {
+public class ForwardingWrapperTesterTest {
 
   private final ForwardingWrapperTester tester = new ForwardingWrapperTester();
 
-  public void testGoodForwarder() {
+  @Test
+  public void goodForwarder() {
     tester.testForwarding(Arithmetic.class, ForwardingArithmetic::new);
     tester.testForwarding(ParameterTypesDifferent.class, ParameterTypesDifferentForwarder::new);
   }
 
-  public void testVoidMethodForwarding() {
+  @Test
+  public void voidMethodForwarding() {
     tester.testForwarding(Runnable.class, ForwardingRunnable::new);
   }
 
-  public void testToStringForwarding() {
+  @Test
+  public void toStringForwarding() {
     tester.testForwarding(
         Runnable.class,
         runnable ->
@@ -69,7 +73,8 @@ public class ForwardingWrapperTesterTest extends TestCase {
             });
   }
 
-  public void testFailsToForwardToString() {
+  @Test
+  public void failsToForwardToString() {
     assertFailure(
         Runnable.class,
         runnable ->
@@ -82,7 +87,8 @@ public class ForwardingWrapperTesterTest extends TestCase {
         "toString()");
   }
 
-  public void testFailsToForwardHashCode() {
+  @Test
+  public void failsToForwardHashCode() {
     tester.includingEquals();
     assertFailure(
         Runnable.class,
@@ -102,7 +108,8 @@ public class ForwardingWrapperTesterTest extends TestCase {
         "Runnable");
   }
 
-  public void testEqualsAndHashCodeForwarded() {
+  @Test
+  public void equalsAndHashCodeForwarded() {
     tester.includingEquals();
     tester.testForwarding(
         Runnable.class,
@@ -124,7 +131,8 @@ public class ForwardingWrapperTesterTest extends TestCase {
             });
   }
 
-  public void testFailsToForwardEquals() {
+  @Test
+  public void failsToForwardEquals() {
     tester.includingEquals();
     assertFailure(
         Runnable.class,
@@ -138,7 +146,8 @@ public class ForwardingWrapperTesterTest extends TestCase {
         "Runnable");
   }
 
-  public void testFailsToForward() {
+  @Test
+  public void failsToForward() {
     assertFailure(
         Runnable.class,
         runnable ->
@@ -150,7 +159,8 @@ public class ForwardingWrapperTesterTest extends TestCase {
         "Failed to forward");
   }
 
-  public void testRedundantForwarding() {
+  @Test
+  public void redundantForwarding() {
     assertFailure(
         Runnable.class,
         runnable ->
@@ -162,29 +172,35 @@ public class ForwardingWrapperTesterTest extends TestCase {
         "invoked more than once");
   }
 
-  public void testFailsToForwardParameters() {
+  @Test
+  public void failsToForwardParameters() {
     assertFailure(Adder.class, FailsToForwardParameters::new, "add(", "Parameter #0");
   }
 
-  public void testForwardsToTheWrongMethod() {
+  @Test
+  public void forwardsToTheWrongMethod() {
     assertFailure(Arithmetic.class, ForwardsToTheWrongMethod::new, "minus");
   }
 
-  public void testFailsToForwardReturnValue() {
+  @Test
+  public void failsToForwardReturnValue() {
     assertFailure(Adder.class, FailsToForwardReturnValue::new, "add(", "Return value");
   }
 
-  public void testFailsToPropagateException() {
+  @Test
+  public void failsToPropagateException() {
     assertFailure(Adder.class, FailsToPropagateException::new, "add(", "exception");
   }
 
-  public void testNotInterfaceType() {
+  @Test
+  public void notInterfaceType() {
     assertThrows(
         IllegalArgumentException.class,
         () -> new ForwardingWrapperTester().testForwarding(String.class, Functions.identity()));
   }
 
-  public void testNulls() {
+  @Test
+  public void nulls() {
     new NullPointerTester()
         .setDefault(Class.class, Runnable.class)
         .testAllPublicInstanceMethods(new ForwardingWrapperTester());
@@ -194,15 +210,13 @@ public class ForwardingWrapperTesterTest extends TestCase {
       Class<T> interfaceType,
       Function<T, ? extends T> wrapperFunction,
       String... expectedMessages) {
-    try {
-      tester.testForwarding(interfaceType, wrapperFunction);
-    } catch (AssertionFailedError expected) {
-      for (String message : expectedMessages) {
-        assertThat(expected).hasMessageThat().contains(message);
-      }
-      return;
+    AssertionFailedError expected =
+        assertThrows(
+            AssertionFailedError.class,
+            () -> tester.testForwarding(interfaceType, wrapperFunction));
+    for (String message : expectedMessages) {
+      assertThat(expected).hasMessageThat().contains(message);
     }
-    fail("expected failure not reported");
   }
 
   private static class ForwardingRunnable implements Runnable {
@@ -404,7 +418,8 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
   }
 
-  public void testCovariantReturn() {
+  @Test
+  public void covariantReturn() {
     new ForwardingWrapperTester().testForwarding(Sub.class, ForwardingSub::new);
   }
 
@@ -460,11 +475,13 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
   }
 
-  public void testExplicitEqualsAndHashCodeNotDelegatedByDefault() {
+  @Test
+  public void explicitEqualsAndHashCodeNotDelegatedByDefault() {
     new ForwardingWrapperTester().testForwarding(Equals.class, NoDelegateToEquals::new);
   }
 
-  public void testExplicitEqualsAndHashCodeDelegatedWhenExplicitlyAsked() {
+  @Test
+  public void explicitEqualsAndHashCodeDelegatedWhenExplicitlyAsked() {
     try {
       new ForwardingWrapperTester()
           .includingEquals()
@@ -510,7 +527,8 @@ public class ForwardingWrapperTesterTest extends TestCase {
     }
   }
 
-  public void testChainingCalls() {
+  @Test
+  public void chainingCalls() {
     tester.testForwarding(ChainingCalls.class, ForwardingChainingCalls::new);
   }
 }

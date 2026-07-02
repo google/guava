@@ -123,7 +123,7 @@ public class LinkedHashMultisetTest extends TestCase {
     assertThat(ms.toString()).isEqualTo("[a x 3, c, b x 2]");
   }
 
-  public void testLosesPlaceInLine() throws Exception {
+  public void testLosesPlaceInLine() {
     Multiset<String> ms = LinkedHashMultiset.create();
     ms.add("a");
     ms.add("b", 2);

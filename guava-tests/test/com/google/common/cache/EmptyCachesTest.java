@@ -33,7 +33,6 @@ import com.google.common.testing.EqualsTester;
 import java.util.Collection;
 import java.util.Map.Entry;
 import java.util.Set;
-import java.util.concurrent.ExecutionException;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -94,7 +93,7 @@ public class EmptyCachesTest extends TestCase {
     }
   }
 
-  public void testGet_null() throws ExecutionException {
+  public void testGet_null() {
     for (LoadingCache<Object, Object> cache : caches()) {
       assertThrows(NullPointerException.class, () -> cache.get(null));
       checkEmpty(cache);

@@ -192,13 +192,28 @@ public final class HttpHeaders {
   public static final class ReferrerPolicyValues {
     private ReferrerPolicyValues() {}
 
+    /** The {@code no-referrer} referrer policy. */
     public static final String NO_REFERRER = "no-referrer";
+
+    /** The {@code no-referrer-when-downgrade} referrer policy. */
     public static final String NO_REFFERER_WHEN_DOWNGRADE = "no-referrer-when-downgrade";
+
+    /** The {@code same-origin} referrer policy. */
     public static final String SAME_ORIGIN = "same-origin";
+
+    /** The {@code origin} referrer policy. */
     public static final String ORIGIN = "origin";
+
+    /** The {@code strict-origin} referrer policy. */
     public static final String STRICT_ORIGIN = "strict-origin";
+
+    /** The {@code origin-when-cross-origin} referrer policy. */
     public static final String ORIGIN_WHEN_CROSS_ORIGIN = "origin-when-cross-origin";
+
+    /** The {@code strict-origin-when-cross-origin} referrer policy. */
     public static final String STRICT_ORIGIN_WHEN_CROSS_ORIGIN = "strict-origin-when-cross-origin";
+
+    /** The {@code unsafe-url} referrer policy. */
     public static final String UNSAFE_URL = "unsafe-url";
   }
 
@@ -400,6 +415,14 @@ public final class HttpHeaders {
    * @since 32.0.0
    */
   public static final String NO_VARY_SEARCH = "No-Vary-Search";
+
+  /**
+   * The HTTP <a href="https://github.com/explainers-by-googlers/prefetch-activation-beacon">{@code
+   * on-prefetch-activation}</a> header field name.
+   *
+   * @since NEXT
+   */
+  public static final String ON_PREFETCH_ACTIVATION = "on-prefetch-activation";
 
   /**
    * The HTTP <a href="https://googlechrome.github.io/OriginTrials/#header">{@code Origin-Trial}</a>

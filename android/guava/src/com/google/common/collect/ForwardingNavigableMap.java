@@ -274,12 +274,12 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    *
    * @since 12.0
    */
-  protected class StandardDescendingMap extends Maps.DescendingMap<K, V> {
+    protected class StandardDescendingMap extends Maps.DescendingMap<K, V> {
     /** Constructor for use by subclasses. */
     public StandardDescendingMap() {}
 
     @Override
-    NavigableMap<K, V> forward() {
+    final NavigableMap<K, V> forward() {
       return ForwardingNavigableMap.this;
     }
 
@@ -332,7 +332,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    *
    * @since 12.0
    */
-  protected class StandardNavigableKeySet extends Maps.NavigableKeySet<K, V> {
+    protected class StandardNavigableKeySet extends Maps.NavigableKeySet<K, V> {
     /** Constructor for use by subclasses. */
     public StandardNavigableKeySet() {
       super(ForwardingNavigableMap.this);

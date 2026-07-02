@@ -48,15 +48,13 @@ public class ObjectArraysTest extends TestCase {
 
   @GwtIncompatible // ObjectArrays.newArray(Class, int)
   public void testNewArray_fromClass_empty() {
-    String[] empty = ObjectArrays.newArray(String.class, 0);
-    assertThat(empty).isInstanceOf(String[].class);
-    assertThat(empty).isEmpty();
+    String[] array = ObjectArrays.newArray(String.class, 0);
+    assertThat(array).isEmpty();
   }
 
   @GwtIncompatible // ObjectArrays.newArray(Class, int)
   public void testNewArray_fromClass_nonempty() {
     String[] array = ObjectArrays.newArray(String.class, 2);
-    assertThat(array).isInstanceOf(String[].class);
     assertThat(array).hasLength(2);
     assertThat(array[0]).isNull();
   }
@@ -65,64 +63,63 @@ public class ObjectArraysTest extends TestCase {
   @GwtIncompatible // ObjectArrays.newArray(Class, int)
   public void testNewArray_fromClass_ofArray() {
     String[][] array = ObjectArrays.newArray(String[].class, 1);
-    assertThat(array).isInstanceOf(String[][].class);
     assertThat(array).hasLength(1);
     assertThat(array[0]).isNull();
   }
 
   public void testNewArray_fromArray_empty() {
-    String[] in = new String[0];
-    String[] empty = ObjectArrays.newArray(in, 0);
-    assertThat(empty).isEmpty();
+    String[] array = ObjectArrays.newArray(new String[0], 0);
+    assertThat(array).isEmpty();
   }
 
   public void testNewArray_fromArray_nonempty() {
     String[] array = ObjectArrays.newArray(new String[0], 2);
-    assertThat(array).isInstanceOf(String[].class);
     assertThat(array).hasLength(2);
     assertThat(array[0]).isNull();
   }
 
   public void testNewArray_fromArray_ofArray() {
     String[][] array = ObjectArrays.newArray(new String[0][0], 1);
-    assertThat(array).isInstanceOf(String[][].class);
     assertThat(array).hasLength(1);
     assertThat(array[0]).isNull();
   }
 
   @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatEmptyEmpty() {
-    String[] result = ObjectArrays.concat(new String[0], new String[0], String.class);
-    assertThat(result).isInstanceOf(String[].class);
-    assertThat(result).isEmpty();
+    String[] array = ObjectArrays.concat(new String[0], new String[0], String.class);
+    assertThat(array).isEmpty();
   }
 
   @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatEmptyNonempty() {
-    String[] result = ObjectArrays.concat(new String[0], new String[] {"a", "b"}, String.class);
-    assertThat(result).isInstanceOf(String[].class);
-    assertThat(result).asList().containsExactly("a", "b").inOrder();
+    String[] array = ObjectArrays.concat(new String[0], new String[] {"a", "b"}, String.class);
+    assertThat(array).asList().containsExactly("a", "b").inOrder();
   }
 
   @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatNonemptyEmpty() {
-    String[] result = ObjectArrays.concat(new String[] {"a", "b"}, new String[0], String.class);
-    assertThat(result).isInstanceOf(String[].class);
-    assertThat(result).asList().containsExactly("a", "b").inOrder();
+    String[] array = ObjectArrays.concat(new String[] {"a", "b"}, new String[0], String.class);
+    assertThat(array).asList().containsExactly("a", "b").inOrder();
   }
 
   @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
   public void testConcatBasic() {
-    String[] result =
+    String[] array =
         ObjectArrays.concat(new String[] {"a", "b"}, new String[] {"c", "d"}, String.class);
-    assertThat(result).isInstanceOf(String[].class);
-    assertThat(result).asList().containsExactly("a", "b", "c", "d").inOrder();
+    assertThat(array).asList().containsExactly("a", "b", "c", "d").inOrder();
   }
 
   @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
-  public void testConcatWithMoreGeneralType() {
-    CharSequence[] result = ObjectArrays.concat(new String[0], new String[0], CharSequence.class);
-    assertThat(result).isInstanceOf(CharSequence[].class);
+  public void testConcatWithMoreGeneralTypeBasic() {
+    CharSequence[] array = ObjectArrays.concat(new String[0], new String[0], CharSequence.class);
+    assertThat(array).isEmpty();
+  }
+
+  @J2ktIncompatible // String[].class is just Object[].class (b/227554485?
+  @GwtIncompatible // ObjectArrays.concat(Object[], Object[], Class)
+  public void testConcatWithMoreGeneralTypeUseMoreGeneralType() {
+    CharSequence[] array = ObjectArrays.concat(new String[0], new String[0], CharSequence.class);
+    assertThat(array).isNotInstanceOf(String[].class);
   }
 
   public void testToArrayImpl1() {
@@ -168,33 +165,33 @@ public class ObjectArraysTest extends TestCase {
   }
 
   public void testPrependZeroElements() {
-    String[] result = ObjectArrays.concat("foo", new String[] {});
-    assertThat(result).asList().contains("foo");
+    String[] array = ObjectArrays.concat("foo", new String[] {});
+    assertThat(array).asList().contains("foo");
   }
 
   public void testPrependOneElement() {
-    String[] result = ObjectArrays.concat("foo", new String[] {"bar"});
-    assertThat(result).asList().containsExactly("foo", "bar").inOrder();
+    String[] array = ObjectArrays.concat("foo", new String[] {"bar"});
+    assertThat(array).asList().containsExactly("foo", "bar").inOrder();
   }
 
   public void testPrependTwoElements() {
-    String[] result = ObjectArrays.concat("foo", new String[] {"bar", "baz"});
-    assertThat(result).asList().containsExactly("foo", "bar", "baz").inOrder();
+    String[] array = ObjectArrays.concat("foo", new String[] {"bar", "baz"});
+    assertThat(array).asList().containsExactly("foo", "bar", "baz").inOrder();
   }
 
   public void testAppendZeroElements() {
-    String[] result = ObjectArrays.concat(new String[] {}, "foo");
-    assertThat(result).asList().contains("foo");
+    String[] array = ObjectArrays.concat(new String[] {}, "foo");
+    assertThat(array).asList().contains("foo");
   }
 
   public void testAppendOneElement() {
-    String[] result = ObjectArrays.concat(new String[] {"foo"}, "bar");
-    assertThat(result).asList().containsExactly("foo", "bar").inOrder();
+    String[] array = ObjectArrays.concat(new String[] {"foo"}, "bar");
+    assertThat(array).asList().containsExactly("foo", "bar").inOrder();
   }
 
   public void testAppendTwoElements() {
-    String[] result = ObjectArrays.concat(new String[] {"foo", "bar"}, "baz");
-    assertThat(result).asList().containsExactly("foo", "bar", "baz").inOrder();
+    String[] array = ObjectArrays.concat(new String[] {"foo", "bar"}, "baz");
+    assertThat(array).asList().containsExactly("foo", "bar", "baz").inOrder();
   }
 
   public void testEmptyArrayToEmpty() {

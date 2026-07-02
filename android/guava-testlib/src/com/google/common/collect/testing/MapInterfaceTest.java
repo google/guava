@@ -750,7 +750,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     Set<Entry<K, V>> entrySet = map.entrySet();
     Entry<@Nullable K, @Nullable V> entryToAdd = mapEntry(null, null);
     try {
-      entrySet.add((Entry<K, V>) entryToAdd);
+      entrySet.add(entryToAdd);
       fail("Expected UnsupportedOperationException or NullPointerException.");
     } catch (UnsupportedOperationException | NullPointerException e) {
       // Expected.
@@ -758,7 +758,7 @@ public abstract class MapInterfaceTest<K extends @Nullable Object, V extends @Nu
     assertInvariants(map);
 
     try {
-      entrySet.addAll(singleton((Entry<K, V>) entryToAdd));
+      entrySet.addAll(singleton(entryToAdd));
       fail("Expected UnsupportedOperationException or NullPointerException.");
     } catch (UnsupportedOperationException | NullPointerException e) {
       // Expected.

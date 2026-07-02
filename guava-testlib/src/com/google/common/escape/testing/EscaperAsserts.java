@@ -23,7 +23,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.escape.CharEscaper;
 import com.google.common.escape.Escaper;
 import com.google.common.escape.UnicodeEscaper;
-import java.io.IOException;
 import junit.framework.Assert;
 
 /**
@@ -42,7 +41,7 @@ public final class EscaperAsserts {
    * @param escaper the non-null escaper to test
    */
   @SuppressWarnings("NullArgumentForNonNullParameter") // test of a bogus call
-  public static void assertBasic(Escaper escaper) throws IOException {
+  public static void assertBasic(Escaper escaper) {
     // Escapers operate on characters: no characters, no escaping.
     Assert.assertEquals("", escaper.escape(""));
     // Assert that escapers throw null pointer exceptions.

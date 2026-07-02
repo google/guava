@@ -120,7 +120,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
     return (result == null) ? entrySet = createEntrySet() : result;
   }
 
-  Set<Entry<E>> createEntrySet() {
+  final Set<Entry<E>> createEntrySet() {
     @WeakOuter
     final class EntrySetImpl extends Multisets.EntrySet<E> {
       @Override

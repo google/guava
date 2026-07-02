@@ -23,6 +23,7 @@ import static java.lang.System.arraycopy;
 import static java.nio.charset.StandardCharsets.US_ASCII;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
 import com.google.common.primitives.Ints;
@@ -533,25 +534,15 @@ final class HashTestUtils {
   }
 
   static void assertHashBytesThrowsCorrectExceptions(HashFunction hashFunction) {
-    {
-      HashCode unused = hashFunction.hashBytes(new byte[64], 0, 0);
-    }
+    HashCode unused = hashFunction.hashBytes(new byte[64], 0, 0);
 
-    try {
-      hashFunction.hashBytes(new byte[128], -1, 128);
-      Assert.fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      hashFunction.hashBytes(new byte[128], 64, 256 /* too long len */);
-      Assert.fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
-    try {
-      hashFunction.hashBytes(new byte[64], 0, -1);
-      Assert.fail();
-    } catch (IndexOutOfBoundsException expected) {
-    }
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> hashFunction.hashBytes(new byte[128], -1, 128));
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () -> hashFunction.hashBytes(new byte[128], 64, 256 /* too long len */));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> hashFunction.hashBytes(new byte[64], 0, -1));
   }
 
   static void assertIndependentHashers(HashFunction hashFunction) {

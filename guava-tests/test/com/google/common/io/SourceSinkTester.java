@@ -98,7 +98,7 @@ public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends T
     try {
       return new CharSource() {
         @Override
-        public Reader openStream() throws IOException {
+        public Reader openStream() {
           return new StringReader(string);
         }
       }.readLines();

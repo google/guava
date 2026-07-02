@@ -124,7 +124,7 @@ public class AbstractIdleServiceTest extends TestCase {
     assertThat(service.toString()).isEqualTo("TestService [TERMINATED]");
   }
 
-  public void testTimeout() throws Exception {
+  public void testTimeout() {
     // Create a service whose executor will never run its commands
     Service service =
         new TestService() {

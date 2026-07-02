@@ -54,7 +54,7 @@ public class CharMatcherTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testStaticNullPointers() throws Exception {
+  public void testStaticNullPointers() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicStaticMethods(CharMatcher.class);
     tester.testAllPublicInstanceMethods(CharMatcher.any());
@@ -69,7 +69,7 @@ public class CharMatcherTest extends TestCase {
         }
       };
 
-  public void testAnyAndNone_logicalOps() throws Exception {
+  public void testAnyAndNone_logicalOps() {
     // These are testing behavior that's never promised by the API, but since
     // we're lucky enough that these do pass, it saves us from having to write
     // more excruciating tests! Hooray!
@@ -87,7 +87,7 @@ public class CharMatcherTest extends TestCase {
   // The rest of the behavior of ANY and DEFAULT will be covered in the tests for
   // the text processing methods below.
 
-  public void testWhitespaceBreakingWhitespaceSubset() throws Exception {
+  public void testWhitespaceBreakingWhitespaceSubset() {
     for (int c = 0; c <= Character.MAX_VALUE; c++) {
       if (breakingWhitespace().matches((char) c)) {
         assertTrue(Integer.toHexString(c), whitespace().matches((char) c));
@@ -146,7 +146,7 @@ public class CharMatcherTest extends TestCase {
     }
   }
 
-  public void testEmpty() throws Exception {
+  public void testEmpty() {
     doTestEmpty(CharMatcher.any());
     doTestEmpty(CharMatcher.none());
     doTestEmpty(is('a'));
@@ -162,7 +162,7 @@ public class CharMatcherTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testNull() throws Exception {
+  public void testNull() {
     doTestNull(CharMatcher.any());
     doTestNull(CharMatcher.none());
     doTestNull(is('a'));
@@ -176,13 +176,13 @@ public class CharMatcherTest extends TestCase {
     doTestNull(forPredicate(equalTo('c')));
   }
 
-  private void doTestEmpty(CharMatcher matcher) throws Exception {
+  private void doTestEmpty(CharMatcher matcher) {
     reallyTestEmpty(matcher);
     reallyTestEmpty(matcher.negate());
     reallyTestEmpty(matcher.precomputed());
   }
 
-  private void reallyTestEmpty(CharMatcher matcher) throws Exception {
+  private void reallyTestEmpty(CharMatcher matcher) {
     assertEquals(-1, matcher.indexIn(""));
     assertEquals(-1, matcher.indexIn("", 0));
     assertThrows(IndexOutOfBoundsException.class, () -> matcher.indexIn("", 1));
@@ -200,7 +200,7 @@ public class CharMatcherTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  private static void doTestNull(CharMatcher matcher) throws Exception {
+  private static void doTestNull(CharMatcher matcher) {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(matcher);
   }

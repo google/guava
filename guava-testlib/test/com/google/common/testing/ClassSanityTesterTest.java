@@ -90,27 +90,22 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testForAllPublicStaticMethods_noPublicStaticMethods() throws Exception {
-    try {
-      tester.forAllPublicStaticMethods(NoPublicStaticMethods.class).testEquals();
-    } catch (AssertionError expected) {
-      assertThat(expected)
-          .hasMessageThat()
-          .isEqualTo(
-              "No public static methods that return java.lang.Object or subtype are found in "
-                  + NoPublicStaticMethods.class
-                  + ".");
-      return;
-    }
-    fail();
+    AssertionError expected =
+        assertThrows(
+            AssertionError.class,
+            () -> tester.forAllPublicStaticMethods(NoPublicStaticMethods.class).testEquals());
+    assertThat(expected)
+        .hasMessageThat()
+        .isEqualTo(
+            "No public static methods that return java.lang.Object or subtype are found in "
+                + NoPublicStaticMethods.class
+                + ".");
   }
 
   public void testEqualsOnReturnValues_bad() throws Exception {
-    try {
-      tester.forAllPublicStaticMethods(BadEqualsFactory.class).testEquals();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () -> tester.forAllPublicStaticMethods(BadEqualsFactory.class).testEquals());
   }
 
   private static class BadEqualsFactory {
@@ -134,30 +129,30 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testNullsOnReturnValues_bad() throws Exception {
-    try {
-      tester.forAllPublicStaticMethods(BadNullsFactory.class).thatReturn(Object.class).testNulls();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () ->
+            tester
+                .forAllPublicStaticMethods(BadNullsFactory.class)
+                .thatReturn(Object.class)
+                .testNulls());
   }
 
   public void testNullsOnReturnValues_returnTypeFiltered() throws Exception {
-    try {
-      tester
-          .forAllPublicStaticMethods(BadNullsFactory.class)
-          .thatReturn(Iterable.class)
-          .testNulls();
-    } catch (AssertionError expected) {
-      assertThat(expected)
-          .hasMessageThat()
-          .isEqualTo(
-              "No public static methods that return java.lang.Iterable or subtype are found in "
-                  + BadNullsFactory.class
-                  + ".");
-      return;
-    }
-    fail();
+    AssertionError expected =
+        assertThrows(
+            AssertionError.class,
+            () ->
+                tester
+                    .forAllPublicStaticMethods(BadNullsFactory.class)
+                    .thatReturn(Iterable.class)
+                    .testNulls());
+    assertThat(expected)
+        .hasMessageThat()
+        .isEqualTo(
+            "No public static methods that return java.lang.Iterable or subtype are found in "
+                + BadNullsFactory.class
+                + ".");
   }
 
   public static final class BadNullsFactory {
@@ -186,12 +181,9 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testSerializableOnReturnValues_bad() throws Exception {
-    try {
-      tester.forAllPublicStaticMethods(BadSerializableFactory.class).testSerializable();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () -> tester.forAllPublicStaticMethods(BadSerializableFactory.class).testSerializable());
   }
 
   public static final class BadSerializableFactory {
@@ -206,21 +198,19 @@ public class ClassSanityTesterTest extends TestCase {
 
   public void testEqualsAndSerializableOnReturnValues_equalsIsGoodButNotSerializable()
       throws Exception {
-    try {
-      tester.forAllPublicStaticMethods(GoodEqualsFactory.class).testEqualsAndSerializable();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail("should have failed");
+    assertThrows(
+        AssertionError.class,
+        () ->
+            tester.forAllPublicStaticMethods(GoodEqualsFactory.class).testEqualsAndSerializable());
   }
 
   public void testEqualsAndSerializableOnReturnValues_serializableButNotEquals() throws Exception {
-    try {
-      tester.forAllPublicStaticMethods(GoodSerializableFactory.class).testEqualsAndSerializable();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail("should have failed");
+    assertThrows(
+        AssertionError.class,
+        () ->
+            tester
+                .forAllPublicStaticMethods(GoodSerializableFactory.class)
+                .testEqualsAndSerializable());
   }
 
   @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
@@ -239,44 +229,40 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   public void testEqualsForReturnValues_factoryReturnsNullButNotAnnotated() throws Exception {
-    try {
-      tester.forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class).testEquals();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () ->
+            tester
+                .forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class)
+                .testEquals());
   }
 
   public void testNullsForReturnValues_factoryReturnsNullButNotAnnotated() throws Exception {
-    try {
-      tester.forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class).testNulls();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () ->
+            tester
+                .forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class)
+                .testNulls());
   }
 
   public void testSerializableForReturnValues_factoryReturnsNullButNotAnnotated() throws Exception {
-    try {
-      tester
-          .forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class)
-          .testSerializable();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () ->
+            tester
+                .forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class)
+                .testSerializable());
   }
 
   public void testEqualsAndSerializableForReturnValues_factoryReturnsNullButNotAnnotated()
       throws Exception {
-    try {
-      tester
-          .forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class)
-          .testEqualsAndSerializable();
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail();
+    assertThrows(
+        AssertionError.class,
+        () ->
+            tester
+                .forAllPublicStaticMethods(FactoryThatReturnsNullButNotAnnotated.class)
+                .testEqualsAndSerializable());
   }
 
   public static final class FactoryThatReturnsNullButNotAnnotated {
@@ -314,7 +300,7 @@ public class ClassSanityTesterTest extends TestCase {
     private FactoryThatReturnsNullAndAnnotated() {}
   }
 
-  public void testGoodEquals() throws Exception {
+  public void testGoodEquals() {
     tester.testEquals(GoodEquals.class);
   }
 
@@ -330,44 +316,37 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testEquals(OneConstantEnum.class);
   }
 
-  public void testBadEquals() throws Exception {
-    try {
-      tester.testEquals(BadEquals.class);
-    } catch (AssertionError expected) {
-      assertThat(expected).hasMessageThat().contains("create(null)");
-      return;
-    }
-    fail("should have failed");
+  public void testBadEquals() {
+    AssertionError expected =
+        assertThrows(AssertionError.class, () -> tester.testEquals(BadEquals.class));
+    assertThat(expected).hasMessageThat().contains("create(null)");
   }
 
-  public void testBadEquals_withParameterizedType() throws Exception {
-    try {
-      tester.testEquals(BadEqualsWithParameterizedType.class);
-    } catch (AssertionError expected) {
-      assertThat(expected).hasMessageThat().contains("create([[1]])");
-      return;
-    }
-    fail("should have failed");
+  public void testBadEquals_withParameterizedType() {
+    AssertionError expected =
+        assertThrows(
+            AssertionError.class, () -> tester.testEquals(BadEqualsWithParameterizedType.class));
+    assertThat(expected).hasMessageThat().contains("create([[1]])");
   }
 
-  public void testBadEquals_withSingleParameterValue() throws Exception {
+  public void testBadEquals_withSingleParameterValue() {
     assertThrows(
         ParameterHasNoDistinctValueException.class,
         () -> tester.doTestEquals(ConstructorParameterWithOptionalNotInstantiable.class));
   }
 
-  public void testGoodReferentialEqualityComparison() throws Exception {
+  public void testGoodReferentialEqualityComparison() {
     tester.testEquals(UsesEnum.class);
     tester.testEquals(UsesReferentialEquality.class);
     tester.testEquals(SameListInstance.class);
   }
 
-  public void testStreamParameterSkippedForNullTesting() throws Exception {
+  public void testStreamParameterSkippedForNullTesting() {
     tester.testNulls(WithStreamParameter.class);
   }
 
   @AndroidIncompatible // problem with equality of Type objects?
-  public void testEqualsUsingReferentialEquality() throws Exception {
+  public void testEqualsUsingReferentialEquality() {
     assertBadUseOfReferentialEquality(SameIntegerInstance.class);
     assertBadUseOfReferentialEquality(SameLongInstance.class);
     assertBadUseOfReferentialEquality(SameFloatInstance.class);
@@ -381,63 +360,55 @@ public class ClassSanityTesterTest extends TestCase {
     assertBadUseOfReferentialEquality(SameInterfaceInstance.class);
   }
 
-  private void assertBadUseOfReferentialEquality(Class<?> cls) throws Exception {
-    try {
-      tester.testEquals(cls);
-    } catch (AssertionError expected) {
-      assertThat(expected).hasMessageThat().contains(cls.getSimpleName() + "(");
-      return;
-    }
-    fail("should have failed for " + cls);
+  private void assertBadUseOfReferentialEquality(Class<?> cls) {
+    AssertionError expected = assertThrows(AssertionError.class, () -> tester.testEquals(cls));
+    assertThat(expected).hasMessageThat().contains(cls.getSimpleName() + "(");
   }
 
-  public void testParameterNotInstantiableForEqualsTest() throws Exception {
+  public void testParameterNotInstantiableForEqualsTest() {
     assertThrows(
         ParameterNotInstantiableException.class,
         () -> tester.doTestEquals(ConstructorParameterNotInstantiable.class));
   }
 
-  public void testNoDistinctValueForEqualsTest() throws Exception {
+  public void testNoDistinctValueForEqualsTest() {
     assertThrows(
         ParameterHasNoDistinctValueException.class,
         () -> tester.doTestEquals(ConstructorParameterSingleValue.class));
   }
 
-  public void testConstructorThrowsForEqualsTest() throws Exception {
+  public void testConstructorThrowsForEqualsTest() {
     assertThrows(
         InvocationTargetException.class, () -> tester.doTestEquals(ConstructorThrows.class));
   }
 
-  public void testFactoryMethodReturnsNullForEqualsTest() throws Exception {
+  public void testFactoryMethodReturnsNullForEqualsTest() {
     assertThrows(
         FactoryMethodReturnsNullException.class,
         () -> tester.doTestEquals(FactoryMethodReturnsNullAndAnnotated.class));
   }
 
-  public void testFactoryMethodReturnsNullButNotAnnotatedInEqualsTest() throws Exception {
-    try {
-      tester.testEquals(FactoryMethodReturnsNullButNotAnnotated.class);
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail("should have failed");
+  public void testFactoryMethodReturnsNullButNotAnnotatedInEqualsTest() {
+    assertThrows(
+        AssertionError.class,
+        () -> tester.testEquals(FactoryMethodReturnsNullButNotAnnotated.class));
   }
 
-  public void testNoEqualsChecksOnEnum() throws Exception {
+  public void testNoEqualsChecksOnEnum() {
     tester.testEquals(OneConstantEnum.class);
     tester.testEquals(NoConstantEnum.class);
     tester.testEquals(TimeUnit.class);
   }
 
-  public void testNoEqualsChecksOnInterface() throws Exception {
+  public void testNoEqualsChecksOnInterface() {
     tester.testEquals(Runnable.class);
   }
 
-  public void testNoEqualsChecksOnAnnotation() throws Exception {
+  public void testNoEqualsChecksOnAnnotation() {
     tester.testEquals(MyAnnotation.class);
   }
 
-  public void testGoodNulls() throws Exception {
+  public void testGoodNulls() {
     tester.testNulls(GoodNulls.class);
   }
 
@@ -453,54 +424,41 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testNulls(AnAbstractClass.class);
   }
 
-  public void testNulls_enum() throws Exception {
+  public void testNulls_enum() {
     tester.testNulls(OneConstantEnum.class);
     tester.testNulls(NoConstantEnum.class);
     tester.testNulls(TimeUnit.class);
   }
 
-  public void testNulls_parameterOptionalNotInstantiable() throws Exception {
+  public void testNulls_parameterOptionalNotInstantiable() {
     tester.testNulls(ConstructorParameterWithOptionalNotInstantiable.class);
   }
 
-  public void testEnumFailsToCheckNull() throws Exception {
-    try {
-      tester.testNulls(EnumFailsToCheckNull.class);
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail("should have failed");
+  public void testEnumFailsToCheckNull() {
+    assertThrows(AssertionError.class, () -> tester.testNulls(EnumFailsToCheckNull.class));
   }
 
-  public void testNoNullChecksOnInterface() throws Exception {
+  public void testNoNullChecksOnInterface() {
     tester.testNulls(Runnable.class);
   }
 
-  public void testNoNullChecksOnAnnotation() throws Exception {
+  public void testNoNullChecksOnAnnotation() {
     tester.testNulls(MyAnnotation.class);
   }
 
-  public void testBadNulls() throws Exception {
-    try {
-      tester.testNulls(BadNulls.class);
-    } catch (AssertionError expected) {
-      return;
-    }
-    fail("should have failed");
+  public void testBadNulls() {
+    assertThrows(AssertionError.class, () -> tester.testNulls(BadNulls.class));
   }
 
   public void testInstantiate_factoryMethodReturnsNullButNotAnnotated() throws Exception {
-    try {
-      FactoryMethodReturnsNullButNotAnnotated unused =
-          tester.instantiate(FactoryMethodReturnsNullButNotAnnotated.class);
-    } catch (AssertionError expected) {
-      assertThat(expected).hasMessageThat().contains("@Nullable");
-      return;
-    }
-    fail("should have failed");
+    AssertionError expected =
+        assertThrows(
+            AssertionError.class,
+            () -> tester.instantiate(FactoryMethodReturnsNullButNotAnnotated.class));
+    assertThat(expected).hasMessageThat().contains("@Nullable");
   }
 
-  public void testInstantiate_factoryMethodReturnsNullAndAnnotated() throws Exception {
+  public void testInstantiate_factoryMethodReturnsNullAndAnnotated() {
     assertThrows(
         FactoryMethodReturnsNullException.class,
         () -> tester.instantiate(FactoryMethodReturnsNullAndAnnotated.class));
@@ -565,23 +523,23 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testEquals(ConstructorParameterMapOfNotInstantiable.class);
   }
 
-  public void testInstantiate_constructorThrows() throws Exception {
+  public void testInstantiate_constructorThrows() {
     assertThrows(
         InvocationTargetException.class, () -> tester.instantiate(ConstructorThrows.class));
   }
 
-  public void testInstantiate_factoryMethodThrows() throws Exception {
+  public void testInstantiate_factoryMethodThrows() {
     assertThrows(
         InvocationTargetException.class, () -> tester.instantiate(FactoryMethodThrows.class));
   }
 
-  public void testInstantiate_constructorParameterNotInstantiable() throws Exception {
+  public void testInstantiate_constructorParameterNotInstantiable() {
     assertThrows(
         ParameterNotInstantiableException.class,
         () -> tester.instantiate(ConstructorParameterNotInstantiable.class));
   }
 
-  public void testInstantiate_factoryMethodParameterNotInstantiable() throws Exception {
+  public void testInstantiate_factoryMethodParameterNotInstantiable() {
     assertThrows(
         ParameterNotInstantiableException.class,
         () -> tester.instantiate(FactoryMethodParameterNotInstantiable.class));
@@ -657,7 +615,7 @@ public class ClassSanityTesterTest extends TestCase {
     assertThat(tester.instantiate(InstantiableConstructorChosen.class).name).isEqualTo("good");
   }
 
-  public void testEquals_setOfNonInstantiable() throws Exception {
+  public void testEquals_setOfNonInstantiable() {
     assertThrows(
         ParameterNotInstantiableException.class,
         () -> new ClassSanityTester().doTestEquals(SetWrapper.class));

@@ -1529,7 +1529,7 @@ public final class Maps {
     };
   }
 
-  /** The implementation of {@link Multimaps#unmodifiableEntries}. */
+  /** The implementation of {@code Multimaps.unmodifiableEntries}. */
   static class UnmodifiableEntries<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingCollection<Entry<K, V>> {
     private final Collection<Entry<K, V>> entries;
@@ -1801,7 +1801,7 @@ public final class Maps {
    *
    * {@snippet :
    * Map<String, Integer> map = ImmutableMap.of("a", 4, "b", 9);
-   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt(in);
    * Map<String, Double> transformed = Maps.transformValues(map, sqrt);
    * System.out.println(transformed);
    * }
@@ -1836,7 +1836,7 @@ public final class Maps {
    *
    * {@snippet :
    * SortedMap<String, Integer> map = ImmutableSortedMap.of("a", 4, "b", 9);
-   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt(in);
    * SortedMap<String, Double> transformed = Maps.transformValues(map, sqrt);
    * System.out.println(transformed);
    * }
@@ -1876,7 +1876,7 @@ public final class Maps {
    * NavigableMap<String, Integer> map = Maps.newTreeMap();
    * map.put("a", 4);
    * map.put("b", 9);
-   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt((int) in);
+   * Function<Integer, Double> sqrt = (Integer in) -> Math.sqrt(in);
    * NavigableMap<String, Double> transformed = Maps.transformNavigableValues(map, sqrt);
    * System.out.println(transformed);
    * }
@@ -3725,7 +3725,7 @@ public final class Maps {
     }
   }
 
-  abstract static class IteratorBasedAbstractMap<
+    abstract static class IteratorBasedAbstractMap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMap<K, V> {
     @Override
@@ -3763,7 +3763,7 @@ public final class Maps {
       };
     }
 
-    void forEachEntry(Consumer<? super Entry<K, V>> action) {
+    final void forEachEntry(Consumer<? super Entry<K, V>> action) {
       entryIterator().forEachRemaining(action);
     }
 
@@ -3873,7 +3873,7 @@ public final class Maps {
     return false;
   }
 
-  /** An implementation of {@link Map#toString}. */
+  /** An implementation of {@code Map.toString()}. */
   static String toStringImpl(Map<?, ?> map) {
     StringBuilder sb = newStringBuilderForCollection(map.size()).append('{');
     boolean first = true;
@@ -3895,7 +3895,7 @@ public final class Maps {
     }
   }
 
-  static class KeySet<K extends @Nullable Object, V extends @Nullable Object>
+    static class KeySet<K extends @Nullable Object, V extends @Nullable Object>
       extends Sets.ImprovedAbstractSet<K> {
     @Weak final Map<K, V> map;
 
@@ -3957,7 +3957,7 @@ public final class Maps {
     return (entry == null) ? null : entry.getValue();
   }
 
-  static class SortedKeySet<K extends @Nullable Object, V extends @Nullable Object>
+    static class SortedKeySet<K extends @Nullable Object, V extends @Nullable Object>
       extends KeySet<K, V> implements SortedSet<K> {
     SortedKeySet(SortedMap<K, V> map) {
       super(map);
@@ -4002,14 +4002,14 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  static class NavigableKeySet<K extends @Nullable Object, V extends @Nullable Object>
+    static class NavigableKeySet<K extends @Nullable Object, V extends @Nullable Object>
       extends SortedKeySet<K, V> implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, V> map) {
       super(map);
     }
 
     @Override
-    NavigableMap<K, V> map() {
+    final NavigableMap<K, V> map() {
       return (NavigableMap<K, V>) map;
     }
 
@@ -4088,7 +4088,7 @@ public final class Maps {
     }
   }
 
-  static class Values<K extends @Nullable Object, V extends @Nullable Object>
+    static class Values<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractCollection<V> {
     @Weak final Map<K, V> map;
 
@@ -4178,7 +4178,7 @@ public final class Maps {
     }
   }
 
-  abstract static class EntrySet<K extends @Nullable Object, V extends @Nullable Object>
+    abstract static class EntrySet<K extends @Nullable Object, V extends @Nullable Object>
       extends Sets.ImprovedAbstractSet<Entry<K, V>> {
     abstract Map<K, V> map();
 
@@ -4254,7 +4254,7 @@ public final class Maps {
   }
 
   @GwtIncompatible // NavigableMap
-  abstract static class DescendingMap<K extends @Nullable Object, V extends @Nullable Object>
+    abstract static class DescendingMap<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingMap<K, V> implements NavigableMap<K, V> {
 
     abstract NavigableMap<K, V> forward();
@@ -4372,7 +4372,7 @@ public final class Maps {
 
     abstract Iterator<Entry<K, V>> entryIterator();
 
-    Set<Entry<K, V>> createEntrySet() {
+    final Set<Entry<K, V>> createEntrySet() {
       @WeakOuter
       final class EntrySetImpl extends EntrySet<K, V> {
         @Override

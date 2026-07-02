@@ -39,7 +39,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class MapMakerTest extends TestCase {
   @GwtIncompatible // NullPointerTester
-  public void testNullParameters() throws Exception {
+  public void testNullParameters() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(new MapMaker());
   }

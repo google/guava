@@ -25,6 +25,9 @@ import org.jspecify.annotations.Nullable;
  * An extension of {@code DataInput} for reading from in-memory byte arrays; its methods offer
  * identical functionality but do not throw {@link IOException}.
  *
+ * <p>To create an instance, use {@link ByteStreams#newDataInput(byte[])} or another overload of
+ * that method.
+ *
  * <p><b>Warning:</b> The caller is responsible for not attempting to read past the end of the
  * array. If any method encounters the end of the array prematurely, it throws {@link
  * IllegalStateException} to signify <i>programmer error</i>. This behavior is a technical violation

@@ -936,7 +936,7 @@ public class MapMakerInternalMapTest extends TestCase {
         createMapMaker().weakValues(), createMapMaker().weakKeys().weakValues());
   }
 
-  public void testNullParameters() throws Exception {
+  public void testNullParameters() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(makeMap(createMapMaker()));
   }

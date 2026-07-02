@@ -163,7 +163,7 @@ public class SequentialExecutorTest extends TestCase {
     assertEquals(2, numCalls.get());
   }
 
-  public void testInterrupt_beforeRunRestoresInterruption() throws Exception {
+  public void testInterrupt_beforeRunRestoresInterruption() {
     // Run a task on the composed Executor that interrupts its thread (i.e. this thread).
     fakePool.execute(() -> Thread.currentThread().interrupt());
     // Run a task that expects that it is not interrupted while it is running.
@@ -178,7 +178,7 @@ public class SequentialExecutorTest extends TestCase {
     assertThat(Thread.interrupted()).isTrue();
   }
 
-  public void testInterrupt_doesNotInterruptSubsequentTask() throws Exception {
+  public void testInterrupt_doesNotInterruptSubsequentTask() {
     // Run a task that interrupts its thread (i.e. this thread).
     e.execute(() -> Thread.currentThread().interrupt());
     // Run a task that expects that it is not interrupted while it is running.

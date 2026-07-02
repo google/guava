@@ -19,6 +19,7 @@ package com.google.common.testing;
 import static com.google.common.collect.Iterables.getOnlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import junit.framework.TestCase;
@@ -34,7 +35,7 @@ public class TearDownStackTest extends TestCase {
 
   private final TearDownStack tearDownStack = new TearDownStack();
 
-  public void testSingleTearDown() throws Exception {
+  public void testSingleTearDown() {
     TearDownStack stack = buildTearDownStack();
 
     SimpleTearDown tearDown = new SimpleTearDown();
@@ -47,7 +48,7 @@ public class TearDownStackTest extends TestCase {
     assertEquals("tearDown should have run", true, tearDown.ran);
   }
 
-  public void testMultipleTearDownsHappenInOrder() throws Exception {
+  public void testMultipleTearDownsHappenInOrder() {
     TearDownStack stack = buildTearDownStack();
 
     SimpleTearDown tearDownOne = new SimpleTearDown();
@@ -74,7 +75,7 @@ public class TearDownStackTest extends TestCase {
     assertEquals("tearDownTwo should have run", true, tearDownTwo.ran);
   }
 
-  public void testThrowingTearDown() throws Exception {
+  public void testThrowingTearDown() {
     TearDownStack stack = buildTearDownStack();
 
     ThrowingTearDown tearDownOne = new ThrowingTearDown("one");
@@ -86,15 +87,9 @@ public class TearDownStackTest extends TestCase {
     assertEquals(false, tearDownOne.ran);
     assertEquals(false, tearDownTwo.ran);
 
-    try {
-      stack.runTearDown();
-      fail("runTearDown should have thrown an exception");
-    } catch (RuntimeException expected) {
-      assertThat(expected).hasMessageThat().isEqualTo("two");
-      assertThat(getOnlyElement(asList(expected.getSuppressed())))
-          .hasMessageThat()
-          .isEqualTo("one");
-    }
+    RuntimeException expected = assertThrows(RuntimeException.class, () -> stack.runTearDown());
+    assertThat(expected).hasMessageThat().isEqualTo("two");
+    assertThat(getOnlyElement(asList(expected.getSuppressed()))).hasMessageThat().isEqualTo("one");
 
     assertEquals(true, tearDownOne.ran);
     assertEquals(true, tearDownTwo.ran);
@@ -140,7 +135,7 @@ public class TearDownStackTest extends TestCase {
     }
 
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() {
       ran = true;
       throw new RuntimeException(id);
     }
@@ -158,7 +153,7 @@ public class TearDownStackTest extends TestCase {
     }
 
     @Override
-    public void tearDown() throws Exception {
+    public void tearDown() {
       if (callback != null) {
         callback.run();
       }

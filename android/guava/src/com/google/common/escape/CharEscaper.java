@@ -83,6 +83,10 @@ public abstract class CharEscaper extends Escaper {
    */
   protected abstract char @Nullable [] escape(char c);
 
+  final char @Nullable [] escapeInternal(char c) {
+    return escape(c);
+  }
+
   /**
    * Returns the escaped form of a given literal string, starting at the given index. This method is
    * called by the {@link #escape(String)} method when it discovers that escaping is required. It is

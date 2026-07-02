@@ -20,8 +20,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
-import com.google.common.annotations.GwtIncompatible;
-import com.google.common.annotations.J2ktIncompatible;
 import junit.framework.AssertionFailedError;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -76,12 +74,6 @@ public class VerifyTest extends TestCase {
     VerifyException expected =
         assertThrows(VerifyException.class, () -> verifyNotNull(null, FORMAT, 5));
     checkMessage(expected);
-  }
-
-  @J2ktIncompatible
-  @GwtIncompatible // NullPointerTester
-  public void testNullPointers() {
-    // Don't bother testing: Verify is like Preconditions. See the discussion on that class.
   }
 
   private static final Object IGNORE_ME =

@@ -658,9 +658,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
 
     @Override
     public M create(Object... elements) {
-      return reserialize(
-          ((TestMultimapGenerator<K, V, M>) multimapGenerator.getInnerGenerator())
-              .create(elements));
+      return reserialize(multimapGenerator.getInnerGenerator().create(elements));
     }
 
     @Override

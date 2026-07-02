@@ -21,6 +21,7 @@ import static com.google.common.collect.testing.Helpers.entryComparator;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static java.util.Arrays.asList;
 import static java.util.Collections.sort;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.ArrayList;
@@ -145,7 +146,7 @@ public final class DerivedCollectionGenerators {
 
     @Override
     public Iterable<K> order(List<K> insertionOrder) {
-      V v = ((TestMapGenerator<K, V>) mapGenerator.getInnerGenerator()).samples().e0().getValue();
+      V v = mapGenerator.getInnerGenerator().samples().e0().getValue();
       List<Entry<K, V>> entries = new ArrayList<>();
       for (K element : insertionOrder) {
         entries.add(mapEntry(element, v));
@@ -383,14 +384,12 @@ public final class DerivedCollectionGenerators {
 
     @Override
     public SortedSet<E> create(Object... elements) {
-      List<?> normalValues = (List<?>) asList(elements);
+      List<?> normalValues = asList(elements);
       List<E> extremeValues = new ArrayList<>();
 
       // nulls are usually out of bounds for a subset, so ban them altogether
       for (Object o : elements) {
-        if (o == null) {
-          throw new NullPointerException();
-        }
+        requireNonNull(o);
       }
 
       // prepare extreme values to be filtered out of view

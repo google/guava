@@ -244,7 +244,7 @@ public final class Floats extends FloatsMethodsForWeb {
    * unchanged. If {@code value} is less than {@code min}, {@code min} is returned, and if {@code
    * value} is greater than {@code max}, {@code max} is returned.
    *
-   * <p><b>Java 21+ users:</b> Use {@code Math.clamp} instead.
+   * <p><b>Java 21+ users:</b> Use {@link Math#clamp(float, float, float)} instead.
    *
    * @param value the {@code float} value to constrain
    * @param min the lower bound (inclusive) of the range to constrain {@code value} to

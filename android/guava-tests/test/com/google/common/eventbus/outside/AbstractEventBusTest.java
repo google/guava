@@ -42,7 +42,7 @@ abstract class AbstractEventBusTest<H> extends TestCase {
   }
 
   @Override
-  protected void setUp() throws Exception {
+  protected void setUp() {
     subscriber = createSubscriber();
     EventBus bus = new EventBus();
     bus.register(subscriber);
@@ -50,7 +50,7 @@ abstract class AbstractEventBusTest<H> extends TestCase {
   }
 
   @Override
-  protected void tearDown() throws Exception {
+  protected void tearDown() {
     subscriber = null;
   }
 }

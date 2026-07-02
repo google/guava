@@ -88,14 +88,9 @@ public class ShortsTest extends TestCase {
   }
 
   private static void assertCastFails(long value) {
-    try {
-      Shorts.checkedCast(value);
-      fail("Cast to short should have failed: " + value);
-    } catch (IllegalArgumentException ex) {
-      assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
-          .that(ex.getMessage().contains(String.valueOf(value)))
-          .isTrue();
-    }
+    IllegalArgumentException ex =
+        assertThrows(IllegalArgumentException.class, () -> Shorts.checkedCast(value));
+    assertThat(ex).hasMessageThat().contains(String.valueOf(value));
   }
 
   // We need to test that our method behaves like the JDK method.
@@ -266,11 +261,7 @@ public class ShortsTest extends TestCase {
     short[] sharedArray = new short[arraysDim2];
     Arrays.fill(arrays, sharedArray);
 
-    try {
-      Shorts.concat(arrays);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Shorts.concat(arrays));
   }
 
   @GwtIncompatible // Shorts.toByteArray
@@ -650,7 +641,7 @@ public class ShortsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testStringConverter_nullPointerTester() throws Exception {
+  public void testStringConverter_nullPointerTester() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Shorts.stringConverter());
   }

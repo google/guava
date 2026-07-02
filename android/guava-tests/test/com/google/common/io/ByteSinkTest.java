@@ -42,7 +42,7 @@ public class ByteSinkTest extends IoTestCase {
   private TestByteSink sink;
 
   @Override
-  protected void setUp() throws Exception {
+  protected void setUp() {
     sink = new TestByteSink();
   }
 

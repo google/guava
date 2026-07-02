@@ -43,7 +43,7 @@ import org.jspecify.annotations.Nullable;
  * ordering or by supplied comparators. When constructing a {@code TreeBasedTable}, you may provide
  * comparators for the row keys and the column keys, or you may use natural ordering for both.
  *
- * <p>The {@link #rowKeySet} method returns a {@link SortedSet} and the {@link #rowMap} method
+ * <p>The {@link #rowKeySet()} method returns a {@link SortedSet} and the {@link #rowMap()} method
  * returns a {@link SortedMap}, instead of the {@link Set} and {@link Map} specified by the {@link
  * Table} interface.
  *
@@ -71,7 +71,7 @@ import org.jspecify.annotations.Nullable;
  * @since 7.0
  */
 @GwtCompatible
-public class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
+public final class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, V> {
   private final Comparator<? super C> columnComparator;
 
   private static final class Factory<C, V> implements Supplier<Map<C, V>>, Serializable {

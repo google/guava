@@ -29,7 +29,9 @@ import java.util.regex.Pattern;
 import org.jspecify.annotations.Nullable;
 
 /**
- * Static utility methods pertaining to {@code Predicate} instances.
+ * Static utility methods pertaining to {@link Predicate com.google.common.base.Predicate}
+ * instances; see that class for information about migrating to {@link java.util.function.Predicate
+ * java.util.function}.
  *
  * <p>All methods return serializable predicates as long as they're given serializable parameters.
  *

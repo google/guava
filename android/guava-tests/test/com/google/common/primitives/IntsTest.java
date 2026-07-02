@@ -89,14 +89,9 @@ public class IntsTest extends TestCase {
   }
 
   private static void assertCastFails(long value) {
-    try {
-      Ints.checkedCast(value);
-      fail("Cast to int should have failed: " + value);
-    } catch (IllegalArgumentException ex) {
-      assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
-          .that(ex.getMessage().contains(String.valueOf(value)))
-          .isTrue();
-    }
+    IllegalArgumentException ex =
+        assertThrows(IllegalArgumentException.class, () -> Ints.checkedCast(value));
+    assertThat(ex).hasMessageThat().contains(String.valueOf(value));
   }
 
   // We need to test that our method behaves like the JDK method.
@@ -246,11 +241,7 @@ public class IntsTest extends TestCase {
     int[] sharedArray = new int[arraysDim2];
     Arrays.fill(arrays, sharedArray);
 
-    try {
-      Ints.concat(arrays);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Ints.concat(arrays));
   }
 
   public void testToByteArray() {
@@ -627,7 +618,7 @@ public class IntsTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testStringConverter_nullPointerTester() throws Exception {
+  public void testStringConverter_nullPointerTester() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(Ints.stringConverter());
   }

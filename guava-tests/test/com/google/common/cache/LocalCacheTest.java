@@ -954,7 +954,7 @@ public class LocalCacheTest extends TestCase {
     assertThat(listener.isEmpty()).isTrue();
   }
 
-  public void testSegmentRefresh_duplicate() throws ExecutionException {
+  public void testSegmentRefresh_duplicate() {
     LocalCache<Object, Object> map = makeLocalCache(createCacheBuilder().concurrencyLevel(1));
     Segment<Object, Object> segment = map.segments[0];
 
@@ -2650,7 +2650,7 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
-  public void testNullParameters() throws Exception {
+  public void testNullParameters() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(makeLocalCache(createCacheBuilder()));
     CacheLoader<Object, Object> loader = identityLoader();
@@ -2769,7 +2769,7 @@ public class LocalCacheTest extends TestCase {
     assertThat(localCacheThree.ticker).isEqualTo(localCacheTwo.ticker);
   }
 
-  public void testLoadDifferentKeyInLoader() throws ExecutionException, InterruptedException {
+  public void testLoadDifferentKeyInLoader() throws ExecutionException {
     LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
     String key1 = "key1";
     String key2 = "key2";

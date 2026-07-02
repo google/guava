@@ -135,6 +135,7 @@ public abstract class ForwardingCache<K, V> extends ForwardingObject implements 
   public abstract static class SimpleForwardingCache<K, V> extends ForwardingCache<K, V> {
     private final Cache<K, V> delegate;
 
+    /** Constructor for use by subclasses. */
     protected SimpleForwardingCache(Cache<K, V> delegate) {
       this.delegate = Preconditions.checkNotNull(delegate);
     }

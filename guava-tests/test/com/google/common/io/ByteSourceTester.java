@@ -160,7 +160,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
     source.copyTo(
         new ByteSink() {
           @Override
-          public OutputStream openStream() throws IOException {
+          public OutputStream openStream() {
             return out;
           }
         });
@@ -175,7 +175,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
     assertEquals(expected.length, source.size());
   }
 
-  public void testSizeIfKnown() throws IOException {
+  public void testSizeIfKnown() {
     Optional<Long> sizeIfKnown = source.sizeIfKnown();
     if (sizeIfKnown.isPresent()) {
       assertEquals(expected.length, (long) sizeIfKnown.get());
@@ -187,7 +187,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
         source.contentEquals(
             new ByteSource() {
               @Override
-              public InputStream openStream() throws IOException {
+              public InputStream openStream() {
                 return new RandomAmountInputStream(
                     new ByteArrayInputStream(expected), new Random());
               }
@@ -201,7 +201,7 @@ public class ByteSourceTester extends SourceSinkTester<ByteSource, byte[], ByteS
               final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
               @Override
-              public boolean processBytes(byte[] buf, int off, int len) throws IOException {
+              public boolean processBytes(byte[] buf, int off, int len) {
                 out.write(buf, off, len);
                 return true;
               }

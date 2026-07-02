@@ -53,7 +53,7 @@ public class ExecutionSequencerTest extends TestCase {
   private TestCallable firstCallable;
 
   @Override
-  protected void setUp() throws Exception {
+  protected void setUp() {
     executor = newCachedThreadPool();
     serializer = ExecutionSequencer.create();
     firstFuture = SettableFuture.create();
@@ -61,7 +61,7 @@ public class ExecutionSequencerTest extends TestCase {
   }
 
   @Override
-  protected void tearDown() throws Exception {
+  protected void tearDown() {
     executor.shutdown();
   }
 
@@ -139,7 +139,7 @@ public class ExecutionSequencerTest extends TestCase {
     assertThat(getDone(future2)).isFalse();
   }
 
-  public void testCancellationWithReferencedObject() throws Exception {
+  public void testCancellationWithReferencedObject() {
     Object toBeGCed = new Object();
     WeakReference<Object> ref = new WeakReference<>(toBeGCed);
     SettableFuture<@Nullable Void> settableFuture = SettableFuture.create();
@@ -345,7 +345,7 @@ public class ExecutionSequencerTest extends TestCase {
     }
 
     @Override
-    public ListenableFuture<@Nullable Void> call() throws Exception {
+    public ListenableFuture<@Nullable Void> call() {
       called = true;
       return future;
     }

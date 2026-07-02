@@ -593,7 +593,7 @@ public class ClassPathTest extends TestCase {
     return fullPath.toURI().toURL();
   }
 
-  private static File pickAnyJarFile() throws IOException {
+  private static File pickAnyJarFile() {
     for (ClassPath.LocationInfo location :
         ClassPath.locationsFrom(ClassPathTest.class.getClassLoader())) {
       if (!location.file().isDirectory() && location.file().exists()) {

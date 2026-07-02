@@ -47,6 +47,7 @@ public abstract class TypeParameter<T> extends TypeCapture<T> {
 
   final TypeVariable<?> typeVariable;
 
+  /** Constructor for use by subclasses. */
   protected TypeParameter() {
     Type type = capture();
     checkArgument(type instanceof TypeVariable, "%s should be a type variable.", type);

@@ -59,6 +59,7 @@ public final class TypeResolver {
 
   private final TypeTable typeTable;
 
+  /** Constructs a new {@code TypeResolver} with no type mappings. */
   public TypeResolver() {
     this.typeTable = new TypeTable();
   }

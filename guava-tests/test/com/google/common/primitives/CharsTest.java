@@ -84,14 +84,9 @@ public class CharsTest extends TestCase {
   }
 
   private void assertCastFails(long value) {
-    try {
-      Chars.checkedCast(value);
-      fail("Cast to char should have failed: " + value);
-    } catch (IllegalArgumentException ex) {
-      assertWithMessage("%s not found in exception text: %s", value, ex.getMessage())
-          .that(ex.getMessage().contains(String.valueOf(value)))
-          .isTrue();
-    }
+    IllegalArgumentException ex =
+        assertThrows(IllegalArgumentException.class, () -> Chars.checkedCast(value));
+    assertThat(ex).hasMessageThat().contains(String.valueOf(value));
   }
 
   // We need to test that our method behaves like the JDK method.
@@ -243,11 +238,7 @@ public class CharsTest extends TestCase {
     char[] sharedArray = new char[arraysDim2];
     Arrays.fill(arrays, sharedArray);
 
-    try {
-      Chars.concat(arrays);
-      fail();
-    } catch (IllegalArgumentException expected) {
-    }
+    assertThrows(IllegalArgumentException.class, () -> Chars.concat(arrays));
   }
 
   @GwtIncompatible // Chars.fromByteArray

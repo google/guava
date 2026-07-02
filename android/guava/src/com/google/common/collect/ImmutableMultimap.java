@@ -678,7 +678,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   /**
    * Returns an immutable multiset containing all the keys in this multimap, in the same order and
    * with the same frequencies as they appear in this multimap; to get only a single occurrence of
-   * each key, use {@link #keySet}.
+   * each key, use {@link #keySet()}.
    */
   @Override
   public final ImmutableMultiset<K> keys() {

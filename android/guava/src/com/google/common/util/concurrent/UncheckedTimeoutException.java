@@ -27,16 +27,22 @@ import org.jspecify.annotations.Nullable;
 @J2ktIncompatible
 @GwtIncompatible
 public class UncheckedTimeoutException extends RuntimeException {
+  /** Constructs a new {@code UncheckedTimeoutException} with {@code null} as its detail message. */
   public UncheckedTimeoutException() {}
 
+  /** Constructs a new {@code UncheckedTimeoutException} with the specified detail message. */
   public UncheckedTimeoutException(@Nullable String message) {
     super(message);
   }
 
+  /** Constructs a new {@code UncheckedTimeoutException} with the specified cause. */
   public UncheckedTimeoutException(@Nullable Throwable cause) {
     super(cause);
   }
 
+  /**
+   * Constructs a new {@code UncheckedTimeoutException} with the specified detail message and cause.
+   */
   public UncheckedTimeoutException(@Nullable String message, @Nullable Throwable cause) {
     super(message, cause);
   }

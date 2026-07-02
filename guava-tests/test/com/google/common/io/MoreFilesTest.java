@@ -713,7 +713,7 @@ public class MoreFilesTest extends TestCase {
       }
 
       @Override
-      void assertDeleteSucceeded(Path path) throws IOException {
+      void assertDeleteSucceeded(Path path) {
         assertFalse("file " + path + " not deleted with delete method " + this, Files.exists(path));
       }
     };

@@ -33,7 +33,7 @@
       <artifactId>j2objc-annotations</artifactId>
     </dependency>
     <dependency>
-      <groupId>${project.groupId}</groupId>
+      <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>${project.version}</version>
     </dependency>
@@ -42,6 +42,12 @@
       <artifactId>junit</artifactId>
       <!-- *not* <scope>test</scope>; <scope>compile</scope> is right so that guava-testlib users get junit transitively. -->
       <version>${junit.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>com.google.testparameterinjector</groupId>
+      <artifactId>test-parameter-injector</artifactId>
+      <version>${test-parameter-injector.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <!--

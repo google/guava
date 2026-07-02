@@ -369,7 +369,7 @@ public class FluentIterableTest extends TestCase {
   private static class HasBoth extends TypeA implements TypeB {}
 
   @GwtIncompatible // Iterables.filter(Iterable, Class)
-  public void testFilterByType() throws Exception {
+  public void testFilterByType() {
     HasBoth hasBoth = new HasBoth();
     FluentIterable<TypeA> alist =
         FluentIterable.from(asList(new TypeA(), new TypeA(), hasBoth, new TypeA()));
@@ -582,7 +582,7 @@ public class FluentIterableTest extends TestCase {
     assertEquals(newArrayList("a", "b"), newArrayList(FluentIterable.from(list).skip(0)));
   }
 
-  public void testSkip_iterator() throws Exception {
+  public void testSkip_iterator() {
     new IteratorTester<Integer>(
         5, IteratorFeature.MODIFIABLE, newArrayList(2, 3), IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
@@ -594,7 +594,7 @@ public class FluentIterableTest extends TestCase {
     }.test();
   }
 
-  public void testSkip_iteratorList() throws Exception {
+  public void testSkip_iteratorList() {
     new IteratorTester<Integer>(
         5, IteratorFeature.MODIFIABLE, newArrayList(2, 3), IteratorTester.KnownOrder.KNOWN_ORDER) {
       @Override
@@ -604,7 +604,7 @@ public class FluentIterableTest extends TestCase {
     }.test();
   }
 
-  public void testSkip_nonStructurallyModifiedList() throws Exception {
+  public void testSkip_nonStructurallyModifiedList() {
     List<String> list = newArrayList("a", "b", "c");
     FluentIterable<String> tail = FluentIterable.from(list).skip(1);
     Iterator<String> tailIterator = tail.iterator();
@@ -614,7 +614,7 @@ public class FluentIterableTest extends TestCase {
     assertFalse(tailIterator.hasNext());
   }
 
-  public void testSkip_structurallyModifiedSkipSome() throws Exception {
+  public void testSkip_structurallyModifiedSkipSome() {
     Collection<String> set = new LinkedHashSet<>();
     Collections.addAll(set, "a", "b", "c");
     FluentIterable<String> tail = FluentIterable.from(set).skip(1);
@@ -623,7 +623,7 @@ public class FluentIterableTest extends TestCase {
     assertThat(tail).containsExactly("c", "X", "Y", "Z").inOrder();
   }
 
-  public void testSkip_structurallyModifiedSkipSomeList() throws Exception {
+  public void testSkip_structurallyModifiedSkipSomeList() {
     List<String> list = newArrayList("a", "b", "c");
     FluentIterable<String> tail = FluentIterable.from(list).skip(1);
     list.subList(1, 3).clear();
@@ -631,7 +631,7 @@ public class FluentIterableTest extends TestCase {
     assertThat(tail).containsExactly("Y", "Z", "a").inOrder();
   }
 
-  public void testSkip_structurallyModifiedSkipAll() throws Exception {
+  public void testSkip_structurallyModifiedSkipAll() {
     Collection<String> set = new LinkedHashSet<>();
     Collections.addAll(set, "a", "b", "c");
     FluentIterable<String> tail = FluentIterable.from(set).skip(2);
@@ -640,7 +640,7 @@ public class FluentIterableTest extends TestCase {
     assertFalse(tail.iterator().hasNext());
   }
 
-  public void testSkip_structurallyModifiedSkipAllList() throws Exception {
+  public void testSkip_structurallyModifiedSkipAllList() {
     List<String> list = newArrayList("a", "b", "c");
     FluentIterable<String> tail = FluentIterable.from(list).skip(2);
     list.subList(0, 2).clear();

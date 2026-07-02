@@ -42,7 +42,7 @@ public class SingleThreadAbstractFutureBenchmark {
   private Facade<?> notDoneFuture;
 
   @BeforeExperiment
-  void setUp() throws Exception {
+  void setUp() {
     notDoneFuture = impl.newFacade();
   }
 

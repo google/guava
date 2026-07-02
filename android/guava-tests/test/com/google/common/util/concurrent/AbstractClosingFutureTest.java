@@ -60,7 +60,6 @@ import com.google.common.util.concurrent.ClosingFuture.DeferredCloser;
 import com.google.common.util.concurrent.ClosingFuture.ValueAndCloser;
 import com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer;
 import java.io.Closeable;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.lang.reflect.InvocationHandler;
@@ -134,11 +133,11 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable1);
   }
 
-  public void testFrom_failedInput() throws Exception {
+  public void testFrom_failedInput() {
     assertFinallyFailsWithException(failedClosingFuture());
   }
 
-  public void testFrom_cancelledInput() throws Exception {
+  public void testFrom_cancelledInput() {
     assertBecomesCanceled(ClosingFuture.from(immediateCancelledFuture()));
   }
 
@@ -157,19 +156,19 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1);
   }
 
-  public void testEventuallyClosing_failedInput() throws Exception {
+  public void testEventuallyClosing_failedInput() {
     assertFinallyFailsWithException(
         ClosingFuture.eventuallyClosing(
             Futures.<Closeable>immediateFailedFuture(exception), closingExecutor));
   }
 
-  public void testEventuallyClosing_cancelledInput() throws Exception {
+  public void testEventuallyClosing_cancelledInput() {
     assertBecomesCanceled(
         ClosingFuture.eventuallyClosing(
             Futures.<Closeable>immediateCancelledFuture(), closingExecutor));
   }
 
-  public void testEventuallyClosing_cancelledPipeline() throws Exception {
+  public void testEventuallyClosing_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.eventuallyClosing(
             executor.submit(
@@ -188,7 +187,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1);
   }
 
-  public void testEventuallyClosing_throws() throws Exception {
+  public void testEventuallyClosing_throws() {
     assertFinallyFailsWithException(
         ClosingFuture.eventuallyClosing(
             executor.submit(
@@ -220,7 +219,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable3);
   }
 
-  public void testSubmit_cancelledPipeline() throws Exception {
+  public void testSubmit_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.submit(
             waiter.waitFor(
@@ -239,7 +238,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable3);
   }
 
-  public void testSubmit_throws() throws Exception {
+  public void testSubmit_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.submit(
             closer -> {
@@ -261,7 +260,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
               return ClosingFuture.submit(
                   new ClosingCallable<TestCloseable>() {
                     @Override
-                    public TestCloseable call(DeferredCloser deferredCloser) throws Exception {
+                    public TestCloseable call(DeferredCloser deferredCloser) {
                       return closeable2;
                     }
                   },
@@ -274,7 +273,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable2);
   }
 
-  public void testSubmitAsync_cancelledPipeline() throws Exception {
+  public void testSubmitAsync_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.submitAsync(
             waiter.waitFor(
@@ -286,8 +285,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
                       return ClosingFuture.submit(
                           new ClosingCallable<TestCloseable>() {
                             @Override
-                            public TestCloseable call(DeferredCloser deferredCloser)
-                                throws Exception {
+                            public TestCloseable call(DeferredCloser deferredCloser) {
                               deferredCloser.eventuallyClose(closeable3, closingExecutor);
                               return closeable3;
                             }
@@ -301,7 +299,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2, closeable3);
   }
 
-  public void testSubmitAsync_throws() throws Exception {
+  public void testSubmitAsync_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.submitAsync(
             closer -> {
@@ -339,7 +337,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertThat(getUninterruptibly(statusFuture)).isNull();
   }
 
-  public void testStatusFuture_failure() throws Exception {
+  public void testStatusFuture_failure() {
     ClosingFuture<String> closingFuture =
         ClosingFuture.submit(
             waiter.waitFor(
@@ -477,7 +475,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable3);
   }
 
-  public void testTransform_cancelledPipeline() throws Exception {
+  public void testTransform_cancelledPipeline() {
     String value = "value";
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.from(immediateFuture(value))
@@ -502,7 +500,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable4);
   }
 
-  public void testTransform_throws() throws Exception {
+  public void testTransform_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.from(immediateFuture("value"))
             .transform(
@@ -540,7 +538,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2, closeable3);
   }
 
-  public void testTransformAsync_cancelledPipeline() throws Exception {
+  public void testTransformAsync_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.from(immediateFuture("value"))
             .transformAsync(
@@ -562,7 +560,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2, closeable3);
   }
 
-  public void testTransformAsync_throws() throws Exception {
+  public void testTransformAsync_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.from(immediateFuture("value"))
             .transformAsync(
@@ -577,7 +575,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2);
   }
 
-  public void testTransformAsync_failed() throws Exception {
+  public void testTransformAsync_failed() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.from(immediateFuture("value"))
             .transformAsync(
@@ -633,7 +631,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertThrows(IllegalStateException.class, () -> capturedPeeker.get().getDone(input1));
   }
 
-  public void testWhenAllComplete_call_cancelledPipeline() throws Exception {
+  public void testWhenAllComplete_call_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllComplete(
                 ImmutableList.of(
@@ -655,7 +653,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable3);
   }
 
-  public void testWhenAllComplete_call_throws() throws Exception {
+  public void testWhenAllComplete_call_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllComplete(
                 ImmutableList.of(
@@ -697,7 +695,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertThrows(IllegalStateException.class, () -> capturedPeeker.get().getDone(input1));
   }
 
-  public void testWhenAllComplete_callAsync_cancelledPipeline() throws Exception {
+  public void testWhenAllComplete_callAsync_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllComplete(
                 ImmutableList.of(
@@ -719,7 +717,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2, closeable3);
   }
 
-  public void testWhenAllComplete_callAsync_throws() throws Exception {
+  public void testWhenAllComplete_callAsync_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllComplete(
                 ImmutableList.of(
@@ -740,7 +738,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
   // We don't need to test the happy case for SuccessfulCombiner.call(Async) because it's the same
   // as Combiner.
 
-  public void testWhenAllSucceed_call_failedInput() throws Exception {
+  public void testWhenAllSucceed_call_failedInput() {
     assertFinallyFailsWithException(
         ClosingFuture.whenAllSucceed(
                 ImmutableList.of(
@@ -753,7 +751,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
                 executor));
   }
 
-  public void testWhenAllSucceed_callAsync_failedInput() throws Exception {
+  public void testWhenAllSucceed_callAsync_failedInput() {
     assertFinallyFailsWithException(
         ClosingFuture.whenAllSucceed(
                 ImmutableList.of(
@@ -766,7 +764,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
                 executor));
   }
 
-  public void testWhenAllSucceed2_call() throws ExecutionException, IOException {
+  public void testWhenAllSucceed2_call() throws ExecutionException {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -785,7 +783,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2);
   }
 
-  public void testWhenAllSucceed2_call_failedInput() throws ExecutionException, IOException {
+  public void testWhenAllSucceed2_call_failedInput() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -801,7 +799,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1);
   }
 
-  public void testWhenAllSucceed2_call_cancelledPipeline() throws Exception {
+  public void testWhenAllSucceed2_call_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -824,7 +822,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable3);
   }
 
-  public void testWhenAllSucceed2_call_throws() throws Exception {
+  public void testWhenAllSucceed2_call_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -841,7 +839,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable2, closeable3);
   }
 
-  public void testWhenAllSucceed2_callAsync() throws ExecutionException, IOException {
+  public void testWhenAllSucceed2_callAsync() throws ExecutionException {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -861,7 +859,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2, closeable3);
   }
 
-  public void testWhenAllSucceed2_callAsync_failedInput() throws ExecutionException, IOException {
+  public void testWhenAllSucceed2_callAsync_failedInput() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -877,7 +875,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1);
   }
 
-  public void testWhenAllSucceed2_callAsync_cancelledPipeline() throws Exception {
+  public void testWhenAllSucceed2_callAsync_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -900,7 +898,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2, closeable3);
   }
 
-  public void testWhenAllSucceed2_callAsync_throws() throws Exception {
+  public void testWhenAllSucceed2_callAsync_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -917,7 +915,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable2, closeable3);
   }
 
-  public void testWhenAllSucceed3_call() throws ExecutionException, IOException {
+  public void testWhenAllSucceed3_call() throws ExecutionException {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -938,7 +936,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2);
   }
 
-  public void testWhenAllSucceed3_call_failedInput() throws ExecutionException, IOException {
+  public void testWhenAllSucceed3_call_failedInput() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -955,7 +953,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1);
   }
 
-  public void testWhenAllSucceed3_call_cancelledPipeline() throws Exception {
+  public void testWhenAllSucceed3_call_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -979,7 +977,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable3);
   }
 
-  public void testWhenAllSucceed3_call_throws() throws Exception {
+  public void testWhenAllSucceed3_call_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -997,7 +995,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable2, closeable3);
   }
 
-  public void testWhenAllSucceed4_call() throws ExecutionException, IOException {
+  public void testWhenAllSucceed4_call() throws ExecutionException {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -1020,7 +1018,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2);
   }
 
-  public void testWhenAllSucceed4_call_failedInput() throws ExecutionException, IOException {
+  public void testWhenAllSucceed4_call_failedInput() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -1038,7 +1036,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1);
   }
 
-  public void testWhenAllSucceed4_call_cancelledPipeline() throws Exception {
+  public void testWhenAllSucceed4_call_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -1067,7 +1065,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable3);
   }
 
-  public void testWhenAllSucceed4_call_throws() throws Exception {
+  public void testWhenAllSucceed4_call_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -1090,7 +1088,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable2, closeable3);
   }
 
-  public void testWhenAllSucceed5_call() throws ExecutionException, IOException {
+  public void testWhenAllSucceed5_call() throws ExecutionException {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -1120,7 +1118,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1, closeable2);
   }
 
-  public void testWhenAllSucceed5_call_failedInput() throws ExecutionException, IOException {
+  public void testWhenAllSucceed5_call_failedInput() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.eventuallyClosing(immediateFuture(closeable1), closingExecutor),
@@ -1144,7 +1142,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertClosed(closeable1);
   }
 
-  public void testWhenAllSucceed5_call_cancelledPipeline() throws Exception {
+  public void testWhenAllSucceed5_call_cancelledPipeline() {
     ClosingFuture<TestCloseable> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -1175,7 +1173,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertStillOpen(closeable3);
   }
 
-  public void testWhenAllSucceed5_call_throws() throws Exception {
+  public void testWhenAllSucceed5_call_throws() {
     ClosingFuture<Object> closingFuture =
         ClosingFuture.whenAllSucceed(
                 ClosingFuture.from(immediateFuture(closeable1)),
@@ -1313,7 +1311,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
   abstract void assertFinallyFailsWithException(ClosingFuture<?> closingFuture);
 
   /** Waits for the given step to be canceled. */
-  abstract void assertBecomesCanceled(ClosingFuture<?> closingFuture) throws ExecutionException;
+  abstract void assertBecomesCanceled(ClosingFuture<?> closingFuture);
 
   /** Waits for the given step's closeables to be closed. */
   void waitUntilClosed(ClosingFuture<?> closingFuture) {
@@ -1325,19 +1323,17 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertThat(e).hasCauseThat().isEqualTo(exception);
   }
 
-  static void assertThatFutureBecomesCancelled(Future<?> future) throws ExecutionException {
+  static void assertThatFutureBecomesCancelled(Future<?> future) {
     assertThrows(CancellationException.class, () -> getUninterruptibly(future));
   }
 
-  private static void assertStillOpen(TestCloseable closeable1, TestCloseable... moreCloseables)
-      throws IOException {
+  private static void assertStillOpen(TestCloseable closeable1, TestCloseable... moreCloseables) {
     for (TestCloseable closeable : asList(closeable1, moreCloseables)) {
       assertWithMessage("%s.stillOpen()", closeable).that(closeable.stillOpen()).isTrue();
     }
   }
 
-  static void assertClosed(TestCloseable closeable1, TestCloseable... moreCloseables)
-      throws IOException {
+  static void assertClosed(TestCloseable closeable1, TestCloseable... moreCloseables) {
     for (TestCloseable closeable : asList(closeable1, moreCloseables)) {
       assertWithMessage("%s.isClosed()", closeable).that(closeable.awaitClosed()).isTrue();
     }
@@ -1375,7 +1371,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
       latch.countDown();
     }
 

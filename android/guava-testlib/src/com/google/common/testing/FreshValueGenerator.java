@@ -996,4 +996,6 @@ class FreshValueGenerator {
   DoubleBuffer generateDoubleBuffer() {
     return DoubleBuffer.allocate(generateInt());
   }
+
+  public FreshValueGenerator() {}
 }

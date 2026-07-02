@@ -304,13 +304,10 @@ public class LongMathTest extends TestCase {
     for (long x : POSITIVE_LONG_CANDIDATES) {
       int floor = LongMath.log10(x, FLOOR);
       boolean expectedSuccess = LongMath.pow(10, floor) == x;
-      try {
+      if (expectedSuccess) {
         assertThat(LongMath.log10(x, UNNECESSARY)).isEqualTo(floor);
-        assertThat(expectedSuccess).isTrue();
-      } catch (ArithmeticException e) {
-        if (expectedSuccess) {
-          failFormat("expected log10(%s, UNNECESSARY) = %s; got ArithmeticException", x, floor);
-        }
+      } else {
+        assertThrows(ArithmeticException.class, () -> LongMath.log10(x, UNNECESSARY));
       }
     }
   }
@@ -351,11 +348,10 @@ public class LongMathTest extends TestCase {
       long sqrtFloor = sqrt(x, FLOOR);
       // We only expect an exception if x was not a perfect square.
       boolean isPerfectSquare = sqrtFloor * sqrtFloor == x;
-      try {
+      if (isPerfectSquare) {
         assertThat(sqrt(x, UNNECESSARY)).isEqualTo(sqrtFloor);
-        assertThat(isPerfectSquare).isTrue();
-      } catch (ArithmeticException e) {
-        assertThat(isPerfectSquare).isFalse();
+      } else {
+        assertThrows(ArithmeticException.class, () -> sqrt(x, UNNECESSARY));
       }
     }
   }

@@ -27,6 +27,7 @@ import com.google.common.util.concurrent.ListenableFutureTask;
 import java.io.Serializable;
 import java.util.Map;
 import java.util.concurrent.Executor;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Computes or retrieves values, based on a key, for use in populating a {@link LoadingCache}.
@@ -243,7 +244,8 @@ public abstract class CacheLoader<K, V> {
    * @since 11.0
    */
   public static final class InvalidCacheLoadException extends RuntimeException {
-    public InvalidCacheLoadException(String message) {
+    /** Constructs a new {@code InvalidCacheLoadException} with the specified detail message. */
+    public InvalidCacheLoadException(@Nullable String message) {
       super(message);
     }
   }

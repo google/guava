@@ -397,7 +397,7 @@ public class TableCollectionTest extends TestCase {
                     return new SampleElements<>(
                         immutableCell("bar", 1, 'a'),
                         immutableCell("bar", 2, 'b'),
-                        immutableCell("bar", 3, (Character) null),
+                        immutableCell("bar", 3, null),
                         immutableCell("bar", 4, 'b'),
                         immutableCell("bar", 5, 'b'));
                   }
@@ -725,8 +725,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  private abstract static class MapTests extends MapInterfaceTest<String, Integer> {
-
+    private abstract static class MapTests extends MapInterfaceTest<String, Integer> {
     MapTests(
         boolean allowsNullValues,
         boolean supportsPut,
@@ -753,7 +752,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  abstract static class RowTests extends MapTests {
+    abstract static class RowTests extends MapTests {
     RowTests(
         boolean allowsNullValues,
         boolean supportsPut,
@@ -789,7 +788,7 @@ public class TableCollectionTest extends TestCase {
         }
       };
 
-  abstract static class ColumnTests extends MapTests {
+    abstract static class ColumnTests extends MapTests {
     ColumnTests(
         boolean allowsNullValues,
         boolean supportsPut,
@@ -817,7 +816,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  private abstract static class MapMapTests
+    private abstract static class MapMapTests
       extends MapInterfaceTest<String, Map<Integer, Character>> {
 
     MapMapTests(
@@ -868,7 +867,7 @@ public class TableCollectionTest extends TestCase {
     }
   }
 
-  abstract static class RowMapTests extends MapMapTests {
+    abstract static class RowMapTests extends MapMapTests {
     RowMapTests(
         boolean allowsNullValues,
         boolean supportsRemove,
@@ -907,7 +906,7 @@ public class TableCollectionTest extends TestCase {
         }
       };
 
-  abstract static class ColumnMapTests extends MapMapTests {
+    abstract static class ColumnMapTests extends MapMapTests {
     ColumnMapTests(
         boolean allowsNullValues,
         boolean supportsRemove,

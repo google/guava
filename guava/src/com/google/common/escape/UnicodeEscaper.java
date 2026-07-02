@@ -81,6 +81,10 @@ public abstract class UnicodeEscaper extends Escaper {
    */
   protected abstract char @Nullable [] escape(int cp);
 
+  final char @Nullable [] escapeInternal(int cp) {
+    return escape(cp);
+  }
+
   /**
    * Returns the escaped form of a given literal string.
    *
@@ -285,6 +289,10 @@ public abstract class UnicodeEscaper extends Escaper {
       }
     }
     throw new IndexOutOfBoundsException("Index exceeds specified range");
+  }
+
+  static int codePointAtInternal(CharSequence seq, int index, int end) {
+    return codePointAt(seq, index, end);
   }
 
   /**

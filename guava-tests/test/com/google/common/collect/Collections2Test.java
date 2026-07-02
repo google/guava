@@ -487,7 +487,7 @@ public class Collections2Test extends TestCase {
     assertNoMorePermutations(permutations);
   }
 
-  public void testToStringImplWithNullEntries() throws Exception {
+  public void testToStringImplWithNullEntries() {
     List<@Nullable String> list = new ArrayList<>();
     list.add("foo");
     list.add(null);

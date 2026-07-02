@@ -291,6 +291,8 @@ public final class MoreExecutors {
     void addShutdownHook(Thread hook) {
       Runtime.getRuntime().addShutdownHook(hook);
     }
+
+    Application() {}
   }
 
   @J2ktIncompatible
@@ -1066,7 +1068,7 @@ public final class MoreExecutors {
       try {
         delegate.execute(command);
       } catch (RejectedExecutionException e) {
-        future.setException(e);
+        future.setExceptionInternal(e);
       }
     };
   }

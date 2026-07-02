@@ -105,7 +105,7 @@ public class PredicatesTest extends TestCase {
     assertEvalsToTrue(Predicates.alwaysTrue());
   }
 
-  public void testAlwaysTrue_equality() throws Exception {
+  public void testAlwaysTrue_equality() {
     new EqualsTester()
         .addEqualityGroup(TRUE, Predicates.alwaysTrue())
         .addEqualityGroup(isOdd())
@@ -123,11 +123,11 @@ public class PredicatesTest extends TestCase {
    * Tests for Predicates.alwaysFalse().
    */
 
-  public void testAlwaysFalse_apply() throws Exception {
+  public void testAlwaysFalse_apply() {
     assertEvalsToFalse(Predicates.alwaysFalse());
   }
 
-  public void testAlwaysFalse_equality() throws Exception {
+  public void testAlwaysFalse_equality() {
     new EqualsTester()
         .addEqualityGroup(FALSE, Predicates.alwaysFalse())
         .addEqualityGroup(isOdd())
@@ -762,7 +762,7 @@ public class PredicatesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // SerializableTester
-  public void testCascadingSerialization() throws Exception {
+  public void testCascadingSerialization() {
     // Eclipse says Predicate<Integer>; javac says Predicate<Object>.
     Predicate<? super Integer> nasty =
         not(
@@ -843,7 +843,7 @@ public class PredicatesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testContainsPattern_nulls() throws Exception {
+  public void testContainsPattern_nulls() {
     NullPointerTester tester = new NullPointerTester();
     Predicate<CharSequence> isWooString = Predicates.containsPattern("Woo");
 
@@ -852,7 +852,7 @@ public class PredicatesTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // NullPointerTester
-  public void testContains_nulls() throws Exception {
+  public void testContains_nulls() {
     NullPointerTester tester = new NullPointerTester();
     Predicate<CharSequence> isWooPattern = Predicates.contains(Pattern.compile("Woo"));
 

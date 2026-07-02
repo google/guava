@@ -110,7 +110,7 @@ public class FluentFutureTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // withTimeout
-  public void testWithTimeout() throws Exception {
+  public void testWithTimeout() {
     ScheduledExecutorService executor = newScheduledThreadPool(1);
     try {
       FluentFuture<?> f =

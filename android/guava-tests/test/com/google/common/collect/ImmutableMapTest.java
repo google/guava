@@ -290,9 +290,8 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilder_withImmutableEntryAndNullContents() {
     Builder<String, Integer> builder = new Builder<>();
-    assertThrows(
-        NullPointerException.class, () -> builder.put(immutableEntry("one", (Integer) null)));
-    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry((String) null, 1)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry("one", null)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry(null, 1)));
   }
 
   private static class StringHolder {
@@ -359,7 +358,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilderPutImmutableEntryWithNullKeyFailsAtomically() {
     Builder<String, Integer> builder = new Builder<>();
-    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry((String) null, 1)));
+    assertThrows(NullPointerException.class, () -> builder.put(immutableEntry(null, 1)));
     builder.put("foo", 2);
     assertMapEquals(builder.buildOrThrow(), "foo", 2);
   }
@@ -1007,13 +1006,9 @@ public class ImmutableMapTest extends TestCase {
 
   public void testOfEntriesNull() {
     Entry<@Nullable Integer, @Nullable Integer> nullKey = entry(null, 23);
-    assertThrows(
-        NullPointerException.class,
-        () -> ImmutableMap.ofEntries((Entry<Integer, Integer>) nullKey));
+    assertThrows(NullPointerException.class, () -> ImmutableMap.ofEntries(nullKey));
     Entry<@Nullable Integer, @Nullable Integer> nullValue = entry(23, null);
-    assertThrows(
-        NullPointerException.class,
-        () -> ImmutableMap.ofEntries((Entry<Integer, Integer>) nullValue));
+    assertThrows(NullPointerException.class, () -> ImmutableMap.ofEntries(nullValue));
   }
 
   private static <T> Map<T, T> map(T... keysAndValues) {

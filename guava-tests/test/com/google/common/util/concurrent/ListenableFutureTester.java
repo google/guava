@@ -84,7 +84,7 @@ final class ListenableFutureTester {
     assertEquals(expectedValue, future.get());
   }
 
-  void testCancelledFuture() throws InterruptedException, ExecutionException {
+  void testCancelledFuture() throws InterruptedException {
     assertTrue(future.isDone());
     assertTrue(future.isCancelled());
 

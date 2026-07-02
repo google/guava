@@ -37,16 +37,16 @@ public class AtomicsTest extends TestCase {
 
   private static final Object OBJECT = new Object();
 
-  public void testNewReference() throws Exception {
+  public void testNewReference() {
     assertThat(Atomics.newReference().get()).isNull();
   }
 
-  public void testNewReference_withInitialValue() throws Exception {
+  public void testNewReference_withInitialValue() {
     assertThat(Atomics.newReference(null).get()).isNull();
     assertEquals(OBJECT, Atomics.newReference(OBJECT).get());
   }
 
-  public void testNewReferenceArray_withLength() throws Exception {
+  public void testNewReferenceArray_withLength() {
     int length = 42;
     AtomicReferenceArray<String> refArray = Atomics.newReferenceArray(length);
     for (int i = 0; i < length; ++i) {
@@ -56,11 +56,11 @@ public class AtomicsTest extends TestCase {
   }
 
   @J2ktIncompatible // J2KT throws IllegalArgumentException instead of NegativeArraySizeException
-  public void testNewReferenceArray_withNegativeLength() throws Exception {
+  public void testNewReferenceArray_withNegativeLength() {
     assertThrows(NegativeArraySizeException.class, () -> Atomics.newReferenceArray(-1));
   }
 
-  public void testNewReferenceArray_withStringArray() throws Exception {
+  public void testNewReferenceArray_withStringArray() {
     String[] array = {"foo", "bar", "baz"};
     AtomicReferenceArray<String> refArray = Atomics.newReferenceArray(array);
     for (int i = 0; i < array.length; ++i) {
@@ -69,7 +69,7 @@ public class AtomicsTest extends TestCase {
     assertThrows(IndexOutOfBoundsException.class, () -> refArray.get(array.length));
   }
 
-  public void testNewReferenceArray_withNullArray() throws Exception {
+  public void testNewReferenceArray_withNullArray() {
     assertThrows(NullPointerException.class, () -> Atomics.newReferenceArray((String[]) null));
   }
 

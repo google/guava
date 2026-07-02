@@ -13,13 +13,18 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.concurrent.Executors.newFixedThreadPool;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Unit test for {@link AtomicDoubleArray}. */
@@ -48,11 +53,6 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     Double.NaN,
     Float.MAX_VALUE,
   };
-
-  /** The notion of equality used by AtomicDoubleArray */
-  static boolean bitEquals(double x, double y) {
-    return Double.doubleToRawLongBits(x) == Double.doubleToRawLongBits(y);
-  }
 
   static void assertBitEquals(double x, double y) {
     assertEquals(Double.doubleToRawLongBits(x), Double.doubleToRawLongBits(y));
@@ -157,18 +157,15 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
   }
 
   /** compareAndSet in one thread enables another waiting for value to succeed */
-  public void testCompareAndSetInMultipleThreads() throws InterruptedException {
+  public void testCompareAndSetInMultipleThreads() {
     AtomicDoubleArray a = new AtomicDoubleArray(1);
     a.set(0, 1.0);
+    @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
     Thread t =
         newStartedThread(
-            new CheckedRunnable() {
-              @Override
-              @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
-              void realRun() {
-                while (!a.compareAndSet(0, 2.0, 3.0)) {
-                  Thread.yield();
-                }
+            () -> {
+              while (!a.compareAndSet(0, 2.0, 3.0)) {
+                Thread.yield();
               }
             });
 
@@ -187,9 +184,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
         assertBitEquals(prev, aa.get(i));
         assertFalse(aa.weakCompareAndSet(i, unused, x));
         assertBitEquals(prev, aa.get(i));
-        while (!aa.weakCompareAndSet(i, prev, x)) {
-          ;
-        }
+        while (!aa.weakCompareAndSet(i, prev, x)) {}
         assertBitEquals(x, aa.get(i));
         prev = x;
       }
@@ -238,24 +233,23 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     }
   }
 
-  static final long COUNTDOWN = 100000;
+  private static final long COUNTDOWN = 100000;
 
-  class Counter extends CheckedRunnable {
+  private static final class Counter implements Callable<Long> {
     final AtomicDoubleArray aa;
-    volatile long counts;
 
     Counter(AtomicDoubleArray a) {
       aa = a;
     }
 
-    @SuppressWarnings("DoubleAtLeastJUnit") // causes timeouts under Android
     @Override
-    void realRun() {
+    public Long call() {
+      long counts = 0;
       for (; ; ) {
         boolean done = true;
         for (int i = 0; i < aa.length(); i++) {
           double v = aa.get(i);
-          assertTrue(v >= 0);
+          assertThat(v).isAtLeast(0);
           if (v != 0) {
             done = false;
             if (aa.compareAndSet(i, v, v - 1.0)) {
@@ -264,7 +258,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
           }
         }
         if (done) {
-          break;
+          return counts;
         }
       }
     }
@@ -274,28 +268,29 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
    * Multiple threads using same array of counters successfully update a number of times equal to
    * total count
    */
-  public void testCountingInMultipleThreads() throws InterruptedException {
+  public void testCountingInMultipleThreads() throws Exception {
     AtomicDoubleArray aa = new AtomicDoubleArray(SIZE);
     for (int i = 0; i < SIZE; i++) {
       aa.set(i, (double) COUNTDOWN);
     }
-    Counter c1 = new Counter(aa);
-    Counter c2 = new Counter(aa);
-    Thread t1 = newStartedThread(c1);
-    Thread t2 = newStartedThread(c2);
-    awaitTermination(t1);
-    awaitTermination(t2);
-    assertEquals(SIZE * COUNTDOWN, c1.counts + c2.counts);
+    ExecutorService executor = newFixedThreadPool(2);
+    try {
+      Future<Long> c1 = executor.submit(new Counter(aa));
+      Future<Long> c2 = executor.submit(new Counter(aa));
+      assertEquals(SIZE * COUNTDOWN, c1.get() + c2.get());
+    } finally {
+      executor.shutdown();
+    }
   }
 
   /** a deserialized serialized array holds same values */
   @SuppressWarnings("ReferenceEquality")
-  public void testSerialization() throws Exception {
+  public void testSerialization() {
     AtomicDoubleArray x = new AtomicDoubleArray(SIZE);
     for (int i = 0; i < SIZE; i++) {
       x.set(i, (double) -i);
     }
-    AtomicDoubleArray y = serialClone(x);
+    AtomicDoubleArray y = reserialize(x);
     assertThat(y).isNotSameInstanceAs(x);
     assertEquals(x.length(), y.length());
     for (int i = 0; i < SIZE; i++) {
@@ -303,7 +298,7 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     }
 
     AtomicDoubleArray a = new AtomicDoubleArray(VALUES);
-    AtomicDoubleArray b = serialClone(a);
+    AtomicDoubleArray b = reserialize(a);
     assertFalse(a.equals(b));
     assertFalse(b.equals(a));
     assertEquals(a.length(), b.length());

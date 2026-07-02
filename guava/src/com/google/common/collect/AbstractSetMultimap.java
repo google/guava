@@ -44,7 +44,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
    *
    * @param map place to store the mapping from each key to its corresponding values
    */
-  protected AbstractSetMultimap(Map<K, Collection<V>> map) {
+  AbstractSetMultimap(Map<K, Collection<V>> map) {
     super(map);
   }
 
@@ -138,7 +138,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
    */
   @CanIgnoreReturnValue
   @Override
-  public boolean put(@ParametricNullness K key, @ParametricNullness V value) {
+  public final boolean put(@ParametricNullness K key, @ParametricNullness V value) {
     return super.put(key, value);
   }
 
@@ -149,7 +149,7 @@ abstract class AbstractSetMultimap<K extends @Nullable Object, V extends @Nullab
    * Equality does not depend on the ordering of keys or values.
    */
   @Override
-  public boolean equals(@Nullable Object object) {
+  public final boolean equals(@Nullable Object object) {
     return super.equals(object);
   }
 

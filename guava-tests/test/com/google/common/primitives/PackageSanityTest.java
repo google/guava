@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.google.common.cache;
+package com.google.common.primitives;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -22,25 +22,16 @@ import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
 /**
- * Basic sanity tests for the entire package.
+ * Tests basic sanity for each class in the package.
  *
  * @author Ben Yu
  */
-@GwtIncompatible
-@J2ktIncompatible
 
 @NullUnmarked
-public class PackageSanityTests extends AbstractPackageSanityTests {
-  public PackageSanityTests() {
-    setDefault(
-        CacheLoader.class,
-        new CacheLoader<Object, Object>() {
-          @Override
-          public Object load(Object key) {
-            return key;
-          }
-        });
-    setDefault(LocalCache.class, new LocalCache<Object, Object>(CacheBuilder.newBuilder(), null));
-    setDefault(CacheBuilder.class, CacheBuilder.newBuilder());
+@GwtIncompatible
+@J2ktIncompatible
+public class PackageSanityTest extends AbstractPackageSanityTests {
+  public PackageSanityTest() {
+    setDefault(String.class, "string");
   }
 }

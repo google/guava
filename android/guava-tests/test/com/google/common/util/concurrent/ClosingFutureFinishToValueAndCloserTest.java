@@ -54,7 +54,7 @@ public class ClosingFutureFinishToValueAndCloserTest extends AbstractClosingFutu
         .isTrue();
   }
 
-  public void testFinishToValueAndCloser_throwsIfCalledTwice() throws Exception {
+  public void testFinishToValueAndCloser_throwsIfCalledTwice() {
     ClosingFuture<Closeable> closingFuture =
         ClosingFuture.submit(closer -> closer.eventuallyClose(mockCloseable, executor), executor);
     closingFuture.finishToValueAndCloser(
@@ -66,7 +66,7 @@ public class ClosingFutureFinishToValueAndCloserTest extends AbstractClosingFutu
                 new NoOpValueAndCloserConsumer<>(), finishToValueAndCloserExecutor));
   }
 
-  public void testFinishToValueAndCloser_throwsAfterCallingFinishToFuture() throws Exception {
+  public void testFinishToValueAndCloser_throwsAfterCallingFinishToFuture() {
     ClosingFuture<Closeable> closingFuture =
         ClosingFuture.submit(closer -> closer.eventuallyClose(mockCloseable, executor), executor);
     FluentFuture<Closeable> unused = closingFuture.finishToFuture();
@@ -86,17 +86,13 @@ public class ClosingFutureFinishToValueAndCloserTest extends AbstractClosingFutu
   void assertFinallyFailsWithException(ClosingFuture<?> closingFuture) {
     assertThatFutureFailsWithException(closingFuture.statusFuture());
     ValueAndCloser<?> valueAndCloser = finishToValueAndCloser(closingFuture);
-    try {
-      valueAndCloser.get();
-      fail();
-    } catch (ExecutionException expected) {
-      assertThat(expected).hasCauseThat().isEqualTo(exception);
-    }
+    ExecutionException expected = assertThrows(ExecutionException.class, valueAndCloser::get);
+    assertThat(expected).hasCauseThat().isEqualTo(exception);
     valueAndCloser.closeAsync();
   }
 
   @Override
-  void assertBecomesCanceled(ClosingFuture<?> closingFuture) throws ExecutionException {
+  void assertBecomesCanceled(ClosingFuture<?> closingFuture) {
     assertThatFutureBecomesCancelled(closingFuture.statusFuture());
   }
 

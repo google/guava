@@ -169,7 +169,7 @@ public abstract class ForwardingNavigableSet<E extends @Nullable Object>
    *
    * @since 12.0
    */
-  protected class StandardDescendingSet extends Sets.DescendingSet<E> {
+    protected class StandardDescendingSet extends Sets.DescendingSet<E> {
     /** Constructor for use by subclasses. */
     public StandardDescendingSet() {
       super(ForwardingNavigableSet.this);

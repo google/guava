@@ -60,7 +60,7 @@ public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
     listener = new MockFutureListener(resultFuture);
   }
 
-  public void testFutureGetBeforeCallback() throws Exception {
+  public void testFutureGetBeforeCallback() {
     // Verify that get throws a timeout exception before the callback is called.
     assertThrows(TimeoutException.class, () -> resultFuture.get(1L, MILLISECONDS));
   }
@@ -90,7 +90,7 @@ public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
     listener.assertSuccess(getSuccessfulResult());
   }
 
-  public void testInputFutureToString() throws Throwable {
+  public void testInputFutureToString() {
     assertThat(resultFuture.toString()).contains(inputFuture.toString());
   }
 

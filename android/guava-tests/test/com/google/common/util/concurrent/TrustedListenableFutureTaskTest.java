@@ -52,18 +52,18 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     assertEquals(2, getDone(task).intValue());
   }
 
-  public void testCancelled() throws Exception {
+  public void testCancelled() {
     TrustedListenableFutureTask<Integer> task = TrustedListenableFutureTask.create(returning(2));
     assertFalse(task.isDone());
     task.cancel(false);
     assertTrue(task.isDone());
     assertTrue(task.isCancelled());
-    assertFalse(task.wasInterrupted());
+    assertFalse(task.wasInterruptedInternal());
     assertThrows(CancellationException.class, () -> getDone(task));
     verifyThreadWasNotInterrupted();
   }
 
-  public void testFailed() throws Exception {
+  public void testFailed() {
     Exception e = new Exception();
     TrustedListenableFutureTask<Integer> task =
         TrustedListenableFutureTask.create(

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2023 The Guava Authors
+ * Copyright (C) 2012 The Guava Authors
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,12 @@
  * limitations under the License.
  */
 
-package com.google.common.base;
+package com.google.common.reflect;
 
+import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
-/** Class containing an unannotated Java method for use from {@code OptionalExtensionsTest}. */
-@NullUnmarked
-final class UnannotatedJavaClass {
-  // The Checker Framework assumes that unannotated types are non-null instead of unspecified.
-  @SuppressWarnings("nullness:return.type.incompatible")
-  static Object getNull() {
-    return null;
-  }
+/** Tests nulls for the entire package. */
 
-  private UnannotatedJavaClass() {}
-}
+@NullUnmarked
+public class PackageSanityTest extends AbstractPackageSanityTests {}
