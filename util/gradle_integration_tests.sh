@@ -16,13 +16,20 @@ set -eu
   -ntp \
   clean install
 
-# We run this separately so that its change to the default toolchain doesn't affect anything else.
-# (And we run it after the main build so that that build has already downloaded Java 11 if necessary.)
+# We run these separately so that their changes to the default toolchain doesn't affect anything else.
+# (And we run them after the main build so that that build has already downloaded Java 11/17 if necessary.)
+
 ./mvnw \
   --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' \
   -ntp \
   initialize -P print-java-11-home
-export JAVA_HOME=$(<target/java_11_home)
+JAVA_11_HOME=$(<target/java_11_home)
+
+./mvnw \
+  --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' \
+  -ntp \
+  initialize -P print-java-17-home
+JAVA_17_HOME=$(<target/java_17_home)
 
 # Gradle Wrapper overwrites some files when it runs.
 # To avoid modifying the Git client, we copy everything we need to another directory.
@@ -49,7 +56,7 @@ for version in 5.6.4 7.0.2; do
   (
     cp -r integration-tests "${GRADLE_TEMP}/${version}"
     cd "${GRADLE_TEMP}/${version}/gradle"
-    ./gradlew wrapper --gradle-version="${version}"
-    ./gradlew testClasspath
+    JAVA_HOME="${JAVA_17_HOME}" ./gradlew wrapper --gradle-version="${version}"
+    JAVA_HOME="${JAVA_11_HOME}" ./gradlew testClasspath
   )
 done

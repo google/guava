@@ -43,6 +43,13 @@ buildscript {
 }
 
 subprojects {
+  if (gradle.startParameter.taskNames.any { it.contains("wrapper") }) {
+    // When all we're doing is running the Gradle wrapper to initialize the project, we don't need
+    // to set up AGP. And it's nice not to: If we did, then we'd need to ensure that the AGP and
+    // Gradle-Wrapper versions are compatible, even though our "real" Gradle runs use different
+    // Gradle versions than the Gradle-Wrapper run does.
+    return@subprojects
+  }
   if (name.endsWith("Java")) {
     apply(plugin = "java-library")
   } else {

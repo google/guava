@@ -60,17 +60,40 @@ jobs:
         if: ${{ failure() }}
         shell: bash
         run: ./util/print_surefire_reports.sh
+
+  gradle-test:
+    permissions:
+      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
+      contents: read  # for actions/checkout to fetch code
+    name: "Gradle Integration Tests"
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Cancel previous runs'
+        uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
+        with:
+          access_token: ${{ github.token }}
+      - name: 'Check out repository'
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+      - name: 'Set up JDKs'
+        uses: actions/setup-java@1bcf9fb12cf4aa7d266a90ae39939e61372fe520 # v5.4.0
+        # For the usage of the JDK 11+17, see util/gradle_integration_tests.sh
+        # And 26 is for running javac (as configured in the Maven build), as usual.
+        with:
+          java-version: |
+            11
+            17
+            26
+          distribution: 'temurin'
+          cache: 'maven'
       - name: 'Set up Gradle'
-        if: matrix.java == 11 # used only by the integration tests below
         uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
       - name: 'Integration Test'
-        if: matrix.java == 11
         shell: bash
         run: util/gradle_integration_tests.sh
 
   publish_snapshot:
     name: 'Publish snapshot'
-    needs: test
+    needs: [ test, gradle-test ]
     if: github.event_name == 'push' && github.repository == 'google/guava'
     runs-on: ubuntu-latest
     steps:
@@ -97,7 +120,7 @@ jobs:
     permissions:
       contents: write
     name: 'Generate latest docs'
-    needs: test
+    needs: [ test, gradle-test ]
     if: github.event_name == 'push' && github.repository == 'google/guava'
     runs-on: ubuntu-latest
     steps:

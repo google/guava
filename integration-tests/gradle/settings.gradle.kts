@@ -1,29 +1,22 @@
 rootProject.name = "guava-integration-test"
 
-include("standardJvmCompileClasspathJava")
+val subprojects =
+  listOf(
+    "standardJvmCompileClasspathJava",
+    "androidCompileClasspathJava",
+    "standardJvmRuntimeClasspathJava",
+    "androidRuntimeClasspathJava",
+    "standardJvmCompileClasspathAndroid",
+    "androidCompileClasspathAndroid",
+    "standardJvmRuntimeClasspathAndroid",
+    "androidRuntimeClasspathAndroid",
+    "standardJvmAndroidConstraintCompileClasspathJava",
+    "androidAndroidConstraintCompileClasspathJava",
+    "standardJvmJreConstraintCompileClasspathAndroid",
+    "androidJreConstraintCompileClasspathAndroid"
+  )
 
-include("androidCompileClasspathJava")
-
-include("standardJvmRuntimeClasspathJava")
-
-include("androidRuntimeClasspathJava")
-
-include("standardJvmCompileClasspathAndroid")
-
-include("androidCompileClasspathAndroid")
-
-include("standardJvmRuntimeClasspathAndroid")
-
-include("androidRuntimeClasspathAndroid")
-
-// Enforce 'android' variant in Java projects via constraint
-
-include("standardJvmAndroidConstraintCompileClasspathJava")
-
-include("androidAndroidConstraintCompileClasspathJava")
-
-// Enforce 'jre' variant in Android projects via constraint
-
-include("standardJvmJreConstraintCompileClasspathAndroid")
-
-include("androidJreConstraintCompileClasspathAndroid")
+for (p in subprojects) {
+  include(p)
+  file(p).mkdirs()
+}
