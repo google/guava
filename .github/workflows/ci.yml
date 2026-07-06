@@ -11,11 +11,13 @@ on:
 permissions:
   contents: read
 
+# Cancel in-progress runs for pull requests, but not for master branch pushes
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
 jobs:
   test:
-    permissions:
-      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
-      contents: read  # for actions/checkout to fetch code
     name: "${{ matrix.root-pom }} on JDK ${{ matrix.java }} on ${{ matrix.os }}"
     strategy:
       matrix:
@@ -30,11 +32,6 @@ jobs:
     env:
       ROOT_POM: ${{ matrix.root-pom }}
     steps:
-      # Cancel any previous runs for the same branch that are still running.
-      - name: 'Cancel previous runs'
-        uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
-        with:
-          access_token: ${{ github.token }}
       - name: 'Check out repository'
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       # When we specify multiple JDKs, the final one becomes the default, which is used to execute Maven itself.
@@ -62,16 +59,9 @@ jobs:
         run: ./util/print_surefire_reports.sh
 
   gradle-test:
-    permissions:
-      actions: write  # for styfle/cancel-workflow-action to cancel/stop running workflows
-      contents: read  # for actions/checkout to fetch code
     name: "Gradle Integration Tests"
     runs-on: ubuntu-latest
     steps:
-      - name: 'Cancel previous runs'
-        uses: styfle/cancel-workflow-action@d07a454dad7609a92316b57b23c9ccfd4f59af66 # 0.13.1
-        with:
-          access_token: ${{ github.token }}
       - name: 'Check out repository'
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
       - name: 'Set up JDKs'
