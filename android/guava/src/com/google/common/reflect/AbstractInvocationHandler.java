@@ -39,7 +39,7 @@ import org.jspecify.annotations.Nullable;
  */
 public abstract class AbstractInvocationHandler implements InvocationHandler {
   /** Constructor for use by subclasses. */
-  public AbstractInvocationHandler() {}
+  protected AbstractInvocationHandler() {}
 
   private static final Object[] NO_ARGS = {};
 

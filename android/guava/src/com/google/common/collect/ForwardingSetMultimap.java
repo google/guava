@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
 public abstract class ForwardingSetMultimap<K extends @Nullable Object, V extends @Nullable Object>
     extends ForwardingMultimap<K, V> implements SetMultimap<K, V> {
   /** Constructor for use by subclasses. */
-  public ForwardingSetMultimap() {}
+  protected ForwardingSetMultimap() {}
 
   @Override
   protected abstract SetMultimap<K, V> delegate();

@@ -78,7 +78,7 @@ import org.jspecify.annotations.Nullable;
 public
 abstract class TreeTraverser<T> {
   /** Constructor for use by subclasses. */
-  public TreeTraverser() {}
+  protected TreeTraverser() {}
 
   /**
    * Returns a tree traverser that uses the given function to navigate from a node to its children.

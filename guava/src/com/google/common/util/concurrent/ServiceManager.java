@@ -162,7 +162,7 @@ public final class ServiceManager implements ServiceManagerBridge {
    */
   public abstract static class Listener {
     /** Constructor for use by subclasses. */
-    public Listener() {}
+    protected Listener() {}
 
     /**
      * Called when the service initially becomes healthy.

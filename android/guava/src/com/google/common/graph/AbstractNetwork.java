@@ -53,7 +53,7 @@ import org.jspecify.annotations.Nullable;
  */
 public abstract class AbstractNetwork<N, E> implements Network<N, E> {
   /** Constructor for use by subclasses. */
-  public AbstractNetwork() {}
+  protected AbstractNetwork() {}
 
   @Override
   public Graph<N> asGraph() {

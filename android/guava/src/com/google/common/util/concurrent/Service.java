@@ -211,7 +211,7 @@ public interface Service {
    */
   abstract class Listener {
     /** Constructor for use by subclasses. */
-    public Listener() {}
+    protected Listener() {}
 
     /**
      * Called when the service transitions from {@linkplain State#NEW NEW} to {@linkplain

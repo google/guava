@@ -36,7 +36,7 @@ import org.jspecify.annotations.NullMarked;
 public abstract class AbstractMultimapAsMapImplementsMapTest
     extends MapInterfaceTest<String, Collection<Integer>> {
 
-  public AbstractMultimapAsMapImplementsMapTest(
+  protected AbstractMultimapAsMapImplementsMapTest(
       boolean modifiable, boolean allowsNulls, boolean supportsIteratorRemove) {
     super(allowsNulls, allowsNulls, false, modifiable, modifiable, supportsIteratorRemove);
   }

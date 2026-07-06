@@ -43,7 +43,7 @@ public abstract class LinearTransformation {
    * @deprecated Create instances by using the static factory methods of the class.
    */
   @Deprecated
-  public LinearTransformation() {}
+  protected LinearTransformation() {}
 
   /**
    * Start building an instance which maps {@code x = x1} to {@code y = y1}. Both arguments must be

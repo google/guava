@@ -39,7 +39,7 @@ import org.jspecify.annotations.Nullable;
 public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
     implements ValueGraph<N, V> {
   /** Constructor for use by subclasses. */
-  public AbstractValueGraph() {}
+  protected AbstractValueGraph() {}
 
   @Override
   public Graph<N> asGraph() {

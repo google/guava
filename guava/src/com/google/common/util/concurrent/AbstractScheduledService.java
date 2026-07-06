@@ -531,7 +531,7 @@ public abstract class AbstractScheduledService implements Service {
    */
   public abstract static class CustomScheduler extends Scheduler {
     /** Constructor for use by subclasses. */
-    public CustomScheduler() {}
+    protected CustomScheduler() {}
 
     /** A callable class that can reschedule itself using a {@link CustomScheduler}. */
     private final class ReschedulableCallable implements Callable<@Nullable Void> {

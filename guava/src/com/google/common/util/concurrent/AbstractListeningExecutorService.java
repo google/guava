@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
 public abstract class AbstractListeningExecutorService extends AbstractExecutorService
     implements ListeningExecutorService {
   /** Constructor for use by subclasses. */
-  public AbstractListeningExecutorService() {}
+  protected AbstractListeningExecutorService() {}
 
   /**
    * @since 19.0 (present with return type {@code ListenableFutureTask} since 14.0)

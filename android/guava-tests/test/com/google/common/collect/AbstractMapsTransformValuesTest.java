@@ -44,7 +44,7 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 @NullMarked
 abstract class AbstractMapsTransformValuesTest extends MapInterfaceTest<String, String> {
-  public AbstractMapsTransformValuesTest() {
+  AbstractMapsTransformValuesTest() {
     super(false, true, false, true, true);
   }
 

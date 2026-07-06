@@ -28,7 +28,7 @@ import org.jspecify.annotations.Nullable;
  */
 public abstract class AbstractGraph<N> extends AbstractBaseGraph<N> implements Graph<N> {
   /** Constructor for use by subclasses. */
-  public AbstractGraph() {}
+  protected AbstractGraph() {}
 
   @Override
   public final boolean equals(@Nullable Object obj) {
