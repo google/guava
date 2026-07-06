@@ -15925,7 +15925,7 @@
     deprecated="not deprecated">
     <implements name="com.google.common.collect.SetMultimap&lt;K, V&gt;"/>
     <constructor name="ForwardingSetMultimap"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -16270,7 +16270,7 @@
     static="false" final="false" visibility="protected"
     deprecated="not deprecated">
     <constructor name="StandardDescendingMultiset"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -37909,7 +37909,7 @@
      implements {@code SuccessorsFunction}, which has a similar API as {@link #children} or can be
      the same lambda function as passed into {@link #using(Function)}.">
     <constructor name="TreeTraverser"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -39351,7 +39351,7 @@
     deprecated="not deprecated">
     <implements name="com.google.common.graph.Graph&lt;N&gt;"/>
     <constructor name="AbstractGraph"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -39393,7 +39393,7 @@
     deprecated="not deprecated">
     <implements name="com.google.common.graph.Network&lt;N, E&gt;"/>
     <constructor name="AbstractNetwork"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -39563,7 +39563,7 @@
     deprecated="not deprecated">
     <implements name="com.google.common.graph.ValueGraph&lt;N, V&gt;"/>
     <constructor name="AbstractValueGraph"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -50378,7 +50378,7 @@
     static="false" final="false" visibility="public"
     deprecated="not deprecated">
     <constructor name="LinearTransformation"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="Create instances by using the static factory methods of the class.">
       <doc>
       <![CDATA[Constructor for use by subclasses inside Guava.
@@ -63634,7 +63634,7 @@
     deprecated="not deprecated">
     <implements name="java.lang.reflect.InvocationHandler"/>
     <constructor name="AbstractInvocationHandler"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -65989,7 +65989,7 @@
     deprecated="not deprecated">
     <implements name="com.google.common.util.concurrent.ListeningExecutorService"/>
     <constructor name="AbstractListeningExecutorService"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -66283,7 +66283,7 @@
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
     <constructor name="CustomScheduler"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -73784,7 +73784,7 @@
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
     <constructor name="Listener"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
@@ -74174,7 +74174,7 @@
     static="true" final="false" visibility="public"
     deprecated="not deprecated">
     <constructor name="Listener"
-      static="false" final="false" visibility="public"
+      static="false" final="false" visibility="protected"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Constructor for use by subclasses.]]>
