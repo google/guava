@@ -87,7 +87,7 @@ interface SettableAbstractFuture<V extends @Nullable Object> {
     }
   }
 
-    final class TrustedAbstractFuture<V extends @Nullable Object> extends TrustedFuture<V>
+  final class TrustedAbstractFuture<V extends @Nullable Object> extends TrustedFuture<V>
       implements SettableAbstractFuture<V> {
     @CanIgnoreReturnValue
     @Override

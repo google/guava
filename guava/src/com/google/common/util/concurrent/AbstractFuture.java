@@ -87,7 +87,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
    * A less abstract subclass of AbstractFuture. This can be used to optimize setFuture by ensuring
    * that {@link #get} calls exactly the implementation of {@link AbstractFuture#get}.
    */
-    abstract static class TrustedFuture<V extends @Nullable Object> extends AbstractFuture<V>
+  abstract static class TrustedFuture<V extends @Nullable Object> extends AbstractFuture<V>
       implements Trusted<V> {
     @CanIgnoreReturnValue
     @Override

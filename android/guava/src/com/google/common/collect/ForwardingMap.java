@@ -197,7 +197,7 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
    *
    * @since 10.0
    */
-    protected class StandardKeySet extends Maps.KeySet<K, V> {
+  protected class StandardKeySet extends Maps.KeySet<K, V> {
     /** Constructor for use by subclasses. */
     public StandardKeySet() {
       super(ForwardingMap.this);
@@ -224,7 +224,7 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
    *
    * @since 10.0
    */
-    protected class StandardValues extends Maps.Values<K, V> {
+  protected class StandardValues extends Maps.Values<K, V> {
     /** Constructor for use by subclasses. */
     public StandardValues() {
       super(ForwardingMap.this);
@@ -251,7 +251,7 @@ public abstract class ForwardingMap<K extends @Nullable Object, V extends @Nulla
    *
    * @since 10.0
    */
-    protected abstract class StandardEntrySet extends Maps.EntrySet<K, V> {
+  protected abstract class StandardEntrySet extends Maps.EntrySet<K, V> {
     /** Constructor for use by subclasses. */
     protected StandardEntrySet() {}
 
