@@ -130,8 +130,8 @@ continue to distinguish between exceptions and errors, even when they come from 
 <div class="col-constructor-name even-row-color"><code><a href="#%3Cinit%3E()" class="member-name-link">ExecutionError</a>()</code></div>
 <div class="col-last even-row-color">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">Prefer <a href="#%3Cinit%3E(java.lang.Error)">a constructor that accepts a cause</a>: Users
-    of this class typically expect for instances to have a non-null cause.</div>
+<div class="deprecation-comment">Prefer <a href="#%3Cinit%3E(java.lang.Error)">a constructor that accepts a cause</a>:
+    Users of this class typically expect for instances to have a non-null cause.</div>
 </div>
 </div>
 <div class="col-first odd-row-color"><code>&nbsp;</code></div>
@@ -184,11 +184,12 @@ continue to distinguish between exceptions and errors, even when they come from 
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Deprecated.html" title="annotation in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">protected</span>&nbsp;<span class="element-name">ExecutionError</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">Prefer <a href="#%3Cinit%3E(java.lang.Error)">a constructor that accepts a cause</a>: Users
-    of this class typically expect for instances to have a non-null cause. At the moment, you
-    can <i>usually</i> still preserve behavior by passing an explicit <code>null</code> cause. Note,
-    however, that passing an explicit <code>null</code> cause prevents anyone from calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a constructor that omits the
-    cause.</div>
+<div class="deprecation-comment">Prefer <a href="#%3Cinit%3E(java.lang.Error)">a constructor that accepts a cause</a>:
+    Users of this class typically expect for instances to have a non-null cause. At the moment,
+    you can <i>usually</i> still preserve behavior by passing an explicit <code>null</code> cause.
+    Note, however, that passing an explicit <code>null</code> cause prevents anyone from calling
+    <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a constructor that omits
+    the cause.</div>
 </div>
 <div class="block">Creates a new instance with <code>null</code> as its detail message and no cause.</div>
 </div>

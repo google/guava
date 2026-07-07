@@ -70164,26 +70164,26 @@
     deprecated="not deprecated">
     <constructor name="ExecutionError"
       static="false" final="false" visibility="protected"
-      deprecated="Prefer {@linkplain ExecutionError(Error) a constructor that accepts a cause}: Users
-     of this class typically expect for instances to have a non-null cause. At the moment, you
-     can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit {@code null} cause. Note,
-     however, that passing an explicit {@code null} cause prevents anyone from calling {@link
-     #initCause} later, so it is not quite equivalent to using a constructor that omits the
-     cause.">
+      deprecated="Prefer {@linkplain #ExecutionError(Error) a constructor that accepts a cause}:
+     Users of this class typically expect for instances to have a non-null cause. At the moment,
+     you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit {@code null} cause.
+     Note, however, that passing an explicit {@code null} cause prevents anyone from calling
+     {@link #initCause} later, so it is not quite equivalent to using a constructor that omits
+     the cause.">
       <doc>
       <![CDATA[Creates a new instance with {@code null} as its detail message and no cause.
 
- @deprecated Prefer {@linkplain ExecutionError(Error) a constructor that accepts a cause}: Users
-     of this class typically expect for instances to have a non-null cause. At the moment, you
-     can <i>usually</i> still preserve behavior by passing an explicit {@code null} cause. Note,
-     however, that passing an explicit {@code null} cause prevents anyone from calling {@link
-     #initCause} later, so it is not quite equivalent to using a constructor that omits the
-     cause.]]>
+ @deprecated Prefer {@linkplain #ExecutionError(Error) a constructor that accepts a cause}:
+     Users of this class typically expect for instances to have a non-null cause. At the moment,
+     you can <i>usually</i> still preserve behavior by passing an explicit {@code null} cause.
+     Note, however, that passing an explicit {@code null} cause prevents anyone from calling
+     {@link #initCause} later, so it is not quite equivalent to using a constructor that omits
+     the cause.]]>
       </doc>
     </constructor>
     <constructor name="ExecutionError" type="String"
       static="false" final="false" visibility="protected"
-      deprecated="Prefer {@linkplain ExecutionError(String, Error) a constructor that accepts a
+      deprecated="Prefer {@linkplain #ExecutionError(String, Error) a constructor that accepts a
      cause}: Users of this class typically expect for instances to have a non-null cause. At the
      moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit {@code null}
      cause. Note, however, that passing an explicit {@code null} cause prevents anyone from
@@ -70192,7 +70192,7 @@
       <doc>
       <![CDATA[Creates a new instance with the given detail message and no cause.
 
- @deprecated Prefer {@linkplain ExecutionError(String, Error) a constructor that accepts a
+ @deprecated Prefer {@linkplain #ExecutionError(String, Error) a constructor that accepts a
      cause}: Users of this class typically expect for instances to have a non-null cause. At the
      moment, you can <i>usually</i> still preserve behavior by passing an explicit {@code null}
      cause. Note, however, that passing an explicit {@code null} cause prevents anyone from
@@ -75874,7 +75874,7 @@
     deprecated="not deprecated">
     <constructor name="UncheckedExecutionException"
       static="false" final="false" visibility="protected"
-      deprecated="Prefer {@linkplain UncheckedExecutionException(Throwable) a constructor that
+      deprecated="Prefer {@linkplain #UncheckedExecutionException(Throwable) a constructor that
      accepts a cause}: Users of this class typically expect for instances to have a non-null
      cause. At the moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit
      {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
@@ -75883,7 +75883,7 @@
       <doc>
       <![CDATA[Creates a new instance with {@code null} as its detail message and no cause.
 
- @deprecated Prefer {@linkplain UncheckedExecutionException(Throwable) a constructor that
+ @deprecated Prefer {@linkplain #UncheckedExecutionException(Throwable) a constructor that
      accepts a cause}: Users of this class typically expect for instances to have a non-null
      cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
      {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
@@ -75893,7 +75893,7 @@
     </constructor>
     <constructor name="UncheckedExecutionException" type="String"
       static="false" final="false" visibility="protected"
-      deprecated="Prefer {@linkplain UncheckedExecutionException(String, Throwable) a constructor
+      deprecated="Prefer {@linkplain #UncheckedExecutionException(String, Throwable) a constructor
      that accepts a cause}: Users of this class typically expect for instances to have a
      non-null cause. At the moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an
      explicit {@code null} cause. Note, however, that passing an explicit {@code null} cause
@@ -75902,7 +75902,7 @@
       <doc>
       <![CDATA[Creates a new instance with the given detail message and no cause.
 
- @deprecated Prefer {@linkplain UncheckedExecutionException(String, Throwable) a constructor
+ @deprecated Prefer {@linkplain #UncheckedExecutionException(String, Throwable) a constructor
      that accepts a cause}: Users of this class typically expect for instances to have a
      non-null cause. At the moment, you can <i>usually</i> still preserve behavior by passing an
      explicit {@code null} cause. Note, however, that passing an explicit {@code null} cause
