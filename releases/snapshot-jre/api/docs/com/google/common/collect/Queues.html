@@ -154,8 +154,8 @@ numElements</code> elements are not available, it will wait for them up to the s
  long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="enum in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drain(BlockingQueue, Collection, int, long, TimeUnit)</a>, but
-with a different behavior in case it is interrupted while waiting.</div>
+<div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)"><code>drain(BlockingQueue, Collection, int, long, TimeUnit)</code></a>, but with a
+different behavior in case it is interrupted while waiting.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E&gt;&nbsp;int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)" class="member-name-link">drainUninterruptibly</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/BlockingQueue.html" title="interface in java.util.concurrent" class="external-link">BlockingQueue</a>&lt;E&gt;&nbsp;q,
@@ -163,7 +163,7 @@ with a different behavior in case it is interrupted while waiting.</div>
  int&nbsp;numElements,
  <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/time/Duration.html" title="class in java.time" class="external-link">Duration</a>&nbsp;timeout)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drain(BlockingQueue, Collection, int, Duration)</a>, but with a
+<div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)"><code>drain(BlockingQueue, Collection, int, Duration)</code></a>, but with a
 different behavior in case it is interrupted while waiting.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E&gt;&nbsp;<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/ArrayBlockingQueue.html" title="class in java.util.concurrent" class="external-link">ArrayBlockingQueue</a><wbr>&lt;E&gt;</code></div>
@@ -577,7 +577,7 @@ numElements</code> elements are not available, it will wait for them up to the s
  <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link">Collection</a>&lt;? super E&gt;&nbsp;buffer,
  int&nbsp;numElements,
  <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/time/Duration.html" title="class in java.time" class="external-link">Duration</a>&nbsp;timeout)</span></div>
-<div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">drain(BlockingQueue, Collection, int, Duration)</a>, but with a
+<div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)"><code>drain(BlockingQueue, Collection, int, Duration)</code></a>, but with a
 different behavior in case it is interrupted while waiting. In that case, the operation will
 continue as usual, and in the end the thread's interruption status will be set (no <code>
 InterruptedException</code> is thrown).</div>
@@ -606,9 +606,9 @@ InterruptedException</code> is thrown).</div>
  int&nbsp;numElements,
  long&nbsp;timeout,
  <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/TimeUnit.html" title="enum in java.util.concurrent" class="external-link">TimeUnit</a>&nbsp;unit)</span></div>
-<div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">drain(BlockingQueue, Collection, int, long, TimeUnit)</a>, but
-with a different behavior in case it is interrupted while waiting. In that case, the operation
-will continue as usual, and in the end the thread's interruption status will be set (no <code>
+<div class="block">Drains the queue as <a href="#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)"><code>drain(BlockingQueue, Collection, int, long, TimeUnit)</code></a>, but with a
+different behavior in case it is interrupted while waiting. In that case, the operation will
+continue as usual, and in the end the thread's interruption status will be set (no <code>
 InterruptedException</code> is thrown).</div>
 <dl class="notes">
 <dt>Parameters:</dt>

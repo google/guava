@@ -6387,12 +6387,12 @@ numElements</code> elements are not available, it will wait for them up to the s
 <dd>&nbsp;</dd>
 <dt><a href="com/google/common/collect/Queues.html#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)" class="member-name-link">drainUninterruptibly(BlockingQueue, Collection, int, long, TimeUnit)</a> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Queues.html" title="class in com.google.common.collect">Queues</a></dt>
 <dd>
-<div class="block">Drains the queue as <a href="com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)">Queues.drain(BlockingQueue, Collection, int, long, TimeUnit)</a>, but
-with a different behavior in case it is interrupted while waiting.</div>
+<div class="block">Drains the queue as <a href="com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,long,java.util.concurrent.TimeUnit)"><code>Queues.drain(BlockingQueue, Collection, int, long, TimeUnit)</code></a>, but with a
+different behavior in case it is interrupted while waiting.</div>
 </dd>
 <dt><a href="com/google/common/collect/Queues.html#drainUninterruptibly(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)" class="member-name-link">drainUninterruptibly(BlockingQueue, Collection, int, Duration)</a> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Queues.html" title="class in com.google.common.collect">Queues</a></dt>
 <dd>
-<div class="block">Drains the queue as <a href="com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)">Queues.drain(BlockingQueue, Collection, int, Duration)</a>, but with a
+<div class="block">Drains the queue as <a href="com/google/common/collect/Queues.html#drain(java.util.concurrent.BlockingQueue,java.util.Collection,int,java.time.Duration)"><code>Queues.drain(BlockingQueue, Collection, int, Duration)</code></a>, but with a
 different behavior in case it is interrupted while waiting.</div>
 </dd>
 </dl>
@@ -7462,7 +7462,7 @@ attempting to add new elements onto the queue and it is full.</div>
 <dt><a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E()" class="member-name-link">ExecutionError()</a> - Constructor for exception class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ExecutionError.html" title="class in com.google.common.util.concurrent">ExecutionError</a></dt>
 <dd>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.Error)">ExecutionError(java.lang.@org.jspecify.annotations.Nullable Error)</a> a constructor that accepts a cause: Users
+<div class="deprecation-comment">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.Error)">a constructor that accepts a cause</a>: Users
     of this class typically expect for instances to have a non-null cause. At the moment, you
     can <i>usually</i> still preserve behavior by passing an explicit <code>null</code> cause. Note,
     however, that passing an explicit <code>null</code> cause prevents anyone from calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a constructor that omits the
@@ -7476,8 +7476,8 @@ attempting to add new elements onto the queue and it is full.</div>
 <dt><a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.String)" class="member-name-link">ExecutionError(String)</a> - Constructor for exception class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/ExecutionError.html" title="class in com.google.common.util.concurrent">ExecutionError</a></dt>
 <dd>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.String,java.lang.Error)">ExecutionError(java.lang.@org.jspecify.annotations.Nullable String,java.lang.@org.jspecify.annotations.Nullable Error)</a> a constructor that accepts a
-    cause: Users of this class typically expect for instances to have a non-null cause. At the
+<div class="deprecation-comment">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.String,java.lang.Error)">a constructor that accepts a
+    cause</a>: Users of this class typically expect for instances to have a non-null cause. At the
     moment, you can <i>usually</i> still preserve behavior by passing an explicit <code>null</code>
     cause. Note, however, that passing an explicit <code>null</code> cause prevents anyone from
     calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a constructor that
@@ -7532,8 +7532,8 @@ reached.</div>
 </dd>
 <dt><a href="com/google/common/hash/BloomFilter.html#expectedFpp()" class="member-name-link">expectedFpp()</a> - Method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
-<div class="block">Returns the probability that <a href="com/google/common/hash/BloomFilter.html#mightContain(T)">BloomFilter.mightContain(Object)</a> will erroneously return <code>
-true</code> for an object that has not actually been put in the <code>BloomFilter</code>.</div>
+<div class="block">Returns the probability that <a href="com/google/common/hash/BloomFilter.html#mightContain(T)"><code>BloomFilter.mightContain(Object)</code></a> will erroneously return <code>true</code>
+for an object that has not actually been put in the <code>BloomFilter</code>.</div>
 </dd>
 <dt><a href="com/google/common/graph/GraphBuilder.html#expectedNodeCount(int)" class="member-name-link">expectedNodeCount(int)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/GraphBuilder.html" title="class in com.google.common.graph">GraphBuilder</a></dt>
 <dd>
@@ -17000,12 +17000,12 @@ little-endian byte order.</div>
 </dd>
 <dt><a href="com/google/common/hash/BloomFilter.html#readFrom(java.io.InputStream,com.google.common.hash.Funnel)" class="member-name-link">readFrom(InputStream, Funnel)</a> - Static method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
-<div class="block">Reads a byte stream, which was written by <a href="com/google/common/hash/BloomFilter.html#writeTo(java.io.OutputStream)">BloomFilter.writeTo(OutputStream)</a>, into a <code>
+<div class="block">Reads a byte stream, which was written by <a href="com/google/common/hash/BloomFilter.html#writeTo(java.io.OutputStream)"><code>BloomFilter.writeTo(OutputStream)</code></a>, into a <code>
 BloomFilter</code>, allocating as much memory as the byte stream requests.</div>
 </dd>
 <dt><a href="com/google/common/hash/BloomFilter.html#readFrom(java.io.InputStream,com.google.common.hash.Funnel,long)" class="member-name-link">readFrom(InputStream, Funnel, long)</a> - Static method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
 <dd>
-<div class="block">Reads a byte stream, which was written by <a href="com/google/common/hash/BloomFilter.html#writeTo(java.io.OutputStream)">BloomFilter.writeTo(OutputStream)</a>, into a <code>
+<div class="block">Reads a byte stream, which was written by <a href="com/google/common/hash/BloomFilter.html#writeTo(java.io.OutputStream)"><code>BloomFilter.writeTo(OutputStream)</code></a>, into a <code>
 BloomFilter</code>, allocating at most <code>maxAllowedSizeInBits</code> for the backing array.</div>
 </dd>
 <dt><a href="com/google/common/io/ByteArrayDataInput.html#readFully(byte%5B%5D)" class="member-name-link">readFully(byte[])</a> - Method in interface com.google.common.io.<a href="com/google/common/io/ByteArrayDataInput.html" title="interface in com.google.common.io">ByteArrayDataInput</a></dt>
@@ -21982,8 +21982,8 @@ values</a>.</div>
 <dt><a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E()" class="member-name-link">UncheckedExecutionException()</a> - Constructor for exception class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent">UncheckedExecutionException</a></dt>
 <dd>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.Throwable)">UncheckedExecutionException(java.lang.@org.jspecify.annotations.Nullable Throwable)</a> a constructor that
-    accepts a cause: Users of this class typically expect for instances to have a non-null
+<div class="deprecation-comment">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.Throwable)">a constructor that
+    accepts a cause</a>: Users of this class typically expect for instances to have a non-null
     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
     <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause prevents
     anyone from calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a
@@ -21993,12 +21993,12 @@ values</a>.</div>
 <dt><a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.String)" class="member-name-link">UncheckedExecutionException(String)</a> - Constructor for exception class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent">UncheckedExecutionException</a></dt>
 <dd>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.String,java.lang.Throwable)">UncheckedExecutionException(java.lang.@org.jspecify.annotations.Nullable String,java.lang.@org.jspecify.annotations.Nullable Throwable)</a> a constructor
-    that accepts a cause: Users of this class typically expect for instances to have a non-null
-    cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
-    <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause prevents
-    anyone from calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a
-    constructor that omits the cause.</div>
+<div class="deprecation-comment">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.String,java.lang.Throwable)">a constructor
+    that accepts a cause</a>: Users of this class typically expect for instances to have a
+    non-null cause. At the moment, you can <i>usually</i> still preserve behavior by passing an
+    explicit <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause
+    prevents anyone from calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to
+    using a constructor that omits the cause.</div>
 </div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.String,java.lang.Throwable)" class="member-name-link">UncheckedExecutionException(String, Throwable)</a> - Constructor for exception class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/UncheckedExecutionException.html" title="class in com.google.common.util.concurrent">UncheckedExecutionException</a></dt>

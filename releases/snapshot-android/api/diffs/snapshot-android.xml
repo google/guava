@@ -33506,7 +33506,7 @@
       <param name="numElements" type="int"/>
       <param name="timeout" type="java.time.Duration"/>
       <doc>
-      <![CDATA[Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, Duration)}, but with a
+      <![CDATA[Drains the queue as {@link #drain(BlockingQueue, Collection, int, Duration)}, but with a
  different behavior in case it is interrupted while waiting. In that case, the operation will
  continue as usual, and in the end the thread's interruption status will be set (no {@code
  InterruptedException} is thrown).
@@ -33529,9 +33529,9 @@
       <param name="timeout" type="long"/>
       <param name="unit" type="java.util.concurrent.TimeUnit"/>
       <doc>
-      <![CDATA[Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, long, TimeUnit)}, but
- with a different behavior in case it is interrupted while waiting. In that case, the operation
- will continue as usual, and in the end the thread's interruption status will be set (no {@code
+      <![CDATA[Drains the queue as {@link #drain(BlockingQueue, Collection, int, long, TimeUnit)}, but with a
+ different behavior in case it is interrupted while waiting. In that case, the operation will
+ continue as usual, and in the end the thread's interruption status will be set (no {@code
  InterruptedException} is thrown).
 
  @param q the blocking queue to be drained
@@ -43212,10 +43212,10 @@
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns the probability that {@linkplain #mightContain(Object)} will erroneously return {@code
- true} for an object that has not actually been put in the {@code BloomFilter}.
+      <![CDATA[Returns the probability that {@link #mightContain(Object)} will erroneously return {@code true}
+ for an object that has not actually been put in the {@code BloomFilter}.
 
- <p>Ideally, this number should be close to the {@code fpp} parameter passed in {@linkplain
+ <p>Ideally, this number should be close to the {@code fpp} parameter passed in {@link
  #create(Funnel, int, double)}, or smaller. If it is significantly higher, it is usually the
  case that too many elements (more than expected) have been put in the {@code BloomFilter},
  degenerating it.
@@ -43483,7 +43483,7 @@
  serialization). This has been measured to save at least 400 bytes compared to regular
  serialization.
 
- <p>Use {@linkplain #readFrom(InputStream, Funnel)} to reconstruct the written BloomFilter.]]>
+ <p>Use {@link #readFrom(InputStream, Funnel)} to reconstruct the written BloomFilter.]]>
       </doc>
     </method>
     <method name="readFrom" return="com.google.common.hash.BloomFilter&lt;T&gt;"
@@ -43494,7 +43494,7 @@
       <param name="funnel" type="com.google.common.hash.Funnel&lt;? super T&gt;"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code
+      <![CDATA[Reads a byte stream, which was written by {@link #writeTo(OutputStream)}, into a {@code
  BloomFilter}, allocating as much memory as the byte stream requests.
 
  <p>The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
@@ -43502,7 +43502,7 @@
  the original Bloom filter!
 
  @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
-     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.]]>
+     appear to be a BloomFilter serialized using the {@link #writeTo(OutputStream)} method.]]>
       </doc>
     </method>
     <method name="readFrom" return="com.google.common.hash.BloomFilter&lt;T&gt;"
@@ -43514,7 +43514,7 @@
       <param name="maxAllowedSizeInBits" type="long"/>
       <exception name="IOException" type="java.io.IOException"/>
       <doc>
-      <![CDATA[Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code
+      <![CDATA[Reads a byte stream, which was written by {@link #writeTo(OutputStream)}, into a {@code
  BloomFilter}, allocating at most {@code maxAllowedSizeInBits} for the backing array.
 
  <p>The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
@@ -43525,7 +43525,7 @@
  @param funnel the funnel to use for the Bloom filter
  @param maxAllowedSizeInBits the maximum number of bits that the Bloom filter can have
  @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
-     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.
+     appear to be a BloomFilter serialized using the {@link #writeTo(OutputStream)} method.
  @throws IllegalArgumentException if {@code maxAllowedSizeInBits} is negative, or if the number
      of bits in the stream is greater than {@code maxAllowedSizeInBits}.
  @since NEXT]]>
@@ -43541,8 +43541,8 @@
  they work.
 
  <p>The false positive probability ({@code FPP}) of a Bloom filter is defined as the probability
- that {@linkplain #mightContain(Object)} will erroneously return {@code true} for an object that
- has not actually been put in the {@code BloomFilter}.
+ that {@link #mightContain(Object)} will erroneously return {@code true} for an object that has
+ not actually been put in the {@code BloomFilter}.
 
  <p>Bloom filters are serializable. They also support a more compact serial representation via the
  {@link #writeTo} and {@link #readFrom} methods. Both serialized forms will continue to be
@@ -65587,7 +65587,7 @@
  <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
  current thread is interrupted during the call, even if the value is already available.
 
- @throws CancellationException {@inheritDoc}]]>
+ @throws CancellationException if the computation was cancelled]]>
       </doc>
     </method>
     <method name="get" return="V extends java.lang.Object"
@@ -65602,7 +65602,7 @@
  <p>The default {@link AbstractFuture} implementation throws {@code InterruptedException} if the
  current thread is interrupted during the call, even if the value is already available.
 
- @throws CancellationException {@inheritDoc}]]>
+ @throws CancellationException if the computation was cancelled]]>
       </doc>
     </method>
     <method name="isDone" return="boolean"
@@ -69466,7 +69466,7 @@
     deprecated="not deprecated">
     <constructor name="ExecutionError"
       static="false" final="false" visibility="protected"
-      deprecated="Prefer {@linkplain ExecutionError(Error)} a constructor that accepts a cause: Users
+      deprecated="Prefer {@linkplain ExecutionError(Error) a constructor that accepts a cause}: Users
      of this class typically expect for instances to have a non-null cause. At the moment, you
      can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit {@code null} cause. Note,
      however, that passing an explicit {@code null} cause prevents anyone from calling {@link
@@ -69475,7 +69475,7 @@
       <doc>
       <![CDATA[Creates a new instance with {@code null} as its detail message and no cause.
 
- @deprecated Prefer {@linkplain ExecutionError(Error)} a constructor that accepts a cause: Users
+ @deprecated Prefer {@linkplain ExecutionError(Error) a constructor that accepts a cause}: Users
      of this class typically expect for instances to have a non-null cause. At the moment, you
      can <i>usually</i> still preserve behavior by passing an explicit {@code null} cause. Note,
      however, that passing an explicit {@code null} cause prevents anyone from calling {@link
@@ -69485,8 +69485,8 @@
     </constructor>
     <constructor name="ExecutionError" type="String"
       static="false" final="false" visibility="protected"
-      deprecated="Prefer {@linkplain ExecutionError(String, Error)} a constructor that accepts a
-     cause: Users of this class typically expect for instances to have a non-null cause. At the
+      deprecated="Prefer {@linkplain ExecutionError(String, Error) a constructor that accepts a
+     cause}: Users of this class typically expect for instances to have a non-null cause. At the
      moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit {@code null}
      cause. Note, however, that passing an explicit {@code null} cause prevents anyone from
      calling {@link #initCause} later, so it is not quite equivalent to using a constructor that
@@ -69494,8 +69494,8 @@
       <doc>
       <![CDATA[Creates a new instance with the given detail message and no cause.
 
- @deprecated Prefer {@linkplain ExecutionError(String, Error)} a constructor that accepts a
-     cause: Users of this class typically expect for instances to have a non-null cause. At the
+ @deprecated Prefer {@linkplain ExecutionError(String, Error) a constructor that accepts a
+     cause}: Users of this class typically expect for instances to have a non-null cause. At the
      moment, you can <i>usually</i> still preserve behavior by passing an explicit {@code null}
      cause. Note, however, that passing an explicit {@code null} cause prevents anyone from
      calling {@link #initCause} later, so it is not quite equivalent to using a constructor that
@@ -71970,7 +71970,7 @@
       <param name="task" type="java.util.concurrent.Callable&lt;T&gt;"/>
       <doc>
       <![CDATA[@return a {@code ListenableFuture} representing pending completion of the task
- @throws RejectedExecutionException {@inheritDoc}]]>
+ @throws RejectedExecutionException if the task cannot be scheduled for execution]]>
       </doc>
     </method>
     <method name="submit" return="com.google.common.util.concurrent.ListenableFuture&lt;?&gt;"
@@ -71980,7 +71980,7 @@
       <param name="task" type="java.lang.Runnable"/>
       <doc>
       <![CDATA[@return a {@code ListenableFuture} representing pending completion of the task
- @throws RejectedExecutionException {@inheritDoc}]]>
+ @throws RejectedExecutionException if the task cannot be scheduled for execution]]>
       </doc>
     </method>
     <method name="submit" return="com.google.common.util.concurrent.ListenableFuture&lt;T&gt;"
@@ -71991,7 +71991,7 @@
       <param name="result" type="T extends java.lang.Object"/>
       <doc>
       <![CDATA[@return a {@code ListenableFuture} representing pending completion of the task
- @throws RejectedExecutionException {@inheritDoc}]]>
+ @throws RejectedExecutionException if the task cannot be scheduled for execution]]>
       </doc>
     </method>
     <method name="invokeAll" return="java.util.List&lt;java.util.concurrent.Future&lt;T&gt;&gt;"
@@ -72015,7 +72015,7 @@
  @return A list of {@code ListenableFuture} instances representing the tasks, in the same
      sequential order as produced by the iterator for the given task list, each of which has
      completed.
- @throws RejectedExecutionException {@inheritDoc}
+ @throws RejectedExecutionException if the task cannot be scheduled for execution
  @throws NullPointerException if any task is null]]>
       </doc>
     </method>
@@ -72043,7 +72043,7 @@
      sequential order as produced by the iterator for the given task list. If the operation did
      not time out, each task will have completed. If it did time out, some of these tasks will
      not have completed.
- @throws RejectedExecutionException {@inheritDoc}
+ @throws RejectedExecutionException if the task cannot be scheduled for execution
  @throws NullPointerException if any task is null]]>
       </doc>
     </method>
@@ -74905,8 +74905,8 @@
     deprecated="not deprecated">
     <constructor name="UncheckedExecutionException"
       static="false" final="false" visibility="protected"
-      deprecated="Prefer {@linkplain UncheckedExecutionException(Throwable)} a constructor that
-     accepts a cause: Users of this class typically expect for instances to have a non-null
+      deprecated="Prefer {@linkplain UncheckedExecutionException(Throwable) a constructor that
+     accepts a cause}: Users of this class typically expect for instances to have a non-null
      cause. At the moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit
      {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
      anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
@@ -74914,8 +74914,8 @@
       <doc>
       <![CDATA[Creates a new instance with {@code null} as its detail message and no cause.
 
- @deprecated Prefer {@linkplain UncheckedExecutionException(Throwable)} a constructor that
-     accepts a cause: Users of this class typically expect for instances to have a non-null
+ @deprecated Prefer {@linkplain UncheckedExecutionException(Throwable) a constructor that
+     accepts a cause}: Users of this class typically expect for instances to have a non-null
      cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
      {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
      anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
@@ -74924,21 +74924,21 @@
     </constructor>
     <constructor name="UncheckedExecutionException" type="String"
       static="false" final="false" visibility="protected"
-      deprecated="Prefer {@linkplain UncheckedExecutionException(String, Throwable)} a constructor
-     that accepts a cause: Users of this class typically expect for instances to have a non-null
-     cause. At the moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an explicit
-     {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
-     anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
-     constructor that omits the cause.">
+      deprecated="Prefer {@linkplain UncheckedExecutionException(String, Throwable) a constructor
+     that accepts a cause}: Users of this class typically expect for instances to have a
+     non-null cause. At the moment, you can lEsS_tHaNi>usuallylEsS_tHaN/i> still preserve behavior by passing an
+     explicit {@code null} cause. Note, however, that passing an explicit {@code null} cause
+     prevents anyone from calling {@link #initCause} later, so it is not quite equivalent to
+     using a constructor that omits the cause.">
       <doc>
       <![CDATA[Creates a new instance with the given detail message and no cause.
 
- @deprecated Prefer {@linkplain UncheckedExecutionException(String, Throwable)} a constructor
-     that accepts a cause: Users of this class typically expect for instances to have a non-null
-     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
-     {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
-     anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
-     constructor that omits the cause.]]>
+ @deprecated Prefer {@linkplain UncheckedExecutionException(String, Throwable) a constructor
+     that accepts a cause}: Users of this class typically expect for instances to have a
+     non-null cause. At the moment, you can <i>usually</i> still preserve behavior by passing an
+     explicit {@code null} cause. Note, however, that passing an explicit {@code null} cause
+     prevents anyone from calling {@link #initCause} later, so it is not quite equivalent to
+     using a constructor that omits the cause.]]>
       </doc>
     </constructor>
     <constructor name="UncheckedExecutionException" type="String, Throwable"

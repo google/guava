@@ -974,7 +974,7 @@ initTheme();
 </div>
 <div class="col-summary-item-name even-row-color"><a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E()">com.google.common.util.concurrent.ExecutionError()</a></div>
 <div class="col-last even-row-color">
-<div class="block">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.Error)">ExecutionError(java.lang.@org.jspecify.annotations.Nullable Error)</a> a constructor that accepts a cause: Users
+<div class="block">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.Error)">a constructor that accepts a cause</a>: Users
     of this class typically expect for instances to have a non-null cause. At the moment, you
     can <i>usually</i> still preserve behavior by passing an explicit <code>null</code> cause. Note,
     however, that passing an explicit <code>null</code> cause prevents anyone from calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a constructor that omits the
@@ -982,8 +982,8 @@ initTheme();
 </div>
 <div class="col-summary-item-name odd-row-color"><a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.String)">com.google.common.util.concurrent.ExecutionError<wbr>(String)</a></div>
 <div class="col-last odd-row-color">
-<div class="block">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.String,java.lang.Error)">ExecutionError(java.lang.@org.jspecify.annotations.Nullable String,java.lang.@org.jspecify.annotations.Nullable Error)</a> a constructor that accepts a
-    cause: Users of this class typically expect for instances to have a non-null cause. At the
+<div class="block">Prefer <a href="com/google/common/util/concurrent/ExecutionError.html#%3Cinit%3E(java.lang.String,java.lang.Error)">a constructor that accepts a
+    cause</a>: Users of this class typically expect for instances to have a non-null cause. At the
     moment, you can <i>usually</i> still preserve behavior by passing an explicit <code>null</code>
     cause. Note, however, that passing an explicit <code>null</code> cause prevents anyone from
     calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a constructor that
@@ -991,8 +991,8 @@ initTheme();
 </div>
 <div class="col-summary-item-name even-row-color"><a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E()">com.google.common.util.concurrent.UncheckedExecutionException()</a></div>
 <div class="col-last even-row-color">
-<div class="block">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.Throwable)">UncheckedExecutionException(java.lang.@org.jspecify.annotations.Nullable Throwable)</a> a constructor that
-    accepts a cause: Users of this class typically expect for instances to have a non-null
+<div class="block">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.Throwable)">a constructor that
+    accepts a cause</a>: Users of this class typically expect for instances to have a non-null
     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
     <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause prevents
     anyone from calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a
@@ -1000,12 +1000,12 @@ initTheme();
 </div>
 <div class="col-summary-item-name odd-row-color"><a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.String)">com.google.common.util.concurrent.UncheckedExecutionException<wbr>(String)</a></div>
 <div class="col-last odd-row-color">
-<div class="block">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.String,java.lang.Throwable)">UncheckedExecutionException(java.lang.@org.jspecify.annotations.Nullable String,java.lang.@org.jspecify.annotations.Nullable Throwable)</a> a constructor
-    that accepts a cause: Users of this class typically expect for instances to have a non-null
-    cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
-    <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause prevents
-    anyone from calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to using a
-    constructor that omits the cause.</div>
+<div class="block">Prefer <a href="com/google/common/util/concurrent/UncheckedExecutionException.html#%3Cinit%3E(java.lang.String,java.lang.Throwable)">a constructor
+    that accepts a cause</a>: Users of this class typically expect for instances to have a
+    non-null cause. At the moment, you can <i>usually</i> still preserve behavior by passing an
+    explicit <code>null</code> cause. Note, however, that passing an explicit <code>null</code> cause
+    prevents anyone from calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Throwable.html#initCause(java.lang.Throwable)" class="external-link"><code>Throwable.initCause(Throwable)</code></a> later, so it is not quite equivalent to
+    using a constructor that omits the cause.</div>
 </div>
 </div>
 </div>

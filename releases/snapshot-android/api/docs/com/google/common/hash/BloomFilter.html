@@ -120,8 +120,8 @@ but if it claims that an element is <i>not</i> contained in it, then this is def
 they work.
 
 <p>The false positive probability (<code>FPP</code>) of a Bloom filter is defined as the probability
-that <a href="#mightContain(T)">mightContain(Object)</a> will erroneously return <code>true</code> for an object that
-has not actually been put in the <code>BloomFilter</code>.
+that <a href="#mightContain(T)"><code>mightContain(Object)</code></a> will erroneously return <code>true</code> for an object that has
+not actually been put in the <code>BloomFilter</code>.
 
 <p>Bloom filters are serializable. They also support a more compact serial representation via the
 <a href="#writeTo(java.io.OutputStream)"><code>writeTo(OutputStream)</code></a> and <a href="#readFrom(java.io.InputStream,com.google.common.hash.Funnel)"><code>readFrom(InputStream, Funnel)</code></a> methods. Both serialized forms will continue to be
@@ -215,8 +215,8 @@ positive probability.</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>double</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#expectedFpp()" class="member-name-link">expectedFpp</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
-<div class="block">Returns the probability that <a href="#mightContain(T)">mightContain(Object)</a> will erroneously return <code>
-true</code> for an object that has not actually been put in the <code>BloomFilter</code>.</div>
+<div class="block">Returns the probability that <a href="#mightContain(T)"><code>mightContain(Object)</code></a> will erroneously return <code>true</code>
+for an object that has not actually been put in the <code>BloomFilter</code>.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#hashCode()" class="member-name-link">hashCode</a>()</code></div>
@@ -249,7 +249,7 @@ underlying data.</div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#readFrom(java.io.InputStream,com.google.common.hash.Funnel)" class="member-name-link">readFrom</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/InputStream.html" title="class in java.io" class="external-link">InputStream</a>&nbsp;in,
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>
+<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)"><code>writeTo(OutputStream)</code></a>, into a <code>
 BloomFilter</code>, allocating as much memory as the byte stream requests.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;T extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a><wbr>&lt;T&gt;</code></div>
@@ -257,7 +257,7 @@ BloomFilter</code>, allocating as much memory as the byte stream requests.</div>
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;maxAllowedSizeInBits)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>
+<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)"><code>writeTo(OutputStream)</code></a>, into a <code>
 BloomFilter</code>, allocating at most <code>maxAllowedSizeInBits</code> for the backing array.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>long</code></div>
@@ -378,10 +378,10 @@ required, to have the following properties:
 <h3>expectedFpp</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">expectedFpp</span>()</div>
-<div class="block">Returns the probability that <a href="#mightContain(T)">mightContain(Object)</a> will erroneously return <code>
-true</code> for an object that has not actually been put in the <code>BloomFilter</code>.
+<div class="block">Returns the probability that <a href="#mightContain(T)"><code>mightContain(Object)</code></a> will erroneously return <code>true</code>
+for an object that has not actually been put in the <code>BloomFilter</code>.
 
-<p>Ideally, this number should be close to the <code>fpp</code> parameter passed in <a href="#create(com.google.common.hash.Funnel,int,double)">create(Funnel, int, double)</a>, or smaller. If it is significantly higher, it is usually the
+<p>Ideally, this number should be close to the <code>fpp</code> parameter passed in <a href="#create(com.google.common.hash.Funnel,int,double)"><code>create(Funnel, int, double)</code></a>, or smaller. If it is significantly higher, it is usually the
 case that too many elements (more than expected) have been put in the <code>BloomFilter</code>,
 degenerating it.</div>
 <dl class="notes">
@@ -699,7 +699,7 @@ also relies on object identity of funnels.</div>
 serialization). This has been measured to save at least 400 bytes compared to regular
 serialization.
 
-<p>Use <a href="#readFrom(java.io.InputStream,com.google.common.hash.Funnel)">readFrom(InputStream, Funnel)</a> to reconstruct the written BloomFilter.</div>
+<p>Use <a href="#readFrom(java.io.InputStream,com.google.common.hash.Funnel)"><code>readFrom(InputStream, Funnel)</code></a> to reconstruct the written BloomFilter.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></code></dd>
@@ -715,7 +715,7 @@ serialization.
 <span class="return-type"><a href="BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a>&lt;T&gt;</span>&nbsp;<span class="element-name">readFrom</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/InputStream.html" title="class in java.io" class="external-link">InputStream</a>&nbsp;in,
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel)</span>
                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></span></div>
-<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>
+<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)"><code>writeTo(OutputStream)</code></a>, into a <code>
 BloomFilter</code>, allocating as much memory as the byte stream requests.
 
 <p>The <code>Funnel</code> to be used is not encoded in the stream, so it must be provided here.
@@ -724,7 +724,7 @@ the original Bloom filter!</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></code> - if the InputStream throws an <code>IOException</code>, or if its data does not
-    appear to be a BloomFilter serialized using the <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a> method.</dd>
+    appear to be a BloomFilter serialized using the <a href="#writeTo(java.io.OutputStream)"><code>writeTo(OutputStream)</code></a> method.</dd>
 </dl>
 </div>
 </section>
@@ -738,7 +738,7 @@ the original Bloom filter!</div>
  <a href="Funnel.html" title="interface in com.google.common.hash">Funnel</a>&lt;? super T&gt;&nbsp;funnel,
  long&nbsp;maxAllowedSizeInBits)</span>
                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></span></div>
-<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a>, into a <code>
+<div class="block">Reads a byte stream, which was written by <a href="#writeTo(java.io.OutputStream)"><code>writeTo(OutputStream)</code></a>, into a <code>
 BloomFilter</code>, allocating at most <code>maxAllowedSizeInBits</code> for the backing array.
 
 <p>The <code>Funnel</code> to be used is not encoded in the stream, so it must be provided here.
@@ -751,7 +751,7 @@ the original Bloom filter!</div>
 <dd><code>maxAllowedSizeInBits</code> - the maximum number of bits that the Bloom filter can have</dd>
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></code> - if the InputStream throws an <code>IOException</code>, or if its data does not
-    appear to be a BloomFilter serialized using the <a href="#writeTo(java.io.OutputStream)">writeTo(OutputStream)</a> method.</dd>
+    appear to be a BloomFilter serialized using the <a href="#writeTo(java.io.OutputStream)"><code>writeTo(OutputStream)</code></a> method.</dd>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>maxAllowedSizeInBits</code> is negative, or if the number
     of bits in the stream is greater than <code>maxAllowedSizeInBits</code>.</dd>
 <dt>Since:</dt>
