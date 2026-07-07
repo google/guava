@@ -54,8 +54,8 @@ import org.jspecify.annotations.Nullable;
  * they work.
  *
  * <p>The false positive probability ({@code FPP}) of a Bloom filter is defined as the probability
- * that {@linkplain #mightContain(Object)} will erroneously return {@code true} for an object that
- * has not actually been put in the {@code BloomFilter}.
+ * that {@link #mightContain(Object)} will erroneously return {@code true} for an object that has
+ * not actually been put in the {@code BloomFilter}.
  *
  * <p>Bloom filters are serializable. They also support a more compact serial representation via the
  * {@link #writeTo} and {@link #readFrom} methods. Both serialized forms will continue to be
@@ -188,10 +188,10 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   }
 
   /**
-   * Returns the probability that {@linkplain #mightContain(Object)} will erroneously return {@code
-   * true} for an object that has not actually been put in the {@code BloomFilter}.
+   * Returns the probability that {@link #mightContain(Object)} will erroneously return {@code true}
+   * for an object that has not actually been put in the {@code BloomFilter}.
    *
-   * <p>Ideally, this number should be close to the {@code fpp} parameter passed in {@linkplain
+   * <p>Ideally, this number should be close to the {@code fpp} parameter passed in {@link
    * #create(Funnel, int, double)}, or smaller. If it is significantly higher, it is usually the
    * case that too many elements (more than expected) have been put in the {@code BloomFilter},
    * degenerating it.
@@ -608,7 +608,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * serialization). This has been measured to save at least 400 bytes compared to regular
    * serialization.
    *
-   * <p>Use {@linkplain #readFrom(InputStream, Funnel)} to reconstruct the written BloomFilter.
+   * <p>Use {@link #readFrom(InputStream, Funnel)} to reconstruct the written BloomFilter.
    */
   public void writeTo(OutputStream out) throws IOException {
     // Serial form:
@@ -626,7 +626,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   }
 
   /**
-   * Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code
+   * Reads a byte stream, which was written by {@link #writeTo(OutputStream)}, into a {@code
    * BloomFilter}, allocating as much memory as the byte stream requests.
    *
    * <p>The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
@@ -634,7 +634,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * the original Bloom filter!
    *
    * @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
-   *     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.
+   *     appear to be a BloomFilter serialized using the {@link #writeTo(OutputStream)} method.
    */
   @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public static <T extends @Nullable Object> BloomFilter<T> readFrom(
@@ -643,7 +643,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   }
 
   /**
-   * Reads a byte stream, which was written by {@linkplain #writeTo(OutputStream)}, into a {@code
+   * Reads a byte stream, which was written by {@link #writeTo(OutputStream)}, into a {@code
    * BloomFilter}, allocating at most {@code maxAllowedSizeInBits} for the backing array.
    *
    * <p>The {@code Funnel} to be used is not encoded in the stream, so it must be provided here.
@@ -654,7 +654,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * @param funnel the funnel to use for the Bloom filter
    * @param maxAllowedSizeInBits the maximum number of bits that the Bloom filter can have
    * @throws IOException if the InputStream throws an {@code IOException}, or if its data does not
-   *     appear to be a BloomFilter serialized using the {@linkplain #writeTo(OutputStream)} method.
+   *     appear to be a BloomFilter serialized using the {@link #writeTo(OutputStream)} method.
    * @throws IllegalArgumentException if {@code maxAllowedSizeInBits} is negative, or if the number
    *     of bits in the stream is greater than {@code maxAllowedSizeInBits}.
    * @since NEXT

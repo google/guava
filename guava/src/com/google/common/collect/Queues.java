@@ -346,7 +346,7 @@ public final class Queues {
   }
 
   /**
-   * Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, Duration)}, but with a
+   * Drains the queue as {@link #drain(BlockingQueue, Collection, int, Duration)}, but with a
    * different behavior in case it is interrupted while waiting. In that case, the operation will
    * continue as usual, and in the end the thread's interruption status will be set (no {@code
    * InterruptedException} is thrown).
@@ -367,9 +367,9 @@ public final class Queues {
   }
 
   /**
-   * Drains the queue as {@linkplain #drain(BlockingQueue, Collection, int, long, TimeUnit)}, but
-   * with a different behavior in case it is interrupted while waiting. In that case, the operation
-   * will continue as usual, and in the end the thread's interruption status will be set (no {@code
+   * Drains the queue as {@link #drain(BlockingQueue, Collection, int, long, TimeUnit)}, but with a
+   * different behavior in case it is interrupted while waiting. In that case, the operation will
+   * continue as usual, and in the end the thread's interruption status will be set (no {@code
    * InterruptedException} is thrown).
    *
    * @param q the blocking queue to be drained

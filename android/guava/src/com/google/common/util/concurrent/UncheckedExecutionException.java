@@ -49,8 +49,8 @@ public class UncheckedExecutionException extends RuntimeException {
   /**
    * Creates a new instance with {@code null} as its detail message and no cause.
    *
-   * @deprecated Prefer {@linkplain UncheckedExecutionException(Throwable)} a constructor that
-   *     accepts a cause: Users of this class typically expect for instances to have a non-null
+   * @deprecated Prefer {@linkplain UncheckedExecutionException(Throwable) a constructor that
+   *     accepts a cause}: Users of this class typically expect for instances to have a non-null
    *     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
    *     {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
    *     anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
@@ -62,12 +62,12 @@ public class UncheckedExecutionException extends RuntimeException {
   /**
    * Creates a new instance with the given detail message and no cause.
    *
-   * @deprecated Prefer {@linkplain UncheckedExecutionException(String, Throwable)} a constructor
-   *     that accepts a cause: Users of this class typically expect for instances to have a non-null
-   *     cause. At the moment, you can <i>usually</i> still preserve behavior by passing an explicit
-   *     {@code null} cause. Note, however, that passing an explicit {@code null} cause prevents
-   *     anyone from calling {@link #initCause} later, so it is not quite equivalent to using a
-   *     constructor that omits the cause.
+   * @deprecated Prefer {@linkplain UncheckedExecutionException(String, Throwable) a constructor
+   *     that accepts a cause}: Users of this class typically expect for instances to have a
+   *     non-null cause. At the moment, you can <i>usually</i> still preserve behavior by passing an
+   *     explicit {@code null} cause. Note, however, that passing an explicit {@code null} cause
+   *     prevents anyone from calling {@link #initCause} later, so it is not quite equivalent to
+   *     using a constructor that omits the cause.
    */
   @SuppressWarnings("InlineMeSuggester") // b/387265535
   @Deprecated

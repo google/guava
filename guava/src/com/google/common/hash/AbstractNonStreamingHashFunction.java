@@ -22,7 +22,7 @@ import java.nio.charset.Charset;
 
 /**
  * Skeleton implementation of {@link HashFunction}, appropriate for non-streaming algorithms. All
- * the hash computation done using {@linkplain #newHasher()} are delegated to the {@linkplain
+ * the hash computation done using {@link #newHasher()} are delegated to the {@link
  * #hashBytes(byte[], int, int)} method.
  *
  * @author Dimitris Andreou

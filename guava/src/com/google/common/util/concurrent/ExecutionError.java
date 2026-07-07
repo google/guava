@@ -44,7 +44,7 @@ public class ExecutionError extends Error {
   /**
    * Creates a new instance with {@code null} as its detail message and no cause.
    *
-   * @deprecated Prefer {@linkplain ExecutionError(Error)} a constructor that accepts a cause: Users
+   * @deprecated Prefer {@linkplain ExecutionError(Error) a constructor that accepts a cause}: Users
    *     of this class typically expect for instances to have a non-null cause. At the moment, you
    *     can <i>usually</i> still preserve behavior by passing an explicit {@code null} cause. Note,
    *     however, that passing an explicit {@code null} cause prevents anyone from calling {@link
@@ -57,8 +57,8 @@ public class ExecutionError extends Error {
   /**
    * Creates a new instance with the given detail message and no cause.
    *
-   * @deprecated Prefer {@linkplain ExecutionError(String, Error)} a constructor that accepts a
-   *     cause: Users of this class typically expect for instances to have a non-null cause. At the
+   * @deprecated Prefer {@linkplain ExecutionError(String, Error) a constructor that accepts a
+   *     cause}: Users of this class typically expect for instances to have a non-null cause. At the
    *     moment, you can <i>usually</i> still preserve behavior by passing an explicit {@code null}
    *     cause. Note, however, that passing an explicit {@code null} cause prevents anyone from
    *     calling {@link #initCause} later, so it is not quite equivalent to using a constructor that

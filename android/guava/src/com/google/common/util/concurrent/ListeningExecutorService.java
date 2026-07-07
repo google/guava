@@ -40,21 +40,21 @@ import org.jspecify.annotations.Nullable;
 public interface ListeningExecutorService extends ExecutorService {
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task
-   * @throws RejectedExecutionException {@inheritDoc}
+   * @throws RejectedExecutionException if the task cannot be scheduled for execution
    */
   @Override
   <T extends @Nullable Object> ListenableFuture<T> submit(Callable<T> task);
 
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task
-   * @throws RejectedExecutionException {@inheritDoc}
+   * @throws RejectedExecutionException if the task cannot be scheduled for execution
    */
   @Override
   ListenableFuture<?> submit(Runnable task);
 
   /**
    * @return a {@code ListenableFuture} representing pending completion of the task
-   * @throws RejectedExecutionException {@inheritDoc}
+   * @throws RejectedExecutionException if the task cannot be scheduled for execution
    */
   @Override
   <T extends @Nullable Object> ListenableFuture<T> submit(
@@ -75,7 +75,7 @@ public interface ListeningExecutorService extends ExecutorService {
    * @return A list of {@code ListenableFuture} instances representing the tasks, in the same
    *     sequential order as produced by the iterator for the given task list, each of which has
    *     completed.
-   * @throws RejectedExecutionException {@inheritDoc}
+   * @throws RejectedExecutionException if the task cannot be scheduled for execution
    * @throws NullPointerException if any task is null
    */
   @Override
@@ -98,7 +98,7 @@ public interface ListeningExecutorService extends ExecutorService {
    *     sequential order as produced by the iterator for the given task list. If the operation did
    *     not time out, each task will have completed. If it did time out, some of these tasks will
    *     not have completed.
-   * @throws RejectedExecutionException {@inheritDoc}
+   * @throws RejectedExecutionException if the task cannot be scheduled for execution
    * @throws NullPointerException if any task is null
    */
   @Override
