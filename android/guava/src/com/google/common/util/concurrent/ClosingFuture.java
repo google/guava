@@ -2054,7 +2054,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
 
   @Override
   public String toString() {
-    return state.closingFutureToString();
+    return state.toString();
   }
 
   private static void closeQuietly(@Nullable AutoCloseable closeable, Executor executor) {
@@ -2107,7 +2107,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
     }
 
     void close() {
-      logger.get().log(FINER, "closing {0}", closingFutureToString());
+      logger.get().log(FINER, "closing {0}", this);
       closeables.close();
     }
 
@@ -2118,7 +2118,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
 
     FluentFuture<V> finishToFuture() {
       if (compareAndUpdateStatus(OPEN, WILL_CLOSE)) {
-        logger.get().log(FINER, "will close {0}", closingFutureToString());
+        logger.get().log(FINER, "will close {0}", this);
         future.addListener(
             () -> {
               checkAndUpdateStatus(WILL_CLOSE, CLOSING);
@@ -2175,7 +2175,7 @@ public final class ClosingFuture<V extends @Nullable Object> {
 
     @SuppressWarnings("Interruption") // We are propagating an interrupt from a caller.
     boolean cancel(boolean mayInterruptIfRunning) {
-      logger.get().log(FINER, "cancelling {0}", closingFutureToString());
+      logger.get().log(FINER, "cancelling {0}", this);
       boolean cancelled = future.cancel(mayInterruptIfRunning);
       if (cancelled) {
         close();
@@ -2187,15 +2187,13 @@ public final class ClosingFuture<V extends @Nullable Object> {
       if (status.get().equals(OPEN)) {
         logger
             .get()
-            .log(
-                SEVERE,
-                "Uh oh! An open ClosingFuture has leaked and will close: {0}",
-                closingFutureToString());
+            .log(SEVERE, "Uh oh! An open ClosingFuture has leaked and will close: {0}", this);
         FluentFuture<V> unused = finishToFuture();
       }
     }
 
-    String closingFutureToString() {
+    @Override
+    public String toString() {
       // TODO(dpb): Better toString, in the style of Futures.transform etc.
       return toStringHelper("ClosingFuture")
           .add("status", status.get())
