@@ -722,7 +722,7 @@ public class LocalCacheTest extends TestCase {
     DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value);
     entry.setValueReference(valueRef);
     table.set(index, entry);
-    segment.count++;
+    incrementCount(segment);
 
     assertThat(map.get(key, loader)).isSameInstanceAs(value);
     assertThat(loader.getCount()).isEqualTo(0);
@@ -751,7 +751,7 @@ public class LocalCacheTest extends TestCase {
     DummyValueReference<Object, Object> valueRef = DummyValueReference.create(value);
     entry.setValueReference(valueRef);
     table.set(index, entry);
-    segment.count++;
+    incrementCount(segment);
 
     assertThat(map.get(key, loader)).isSameInstanceAs(value);
     assertThat(loader.getCount()).isEqualTo(0);
@@ -1229,7 +1229,7 @@ public class LocalCacheTest extends TestCase {
     assertThat(segment.containsValue(value)).isFalse();
 
     // count == 1
-    segment.count++;
+    incrementCount(segment);
     assertThat(segment.get(key, hash)).isSameInstanceAs(value);
     assertThat(segment.containsKey(key, hash)).isTrue();
     assertThat(segment.containsValue(value)).isTrue();
@@ -1302,7 +1302,7 @@ public class LocalCacheTest extends TestCase {
 
     // same value
     table.set(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertThat(segment.count).isEqualTo(1);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     assertThat(segment.replace(key, hash, oldValue, newValue)).isTrue();
@@ -1346,7 +1346,7 @@ public class LocalCacheTest extends TestCase {
 
     // same key
     table.set(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertThat(segment.count).isEqualTo(1);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     assertThat(segment.replace(key, hash, newValue)).isSameInstanceAs(oldValue);
@@ -1562,7 +1562,7 @@ public class LocalCacheTest extends TestCase {
 
     // same key
     table.set(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertThat(segment.count).isEqualTo(1);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     assertThat(segment.remove(key, hash)).isSameInstanceAs(oldValue);
@@ -1571,7 +1571,7 @@ public class LocalCacheTest extends TestCase {
 
     // cleared
     table.set(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertThat(segment.count).isEqualTo(1);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     oldValueRef.clear();
@@ -1602,7 +1602,7 @@ public class LocalCacheTest extends TestCase {
 
     // same value
     table.set(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertThat(segment.count).isEqualTo(1);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     assertThat(segment.remove(key, hash, oldValue)).isTrue();
@@ -1611,7 +1611,7 @@ public class LocalCacheTest extends TestCase {
 
     // different value
     table.set(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertThat(segment.count).isEqualTo(1);
     assertThat(segment.get(key, hash)).isSameInstanceAs(oldValue);
     assertThat(segment.remove(key, hash, newValue)).isFalse();
@@ -3109,5 +3109,11 @@ public class LocalCacheTest extends TestCase {
     public boolean equals(@Nullable Object o) {
       return o instanceof SerializableWeigher;
     }
+  }
+
+  // Our tests are generally (always?) updating the count from only one thread.
+  @SuppressWarnings("NonAtomicVolatileUpdate")
+  private static void incrementCount(Segment<?, ?> segment) {
+    segment.count++;
   }
 }
