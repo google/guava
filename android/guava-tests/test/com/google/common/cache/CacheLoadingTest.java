@@ -58,6 +58,7 @@ import java.util.concurrent.atomic.AtomicReferenceArray;
 import java.util.logging.LogRecord;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests relating to cache loading: concurrent loading, exceptions during loading, etc.
@@ -657,7 +658,7 @@ public class CacheLoadingTest extends TestCase {
 
           @SuppressWarnings("CacheLoaderNull") // test of broken user implementation
           @Override
-          public ListenableFuture<Object> reload(Object key, Object oldValue) {
+          public @Nullable ListenableFuture<Object> reload(Object key, Object oldValue) {
             return null;
           }
         };
@@ -831,7 +832,7 @@ public class CacheLoadingTest extends TestCase {
 
                   @SuppressWarnings("CacheLoaderNull") // test of broken user implementation
                   @Override
-                  public Map<Object, Object> loadAll(Iterable<?> keys) {
+                  public @Nullable Map<Object, Object> loadAll(Iterable<?> keys) {
                     return null;
                   }
                 });
@@ -1893,7 +1894,7 @@ public class CacheLoadingTest extends TestCase {
             new CacheLoader<String, String>() {
               @Override
               @SuppressWarnings("CacheLoaderNull") // test of broken user implementation
-              public String load(String key) throws InterruptedException {
+              public @Nullable String load(String key) throws InterruptedException {
                 callCount.incrementAndGet();
                 startSignal.await();
                 return null;

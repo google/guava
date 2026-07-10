@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import java.lang.ref.WeakReference;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests of basic {@link LoadingCache} operations with all possible combinations of key & value
@@ -121,9 +122,9 @@ public class CacheReferencesTest extends TestCase {
 
   // A simple type whose .toString() will return the same value each time, but without maintaining
   // a strong reference to that value.
-  static class Key {
+  private static final class Key {
     private final int value;
-    private WeakReference<String> toString;
+    private @Nullable WeakReference<String> toString;
 
     Key(int value) {
       this.value = value;

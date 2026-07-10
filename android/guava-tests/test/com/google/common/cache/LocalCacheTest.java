@@ -2859,23 +2859,23 @@ public class LocalCacheTest extends TestCase {
     return entry;
   }
 
-  static class DummyEntry<K, V> implements ReferenceEntry<K, V> {
+  private static final class DummyEntry<K, V> implements ReferenceEntry<K, V> {
     private @Nullable K key;
     private final int hash;
-    private final ReferenceEntry<K, V> next;
+    private final @Nullable ReferenceEntry<K, V> next;
 
-    public DummyEntry(K key, int hash, ReferenceEntry<K, V> next) {
+    DummyEntry(@Nullable K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       this.key = key;
       this.hash = hash;
       this.next = next;
     }
 
-    public static <K, V> DummyEntry<K, V> create(
-        K key, int hash, @Nullable ReferenceEntry<K, V> next) {
+    static <K, V> DummyEntry<K, V> create(
+        @Nullable K key, int hash, @Nullable ReferenceEntry<K, V> next) {
       return new DummyEntry<>(key, hash, next);
     }
 
-    public void clearKey() {
+    void clearKey() {
       this.key = null;
     }
 
@@ -2892,7 +2892,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public ReferenceEntry<K, V> getNext() {
+    public @Nullable ReferenceEntry<K, V> getNext() {
       return next;
     }
 
@@ -2902,7 +2902,7 @@ public class LocalCacheTest extends TestCase {
     }
 
     @Override
-    public K getKey() {
+    public @Nullable K getKey() {
       return key;
     }
 
@@ -2979,28 +2979,24 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
-  static class DummyValueReference<K, V> implements ValueReference<K, V> {
+  private static final class DummyValueReference<K, V> implements ValueReference<K, V> {
     private @Nullable V value;
     boolean loading = false;
 
-    public DummyValueReference() {
+    DummyValueReference() {
       this.loading = true;
     }
 
-    public DummyValueReference(V value) {
+    DummyValueReference(@Nullable V value) {
       this.value = value;
     }
 
-    public static <K, V> DummyValueReference<K, V> create(V value) {
+    static <K, V> DummyValueReference<K, V> create(@Nullable V value) {
       return new DummyValueReference<>(value);
     }
 
-    public static <K, V> DummyValueReference<K, V> createLoading() {
-      return new DummyValueReference<>();
-    }
-
     @Override
-    public V get() {
+    public @Nullable V get() {
       return value;
     }
 
@@ -3016,7 +3012,7 @@ public class LocalCacheTest extends TestCase {
 
     @Override
     public ValueReference<K, V> copyFor(
-        ReferenceQueue<V> queue, V value, ReferenceEntry<K, V> entry) {
+        @Nullable ReferenceQueue<V> queue, @Nullable V value, ReferenceEntry<K, V> entry) {
       return this;
     }
 
@@ -3042,12 +3038,12 @@ public class LocalCacheTest extends TestCase {
     @Override
     public void notifyNewValue(V newValue) {}
 
-    public void clear() {
+    void clear() {
       value = null;
     }
   }
 
-  private static class SerializableCacheLoader extends CacheLoader<Object, Object>
+  private static final class SerializableCacheLoader extends CacheLoader<Object, Object>
       implements Serializable {
     @Override
     public Object load(Object key) {
@@ -3065,7 +3061,7 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
-  private static class SerializableRemovalListener<K, V>
+  private static final class SerializableRemovalListener<K, V>
       implements RemovalListener<K, V>, Serializable {
     @Override
     public void onRemoval(RemovalNotification<K, V> notification) {}
@@ -3081,7 +3077,7 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
-  private static class SerializableTicker extends Ticker implements Serializable {
+  private static final class SerializableTicker extends Ticker implements Serializable {
     @Override
     public long read() {
       return 42;
@@ -3098,7 +3094,7 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
-  private static class SerializableWeigher<K, V> implements Weigher<K, V>, Serializable {
+  private static final class SerializableWeigher<K, V> implements Weigher<K, V>, Serializable {
     @Override
     public int weigh(K key, V value) {
       return 42;
