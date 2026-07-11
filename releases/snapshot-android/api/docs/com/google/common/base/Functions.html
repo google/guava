@@ -122,7 +122,8 @@ see that class for information about migrating to <a href="https://docs.oracle.c
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#compose(com.google.common.base.Function,com.google.common.base.Function)" class="member-name-link">compose</a><wbr>(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;B,<wbr>C&gt;&nbsp;g,
  <a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;A, ? extends B&gt;&nbsp;f)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Returns the composition of two functions.</div>
+<div class="block">Returns the <a href="https://en.wikipedia.org/wiki/Function_composition">composition</a> of two
+functions.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="Function.html" title="interface in com.google.common.base">Function</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>, E&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#constant(E)" class="member-name-link">constant</a><wbr>(E&nbsp;value)</code></div>
@@ -267,8 +268,9 @@ defaultValue)</code>.</div>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;A extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>, B extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>, C extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</span>
 <span class="return-type"><a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;A,<wbr>C&gt;</span>&nbsp;<span class="element-name">compose</span><wbr><span class="parameters">(<a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;B,<wbr>C&gt;&nbsp;g,
  <a href="Function.html" title="interface in com.google.common.base">Function</a>&lt;A, ? extends B&gt;&nbsp;f)</span></div>
-<div class="block">Returns the composition of two functions. For <code>f: A-&gt;B</code> and <code>g: B-&gt;C</code>, composition
-is defined as the function h such that <code>h(a) == g(f(a))</code> for each <code>a</code>.
+<div class="block">Returns the <a href="https://en.wikipedia.org/wiki/Function_composition">composition</a> of two
+functions. For <code>f: A-&gt;B</code> and <code>g: B-&gt;C</code>, composition is defined as the function
+<code>h</code> such that <code>h(a) == g(f(a))</code> for each <code>a</code>.
 
 <p><b>JRE users and Android users who opt in to library desugaring:</b> use <code>
 g.compose(f)</code> or (probably clearer) <code>f.andThen(g)</code> instead. Note that it is not
@@ -277,14 +279,6 @@ serializable.</div>
 <dt>Parameters:</dt>
 <dd><code>g</code> - the second function to apply</dd>
 <dd><code>f</code> - the first function to apply</dd>
-<dt>Returns:</dt>
-<dd>the composition of <code>f</code> and <code>g</code></dd>
-<dt>See Also:</dt>
-<dd>
-<ul class="tag-list">
-<li><a href="//en.wikipedia.org/wiki/Function_composition">function composition</a></li>
-</ul>
-</dd>
 </dl>
 </div>
 </section>

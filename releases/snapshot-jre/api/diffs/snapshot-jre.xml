@@ -2551,17 +2551,16 @@
       <param name="g" type="com.google.common.base.Function&lt;B, C&gt;"/>
       <param name="f" type="com.google.common.base.Function&lt;A, ? extends B&gt;"/>
       <doc>
-      <![CDATA[Returns the composition of two functions. For {@code f: A->B} and {@code g: B->C}, composition
- is defined as the function h such that {@code h(a) == g(f(a))} for each {@code a}.
+      <![CDATA[Returns the <a href="https://en.wikipedia.org/wiki/Function_composition">composition</a> of two
+ functions. For {@code f: A->B} and {@code g: B->C}, composition is defined as the function
+ {@code h} such that {@code h(a) == g(f(a))} for each {@code a}.
 
  <p><b>JRE users and Android users who opt in to library desugaring:</b> use {@code
  g.compose(f)} or (probably clearer) {@code f.andThen(g)} instead. Note that it is not
  serializable.
 
  @param g the second function to apply
- @param f the first function to apply
- @return the composition of {@code f} and {@code g}
- @see <a href="//en.wikipedia.org/wiki/Function_composition">function composition</a>]]>
+ @param f the first function to apply]]>
       </doc>
     </method>
     <method name="forPredicate" return="com.google.common.base.Function&lt;T, java.lang.Boolean&gt;"
