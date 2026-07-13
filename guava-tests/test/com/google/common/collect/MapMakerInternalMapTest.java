@@ -272,7 +272,7 @@ public class MapMakerInternalMapTest extends TestCase {
     assertFalse(segment.containsValue(value));
 
     // count == 1
-    segment.count++;
+    incrementCount(segment);
     assertThat(segment.get(key, hash)).isEqualTo(value);
     assertTrue(segment.containsKey(key, hash));
     assertTrue(segment.containsValue(value));
@@ -342,7 +342,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // same value
     segment.setTableEntryForTesting(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertEquals(1, segment.count);
     assertThat(segment.get(key, hash)).isEqualTo(oldValue);
     assertTrue(segment.replace(key, hash, oldValue, newValue));
@@ -386,7 +386,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // same key
     segment.setTableEntryForTesting(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertEquals(1, segment.count);
     assertThat(segment.get(key, hash)).isEqualTo(oldValue);
     assertThat(segment.replace(key, hash, newValue)).isEqualTo(oldValue);
@@ -506,7 +506,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // same key
     segment.setTableEntryForTesting(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertEquals(1, segment.count);
     assertThat(segment.get(key, hash)).isEqualTo(oldValue);
     assertThat(segment.remove(key, hash)).isEqualTo(oldValue);
@@ -515,7 +515,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // cleared
     segment.setTableEntryForTesting(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertEquals(1, segment.count);
     assertThat(segment.get(key, hash)).isEqualTo(oldValue);
     oldValueRef.clear();
@@ -548,7 +548,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // same value
     segment.setTableEntryForTesting(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertEquals(1, segment.count);
     assertThat(segment.get(key, hash)).isEqualTo(oldValue);
     assertTrue(segment.remove(key, hash, oldValue));
@@ -557,7 +557,7 @@ public class MapMakerInternalMapTest extends TestCase {
 
     // different value
     segment.setTableEntryForTesting(index, entry);
-    segment.count++;
+    incrementCount(segment);
     assertEquals(1, segment.count);
     assertThat(segment.get(key, hash)).isEqualTo(oldValue);
     assertFalse(segment.remove(key, hash, newValue));
@@ -939,5 +939,11 @@ public class MapMakerInternalMapTest extends TestCase {
   public void testNullParameters() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(makeMap(createMapMaker()));
+  }
+
+  // Our tests are generally (always?) updating the count from only one thread.
+  @SuppressWarnings("NonAtomicVolatileUpdate")
+  private static void incrementCount(Segment<?, ?, ?, ?> segment) {
+    segment.count++;
   }
 }

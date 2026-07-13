@@ -32,6 +32,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeoutException;
+import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -330,18 +331,18 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
     started.countDown();
     service.awaitTerminated();
     assertThat(service.state()).isEqualTo(Service.State.TERMINATED);
-    assertEquals(1, service.startupCalled);
-    assertEquals(0, service.runCalled);
-    assertEquals(1, service.shutdownCalled);
+    assertEquals(1, service.startupCalled.get());
+    assertEquals(0, service.runCalled.get());
+    assertEquals(1, service.shutdownCalled.get());
   }
 
   public void testStop_noStart() {
     FakeService service = new FakeService();
     service.stopAsync().awaitTerminated();
     assertThat(service.state()).isEqualTo(Service.State.TERMINATED);
-    assertEquals(0, service.startupCalled);
-    assertEquals(0, service.runCalled);
-    assertEquals(0, service.shutdownCalled);
+    assertEquals(0, service.startupCalled.get());
+    assertEquals(0, service.runCalled.get());
+    assertEquals(0, service.shutdownCalled.get());
   }
 
   public void testDefaultService() throws InterruptedException {
@@ -384,32 +385,32 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
       tearDownStack.addTearDown(this);
     }
 
-    volatile int startupCalled = 0;
-    volatile int shutdownCalled = 0;
-    volatile int runCalled = 0;
+    final AtomicInteger startupCalled = new AtomicInteger();
+    final AtomicInteger shutdownCalled = new AtomicInteger();
+    final AtomicInteger runCalled = new AtomicInteger();
 
     @Override
     protected void startUp() throws Exception {
-      assertEquals(0, startupCalled);
-      assertEquals(0, runCalled);
-      assertEquals(0, shutdownCalled);
-      startupCalled++;
+      assertEquals(0, startupCalled.get());
+      assertEquals(0, runCalled.get());
+      assertEquals(0, shutdownCalled.get());
+      startupCalled.incrementAndGet();
     }
 
     @Override
     protected void run() {
-      assertEquals(1, startupCalled);
-      assertEquals(0, runCalled);
-      assertEquals(0, shutdownCalled);
-      runCalled++;
+      assertEquals(1, startupCalled.get());
+      assertEquals(0, runCalled.get());
+      assertEquals(0, shutdownCalled.get());
+      runCalled.incrementAndGet();
     }
 
     @Override
     protected void shutDown() {
-      assertEquals(1, startupCalled);
-      assertEquals(0, shutdownCalled);
+      assertEquals(1, startupCalled.get());
+      assertEquals(0, shutdownCalled.get());
       assertThat(state()).isEqualTo(State.STOPPING);
-      shutdownCalled++;
+      shutdownCalled.incrementAndGet();
     }
 
     @Override
