@@ -18,7 +18,6 @@ package com.google.common.base;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -28,14 +27,8 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtIncompatible
 @NullUnmarked
 public class PackageSanityTest extends AbstractPackageSanityTests {
-  private static final ImmutableSet<Class<?>> IGNORED_CLASSES =
-      ImmutableSet.of(
-          Preconditions.class,
-          Verify.class);
-
   public PackageSanityTest() {
-    // package private classes like FunctionalEquivalence are tested through the public API.
+    // TODO(cpovirk): Consider enabling testing of non-public API.
     publicApiOnly();
-    ignoreClasses(IGNORED_CLASSES::contains);
   }
 }
