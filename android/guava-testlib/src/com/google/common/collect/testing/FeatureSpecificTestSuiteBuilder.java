@@ -69,9 +69,9 @@ public abstract class FeatureSpecificTestSuiteBuilder<
 
   private @Nullable G subjectGenerator;
   // Gets run before every test.
-  private Runnable setUp;
+  private @Nullable Runnable setUp;
   // Gets run at the conclusion of every test.
-  private Runnable tearDown;
+  private @Nullable Runnable tearDown;
 
   @CanIgnoreReturnValue
   protected B usingGenerator(G subjectGenerator) {
@@ -84,22 +84,22 @@ public abstract class FeatureSpecificTestSuiteBuilder<
   }
 
   @CanIgnoreReturnValue
-  public B withSetUp(Runnable setUp) {
+  public B withSetUp(@Nullable Runnable setUp) {
     this.setUp = setUp;
     return self();
   }
 
-  public Runnable getSetUp() {
+  public @Nullable Runnable getSetUp() {
     return setUp;
   }
 
   @CanIgnoreReturnValue
-  public B withTearDown(Runnable tearDown) {
+  public B withTearDown(@Nullable Runnable tearDown) {
     this.tearDown = tearDown;
     return self();
   }
 
-  public Runnable getTearDown() {
+  public @Nullable Runnable getTearDown() {
     return tearDown;
   }
 

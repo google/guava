@@ -35,6 +35,7 @@ import java.lang.reflect.Method;
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -215,7 +216,7 @@ public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   }
 
   @CanIgnoreReturnValue
-  private V put(Entry<K, V> entry) {
+  private @Nullable V put(Entry<K, V> entry) {
     return getMap().put(entry.getKey(), entry.getValue());
   }
 

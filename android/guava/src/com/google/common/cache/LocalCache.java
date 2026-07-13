@@ -662,7 +662,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
      * @throws ExecutionException if the loading thread throws an exception
      * @throws ExecutionError if the loading thread throws an error
      */
-    V waitForValue() throws ExecutionException;
+    @Nullable V waitForValue() throws ExecutionException;
 
     /** Returns the weight of this entry. This is assumed to be static between calls to setValue. */
     int getWeight();
@@ -1512,7 +1512,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
 
     @Override
-    public V waitForValue() {
+    public @Nullable V waitForValue() {
       return get();
     }
   }
@@ -1557,7 +1557,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
 
     @Override
-    public V waitForValue() {
+    public @Nullable V waitForValue() {
       return get();
     }
   }
@@ -1602,7 +1602,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
 
     @Override
-    public V waitForValue() {
+    public @Nullable V waitForValue() {
       return get();
     }
 
@@ -3162,7 +3162,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         ReferenceEntry<K, V> entry,
         @Nullable K key,
         int hash,
-        V value,
+        @Nullable V value,
         ValueReference<K, V> valueReference,
         RemovalCause cause) {
       enqueueNotification(key, hash, value, valueReference.getWeight(), cause);
@@ -3245,7 +3245,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
 
     /** Removes an entry whose value has been garbage collected. */
     @CanIgnoreReturnValue
-    boolean reclaimValue(K key, int hash, ValueReference<K, V> valueReference) {
+    boolean reclaimValue(@Nullable K key, int hash, ValueReference<K, V> valueReference) {
       lock();
       try {
         int newCount = this.count - 1;
@@ -3503,7 +3503,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
 
     @Override
-    public V waitForValue() throws ExecutionException {
+    public @Nullable V waitForValue() throws ExecutionException {
       return getUninterruptibly(futureValue);
     }
 

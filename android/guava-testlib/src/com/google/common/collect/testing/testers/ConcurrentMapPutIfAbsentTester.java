@@ -30,6 +30,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentMap;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 import org.junit.Ignore;
 
 /**
@@ -125,7 +126,7 @@ public class ConcurrentMapPutIfAbsentTester<K, V> extends AbstractMapTester<K, V
   }
 
   @CanIgnoreReturnValue
-  private V putIfAbsent(Entry<K, V> entry) {
+  private @Nullable V putIfAbsent(Entry<K, V> entry) {
     return getMap().putIfAbsent(entry.getKey(), entry.getValue());
   }
 }
