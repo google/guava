@@ -371,7 +371,7 @@ public class CloserTest extends TestCase {
 
   private static class TestCloseable implements Closeable {
 
-    private final Throwable throwOnClose;
+    private final @Nullable Throwable throwOnClose;
     private boolean closed;
 
     static TestCloseable normal() {

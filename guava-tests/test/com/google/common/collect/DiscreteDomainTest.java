@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import java.math.BigInteger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link DiscreteDomain}.
@@ -86,12 +87,12 @@ public class DiscreteDomainTest extends TestCase {
     static final DiscreteDomain<Integer> DELEGATE = DiscreteDomain.integers();
 
     @Override
-    public Integer next(Integer value) {
+    public @Nullable Integer next(Integer value) {
       return DELEGATE.next(value);
     }
 
     @Override
-    public Integer previous(Integer value) {
+    public @Nullable Integer previous(Integer value) {
       return DELEGATE.previous(value);
     }
 

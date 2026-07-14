@@ -33,6 +33,7 @@ import java.util.Set;
 import java.util.concurrent.CopyOnWriteArrayList;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 @GwtIncompatible // reflection
 @NullUnmarked
@@ -161,7 +162,8 @@ public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
           final Set<List<Integer>> allStates = new HashSet<>();
 
           @Override
-          public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+          public @Nullable Object invoke(
+              Object proxy, Method method, @Nullable Object @Nullable [] args) throws Throwable {
             return method.equals(getAllStatesMethod)
                 ? getAllStates()
                 : invokeListMethod(method, args);
@@ -171,7 +173,8 @@ public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
             return allStates;
           }
 
-          private Object invokeListMethod(Method method, Object[] args) throws Throwable {
+          private @Nullable Object invokeListMethod(
+              Method method, @Nullable Object @Nullable [] args) throws Throwable {
             try {
               Object returnValue = method.invoke(delegate, args);
               mutateDelegate();

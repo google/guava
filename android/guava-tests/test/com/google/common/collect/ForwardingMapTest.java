@@ -76,12 +76,12 @@ public class ForwardingMapTest extends TestCase {
     }
 
     @Override
-    public boolean containsKey(Object key) {
+    public boolean containsKey(@Nullable Object key) {
       return standardContainsKey(key);
     }
 
     @Override
-    public boolean containsValue(Object value) {
+    public boolean containsValue(@Nullable Object value) {
       return standardContainsValue(value);
     }
 
@@ -91,7 +91,7 @@ public class ForwardingMapTest extends TestCase {
     }
 
     @Override
-    public @Nullable V remove(Object object) {
+    public @Nullable V remove(@Nullable Object object) {
       return standardRemove(object);
     }
 

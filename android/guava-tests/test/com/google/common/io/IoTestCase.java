@@ -50,8 +50,8 @@ public abstract class IoTestCase extends TestCase {
       " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ"
           + "[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~";
 
-  private File testDir;
-  private File tempDir;
+  private @Nullable File testDir;
+  private @Nullable File tempDir;
 
   private final Set<File> filesToDelete = new HashSet<>();
 

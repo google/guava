@@ -456,7 +456,7 @@ public class GeneratedMonitorTest extends TestCase {
 
   private final Method method;
   private final Scenario scenario;
-  private final Timeout timeout;
+  private final @Nullable Timeout timeout;
   private final Outcome expectedOutcome;
   private final Monitor monitor;
   private final FlagGuard guard;

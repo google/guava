@@ -35,6 +35,7 @@ import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link AbstractExecutionThreadService}.
@@ -50,8 +51,8 @@ public class AbstractExecutionThreadServiceTest extends TestCase {
   private final CountDownLatch enterRun = new CountDownLatch(1);
   private final CountDownLatch exitRun = new CountDownLatch(1);
 
-  private Thread executionThread;
-  private Throwable thrownByExecutionThread;
+  private @Nullable Thread executionThread;
+  private @Nullable Throwable thrownByExecutionThread;
   private final Executor exceptionCatchingExecutor =
       new Executor() {
         @Override

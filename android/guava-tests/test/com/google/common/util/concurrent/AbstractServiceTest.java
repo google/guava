@@ -37,6 +37,7 @@ import java.util.concurrent.FutureTask;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Unit test for {@link AbstractService}.
@@ -49,8 +50,8 @@ import org.jspecify.annotations.NullUnmarked;
 public class AbstractServiceTest extends TestCase {
 
   private static final long LONG_TIMEOUT_MILLIS = 10000;
-  private Thread executionThread;
-  private Throwable thrownByExecutionThread;
+  private @Nullable Thread executionThread;
+  private @Nullable Throwable thrownByExecutionThread;
 
   public void testNoOpServiceStartStop() throws Exception {
     NoOpService service = new NoOpService();

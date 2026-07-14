@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /** Tests for {@link Reflection} */
 @NullUnmarked
@@ -52,7 +53,8 @@ public class ReflectionTest extends TestCase {
   private static final InvocationHandler X_RETURNER =
       new InvocationHandler() {
         @Override
-        public Object invoke(Object proxy, Method method, Object[] args) {
+        public @Nullable Object invoke(
+            Object proxy, Method method, @Nullable Object @Nullable [] args) {
           return "x";
         }
       };

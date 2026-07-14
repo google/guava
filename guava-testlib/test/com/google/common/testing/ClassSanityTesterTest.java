@@ -1153,9 +1153,9 @@ public class ClassSanityTesterTest extends TestCase {
 
   static class FactoryMethodAcceptsNull {
 
-    final String name;
+    final @Nullable String name;
 
-    private FactoryMethodAcceptsNull(String name) {
+    private FactoryMethodAcceptsNull(@Nullable String name) {
       this.name = name;
     }
 
@@ -1179,7 +1179,7 @@ public class ClassSanityTesterTest extends TestCase {
 
   static class ConstructorAcceptsNull {
 
-    final String name;
+    final @Nullable String name;
 
     public ConstructorAcceptsNull(@Nullable String name) {
       this.name = name;

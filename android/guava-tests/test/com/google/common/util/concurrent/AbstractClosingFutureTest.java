@@ -78,6 +78,7 @@ import java.util.concurrent.RejectedExecutionException;
 import java.util.concurrent.atomic.AtomicReference;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link ClosingFuture}. Subclasses exercise either the {@link
@@ -1393,7 +1394,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     private final CountDownLatch started = new CountDownLatch(1);
     private final CountDownLatch canReturn = new CountDownLatch(1);
     private final CountDownLatch returned = new CountDownLatch(1);
-    private Object proxy;
+    private @Nullable Object proxy;
 
     @SuppressWarnings("unchecked") // proxy for a generic class
     <V> Callable<V> waitFor(Callable<V> callable) {
@@ -1466,7 +1467,9 @@ public abstract class AbstractClosingFutureTest extends TestCase {
               type,
               new InvocationHandler() {
                 @Override
-                public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
+                public @Nullable Object invoke(
+                    Object proxy, Method method, @Nullable Object @Nullable [] args)
+                    throws Throwable {
                   if (!method.getDeclaringClass().equals(type)) {
                     return method.invoke(delegate, args);
                   }

@@ -193,7 +193,7 @@ public final class InetAddresses {
   }
 
   private static final class Scope {
-    private String scope;
+    private @Nullable String scope;
   }
 
   /** Returns {@code null} if unable to parse into a {@code byte[]}. */

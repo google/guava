@@ -47,6 +47,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link MoreFiles}.
@@ -70,7 +71,7 @@ public class MoreFilesTest extends TestCase {
     return FS.getRootDirectories().iterator().next();
   }
 
-  private Path tempDir;
+  private @Nullable Path tempDir;
 
   @Override
   protected void setUp() throws Exception {
@@ -92,7 +93,7 @@ public class MoreFilesTest extends TestCase {
             }
 
             @Override
-            public FileVisitResult postVisitDirectory(Path dir, IOException exc)
+            public FileVisitResult postVisitDirectory(Path dir, @Nullable IOException exc)
                 throws IOException {
               if (exc != null) {
                 return FileVisitResult.TERMINATE;

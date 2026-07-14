@@ -345,7 +345,7 @@ public class SourceSinkFactories {
 
   private static class FileByteSinkFactory extends FileFactory implements ByteSinkFactory {
 
-    private final byte[] initialBytes;
+    private final byte @Nullable [] initialBytes;
 
     private FileByteSinkFactory(byte @Nullable [] initialBytes) {
       this.initialBytes = initialBytes;
@@ -415,7 +415,7 @@ public class SourceSinkFactories {
 
   private static class FileCharSinkFactory extends FileFactory implements CharSinkFactory {
 
-    private final String initialString;
+    private final @Nullable String initialString;
 
     private FileCharSinkFactory(@Nullable String initialString) {
       this.initialString = initialString;
@@ -527,7 +527,7 @@ public class SourceSinkFactories {
   @AndroidIncompatible
   private static class PathByteSinkFactory extends Jdk7FileFactory implements ByteSinkFactory {
 
-    private final byte[] initialBytes;
+    private final byte @Nullable [] initialBytes;
 
     private PathByteSinkFactory(byte @Nullable [] initialBytes) {
       this.initialBytes = initialBytes;
@@ -584,7 +584,7 @@ public class SourceSinkFactories {
   @AndroidIncompatible
   private static class PathCharSinkFactory extends Jdk7FileFactory implements CharSinkFactory {
 
-    private final String initialString;
+    private final @Nullable String initialString;
 
     private PathCharSinkFactory(@Nullable String initialString) {
       this.initialString = initialString;

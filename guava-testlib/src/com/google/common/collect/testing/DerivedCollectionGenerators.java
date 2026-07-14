@@ -336,7 +336,7 @@ public final class DerivedCollectionGenerators {
     final Bound from;
     final E firstInclusive;
     final E lastInclusive;
-    private final Comparator<? super E> comparator;
+    private final @Nullable Comparator<? super E> comparator;
     private final TestSortedSetGenerator<E> delegate;
 
     public SortedSetSubsetTestSetGenerator(
@@ -458,7 +458,7 @@ public final class DerivedCollectionGenerators {
     final Bound from;
     final K firstInclusive;
     final K lastInclusive;
-    private final Comparator<Entry<K, V>> entryComparator;
+    private final @Nullable Comparator<Entry<K, V>> entryComparator;
 
     public SortedMapSubmapTestMapGenerator(
         TestSortedMapGenerator<K, V> delegate, Bound to, Bound from) {

@@ -103,25 +103,25 @@ public class SynchronizedTableTest extends AbstractTableTest<Character> {
     }
 
     @Override
-    public boolean contains(Object rowKey, Object columnKey) {
+    public boolean contains(@Nullable Object rowKey, @Nullable Object columnKey) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.contains(rowKey, columnKey);
     }
 
     @Override
-    public boolean containsColumn(Object columnKey) {
+    public boolean containsColumn(@Nullable Object columnKey) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.containsColumn(columnKey);
     }
 
     @Override
-    public boolean containsRow(Object rowKey) {
+    public boolean containsRow(@Nullable Object rowKey) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.containsRow(rowKey);
     }
 
     @Override
-    public @Nullable V get(Object rowKey, Object columnKey) {
+    public @Nullable V get(@Nullable Object rowKey, @Nullable Object columnKey) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.get(rowKey, columnKey);
     }
@@ -139,7 +139,7 @@ public class SynchronizedTableTest extends AbstractTableTest<Character> {
     }
 
     @Override
-    public @Nullable V remove(Object rowKey, Object columnKey) {
+    public @Nullable V remove(@Nullable Object rowKey, @Nullable Object columnKey) {
       assertTrue(Thread.holdsLock(mutex));
       return delegate.remove(rowKey, columnKey);
     }

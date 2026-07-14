@@ -411,7 +411,7 @@ public class FluentIterableTest extends TestCase {
 
   private static final class IntegerValueOfFunction implements Function<String, Integer> {
     @Override
-    public Integer apply(String from) {
+    public Integer apply(@Nullable String from) {
       return Integer.valueOf(from);
     }
   }
@@ -437,7 +437,7 @@ public class FluentIterableTest extends TestCase {
 
   private static final class StringValueOfFunction implements Function<Integer, String> {
     @Override
-    public String apply(Integer from) {
+    public String apply(@Nullable Integer from) {
       return String.valueOf(from);
     }
   }

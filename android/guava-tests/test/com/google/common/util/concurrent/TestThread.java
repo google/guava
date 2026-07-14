@@ -278,7 +278,7 @@ public final class TestThread<L> extends Thread implements TearDown {
     return t.getClass().getName().equals("java.lang.ThreadDeath");
   }
 
-  private static class Request {
+  private static final class Request {
     final String methodName;
     final Object[] arguments;
 
@@ -288,10 +288,10 @@ public final class TestThread<L> extends Thread implements TearDown {
     }
   }
 
-  private static class Response {
+  private static final class Response {
     final String methodName;
-    final Object result;
-    final Throwable throwable;
+    final @Nullable Object result;
+    final @Nullable Throwable throwable;
 
     Response(String methodName, @Nullable Object result, @Nullable Throwable throwable) {
       this.methodName = methodName;
@@ -299,7 +299,7 @@ public final class TestThread<L> extends Thread implements TearDown {
       this.throwable = throwable;
     }
 
-    Object getResult() {
+    @Nullable Object getResult() {
       if (throwable != null) {
         throw new AssertionError(throwable);
       }

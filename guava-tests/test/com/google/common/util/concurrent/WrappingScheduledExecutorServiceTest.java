@@ -25,6 +25,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.Callable;
+import java.util.concurrent.Delayed;
 import java.util.concurrent.Future;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -126,13 +127,31 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       assertThat(lastUnit).isEqualTo(unit);
     }
 
+    private static final class NonFunctionalScheduledFuture<V> extends ForwardingFuture<V>
+        implements ScheduledFuture<V> {
+      @Override
+      protected Future<V> delegate() {
+        throw new AssertionError();
+      }
+
+      @Override
+      public long getDelay(TimeUnit unit) {
+        throw new AssertionError();
+      }
+
+      @Override
+      public int compareTo(Delayed other) {
+        throw new AssertionError();
+      }
+    }
+
     @Override
     public ScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
       assertThat(command).isInstanceOf(WrappedRunnable.class);
       lastMethodCalled = "scheduleRunnable";
       lastDelay = delay;
       lastUnit = unit;
-      return null;
+      return new NonFunctionalScheduledFuture<>();
     }
 
     @Override
@@ -141,7 +160,7 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       lastMethodCalled = "scheduleCallable";
       lastDelay = delay;
       lastUnit = unit;
-      return null;
+      return new NonFunctionalScheduledFuture<>();
     }
 
     @Override
@@ -152,7 +171,7 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       lastInitialDelay = initialDelay;
       lastDelay = period;
       lastUnit = unit;
-      return null;
+      return new NonFunctionalScheduledFuture<>();
     }
 
     @Override
@@ -163,7 +182,7 @@ public class WrappingScheduledExecutorServiceTest extends TestCase {
       lastInitialDelay = initialDelay;
       lastDelay = delay;
       lastUnit = unit;
-      return null;
+      return new NonFunctionalScheduledFuture<>();
     }
 
     // No need to test these methods as they are handled by WrappingExecutorServiceTest
