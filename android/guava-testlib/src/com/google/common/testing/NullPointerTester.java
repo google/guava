@@ -385,7 +385,11 @@ public final class NullPointerTester {
       @Nullable Object instance, Invokable<?, ?> invokable, int paramIndex, Class<?> testedClass) {
     /*
      * com.google.common is starting to rely on type-use annotations, which aren't visible under
-     * Android VMs and in open-source guava-android. So we skip testing there.
+     * Android VMs. So we skip testing there.
+     *
+     * The approach that we're using here also has the effect of skipping testing in the open-source
+     * repo for guava-android, even though those tests run under the JVM. That's not the behavior
+     * that we'd pick in a vacuum, but it's fine when the tests still run internally.
      */
     if (Reflection.getPackageName(testedClass).startsWith("com.google.common")) {
       return;
