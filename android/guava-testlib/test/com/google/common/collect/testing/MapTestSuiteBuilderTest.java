@@ -52,11 +52,11 @@ import org.jspecify.annotations.Nullable;
  * @author George van den Driessche
  */
 @AndroidIncompatible // test-suite builders
-public final class MapTestSuiteBuilderTests extends TestCase {
-  private MapTestSuiteBuilderTests() {}
+public final class MapTestSuiteBuilderTest extends TestCase {
+  private MapTestSuiteBuilderTest() {}
 
   public static Test suite() {
-    TestSuite suite = new TestSuite(MapTestSuiteBuilderTests.class.getSimpleName());
+    TestSuite suite = new TestSuite(MapTestSuiteBuilderTest.class.getSimpleName());
     suite.addTest(testsForHashMapNullKeysForbidden());
     suite.addTest(testsForHashMapNullValuesForbidden());
     suite.addTest(testsForSetUpTearDown());

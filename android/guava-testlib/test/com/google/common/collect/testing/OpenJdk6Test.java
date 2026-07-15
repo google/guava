@@ -28,13 +28,13 @@ import junit.framework.TestSuite;
  * @author Kevin Bourrillion
  */
 @AndroidIncompatible // test-suite builders
-public class OpenJdk6Tests extends TestCase {
+public class OpenJdk6Test extends TestCase {
   public static Test suite() {
     TestSuite suite = new TestSuite();
-    suite.addTest(OpenJdk6SetTests.suite());
-    suite.addTest(OpenJdk6ListTests.suite());
-    suite.addTest(OpenJdk6QueueTests.suite());
-    suite.addTest(OpenJdk6MapTests.suite());
+    suite.addTest(OpenJdk6SetTest.suite());
+    suite.addTest(OpenJdk6ListTest.suite());
+    suite.addTest(OpenJdk6QueueTest.suite());
+    suite.addTest(OpenJdk6MapTest.suite());
     return suite;
   }
 }

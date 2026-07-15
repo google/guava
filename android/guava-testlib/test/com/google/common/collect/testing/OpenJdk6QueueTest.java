@@ -16,40 +16,36 @@
 
 package com.google.common.collect.testing;
 
-import static com.google.common.collect.testing.testers.CollectionAddAllTester.getAddAllNullUnsupportedMethod;
-import static com.google.common.collect.testing.testers.CollectionAddTester.getAddNullSupportedMethod;
-import static com.google.common.collect.testing.testers.CollectionAddTester.getAddNullUnsupportedMethod;
 import static com.google.common.collect.testing.testers.CollectionCreationTester.getCreateWithNullUnsupportedMethod;
-import static com.google.common.collect.testing.testers.SetAddTester.getAddSupportedNullPresentMethod;
 import static java.util.Arrays.asList;
 
 import java.lang.reflect.Method;
 import java.util.Collection;
-import java.util.Set;
+import java.util.List;
+import java.util.Queue;
 import junit.framework.Test;
 
 /**
- * Tests the {@link Set} implementations of {@link java.util}, suppressing tests that trip known
+ * Tests the {@link Queue} implementations of {@link java.util}, suppressing tests that trip known
  * OpenJDK 6 bugs.
  *
  * @author Kevin Bourrillion
  */
 @AndroidIncompatible // test-suite builders
-public class OpenJdk6SetTests extends TestsForSetsInJavaUtil {
+public class OpenJdk6QueueTest extends TestsForQueuesInJavaUtil {
   public static Test suite() {
-    return new OpenJdk6SetTests().allTests();
+    return new OpenJdk6QueueTest().allTests();
+  }
+
+  private static final List<Method> PQ_SUPPRESS = asList(getCreateWithNullUnsupportedMethod());
+
+  @Override
+  protected Collection<Method> suppressForPriorityBlockingQueue() {
+    return PQ_SUPPRESS;
   }
 
   @Override
-  protected Collection<Method> suppressForTreeSetNatural() {
-    return asList(
-        getAddNullUnsupportedMethod(),
-        getAddAllNullUnsupportedMethod(),
-        getCreateWithNullUnsupportedMethod());
-  }
-
-  @Override
-  protected Collection<Method> suppressForCheckedSet() {
-    return asList(getAddNullSupportedMethod(), getAddSupportedNullPresentMethod());
+  protected Collection<Method> suppressForPriorityQueue() {
+    return PQ_SUPPRESS;
   }
 }

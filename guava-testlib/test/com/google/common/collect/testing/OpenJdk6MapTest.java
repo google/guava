@@ -43,9 +43,9 @@ import junit.framework.Test;
  */
 // TODO(cpovirk): consider renaming this class in light of our now running it under newer JDKs.
 @AndroidIncompatible // test-suite builders
-public class OpenJdk6MapTests extends TestsForMapsInJavaUtil {
+public class OpenJdk6MapTest extends TestsForMapsInJavaUtil {
   public static Test suite() {
-    return new OpenJdk6MapTests().allTests();
+    return new OpenJdk6MapTest().allTests();
   }
 
   @Override
