@@ -593,13 +593,36 @@ public final class ClassPath {
           continue;
         }
         if (url.getProtocol().equals("file")) {
-          builder.add(toFile(url));
+          File resolved = toFile(url);
+          if (!path.contains(":") && !isWithinParentDirectory(jarFile, resolved)) {
+            logger.warning(
+                "Class-Path entry escapes the jar file's directory: "
+                    + path
+                    + " (resolved to "
+                    + resolved
+                    + ")");
+            continue;
+          }
+          builder.add(resolved);
         }
       }
     }
     return builder.build();
   }
-
+  private static boolean isWithinParentDirectory(File jarFile, File resolved) {
+    try {
+      File jarDir = jarFile.getCanonicalFile().getParentFile();
+      if (jarDir == null) {
+        return false;
+      }
+      String resolvedPath = resolved.getCanonicalPath();
+      String jarDirPath = jarDir.getCanonicalPath() + File.separator;
+      return resolvedPath.startsWith(jarDirPath)
+          || resolvedPath.equals(jarDir.getCanonicalPath());
+    } catch (IOException e) {
+      return false;
+    }
+  }
   @VisibleForTesting
   static ImmutableMap<File, ClassLoader> getClassPathEntries(ClassLoader classloader) {
     LinkedHashMap<File, ClassLoader> entries = new LinkedHashMap<>();

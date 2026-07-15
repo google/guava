@@ -400,6 +400,27 @@ public class ClassPathTest extends TestCase {
         .containsExactly(fullpath("base/relative.jar"));
   }
 
+  public void testGetClassPathFromManifest_pathTraversalRejected() throws IOException {
+    File jarFile = new File("base/some.jar");
+    Manifest manifest = manifestClasspath("../outside.jar");
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest)).isEmpty();
+  }
+
+  public void testGetClassPathFromManifest_deepPathTraversalRejected() throws IOException {
+    File jarFile = new File("base/nested/some.jar");
+    Manifest manifest = manifestClasspath("../../outside.jar");
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest)).isEmpty();
+  }
+
+  public void testGetClassPathFromManifest_mixedValidAndTraversal() throws IOException {
+    if (isWindows()) {
+      return;
+    }
+    File jarFile = new File("base/some.jar");
+    Manifest manifest = manifestClasspath("valid.jar ../escape.jar");
+    assertThat(ClassPath.getClassPathFromManifest(jarFile, manifest))
+        .containsExactly(fullpath("base/valid.jar"));
+  }
   public void testGetClassName() {
     assertThat(ClassPath.getClassName("abc/d/Abc.class")).isEqualTo("abc.d.Abc");
   }
