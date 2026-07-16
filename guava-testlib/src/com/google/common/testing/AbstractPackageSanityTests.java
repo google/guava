@@ -23,6 +23,7 @@ import static com.google.common.collect.Maps.newTreeMap;
 import static com.google.common.testing.AbstractPackageSanityTests.Chopper.suffix;
 import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
+import static java.util.Collections.sort;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -380,6 +381,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
         classes.add(cls);
       }
     }
+    sort(classes, (a, b) -> a.getName().compareTo(b.getName()));
     return classes;
   }
 
