@@ -73,6 +73,7 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
 
   @Override
   public @Nullable N removeInEdge(E edge, boolean isSelfLoop) {
+    checkNotNull(edge);
     if (!isSelfLoop) {
       return removeOutEdge(edge);
     }
@@ -88,6 +89,8 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
 
   @Override
   public void addInEdge(E edge, N node, boolean isSelfLoop) {
+    checkNotNull(edge);
+    checkNotNull(node);
     if (!isSelfLoop) {
       addOutEdge(edge, node);
     }
@@ -95,6 +98,8 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
 
   @Override
   public void addOutEdge(E edge, N node) {
+    checkNotNull(edge);
+    checkNotNull(node);
     N previousNode = incidentEdgeMap.put(edge, node);
     checkState(previousNode == null);
   }

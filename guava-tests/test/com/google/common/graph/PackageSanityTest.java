@@ -16,9 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.TestUtil.ERROR_ELEMENT_NOT_IN_GRAPH;
-import static com.google.common.truth.Truth.assertWithMessage;
-
 import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -51,30 +48,30 @@ public class PackageSanityTest extends AbstractPackageSanityTests {
   private static final ImmutableNetwork<String, String> IMMUTABLE_NETWORK_B =
       NetworkBuilder.directed().<String, String>immutable().addNode("B").build();
 
+  private static final ImmutableValueGraph<String, String> IMMUTABLE_VALUE_GRAPH_A =
+      ValueGraphBuilder.directed().<String, String>immutable().addNode("A").build();
+  private static final ImmutableValueGraph<String, String> IMMUTABLE_VALUE_GRAPH_B =
+      ValueGraphBuilder.directed().<String, String>immutable().addNode("B").build();
+
   public PackageSanityTest() {
     MutableNetwork<String, String> mutableNetworkA = NetworkBuilder.directed().build();
     mutableNetworkA.addNode("a");
     MutableNetwork<String, String> mutableNetworkB = NetworkBuilder.directed().build();
     mutableNetworkB.addNode("b");
 
+    MutableValueGraph<String, String> mutableValueGraphA = ValueGraphBuilder.directed().build();
+    mutableValueGraphA.addNode("a");
+    MutableValueGraph<String, String> mutableValueGraphB = ValueGraphBuilder.directed().build();
+    mutableValueGraphB.addNode("b");
+
     setDistinctValues(AbstractGraphBuilder.class, graphBuilderA, graphBuilderB);
     setDistinctValues(Graph.class, IMMUTABLE_GRAPH_A, IMMUTABLE_GRAPH_B);
+    setDistinctValues(ValueGraph.class, IMMUTABLE_VALUE_GRAPH_A, IMMUTABLE_VALUE_GRAPH_B);
     setDistinctValues(MutableNetwork.class, mutableNetworkA, mutableNetworkB);
+    setDistinctValues(MutableValueGraph.class, mutableValueGraphA, mutableValueGraphB);
     setDistinctValues(NetworkBuilder.class, networkBuilderA, networkBuilderB);
     setDistinctValues(Network.class, IMMUTABLE_NETWORK_A, IMMUTABLE_NETWORK_B);
+    setDistinctValues(Object.class, "A", "B");
     setDefault(EndpointPair.class, EndpointPair.ordered("A", "B"));
-  }
-
-  @Override
-  public void testNulls() throws Exception {
-    try {
-      super.testNulls();
-    } catch (AssertionError e) {
-      assertWithMessage("Method did not throw null pointer OR element not in graph exception.")
-          .that(e)
-          .hasCauseThat()
-          .hasMessageThat()
-          .contains(ERROR_ELEMENT_NOT_IN_GRAPH);
-    }
   }
 }

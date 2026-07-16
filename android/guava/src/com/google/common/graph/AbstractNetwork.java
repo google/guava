@@ -168,6 +168,8 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
 
   @Override
   public Set<E> edgesConnecting(N nodeU, N nodeV) {
+    checkNotNull(nodeU);
+    checkNotNull(nodeV);
     Set<E> outEdgesU = outEdges(nodeU);
     Set<E> inEdgesV = inEdges(nodeV);
     return nodePairInvalidatableSet(
@@ -278,6 +280,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
    * @since 33.1.0
    */
   protected final <T> Set<T> edgeInvalidatableSet(Set<T> set, E edge) {
+    checkNotNull(edge);
     return InvalidatableSet.of(
         set, () -> edges().contains(edge), () -> String.format(EDGE_REMOVED_FROM_GRAPH, edge));
   }
@@ -289,6 +292,7 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
    * @since 33.1.0
    */
   protected final <T> Set<T> nodeInvalidatableSet(Set<T> set, N node) {
+    checkNotNull(node);
     return InvalidatableSet.of(
         set, () -> nodes().contains(node), () -> String.format(NODE_REMOVED_FROM_GRAPH, node));
   }
@@ -300,6 +304,8 @@ public abstract class AbstractNetwork<N, E> implements Network<N, E> {
    * @since 33.1.0
    */
   protected final <T> Set<T> nodePairInvalidatableSet(Set<T> set, N nodeU, N nodeV) {
+    checkNotNull(nodeU);
+    checkNotNull(nodeV);
     return InvalidatableSet.of(
         set,
         () -> nodes().contains(nodeU) && nodes().contains(nodeV),

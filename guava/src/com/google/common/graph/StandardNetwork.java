@@ -148,6 +148,8 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   @SuppressWarnings("ReferenceEquality") // see comment below
   @Override
   public Set<E> edgesConnecting(N nodeU, N nodeV) {
+    checkNotNull(nodeU);
+    checkNotNull(nodeV);
     NetworkConnections<N, E> connectionsU = checkedConnections(nodeU);
     if (!allowsSelfLoops && nodeU == nodeV) { // just an optimization, only check reference equality
       return ImmutableSet.of();
@@ -195,10 +197,12 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   final boolean containsNode(N node) {
+    checkNotNull(node);
     return nodeConnections.containsKey(node);
   }
 
   final boolean containsEdge(E edge) {
+    checkNotNull(edge);
     return edgeToReferenceNode.containsKey(edge);
   }
 }

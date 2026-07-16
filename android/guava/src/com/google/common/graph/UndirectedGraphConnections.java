@@ -78,35 +78,43 @@ final class UndirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   @Override
   public Iterator<EndpointPair<N>> incidentEdgeIterator(N thisNode) {
+    checkNotNull(thisNode);
     return transform(
         adjacentNodeValues.keySet().iterator(),
-        (N incidentNode) -> EndpointPair.unordered(thisNode, incidentNode));
+        incidentNode -> EndpointPair.unordered(thisNode, incidentNode));
   }
 
   @Override
   public @Nullable V value(N node) {
+    checkNotNull(node);
     return adjacentNodeValues.get(node);
   }
 
   @Override
   public void removePredecessor(N node) {
+    checkNotNull(node);
     @SuppressWarnings("unused")
     V unused = removeSuccessor(node);
   }
 
   @Override
   public @Nullable V removeSuccessor(N node) {
+    checkNotNull(node);
     return adjacentNodeValues.remove(node);
   }
 
   @Override
   public void addPredecessor(N node, V value) {
+    checkNotNull(node);
+    checkNotNull(value);
     @SuppressWarnings("unused")
     V unused = addSuccessor(node, value);
   }
 
   @Override
   public @Nullable V addSuccessor(N node, V value) {
+    checkNotNull(node);
+    checkNotNull(value);
     return adjacentNodeValues.put(node, value);
   }
 }

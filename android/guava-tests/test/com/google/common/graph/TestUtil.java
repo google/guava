@@ -24,6 +24,7 @@ import com.google.common.testing.EqualsTester;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Set;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /** Utility methods used in various common.graph tests. */
 @NullUnmarked
@@ -42,22 +43,22 @@ final class TestUtil {
 
   private TestUtil() {}
 
-  static void assertNodeNotInGraphErrorMessage(Throwable throwable) {
+  static void assertNodeNotInGraphErrorMessage(@Nullable Throwable throwable) {
     assertThat(throwable).hasMessageThat().startsWith(NODE_STRING);
     assertThat(throwable).hasMessageThat().contains(ERROR_ELEMENT_NOT_IN_GRAPH);
   }
 
-  static void assertEdgeNotInGraphErrorMessage(Throwable throwable) {
+  static void assertEdgeNotInGraphErrorMessage(@Nullable Throwable throwable) {
     assertThat(throwable).hasMessageThat().startsWith(EDGE_STRING);
     assertThat(throwable).hasMessageThat().contains(ERROR_ELEMENT_NOT_IN_GRAPH);
   }
 
-  static void assertNodeRemovedFromGraphErrorMessage(Throwable throwable) {
+  static void assertNodeRemovedFromGraphErrorMessage(@Nullable Throwable throwable) {
     assertThat(throwable).hasMessageThat().startsWith(NODE_STRING);
     assertThat(throwable).hasMessageThat().contains(ERROR_ELEMENT_REMOVED);
   }
 
-  static void assertEdgeRemovedFromGraphErrorMessage(Throwable throwable) {
+  static void assertEdgeRemovedFromGraphErrorMessage(@Nullable Throwable throwable) {
     assertThat(throwable).hasMessageThat().startsWith(EDGE_STRING);
     assertThat(throwable).hasMessageThat().contains(ERROR_ELEMENT_REMOVED);
   }

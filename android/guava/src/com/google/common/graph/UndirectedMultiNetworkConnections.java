@@ -16,6 +16,7 @@
 
 package com.google.common.graph;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.graph.GraphConstants.INNER_CAPACITY;
 import static com.google.common.graph.GraphConstants.INNER_LOAD_FACTOR;
@@ -83,6 +84,7 @@ final class UndirectedMultiNetworkConnections<N, E>
 
   @Override
   public @Nullable N removeInEdge(E edge, boolean isSelfLoop) {
+    checkNotNull(edge);
     if (!isSelfLoop) {
       return removeOutEdge(edge);
     }
@@ -101,6 +103,8 @@ final class UndirectedMultiNetworkConnections<N, E>
 
   @Override
   public void addInEdge(E edge, N node, boolean isSelfLoop) {
+    checkNotNull(edge);
+    checkNotNull(node);
     if (!isSelfLoop) {
       addOutEdge(edge, node);
     }

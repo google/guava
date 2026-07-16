@@ -17,6 +17,7 @@
 package com.google.common.graph;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Iterators.transform;
 import static com.google.common.collect.Maps.newHashMapWithExpectedSize;
 import static com.google.common.graph.GraphConstants.NODE_NOT_IN_GRAPH;
@@ -274,6 +275,7 @@ public final class Graphs extends GraphsBridgeMethods {
    * @since 33.1.0 (present with return type {@code Set} since 20.0)
    */
   public static <N> ImmutableSet<N> reachableNodes(Graph<N> graph, N node) {
+    checkNotNull(node);
     checkArgument(graph.nodes().contains(node), NODE_NOT_IN_GRAPH, node);
     return ImmutableSet.copyOf(Traverser.forGraph(graph).breadthFirst(node));
   }

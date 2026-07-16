@@ -165,7 +165,8 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
     return connections;
   }
 
-  final boolean containsNode(@Nullable N node) {
+  final boolean containsNode(N node) {
+    checkNotNull(node);
     return nodeConnections.containsKey(node);
   }
 

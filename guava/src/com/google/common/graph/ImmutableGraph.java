@@ -49,7 +49,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
   private final BaseGraph<N> backingGraph;
 
   ImmutableGraph(BaseGraph<N> backingGraph) {
-    this.backingGraph = backingGraph;
+    this.backingGraph = checkNotNull(backingGraph);
   }
 
   /** Returns an immutable copy of {@code graph}. */

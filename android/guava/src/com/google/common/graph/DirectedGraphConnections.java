@@ -488,6 +488,8 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
 
   @Override
   public void addPredecessor(N node, V unused) {
+    checkNotNull(node);
+    checkNotNull(unused);
     Object previousValue = adjacentNodeValues.put(node, PRED);
     boolean addedPredecessor;
 
@@ -517,6 +519,8 @@ final class DirectedGraphConnections<N, V> implements GraphConnections<N, V> {
   @SuppressWarnings("unchecked")
   @Override
   public @Nullable V addSuccessor(N node, V value) {
+    checkNotNull(node);
+    checkNotNull(value);
     Object previousValue = adjacentNodeValues.put(node, value);
     Object previousSuccessor;
 

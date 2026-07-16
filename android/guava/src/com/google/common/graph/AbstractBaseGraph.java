@@ -287,6 +287,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
 
       @Override
       public Set<EndpointPair<N>> adjacentEdges(EndpointPair<N> edge) {
+        checkNotNull(edge);
         checkArgument(edges().contains(edge));
         N nodeU = edge.nodeU();
         N nodeV = edge.nodeV();
@@ -298,6 +299,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
 
       @Override
       public EndpointPair<N> incidentNodes(EndpointPair<N> edge) {
+        checkNotNull(edge);
         checkArgument(edges().contains(edge));
         return edge;
       }
@@ -325,11 +327,14 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
   }
 
   protected final <T> Set<T> nodeInvalidatableSet(Set<T> set, N node) {
+    checkNotNull(node);
     return InvalidatableSet.of(
         set, () -> nodes().contains(node), () -> String.format(NODE_REMOVED_FROM_GRAPH, node));
   }
 
   protected final <T> Set<T> nodePairInvalidatableSet(Set<T> set, N nodeU, N nodeV) {
+    checkNotNull(nodeU);
+    checkNotNull(nodeV);
     return InvalidatableSet.of(
         set,
         () -> nodes().contains(nodeU) && nodes().contains(nodeV),
