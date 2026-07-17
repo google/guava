@@ -32,6 +32,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.EnumMap;
@@ -280,5 +281,100 @@ public class BigDecimalMathTest extends TestCase {
         .setExpectation(Double.NEGATIVE_INFINITY, UP, FLOOR)
         .roundUnnecessaryShouldThrow()
         .test();
+  }
+
+  // TODO(kak): consider using TestParameterInjector
+
+  public void testToBigInteger_zero() {
+    assertThat(BigDecimalMath.toBigInteger(BigDecimal.ZERO, 0)).isEqualTo(BigInteger.ZERO);
+    assertThat(BigDecimalMath.toBigInteger(new BigDecimal("0.00"), 0)).isEqualTo(BigInteger.ZERO);
+    assertThat(BigDecimalMath.toBigInteger(new BigDecimal("0E+500"), 10))
+        .isEqualTo(BigInteger.ZERO);
+    assertThat(BigDecimalMath.toBigInteger(new BigDecimal("0E+123456789"), 0))
+        .isEqualTo(BigInteger.ZERO);
+  }
+
+  public void testToBigIntegerExact_zero() {
+    assertThat(BigDecimalMath.toBigIntegerExact(BigDecimal.ZERO, 0)).isEqualTo(BigInteger.ZERO);
+    assertThat(BigDecimalMath.toBigIntegerExact(new BigDecimal("0.00"), 0))
+        .isEqualTo(BigInteger.ZERO);
+    assertThat(BigDecimalMath.toBigIntegerExact(new BigDecimal("0E+123456789"), 0))
+        .isEqualTo(BigInteger.ZERO);
+  }
+
+  public void testToBigInteger_valid() {
+    assertThat(BigDecimalMath.toBigInteger(new BigDecimal("12345.67"), 5))
+        .isEqualTo(BigInteger.valueOf(12345));
+    assertThat(BigDecimalMath.toBigInteger(new BigDecimal("0.5"), 0)).isEqualTo(BigInteger.ZERO);
+    assertThat(BigDecimalMath.toBigInteger(new BigDecimal("-123.45"), 3))
+        .isEqualTo(BigInteger.valueOf(-123));
+  }
+
+  public void testToBigIntegerExact_valid() {
+    assertThat(BigDecimalMath.toBigIntegerExact(new BigDecimal("12345"), 5))
+        .isEqualTo(BigInteger.valueOf(12345));
+    assertThat(BigDecimalMath.toBigIntegerExact(new BigDecimal("123.00"), 3))
+        .isEqualTo(BigInteger.valueOf(123));
+    assertThat(BigDecimalMath.toBigIntegerExact(new BigDecimal("1E+4"), 5))
+        .isEqualTo(BigInteger.valueOf(10000));
+    assertThat(BigDecimalMath.toBigIntegerExact(new BigDecimal("-123"), 3))
+        .isEqualTo(BigInteger.valueOf(-123));
+  }
+
+  public void testToBigInteger_largePositiveScale_doesNotExhaustMemory() {
+    BigDecimal input = new BigDecimal("1E-123456789");
+    assertThat(BigDecimalMath.toBigInteger(input, 10)).isEqualTo(BigInteger.ZERO);
+    ArithmeticException expected =
+        assertThrows(ArithmeticException.class, () -> BigDecimalMath.toBigIntegerExact(input, 10));
+    assertThat(expected)
+        .hasMessageThat()
+        .contains(
+            "has a nonzero fractional part and cannot be represented exactly as a BigInteger");
+  }
+
+  public void testToBigInteger_exceedsMaxIntegerDigits_throwsException() {
+    BigDecimal input = new BigDecimal("123456");
+    assertToBigIntegerThrows(input, 5);
+  }
+
+  public void testToBigInteger_largeNegativeScale_throwsWithoutExhaustingMemory() {
+    BigDecimal input = new BigDecimal("1E+123456789");
+    assertToBigIntegerThrows(input, 20);
+  }
+
+  public void testToBigInteger_precisionMinusScaleOverflowsInt_throwsWithoutExhaustingMemory() {
+    BigDecimal input = BigDecimal.valueOf(1, -Integer.MAX_VALUE);
+    assertToBigIntegerThrows(input, 20);
+  }
+
+  /**
+   * Helper method to assert that both {@code toBigInteger()} and {@code toBigIntegerExact()} throw
+   * {@code ArithmeticException} with the same message.
+   */
+  private static void assertToBigIntegerThrows(BigDecimal input, int maxIntegerDigits) {
+    ArithmeticException expectedToBigInteger =
+        assertThrows(
+            ArithmeticException.class, () -> BigDecimalMath.toBigInteger(input, maxIntegerDigits));
+    assertThat(expectedToBigInteger).hasMessageThat().contains("> maxIntegerDigits");
+
+    ArithmeticException expectedToBigIntegerExact =
+        assertThrows(
+            ArithmeticException.class,
+            () -> BigDecimalMath.toBigIntegerExact(input, maxIntegerDigits));
+    assertThat(expectedToBigIntegerExact).hasMessageThat().contains("> maxIntegerDigits");
+  }
+
+  public void testToBigIntegerExact_nonZeroFractionalPart_throwsException() {
+    BigDecimal input = new BigDecimal("123.45");
+    ArithmeticException expected =
+        assertThrows(ArithmeticException.class, () -> BigDecimalMath.toBigIntegerExact(input, 10));
+    assertThat(expected).hasMessageThat().isEqualTo("Rounding necessary");
+  }
+
+  public void testToBigInteger_invalidMaxIntegerDigits_throwsException() {
+    assertThrows(
+        IllegalArgumentException.class, () -> BigDecimalMath.toBigInteger(BigDecimal.ONE, -1));
+    assertThrows(
+        IllegalArgumentException.class, () -> BigDecimalMath.toBigIntegerExact(BigDecimal.ONE, -1));
   }
 }
