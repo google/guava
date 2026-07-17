@@ -79,8 +79,12 @@ initTheme();
 <div class="block">Utility methods and classes for I/O; for example input streams, output streams, readers, writers,
 and files.</div>
 </div>
-<div class="col-first odd-row-color"><a href="#com.google.common.util.concurrent">com.google.common.util.concurrent</a></div>
+<div class="col-first odd-row-color"><a href="#com.google.common.math">com.google.common.math</a></div>
 <div class="col-last odd-row-color">
+<div class="block">Arithmetic functions operating on primitive values and on <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link"><code>BigInteger</code></a> and <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html" title="class in java.math" class="external-link"><code>BigDecimal</code></a> instances.</div>
+</div>
+<div class="col-first even-row-color"><a href="#com.google.common.util.concurrent">com.google.common.util.concurrent</a></div>
+<div class="col-last even-row-color">
 <div class="block">Concurrency utilities.</div>
 </div>
 </div>
@@ -230,6 +234,32 @@ once the data reaches a configurable size.</div>
 <div class="col-last odd-row-color">
 <div class="block">Equivalent to calling <code>flush(flushable, true)</code>, but with no <code>IOException</code> in the
 signature.</div>
+</div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="com.google.common.math">
+<h2>Uses of <a href="../Beta.html" title="annotation in com.google.common.annotations">Beta</a> in <a href="../../math/package-summary.html">com.google.common.math</a></h2>
+<div class="caption"><span>Methods in <a href="../../math/package-summary.html">com.google.common.math</a> with annotations of type <a href="../Beta.html" title="annotation in com.google.common.annotations">Beta</a></span></div>
+<div class="summary-table three-column-summary">
+<div class="table-header col-first">Modifier and Type</div>
+<div class="table-header col-second">Method</div>
+<div class="table-header col-last">Description</div>
+<div class="col-first even-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link">BigInteger</a></code></div>
+<div class="col-second even-row-color"><span class="type-name-label">BigDecimalMath.</span><code><a href="../../math/BigDecimalMath.html#toBigInteger(java.math.BigDecimal,int)" class="member-name-link">toBigInteger</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html" title="class in java.math" class="external-link">BigDecimal</a>&nbsp;x,
+ int&nbsp;maxIntegerDigits)</code></div>
+<div class="col-last even-row-color">
+<div class="block">Returns <code>x</code> converted to a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link"><code>BigInteger</code></a>, ensuring that the magnitude of <code>x</code>
+does not exceed <code>maxIntegerDigits</code> before performing conversion.</div>
+</div>
+<div class="col-first odd-row-color"><code>static <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link">BigInteger</a></code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">BigDecimalMath.</span><code><a href="../../math/BigDecimalMath.html#toBigIntegerExact(java.math.BigDecimal,int)" class="member-name-link">toBigIntegerExact</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html" title="class in java.math" class="external-link">BigDecimal</a>&nbsp;x,
+ int&nbsp;maxIntegerDigits)</code></div>
+<div class="col-last odd-row-color">
+<div class="block">Returns <code>x</code> converted to a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link"><code>BigInteger</code></a>, checking that <code>x</code> has no fractional
+part and ensuring that the magnitude of <code>x</code> does not exceed <code>maxIntegerDigits</code>
+before performing conversion.</div>
 </div>
 </div>
 </section>

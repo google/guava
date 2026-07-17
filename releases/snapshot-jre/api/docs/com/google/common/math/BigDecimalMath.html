@@ -65,6 +65,8 @@ initTheme();
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
+<li><a href="#toBigInteger(java.math.BigDecimal,int)" tabindex="0">toBigInteger(BigDecimal, int)</a></li>
+<li><a href="#toBigIntegerExact(java.math.BigDecimal,int)" tabindex="0">toBigIntegerExact(BigDecimal, int)</a></li>
 <li><a href="#roundToDouble(java.math.BigDecimal,java.math.RoundingMode)" tabindex="0">roundToDouble(BigDecimal, RoundingMode)</a></li>
 </ol>
 </li>
@@ -112,6 +114,21 @@ initTheme();
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns <code>x</code>, rounded to a <code>double</code> with the specified rounding mode.</div>
 </div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link">BigInteger</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toBigInteger(java.math.BigDecimal,int)" class="member-name-link">toBigInteger</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html" title="class in java.math" class="external-link">BigDecimal</a>&nbsp;x,
+ int&nbsp;maxIntegerDigits)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns <code>x</code> converted to a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link"><code>BigInteger</code></a>, ensuring that the magnitude of <code>x</code>
+does not exceed <code>maxIntegerDigits</code> before performing conversion.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link">BigInteger</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toBigIntegerExact(java.math.BigDecimal,int)" class="member-name-link">toBigIntegerExact</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html" title="class in java.math" class="external-link">BigDecimal</a>&nbsp;x,
+ int&nbsp;maxIntegerDigits)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns <code>x</code> converted to a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link"><code>BigInteger</code></a>, checking that <code>x</code> has no fractional
+part and ensuring that the magnitude of <code>x</code> does not exceed <code>maxIntegerDigits</code>
+before performing conversion.</div>
+</div>
 </div>
 </div>
 </div>
@@ -129,6 +146,73 @@ initTheme();
 <section class="method-details" id="method-detail">
 <h2>Method Details</h2>
 <ul class="member-list">
+<li>
+<section class="detail" id="toBigInteger(java.math.BigDecimal,int)">
+<h3>toBigInteger</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link">BigInteger</a></span>&nbsp;<span class="element-name">toBigInteger</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html" title="class in java.math" class="external-link">BigDecimal</a>&nbsp;x,
+ int&nbsp;maxIntegerDigits)</span></div>
+<div class="block">Returns <code>x</code> converted to a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link"><code>BigInteger</code></a>, ensuring that the magnitude of <code>x</code>
+does not exceed <code>maxIntegerDigits</code> before performing conversion.
+
+<p>Converting a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html" title="class in java.math" class="external-link"><code>BigDecimal</code></a> with a very large negative scale to a <code>BigInteger</code>
+requires materializing the unscaled value multiplied by <code>10^-scale</code>. When <code>x</code> is
+parsed from uncontrolled string or JSON inputs (such as <code>"1e123456789"</code>), directly
+calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html#toBigInteger()" class="external-link"><code>BigDecimal.toBigInteger()</code></a> or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html#toBigIntegerExact()" class="external-link"><code>BigDecimal.toBigIntegerExact()</code></a> can exhaust
+CPU and memory. This method safely verifies that the number of decimal digits required for the
+integer representation fits within <code>maxIntegerDigits</code> before conversion.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - the <code>BigDecimal</code> to convert to a <code>BigInteger</code></dd>
+<dd><code>maxIntegerDigits</code> - the maximum allowable number of digits in the integer part (for values
+    where <code>|x| &lt; 1</code>, the integer part is considered to have 0 digits)</dd>
+<dt>Returns:</dt>
+<dd><code>x</code> converted to a <code>BigInteger</code></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>maxIntegerDigits &lt; 0</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/ArithmeticException.html" title="class in java.lang" class="external-link">ArithmeticException</a></code> - if the integer part of <code>x</code> requires more than <code>
+    maxIntegerDigits</code> digits</dd>
+<dt>Since:</dt>
+<dd>NEXT</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="toBigIntegerExact(java.math.BigDecimal,int)">
+<h3>toBigIntegerExact</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="annotations"><a href="../annotations/Beta.html" title="annotation in com.google.common.annotations">@Beta</a>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link">BigInteger</a></span>&nbsp;<span class="element-name">toBigIntegerExact</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html" title="class in java.math" class="external-link">BigDecimal</a>&nbsp;x,
+ int&nbsp;maxIntegerDigits)</span></div>
+<div class="block">Returns <code>x</code> converted to a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigInteger.html" title="class in java.math" class="external-link"><code>BigInteger</code></a>, checking that <code>x</code> has no fractional
+part and ensuring that the magnitude of <code>x</code> does not exceed <code>maxIntegerDigits</code>
+before performing conversion.
+
+<p>Converting a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html" title="class in java.math" class="external-link"><code>BigDecimal</code></a> with a very large negative scale to a <code>BigInteger</code>
+requires materializing the unscaled value multiplied by <code>10^-scale</code>. When <code>x</code> is
+parsed from uncontrolled string or JSON inputs (such as <code>"1e123456789"</code>), directly
+calling <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html#toBigInteger()" class="external-link"><code>BigDecimal.toBigInteger()</code></a> or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/math/BigDecimal.html#toBigIntegerExact()" class="external-link"><code>BigDecimal.toBigIntegerExact()</code></a> can exhaust
+CPU and memory. This method safely verifies that the number of decimal digits required for the
+integer representation fits within <code>maxIntegerDigits</code> before conversion.</div>
+<dl class="notes">
+<dt>Parameters:</dt>
+<dd><code>x</code> - the <code>BigDecimal</code> to convert to a <code>BigInteger</code></dd>
+<dd><code>maxIntegerDigits</code> - the maximum allowable number of digits in the integer part (for values
+    where <code>|x| &lt; 1</code>, the integer part is considered to have 0 digits)</dd>
+<dt>Returns:</dt>
+<dd><code>x</code> converted to a <code>BigInteger</code></dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class in java.lang" class="external-link">IllegalArgumentException</a></code> - if <code>maxIntegerDigits &lt; 0</code></dd>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/ArithmeticException.html" title="class in java.lang" class="external-link">ArithmeticException</a></code> - if <code>x</code> has a nonzero fractional part or if the integer part
+    of <code>x</code> requires more than <code>maxIntegerDigits</code> digits</dd>
+<dt>Since:</dt>
+<dd>NEXT</dd>
+</dl>
+</div>
+</section>
+</li>
 <li>
 <section class="detail" id="roundToDouble(java.math.BigDecimal,java.math.RoundingMode)">
 <h3>roundToDouble</h3>
