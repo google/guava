@@ -46,6 +46,10 @@ public final class BigDecimalMath {
    * CPU and memory. This method safely verifies that the number of decimal digits required for the
    * integer representation fits within {@code maxIntegerDigits} before conversion.
    *
+   * <p>Choosing a reasonable value for {@code maxIntegerDigits} depends on the range of expected
+   * valid values for your input. A value of 100 is generally sufficient for most common use cases
+   * and provides a large safety margin against resource exhaustion from malicious inputs.
+   *
    * @param x the {@code BigDecimal} to convert to a {@code BigInteger}
    * @param maxIntegerDigits the maximum allowable number of digits in the integer part (for values
    *     where {@code |x| < 1}, the integer part is considered to have 0 digits)
@@ -78,6 +82,10 @@ public final class BigDecimalMath {
    * calling {@link BigDecimal#toBigInteger()} or {@link BigDecimal#toBigIntegerExact()} can exhaust
    * CPU and memory. This method safely verifies that the number of decimal digits required for the
    * integer representation fits within {@code maxIntegerDigits} before conversion.
+   *
+   * <p>Choosing a reasonable value for {@code maxIntegerDigits} depends on the range of expected
+   * valid values for your input. A value of 100 is generally sufficient for most common use cases
+   * and provides a large safety margin against resource exhaustion from malicious inputs.
    *
    * @param x the {@code BigDecimal} to convert to a {@code BigInteger}
    * @param maxIntegerDigits the maximum allowable number of digits in the integer part (for values
