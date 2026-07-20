@@ -449,7 +449,9 @@ Splitter.on(':').omitEmptyStrings().trimResults().split(": : : ")</code> returns
 
 <p>Note that it is ordinarily not possible for <a href="#split(java.lang.CharSequence)"><code>split(CharSequence)</code></a> to return an empty
 iterable, but when using this option, it can (if the input sequence consists of nothing but
-separators).</div>
+separators).
+
+<p>If a limit is also specified, see <code>limit</code> for how the two options interact.</div>
 <dl class="notes">
 <dt>Returns:</dt>
 <dd>a splitter with the desired configuration</dd>
@@ -471,7 +473,14 @@ containing <code>["a", "b", "c,d"]</code>. When omitting empty strings, the omit
 count. Hence, <code>Splitter.on(',').limit(3).omitEmptyStrings().split("a,,,b,,,c,d")</code> returns
 an iterable containing <code>["a", "b", "c,d"]</code>. When trim is requested, all entries are
 trimmed, including the last. Hence <code>Splitter.on(',').limit(3).trimResults().split(" a , b
-, c , d ")</code> results in <code>["a", "b", "c , d"]</code>.</div>
+, c , d ")</code> results in <code>["a", "b", "c , d"]</code>.
+
+<p>Note that when empty strings are omitted, they do not count even in determining where the
+final element begins. The final element starts with the first piece that is not omitted, so
+separators that delimit omitted empty strings do not appear in it, even though later separators
+do. For example, <code>Splitter.on(',').limit(2).omitEmptyStrings().split("a,,b,c")</code> returns
+an iterable containing <code>["a", "b,c"]</code>, not <code>["a", ",b,c"]</code>: the second comma
+delimits an empty string, so it is not part of the final element.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>maxItems</code> - the maximum number of items returned</dd>
