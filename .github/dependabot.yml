@@ -6,6 +6,8 @@ updates:
 #    directory: "/"
 #    schedule:
 #      interval: "weekly"
+#    cooldown:
+#      default-days: 7
 #    groups:
 #      dependencies:
 #        applies-to: version-updates
@@ -15,6 +17,8 @@ updates:
 #    directory: "/android"
 #    schedule:
 #      interval: "weekly"
+#    cooldown:
+#      default-days: 7
 #    groups:
 #      dependencies:
 #        applies-to: version-updates
@@ -24,6 +28,8 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    cooldown:
+      default-days: 7
     groups:
       github-actions:
         applies-to: version-updates
@@ -34,6 +40,8 @@ updates:
     directory: "/"
     schedule:
       interval: "monthly"
+    cooldown:
+      default-days: 7
     groups:
       github-actions:
         applies-to: version-updates
