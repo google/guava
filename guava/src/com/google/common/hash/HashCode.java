@@ -157,7 +157,14 @@ public abstract class HashCode {
 
     @Override
     boolean equalsSameBits(HashCode that) {
-      return hash == that.asInt();
+      // Use constant-time comparison to prevent timing attacks, consistent with
+      // the security contract documented on HashCode.equals().
+      // A direct `hash == that.asInt()` comparison is variable-time.
+      int thatHash = that.asInt();
+      int diff = hash ^ thatHash;
+      // diff == 0 iff all bits are equal; converting to boolean must not short-circuit.
+      // (diff - 1) >>> 31 is 1 only when diff == 0, without branching.
+      return ((diff - 1) >>> 31) == 1;
     }
 
     private static final long serialVersionUID = 0;
@@ -223,7 +230,13 @@ public abstract class HashCode {
 
     @Override
     boolean equalsSameBits(HashCode that) {
-      return hash == that.asLong();
+      // Use constant-time comparison to prevent timing attacks, consistent with
+      // the security contract documented on HashCode.equals().
+      // A direct `hash == that.asLong()` comparison is variable-time.
+      long thatHash = that.asLong();
+      long diff = hash ^ thatHash;
+      // diff == 0L iff all bits are equal; (diff | -diff) >>> 63 is 1 when diff != 0.
+      return ((diff | -diff) >>> 63) == 0;
     }
 
     private static final long serialVersionUID = 0;
