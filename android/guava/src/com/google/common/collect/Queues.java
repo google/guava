@@ -54,9 +54,15 @@ public final class Queues {
   /**
    * Creates an empty {@code ArrayBlockingQueue} with the given (fixed) capacity and nonfair access
    * policy.
+   *
+   * @deprecated This method is unnecessary. Instead, use the {@code ArrayBlockingQueue} {@linkplain
+   *     ArrayBlockingQueue#ArrayBlockingQueue(int) constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @J2ktIncompatible
   @GwtIncompatible // ArrayBlockingQueue
+  @Deprecated
   public static <E> ArrayBlockingQueue<E> newArrayBlockingQueue(int capacity) {
     return new ArrayBlockingQueue<>(capacity);
   }
@@ -67,7 +73,12 @@ public final class Queues {
    * Creates an empty {@code ArrayDeque}.
    *
    * @since 12.0
+   * @deprecated This method is unnecessary. Instead, use the {@code ArrayDeque} {@linkplain
+   *     ArrayDeque#ArrayDeque() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
+  @Deprecated
   public static <E> ArrayDeque<E> newArrayDeque() {
     return new ArrayDeque<>();
   }
@@ -89,9 +100,17 @@ public final class Queues {
 
   // ConcurrentLinkedQueue
 
-  /** Creates an empty {@code ConcurrentLinkedQueue}. */
+  /**
+   * Creates an empty {@code ConcurrentLinkedQueue}.
+   *
+   * @deprecated This method is unnecessary. Instead, use the {@code ConcurrentLinkedQueue} {@linkplain
+   *     ConcurrentLinkedQueue#ConcurrentLinkedQueue() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
+   */
   @J2ktIncompatible
   @GwtIncompatible // ConcurrentLinkedQueue
+  @Deprecated
   public static <E> ConcurrentLinkedQueue<E> newConcurrentLinkedQueue() {
     return new ConcurrentLinkedQueue<>();
   }
@@ -118,9 +137,14 @@ public final class Queues {
    * Creates an empty {@code LinkedBlockingDeque} with a capacity of {@link Integer#MAX_VALUE}.
    *
    * @since 12.0
+   * @deprecated This method is unnecessary. Instead, use the {@code LinkedBlockingDeque} {@linkplain
+   *     LinkedBlockingDeque#LinkedBlockingDeque() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingDeque
+  @Deprecated
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque() {
     return new LinkedBlockingDeque<>();
   }
@@ -130,9 +154,14 @@ public final class Queues {
    *
    * @throws IllegalArgumentException if {@code capacity} is less than 1
    * @since 12.0
+   * @deprecated This method is unnecessary. Instead, use the {@code LinkedBlockingDeque} {@linkplain
+   *     LinkedBlockingDeque#LinkedBlockingDeque(int) constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingDeque
+  @Deprecated
   public static <E> LinkedBlockingDeque<E> newLinkedBlockingDeque(int capacity) {
     return new LinkedBlockingDeque<>(capacity);
   }
@@ -157,9 +186,17 @@ public final class Queues {
 
   // LinkedBlockingQueue
 
-  /** Creates an empty {@code LinkedBlockingQueue} with a capacity of {@link Integer#MAX_VALUE}. */
+  /**
+   * Creates an empty {@code LinkedBlockingQueue} with a capacity of {@link Integer#MAX_VALUE}.
+   *
+   * @deprecated This method is unnecessary. Instead, use the {@code LinkedBlockingQueue} {@linkplain
+   *     LinkedBlockingQueue#LinkedBlockingQueue() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
+   */
   @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingQueue
+  @Deprecated
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue() {
     return new LinkedBlockingQueue<>();
   }
@@ -168,9 +205,14 @@ public final class Queues {
    * Creates an empty {@code LinkedBlockingQueue} with the given (fixed) capacity.
    *
    * @throws IllegalArgumentException if {@code capacity} is less than 1
+   * @deprecated This method is unnecessary. Instead, use the {@code LinkedBlockingQueue} {@linkplain
+   *     LinkedBlockingQueue#LinkedBlockingQueue(int) constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @J2ktIncompatible
   @GwtIncompatible // LinkedBlockingQueue
+  @Deprecated
   public static <E> LinkedBlockingQueue<E> newLinkedBlockingQueue(int capacity) {
     return new LinkedBlockingQueue<>(capacity);
   }
@@ -204,10 +246,15 @@ public final class Queues {
    *
    * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
    *     in 15.0)
+   * @deprecated This method is unnecessary. Instead, use the {@code PriorityBlockingQueue} {@linkplain
+   *     PriorityBlockingQueue#PriorityBlockingQueue() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
   @J2ktIncompatible
   @GwtIncompatible // PriorityBlockingQueue
+  @Deprecated
   public static <E extends Comparable> PriorityBlockingQueue<E> newPriorityBlockingQueue() {
     return new PriorityBlockingQueue<>();
   }
@@ -242,8 +289,13 @@ public final class Queues {
    *
    * @since 11.0 (but the bound of {@code E} was changed from {@code Object} to {@code Comparable}
    *     in 15.0)
+   * @deprecated This method is unnecessary. Instead, use the {@code PriorityQueue} {@linkplain
+   *     PriorityQueue#PriorityQueue() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @SuppressWarnings("rawtypes") // https://github.com/google/guava/issues/989
+  @Deprecated
   public static <E extends Comparable> PriorityQueue<E> newPriorityQueue() {
     return new PriorityQueue<>();
   }
@@ -270,9 +322,17 @@ public final class Queues {
 
   // SynchronousQueue
 
-  /** Creates an empty {@code SynchronousQueue} with nonfair access policy. */
+  /**
+   * Creates an empty {@code SynchronousQueue} with nonfair access policy.
+   *
+   * @deprecated This method is unnecessary. Instead, use the {@code SynchronousQueue} {@linkplain
+   *     SynchronousQueue#SynchronousQueue() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
+   */
   @J2ktIncompatible
   @GwtIncompatible // SynchronousQueue
+  @Deprecated
   public static <E> SynchronousQueue<E> newSynchronousQueue() {
     return new SynchronousQueue<>();
   }

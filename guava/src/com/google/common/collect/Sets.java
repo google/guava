@@ -185,12 +185,13 @@ public final class Sets {
    * using a {@code LinkedHashSet} instead, at the cost of increased memory footprint, to get
    * deterministic iteration behavior.
    *
-   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
-   * use the {@code HashSet} constructor directly, taking advantage of <a
-   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
-   * syntax</a>.
+   * @deprecated This method is unnecessary. Instead, use the {@code HashSet} {@linkplain
+   *     HashSet#HashSet() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
+  @Deprecated
   public static <E extends @Nullable Object> HashSet<E> newHashSet() {
     return new HashSet<>();
   }
@@ -317,14 +318,14 @@ public final class Sets {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableSet#of()} instead.
    *
-   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
-   * use the {@code LinkedHashSet} constructor directly, taking advantage of <a
-   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
-   * syntax</a>.
-   *
    * @return a new, empty {@code LinkedHashSet}
+   * @deprecated This method is unnecessary. Instead, use the {@code LinkedHashSet} {@linkplain
+   *     LinkedHashSet#LinkedHashSet() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
+  @Deprecated
   public static <E extends @Nullable Object> LinkedHashSet<E> newLinkedHashSet() {
     return new LinkedHashSet<>();
   }
@@ -473,9 +474,14 @@ public final class Sets {
    *
    * @return a new, empty {@code CopyOnWriteArraySet}
    * @since 12.0
+   * @deprecated This method is unnecessary. Instead, use the {@code CopyOnWriteArraySet} {@linkplain
+   *     CopyOnWriteArraySet#CopyOnWriteArraySet() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArraySet
+  @Deprecated
   public static <E extends @Nullable Object> CopyOnWriteArraySet<E> newCopyOnWriteArraySet() {
     return new CopyOnWriteArraySet<>();
   }
