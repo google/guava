@@ -41,6 +41,20 @@ import org.jspecify.annotations.Nullable;
 final class CollectSpliterators {
   private CollectSpliterators() {}
 
+  /**
+   * Returns whether {@code comparator} represents the natural ordering of its elements.
+   *
+   * <p>Recognizes the two well-known natural-ordering singletons: {@link Ordering#natural()} and
+   * {@link Comparator#naturalOrder()}.  Any comparator that compares equal to one of these (via
+   * {@link Object#equals}) is treated as natural order so that {@link Spliterator#getComparator()}
+   * can return {@code null} as required by its contract.
+   */
+  static boolean isNaturalOrder(@Nullable Comparator<?> comparator) {
+    return comparator == null
+        || Ordering.natural().equals(comparator)
+        || Comparator.naturalOrder().equals(comparator);
+  }
+
   static <T extends @Nullable Object> Spliterator<T> indexed(
       int size, int extraCharacteristics, IntFunction<T> function) {
     return indexed(size, extraCharacteristics, function, null);
@@ -93,7 +107,10 @@ final class CollectSpliterators {
       @Override
       public @Nullable Comparator<? super T> getComparator() {
         if (hasCharacteristics(Spliterator.SORTED)) {
-          return comparator;
+          // Per Spliterator.getComparator()'s contract, null signals that the source is
+          // sorted in natural order.  Normalizing natural-ordering singletons to null allows
+          // Stream.sorted() to short-circuit instead of re-sorting already-sorted data.
+          return isNaturalOrder(comparator) ? null : comparator;
         } else {
           throw new IllegalStateException();
         }
