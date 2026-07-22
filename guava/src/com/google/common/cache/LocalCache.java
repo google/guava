@@ -2278,7 +2278,16 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
           if (valueReference != null && newValue == valueReference.get()) {
             computingValueReference.set(newValue);
             e.setValueReference(valueReference);
-            recordWrite(e, 0, now); // no change in weight
+            // The value was not changed, so avoid resetting the write timestamp,
+            // which would incorrectly extend the expireAfterWrite deadline (see
+            // https://github.com/google/guava/issues/3700).
+            // We still need to re-add to both queues since the entry was removed
+            // from them above, and update the access time.
+            if (map.recordsAccess()) {
+              e.setAccessTime(now);
+            }
+            accessQueue.add(e);
+            writeQueue.add(e);
             return newValue;
           }
           try {
