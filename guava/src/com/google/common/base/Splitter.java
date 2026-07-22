@@ -522,7 +522,7 @@ public final class Splitter {
     }
   }
 
-  private interface Strategy {
+  public interface Strategy {
     Iterator<String> iterator(Splitter splitter, CharSequence toSplit);
   }
 
