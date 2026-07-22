@@ -53,6 +53,7 @@ import java.util.Set;
 import java.util.SortedMap;
 import java.util.Spliterator;
 import java.util.Spliterators;
+import java.util.function.BiConsumer;
 import java.util.function.BiFunction;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
@@ -73,7 +74,11 @@ import org.jspecify.annotations.Nullable;
  */
 @DoNotMock("Use ImmutableMap.of or another implementation")
 @GwtCompatible
-@SuppressWarnings("serial") // we're overriding default serialization
+@SuppressWarnings({
+  "serial",
+  "TooManyParameters",
+  "AssignmentExpression"
+}) // overriding serialization, fundamental factory methods, and concise assignments
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   /**
@@ -430,7 +435,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
+    @SuppressWarnings({"unchecked", "rawtypes"}) // safe array allocation for entries
     Builder(int initialCapacity) {
       this.entries = new @Nullable Entry[initialCapacity];
       this.size = 0;
@@ -481,7 +486,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      */
     @CanIgnoreReturnValue
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
-      return putAll(map.entrySet());
+      ensureCapacity(size + map.size());
+      map.forEach(this::put);
+      return this;
     }
 
     /**
@@ -664,7 +671,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       if (dups.isEmpty()) {
         return null;
       }
-      @SuppressWarnings({"rawtypes", "unchecked"})
+      @SuppressWarnings({"rawtypes", "unchecked"}) // safe array allocation for entries
       Entry<K, V>[] newEntries = new Entry[size - dups.cardinality()];
       for (int inI = 0, outI = 0; inI < size; inI++) {
         if (!dups.get(inI)) {
@@ -712,7 +719,40 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       ImmutableMap<K, V> result = (ImmutableMap<K, V>) untypedResult;
       return result;
     }
-    return copyOf(map.entrySet());
+    int size = map.size();
+    if (size == 0) {
+      return of();
+    }
+    // safe since array is only populated with Entry<K, V> instances
+    @SuppressWarnings("unchecked")
+    Entry<K, V>[] entries = (Entry<K, V>[]) new Entry<?, ?>[size];
+    // BiConsumer iterates directly to bypass iterator and Entry wrapper allocations for
+    // lazy/transformed views
+    class EntryCollector implements BiConsumer<K, V> {
+      Entry<K, V>[] array = entries;
+      int index = 0;
+
+      @Override
+      public void accept(K k, V v) {
+        if (index >= array.length) {
+          // Use multiplicative growth to efficiently handle concurrent map expansion
+          array = Arrays.copyOf(array, array.length + (array.length >> 1) + 1);
+        }
+        array[index++] = entryOf(k, v);
+      }
+    }
+    EntryCollector collector = new EntryCollector();
+    map.forEach(collector);
+    int finalSize = collector.index;
+    Entry<K, V>[] finalEntries = collector.array;
+    if (finalSize < finalEntries.length) {
+      finalEntries = Arrays.copyOf(finalEntries, finalSize);
+    }
+    if (finalSize == 0) {
+      return of();
+    }
+    return RegularImmutableMap.fromEntryArray(
+        finalSize, finalEntries, /* throwIfDuplicateKeys= */ true);
   }
 
   /**
@@ -1271,7 +1311,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this.values = map.values();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // safe deserialization resolution
     final Object readResolve() {
       if (!(this.keys instanceof ImmutableSet)) {
         return legacyReadResolve();
@@ -1292,7 +1332,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return builder.buildOrThrow();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // safe legacy deserialization resolution
     final Object legacyReadResolve() {
       K[] keys = (K[]) this.keys;
       V[] values = (V[]) this.values;

@@ -69,7 +69,11 @@ import org.jspecify.annotations.Nullable;
  */
 @DoNotMock("Use ImmutableMap.of or another implementation")
 @GwtCompatible
-@SuppressWarnings("serial") // we're overriding default serialization
+@SuppressWarnings({
+  "serial",
+  "TooManyParameters",
+  "AssignmentExpression"
+}) // overriding serialization, fundamental factory methods, and concise assignments
 public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
 
   /**
@@ -456,7 +460,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this(ImmutableCollection.Builder.DEFAULT_INITIAL_CAPACITY);
     }
 
-    @SuppressWarnings({"unchecked", "rawtypes"})
     Builder(int initialCapacity) {
       this.alternatingKeysAndValues = new @Nullable Object[2 * initialCapacity];
       this.size = 0;
@@ -510,6 +513,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
      */
     @CanIgnoreReturnValue
     public Builder<K, V> putAll(Map<? extends K, ? extends V> map) {
+      // Map.forEach is avoided in the Android java7 branch to maintain compatibility with Android
+      // APIs < 24.
       return putAll(map.entrySet());
     }
 
@@ -655,12 +660,12 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         @Nullable Object[] alternatingKeysAndValues,
         int size,
         Comparator<? super V> valueComparator) {
-      @SuppressWarnings({"rawtypes", "unchecked"})
+      @SuppressWarnings({"rawtypes", "unchecked"}) // safe array allocation for sorting
       Entry<Object, V>[] entries = new Entry[size];
       for (int i = 0; i < size; i++) {
         // requireNonNull is safe because the first `2*size` elements have been filled in.
         Object key = requireNonNull(alternatingKeysAndValues[2 * i]);
-        @SuppressWarnings("unchecked")
+        @SuppressWarnings("unchecked") // safe cast to value type
         V value = (V) requireNonNull(alternatingKeysAndValues[2 * i + 1]);
         entries[i] = new AbstractMap.SimpleImmutableEntry<Object, V>(key, value);
       }
@@ -736,6 +741,8 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
         return kvMap;
       }
     }
+    // Map.forEach is avoided in the Android java7 branch to maintain compatibility with Android
+    // APIs < 24.
     return copyOf(map.entrySet());
   }
 
@@ -1150,7 +1157,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       this.values = map.values();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // safe deserialization resolution
     final Object readResolve() {
       if (!(this.keys instanceof ImmutableSet)) {
         return legacyReadResolve();
@@ -1171,7 +1178,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return builder.buildOrThrow();
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked") // safe legacy deserialization resolution
     final Object legacyReadResolve() {
       K[] keys = (K[]) this.keys;
       V[] values = (V[]) this.values;
