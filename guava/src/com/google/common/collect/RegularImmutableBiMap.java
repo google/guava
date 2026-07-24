@@ -151,14 +151,14 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  ImmutableSet<Entry<K, V>> createEntrySet() {
+  public ImmutableSet<Entry<K, V>> entrySet() {
     return isEmpty()
         ? ImmutableSet.of()
         : new ImmutableMapEntrySet.RegularEntrySet<K, V>(this, entries);
   }
 
   @Override
-  ImmutableSet<K> createKeySet() {
+  public ImmutableSet<K> keySet() {
     return new ImmutableMapKeySet<>(this);
   }
 
@@ -236,12 +236,12 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     }
 
     @Override
-    ImmutableSet<V> createKeySet() {
+    public ImmutableSet<V> keySet() {
       return new ImmutableMapKeySet<>(this);
     }
 
     @Override
-    ImmutableSet<Entry<V, K>> createEntrySet() {
+    public ImmutableSet<Entry<V, K>> entrySet() {
       return new InverseEntrySet();
     }
 
