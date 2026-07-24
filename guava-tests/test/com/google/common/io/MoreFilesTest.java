@@ -301,6 +301,9 @@ public class MoreFilesTest extends TestCase {
     if (isWindows()) {
       return; // TODO: b/136041958 - Create/find a directory that we don't have permissions on?
     }
+    if ("root".equals(System.getProperty("user.name"))) {
+      return; // Root bypasses filesystem permission checks, so the test expectation doesn't hold.
+    }
     Path file = root().resolve("parent/nonexistent.file");
     Path parent = file.getParent();
     assertFalse(Files.exists(parent));
