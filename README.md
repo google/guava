@@ -127,8 +127,7 @@ class by appending the class name to guava.dev. For example,
 6.  For the mainline flavor, we test the libraries using a range of OpenJDK
     versions on Linux and Windows. Some features, especially in
     `com.google.common.io`, may not work correctly in non-Linux environments.
-    For the Android flavor, our unit tests also run on API level 23
-    (Marshmallow).
+    For the Android flavor, our unit tests also run on API level 24 (Nougat).
 
 [guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/

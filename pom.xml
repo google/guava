@@ -64,7 +64,7 @@
     <error_prone_core.version>2.50.0</error_prone_core.version>
     <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
     <failureaccess.version>1.0.3</failureaccess.version>
-    <gummy-bears-api-23-version>0.12.0</gummy-bears-api-23-version>
+    <gummy-bears-api-24-version>0.15.0</gummy-bears-api-24-version>
     <gwt-maven-plugin.version>1.1.0</gwt-maven-plugin.version>
     <gwt.version>2.13.0</gwt.version>
     <j2objc.version>3.1</j2objc.version>
