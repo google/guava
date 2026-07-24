@@ -29,7 +29,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-import org.junit.Ignore;
 
 /**
  * Base class for map testers.
@@ -42,9 +41,6 @@ import org.junit.Ignore;
  * @author George van den Driessche
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 @NullMarked
 public abstract class AbstractMapTester<K extends @Nullable Object, V extends @Nullable Object>
     extends AbstractContainerTester<Map<K, V>, Entry<K, V>> {

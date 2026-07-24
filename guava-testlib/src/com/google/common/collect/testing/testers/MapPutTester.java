@@ -36,7 +36,6 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import org.jspecify.annotations.Nullable;
-import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code put} operations on a map. Can't be invoked directly;
@@ -46,9 +45,6 @@ import org.junit.Ignore;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MapPutTester<K, V> extends AbstractMapTester<K, V> {
   private Entry<K, V> nullKeyEntry;
   private Entry<K, V> nullValueEntry;

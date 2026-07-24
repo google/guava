@@ -21,7 +21,6 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-import org.junit.Ignore;
 
 /**
  * Base class for collection testers.
@@ -30,9 +29,6 @@ import org.junit.Ignore;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 @NullMarked
 public abstract class AbstractCollectionTester<E extends @Nullable Object>
     extends AbstractContainerTester<Collection<E>, E> {

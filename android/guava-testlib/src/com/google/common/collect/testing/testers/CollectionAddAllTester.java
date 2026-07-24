@@ -37,7 +37,6 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.List;
 import org.jspecify.annotations.Nullable;
-import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests addAll operations on a collection. Can't be invoked directly;
@@ -47,9 +46,6 @@ import org.junit.Ignore;
  * @author Kevin Bourrillion
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class CollectionAddAllTester<E extends @Nullable Object>
     extends AbstractCollectionTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)

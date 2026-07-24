@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Objects;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
-import org.junit.Ignore;
 
 /**
  * Base class for list testers.
@@ -34,9 +33,6 @@ import org.junit.Ignore;
  */
 @GwtCompatible
 @NullMarked
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class AbstractListTester<E extends @Nullable Object> extends AbstractCollectionTester<E> {
   /*
    * Previously we had a field named list that was initialized to the value of

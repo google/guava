@@ -39,7 +39,6 @@ import com.google.common.collect.testing.features.ListFeature;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
-import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code subList()} operations on a list. Can't be invoked
@@ -48,9 +47,6 @@ import org.junit.Ignore;
  * @author Chris Povirk
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListSubListTester<E> extends AbstractListTester<E> {
   public void testSubList_startNegative() {
     assertThrows(IndexOutOfBoundsException.class, () -> getList().subList(-1, 0));

@@ -33,7 +33,6 @@ import com.google.common.collect.testing.features.CollectionSize;
 import java.lang.reflect.Method;
 import java.util.List;
 import java.util.Set;
-import org.junit.Ignore;
 
 /**
  * Tests for {@code Multiset.elementSet()} not covered by the derived {@code SetTestSuiteBuilder}.
@@ -41,9 +40,6 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MultisetElementSetTester<E> extends AbstractMultisetTester<E> {
   @CollectionFeature.Require(SUPPORTS_ADD)
   public void testElementSetReflectsAddAbsent() {

@@ -21,7 +21,6 @@ import static java.util.Arrays.asList;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.features.CollectionSize;
-import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@code toArray()} operations on a list. Can't be invoked
@@ -30,9 +29,6 @@ import org.junit.Ignore;
  * @author Chris Povirk
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class ListToArrayTester<E> extends AbstractListTester<E> {
   // CollectionToArrayTester tests everything except ordering.
 

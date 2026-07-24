@@ -19,7 +19,6 @@ package com.google.common.collect.testing.testers;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.testing.AbstractCollectionTester;
 import java.util.Queue;
-import org.junit.Ignore;
 
 /**
  * Base class for queue collection tests.
@@ -27,9 +26,6 @@ import org.junit.Ignore;
  * @author Jared Levy
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class AbstractQueueTester<E> extends AbstractCollectionTester<E> {
   protected final Queue<E> getQueue() {
     return (Queue<E>) collection;

@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.SortedSet;
-import org.junit.Ignore;
 
 /**
  * Testers for {@link SortedSetMultimap#asMap}.
@@ -33,9 +32,6 @@ import org.junit.Ignore;
  * @param <V> The value type of the tested multimap.
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class SortedSetMultimapAsMapTester<K, V>
     extends AbstractMultimapTester<K, V, SortedSetMultimap<K, V>> {
   public void testAsMapValuesImplementSortedSet() {

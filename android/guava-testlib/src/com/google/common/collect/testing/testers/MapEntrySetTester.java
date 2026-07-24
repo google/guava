@@ -40,7 +40,6 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
-import org.junit.Ignore;
 
 /**
  * Tests {@link java.util.Map#entrySet}.
@@ -50,9 +49,6 @@ import org.junit.Ignore;
  * @param <V> The value type of the map implementation under test.
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class MapEntrySetTester<K, V> extends AbstractMapTester<K, V> {
   private enum IncomparableType {
     INSTANCE;

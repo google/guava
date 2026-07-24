@@ -29,7 +29,6 @@ import com.google.common.collect.testing.features.CollectionFeature;
 import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
-import org.junit.Ignore;
 
 /**
  * Tests for the {@code inverse} view of a BiMap.
@@ -40,9 +39,6 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
 
   public void testInverseSame() {

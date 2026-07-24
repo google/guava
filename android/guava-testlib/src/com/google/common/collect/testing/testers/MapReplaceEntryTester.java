@@ -27,7 +27,6 @@ import com.google.common.collect.testing.AbstractMapTester;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import java.util.Map;
-import org.junit.Ignore;
 
 /**
  * A generic JUnit test which tests {@link Map#replace(Object, Object, Object)}. Can't be invoked
@@ -36,9 +35,6 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 @IgnoreJRERequirement // We opt into library desugaring for our tests.
 public class MapReplaceEntryTester<K, V> extends AbstractMapTester<K, V> {
 

@@ -21,7 +21,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.testing.EqualsTester;
-import org.junit.Ignore;
 
 /**
  * Testers for {@link SetMultimap#equals(Object)}.
@@ -29,9 +28,6 @@ import org.junit.Ignore;
  * @author Louis Wasserman
  */
 @GwtCompatible
-@Ignore("test runners must not instantiate and run this directly, only via suites we build")
-// @Ignore affects the Android test runner, which respects JUnit 4 annotations on JUnit 3 tests.
-@SuppressWarnings("JUnit4ClassUsedInJUnit3")
 public class SetMultimapEqualsTester<K, V> extends AbstractMultimapTester<K, V, SetMultimap<K, V>> {
   @CollectionSize.Require(SEVERAL)
   public void testOrderingDoesntAffectEqualsComparisons() {
