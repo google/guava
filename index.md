@@ -23,9 +23,9 @@ Guava comes in two flavors:
 Guava's Maven group ID is `com.google.guava`, and its artifact ID is `guava`.
 Guava provides two different "flavors": one for use on a (Java 8+) JRE and one
 for use on Android or by any library that wants to be compatible with Android.
-These flavors are specified in the Maven version field as either `{{ site.latest_release }}-jre` or
-`{{ site.latest_release }}-android`. For more about depending on Guava, see
-[using Guava in your build].
+These flavors are specified in the Maven version field as either `{{
+site.latest_release }}-jre` or `{{ site.latest_release }}-android`. For more
+about depending on Guava, see [using Guava in your build].
 
 To add a dependency on Guava using Maven, use the following:
 
@@ -122,8 +122,7 @@ class by appending the class name to guava.dev. For example,
 6.  For the mainline flavor, we test the libraries using a range of OpenJDK
     versions on Linux and Windows. Some features, especially in
     `com.google.common.io`, may not work correctly in non-Linux environments.
-    For the Android flavor, our unit tests also run on API level 23
-    (Marshmallow).
+    For the Android flavor, our unit tests also run on API level 24 (Nougat).
 
 [guava-snapshot-api-docs]: https://guava.dev/releases/snapshot-jre/api/docs/
 [guava-snapshot-api-diffs]: https://guava.dev/releases/snapshot-jre/api/diffs/
