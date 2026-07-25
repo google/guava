@@ -33,7 +33,12 @@ public final class Atomics {
    * Creates an {@code AtomicReference} instance with no initial value.
    *
    * @return a new {@code AtomicReference} with no initial value
+   * @deprecated This method is unnecessary. Instead, use the {@code AtomicReference} {@linkplain
+   *     AtomicReference#AtomicReference() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
+  @Deprecated
   public static <V> AtomicReference<@Nullable V> newReference() {
     return new AtomicReference<>();
   }
@@ -43,7 +48,12 @@ public final class Atomics {
    *
    * @param initialValue the initial value
    * @return a new {@code AtomicReference} with the given initial value
+   * @deprecated This method is unnecessary. Instead, use the {@code AtomicReference} {@linkplain
+   *     AtomicReference#AtomicReference(Object) constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
+  @Deprecated
   public static <V extends @Nullable Object> AtomicReference<V> newReference(
       @ParametricNullness V initialValue) {
     return new AtomicReference<>(initialValue);
