@@ -345,9 +345,9 @@ public final class ArbitraryInstances {
     setImplementation(Executor.class, Dummies.DummyExecutor.class);
   }
 
-  @SuppressWarnings("unchecked") // it's a subtype map
   private static <T> @Nullable Class<? extends T> getImplementation(Class<T> type) {
-    return (Class<? extends T>) implementations.get(type);
+    Class<?> result = implementations.get(type);
+    return result == null ? null : result.asSubclass(type);
   }
 
   private static final Logger logger = Logger.getLogger(ArbitraryInstances.class.getName());
