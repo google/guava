@@ -57,7 +57,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>would be flagged as having called {@code sqrt()} with an illegal argument.
  *
- * <h3>Performance</h3>
+ * <h2>Performance</h2>
  *
  * <p>Avoid passing message arguments that are expensive to compute; your code will always compute
  * them, even though they usually won't be needed. If you have such arguments, use the conventional
@@ -73,13 +73,13 @@ import org.jspecify.annotations.Nullable;
  * <p>As with any performance concerns, you should consider profiling your code (in a production
  * environment if possible) before spending a lot of effort on tweaking a particular element.
  *
- * <h3>Other types of preconditions</h3>
+ * <h2>Other types of preconditions</h2>
  *
  * <p>Not every type of precondition failure is supported by these methods. Continue to throw
  * standard JDK exceptions such as {@link java.util.NoSuchElementException} or {@link
  * UnsupportedOperationException} in the situations they are intended for.
  *
- * <h3>Non-preconditions</h3>
+ * <h2>Non-preconditions</h2>
  *
  * <p>It is of course possible to use the methods of this class to check for invalid conditions
  * which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
@@ -88,14 +88,14 @@ import org.jspecify.annotations.Nullable;
  * explained</a> in the Guava User Guide for more advice. Notably, {@link Verify} offers assertions
  * similar to those in this class for non-precondition checks.
  *
- * <h3>{@code java.util.Objects.requireNonNull()}</h3>
+ * <h2>{@code java.util.Objects.requireNonNull()}</h2>
  *
  * <p>Projects which use {@code com.google.common} should generally avoid the use of {@link
  * Objects#requireNonNull(Object)}. Instead, use whichever of {@link #checkNotNull(Object)} or
  * {@link Verify#verifyNotNull(Object)} is appropriate to the situation. (The same goes for the
  * message-accepting overloads.)
  *
- * <h3>Only {@code %s} is supported</h3>
+ * <h2>Only {@code %s} is supported</h2>
  *
  * <p>{@code Preconditions} uses {@link Strings#lenientFormat} to format error message template
  * strings. This only supports the {@code "%s"} specifier, not the full range of {@link
@@ -104,7 +104,7 @@ import org.jspecify.annotations.Nullable;
  * behave as expected, and will still include all argument values in the error message; the message
  * will simply not be formatted exactly as intended.
  *
- * <h3>More information</h3>
+ * <h2>More information</h2>
  *
  * <p>See the Guava User Guide on <a
  * href="https://github.com/google/guava/wiki/PreconditionsExplained">using {@code

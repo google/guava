@@ -64,7 +64,7 @@ import org.jspecify.annotations.Nullable;
  * element (in a way that affects its {@link Object#equals} behavior) while it is contained in a
  * multiset. Undefined behavior and bugs will result.
  *
- * <h3>Implementations</h3>
+ * <h2>Implementations</h2>
  *
  * <ul>
  *   <li>{@link ImmutableMultiset}

@@ -32,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  * comparator utilities, see either {@code Comparator} itself (for Java 8+), or {@code
  * com.google.common.collect.Ordering} (otherwise).
  *
- * <h3>Relationship to {@code Ordering}</h3>
+ * <h2>Relationship to {@code Ordering}</h2>
  *
  * <p>In light of the significant enhancements to {@code Comparator} in Java 8, the overwhelming
  * majority of usages of {@code Ordering} can be written using only built-in JDK APIs. This class is

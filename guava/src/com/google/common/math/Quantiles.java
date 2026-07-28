@@ -34,7 +34,7 @@ import java.util.Map;
  * Provides a fluent API for calculating <a
  * href="http://en.wikipedia.org/wiki/Quantile">quantiles</a>.
  *
- * <h3>Examples</h3>
+ * <h2>Examples</h2>
  *
  * <p>To compute the median:
  *
@@ -68,7 +68,7 @@ import java.util.Map;
  * it being arbitrarily reordered, and you want to avoid that copy, you can use {@code
  * computeInPlace} instead of {@code compute}.
  *
- * <h3>Definition and notes on interpolation</h3>
+ * <h2>Definition and notes on interpolation</h2>
  *
  * <p>The definition of the kth q-quantile of N values is as follows: define x = k * (N - 1) / q; if
  * x is an integer, the result is the value which would appear at index x in the sorted dataset
@@ -82,7 +82,7 @@ import java.util.Map;
  * wikipedia</a> as providing "Linear interpolation of the modes for the order statistics for the
  * uniform distribution on [0,1]."
  *
- * <h3>Handling of non-finite values</h3>
+ * <h2>Handling of non-finite values</h2>
  *
  * <p>If any values in the input are {@link Double#NaN NaN} then all values returned are {@link
  * Double#NaN NaN}. (This is the one occasion when the behaviour is not the same as you'd get from
@@ -102,7 +102,7 @@ import java.util.Map;
  * POSITIVE_INFINITY}, {@link Double#NaN NaN} is returned (note that this will only happen if the
  * dataset contains no finite values).
  *
- * <h3>Performance</h3>
+ * <h2>Performance</h2>
  *
  * <p>The average time complexity of the computation is O(N) in the size of the dataset. There is a
  * worst case time complexity of O(N^2). You are extremely unlikely to hit this quadratic case on

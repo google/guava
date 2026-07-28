@@ -35,7 +35,7 @@ import org.jspecify.annotations.Nullable;
  * default} methods. Instead, it inherits their default implementations. When those implementations
  * invoke methods, they invoke methods on the {@code ForwardingFluentFuture}.
  *
- * <h3>Extension</h3>
+ * <h2>Extension</h2>
  *
  * This class is package-private. If you want a class like {@code FluentFuture} but with extra
  * methods, we recommend declaring your own subclass of {@link ListenableFuture}, complete with a

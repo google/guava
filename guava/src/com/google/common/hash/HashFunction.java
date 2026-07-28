@@ -24,7 +24,7 @@ import org.jspecify.annotations.Nullable;
  * A hash function is a collision-averse pure function that maps an arbitrary block of data to a
  * number called a <i>hash code</i>.
  *
- * <h3>Definition</h3>
+ * <h2>Definition</h2>
  *
  * <p>Unpacking this definition:
  *
@@ -50,7 +50,7 @@ import org.jspecify.annotations.Nullable;
  * <p>Summarizing the last two points: "equal yield equal <i>always</i>; unequal yield unequal
  * <i>often</i>." This is the most important characteristic of all hash functions.
  *
- * <h3>Desirable properties</h3>
+ * <h2>Desirable properties</h2>
  *
  * <p>A high-quality hash function strives for some subset of the following virtues:
  *
@@ -77,7 +77,7 @@ import org.jspecify.annotations.Nullable;
  *   <li><b>fast:</b> perhaps self-explanatory, but often the most important consideration.
  * </ul>
  *
- * <h3>Providing input to a hash function</h3>
+ * <h2>Providing input to a hash function</h2>
  *
  * <p>The primary way to provide the data that your hash function should act on is via a {@link
  * Hasher}. Obtain a new hasher from the hash function using {@link #newHasher}, "push" the relevant
@@ -97,7 +97,7 @@ import org.jspecify.annotations.Nullable;
  * equivalent to hashing the {@code int} value {@code 0x04030201}. If this isn't what you need,
  * methods such as {@link Integer#reverseBytes} and {@link Ints#toByteArray} will help.
  *
- * <h3>Relationship to {@link Object#hashCode}</h3>
+ * <h2>Relationship to {@link Object#hashCode}</h2>
  *
  * <p>Java's baked-in concept of hash codes is constrained to 32 bits, and provides no separation
  * between hash algorithms and the data they act on, so alternate hash algorithms can't be easily

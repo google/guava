@@ -33,7 +33,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>This class is GWT-compatible.
  *
- * <h3>Purpose</h3>
+ * <h2>Purpose</h2>
  *
  * <p>The main purpose of {@code ListenableFuture} is to help you chain together a graph of
  * asynchronous operations. You can chain them together manually with calls to methods like {@link
@@ -66,7 +66,7 @@ import org.jspecify.annotations.Nullable;
  * }, executor);
  * }
  *
- * <h3>How to get an instance</h3>
+ * <h2>How to get an instance</h2>
  *
  * <p>We encourage you to return {@code ListenableFuture} from your methods so that your users can
  * take advantage of the {@linkplain Futures utilities built atop the class}. The way that you will

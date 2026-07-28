@@ -55,7 +55,7 @@ import org.jspecify.annotations.Nullable;
  * times when the first style is more useful, use the multimap's {@link #asMap} view (or create a
  * {@code Map<K, Collection<V>>} in the first place).
  *
- * <h3>Example</h3>
+ * <h2>Example</h2>
  *
  * <p>The following code:
  *
@@ -80,7 +80,7 @@ import org.jspecify.annotations.Nullable;
  * ...
  * }
  *
- * <h3>Views</h3>
+ * <h2>Views</h2>
  *
  * <p>Much of the power of the multimap API comes from the <i>view collections</i> it provides.
  * These always reflect the latest state of the multimap itself. When they support modification, the
@@ -99,7 +99,7 @@ import org.jspecify.annotations.Nullable;
  * removeAll} methods, which contain values that have just been removed from the multimap, are
  * naturally <i>not</i> views.
  *
- * <h3>Subinterfaces</h3>
+ * <h2>Subinterfaces</h2>
  *
  * <p>Instead of using the {@code Multimap} interface directly, prefer the subinterfaces {@link
  * ListMultimap} and {@link SetMultimap}. These take their names from the fact that the collections
@@ -115,7 +115,7 @@ import org.jspecify.annotations.Nullable;
  * may not be equal and may or may not have the same {@code hashCode}. The recommended subinterfaces
  * provide much stronger guarantees.
  *
- * <h3>Comparison to a map of collections</h3>
+ * <h2>Comparison to a map of collections</h2>
  *
  * <p>Multimaps are commonly used in places where a {@code Map<K, Collection<V>>} would otherwise
  * have appeared. The differences include:
@@ -132,7 +132,7 @@ import org.jspecify.annotations.Nullable;
  *       Collections.min(multimap.values())} finds the smallest value across all keys.
  * </ul>
  *
- * <h3>Implementations</h3>
+ * <h2>Implementations</h2>
  *
  * <ul>
  *   <li>{@link ImmutableListMultimap}
@@ -145,7 +145,7 @@ import org.jspecify.annotations.Nullable;
  * new code, we recommend using {@link MultimapBuilder} instead: It provides better control of how
  * keys and values are stored.
  *
- * <h3>Other Notes</h3>
+ * <h2>Other Notes</h2>
  *
  * <p>As with {@code Map}, the behavior of a {@code Multimap} is not specified if key objects
  * already present in the multimap change in a manner that affects {@code equals} comparisons. Use

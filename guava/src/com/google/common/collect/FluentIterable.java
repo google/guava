@@ -60,7 +60,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p><a id="streams"></a>
  *
- * <h3>Comparison to streams</h3>
+ * <h2>Comparison to streams</h2>
  *
  * <p>{@link Stream} is similar to this class, but generally more powerful, and certainly more
  * standard. Key differences include:
@@ -81,7 +81,7 @@ import org.jspecify.annotations.Nullable;
  *   <li>Streams are standard Java, not requiring a third-party dependency.
  * </ul>
  *
- * <h3>Example</h3>
+ * <h2>Example</h2>
  *
  * <p>Here is an example that accepts a list from a database call, filters it based on a predicate,
  * transforms it by invoking {@code toString()} on each element, and returns the first 10 elements

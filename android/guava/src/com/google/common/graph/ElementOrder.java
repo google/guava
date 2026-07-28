@@ -88,7 +88,7 @@ public final class ElementOrder<T> {
    * <p>This instance is only useful in combination with {@code incidentEdgeOrder}, e.g. {@code
    * graphBuilder.incidentEdgeOrder(ElementOrder.stable())}.
    *
-   * <h3>In combination with {@code incidentEdgeOrder}</h3>
+   * <h4>In combination with {@code incidentEdgeOrder}</h4>
    *
    * <p>{@code incidentEdgeOrder(ElementOrder.stable())} guarantees the ordering of the returned
    * collections of the following methods:

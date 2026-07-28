@@ -56,12 +56,12 @@ import org.jspecify.annotations.Nullable;
  * of {@code Comparator} for pre-Java-8 users, in the same sense that {@link FluentIterable} is an
  * enriched {@link Iterable} for pre-Java-8 users.
  *
- * <h3>Three types of methods</h3>
+ * <h2>Three types of methods</h2>
  *
  * Like other fluent types, there are three types of methods present: methods for <i>acquiring</i>,
  * <i>chaining</i>, and <i>using</i>.
  *
- * <h4>Acquiring</h4>
+ * <h3>Acquiring</h3>
  *
  * <p>The common ways to get an instance of {@code Ordering} are:
  *
@@ -72,7 +72,7 @@ import org.jspecify.annotations.Nullable;
  *   <li>Use the natural ordering, {@link Ordering#natural}
  * </ul>
  *
- * <h4>Chaining</h4>
+ * <h3>Chaining</h3>
  *
  * <p>Then you can use the <i>chaining</i> methods to get an altered version of that {@code
  * Ordering}, including:
@@ -84,7 +84,7 @@ import org.jspecify.annotations.Nullable;
  *   <li>{@link #nullsFirst} / {@link #nullsLast}
  * </ul>
  *
- * <h4>Using</h4>
+ * <h3>Using</h3>
  *
  * <p>Finally, use the resulting {@code Ordering} anywhere a {@link Comparator} is required, or use
  * any of its special operations, such as:
@@ -95,7 +95,7 @@ import org.jspecify.annotations.Nullable;
  *   <li>{@link #min} / {@link #max}
  * </ul>
  *
- * <h3>Understanding complex orderings</h3>
+ * <h2>Understanding complex orderings</h2>
  *
  * <p>Complex chained orderings like the following example can be challenging to understand.
  *
@@ -125,14 +125,14 @@ import org.jspecify.annotations.Nullable;
  * encounter a call to {@code reverse}, continue working backwards until a result is determined, and
  * then reverse that result.
  *
- * <h3>Additional notes</h3>
+ * <h2>Additional notes</h2>
  *
  * <p>Except as noted, the orderings returned by the factory methods of this class are serializable
  * if and only if the provided instances that back them are. For example, if {@code ordering} and
  * {@code function} can themselves be serialized, then {@code ordering.onResultOf(function)} can as
  * well.
  *
- * <h3>Java 8+ users</h3>
+ * <h2>Java 8+ users</h2>
  *
  * <p>If you are using Java 8+, this class is now obsolete. Most of its functionality is now
  * provided by {@link java.util.stream.Stream Stream} and by {@link Comparator} itself, and the rest
@@ -145,7 +145,7 @@ import org.jspecify.annotations.Nullable;
  * code verbose. Whenever following this advice, you should check whether {@code Stream} could be
  * adopted more comprehensively in your code; the end result may be quite a bit simpler.
  *
- * <h3>See also</h3>
+ * <h2>See also</h2>
  *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/OrderingExplained">{@code Ordering}</a>.

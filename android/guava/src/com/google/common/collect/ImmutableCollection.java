@@ -50,12 +50,12 @@ import org.jspecify.annotations.Nullable;
  * ImmutableList}, which have well-defined {@link #equals} semantics, thus avoiding a common source
  * of bugs and confusion.
  *
- * <h3>About <i>all</i> {@code Immutable-} collections</h3>
+ * <h2>About <i>all</i> {@code Immutable-} collections</h2>
  *
  * <p>The remainder of this documentation applies to every public {@code Immutable-} type in this
  * package, whether it is a subtype of {@code ImmutableCollection} or not.
  *
- * <h4>Guarantees</h4>
+ * <h3>Guarantees</h3>
  *
  * <p>Each makes the following guarantees:
  *
@@ -76,7 +76,7 @@ import org.jspecify.annotations.Nullable;
  *       these guarantees to be violated).
  * </ul>
  *
- * <h4>"Interfaces", not implementations</h4>
+ * <h3>"Interfaces", not implementations</h3>
  *
  * <p>These are classes instead of interfaces to prevent external subtyping, but should be thought
  * of as interfaces in every important sense. Each public class such as {@link ImmutableSet} is a
@@ -98,7 +98,7 @@ import org.jspecify.annotations.Nullable;
  * {@link Collections#singleton(Object)} and {@link Set##unmodifiable Set.of}, we recommend using
  * <i>these</i> classes instead for this reason (as well as for consistency).
  *
- * <h4>Creation</h4>
+ * <h3>Creation</h3>
  *
  * <p>Except for logically "abstract" types like {@code ImmutableCollection} itself, each {@code
  * Immutable} type provides the static operations you need to obtain instances of that type. These
@@ -112,7 +112,7 @@ import org.jspecify.annotations.Nullable;
  *       instance.
  * </ul>
  *
- * <h4>Warnings</h4>
+ * <h3>Warnings</h3>
  *
  * <ul>
  *   <li><b>Warning:</b> as with any collection, it is almost always a bad idea to modify an element
@@ -122,7 +122,7 @@ import org.jspecify.annotations.Nullable;
  *       <i>deeply</i> immutable.
  * </ul>
  *
- * <h4>Performance notes</h4>
+ * <h3>Performance notes</h3>
  *
  * <ul>
  *   <li>Implementations can be generally assumed to prioritize memory efficiency, then speed of
@@ -142,7 +142,7 @@ import org.jspecify.annotations.Nullable;
  *       {@code hashCode} implementation, it should cache it itself.
  * </ul>
  *
- * <h4>Example usage</h4>
+ * <h3>Example usage</h3>
  *
  * {@snippet :
  * class Foo {
@@ -158,7 +158,7 @@ import org.jspecify.annotations.Nullable;
  * }
  * }
  *
- * <h3>See also</h3>
+ * <h2>See also</h2>
  *
  * <p>See the Guava User Guide article on <a href=
  * "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.

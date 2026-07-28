@@ -85,7 +85,7 @@ public final class PairedStats implements Serializable {
    * is not guaranteed to return zero when the dataset consists of the same pair of values multiple
    * times, due to numerical errors.
    *
-   * <h3>Non-finite values</h3>
+   * <h4>Non-finite values</h4>
    *
    * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
    * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -103,7 +103,7 @@ public final class PairedStats implements Serializable {
    * <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
    * multiple times, due to numerical errors.
    *
-   * <h3>Non-finite values</h3>
+   * <h4>Non-finite values</h4>
    *
    * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
    * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -123,7 +123,7 @@ public final class PairedStats implements Serializable {
    * guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
    * numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1].
    *
-   * <h3>Non-finite values</h3>
+   * <h4>Non-finite values</h4>
    *
    * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
    * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -169,7 +169,7 @@ public final class PairedStats implements Serializable {
    * does not normally minimize that error: to do that, you should swap the roles of {@code x} and
    * {@code y}.
    *
-   * <h3>Non-finite values</h3>
+   * <h4>Non-finite values</h4>
    *
    * <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
    * Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link

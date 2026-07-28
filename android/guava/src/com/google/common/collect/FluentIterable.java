@@ -62,7 +62,7 @@ import org.jspecify.annotations.Nullable;
  *
  * <p><a id="streams"></a>
  *
- * <h3>Comparison to streams</h3>
+ * <h2>Comparison to streams</h2>
  *
  * <p>Starting with Java 8, the core Java class libraries provide a new "Streams" library (in {@code
  * java.util.stream}), which is similar to {@code FluentIterable} but generally more powerful. Key
@@ -88,7 +88,7 @@ import org.jspecify.annotations.Nullable;
  *       under Android).
  * </ul>
  *
- * <h3>Example</h3>
+ * <h2>Example</h2>
  *
  * <p>Here is an example that accepts a list from a database call, filters it based on a predicate,
  * transforms it by invoking {@code toString()} on each element, and returns the first 10 elements
