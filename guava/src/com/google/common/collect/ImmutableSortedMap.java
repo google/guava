@@ -832,84 +832,75 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   /** Returns an immutable set of the mappings in this map, sorted by the key ordering. */
   @Override
   public ImmutableSet<Entry<K, V>> entrySet() {
-    return super.entrySet();
+    return isEmpty() ? ImmutableSet.of() : new EntrySet();
   }
 
-  @Override
-  ImmutableSet<Entry<K, V>> createEntrySet() {
-    final class EntrySet extends ImmutableMapEntrySet<K, V> {
-      @Override
-      public UnmodifiableIterator<Entry<K, V>> iterator() {
-        return asList().iterator();
-      }
-
-      @Override
-      public Spliterator<Entry<K, V>> spliterator() {
-        return asList().spliterator();
-      }
-
-      @Override
-      public void forEach(Consumer<? super Entry<K, V>> action) {
-        asList().forEach(action);
-      }
-
-      @Override
-      ImmutableList<Entry<K, V>> createAsList() {
-        return new ImmutableAsList<Entry<K, V>>() {
-          @Override
-          public Entry<K, V> get(int index) {
-            return new AbstractMap.SimpleImmutableEntry<>(
-                keySet.asList().get(index), valueList.get(index));
-          }
-
-          @Override
-          public Spliterator<Entry<K, V>> spliterator() {
-            return CollectSpliterators.indexed(
-                size(), ImmutableSet.SPLITERATOR_CHARACTERISTICS, this::get);
-          }
-
-          @Override
-          ImmutableCollection<Entry<K, V>> delegateCollection() {
-            return EntrySet.this;
-          }
-
-          // redeclare to help optimizers with b/310253115
-          @SuppressWarnings("RedundantOverride")
-          @Override
-          @J2ktIncompatible
-          @GwtIncompatible
-                    Object writeReplace() {
-            return super.writeReplace();
-          }
-        };
-      }
-
-      @Override
-      ImmutableMap<K, V> map() {
-        return ImmutableSortedMap.this;
-      }
-
-      // redeclare to help optimizers with b/310253115
-      @SuppressWarnings("RedundantOverride")
-      @Override
-      @J2ktIncompatible
-      @GwtIncompatible
-            Object writeReplace() {
-        return super.writeReplace();
-      }
+  private final class EntrySet extends ImmutableMapEntrySet<K, V> {
+    @Override
+    public UnmodifiableIterator<Entry<K, V>> iterator() {
+      return asList().iterator();
     }
-    return isEmpty() ? ImmutableSet.of() : new EntrySet();
+
+    @Override
+    public Spliterator<Entry<K, V>> spliterator() {
+      return asList().spliterator();
+    }
+
+    @Override
+    public void forEach(Consumer<? super Entry<K, V>> action) {
+      asList().forEach(action);
+    }
+
+    @Override
+    ImmutableList<Entry<K, V>> createAsList() {
+      return new ImmutableAsList<Entry<K, V>>() {
+        @Override
+        public Entry<K, V> get(int index) {
+          return new AbstractMap.SimpleImmutableEntry<>(
+              keySet.asList().get(index), valueList.get(index));
+        }
+
+        @Override
+        public Spliterator<Entry<K, V>> spliterator() {
+          return CollectSpliterators.indexed(
+              size(), ImmutableSet.SPLITERATOR_CHARACTERISTICS, this::get);
+        }
+
+        @Override
+        ImmutableCollection<Entry<K, V>> delegateCollection() {
+          return EntrySet.this;
+        }
+
+        // redeclare to help optimizers with b/310253115
+        @SuppressWarnings("RedundantOverride")
+        @Override
+        @J2ktIncompatible
+        @GwtIncompatible
+                Object writeReplace() {
+          return super.writeReplace();
+        }
+      };
+    }
+
+    @Override
+    ImmutableMap<K, V> map() {
+      return ImmutableSortedMap.this;
+    }
+
+    // redeclare to help optimizers with b/310253115
+    @SuppressWarnings("RedundantOverride")
+    @Override
+    @J2ktIncompatible
+    @GwtIncompatible
+        Object writeReplace() {
+      return super.writeReplace();
+    }
   }
 
   /** Returns an immutable sorted set of the keys in this map. */
   @Override
   public ImmutableSortedSet<K> keySet() {
     return keySet;
-  }
-
-  @Override
-  ImmutableSet<K> createKeySet() {
-    throw new AssertionError("should never be called");
   }
 
   /**
@@ -919,11 +910,6 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
   @Override
   public ImmutableCollection<V> values() {
     return valueList;
-  }
-
-  @Override
-  ImmutableCollection<V> createValues() {
-    throw new AssertionError("should never be called");
   }
 
   /**

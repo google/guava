@@ -373,7 +373,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  ImmutableSet<Entry<K, V>> createEntrySet() {
+  public ImmutableSet<Entry<K, V>> entrySet() {
     return new EntrySet<>(this, alternatingKeysAndValues, 0, size);
   }
 
@@ -473,7 +473,7 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
   }
 
   @Override
-  ImmutableSet<K> createKeySet() {
+  public ImmutableSet<K> keySet() {
     @SuppressWarnings("unchecked")
     ImmutableList<K> keyList =
         (ImmutableList<K>) new KeysOrValuesAsList(alternatingKeysAndValues, 0, size);
@@ -565,9 +565,23 @@ final class RegularImmutableMap<K, V> extends ImmutableMap<K, V> {
     }
   }
 
-  @SuppressWarnings("unchecked")
+  @SuppressWarnings({
+    "unchecked",
+    /*
+     * While we *could* declare a return type of ImmutableList on this package-private
+     * implementation type, no user would see it, so all we'd end up with is an extra method in the
+     * class file.
+     *
+     * (Arguably it would have been even better not to have returned an ImmutableList in the first
+     * place. It's especially a bit strange given that ImmutableMap.of(k, v).values() (a
+     * SingletonImmutableBiMap) returns an ImmutubleSet. Surely users have already come to depend on
+     * these implementation details, such as through `equals` calls. Maybe we should have returned a
+     * more vanilla ImmutableCollection with a fast asList() method?))
+     */
+    "PreferredInterfaceType",
+  })
   @Override
-  ImmutableCollection<V> createValues() {
+  public ImmutableCollection<V> values() {
     return (ImmutableList<V>) new KeysOrValuesAsList(alternatingKeysAndValues, 1, size);
   }
 

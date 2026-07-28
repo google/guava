@@ -102,12 +102,12 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  ImmutableSet<Entry<K, V>> createEntrySet() {
+  public ImmutableSet<Entry<K, V>> entrySet() {
     return new RegularImmutableMap.EntrySet<K, V>(this, alternatingKeysAndValues, keyOffset, size);
   }
 
   @Override
-  ImmutableSet<K> createKeySet() {
+  public ImmutableSet<K> keySet() {
     @SuppressWarnings("unchecked")
     ImmutableList<K> keyList =
         (ImmutableList<K>)

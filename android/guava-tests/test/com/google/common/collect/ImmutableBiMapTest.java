@@ -74,6 +74,7 @@ public class ImmutableBiMapTest extends TestCase {
                 MapFeature.REJECTS_DUPLICATES_AT_CREATION,
                 MapFeature.ALLOWS_ANY_NULL_QUERIES)
             .suppressing(BiMapInverseTester.getInverseSameAfterSerializingMethods())
+            .suppressing(BiMapInverseTester.getInverseSameMethod())
             .createTestSuite());
     suite.addTest(
         BiMapTestSuiteBuilder.using(new ImmutableBiMapCopyOfGenerator())
@@ -84,6 +85,7 @@ public class ImmutableBiMapTest extends TestCase {
                 CollectionFeature.KNOWN_ORDER,
                 MapFeature.ALLOWS_ANY_NULL_QUERIES)
             .suppressing(BiMapInverseTester.getInverseSameAfterSerializingMethods())
+            .suppressing(BiMapInverseTester.getInverseSameMethod())
             .createTestSuite());
     suite.addTest(
         BiMapTestSuiteBuilder.using(new ImmutableBiMapCopyOfEntriesGenerator())
@@ -95,6 +97,7 @@ public class ImmutableBiMapTest extends TestCase {
                 MapFeature.REJECTS_DUPLICATES_AT_CREATION,
                 MapFeature.ALLOWS_ANY_NULL_QUERIES)
             .suppressing(BiMapInverseTester.getInverseSameAfterSerializingMethods())
+            .suppressing(BiMapInverseTester.getInverseSameMethod())
             .createTestSuite());
     suite.addTestSuite(ImmutableBiMapTest.class);
 

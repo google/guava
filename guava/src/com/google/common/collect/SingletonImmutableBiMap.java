@@ -23,8 +23,6 @@ import static com.google.common.collect.Maps.immutableEntry;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.RetainedWith;
 import java.util.function.BiConsumer;
 import org.jspecify.annotations.Nullable;
 
@@ -45,13 +43,13 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
     checkEntryNotNull(singleKey, singleValue);
     this.singleKey = singleKey;
     this.singleValue = singleValue;
-    this.inverse = null;
   }
 
-  private SingletonImmutableBiMap(K singleKey, V singleValue, ImmutableBiMap<V, K> inverse) {
+  /** Private constructor that skips the nullness check. */
+  // TODO(cpovirk): Justify its existence, or delete it.
+  private SingletonImmutableBiMap(K singleKey, V singleValue, @Nullable Void unused) {
     this.singleKey = singleKey;
     this.singleValue = singleValue;
-    this.inverse = inverse;
   }
 
   @Override
@@ -85,31 +83,18 @@ final class SingletonImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
   }
 
   @Override
-  ImmutableSet<Entry<K, V>> createEntrySet() {
+  public ImmutableSet<Entry<K, V>> entrySet() {
     return ImmutableSet.of(immutableEntry(singleKey, singleValue));
   }
 
   @Override
-  ImmutableSet<K> createKeySet() {
+  public ImmutableSet<K> keySet() {
     return ImmutableSet.of(singleKey);
   }
 
-  private final transient @Nullable ImmutableBiMap<V, K> inverse;
-  @LazyInit @RetainedWith private transient @Nullable ImmutableBiMap<V, K> lazyInverse;
-
   @Override
   public ImmutableBiMap<V, K> inverse() {
-    if (inverse != null) {
-      return inverse;
-    } else {
-      // racy single-check idiom
-      ImmutableBiMap<V, K> result = lazyInverse;
-      if (result == null) {
-        return lazyInverse = new SingletonImmutableBiMap<>(singleValue, singleKey, this);
-      } else {
-        return result;
-      }
-    }
+    return new SingletonImmutableBiMap<>(singleValue, singleKey, null);
   }
 
   // redeclare to help optimizers with b/310253115

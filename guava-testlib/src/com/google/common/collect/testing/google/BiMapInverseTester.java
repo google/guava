@@ -33,18 +33,17 @@ import java.util.List;
 /**
  * Tests for the {@code inverse} view of a BiMap.
  *
- * <p>This assumes that {@code bimap.inverse().inverse() == bimap}, which is not technically
- * required but is fulfilled by all current implementations.
- *
  * @author Louis Wasserman
  */
 @GwtCompatible
 public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
 
+  // View caching is not required but was historically provided by some of our implementations.
   public void testInverseSame() {
     assertSame(getMap(), getMap().inverse().inverse());
   }
 
+  // View caching is not required but was historically provided by some of our implementations.
   @CollectionFeature.Require(SERIALIZABLE)
   public void testInverseSerialization() {
     BiMapPair<K, V> pair = new BiMapPair<>(getMap());
@@ -53,6 +52,26 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
     assertEquals(pair.backward, copy.backward);
     assertSame(copy.backward, copy.forward.inverse());
     assertSame(copy.forward, copy.backward.inverse());
+  }
+
+  /**
+   * @since NEXT
+   */
+  public void testInverseEquals() {
+    assertEquals(getMap(), getMap().inverse().inverse());
+  }
+
+  /**
+   * @since NEXT
+   */
+  @CollectionFeature.Require(SERIALIZABLE)
+  public void testInverseSerializationEquals() {
+    BiMapPair<K, V> pair = new BiMapPair<>(getMap());
+    BiMapPair<K, V> copy = reserialize(pair);
+    assertEquals(pair.forward, copy.forward);
+    assertEquals(pair.backward, copy.backward);
+    assertEquals(copy.backward, copy.forward.inverse());
+    assertEquals(copy.forward, copy.backward.inverse());
   }
 
   private static final class BiMapPair<K, V> implements Serializable {
@@ -65,6 +84,18 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
     }
 
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
+  }
+
+  /**
+   * Returns {@link Method} instance for {@link #testInverseSame()} so that tests can suppress it
+   * with {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
+   *
+   * @since NEXT
+   */
+  @J2ktIncompatible
+  @GwtIncompatible // reflection
+  public static Method getInverseSameMethod() {
+    return getMethod("testInverseSame");
   }
 
   /**

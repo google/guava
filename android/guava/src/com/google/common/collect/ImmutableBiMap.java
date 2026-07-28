@@ -567,11 +567,6 @@ public abstract class ImmutableBiMap<K, V> extends ImmutableMap<K, V> implements
     return inverse().keySet();
   }
 
-  @Override
-  final ImmutableSet<V> createValues() {
-    throw new AssertionError("should never be called");
-  }
-
   /**
    * Guaranteed to throw an exception and leave the bimap unmodified.
    *

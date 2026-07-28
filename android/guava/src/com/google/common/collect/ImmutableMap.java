@@ -34,7 +34,6 @@ import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -763,12 +762,18 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   abstract static class IteratorBasedImmutableMap<K, V> extends ImmutableMap<K, V> {
     abstract UnmodifiableIterator<Entry<K, V>> entryIterator();
 
-    @Override
-    ImmutableSet<K> createKeySet() {
-      return new ImmutableMapKeySet<>(this);
-    }
+    @LazyInit @RetainedWith private transient @Nullable ImmutableSet<Entry<K, V>> entrySet;
 
     @Override
+    public ImmutableSet<Entry<K, V>> entrySet() {
+      ImmutableSet<Entry<K, V>> result = entrySet;
+      if (result == null) {
+        result = createEntrySet();
+        entrySet = result;
+      }
+      return result;
+    }
+
     ImmutableSet<Entry<K, V>> createEntrySet() {
       final class EntrySetImpl extends ImmutableMapEntrySet<K, V> {
         @Override
@@ -793,7 +798,34 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return new EntrySetImpl();
     }
 
+    @LazyInit @RetainedWith private transient @Nullable ImmutableSet<K> keySet;
+
     @Override
+    public ImmutableSet<K> keySet() {
+      ImmutableSet<K> result = keySet;
+      if (result == null) {
+        result = createKeySet();
+        keySet = result;
+      }
+      return result;
+    }
+
+    ImmutableSet<K> createKeySet() {
+      return new ImmutableMapKeySet<>(this);
+    }
+
+    @LazyInit @RetainedWith private transient @Nullable ImmutableCollection<V> values;
+
+    @Override
+    public ImmutableCollection<V> values() {
+      ImmutableCollection<V> result = values;
+      if (result == null) {
+        result = createValues();
+        values = result;
+      }
+      return result;
+    }
+
     ImmutableCollection<V> createValues() {
       return new ImmutableMapValues<>(this);
     }
@@ -930,37 +962,23 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     }
   }
 
-  @LazyInit @RetainedWith private transient @Nullable ImmutableSet<Entry<K, V>> entrySet;
-
   /**
    * Returns an immutable set of the mappings in this map. The iteration order is specified by the
    * method used to create this map. Typically, this is insertion order.
    */
   @Override
-  public ImmutableSet<Entry<K, V>> entrySet() {
-    ImmutableSet<Entry<K, V>> result = entrySet;
-    return (result == null) ? entrySet = createEntrySet() : result;
-  }
-
-  abstract ImmutableSet<Entry<K, V>> createEntrySet();
-
-  @LazyInit @RetainedWith private transient @Nullable ImmutableSet<K> keySet;
+  public abstract ImmutableSet<Entry<K, V>> entrySet();
 
   /**
    * Returns an immutable set of the keys in this map, in the same order that they appear in {@link
    * #entrySet}.
    */
-  @Override
-  public ImmutableSet<K> keySet() {
-    ImmutableSet<K> result = keySet;
-    return (result == null) ? keySet = createKeySet() : result;
-  }
-
   /*
    * This could have a good default implementation of `return new ImmutableKeySet<K, V>(this)`, but
    * ProGuard can't figure out how to eliminate that default when RegularImmutableMap overrides it.
    */
-  abstract ImmutableSet<K> createKeySet();
+  @Override
+  public abstract ImmutableSet<K> keySet();
 
   UnmodifiableIterator<K> keyIterator() {
     UnmodifiableIterator<Entry<K, V>> entryIterator = entrySet().iterator();
@@ -977,30 +995,27 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     };
   }
 
-  @LazyInit @RetainedWith private transient @Nullable ImmutableCollection<V> values;
-
   /**
    * Returns an immutable collection of the values in this map, in the same order that they appear
    * in {@link #entrySet}.
    */
-  @Override
-  public ImmutableCollection<V> values() {
-    ImmutableCollection<V> result = values;
-    return (result == null) ? values = createValues() : result;
-  }
-
   /*
    * This could have a good default implementation of `return new ImmutableMapValues<K, V>(this)`,
    * but ProGuard can't figure out how to eliminate that default when RegularImmutableMap overrides
    * it.
    */
-  abstract ImmutableCollection<V> createValues();
-
-  // cached so that this.multimapView().inverse() only computes inverse once
-  @LazyInit private transient @Nullable ImmutableSetMultimap<K, V> multimapView;
+  @Override
+  public abstract ImmutableCollection<V> values();
 
   /**
    * Returns a multimap view of the map.
+   *
+   * <p>This method may return a new multimap instance on each call. While the multimap is cheap to
+   * create, it is an instance of {@link ImmutableMultimap}, whose {@link ImmutableMultimap#inverse
+   * inverse()} method may perform a more expensive operation and cache the result. Callers who want
+   * to repeatedly operate on {@code map.asMultimap().inverse()} may wish to store the result of
+   * that expression (or store the result of {@code asMultimap()}, since it caches its {@code
+   * inverse()} view).
    *
    * @since 14.0
    */
@@ -1008,14 +1023,9 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     if (isEmpty()) {
       return ImmutableSetMultimap.of();
     }
-    ImmutableSetMultimap<K, V> result = multimapView;
-    return (result == null)
-        ? (multimapView =
-            new ImmutableSetMultimap<>(new MapViewOfValuesAsSingletonSets(), size(), null))
-        : result;
+    return new ImmutableSetMultimap<>(new MapViewOfValuesAsSingletonSets(), size(), null);
   }
 
-  @WeakOuter
   private final class MapViewOfValuesAsSingletonSets
       extends IteratorBasedImmutableMap<K, ImmutableSet<V>> {
 
