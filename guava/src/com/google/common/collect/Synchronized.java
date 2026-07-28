@@ -1188,7 +1188,7 @@ final class Synchronized {
       }
     }
 
-    @SuppressWarnings("nullness") // TODO: b/423853632 - Remove after checker is fixed.
+    @SuppressWarnings("nullness") // TODO(b/423853632): Remove after checker is fixed.
     @Override
     public @Nullable V computeIfPresent(
         K key, BiFunction<? super K, ? super @NonNull V, ? extends @Nullable V> remappingFunction) {
@@ -1206,7 +1206,7 @@ final class Synchronized {
       }
     }
 
-    @SuppressWarnings("nullness") // TODO: b/423853632 - Remove after checker is fixed.
+    @SuppressWarnings("nullness") // TODO(b/423853632): Remove after checker is fixed.
     @Override
     public @Nullable V merge(
         K key,

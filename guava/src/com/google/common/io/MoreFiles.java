@@ -535,7 +535,7 @@ public final class MoreFiles {
      */
     boolean sdsSupported = false;
     /*
-     * TODO: b/331925065 - Should we catch any exception from this `newDirectoryStream` call (i.e.,
+     * TODO(b/331925065): Should we catch any exception from this `newDirectoryStream` call (i.e.,
      * the one for `parentPath`), too? We should see what `rm -f` does, especially if we make
      * "ignore errors" behavior available to users of `deleteRecursively`.
      */

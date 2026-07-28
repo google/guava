@@ -275,7 +275,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
   @ParametricNullness
   @SuppressWarnings("nullness") // TODO(b/147136275): Remove once our checker understands & and |.
   /*
-   * TODO: b/112550045 - Use this from Futures.getDone when applicable? Note the small difference in
+   * TODO(b/112550045): Use this from Futures.getDone when applicable? Note the small difference in
    * failure message between the two at present.
    */
   final V getFromAlreadyDoneTrustedFuture() throws ExecutionException {

@@ -47,7 +47,7 @@ import org.jspecify.annotations.Nullable;
  */
 @J2ktIncompatible
 @GwtIncompatible
-// TODO: b/227335009 - Maybe change interruption behavior, but it requires thought.
+// TODO(b/227335009): Maybe change interruption behavior, but it requires thought.
 @SuppressWarnings("Interruption")
 public final class SimpleTimeLimiter implements TimeLimiter {
 

@@ -410,7 +410,7 @@ public final class Uninterruptibles {
     }
   }
 
-  // TODO: b/5042178 - Support Sleeper somehow (wrapper or interface method)?
+  // TODO(b/5042178): Support Sleeper somehow (wrapper or interface method)?
   /**
    * Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly.
    *
@@ -423,7 +423,7 @@ public final class Uninterruptibles {
     sleepUninterruptibly(toNanosSaturated(sleepFor), NANOSECONDS);
   }
 
-  // TODO: b/5042178 - Support Sleeper somehow (wrapper or interface method)?
+  // TODO(b/5042178): Support Sleeper somehow (wrapper or interface method)?
   /** Invokes {@code unit.}{@link TimeUnit#sleep(long) sleep(sleepFor)} uninterruptibly. */
   @J2ktIncompatible
   @GwtIncompatible // concurrency
@@ -624,7 +624,7 @@ public final class Uninterruptibles {
     }
   }
 
-  // TODO: b/4370300 - Add support for waitUninterruptibly.
+  // TODO(b/4370300): Add support for waitUninterruptibly.
 
   private Uninterruptibles() {}
 }

@@ -94,7 +94,7 @@ abstract class InterruptibleTask<T extends @Nullable Object>
 
   @SuppressWarnings({
     "Interruption", // We are restoring an interrupt on this thread.
-    "ThreadPriorityCheck", // TODO: b/175898629 - Consider onSpinWait.
+    "ThreadPriorityCheck", // TODO(b/175898629): Consider onSpinWait.
   })
   private void waitForInterrupt(Thread currentThread) {
     /*

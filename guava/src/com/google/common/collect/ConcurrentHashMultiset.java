@@ -179,7 +179,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * 1. Both superclass toArray methods assume that size() gives a correct answer, while our size()
    * might not (and the answer might change while we're building the array).
    *
-   * TODO: cpovirk - Is this an issue anywhere anymore? It looks to have been fixed for Java 8
+   * TODO(cpovirk): Is this an issue anywhere anymore? It looks to have been fixed for Java 8
    * (https://bugs.openjdk.org/browse/JDK-7121314) and before Lollipop
    * (https://r.android.com/47508). We *would* need to worry for J2KT, whose own concurrency support
    * is evolving (b/381065164, b/458160722), but this class is @J2ktIncompatible.

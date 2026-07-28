@@ -456,7 +456,7 @@ public class IntMathTest extends TestCase {
   public void testCheckedAdd() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
-        // TODO: cpovirk - Test against Math.addExact instead?
+        // TODO(cpovirk): Test against Math.addExact instead?
         BigInteger expectedResult = bigInt(a).add(bigInt(b));
         boolean expectedSuccess = fitsInInt(expectedResult);
         try {
@@ -474,7 +474,7 @@ public class IntMathTest extends TestCase {
   public void testCheckedSubtract() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
-        // TODO: cpovirk - Test against Math.subtractExact instead?
+        // TODO(cpovirk): Test against Math.subtractExact instead?
         BigInteger expectedResult = bigInt(a).subtract(bigInt(b));
         boolean expectedSuccess = fitsInInt(expectedResult);
         try {
@@ -492,7 +492,7 @@ public class IntMathTest extends TestCase {
   public void testCheckedMultiply() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
-        // TODO: cpovirk - Test against Math.multiplyExact instead?
+        // TODO(cpovirk): Test against Math.multiplyExact instead?
         BigInteger expectedResult = bigInt(a).multiply(bigInt(b));
         boolean expectedSuccess = fitsInInt(expectedResult);
         try {
@@ -742,7 +742,7 @@ public class IntMathTest extends TestCase {
 
   private static int force32(int value) {
     // GWT doesn't consistently overflow values to make them 32-bit, so we need to force it.
-    // TODO: b/404577035 - Remove this unless it's needed for J2CL.
+    // TODO(b/404577035): Remove this unless it's needed for J2CL.
     // One of its users, testDivNonZero, is currently @GwtIncompatible, but maybe it WOULD need it?
     // And if it's needed, maybe use our usual trick of ~~ instead?
     return value & 0xffffffff;

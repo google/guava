@@ -128,7 +128,7 @@ public class GcFinalizationTest {
       this(interruptee, new AtomicBoolean(false));
     }
 
-    @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+    @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
     Interruptenator(Thread interruptee, AtomicBoolean shutdown) {
       super(
           () -> {
@@ -141,7 +141,7 @@ public class GcFinalizationTest {
       start();
     }
 
-    @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+    @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
     void shutdown() {
       shutdown.set(true);
       while (this.isAlive()) {

@@ -234,7 +234,7 @@ public class MoreExecutorsTest extends TestCase {
   }
 
   /** Wait for the given thread to reach the {@link State#TIMED_WAITING} thread state. */
-  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+  @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
   @J2ktIncompatible
   void awaitTimedWaiting(Thread thread) {
     while (true) {

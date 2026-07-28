@@ -567,7 +567,7 @@ public class LocalCacheTest extends TestCase {
             }
 
             @Override
-            @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+            @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
             public ListenableFuture<String> reload(String key, String oldValue) {
               return refreshExecutor.submit(
                   () -> {

@@ -120,7 +120,7 @@ public class Joiner {
   @CanIgnoreReturnValue
   public final <A extends Appendable> A appendTo(A appendable, @Nullable Object[] parts)
       throws IOException {
-    @SuppressWarnings("nullness") // TODO: b/316358623 - Remove suppression after fixing checker
+    @SuppressWarnings("nullness") // TODO(b/316358623): Remove suppression after fixing checker
     List<?> partsList = Arrays.<@Nullable Object>asList(parts);
     return appendTo(appendable, partsList);
   }
@@ -167,7 +167,7 @@ public class Joiner {
    */
   @CanIgnoreReturnValue
   public final StringBuilder appendTo(StringBuilder builder, @Nullable Object[] parts) {
-    @SuppressWarnings("nullness") // TODO: b/316358623 - Remove suppression after fixing checker
+    @SuppressWarnings("nullness") // TODO(b/316358623): Remove suppression after fixing checker
     List<?> partsList = Arrays.<@Nullable Object>asList(parts);
     return appendTo(builder, partsList);
   }
@@ -192,17 +192,17 @@ public class Joiner {
    */
   public String join(Iterable<?> parts) {
     // We don't use the same optimization here as in the JRE flavor.
-    // TODO: b/381289911 - Evaluate the performance impact of doing so.
+    // TODO(b/381289911): Evaluate the performance impact of doing so.
     return join(parts.iterator());
   }
 
   /*
-   * TODO: b/381289911 - Make the Iterator overload use StringJoiner (including Android or not)—or
+   * TODO(b/381289911): Make the Iterator overload use StringJoiner (including Android or not)—or
    * some other optimization, given that StringJoiner can over-allocate:
    * https://bugs.openjdk.org/browse/JDK-8305774
    */
 
-  // TODO: b/381289911 - Optimize MapJoiner similarly to Joiner (including Android or not).
+  // TODO(b/381289911): Optimize MapJoiner similarly to Joiner (including Android or not).
 
   /**
    * Returns a string containing the string representation of each of {@code parts}, using the
@@ -219,7 +219,7 @@ public class Joiner {
    * previously configured separator between each.
    */
   public final String join(@Nullable Object[] parts) {
-    @SuppressWarnings("nullness") // TODO: b/316358623 - Remove suppression after fixing checker
+    @SuppressWarnings("nullness") // TODO(b/316358623): Remove suppression after fixing checker
     List<?> partsList = Arrays.<@Nullable Object>asList(parts);
     return join(partsList);
   }

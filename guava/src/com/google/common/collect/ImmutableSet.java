@@ -96,7 +96,7 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
   }
 
   /*
-   * TODO: b/315526394 - Skip the Builder entirely for the of(...) methods, since we don't need to
+   * TODO(b/315526394): Skip the Builder entirely for the of(...) methods, since we don't need to
    * worry that we might trigger the fallback to the JDK-backed implementation? (The varargs one
    * _could_, so we could keep it as it is. Or we could convince ourselves that hash flooding is
    * unlikely in practice there, too.)

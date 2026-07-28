@@ -505,7 +505,7 @@ public final class UnsignedBytes {
          * aren't stripping UnsafeComparator today? Should we have Proguard configuration for it?)
          *
          * - if Unsafe is removed entirely from JDKs (or already absent in some unusual environment
-         * today). TODO: b/392974826 - Check for the existence of Unsafe and its methods
+         * today). TODO(b/392974826): Check for the existence of Unsafe and its methods
          * reflectively before attempting to access UnsafeComparator. Or, better yet, allow
          * UnsafeComparator to still initialize correctly even if Unsafe is unavailable. This would
          * protect against users that automatically preinitialize internal classes that they've seen

@@ -2008,7 +2008,7 @@ public class CacheLoadingTest extends TestCase {
    * {@code getUnchecked}, and threads with an odd index will call {@code get}. If the cache throws
    * exceptions, this difference may be visible in the returned List.
    */
-  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+  @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
   private static <K> List<Object> doConcurrentGet(
       LoadingCache<K, ?> cache, K key, int nThreads, CountDownLatch gettersStartedSignal)
       throws InterruptedException {

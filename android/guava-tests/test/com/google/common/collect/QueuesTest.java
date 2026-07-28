@@ -291,7 +291,7 @@ public class QueuesTest extends TestCase {
   }
 
   // same as above; uninterruptible version
-  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+  @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
   private void assertUninterruptibleDrained(BlockingQueue<Object> q) {
     assertEquals(0, drainUninterruptibly(q, ImmutableList.of(), 0, 10, MILLISECONDS));
 

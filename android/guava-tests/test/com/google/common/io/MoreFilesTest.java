@@ -275,7 +275,7 @@ public class MoreFilesTest extends TestCase {
 
   public void testCreateParentDirectories_noPermission() {
     if (isWindows()) {
-      return; // TODO: b/136041958 - Create/find a directory that we don't have permissions on?
+      return; // TODO(b/136041958): Create/find a directory that we don't have permissions on?
     }
     Path file = root().resolve("parent/nonexistent.file");
     Path parent = file.getParent();
@@ -570,7 +570,7 @@ public class MoreFilesTest extends TestCase {
    * <p>We can only test this with a file system that supports SecureDirectoryStream, because it's
    * not possible to protect against this if the file system doesn't.
    */
-  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+  @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
   public void testDirectoryDeletion_directorySymlinkRace() throws Exception {
     int iterations = isAndroid() ? 100 : 5000;
     for (DirectoryDeleteMethod method : EnumSet.allOf(DirectoryDeleteMethod.class)) {
@@ -641,7 +641,7 @@ public class MoreFilesTest extends TestCase {
    * between being a directory and being a symlink, while the given {@code target} is the target the
    * symlink should have.
    */
-  @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+  @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
   private static Future<?> startDirectorySymlinkSwitching(
       Path file, Path target, ExecutorService executor) {
     return executor.submit(

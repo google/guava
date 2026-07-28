@@ -71,7 +71,7 @@ public final class TestThread<L> extends Thread implements TearDown {
   }
 
   /*
-   * TODO: b/318391980 - Once we test only under Java 20 and higher, avoid calling Thread.stop. As
+   * TODO(b/318391980): Once we test only under Java 20 and higher, avoid calling Thread.stop. As
    * of Java 20, it always throws an exception, and as of Java 26, the method does not even exist.
    * For now, we continue using it to clean up under older JDKs.
    *

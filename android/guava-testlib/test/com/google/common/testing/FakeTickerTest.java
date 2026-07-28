@@ -56,7 +56,7 @@ public class FakeTickerTest {
 
   @Test
   @GwtIncompatible // java.time.Duration
-  @IgnoreJRERequirement // TODO: b/288085449 - Remove this once we use library-desugaring scents.
+  @IgnoreJRERequirement // TODO(b/288085449): Remove this once we use library-desugaring scents.
   public void advance() {
     FakeTicker ticker = new FakeTicker();
     assertEquals(0, ticker.read());
@@ -100,7 +100,7 @@ public class FakeTickerTest {
 
   @Test
   @GwtIncompatible // java.time.Duration
-  @IgnoreJRERequirement // TODO: b/288085449 - Remove this once we use library-desugaring scents.
+  @IgnoreJRERequirement // TODO(b/288085449): Remove this once we use library-desugaring scents.
   public void autoIncrementStep_duration() {
     FakeTicker ticker = new FakeTicker().setAutoIncrementStep(Duration.ofMillis(1));
     assertEquals(0, ticker.read());

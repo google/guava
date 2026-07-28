@@ -469,7 +469,7 @@ public class AbstractFutureTest extends TestCase {
   @J2ktIncompatible
   public void testFutureBash() {
     if (isWindows()) {
-      return; // TODO: b/136041958 - Running very slowly on Windows CI.
+      return; // TODO(b/136041958): Running very slowly on Windows CI.
     }
     CyclicBarrier barrier =
         new CyclicBarrier(
@@ -638,7 +638,7 @@ public class AbstractFutureTest extends TestCase {
   // setFuture and cancel() interact in more complicated ways than the other setters.
   public void testSetFutureCancelBash() {
     if (isWindows()) {
-      return; // TODO: b/136041958 - Running very slowly on Windows CI.
+      return; // TODO(b/136041958): Running very slowly on Windows CI.
     }
     int size = 50;
     CyclicBarrier barrier =
@@ -1222,7 +1222,7 @@ public class AbstractFutureTest extends TestCase {
       }
     }
 
-    @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+    @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
     void awaitWaiting() {
       while (!isBlocked()) {
         if (getState() == State.TERMINATED) {
@@ -1265,7 +1265,7 @@ public class AbstractFutureTest extends TestCase {
       }
     }
 
-    @SuppressWarnings("ThreadPriorityCheck") // TODO: b/175898629 - Consider onSpinWait.
+    @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
     void awaitWaiting() {
       while (!isBlocked()) {
         if (getState() == State.TERMINATED) {

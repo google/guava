@@ -509,7 +509,7 @@ public class LongMathTest extends TestCase {
   public void testCheckedAdd() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
-        // TODO: cpovirk - Test against Math.addExact instead?
+        // TODO(cpovirk): Test against Math.addExact instead?
         BigInteger expectedResult = bigInt(a).add(bigInt(b));
         boolean expectedSuccess = fitsInLong(expectedResult);
         try {
@@ -530,7 +530,7 @@ public class LongMathTest extends TestCase {
   public void testCheckedSubtract() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
-        // TODO: cpovirk - Test against Math.subtractExact instead?
+        // TODO(cpovirk): Test against Math.subtractExact instead?
         BigInteger expectedResult = bigInt(a).subtract(bigInt(b));
         boolean expectedSuccess = fitsInLong(expectedResult);
         try {
@@ -563,7 +563,7 @@ public class LongMathTest extends TestCase {
            */
           continue;
         }
-        // TODO: cpovirk - Test against Math.multiplyExact instead?
+        // TODO(cpovirk): Test against Math.multiplyExact instead?
         BigInteger expectedResult = bigInt(a).multiply(bigInt(b));
         boolean expectedSuccess = fitsInLong(expectedResult);
         try {
