@@ -61,7 +61,12 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#purpose-heading" tabindex="0">Purpose</a></li>
+<li><a href="#how-to-get-an-instance-heading" tabindex="0">How to get an instance</a></li>
+</ol>
+</li>
 <li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -104,7 +109,7 @@ ListenableFuture</code></a>.
 
 <p>This class is GWT-compatible.
 
-<h3 id="purpose-heading">Purpose</h3>
+<h2 id="purpose-heading">Purpose</h2>
 
 <p>The main purpose of <code>ListenableFuture</code> is to help you chain together a graph of
 asynchronous operations. You can chain them together manually with calls to methods like <a href="Futures.html#transform(com.google.common.util.concurrent.ListenableFuture,com.google.common.base.Function,java.util.concurrent.Executor)"><code>Futures.transform</code></a>
@@ -136,7 +141,7 @@ future.addListener(new Runnable() {
 </div>
 
 
-<h3 id="how-to-get-an-instance-heading">How to get an instance</h3>
+<h2 id="how-to-get-an-instance-heading">How to get an instance</h2>
 
 <p>We encourage you to return <code>ListenableFuture</code> from your methods so that your users can
 take advantage of the <a href="Futures.html" title="class in com.google.common.util.concurrent">utilities built atop the class</a>. The way that you will

@@ -61,7 +61,21 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#about-all-immutable--collections-heading" tabindex="0">About all Immutable- collections</a>
+<ol class="toc-list">
+<li><a href="#guarantees-heading" tabindex="0">Guarantees</a></li>
+<li><a href="#-interfaces-not-implementations-heading" tabindex="0">"Interfaces", not implementations</a></li>
+<li><a href="#creation-heading" tabindex="0">Creation</a></li>
+<li><a href="#warnings-heading" tabindex="0">Warnings</a></li>
+<li><a href="#performance-notes-heading" tabindex="0">Performance notes</a></li>
+<li><a href="#example-usage-heading" tabindex="0">Example usage</a></li>
+</ol>
+</li>
+<li><a href="#see-also-heading" tabindex="0">See also</a></li>
+</ol>
+</li>
 <li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a>
 <ol class="toc-list">
@@ -122,12 +136,12 @@ guarantees detailed below.
 with <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link"><code>Collection</code></a> itself). Prefer subtypes such as <a href="ImmutableSet.html" title="class in com.google.common.collect"><code>ImmutableSet</code></a> or <a href="ImmutableList.html" title="class in com.google.common.collect"><code>ImmutableList</code></a>, which have well-defined <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" class="external-link"><code>Object.equals(Object)</code></a> semantics, thus avoiding a common source
 of bugs and confusion.
 
-<h3 id="about-all-immutable--collections-heading">About <i>all</i> <code>Immutable-</code> collections</h3>
+<h2 id="about-all-immutable--collections-heading">About <i>all</i> <code>Immutable-</code> collections</h2>
 
 <p>The remainder of this documentation applies to every public <code>Immutable-</code> type in this
 package, whether it is a subtype of <code>ImmutableCollection</code> or not.
 
-<h4 id="guarantees-heading">Guarantees</h4>
+<h3 id="guarantees-heading">Guarantees</h3>
 
 <p>Each makes the following guarantees:
 
@@ -146,7 +160,7 @@ package, whether it is a subtype of <code>ImmutableCollection</code> or not.
       these guarantees to be violated).
 </ul>
 
-<h4 id="-interfaces-not-implementations-heading">"Interfaces", not implementations</h4>
+<h3 id="-interfaces-not-implementations-heading">"Interfaces", not implementations</h3>
 
 <p>These are classes instead of interfaces to prevent external subtyping, but should be thought
 of as interfaces in every important sense. Each public class such as <a href="ImmutableSet.html" title="class in com.google.common.collect"><code>ImmutableSet</code></a> is a
@@ -168,7 +182,7 @@ powerful advantage. Although Java offers certain immutable collection factory me
 <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Collections.html#singleton(T)" class="external-link"><code>Collections.singleton(Object)</code></a> and <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html#unmodifiable" class="external-link"><code>Set.of</code></a>, we recommend using
 <i>these</i> classes instead for this reason (as well as for consistency).
 
-<h4 id="creation-heading">Creation</h4>
+<h3 id="creation-heading">Creation</h3>
 
 <p>Except for logically "abstract" types like <code>ImmutableCollection</code> itself, each <code>
 Immutable</code> type provides the static operations you need to obtain instances of that type. These
@@ -182,7 +196,7 @@ usually include:
       instance.
 </ul>
 
-<h4 id="warnings-heading">Warnings</h4>
+<h3 id="warnings-heading">Warnings</h3>
 
 <ul>
   <li><b>Warning:</b> as with any collection, it is almost always a bad idea to modify an element
@@ -192,7 +206,7 @@ usually include:
       <i>deeply</i> immutable.
 </ul>
 
-<h4 id="performance-notes-heading">Performance notes</h4>
+<h3 id="performance-notes-heading">Performance notes</h3>
 
 <ul>
   <li>Implementations can be generally assumed to prioritize memory efficiency, then speed of
@@ -211,7 +225,7 @@ usually include:
       <code>hashCode</code> implementation, it should cache it itself.
 </ul>
 
-<h4 id="example-usage-heading">Example usage</h4>
+<h3 id="example-usage-heading">Example usage</h3>
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-com.google.common.collect.ImmutableCollection1"><code class="language-java">class Foo {
@@ -229,7 +243,7 @@ usually include:
 </div>
 
 
-<h3 id="see-also-heading">See also</h3>
+<h2 id="see-also-heading">See also</h2>
 
 <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.</div>
 <dl class="notes">

@@ -61,7 +61,11 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#implementations-heading" tabindex="0">Implementations</a></li>
+</ol>
+</li>
 <li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a>
 <ol class="toc-list">
@@ -154,7 +158,7 @@ and only if all of these are supported, the <code>setCount</code> methods as wel
 element (in a way that affects its <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#equals(java.lang.Object)" class="external-link"><code>Object.equals(Object)</code></a> behavior) while it is contained in a
 multiset. Undefined behavior and bugs will result.
 
-<h3 id="implementations-heading">Implementations</h3>
+<h2 id="implementations-heading">Implementations</h2>
 
 <ul>
   <li><a href="ImmutableMultiset.html" title="class in com.google.common.collect"><code>ImmutableMultiset</code></a>

@@ -61,7 +61,17 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#alternatives-heading" tabindex="0">Alternatives</a>
+<ol class="toc-list">
+<li><a href="#frameworks-heading" tabindex="0">Frameworks</a></li>
+<li><a href="#java-util-concurrent-completablefuture-java-util-concurrent-completionstage-heading" tabindex="0">java.util.concurrent.CompletableFuture / java.util.concurrent.CompletionStage</a></li>
+</ol>
+</li>
+<li><a href="#extension-heading" tabindex="0">Extension</a></li>
+</ol>
+</li>
 <li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a>
 <ol class="toc-list">
@@ -120,9 +130,9 @@ initTheme();
 </div>
 
 
-<h3 id="alternatives-heading">Alternatives</h3>
+<h2 id="alternatives-heading">Alternatives</h2>
 
-<h4 id="frameworks-heading">Frameworks</h4>
+<h3 id="frameworks-heading">Frameworks</h3>
 
 <p>When chaining together a graph of asynchronous operations, you will often find it easier to
 use a framework. Frameworks automate the process, often adding features like monitoring,
@@ -132,15 +142,15 @@ debugging, and cancellation. Examples of frameworks include:
   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
 </ul>
 
-<h4 id="java-util-concurrent-completablefuture-java-util-concurrent-completionstage-heading"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class in java.util.concurrent" class="external-link"><code>CompletableFuture</code></a> / <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="interface in java.util.concurrent" class="external-link"><code>CompletionStage</code></a>
-</h4>
+<h3 id="java-util-concurrent-completablefuture-java-util-concurrent-completionstage-heading"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class in java.util.concurrent" class="external-link"><code>CompletableFuture</code></a> / <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="interface in java.util.concurrent" class="external-link"><code>CompletionStage</code></a>
+</h3>
 
 <p>Users of <code>CompletableFuture</code> will likely want to continue using <code>
 CompletableFuture</code>. <code>FluentFuture</code> is targeted at people who use <code>ListenableFuture</code>,
 who can't use Java 8, or who want an API more focused than <code>CompletableFuture</code>. (If you
 need to adapt between <code>CompletableFuture</code> and <code>ListenableFuture</code>, consider <a href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.)
 
-<h3 id="extension-heading">Extension</h3>
+<h2 id="extension-heading">Extension</h2>
 
 If you want a class like <code>FluentFuture</code> but with extra methods, we recommend declaring your
 own subclass of <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>, complete with a method like <a href="#from(com.google.common.util.concurrent.ListenableFuture)"><code>from(ListenableFuture)</code></a> to adapt an

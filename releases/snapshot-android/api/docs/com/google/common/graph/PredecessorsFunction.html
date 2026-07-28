@@ -61,7 +61,12 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#usage-heading" tabindex="0">Usage</a></li>
+<li><a href="#additional-documentation-heading" tabindex="0">Additional documentation</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -97,7 +102,7 @@ initTheme();
 <p>This interface is meant to be used as the type of a parameter to graph algorithms (such as
 topological sort) that only need a way of accessing the predecessors of a node in a graph.
 
-<h3 id="usage-heading">Usage</h3>
+<h2 id="usage-heading">Usage</h2>
 
 Given an algorithm, for example:
 
@@ -144,7 +149,7 @@ transformation:
 successors, iterating over the edges, etc.) should declare their input to be of a type that
 provides those capabilities, such as <a href="Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a>, <a href="ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a>, or <a href="Network.html" title="interface in com.google.common.graph"><code>Network</code></a>.
 
-<h3 id="additional-documentation-heading">Additional documentation</h3>
+<h2 id="additional-documentation-heading">Additional documentation</h2>
 
 <p>See the Guava User Guide for the <code>common.graph</code> package (<a href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
 additional documentation, including <a href="https://github.com/google/guava/wiki/GraphsExplained#notes-for-implementors">notes for

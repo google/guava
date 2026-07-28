@@ -61,7 +61,13 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#capabilities-heading" tabindex="0">Capabilities</a></li>
+<li><a href="#building-a-network-heading" tabindex="0">Building a Network</a></li>
+<li><a href="#additional-documentation-heading" tabindex="0">Additional documentation</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -133,7 +139,7 @@ complexity they are: <a href="Graph.html" title="interface in com.google.common.
 prefer the simplest interface that satisfies your use case. See the <a href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
 "Choosing the right graph type"</a> section of the Guava User Guide for more details.
 
-<h3 id="capabilities-heading">Capabilities</h3>
+<h2 id="capabilities-heading">Capabilities</h2>
 
 <p><code>Network</code> supports the following use cases (<a href="https://github.com/google/guava/wiki/GraphsExplained#definitions">definitions of
 terms</a>):
@@ -147,7 +153,7 @@ terms</a>):
   <li>graphs whose edges are <a href="https://github.com/google/guava/wiki/GraphsExplained#uniqueness">unique</a> objects
 </ul>
 
-<h3 id="building-a-network-heading">Building a <code>Network</code></h3>
+<h2 id="building-a-network-heading">Building a <code>Network</code></h2>
 
 <p>The implementation classes that <code>common.graph</code> provides are not public, by design. To
 create an instance of one of the built-in implementations of <code>Network</code>, use the <a href="NetworkBuilder.html" title="class in com.google.common.graph"><code>NetworkBuilder</code></a> class:
@@ -177,7 +183,7 @@ are contractually guaranteed to be unmodifiable and thread-safe.
 <p>The Guava User Guide has <a href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances">more
 information on (and examples of) building graphs</a>.
 
-<h3 id="additional-documentation-heading">Additional documentation</h3>
+<h2 id="additional-documentation-heading">Additional documentation</h2>
 
 <p>See the Guava User Guide for the <code>common.graph</code> package (<a href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
 additional documentation, including:

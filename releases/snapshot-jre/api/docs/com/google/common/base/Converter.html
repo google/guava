@@ -61,7 +61,14 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#invertibility-heading" tabindex="0">Invertibility</a></li>
+<li><a href="#nullability-heading" tabindex="0">Nullability</a></li>
+<li><a href="#common-ways-to-use-heading" tabindex="0">Common ways to use</a></li>
+<li><a href="#example-heading" tabindex="0">Example</a></li>
+</ol>
+</li>
 <li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a>
 <ol class="toc-list">
@@ -113,7 +120,7 @@ implements <a href="Function.html" title="interface in com.google.common.base">F
 to <code>A</code>; used for converting back and forth between <i>different representations of the same
 information</i>.
 
-<h3 id="invertibility-heading">Invertibility</h3>
+<h2 id="invertibility-heading">Invertibility</h2>
 
 <p>The reverse operation <b>may</b> be a strict <i>inverse</i> (meaning that <code>
 converter.reverse().convert(converter.convert(a)).equals(a)</code> is always true). However, it is very
@@ -129,7 +136,7 @@ example round-trip using <a href="../primitives/Doubles.html#stringConverter()">
 <p>Note that it should still be the case that the round-tripped and original objects are
 <i>similar</i>.
 
-<h3 id="nullability-heading">Nullability</h3>
+<h2 id="nullability-heading">Nullability</h2>
 
 <p>A converter always converts <code>null</code> to <code>null</code> and non-null references to non-null
 references. It would not make sense to consider <code>null</code> and a non-null reference to be
@@ -138,7 +145,7 @@ references. It would not make sense to consider <code>null</code> and a non-null
 behavior for all converters; implementations of <a href="#doForward(A)"><code>doForward(A)</code></a> and <a href="#doBackward(B)"><code>doBackward(B)</code></a> are
 guaranteed to never be passed <code>null</code>, and must never return <code>null</code>.
 
-<h3 id="common-ways-to-use-heading">Common ways to use</h3>
+<h2 id="common-ways-to-use-heading">Common ways to use</h2>
 
 <p>Getting a converter:
 
@@ -163,7 +170,7 @@ guaranteed to never be passed <code>null</code>, and must never return <code>nul
       be overridden.
 </ul>
 
-<h3 id="example-heading">Example</h3>
+<h2 id="example-heading">Example</h2>
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-com.google.common.base.Converter1"><code class="language-java">return Converter.from(

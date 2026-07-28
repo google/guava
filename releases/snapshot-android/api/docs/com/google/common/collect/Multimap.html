@@ -61,7 +61,16 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#example-heading" tabindex="0">Example</a></li>
+<li><a href="#views-heading" tabindex="0">Views</a></li>
+<li><a href="#subinterfaces-heading" tabindex="0">Subinterfaces</a></li>
+<li><a href="#comparison-to-a-map-of-collections-heading" tabindex="0">Comparison to a map of collections</a></li>
+<li><a href="#implementations-heading" tabindex="0">Implementations</a></li>
+<li><a href="#other-notes-heading" tabindex="0">Other Notes</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -132,7 +141,7 @@ and the <a href="#values()"><code>values()</code></a> collection is <code>[1, 2,
 times when the first style is more useful, use the multimap's <a href="#asMap()"><code>asMap()</code></a> view (or create a
 <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> in the first place).
 
-<h3 id="example-heading">Example</h3>
+<h2 id="example-heading">Example</h2>
 
 <p>The following code:
 
@@ -161,7 +170,7 @@ Grover: [Cleveland, Cleveland]        // Two, non-consecutive terms, rep'ing NJ!
 </div>
 
 
-<h3 id="views-heading">Views</h3>
+<h2 id="views-heading">Views</h2>
 
 <p>Much of the power of the multimap API comes from the <i>view collections</i> it provides.
 These always reflect the latest state of the multimap itself. When they support modification, the
@@ -179,7 +188,7 @@ collections are:
 <p>The collections returned by the <a href="#replaceValues(K,java.lang.Iterable)"><code>replaceValues</code></a> and <a href="#removeAll(java.lang.Object)"><code>removeAll</code></a> methods, which contain values that have just been removed from the multimap, are
 naturally <i>not</i> views.
 
-<h3 id="subinterfaces-heading">Subinterfaces</h3>
+<h2 id="subinterfaces-heading">Subinterfaces</h2>
 
 <p>Instead of using the <code>Multimap</code> interface directly, prefer the subinterfaces <a href="ListMultimap.html" title="interface in com.google.common.collect"><code>ListMultimap</code></a> and <a href="SetMultimap.html" title="interface in com.google.common.collect"><code>SetMultimap</code></a>. These take their names from the fact that the collections
 they return from <code>get</code> behave like (and, of course, implement) <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/List.html" title="interface in java.util" class="external-link"><code>List</code></a> and <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link"><code>Set</code></a>, respectively.
@@ -193,7 +202,7 @@ the way you expect. Multimaps containing the same key-value pairs, even in the s
 may not be equal and may or may not have the same <code>hashCode</code>. The recommended subinterfaces
 provide much stronger guarantees.
 
-<h3 id="comparison-to-a-map-of-collections-heading">Comparison to a map of collections</h3>
+<h2 id="comparison-to-a-map-of-collections-heading">Comparison to a map of collections</h2>
 
 <p>Multimaps are commonly used in places where a <code>Map&lt;K, Collection&lt;V&gt;&gt;</code> would otherwise
 have appeared. The differences include:
@@ -209,7 +218,7 @@ have appeared. The differences include:
       Collections.min(multimap.values())</code> finds the smallest value across all keys.
 </ul>
 
-<h3 id="implementations-heading">Implementations</h3>
+<h2 id="implementations-heading">Implementations</h2>
 
 <ul>
   <li><a href="ImmutableListMultimap.html" title="class in com.google.common.collect"><code>ImmutableListMultimap</code></a>
@@ -222,7 +231,7 @@ Guava contains a number of other multimap implementations, such as <a href="Arra
 new code, we recommend using <a href="MultimapBuilder.html" title="class in com.google.common.collect"><code>MultimapBuilder</code></a> instead: It provides better control of how
 keys and values are stored.
 
-<h3 id="other-notes-heading">Other Notes</h3>
+<h2 id="other-notes-heading">Other Notes</h2>
 
 <p>As with <code>Map</code>, the behavior of a <code>Multimap</code> is not specified if key objects
 already present in the multimap change in a manner that affects <code>equals</code> comparisons. Use

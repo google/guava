@@ -61,7 +61,16 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#performance-heading" tabindex="0">Performance</a></li>
+<li><a href="#other-types-of-preconditions-heading" tabindex="0">Other types of preconditions</a></li>
+<li><a href="#non-preconditions-heading" tabindex="0">Non-preconditions</a></li>
+<li><a href="#java-util-objects-requirenonnull--heading" tabindex="0">java.util.Objects.requireNonNull()</a></li>
+<li><a href="#only-s-is-supported-heading" tabindex="0">Only %s is supported</a></li>
+<li><a href="#more-information-heading" tabindex="0">More information</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -204,7 +213,7 @@ its caller has made a mistake. This allows constructs such as
 
 <p>would be flagged as having called <code>sqrt()</code> with an illegal argument.
 
-<h3 id="performance-heading">Performance</h3>
+<h2 id="performance-heading">Performance</h2>
 
 <p>Avoid passing message arguments that are expensive to compute; your code will always compute
 them, even though they usually won't be needed. If you have such arguments, use the conventional
@@ -220,12 +229,12 @@ string formatting itself should not be a concern.
 <p>As with any performance concerns, you should consider profiling your code (in a production
 environment if possible) before spending a lot of effort on tweaking a particular element.
 
-<h3 id="other-types-of-preconditions-heading">Other types of preconditions</h3>
+<h2 id="other-types-of-preconditions-heading">Other types of preconditions</h2>
 
 <p>Not every type of precondition failure is supported by these methods. Continue to throw
 standard JDK exceptions such as <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/NoSuchElementException.html" title="class in java.util" class="external-link"><code>NoSuchElementException</code></a> or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class in java.lang" class="external-link"><code>UnsupportedOperationException</code></a> in the situations they are intended for.
 
-<h3 id="non-preconditions-heading">Non-preconditions</h3>
+<h2 id="non-preconditions-heading">Non-preconditions</h2>
 
 <p>It is of course possible to use the methods of this class to check for invalid conditions
 which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
@@ -233,13 +242,13 @@ misleading to future readers of the code and of stack traces. See <a href="https
 explained</a> in the Guava User Guide for more advice. Notably, <a href="Verify.html" title="class in com.google.common.base"><code>Verify</code></a> offers assertions
 similar to those in this class for non-precondition checks.
 
-<h3 id="java-util-objects-requirenonnull--heading"><code>java.util.Objects.requireNonNull()</code></h3>
+<h2 id="java-util-objects-requirenonnull--heading"><code>java.util.Objects.requireNonNull()</code></h2>
 
 <p>Projects which use <code>com.google.common</code> should generally avoid the use of <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Objects.html#requireNonNull(T)" class="external-link"><code>Objects.requireNonNull(Object)</code></a>. Instead, use whichever of <a href="#checkNotNull(T)"><code>checkNotNull(Object)</code></a> or
 <a href="Verify.html#verifyNotNull(T)"><code>Verify.verifyNotNull(Object)</code></a> is appropriate to the situation. (The same goes for the
 message-accepting overloads.)
 
-<h3 id="only-s-is-supported-heading">Only <code>%s</code> is supported</h3>
+<h2 id="only-s-is-supported-heading">Only <code>%s</code> is supported</h2>
 
 <p><code>Preconditions</code> uses <a href="Strings.html#lenientFormat(java.lang.String,java.lang.Object...)"><code>Strings.lenientFormat(String, Object...)</code></a> to format error message template
 strings. This only supports the <code>"%s"</code> specifier, not the full range of <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Formatter.html" title="class in java.util" class="external-link"><code>Formatter</code></a> specifiers. However, note that if the number of arguments does not match the
@@ -247,7 +256,7 @@ number of occurrences of <code>"%s"</code> in the format string, <code>Precondit
 behave as expected, and will still include all argument values in the error message; the message
 will simply not be formatted exactly as intended.
 
-<h3 id="more-information-heading">More information</h3>
+<h2 id="more-information-heading">More information</h2>
 
 <p>See the Guava User Guide on <a href="https://github.com/google/guava/wiki/PreconditionsExplained">using <code>
 Preconditions</code></a>.</div>

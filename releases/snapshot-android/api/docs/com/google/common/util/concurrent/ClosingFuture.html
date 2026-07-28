@@ -61,7 +61,25 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#starting-a-pipeline-heading" tabindex="0">Starting a pipeline</a></li>
+<li><a href="#derived-steps-heading" tabindex="0">Derived steps</a>
+<ol class="toc-list">
+<li><a href="#transforming-heading" tabindex="0">Transforming</a></li>
+<li><a href="#catching-heading" tabindex="0">Catching</a></li>
+<li><a href="#combining-heading" tabindex="0">Combining</a></li>
+</ol>
+</li>
+<li><a href="#cancelling-heading" tabindex="0">Cancelling</a></li>
+<li><a href="#ending-a-pipeline-heading" tabindex="0">Ending a pipeline</a>
+<ol class="toc-list">
+<li><a href="#automatically-closing-heading" tabindex="0">Automatically closing</a></li>
+<li><a href="#manually-closing-heading" tabindex="0">Manually closing</a></li>
+</ol>
+</li>
+</ol>
+</li>
 <li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -130,12 +148,12 @@ is by declaring that step to be the last step of the pipeline. Nevertheless, we 
       captured by any of the steps in the pipeline are closed.
 </ol>
 
-<h3 id="starting-a-pipeline-heading">Starting a pipeline</h3>
+<h2 id="starting-a-pipeline-heading">Starting a pipeline</h2>
 
 Start a <code>ClosingFuture</code> pipeline <a href="#submit(com.google.common.util.concurrent.ClosingFuture.ClosingCallable,java.util.concurrent.Executor)">from a
 callable block</a> that may capture objects for later closing. To start a pipeline from a <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> that doesn't create resources that should be closed later, you can use <a href="#from(com.google.common.util.concurrent.ListenableFuture)"><code>from(ListenableFuture)</code></a> instead.
 
-<h3 id="derived-steps-heading">Derived steps</h3>
+<h2 id="derived-steps-heading">Derived steps</h2>
 
 A <code>ClosingFuture</code> step can be derived from one or more input <code>ClosingFuture</code> steps in
 ways similar to <a href="FluentFuture.html" title="class in com.google.common.util.concurrent"><code>FluentFuture</code></a>s:
@@ -152,32 +170,32 @@ Each derivation can capture the next value or any intermediate objects for later
 exception, or combine it with others, you cannot do anything else with it, including declare it
 to be the last step of the pipeline.
 
-<h4 id="transforming-heading">Transforming</h4>
+<h3 id="transforming-heading">Transforming</h3>
 
 To derive the next step by asynchronously applying a function to an input step's value, call
 <a href="#transform(com.google.common.util.concurrent.ClosingFuture.ClosingFunction,java.util.concurrent.Executor)"><code>transform(ClosingFunction, Executor)</code></a> or <a href="#transformAsync(com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction,java.util.concurrent.Executor)"><code>transformAsync(AsyncClosingFunction, Executor)</code></a> on the input step.
 
-<h4 id="catching-heading">Catching</h4>
+<h3 id="catching-heading">Catching</h3>
 
 To derive the next step from a failed input step, call <a href="#catching(java.lang.Class,com.google.common.util.concurrent.ClosingFuture.ClosingFunction,java.util.concurrent.Executor)"><code>catching(Class, ClosingFunction, Executor)</code></a> or <a href="#catchingAsync(java.lang.Class,com.google.common.util.concurrent.ClosingFuture.AsyncClosingFunction,java.util.concurrent.Executor)"><code>catchingAsync(Class, AsyncClosingFunction, Executor)</code></a> on the input step.
 
-<h4 id="combining-heading">Combining</h4>
+<h3 id="combining-heading">Combining</h3>
 
 To derive a <code>ClosingFuture</code> from two or more input steps, pass the input steps to <a href="#whenAllComplete(java.lang.Iterable)"><code>whenAllComplete(Iterable)</code></a> or <a href="#whenAllSucceed(java.lang.Iterable)"><code>whenAllSucceed(Iterable)</code></a> or its overloads.
 
-<h3 id="cancelling-heading">Cancelling</h3>
+<h2 id="cancelling-heading">Cancelling</h2>
 
 Any step in a pipeline can be <a href="#cancel(boolean)">cancelled</a>, even after another step
 has been derived, with the same semantics as cancelling a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Future.html" title="interface in java.util.concurrent" class="external-link"><code>Future</code></a>. In addition, a
 successfully cancelled step will immediately start closing all objects captured for later closing
 by it and by its input steps.
 
-<h3 id="ending-a-pipeline-heading">Ending a pipeline</h3>
+<h2 id="ending-a-pipeline-heading">Ending a pipeline</h2>
 
 Each <code>ClosingFuture</code> pipeline must be ended. To end a pipeline, decide whether you want to
 close the captured objects automatically or manually.
 
-<h4 id="automatically-closing-heading">Automatically closing</h4>
+<h3 id="automatically-closing-heading">Automatically closing</h3>
 
 You can extract a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Future.html" title="interface in java.util.concurrent" class="external-link"><code>Future</code></a> that represents the result of the last step in the pipeline by
 calling <a href="#finishToFuture()"><code>finishToFuture()</code></a>. All objects the pipeline has captured for closing will begin
@@ -200,7 +218,7 @@ completes before closing starts, rather than once it has finished.
 In this example, when the <code>userName</code> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Future.html" title="interface in java.util.concurrent" class="external-link"><code>Future</code></a> is done, the transaction and the query
 result cursor will both be closed, even if the operation is cancelled or fails.
 
-<h4 id="manually-closing-heading">Manually closing</h4>
+<h3 id="manually-closing-heading">Manually closing</h3>
 
 If you want to close the captured objects manually, after you've used the final result, call
 <a href="#finishToValueAndCloser(com.google.common.util.concurrent.ClosingFuture.ValueAndCloserConsumer,java.util.concurrent.Executor)"><code>finishToValueAndCloser(ValueAndCloserConsumer, Executor)</code></a> to get an object that holds the

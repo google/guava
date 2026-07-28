@@ -76,26 +76,10 @@ initTheme();
 <li><a href="#snapshot()" tabindex="0">snapshot()</a></li>
 <li><a href="#count()" tabindex="0">count()</a></li>
 <li><a href="#xStats()" tabindex="0">xStats()</a></li>
-<li><a href="#yStats()" tabindex="0">yStats()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#populationCovariance()" tabindex="0">populationCovariance()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading1" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#sampleCovariance()" tabindex="0">sampleCovariance()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading2" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#pearsonsCorrelationCoefficient()" tabindex="0">pearsonsCorrelationCoefficient()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading3" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
+<li><a href="#yStats()" tabindex="0">yStats()</a></li>
+<li><a href="#populationCovariance()" tabindex="0">populationCovariance()</a></li>
+<li><a href="#sampleCovariance()" tabindex="0">sampleCovariance()</a></li>
+<li><a href="#pearsonsCorrelationCoefficient()" tabindex="0">pearsonsCorrelationCoefficient()</a></li>
 <li><a href="#leastSquaresFit()" tabindex="0">leastSquaresFit()</a></li>
 </ol>
 </li>
@@ -308,7 +292,7 @@ statistics had been added directly.</div>
 is not guaranteed to return zero when the dataset consists of the same pair of values multiple
 times, due to numerical errors.
 
-<h3 id="non-finite-values-heading">Non-finite values</h3>
+<h4 id="non-finite-values-heading">Non-finite values</h4>
 
 <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>.</div>
 <dl class="notes">
@@ -328,7 +312,7 @@ times, due to numerical errors.
 <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
 multiple times, due to numerical errors.
 
-<h3 id="non-finite-values-heading1">Non-finite values</h3>
+<h4 id="non-finite-values-heading1">Non-finite values</h4>
 
 <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>.</div>
 <dl class="notes">
@@ -350,7 +334,7 @@ xStats().populationVariance() &gt; 0.0 &amp;&amp; yStats().populationVariance() 
 guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
 numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1].
 
-<h3 id="non-finite-values-heading2">Non-finite values</h3>
+<h4 id="non-finite-values-heading2">Non-finite values</h4>
 
 <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>.</div>
 <dl class="notes">
@@ -386,7 +370,7 @@ fraction <code>sqrt(1/(R*R) - 1)</code> of the population standard deviation of 
 does not normally minimize that error: to do that, you should swap the roles of <code>x</code> and
 <code>y</code>.
 
-<h3 id="non-finite-values-heading3">Non-finite values</h3>
+<h4 id="non-finite-values-heading3">Non-finite values</h4>
 
 <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>) then the result is <a href="LinearTransformation.html#forNaN()"><code>LinearTransformation.forNaN()</code></a>.</div>
 <dl class="notes">

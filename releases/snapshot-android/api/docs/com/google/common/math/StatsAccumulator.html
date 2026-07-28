@@ -83,46 +83,14 @@ initTheme();
 <li><a href="#addAll(com.google.common.math.Stats)" tabindex="0">addAll(Stats)</a></li>
 <li><a href="#addAll(com.google.common.math.StatsAccumulator)" tabindex="0">addAll(StatsAccumulator)</a></li>
 <li><a href="#snapshot()" tabindex="0">snapshot()</a></li>
-<li><a href="#count()" tabindex="0">count()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#mean()" tabindex="0">mean()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading1" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#sum()" tabindex="0">sum()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading2" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#populationVariance()" tabindex="0">populationVariance()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading3" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#populationStandardDeviation()" tabindex="0">populationStandardDeviation()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading4" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#sampleVariance()" tabindex="0">sampleVariance()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading5" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#sampleStandardDeviation()" tabindex="0">sampleStandardDeviation()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading6" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
-<li><a href="#min()" tabindex="0">min()</a>
-<ol class="toc-list">
-<li><a href="#non-finite-values-heading7" tabindex="0">Non-finite values</a></li>
-</ol>
-</li>
+<li><a href="#count()" tabindex="0">count()</a></li>
+<li><a href="#mean()" tabindex="0">mean()</a></li>
+<li><a href="#sum()" tabindex="0">sum()</a></li>
+<li><a href="#populationVariance()" tabindex="0">populationVariance()</a></li>
+<li><a href="#populationStandardDeviation()" tabindex="0">populationStandardDeviation()</a></li>
+<li><a href="#sampleVariance()" tabindex="0">sampleVariance()</a></li>
+<li><a href="#sampleStandardDeviation()" tabindex="0">sampleStandardDeviation()</a></li>
+<li><a href="#min()" tabindex="0">min()</a></li>
 <li><a href="#max()" tabindex="0">max()</a></li>
 </ol>
 </li>
@@ -502,7 +470,7 @@ values. The count must be non-zero.
 <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
 the arithmetic mean of the population.
 
-<h3 id="non-finite-values-heading">Non-finite values</h3>
+<h4 id="non-finite-values-heading">Non-finite values</h4>
 
 <p>If the dataset contains <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a> then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>. If it
 contains both <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a> and <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a> then the
@@ -523,7 +491,7 @@ If it contains <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">sum</span>()</div>
 <div class="block">Returns the sum of the values.
 
-<h3 id="non-finite-values-heading1">Non-finite values</h3>
+<h4 id="non-finite-values-heading1">Non-finite values</h4>
 
 <p>If the dataset contains <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a> then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>. If it
 contains both <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a> and <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a> then the
@@ -545,7 +513,7 @@ variance</a> of the values. The count must be non-zero.
 is not guaranteed to return zero when the dataset consists of the same value multiple times,
 due to numerical errors. However, it is guaranteed never to return a negative result.
 
-<h3 id="non-finite-values-heading2">Non-finite values</h3>
+<h4 id="non-finite-values-heading2">Non-finite values</h4>
 
 <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>.</div>
 <dl class="notes">
@@ -567,7 +535,7 @@ population standard deviation</a> of the values. The count must be non-zero.
 is not guaranteed to return zero when the dataset consists of the same value multiple times,
 due to numerical errors. However, it is guaranteed never to return a negative result.
 
-<h3 id="non-finite-values-heading3">Non-finite values</h3>
+<h4 id="non-finite-values-heading3">Non-finite values</h4>
 
 <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>.</div>
 <dl class="notes">
@@ -590,7 +558,7 @@ one.
 <p>This is not guaranteed to return zero when the dataset consists of the same value multiple
 times, due to numerical errors. However, it is guaranteed never to return a negative result.
 
-<h3 id="non-finite-values-heading4">Non-finite values</h3>
+<h4 id="non-finite-values-heading4">Non-finite values</h4>
 
 <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>.</div>
 <dl class="notes">
@@ -614,7 +582,7 @@ the distribution). The count must be greater than one.
 <p>This is not guaranteed to return zero when the dataset consists of the same value multiple
 times, due to numerical errors. However, it is guaranteed never to return a negative result.
 
-<h3 id="non-finite-values-heading5">Non-finite values</h3>
+<h4 id="non-finite-values-heading5">Non-finite values</h4>
 
 <p>If the dataset contains any non-finite values (<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a>, <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a>, or <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>) then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>.</div>
 <dl class="notes">
@@ -631,7 +599,7 @@ times, due to numerical errors. However, it is guaranteed never to return a nega
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">min</span>()</div>
 <div class="block">Returns the lowest value in the dataset. The count must be non-zero.
 
-<h3 id="non-finite-values-heading6">Non-finite values</h3>
+<h4 id="non-finite-values-heading6">Non-finite values</h4>
 
 <p>If the dataset contains <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a> then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>. If it
 contains <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a> and not <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a> then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a>. If it contains <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a> and finite values
@@ -650,7 +618,7 @@ only then the result is the lowest finite value. If it contains <a href="https:/
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">double</span>&nbsp;<span class="element-name">max</span>()</div>
 <div class="block">Returns the highest value in the dataset. The count must be non-zero.
 
-<h3 id="non-finite-values-heading7">Non-finite values</h3>
+<h4 id="non-finite-values-heading7">Non-finite values</h4>
 
 <p>If the dataset contains <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a> then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a>. If it
 contains <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a> and not <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NaN" class="external-link"><code>Double.NaN</code></a> then the result is <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#POSITIVE_INFINITY" class="external-link"><code>Double.POSITIVE_INFINITY</code></a>. If it contains <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Double.html#NEGATIVE_INFINITY" class="external-link"><code>Double.NEGATIVE_INFINITY</code></a> and finite values

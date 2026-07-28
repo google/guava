@@ -61,7 +61,11 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#relationship-to-ordering-heading" tabindex="0">Relationship to Ordering</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -98,7 +102,7 @@ initTheme();
 comparator utilities, see either <code>Comparator</code> itself (for Java 8+), or <code>
 com.google.common.collect.Ordering</code> (otherwise).
 
-<h3 id="relationship-to-ordering-heading">Relationship to <code>Ordering</code></h3>
+<h2 id="relationship-to-ordering-heading">Relationship to <code>Ordering</code></h2>
 
 <p>In light of the significant enhancements to <code>Comparator</code> in Java 8, the overwhelming
 majority of usages of <code>Ordering</code> can be written using only built-in JDK APIs. This class is

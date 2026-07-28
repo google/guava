@@ -61,7 +61,11 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#implementations-heading" tabindex="0">Implementations</a></li>
+</ol>
+</li>
 <li><a href="#nested-class-summary" tabindex="0">Nested Class Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
@@ -132,7 +136,7 @@ will change the table.
 <p>All methods that modify the table are optional, and the views returned by the table may or may
 not be modifiable. When modification isn't supported, those methods will throw an <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/UnsupportedOperationException.html" title="class in java.lang" class="external-link"><code>UnsupportedOperationException</code></a>.
 
-<h3 id="implementations-heading">Implementations</h3>
+<h2 id="implementations-heading">Implementations</h2>
 
 <ul>
   <li><a href="ImmutableTable.html" title="class in com.google.common.collect"><code>ImmutableTable</code></a>

@@ -61,7 +61,14 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#comparison-to-alternatives-heading" tabindex="0">Comparison to alternatives</a></li>
+<li><a href="#warning-about-performance-heading" tabindex="0">Warning about performance</a></li>
+<li><a href="#only-s-is-supported-heading" tabindex="0">Only %s is supported</a></li>
+<li><a href="#more-information-heading" tabindex="0">More information</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -123,7 +130,7 @@ Verify.verify(bill.status() == Status.UNPAID,
 </div>
 
 
-<h3 id="comparison-to-alternatives-heading">Comparison to alternatives</h3>
+<h2 id="comparison-to-alternatives-heading">Comparison to alternatives</h2>
 
 <p><b>Note:</b> In some cases the differences explained below can be subtle. When it's unclear
 which approach to use, <b>don't worry</b> too much about it; just pick something that seems
@@ -144,7 +151,7 @@ reasonable and it will be fine.
       same function with more clarity.
 </ul>
 
-<h3 id="warning-about-performance-heading">Warning about performance</h3>
+<h2 id="warning-about-performance-heading">Warning about performance</h2>
 
 <p>Remember that parameter values for message construction must all be computed eagerly, and
 autoboxing and varargs array creation may happen as well, even when the verification succeeds and
@@ -160,7 +167,7 @@ if (bill.status() != Status.UNPAID) {
 </div>
 
 
-<h3 id="only-s-is-supported-heading">Only <code>%s</code> is supported</h3>
+<h2 id="only-s-is-supported-heading">Only <code>%s</code> is supported</h2>
 
 <p>As with <a href="Preconditions.html" title="class in com.google.common.base"><code>Preconditions</code></a>, <code>Verify</code> uses <a href="Strings.html#lenientFormat(java.lang.String,java.lang.Object...)"><code>Strings.lenientFormat(String, Object...)</code></a> to format
 error message template strings. This only supports the <code>"%s"</code> specifier, not the full range
@@ -169,7 +176,7 @@ match the number of occurrences of <code>"%s"</code> in the format string, <code
 behave as expected, and will still include all argument values in the error message; the message
 will simply not be formatted exactly as intended.
 
-<h3 id="more-information-heading">More information</h3>
+<h2 id="more-information-heading">More information</h2>
 
 See <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional
 failures explained</a> in the Guava User Guide for advice on when this class should be used.</div>

@@ -1702,7 +1702,7 @@
  to {@code A}; used for converting back and forth between <i>different representations of the same
  information</i>.
 
- <h3>Invertibility</h3>
+ <h2>Invertibility</h2>
 
  <p>The reverse operation <b>may</b> be a strict <i>inverse</i> (meaning that {@code
  converter.reverse().convert(converter.convert(a)).equals(a)} is always true). However, it is very
@@ -1718,7 +1718,7 @@
  <p>Note that it should still be the case that the round-tripped and original objects are
  <i>similar</i>.
 
- <h3>Nullability</h3>
+ <h2>Nullability</h2>
 
  <p>A converter always converts {@code null} to {@code null} and non-null references to non-null
  references. It would not make sense to consider {@code null} and a non-null reference to be
@@ -1727,7 +1727,7 @@
  behavior for all converters; implementations of {@link #doForward} and {@link #doBackward} are
  guaranteed to never be passed {@code null}, and must never return {@code null}.
 
- <h3>Common ways to use</h3>
+ <h2>Common ways to use</h2>
 
  <p>Getting a converter:
 
@@ -1757,7 +1757,7 @@
        be overridden.
  </ul>
 
- <h3>Example</h3>
+ <h2>Example</h2>
 
  {@snippet :
  return Converter.from(
@@ -5164,7 +5164,7 @@
 
  <p>would be flagged as having called {@code sqrt()} with an illegal argument.
 
- <h3>Performance</h3>
+ <h2>Performance</h2>
 
  <p>Avoid passing message arguments that are expensive to compute; your code will always compute
  them, even though they usually won't be needed. If you have such arguments, use the conventional
@@ -5180,13 +5180,13 @@
  <p>As with any performance concerns, you should consider profiling your code (in a production
  environment if possible) before spending a lot of effort on tweaking a particular element.
 
- <h3>Other types of preconditions</h3>
+ <h2>Other types of preconditions</h2>
 
  <p>Not every type of precondition failure is supported by these methods. Continue to throw
  standard JDK exceptions such as {@link java.util.NoSuchElementException} or {@link
  UnsupportedOperationException} in the situations they are intended for.
 
- <h3>Non-preconditions</h3>
+ <h2>Non-preconditions</h2>
 
  <p>It is of course possible to use the methods of this class to check for invalid conditions
  which are <i>not the caller's fault</i>. Doing so is <b>not recommended</b> because it is
@@ -5195,14 +5195,14 @@
  explained</a> in the Guava User Guide for more advice. Notably, {@link Verify} offers assertions
  similar to those in this class for non-precondition checks.
 
- <h3>{@code java.util.Objects.requireNonNull()}</h3>
+ <h2>{@code java.util.Objects.requireNonNull()}</h2>
 
  <p>Projects which use {@code com.google.common} should generally avoid the use of {@link
  Objects#requireNonNull(Object)}. Instead, use whichever of {@link #checkNotNull(Object)} or
  {@link Verify#verifyNotNull(Object)} is appropriate to the situation. (The same goes for the
  message-accepting overloads.)
 
- <h3>Only {@code %s} is supported</h3>
+ <h2>Only {@code %s} is supported</h2>
 
  <p>{@code Preconditions} uses {@link Strings#lenientFormat} to format error message template
  strings. This only supports the {@code "%s"} specifier, not the full range of {@link
@@ -5211,7 +5211,7 @@
  behave as expected, and will still include all argument values in the error message; the message
  will simply not be formatted exactly as intended.
 
- <h3>More information</h3>
+ <h2>More information</h2>
 
  <p>See the Guava User Guide on <a
  href="https://github.com/google/guava/wiki/PreconditionsExplained">using {@code
@@ -7531,7 +7531,7 @@
      "Unexpected bill status: %s", bill.status());
  }
 
- <h3>Comparison to alternatives</h3>
+ <h2>Comparison to alternatives</h2>
 
  <p><b>Note:</b> In some cases the differences explained below can be subtle. When it's unclear
  which approach to use, <b>don't worry</b> too much about it; just pick something that seems
@@ -7553,7 +7553,7 @@
        same function with more clarity.
  </ul>
 
- <h3>Warning about performance</h3>
+ <h2>Warning about performance</h2>
 
  <p>Remember that parameter values for message construction must all be computed eagerly, and
  autoboxing and varargs array creation may happen as well, even when the verification succeeds and
@@ -7567,7 +7567,7 @@
  }
  }
 
- <h3>Only {@code %s} is supported</h3>
+ <h2>Only {@code %s} is supported</h2>
 
  <p>As with {@link Preconditions}, {@code Verify} uses {@link Strings#lenientFormat} to format
  error message template strings. This only supports the {@code "%s"} specifier, not the full range
@@ -7576,7 +7576,7 @@
  behave as expected, and will still include all argument values in the error message; the message
  will simply not be formatted exactly as intended.
 
- <h3>More information</h3>
+ <h2>More information</h2>
 
  See <a href="https://github.com/google/guava/wiki/ConditionalFailuresExplained">Conditional
  failures explained</a> in the Guava User Guide for advice on when this class should be used.
@@ -10721,7 +10721,7 @@
  that of its keys. This constraint enables bimaps to support an "inverse view", which is another
  bimap containing the same entries as this bimap but with reversed keys and values.
 
- <h3>Implementations</h3>
+ <h2>Implementations</h2>
 
  <ul>
    <li>{@link ImmutableBiMap}
@@ -10801,7 +10801,7 @@
  <p>Like any other {@code Map<Class, Object>}, this map may contain entries for primitive types,
  and a primitive type and its corresponding wrapper type may map to different values.
 
- <h3>Implementations</h3>
+ <h2>Implementations</h2>
 
  <ul>
    <li>{@link ImmutableClassToInstanceMap}
@@ -11219,7 +11219,7 @@
  comparator utilities, see either {@code Comparator} itself (for Java 8+), or {@code
  com.google.common.collect.Ordering} (otherwise).
 
- <h3>Relationship to {@code Ordering}</h3>
+ <h2>Relationship to {@code Ordering}</h2>
 
  <p>In light of the significant enhancements to {@code Comparator} in Java 8, the overwhelming
  majority of usages of {@code Ordering} can be written using only built-in JDK APIs. This class is
@@ -13062,7 +13062,7 @@
 
  <p><a id="streams"></a>
 
- <h3>Comparison to streams</h3>
+ <h2>Comparison to streams</h2>
 
  <p>Starting with Java 8, the core Java class libraries provide a new "Streams" library (in {@code
  java.util.stream}), which is similar to {@code FluentIterable} but generally more powerful. Key
@@ -13088,7 +13088,7 @@
        under Android).
  </ul>
 
- <h3>Example</h3>
+ <h2>Example</h2>
 
  <p>Here is an example that accepts a list from a database call, filters it based on a predicate,
  transforms it by invoking {@code toString()} on each element, and returns the first 10 elements
@@ -17804,12 +17804,12 @@
  ImmutableList}, which have well-defined {@link #equals} semantics, thus avoiding a common source
  of bugs and confusion.
 
- <h3>About <i>all</i> {@code Immutable-} collections</h3>
+ <h2>About <i>all</i> {@code Immutable-} collections</h2>
 
  <p>The remainder of this documentation applies to every public {@code Immutable-} type in this
  package, whether it is a subtype of {@code ImmutableCollection} or not.
 
- <h4>Guarantees</h4>
+ <h3>Guarantees</h3>
 
  <p>Each makes the following guarantees:
 
@@ -17830,7 +17830,7 @@
        these guarantees to be violated).
  </ul>
 
- <h4>"Interfaces", not implementations</h4>
+ <h3>"Interfaces", not implementations</h3>
 
  <p>These are classes instead of interfaces to prevent external subtyping, but should be thought
  of as interfaces in every important sense. Each public class such as {@link ImmutableSet} is a
@@ -17852,7 +17852,7 @@
  {@link Collections#singleton(Object)} and {@link Set##unmodifiable Set.of}, we recommend using
  <i>these</i> classes instead for this reason (as well as for consistency).
 
- <h4>Creation</h4>
+ <h3>Creation</h3>
 
  <p>Except for logically "abstract" types like {@code ImmutableCollection} itself, each {@code
  Immutable} type provides the static operations you need to obtain instances of that type. These
@@ -17866,7 +17866,7 @@
        instance.
  </ul>
 
- <h4>Warnings</h4>
+ <h3>Warnings</h3>
 
  <ul>
    <li><b>Warning:</b> as with any collection, it is almost always a bad idea to modify an element
@@ -17876,7 +17876,7 @@
        <i>deeply</i> immutable.
  </ul>
 
- <h4>Performance notes</h4>
+ <h3>Performance notes</h3>
 
  <ul>
    <li>Implementations can be generally assumed to prioritize memory efficiency, then speed of
@@ -17896,7 +17896,7 @@
        {@code hashCode} implementation, it should cache it itself.
  </ul>
 
- <h4>Example usage</h4>
+ <h3>Example usage</h3>
 
  {@snippet :
  class Foo {
@@ -17912,7 +17912,7 @@
  }
  }
 
- <h3>See also</h3>
+ <h2>See also</h2>
 
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/ImmutableCollectionsExplained">immutable collections</a>.
@@ -30038,7 +30038,7 @@
  times when the first style is more useful, use the multimap's {@link #asMap} view (or create a
  {@code Map<K, Collection<V>>} in the first place).
 
- <h3>Example</h3>
+ <h2>Example</h2>
 
  <p>The following code:
 
@@ -30063,7 +30063,7 @@
  ...
  }
 
- <h3>Views</h3>
+ <h2>Views</h2>
 
  <p>Much of the power of the multimap API comes from the <i>view collections</i> it provides.
  These always reflect the latest state of the multimap itself. When they support modification, the
@@ -30082,7 +30082,7 @@
  removeAll} methods, which contain values that have just been removed from the multimap, are
  naturally <i>not</i> views.
 
- <h3>Subinterfaces</h3>
+ <h2>Subinterfaces</h2>
 
  <p>Instead of using the {@code Multimap} interface directly, prefer the subinterfaces {@link
  ListMultimap} and {@link SetMultimap}. These take their names from the fact that the collections
@@ -30098,7 +30098,7 @@
  may not be equal and may or may not have the same {@code hashCode}. The recommended subinterfaces
  provide much stronger guarantees.
 
- <h3>Comparison to a map of collections</h3>
+ <h2>Comparison to a map of collections</h2>
 
  <p>Multimaps are commonly used in places where a {@code Map<K, Collection<V>>} would otherwise
  have appeared. The differences include:
@@ -30115,7 +30115,7 @@
        Collections.min(multimap.values())} finds the smallest value across all keys.
  </ul>
 
- <h3>Implementations</h3>
+ <h2>Implementations</h2>
 
  <ul>
    <li>{@link ImmutableListMultimap}
@@ -30128,7 +30128,7 @@
  new code, we recommend using {@link MultimapBuilder} instead: It provides better control of how
  keys and values are stored.
 
- <h3>Other Notes</h3>
+ <h2>Other Notes</h2>
 
  <p>As with {@code Map}, the behavior of a {@code Multimap} is not specified if key objects
  already present in the multimap change in a manner that affects {@code equals} comparisons. Use
@@ -31875,7 +31875,7 @@
  element (in a way that affects its {@link Object#equals} behavior) while it is contained in a
  multiset. Undefined behavior and bugs will result.
 
- <h3>Implementations</h3>
+ <h2>Implementations</h2>
 
  <ul>
    <li>{@link ImmutableMultiset}
@@ -33125,12 +33125,12 @@
  of {@code Comparator} for pre-Java-8 users, in the same sense that {@link FluentIterable} is an
  enriched {@link Iterable} for pre-Java-8 users.
 
- <h3>Three types of methods</h3>
+ <h2>Three types of methods</h2>
 
  Like other fluent types, there are three types of methods present: methods for <i>acquiring</i>,
  <i>chaining</i>, and <i>using</i>.
 
- <h4>Acquiring</h4>
+ <h3>Acquiring</h3>
 
  <p>The common ways to get an instance of {@code Ordering} are:
 
@@ -33141,7 +33141,7 @@
    <li>Use the natural ordering, {@link Ordering#natural}
  </ul>
 
- <h4>Chaining</h4>
+ <h3>Chaining</h3>
 
  <p>Then you can use the <i>chaining</i> methods to get an altered version of that {@code
  Ordering}, including:
@@ -33153,7 +33153,7 @@
    <li>{@link #nullsFirst} / {@link #nullsLast}
  </ul>
 
- <h4>Using</h4>
+ <h3>Using</h3>
 
  <p>Finally, use the resulting {@code Ordering} anywhere a {@link Comparator} is required, or use
  any of its special operations, such as:
@@ -33164,7 +33164,7 @@
    <li>{@link #min} / {@link #max}
  </ul>
 
- <h3>Understanding complex orderings</h3>
+ <h2>Understanding complex orderings</h2>
 
  <p>Complex chained orderings like the following example can be challenging to understand.
 
@@ -33194,14 +33194,14 @@
  encounter a call to {@code reverse}, continue working backwards until a result is determined, and
  then reverse that result.
 
- <h3>Additional notes</h3>
+ <h2>Additional notes</h2>
 
  <p>Except as noted, the orderings returned by the factory methods of this class are serializable
  if and only if the provided instances that back them are. For example, if {@code ordering} and
  {@code function} can themselves be serialized, then {@code ordering.onResultOf(function)} can as
  well.
 
- <h3>Java 8+ users</h3>
+ <h2>Java 8+ users</h2>
 
  <p>If you are using Java 8+, this class is now obsolete. Most of its functionality is now
  provided by {@link java.util.stream.Stream Stream} and by {@link Comparator} itself, and the rest
@@ -33214,7 +33214,7 @@
  code verbose. Whenever following this advice, you should check whether {@code Stream} could be
  adopted more comprehensively in your code; the end result may be quite a bit simpler.
 
- <h3>See also</h3>
+ <h2>See also</h2>
 
  <p>See the Guava User Guide article on <a href=
  "https://github.com/google/guava/wiki/OrderingExplained">{@code Ordering}</a>.
@@ -34124,7 +34124,7 @@
  possible to <i>iterate</i> over these contained values. To do so, pass this range instance and an
  appropriate {@link DiscreteDomain} to {@link ContiguousSet#create}.
 
- <h3>Types of ranges</h3>
+ <h2>Types of ranges</h2>
 
  <p>Each end of the range may be bounded or unbounded. If bounded, there is an associated
  <i>endpoint</i> value, and the range is considered to be either <i>open</i> (does not include the
@@ -34161,7 +34161,7 @@
    <li>{@code (a..a)} : <b>invalid</b>; an exception will be thrown
  </ul>
 
- <h3>Warnings</h3>
+ <h2>Warnings</h2>
 
  <ul>
    <li>Use immutable value types only, if at all possible. If you must use a mutable type, <b>do
@@ -34177,7 +34177,7 @@
        <b>This may change in the future.</b>
  </ul>
 
- <h3>Other notes</h3>
+ <h2>Other notes</h2>
 
  <ul>
    <li>All ranges are shallow-immutable.
@@ -34196,7 +34196,7 @@
    <li>A {@code Range} is serializable if it has no bounds, or if each bound is serializable.
  </ul>
 
- <h3>Further reading</h3>
+ <h2>Further reading</h2>
 
  <p>See the Guava User Guide article on <a
  href="https://github.com/google/guava/wiki/RangesExplained">{@code Range}</a>.
@@ -36994,7 +36994,7 @@
  not be modifiable. When modification isn't supported, those methods will throw an {@link
  UnsupportedOperationException}.
 
- <h3>Implementations</h3>
+ <h2>Implementations</h2>
 
  <ul>
    <li>{@link ImmutableTable}
@@ -39646,7 +39646,7 @@
  <p>This instance is only useful in combination with {@code incidentEdgeOrder}, e.g. {@code
  graphBuilder.incidentEdgeOrder(ElementOrder.stable())}.
 
- <h3>In combination with {@code incidentEdgeOrder}</h3>
+ <h4>In combination with {@code incidentEdgeOrder}</h4>
 
  <p>{@code incidentEdgeOrder(ElementOrder.stable())} guarantees the ordering of the returned
  collections of the following methods:
@@ -40206,7 +40206,7 @@
  href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
  "Choosing the right graph type"</a> section of the Guava User Guide for more details.
 
- <h3>Capabilities</h3>
+ <h2>Capabilities</h2>
 
  <p>{@code Graph} supports the following use cases (<a
  href="https://github.com/google/guava/wiki/GraphsExplained#definitions">definitions of
@@ -40222,7 +40222,7 @@
  <p>{@code Graph} explicitly does not support parallel edges, and forbids implementations or
  extensions with parallel edges. If you need parallel edges, use {@link Network}.
 
- <h3>Building a {@code Graph}</h3>
+ <h2>Building a {@code Graph}</h2>
 
  <p>The implementation classes that {@code common.graph} provides are not public, by design. To
  create an instance of one of the built-in implementations of {@code Graph}, use the {@link
@@ -40251,7 +40251,7 @@
  href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances">more
  information on (and examples of) building graphs</a>.
 
- <h3>Additional documentation</h3>
+ <h2>Additional documentation</h2>
 
  <p>See the Guava User Guide for the {@code common.graph} package (<a
  href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
@@ -41859,7 +41859,7 @@
  href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
  "Choosing the right graph type"</a> section of the Guava User Guide for more details.
 
- <h3>Capabilities</h3>
+ <h2>Capabilities</h2>
 
  <p>{@code Network} supports the following use cases (<a
  href="https://github.com/google/guava/wiki/GraphsExplained#definitions">definitions of
@@ -41875,7 +41875,7 @@
        href="https://github.com/google/guava/wiki/GraphsExplained#uniqueness">unique</a> objects
  </ul>
 
- <h3>Building a {@code Network}</h3>
+ <h2>Building a {@code Network}</h2>
 
  <p>The implementation classes that {@code common.graph} provides are not public, by design. To
  create an instance of one of the built-in implementations of {@code Network}, use the {@link
@@ -41905,7 +41905,7 @@
  href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances">more
  information on (and examples of) building graphs</a>.
 
- <h3>Additional documentation</h3>
+ <h2>Additional documentation</h2>
 
  <p>See the Guava User Guide for the {@code common.graph} package (<a
  href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
@@ -42140,7 +42140,7 @@
  <p>This interface is meant to be used as the type of a parameter to graph algorithms (such as
  topological sort) that only need a way of accessing the predecessors of a node in a graph.
 
- <h3>Usage</h3>
+ <h2>Usage</h2>
 
  Given an algorithm, for example:
 
@@ -42179,7 +42179,7 @@
  successors, iterating over the edges, etc.) should declare their input to be of a type that
  provides those capabilities, such as {@link Graph}, {@link ValueGraph}, or {@link Network}.
 
- <h3>Additional documentation</h3>
+ <h2>Additional documentation</h2>
 
  <p>See the Guava User Guide for the {@code common.graph} package (<a
  href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
@@ -42233,7 +42233,7 @@
  <p>This interface is meant to be used as the type of a parameter to graph algorithms (such as
  breadth first traversal) that only need a way of accessing the successors of a node in a graph.
 
- <h3>Usage</h3>
+ <h2>Usage</h2>
 
  Given an algorithm, for example:
 
@@ -42272,7 +42272,7 @@
  successors, iterating over the edges, etc.) should declare their input to be of a type that
  provides those capabilities, such as {@link Graph}, {@link ValueGraph}, or {@link Network}.
 
- <h3>Additional documentation</h3>
+ <h2>Additional documentation</h2>
 
  <p>See the Guava User Guide for the {@code common.graph} package (<a
  href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
@@ -42926,7 +42926,7 @@
  href="https://github.com/google/guava/wiki/GraphsExplained#choosing-the-right-graph-type">
  "Choosing the right graph type"</a> section of the Guava User Guide for more details.
 
- <h3>Capabilities</h3>
+ <h2>Capabilities</h2>
 
  <p>{@code ValueGraph} supports the following use cases (<a
  href="https://github.com/google/guava/wiki/GraphsExplained#definitions">definitions of
@@ -42946,7 +42946,7 @@
  edge multiplicity, but the {@code *degree()} and mutation methods will not reflect your
  interpretation of the edge value as its multiplicity.)
 
- <h3>Building a {@code ValueGraph}</h3>
+ <h2>Building a {@code ValueGraph}</h2>
 
  <p>The implementation classes that {@code common.graph} provides are not public, by design. To
  create an instance of one of the built-in implementations of {@code ValueGraph}, use the {@link
@@ -42976,7 +42976,7 @@
  href="https://github.com/google/guava/wiki/GraphsExplained#building-graph-instances">more
  information on (and examples of) building graphs</a>.
 
- <h3>Additional documentation</h3>
+ <h2>Additional documentation</h2>
 
  <p>See the Guava User Guide for the {@code common.graph} package (<a
  href="https://github.com/google/guava/wiki/GraphsExplained">"Graphs Explained"</a>) for
@@ -44222,7 +44222,7 @@
     <![CDATA[A hash function is a collision-averse pure function that maps an arbitrary block of data to a
  number called a <i>hash code</i>.
 
- <h3>Definition</h3>
+ <h2>Definition</h2>
 
  <p>Unpacking this definition:
 
@@ -44248,7 +44248,7 @@
  <p>Summarizing the last two points: "equal yield equal <i>always</i>; unequal yield unequal
  <i>often</i>." This is the most important characteristic of all hash functions.
 
- <h3>Desirable properties</h3>
+ <h2>Desirable properties</h2>
 
  <p>A high-quality hash function strives for some subset of the following virtues:
 
@@ -44275,7 +44275,7 @@
    <li><b>fast:</b> perhaps self-explanatory, but often the most important consideration.
  </ul>
 
- <h3>Providing input to a hash function</h3>
+ <h2>Providing input to a hash function</h2>
 
  <p>The primary way to provide the data that your hash function should act on is via a {@link
  Hasher}. Obtain a new hasher from the hash function using {@link #newHasher}, "push" the relevant
@@ -44295,7 +44295,7 @@
  equivalent to hashing the {@code int} value {@code 0x04030201}. If this isn't what you need,
  methods such as {@link Integer#reverseBytes} and {@link Ints#toByteArray} will help.
 
- <h3>Relationship to {@link Object#hashCode}</h3>
+ <h2>Relationship to {@link Object#hashCode}</h2>
 
  <p>Java's baked-in concept of hash codes is constrained to 32 bits, and provides no separation
  between hash algorithms and the data they act on, so alternate hash algorithms can't be easily
@@ -51078,7 +51078,7 @@
  is not guaranteed to return zero when the dataset consists of the same pair of values multiple
  times, due to numerical errors.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -51096,7 +51096,7 @@
  <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
  multiple times, due to numerical errors.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -51116,7 +51116,7 @@
  guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
  numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1].
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -51151,7 +51151,7 @@
  does not normally minimize that error: to do that, you should swap the roles of {@code x} and
  {@code y}.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link
@@ -51306,7 +51306,7 @@
  is not guaranteed to return zero when the dataset consists of the same pair of values multiple
  times, due to numerical errors.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -51324,7 +51324,7 @@
  <p>This is not guaranteed to return zero when the dataset consists of the same pair of values
  multiple times, due to numerical errors.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -51344,7 +51344,7 @@
  guaranteed to be exactly +/-1 even when the data are perfectly (anti-)correlated, due to
  numerical errors. However, it is guaranteed to be in the inclusive range [-1, +1].
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -51379,7 +51379,7 @@
  does not normally minimize that error: to do that, you should swap the roles of {@code x} and
  {@code y}.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link
@@ -51454,7 +51454,7 @@
     <![CDATA[Provides a fluent API for calculating <a
  href="http://en.wikipedia.org/wiki/Quantile">quantiles</a>.
 
- <h3>Examples</h3>
+ <h2>Examples</h2>
 
  <p>To compute the median:
 
@@ -51488,7 +51488,7 @@
  it being arbitrarily reordered, and you want to avoid that copy, you can use {@code
  computeInPlace} instead of {@code compute}.
 
- <h3>Definition and notes on interpolation</h3>
+ <h2>Definition and notes on interpolation</h2>
 
  <p>The definition of the kth q-quantile of N values is as follows: define x = k * (N - 1) / q; if
  x is an integer, the result is the value which would appear at index x in the sorted dataset
@@ -51502,7 +51502,7 @@
  wikipedia</a> as providing "Linear interpolation of the modes for the order statistics for the
  uniform distribution on [0,1]."
 
- <h3>Handling of non-finite values</h3>
+ <h2>Handling of non-finite values</h2>
 
  <p>If any values in the input are {@link Double#NaN NaN} then all values returned are {@link
  Double#NaN NaN}. (This is the one occasion when the behaviour is not the same as you'd get from
@@ -51522,7 +51522,7 @@
  POSITIVE_INFINITY}, {@link Double#NaN NaN} is returned (note that this will only happen if the
  dataset contains no finite values).
 
- <h3>Performance</h3>
+ <h2>Performance</h2>
 
  <p>The average time complexity of the computation is O(N) in the size of the dataset. There is a
  worst case time complexity of O(N^2). You are extremely unlikely to hit this quadratic case on
@@ -51925,7 +51925,7 @@
  <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
  the arithmetic mean of the population.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
  contains both {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY} then the
@@ -51947,7 +51947,7 @@
       <doc>
       <![CDATA[Returns the sum of the values.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
  contains both {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY} then the
@@ -51969,7 +51969,7 @@
  is not guaranteed to return zero when the dataset consists of the same value multiple times,
  due to numerical errors. However, it is guaranteed never to return a negative result.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -51990,7 +51990,7 @@
  is not guaranteed to return zero when the dataset consists of the same value multiple times,
  due to numerical errors. However, it is guaranteed never to return a negative result.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -52011,7 +52011,7 @@
  <p>This is not guaranteed to return zero when the dataset consists of the same value multiple
  times, due to numerical errors. However, it is guaranteed never to return a negative result.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -52034,7 +52034,7 @@
  <p>This is not guaranteed to return zero when the dataset consists of the same value multiple
  times, due to numerical errors. However, it is guaranteed never to return a negative result.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -52049,7 +52049,7 @@
       <doc>
       <![CDATA[Returns the lowest value in the dataset. The count must be non-zero.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
  contains {@link Double#NEGATIVE_INFINITY} and not {@link Double#NaN} then the result is {@link
@@ -52067,7 +52067,7 @@
       <doc>
       <![CDATA[Returns the highest value in the dataset. The count must be non-zero.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
  contains {@link Double#POSITIVE_INFINITY} and not {@link Double#NaN} then the result is {@link
@@ -52408,7 +52408,7 @@
  <p>If these values are a sample drawn from a population, this is also an unbiased estimator of
  the arithmetic mean of the population.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
  contains both {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY} then the
@@ -52427,7 +52427,7 @@
       <doc>
       <![CDATA[Returns the sum of the values.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
  contains both {@link Double#POSITIVE_INFINITY} and {@link Double#NEGATIVE_INFINITY} then the
@@ -52449,7 +52449,7 @@
  is not guaranteed to return zero when the dataset consists of the same value multiple times,
  due to numerical errors. However, it is guaranteed never to return a negative result.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -52470,7 +52470,7 @@
  is not guaranteed to return zero when the dataset consists of the same value multiple times,
  due to numerical errors. However, it is guaranteed never to return a negative result.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -52491,7 +52491,7 @@
  <p>This is not guaranteed to return zero when the dataset consists of the same value multiple
  times, due to numerical errors. However, it is guaranteed never to return a negative result.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -52514,7 +52514,7 @@
  <p>This is not guaranteed to return zero when the dataset consists of the same value multiple
  times, due to numerical errors. However, it is guaranteed never to return a negative result.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains any non-finite values ({@link Double#POSITIVE_INFINITY}, {@link
  Double#NEGATIVE_INFINITY}, or {@link Double#NaN}) then the result is {@link Double#NaN}.
@@ -52529,7 +52529,7 @@
       <doc>
       <![CDATA[Returns the lowest value in the dataset. The count must be non-zero.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
  contains {@link Double#NEGATIVE_INFINITY} and not {@link Double#NaN} then the result is {@link
@@ -52547,7 +52547,7 @@
       <doc>
       <![CDATA[Returns the highest value in the dataset. The count must be non-zero.
 
- <h3>Non-finite values</h3>
+ <h4>Non-finite values</h4>
 
  <p>If the dataset contains {@link Double#NaN} then the result is {@link Double#NaN}. If it
  contains {@link Double#POSITIVE_INFINITY} and not {@link Double#NaN} then the result is {@link
@@ -66314,7 +66314,7 @@
  shared state without additional synchronization necessary for visibility to later executions of
  the life cycle methods.
 
- <h3>Usage Example</h3>
+ <h2>Usage Example</h2>
 
  <p>Here is a sketch of a service which crawls a website and uses the scheduling capabilities to
  rate limit itself.
@@ -68057,14 +68057,14 @@
        captured by any of the steps in the pipeline are closed.
  </ol>
 
- <h3>Starting a pipeline</h3>
+ <h2>Starting a pipeline</h2>
 
  Start a {@code ClosingFuture} pipeline {@linkplain #submit(ClosingCallable, Executor) from a
  callable block} that may capture objects for later closing. To start a pipeline from a {@link
  ListenableFuture} that doesn't create resources that should be closed later, you can use {@link
  #from(ListenableFuture)} instead.
 
- <h3>Derived steps</h3>
+ <h2>Derived steps</h2>
 
  A {@code ClosingFuture} step can be derived from one or more input {@code ClosingFuture} steps in
  ways similar to {@link FluentFuture}s:
@@ -68081,35 +68081,35 @@
  exception, or combine it with others, you cannot do anything else with it, including declare it
  to be the last step of the pipeline.
 
- <h4>Transforming</h4>
+ <h3>Transforming</h3>
 
  To derive the next step by asynchronously applying a function to an input step's value, call
  {@link #transform(ClosingFunction, Executor)} or {@link #transformAsync(AsyncClosingFunction,
  Executor)} on the input step.
 
- <h4>Catching</h4>
+ <h3>Catching</h3>
 
  To derive the next step from a failed input step, call {@link #catching(Class, ClosingFunction,
  Executor)} or {@link #catchingAsync(Class, AsyncClosingFunction, Executor)} on the input step.
 
- <h4>Combining</h4>
+ <h3>Combining</h3>
 
  To derive a {@code ClosingFuture} from two or more input steps, pass the input steps to {@link
  #whenAllComplete(Iterable)} or {@link #whenAllSucceed(Iterable)} or its overloads.
 
- <h3>Cancelling</h3>
+ <h2>Cancelling</h2>
 
  Any step in a pipeline can be {@linkplain #cancel(boolean) cancelled}, even after another step
  has been derived, with the same semantics as cancelling a {@link Future}. In addition, a
  successfully cancelled step will immediately start closing all objects captured for later closing
  by it and by its input steps.
 
- <h3>Ending a pipeline</h3>
+ <h2>Ending a pipeline</h2>
 
  Each {@code ClosingFuture} pipeline must be ended. To end a pipeline, decide whether you want to
  close the captured objects automatically or manually.
 
- <h4>Automatically closing</h4>
+ <h3>Automatically closing</h3>
 
  You can extract a {@link Future} that represents the result of the last step in the pipeline by
  calling {@link #finishToFuture()}. All objects the pipeline has captured for closing will begin
@@ -68130,7 +68130,7 @@
  In this example, when the {@code userName} {@link Future} is done, the transaction and the query
  result cursor will both be closed, even if the operation is cancelled or fails.
 
- <h4>Manually closing</h4>
+ <h3>Manually closing</h3>
 
  If you want to close the captured objects manually, after you've used the final result, call
  {@link #finishToValueAndCloser(ValueAndCloserConsumer, Executor)} to get an object that holds the
@@ -70147,9 +70147,9 @@
          .catching(RpcException.class, e -> false, directExecutor());
  }
 
- <h3>Alternatives</h3>
+ <h2>Alternatives</h2>
 
- <h4>Frameworks</h4>
+ <h3>Frameworks</h3>
 
  <p>When chaining together a graph of asynchronous operations, you will often find it easier to
  use a framework. Frameworks automate the process, often adding features like monitoring,
@@ -70159,8 +70159,8 @@
    <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  </ul>
 
- <h4>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
- </h4>
+ <h3>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
+ </h3>
 
  <p>Users of {@code CompletableFuture} will likely want to continue using {@code
  CompletableFuture}. {@code FluentFuture} is targeted at people who use {@code ListenableFuture},
@@ -70168,7 +70168,7 @@
  need to adapt between {@code CompletableFuture} and {@code ListenableFuture}, consider <a
  href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.)
 
- <h3>Extension</h3>
+ <h2>Extension</h2>
 
  If you want a class like {@code FluentFuture} but with extra methods, we recommend declaring your
  own subclass of {@link ListenableFuture}, complete with a method like {@link #from} to adapt an
@@ -71875,7 +71875,7 @@
 
  <p>This class is GWT-compatible.
 
- <h3>Purpose</h3>
+ <h2>Purpose</h2>
 
  <p>The main purpose of {@code ListenableFuture} is to help you chain together a graph of
  asynchronous operations. You can chain them together manually with calls to methods like {@link
@@ -71908,7 +71908,7 @@
  }, executor);
  }
 
- <h3>How to get an instance</h3>
+ <h2>How to get an instance</h2>
 
  <p>We encourage you to return {@code ListenableFuture} from your methods so that your users can
  take advantage of the {@linkplain Futures utilities built atop the class}. The way that you will

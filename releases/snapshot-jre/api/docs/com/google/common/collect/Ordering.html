@@ -61,7 +61,21 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#three-types-of-methods-heading" tabindex="0">Three types of methods</a>
+<ol class="toc-list">
+<li><a href="#acquiring-heading" tabindex="0">Acquiring</a></li>
+<li><a href="#chaining-heading" tabindex="0">Chaining</a></li>
+<li><a href="#using-heading" tabindex="0">Using</a></li>
+</ol>
+</li>
+<li><a href="#understanding-complex-orderings-heading" tabindex="0">Understanding complex orderings</a></li>
+<li><a href="#additional-notes-heading" tabindex="0">Additional notes</a></li>
+<li><a href="#java-8-users-heading" tabindex="0">Java 8+ users</a></li>
+<li><a href="#see-also-heading" tabindex="0">See also</a></li>
+</ol>
+</li>
 <li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a>
 <ol class="toc-list">
@@ -136,12 +150,12 @@ implements <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base
 of <code>Comparator</code> for pre-Java-8 users, in the same sense that <a href="FluentIterable.html" title="class in com.google.common.collect"><code>FluentIterable</code></a> is an
 enriched <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Iterable.html" title="interface in java.lang" class="external-link"><code>Iterable</code></a> for pre-Java-8 users.
 
-<h3 id="three-types-of-methods-heading">Three types of methods</h3>
+<h2 id="three-types-of-methods-heading">Three types of methods</h2>
 
 Like other fluent types, there are three types of methods present: methods for <i>acquiring</i>,
 <i>chaining</i>, and <i>using</i>.
 
-<h4 id="acquiring-heading">Acquiring</h4>
+<h3 id="acquiring-heading">Acquiring</h3>
 
 <p>The common ways to get an instance of <code>Ordering</code> are:
 
@@ -152,7 +166,7 @@ Like other fluent types, there are three types of methods present: methods for <
   <li>Use the natural ordering, <a href="#natural()"><code>natural()</code></a>
 </ul>
 
-<h4 id="chaining-heading">Chaining</h4>
+<h3 id="chaining-heading">Chaining</h3>
 
 <p>Then you can use the <i>chaining</i> methods to get an altered version of that <code>
 Ordering</code>, including:
@@ -164,7 +178,7 @@ Ordering</code>, including:
   <li><a href="#nullsFirst()"><code>nullsFirst()</code></a> / <a href="#nullsLast()"><code>nullsLast()</code></a>
 </ul>
 
-<h4 id="using-heading">Using</h4>
+<h3 id="using-heading">Using</h3>
 
 <p>Finally, use the resulting <code>Ordering</code> anywhere a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a> is required, or use
 any of its special operations, such as:
@@ -175,7 +189,7 @@ any of its special operations, such as:
   <li><a href="#min(java.util.Iterator)"><code>min(Iterator)</code></a> / <a href="#max(java.util.Iterator)"><code>max(Iterator)</code></a>
 </ul>
 
-<h3 id="understanding-complex-orderings-heading">Understanding complex orderings</h3>
+<h2 id="understanding-complex-orderings-heading">Understanding complex orderings</h2>
 
 <p>Complex chained orderings like the following example can be challenging to understand.
 
@@ -207,14 +221,14 @@ when <code>compare</code> is called on the above ordering:
 encounter a call to <code>reverse</code>, continue working backwards until a result is determined, and
 then reverse that result.
 
-<h3 id="additional-notes-heading">Additional notes</h3>
+<h2 id="additional-notes-heading">Additional notes</h2>
 
 <p>Except as noted, the orderings returned by the factory methods of this class are serializable
 if and only if the provided instances that back them are. For example, if <code>ordering</code> and
 <code>function</code> can themselves be serialized, then <code>ordering.onResultOf(function)</code> can as
 well.
 
-<h3 id="java-8-users-heading">Java 8+ users</h3>
+<h2 id="java-8-users-heading">Java 8+ users</h2>
 
 <p>If you are using Java 8+, this class is now obsolete. Most of its functionality is now
 provided by <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/stream/Stream.html" title="interface in java.util.stream" class="external-link"><code>Stream</code></a> and by <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a> itself, and the rest
@@ -227,7 +241,7 @@ Ordering</code> to be of type <code>Comparator</code> instead. However, at this 
 code verbose. Whenever following this advice, you should check whether <code>Stream</code> could be
 adopted more comprehensively in your code; the end result may be quite a bit simpler.
 
-<h3 id="see-also-heading">See also</h3>
+<h2 id="see-also-heading">See also</h2>
 
 <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/OrderingExplained"><code>Ordering</code></a>.</div>
 <dl class="notes">

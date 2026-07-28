@@ -61,7 +61,12 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#comparison-to-streams-heading" tabindex="0">Comparison to streams</a></li>
+<li><a href="#example-heading" tabindex="0">Example</a></li>
+</ol>
+</li>
 <li><a href="#constructor-summary" tabindex="0">Constructor Summary</a></li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a>
 <ol class="toc-list">
@@ -158,7 +163,7 @@ implements <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base
 
 <p><a id="streams"></a>
 
-<h3 id="comparison-to-streams-heading">Comparison to streams</h3>
+<h2 id="comparison-to-streams-heading">Comparison to streams</h2>
 
 <p>Starting with Java 8, the core Java class libraries provide a new "Streams" library (in <code>
 java.util.stream</code>), which is similar to <code>FluentIterable</code> but generally more powerful. Key
@@ -182,7 +187,7 @@ differences include:
       under Android).
 </ul>
 
-<h3 id="example-heading">Example</h3>
+<h2 id="example-heading">Example</h2>
 
 <p>Here is an example that accepts a list from a database call, filters it based on a predicate,
 transforms it by invoking <code>toString()</code> on each element, and returns the first 10 elements

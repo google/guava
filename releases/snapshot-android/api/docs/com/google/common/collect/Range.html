@@ -61,7 +61,14 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#types-of-ranges-heading" tabindex="0">Types of ranges</a></li>
+<li><a href="#warnings-heading" tabindex="0">Warnings</a></li>
+<li><a href="#other-notes-heading" tabindex="0">Other notes</a></li>
+<li><a href="#further-reading-heading" tabindex="0">Further reading</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -127,7 +134,7 @@ implements <a href="../base/Predicate.html" title="interface in com.google.commo
 possible to <i>iterate</i> over these contained values. To do so, pass this range instance and an
 appropriate <a href="DiscreteDomain.html" title="class in com.google.common.collect"><code>DiscreteDomain</code></a> to <a href="ContiguousSet.html#create(com.google.common.collect.Range,com.google.common.collect.DiscreteDomain)"><code>ContiguousSet.create(Range, DiscreteDomain)</code></a>.
 
-<h3 id="types-of-ranges-heading">Types of ranges</h3>
+<h2 id="types-of-ranges-heading">Types of ranges</h2>
 
 <p>Each end of the range may be bounded or unbounded. If bounded, there is an associated
 <i>endpoint</i> value, and the range is considered to be either <i>open</i> (does not include the
@@ -164,7 +171,7 @@ may be equal only if at least one of the bounds is closed:
   <li><code>(a..a)</code> : <b>invalid</b>; an exception will be thrown
 </ul>
 
-<h3 id="warnings-heading">Warnings</h3>
+<h2 id="warnings-heading">Warnings</h2>
 
 <ul>
   <li>Use immutable value types only, if at all possible. If you must use a mutable type, <b>do
@@ -179,7 +186,7 @@ may be equal only if at least one of the bounds is closed:
       <b>This may change in the future.</b>
 </ul>
 
-<h3 id="other-notes-heading">Other notes</h3>
+<h2 id="other-notes-heading">Other notes</h2>
 
 <ul>
   <li>All ranges are shallow-immutable.
@@ -197,7 +204,7 @@ may be equal only if at least one of the bounds is closed:
   <li>A <code>Range</code> is serializable if it has no bounds, or if each bound is serializable.
 </ul>
 
-<h3 id="further-reading-heading">Further reading</h3>
+<h2 id="further-reading-heading">Further reading</h2>
 
 <p>See the Guava User Guide article on <a href="https://github.com/google/guava/wiki/RangesExplained"><code>Range</code></a>.</div>
 <dl class="notes">

@@ -61,7 +61,14 @@ initTheme();
 <nav role="navigation" class="toc" aria-label="Table of contents">
 <div class="toc-header">Contents&nbsp;<input type="text" class="filter-input" disabled placeholder="Filter contents (type .)" aria-label="Filter table of contents" autocomplete="off" spellcheck="false"><input type="reset" class="reset-filter" disabled tabindex="-1" value="Reset">&nbsp;<button class="toc-sort-toggle" id="toc-lexical-order-toggle"><img src="../../../../resource-files/sort-a-z.svg" alt="Sort member details in lexicographical order"></button></div>
 <ol class="toc-list" tabindex="-1">
-<li><a href="#" tabindex="0">Description</a></li>
+<li><a href="#" tabindex="0">Description</a>
+<ol class="toc-list">
+<li><a href="#definition-heading" tabindex="0">Definition</a></li>
+<li><a href="#desirable-properties-heading" tabindex="0">Desirable properties</a></li>
+<li><a href="#providing-input-to-a-hash-function-heading" tabindex="0">Providing input to a hash function</a></li>
+<li><a href="#relationship-to-object-hashcode-heading" tabindex="0">Relationship to Object#hashCode</a></li>
+</ol>
+</li>
 <li><a href="#method-summary" tabindex="0">Method Summary</a></li>
 <li><a href="#method-detail" tabindex="0">Method Details</a>
 <ol class="toc-list">
@@ -93,7 +100,7 @@ initTheme();
 <div class="block">A hash function is a collision-averse pure function that maps an arbitrary block of data to a
 number called a <i>hash code</i>.
 
-<h3 id="definition-heading">Definition</h3>
+<h2 id="definition-heading">Definition</h2>
 
 <p>Unpacking this definition:
 
@@ -119,7 +126,7 @@ number called a <i>hash code</i>.
 <p>Summarizing the last two points: "equal yield equal <i>always</i>; unequal yield unequal
 <i>often</i>." This is the most important characteristic of all hash functions.
 
-<h3 id="desirable-properties-heading">Desirable properties</h3>
+<h2 id="desirable-properties-heading">Desirable properties</h2>
 
 <p>A high-quality hash function strives for some subset of the following virtues:
 
@@ -146,7 +153,7 @@ number called a <i>hash code</i>.
   <li><b>fast:</b> perhaps self-explanatory, but often the most important consideration.
 </ul>
 
-<h3 id="providing-input-to-a-hash-function-heading">Providing input to a hash function</h3>
+<h2 id="providing-input-to-a-hash-function-heading">Providing input to a hash function</h2>
 
 <p>The primary way to provide the data that your hash function should act on is via a <a href="Hasher.html" title="interface in com.google.common.hash"><code>Hasher</code></a>. Obtain a new hasher from the hash function using <a href="#newHasher()"><code>newHasher()</code></a>, "push" the relevant
 data into it using methods like <a href="Hasher.html#putBytes(byte%5B%5D)"><code>Hasher.putBytes(byte[])</code></a>, and finally ask for the <code>
@@ -165,7 +172,7 @@ into the function. (See <a href="Hasher.html#putObject(T,com.google.common.hash.
 equivalent to hashing the <code>int</code> value <code>0x04030201</code>. If this isn't what you need,
 methods such as <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Integer.html#reverseBytes(int)" class="external-link"><code>Integer.reverseBytes(int)</code></a> and <a href="../primitives/Ints.html#toByteArray(int)"><code>Ints.toByteArray(int)</code></a> will help.
 
-<h3 id="relationship-to-object-hashcode-heading">Relationship to <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#hashCode()" class="external-link"><code>Object.hashCode()</code></a></h3>
+<h2 id="relationship-to-object-hashcode-heading">Relationship to <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html#hashCode()" class="external-link"><code>Object.hashCode()</code></a></h2>
 
 <p>Java's baked-in concept of hash codes is constrained to 32 bits, and provides no separation
 between hash algorithms and the data they act on, so alternate hash algorithms can't be easily
