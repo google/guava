@@ -19646,7 +19646,7 @@
       </doc>
     </method>
     <method name="entrySet" return="com.google.common.collect.ImmutableSet&lt;java.util.Map.Entry&lt;K, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
+      abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -19655,7 +19655,7 @@
       </doc>
     </method>
     <method name="keySet" return="com.google.common.collect.ImmutableSet&lt;K&gt;"
-      abstract="false" native="false" synchronized="false"
+      abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -19664,7 +19664,7 @@
       </doc>
     </method>
     <method name="values" return="com.google.common.collect.ImmutableCollection&lt;V&gt;"
-      abstract="false" native="false" synchronized="false"
+      abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
@@ -19678,6 +19678,13 @@
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns a multimap view of the map.
+
+ <p>This method may return a new multimap instance on each call. While the multimap is cheap to
+ create, it is an instance of {@link ImmutableMultimap}, whose {@link ImmutableMultimap#inverse
+ inverse()} method may perform a more expensive operation and cache the result. Callers who want
+ to repeatedly operate on {@code map.asMultimap().inverse()} may wish to store the result of
+ that expression (or store the result of {@code asMultimap()}, since it caches its {@code
+ inverse()} view).
 
  @since 14.0]]>
       </doc>
