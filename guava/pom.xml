@@ -33,6 +33,11 @@
       <artifactId>jspecify</artifactId>
     </dependency>
     <dependency>
+      <groupId>io.github.eisop</groupId>
+      <artifactId>checker-qual</artifactId>
+      <version>3.49.5-eisop1</version>
+    </dependency>
+    <dependency>
       <groupId>com.google.errorprone</groupId>
       <artifactId>error_prone_annotations</artifactId>
     </dependency>
@@ -103,8 +108,23 @@
           <execution>
             <id>default-compile</id>
             <configuration>
+              <fork>true</fork>
+              <annotationProcessorPaths>
+                <path>
+                  <groupId>org.checkerframework</groupId>
+                  <artifactId>checker</artifactId>
+                  <version>3.0.1</version>
+                </path>
+              </annotationProcessorPaths>
+              <annotationProcessors>
+                <annotationProcessor>org.checkerframework.checker.nullness.NullnessChecker</annotationProcessor>
+              </annotationProcessors>
               <compilerArgs combine.children="append" combine.self="append">
                 <arg>-XDignore.symbol.file</arg>
+                <arg>-Xmaxerrs</arg>
+                <arg>10000</arg>
+                <arg>-Xmaxwarns</arg>
+                <arg>10000</arg>
               </compilerArgs>
             </configuration>
           </execution>
