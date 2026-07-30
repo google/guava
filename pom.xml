@@ -71,7 +71,7 @@
     <java18-signature.version>1.0</java18-signature.version>
     <javahome-resolver-maven-plugin.version>1.0.2</javahome-resolver-maven-plugin.version>
     <jimfs.version>1.3.1</jimfs.version>
-    <jspecify.version>1.0.0</jspecify.version>
+    <jspecify.version>1.0.1</jspecify.version>
     <jsr305.version>3.0.2</jsr305.version>
     <junit.version>4.13.2</junit.version>
     <listenablefuture.version>9999.0-empty-to-avoid-conflict-with-guava</listenablefuture.version>
