@@ -22,6 +22,7 @@ import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.Executors.newCachedThreadPool;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -32,9 +33,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+import java.util.concurrent.RejectedExecutionException;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Logger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -294,6 +298,80 @@ public class ExecutionSequencerTest extends TestCase {
       // Verify that at max depth, less than one stack frame per submitted task was consumed
       assertThat(length - baseStackDepth).isLessThan(DIRECT_EXECUTIONS_PER_THREAD / 2);
     }
+  }
+
+  /*
+   * Verifies that when a non-reentrant delegate executor rejects a task (e.g., throwing a
+   * RejectedExecutionException because a bounded queue is full), ExecutionSequencer catches the
+   * failure and unblocks the queue, preventing subsequent tasks from stalling or leaking.
+   */
+  public void testRecoversFromNonReentrantRejectedExecution() throws Exception {
+    // 1. Submit Task 1 (firstCallable) using directExecutor. It blocks because firstFuture is not
+    // yet set.
+    Future<?> unused = serializer.submitAsync(firstCallable, directExecutor());
+
+    Executor rejectingExecutor =
+        task -> {
+          throw new RejectedExecutionException();
+        };
+    TestCallable secondCallable = new TestCallable(immediateVoidFuture());
+
+    // 2. Submit Task 2 using the rejectingExecutor. When Task 1 completes, ExecutionSequencer will
+    // attempt to dispatch Task 2 via rejectingExecutor.execute(...), which will throw
+    // RejectedExecutionException.
+    Future<?> failingFuture = serializer.submitAsync(secondCallable, rejectingExecutor);
+
+    // 3. Submit Task 3 using directExecutor. Task 3 is queued after Task 2 in ExecutionSequencer.
+    TestCallable thirdCallable = new TestCallable(immediateVoidFuture());
+    ListenableFuture<@Nullable Void> thirdFuture =
+        serializer.submitAsync(thirdCallable, directExecutor());
+
+    // Complete Task 1's future. This triggers listener notification for Task 2.
+    // Task 2's dispatch fails with RejectedExecutionException inside rejectingExecutor.execute().
+    firstFuture.set(null);
+
+    // Verify queue recovery: Task 2's failure is handled, and Task 3 runs successfully.
+    assertThat(secondCallable.called).isFalse();
+    assertThrows(ExecutionException.class, () -> getDone(failingFuture));
+    assertThat(thirdCallable.called).isTrue();
+    assertThat(thirdFuture.isDone()).isTrue();
+  }
+
+  /*
+   * Verifies that when a reentrant delegate executor rejects a task, TaskNonReentrantExecutor.run()
+   * handles the failure without stalling the queue or leaking subsequent submitted tasks.
+   */
+  public void testRecoversFromReentrantRejectedExecution() throws Exception {
+    Executor rejectingExecutor =
+        task -> {
+          throw new RejectedExecutionException();
+        };
+
+    TestCallable secondCallable = new TestCallable(immediateVoidFuture());
+    TestCallable thirdCallable = new TestCallable(immediateVoidFuture());
+    AtomicReference<ListenableFuture<@Nullable Void>> failingFuture = new AtomicReference<>();
+    AtomicReference<ListenableFuture<@Nullable Void>> thirdFuture = new AtomicReference<>();
+
+    // Submit an outer task using directExecutor.
+    // Inside its execution, we submit Task 2 (rejectingExecutor) and Task 3 (directExecutor)
+    // reentrantly to test reentrant queue draining error handling.
+    Future<?> unused =
+        serializer.submitAsync(
+            () -> {
+              // Reentrant submission of Task 2 to rejectingExecutor.
+              failingFuture.set(serializer.submitAsync(secondCallable, rejectingExecutor));
+              // Reentrant submission of Task 3 to directExecutor.
+              thirdFuture.set(serializer.submitAsync(thirdCallable, directExecutor()));
+              return immediateVoidFuture();
+            },
+            directExecutor());
+
+    // Verify reentrant queue recovery: Task 3 runs successfully despite Task 2's executor
+    // rejection.
+    assertThat(secondCallable.called).isFalse();
+    assertThrows(ExecutionException.class, () -> getDone(failingFuture.get()));
+    assertThat(thirdCallable.called).isTrue();
+    assertThat(thirdFuture.get().isDone()).isTrue();
   }
 
   @SuppressWarnings("ObjectToString") // Intended behavior
