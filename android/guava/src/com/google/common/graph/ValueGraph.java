@@ -352,8 +352,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
    *   <li>A and B have equal {@link #isDirected() directedness}.
    *   <li>A and B have equal {@link #nodes() node sets}.
    *   <li>A and B have equal {@link #edges() edge sets}.
-   *   <li>The {@link #edgeValueOrDefault(N, N, V) value} of a given edge is the same in both A and
-   *       B.
+   *   <li>The {@linkplain #edgeValueOrDefault(Object, Object, Object) value} of a given edge is the
+   *       same in both A and B.
    * </ul>
    *
    * <p>Graph properties besides {@link #isDirected() directedness} do <b>not</b> affect equality.
@@ -368,8 +368,8 @@ public interface ValueGraph<N, V> extends BaseGraph<N> {
 
   /**
    * Returns the hash code for this graph. The hash code of a graph is defined as the hash code of a
-   * map from each of its {@link #edges() edges} to the associated {@link #edgeValueOrDefault(N, N,
-   * V) edge value}.
+   * map from each of its {@link #edges() edges} to the associated {@linkplain
+   * #edgeValueOrDefault(Object, Object, Object) edge value}.
    *
    * <p>A reference implementation of this is provided by {@link AbstractValueGraph#hashCode()}.
    */

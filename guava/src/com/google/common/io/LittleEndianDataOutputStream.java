@@ -64,8 +64,8 @@ public final class LittleEndianDataOutputStream extends FilterOutputStream imple
   }
 
   /**
-   * @deprecated The semantics of {@code writeBytes(String s)} are considered dangerous. Please use
-   *     {@link #writeUTF(String s)}, {@link #writeChars(String s)} or another write method instead.
+   * @deprecated The semantics of {@code writeBytes(String)} are considered dangerous. Please use
+   *     {@link #writeUTF(String)}, {@link #writeChars(String)} or another write method instead.
    */
   @Deprecated
   @Override
