@@ -117,15 +117,12 @@ public final class ImmutableClassToInstanceMap<B>
     @CanIgnoreReturnValue
     public <T extends B> Builder<B> putAll(Map<? extends Class<? extends T>, ? extends T> map) {
       for (Entry<? extends Class<? extends T>, ? extends T> entry : map.entrySet()) {
-        Class<? extends T> type = entry.getKey();
+        Class<? extends T> key = entry.getKey();
         T value = entry.getValue();
-        mapBuilder.put(type, cast(type, value));
+        cast(key, value); // If we pass this result to `put` below, it upsets our nullness checker.
+        mapBuilder.put(key, value);
       }
       return this;
-    }
-
-    private static <T> T cast(Class<T> type, Object value) {
-      return Primitives.wrap(type).cast(value);
     }
 
     /**
@@ -179,9 +176,8 @@ public final class ImmutableClassToInstanceMap<B>
   }
 
   @Override
-  @SuppressWarnings("unchecked") // value could not get in if not a T
   public <T extends B> @Nullable T getInstance(Class<T> type) {
-    return (T) delegate.get(checkNotNull(type));
+    return cast(type, delegate.get(checkNotNull(type)));
   }
 
   /**
@@ -196,6 +192,11 @@ public final class ImmutableClassToInstanceMap<B>
   @DoNotCall("Always throws UnsupportedOperationException")
   public <T extends B> @Nullable T putInstance(Class<T> type, T value) {
     throw new UnsupportedOperationException();
+  }
+
+  @CanIgnoreReturnValue
+  private static <T> @Nullable T cast(Class<T> type, @Nullable Object value) {
+    return Primitives.wrap(type).cast(value);
   }
 
   Object readResolve() {

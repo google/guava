@@ -129,7 +129,9 @@ abstract class AbstractCatchingFuture<
       return;
     }
 
-    @SuppressWarnings("unchecked") // verified safe by isInstanceOfThrowableClass
+    // The cast was verified as safe by isInstanceOfThrowableClass.
+    // We can't use localExceptionType.cast(throwable) because it wouldn't work under GWT, etc.
+    @SuppressWarnings("unchecked")
     X castThrowable = (X) throwable;
     T fallbackResult;
     try {

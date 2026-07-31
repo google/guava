@@ -40,6 +40,11 @@ public final class Defaults {
    * {@code void}, {@code null} is returned.
    */
   @SuppressWarnings({
+    /*
+     * `type.cast(...)` would be wrong because `type` is a primitive. We'd need
+     * `c.g.c.primitives.Primitives.wrap(type).cast(...)`, and we can't depend on `primitives` from
+     * `base`.
+     */
     "unchecked",
     "BooleanLiteral" // `(T) false` would produce an error
   })
