@@ -485,7 +485,7 @@ public class Joiner {
      * on what they know about the particular Joiner instances the calls are performed on.
      *
      * (In addition to useForNull, we also offer skipNulls. It, too, tolerates null inputs, but its
-     * tolerance is implemented differently: Its implementation avoids calling this toString(Object)
+     * tolerance is implemented differently: Its implementation avoids calling this toCharSequence(Object)
      * method in the first place.)
      */
     requireNonNull(part);
