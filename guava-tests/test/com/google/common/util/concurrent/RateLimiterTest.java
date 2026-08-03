@@ -34,6 +34,7 @@ import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -152,6 +153,32 @@ public class RateLimiterTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> RateLimiter.create(0.0, 1, NANOSECONDS));
 
     assertThrows(IllegalArgumentException.class, () -> RateLimiter.create(1.0, -1, NANOSECONDS));
+  }
+
+  public void testZeroWarmupIsEquivalentToNoWarmup() {
+    RateLimiter limiter = RateLimiter.create(5.0, 0, SECONDS, 3.0, stopwatch);
+    limiter.acquire();
+    limiter.acquire();
+    limiter.acquire();
+    assertEvents("R0.00", "R0.20", "R0.20");
+  }
+
+  public void testZeroDurationWarmupIsEquivalentToNoWarmup() {
+    RateLimiter limiter = RateLimiter.create(Double.MIN_VALUE, Duration.ZERO);
+    assertTrue(limiter.tryAcquire());
+    assertFalse(limiter.tryAcquire());
+  }
+
+  public void testSubMicrosecondWarmupIsEquivalentToNoWarmup() {
+    RateLimiter limiter = RateLimiter.create(Double.MIN_VALUE, 1, NANOSECONDS);
+    assertTrue(limiter.tryAcquire());
+    assertFalse(limiter.tryAcquire());
+  }
+
+  public void testSubMicrosecondDurationWarmupIsEquivalentToNoWarmup() {
+    RateLimiter limiter = RateLimiter.create(Double.MIN_VALUE, Duration.ofNanos(1));
+    assertTrue(limiter.tryAcquire());
+    assertFalse(limiter.tryAcquire());
   }
 
   @AndroidIncompatible // difference in String.format rounding?
