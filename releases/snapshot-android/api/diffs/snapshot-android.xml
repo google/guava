@@ -24427,7 +24427,7 @@
       abstract="false" native="false" synchronized="false"
       static="true" final="false" visibility="public"
       deprecated="lEsS_tHaNb>Pass the parameters of type {@code Comparable} to use {@link
-     ImmutableSortedSet#of( Comparable, Comparable, Comparable, Comparable, Comparable)}. lEsS_tHaN/b>">
+     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable, Comparable)}. lEsS_tHaN/b>">
       <param name="e1" type="E"/>
       <param name="e2" type="E"/>
       <param name="e3" type="E"/>
@@ -24440,7 +24440,7 @@
 
  @throws UnsupportedOperationException always
  @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
-     ImmutableSortedSet#of( Comparable, Comparable, Comparable, Comparable, Comparable)}. </b>]]>
+     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable, Comparable)}. </b>]]>
       </doc>
     </method>
     <method name="of" return="com.google.common.collect.ImmutableSortedSet&lt;E&gt;"
@@ -71797,7 +71797,7 @@
  future is {@linkplain Future#isDone() done}.
 
  <p>Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link
- MoreExecutors#listeningDecorator( java.util.concurrent.ExecutorService)}, {@link
+ MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
  ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
  Future} instances to be upgraded to {@code ListenableFuture} after the fact.]]>
       </doc>
@@ -71822,7 +71822,7 @@
  deadlocks.
 
  <p>Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link
- MoreExecutors#listeningDecorator( java.util.concurrent.ExecutorService)}, {@link
+ MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
  ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
  Future} instances to be upgraded to {@code ListenableFuture} after the fact.
 
