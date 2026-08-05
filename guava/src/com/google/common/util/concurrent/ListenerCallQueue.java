@@ -69,8 +69,8 @@ final class ListenerCallQueue<L> {
   }
 
   /**
-   * Adds a listener that will be called using the given executor when events are later {@link
-   * #enqueue enqueued} and {@link #dispatch dispatched}.
+   * Adds a listener that will be called using the given executor when events are later {@linkplain
+   * #enqueue enqueued} and {@linkplain #dispatch dispatched}.
    */
   public void addListener(L listener, Executor executor) {
     checkNotNull(listener, "listener");

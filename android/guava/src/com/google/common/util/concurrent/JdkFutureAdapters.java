@@ -49,7 +49,7 @@ public final class JdkFutureAdapters {
    * future is {@linkplain Future#isDone() done}.
    *
    * <p>Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link
-   * MoreExecutors#listeningDecorator( java.util.concurrent.ExecutorService)}, {@link
+   * MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
    * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
    * Future} instances to be upgraded to {@code ListenableFuture} after the fact.
    */
@@ -75,7 +75,7 @@ public final class JdkFutureAdapters {
    * deadlocks.
    *
    * <p>Prefer to create {@code ListenableFuture} instances with {@link SettableFuture}, {@link
-   * MoreExecutors#listeningDecorator( java.util.concurrent.ExecutorService)}, {@link
+   * MoreExecutors#listeningDecorator(java.util.concurrent.ExecutorService)}, {@link
    * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
    * Future} instances to be upgraded to {@code ListenableFuture} after the fact.
    *
