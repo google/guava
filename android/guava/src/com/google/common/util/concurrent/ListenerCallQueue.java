@@ -154,7 +154,7 @@ final class ListenerCallQueue<L> {
     }
 
     /**
-     * Dispatches all listeners {@linkplain #enqueue enqueued} prior to this call, serially and in
+     * Dispatches all events {@linkplain #enqueue enqueued} prior to this call, serially and in
      * order.
      */
     @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
@@ -174,7 +174,7 @@ final class ListenerCallQueue<L> {
           synchronized (this) {
             isThreadScheduled = false;
           }
-          // Log it and keep going.
+          // TODO(b/542982933): Don't hurt other listeners by rethrowing, especially after logging?
           logger
               .get()
               .log(
