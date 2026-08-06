@@ -69,8 +69,8 @@ final class ListenerCallQueue<L> {
   }
 
   /**
-   * Adds a listener that will be called using the given executor when events are later {@link
-   * #enqueue enqueued} and {@link #dispatch dispatched}.
+   * Adds a listener that will be called using the given executor when events are later {@linkplain
+   * #enqueue enqueued} and {@linkplain #dispatch dispatched}.
    */
   public void addListener(L listener, Executor executor) {
     checkNotNull(listener, "listener");
@@ -154,7 +154,7 @@ final class ListenerCallQueue<L> {
     }
 
     /**
-     * Dispatches all listeners {@linkplain #enqueue enqueued} prior to this call, serially and in
+     * Dispatches all events {@linkplain #enqueue enqueued} prior to this call, serially and in
      * order.
      */
     @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
@@ -174,7 +174,7 @@ final class ListenerCallQueue<L> {
           synchronized (this) {
             isThreadScheduled = false;
           }
-          // Log it and keep going.
+          // TODO(b/542982933): Don't hurt other listeners by rethrowing, especially after logging?
           logger
               .get()
               .log(
