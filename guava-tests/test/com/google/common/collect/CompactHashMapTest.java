@@ -25,6 +25,7 @@ import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
+import com.google.common.testing.EqualsTester;
 import java.util.Map;
 import java.util.Map.Entry;
 import junit.framework.Test;
@@ -142,5 +143,31 @@ public class CompactHashMapTest extends TestCase {
       assertThat(map.keys).hasLength(expectedSize);
       assertThat(map.values).hasLength(expectedSize);
     }
+  }
+
+  public void testEquals() {
+    /*
+     * We get extensive testing of `equals` through the generated suite. Here, we mostly just need
+     * something to prevent `PackageSanityTest` from running its automated equality checking, which
+     * would call `createWithExpectedSize(1)` and `createWithExpectedSize(2)` and expect the results
+     * to be non-equal. The test here also provides some very basic coverage for environments under
+     * which we don't run the suite, like Android.
+     *
+     * (Perhaps `PackageSanityTest` should be made to automatically skip its testing on collection
+     * classes.)
+     */
+
+    Map<Integer, String> map1 = CompactHashMap.create();
+    map1.put(1, "one");
+    map1.put(2, "two");
+
+    Map<Integer, String> map2 = CompactHashMap.create();
+    map2.put(2, "two");
+    map2.put(1, "one");
+
+    new EqualsTester()
+        .addEqualityGroup(CompactHashMap.create(), ImmutableMap.of())
+        .addEqualityGroup(map1, map2)
+        .testEquals();
   }
 }
