@@ -173,6 +173,16 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
     return Double.longBitsToDouble(readLong());
   }
 
+  /**
+   * Reads a string as specified by {@link DataInputStream#readUTF()}.
+   *
+   * <p>The UTF-8 encoded string is prefixed by a 2-byte length in <b>big-endian</b> byte order,
+   * not little-endian. This matches the behavior of {@link DataInputStream} and is not affected by
+   * the little-endian byte order used by other read methods in this class.
+   *
+   * @return the string read from the input stream
+   * @throws IOException if an I/O error occurs
+   */
   @CanIgnoreReturnValue // to skip a field
   @Override
   public String readUTF() throws IOException {
