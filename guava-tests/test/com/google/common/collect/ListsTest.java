@@ -61,6 +61,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
+import java.util.Spliterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -820,6 +821,62 @@ public class ListsTest extends TestCase {
     List<Integer> fromList = new LinkedList<>(SOME_SEQUENTIAL_LIST);
     List<String> list = transform(fromList, SOME_FUNCTION);
     assertTransformIterator(list);
+  }
+
+  @GwtIncompatible // CopyOnWriteArrayList, Spliterator
+  public void testTransformSpliteratorDoesNotThrowConcurrentModificationException() {
+    // CopyOnWriteArrayList is documented to never throw ConcurrentModificationException; Lists
+    // .transform() is documented to return a threadsafe list when the input list and function are
+    // threadsafe. The spliterator of the transformed list must honor that by delegating to the
+    // backing list's own (snapshotting) spliterator, rather than falling back to the JDK's default
+    // index-based RandomAccessSpliterator, which translates concurrent structural changes into a
+    // ConcurrentModificationException.
+    CopyOnWriteArrayList<Integer> fromList = new CopyOnWriteArrayList<>(SOME_LIST);
+    List<String> transformed = transform(fromList, SOME_FUNCTION);
+
+    Spliterator<String> spliterator = transformed.spliterator();
+    List<String> results = new ArrayList<>();
+    assertTrue(spliterator.tryAdvance(results::add));
+
+    // Structurally mutate the backing list after the spliterator was created but before it has
+    // finished being consumed.
+    fromList.clear();
+
+    // Must not throw, and must still report the elements from the original snapshot, exactly as
+    // fromList.spliterator() itself would.
+    spliterator.forEachRemaining(results::add);
+    assertEquals(SOME_STRING_LIST, results);
+  }
+
+  @GwtIncompatible // CopyOnWriteArrayList, Spliterator
+  public void testTransformSpliteratorPropagatesBackingListCharacteristics() {
+    CopyOnWriteArrayList<Integer> fromList = new CopyOnWriteArrayList<>(SOME_LIST);
+    List<String> transformed = transform(fromList, SOME_FUNCTION);
+
+    // CopyOnWriteArrayList.spliterator() reports IMMUTABLE (among other bits); a spliterator that
+    // instead falls back to the default RandomAccessSpliterator would not, since that
+    // implementation has no way of knowing the backing list is safe to snapshot.
+    assertTrue(transformed.spliterator().hasCharacteristics(Spliterator.IMMUTABLE));
+  }
+
+  @GwtIncompatible // Spliterator
+  public void testTransformSpliteratorRandomAccess() {
+    List<Integer> fromList = new ArrayList<>(SOME_LIST);
+    List<String> transformed = transform(fromList, SOME_FUNCTION);
+
+    List<String> results = new ArrayList<>();
+    transformed.spliterator().forEachRemaining(results::add);
+    assertEquals(SOME_STRING_LIST, results);
+  }
+
+  @GwtIncompatible // Spliterator
+  public void testTransformForEachRandomAccess() {
+    List<Integer> fromList = new ArrayList<>(SOME_LIST);
+    List<String> transformed = transform(fromList, SOME_FUNCTION);
+
+    List<String> results = new ArrayList<>();
+    transformed.forEach(results::add);
+    assertEquals(SOME_STRING_LIST, results);
   }
 
   /**
