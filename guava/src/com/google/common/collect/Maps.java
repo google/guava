@@ -53,6 +53,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.InlineMe;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import com.google.j2objc.annotations.Weak;
@@ -219,14 +220,15 @@ public final class Maps {
    *
    * <p><b>Note:</b> if {@code K} is an {@code enum} type, use {@link #newEnumMap} instead.
    *
-   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
-   * use the {@code HashMap} constructor directly, taking advantage of <a
-   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
-   * syntax</a>.
-   *
    * @return a new, empty {@code HashMap}
+   * @deprecated Use the {@code HashMap} {@linkplain
+   *     HashMap#HashMap() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
+  @Deprecated
+  @InlineMe(replacement = "new HashMap<>()", imports = "java.util.HashMap")
   public static <K extends @Nullable Object, V extends @Nullable Object>
       HashMap<K, V> newHashMap() {
     return new HashMap<>();
@@ -302,14 +304,15 @@ public final class Maps {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableMap#of()} instead.
    *
-   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
-   * use the {@code LinkedHashMap} constructor directly, taking advantage of <a
-   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
-   * syntax</a>.
-   *
    * @return a new, empty {@code LinkedHashMap}
+   * @deprecated Use the {@code LinkedHashMap} {@linkplain
+   *     LinkedHashMap#LinkedHashMap() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
+  @Deprecated
+  @InlineMe(replacement = "new LinkedHashMap<>()", imports = "java.util.LinkedHashMap")
   public static <K extends @Nullable Object, V extends @Nullable Object>
       LinkedHashMap<K, V> newLinkedHashMap() {
     return new LinkedHashMap<>();
@@ -356,13 +359,16 @@ public final class Maps {
   /**
    * Creates a new empty {@link ConcurrentHashMap} instance.
    *
-   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
-   * use the {@code ConcurrentHashMap} constructor directly, taking advantage of <a
-   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
-   * syntax</a>.
-   *
    * @since 3.0
+   * @deprecated Use the {@code ConcurrentHashMap} {@linkplain
+   *     ConcurrentHashMap#ConcurrentHashMap() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
+  @Deprecated
+  @InlineMe(
+      replacement = "new ConcurrentHashMap<>()",
+      imports = "java.util.concurrent.ConcurrentHashMap")
   public static <K, V> ConcurrentMap<K, V> newConcurrentMap() {
     return new ConcurrentHashMap<>();
   }
@@ -441,7 +447,16 @@ public final class Maps {
    *
    * @param type the key type for this map
    * @return a new, empty {@code EnumMap}
+   * @deprecated Use the {@code EnumMap} {@linkplain EnumMap#EnumMap(Class) constructor} directly,
+   *     taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
+  @Deprecated
+  @InlineMe(
+      replacement = "new EnumMap<>(checkNotNull(type))",
+      imports = "java.util.EnumMap",
+      staticImports = "com.google.common.base.Preconditions.checkNotNull")
   public static <K extends Enum<K>, V extends @Nullable Object> EnumMap<K, V> newEnumMap(
       Class<K> type) {
     return new EnumMap<>(checkNotNull(type));
@@ -468,13 +483,14 @@ public final class Maps {
   /**
    * Creates an {@code IdentityHashMap} instance.
    *
-   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
-   * use the {@code IdentityHashMap} constructor directly, taking advantage of <a
-   * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
-   * syntax</a>.
-   *
    * @return a new, empty {@code IdentityHashMap}
+   * @deprecated Use the {@code IdentityHashMap} {@linkplain
+   *     IdentityHashMap#IdentityHashMap() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
+  @Deprecated
+  @InlineMe(replacement = "new IdentityHashMap<>()", imports = "java.util.IdentityHashMap")
   public static <K extends @Nullable Object, V extends @Nullable Object>
       IdentityHashMap<K, V> newIdentityHashMap() {
     return new IdentityHashMap<>();
