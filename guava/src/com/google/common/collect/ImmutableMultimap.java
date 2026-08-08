@@ -125,6 +125,10 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   /**
    * Returns a new builder. The generated builder is equivalent to the builder created by the {@link
    * Builder} constructor.
+   *
+   * <p>The returned builder always builds an {@link ImmutableListMultimap}. For clarity and to
+   * avoid the pitfalls described in the {@linkplain ImmutableMultimap class documentation}, prefer
+   * {@link ImmutableListMultimap#builder} or {@link ImmutableSetMultimap#builder}.
    */
   public static <K, V> Builder<K, V> builder() {
     return new Builder<>();
@@ -360,7 +364,10 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       return this;
     }
 
-    /** Returns a newly-created immutable multimap. */
+    /**
+     * Returns a newly-created immutable multimap. The returned multimap is an {@link
+     * ImmutableListMultimap}.
+     */
     public ImmutableMultimap<K, V> build() {
       if (builderMap == null) {
         return ImmutableListMultimap.of();
