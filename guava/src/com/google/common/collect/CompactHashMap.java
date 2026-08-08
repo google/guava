@@ -32,14 +32,12 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.AbstractMap;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.ConcurrentModificationException;
@@ -84,7 +82,7 @@ import org.jspecify.annotations.Nullable;
  */
 @GwtIncompatible // not worth using in GWT for now
 class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
-    extends AbstractMap<K, V> implements Serializable {
+    implements Map<K, V>, Serializable {
   /*
    * TODO: Make this a drop-in replacement for j.u. versions, actually drop them in, and test the
    * world. Figure out what sort of space-time tradeoff we're actually going to get here with the
@@ -500,6 +498,13 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   @Override
+  public void putAll(Map<? extends K, ? extends V> m) {
+    for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
+      put(entry.getKey(), entry.getValue());
+    }
+  }
+
+  @Override
   public boolean containsKey(@Nullable Object key) {
     Map<K, V> delegate = delegateOrNull();
     return (delegate != null) ? delegate.containsKey(key) : indexOf(key) != -1;
@@ -622,6 +627,21 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return indexBeforeRemove - 1;
   }
 
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    return Maps.equalsImpl(this, obj);
+  }
+
+  @Override
+  public int hashCode() {
+    return entrySet().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return Maps.toStringImpl(this);
+  }
+
   private abstract class Itr<T extends @Nullable Object> implements Iterator<T> {
     int expectedMetadata = metadata;
     int currentIndex = firstEntryIndex();
@@ -682,14 +702,8 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
   }
 
-  @LazyInit private transient @Nullable Set<K> keySetView;
-
   @Override
   public Set<K> keySet() {
-    return (keySetView == null) ? keySetView = createKeySet() : keySetView;
-  }
-
-  Set<K> createKeySet() {
     return new KeySetView();
   }
 
@@ -792,14 +806,8 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
   }
 
-  @LazyInit private transient @Nullable Set<Entry<K, V>> entrySetView;
-
   @Override
   public Set<Entry<K, V>> entrySet() {
-    return (entrySetView == null) ? entrySetView = createEntrySet() : entrySetView;
-  }
-
-  Set<Entry<K, V>> createEntrySet() {
     return new EntrySetView();
   }
 
@@ -975,14 +983,8 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return false;
   }
 
-  @LazyInit private transient @Nullable Collection<V> valuesView;
-
   @Override
   public Collection<V> values() {
-    return (valuesView == null) ? valuesView = createValues() : valuesView;
-  }
-
-  Collection<V> createValues() {
     return new ValuesView();
   }
 

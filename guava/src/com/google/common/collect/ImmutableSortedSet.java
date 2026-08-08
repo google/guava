@@ -990,7 +990,7 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
    *
    * @throws UnsupportedOperationException always
    * @deprecated <b>Pass the parameters of type {@code Comparable} to use {@link
-   *     ImmutableSortedSet#of( Comparable, Comparable, Comparable, Comparable, Comparable)}. </b>
+   *     ImmutableSortedSet#of(Comparable, Comparable, Comparable, Comparable, Comparable)}. </b>
    */
   @DoNotCall("Pass parameters of type Comparable")
   @Deprecated
