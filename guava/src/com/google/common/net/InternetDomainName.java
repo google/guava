@@ -354,6 +354,12 @@ public final class InternetDomainName {
    * <p>Note that this method is equivalent to {@link #hasRegistrySuffix()} because all registry
    * suffixes are public suffixes <i>and</i> all public suffixes have registry suffixes.
    *
+   * <p><b>Security note:</b> This method performs syntactic validation only and does not perform
+   * DNS resolution. A syntactically valid domain (e.g., {@code 169.254.169.254.nip.io}) may resolve
+   * to a private or link-local IP address via wildcard DNS services. Do not use this method as an
+   * SSRF prevention control. To block SSRF, combine domain validation with IP resolution checks
+   * against RFC-1918, RFC-5737, and RFC-3927 ranges after DNS resolution.
+   *
    * @since 6.0
    */
   public boolean hasPublicSuffix() {
@@ -379,6 +385,12 @@ public final class InternetDomainName {
    * <p>This method can be used to determine whether it will probably be possible to set cookies on
    * the domain, though even that depends on individual browsers' implementations of cookie
    * controls. See <a href="http://www.ietf.org/rfc/rfc2109.txt">RFC 2109</a> for details.
+   *
+   * <p><b>Security note:</b> This method performs syntactic validation only and does not perform
+   * DNS resolution. A syntactically valid domain (e.g., {@code 169.254.169.254.nip.io}) may resolve
+   * to a private or link-local IP address via wildcard DNS services. Do not use this method as an
+   * SSRF prevention control. To block SSRF, combine domain validation with IP resolution checks
+   * against RFC-1918, RFC-5737, and RFC-3927 ranges after DNS resolution.
    *
    * @since 6.0
    */
@@ -599,6 +611,12 @@ public final class InternetDomainName {
    *   domainName = DEFAULT_DOMAIN;
    * }
    * }
+   *
+   * <p><b>Security note:</b> This method performs syntactic validation only and does not perform
+   * DNS resolution. A syntactically valid domain (e.g., {@code 169.254.169.254.nip.io}) may resolve
+   * to a private or link-local IP address via wildcard DNS services. Do not use this method as an
+   * SSRF prevention control. To block SSRF, combine domain validation with IP resolution checks
+   * against RFC-1918, RFC-5737, and RFC-3927 ranges after DNS resolution.
    *
    * @since 8.0 (previously named {@code isValidLenient})
    */
