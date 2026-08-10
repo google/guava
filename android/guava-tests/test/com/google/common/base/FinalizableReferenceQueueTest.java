@@ -63,7 +63,8 @@ public class FinalizableReferenceQueueTest {
 
   @Test
   public void testFinalizeReferentCalled() {
-    MockReference reference = new MockReference(frq = new FinalizableReferenceQueue());
+    frq = new FinalizableReferenceQueue();
+    MockReference reference = new MockReference(frq);
 
     GcFinalization.awaitDone(() -> reference.finalizeReferentCalled);
   }
