@@ -562,7 +562,10 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public final ImmutableSetMultimap<V, K> inverse() {
     ImmutableSetMultimap<V, K> result = inverse;
-    return (result == null) ? (inverse = invert()) : result;
+    if (result == null) {
+      result = inverse = invert();
+    }
+    return result;
   }
 
   private ImmutableSetMultimap<V, K> invert() {
@@ -612,7 +615,10 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public final ImmutableSet<Entry<K, V>> entries() {
     ImmutableSet<Entry<K, V>> result = entries;
-    return result == null ? (entries = new EntrySet<>(this)) : result;
+    if (result == null) {
+      result = entries = new EntrySet<>(this);
+    }
+    return result;
   }
 
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {

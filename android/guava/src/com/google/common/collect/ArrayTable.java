@@ -642,8 +642,11 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
 
   @Override
   public Map<C, Map<R, @Nullable V>> columnMap() {
-    ColumnMap map = columnMap;
-    return (map == null) ? columnMap = new ColumnMap() : map;
+    ColumnMap result = columnMap;
+    if (result == null) {
+      result = columnMap = new ColumnMap();
+    }
+    return result;
   }
 
   @WeakOuter
@@ -734,8 +737,11 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
 
   @Override
   public Map<R, Map<C, @Nullable V>> rowMap() {
-    RowMap map = rowMap;
-    return (map == null) ? rowMap = new RowMap() : map;
+    RowMap result = rowMap;
+    if (result == null) {
+      result = rowMap = new RowMap();
+    }
+    return result;
   }
 
   @WeakOuter

@@ -694,7 +694,10 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   // TODO(user): Make this `final` after cl/781580713 or a similar fix.
   public Set<C> columnKeySet() {
     Set<C> result = columnKeySet;
-    return (result == null) ? columnKeySet = new ColumnKeySet() : result;
+    if (result == null) {
+      result = columnKeySet = new ColumnKeySet();
+    }
+    return result;
   }
 
   @WeakOuter
@@ -816,7 +819,10 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   @Override
   public Map<R, Map<C, V>> rowMap() {
     Map<R, Map<C, V>> result = rowMap;
-    return (result == null) ? rowMap = createRowMap() : result;
+    if (result == null) {
+      result = rowMap = createRowMap();
+    }
+    return result;
   }
 
   Map<R, Map<C, V>> createRowMap() {
@@ -889,7 +895,10 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   @Override
   public final Map<C, Map<R, V>> columnMap() {
     ColumnMap result = columnMap;
-    return (result == null) ? columnMap = new ColumnMap() : result;
+    if (result == null) {
+      result = columnMap = new ColumnMap();
+    }
+    return result;
   }
 
   @WeakOuter

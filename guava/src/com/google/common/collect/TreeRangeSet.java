@@ -87,15 +87,19 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
   @Override
   public Set<Range<C>> asRanges() {
     Set<Range<C>> result = asRanges;
-    return (result == null) ? asRanges = new AsRanges(rangesByLowerBound.values()) : result;
+    if (result == null) {
+      result = asRanges = new AsRanges(rangesByLowerBound.values());
+    }
+    return result;
   }
 
   @Override
   public Set<Range<C>> asDescendingSetOfRanges() {
     Set<Range<C>> result = asDescendingSetOfRanges;
-    return (result == null)
-        ? asDescendingSetOfRanges = new AsRanges(rangesByLowerBound.descendingMap().values())
-        : result;
+    if (result == null) {
+      result = asDescendingSetOfRanges = new AsRanges(rangesByLowerBound.descendingMap().values());
+    }
+    return result;
   }
 
   final class AsRanges extends ForwardingCollection<Range<C>> implements Set<Range<C>> {
@@ -281,7 +285,10 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
   @Override
   public RangeSet<C> complement() {
     RangeSet<C> result = complement;
-    return (result == null) ? complement = new Complement() : result;
+    if (result == null) {
+      result = complement = new Complement();
+    }
+    return result;
   }
 
   @VisibleForTesting

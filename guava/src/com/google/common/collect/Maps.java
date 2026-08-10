@@ -1781,15 +1781,19 @@ public final class Maps {
     @Override
     public BiMap<V, K> inverse() {
       BiMap<V, K> result = inverse;
-      return (result == null)
-          ? inverse = new UnmodifiableBiMap<>(delegate.inverse(), this)
-          : result;
+      if (result == null) {
+        result = inverse = new UnmodifiableBiMap<>(delegate.inverse(), this);
+      }
+      return result;
     }
 
     @Override
     public Set<V> values() {
       Set<V> result = values;
-      return (result == null) ? values = unmodifiableSet(delegate.values()) : result;
+      if (result == null) {
+        result = values = unmodifiableSet(delegate.values());
+      }
+      return result;
     }
 
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
@@ -3568,9 +3572,10 @@ public final class Maps {
     @Override
     public NavigableMap<K, V> descendingMap() {
       UnmodifiableNavigableMap<K, V> result = descendingMap;
-      return (result == null)
-          ? descendingMap = new UnmodifiableNavigableMap<>(delegate.descendingMap(), this)
-          : result;
+      if (result == null) {
+        result = descendingMap = new UnmodifiableNavigableMap<>(delegate.descendingMap(), this);
+      }
+      return result;
     }
 
     @Override
@@ -3697,7 +3702,10 @@ public final class Maps {
     @Override
     public Set<Entry<K, V>> entrySet() {
       Set<Entry<K, V>> result = entrySet;
-      return (result == null) ? entrySet = createEntrySet() : result;
+      if (result == null) {
+        result = entrySet = createEntrySet();
+      }
+      return result;
     }
 
     @LazyInit private transient @Nullable Set<K> keySet;
@@ -3705,7 +3713,10 @@ public final class Maps {
     @Override
     public Set<K> keySet() {
       Set<K> result = keySet;
-      return (result == null) ? keySet = createKeySet() : result;
+      if (result == null) {
+        result = keySet = createKeySet();
+      }
+      return result;
     }
 
     Set<K> createKeySet() {
@@ -3717,7 +3728,10 @@ public final class Maps {
     @Override
     public Collection<V> values() {
       Collection<V> result = values;
-      return (result == null) ? values = createValues() : result;
+      if (result == null) {
+        result = values = createValues();
+      }
+      return result;
     }
 
     Collection<V> createValues() {
@@ -4367,7 +4381,10 @@ public final class Maps {
     @Override
     public Set<Entry<K, V>> entrySet() {
       Set<Entry<K, V>> result = entrySet;
-      return (result == null) ? entrySet = createEntrySet() : result;
+      if (result == null) {
+        result = entrySet = createEntrySet();
+      }
+      return result;
     }
 
     abstract Iterator<Entry<K, V>> entryIterator();
@@ -4398,7 +4415,10 @@ public final class Maps {
     @Override
     public NavigableSet<K> navigableKeySet() {
       NavigableSet<K> result = navigableKeySet;
-      return (result == null) ? navigableKeySet = new NavigableKeySet<>(this) : result;
+      if (result == null) {
+        result = navigableKeySet = new NavigableKeySet<>(this);
+      }
+      return result;
     }
 
     @Override

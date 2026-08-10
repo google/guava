@@ -316,10 +316,9 @@ public abstract class ImmutableSet<E> extends ImmutableCollection<E> implements 
     public ImmutableList<E> asList() {
       ImmutableList<E> result = asList;
       if (result == null) {
-        return asList = createAsList();
-      } else {
-        return result;
+        result = asList = createAsList();
       }
+      return result;
     }
 
     ImmutableList<E> createAsList() {
