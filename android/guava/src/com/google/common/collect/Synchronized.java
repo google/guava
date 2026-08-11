@@ -1489,7 +1489,7 @@ final class Synchronized {
     public NavigableSet<K> descendingKeySet() {
       synchronized (mutex) {
         if (descendingKeySet == null) {
-          return descendingKeySet = navigableSet(delegate().descendingKeySet(), mutex);
+          descendingKeySet = navigableSet(delegate().descendingKeySet(), mutex);
         }
         return descendingKeySet;
       }
@@ -1501,7 +1501,7 @@ final class Synchronized {
     public NavigableMap<K, V> descendingMap() {
       synchronized (mutex) {
         if (descendingMap == null) {
-          return descendingMap = navigableMap(delegate().descendingMap(), mutex);
+          descendingMap = navigableMap(delegate().descendingMap(), mutex);
         }
         return descendingMap;
       }
@@ -1586,7 +1586,7 @@ final class Synchronized {
     public NavigableSet<K> navigableKeySet() {
       synchronized (mutex) {
         if (navigableKeySet == null) {
-          return navigableKeySet = navigableSet(delegate().navigableKeySet(), mutex);
+          navigableKeySet = navigableSet(delegate().navigableKeySet(), mutex);
         }
         return navigableKeySet;
       }

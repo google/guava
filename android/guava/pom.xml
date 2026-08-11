@@ -141,7 +141,6 @@
                 <!-- https://errorprone.info/docs/installation#maven -->
                 <arg>-XDcompilePolicy=simple</arg>
               </compilerArgs>
-              <multiReleaseOutput>true</multiReleaseOutput>
             </configuration>
           </execution>
         </executions>

@@ -84,14 +84,16 @@ final class JdkBackedImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
 
   private ImmutableBiMap<V, K> lazyInverse() {
     JdkBackedImmutableBiMap<V, K> result = lazyInverse;
-    return result == null
-        ? lazyInverse =
-            new JdkBackedImmutableBiMap<>(
-                new InverseEntries<>(entries),
-                backwardDelegate,
-                forwardDelegate,
-                /* inverse= */ this)
-        : result;
+    if (result == null) {
+      result =
+          lazyInverse =
+              new JdkBackedImmutableBiMap<>(
+                  new InverseEntries<>(entries),
+                  backwardDelegate,
+                  forwardDelegate,
+                  /* inverse= */ this);
+    }
+    return result;
   }
 
   private static final class InverseEntries<K extends @Nullable Object, V extends @Nullable Object>

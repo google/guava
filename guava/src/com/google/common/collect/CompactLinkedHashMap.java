@@ -228,7 +228,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
   }
 
   @Override
-  Set<Entry<K, V>> createEntrySet() {
+  public Set<Entry<K, V>> entrySet() {
     @WeakOuter
     final class EntrySetImpl extends EntrySetView {
       @Override
@@ -240,7 +240,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
   }
 
   @Override
-  Set<K> createKeySet() {
+  public Set<K> keySet() {
     @WeakOuter
     final class KeySetImpl extends KeySetView {
       @Override
@@ -263,7 +263,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
   }
 
   @Override
-  Collection<V> createValues() {
+  public Collection<V> values() {
     @WeakOuter
     final class ValuesImpl extends ValuesView {
       @Override

@@ -301,7 +301,10 @@ public abstract class Converter<A, B> implements Function<A, B> {
   @CheckReturnValue
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
-    return (result == null) ? reverse = new ReverseConverter<>(this) : result;
+    if (result == null) {
+      result = reverse = new ReverseConverter<>(this);
+    }
+    return result;
   }
 
   private static final class ReverseConverter<A, B> extends Converter<B, A>

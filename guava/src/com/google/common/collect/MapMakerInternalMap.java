@@ -2495,24 +2495,33 @@ final class MapMakerInternalMap<
 
   @Override
   public Set<K> keySet() {
-    Set<K> ks = keySet;
-    return (ks != null) ? ks : (keySet = new KeySet());
+    Set<K> result = keySet;
+    if (result == null) {
+      result = keySet = new KeySet();
+    }
+    return result;
   }
 
   @LazyInit transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
-    Collection<V> vs = values;
-    return (vs != null) ? vs : (values = new Values());
+    Collection<V> result = values;
+    if (result == null) {
+      result = values = new Values();
+    }
+    return result;
   }
 
   @LazyInit transient @Nullable Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
-    Set<Entry<K, V>> es = entrySet;
-    return (es != null) ? es : (entrySet = new EntrySet());
+    Set<Entry<K, V>> result = entrySet;
+    if (result == null) {
+      result = entrySet = new EntrySet();
+    }
+    return result;
   }
 
   // Iterator Support

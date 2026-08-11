@@ -209,7 +209,8 @@ public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nul
       tail = node;
       KeyList<K, V> keyList = keyToKeyList.get(key);
       if (keyList == null) {
-        keyToKeyList.put(key, keyList = new KeyList<>(node));
+        keyList = new KeyList<>(node);
+        keyToKeyList.put(key, keyList);
         modCount++;
       } else {
         keyList.count++;

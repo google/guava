@@ -331,7 +331,10 @@ public final class AtomicLongMap<K> implements Serializable {
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {
     Map<K, Long> result = asMap;
-    return (result == null) ? asMap = createAsMap() : result;
+    if (result == null) {
+      result = asMap = createAsMap();
+    }
+    return result;
   }
 
   private Map<K, Long> createAsMap() {
