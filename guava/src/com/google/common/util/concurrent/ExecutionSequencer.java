@@ -456,7 +456,10 @@ public final class ExecutionSequencer {
         // Now check if our task attempted to reentrantly execute the next task.
         TrustedListenableFutureTask<?> queuedTask;
         Executor queuedExecutor;
-        // Intentionally using non-short-circuit operator
+        /*
+         * We used to use a non-short-circuit operator here as a nano-optimization, but it caused
+         * trouble for some transpiled compilation.
+         */
         while ((queuedTask = executingTaskQueue.nextTask) != null
             && (queuedExecutor = executingTaskQueue.nextExecutor) != null) {
           executingTaskQueue.nextTask = null;

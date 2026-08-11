@@ -17,10 +17,13 @@ package com.google.common.util.concurrent;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.allAsList;
 import static com.google.common.util.concurrent.Futures.getDone;
+import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.Futures.immediateVoidFuture;
+import static com.google.common.util.concurrent.Futures.transform;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
-import static java.util.concurrent.Executors.newCachedThreadPool;
+import static java.lang.Thread.currentThread;
 import static java.util.concurrent.Executors.newFixedThreadPool;
+import static java.util.concurrent.Executors.newSingleThreadExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
@@ -29,8 +32,10 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.TestLogHandler;
 import java.lang.ref.WeakReference;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Queue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
@@ -49,98 +54,101 @@ import org.jspecify.annotations.Nullable;
 @GwtIncompatible
 @J2ktIncompatible
 public class ExecutionSequencerTest extends TestCase {
-
-  ExecutorService executor;
-
-  private ExecutionSequencer serializer;
-  private SettableFuture<@Nullable Void> firstFuture;
-  private TestCallable firstCallable;
-
-  @Override
-  protected void setUp() {
-    executor = newCachedThreadPool();
-    serializer = ExecutionSequencer.create();
-    firstFuture = SettableFuture.create();
-    firstCallable = new TestCallable(firstFuture);
-  }
+  private final ExecutionSequencer serializer = ExecutionSequencer.create();
+  private final ExecutorService backgroundThread = newSingleThreadExecutor();
 
   @Override
   protected void tearDown() {
-    executor.shutdown();
+    backgroundThread.shutdown();
   }
 
-  public void testCallableStartsAfterFirstFutureCompletes() {
-    @SuppressWarnings({"unused", "nullness"})
-    Future<?> possiblyIgnoredError = serializer.submitAsync(firstCallable, directExecutor());
-    TestCallable secondCallable = new TestCallable(immediateVoidFuture());
-    @SuppressWarnings({"unused", "nullness"})
-    Future<?> possiblyIgnoredError1 = serializer.submitAsync(secondCallable, directExecutor());
+  public void testCallableStartsAfterFirstFutureCompletes() throws Exception {
+    SettableFuture<@Nullable Void> returnedByFirstCallable = SettableFuture.create();
+    TestAsyncCallable firstCallable = new TestAsyncCallable(returnedByFirstCallable);
+    Future<?> firstSubmission = serializer.submitAsync(firstCallable, directExecutor());
+
+    TestAsyncCallable secondCallable = new TestAsyncCallable(immediateVoidFuture());
+    Future<?> secondSubmission = serializer.submitAsync(secondCallable, directExecutor());
+
     assertThat(firstCallable.called).isTrue();
     assertThat(secondCallable.called).isFalse();
-    firstFuture.set(null);
+    returnedByFirstCallable.set(null);
     assertThat(secondCallable.called).isTrue();
+    firstSubmission.get();
+    secondSubmission.get();
   }
 
-  public void testCancellationDoesNotViolateSerialization() {
-    @SuppressWarnings({"unused", "nullness"})
-    Future<?> possiblyIgnoredError = serializer.submitAsync(firstCallable, directExecutor());
-    TestCallable secondCallable = new TestCallable(immediateVoidFuture());
-    ListenableFuture<@Nullable Void> secondFuture =
+  public void testCancellationDoesNotViolateSerialization() throws Exception {
+    SettableFuture<@Nullable Void> returnedByFirstCallable = SettableFuture.create();
+    AsyncCallable<@Nullable Void> firstCallable = () -> returnedByFirstCallable;
+    Future<?> firstSubmission = serializer.submitAsync(firstCallable, directExecutor());
+
+    TestAsyncCallable secondCallable = new TestAsyncCallable(immediateVoidFuture());
+    ListenableFuture<@Nullable Void> secondSubmission =
         serializer.submitAsync(secondCallable, directExecutor());
-    TestCallable thirdCallable = new TestCallable(immediateVoidFuture());
-    @SuppressWarnings({"unused", "nullness"})
-    Future<?> possiblyIgnoredError1 = serializer.submitAsync(thirdCallable, directExecutor());
-    secondFuture.cancel(true);
+
+    TestAsyncCallable thirdCallable = new TestAsyncCallable(immediateVoidFuture());
+    Future<?> thirdSubmission = serializer.submitAsync(thirdCallable, directExecutor());
+
+    secondSubmission.cancel(true);
     assertThat(secondCallable.called).isFalse();
     assertThat(thirdCallable.called).isFalse();
-    firstFuture.set(null);
+    returnedByFirstCallable.set(null);
     assertThat(secondCallable.called).isFalse();
     assertThat(thirdCallable.called).isTrue();
+    firstSubmission.get();
+    thirdSubmission.get();
   }
 
   public void testCancellationMultipleThreads() throws Exception {
-    BlockingCallable blockingCallable = new BlockingCallable();
-    ListenableFuture<@Nullable Void> unused = serializer.submit(blockingCallable, executor);
-    ListenableFuture<Boolean> future2 =
-        serializer.submit(blockingCallable::isRunning, directExecutor());
+    BlockingCallable firstCallable = new BlockingCallable();
+    ListenableFuture<@Nullable Void> unused = serializer.submit(firstCallable, backgroundThread);
+    ListenableFuture<Boolean> secondSubmission =
+        serializer.submit(firstCallable::isRunning, directExecutor());
 
     // Wait for the first task to be started in the background. It will block until we explicitly
     // stop it.
-    blockingCallable.waitForStart();
+    firstCallable.waitForStart();
 
-    // Give the second task a chance to (incorrectly) start up while the first task is running.
-    assertThat(future2.isDone()).isFalse();
+    /*
+     * If the second task were going to (incorrectly) start while the first task is running, it
+     * would presumably have done so by now, since it was submitted earlier with directExecutor().
+     */
+    assertThat(secondSubmission.isDone()).isFalse();
 
     // Stop the first task. The second task should then run.
-    blockingCallable.stop();
-    executor.shutdown();
-    assertThat(executor.awaitTermination(10, SECONDS)).isTrue();
-    assertThat(getDone(future2)).isFalse();
+    firstCallable.stop();
+    backgroundThread.shutdown();
+    assertThat(backgroundThread.awaitTermination(10, SECONDS)).isTrue();
+    assertThat(getDone(secondSubmission)).isFalse();
   }
 
   public void testSecondTaskWaitsForFirstEvenIfCancelled() throws Exception {
-    BlockingCallable blockingCallable = new BlockingCallable();
-    ListenableFuture<@Nullable Void> future1 = serializer.submit(blockingCallable, executor);
-    ListenableFuture<Boolean> future2 =
-        serializer.submit(blockingCallable::isRunning, directExecutor());
+    BlockingCallable firstCallable = new BlockingCallable();
+    ListenableFuture<@Nullable Void> firstSubmission =
+        serializer.submit(firstCallable, backgroundThread);
+    ListenableFuture<Boolean> secondSubmission =
+        serializer.submit(firstCallable::isRunning, directExecutor());
 
     // Wait for the first task to be started in the background. It will block until we explicitly
     // stop it.
-    blockingCallable.waitForStart();
+    firstCallable.waitForStart();
 
     // This time, cancel the future for the first task. The task remains running, only the future
     // is cancelled.
-    future1.cancel(false);
+    firstSubmission.cancel(false);
 
-    // Give the second task a chance to (incorrectly) start up while the first task is running.
-    // (This is the assertion that fails.)
-    assertThat(future2.isDone()).isFalse();
+    /*
+     * If the second task were going to (incorrectly) start while the first task is running, it
+     * would presumably have done so by now, since it was submitted earlier with directExecutor().
+     */
+    assertThat(secondSubmission.isDone()).isFalse();
 
     // Stop the first task. The second task should then run.
-    blockingCallable.stop();
-    executor.shutdown();
-    assertThat(executor.awaitTermination(10, SECONDS)).isTrue();
-    assertThat(getDone(future2)).isFalse();
+    firstCallable.stop();
+    backgroundThread.shutdown();
+    assertThat(backgroundThread.awaitTermination(10, SECONDS)).isTrue();
+    assertThat(getDone(secondSubmission)).isFalse();
   }
 
   public void testCancellationWithReferencedObject() {
@@ -163,13 +171,7 @@ public class ExecutionSequencerTest extends TestCase {
 
     List<Future<?>> results = new ArrayList<>();
     Runnable[] manualExecutorTask = new Runnable[1];
-    Executor manualExecutor =
-        new Executor() {
-          @Override
-          public void execute(Runnable task) {
-            manualExecutorTask[0] = task;
-          }
-        };
+    Executor manualExecutor = task -> manualExecutorTask[0] = task;
 
     results.add(serializer.submit(Callables.returning(null), manualExecutor));
     Future<?>[] thingToCancel = new Future<?>[1];
@@ -218,10 +220,9 @@ public class ExecutionSequencerTest extends TestCase {
       serializer.submit(Callables.<Void>returning(null), directExecutor()).cancel(true);
     }
     ListenableFuture<Integer> stackDepthCheck =
-        serializer.submit(() -> Thread.currentThread().getStackTrace().length, directExecutor());
+        serializer.submit(() -> currentThread().getStackTrace().length, directExecutor());
     settableFuture.set(null);
-    assertThat(getDone(stackDepthCheck))
-        .isLessThan(Thread.currentThread().getStackTrace().length + 100);
+    assertThat(getDone(stackDepthCheck)).isLessThan(currentThread().getStackTrace().length + 100);
   }
 
   public void testAvoidsStackOverflow_alternatingCancelledAndSubmitted() throws Exception {
@@ -233,10 +234,92 @@ public class ExecutionSequencerTest extends TestCase {
       unused = serializer.submit(Callables.returning(null), directExecutor());
     }
     ListenableFuture<Integer> stackDepthCheck =
-        serializer.submit(() -> Thread.currentThread().getStackTrace().length, directExecutor());
+        serializer.submit(() -> currentThread().getStackTrace().length, directExecutor());
     settableFuture.set(null);
-    assertThat(getDone(stackDepthCheck))
-        .isLessThan(Thread.currentThread().getStackTrace().length + 100);
+    assertThat(getDone(stackDepthCheck)).isLessThan(currentThread().getStackTrace().length + 100);
+  }
+
+  private static AsyncCallable<Integer> asyncAdd(
+      ListenableFuture<Integer> future, int delta, Executor executor) {
+    return () -> transform(future, input -> input + delta, executor);
+  }
+
+  public void testSubmittedChainOfFutures() throws Exception {
+    SettableFuture<Integer> inputToFirst = SettableFuture.create();
+    Queue<Runnable> submittedToFirstExecutor = new ArrayDeque<>();
+    Executor firstExecutor = submittedToFirstExecutor::add;
+    AsyncCallable<Integer> firstCallable = asyncAdd(inputToFirst, 5, firstExecutor);
+    AsyncCallable<Integer> secondCallable = () -> immediateFuture(222);
+
+    // Submit to the sequencer
+    ListenableFuture<Integer> firstSubmission =
+        serializer.submitAsync(firstCallable, directExecutor());
+    ListenableFuture<Integer> secondSubmission =
+        serializer.submitAsync(secondCallable, directExecutor());
+
+    inputToFirst.set(10);
+    // Because transformation on inputToFirst is pending...
+    assertThat(submittedToFirstExecutor).isNotEmpty();
+    // ...the work of secondCallable can't start...
+    assertThat(secondSubmission.isDone()).isFalse();
+
+    // Both callables should now get executed.
+    submittedToFirstExecutor.forEach(Runnable::run);
+    assertThat(getDone(firstSubmission)).isEqualTo(10 + 5);
+    assertThat(getDone(secondSubmission)).isEqualTo(222);
+  }
+
+  public void testSubmittedChainOfFutures_outputCancelled() throws Exception {
+    SettableFuture<Integer> inputToFirst = SettableFuture.create();
+    Queue<Runnable> submittedToFirstExecutor = new ArrayDeque<>();
+    Executor firstExecutor = submittedToFirstExecutor::add;
+    AsyncCallable<Integer> firstCallable = asyncAdd(inputToFirst, 1, firstExecutor);
+    AsyncCallable<Integer> secondCallable = () -> immediateFuture(222);
+
+    // Submit to the sequencer
+    ListenableFuture<Integer> firstSubmission =
+        serializer.submitAsync(firstCallable, directExecutor());
+    ListenableFuture<Integer> secondSubmission =
+        serializer.submitAsync(secondCallable, directExecutor());
+
+    firstSubmission.cancel(true);
+    /*
+     * Because we don't propagate cancellation to inputToFirst, it hasn't completed, the listener
+     * added by firstCallable's Futures.transform hasn't been submitted...
+     */
+    assertThat(submittedToFirstExecutor).isEmpty();
+    // ...and the serializer won't submit secondCallable until all firstCallable work is done...
+    assertThat(secondSubmission.isDone()).isFalse();
+
+    // secondCallable should be executed only when the underlying future completes.
+    inputToFirst.set(10);
+    // as well as the transformation in firstCallable, despite the output having been cancelled
+    assertThat(secondSubmission.isDone()).isFalse();
+
+    // With the output from firstCallable now complete, secondSubmission will run & complete
+    submittedToFirstExecutor.forEach(Runnable::run);
+    assertThat(getDone(secondSubmission)).isEqualTo(222);
+  }
+
+  public void testSubmittedChainOfFutures_internallyCancelled() throws Exception {
+    SettableFuture<Integer> returnedByFirstCallable = SettableFuture.create();
+    AsyncCallable<Integer> firstCallable = () -> returnedByFirstCallable;
+    AsyncCallable<Integer> secondCallable = () -> immediateFuture(222);
+
+    ListenableFuture<Integer> firstSubmission =
+        serializer.submitAsync(firstCallable, directExecutor());
+    ListenableFuture<Integer> secondSubmission =
+        serializer.submitAsync(secondCallable, directExecutor());
+
+    returnedByFirstCallable.cancel(false);
+
+    /*
+     * Because the future was internally cancelled, we immediately run the next enqueued task; i.e.
+     * unlike testSubmittedChainOfFutures_outputCancelled which stops cancellation propagation
+     */
+    assertThat(secondSubmission.isDone()).isTrue();
+    assertThat(getDone(secondSubmission)).isEqualTo(222);
+    assertThat(firstSubmission.isDone()).isTrue();
   }
 
   private static final class LongHolder {
@@ -251,11 +334,11 @@ public class ExecutionSequencerTest extends TestCase {
     ArrayList<ListenableFuture<Integer>> lengthChecks = new ArrayList<>();
     List<Integer> completeLengthChecks;
     int baseStackDepth;
-    ExecutorService service = newFixedThreadPool(5);
+    ExecutorService threadPool = newFixedThreadPool(5);
     try {
       // Avoid counting frames from the executor itself, or the ExecutionSequencer
       baseStackDepth =
-          serializer.submit(() -> Thread.currentThread().getStackTrace().length, service).get();
+          serializer.submit(() -> currentThread().getStackTrace().length, threadPool).get();
       SettableFuture<@Nullable Void> settableFuture = SettableFuture.create();
       ListenableFuture<?> unused = serializer.submitAsync(() -> settableFuture, directExecutor());
       for (int i = 0; i < 50_000; i++) {
@@ -267,14 +350,14 @@ public class ExecutionSequencerTest extends TestCase {
                     holder.count++;
                     return null;
                   },
-                  service);
+                  threadPool);
         } else if (i % DIRECT_EXECUTIONS_PER_THREAD == DIRECT_EXECUTIONS_PER_THREAD - 1) {
           // When at max depth, record stack trace depth
           lengthChecks.add(
               serializer.submit(
                   () -> {
                     holder.count++;
-                    return Thread.currentThread().getStackTrace().length;
+                    return currentThread().getStackTrace().length;
                   },
                   directExecutor()));
         } else {
@@ -291,7 +374,7 @@ public class ExecutionSequencerTest extends TestCase {
       settableFuture.set(null);
       completeLengthChecks = allAsList(lengthChecks).get();
     } finally {
-      service.shutdown();
+      threadPool.shutdown();
     }
     assertThat(holder.count).isEqualTo(ITERATION_COUNT);
     for (int length : completeLengthChecks) {
@@ -306,6 +389,9 @@ public class ExecutionSequencerTest extends TestCase {
    * failure and unblocks the queue, preventing subsequent tasks from stalling or leaking.
    */
   public void testRecoversFromNonReentrantRejectedExecution() throws Exception {
+    SettableFuture<@Nullable Void> returnedByFirstCallable = SettableFuture.create();
+    AsyncCallable<@Nullable Void> firstCallable = () -> returnedByFirstCallable;
+
     // 1. Submit Task 1 (firstCallable) using directExecutor. It blocks because firstFuture is not
     // yet set.
     Future<?> unused = serializer.submitAsync(firstCallable, directExecutor());
@@ -314,7 +400,7 @@ public class ExecutionSequencerTest extends TestCase {
         task -> {
           throw new RejectedExecutionException();
         };
-    TestCallable secondCallable = new TestCallable(immediateVoidFuture());
+    TestAsyncCallable secondCallable = new TestAsyncCallable(immediateVoidFuture());
 
     // 2. Submit Task 2 using the rejectingExecutor. When Task 1 completes, ExecutionSequencer will
     // attempt to dispatch Task 2 via rejectingExecutor.execute(...), which will throw
@@ -322,13 +408,13 @@ public class ExecutionSequencerTest extends TestCase {
     Future<?> failingFuture = serializer.submitAsync(secondCallable, rejectingExecutor);
 
     // 3. Submit Task 3 using directExecutor. Task 3 is queued after Task 2 in ExecutionSequencer.
-    TestCallable thirdCallable = new TestCallable(immediateVoidFuture());
+    TestAsyncCallable thirdCallable = new TestAsyncCallable(immediateVoidFuture());
     ListenableFuture<@Nullable Void> thirdFuture =
         serializer.submitAsync(thirdCallable, directExecutor());
 
     // Complete Task 1's future. This triggers listener notification for Task 2.
     // Task 2's dispatch fails with RejectedExecutionException inside rejectingExecutor.execute().
-    firstFuture.set(null);
+    returnedByFirstCallable.set(null);
 
     // Verify queue recovery: Task 2's failure is handled, and Task 3 runs successfully.
     assertThat(secondCallable.called).isFalse();
@@ -347,10 +433,10 @@ public class ExecutionSequencerTest extends TestCase {
           throw new RejectedExecutionException();
         };
 
-    TestCallable secondCallable = new TestCallable(immediateVoidFuture());
-    TestCallable thirdCallable = new TestCallable(immediateVoidFuture());
-    AtomicReference<ListenableFuture<@Nullable Void>> failingFuture = new AtomicReference<>();
-    AtomicReference<ListenableFuture<@Nullable Void>> thirdFuture = new AtomicReference<>();
+    TestAsyncCallable secondCallable = new TestAsyncCallable(immediateVoidFuture());
+    TestAsyncCallable thirdCallable = new TestAsyncCallable(immediateVoidFuture());
+    AtomicReference<ListenableFuture<@Nullable Void>> secondSubmission = new AtomicReference<>();
+    AtomicReference<ListenableFuture<@Nullable Void>> thirdSubmission = new AtomicReference<>();
 
     // Submit an outer task using directExecutor.
     // Inside its execution, we submit Task 2 (rejectingExecutor) and Task 3 (directExecutor)
@@ -359,9 +445,9 @@ public class ExecutionSequencerTest extends TestCase {
         serializer.submitAsync(
             () -> {
               // Reentrant submission of Task 2 to rejectingExecutor.
-              failingFuture.set(serializer.submitAsync(secondCallable, rejectingExecutor));
+              secondSubmission.set(serializer.submitAsync(secondCallable, rejectingExecutor));
               // Reentrant submission of Task 3 to directExecutor.
-              thirdFuture.set(serializer.submitAsync(thirdCallable, directExecutor()));
+              thirdSubmission.set(serializer.submitAsync(thirdCallable, directExecutor()));
               return immediateVoidFuture();
             },
             directExecutor());
@@ -369,27 +455,31 @@ public class ExecutionSequencerTest extends TestCase {
     // Verify reentrant queue recovery: Task 3 runs successfully despite Task 2's executor
     // rejection.
     assertThat(secondCallable.called).isFalse();
-    assertThrows(ExecutionException.class, () -> getDone(failingFuture.get()));
+    assertThrows(ExecutionException.class, () -> getDone(secondSubmission.get()));
     assertThat(thirdCallable.called).isTrue();
-    assertThat(thirdFuture.get().isDone()).isTrue();
+    assertThat(thirdSubmission.get().isDone()).isTrue();
   }
 
   @SuppressWarnings("ObjectToString") // Intended behavior
   public void testToString() {
+    SettableFuture<@Nullable Void> returnedByFirstCallable = SettableFuture.create();
+    AsyncCallable<@Nullable Void> firstCallable = () -> returnedByFirstCallable;
     Future<?> unused = serializer.submitAsync(firstCallable, directExecutor());
-    TestCallable secondCallable = new TestCallable(SettableFuture.create());
-    Future<?> second = serializer.submitAsync(secondCallable, directExecutor());
+
+    TestAsyncCallable secondCallable = new TestAsyncCallable(SettableFuture.create());
+    Future<?> secondSubmission = serializer.submitAsync(secondCallable, directExecutor());
+
     assertThat(secondCallable.called).isFalse();
-    assertThat(second.toString()).contains(secondCallable.toString());
-    firstFuture.set(null);
-    assertThat(second.toString()).contains(secondCallable.future.toString());
+    assertThat(secondSubmission.toString()).contains(secondCallable.toString());
+    returnedByFirstCallable.set(null);
+    assertThat(secondSubmission.toString()).contains(secondCallable.resultFuture.toString());
   }
 
-  private static class BlockingCallable implements Callable<@Nullable Void> {
-    private final CountDownLatch startLatch = new CountDownLatch(1);
-    private final CountDownLatch stopLatch = new CountDownLatch(1);
+  private static final class BlockingCallable implements Callable<@Nullable Void> {
+    final CountDownLatch startLatch = new CountDownLatch(1);
+    final CountDownLatch stopLatch = new CountDownLatch(1);
 
-    private volatile boolean running = false;
+    volatile boolean running = false;
 
     @Override
     public @Nullable Void call() throws InterruptedException {
@@ -413,19 +503,18 @@ public class ExecutionSequencerTest extends TestCase {
     }
   }
 
-  private static final class TestCallable implements AsyncCallable<@Nullable Void> {
+  private static final class TestAsyncCallable implements AsyncCallable<@Nullable Void> {
+    final ListenableFuture<@Nullable Void> resultFuture;
+    boolean called;
 
-    private final ListenableFuture<@Nullable Void> future;
-    private boolean called = false;
-
-    private TestCallable(ListenableFuture<@Nullable Void> future) {
-      this.future = future;
+    TestAsyncCallable(ListenableFuture<@Nullable Void> resultFuture) {
+      this.resultFuture = resultFuture;
     }
 
     @Override
     public ListenableFuture<@Nullable Void> call() {
       called = true;
-      return future;
+      return resultFuture;
     }
   }
 }
