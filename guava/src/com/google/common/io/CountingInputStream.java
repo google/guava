@@ -15,6 +15,7 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -44,6 +45,10 @@ public final class CountingInputStream extends FilterInputStream {
     super(checkNotNull(in));
   }
 
+  private InputStream in() {
+    return requireNonNull(in); // guaranteed safe by the constructor
+  }
+
   /** Returns the number of bytes read. */
   public long getCount() {
     return count;
@@ -51,7 +56,7 @@ public final class CountingInputStream extends FilterInputStream {
 
   @Override
   public int read() throws IOException {
-    int result = in.read();
+    int result = in().read();
     if (result != -1) {
       count++;
     }
@@ -60,7 +65,7 @@ public final class CountingInputStream extends FilterInputStream {
 
   @Override
   public int read(byte[] b, int off, int len) throws IOException {
-    int result = in.read(b, off, len);
+    int result = in().read(b, off, len);
     if (result != -1) {
       count += result;
     }
@@ -69,28 +74,28 @@ public final class CountingInputStream extends FilterInputStream {
 
   @Override
   public long skip(long n) throws IOException {
-    long result = in.skip(n);
+    long result = in().skip(n);
     count += result;
     return result;
   }
 
   @Override
   public synchronized void mark(int readlimit) {
-    in.mark(readlimit);
+    in().mark(readlimit);
     mark = count;
     // it's okay to mark even if mark isn't supported, as reset won't work
   }
 
   @Override
   public synchronized void reset() throws IOException {
-    if (!in.markSupported()) {
+    if (!in().markSupported()) {
       throw new IOException("Mark not supported");
     }
     if (mark == -1) {
       throw new IOException("Mark not set");
     }
 
-    in.reset();
+    in().reset();
     count = mark;
   }
 }
