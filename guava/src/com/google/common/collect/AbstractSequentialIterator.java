@@ -36,6 +36,11 @@ import org.jspecify.annotations.Nullable;
  *     };
  * }
  *
+ * <p><b>Warning:</b> Implementations of {@link #computeNext} must not mutate {@code previous}.
+ * {@code next()} returns that same instance after {@code computeNext} returns, so mutating it
+ * changes the value the caller receives. For the same reason, do not reuse or return a mutated
+ * {@code previous} instance as the following element.
+ *
  * @author Chris Povirk
  * @since 12.0 (in Guava as {@code AbstractLinkedIterator} since 8.0)
  */
@@ -55,6 +60,10 @@ public abstract class AbstractSequentialIterator<T> extends UnmodifiableIterator
    * Returns the element that follows {@code previous}, or returns {@code null} if no elements
    * remain. This method is invoked during each call to {@link #next()} in order to compute the
    * result of a <i>future</i> call to {@code next()}.
+   *
+   * <p><b>Warning:</b> Do not mutate {@code previous}. It is returned to the caller of {@code
+   * next()} after this method returns, so any mutation is visible to that caller. Likewise, do not
+   * reuse the {@code previous} instance as the returned next element.
    */
   protected abstract @Nullable T computeNext(T previous);
 
