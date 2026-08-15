@@ -4183,8 +4183,11 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   @Override
   public Set<K> keySet() {
     // does not impact recency ordering
-    Set<K> ks = keySet;
-    return (ks != null) ? ks : (keySet = new KeySet());
+    Set<K> result = keySet;
+    if (result == null) {
+      result = keySet = new KeySet();
+    }
+    return result;
   }
 
   @LazyInit @RetainedWith @Nullable Collection<V> values;
@@ -4192,8 +4195,11 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   @Override
   public Collection<V> values() {
     // does not impact recency ordering
-    Collection<V> vs = values;
-    return (vs != null) ? vs : (values = new Values());
+    Collection<V> result = values;
+    if (result == null) {
+      result = values = new Values();
+    }
+    return result;
   }
 
   @LazyInit @RetainedWith @Nullable Set<Entry<K, V>> entrySet;
@@ -4202,8 +4208,11 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   @GwtIncompatible // Not supported.
   public Set<Entry<K, V>> entrySet() {
     // does not impact recency ordering
-    Set<Entry<K, V>> es = entrySet;
-    return (es != null) ? es : (entrySet = new EntrySet());
+    Set<Entry<K, V>> result = entrySet;
+    if (result == null) {
+      result = entrySet = new EntrySet();
+    }
+    return result;
   }
 
   // Iterator Support

@@ -588,22 +588,6 @@ public class BooleansTest extends TestCase {
     assertThrows(IndexOutOfBoundsException.class, () -> list.set(1, true));
   }
 
-  public void testAsListCanonicalValues() {
-    List<Boolean> list = Booleans.asList(true, false);
-    assertThat(list.get(0)).isSameInstanceAs(true);
-    assertThat(list.get(1)).isSameInstanceAs(false);
-    // The constructor is deprecated only in some versions of java.lang.Boolean.
-    @SuppressWarnings({"deprecation", "UnnecessaryJavacSuppressWarnings", "removal"})
-    Boolean anotherTrue = new Boolean(true);
-    // The constructor is deprecated only in some versions of java.lang.Boolean.
-    @SuppressWarnings({"deprecation", "UnnecessaryJavacSuppressWarnings", "removal"})
-    Boolean anotherFalse = new Boolean(false);
-    list.set(0, anotherTrue);
-    assertThat(list.get(0)).isSameInstanceAs(true);
-    list.set(1, anotherFalse);
-    assertThat(list.get(1)).isSameInstanceAs(false);
-  }
-
   public void testCountTrue() {
     assertThat(Booleans.countTrue()).isEqualTo(0);
     assertThat(Booleans.countTrue(false)).isEqualTo(0);

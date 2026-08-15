@@ -253,7 +253,10 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   @Override
   public final ImmutableList<E> asList() {
     ImmutableList<E> result = asList;
-    return (result == null) ? asList = super.asList() : result;
+    if (result == null) {
+      result = asList = super.asList();
+    }
+    return result;
   }
 
   @Override
@@ -352,8 +355,11 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
 
   @Override
   public final ImmutableSet<Entry<E>> entrySet() {
-    ImmutableSet<Entry<E>> es = entrySet;
-    return (es == null) ? (entrySet = createEntrySet()) : es;
+    ImmutableSet<Entry<E>> result = entrySet;
+    if (result == null) {
+      result = entrySet = createEntrySet();
+    }
+    return result;
   }
 
   private ImmutableSet<Entry<E>> createEntrySet() {

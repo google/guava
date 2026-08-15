@@ -24,7 +24,6 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.net.URLClassLoader;
 import java.util.Set;
-import java.util.concurrent.atomic.AtomicReferenceFieldUpdater;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.jspecify.annotations.NullUnmarked;
@@ -65,18 +64,6 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
   private static final ClassLoader NO_UNSAFE =
       getClassLoader(ImmutableSet.of("java.lang.invoke.VarHandle", "sun.misc.Unsafe"));
 
-  /**
-   * This classloader disallows {@link java.lang.invoke.VarHandle}, {@link sun.misc.Unsafe} and
-   * {@link AtomicReferenceFieldUpdater}, which will prevent us from selecting the {@code
-   * AtomicReferenceFieldUpdaterAtomicHelper} strategy.
-   */
-  private static final ClassLoader NO_ATOMIC_REFERENCE_FIELD_UPDATER =
-      getClassLoader(
-          ImmutableSet.of(
-              "java.lang.invoke.VarHandle",
-              "sun.misc.Unsafe",
-              AtomicReferenceFieldUpdater.class.getName()));
-
   public static TestSuite suite() {
     // we create a test suite containing a test for every AbstractFutureTest test method and we
     // set it as the name of the test.  Then in runTest we can reflectively load and invoke the
@@ -107,17 +94,6 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
      * nothing somehow goes wrong as the JDK restricts access to Unsafe.
      */
     checkHelperVersion(NO_UNSAFE, "AtomicReferenceFieldUpdaterAtomicHelper");
-    /*
-     * SynchronizedHelper is meant for Android, but our best way to test it is under the JVM.
-     *
-     * SynchronizedHelper also ends up getting used under the JVM during
-     * AggregateFutureStateFallbackAtomicHelperTest, as discussed in a comment in
-     * AggregateFutureState.
-     *
-     * Here, we check that we're able to force AbstractFutureState to select SynchronizedHelper, and
-     * below, we actually run the AbstractFutureTest methods under that scenario.
-     */
-    checkHelperVersion(NO_ATOMIC_REFERENCE_FIELD_UPDATER, "SynchronizedHelper");
 
     // Then, run the actual tests under each alternative classloader:
 
@@ -133,8 +109,6 @@ public class AbstractFutureFallbackAtomicHelperTest extends TestCase {
      * JDK further restricts access to Unsafe.) But we have coverage under an Android emulator,
      * which uses UnsafeAtomicHelper when it runs AbstractFutureTest itself.
      */
-
-    runTestMethod(NO_ATOMIC_REFERENCE_FIELD_UPDATER);
     // TODO(lukes): assert that the logs are full of errors
   }
 

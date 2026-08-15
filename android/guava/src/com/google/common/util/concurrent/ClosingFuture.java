@@ -2283,7 +2283,8 @@ public final class ClosingFuture<V extends @Nullable Object> {
           return new CountDownLatch(0);
         }
         checkState(whenClosed == null);
-        return whenClosed = new CountDownLatch(1);
+        whenClosed = new CountDownLatch(1);
+        return whenClosed;
       }
     }
   }

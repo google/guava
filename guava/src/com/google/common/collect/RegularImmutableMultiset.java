@@ -184,7 +184,10 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   @Override
   public ImmutableSet<E> elementSet() {
     ImmutableSet<E> result = elementSet;
-    return (result == null) ? elementSet = new ElementSet<>(Arrays.asList(entries), this) : result;
+    if (result == null) {
+      result = elementSet = new ElementSet<>(Arrays.asList(entries), this);
+    }
+    return result;
   }
 
   @Override

@@ -695,19 +695,19 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
 
     @Override
     protected Set<TypeToken<? super T>> delegate() {
-      ImmutableSet<TypeToken<? super T>> filteredTypes = types;
-      if (filteredTypes == null) {
+      ImmutableSet<TypeToken<? super T>> result = types;
+      if (result == null) {
         // Java has no way to express ? super T when we parameterize TypeToken vs. Class.
         @SuppressWarnings({"unchecked", "rawtypes"})
         ImmutableList<TypeToken<? super T>> collectedTypes =
             (ImmutableList) TypeCollector.FOR_GENERIC_TYPE.collectTypes(TypeToken.this);
-        return (types =
-            FluentIterable.from(collectedTypes)
-                .filter(TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)
-                .toSet());
-      } else {
-        return filteredTypes;
+        result =
+            types =
+                FluentIterable.from(collectedTypes)
+                    .filter(TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)
+                    .toSet();
       }
+      return result;
     }
 
     /** Returns the raw types of the types in this set, in the same order. */
@@ -735,11 +735,10 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
     protected Set<TypeToken<? super T>> delegate() {
       ImmutableSet<TypeToken<? super T>> result = interfaces;
       if (result == null) {
-        return (interfaces =
-            FluentIterable.from(allTypes).filter(TypeFilter.INTERFACE_ONLY).toSet());
-      } else {
-        return result;
+        result =
+            interfaces = FluentIterable.from(allTypes).filter(TypeFilter.INTERFACE_ONLY).toSet();
       }
+      return result;
     }
 
     @Override
@@ -780,13 +779,13 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
         ImmutableList<TypeToken<? super T>> collectedTypes =
             (ImmutableList)
                 TypeCollector.FOR_GENERIC_TYPE.classesOnly().collectTypes(TypeToken.this);
-        return (classes =
-            FluentIterable.from(collectedTypes)
-                .filter(TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)
-                .toSet());
-      } else {
-        return result;
+        result =
+            classes =
+                FluentIterable.from(collectedTypes)
+                    .filter(TypeFilter.IGNORE_TYPE_VARIABLE_OR_WILDCARD)
+                    .toSet();
       }
+      return result;
     }
 
     @Override
@@ -1197,19 +1196,19 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   }
 
   private TypeResolver getCovariantTypeResolver() {
-    TypeResolver resolver = covariantTypeResolver;
-    if (resolver == null) {
-      resolver = (covariantTypeResolver = TypeResolver.covariantly(runtimeType));
+    TypeResolver result = covariantTypeResolver;
+    if (result == null) {
+      result = covariantTypeResolver = TypeResolver.covariantly(runtimeType);
     }
-    return resolver;
+    return result;
   }
 
   private TypeResolver getInvariantTypeResolver() {
-    TypeResolver resolver = invariantTypeResolver;
-    if (resolver == null) {
-      resolver = (invariantTypeResolver = TypeResolver.invariantly(runtimeType));
+    TypeResolver result = invariantTypeResolver;
+    if (result == null) {
+      result = invariantTypeResolver = TypeResolver.invariantly(runtimeType);
     }
-    return resolver;
+    return result;
   }
 
   private TypeToken<? super T> getSupertypeFromUpperBounds(

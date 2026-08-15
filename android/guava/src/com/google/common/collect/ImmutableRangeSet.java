@@ -408,10 +408,12 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
 
   private ImmutableRangeSet<C> lazyComplement() {
     ImmutableRangeSet<C> result = lazyComplement;
-    return result == null
-        ? lazyComplement =
-            new ImmutableRangeSet<>(new ComplementRanges<>(ranges), /* complement= */ this)
-        : result;
+    if (result == null) {
+      result =
+          lazyComplement =
+              new ImmutableRangeSet<>(new ComplementRanges<>(ranges), /* complement= */ this);
+    }
+    return result;
   }
 
   /**

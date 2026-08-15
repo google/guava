@@ -465,7 +465,8 @@ class ObjectCountHashMap<K extends @Nullable Object> {
         long entry;
         do {
           previous = lastNext;
-          lastNext = getNext(entry = entries[lastNext]);
+          entry = entries[lastNext];
+          lastNext = getNext(entry);
         } while (lastNext != srcIndex);
         // here, entries[previous] points to the old entry location; update it
         entries[previous] = swapNext(entry, dstIndex);

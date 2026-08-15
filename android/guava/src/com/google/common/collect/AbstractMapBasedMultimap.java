@@ -1499,7 +1499,10 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     @Override
     public SortedSet<K> keySet() {
       SortedSet<K> result = sortedKeySet;
-      return (result == null) ? sortedKeySet = createKeySet() : result;
+      if (result == null) {
+        result = sortedKeySet = createKeySet();
+      }
+      return result;
     }
 
     @Override

@@ -152,8 +152,11 @@ public final class Multisets {
 
     @Override
     public Set<E> elementSet() {
-      Set<E> es = elementSet;
-      return (es == null) ? elementSet = createElementSet() : es;
+      Set<E> result = elementSet;
+      if (result == null) {
+        result = elementSet = createElementSet();
+      }
+      return result;
     }
 
     @LazyInit transient @Nullable Set<Entry<E>> entrySet;
@@ -161,12 +164,13 @@ public final class Multisets {
     @SuppressWarnings("unchecked")
     @Override
     public Set<Entry<E>> entrySet() {
-      Set<Entry<E>> es = entrySet;
-      return (es == null)
-          // Safe because the returned set is made unmodifiable and Entry
-          // itself is readonly
-          ? entrySet = (Set) unmodifiableSet(delegate.entrySet())
-          : es;
+      Set<Entry<E>> result = entrySet;
+      if (result == null) {
+        // Safe because the returned set is made unmodifiable and Entry
+        // itself is readonly
+        result = entrySet = (Set) unmodifiableSet(delegate.entrySet());
+      }
+      return result;
     }
 
     @Override

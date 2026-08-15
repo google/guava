@@ -71,7 +71,10 @@ public class AbstractScheduledServiceTest extends TestCase {
         @Override
         public ScheduledFuture<?> scheduleWithFixedDelay(
             Runnable command, long initialDelay, long delay, TimeUnit unit) {
-          return future = super.scheduleWithFixedDelay(command, initialDelay, delay, unit);
+          ScheduledFuture<?> result =
+              super.scheduleWithFixedDelay(command, initialDelay, delay, unit);
+          future = result;
+          return result;
         }
       };
 
