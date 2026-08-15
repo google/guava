@@ -15,24 +15,27 @@
 package com.google.common.util.concurrent;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
+import static com.google.common.util.concurrent.Futures.successfulAsList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.Nullable;
 
 /**
- * Tests that {@link AggregateFutureState} uses the expected {@code AtomicHelper} implementation.
- *
- * <p>We have more thorough testing of {@code AtomicHelper} implementations in {@link
- * AggregateFutureStateFallbackAtomicHelperTest}. The advantage to this test is that it can run
- * under Android.
+ * A simple test of basic {@link AggregateFutureState} functionality, suitable for running even in a
+ * test binary that has been optimized by a tool like R8.
  */
 @NullUnmarked
 @GwtIncompatible
 @J2ktIncompatible
-public class AggregateFutureStateDefaultAtomicHelperTest extends TestCase {
-  public void testUsingExpectedAtomicHelper() {
-    assertThat(AggregateFutureState.atomicHelperTypeForTest()).isEqualTo("SafeAtomicHelper");
+public class AggregateFutureStatePreliminaryTest extends TestCase {
+  public void testInit() throws Exception {
+    ListenableFuture<List<@Nullable Object>> future =
+        successfulAsList(immediateFailedFuture(new Exception()));
+    assertThat(future.get()).containsExactly((Object) null);
   }
 }
