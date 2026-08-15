@@ -198,6 +198,8 @@ public final class ArbitraryInstances {
     return matcher.toMatchResult();
   }
 
+  // We intentionally create empty MapDifference instances.
+  @SuppressWarnings("DistinctVarargsChecker")
   private static final ClassToInstanceMap<Object> DEFAULTS =
       ImmutableClassToInstanceMap.builder()
           // primitives
