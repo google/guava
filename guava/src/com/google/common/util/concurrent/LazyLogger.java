@@ -51,7 +51,8 @@ final class LazyLogger {
       if (local != null) {
         return local;
       }
-      return logger = Logger.getLogger(loggerName);
+      logger = Logger.getLogger(loggerName);
+      return logger;
     }
   }
 }

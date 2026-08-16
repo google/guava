@@ -761,8 +761,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     public ImmutableSet<Entry<K, V>> entrySet() {
       ImmutableSet<Entry<K, V>> result = entrySet;
       if (result == null) {
-        result = createEntrySet();
-        entrySet = result;
+        result = entrySet = createEntrySet();
       }
       return result;
     }
@@ -802,8 +801,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     public ImmutableSet<K> keySet() {
       ImmutableSet<K> result = keySet;
       if (result == null) {
-        result = createKeySet();
-        keySet = result;
+        result = keySet = createKeySet();
       }
       return result;
     }
@@ -818,8 +816,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     public ImmutableCollection<V> values() {
       ImmutableCollection<V> result = values;
       if (result == null) {
-        result = createValues();
-        values = result;
+        result = values = createValues();
       }
       return result;
     }

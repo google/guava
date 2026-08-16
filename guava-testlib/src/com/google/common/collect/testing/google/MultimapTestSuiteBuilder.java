@@ -521,7 +521,8 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
 
         Iterator<V> valueItr = valueIterators.get(key);
         if (valueItr == null) {
-          valueIterators.put(key, valueItr = sampleValuesIterator());
+          valueItr = sampleValuesIterator();
+          valueIterators.put(key, valueItr);
         }
         entries[i] = mapEntry(key, valueItr.next());
       }

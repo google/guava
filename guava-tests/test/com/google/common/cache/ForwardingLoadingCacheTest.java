@@ -64,12 +64,12 @@ public class ForwardingLoadingCacheTest extends TestCase {
 
   public void testGet() throws ExecutionException {
     when(mock.get("key")).thenReturn(true);
-    assertThat(forward.get("key")).isSameInstanceAs(true);
+    assertThat(forward.get("key")).isEqualTo(true);
   }
 
   public void testGetUnchecked() {
     when(mock.getUnchecked("key")).thenReturn(true);
-    assertThat(forward.getUnchecked("key")).isSameInstanceAs(true);
+    assertThat(forward.getUnchecked("key")).isEqualTo(true);
   }
 
   public void testGetAll() throws ExecutionException {
@@ -79,7 +79,7 @@ public class ForwardingLoadingCacheTest extends TestCase {
 
   public void testApply() {
     when(mock.apply("key")).thenReturn(true);
-    assertThat(forward.apply("key")).isSameInstanceAs(true);
+    assertThat(forward.apply("key")).isEqualTo(true);
   }
 
   public void testInvalidate() {

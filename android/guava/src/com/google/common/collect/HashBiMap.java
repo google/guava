@@ -758,7 +758,10 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public Set<K> keySet() {
     Set<K> result = keySet;
-    return (result == null) ? keySet = new KeySet() : result;
+    if (result == null) {
+      result = keySet = new KeySet();
+    }
+    return result;
   }
 
   private final class KeySet extends View<K, V, K> {
@@ -796,7 +799,10 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public Set<V> values() {
     Set<V> result = valueSet;
-    return (result == null) ? valueSet = new ValueSet() : result;
+    if (result == null) {
+      result = valueSet = new ValueSet();
+    }
+    return result;
   }
 
   private final class ValueSet extends View<K, V, V> {
@@ -834,7 +840,10 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public Set<Entry<K, V>> entrySet() {
     Set<Entry<K, V>> result = entrySet;
-    return (result == null) ? entrySet = new EntrySet() : result;
+    if (result == null) {
+      result = entrySet = new EntrySet();
+    }
+    return result;
   }
 
   private final class EntrySet extends View<K, V, Entry<K, V>> {
@@ -951,7 +960,10 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public BiMap<V, K> inverse() {
     BiMap<V, K> result = inverse;
-    return (result == null) ? inverse = new Inverse<>(this) : result;
+    if (result == null) {
+      result = inverse = new Inverse<>(this);
+    }
+    return result;
   }
 
   private static final class Inverse<K extends @Nullable Object, V extends @Nullable Object>
@@ -1033,7 +1045,10 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     @Override
     public Set<Entry<V, K>> entrySet() {
       Set<Entry<V, K>> result = inverseEntrySet;
-      return (result == null) ? inverseEntrySet = new InverseEntrySet<>(obverse) : result;
+      if (result == null) {
+        result = inverseEntrySet = new InverseEntrySet<>(obverse);
+      }
+      return result;
     }
 
     @GwtIncompatible // serialization

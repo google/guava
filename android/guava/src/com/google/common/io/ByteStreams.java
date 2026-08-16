@@ -21,6 +21,7 @@ import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 import static java.lang.System.arraycopy;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -712,7 +713,6 @@ public final class ByteStreams {
 
   @J2ktIncompatible
   private static final class LimitedInputStream extends FilterInputStream {
-
     private long left;
     private long mark = -1;
 
@@ -723,15 +723,19 @@ public final class ByteStreams {
       left = limit;
     }
 
+    InputStream in() {
+      return requireNonNull(in); // guaranteed safe by the constructor
+    }
+
     @Override
     public int available() throws IOException {
-      return (int) min(in.available(), left);
+      return (int) min(in().available(), left);
     }
 
     // it's okay to mark even if mark isn't supported, as reset won't work
     @Override
     public synchronized void mark(int readLimit) {
-      in.mark(readLimit);
+      in().mark(readLimit);
       mark = left;
     }
 
@@ -741,7 +745,7 @@ public final class ByteStreams {
         return -1;
       }
 
-      int result = in.read();
+      int result = in().read();
       if (result != -1) {
         --left;
       }
@@ -755,7 +759,7 @@ public final class ByteStreams {
       }
 
       len = (int) min(len, left);
-      int result = in.read(b, off, len);
+      int result = in().read(b, off, len);
       if (result != -1) {
         left -= result;
       }
@@ -764,21 +768,21 @@ public final class ByteStreams {
 
     @Override
     public synchronized void reset() throws IOException {
-      if (!in.markSupported()) {
+      if (!in().markSupported()) {
         throw new IOException("Mark not supported");
       }
       if (mark == -1) {
         throw new IOException("Mark not set");
       }
 
-      in.reset();
+      in().reset();
       left = mark;
     }
 
     @Override
     public long skip(long n) throws IOException {
       n = min(n, left);
-      long skipped = in.skip(n);
+      long skipped = in().skip(n);
       left -= skipped;
       return skipped;
     }

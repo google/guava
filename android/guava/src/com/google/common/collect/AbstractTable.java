@@ -121,7 +121,10 @@ abstract class AbstractTable<
   @Override
   public Set<Cell<R, C, V>> cellSet() {
     Set<Cell<R, C, V>> result = cellSet;
-    return (result == null) ? cellSet = createCellSet() : result;
+    if (result == null) {
+      result = cellSet = createCellSet();
+    }
+    return result;
   }
 
   Set<Cell<R, C, V>> createCellSet() {
@@ -175,7 +178,10 @@ abstract class AbstractTable<
   @Override
   public Collection<V> values() {
     Collection<V> result = values;
-    return (result == null) ? values = createValues() : result;
+    if (result == null) {
+      result = values = createValues();
+    }
+    return result;
   }
 
   Collection<V> createValues() {
