@@ -693,7 +693,7 @@ public final class MediaType {
    * The <a href="https://pki-tutorial.readthedocs.io/en/latest/mime.html">PEM format</a>. See also
    * <a href="https://github.com/ietf-wg-acme/acme/issues/120">ietf-wg-acme proposal</a>.
    *
-   * @since NEXT
+   * @since 33.7.0
    */
   public static final MediaType PEM = createConstant(APPLICATION_TYPE, "x-pem-file");
 
@@ -938,7 +938,7 @@ public final class MediaType {
    * <a href="https://yaml.org">YAML</a>, as standardized in <a
    * href="https://www.rfc-editor.org/info/rfc9512">RFC 9512</a>.
    *
-   * @since NEXT
+   * @since 33.7.0
    */
   public static final MediaType YAML = createConstant(APPLICATION_TYPE, "yaml");
 

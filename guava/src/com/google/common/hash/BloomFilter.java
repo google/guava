@@ -667,7 +667,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    *     appear to be a BloomFilter serialized using the {@link #writeTo(OutputStream)} method.
    * @throws IllegalArgumentException if {@code maxAllowedSizeInBits} is negative, or if the number
    *     of bits in the stream is greater than {@code maxAllowedSizeInBits}.
-   * @since NEXT
+   * @since 33.7.0
    */
   @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   public static <T extends @Nullable Object> BloomFilter<T> readFrom(
