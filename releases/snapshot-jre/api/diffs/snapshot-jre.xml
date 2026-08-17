@@ -43958,7 +43958,7 @@
      appear to be a BloomFilter serialized using the {@link #writeTo(OutputStream)} method.
  @throws IllegalArgumentException if {@code maxAllowedSizeInBits} is negative, or if the number
      of bits in the stream is greater than {@code maxAllowedSizeInBits}.
- @since NEXT]]>
+ @since 33.7.0]]>
       </doc>
     </method>
     <doc>
@@ -49944,7 +49944,7 @@
  @throws IllegalArgumentException if {@code maxIntegerDigits < 0}
  @throws ArithmeticException if the integer part of {@code x} requires more than {@code
      maxIntegerDigits} digits
- @since NEXT]]>
+ @since 33.7.0]]>
       </doc>
     </method>
     <method name="toBigIntegerExact" return="java.math.BigInteger"
@@ -49976,7 +49976,7 @@
  @throws IllegalArgumentException if {@code maxIntegerDigits < 0}
  @throws ArithmeticException if {@code x} has a nonzero fractional part or if the integer part
      of {@code x} requires more than {@code maxIntegerDigits} digits
- @since NEXT]]>
+ @since 33.7.0]]>
       </doc>
     </method>
     <method name="roundToDouble" return="double"
@@ -53959,7 +53959,7 @@
       <![CDATA[The HTTP <a href="https://github.com/explainers-by-googlers/prefetch-activation-beacon">{@code
  on-prefetch-activation}</a> header field name.
 
- @since NEXT]]>
+ @since 33.7.0]]>
       </doc>
     </field>
     <field name="ORIGIN_TRIAL" type="java.lang.String"
@@ -57127,7 +57127,7 @@
       <![CDATA[The <a href="https://pki-tutorial.readthedocs.io/en/latest/mime.html">PEM format</a>. See also
  <a href="https://github.com/ietf-wg-acme/acme/issues/120">ietf-wg-acme proposal</a>.
 
- @since NEXT]]>
+ @since 33.7.0]]>
       </doc>
     </field>
     <field name="NACL_PORTABLE_APPLICATION" type="com.google.common.net.MediaType"
@@ -57475,7 +57475,7 @@
       <![CDATA[<a href="https://yaml.org">YAML</a>, as standardized in <a
  href="https://www.rfc-editor.org/info/rfc9512">RFC 9512</a>.
 
- @since NEXT]]>
+ @since 33.7.0]]>
       </doc>
     </field>
     <doc>
