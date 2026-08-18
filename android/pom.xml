@@ -305,11 +305,6 @@
               <!-- Avoid duplicating compiled classes within the `META-INF/versions/9/` root. -->
               <exclude>META-INF/versions/9/com/**/*.class</exclude>
             </excludes>
-            <archive>
-              <manifestEntries>
-                <Multi-Release>true</Multi-Release>
-              </manifestEntries>
-            </archive>
           </configuration>
         </plugin>
         <plugin>
