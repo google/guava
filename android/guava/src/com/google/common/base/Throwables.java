@@ -125,6 +125,8 @@ public final class Throwables {
    *
    * @since 20.0
    */
+  // We can't use throwIfInstanceOf here: It's @GwtIncompatible, and this method is not.
+  @SuppressWarnings("ThrowIfInstanceOf")
   public static void throwIfUnchecked(Throwable throwable) {
     checkNotNull(throwable);
     if (throwable instanceof RuntimeException) {
@@ -336,6 +338,7 @@ public final class Throwables {
    * parsing the resulting string; if you need programmatic access to the stack frames, you can call
    * {@link Throwable#getStackTrace()}.
    */
+  @SuppressWarnings("ReturnGetStackTraceAsString") // suggests implementing this as a call to itself
   @GwtIncompatible // java.io.PrintWriter, java.io.StringWriter
   public static String getStackTraceAsString(Throwable throwable) {
     StringWriter stringWriter = new StringWriter();
