@@ -3961,6 +3961,14 @@ public final class Maps {
     public void clear() {
       map().clear();
     }
+
+    @Override
+    @GwtIncompatible
+    @J2ktIncompatible
+    public Spliterator<K> spliterator() {
+      return CollectSpliterators.map(
+          map().entrySet().spliterator(), Spliterator.DISTINCT, Entry::getKey);
+    }
   }
 
   static <K extends @Nullable Object> @Nullable K keyOrNull(@Nullable Entry<K, ?> entry) {
@@ -4189,6 +4197,13 @@ public final class Maps {
     @Override
     public void clear() {
       map().clear();
+    }
+
+    @Override
+    @GwtIncompatible
+    @J2ktIncompatible
+    public Spliterator<V> spliterator() {
+      return CollectSpliterators.map(map().entrySet().spliterator(), 0, Entry::getValue);
     }
   }
 
