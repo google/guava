@@ -1,25 +1,40 @@
+import javax.xml.parsers.DocumentBuilderFactory
+import javax.xml.xpath.XPathFactory
+import org.w3c.dom.Document
+
 val runningGradle5 = gradle.gradleVersion.startsWith("5.")
 
-val guavaVersionJre =
-  "<version>(.*)</version>".toRegex().find(file("../../pom.xml").readText())?.groups?.get(1)?.value
-    ?: error("version not found in pom")
+val pomDocument: Document =
+  DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(file("../../pom.xml"))
+val xpath = XPathFactory.newInstance().newXPath()
+
+fun evaluatePom(expression: String): String =
+  xpath.evaluate(expression, pomDocument).trim().takeIf { it.isNotEmpty() }
+    ?: error("Expression '$expression' not found in pom.xml")
+
+val guavaVersionJre = evaluatePom("/project/version")
+val failureaccessVersion = evaluatePom("/project/properties/failureaccess.version")
+val j2objcVersion = evaluatePom("/project/properties/j2objc.version")
+val jspecifyVersion = evaluatePom("/project/properties/jspecify.version")
+val errorProneAnnotationsVersion =
+  evaluatePom("/project/properties/error_prone_annotations.version")
 
 val expectedReducedRuntimeClasspathAndroidVersion =
   setOf(
     "guava-${guavaVersionJre.replace("jre", "android")}.jar",
-    "failureaccess-1.0.3.jar",
-    "j2objc-annotations-3.1.jar",
-    "jspecify-1.0.1.jar",
-    "error_prone_annotations-2.50.0.jar",
+    "failureaccess-$failureaccessVersion.jar",
+    "j2objc-annotations-$j2objcVersion.jar",
+    "jspecify-$jspecifyVersion.jar",
+    "error_prone_annotations-$errorProneAnnotationsVersion.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedReducedRuntimeClasspathJreVersion =
   setOf(
     "guava-$guavaVersionJre.jar",
-    "failureaccess-1.0.3.jar",
-    "j2objc-annotations-3.1.jar",
-    "jspecify-1.0.1.jar",
-    "error_prone_annotations-2.50.0.jar",
+    "failureaccess-$failureaccessVersion.jar",
+    "j2objc-annotations-$j2objcVersion.jar",
+    "jspecify-$jspecifyVersion.jar",
+    "error_prone_annotations-$errorProneAnnotationsVersion.jar",
     "listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar"
   )
 val expectedCompileClasspathAndroidVersion = expectedReducedRuntimeClasspathAndroidVersion
