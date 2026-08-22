@@ -548,7 +548,23 @@ public final class MediaType {
    */
   public static final MediaType GEO_JSON = createConstant(APPLICATION_TYPE, "geo+json");
 
-  /** Gzip-compressed data. */
+  /**
+   * Gzip-compressed data, as registered in <a
+   * href="https://datatracker.ietf.org/doc/html/rfc6713">RFC 6713</a> ({@code application/gzip}).
+   *
+   * <p>Prefer this constant over {@link #GZIP}, which uses the legacy {@code application/x-gzip}
+   * type.
+   *
+   * @since 33.8.0
+   */
+  public static final MediaType APPLICATION_GZIP = createConstant(APPLICATION_TYPE, "gzip");
+
+  /**
+   * Gzip-compressed data using the legacy {@code application/x-gzip} type.
+   *
+   * <p>RFC 6713 registers {@code application/gzip} and says the {@code x-} prefixed form should no
+   * longer be used. Prefer {@link #APPLICATION_GZIP}.
+   */
   public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
 
   /**

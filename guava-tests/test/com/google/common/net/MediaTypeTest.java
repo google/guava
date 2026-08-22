@@ -158,6 +158,15 @@ public class MediaTypeTest extends TestCase {
     assertThat(newType.subtype()).isEqualTo("yams");
   }
 
+  public void testGzipMediaTypes() {
+    assertThat(MediaType.APPLICATION_GZIP.type()).isEqualTo("application");
+    assertThat(MediaType.APPLICATION_GZIP.subtype()).isEqualTo("gzip");
+    assertThat(MediaType.GZIP.type()).isEqualTo("application");
+    assertThat(MediaType.GZIP.subtype()).isEqualTo("x-gzip");
+    assertThat(MediaType.parse("application/gzip")).isSameInstanceAs(MediaType.APPLICATION_GZIP);
+    assertThat(MediaType.parse("application/x-gzip")).isSameInstanceAs(MediaType.GZIP);
+  }
+
   public void testCreateAudioType() {
     MediaType newType = MediaType.createAudioType("yams");
     assertThat(newType.type()).isEqualTo("audio");
