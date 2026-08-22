@@ -112,4 +112,30 @@ final class Platform {
       return true;
     }
   }
+
+  private static @Nullable ThreadLocal<char @Nullable []> destTl;
+
+  /** Acquires a thread-local 1024-char buffer if available, or returns null if busy. */
+  static char @Nullable [] acquireCharBuffer() {
+    ThreadLocal<char @Nullable []> tl = destTl;
+    if (tl == null) {
+      destTl = tl = new ThreadLocal<char @Nullable []>();
+    }
+    char[] buffer = tl.get();
+    if (buffer == null) {
+      return new char[1024];
+    }
+    tl.set(null);
+    return buffer;
+  }
+
+  /** Releases the acquired thread-local buffer. */
+  static void releaseCharBuffer(char[] buffer) {
+    if (buffer.length == 1024) {
+      ThreadLocal<char @Nullable []> tl = destTl;
+      if (tl != null) {
+        tl.set(buffer);
+      }
+    }
+  }
 }
