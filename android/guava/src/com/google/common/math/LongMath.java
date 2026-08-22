@@ -453,6 +453,7 @@ public final class LongMath {
    *     Remainder Operator</a>
    */
   @GwtIncompatible // TODO
+  @SuppressWarnings("all") // suppressing floorMod suggestions on fundamental mod implementation
   public static int mod(long x, int m) {
     // Cast is safe because the result is guaranteed in the range [0, m)
     return (int) mod(x, (long) m);
@@ -477,11 +478,15 @@ public final class LongMath {
    *     Remainder Operator</a>
    */
   @GwtIncompatible // TODO
+  @SuppressWarnings("all") // suppressing floorMod suggestions on fundamental mod implementation
   public static long mod(long x, long m) {
     if (m <= 0) {
       throw new ArithmeticException("Modulus must be positive");
     }
-    return Math.floorMod(x, m);
+    // When m is a positive power of two, x & (m - 1) extracts the lowest bits in two's complement,
+    // yielding the exact positive remainder in [0, m - 1] and bypassing expensive division
+    // instructions.
+    return ((m & (m - 1)) == 0) ? (x & (m - 1)) : Math.floorMod(x, m);
   }
 
   /**
@@ -1104,12 +1109,12 @@ public final class LongMath {
     },
     /** Works for all nonnegative signed longs. */
     LARGE {
-      /** Returns (a + b) mod m. Precondition: {@code 0 <= a}, {@code b < m < 2^63}. */
+      /* Returns (a + b) mod m. Precondition: {@code 0 <= a}, {@code b < m < 2^63}. */
       private long plusMod(long a, long b, long m) {
         return (a >= m - b) ? (a + b - m) : (a + b);
       }
 
-      /** Returns (a * 2^32) mod m. a may be any unsigned long. */
+      /* Returns (a * 2^32) mod m. a may be any unsigned long. */
       private long times2ToThe32Mod(long a, long m) {
         int remainingPowersOf2 = 32;
         do {

@@ -15,8 +15,10 @@
 package com.google.common.math;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.math.DoubleUtils.EXPONENT_MASK;
 import static com.google.common.math.DoubleUtils.IMPLICIT_BIT;
 import static com.google.common.math.DoubleUtils.SIGNIFICAND_BITS;
+import static com.google.common.math.DoubleUtils.SIGNIFICAND_MASK;
 import static com.google.common.math.DoubleUtils.getSignificand;
 import static com.google.common.math.DoubleUtils.isFinite;
 import static com.google.common.math.DoubleUtils.isNormal;
@@ -198,11 +200,16 @@ public final class DoubleMath {
    * Returns {@code true} if {@code x} is exactly equal to {@code 2^k} for some finite integer
    * {@code k}.
    */
-  @GwtIncompatible // com.google.common.math.DoubleUtils
+  @GwtIncompatible // Double.doubleToRawLongBits
   public static boolean isPowerOfTwo(double x) {
     if (x > 0.0 && isFinite(x)) {
-      long significand = getSignificand(x);
-      return (significand & (significand - 1)) == 0;
+      long bits = Double.doubleToRawLongBits(x);
+      long significand = bits & SIGNIFICAND_MASK;
+      // Bypasses significand/exponent extraction and branching by directly inspecting IEEE 754
+      // bits.
+      // Normal doubles: significand is 0. Subnormal doubles: exponent is 0, significand has 1 bit.
+      return significand == 0
+          || ((bits & EXPONENT_MASK) == 0 && (significand & (significand - 1)) == 0);
     }
     return false;
   }
