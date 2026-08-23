@@ -4791,7 +4791,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   /**
-   * Serializes the configuration of a LocalCache, reconstituting it as an LoadingCache using
+   * Serializes the configuration of a LocalCache, reconstituting it as a LoadingCache using
    * CacheBuilder upon deserialization. An instance of this class is fit for use by the writeReplace
    * of LocalLoadingCache.
    *
