@@ -61,7 +61,10 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@SuppressWarnings("serial") // we're overriding default serialization
+@SuppressWarnings({
+  "serial", // we're overriding default serialization
+  "TooManyParameters",
+})
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
 

@@ -72,6 +72,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@SuppressWarnings("TooManyParameters")
 @GwtCompatible
 public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V>
     implements Serializable {
