@@ -81,7 +81,7 @@
           <execution>
             <id>default-compile</id>
             <configuration>
-              <compilerArgs combine.children="append" combine.self="append">
+              <compilerArgs combine.children="append">
                 <arg>-XDignore.symbol.file</arg>
               </compilerArgs>
             </configuration>
