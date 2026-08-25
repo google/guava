@@ -86,8 +86,8 @@
         </executions>
         <configuration>
           <instructions>
-            <!-- Silence a warning that claims that META-INF/versions/9/... is the "wrong directory" for our classes. -->
-            <_fixupmessages>^Classes found in the wrong directory: .*</_fixupmessages>
+            <!-- Silence a warning that claims the default package is a "split package" because both Guava and JSpecify have a root `module-info.class`. -->
+            <_fixupmessages>^Split package, multiple jars provide the same package:.*</_fixupmessages>
             <Export-Package>
               !com.google.common.base.internal,
               !com.google.common.util.concurrent.internal,
@@ -110,7 +110,7 @@
           <execution>
             <id>default-compile</id>
             <configuration>
-              <compilerArgs combine.children="append" combine.self="append">
+              <compilerArgs combine.children="append">
                 <arg>-XDignore.symbol.file</arg>
               </compilerArgs>
             </configuration>
