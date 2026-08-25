@@ -485,7 +485,7 @@ final class Synchronized {
     @GwtIncompatible private static final long serialVersionUID = 0;
   }
 
-  static final class SynchronizedRandomAccessList<E extends @Nullable Object>
+  private static final class SynchronizedRandomAccessList<E extends @Nullable Object>
       extends SynchronizedList<E> implements RandomAccess {
     SynchronizedRandomAccessList(List<E> list, @Nullable Object mutex) {
       super(list, mutex);
@@ -795,7 +795,7 @@ final class Synchronized {
     return new SynchronizedListMultimap<>(multimap, mutex);
   }
 
-  static final class SynchronizedListMultimap<
+  private static final class SynchronizedListMultimap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends SynchronizedMultimap<K, V> implements ListMultimap<K, V> {
     SynchronizedListMultimap(ListMultimap<K, V> delegate, @Nullable Object mutex) {
@@ -896,7 +896,7 @@ final class Synchronized {
     return new SynchronizedSortedSetMultimap<>(multimap, mutex);
   }
 
-  static final class SynchronizedSortedSetMultimap<
+  private static final class SynchronizedSortedSetMultimap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends SynchronizedSetMultimap<K, V> implements SortedSetMultimap<K, V> {
     SynchronizedSortedSetMultimap(SortedSetMultimap<K, V> delegate, @Nullable Object mutex) {
@@ -1399,7 +1399,8 @@ final class Synchronized {
     @GwtIncompatible private static final long serialVersionUID = 0;
   }
 
-  static final class SynchronizedAsMap<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class SynchronizedAsMap<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends SynchronizedMap<K, Collection<V>> {
     transient @Nullable Set<Entry<K, Collection<V>>> asMapEntrySet;
     transient @Nullable Collection<Collection<V>> asMapValues;
@@ -1796,9 +1797,9 @@ final class Synchronized {
   }
 
   @GwtIncompatible // works but is needed only for NavigableMap
-  static final class SynchronizedEntry<K extends @Nullable Object, V extends @Nullable Object>
+  private static final class SynchronizedEntry<
+          K extends @Nullable Object, V extends @Nullable Object>
       extends SynchronizedObject implements Map.Entry<K, V> {
-
     SynchronizedEntry(Map.Entry<K, V> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
@@ -1905,9 +1906,8 @@ final class Synchronized {
     return new SynchronizedDeque<>(deque, mutex);
   }
 
-  static final class SynchronizedDeque<E extends @Nullable Object> extends SynchronizedQueue<E>
-      implements Deque<E> {
-
+  private static final class SynchronizedDeque<E extends @Nullable Object>
+      extends SynchronizedQueue<E> implements Deque<E> {
     SynchronizedDeque(Deque<E> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
@@ -2044,10 +2044,9 @@ final class Synchronized {
     return new SynchronizedTable<>(table, mutex);
   }
 
-  static final class SynchronizedTable<
+  private static final class SynchronizedTable<
           R extends @Nullable Object, C extends @Nullable Object, V extends @Nullable Object>
       extends SynchronizedObject implements Table<R, C, V> {
-
     SynchronizedTable(Table<R, C, V> delegate, @Nullable Object mutex) {
       super(delegate, mutex);
     }
