@@ -852,7 +852,10 @@ method. The returned lists implement <a href="https://docs.oracle.com/en/java/ja
 As a consequence, passing values like <code>Integer.MAX_VALUE</code> can lead to <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/OutOfMemoryError.html" title="class in java.lang" class="external-link"><code>OutOfMemoryError</code></a>.
 
 <p><b>Note:</b> if <code>iterable</code> is a <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/List.html" title="interface in java.util" class="external-link"><code>List</code></a>, use <a href="Lists.html#partition(java.util.List,int)"><code>Lists.partition(List, int)</code></a>
-instead.</div>
+instead.
+
+<p><b>Java 24+ users:</b> The <code>Stream</code> equivalent of this method is <code>
+stream.gather(Gatherers.windowFixed(size))</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>iterable</code> - the iterable to return a partitioned view of</dd>

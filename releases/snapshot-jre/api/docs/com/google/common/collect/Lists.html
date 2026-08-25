@@ -702,7 +702,13 @@ c, d, e]</code> with a partition size of 3 yields <code>[[a, b, c], [d, e]]</cod
 containing two inner lists of three and two elements, all in the original order.
 
 <p>The outer list is unmodifiable, but reflects the latest state of the source list. The inner
-lists are sublist views of the original list, produced on demand using <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/List.html#subList(int,int)" class="external-link"><code>List.subList(int, int)</code></a>, and are subject to all the usual caveats about modification as explained in that API.</div>
+lists are sublist views of the original list, produced on demand using <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/List.html#subList(int,int)" class="external-link"><code>List.subList(int, int)</code></a>, and are subject to all the usual caveats about modification as explained in that API.
+
+<p><b>Java 24+ users:</b> When working with streams, you may prefer <code>
+stream.gather(Gatherers.windowFixed(size))</code>. Note that <code>Lists.partition</code> returns a lazy
+view of the input list (changes to the input list are reflected in the partitioned list, and
+the inner sublists are modifiable if the input list is), whereas <code>windowFixed</code> returns
+unmodifiable lists containing a snapshot of the elements.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>list</code> - the list to return consecutive sublists of</dd>
