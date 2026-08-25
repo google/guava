@@ -6,14 +6,12 @@ set -eu
   --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' \
   -Dmaven.test.skip=true \
   -Dmaven.javadoc.skip=true \
-  -ntp \
   clean install
 ./mvnw \
   -f android \
   --projects '!guava-testlib,!guava-tests,!guava-bom' \
   -Dmaven.test.skip=true \
   -Dmaven.javadoc.skip=true \
-  -ntp \
   clean install
 
 # We run these separately so that their changes to the default toolchain doesn't affect anything else.
@@ -21,13 +19,11 @@ set -eu
 
 ./mvnw \
   --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' \
-  -ntp \
   initialize -P print-java-11-home
 JAVA_11_HOME=$(<target/java_11_home)
 
 ./mvnw \
   --projects '!guava-testlib,!guava-tests,!guava-bom,!guava-gwt' \
-  -ntp \
   initialize -P print-java-17-home
 JAVA_17_HOME=$(<target/java_17_home)
 
