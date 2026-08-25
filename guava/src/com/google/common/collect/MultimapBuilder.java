@@ -103,7 +103,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
   }
 
   /**
-   * Uses an hash table to map keys to value collections, initialized to expect the specified number
+   * Uses a hash table to map keys to value collections, initialized to expect the specified number
    * of keys.
    *
    * <p>The collections returned by {@link Multimap#keySet()}, {@link Multimap#keys()}, and {@link

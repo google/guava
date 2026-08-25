@@ -75,7 +75,7 @@ public final class Ints extends IntsMethodsForWeb {
    */
   @InlineMe(replacement = "Integer.hashCode(value)")
   @InlineMeValidationDisabled(
-      "The hash code of a int is the int itself, so it's simplest to return that.")
+      "The hash code of an int is the int itself, so it's simplest to return that.")
   public static int hashCode(int value) {
     return value;
   }
