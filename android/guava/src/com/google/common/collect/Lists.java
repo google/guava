@@ -677,6 +677,12 @@ public final class Lists {
    * lists are sublist views of the original list, produced on demand using {@link List#subList(int,
    * int)}, and are subject to all the usual caveats about modification as explained in that API.
    *
+   * <p><b>Java 24+ users:</b> When working with streams, you may prefer {@code
+   * stream.gather(Gatherers.windowFixed(size))}. Note that {@code Lists.partition} returns a lazy
+   * view of the input list (changes to the input list are reflected in the partitioned list, and
+   * the inner sublists are modifiable if the input list is), whereas {@code windowFixed} returns
+   * unmodifiable lists containing a snapshot of the elements.
+   *
    * @param list the list to return consecutive sublists of
    * @param size the desired size of each sublist (the last may be smaller)
    * @return a list of consecutive sublists

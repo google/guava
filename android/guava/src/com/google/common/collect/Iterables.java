@@ -563,6 +563,9 @@ public final class Iterables {
    * <p><b>Note:</b> if {@code iterable} is a {@link List}, use {@link Lists#partition(List, int)}
    * instead.
    *
+   * <p><b>Java 24+ users:</b> The {@code Stream} equivalent of this method is {@code
+   * stream.gather(Gatherers.windowFixed(size))}.
+   *
    * @param iterable the iterable to return a partitioned view of
    * @param size the desired size of each partition (the last may be smaller)
    * @return an iterable of unmodifiable lists containing the elements of {@code iterable} divided
