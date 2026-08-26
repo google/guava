@@ -26,7 +26,6 @@ import static com.google.common.collect.Lists.equalsImpl;
 import static com.google.common.collect.Lists.indexOfImpl;
 import static com.google.common.collect.Lists.lastIndexOfImpl;
 import static com.google.common.collect.ObjectArrays.checkElementsNotNull;
-import static com.google.common.collect.RegularImmutableList.EMPTY;
 import static java.lang.System.arraycopy;
 
 import com.google.common.annotations.GwtCompatible;
@@ -89,7 +88,7 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   // Casting to any type is safe because the list will never hold any elements.
   @SuppressWarnings("unchecked")
   public static <E> ImmutableList<E> of() {
-    return (ImmutableList<E>) EMPTY;
+    return (ImmutableList<E>) RegularImmutableList.EMPTY;
   }
 
   /**
@@ -382,24 +381,17 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return listIterator(0);
   }
 
+  // Casting to any type is safe because the iterator will never hold any elements.
   @SuppressWarnings("unchecked")
   @Override
   public UnmodifiableListIterator<E> listIterator(int index) {
     checkPositionIndex(index, size());
-    if (isEmpty()) {
-      return (UnmodifiableListIterator<E>) EMPTY_ITR;
-    } else {
-      return new Itr<E>(this, index);
-    }
+    return isEmpty()
+        ? (UnmodifiableListIterator<E>) RegularImmutableList.EMPTY_ITR
+        : new Itr<>(this, index);
   }
 
-  /** A singleton implementation of iterator() for the empty ImmutableList. */
-  // TODO(b/345814817): Move this to RegularImmutableList?
-  @SuppressWarnings("ClassInitializationDeadlock")
-  private static final UnmodifiableListIterator<Object> EMPTY_ITR =
-      new Itr<Object>(RegularImmutableList.EMPTY, 0);
-
-  private static final class Itr<E> extends AbstractIndexedListIterator<E> {
+  static final class Itr<E> extends AbstractIndexedListIterator<E> {
     private final ImmutableList<E> list;
 
     Itr(ImmutableList<E> list, int index) {
@@ -427,8 +419,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   public boolean contains(@Nullable Object object) {
     return indexOf(object) >= 0;
   }
-
-  // constrain the return type to ImmutableList<E>
 
   /**
    * Returns an immutable list of the elements between the specified {@code fromIndex}, inclusive,

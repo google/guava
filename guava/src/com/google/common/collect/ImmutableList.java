@@ -444,8 +444,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
     return indexOf(object) >= 0;
   }
 
-  // constrain the return type to ImmutableList<E>
-
   /**
    * Returns an immutable list of the elements between the specified {@code fromIndex}, inclusive,
    * and {@code toIndex}, exclusive. (If {@code fromIndex} and {@code toIndex} are equal, the empty

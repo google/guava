@@ -35,6 +35,7 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings("serial") // uses writeReplace(), not default serialization
 final class RegularImmutableList<E> extends ImmutableList<E> {
   static final ImmutableList<Object> EMPTY = new RegularImmutableList<>(new Object[0], 0);
+  static final UnmodifiableListIterator<Object> EMPTY_ITR = new Itr<>(EMPTY, 0);
 
   // The first `size` elements are non-null.
   @VisibleForTesting final transient @Nullable Object[] array;
