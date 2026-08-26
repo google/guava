@@ -12,7 +12,7 @@
  * the License.
  */
 
-package com.google.common.util.concurrent;
+package com.google.common.testing;
 
 import static com.google.common.base.StandardSystemProperty.JAVA_CLASS_PATH;
 import static com.google.common.base.StandardSystemProperty.PATH_SEPARATOR;

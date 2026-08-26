@@ -47,12 +47,12 @@ final class ClassPathUtil {
         try {
           urls.add(new File(entry).toURI().toURL());
         } catch (SecurityException e) { // File.toURI checks to see if the file is a directory
-          urls.add(new URL("file", null, new File(entry).getAbsolutePath()));
+          @SuppressWarnings("deprecation") // This is the fallback if the preferred pattern fails.
+          URL url = new URL("file", null, new File(entry).getAbsolutePath());
+          urls.add(url);
         }
       } catch (MalformedURLException e) {
-        AssertionError error = new AssertionError("malformed class path entry: " + entry);
-        error.initCause(e);
-        throw error;
+        throw new AssertionError("malformed class path entry: " + entry, e);
       }
     }
     return urls.build().toArray(new URL[0]);
