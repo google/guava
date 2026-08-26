@@ -347,10 +347,6 @@ public class FluentIterableTest extends TestCase {
    * Tests for partition(int size) method.
    */
 
-  /*
-   * Tests for partitionWithPadding(int size) method.
-   */
-
   public void testFilter() {
     FluentIterable<String> filtered =
         FluentIterable.from(asList("foo", "bar")).filter(equalTo("foo"));
