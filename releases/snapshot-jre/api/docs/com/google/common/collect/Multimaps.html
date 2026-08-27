@@ -508,7 +508,7 @@ work correctly. To allow concurrent update operations, wrap the multimap with a 
 <p>Call this method only when the simpler methods <a href="ArrayListMultimap.html#create()"><code>ArrayListMultimap.create()</code></a>, <a href="HashMultimap.html#create()"><code>HashMultimap.create()</code></a>, <a href="LinkedHashMultimap.html#create()"><code>LinkedHashMultimap.create()</code></a>, <a href="LinkedListMultimap.html#create()"><code>LinkedListMultimap.create()</code></a>, <a href="TreeMultimap.html#create()"><code>TreeMultimap.create()</code></a>, and <a href="TreeMultimap.html#create(java.util.Comparator,java.util.Comparator)"><code>TreeMultimap.create(Comparator, Comparator)</code></a> won't suffice.
 
 <p>Note: the multimap assumes complete ownership over of <code>map</code> and the collections
-returned by <code>factory</code>. Those objects should not be manually updated and they should not
+returned by <code>factory</code>. Those objects should not be manually updated, and they should not
 use soft, weak, or phantom references.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -589,7 +589,7 @@ work correctly. To allow concurrent update operations, wrap the multimap with a 
 <p>Call this method only when the simpler methods <a href="HashMultimap.html#create()"><code>HashMultimap.create()</code></a>, <a href="LinkedHashMultimap.html#create()"><code>LinkedHashMultimap.create()</code></a>, <a href="TreeMultimap.html#create()"><code>TreeMultimap.create()</code></a>, and <a href="TreeMultimap.html#create(java.util.Comparator,java.util.Comparator)"><code>TreeMultimap.create(Comparator, Comparator)</code></a> won't suffice.
 
 <p>Note: the multimap assumes complete ownership over of <code>map</code> and the sets returned by
-<code>factory</code>. Those objects should not be manually updated and they should not use soft,
+<code>factory</code>. Those objects should not be manually updated, and they should not use soft,
 weak, or phantom references.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
@@ -626,7 +626,7 @@ work correctly. To allow concurrent update operations, wrap the multimap with a 
 <p>Call this method only when the simpler methods <a href="TreeMultimap.html#create()"><code>TreeMultimap.create()</code></a> and <a href="TreeMultimap.html#create(java.util.Comparator,java.util.Comparator)"><code>TreeMultimap.create(Comparator, Comparator)</code></a> won't suffice.
 
 <p>Note: the multimap assumes complete ownership over of <code>map</code> and the sets returned by
-<code>factory</code>. Those objects should not be manually updated and they should not use soft,
+<code>factory</code>. Those objects should not be manually updated, and they should not use soft,
 weak, or phantom references.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
