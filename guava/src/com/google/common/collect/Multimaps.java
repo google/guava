@@ -216,7 +216,7 @@ public final class Multimaps {
    * TreeMultimap#create(Comparator, Comparator)} won't suffice.
    *
    * <p>Note: the multimap assumes complete ownership over of {@code map} and the collections
-   * returned by {@code factory}. Those objects should not be manually updated and they should not
+   * returned by {@code factory}. Those objects should not be manually updated, and they should not
    * use soft, weak, or phantom references.
    *
    * @param map place to store the mapping from each key to its corresponding values
@@ -422,7 +422,7 @@ public final class Multimaps {
    * TreeMultimap#create(Comparator, Comparator)} won't suffice.
    *
    * <p>Note: the multimap assumes complete ownership over of {@code map} and the sets returned by
-   * {@code factory}. Those objects should not be manually updated and they should not use soft,
+   * {@code factory}. Those objects should not be manually updated, and they should not use soft,
    * weak, or phantom references.
    *
    * @param map place to store the mapping from each key to its corresponding values
@@ -528,7 +528,7 @@ public final class Multimaps {
    * TreeMultimap#create(Comparator, Comparator)} won't suffice.
    *
    * <p>Note: the multimap assumes complete ownership over of {@code map} and the sets returned by
-   * {@code factory}. Those objects should not be manually updated and they should not use soft,
+   * {@code factory}. Those objects should not be manually updated, and they should not use soft,
    * weak, or phantom references.
    *
    * @param map place to store the mapping from each key to its corresponding values
