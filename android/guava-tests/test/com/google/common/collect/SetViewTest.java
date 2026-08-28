@@ -725,6 +725,7 @@ public class SetViewTest extends TestCase {
    * A {@link Set} that throws {@link NullPointerException} and {@link ClassCastException} from
    * {@link #contains}.
    */
+  @SuppressWarnings("VoidMissingNullable")
   private static final class SetContainsThrows extends AbstractSet<Void> {
     @Override
     public boolean contains(@Nullable Object o) {
