@@ -74509,7 +74509,9 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <doc>
-      <![CDATA[Returns a {@link Runnable} instance that does nothing when run.]]>
+      <![CDATA[Returns a {@link Runnable} instance that does nothing when run.
+
+ <p>Most users should just use {@code () -> {}}.]]>
       </doc>
     </method>
     <doc>
