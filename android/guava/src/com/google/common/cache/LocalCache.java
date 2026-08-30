@@ -1187,7 +1187,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   /** Used for weakly-referenced keys. */
   private static class WeakEntry<K, V> extends WeakReference<K> implements ReferenceEntry<K, V> {
     WeakEntry(ReferenceQueue<K> queue, K key, int hash, @Nullable ReferenceEntry<K, V> next) {
-      super(key, queue);
+      super(checkNotValueType(key), queue);
       this.hash = hash;
       this.next = next;
     }
@@ -1478,7 +1478,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     final ReferenceEntry<K, V> entry;
 
     WeakValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
-      super(referent, queue);
+      super(checkNotValueType(referent), queue);
       this.entry = entry;
     }
 
@@ -1523,7 +1523,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     final ReferenceEntry<K, V> entry;
 
     SoftValueReference(ReferenceQueue<V> queue, V referent, ReferenceEntry<K, V> entry) {
-      super(referent, queue);
+      super(checkNotValueType(referent), queue);
       this.entry = entry;
     }
 
@@ -4824,5 +4824,16 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     private void readObject(ObjectInputStream in) throws InvalidObjectException {
       throw new InvalidObjectException("Use LoadingSerializationProxy");
     }
+  }
+
+  private static <T> @Nullable T checkNotValueType(@Nullable T referent) {
+    // TODO(b/542008186): Perform the check in our Android flavor, too, if on the JVM.
+    return referent;
+  }
+
+  private static IllegalArgumentException createException(Object referent) {
+    return new IllegalArgumentException(
+        "Cannot create a weak or soft reference to a value class: "
+            + referent.getClass().getName());
   }
 }

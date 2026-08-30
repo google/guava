@@ -300,28 +300,29 @@ public class LocalLoadingCacheTest extends TestCase {
   }
 
   public void testRecursiveComputation() throws InterruptedException {
-    AtomicReference<LoadingCache<Integer, String>> cacheRef = new AtomicReference<>();
-    CacheLoader<Integer, String> recursiveLoader =
-        new CacheLoader<Integer, String>() {
+    AtomicReference<LoadingCache<String, String>> cacheRef = new AtomicReference<>();
+    CacheLoader<String, String> recursiveLoader =
+        new CacheLoader<String, String>() {
           @Override
-          public String load(Integer key) {
-            if (key > 0) {
-              return key + ", " + cacheRef.get().getUnchecked(key - 1);
+          public String load(String key) {
+            int intKey = Integer.parseInt(key);
+            if (intKey > 0) {
+              return key + ", " + cacheRef.get().getUnchecked(String.valueOf(intKey - 1));
             } else {
               return "0";
             }
           }
         };
 
-    LoadingCache<Integer, String> recursiveCache =
+    LoadingCache<String, String> recursiveCache =
         CacheBuilder.newBuilder().weakKeys().weakValues().build(recursiveLoader);
     cacheRef.set(recursiveCache);
-    assertThat(recursiveCache.getUnchecked(3)).isEqualTo("3, 2, 1, 0");
+    assertThat(recursiveCache.getUnchecked("3")).isEqualTo("3, 2, 1, 0");
 
     recursiveLoader =
-        new CacheLoader<Integer, String>() {
+        new CacheLoader<String, String>() {
           @Override
-          public String load(Integer key) {
+          public String load(String key) {
             return cacheRef.get().getUnchecked(key);
           }
         };
@@ -337,7 +338,7 @@ public class LocalLoadingCacheTest extends TestCase {
           @Override
           public void run() {
             try {
-              cacheRef.get().getUnchecked(3);
+              cacheRef.get().getUnchecked("3");
             } finally {
               doneSignal.countDown();
             }
