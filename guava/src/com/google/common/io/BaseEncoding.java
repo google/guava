@@ -646,6 +646,7 @@ public abstract class BaseEncoding {
         int bitBuffer = 0;
         int bitBufferLength = 0;
         int writtenChars = 0;
+        boolean closed = false;
 
         @Override
         public void write(int b) throws IOException {
@@ -667,6 +668,10 @@ public abstract class BaseEncoding {
 
         @Override
         public void close() throws IOException {
+          if (closed) {
+            return;
+          }
+          closed = true;
           if (bitBufferLength > 0) {
             int charIndex = (bitBuffer << (alphabet.bitsPerChar - bitBufferLength)) & alphabet.mask;
             out.write(alphabet.encode(charIndex));
@@ -677,6 +682,7 @@ public abstract class BaseEncoding {
                 writtenChars++;
               }
             }
+            bitBufferLength = 0;
           }
           out.close();
         }
