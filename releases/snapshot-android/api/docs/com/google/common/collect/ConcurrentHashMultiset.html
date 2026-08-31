@@ -86,7 +86,9 @@ initTheme();
 <li><a href="#removeExactly(java.lang.Object,int)" tabindex="0">removeExactly(Object, int)</a></li>
 <li><a href="#setCount(E,int)" tabindex="0">setCount(E, int)</a></li>
 <li><a href="#setCount(E,int,int)" tabindex="0">setCount(E, int, int)</a></li>
+<li><a href="#elementSet()" tabindex="0">elementSet()</a></li>
 <li><a href="#createEntrySet()" tabindex="0">createEntrySet()</a></li>
+<li><a href="#entrySet()" tabindex="0">entrySet()</a></li>
 <li><a href="#isEmpty()" tabindex="0">isEmpty()</a></li>
 <li><a href="#iterator()" tabindex="0">iterator()</a></li>
 <li><a href="#clear()" tabindex="0">clear()</a></li>
@@ -96,8 +98,6 @@ initTheme();
 <li><a href="#addAll(java.util.Collection)" tabindex="0">addAll(Collection)</a></li>
 <li><a href="#removeAll(java.util.Collection)" tabindex="0">removeAll(Collection)</a></li>
 <li><a href="#retainAll(java.util.Collection)" tabindex="0">retainAll(Collection)</a></li>
-<li><a href="#elementSet()" tabindex="0">elementSet()</a></li>
-<li><a href="#entrySet()" tabindex="0">entrySet()</a></li>
 <li><a href="#equals(java.lang.Object)" tabindex="0">equals(Object)</a></li>
 <li><a href="#hashCode()" tabindex="0">hashCode()</a></li>
 <li><a href="#toString()" tabindex="0">toString()</a></li>
@@ -226,7 +226,7 @@ backing map.</div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#createEntrySet()" class="member-name-link">createEntrySet</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">Internal method, use <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>.</div>
+<div class="deprecation-comment">Internal method, use <a href="#entrySet()"><code>entrySet()</code></a>.</div>
 </div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-E" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></div>
@@ -592,14 +592,66 @@ currently <code>expectedOldCount</code>. If <code>element</code> does not appear
 </section>
 </li>
 <li>
+<section class="detail" id="elementSet()">
+<h3>elementSet</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-E" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">elementSet</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Multiset.html#elementSet()">Multiset</a></code></span></div>
+<div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
+the same data as the multiset, so any change to either is immediately reflected in the other.
+The order of the elements in the element set is unspecified.
+
+<p>If the element set supports any removal operations, these necessarily cause <b>all</b>
+occurrences of the removed element(s) to be removed from the multiset. Implementations are not
+expected to support the add operations, although this is possible.
+
+<p>A common use for the element set is to find the number of distinct elements in the multiset:
+<code>elementSet().size()</code>.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Multiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="#type-param-E" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>a view of the set of distinct elements in this multiset</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="createEntrySet()">
 <h3>createEntrySet</h3>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Deprecated.html" title="annotation in java.lang" class="external-link">@Deprecated</a>
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="#type-param-E" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;</span>&nbsp;<span class="element-name">createEntrySet</span>()</div>
 <div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
-<div class="deprecation-comment">Internal method, use <a href="Multiset.html#entrySet()"><code>Multiset.entrySet()</code></a>.</div>
+<div class="deprecation-comment">Internal method, use <a href="#entrySet()"><code>entrySet()</code></a>.</div>
 </div>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="entrySet()">
+<h3>entrySet</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="#type-param-E" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;</span>&nbsp;<span class="element-name">entrySet</span>()</div>
+<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Multiset.html#entrySet()">Multiset</a></code></span></div>
+<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
+each providing an element of the multiset and the count of that element. This set contains
+exactly one entry for each distinct element in the multiset (thus it always has the same size
+as the <a href="Multiset.html#elementSet()"><code>Multiset.elementSet()</code></a>). The order of the elements in the element set is unspecified.
+
+<p>The entry set is backed by the same data as the multiset, so any change to either is
+immediately reflected in the other. However, multiset changes may or may not be reflected in
+any <code>Entry</code> instances already retrieved from the entry set (this is
+implementation-dependent). Furthermore, implementations are not required to support
+modifications to the entry set at all, and the <code>Entry</code> instances themselves don't even
+have methods for modification. See the specific implementation class for more details on how
+its entry set handles modifications.</div>
+<dl class="notes">
+<dt>Specified by:</dt>
+<dd><code><a href="Multiset.html#entrySet()">entrySet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;<a href="#type-param-E" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</code></dd>
+<dt>Returns:</dt>
+<dd>a set of entries representing the data of this multiset</dd>
+</dl>
 </div>
 </section>
 </li>
@@ -806,58 +858,6 @@ throw an exception in response to any of <code>elements</code> being null or of 
 <li><a href="Multisets.html#retainOccurrences(com.google.common.collect.Multiset,com.google.common.collect.Multiset)"><code>Multisets.retainOccurrences(Multiset, Multiset)</code></a></li>
 </ul>
 </dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="elementSet()">
-<h3>elementSet</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link">Set</a>&lt;<a href="#type-param-E" title="type parameter in ConcurrentHashMultiset">E</a>&gt;</span>&nbsp;<span class="element-name">elementSet</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Multiset.html#elementSet()">Multiset</a></code></span></div>
-<div class="block">Returns the set of distinct elements contained in this multiset. The element set is backed by
-the same data as the multiset, so any change to either is immediately reflected in the other.
-The order of the elements in the element set is unspecified.
-
-<p>If the element set supports any removal operations, these necessarily cause <b>all</b>
-occurrences of the removed element(s) to be removed from the multiset. Implementations are not
-expected to support the add operations, although this is possible.
-
-<p>A common use for the element set is to find the number of distinct elements in the multiset:
-<code>elementSet().size()</code>.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="Multiset.html#elementSet()">elementSet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</code></dd>
-<dt>Returns:</dt>
-<dd>a view of the set of distinct elements in this multiset</dd>
-</dl>
-</div>
-</section>
-</li>
-<li>
-<section class="detail" id="entrySet()">
-<h3>entrySet</h3>
-<div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link">Set</a>&lt;<a href="Multiset.Entry.html" title="interface in com.google.common.collect">Multiset.Entry</a>&lt;<a href="#type-param-E" title="type parameter in ConcurrentHashMultiset">E</a>&gt;&gt;</span>&nbsp;<span class="element-name">entrySet</span>()</div>
-<div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Multiset.html#entrySet()">Multiset</a></code></span></div>
-<div class="block">Returns a view of the contents of this multiset, grouped into <code>Multiset.Entry</code> instances,
-each providing an element of the multiset and the count of that element. This set contains
-exactly one entry for each distinct element in the multiset (thus it always has the same size
-as the <a href="Multiset.html#elementSet()"><code>Multiset.elementSet()</code></a>). The order of the elements in the element set is unspecified.
-
-<p>The entry set is backed by the same data as the multiset, so any change to either is
-immediately reflected in the other. However, multiset changes may or may not be reflected in
-any <code>Entry</code> instances already retrieved from the entry set (this is
-implementation-dependent). Furthermore, implementations are not required to support
-modifications to the entry set at all, and the <code>Entry</code> instances themselves don't even
-have methods for modification. See the specific implementation class for more details on how
-its entry set handles modifications.</div>
-<dl class="notes">
-<dt>Specified by:</dt>
-<dd><code><a href="Multiset.html#entrySet()">entrySet</a></code>&nbsp;in interface&nbsp;<code><a href="Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</code></dd>
-<dt>Returns:</dt>
-<dd>a set of entries representing the data of this multiset</dd>
 </dl>
 </div>
 </section>

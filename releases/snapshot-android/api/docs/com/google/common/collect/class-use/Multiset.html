@@ -200,34 +200,37 @@ inputs, with counts equal to the result of applying <code>countFunction</code> t
 <div class="col-first even-row-color"><code><a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;<a href="../ForwardingMultimap.html#type-param-K" title="type parameter in ForwardingMultimap">K</a>&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">ForwardingMultimap.</span><code><a href="../ForwardingMultimap.html#keys()" class="member-name-link">keys</a>()</code></div>
 <div class="col-last even-row-color">&nbsp;</div>
-<div class="col-first odd-row-color"><code><a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;<a href="../Multimap.html#type-param-K" title="type parameter in Multimap">K</a>&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Multimap.</span><code><a href="../Multimap.html#keys()" class="member-name-link">keys</a>()</code></div>
-<div class="col-last odd-row-color">
+<div class="col-first odd-row-color"><code><a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;<a href="../LinkedListMultimap.html#type-param-K" title="type parameter in LinkedListMultimap">K</a>&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">LinkedListMultimap.</span><code><a href="../LinkedListMultimap.html#keys()" class="member-name-link">keys</a>()</code></div>
+<div class="col-last odd-row-color">&nbsp;</div>
+<div class="col-first even-row-color"><code><a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;<a href="../Multimap.html#type-param-K" title="type parameter in Multimap">K</a>&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Multimap.</span><code><a href="../Multimap.html#keys()" class="member-name-link">keys</a>()</code></div>
+<div class="col-last even-row-color">
 <div class="block">Returns a view collection containing the key from each key-value pair in this multimap,
 <i>without</i> collapsing duplicates.</div>
 </div>
-<div class="col-first even-row-color"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;E&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Multisets.</span><code><a href="../Multisets.html#sum(com.google.common.collect.Multiset,com.google.common.collect.Multiset)" class="member-name-link">sum</a><wbr>(<a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
- <a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</code></div>
-<div class="col-last even-row-color">
-<div class="block">Returns an unmodifiable view of the sum of two multisets.</div>
-</div>
 <div class="col-first odd-row-color"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;E&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Multisets.</span><code><a href="../Multisets.html#union(com.google.common.collect.Multiset,com.google.common.collect.Multiset)" class="member-name-link">union</a><wbr>(<a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
+<div class="col-second odd-row-color"><span class="type-name-label">Multisets.</span><code><a href="../Multisets.html#sum(com.google.common.collect.Multiset,com.google.common.collect.Multiset)" class="member-name-link">sum</a><wbr>(<a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
  <a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</code></div>
 <div class="col-last odd-row-color">
+<div class="block">Returns an unmodifiable view of the sum of two multisets.</div>
+</div>
+<div class="col-first even-row-color"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;E&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Multisets.</span><code><a href="../Multisets.html#union(com.google.common.collect.Multiset,com.google.common.collect.Multiset)" class="member-name-link">union</a><wbr>(<a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset1,
+ <a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset2)</code></div>
+<div class="col-last even-row-color">
 <div class="block">Returns an unmodifiable view of the union of two multisets.</div>
 </div>
-<div class="col-first even-row-color"><code>static &lt;E&gt;&nbsp;<a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;E&gt;</code></div>
-<div class="col-second even-row-color"><span class="type-name-label">Multisets.</span><code><a href="../Multisets.html#unmodifiableMultiset(com.google.common.collect.ImmutableMultiset)" class="member-name-link">unmodifiableMultiset</a><wbr>(<a href="../ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;multiset)</code></div>
-<div class="col-last even-row-color">
+<div class="col-first odd-row-color"><code>static &lt;E&gt;&nbsp;<a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;E&gt;</code></div>
+<div class="col-second odd-row-color"><span class="type-name-label">Multisets.</span><code><a href="../Multisets.html#unmodifiableMultiset(com.google.common.collect.ImmutableMultiset)" class="member-name-link">unmodifiableMultiset</a><wbr>(<a href="../ImmutableMultiset.html" title="class in com.google.common.collect">ImmutableMultiset</a>&lt;E&gt;&nbsp;multiset)</code></div>
+<div class="col-last odd-row-color">
 <div class="block"><span class="deprecated-label">Deprecated.</span>
 <div class="deprecation-comment">no need to use this</div>
 </div>
 </div>
-<div class="col-first odd-row-color"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;E&gt;</code></div>
-<div class="col-second odd-row-color"><span class="type-name-label">Multisets.</span><code><a href="../Multisets.html#unmodifiableMultiset(com.google.common.collect.Multiset)" class="member-name-link">unmodifiableMultiset</a><wbr>(<a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset)</code></div>
-<div class="col-last odd-row-color">
+<div class="col-first even-row-color"><code>static &lt;E extends <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;<br><a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a><wbr>&lt;E&gt;</code></div>
+<div class="col-second even-row-color"><span class="type-name-label">Multisets.</span><code><a href="../Multisets.html#unmodifiableMultiset(com.google.common.collect.Multiset)" class="member-name-link">unmodifiableMultiset</a><wbr>(<a href="../Multiset.html" title="interface in com.google.common.collect">Multiset</a>&lt;? extends E&gt;&nbsp;multiset)</code></div>
+<div class="col-last even-row-color">
 <div class="block">Returns an unmodifiable view of the specified multiset.</div>
 </div>
 </div>

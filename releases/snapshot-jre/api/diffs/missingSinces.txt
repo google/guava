@@ -1,1 +1,6 @@
+NO DOC BLOCK: com.google.common.collect.LinkedListMultimap Method asMap()
+NO DOC BLOCK: com.google.common.collect.ConcurrentHashMultiset Method elementSet()
+NO DOC BLOCK: com.google.common.collect.ConcurrentHashMultiset Method entrySet()
+NO DOC BLOCK: com.google.common.collect.LinkedListMultimap Method keys()
+NO DOC BLOCK: com.google.common.collect.LinkedListMultimap Method keySet()
 OK: com.google.common.net.MediaType Field APPLICATION_GZIP

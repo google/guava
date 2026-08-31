@@ -11647,6 +11647,11 @@
  @throws IllegalArgumentException if {@code expectedOldCount} or {@code newCount} is negative]]>
       </doc>
     </method>
+    <method name="elementSet" return="java.util.Set&lt;E&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
     <method name="createEntrySet" return="java.util.Set&lt;com.google.common.collect.Multiset.Entry&lt;E&gt;&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -11654,6 +11659,11 @@
       <doc>
       <![CDATA[@deprecated Internal method, use {@link #entrySet()}.]]>
       </doc>
+    </method>
+    <method name="entrySet" return="java.util.Set&lt;com.google.common.collect.Multiset.Entry&lt;E&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
     </method>
     <method name="isEmpty" return="boolean"
       abstract="false" native="false" synchronized="false"
@@ -24884,13 +24894,13 @@
       </doc>
     </method>
     <method name="cellSet" return="com.google.common.collect.ImmutableSet&lt;com.google.common.collect.Table.Cell&lt;R, C, V&gt;&gt;"
-      abstract="false" native="false" synchronized="false"
+      abstract="true" native="false" synchronized="false"
       static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="values" return="com.google.common.collect.ImmutableCollection&lt;V&gt;"
-      abstract="false" native="false" synchronized="false"
-      static="false" final="true" visibility="public"
+      abstract="true" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="column" return="com.google.common.collect.ImmutableMap&lt;R, V&gt;"
@@ -27151,6 +27161,16 @@
  <p>The returned list is not serializable and does not have random access.]]>
       </doc>
     </method>
+    <method name="keySet" return="java.util.Set&lt;K&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
+    <method name="keys" return="com.google.common.collect.Multiset&lt;K&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
+    </method>
     <method name="values" return="java.util.List&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
       static="false" final="false" visibility="public"
@@ -27184,6 +27204,11 @@
  call won't update the multimap but will lead to a revised value being returned by {@code
  getValue()}.]]>
       </doc>
+    </method>
+    <method name="asMap" return="java.util.Map&lt;K, java.util.Collection&lt;V&gt;&gt;"
+      abstract="false" native="false" synchronized="false"
+      static="false" final="false" visibility="public"
+      deprecated="not deprecated">
     </method>
     <doc>
     <![CDATA[An implementation of {@code ListMultimap} that supports deterministic iteration order for both
