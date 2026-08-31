@@ -299,12 +299,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   ImmutableTable() {}
 
   @Override
-  public ImmutableSet<Cell<R, C, V>> cellSet() {
-    return (ImmutableSet<Cell<R, C, V>>) super.cellSet();
-  }
-
-  @Override
-  abstract ImmutableSet<Cell<R, C, V>> createCellSet();
+  public abstract ImmutableSet<Cell<R, C, V>> cellSet();
 
   @Override
   final UnmodifiableIterator<Cell<R, C, V>> cellIterator() {
@@ -312,12 +307,7 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
   }
 
   @Override
-  public final ImmutableCollection<V> values() {
-    return (ImmutableCollection<V>) super.values();
-  }
-
-  @Override
-  abstract ImmutableCollection<V> createValues();
+  public abstract ImmutableCollection<V> values();
 
   @Override
   final Iterator<V> valuesIterator() {

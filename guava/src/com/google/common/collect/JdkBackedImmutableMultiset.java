@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Ints;
-import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Collection;
 import java.util.Map;
 import org.jspecify.annotations.Nullable;
@@ -69,15 +68,9 @@ final class JdkBackedImmutableMultiset<E> extends ImmutableMultiset<E> {
     return delegateMap.getOrDefault(element, 0);
   }
 
-  @LazyInit private transient @Nullable ImmutableSet<E> elementSet;
-
   @Override
   public ImmutableSet<E> elementSet() {
-    ImmutableSet<E> result = elementSet;
-    if (result == null) {
-      result = elementSet = new ElementSet<>(entries, this);
-    }
-    return result;
+    return new ElementSet<>(entries, this);
   }
 
   @Override

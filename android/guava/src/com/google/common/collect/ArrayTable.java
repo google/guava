@@ -29,8 +29,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
-import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.lang.reflect.Array;
 import java.util.Arrays;
@@ -638,18 +636,11 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return columnKeyToIndex.keySet();
   }
 
-  @LazyInit private transient @Nullable ColumnMap columnMap;
-
   @Override
   public Map<C, Map<R, @Nullable V>> columnMap() {
-    ColumnMap result = columnMap;
-    if (result == null) {
-      result = columnMap = new ColumnMap();
-    }
-    return result;
+    return new ColumnMap();
   }
 
-  @WeakOuter
   private final class ColumnMap extends ArrayMap<C, Map<R, @Nullable V>> {
     private ColumnMap() {
       super(columnKeyToIndex);
@@ -733,18 +724,11 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     return rowKeyToIndex.keySet();
   }
 
-  @LazyInit private transient @Nullable RowMap rowMap;
-
   @Override
   public Map<R, Map<C, @Nullable V>> rowMap() {
-    RowMap result = rowMap;
-    if (result == null) {
-      result = rowMap = new RowMap();
-    }
-    return result;
+    return new RowMap();
   }
 
-  @WeakOuter
   private final class RowMap extends ArrayMap<R, Map<C, @Nullable V>> {
     private RowMap() {
       super(rowKeyToIndex);

@@ -55,8 +55,6 @@ import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
-import com.google.j2objc.annotations.Weak;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.AbstractCollection;
 import java.util.AbstractMap;
@@ -875,7 +873,7 @@ public final class Maps {
   }
 
   private static class AsMapView<K extends @Nullable Object, V extends @Nullable Object>
-      extends ViewCachingAbstractMap<K, V> {
+      extends AbstractMap<K, V> {
 
     private final Set<K> set;
     final Function<? super K, V> function;
@@ -890,12 +888,12 @@ public final class Maps {
     }
 
     @Override
-    Set<K> createKeySet() {
+    public Set<K> keySet() {
       return removeOnlySet(backingSet());
     }
 
     @Override
-    Collection<V> createValues() {
+    public Collection<V> values() {
       return transform(set, function);
     }
 
@@ -942,8 +940,7 @@ public final class Maps {
     }
 
     @Override
-    Set<Entry<K, V>> createEntrySet() {
-      @WeakOuter
+    public Set<Entry<K, V>> entrySet() {
       final class EntrySetImpl extends EntrySet<K, V> {
         @Override
         Map<K, V> map() {
@@ -1708,7 +1705,6 @@ public final class Maps {
     final Map<K, V> unmodifiableMap;
     final BiMap<? extends K, ? extends V> delegate;
     @LazyInit @RetainedWith @Nullable BiMap<V, K> inverse;
-    @LazyInit transient @Nullable Set<V> values;
 
     UnmodifiableBiMap(BiMap<? extends K, ? extends V> delegate, @Nullable BiMap<V, K> inverse) {
       unmodifiableMap = Collections.unmodifiableMap(delegate);
@@ -1789,11 +1785,7 @@ public final class Maps {
 
     @Override
     public Set<V> values() {
-      Set<V> result = values;
-      if (result == null) {
-        result = values = unmodifiableSet(delegate.values());
-      }
-      return result;
+      return unmodifiableSet(delegate.values());
     }
 
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
@@ -2829,7 +2821,7 @@ public final class Maps {
 
   private abstract static class AbstractFilteredMap<
           K extends @Nullable Object, V extends @Nullable Object>
-      extends ViewCachingAbstractMap<K, V> {
+      extends AbstractMap<K, V> {
     final Map<K, V> unfiltered;
     final Predicate<? super Entry<K, V>> predicate;
 
@@ -2882,7 +2874,7 @@ public final class Maps {
     }
 
     @Override
-    Collection<V> createValues() {
+    public Collection<V> values() {
       return new FilteredMapValues<>(this, unfiltered, predicate);
     }
   }
@@ -2967,12 +2959,12 @@ public final class Maps {
     }
 
     @Override
-    Set<Entry<K, V>> createEntrySet() {
+    public Set<Entry<K, V>> entrySet() {
       return filter(unfiltered.entrySet(), predicate);
     }
 
     @Override
-    Set<K> createKeySet() {
+    public Set<K> keySet() {
       return filter(unfiltered.keySet(), keyPredicate);
     }
 
@@ -2999,11 +2991,10 @@ public final class Maps {
     }
 
     @Override
-    Set<Entry<K, V>> createEntrySet() {
+    public Set<Entry<K, V>> entrySet() {
       return new EntrySet();
     }
 
-    @WeakOuter
     private final class EntrySet extends ForwardingSet<Entry<K, V>> {
       @Override
       protected Set<Entry<K, V>> delegate() {
@@ -3034,7 +3025,7 @@ public final class Maps {
     }
 
     @Override
-    Set<K> createKeySet() {
+    public Set<K> keySet() {
       return new KeySet();
     }
 
@@ -3066,7 +3057,6 @@ public final class Maps {
       return result;
     }
 
-    @WeakOuter
     class KeySet extends Maps.KeySet<K, V> {
       KeySet() {
         super(FilteredEntryMap.this);
@@ -3120,15 +3110,9 @@ public final class Maps {
 
     @Override
     public SortedSet<K> keySet() {
-      return (SortedSet<K>) super.keySet();
-    }
-
-    @Override
-    SortedSet<K> createKeySet() {
       return new SortedKeySet();
     }
 
-    @WeakOuter
     final class SortedKeySet extends KeySet implements SortedSet<K> {
       @Override
       public @Nullable Comparator<? super K> comparator() {
@@ -3684,61 +3668,6 @@ public final class Maps {
     return Synchronized.navigableMap(navigableMap);
   }
 
-  /**
-   * {@code AbstractMap} extension that makes it easy to cache customized keySet, values, and
-   * entrySet views.
-   */
-  abstract static class ViewCachingAbstractMap<
-          K extends @Nullable Object, V extends @Nullable Object>
-      extends AbstractMap<K, V> {
-    /**
-     * Creates the entry set to be returned by {@link #entrySet()}. This method is invoked at most
-     * once on a given map, at the time when {@code entrySet} is first called.
-     */
-    abstract Set<Entry<K, V>> createEntrySet();
-
-    @LazyInit private transient @Nullable Set<Entry<K, V>> entrySet;
-
-    @Override
-    public Set<Entry<K, V>> entrySet() {
-      Set<Entry<K, V>> result = entrySet;
-      if (result == null) {
-        result = entrySet = createEntrySet();
-      }
-      return result;
-    }
-
-    @LazyInit private transient @Nullable Set<K> keySet;
-
-    @Override
-    public Set<K> keySet() {
-      Set<K> result = keySet;
-      if (result == null) {
-        result = keySet = createKeySet();
-      }
-      return result;
-    }
-
-    Set<K> createKeySet() {
-      return new KeySet<>(this);
-    }
-
-    @LazyInit private transient @Nullable Collection<V> values;
-
-    @Override
-    public Collection<V> values() {
-      Collection<V> result = values;
-      if (result == null) {
-        result = values = createValues();
-      }
-      return result;
-    }
-
-    Collection<V> createValues() {
-      return new Values<>(this);
-    }
-  }
-
   abstract static class IteratorBasedAbstractMap<
           K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMap<K, V> {
@@ -3911,7 +3840,7 @@ public final class Maps {
 
   static class KeySet<K extends @Nullable Object, V extends @Nullable Object>
       extends Sets.ImprovedAbstractSet<K> {
-    @Weak final Map<K, V> map;
+    final Map<K, V> map;
 
     KeySet(Map<K, V> map) {
       this.map = checkNotNull(map);
@@ -4104,7 +4033,7 @@ public final class Maps {
 
   static class Values<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractCollection<V> {
-    @Weak final Map<K, V> map;
+    final Map<K, V> map;
 
     Values(Map<K, V> map) {
       this.map = checkNotNull(map);
@@ -4376,21 +4305,8 @@ public final class Maps {
       return forward();
     }
 
-    @LazyInit private transient @Nullable Set<Entry<K, V>> entrySet;
-
     @Override
     public Set<Entry<K, V>> entrySet() {
-      Set<Entry<K, V>> result = entrySet;
-      if (result == null) {
-        result = entrySet = createEntrySet();
-      }
-      return result;
-    }
-
-    abstract Iterator<Entry<K, V>> entryIterator();
-
-    final Set<Entry<K, V>> createEntrySet() {
-      @WeakOuter
       final class EntrySetImpl extends EntrySet<K, V> {
         @Override
         Map<K, V> map() {
@@ -4405,20 +4321,16 @@ public final class Maps {
       return new EntrySetImpl();
     }
 
+    abstract Iterator<Entry<K, V>> entryIterator();
+
     @Override
     public Set<K> keySet() {
       return navigableKeySet();
     }
 
-    @LazyInit private transient @Nullable NavigableSet<K> navigableKeySet;
-
     @Override
     public NavigableSet<K> navigableKeySet() {
-      NavigableSet<K> result = navigableKeySet;
-      if (result == null) {
-        result = navigableKeySet = new NavigableKeySet<>(this);
-      }
-      return result;
+      return new NavigableKeySet<>(this);
     }
 
     @Override

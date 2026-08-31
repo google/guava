@@ -40,7 +40,6 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.InlineMe;
-import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -145,33 +144,17 @@ public final class Multisets {
       return (Multiset<E>) delegate;
     }
 
-    @LazyInit transient @Nullable Set<E> elementSet;
-
-    Set<E> createElementSet() {
-      return unmodifiableSet(delegate.elementSet());
-    }
-
     @Override
     public Set<E> elementSet() {
-      Set<E> result = elementSet;
-      if (result == null) {
-        result = elementSet = createElementSet();
-      }
-      return result;
+      return unmodifiableSet(delegate.elementSet());
     }
-
-    @LazyInit transient @Nullable Set<Entry<E>> entrySet;
 
     @SuppressWarnings("unchecked")
     @Override
     public Set<Entry<E>> entrySet() {
-      Set<Entry<E>> result = entrySet;
-      if (result == null) {
-        // Safe because the returned set is made unmodifiable and Entry
-        // itself is readonly
-        result = entrySet = (Set) unmodifiableSet(delegate.entrySet());
-      }
-      return result;
+      // Safe because the returned set is made unmodifiable and Entry
+      // itself is readonly
+      return (Set) unmodifiableSet(delegate.entrySet());
     }
 
     @Override
@@ -348,7 +331,7 @@ public final class Multisets {
     }
 
     @Override
-    Set<E> createElementSet() {
+    public Set<E> elementSet() {
       return Sets.filter(unfiltered.elementSet(), predicate);
     }
 
@@ -358,7 +341,7 @@ public final class Multisets {
     }
 
     @Override
-    Set<Entry<E>> createEntrySet() {
+    public Set<Entry<E>> entrySet() {
       return Sets.filter(unfiltered.entrySet(), entry -> predicate.apply(entry.getElement()));
     }
 
@@ -442,7 +425,7 @@ public final class Multisets {
       }
 
       @Override
-      Set<E> createElementSet() {
+      public Set<E> elementSet() {
         return Sets.union(multiset1.elementSet(), multiset2.elementSet());
       }
 
@@ -504,7 +487,7 @@ public final class Multisets {
       }
 
       @Override
-      Set<E> createElementSet() {
+      public Set<E> elementSet() {
         return Sets.intersection(multiset1.elementSet(), multiset2.elementSet());
       }
 
@@ -578,7 +561,7 @@ public final class Multisets {
       }
 
       @Override
-      Set<E> createElementSet() {
+      public Set<E> elementSet() {
         return Sets.union(multiset1.elementSet(), multiset2.elementSet());
       }
 

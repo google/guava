@@ -68,12 +68,12 @@ final class SingletonImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   }
 
   @Override
-  ImmutableSet<Cell<R, C, V>> createCellSet() {
+  public ImmutableSet<Cell<R, C, V>> cellSet() {
     return ImmutableSet.of(cellOf(singleRowKey, singleColumnKey, singleValue));
   }
 
   @Override
-  ImmutableCollection<V> createValues() {
+  public ImmutableCollection<V> values() {
     return ImmutableSet.of(singleValue);
   }
 

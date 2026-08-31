@@ -27,7 +27,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -358,24 +357,13 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   @Override
   public abstract ImmutableSet<E> elementSet();
 
-  @LazyInit private transient @Nullable ImmutableSet<Entry<E>> entrySet;
-
   @Override
   public final ImmutableSet<Entry<E>> entrySet() {
-    ImmutableSet<Entry<E>> result = entrySet;
-    if (result == null) {
-      result = entrySet = createEntrySet();
-    }
-    return result;
-  }
-
-  private ImmutableSet<Entry<E>> createEntrySet() {
     return isEmpty() ? ImmutableSet.of() : new EntrySet();
   }
 
   abstract Entry<E> getEntry(int index);
 
-  @WeakOuter
   private final class EntrySet extends IndexedImmutableSet<Entry<E>> {
     @Override
     boolean isPartialView() {

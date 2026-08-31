@@ -50,11 +50,6 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public final NavigableSet<E> elementSet() {
-    return (NavigableSet<E>) super.elementSet();
-  }
-
-  @Override
-  final NavigableSet<E> createElementSet() {
     return new SortedMultisets.NavigableElementSet<>(this);
   }
 

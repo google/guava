@@ -499,7 +499,7 @@ public final class Tables {
     }
 
     @Override
-    Collection<V2> createValues() {
+    public Collection<V2> values() {
       return transform(fromTable.values(), function);
     }
 

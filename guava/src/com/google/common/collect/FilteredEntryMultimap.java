@@ -33,8 +33,7 @@ import static java.util.Collections.unmodifiableSet;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Maps.ViewCachingAbstractMap;
-import com.google.j2objc.annotations.WeakOuter;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -130,12 +129,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @Override
-  Collection<Entry<K, V>> createEntries() {
+  public Collection<Entry<K, V>> entries() {
     return filterCollection(unfiltered.entries(), predicate);
   }
 
   @Override
-  Collection<V> createValues() {
+  public Collection<V> values() {
     return new FilteredMultimapValues<>(this);
   }
 
@@ -145,12 +144,12 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @Override
-  Map<K, Collection<V>> createAsMap() {
+  public Map<K, Collection<V>> asMap() {
     return new AsMap();
   }
 
   @Override
-  Set<K> createKeySet() {
+  public Set<K> keySet() {
     return asMap().keySet();
   }
 
@@ -174,8 +173,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     return changed;
   }
 
-  @WeakOuter
-  private final class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
+  private final class AsMap extends AbstractMap<K, Collection<V>> {
     @Override
     public boolean containsKey(@Nullable Object key) {
       return get(key) != null;
@@ -225,8 +223,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     }
 
     @Override
-    Set<K> createKeySet() {
-      @WeakOuter
+    public Set<K> keySet() {
       final class KeySetImpl extends Maps.KeySet<K, Collection<V>> {
         KeySetImpl() {
           super(AsMap.this);
@@ -251,8 +248,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     }
 
     @Override
-    Set<Entry<K, Collection<V>>> createEntrySet() {
-      @WeakOuter
+    public Set<Entry<K, Collection<V>>> entrySet() {
       final class EntrySetImpl extends Maps.EntrySet<K, Collection<V>> {
         @Override
         Map<K, Collection<V>> map() {
@@ -300,8 +296,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     }
 
     @Override
-    Collection<Collection<V>> createValues() {
-      @WeakOuter
+    public Collection<Collection<V>> values() {
       final class ValuesImpl extends Maps.Values<K, Collection<V>> {
         ValuesImpl() {
           super(AsMap.this);
@@ -351,11 +346,10 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @Override
-  Multiset<K> createKeys() {
+  public Multiset<K> keys() {
     return new Keys();
   }
 
-  @WeakOuter
   final class Keys extends Multimaps.Keys<K, V> {
     Keys() {
       super(FilteredEntryMultimap.this);

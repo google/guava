@@ -33,10 +33,9 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.common.collect.Maps.ViewCachingAbstractMap;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import java.util.AbstractCollection;
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.ConcurrentModificationException;
@@ -329,7 +328,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
    * subcollection {@code refreshIfEmpty}, {@code removeIfEmpty}, and {@code addToMap} methods call
    * the corresponding methods of the full wrapped collection.
    */
-  @WeakOuter
   class WrappedCollection extends AbstractCollection<V> {
     @ParametricNullness final K key;
     Collection<V> delegate;
@@ -613,7 +611,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   /** Set decorator that stays in sync with the multimap values for a key. */
-  @WeakOuter
   final class WrappedSet extends WrappedCollection implements Set<V> {
     WrappedSet(@ParametricNullness K key, Set<V> delegate) {
       super(key, delegate, null);
@@ -640,7 +637,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   /** SortedSet decorator that stays in sync with the multimap values for a key. */
-  @WeakOuter
   class WrappedSortedSet extends WrappedCollection implements SortedSet<V> {
     WrappedSortedSet(
         @ParametricNullness K key, SortedSet<V> delegate, @Nullable WrappedCollection ancestor) {
@@ -699,7 +695,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  @WeakOuter
   final class WrappedNavigableSet extends WrappedSortedSet implements NavigableSet<V> {
     WrappedNavigableSet(
         @ParametricNullness K key, NavigableSet<V> delegate, @Nullable WrappedCollection ancestor) {
@@ -777,7 +772,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   /** List decorator that stays in sync with the multimap values for a key. */
-  @WeakOuter
   private class WrappedList extends WrappedCollection implements List<V> {
     WrappedList(@ParametricNullness K key, List<V> delegate, @Nullable WrappedCollection ancestor) {
       super(key, delegate, ancestor);
@@ -934,7 +928,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   @Override
-  Set<K> createKeySet() {
+  public Set<K> keySet() {
     return new KeySet(map);
   }
 
@@ -948,7 +942,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  @WeakOuter
   private class KeySet extends Maps.KeySet<K, Collection<V>> {
     KeySet(Map<K, Collection<V>> subMap) {
       super(subMap);
@@ -1024,7 +1017,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  @WeakOuter
   private class SortedKeySet extends KeySet implements SortedSet<K> {
     SortedKeySet(SortedMap<K, Collection<V>> subMap) {
       super(subMap);
@@ -1067,7 +1059,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  @WeakOuter
   private final class NavigableKeySet extends SortedKeySet implements NavigableSet<K> {
     NavigableKeySet(NavigableMap<K, Collection<V>> subMap) {
       super(subMap);
@@ -1224,11 +1215,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
    */
   @Override
   public Collection<V> values() {
-    return super.values();
-  }
-
-  @Override
-  final Collection<V> createValues() {
     return new Values();
   }
 
@@ -1250,7 +1236,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   @Override
-  final Multiset<K> createKeys() {
+  public Multiset<K> keys() {
     return new Multimaps.Keys<K, V>(this);
   }
 
@@ -1271,11 +1257,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
    */
   @Override
   public Collection<Entry<K, V>> entries() {
-    return super.entries();
-  }
-
-  @Override
-  final Collection<Entry<K, V>> createEntries() {
     if (this instanceof SetMultimap) {
       return new EntrySet();
     } else {
@@ -1325,7 +1306,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   @Override
-  Map<K, Collection<V>> createAsMap() {
+  public Map<K, Collection<V>> asMap() {
     return new AsMap(map);
   }
 
@@ -1339,8 +1320,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  @WeakOuter
-  private class AsMap extends ViewCachingAbstractMap<K, Collection<V>> {
+  private class AsMap extends AbstractMap<K, Collection<V>> {
     /**
      * Usually the same as map, but smaller for the headMap(), tailMap(), or subMap() of a
      * SortedAsMap.
@@ -1352,7 +1332,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
 
     @Override
-    final Set<Entry<K, Collection<V>>> createEntrySet() {
+    public final Set<Entry<K, Collection<V>>> entrySet() {
       return new AsMapEntries();
     }
 
@@ -1432,7 +1412,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return immutableEntry(key, wrapCollection(key, entry.getValue()));
     }
 
-    @WeakOuter
     final class AsMapEntries extends Maps.EntrySet<K, Collection<V>> {
       @Override
       Map<K, Collection<V>> map() {
@@ -1499,7 +1478,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
     }
   }
 
-  @WeakOuter
   private class SortedAsMap extends AsMap implements SortedMap<K, Collection<V>> {
     SortedAsMap(SortedMap<K, Collection<V>> submap) {
       super(submap);
@@ -1542,21 +1520,10 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
       return new SortedAsMap(sortedMap().tailMap(fromKey));
     }
 
-    @Nullable SortedSet<K> sortedKeySet;
-
     // returns a SortedSet, even though returning a Set would be sufficient to
     // satisfy the SortedMap.keySet() interface
     @Override
     public SortedSet<K> keySet() {
-      SortedSet<K> result = sortedKeySet;
-      if (result == null) {
-        result = sortedKeySet = createKeySet();
-      }
-      return result;
-    }
-
-    @Override
-    SortedSet<K> createKeySet() {
       return new SortedKeySet(sortedMap());
     }
   }
@@ -1657,11 +1624,6 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
 
     @Override
     public NavigableSet<K> keySet() {
-      return (NavigableSet<K>) super.keySet();
-    }
-
-    @Override
-    NavigableSet<K> createKeySet() {
       return new NavigableKeySet(sortedMap());
     }
 

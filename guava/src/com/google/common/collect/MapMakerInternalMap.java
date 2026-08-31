@@ -27,9 +27,7 @@ import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
-import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.Weak;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -39,7 +37,6 @@ import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.AbstractCollection;
-import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -82,7 +79,7 @@ final class MapMakerInternalMap<
         V,
         E extends MapMakerInternalMap.InternalEntry<K, V, E>,
         S extends MapMakerInternalMap.Segment<K, V, E, S>>
-    extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable {
+    implements ConcurrentMap<K, V>, Serializable {
 
   /*
    * The basic strategy is to subdivide the table among Segments, each of which itself is a
@@ -2491,37 +2488,34 @@ final class MapMakerInternalMap<
     }
   }
 
-  @LazyInit transient @Nullable Set<K> keySet;
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    return Maps.equalsImpl(this, obj);
+  }
+
+  @Override
+  public int hashCode() {
+    return entrySet().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return Maps.toStringImpl(this);
+  }
 
   @Override
   public Set<K> keySet() {
-    Set<K> result = keySet;
-    if (result == null) {
-      result = keySet = new KeySet();
-    }
-    return result;
+    return new KeySet();
   }
-
-  @LazyInit transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
-    Collection<V> result = values;
-    if (result == null) {
-      result = values = new Values();
-    }
-    return result;
+    return new Values();
   }
-
-  @LazyInit transient @Nullable Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
-    Set<Entry<K, V>> result = entrySet;
-    if (result == null) {
-      result = entrySet = new EntrySet();
-    }
-    return result;
+    return new EntrySet();
   }
 
   // Iterator Support
@@ -2679,7 +2673,6 @@ final class MapMakerInternalMap<
     }
   }
 
-  @WeakOuter
   final class KeySet extends AbstractSet<K> {
 
     @Override
@@ -2713,7 +2706,6 @@ final class MapMakerInternalMap<
     }
   }
 
-  @WeakOuter
   final class Values extends AbstractCollection<V> {
 
     @Override
@@ -2742,7 +2734,6 @@ final class MapMakerInternalMap<
     }
   }
 
-  @WeakOuter
   final class EntrySet extends AbstractSet<Entry<K, V>> {
 
     @Override

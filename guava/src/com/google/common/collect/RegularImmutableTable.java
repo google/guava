@@ -21,7 +21,6 @@ import static java.util.Collections.sort;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -40,11 +39,10 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   abstract Cell<R, C, V> getCell(int iterationIndex);
 
   @Override
-  final ImmutableSet<Cell<R, C, V>> createCellSet() {
+  public final ImmutableSet<Cell<R, C, V>> cellSet() {
     return isEmpty() ? ImmutableSet.of() : new CellSet();
   }
 
-  @WeakOuter
   private final class CellSet extends IndexedImmutableSet<Cell<R, C, V>> {
     @Override
     public int size() {
@@ -84,11 +82,10 @@ abstract class RegularImmutableTable<R, C, V> extends ImmutableTable<R, C, V> {
   abstract V getValue(int iterationIndex);
 
   @Override
-  final ImmutableCollection<V> createValues() {
+  public final ImmutableCollection<V> values() {
     return isEmpty() ? ImmutableList.of() : new Values();
   }
 
-  @WeakOuter
   private final class Values extends ImmutableList<V> {
     @Override
     public int size() {

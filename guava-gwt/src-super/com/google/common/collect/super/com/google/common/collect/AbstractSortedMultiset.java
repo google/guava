@@ -48,11 +48,6 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public SortedSet<E> elementSet() {
-    return (SortedSet<E>) super.elementSet();
-  }
-
-  @Override
-  SortedSet<E> createElementSet() {
     return new SortedMultisets.ElementSet<E>(this);
   }
 

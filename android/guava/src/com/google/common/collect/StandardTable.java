@@ -43,12 +43,10 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
-import com.google.common.collect.Maps.ViewCachingAbstractMap;
 import com.google.common.collect.Sets.ImprovedAbstractSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
@@ -215,7 +213,6 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
    * Abstract set whose {@code isEmpty()} returns whether the table is empty and whose {@code
    * clear()} clears all table mappings.
    */
-  @WeakOuter
   private abstract class TableSet<T> extends ImprovedAbstractSet<T> {
     @Override
     public final boolean isEmpty() {
@@ -439,7 +436,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return new Column(columnKey);
   }
 
-  private final class Column extends ViewCachingAbstractMap<R, V> {
+  private final class Column extends AbstractMap<R, V> {
     final C columnKey;
 
     Column(C columnKey) {
@@ -487,11 +484,10 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
-    Set<Entry<R, V>> createEntrySet() {
+    public Set<Entry<R, V>> entrySet() {
       return new EntrySet();
     }
 
-    @WeakOuter
     private final class EntrySet extends ImprovedAbstractSet<Entry<R, V>> {
       @Override
       public Iterator<Entry<R, V>> iterator() {
@@ -551,7 +547,6 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
         while (iterator.hasNext()) {
           Entry<R, Map<C, V>> entry = iterator.next();
           if (entry.getValue().containsKey(columnKey)) {
-            @WeakOuter
             final class EntryImpl extends AbstractMapEntry<R, V> {
               @Override
               public R getKey() {
@@ -591,11 +586,10 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
-    Set<R> createKeySet() {
+    public Set<R> keySet() {
       return new KeySet();
     }
 
-    @WeakOuter
     private final class KeySet extends Maps.KeySet<R, V> {
       KeySet() {
         super(Column.this);
@@ -618,11 +612,10 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
-    Collection<V> createValues() {
+    public Collection<V> values() {
       return new Values();
     }
 
-    @WeakOuter
     private final class Values extends Maps.Values<R, V> {
       Values() {
         super(Column.this);
@@ -650,8 +643,6 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return rowMap().keySet();
   }
 
-  @LazyInit private transient @Nullable Set<C> columnKeySet;
-
   /**
    * {@inheritDoc}
    *
@@ -663,14 +654,9 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
   @Override
   // TODO(user): Make this `final` after cl/781580713 or a similar fix.
   public Set<C> columnKeySet() {
-    Set<C> result = columnKeySet;
-    if (result == null) {
-      result = columnKeySet = new ColumnKeySet();
-    }
-    return result;
+    return new ColumnKeySet();
   }
 
-  @WeakOuter
   private final class ColumnKeySet extends TableSet<C> {
     @Override
     public Iterator<C> iterator() {
@@ -784,23 +770,16 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     return super.values();
   }
 
-  @LazyInit private transient @Nullable Map<R, Map<C, V>> rowMap;
-
   @Override
   public Map<R, Map<C, V>> rowMap() {
-    Map<R, Map<C, V>> result = rowMap;
-    if (result == null) {
-      result = rowMap = createRowMap();
-    }
-    return result;
+    return createRowMap();
   }
 
   Map<R, Map<C, V>> createRowMap() {
     return new RowMap();
   }
 
-  @WeakOuter
-  class RowMap extends ViewCachingAbstractMap<R, Map<C, V>> {
+  class RowMap extends AbstractMap<R, Map<C, V>> {
     @Override
     public final boolean containsKey(@Nullable Object key) {
       return containsRow(key);
@@ -820,11 +799,10 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
-    final Set<Entry<R, Map<C, V>>> createEntrySet() {
+    public final Set<Entry<R, Map<C, V>>> entrySet() {
       return new EntrySet();
     }
 
-    @WeakOuter
     private final class EntrySet extends TableSet<Entry<R, Map<C, V>>> {
       @Override
       public Iterator<Entry<R, Map<C, V>>> iterator() {
@@ -860,19 +838,12 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
   }
 
-  @LazyInit private transient @Nullable ColumnMap columnMap;
-
   @Override
   public final Map<C, Map<R, V>> columnMap() {
-    ColumnMap result = columnMap;
-    if (result == null) {
-      result = columnMap = new ColumnMap();
-    }
-    return result;
+    return new ColumnMap();
   }
 
-  @WeakOuter
-  private final class ColumnMap extends ViewCachingAbstractMap<C, Map<R, V>> {
+  private final class ColumnMap extends AbstractMap<C, Map<R, V>> {
     // The cast to C occurs only when the key is in the map, implying that it
     // has the correct type.
     @SuppressWarnings("unchecked")
@@ -893,7 +864,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
-    Set<Entry<C, Map<R, V>>> createEntrySet() {
+    public Set<Entry<C, Map<R, V>>> entrySet() {
       return new ColumnMapEntrySet();
     }
 
@@ -903,11 +874,10 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     @Override
-    Collection<Map<R, V>> createValues() {
+    public Collection<Map<R, V>> values() {
       return new ColumnMapValues();
     }
 
-    @WeakOuter
     private final class ColumnMapEntrySet extends TableSet<Entry<C, Map<R, V>>> {
       @Override
       public Iterator<Entry<C, Map<R, V>>> iterator() {
@@ -971,7 +941,6 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
       }
     }
 
-    @WeakOuter
     private final class ColumnMapValues extends Maps.Values<C, Map<R, V>> {
       ColumnMapValues() {
         super(ColumnMap.this);

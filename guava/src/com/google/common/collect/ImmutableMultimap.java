@@ -31,8 +31,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
 import com.google.errorprone.annotations.DoNotMock;
-import com.google.j2objc.annotations.Weak;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
@@ -41,7 +39,6 @@ import java.util.Comparator;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.Set;
 import java.util.Spliterator;
 import java.util.function.BiConsumer;
 import org.jspecify.annotations.Nullable;
@@ -575,11 +572,6 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     return map.keySet();
   }
 
-  @Override
-  final Set<K> createKeySet() {
-    throw new AssertionError("unreachable");
-  }
-
   /**
    * Returns an immutable map that associates each key with its corresponding values in the
    * multimap. Keys and values appear in the same order as in this multimap.
@@ -590,24 +582,14 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     return (ImmutableMap) map;
   }
 
-  @Override
-  final Map<K, Collection<V>> createAsMap() {
-    throw new AssertionError("should never be called");
-  }
-
   /** Returns an immutable collection of all key-value pairs in the multimap. */
   @Override
   public ImmutableCollection<Entry<K, V>> entries() {
-    return (ImmutableCollection<Entry<K, V>>) super.entries();
-  }
-
-  @Override
-  final ImmutableCollection<Entry<K, V>> createEntries() {
     return new EntryCollection<>(this);
   }
 
   private static final class EntryCollection<K, V> extends ImmutableCollection<Entry<K, V>> {
-    @Weak final ImmutableMultimap<K, V> multimap;
+    final ImmutableMultimap<K, V> multimap;
 
     EntryCollection(ImmutableMultimap<K, V> multimap) {
       this.multimap = multimap;
@@ -710,16 +692,10 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    */
   @Override
   public final ImmutableMultiset<K> keys() {
-    return (ImmutableMultiset<K>) super.keys();
-  }
-
-  @Override
-  final ImmutableMultiset<K> createKeys() {
     return new Keys();
   }
 
   @SuppressWarnings("serial") // Uses writeReplace, not default serialization
-  @WeakOuter
   private final class Keys extends ImmutableMultiset<K> {
     @Override
     public boolean contains(@Nullable Object object) {
@@ -787,11 +763,6 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    */
   @Override
   public /* TODO(cpovirk): final */ ImmutableCollection<V> values() {
-    return (ImmutableCollection<V>) super.values();
-  }
-
-  @Override
-  final ImmutableCollection<V> createValues() {
     return new Values<>(this);
   }
 
@@ -817,7 +788,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   }
 
   private static final class Values<K, V> extends ImmutableCollection<V> {
-    @Weak private final transient ImmutableMultimap<K, V> multimap;
+    private final transient ImmutableMultimap<K, V> multimap;
 
     Values(ImmutableMultimap<K, V> multimap) {
       this.multimap = multimap;

@@ -28,9 +28,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -208,18 +206,11 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return inverse;
   }
 
-  @LazyInit private transient @Nullable Set<K> keySet;
-
   @Override
   public Set<K> keySet() {
-    Set<K> result = keySet;
-    if (result == null) {
-      result = keySet = new KeySet();
-    }
-    return result;
+    return new KeySet();
   }
 
-  @WeakOuter
   private final class KeySet extends ForwardingSet<K> {
     @Override
     protected Set<K> delegate() {
@@ -256,22 +247,15 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  @LazyInit private transient @Nullable Set<V> valueSet;
-
   @Override
   public Set<V> values() {
     /*
      * We can almost reuse the inverse's keySet, except we have to fix the
      * iteration order so that it is consistent with the forward map.
      */
-    Set<V> result = valueSet;
-    if (result == null) {
-      result = valueSet = new ValueSet();
-    }
-    return result;
+    return new ValueSet();
   }
 
-  @WeakOuter
   private final class ValueSet extends ForwardingSet<V> {
     final Set<V> valuesDelegate = inverse.keySet();
 
@@ -302,15 +286,9 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  @LazyInit private transient @Nullable Set<Entry<K, V>> entrySet;
-
   @Override
   public Set<Entry<K, V>> entrySet() {
-    Set<Entry<K, V>> result = entrySet;
-    if (result == null) {
-      result = entrySet = new EntrySet();
-    }
-    return result;
+    return new EntrySet();
   }
 
   private final class BiMapEntry extends ForwardingMapEntry<K, V> {
@@ -371,7 +349,6 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     };
   }
 
-  @WeakOuter
   private final class EntrySet extends ForwardingSet<Entry<K, V>> {
     final Set<Entry<K, V>> esDelegate = delegate.entrySet();
 

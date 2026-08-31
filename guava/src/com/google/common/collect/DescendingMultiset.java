@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.NavigableSet;
@@ -48,15 +47,9 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
     return result;
   }
 
-  @LazyInit private transient @Nullable NavigableSet<E> elementSet;
-
   @Override
   public NavigableSet<E> elementSet() {
-    NavigableSet<E> result = elementSet;
-    if (result == null) {
-      result = elementSet = new SortedMultisets.NavigableElementSet<>(this);
-    }
-    return result;
+    return new SortedMultisets.NavigableElementSet<>(this);
   }
 
   @Override
@@ -112,19 +105,8 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
 
   abstract Iterator<Entry<E>> entryIterator();
 
-  @LazyInit private transient @Nullable Set<Entry<E>> entrySet;
-
   @Override
   public Set<Entry<E>> entrySet() {
-    Set<Entry<E>> result = entrySet;
-    if (result == null) {
-      result = entrySet = createEntrySet();
-    }
-    return result;
-  }
-
-  final Set<Entry<E>> createEntrySet() {
-    @WeakOuter
     final class EntrySetImpl extends Multisets.EntrySet<E> {
       @Override
       Multiset<E> multiset() {

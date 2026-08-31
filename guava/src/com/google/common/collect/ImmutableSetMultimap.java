@@ -605,19 +605,13 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     throw new UnsupportedOperationException();
   }
 
-  @LazyInit @RetainedWith private transient @Nullable ImmutableSet<Entry<K, V>> entries;
-
   /**
    * Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses
    * the values for the first key, the values for the second key, and so on.
    */
   @Override
   public final ImmutableSet<Entry<K, V>> entries() {
-    ImmutableSet<Entry<K, V>> result = entries;
-    if (result == null) {
-      result = entries = new EntrySet<>(this);
-    }
-    return result;
+    return new EntrySet<>(this);
   }
 
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {

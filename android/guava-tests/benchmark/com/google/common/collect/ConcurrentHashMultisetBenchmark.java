@@ -421,7 +421,7 @@ public class ConcurrentHashMultisetBenchmark {
     // Views
 
     @Override
-    Set<E> createElementSet() {
+    public Set<E> elementSet() {
       Set<E> delegate = countMap.keySet();
       return new ForwardingSet<E>() {
         @Override

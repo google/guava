@@ -32,7 +32,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Preconditions;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -707,7 +706,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return new KeySetView();
   }
 
-  @WeakOuter
   class KeySetView extends Maps.KeySet<K, V> {
     KeySetView() {
       super(CompactHashMap.this);
@@ -811,7 +809,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return new EntrySetView();
   }
 
-  @WeakOuter
   class EntrySetView extends Maps.EntrySet<K, V> {
     @Override
     Map<K, V> map() {
@@ -988,7 +985,6 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return new ValuesView();
   }
 
-  @WeakOuter
   class ValuesView extends Maps.Values<K, V> {
     ValuesView() {
       super(CompactHashMap.this);

@@ -19,7 +19,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.primitives.Ints;
-import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.WeakOuter;
 import java.io.Serializable;
 import org.jspecify.annotations.Nullable;
@@ -38,8 +37,6 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
 
   final transient ObjectCountHashMap<E> contents;
   private final transient int size;
-
-  @LazyInit private transient @Nullable ImmutableSet<E> elementSet;
 
   RegularImmutableMultiset(ObjectCountHashMap<E> contents) {
     this.contents = contents;
@@ -67,11 +64,7 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
 
   @Override
   public ImmutableSet<E> elementSet() {
-    ImmutableSet<E> result = elementSet;
-    if (result == null) {
-      result = elementSet = new ElementSet();
-    }
-    return result;
+    return new ElementSet();
   }
 
   @WeakOuter
