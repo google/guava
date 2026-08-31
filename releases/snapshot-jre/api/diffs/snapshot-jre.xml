@@ -40533,7 +40533,7 @@
       deprecated="not deprecated">
       <param name="object" type="Object"/>
       <doc>
-      <![CDATA[Returns {@code true} iff {@code object} is a {@link Graph} that has the same elements and the
+      <![CDATA[Returns {@code true} if {@code object} is a {@link Graph} that has the same elements and the
  same structural relationships as those in this graph.
 
  <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:
@@ -42221,7 +42221,7 @@
       deprecated="not deprecated">
       <param name="object" type="Object"/>
       <doc>
-      <![CDATA[Returns {@code true} iff {@code object} is a {@link Network} that has the same elements and the
+      <![CDATA[Returns {@code true} if {@code object} is a {@link Network} that has the same elements and the
  same structural relationships as those in this network.
 
  <p>Thus, two networks A and B are equal if <b>all</b> of the following are true:
@@ -43320,7 +43320,7 @@
       deprecated="not deprecated">
       <param name="object" type="Object"/>
       <doc>
-      <![CDATA[Returns {@code true} iff {@code object} is a {@link ValueGraph} that has the same elements and
+      <![CDATA[Returns {@code true} if {@code object} is a {@link ValueGraph} that has the same elements and
  the same structural relationships as those in this graph.
 
  <p>Thus, two value graphs A and B are equal if <b>all</b> of the following are true:
@@ -68023,7 +68023,7 @@
       deprecated="not deprecated">
       <param name="key" type="K"/>
       <doc>
-      <![CDATA[Atomically remove {@code key} from the map iff its associated value is 0.
+      <![CDATA[Removes {@code key} from the map if its associated value is 0.
 
  @since 20.0]]>
       </doc>

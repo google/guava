@@ -168,7 +168,10 @@ an equivalence as a bi-predicate like this: <code>myEquivalence::equivalent</cod
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#doEquivalent(T,T)" class="member-name-link">doEquivalent</a><wbr>(<a href="#type-param-T" title="type parameter in Equivalence">T</a>&nbsp;a,
  <a href="#type-param-T" title="type parameter in Equivalence">T</a>&nbsp;b)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
+<div class="block">Implemented by the user to determine whether <code>a</code> and <code>b</code> are considered equivalent,
+subject to the requirements specified in <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>.</div>
+</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code>protected abstract int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3"><code><a href="#doHash(T)" class="member-name-link">doHash</a><wbr>(<a href="#type-param-T" title="type parameter in Equivalence">T</a>&nbsp;t)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab3">
@@ -290,6 +293,11 @@ long as neither <code>x</code> nor <code>y</code> is modified.</div>
 <div class="member-signature"><span class="annotations">@ForOverride
 </span><span class="modifiers">protected abstract</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">doEquivalent</span><wbr><span class="parameters">(<a href="#type-param-T" title="type parameter in Equivalence">T</a>&nbsp;a,
  <a href="#type-param-T" title="type parameter in Equivalence">T</a>&nbsp;b)</span></div>
+<div class="block">Implemented by the user to determine whether <code>a</code> and <code>b</code> are considered equivalent,
+subject to the requirements specified in <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>.
+
+<p>This method should not be called except by <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>. When <a href="#equivalent(T,T)"><code>equivalent(T, T)</code></a>
+calls this method, <code>a</code> and <code>b</code> are guaranteed to be distinct, non-null instances.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0 (previously, subclasses would override equivalent())</dd>

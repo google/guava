@@ -6244,7 +6244,10 @@ number of contiguously following characters.</div>
 <div class="block">This method is called by <a href="com/google/common/util/concurrent/AbstractService.html#stopAsync()"><code>AbstractService.stopAsync()</code></a> when the service is still starting (i.e.</div>
 </dd>
 <dt><a href="com/google/common/base/Equivalence.html#doEquivalent(T,T)" class="member-name-link">doEquivalent(T, T)</a> - Method in class com.google.common.base.<a href="com/google/common/base/Equivalence.html" title="class in com.google.common.base">Equivalence</a></dt>
-<dd>&nbsp;</dd>
+<dd>
+<div class="block">Implemented by the user to determine whether <code>a</code> and <code>b</code> are considered equivalent,
+subject to the requirements specified in <a href="com/google/common/base/Equivalence.html#equivalent(T,T)"><code>Equivalence.equivalent(T, T)</code></a>.</div>
+</dd>
 <dt><a href="com/google/common/base/Converter.html#doForward(A)" class="member-name-link">doForward(A)</a> - Method in class com.google.common.base.<a href="com/google/common/base/Converter.html" title="class in com.google.common.base">Converter</a></dt>
 <dd>
 <div class="block">Returns a representation of <code>a</code> as an instance of type <code>B</code>.</div>
@@ -7104,17 +7107,17 @@ are equal.</div>
 </dd>
 <dt><a href="com/google/common/graph/Graph.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph">Graph</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> that has the same elements and the
+<div class="block">Returns <code>true</code> if <code>object</code> is a <a href="com/google/common/graph/Graph.html" title="interface in com.google.common.graph"><code>Graph</code></a> that has the same elements and the
 same structural relationships as those in this graph.</div>
 </dd>
 <dt><a href="com/google/common/graph/Network.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph">Network</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
+<div class="block">Returns <code>true</code> if <code>object</code> is a <a href="com/google/common/graph/Network.html" title="interface in com.google.common.graph"><code>Network</code></a> that has the same elements and the
 same structural relationships as those in this network.</div>
 </dd>
 <dt><a href="com/google/common/graph/ValueGraph.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in interface com.google.common.graph.<a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph">ValueGraph</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>object</code> is a <a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
+<div class="block">Returns <code>true</code> if <code>object</code> is a <a href="com/google/common/graph/ValueGraph.html" title="interface in com.google.common.graph"><code>ValueGraph</code></a> that has the same elements and
 the same structural relationships as those in this graph.</div>
 </dd>
 <dt><a href="com/google/common/hash/BloomFilter.html#equals(java.lang.Object)" class="member-name-link">equals(Object)</a> - Method in class com.google.common.hash.<a href="com/google/common/hash/BloomFilter.html" title="class in com.google.common.hash">BloomFilter</a></dt>
@@ -11458,22 +11461,22 @@ equal to the element that preceded it, according to this ordering.</div>
 </dd>
 <dt><a href="com/google/common/graph/AbstractGraph.html#isOrderingCompatible(com.google.common.graph.EndpointPair)" class="member-name-link">isOrderingCompatible(EndpointPair)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractGraph.html" title="class in com.google.common.graph">AbstractGraph</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>endpoints</code>' ordering is compatible with the directionality of
+<div class="block">Returns <code>true</code> if <code>endpoints</code>' ordering is compatible with the directionality of
 this graph.</div>
 </dd>
 <dt><a href="com/google/common/graph/AbstractValueGraph.html#isOrderingCompatible(com.google.common.graph.EndpointPair)" class="member-name-link">isOrderingCompatible(EndpointPair)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractValueGraph.html" title="class in com.google.common.graph">AbstractValueGraph</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>endpoints</code>' ordering is compatible with the directionality of
+<div class="block">Returns <code>true</code> if <code>endpoints</code>' ordering is compatible with the directionality of
 this graph.</div>
 </dd>
 <dt><a href="com/google/common/graph/ImmutableGraph.html#isOrderingCompatible(com.google.common.graph.EndpointPair)" class="member-name-link">isOrderingCompatible(EndpointPair)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>endpoints</code>' ordering is compatible with the directionality of
+<div class="block">Returns <code>true</code> if <code>endpoints</code>' ordering is compatible with the directionality of
 this graph.</div>
 </dd>
 <dt><a href="com/google/common/graph/ImmutableValueGraph.html#isOrderingCompatible(com.google.common.graph.EndpointPair)" class="member-name-link">isOrderingCompatible(EndpointPair)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/ImmutableValueGraph.html" title="class in com.google.common.graph">ImmutableValueGraph</a></dt>
 <dd>
-<div class="block">Returns <code>true</code> iff <code>endpoints</code>' ordering is compatible with the directionality of
+<div class="block">Returns <code>true</code> if <code>endpoints</code>' ordering is compatible with the directionality of
 this graph.</div>
 </dd>
 <dt><a href="com/google/common/graph/AbstractNetwork.html#isOrderingCompatible(com.google.common.graph.EndpointPair)" class="member-name-link">isOrderingCompatible(EndpointPair)</a> - Method in class com.google.common.graph.<a href="com/google/common/graph/AbstractNetwork.html" title="class in com.google.common.graph">AbstractNetwork</a></dt>
@@ -17420,7 +17423,7 @@ this is not possible.</div>
 </dd>
 <dt><a href="com/google/common/util/concurrent/AtomicLongMap.html#removeIfZero(K)" class="member-name-link">removeIfZero(K)</a> - Method in class com.google.common.util.concurrent.<a href="com/google/common/util/concurrent/AtomicLongMap.html" title="class in com.google.common.util.concurrent">AtomicLongMap</a></dt>
 <dd>
-<div class="block">Atomically remove <code>key</code> from the map iff its associated value is 0.</div>
+<div class="block">Removes <code>key</code> from the map if its associated value is 0.</div>
 </dd>
 <dt><a href="com/google/common/collect/ForwardingDeque.html#removeLast()" class="member-name-link">removeLast()</a> - Method in class com.google.common.collect.<a href="com/google/common/collect/ForwardingDeque.html" title="class in com.google.common.collect">ForwardingDeque</a></dt>
 <dd>&nbsp;</dd>
