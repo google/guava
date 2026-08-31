@@ -226,7 +226,7 @@ public final class Graphs extends GraphsBridgeMethods {
     switch (strategy) {
       case ADD_SELF_LOOPS_ALWAYS: // always include 'node'
         return traverser.breadthFirst(node);
-      case ADD_SELF_LOOPS_FOR_CYCLES: // include 'node' iff there's an incident cycle
+      case ADD_SELF_LOOPS_FOR_CYCLES: // include 'node' if and only if there's an incident cycle
         // note that if 'node' has a self-loop, it will appear in its successors
         return traverser.breadthFirst(graph.successors(node));
     }

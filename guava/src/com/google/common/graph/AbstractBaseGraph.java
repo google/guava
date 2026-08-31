@@ -319,7 +319,7 @@ abstract class AbstractBaseGraph<N> implements BaseGraph<N> {
   }
 
   /**
-   * Returns {@code true} iff {@code endpoints}' ordering is compatible with the directionality of
+   * Returns {@code true} if {@code endpoints}' ordering is compatible with the directionality of
    * this graph.
    */
   protected final boolean isOrderingCompatible(EndpointPair<?> endpoints) {
