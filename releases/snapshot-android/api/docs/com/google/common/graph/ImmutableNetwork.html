@@ -143,7 +143,7 @@ provided by this class.</div>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Class</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static class&nbsp;</code></div>
+<div class="col-first even-row-color"><code>static final class&nbsp;</code></div>
 <div class="col-second even-row-color"><code><a href="ImmutableNetwork.Builder.html" class="type-name-link" title="class in com.google.common.graph">ImmutableNetwork.Builder</a>&lt;<a href="ImmutableNetwork.Builder.html#type-param-N" title="type parameter in ImmutableNetwork.Builder">N</a>,<wbr><a href="ImmutableNetwork.Builder.html#type-param-E" title="type parameter in ImmutableNetwork.Builder">E</a>&gt;</code></div>
 <div class="col-last even-row-color">
 <div class="block">A builder for creating <a href="ImmutableNetwork.html" title="class in com.google.common.graph"><code>ImmutableNetwork</code></a> instances, especially <code>static final</code>
@@ -166,12 +166,12 @@ networks.</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Set.html" title="interface in java.util" class="external-link">Set</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#adjacentNodes(N)" class="member-name-link">adjacentNodes</a><wbr>(<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&nbsp;node)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allowsParallelEdges()" class="member-name-link">allowsParallelEdges</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns true if this network allows parallel edges.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allowsSelfLoops()" class="member-name-link">allowsSelfLoops</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ImmutableGraph.html" title="class in com.google.common.graph">ImmutableGraph</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
@@ -214,7 +214,7 @@ nodeV</code>.</div>
 <div class="block">Returns a live view of the edges whose <a href="Network.html#incidentNodes(E)"><code>incident nodes</code></a> in this
 network include <code>node</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#incidentNodes(E)" class="member-name-link">incidentNodes</a><wbr>(<a href="#type-param-E" title="type parameter in ImmutableNetwork">E</a>&nbsp;edge)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this network.</div>
@@ -225,7 +225,7 @@ network include <code>node</code>.</div>
 <div class="block">Returns a live view of all edges in this network which can be traversed in the direction (if
 any) of the edge to end at <code>node</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDirected()" class="member-name-link">isDirected</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ElementOrder.html" title="class in com.google.common.graph">ElementOrder</a><wbr>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</code></div>
@@ -447,7 +447,7 @@ in the <a href="Graph.html" title="interface in com.google.common.graph"><code>G
 <section class="detail" id="isDirected()">
 <h3>isDirected</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDirected</span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDirected</span>()</div>
 </div>
 </section>
 </li>
@@ -455,7 +455,7 @@ in the <a href="Graph.html" title="interface in com.google.common.graph"><code>G
 <section class="detail" id="allowsParallelEdges()">
 <h3>allowsParallelEdges</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsParallelEdges</span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsParallelEdges</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#allowsParallelEdges()">Network</a></code></span></div>
 <div class="block">Returns true if this network allows parallel edges. Attempting to add a parallel edge to a
 network that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class in java.lang" class="external-link"><code>IllegalArgumentException</code></a>.</div>
@@ -466,7 +466,7 @@ network that does not allow them will throw an <a href="https://docs.oracle.com/
 <section class="detail" id="allowsSelfLoops()">
 <h3>allowsSelfLoops</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsSelfLoops</span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsSelfLoops</span>()</div>
 </div>
 </section>
 </li>
@@ -517,7 +517,7 @@ IllegalStateException</code> if it is accessed in any way, with the following ex
 <section class="detail" id="incidentNodes(E)">
 <h3 id="incidentNodes(java.lang.Object)">incidentNodes</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">incidentNodes</span><wbr><span class="parameters">(<a href="#type-param-E" title="type parameter in ImmutableNetwork">E</a>&nbsp;edge)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="EndpointPair.html" title="class in com.google.common.graph">EndpointPair</a>&lt;<a href="#type-param-N" title="type parameter in ImmutableNetwork">N</a>&gt;</span>&nbsp;<span class="element-name">incidentNodes</span><wbr><span class="parameters">(<a href="#type-param-E" title="type parameter in ImmutableNetwork">E</a>&nbsp;edge)</span></div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="Network.html#incidentNodes(E)">Network</a></code></span></div>
 <div class="block">Returns the nodes which are the endpoints of <code>edge</code> in this network.</div>
 </div>

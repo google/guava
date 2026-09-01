@@ -152,7 +152,7 @@ provided by this class.</div>
 <div class="table-header col-first">Modifier and Type</div>
 <div class="table-header col-second">Class</div>
 <div class="table-header col-last">Description</div>
-<div class="col-first even-row-color"><code>static class&nbsp;</code></div>
+<div class="col-first even-row-color"><code>static final class&nbsp;</code></div>
 <div class="col-second even-row-color"><code><a href="ImmutableValueGraph.Builder.html" class="type-name-link" title="class in com.google.common.graph">ImmutableValueGraph.Builder</a>&lt;<a href="ImmutableValueGraph.Builder.html#type-param-N" title="type parameter in ImmutableValueGraph.Builder">N</a>,<wbr><a href="ImmutableValueGraph.Builder.html#type-param-V" title="type parameter in ImmutableValueGraph.Builder">V</a>&gt;</code></div>
 <div class="col-last even-row-color">
 <div class="block">A builder for creating <a href="ImmutableValueGraph.html" title="class in com.google.common.graph"><code>ImmutableValueGraph</code></a> instances, especially <code>static final</code>
@@ -178,7 +178,7 @@ graphs.</div>
 <div class="block">Returns a live view of the nodes which have an incident edge in common with <code>node</code> in
 this graph.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#allowsSelfLoops()" class="member-name-link">allowsSelfLoops</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself).</div>
@@ -258,7 +258,7 @@ any, specified by <code>endpoints</code>).</div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#inDegree(N)" class="member-name-link">inDegree</a><wbr>(<a href="#type-param-N" title="type parameter in ImmutableValueGraph">N</a>&nbsp;node)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>boolean</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final boolean</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isDirected()" class="member-name-link">isDirected</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns true if the edges in this graph are directed.</div>
@@ -453,7 +453,7 @@ edge connecting node A to node B if this <a href="ValueGraph.html" title="interf
 <section class="detail" id="isDirected()">
 <h3>isDirected</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDirected</span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isDirected</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#isDirected()">ValueGraph</a></code></span></div>
 <div class="block">Returns true if the edges in this graph are directed. Directed edges connect a <a href="EndpointPair.html#source()"><code>source node</code></a> to a <a href="EndpointPair.html#target()"><code>target node</code></a>, while
 undirected edges connect a pair of nodes to each other.</div>
@@ -464,7 +464,7 @@ undirected edges connect a pair of nodes to each other.</div>
 <section class="detail" id="allowsSelfLoops()">
 <h3>allowsSelfLoops</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsSelfLoops</span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">allowsSelfLoops</span>()</div>
 <div class="block"><span class="description-from-type-label">Description copied from interface:&nbsp;<code><a href="ValueGraph.html#allowsSelfLoops()">ValueGraph</a></code></span></div>
 <div class="block">Returns true if this graph allows self-loops (edges that connect a node to itself). Attempting
 to add a self-loop to a graph that does not allow them will throw an <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/IllegalArgumentException.html" title="class in java.lang" class="external-link"><code>IllegalArgumentException</code></a>.</div>

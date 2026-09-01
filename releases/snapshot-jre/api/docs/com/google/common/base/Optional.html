@@ -262,7 +262,7 @@ reference; otherwise returns <a href="#absent()"><code>absent()</code></a>.</div
 <div class="block">Returns the value of each present instance from the supplied <code>optionals</code>, in order,
 skipping over occurrences of <a href="#absent()"><code>absent()</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Optional.html" title="class in java.util" class="external-link">Optional</a><wbr>&lt;<a href="#type-param-T" title="type parameter in Optional">T</a>&gt;</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Optional.html" title="class in java.util" class="external-link">Optional</a><wbr>&lt;<a href="#type-param-T" title="type parameter in Optional">T</a>&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#toJavaUtil()" class="member-name-link">toJavaUtil</a>()</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to this optional.</div>
@@ -381,7 +381,7 @@ expression <code>o -&gt; Optional.toJavaUtil(o)</code> instead.</div>
 <section class="detail" id="toJavaUtil()">
 <h3>toJavaUtil</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Optional.html" title="class in java.util" class="external-link">Optional</a>&lt;<a href="#type-param-T" title="type parameter in Optional">T</a>&gt;</span>&nbsp;<span class="element-name">toJavaUtil</span>()</div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Optional.html" title="class in java.util" class="external-link">Optional</a>&lt;<a href="#type-param-T" title="type parameter in Optional">T</a>&gt;</span>&nbsp;<span class="element-name">toJavaUtil</span>()</div>
 <div class="block">Returns the equivalent <code>java.util.Optional</code> value to this optional.
 
 <p>Unfortunately, the method reference <code>Optional::toJavaUtil</code> will not work, because it

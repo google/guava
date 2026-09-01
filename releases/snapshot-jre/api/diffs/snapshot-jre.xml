@@ -2651,7 +2651,7 @@
     </method>
     <method name="appendTo" return="A extends java.lang.Appendable"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="appendable" type="A extends java.lang.Appendable"/>
       <param name="parts" type="java.lang.Iterable&lt;?&gt;"/>
@@ -3524,7 +3524,7 @@
     </method>
     <method name="toJavaUtil" return="java.util.Optional&lt;T&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns the equivalent {@code java.util.Optional} value to this optional.
@@ -11775,13 +11775,13 @@
     </method>
     <method name="headSet" return="com.google.common.collect.ContiguousSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="toElement" type="C extends java.lang.Comparable"/>
     </method>
     <method name="headSet" return="com.google.common.collect.ContiguousSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="toElement" type="C extends java.lang.Comparable"/>
       <param name="inclusive" type="boolean"/>
@@ -11791,14 +11791,14 @@
     </method>
     <method name="subSet" return="com.google.common.collect.ContiguousSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="fromElement" type="C extends java.lang.Comparable"/>
       <param name="toElement" type="C extends java.lang.Comparable"/>
     </method>
     <method name="subSet" return="com.google.common.collect.ContiguousSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="fromElement" type="C extends java.lang.Comparable"/>
       <param name="fromInclusive" type="boolean"/>
@@ -11810,13 +11810,13 @@
     </method>
     <method name="tailSet" return="com.google.common.collect.ContiguousSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="fromElement" type="C extends java.lang.Comparable"/>
     </method>
     <method name="tailSet" return="com.google.common.collect.ContiguousSet&lt;C&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="fromElement" type="C extends java.lang.Comparable"/>
       <param name="inclusive" type="boolean"/>
@@ -20567,7 +20567,7 @@
     </method>
     <method name="iterator" return="com.google.common.collect.UnmodifiableIterator&lt;E&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="asList" return="com.google.common.collect.ImmutableList&lt;E&gt;"
@@ -30559,7 +30559,7 @@
     deprecated="not deprecated">
     <method name="arrayListValues" return="com.google.common.collect.MultimapBuilder.ListMultimapBuilder&lt;K0, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Uses an {@link ArrayList} to store value collections.]]>
@@ -30567,7 +30567,7 @@
     </method>
     <method name="arrayListValues" return="com.google.common.collect.MultimapBuilder.ListMultimapBuilder&lt;K0, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="expectedValuesPerKey" type="int"/>
       <doc>
@@ -30579,7 +30579,7 @@
     </method>
     <method name="linkedListValues" return="com.google.common.collect.MultimapBuilder.ListMultimapBuilder&lt;K0, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Uses a {@link LinkedList} to store value collections.
@@ -30593,7 +30593,7 @@
     </method>
     <method name="hashSetValues" return="com.google.common.collect.MultimapBuilder.SetMultimapBuilder&lt;K0, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Uses a hash-based {@code Set} to store value collections.]]>
@@ -30601,7 +30601,7 @@
     </method>
     <method name="hashSetValues" return="com.google.common.collect.MultimapBuilder.SetMultimapBuilder&lt;K0, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="expectedValuesPerKey" type="int"/>
       <doc>
@@ -30613,7 +30613,7 @@
     </method>
     <method name="linkedHashSetValues" return="com.google.common.collect.MultimapBuilder.SetMultimapBuilder&lt;K0, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Uses an insertion-ordered hash-based {@code Set} to store value collections.]]>
@@ -30621,7 +30621,7 @@
     </method>
     <method name="linkedHashSetValues" return="com.google.common.collect.MultimapBuilder.SetMultimapBuilder&lt;K0, java.lang.Object&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="expectedValuesPerKey" type="int"/>
       <doc>
@@ -30633,7 +30633,7 @@
     </method>
     <method name="treeSetValues" return="com.google.common.collect.MultimapBuilder.SortedSetMultimapBuilder&lt;K0, java.lang.Comparable&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Uses a naturally-ordered {@link TreeSet} to store value collections.]]>
@@ -30641,7 +30641,7 @@
     </method>
     <method name="treeSetValues" return="com.google.common.collect.MultimapBuilder.SortedSetMultimapBuilder&lt;K0, V0&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="comparator" type="java.util.Comparator&lt;V0&gt;"/>
       <doc>
@@ -30653,7 +30653,7 @@
     </method>
     <method name="enumSetValues" return="com.google.common.collect.MultimapBuilder.SetMultimapBuilder&lt;K0, V0&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="valueClass" type="java.lang.Class&lt;V0&gt;"/>
       <doc>
@@ -36205,7 +36205,7 @@
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="object" type="Object"/>
     </method>
@@ -41034,7 +41034,7 @@
   <!-- start class com.google.common.graph.ImmutableGraph -->
   <class name="ImmutableGraph" extends="com.google.common.graph.ForwardingGraph&lt;N&gt;"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="copyOf" return="com.google.common.graph.ImmutableGraph&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
@@ -41082,7 +41082,7 @@
   <!-- start class com.google.common.graph.ImmutableGraph.Builder -->
   <class name="ImmutableGraph.Builder" extends="java.lang.Object"
     abstract="false"
-    static="true" final="false" visibility="public"
+    static="true" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="addNode" return="com.google.common.graph.ImmutableGraph.Builder&lt;N&gt;"
       abstract="false" native="false" synchronized="false"
@@ -41223,7 +41223,7 @@
   <!-- start class com.google.common.graph.ImmutableNetwork.Builder -->
   <class name="ImmutableNetwork.Builder" extends="java.lang.Object"
     abstract="false"
-    static="true" final="false" visibility="public"
+    static="true" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="addNode" return="com.google.common.graph.ImmutableNetwork.Builder&lt;N, E&gt;"
       abstract="false" native="false" synchronized="false"
@@ -41388,7 +41388,7 @@
   <!-- start class com.google.common.graph.ImmutableValueGraph.Builder -->
   <class name="ImmutableValueGraph.Builder" extends="java.lang.Object"
     abstract="false"
-    static="true" final="false" visibility="public"
+    static="true" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="addNode" return="com.google.common.graph.ImmutableValueGraph.Builder&lt;N, V&gt;"
       abstract="false" native="false" synchronized="false"
@@ -64538,12 +64538,12 @@
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="Object"/>
     </method>
@@ -64887,13 +64887,13 @@
     </method>
     <method name="equals" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="obj" type="Object"/>
     </method>
     <method name="hashCode" return="int"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <method name="toString" return="java.lang.String"
@@ -69954,7 +69954,7 @@
     </method>
     <method name="newReentrantLock" return="java.util.concurrent.locks.ReentrantLock"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="lockName" type="java.lang.String"/>
       <param name="fair" type="boolean"/>
@@ -69974,7 +69974,7 @@
     </method>
     <method name="newReentrantReadWriteLock" return="java.util.concurrent.locks.ReentrantReadWriteLock"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="lockName" type="java.lang.String"/>
       <param name="fair" type="boolean"/>
@@ -72730,7 +72730,7 @@
   <!-- start class com.google.common.util.concurrent.ListenableFutureTask -->
   <class name="ListenableFutureTask" extends="java.util.concurrent.FutureTask&lt;V&gt;"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <implements name="com.google.common.util.concurrent.ListenableFuture&lt;V&gt;"/>
     <method name="create" return="com.google.common.util.concurrent.ListenableFutureTask&lt;V&gt;"
@@ -74462,7 +74462,7 @@
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <doc>
