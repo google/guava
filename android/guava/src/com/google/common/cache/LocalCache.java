@@ -4828,7 +4828,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
   }
 
   private static <T> @Nullable T checkNotValueType(@Nullable T referent) {
-    // TODO(b/542008186): Perform the check in our Android flavor, too, if on the JVM.
     return referent;
   }
 
@@ -4837,4 +4836,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         "Cannot create a weak or soft reference to a value class: "
             + referent.getClass().getName());
   }
+
+  private static final boolean IS_ANDROID =
+      requireNonNull(System.getProperty("java.runtime.name", "")).contains("Android");
 }

@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.lang.Math.min;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -2904,7 +2905,6 @@ final class MapMakerInternalMap<
   }
 
   private static <T> @Nullable T checkNotValueType(@Nullable T referent) {
-    // TODO(b/542008186): Perform the check in our Android flavor, too, if on the JVM.
     return referent;
   }
 
@@ -2913,4 +2913,7 @@ final class MapMakerInternalMap<
         "Cannot create a weak or soft reference to a value class: "
             + referent.getClass().getName());
   }
+
+  private static final boolean IS_ANDROID =
+      requireNonNull(System.getProperty("java.runtime.name", "")).contains("Android");
 }
