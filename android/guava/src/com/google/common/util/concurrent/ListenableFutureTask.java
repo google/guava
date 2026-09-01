@@ -41,7 +41,7 @@ import org.jspecify.annotations.Nullable;
  * @since 1.0
  */
 @GwtIncompatible
-public class ListenableFutureTask<V extends @Nullable Object> extends FutureTask<V>
+public final class ListenableFutureTask<V extends @Nullable Object> extends FutureTask<V>
     implements ListenableFuture<V> {
   // TODO(cpovirk): explore ways of making ListenableFutureTask final. There are some valid reasons
   // such as BoundedQueueExecutorService to allow extends but it would be nice to make it final to

@@ -35,7 +35,7 @@ abstract class AbstractNonStreamingHashFunction extends AbstractHashFunction {
   }
 
   @Override
-  public Hasher newHasher(int expectedInputSize) {
+  public final Hasher newHasher(int expectedInputSize) {
     Preconditions.checkArgument(expectedInputSize >= 0);
     return new ByteBufferHasher(expectedInputSize);
   }

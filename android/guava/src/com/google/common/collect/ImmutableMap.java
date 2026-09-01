@@ -768,7 +768,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @LazyInit @RetainedWith private transient @Nullable ImmutableSet<Entry<K, V>> entrySet;
 
     @Override
-    public ImmutableSet<Entry<K, V>> entrySet() {
+    public final ImmutableSet<Entry<K, V>> entrySet() {
       ImmutableSet<Entry<K, V>> result = entrySet;
       if (result == null) {
         result = entrySet = createEntrySet();
@@ -776,7 +776,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return result;
     }
 
-    ImmutableSet<Entry<K, V>> createEntrySet() {
+    final ImmutableSet<Entry<K, V>> createEntrySet() {
       final class EntrySetImpl extends ImmutableMapEntrySet<K, V> {
         @Override
         ImmutableMap<K, V> map() {
@@ -803,7 +803,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @LazyInit @RetainedWith private transient @Nullable ImmutableSet<K> keySet;
 
     @Override
-    public ImmutableSet<K> keySet() {
+    public final ImmutableSet<K> keySet() {
       ImmutableSet<K> result = keySet;
       if (result == null) {
         result = keySet = createKeySet();
@@ -818,7 +818,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     @LazyInit @RetainedWith private transient @Nullable ImmutableCollection<V> values;
 
     @Override
-    public ImmutableCollection<V> values() {
+    public final ImmutableCollection<V> values() {
       ImmutableCollection<V> result = values;
       if (result == null) {
         result = values = createValues();
@@ -826,7 +826,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       return result;
     }
 
-    ImmutableCollection<V> createValues() {
+    final ImmutableCollection<V> createValues() {
       return new ImmutableMapValues<>(this);
     }
 

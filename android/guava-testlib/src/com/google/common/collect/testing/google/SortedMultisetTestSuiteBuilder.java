@@ -113,7 +113,7 @@ public class SortedMultisetTestSuiteBuilder<E> extends MultisetTestSuiteBuilder<
     NO_BOUND;
   }
 
-  List<TestSuite> createDerivedSuites(SortedMultisetTestSuiteBuilder<E> parentBuilder) {
+  final List<TestSuite> createDerivedSuites(SortedMultisetTestSuiteBuilder<E> parentBuilder) {
     List<TestSuite> derivedSuites = new ArrayList<>();
 
     if (!parentBuilder.getFeatures().contains(NoRecurse.DESCENDING)) {

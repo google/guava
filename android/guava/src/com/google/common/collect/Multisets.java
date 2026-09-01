@@ -157,12 +157,12 @@ public final class Multisets {
     }
 
     @Override
-    public Iterator<E> iterator() {
+    public final Iterator<E> iterator() {
       return unmodifiableIterator(delegate.iterator());
     }
 
     @Override
-    public boolean add(@ParametricNullness E element) {
+    public final boolean add(@ParametricNullness E element) {
       throw new UnsupportedOperationException();
     }
 
@@ -172,12 +172,12 @@ public final class Multisets {
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> elementsToAdd) {
+    public final boolean addAll(Collection<? extends E> elementsToAdd) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean remove(@Nullable Object element) {
+    public final boolean remove(@Nullable Object element) {
       throw new UnsupportedOperationException();
     }
 
@@ -187,17 +187,17 @@ public final class Multisets {
     }
 
     @Override
-    public boolean removeAll(Collection<?> elementsToRemove) {
+    public final boolean removeAll(Collection<?> elementsToRemove) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean retainAll(Collection<?> elementsToRetain) {
+    public final boolean retainAll(Collection<?> elementsToRetain) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       throw new UnsupportedOperationException();
     }
 
@@ -821,7 +821,7 @@ public final class Multisets {
      * Multiset.Entry#equals}.
      */
     @Override
-    public boolean equals(@Nullable Object object) {
+    public final boolean equals(@Nullable Object object) {
       if (object instanceof Multiset.Entry) {
         Multiset.Entry<?> that = (Multiset.Entry<?>) object;
         return this.getCount() == that.getCount()
@@ -835,7 +835,7 @@ public final class Multisets {
      * Multiset.Entry#hashCode}.
      */
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       E e = getElement();
       return ((e == null) ? 0 : e.hashCode()) ^ getCount();
     }
@@ -847,7 +847,7 @@ public final class Multisets {
      * counts are converted to strings as by {@code String.valueOf}.
      */
     @Override
-    public String toString() {
+    public final String toString() {
       String text = String.valueOf(getElement());
       int n = getCount();
       return (n == 1) ? text : (text + " x " + n);

@@ -727,7 +727,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
      */
     @SuppressWarnings("CanIgnoreReturnValueSuggester")
     @Override
-    Builder<K, V> combine(ImmutableMap.Builder<K, V> other) {
+    final Builder<K, V> combine(ImmutableMap.Builder<K, V> other) {
       super.combine(other);
       return this;
     }

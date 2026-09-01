@@ -63,7 +63,7 @@ import org.jspecify.annotations.NullMarked;
 @J2ObjCIncompatible
 @NullMarked
 public abstract class AbstractClassInitializationTest extends TestCase {
-  public void testClassesInitialize() throws Exception {
+  public final void testClassesInitialize() throws Exception {
     String packageName = getPackageName();
     ImmutableList<ClassInfo> classes = findClassesInPackage(packageName);
     assertFalse("No classes found in package " + packageName, classes.isEmpty());
@@ -80,11 +80,11 @@ public abstract class AbstractClassInitializationTest extends TestCase {
     }
   }
 
-  protected String getPackageName() {
+  private String getPackageName() {
     return getClass().getPackage().getName();
   }
 
-  protected boolean isIgnored(ClassInfo classInfo) {
+  private boolean isIgnored(ClassInfo classInfo) {
     String name = classInfo.getName();
     return name.endsWith("Test")
         || name.endsWith("Tests")

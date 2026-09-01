@@ -1320,7 +1320,7 @@ public final class Iterators {
       extends UnmodifiableIterator<T> {
 
     // Wrapper class to track insertion order for stable sorting
-    private static class IndexedIterator<E extends @Nullable Object> {
+    private static final class IndexedIterator<E extends @Nullable Object> {
       final PeekingIterator<E> iterator;
       final int index;
 

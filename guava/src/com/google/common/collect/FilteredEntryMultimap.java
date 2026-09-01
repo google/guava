@@ -67,7 +67,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @Override
-  public Predicate<? super Entry<K, V>> entryPredicate() {
+  public final Predicate<? super Entry<K, V>> entryPredicate() {
     return predicate;
   }
 
@@ -113,13 +113,13 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
   }
 
   @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
-  Collection<V> unmodifiableEmptyCollection() {
+  final Collection<V> unmodifiableEmptyCollection() {
     // These return false, rather than throwing a UOE, on remove calls.
     return (unfiltered instanceof SetMultimap) ? emptySet() : emptyList();
   }
 
   @Override
-  public void clear() {
+  public final void clear() {
     entries().clear();
   }
 
@@ -153,7 +153,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     return asMap().keySet();
   }
 
-  boolean removeEntriesIf(Predicate<? super Entry<K, Collection<V>>> predicate) {
+  final boolean removeEntriesIf(Predicate<? super Entry<K, Collection<V>>> predicate) {
     Iterator<Entry<K, Collection<V>>> entryIterator = unfiltered.asMap().entrySet().iterator();
     boolean changed = false;
     while (entryIterator.hasNext()) {

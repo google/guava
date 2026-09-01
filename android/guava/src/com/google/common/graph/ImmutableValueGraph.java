@@ -124,7 +124,7 @@ public final class ImmutableValueGraph<N, V> extends StandardValueGraph<N, V> {
    *
    * @since 28.0
    */
-  public static class Builder<N, V> {
+  public static final class Builder<N, V> {
 
     private final MutableValueGraph<N, V> mutableValueGraph;
 

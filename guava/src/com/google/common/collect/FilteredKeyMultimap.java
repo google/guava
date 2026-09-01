@@ -56,7 +56,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  public Predicate<? super Entry<K, V>> entryPredicate() {
+  public final Predicate<? super Entry<K, V>> entryPredicate() {
     return keyPredicateOnEntries(keyPredicate);
   }
 
@@ -70,7 +70,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public final boolean containsKey(@Nullable Object key) {
     if (unfiltered.containsKey(key)) {
       @SuppressWarnings("unchecked") // k is equal to a K, if not one itself
       K k = (K) key;
@@ -85,7 +85,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
-  Collection<V> unmodifiableEmptyCollection() {
+  final Collection<V> unmodifiableEmptyCollection() {
     if (unfiltered instanceof SetMultimap) {
       return emptySet();
     } else {
@@ -199,7 +199,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean remove(@Nullable Object o) {
+    public final boolean remove(@Nullable Object o) {
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         if (unfiltered.containsKey(entry.getKey())

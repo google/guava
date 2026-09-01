@@ -103,17 +103,17 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public boolean isDirected() {
+  public final boolean isDirected() {
     return isDirected;
   }
 
   @Override
-  public boolean allowsParallelEdges() {
+  public final boolean allowsParallelEdges() {
     return allowsParallelEdges;
   }
 
   @Override
-  public boolean allowsSelfLoops() {
+  public final boolean allowsSelfLoops() {
     return allowsSelfLoops;
   }
 
@@ -133,7 +133,7 @@ class StandardNetwork<N, E> extends AbstractNetwork<N, E> {
   }
 
   @Override
-  public EndpointPair<N> incidentNodes(E edge) {
+  public final EndpointPair<N> incidentNodes(E edge) {
     N nodeU = checkedReferenceNode(edge);
     // requireNonNull is safe because checkedReferenceNode made sure the edge is in the network.
     N nodeV = requireNonNull(nodeConnections.get(nodeU)).adjacentNode(edge);

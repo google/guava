@@ -252,7 +252,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   /** Returns whether arrays need to be allocated. */
-  boolean needsAllocArrays() {
+  final boolean needsAllocArrays() {
     return table == null;
   }
 
@@ -275,7 +275,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
 
   @SuppressWarnings("unchecked")
   @VisibleForTesting
-  @Nullable Map<K, V> delegateOrNull() {
+  final @Nullable Map<K, V> delegateOrNull() {
     if (table instanceof Map) {
       return (Map<K, V>) table;
     }
@@ -312,7 +312,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     return (1 << (metadata & CompactHashing.HASH_TABLE_BITS_MASK)) - 1;
   }
 
-  void incrementModCount() {
+  final void incrementModCount() {
     metadata += CompactHashing.MODIFICATION_COUNT_INCREMENT;
   }
 
@@ -326,7 +326,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V put(@ParametricNullness K key, @ParametricNullness V value) {
+  public final @Nullable V put(@ParametricNullness K key, @ParametricNullness V value) {
     if (needsAllocArrays()) {
       allocArrays();
     }
@@ -493,20 +493,20 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   @Override
-  public void putAll(Map<? extends K, ? extends V> m) {
+  public final void putAll(Map<? extends K, ? extends V> m) {
     for (Entry<? extends K, ? extends V> entry : m.entrySet()) {
       put(entry.getKey(), entry.getValue());
     }
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public final boolean containsKey(@Nullable Object key) {
     Map<K, V> delegate = delegateOrNull();
     return (delegate != null) ? delegate.containsKey(key) : indexOf(key) != -1;
   }
 
   @Override
-  public @Nullable V get(@Nullable Object key) {
+  public final @Nullable V get(@Nullable Object key) {
     Map<K, V> delegate = delegateOrNull();
     if (delegate != null) {
       return delegate.get(key);
@@ -522,7 +522,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   @CanIgnoreReturnValue
   @SuppressWarnings("unchecked") // known to be a V
   @Override
-  public @Nullable V remove(@Nullable Object key) {
+  public final @Nullable V remove(@Nullable Object key) {
     Map<K, V> delegate = delegateOrNull();
     if (delegate != null) {
       return delegate.remove(key);
@@ -623,17 +623,17 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     return Maps.equalsImpl(this, obj);
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return entrySet().hashCode();
   }
 
   @Override
-  public String toString() {
+  public final String toString() {
     return Maps.toStringImpl(this);
   }
 
@@ -643,7 +643,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     int indexToRemove = -1;
 
     @Override
-    public boolean hasNext() {
+    public final boolean hasNext() {
       return currentIndex >= 0;
     }
 
@@ -652,7 +652,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
 
     @Override
     @ParametricNullness
-    public T next() {
+    public final T next() {
       checkForConcurrentModification();
       if (!hasNext()) {
         throw new NoSuchElementException();
@@ -664,7 +664,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    public void remove() {
+    public final void remove() {
       checkForConcurrentModification();
       checkRemove(indexToRemove >= 0);
       incrementExpectedModCount();
@@ -673,7 +673,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
       indexToRemove = -1;
     }
 
-    void incrementExpectedModCount() {
+    final void incrementExpectedModCount() {
       expectedMetadata += CompactHashing.MODIFICATION_COUNT_INCREMENT;
     }
 
@@ -701,7 +701,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
+    public final boolean remove(@Nullable Object o) {
       Map<K, V> delegate = delegateOrNull();
       return (delegate != null)
           ? delegate.keySet().remove(o)
@@ -709,7 +709,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    public Iterator<K> iterator() {
+    public final Iterator<K> iterator() {
       return keySetIterator();
     }
 
@@ -719,7 +719,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
   }
 
-  Iterator<K> keySetIterator() {
+  final Iterator<K> keySetIterator() {
     Map<K, V> delegate = delegateOrNull();
     if (delegate != null) {
       return delegate.keySet().iterator();
@@ -755,7 +755,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public final boolean contains(@Nullable Object o) {
       Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
         return delegate.entrySet().contains(o);
@@ -768,7 +768,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
+    public final boolean remove(@Nullable Object o) {
       Map<K, V> delegate = delegateOrNull();
       if (delegate != null) {
         return delegate.entrySet().remove(o);
@@ -801,7 +801,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
   }
 
-  Iterator<Entry<K, V>> entrySetIterator() {
+  final Iterator<Entry<K, V>> entrySetIterator() {
     Map<K, V> delegate = delegateOrNull();
     if (delegate != null) {
       return delegate.entrySet().iterator();
@@ -881,18 +881,18 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
   }
 
   @Override
-  public int size() {
+  public final int size() {
     Map<K, V> delegate = delegateOrNull();
     return (delegate != null) ? delegate.size() : size;
   }
 
   @Override
-  public boolean isEmpty() {
+  public final boolean isEmpty() {
     return size() == 0;
   }
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public final boolean containsValue(@Nullable Object value) {
     Map<K, V> delegate = delegateOrNull();
     if (delegate != null) {
       return delegate.containsValue(value);
@@ -927,7 +927,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
   }
 
-  Iterator<V> valuesIterator() {
+  final Iterator<V> valuesIterator() {
     Map<K, V> delegate = delegateOrNull();
     if (delegate != null) {
       return delegate.values().iterator();

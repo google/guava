@@ -210,7 +210,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   }
 
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     if (obj instanceof Invokable) {
       Invokable<?, ?> that = (Invokable<?, ?>) obj;
       return getOwnerType().equals(that.getOwnerType()) && member.equals(that.member);
@@ -219,7 +219,7 @@ public abstract class Invokable<T, R> implements AnnotatedElement, Member {
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     return member.hashCode();
   }
 

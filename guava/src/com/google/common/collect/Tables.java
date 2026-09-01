@@ -179,7 +179,7 @@ public final class Tables {
     AbstractCell() {}
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public final boolean equals(@Nullable Object obj) {
       if (obj == this) {
         return true;
       }
@@ -193,12 +193,12 @@ public final class Tables {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       return Objects.hash(getRowKey(), getColumnKey(), getValue());
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return "(" + getRowKey() + "," + getColumnKey() + ")=" + getValue();
     }
   }

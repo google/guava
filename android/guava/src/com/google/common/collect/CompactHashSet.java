@@ -220,7 +220,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   }
 
   /** Returns whether arrays need to be allocated. */
-  boolean needsAllocArrays() {
+  final boolean needsAllocArrays() {
     return table == null;
   }
 
@@ -242,7 +242,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
 
   @SuppressWarnings("unchecked")
   @VisibleForTesting
-  @Nullable Set<E> delegateOrNull() {
+  final @Nullable Set<E> delegateOrNull() {
     if (table instanceof Set) {
       return (Set<E>) table;
     }
@@ -283,13 +283,13 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
     return (1 << (metadata & CompactHashing.HASH_TABLE_BITS_MASK)) - 1;
   }
 
-  void incrementModCount() {
+  final void incrementModCount() {
     metadata += CompactHashing.MODIFICATION_COUNT_INCREMENT;
   }
 
   @CanIgnoreReturnValue
   @Override
-  public boolean add(@ParametricNullness E object) {
+  public final boolean add(@ParametricNullness E object) {
     if (needsAllocArrays()) {
       allocArrays();
     }
@@ -414,7 +414,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   }
 
   @Override
-  public boolean contains(@Nullable Object object) {
+  public final boolean contains(@Nullable Object object) {
     if (needsAllocArrays()) {
       return false;
     }
@@ -443,7 +443,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
 
   @CanIgnoreReturnValue
   @Override
-  public boolean remove(@Nullable Object object) {
+  public final boolean remove(@Nullable Object object) {
     if (needsAllocArrays()) {
       return false;
     }
@@ -533,7 +533,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   }
 
   @Override
-  public Iterator<E> iterator() {
+  public final Iterator<E> iterator() {
     Set<E> delegate = delegateOrNull();
     if (delegate != null) {
       return delegate.iterator();
@@ -584,13 +584,13 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
   }
 
   @Override
-  public int size() {
+  public final int size() {
     Set<E> delegate = delegateOrNull();
     return (delegate != null) ? delegate.size() : size;
   }
 
   @Override
-  public boolean isEmpty() {
+  public final boolean isEmpty() {
     return size() == 0;
   }
 

@@ -227,7 +227,7 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
     assertEquals(ascending, descending);
   }
 
-  void expectAddFailure(SortedMultiset<E> multiset, Entry<E> entry) {
+  final void expectAddFailure(SortedMultiset<E> multiset, Entry<E> entry) {
     assertThrows(
         IllegalArgumentException.class, () -> multiset.add(entry.getElement(), entry.getCount()));
 
@@ -237,13 +237,13 @@ public class MultisetNavigationTester<E> extends AbstractMultisetTester<E> {
         IllegalArgumentException.class, () -> multiset.addAll(singletonList(entry.getElement())));
   }
 
-  void expectRemoveZero(SortedMultiset<E> multiset, Entry<E> entry) {
+  final void expectRemoveZero(SortedMultiset<E> multiset, Entry<E> entry) {
     assertEquals(0, multiset.remove(entry.getElement(), entry.getCount()));
     assertFalse(multiset.remove(entry.getElement()));
     assertFalse(multiset.elementSet().remove(entry.getElement()));
   }
 
-  void expectSetCountFailure(SortedMultiset<E> multiset, Entry<E> entry) {
+  final void expectSetCountFailure(SortedMultiset<E> multiset, Entry<E> entry) {
     try {
       multiset.setCount(entry.getElement(), multiset.count(entry.getElement()));
     } catch (IllegalArgumentException acceptable) {

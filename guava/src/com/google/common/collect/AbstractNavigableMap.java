@@ -42,12 +42,12 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
   public abstract @Nullable V get(@Nullable Object key);
 
   @Override
-  public @Nullable Entry<K, V> firstEntry() {
+  public final @Nullable Entry<K, V> firstEntry() {
     return Iterators.<@Nullable Entry<K, V>>getNext(entryIterator(), null);
   }
 
   @Override
-  public @Nullable Entry<K, V> lastEntry() {
+  public final @Nullable Entry<K, V> lastEntry() {
     return Iterators.<@Nullable Entry<K, V>>getNext(descendingEntryIterator(), null);
   }
 
@@ -63,7 +63,7 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
 
   @Override
   @ParametricNullness
-  public K firstKey() {
+  public final K firstKey() {
     Entry<K, V> entry = firstEntry();
     if (entry == null) {
       throw new NoSuchElementException();
@@ -74,7 +74,7 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
 
   @Override
   @ParametricNullness
-  public K lastKey() {
+  public final K lastKey() {
     Entry<K, V> entry = lastEntry();
     if (entry == null) {
       throw new NoSuchElementException();
@@ -84,59 +84,59 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  public @Nullable Entry<K, V> lowerEntry(@ParametricNullness K key) {
+  public final @Nullable Entry<K, V> lowerEntry(@ParametricNullness K key) {
     return headMap(key, false).lastEntry();
   }
 
   @Override
-  public @Nullable Entry<K, V> floorEntry(@ParametricNullness K key) {
+  public final @Nullable Entry<K, V> floorEntry(@ParametricNullness K key) {
     return headMap(key, true).lastEntry();
   }
 
   @Override
-  public @Nullable Entry<K, V> ceilingEntry(@ParametricNullness K key) {
+  public final @Nullable Entry<K, V> ceilingEntry(@ParametricNullness K key) {
     return tailMap(key, true).firstEntry();
   }
 
   @Override
-  public @Nullable Entry<K, V> higherEntry(@ParametricNullness K key) {
+  public final @Nullable Entry<K, V> higherEntry(@ParametricNullness K key) {
     return tailMap(key, false).firstEntry();
   }
 
   @Override
-  public @Nullable K lowerKey(@ParametricNullness K key) {
+  public final @Nullable K lowerKey(@ParametricNullness K key) {
     return keyOrNull(lowerEntry(key));
   }
 
   @Override
-  public @Nullable K floorKey(@ParametricNullness K key) {
+  public final @Nullable K floorKey(@ParametricNullness K key) {
     return keyOrNull(floorEntry(key));
   }
 
   @Override
-  public @Nullable K ceilingKey(@ParametricNullness K key) {
+  public final @Nullable K ceilingKey(@ParametricNullness K key) {
     return keyOrNull(ceilingEntry(key));
   }
 
   @Override
-  public @Nullable K higherKey(@ParametricNullness K key) {
+  public final @Nullable K higherKey(@ParametricNullness K key) {
     return keyOrNull(higherEntry(key));
   }
 
   abstract Iterator<Entry<K, V>> descendingEntryIterator();
 
   @Override
-  public SortedMap<K, V> subMap(@ParametricNullness K fromKey, @ParametricNullness K toKey) {
+  public final SortedMap<K, V> subMap(@ParametricNullness K fromKey, @ParametricNullness K toKey) {
     return subMap(fromKey, true, toKey, false);
   }
 
   @Override
-  public SortedMap<K, V> headMap(@ParametricNullness K toKey) {
+  public final SortedMap<K, V> headMap(@ParametricNullness K toKey) {
     return headMap(toKey, false);
   }
 
   @Override
-  public SortedMap<K, V> tailMap(@ParametricNullness K fromKey) {
+  public final SortedMap<K, V> tailMap(@ParametricNullness K fromKey) {
     return tailMap(fromKey, true);
   }
 
@@ -146,12 +146,12 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
   }
 
   @Override
-  public Set<K> keySet() {
+  public final Set<K> keySet() {
     return navigableKeySet();
   }
 
   @Override
-  public NavigableSet<K> descendingKeySet() {
+  public final NavigableSet<K> descendingKeySet() {
     return descendingMap().navigableKeySet();
   }
 

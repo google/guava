@@ -93,7 +93,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
    * Specifies the delegate maps going in each direction. Called by subclasses during
    * deserialization.
    */
-  void setDelegates(Map<K, V> forward, Map<V, K> backward) {
+  final void setDelegates(Map<K, V> forward, Map<V, K> backward) {
     inverse = checkMapsAndMakeInverse(forward, backward);
     delegate = forward;
   }
@@ -107,18 +107,18 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return makeInverse(backward);
   }
 
-  AbstractBiMap<V, K> makeInverse(Map<V, K> backward) {
+  final AbstractBiMap<V, K> makeInverse(Map<V, K> backward) {
     return new Inverse<>(backward, this);
   }
 
-  void setInverse(AbstractBiMap<V, K> inverse) {
+  final void setInverse(AbstractBiMap<V, K> inverse) {
     this.inverse = inverse;
   }
 
   // Query Operations (optimizations)
 
   @Override
-  public boolean containsValue(@Nullable Object value) {
+  public final boolean containsValue(@Nullable Object value) {
     return inverse.containsKey(value);
   }
 
@@ -168,7 +168,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   @CanIgnoreReturnValue
   @Override
-  public @Nullable V remove(@Nullable Object key) {
+  public final @Nullable V remove(@Nullable Object key) {
     return containsKey(key) ? removeFromBothMaps(key) : null;
   }
 
@@ -188,14 +188,14 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   // Bulk Operations
 
   @Override
-  public void putAll(Map<? extends K, ? extends V> map) {
+  public final void putAll(Map<? extends K, ? extends V> map) {
     for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
       put(entry.getKey(), entry.getValue());
     }
   }
 
   @Override
-  public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+  public final void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
     this.delegate.replaceAll(function);
     inverse.delegate.clear();
     Entry<K, V> broken = null;
@@ -218,7 +218,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @Override
-  public void clear() {
+  public final void clear() {
     delegate.clear();
     inverse.delegate.clear();
   }
@@ -226,12 +226,12 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   // Views
 
   @Override
-  public BiMap<V, K> inverse() {
+  public final BiMap<V, K> inverse() {
     return inverse;
   }
 
   @Override
-  public Set<K> keySet() {
+  public final Set<K> keySet() {
     return new KeySet();
   }
 
@@ -272,7 +272,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @Override
-  public Set<V> values() {
+  public final Set<V> values() {
     /*
      * We can almost reuse the inverse's keySet, except we have to fix the
      * iteration order so that it is consistent with the forward map.
@@ -311,7 +311,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   @Override
-  public Set<Entry<K, V>> entrySet() {
+  public final Set<Entry<K, V>> entrySet() {
     return new EntrySet();
   }
 
@@ -344,7 +344,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
-  Iterator<Entry<K, V>> entrySetIterator() {
+  final Iterator<Entry<K, V>> entrySetIterator() {
     Iterator<Entry<K, V>> iterator = delegate.entrySet().iterator();
     return new Iterator<Entry<K, V>>() {
       @Nullable Entry<K, V> entry;

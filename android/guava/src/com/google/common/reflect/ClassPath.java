@@ -270,12 +270,12 @@ public final class ClassPath {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       return resourceName.hashCode();
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public final boolean equals(@Nullable Object obj) {
       if (obj instanceof ResourceInfo) {
         ResourceInfo that = (ResourceInfo) obj;
         return resourceName.equals(that.resourceName) && loader == that.loader;

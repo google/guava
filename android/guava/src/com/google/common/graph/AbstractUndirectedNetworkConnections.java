@@ -51,7 +51,7 @@ abstract class AbstractUndirectedNetworkConnections<N, E> implements NetworkConn
   }
 
   @Override
-  public Set<E> incidentEdges() {
+  public final Set<E> incidentEdges() {
     return unmodifiableSet(incidentEdgeMap.keySet());
   }
 

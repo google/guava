@@ -128,18 +128,18 @@ public final class Collections2 {
       this.predicate = predicate;
     }
 
-    FilteredCollection<E> createCombined(Predicate<? super E> newPredicate) {
+    final FilteredCollection<E> createCombined(Predicate<? super E> newPredicate) {
       return new FilteredCollection<>(unfiltered, and(predicate, newPredicate));
     }
 
     @Override
-    public boolean add(@ParametricNullness E element) {
+    public final boolean add(@ParametricNullness E element) {
       checkArgument(predicate.apply(element));
       return unfiltered.add(element);
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> collection) {
+    public final boolean addAll(Collection<? extends E> collection) {
       for (E element : collection) {
         checkArgument(predicate.apply(element));
       }
@@ -147,12 +147,12 @@ public final class Collections2 {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       Iterables.removeIf(unfiltered, predicate);
     }
 
     @Override
-    public boolean contains(@Nullable Object element) {
+    public final boolean contains(@Nullable Object element) {
       if (safeContains(unfiltered, element)) {
         @SuppressWarnings("unchecked") // element is in unfiltered, so it must be an E
         E e = (E) element;
@@ -162,27 +162,27 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean containsAll(Collection<?> collection) {
+    public final boolean containsAll(Collection<?> collection) {
       return containsAllImpl(this, collection);
     }
 
     @Override
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
       return !any(unfiltered, predicate);
     }
 
     @Override
-    public Iterator<E> iterator() {
+    public final Iterator<E> iterator() {
       return Iterators.filter(unfiltered.iterator(), predicate);
     }
 
     @Override
-    public boolean remove(@Nullable Object element) {
+    public final boolean remove(@Nullable Object element) {
       return contains(element) && unfiltered.remove(element);
     }
 
     @Override
-    public boolean removeAll(Collection<?> collection) {
+    public final boolean removeAll(Collection<?> collection) {
       boolean changed = false;
       Iterator<E> itr = unfiltered.iterator();
       while (itr.hasNext()) {
@@ -196,7 +196,7 @@ public final class Collections2 {
     }
 
     @Override
-    public boolean retainAll(Collection<?> collection) {
+    public final boolean retainAll(Collection<?> collection) {
       boolean changed = false;
       Iterator<E> itr = unfiltered.iterator();
       while (itr.hasNext()) {
@@ -210,7 +210,7 @@ public final class Collections2 {
     }
 
     @Override
-    public int size() {
+    public final int size() {
       int size = 0;
       for (E e : unfiltered) {
         if (predicate.apply(e)) {
@@ -221,14 +221,14 @@ public final class Collections2 {
     }
 
     @Override
-    public @Nullable Object[] toArray() {
+    public final @Nullable Object[] toArray() {
       // creating an ArrayList so filtering happens once
       return newArrayList(iterator()).toArray();
     }
 
     @Override
     @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
-    public <T extends @Nullable Object> T[] toArray(T[] array) {
+    public final <T extends @Nullable Object> T[] toArray(T[] array) {
       return newArrayList(iterator()).toArray(array);
     }
   }

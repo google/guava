@@ -94,7 +94,7 @@ final class Synchronized {
     // No equals and hashCode; see ForwardingObject for details.
 
     @Override
-    public String toString() {
+    public final String toString() {
       synchronized (mutex) {
         return delegate.toString();
       }
@@ -134,21 +134,21 @@ final class Synchronized {
     }
 
     @Override
-    public boolean add(E e) {
+    public final boolean add(E e) {
       synchronized (mutex) {
         return delegate().add(e);
       }
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> c) {
+    public final boolean addAll(Collection<? extends E> c) {
       synchronized (mutex) {
         return delegate().addAll(c);
       }
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       synchronized (mutex) {
         delegate().clear();
       }
@@ -169,7 +169,7 @@ final class Synchronized {
     }
 
     @Override
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
       synchronized (mutex) {
         return delegate().isEmpty();
       }
@@ -202,7 +202,7 @@ final class Synchronized {
     }
 
     @Override
-    public int size() {
+    public final int size() {
       synchronized (mutex) {
         return delegate().size();
       }
@@ -254,7 +254,7 @@ final class Synchronized {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       synchronized (mutex) {
         return delegate().hashCode();
       }
@@ -280,7 +280,7 @@ final class Synchronized {
     }
 
     @Override
-    public @Nullable Comparator<? super E> comparator() {
+    public final @Nullable Comparator<? super E> comparator() {
       synchronized (mutex) {
         return delegate().comparator();
       }
@@ -308,14 +308,14 @@ final class Synchronized {
     }
 
     @Override
-    public E first() {
+    public final E first() {
       synchronized (mutex) {
         return delegate().first();
       }
     }
 
     @Override
-    public E last() {
+    public final E last() {
       synchronized (mutex) {
         return delegate().last();
       }
@@ -337,78 +337,78 @@ final class Synchronized {
     }
 
     @Override
-    List<E> delegate() {
+    final List<E> delegate() {
       return (List<E>) super.delegate();
     }
 
     @Override
-    public void add(int index, E element) {
+    public final void add(int index, E element) {
       synchronized (mutex) {
         delegate().add(index, element);
       }
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
+    public final boolean addAll(int index, Collection<? extends E> c) {
       synchronized (mutex) {
         return delegate().addAll(index, c);
       }
     }
 
     @Override
-    public E get(int index) {
+    public final E get(int index) {
       synchronized (mutex) {
         return delegate().get(index);
       }
     }
 
     @Override
-    public int indexOf(@Nullable Object o) {
+    public final int indexOf(@Nullable Object o) {
       synchronized (mutex) {
         return delegate().indexOf(o);
       }
     }
 
     @Override
-    public int lastIndexOf(@Nullable Object o) {
+    public final int lastIndexOf(@Nullable Object o) {
       synchronized (mutex) {
         return delegate().lastIndexOf(o);
       }
     }
 
     @Override
-    public ListIterator<E> listIterator() {
+    public final ListIterator<E> listIterator() {
       return delegate().listIterator(); // manually synchronized
     }
 
     @Override
-    public ListIterator<E> listIterator(int index) {
+    public final ListIterator<E> listIterator(int index) {
       return delegate().listIterator(index); // manually synchronized
     }
 
     @Override
-    public E remove(int index) {
+    public final E remove(int index) {
       synchronized (mutex) {
         return delegate().remove(index);
       }
     }
 
     @Override
-    public E set(int index, E element) {
+    public final E set(int index, E element) {
       synchronized (mutex) {
         return delegate().set(index, element);
       }
     }
 
     @Override
-    public List<E> subList(int fromIndex, int toIndex) {
+    public final List<E> subList(int fromIndex, int toIndex) {
       synchronized (mutex) {
         return list(delegate().subList(fromIndex, toIndex), mutex);
       }
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public final boolean equals(@Nullable Object o) {
       if (o == this) {
         return true;
       }
@@ -418,7 +418,7 @@ final class Synchronized {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       synchronized (mutex) {
         return delegate().hashCode();
       }
@@ -703,7 +703,7 @@ final class Synchronized {
     @Override
     // A forwarding implementation can't do any better than the underlying object.
     @SuppressWarnings("UndefinedEquals")
-    public boolean equals(@Nullable Object o) {
+    public final boolean equals(@Nullable Object o) {
       if (o == this) {
         return true;
       }
@@ -713,7 +713,7 @@ final class Synchronized {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       synchronized (mutex) {
         return delegate().hashCode();
       }
@@ -1020,14 +1020,14 @@ final class Synchronized {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       synchronized (mutex) {
         delegate().clear();
       }
     }
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public final boolean containsKey(@Nullable Object key) {
       synchronized (mutex) {
         return delegate().containsKey(key);
       }
@@ -1058,7 +1058,7 @@ final class Synchronized {
     }
 
     @Override
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
       synchronized (mutex) {
         return delegate().isEmpty();
       }
@@ -1075,28 +1075,28 @@ final class Synchronized {
     }
 
     @Override
-    public @Nullable V put(K key, V value) {
+    public final @Nullable V put(K key, V value) {
       synchronized (mutex) {
         return delegate().put(key, value);
       }
     }
 
     @Override
-    public void putAll(Map<? extends K, ? extends V> map) {
+    public final void putAll(Map<? extends K, ? extends V> map) {
       synchronized (mutex) {
         delegate().putAll(map);
       }
     }
 
     @Override
-    public @Nullable V remove(@Nullable Object key) {
+    public final @Nullable V remove(@Nullable Object key) {
       synchronized (mutex) {
         return delegate().remove(key);
       }
     }
 
     @Override
-    public int size() {
+    public final int size() {
       synchronized (mutex) {
         return delegate().size();
       }
@@ -1113,7 +1113,7 @@ final class Synchronized {
     }
 
     @Override
-    public boolean equals(@Nullable Object o) {
+    public final boolean equals(@Nullable Object o) {
       if (o == this) {
         return true;
       }
@@ -1123,7 +1123,7 @@ final class Synchronized {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       synchronized (mutex) {
         return delegate().hashCode();
       }
@@ -1150,14 +1150,14 @@ final class Synchronized {
     }
 
     @Override
-    public @Nullable Comparator<? super K> comparator() {
+    public final @Nullable Comparator<? super K> comparator() {
       synchronized (mutex) {
         return delegate().comparator();
       }
     }
 
     @Override
-    public K firstKey() {
+    public final K firstKey() {
       synchronized (mutex) {
         return delegate().firstKey();
       }
@@ -1171,7 +1171,7 @@ final class Synchronized {
     }
 
     @Override
-    public K lastKey() {
+    public final K lastKey() {
       synchronized (mutex) {
         return delegate().lastKey();
       }
@@ -1714,35 +1714,35 @@ final class Synchronized {
     }
 
     @Override
-    public E element() {
+    public final E element() {
       synchronized (mutex) {
         return delegate().element();
       }
     }
 
     @Override
-    public boolean offer(E e) {
+    public final boolean offer(E e) {
       synchronized (mutex) {
         return delegate().offer(e);
       }
     }
 
     @Override
-    public @Nullable E peek() {
+    public final @Nullable E peek() {
       synchronized (mutex) {
         return delegate().peek();
       }
     }
 
     @Override
-    public @Nullable E poll() {
+    public final @Nullable E poll() {
       synchronized (mutex) {
         return delegate().poll();
       }
     }
 
     @Override
-    public E remove() {
+    public final E remove() {
       synchronized (mutex) {
         return delegate().remove();
       }

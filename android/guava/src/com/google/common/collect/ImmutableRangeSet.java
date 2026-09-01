@@ -820,7 +820,7 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     }
 
     @CanIgnoreReturnValue
-    Builder<C> combine(Builder<C> builder) {
+    final Builder<C> combine(Builder<C> builder) {
       addAll(builder.ranges);
       return this;
     }

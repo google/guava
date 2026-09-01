@@ -219,7 +219,7 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
   ImmutableMultiset() {}
 
   @Override
-  public UnmodifiableIterator<E> iterator() {
+  public final UnmodifiableIterator<E> iterator() {
     Iterator<Entry<E>> entryIterator = entrySet().iterator();
     return new UnmodifiableIterator<E>() {
       int remaining;

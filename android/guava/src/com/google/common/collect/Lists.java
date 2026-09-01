@@ -706,7 +706,7 @@ public final class Lists {
     }
 
     @Override
-    public List<T> get(int index) {
+    public final List<T> get(int index) {
       checkElementIndex(index, size());
       int start = index * size;
       int end = min(start + size, list.size());
@@ -714,12 +714,12 @@ public final class Lists {
     }
 
     @Override
-    public int size() {
+    public final int size() {
       return IntMath.divide(list.size(), size, RoundingMode.CEILING);
     }
 
     @Override
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
       return list.isEmpty();
     }
   }
@@ -857,7 +857,7 @@ public final class Lists {
       this.forwardList = checkNotNull(forwardList);
     }
 
-    List<T> getForwardList() {
+    final List<T> getForwardList() {
       return forwardList;
     }
 
@@ -874,56 +874,56 @@ public final class Lists {
     }
 
     @Override
-    public void add(int index, @ParametricNullness T element) {
+    public final void add(int index, @ParametricNullness T element) {
       forwardList.add(reversePosition(index), element);
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       forwardList.clear();
     }
 
     @Override
     @ParametricNullness
-    public T remove(int index) {
+    public final T remove(int index) {
       return forwardList.remove(reverseIndex(index));
     }
 
     @Override
-    protected void removeRange(int fromIndex, int toIndex) {
+    protected final void removeRange(int fromIndex, int toIndex) {
       subList(fromIndex, toIndex).clear();
     }
 
     @Override
     @ParametricNullness
-    public T set(int index, @ParametricNullness T element) {
+    public final T set(int index, @ParametricNullness T element) {
       return forwardList.set(reverseIndex(index), element);
     }
 
     @Override
     @ParametricNullness
-    public T get(int index) {
+    public final T get(int index) {
       return forwardList.get(reverseIndex(index));
     }
 
     @Override
-    public int size() {
+    public final int size() {
       return forwardList.size();
     }
 
     @Override
-    public List<T> subList(int fromIndex, int toIndex) {
+    public final List<T> subList(int fromIndex, int toIndex) {
       checkPositionIndexes(fromIndex, toIndex, size());
       return reverse(forwardList.subList(reversePosition(toIndex), reversePosition(fromIndex)));
     }
 
     @Override
-    public Iterator<T> iterator() {
+    public final Iterator<T> iterator() {
       return listIterator();
     }
 
     @Override
-    public ListIterator<T> listIterator(int index) {
+    public final ListIterator<T> listIterator(int index) {
       int start = reversePosition(index);
       ListIterator<T> forwardIterator = forwardList.listIterator(start);
       return new ListIterator<T>() {
@@ -1158,40 +1158,40 @@ public final class Lists {
     }
 
     @Override
-    public void add(int index, @ParametricNullness E element) {
+    public final void add(int index, @ParametricNullness E element) {
       backingList.add(index, element);
     }
 
     @Override
-    public boolean addAll(int index, Collection<? extends E> c) {
+    public final boolean addAll(int index, Collection<? extends E> c) {
       return backingList.addAll(index, c);
     }
 
     @Override
     @ParametricNullness
-    public E get(int index) {
+    public final E get(int index) {
       return backingList.get(index);
     }
 
     @Override
     @ParametricNullness
-    public E remove(int index) {
+    public final E remove(int index) {
       return backingList.remove(index);
     }
 
     @Override
     @ParametricNullness
-    public E set(int index, @ParametricNullness E element) {
+    public final E set(int index, @ParametricNullness E element) {
       return backingList.set(index, element);
     }
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public final boolean contains(@Nullable Object o) {
       return backingList.contains(o);
     }
 
     @Override
-    public int size() {
+    public final int size() {
       return backingList.size();
     }
   }

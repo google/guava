@@ -196,11 +196,11 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
 
     @Override
-    public Set<K> keySet() {
+    public final Set<K> keySet() {
       return keyIndex.keySet();
     }
 
-    K getKey(int index) {
+    final K getKey(int index) {
       return keyIndex.keySet().asList().get(index);
     }
 
@@ -213,16 +213,16 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     abstract V setValue(int index, @ParametricNullness V newValue);
 
     @Override
-    public int size() {
+    public final int size() {
       return keyIndex.size();
     }
 
     @Override
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
       return keyIndex.isEmpty();
     }
 
-    Entry<K, V> getEntry(int index) {
+    final Entry<K, V> getEntry(int index) {
       checkElementIndex(index, size());
       return new AbstractMapEntry<K, V>() {
         @Override
@@ -264,12 +264,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     // TODO(lowasser): consider an optimized values() implementation
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public final boolean containsKey(@Nullable Object key) {
       return keyIndex.containsKey(key);
     }
 
     @Override
-    public @Nullable V get(@Nullable Object key) {
+    public final @Nullable V get(@Nullable Object key) {
       Integer index = keyIndex.get(key);
       if (index == null) {
         return null;
@@ -289,12 +289,12 @@ public final class ArrayTable<R, C, V> extends AbstractTable<R, C, @Nullable V>
     }
 
     @Override
-    public @Nullable V remove(@Nullable Object key) {
+    public final @Nullable V remove(@Nullable Object key) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       throw new UnsupportedOperationException();
     }
   }

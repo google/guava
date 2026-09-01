@@ -86,12 +86,12 @@ class StandardValueGraph<N, V> extends AbstractValueGraph<N, V> {
   }
 
   @Override
-  public boolean isDirected() {
+  public final boolean isDirected() {
     return isDirected;
   }
 
   @Override
-  public boolean allowsSelfLoops() {
+  public final boolean allowsSelfLoops() {
     return allowsSelfLoops;
   }
 

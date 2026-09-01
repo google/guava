@@ -98,7 +98,7 @@ public class ListMultimapTestSuiteBuilder<K, V>
   }
 
   @Override
-  Set<Feature<?>> computeMultimapGetFeatures(Set<Feature<?>> multimapFeatures) {
+  final Set<Feature<?>> computeMultimapGetFeatures(Set<Feature<?>> multimapFeatures) {
     Set<Feature<?>> derivedFeatures = super.computeMultimapGetFeatures(multimapFeatures);
     if (derivedFeatures.contains(CollectionFeature.SUPPORTS_ADD)) {
       derivedFeatures.add(ListFeature.SUPPORTS_ADD_WITH_INDEX);

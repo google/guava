@@ -625,7 +625,7 @@ public final class Maps {
     }
 
     @Override
-    public boolean areEqual() {
+    public final boolean areEqual() {
       return onlyOnLeft.isEmpty() && onlyOnRight.isEmpty() && differences.isEmpty();
     }
 
@@ -650,7 +650,7 @@ public final class Maps {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public final boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -665,13 +665,13 @@ public final class Maps {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       return Objects.hash(
           entriesOnlyOnLeft(), entriesOnlyOnRight(), entriesInCommon(), entriesDiffering());
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       if (areEqual()) {
         return "equal";
       }
@@ -895,17 +895,17 @@ public final class Maps {
     }
 
     @Override
-    public int size() {
+    public final int size() {
       return backingSet().size();
     }
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public final boolean containsKey(@Nullable Object key) {
       return backingSet().contains(key);
     }
 
     @Override
-    public @Nullable V get(@Nullable Object key) {
+    public final @Nullable V get(@Nullable Object key) {
       if (safeContains(backingSet(), key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
@@ -916,7 +916,7 @@ public final class Maps {
     }
 
     @Override
-    public @Nullable V remove(@Nullable Object key) {
+    public final @Nullable V remove(@Nullable Object key) {
       if (backingSet().remove(key)) {
         @SuppressWarnings("unchecked") // unsafe, but Javadoc warns about it
         K k = (K) key;
@@ -927,7 +927,7 @@ public final class Maps {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       backingSet().clear();
     }
 
@@ -1508,14 +1508,14 @@ public final class Maps {
     }
 
     @Override
-    public Iterator<Entry<K, V>> iterator() {
+    public final Iterator<Entry<K, V>> iterator() {
       return unmodifiableEntryIterator(entries.iterator());
     }
 
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.
 
     @Override
-    public @Nullable Object[] toArray() {
+    public final @Nullable Object[] toArray() {
       /*
        * standardToArray returns `@Nullable Object[]` rather than `Object[]` but because it can
        * be used with collections that may contain null. This collection never contains nulls, so we
@@ -1527,7 +1527,7 @@ public final class Maps {
 
     @Override
     @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
-    public <T extends @Nullable Object> T[] toArray(T[] array) {
+    public final <T extends @Nullable Object> T[] toArray(T[] array) {
       return standardToArray(array);
     }
   }
@@ -2039,12 +2039,12 @@ public final class Maps {
     }
 
     @Override
-    public int size() {
+    public final int size() {
       return fromMap.size();
     }
 
     @Override
-    public boolean containsKey(@Nullable Object key) {
+    public final boolean containsKey(@Nullable Object key) {
       return fromMap.containsKey(key);
     }
 
@@ -2063,7 +2063,7 @@ public final class Maps {
     // safe as long as the user followed the <b>Warning</b> in the javadoc
     @SuppressWarnings("unchecked")
     @Override
-    public @Nullable V2 remove(@Nullable Object key) {
+    public final @Nullable V2 remove(@Nullable Object key) {
       return fromMap.containsKey(key)
           // The cast is safe because of the containsKey check.
           ? transformer.transformEntry((K) key, uncheckedCastNullableTToT(fromMap.remove(key)))
@@ -2071,12 +2071,12 @@ public final class Maps {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       fromMap.clear();
     }
 
     @Override
-    public Set<K> keySet() {
+    public final Set<K> keySet() {
       return fromMap.keySet();
     }
 
@@ -2086,7 +2086,7 @@ public final class Maps {
     }
 
     @Override
-    public Collection<V2> values() {
+    public final Collection<V2> values() {
       return new Values<>(this);
     }
   }
@@ -2105,13 +2105,13 @@ public final class Maps {
     }
 
     @Override
-    public @Nullable Comparator<? super K> comparator() {
+    public final @Nullable Comparator<? super K> comparator() {
       return fromMap().comparator();
     }
 
     @Override
     @ParametricNullness
-    public K firstKey() {
+    public final K firstKey() {
       return fromMap().firstKey();
     }
 
@@ -2122,7 +2122,7 @@ public final class Maps {
 
     @Override
     @ParametricNullness
-    public K lastKey() {
+    public final K lastKey() {
       return fromMap().lastKey();
     }
 
@@ -2723,7 +2723,7 @@ public final class Maps {
       this.predicate = predicate;
     }
 
-    boolean apply(@Nullable Object key, @ParametricNullness V value) {
+    final boolean apply(@Nullable Object key, @ParametricNullness V value) {
       // This method is called only when the key is in the map (or about to be added to the map),
       // implying that key is a K.
       @SuppressWarnings({"unchecked", "nullness"})
@@ -2732,13 +2732,13 @@ public final class Maps {
     }
 
     @Override
-    public @Nullable V put(@ParametricNullness K key, @ParametricNullness V value) {
+    public final @Nullable V put(@ParametricNullness K key, @ParametricNullness V value) {
       checkArgument(apply(key, value));
       return unfiltered.put(key, value);
     }
 
     @Override
-    public void putAll(Map<? extends K, ? extends V> map) {
+    public final void putAll(Map<? extends K, ? extends V> map) {
       for (Entry<? extends K, ? extends V> entry : map.entrySet()) {
         checkArgument(apply(entry.getKey(), entry.getValue()));
       }
@@ -2751,18 +2751,18 @@ public final class Maps {
     }
 
     @Override
-    public @Nullable V get(@Nullable Object key) {
+    public final @Nullable V get(@Nullable Object key) {
       V value = unfiltered.get(key);
       return ((value != null) && apply(key, value)) ? value : null;
     }
 
     @Override
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
       return entrySet().isEmpty();
     }
 
     @Override
-    public @Nullable V remove(@Nullable Object key) {
+    public final @Nullable V remove(@Nullable Object key) {
       return containsKey(key) ? unfiltered.remove(key) : null;
     }
 
@@ -2956,7 +2956,7 @@ public final class Maps {
       }
 
       @Override
-      public boolean remove(@Nullable Object o) {
+      public final boolean remove(@Nullable Object o) {
         if (containsKey(o)) {
           unfiltered.remove(o);
           return true;
@@ -2965,24 +2965,24 @@ public final class Maps {
       }
 
       @Override
-      public boolean removeAll(Collection<?> collection) {
+      public final boolean removeAll(Collection<?> collection) {
         return removeAllKeys(unfiltered, predicate, collection);
       }
 
       @Override
-      public boolean retainAll(Collection<?> collection) {
+      public final boolean retainAll(Collection<?> collection) {
         return retainAllKeys(unfiltered, predicate, collection);
       }
 
       @Override
-      public @Nullable Object[] toArray() {
+      public final @Nullable Object[] toArray() {
         // creating an ArrayList so filtering happens once
         return newArrayList(iterator()).toArray();
       }
 
       @Override
       @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
-      public <T extends @Nullable Object> T[] toArray(T[] array) {
+      public final <T extends @Nullable Object> T[] toArray(T[] array) {
         return newArrayList(iterator()).toArray(array);
       }
     }
@@ -3899,22 +3899,22 @@ public final class Maps {
     }
 
     @Override
-    public int size() {
+    public final int size() {
       return map().size();
     }
 
     @Override
-    public boolean isEmpty() {
+    public final boolean isEmpty() {
       return map().isEmpty();
     }
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public final boolean contains(@Nullable Object o) {
       return map().containsValue(o);
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       map().clear();
     }
   }

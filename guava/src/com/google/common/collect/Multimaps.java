@@ -1694,7 +1694,7 @@ public final class Multimaps {
     }
 
     @Override
-    Iterator<Multiset.Entry<K>> entryIterator() {
+    final Iterator<Multiset.Entry<K>> entryIterator() {
       return new TransformedIterator<Map.Entry<K, Collection<V>>, Multiset.Entry<K>>(
           multimap.asMap().entrySet().iterator()) {
         @Override
@@ -1716,12 +1716,12 @@ public final class Multimaps {
     }
 
     @Override
-    public Spliterator<K> spliterator() {
+    public final Spliterator<K> spliterator() {
       return CollectSpliterators.map(multimap.entries().spliterator(), 0, Map.Entry::getKey);
     }
 
     @Override
-    public void forEach(Consumer<? super K> consumer) {
+    public final void forEach(Consumer<? super K> consumer) {
       checkNotNull(consumer);
       multimap.entries().forEach(entry -> consumer.accept(entry.getKey()));
     }
@@ -1732,22 +1732,22 @@ public final class Multimaps {
     }
 
     @Override
-    public int size() {
+    public final int size() {
       return multimap.size();
     }
 
     @Override
-    public boolean contains(@Nullable Object element) {
+    public final boolean contains(@Nullable Object element) {
       return multimap.containsKey(element);
     }
 
     @Override
-    public Iterator<K> iterator() {
+    public final Iterator<K> iterator() {
       return keyIterator(multimap.entries().iterator());
     }
 
     @Override
-    public int count(@Nullable Object element) {
+    public final int count(@Nullable Object element) {
       Collection<V> values = safeGet(multimap.asMap(), element);
       return (values == null) ? 0 : values.size();
     }
@@ -1779,7 +1779,7 @@ public final class Multimaps {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       multimap.clear();
     }
 
@@ -1800,12 +1800,12 @@ public final class Multimaps {
     abstract Multimap<K, V> multimap();
 
     @Override
-    public int size() {
+    public final int size() {
       return multimap().size();
     }
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public final boolean contains(@Nullable Object o) {
       if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().containsEntry(entry.getKey(), entry.getValue());
@@ -1814,7 +1814,7 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
+    public final boolean remove(@Nullable Object o) {
       if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().remove(entry.getKey(), entry.getValue());
@@ -1823,7 +1823,7 @@ public final class Multimaps {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       multimap().clear();
     }
   }

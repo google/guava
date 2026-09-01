@@ -748,7 +748,7 @@ public final class ImmutableSortedMap<K, V> extends ImmutableMap<K, V>
      * so its return value will get used naturally.
      */
     @SuppressWarnings("CanIgnoreReturnValueSuggester")
-    Builder<K, V> combine(ImmutableSortedMap.Builder<K, V> other) {
+    final Builder<K, V> combine(ImmutableSortedMap.Builder<K, V> other) {
       ensureCapacity(size + other.size);
       System.arraycopy(other.keys, 0, this.keys, this.size, other.size);
       System.arraycopy(other.values, 0, this.values, this.size, other.size);

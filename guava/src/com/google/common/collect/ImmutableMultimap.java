@@ -181,7 +181,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
       // otherwise, leave it null to be constructed lazily
     }
 
-    Map<K, ImmutableCollection.Builder<V>> ensureBuilderMapNonNull() {
+    final Map<K, ImmutableCollection.Builder<V>> ensureBuilderMapNonNull() {
       Map<K, ImmutableCollection.Builder<V>> result = builderMap;
       if (result == null) {
         result = Platform.preservesInsertionOrderOnPutsMap();
