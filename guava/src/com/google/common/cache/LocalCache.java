@@ -104,6 +104,8 @@ import org.jspecify.annotations.Nullable;
 @SuppressWarnings({
   "GoodTime", // lots of violations (nanosecond math)
   "nullness", // too much trouble for the payoff
+  // All updates of `count` perform their write and any preceding read under the lock.
+  "NonAtomicVolatileUpdate",
 })
 @GwtCompatible
 @NullUnmarked // TODO(cpovirk): Annotate for nullness.
@@ -2407,7 +2409,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
      */
     @Nullable LoadingValueReference<K, V> insertLoadingValueReference(
         K key, int hash, boolean checkTime) {
-      ReferenceEntry<K, V> e = null;
+      ReferenceEntry<K, V> e;
       lock();
       try {
         long now = map.ticker.read();
@@ -2803,10 +2805,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         long now = map.ticker.read();
         preWriteCleanup(now);
 
-        int newCount = this.count + 1;
-        if (newCount > this.threshold) { // ensure capacity
+        if (this.count + 1 > this.threshold) { // ensure capacity
           expand();
-          newCount = this.count + 1;
         }
 
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
@@ -2826,6 +2826,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
 
             if (entryValue == null) {
               ++modCount;
+              int newCount;
               if (valueReference.isActive()) {
                 enqueueNotification(
                     key, hash, entryValue, valueReference.getWeight(), RemovalCause.COLLECTED);
@@ -2861,8 +2862,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         ReferenceEntry<K, V> newEntry = newEntry(key, hash, first);
         setValue(newEntry, key, value, now);
         table.set(index, newEntry);
-        newCount = this.count + 1;
-        this.count = newCount; // write-volatile
+        this.count++; // write-volatile
         evictEntries(newEntry);
         return null;
       } finally {
@@ -2961,7 +2961,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
             if (entryValue == null) {
               if (valueReference.isActive()) {
                 // If the value disappeared, this entry is partially collected.
-                int newCount = this.count - 1;
                 ++modCount;
                 ReferenceEntry<K, V> newFirst =
                     removeValueFromChain(
@@ -2972,9 +2971,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
                         entryValue,
                         valueReference,
                         RemovalCause.COLLECTED);
-                newCount = this.count - 1;
                 table.set(index, newFirst);
-                this.count = newCount; // write-volatile
+                this.count--; // write-volatile
               }
               return false;
             }
@@ -3022,7 +3020,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
             if (entryValue == null) {
               if (valueReference.isActive()) {
                 // If the value disappeared, this entry is partially collected.
-                int newCount = this.count - 1;
                 ++modCount;
                 ReferenceEntry<K, V> newFirst =
                     removeValueFromChain(
@@ -3033,9 +3030,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
                         entryValue,
                         valueReference,
                         RemovalCause.COLLECTED);
-                newCount = this.count - 1;
                 table.set(index, newFirst);
-                this.count = newCount; // write-volatile
+                this.count--; // write-volatile
               }
               return null;
             }
@@ -3062,7 +3058,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         long now = map.ticker.read();
         preWriteCleanup(now);
 
-        int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
         ReferenceEntry<K, V> first = table.get(index);
@@ -3088,9 +3083,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
             ++modCount;
             ReferenceEntry<K, V> newFirst =
                 removeValueFromChain(first, e, entryKey, hash, entryValue, valueReference, cause);
-            newCount = this.count - 1;
             table.set(index, newFirst);
-            this.count = newCount; // write-volatile
+            this.count--; // write-volatile
             return entryValue;
           }
         }
@@ -3108,7 +3102,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         long now = map.ticker.read();
         preWriteCleanup(now);
 
-        int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
         ReferenceEntry<K, V> first = table.get(index);
@@ -3134,9 +3127,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
             ++modCount;
             ReferenceEntry<K, V> newFirst =
                 removeValueFromChain(first, e, entryKey, hash, entryValue, valueReference, cause);
-            newCount = this.count - 1;
             table.set(index, newFirst);
-            this.count = newCount; // write-volatile
+            this.count--; // write-volatile
             return (cause == RemovalCause.EXPLICIT);
           }
         }
@@ -3303,7 +3295,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     boolean reclaimKey(ReferenceEntry<K, V> entry, int hash) {
       lock();
       try {
-        int newCount = count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
         ReferenceEntry<K, V> first = table.get(index);
@@ -3320,9 +3311,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
                     e.getValueReference().get(),
                     e.getValueReference(),
                     RemovalCause.COLLECTED);
-            newCount = this.count - 1;
             table.set(index, newFirst);
-            this.count = newCount; // write-volatile
+            this.count--; // write-volatile
             return true;
           }
         }
@@ -3339,7 +3329,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     boolean reclaimValue(@Nullable K key, int hash, ValueReference<K, V> valueReference) {
       lock();
       try {
-        int newCount = this.count - 1;
         AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
         int index = hash & (table.length() - 1);
         ReferenceEntry<K, V> first = table.get(index);
@@ -3361,9 +3350,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
                       valueReference.get(),
                       valueReference,
                       RemovalCause.COLLECTED);
-              newCount = this.count - 1;
               table.set(index, newFirst);
-              this.count = newCount; // write-volatile
+              this.count--; // write-volatile
               return true;
             }
             return false;
@@ -3417,7 +3405,6 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     @GuardedBy("this")
     @CanIgnoreReturnValue
     boolean removeEntry(ReferenceEntry<K, V> entry, int hash, RemovalCause cause) {
-      int newCount = this.count - 1;
       AtomicReferenceArray<ReferenceEntry<K, V>> table = this.table;
       int index = hash & (table.length() - 1);
       ReferenceEntry<K, V> first = table.get(index);
@@ -3434,9 +3421,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
                   e.getValueReference().get(),
                   e.getValueReference(),
                   cause);
-          newCount = this.count - 1;
           table.set(index, newFirst);
-          this.count = newCount; // write-volatile
+          this.count--; // write-volatile
           return true;
         }
       }
@@ -4079,11 +4065,8 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
   }
 
-  /**
-   * Returns the result of calling {@link CacheLoader#loadAll}, or null if {@code loader} doesn't
-   * implement {@code loadAll}.
-   */
-  @Nullable Map<K, V> loadAll(Set<? extends K> keys, CacheLoader<? super K, V> loader)
+  /** Returns the result of calling {@link CacheLoader#loadAll}. */
+  Map<K, V> loadAll(Set<? extends K> keys, CacheLoader<? super K, V> loader)
       throws ExecutionException {
     checkNotNull(loader);
     checkNotNull(keys);
@@ -4666,8 +4649,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         return false;
       }
       Entry<?, ?> e = (Entry<?, ?>) o;
-      Object key = e.getKey();
-      return key != null && LocalCache.this.remove(key, e.getValue());
+      return LocalCache.this.remove(e.getKey(), e.getValue());
     }
   }
 

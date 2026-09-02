@@ -2763,8 +2763,7 @@ final class MapMakerInternalMap<
         return false;
       }
       Entry<?, ?> e = (Entry<?, ?>) o;
-      Object key = e.getKey();
-      return key != null && MapMakerInternalMap.this.remove(key, e.getValue());
+      return MapMakerInternalMap.this.remove(e.getKey(), e.getValue());
     }
 
     @Override
