@@ -199,14 +199,26 @@ public abstract class ImmutableTable<R, C, V> extends AbstractTable<R, C, V>
      */
     public Builder() {}
 
-    /** Specifies the ordering of the generated table's rows. */
+    /**
+     * Specifies the ordering of the generated table's rows.
+     *
+     * <p>The comparator is used only for ordering. Row lookups in the resulting table, including
+     * {@link ImmutableTable#row} and {@link ImmutableTable#rowMap}, still use {@link
+     * Object#equals}.
+     */
     @CanIgnoreReturnValue
     public Builder<R, C, V> orderRowsBy(Comparator<? super R> rowComparator) {
       this.rowComparator = checkNotNull(rowComparator, "rowComparator");
       return this;
     }
 
-    /** Specifies the ordering of the generated table's columns. */
+    /**
+     * Specifies the ordering of the generated table's columns.
+     *
+     * <p>The comparator is used only for ordering. Column lookups in the resulting table, including
+     * {@link ImmutableTable#column} and {@link ImmutableTable#columnMap}, still use {@link
+     * Object#equals}.
+     */
     @CanIgnoreReturnValue
     public Builder<R, C, V> orderColumnsBy(Comparator<? super C> columnComparator) {
       this.columnComparator = checkNotNull(columnComparator, "columnComparator");
