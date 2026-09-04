@@ -648,33 +648,6 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
       }
     }
 
-    /**
-     * Scans the first {@code size} elements of {@code entries} looking for duplicate keys. If
-     * duplicates are found, a new correctly-sized array is returned with the same elements (up to
-     * {@code size}), except containing only the last occurrence of each duplicate key. Otherwise
-     * {@code null} is returned.
-     */
-    private static <K, V> Entry<K, V> @Nullable [] lastEntryForEachKey(
-        Entry<K, V>[] entries, int size) {
-      Set<K> seen = new HashSet<>();
-      BitSet dups = new BitSet(); // slots that are overridden by a later duplicate key
-      for (int i = size - 1; i >= 0; i--) {
-        if (!seen.add(entries[i].getKey())) {
-          dups.set(i);
-        }
-      }
-      if (dups.isEmpty()) {
-        return null;
-      }
-      @SuppressWarnings({"rawtypes", "unchecked"})
-      Entry<K, V>[] newEntries = new Entry[size - dups.cardinality()];
-      for (int inI = 0, outI = 0; inI < size; inI++) {
-        if (!dups.get(inI)) {
-          newEntries[outI++] = entries[inI];
-        }
-      }
-      return newEntries;
-    }
   }
 
   /**
@@ -743,6 +716,111 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
          */
         return RegularImmutableMap.fromEntries(entryArray);
     }
+  }
+
+  /**
+   * Returns an immutable map containing the same entries as {@code map}, sorted according to the
+   * natural ordering of the keys. The sorting algorithm used is stable, so entries whose keys
+   * compare as equal will stay in the order in which they appear in the input. In addition, if two
+   * or more entries have keys that are equal, the value associated with the <i>last</i> such entry
+   * is kept.
+   *
+   * <p>If you want a map whose entries are always sorted, even under further iteration, use {@link
+   * ImmutableSortedMap} instead: In exchange for {@code O(log N)} {@link Map#get} lookups (instead
+   * of the {@code O(1)} lookups of the map returned by this method), {@code ImmutableSortedMap}
+   * guarantees that its {@code entrySet()}, {@code keySet()}, and {@code values()} views iterate in
+   * sorted order forever.
+   *
+   * <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} of {@link
+   * Entry} instances to a sorted {@code ImmutableMap}, use {@code
+   * stream.sorted(Map.Entry.comparingByKey()).collect(toImmutableMap(Entry::getKey,
+   * Entry::getValue))}. (Unlike this method, that {@code Collector} does not tolerate duplicate
+   * keys.)
+   *
+   * @throws NullPointerException if any key or value in {@code map} is null
+   * @since 33.7.0
+   */
+  public static <K extends Comparable<? super K>, V> ImmutableMap<K, V> sortedCopyOf(
+      Map<? extends K, ? extends V> map) {
+    return sortedCopyOf(Ordering.natural(), map);
+  }
+
+  /**
+   * Returns an immutable map containing the same entries as {@code map}, sorted according to the
+   * specified {@code Comparator} applied to the keys. The sorting algorithm used is stable, so
+   * entries whose keys compare as equal will stay in the order in which they appear in the input.
+   * In addition, if two or more entries have keys that are equal, the value associated with the
+   * <i>last</i> such entry is kept.
+   *
+   * <p>If you want a map whose entries are always sorted, even under further iteration, use {@link
+   * ImmutableSortedMap} instead: In exchange for {@code O(log N)} {@link Map#get} lookups (instead
+   * of the {@code O(1)} lookups of the map returned by this method), {@code ImmutableSortedMap}
+   * guarantees that its {@code entrySet()}, {@code keySet()}, and {@code values()} views iterate in
+   * sorted order forever.
+   *
+   * <p><b>Java 8+ users:</b> If you want to convert a {@link java.util.stream.Stream} of {@link
+   * Entry} instances to a sorted {@code ImmutableMap}, use {@code
+   * stream.sorted(comparator).collect(toImmutableMap(Entry::getKey, Entry::getValue))}. (Unlike
+   * this method, that {@code Collector} does not tolerate duplicate keys.)
+   *
+   * @throws NullPointerException if {@code keyComparator} is null, or if any key or value in {@code
+   *     map} is null
+   * @since 33.7.0
+   */
+  public static <K, V> ImmutableMap<K, V> sortedCopyOf(
+      Comparator<? super K> keyComparator, Map<? extends K, ? extends V> map) {
+    checkNotNull(keyComparator);
+    @SuppressWarnings("unchecked") // we'll only be using getKey and getValue, which are covariant
+    Entry<K, V>[] entryArray = (Entry<K, V>[]) map.entrySet().toArray(EMPTY_ENTRY_ARRAY);
+    switch (entryArray.length) {
+      case 0:
+        return of();
+      case 1:
+        // requireNonNull is safe because the first `size` elements have been filled in.
+        Entry<K, V> onlyEntry = requireNonNull(entryArray[0]);
+        return of(onlyEntry.getKey(), onlyEntry.getValue());
+      default:
+        /*
+         * We want to retain only the last value for any given key, before sorting. This gives us
+         * well-defined behavior for duplicate keys, even when the keyComparator is not consistent
+         * with equals.
+         */
+        @SuppressWarnings("nullness") // entries 0..entryArray.length-1 are non-null
+        Entry<K, V>[] nonNullEntries = entryArray;
+        Entry<K, V>[] lastEntryForEachKey = lastEntryForEachKey(nonNullEntries, entryArray.length);
+        Entry<K, V>[] toSort = (lastEntryForEachKey == null) ? nonNullEntries : lastEntryForEachKey;
+        int size = toSort.length;
+        sort(toSort, 0, size, Ordering.from(keyComparator).onResultOf(Entry::getKey));
+        return RegularImmutableMap.fromEntryArray(size, toSort, /* throwIfDuplicateKeys= */ false);
+    }
+  }
+
+  /**
+   * Scans the first {@code size} elements of {@code entries} looking for duplicate keys. If
+   * duplicates are found, a new correctly-sized array is returned with the same elements (up to
+   * {@code size}), except containing only the last occurrence of each duplicate key. Otherwise
+   * {@code null} is returned.
+   */
+  private static <K, V> Entry<K, V> @Nullable [] lastEntryForEachKey(
+      Entry<K, V>[] entries, int size) {
+    Set<K> seen = new HashSet<>();
+    BitSet dups = new BitSet(); // slots that are overridden by a later duplicate key
+    for (int i = size - 1; i >= 0; i--) {
+      if (!seen.add(entries[i].getKey())) {
+        dups.set(i);
+      }
+    }
+    if (dups.isEmpty()) {
+      return null;
+    }
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    Entry<K, V>[] newEntries = new Entry[size - dups.cardinality()];
+    for (int inI = 0, outI = 0; inI < size; inI++) {
+      if (!dups.get(inI)) {
+        newEntries[outI++] = entries[inI];
+      }
+    }
+    return newEntries;
   }
 
   static final Entry<?, ?>[] EMPTY_ENTRY_ARRAY = new Entry<?, ?>[0];
