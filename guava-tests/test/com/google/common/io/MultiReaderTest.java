@@ -17,6 +17,7 @@
 package com.google.common.io;
 
 import static com.google.common.truth.Truth.assertThat;
+import static java.util.Collections.nCopies;
 
 import com.google.common.collect.ImmutableList;
 import java.io.FilterReader;
@@ -77,6 +78,13 @@ public class MultiReaderTest extends TestCase {
 
     String expectedString = testString + testString;
     assertThat(CharStreams.toString(joinedReader)).isEqualTo(expectedString);
+  }
+
+  public void testRead_noStackOverflow_manyEmptySources() throws IOException {
+    try (Reader joinedReader =
+        CharSource.concat(nCopies(100_000, CharSource.empty())).openStream()) {
+      assertEquals(-1, joinedReader.read());
+    }
   }
 
   private static CharSource newCharSource(String text) {
