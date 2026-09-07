@@ -49,14 +49,12 @@ import com.google.common.collect.Maps.UnmodifiableEntries;
 import com.google.common.collect.Sets.ImprovedAbstractSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.InlineMe;
-import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.Weak;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractCollection;
+import java.util.AbstractMap;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashSet;
@@ -216,7 +214,7 @@ public final class Multimaps {
    * TreeMultimap#create(Comparator, Comparator)} won't suffice.
    *
    * <p>Note: the multimap assumes complete ownership over of {@code map} and the collections
-   * returned by {@code factory}. Those objects should not be manually updated and they should not
+   * returned by {@code factory}. Those objects should not be manually updated, and they should not
    * use soft, weak, or phantom references.
    *
    * @param map place to store the mapping from each key to its corresponding values
@@ -239,12 +237,12 @@ public final class Multimaps {
     }
 
     @Override
-    Set<K> createKeySet() {
+    public Set<K> keySet() {
       return createMaybeNavigableKeySet();
     }
 
     @Override
-    Map<K, Collection<V>> createAsMap() {
+    public Map<K, Collection<V>> asMap() {
       return createMaybeNavigableAsMap();
     }
 
@@ -360,12 +358,12 @@ public final class Multimaps {
     }
 
     @Override
-    Set<K> createKeySet() {
+    public Set<K> keySet() {
       return createMaybeNavigableKeySet();
     }
 
     @Override
-    Map<K, Collection<V>> createAsMap() {
+    public Map<K, Collection<V>> asMap() {
       return createMaybeNavigableAsMap();
     }
 
@@ -422,7 +420,7 @@ public final class Multimaps {
    * TreeMultimap#create(Comparator, Comparator)} won't suffice.
    *
    * <p>Note: the multimap assumes complete ownership over of {@code map} and the sets returned by
-   * {@code factory}. Those objects should not be manually updated and they should not use soft,
+   * {@code factory}. Those objects should not be manually updated, and they should not use soft,
    * weak, or phantom references.
    *
    * @param map place to store the mapping from each key to its corresponding values
@@ -446,12 +444,12 @@ public final class Multimaps {
     }
 
     @Override
-    Set<K> createKeySet() {
+    public Set<K> keySet() {
       return createMaybeNavigableKeySet();
     }
 
     @Override
-    Map<K, Collection<V>> createAsMap() {
+    public Map<K, Collection<V>> asMap() {
       return createMaybeNavigableAsMap();
     }
 
@@ -528,7 +526,7 @@ public final class Multimaps {
    * TreeMultimap#create(Comparator, Comparator)} won't suffice.
    *
    * <p>Note: the multimap assumes complete ownership over of {@code map} and the sets returned by
-   * {@code factory}. Those objects should not be manually updated and they should not use soft,
+   * {@code factory}. Those objects should not be manually updated, and they should not use soft,
    * weak, or phantom references.
    *
    * @param map place to store the mapping from each key to its corresponding values
@@ -555,12 +553,12 @@ public final class Multimaps {
     }
 
     @Override
-    Set<K> createKeySet() {
+    public Set<K> keySet() {
       return createMaybeNavigableKeySet();
     }
 
     @Override
-    Map<K, Collection<V>> createAsMap() {
+    public Map<K, Collection<V>> asMap() {
       return createMaybeNavigableAsMap();
     }
 
@@ -693,11 +691,6 @@ public final class Multimaps {
   private static class UnmodifiableMultimap<K extends @Nullable Object, V extends @Nullable Object>
       extends ForwardingMultimap<K, V> implements Serializable {
     final Multimap<K, V> delegate;
-    @LazyInit transient @Nullable Collection<Entry<K, V>> entries;
-    @LazyInit transient @Nullable Multiset<K> keys;
-    @LazyInit transient @Nullable Set<K> keySet;
-    @LazyInit transient @Nullable Collection<V> values;
-    @LazyInit transient @Nullable Map<K, Collection<V>> map;
 
     UnmodifiableMultimap(Multimap<K, V> delegate) {
       this.delegate = checkNotNull(delegate);
@@ -715,23 +708,13 @@ public final class Multimaps {
 
     @Override
     public Map<K, Collection<V>> asMap() {
-      Map<K, Collection<V>> result = map;
-      if (result == null) {
-        result =
-            map =
-                unmodifiableMap(
-                    Maps.transformValues(delegate.asMap(), Multimaps::unmodifiableValueCollection));
-      }
-      return result;
+      return unmodifiableMap(
+          Maps.transformValues(delegate.asMap(), Multimaps::unmodifiableValueCollection));
     }
 
     @Override
     public Collection<Entry<K, V>> entries() {
-      Collection<Entry<K, V>> result = entries;
-      if (result == null) {
-        entries = result = unmodifiableEntries(delegate.entries());
-      }
-      return result;
+      return unmodifiableEntries(delegate.entries());
     }
 
     @Override
@@ -746,20 +729,12 @@ public final class Multimaps {
 
     @Override
     public Multiset<K> keys() {
-      Multiset<K> result = keys;
-      if (result == null) {
-        keys = result = unmodifiableMultiset(delegate.keys());
-      }
-      return result;
+      return unmodifiableMultiset(delegate.keys());
     }
 
     @Override
     public Set<K> keySet() {
-      Set<K> result = keySet;
-      if (result == null) {
-        keySet = result = unmodifiableSet(delegate.keySet());
-      }
-      return result;
+      return unmodifiableSet(delegate.keySet());
     }
 
     @Override
@@ -794,11 +769,7 @@ public final class Multimaps {
 
     @Override
     public Collection<V> values() {
-      Collection<V> result = values;
-      if (result == null) {
-        values = result = unmodifiableCollection(delegate.values());
-      }
-      return result;
+      return unmodifiableCollection(delegate.values());
     }
 
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
@@ -1263,12 +1234,12 @@ public final class Multimaps {
     }
 
     @Override
-    Set<K> createKeySet() {
+    public Set<K> keySet() {
       return map.keySet();
     }
 
     @Override
-    Collection<V> createValues() {
+    public Collection<V> values() {
       return map.values();
     }
 
@@ -1278,12 +1249,7 @@ public final class Multimaps {
     }
 
     @Override
-    Collection<Entry<K, V>> createEntries() {
-      throw new AssertionError("unreachable");
-    }
-
-    @Override
-    Multiset<K> createKeys() {
+    public Multiset<K> keys() {
       return new Keys<>(this);
     }
 
@@ -1293,7 +1259,7 @@ public final class Multimaps {
     }
 
     @Override
-    Map<K, Collection<V>> createAsMap() {
+    public Map<K, Collection<V>> asMap() {
       return new AsMap<>(this);
     }
 
@@ -1514,7 +1480,7 @@ public final class Multimaps {
     }
 
     @Override
-    Map<K, Collection<V2>> createAsMap() {
+    public final Map<K, Collection<V2>> asMap() {
       return Maps.transformEntries(fromMultimap.asMap(), this::transform);
     }
 
@@ -1529,7 +1495,7 @@ public final class Multimaps {
     }
 
     @Override
-    Collection<Entry<K, V2>> createEntries() {
+    public final Collection<Entry<K, V2>> entries() {
       return new Entries();
     }
 
@@ -1550,12 +1516,12 @@ public final class Multimaps {
     }
 
     @Override
-    Set<K> createKeySet() {
+    public final Set<K> keySet() {
       return fromMultimap.keySet();
     }
 
     @Override
-    Multiset<K> createKeys() {
+    public final Multiset<K> keys() {
       return fromMultimap.keys();
     }
 
@@ -1597,7 +1563,7 @@ public final class Multimaps {
     }
 
     @Override
-    Collection<V2> createValues() {
+    public final Collection<V2> values() {
       return Collections2.transform(
           fromMultimap.entries(),
           entry -> transformer.transformEntry(entry.getKey(), entry.getValue()));
@@ -1721,14 +1687,14 @@ public final class Multimaps {
 
   static class Keys<K extends @Nullable Object, V extends @Nullable Object>
       extends AbstractMultiset<K> {
-    @Weak final Multimap<K, V> multimap;
+    final Multimap<K, V> multimap;
 
     Keys(Multimap<K, V> multimap) {
       this.multimap = multimap;
     }
 
     @Override
-    Iterator<Multiset.Entry<K>> entryIterator() {
+    final Iterator<Multiset.Entry<K>> entryIterator() {
       return new TransformedIterator<Map.Entry<K, Collection<V>>, Multiset.Entry<K>>(
           multimap.asMap().entrySet().iterator()) {
         @Override
@@ -1750,12 +1716,12 @@ public final class Multimaps {
     }
 
     @Override
-    public Spliterator<K> spliterator() {
+    public final Spliterator<K> spliterator() {
       return CollectSpliterators.map(multimap.entries().spliterator(), 0, Map.Entry::getKey);
     }
 
     @Override
-    public void forEach(Consumer<? super K> consumer) {
+    public final void forEach(Consumer<? super K> consumer) {
       checkNotNull(consumer);
       multimap.entries().forEach(entry -> consumer.accept(entry.getKey()));
     }
@@ -1766,22 +1732,22 @@ public final class Multimaps {
     }
 
     @Override
-    public int size() {
+    public final int size() {
       return multimap.size();
     }
 
     @Override
-    public boolean contains(@Nullable Object element) {
+    public final boolean contains(@Nullable Object element) {
       return multimap.containsKey(element);
     }
 
     @Override
-    public Iterator<K> iterator() {
+    public final Iterator<K> iterator() {
       return keyIterator(multimap.entries().iterator());
     }
 
     @Override
-    public int count(@Nullable Object element) {
+    public final int count(@Nullable Object element) {
       Collection<V> values = safeGet(multimap.asMap(), element);
       return (values == null) ? 0 : values.size();
     }
@@ -1813,7 +1779,7 @@ public final class Multimaps {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       multimap.clear();
     }
 
@@ -1834,12 +1800,12 @@ public final class Multimaps {
     abstract Multimap<K, V> multimap();
 
     @Override
-    public int size() {
+    public final int size() {
       return multimap().size();
     }
 
     @Override
-    public boolean contains(@Nullable Object o) {
+    public final boolean contains(@Nullable Object o) {
       if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().containsEntry(entry.getKey(), entry.getValue());
@@ -1848,7 +1814,7 @@ public final class Multimaps {
     }
 
     @Override
-    public boolean remove(@Nullable Object o) {
+    public final boolean remove(@Nullable Object o) {
       if (o instanceof Map.Entry) {
         Map.Entry<?, ?> entry = (Map.Entry<?, ?>) o;
         return multimap().remove(entry.getKey(), entry.getValue());
@@ -1857,15 +1823,15 @@ public final class Multimaps {
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       multimap().clear();
     }
   }
 
   /** A skeleton implementation of {@link Multimap#asMap()}. */
   static final class AsMap<K extends @Nullable Object, V extends @Nullable Object>
-      extends Maps.ViewCachingAbstractMap<K, Collection<V>> {
-    @Weak private final Multimap<K, V> multimap;
+      extends AbstractMap<K, Collection<V>> {
+    private final Multimap<K, V> multimap;
 
     AsMap(Multimap<K, V> multimap) {
       this.multimap = checkNotNull(multimap);
@@ -1877,7 +1843,7 @@ public final class Multimaps {
     }
 
     @Override
-    Set<Entry<K, Collection<V>>> createEntrySet() {
+    public Set<Entry<K, Collection<V>>> entrySet() {
       return new EntrySet();
     }
 
@@ -1885,7 +1851,6 @@ public final class Multimaps {
       multimap.keySet().remove(key);
     }
 
-    @WeakOuter
     final class EntrySet extends Maps.EntrySet<K, Collection<V>> {
       @Override
       Map<K, Collection<V>> map() {

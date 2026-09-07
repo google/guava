@@ -32,7 +32,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -472,7 +471,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   // Views
 
   @Override
-  Set<E> createElementSet() {
+  public Set<E> elementSet() {
     Set<E> delegate = countMap.keySet();
     return new ForwardingSet<E>() {
       @Override
@@ -511,8 +510,12 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
    * @deprecated Internal method, use {@link #entrySet()}.
    */
   @Deprecated
-  @Override
   public Set<Entry<E>> createEntrySet() {
+    return entrySet();
+  }
+
+  @Override
+  public Set<Entry<E>> entrySet() {
     return new EntrySet();
   }
 
@@ -583,7 +586,6 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
     countMap.clear();
   }
 
-  @WeakOuter
   private final class EntrySet extends AbstractMultiset<E>.EntrySet {
     @Override
     ConcurrentHashMultiset<E> multiset() {

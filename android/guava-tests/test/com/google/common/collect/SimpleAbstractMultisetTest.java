@@ -96,6 +96,9 @@ public class SimpleAbstractMultisetTest extends TestCase {
     assertTrue(multiset.contains("a"));
   }
 
+  // Subclasses production AbstractMultiset and overrides package-private (internal)
+  // abstract methods across library boundaries, which causes a Kotlin/Native
+  // fake override dispatch crash.
   private static class NoRemoveMultiset<E extends @Nullable Object> extends AbstractMultiset<E>
       implements Serializable {
     final Map<E, Integer> backingMap = new HashMap<>();

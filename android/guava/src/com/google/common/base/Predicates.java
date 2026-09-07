@@ -365,7 +365,7 @@ public final class Predicates {
     };
 
     @SuppressWarnings("unchecked") // safe contravariant cast
-    <T extends @Nullable Object> Predicate<T> withNarrowedType() {
+    final <T extends @Nullable Object> Predicate<T> withNarrowedType() {
       return (Predicate<T>) this;
     }
   }
@@ -739,14 +739,14 @@ public final class Predicates {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       // Pattern uses Object.hashCode, so we have to reach
       // inside to build a hashCode consistent with equals.
       return Objects.hash(pattern.pattern(), pattern.flags());
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public final boolean equals(@Nullable Object obj) {
       if (obj instanceof ContainsPatternPredicate) {
         ContainsPatternPredicate that = (ContainsPatternPredicate) obj;
 

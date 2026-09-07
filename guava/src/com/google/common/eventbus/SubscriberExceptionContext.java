@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
  *
  * @since 16.0
  */
-public class SubscriberExceptionContext {
+public /* TODO(cpovirk): final */ class SubscriberExceptionContext {
   private final EventBus eventBus;
   private final Object event;
   private final Object subscriber;

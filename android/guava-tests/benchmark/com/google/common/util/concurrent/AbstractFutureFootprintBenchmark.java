@@ -83,7 +83,7 @@ public class AbstractFutureFootprintBenchmark {
       blockedThreads.add(thread);
     }
     for (int i = 0; i < numListeners; i++) {
-      f.addListener(Runnables.doNothing(), directExecutor());
+      f.addListener(() -> {}, directExecutor());
     }
     for (Thread thread : blockedThreads) {
       AbstractFutureBenchmarks.awaitWaiting(thread);

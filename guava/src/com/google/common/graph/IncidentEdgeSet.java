@@ -43,12 +43,12 @@ abstract class IncidentEdgeSet<N> extends AbstractSet<EndpointPair<N>> {
   }
 
   @Override
-  public boolean remove(@Nullable Object o) {
+  public final boolean remove(@Nullable Object o) {
     throw new UnsupportedOperationException();
   }
 
   @Override
-  public int size() {
+  public final int size() {
     if (graph.isDirected()) {
       return predecessorsOrEmpty(node).size()
           + successorsOrEmpty(node).size()
@@ -59,7 +59,7 @@ abstract class IncidentEdgeSet<N> extends AbstractSet<EndpointPair<N>> {
   }
 
   @Override
-  public boolean contains(@Nullable Object obj) {
+  public final boolean contains(@Nullable Object obj) {
     if (!(obj instanceof EndpointPair)) {
       return false;
     }

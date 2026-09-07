@@ -150,7 +150,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   }
 
   @Override
-  public ContiguousSet<C> headSet(C toElement) {
+  public final ContiguousSet<C> headSet(C toElement) {
     return headSetImpl(checkNotNull(toElement), false);
   }
 
@@ -159,12 +159,12 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    */
   @GwtIncompatible // NavigableSet
   @Override
-  public ContiguousSet<C> headSet(C toElement, boolean inclusive) {
+  public final ContiguousSet<C> headSet(C toElement, boolean inclusive) {
     return headSetImpl(checkNotNull(toElement), inclusive);
   }
 
   @Override
-  public ContiguousSet<C> subSet(C fromElement, C toElement) {
+  public final ContiguousSet<C> subSet(C fromElement, C toElement) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
     checkArgument(comparator().compare(fromElement, toElement) <= 0);
@@ -176,7 +176,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    */
   @GwtIncompatible // NavigableSet
   @Override
-  public ContiguousSet<C> subSet(
+  public final ContiguousSet<C> subSet(
       C fromElement, boolean fromInclusive, C toElement, boolean toInclusive) {
     checkNotNull(fromElement);
     checkNotNull(toElement);
@@ -185,7 +185,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
   }
 
   @Override
-  public ContiguousSet<C> tailSet(C fromElement) {
+  public final ContiguousSet<C> tailSet(C fromElement) {
     return tailSetImpl(checkNotNull(fromElement), true);
   }
 
@@ -194,7 +194,7 @@ public abstract class ContiguousSet<C extends Comparable> extends ImmutableSorte
    */
   @GwtIncompatible // NavigableSet
   @Override
-  public ContiguousSet<C> tailSet(C fromElement, boolean inclusive) {
+  public final ContiguousSet<C> tailSet(C fromElement, boolean inclusive) {
     return tailSetImpl(checkNotNull(fromElement), inclusive);
   }
 

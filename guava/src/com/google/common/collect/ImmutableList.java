@@ -65,7 +65,10 @@ import org.jspecify.annotations.Nullable;
  * @since 2.0
  */
 @GwtCompatible
-@SuppressWarnings("serial") // we're overriding default serialization
+@SuppressWarnings({
+  "serial", // we're overriding default serialization
+  "TooManyParameters",
+})
 public abstract class ImmutableList<E> extends ImmutableCollection<E>
     implements List<E>, RandomAccess {
 
@@ -440,8 +443,6 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
   public boolean contains(@Nullable Object object) {
     return indexOf(object) >= 0;
   }
-
-  // constrain the return type to ImmutableList<E>
 
   /**
    * Returns an immutable list of the elements between the specified {@code fromIndex}, inclusive,

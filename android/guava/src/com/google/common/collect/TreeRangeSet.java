@@ -81,25 +81,14 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     this.rangesByLowerBound = rangesByLowerCut;
   }
 
-  @LazyInit private transient @Nullable Set<Range<C>> asRanges;
-  @LazyInit private transient @Nullable Set<Range<C>> asDescendingSetOfRanges;
-
   @Override
   public Set<Range<C>> asRanges() {
-    Set<Range<C>> result = asRanges;
-    if (result == null) {
-      result = asRanges = new AsRanges(rangesByLowerBound.values());
-    }
-    return result;
+    return new AsRanges(rangesByLowerBound.values());
   }
 
   @Override
   public Set<Range<C>> asDescendingSetOfRanges() {
-    Set<Range<C>> result = asDescendingSetOfRanges;
-    if (result == null) {
-      result = asDescendingSetOfRanges = new AsRanges(rangesByLowerBound.descendingMap().values());
-    }
-    return result;
+    return new AsRanges(rangesByLowerBound.descendingMap().values());
   }
 
   final class AsRanges extends ForwardingCollection<Range<C>> implements Set<Range<C>> {

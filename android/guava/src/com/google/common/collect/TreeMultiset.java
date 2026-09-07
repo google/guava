@@ -589,7 +589,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
      */
     private final @Nullable E elem;
 
-    // elemCount is 0 iff this node has been deleted.
+    // elemCount is 0 if and only if this node has been deleted.
     private int elemCount;
 
     private int distinctElements;

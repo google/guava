@@ -164,7 +164,7 @@ public abstract class Optional<T> implements Serializable {
    * @since 21.0 (but only since 33.4.0 in the Android flavor)
    */
   @SuppressWarnings("AmbiguousMethodReference") // We chose the name despite knowing this risk.
-  public java.util.Optional<T> toJavaUtil() {
+  public final java.util.Optional<T> toJavaUtil() {
     return java.util.Optional.ofNullable(orNull());
   }
 

@@ -383,7 +383,7 @@ abstract class SmoothRateLimiter extends RateLimiter {
   abstract double coolDownIntervalMicros();
 
   /** Updates {@code storedPermits} and {@code nextFreeTicketMicros} based on the current time. */
-  void resync(long nowMicros) {
+  final void resync(long nowMicros) {
     // if nextFreeTicket is in the past, resync to now
     if (nowMicros > nextFreeTicketMicros) {
       double newPermits = (nowMicros - nextFreeTicketMicros) / coolDownIntervalMicros();

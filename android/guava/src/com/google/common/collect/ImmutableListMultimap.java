@@ -49,6 +49,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@SuppressWarnings("TooManyParameters")
 @GwtCompatible
 public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     implements ListMultimap<K, V> {

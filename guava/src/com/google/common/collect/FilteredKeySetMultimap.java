@@ -60,11 +60,6 @@ final class FilteredKeySetMultimap<K extends @Nullable Object, V extends @Nullab
 
   @Override
   public Set<Entry<K, V>> entries() {
-    return (Set<Entry<K, V>>) super.entries();
-  }
-
-  @Override
-  Set<Entry<K, V>> createEntries() {
     return new EntrySet();
   }
 

@@ -150,7 +150,7 @@ public final class ImmutableNetwork<N, E> extends StandardNetwork<N, E> {
    *
    * @since 28.0
    */
-  public static class Builder<N, E> {
+  public static final class Builder<N, E> {
 
     private final MutableNetwork<N, E> mutableNetwork;
 

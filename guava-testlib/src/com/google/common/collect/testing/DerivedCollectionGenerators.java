@@ -286,7 +286,7 @@ public final class DerivedCollectionGenerators {
   // TODO(cpovirk): could something like this be used elsewhere, e.g., ReserializedListGenerator?
   static class ForwardingTestMapGenerator<K extends @Nullable Object, V extends @Nullable Object>
       implements TestMapGenerator<K, V> {
-    TestMapGenerator<K, V> delegate;
+    final TestMapGenerator<K, V> delegate;
 
     ForwardingTestMapGenerator(TestMapGenerator<K, V> delegate) {
       this.delegate = delegate;

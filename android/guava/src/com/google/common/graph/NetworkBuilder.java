@@ -50,7 +50,7 @@ import org.jspecify.annotations.Nullable;
  * flightNetwork.addEdge("LAX", "ATL", 1598);
  * flightNetwork.addEdge("ATL", "LAX", 2450);
  *
- * // Building a immutable network
+ * // Building an immutable network
  * ImmutableNetwork<String, Integer> immutableNetwork =
  *     NetworkBuilder.directed()
  *         .allowsParallelEdges(true)

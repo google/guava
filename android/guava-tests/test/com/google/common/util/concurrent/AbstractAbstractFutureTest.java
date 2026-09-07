@@ -20,7 +20,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.Futures.getDone;
 import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
-import static com.google.common.util.concurrent.Runnables.doNothing;
 import static com.google.common.util.concurrent.TestPlatform.getDoneFromTimeoutOverload;
 import static com.google.common.util.concurrent.TestPlatform.verifyGetOnPendingFuture;
 import static com.google.common.util.concurrent.TestPlatform.verifyTimedGetOnPendingFuture;
@@ -326,7 +325,7 @@ abstract class AbstractAbstractFutureTest<
 
   @SuppressWarnings("nullness") // test of a bogus call
   public void testNullExecutor() {
-    assertThrows(NullPointerException.class, () -> future.addListener(doNothing(), null));
+    assertThrows(NullPointerException.class, () -> future.addListener(() -> {}, null));
   }
 
   @SuppressWarnings("nullness") // test of a bogus call

@@ -81,7 +81,7 @@ public class LineBufferTest extends IoTestCase {
     LineBuffer lineBuf =
         new LineBuffer() {
           @Override
-          protected void handleLine(String line, String end) {
+          void handleLine(String line, String end) {
             lines.add(line + end);
           }
         };

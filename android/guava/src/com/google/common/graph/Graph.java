@@ -317,7 +317,7 @@ public interface Graph<N> extends BaseGraph<N> {
   //
 
   /**
-   * Returns {@code true} iff {@code object} is a {@link Graph} that has the same elements and the
+   * Returns {@code true} if {@code object} is a {@link Graph} that has the same elements and the
    * same structural relationships as those in this graph.
    *
    * <p>Thus, two graphs A and B are equal if <b>all</b> of the following are true:

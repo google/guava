@@ -45,13 +45,8 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
   }
 
   @Override
-  SortedSet<E> createElementSet() {
-    return Collections.unmodifiableSortedSet(delegate().elementSet());
-  }
-
-  @Override
   public SortedSet<E> elementSet() {
-    return (SortedSet<E>) super.elementSet();
+    return Collections.unmodifiableSortedSet(delegate().elementSet());
   }
 
   private transient @Nullable UnmodifiableSortedMultiset<E> descendingMultiset;

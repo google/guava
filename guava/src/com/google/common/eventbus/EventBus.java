@@ -213,7 +213,7 @@ public class EventBus {
   }
 
   /** Handles the given exception thrown by a subscriber with the given context. */
-  void handleSubscriberException(Throwable e, SubscriberExceptionContext context) {
+  final void handleSubscriberException(Throwable e, SubscriberExceptionContext context) {
     checkNotNull(e);
     checkNotNull(context);
     try {

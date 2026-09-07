@@ -711,15 +711,16 @@ public class LongMathTest extends TestCase {
     }
   }
 
+  @SuppressWarnings("AssertLongsEqual") // Truth would balloon the runtime from ~12s to ~2.5m
 
   @AndroidIncompatible // slow enough to cause a timeout
   @J2ktIncompatible // slow enough to cause flakiness
   @GwtIncompatible // far too slow
   public void testSqrtOfPerfectSquareAsDoubleIsPerfect() {
-    // This takes just over a minute on my machine.
     for (long n = 0; n <= LongMath.FLOOR_SQRT_MAX_LONG; n++) {
       long actual = (long) Math.sqrt((double) (n * n));
-      assertThat(actual).isEqualTo(n);
+      // We avoid Truth here. See the @SuppressWarnings comment above.
+      assertEquals(n, actual);
     }
   }
 

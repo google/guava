@@ -420,7 +420,7 @@ public final class HttpHeaders {
    * The HTTP <a href="https://github.com/explainers-by-googlers/prefetch-activation-beacon">{@code
    * on-prefetch-activation}</a> header field name.
    *
-   * @since NEXT
+   * @since 33.7.0
    */
   public static final String ON_PREFETCH_ACTIVATION = "on-prefetch-activation";
 

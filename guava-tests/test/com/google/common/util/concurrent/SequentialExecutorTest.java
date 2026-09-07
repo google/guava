@@ -287,9 +287,9 @@ public class SequentialExecutorTest extends TestCase {
         };
     SequentialExecutor executor = new SequentialExecutor(delegate);
     ExecutorService blocked = newCachedThreadPool();
-    Future<?> first = blocked.submit(() -> executor.execute(Runnables.doNothing()));
+    Future<?> first = blocked.submit(() -> executor.execute(() -> {}));
     future.get(10, SECONDS);
-    assertThrows(RejectedExecutionException.class, () -> executor.execute(Runnables.doNothing()));
+    assertThrows(RejectedExecutionException.class, () -> executor.execute(() -> {}));
     latch.countDown();
     ExecutionException expected =
         assertThrows(ExecutionException.class, () -> first.get(10, SECONDS));

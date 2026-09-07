@@ -52,59 +52,60 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   private final ListeningExecutorService delegate = newDirectExecutorService();
 
   @Override
-  public void shutdown() {
+  public /* TODO(cpovirk): final */ void shutdown() {
     delegate.shutdown();
   }
 
   @Override
-  public List<Runnable> shutdownNow() {
+  public /* TODO(cpovirk): final */ List<Runnable> shutdownNow() {
     return delegate.shutdownNow();
   }
 
   @Override
-  public boolean isShutdown() {
+  public /* TODO(cpovirk): final */ boolean isShutdown() {
     return delegate.isShutdown();
   }
 
   @Override
-  public boolean isTerminated() {
+  public /* TODO(cpovirk): final */ boolean isTerminated() {
     return delegate.isTerminated();
   }
 
   @Override
-  public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+  public /* TODO(cpovirk): final */ boolean awaitTermination(long timeout, TimeUnit unit)
+      throws InterruptedException {
     Preconditions.checkNotNull(unit, "unit must not be null!");
     return delegate.awaitTermination(timeout, unit);
   }
 
   @Override
-  public <T> ListenableFuture<T> submit(Callable<T> task) {
+  public /* TODO(cpovirk): final */ <T> ListenableFuture<T> submit(Callable<T> task) {
     Preconditions.checkNotNull(task, "task must not be null!");
     return delegate.submit(task);
   }
 
   @Override
-  public <T> ListenableFuture<T> submit(Runnable task, T result) {
+  public /* TODO(cpovirk): final */ <T> ListenableFuture<T> submit(Runnable task, T result) {
     Preconditions.checkNotNull(task, "task must not be null!");
     Preconditions.checkNotNull(result, "result must not be null!");
     return delegate.submit(task, result);
   }
 
   @Override
-  public ListenableFuture<?> submit(Runnable task) {
+  public /* TODO(cpovirk): final */ ListenableFuture<?> submit(Runnable task) {
     Preconditions.checkNotNull(task, "task must not be null!");
     return delegate.submit(task);
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(Collection<? extends Callable<T>> tasks)
-      throws InterruptedException {
+  public /* TODO(cpovirk): final */ <T> List<Future<T>> invokeAll(
+      Collection<? extends Callable<T>> tasks) throws InterruptedException {
     Preconditions.checkNotNull(tasks, "tasks must not be null!");
     return delegate.invokeAll(tasks);
   }
 
   @Override
-  public <T> List<Future<T>> invokeAll(
+  public /* TODO(cpovirk): final */ <T> List<Future<T>> invokeAll(
       Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException {
     Preconditions.checkNotNull(tasks, "tasks must not be null!");
@@ -113,14 +114,15 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   }
 
   @Override
-  public <T> T invokeAny(Collection<? extends Callable<T>> tasks)
+  public /* TODO(cpovirk): final */ <T> T invokeAny(Collection<? extends Callable<T>> tasks)
       throws InterruptedException, ExecutionException {
     Preconditions.checkNotNull(tasks, "tasks must not be null!");
     return delegate.invokeAny(tasks);
   }
 
   @Override
-  public <T> T invokeAny(Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
+  public /* TODO(cpovirk): final */ <T> T invokeAny(
+      Collection<? extends Callable<T>> tasks, long timeout, TimeUnit unit)
       throws InterruptedException, ExecutionException, TimeoutException {
     Preconditions.checkNotNull(tasks, "tasks must not be null!");
     Preconditions.checkNotNull(unit, "unit must not be null!");
@@ -128,20 +130,21 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   }
 
   @Override
-  public void execute(Runnable command) {
+  public /* TODO(cpovirk): final */ void execute(Runnable command) {
     Preconditions.checkNotNull(command, "command must not be null!");
     delegate.execute(command);
   }
 
   @Override
-  public ListenableScheduledFuture<?> schedule(Runnable command, long delay, TimeUnit unit) {
+  public /* TODO(cpovirk): final */ ListenableScheduledFuture<?> schedule(
+      Runnable command, long delay, TimeUnit unit) {
     Preconditions.checkNotNull(command, "command must not be null");
     Preconditions.checkNotNull(unit, "unit must not be null!");
     return schedule(callable(command), delay, unit);
   }
 
   @Override
-  public <V> ListenableScheduledFuture<V> schedule(
+  public /* TODO(cpovirk): final */ <V> ListenableScheduledFuture<V> schedule(
       Callable<V> callable, long delay, TimeUnit unit) {
     Preconditions.checkNotNull(callable, "callable must not be null!");
     Preconditions.checkNotNull(unit, "unit must not be null!");
@@ -175,13 +178,13 @@ class SameThreadScheduledExecutorService extends AbstractExecutorService
   }
 
   @Override
-  public ListenableScheduledFuture<?> scheduleAtFixedRate(
+  public /* TODO(cpovirk): final */ ListenableScheduledFuture<?> scheduleAtFixedRate(
       Runnable command, long initialDelay, long period, TimeUnit unit) {
     throw new UnsupportedOperationException("scheduleAtFixedRate is not supported.");
   }
 
   @Override
-  public ListenableScheduledFuture<?> scheduleWithFixedDelay(
+  public /* TODO(cpovirk): final */ ListenableScheduledFuture<?> scheduleWithFixedDelay(
       Runnable command, long initialDelay, long delay, TimeUnit unit) {
     throw new UnsupportedOperationException("scheduleWithFixedDelay is not supported.");
   }

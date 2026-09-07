@@ -20,7 +20,6 @@ import static com.google.common.base.Predicates.instanceOf;
 import static com.google.common.collect.Iterables.all;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
-import static com.google.common.util.concurrent.Runnables.doNothing;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -72,7 +71,7 @@ public class WrappingExecutorServiceTest extends TestCase {
   public void testExecute() {
     MockExecutor mock = new MockExecutor();
     TestExecutor testExecutor = new TestExecutor(mock);
-    testExecutor.execute(doNothing());
+    testExecutor.execute(() -> {});
     mock.assertLastMethodCalled("execute");
   }
 
@@ -80,14 +79,14 @@ public class WrappingExecutorServiceTest extends TestCase {
     {
       MockExecutor mock = new MockExecutor();
       TestExecutor testExecutor = new TestExecutor(mock);
-      Future<?> f = testExecutor.submit(doNothing());
+      Future<?> f = testExecutor.submit(() -> {});
       mock.assertLastMethodCalled("submit");
       f.get();
     }
     {
       MockExecutor mock = new MockExecutor();
       TestExecutor testExecutor = new TestExecutor(mock);
-      Future<String> f = testExecutor.submit(doNothing(), RESULT_VALUE);
+      Future<String> f = testExecutor.submit(() -> {}, RESULT_VALUE);
       mock.assertLastMethodCalled("submit");
       assertThat(f.get()).isEqualTo(RESULT_VALUE);
     }

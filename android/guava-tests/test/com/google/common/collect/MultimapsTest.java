@@ -374,25 +374,25 @@ public class MultimapsTest extends TestCase {
     Multimap<String, Integer> multimap =
         Multimaps.newMultimap(new HashMap<String, Collection<Integer>>(), new QueueSupplier());
     Map<String, Collection<Integer>> map = Multimaps.asMap(multimap);
-    assertThat(map).isSameInstanceAs(multimap.asMap());
+    assertThat(map).isEqualTo(multimap.asMap());
   }
 
   public void testAsMap_listMultimap() {
     ListMultimap<String, Integer> listMultimap = ArrayListMultimap.create();
     Map<String, List<Integer>> map = Multimaps.asMap(listMultimap);
-    assertThat(map).isSameInstanceAs(listMultimap.asMap());
+    assertThat(map).isEqualTo(listMultimap.asMap());
   }
 
   public void testAsMap_setMultimap() {
     SetMultimap<String, Integer> setMultimap = LinkedHashMultimap.create();
     Map<String, Set<Integer>> map = Multimaps.asMap(setMultimap);
-    assertThat(map).isSameInstanceAs(setMultimap.asMap());
+    assertThat(map).isEqualTo(setMultimap.asMap());
   }
 
   public void testAsMap_sortedSetMultimap() {
     SortedSetMultimap<String, Integer> sortedSetMultimap = TreeMultimap.create();
     Map<String, SortedSet<Integer>> map = Multimaps.asMap(sortedSetMultimap);
-    assertThat(map).isSameInstanceAs(sortedSetMultimap.asMap());
+    assertThat(map).isEqualTo(sortedSetMultimap.asMap());
   }
 
   public void testForMap() {

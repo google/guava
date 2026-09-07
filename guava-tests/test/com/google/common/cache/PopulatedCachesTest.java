@@ -30,6 +30,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.cache.CacheBuilderFactory.DurationSpec;
 import com.google.common.cache.LocalCache.Strength;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -54,11 +55,19 @@ import org.jspecify.annotations.NullUnmarked;
 
 @NullUnmarked
 public class PopulatedCachesTest extends TestCase {
-  // we use integers as keys; make sure the range covers some values that ARE cached by
-  // Integer.valueOf(int), and some that are not cached. (127 is the highest cached value.)
   static final int WARMUP_MIN = 120;
   static final int WARMUP_MAX = 135;
   static final int WARMUP_SIZE = WARMUP_MAX - WARMUP_MIN;
+
+  private static final ImmutableList<?> KEYS;
+
+  static {
+    ImmutableList.Builder<Object> keys = ImmutableList.builder();
+    for (int i = 0; i < WARMUP_MAX; i++) {
+      keys.add(new Object());
+    }
+    KEYS = keys.build();
+  }
 
   public void testSize_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -186,12 +195,13 @@ public class PopulatedCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
+      Object wrongValue = new Object();
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
         Object key = warmed.get(i - WARMUP_MIN).getKey();
         Object value = warmed.get(i - WARMUP_MIN).getValue();
-        assertThat(cache.asMap().remove(key, -1)).isFalse();
+        assertThat(cache.asMap().remove(key, wrongValue)).isFalse();
         assertThat(cache.asMap().remove(key, value)).isTrue();
-        assertThat(cache.asMap().remove(key, -1)).isFalse();
+        assertThat(cache.asMap().remove(key, wrongValue)).isFalse();
         assertThat(cache.asMap().containsKey(key)).isFalse();
       }
       checkEmpty(cache);
@@ -281,15 +291,17 @@ public class PopulatedCachesTest extends TestCase {
 
   public void testWriteThroughEntry() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      cache.getUnchecked(1);
+      Object key = new Object();
+      cache.getUnchecked(key);
       Entry<Object, Object> entry = getOnlyElement(cache.asMap().entrySet());
 
-      cache.invalidate(1);
+      cache.invalidate(key);
       assertThat(cache.size()).isEqualTo(0);
 
-      entry.setValue(3);
+      Object newValue = new Object();
+      entry.setValue(newValue);
       assertThat(cache.size()).isEqualTo(1);
-      assertThat(cache.getIfPresent(1)).isEqualTo(3);
+      assertThat(cache.getIfPresent(key)).isEqualTo(newValue);
       checkValidState(cache);
 
       assertThrows(NullPointerException.class, () -> entry.setValue(null));
@@ -347,7 +359,7 @@ public class PopulatedCachesTest extends TestCase {
 
     List<Entry<Object, Object>> entries = new ArrayList<>();
     for (int i = minimum; i < maximum; i++) {
-      Object key = i;
+      Object key = KEYS.get(i);
       Object value = cache.getUnchecked(key);
       entries.add(entryOf(key, value));
     }

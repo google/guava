@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.Comparator;
 import java.util.Map;
 import java.util.Set;
@@ -92,15 +91,9 @@ class StandardRowSortedTable<R, C, V> extends StandardTable<R, C, V>
     return new RowSortedMap();
   }
 
-  @WeakOuter
   private final class RowSortedMap extends RowMap implements SortedMap<R, Map<C, V>> {
     @Override
     public SortedSet<R> keySet() {
-      return (SortedSet<R>) super.keySet();
-    }
-
-    @Override
-    SortedSet<R> createKeySet() {
       return new Maps.SortedKeySet<>(this);
     }
 

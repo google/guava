@@ -81,7 +81,7 @@
           <execution>
             <id>default-compile</id>
             <configuration>
-              <compilerArgs combine.children="append" combine.self="append">
+              <compilerArgs combine.children="append">
                 <arg>-XDignore.symbol.file</arg>
               </compilerArgs>
             </configuration>
@@ -122,8 +122,7 @@
         <executions>
           <execution>
             <id>attach-test-sources</id>
-            <phase>post-integration-test</phase>
-            <goals><goal>test-jar</goal></goals>
+            <goals><goal>test-jar-no-fork</goal></goals>
           </execution>
         </executions>
       </plugin>

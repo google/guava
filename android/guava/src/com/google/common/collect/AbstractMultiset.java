@@ -20,8 +20,6 @@ import static com.google.common.collect.Multisets.setCountImpl;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.AbstractCollection;
 import java.util.Collection;
 import java.util.Iterator;
@@ -125,26 +123,11 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
 
   // Views
 
-  @LazyInit private transient @Nullable Set<E> elementSet;
-
   @Override
   public Set<E> elementSet() {
-    Set<E> result = elementSet;
-    if (result == null) {
-      elementSet = result = createElementSet();
-    }
-    return result;
-  }
-
-  /**
-   * Creates a new instance of this multiset's element set, which will be returned by {@link
-   * #elementSet()}.
-   */
-  Set<E> createElementSet() {
     return new ElementSet();
   }
 
-  @WeakOuter
   final class ElementSet extends Multisets.ElementSet<E> {
     @Override
     Multiset<E> multiset() {
@@ -159,18 +142,11 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
 
   abstract Iterator<E> elementIterator();
 
-  @LazyInit private transient @Nullable Set<Entry<E>> entrySet;
-
   @Override
   public Set<Entry<E>> entrySet() {
-    Set<Entry<E>> result = entrySet;
-    if (result == null) {
-      entrySet = result = createEntrySet();
-    }
-    return result;
+    return new EntrySet();
   }
 
-  @WeakOuter
   class EntrySet extends Multisets.EntrySet<E> {
     @Override
     Multiset<E> multiset() {
@@ -186,10 +162,6 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
     public final int size() {
       return distinctElements();
     }
-  }
-
-  Set<Entry<E>> createEntrySet() {
-    return new EntrySet();
   }
 
   abstract Iterator<Entry<E>> entryIterator();
