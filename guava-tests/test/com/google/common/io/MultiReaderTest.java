@@ -79,6 +79,16 @@ public class MultiReaderTest extends TestCase {
     assertThat(CharStreams.toString(joinedReader)).isEqualTo(expectedString);
   }
 
+  public void testReadWithManyEmptySourcesDoesNotOverflowStack() throws Exception {
+    ImmutableList.Builder<CharSource> sources = ImmutableList.builder();
+    for (int i = 0; i < 100_000; i++) {
+      sources.add(newCharSource(""));
+    }
+
+    Reader joinedReader = CharSource.concat(sources.build()).openStream();
+    assertEquals(-1, joinedReader.read());
+  }
+
   private static CharSource newCharSource(String text) {
     return new CharSource() {
       @Override
