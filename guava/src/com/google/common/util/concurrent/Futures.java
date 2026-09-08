@@ -412,6 +412,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       long time,
       TimeUnit unit,
       ScheduledExecutorService scheduledExecutor) {
+    checkNotNull(unit);
+    checkNotNull(scheduledExecutor);
     if (delegate.isDone()) {
       return delegate;
     }
