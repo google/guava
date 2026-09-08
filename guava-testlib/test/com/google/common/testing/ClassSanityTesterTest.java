@@ -347,14 +347,16 @@ public class ClassSanityTesterTest extends TestCase {
 
   @AndroidIncompatible // problem with equality of Type objects?
   public void testEqualsUsingReferentialEquality() {
-    assertBadUseOfReferentialEquality(SameIntegerInstance.class);
-    assertBadUseOfReferentialEquality(SameLongInstance.class);
-    assertBadUseOfReferentialEquality(SameFloatInstance.class);
-    assertBadUseOfReferentialEquality(SameDoubleInstance.class);
-    assertBadUseOfReferentialEquality(SameShortInstance.class);
-    assertBadUseOfReferentialEquality(SameByteInstance.class);
-    assertBadUseOfReferentialEquality(SameCharacterInstance.class);
-    assertBadUseOfReferentialEquality(SameBooleanInstance.class);
+    if (!PRIMITIVE_EQUALITY_BASED_ON_VALUE) {
+      assertBadUseOfReferentialEquality(SameIntegerInstance.class);
+      assertBadUseOfReferentialEquality(SameLongInstance.class);
+      assertBadUseOfReferentialEquality(SameFloatInstance.class);
+      assertBadUseOfReferentialEquality(SameDoubleInstance.class);
+      assertBadUseOfReferentialEquality(SameShortInstance.class);
+      assertBadUseOfReferentialEquality(SameByteInstance.class);
+      assertBadUseOfReferentialEquality(SameCharacterInstance.class);
+      assertBadUseOfReferentialEquality(SameBooleanInstance.class);
+    }
     assertBadUseOfReferentialEquality(SameObjectInstance.class);
     assertBadUseOfReferentialEquality(SameStringInstance.class);
     assertBadUseOfReferentialEquality(SameInterfaceInstance.class);
@@ -1319,4 +1321,14 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   @interface MyAnnotation {}
+
+  // We intentionally test whether we're seeing the JEP 401 behavior.
+  @SuppressWarnings({
+    "BoxedPrimitiveConstructor",
+    "BoxedPrimitiveEquality",
+    "IdentityBinaryExpression",
+    "ReferenceEquality",
+    "deprecation"
+  })
+  private static final boolean PRIMITIVE_EQUALITY_BASED_ON_VALUE = new Integer(1) == new Integer(1);
 }
