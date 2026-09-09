@@ -19,19 +19,17 @@ package com.google.common.graph;
 import static com.google.common.graph.TestUtil.EdgeType.DIRECTED;
 import static com.google.common.graph.TestUtil.EdgeType.UNDIRECTED;
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.Arrays.asList;
 
 import com.google.common.graph.TestUtil.EdgeType;
-import java.util.Collection;
+import com.google.testing.junit.testparameterinjector.TestParameter;
+import com.google.testing.junit.testparameterinjector.TestParameterInjector;
 import org.jspecify.annotations.NullUnmarked;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 @AndroidIncompatible
 // TODO(cpovirk): Figure out Android JUnit 4 support. Does it work with Gingerbread? @RunWith?
-@RunWith(Parameterized.class)
+@RunWith(TestParameterInjector.class)
 @NullUnmarked
 public final class NetworkEquivalenceTest {
   private static final Integer N1 = 1;
@@ -46,13 +44,7 @@ public final class NetworkEquivalenceTest {
   private final EdgeType edgeType;
   private final MutableNetwork<Integer, String> network;
 
-  // add parameters: directed/undirected
-  @Parameters
-  public static Collection<Object[]> parameters() {
-    return asList(new Object[][] {{EdgeType.UNDIRECTED}, {EdgeType.DIRECTED}});
-  }
-
-  public NetworkEquivalenceTest(EdgeType edgeType) {
+  public NetworkEquivalenceTest(@TestParameter EdgeType edgeType) {
     this.edgeType = edgeType;
     this.network = createNetwork(edgeType);
   }

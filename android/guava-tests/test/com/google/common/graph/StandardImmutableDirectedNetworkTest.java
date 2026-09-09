@@ -16,61 +16,29 @@
 
 package com.google.common.graph;
 
-import static java.util.Arrays.asList;
-
-import com.google.common.collect.Ordering;
-import java.util.Collection;
+import com.google.common.graph.TestUtil.NetworkType;
+import com.google.testing.junit.testparameterinjector.TestParameter;
+import com.google.testing.junit.testparameterinjector.TestParameterInjector;
 import org.jspecify.annotations.NullUnmarked;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 /** Tests for a directed {@link ImmutableNetwork}. */
 @AndroidIncompatible
-@RunWith(Parameterized.class)
+@RunWith(TestParameterInjector.class)
 @NullUnmarked
 public class StandardImmutableDirectedNetworkTest extends AbstractStandardDirectedNetworkTest {
 
-  @Parameters(name = "allowsSelfLoops={0}, allowsParallelEdges={1}, nodeOrder={2}, edgeOrder={3}")
-  public static Collection<Object[]> parameters() {
-    ElementOrder<?> naturalElementOrder = ElementOrder.sorted(Ordering.natural());
-
-    return asList(
-        new Object[][] {
-          {false, false, ElementOrder.insertion(), ElementOrder.insertion()},
-          {true, false, ElementOrder.insertion(), ElementOrder.insertion()},
-          {false, false, naturalElementOrder, naturalElementOrder},
-          {true, true, ElementOrder.insertion(), ElementOrder.insertion()},
-        });
-  }
-
-  private final boolean allowsSelfLoops;
-  private final boolean allowsParallelEdges;
-  private final ElementOrder<Integer> nodeOrder;
-  private final ElementOrder<String> edgeOrder;
+  private final NetworkType networkType;
 
   private ImmutableNetwork.Builder<Integer, String> networkBuilder;
 
-  public StandardImmutableDirectedNetworkTest(
-      boolean allowsSelfLoops,
-      boolean allowsParallelEdges,
-      ElementOrder<Integer> nodeOrder,
-      ElementOrder<String> edgeOrder) {
-    this.allowsSelfLoops = allowsSelfLoops;
-    this.allowsParallelEdges = allowsParallelEdges;
-    this.nodeOrder = nodeOrder;
-    this.edgeOrder = edgeOrder;
+  public StandardImmutableDirectedNetworkTest(@TestParameter NetworkType networkType) {
+    this.networkType = networkType;
   }
 
   @Override
   Network<Integer, String> createGraph() {
-    networkBuilder =
-        NetworkBuilder.directed()
-            .allowsSelfLoops(allowsSelfLoops)
-            .allowsParallelEdges(allowsParallelEdges)
-            .nodeOrder(nodeOrder)
-            .edgeOrder(edgeOrder)
-            .immutable();
+    networkBuilder = networkType.configure(NetworkBuilder.directed()).immutable();
 
     return networkBuilder.build();
   }

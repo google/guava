@@ -16,30 +16,22 @@
 
 package com.google.common.graph;
 
-import static java.util.Arrays.asList;
-
-import java.util.Collection;
+import com.google.testing.junit.testparameterinjector.TestParameter;
+import com.google.testing.junit.testparameterinjector.TestParameterInjector;
 import org.jspecify.annotations.NullUnmarked;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 /** Tests for an undirected {@link StandardMutableGraph}. */
 @AndroidIncompatible
-@RunWith(Parameterized.class)
+@RunWith(TestParameterInjector.class)
 @NullUnmarked
 public final class StandardImmutableUndirectedGraphTest
     extends AbstractStandardUndirectedGraphTest {
 
-  @Parameters(name = "allowsSelfLoops={0}")
-  public static Collection<Object[]> parameters() {
-    return asList(new Object[][] {{false}, {true}});
-  }
-
   private final boolean allowsSelfLoops;
   private ImmutableGraph.Builder<Integer> graphBuilder;
 
-  public StandardImmutableUndirectedGraphTest(boolean allowsSelfLoops) {
+  public StandardImmutableUndirectedGraphTest(@TestParameter boolean allowsSelfLoops) {
     this.allowsSelfLoops = allowsSelfLoops;
   }
 

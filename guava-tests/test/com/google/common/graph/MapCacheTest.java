@@ -17,43 +17,56 @@
 package com.google.common.graph;
 
 import static com.google.common.truth.Truth.assertThat;
-import static java.util.Arrays.asList;
 
 import com.google.common.collect.Ordering;
-import java.util.Collection;
-import java.util.Comparator;
+import com.google.testing.junit.testparameterinjector.TestParameter;
+import com.google.testing.junit.testparameterinjector.TestParameterInjector;
 import java.util.HashMap;
 import java.util.TreeMap;
 import org.jspecify.annotations.NullUnmarked;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
-import org.junit.runners.Parameterized.Parameters;
 
 /** Tests for {@link MapIteratorCache} and {@link MapRetrievalCache}. */
 @AndroidIncompatible
 // TODO(cpovirk): Figure out Android JUnit 4 support. Does it work with Gingerbread? @RunWith?
-@RunWith(Parameterized.class)
+@RunWith(TestParameterInjector.class)
 @NullUnmarked
 public final class MapCacheTest {
   private final MapIteratorCache<String, String> mapCache;
 
-  public MapCacheTest(MapIteratorCache<String, String> mapCache) {
-    this.mapCache = mapCache;
+  public MapCacheTest(@TestParameter MapCacheType mapCacheType) {
+    this.mapCache = mapCacheType.create();
   }
 
-  @Parameters
-  public static Collection<Object[]> parameters() {
-    Comparator<String> nullsLast = Ordering.natural().nullsLast();
+  private enum MapCacheType {
+    MAP_ITERATOR_CACHE_HASH_MAP {
+      @Override
+      MapIteratorCache<String, String> create() {
+        return new MapIteratorCache<>(new HashMap<>());
+      }
+    },
+    MAP_ITERATOR_CACHE_TREE_MAP {
+      @Override
+      MapIteratorCache<String, String> create() {
+        return new MapIteratorCache<>(new TreeMap<>(Ordering.natural().nullsLast()));
+      }
+    },
+    MAP_RETRIEVAL_CACHE_HASH_MAP {
+      @Override
+      MapIteratorCache<String, String> create() {
+        return new MapRetrievalCache<>(new HashMap<>());
+      }
+    },
+    MAP_RETRIEVAL_CACHE_TREE_MAP {
+      @Override
+      MapIteratorCache<String, String> create() {
+        return new MapRetrievalCache<>(new TreeMap<>(Ordering.natural().nullsLast()));
+      }
+    };
 
-    return asList(
-        new Object[][] {
-          {new MapIteratorCache<String, String>(new HashMap<String, String>())},
-          {new MapIteratorCache<String, String>(new TreeMap<String, String>(nullsLast))},
-          {new MapRetrievalCache<String, String>(new HashMap<String, String>())},
-          {new MapRetrievalCache<String, String>(new TreeMap<String, String>(nullsLast))}
-        });
+    abstract MapIteratorCache<String, String> create();
   }
 
   @Before
