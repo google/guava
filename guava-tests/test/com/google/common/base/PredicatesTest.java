@@ -255,6 +255,7 @@ public class PredicatesTest extends TestCase {
     checkSerialization(and(TRUE, isOdd()));
   }
 
+  @SuppressWarnings("DistinctVarargsChecker")
   public void testAnd_applyTernary() {
     assertEvalsLikeOdd(and(isOdd(), TRUE, TRUE));
     assertEvalsLikeOdd(and(TRUE, isOdd(), TRUE));
@@ -377,6 +378,7 @@ public class PredicatesTest extends TestCase {
     checkSerialization(or(isOdd()));
   }
 
+  @SuppressWarnings("DistinctVarargsChecker")
   public void testOr_applyBinary() {
     Predicate<@Nullable Integer> falseOrFalse = or(FALSE, FALSE);
     Predicate<@Nullable Integer> falseOrTrue = or(FALSE, TRUE);
@@ -402,6 +404,7 @@ public class PredicatesTest extends TestCase {
     checkSerialization(or(isOdd(), TRUE));
   }
 
+  @SuppressWarnings("DistinctVarargsChecker")
   public void testOr_applyTernary() {
     assertEvalsLikeOdd(or(isOdd(), FALSE, FALSE));
     assertEvalsLikeOdd(or(FALSE, isOdd(), FALSE));
