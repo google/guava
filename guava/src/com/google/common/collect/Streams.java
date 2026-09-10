@@ -44,6 +44,7 @@ import java.util.function.Consumer;
 import java.util.function.DoubleConsumer;
 import java.util.function.IntConsumer;
 import java.util.function.LongConsumer;
+import java.util.function.ObjLongConsumer;
 import java.util.stream.BaseStream;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
@@ -406,6 +407,48 @@ public final class Streams {
         consumer.accept(iterA.next(), iterB.next());
       }
     }
+  }
+
+  /**
+   * Invokes {@code consumer} once for each element of {@code stream} and its index in the stream.
+   * For example,
+   *
+   * {@snippet :
+   * Streams.forEachWithIndex(
+   *     Stream.of("a", "b", "c"),
+   *     (e, index) -> System.out.println(index + ": " + e))
+   * }
+   *
+   * <p>would print:
+   *
+   * {@snippet :
+   * 0: a
+   * 1: b
+   * 2: c
+   * }
+   *
+   * <p><b>Warning:</b> If {@code stream} is a parallel stream, the elements may be passed to the
+   * consumer in any order. The index assigned to each element reflects its position in the stream's
+   * <i>encounter order</i>. If the stream has no defined encounter order, the index assigned to
+   * each element is arbitrary.
+   *
+   * <p>This method behaves equivalently to applying {@link #mapWithIndex(Stream,
+   * FunctionWithIndex)} and then invoking {@link Stream#forEach} on the resulting stream.
+   *
+   * @since 33.6.0
+   */
+  @Beta
+  public static <T extends @Nullable Object> void forEachWithIndex(
+      Stream<T> stream, ObjLongConsumer<? super T> consumer) {
+    checkNotNull(stream);
+    checkNotNull(consumer);
+    mapWithIndex(
+            stream,
+            (element, index) -> {
+              consumer.accept(element, index);
+              return null;
+            })
+        .forEach(ignored -> {});
   }
 
   // Use this carefully - it doesn't implement value semantics
