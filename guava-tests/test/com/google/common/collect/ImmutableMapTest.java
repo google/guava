@@ -55,10 +55,12 @@ import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.AbstractMap;
+import java.util.AbstractSet;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.EnumMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -784,6 +786,83 @@ public class ImmutableMapTest extends TestCase {
     assertThat(ImmutableMap.copyOf(copy)).isSameInstanceAs(copy);
   }
 
+  public void testSortedCopyOf_natural() {
+    Map<String, Integer> map = new LinkedHashMap<>();
+    map.put("banana", 3);
+    map.put("apple", 1);
+    map.put("cherry", 4);
+    map.put("avocado", 2);
+    ImmutableMap<String, Integer> copy = ImmutableMap.sortedCopyOf(map);
+    assertMapEquals(copy, "apple", 1, "avocado", 2, "banana", 3, "cherry", 4);
+  }
+
+  public void testSortedCopyOf_natural_empty() {
+    ImmutableMap<String, Integer> copy =
+        ImmutableMap.sortedCopyOf(Collections.<String, Integer>emptyMap());
+    assertThat(copy).isEmpty();
+  }
+
+  public void testSortedCopyOf_natural_singleton() {
+    ImmutableMap<String, Integer> copy = ImmutableMap.sortedCopyOf(singletonMap("one", 1));
+    assertMapEquals(copy, "one", 1);
+  }
+
+  public void testSortedCopyOf_natural_containsNullValue() {
+    Map<String, @Nullable Integer> map = new LinkedHashMap<>();
+    map.put("one", 1);
+    map.put("two", null);
+    assertThrows(NullPointerException.class, () -> ImmutableMap.sortedCopyOf(map));
+  }
+
+  public void testSortedCopyOf_natural_singleton_containsNullValue() {
+    Map<String, @Nullable Integer> map = new LinkedHashMap<>();
+    map.put("one", null);
+    assertThrows(NullPointerException.class, () -> ImmutableMap.sortedCopyOf(map));
+  }
+
+  public void testSortedCopyOf_comparator() {
+    Map<String, Integer> map = new LinkedHashMap<>();
+    map.put("a", 1);
+    map.put("b", 2);
+    map.put("A", 3);
+    map.put("c", 4);
+    ImmutableMap<String, Integer> copy =
+        ImmutableMap.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, map);
+    assertMapEquals(copy, "a", 1, "A", 3, "b", 2, "c", 4);
+  }
+
+  public void testSortedCopyOf_comparator_empty() {
+    ImmutableMap<String, Integer> copy =
+        ImmutableMap.sortedCopyOf(
+            String.CASE_INSENSITIVE_ORDER, Collections.<String, Integer>emptyMap());
+    assertThat(copy).isEmpty();
+  }
+
+  public void testSortedCopyOf_comparator_singleton() {
+    ImmutableMap<String, Integer> copy =
+        ImmutableMap.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, singletonMap("a", 1));
+    assertMapEquals(copy, "a", 1);
+  }
+
+  public void testSortedCopyOf_comparator_containsNullValue() {
+    Map<String, @Nullable Integer> map = new LinkedHashMap<>();
+    map.put("one", 1);
+    map.put("two", null);
+    assertThrows(
+        NullPointerException.class,
+        () -> ImmutableMap.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, map));
+  }
+
+  public void testSortedCopyOf_duplicateKeys_keepLast() {
+    assertMapEquals(ImmutableMap.sortedCopyOf(mapWithDuplicateKeys()), "a", 4, "b", 3);
+  }
+
+  public void testSortedCopyOf_comparator_duplicateKeys_keepLast() {
+    assertMapEquals(
+        ImmutableMap.sortedCopyOf(String.CASE_INSENSITIVE_ORDER, mapWithDuplicateKeys()),
+        "a", 4, "b", 3);
+  }
+
   public void testToImmutableMap() {
     Collector<Entry<String, Integer>, ?, ImmutableMap<String, Integer>> collector =
         toImmutableMap(Entry::getKey, Entry::getValue);
@@ -857,6 +936,36 @@ public class ImmutableMapTest extends TestCase {
       expected.put(alternatingKeysAndValues[i], alternatingKeysAndValues[i + 1]);
     }
     assertThat(map).containsExactlyEntriesIn(expected).inOrder();
+  }
+
+  /**
+   * Returns a map whose {@code entrySet()} returns entries that contain duplicate keys. This is not
+   * a well-behaved map, but it lets us test {@link ImmutableMap#sortedCopyOf}'s handling of
+   * duplicate keys.
+   */
+  private static Map<String, Integer> mapWithDuplicateKeys() {
+    List<Entry<String, Integer>> entries =
+        asList(
+            immutableEntry("b", 1),
+            immutableEntry("a", 2),
+            immutableEntry("b", 3),
+            immutableEntry("a", 4));
+    return new AbstractMap<String, Integer>() {
+      @Override
+      public Set<Entry<String, Integer>> entrySet() {
+        return new AbstractSet<Entry<String, Integer>>() {
+          @Override
+          public Iterator<Entry<String, Integer>> iterator() {
+            return entries.iterator();
+          }
+
+          @Override
+          public int size() {
+            return entries.size();
+          }
+        };
+      }
+    };
   }
 
   private static class IntHolder implements Serializable {
