@@ -532,6 +532,26 @@ public final class InetAddresses {
     }
   }
 
+  private static final char[] HEX_DIGITS = "0123456789abcdef".toCharArray();
+
+  private static void appendHex(StringBuilder sb, int val) {
+    if (val < 16) {
+      sb.append(HEX_DIGITS[val]);
+    } else if (val < 256) {
+      sb.append(HEX_DIGITS[val >> 4]);
+      sb.append(HEX_DIGITS[val & 0xF]);
+    } else if (val < 4096) {
+      sb.append(HEX_DIGITS[val >> 8]);
+      sb.append(HEX_DIGITS[(val >> 4) & 0xF]);
+      sb.append(HEX_DIGITS[val & 0xF]);
+    } else {
+      sb.append(HEX_DIGITS[val >> 12]);
+      sb.append(HEX_DIGITS[(val >> 8) & 0xF]);
+      sb.append(HEX_DIGITS[(val >> 4) & 0xF]);
+      sb.append(HEX_DIGITS[val & 0xF]);
+    }
+  }
+
   /**
    * Convert a list of hextets into a human-readable IPv6 address.
    *
@@ -553,7 +573,7 @@ public final class InetAddresses {
         if (lastWasNumber) {
           buf.append(':');
         }
-        buf.append(Integer.toHexString(hextets[i]));
+        appendHex(buf, hextets[i]);
       } else {
         if (i == 0 || lastWasNumber) {
           buf.append("::");
