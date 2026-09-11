@@ -139,8 +139,12 @@ public final class ClassPath {
   }
 
   /**
-   * Returns all resources loadable from the current class path, including the class files of all
+   * Returns resources loadable from the current class path, including the class files of all
    * loadable classes but excluding the "META-INF/MANIFEST.MF" file.
+   *
+   * <p><b>Note:</b> {@link ResourceInfo} instances are equal when they share the same resource
+   * name and {@link ClassLoader}. Because this method returns an {@link ImmutableSet}, only one
+   * resource is kept for a given path even if that path appears in multiple jars or directories.
    */
   public ImmutableSet<ResourceInfo> getResources() {
     return resources;
