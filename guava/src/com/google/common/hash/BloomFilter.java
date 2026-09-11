@@ -429,11 +429,19 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
+   * <p>Because a {@code BloomFilter} is backed by a single array, it can hold at most about {@code
+   * 64 * Integer.MAX_VALUE} bits. The number of bits required grows with {@code expectedInsertions}
+   * and as {@code fpp} approaches zero, so a sufficiently large {@code expectedInsertions} or small
+   * {@code fpp} will exceed this limit.
+   *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
    * @param expectedInsertions the number of expected insertions to the constructed {@code
    *     BloomFilter}; must be positive
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
+   * @throws IllegalArgumentException if the number of bits required to hold {@code
+   *     expectedInsertions} entries at the given {@code fpp} exceeds about {@code 64 *
+   *     Integer.MAX_VALUE}
    */
   public static <T extends @Nullable Object> BloomFilter<T> create(
       Funnel<? super T> funnel, int expectedInsertions, double fpp) {
@@ -454,11 +462,19 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
+   * <p>Because a {@code BloomFilter} is backed by a single array, it can hold at most about {@code
+   * 64 * Integer.MAX_VALUE} bits. The number of bits required grows with {@code expectedInsertions}
+   * and as {@code fpp} approaches zero, so a sufficiently large {@code expectedInsertions} or small
+   * {@code fpp} will exceed this limit.
+   *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
    * @param expectedInsertions the number of expected insertions to the constructed {@code
    *     BloomFilter}; must be positive
    * @param fpp the desired false positive probability (must be positive and less than 1.0)
    * @return a {@code BloomFilter}
+   * @throws IllegalArgumentException if the number of bits required to hold {@code
+   *     expectedInsertions} entries at the given {@code fpp} exceeds about {@code 64 *
+   *     Integer.MAX_VALUE}
    * @since 19.0
    */
   public static <T extends @Nullable Object> BloomFilter<T> create(
@@ -507,10 +523,16 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
+   * <p>Because a {@code BloomFilter} is backed by a single array, it can hold at most about {@code
+   * 64 * Integer.MAX_VALUE} bits, which at the default 3% false positive probability is reached at
+   * roughly {@code 2e10} {@code expectedInsertions}; a larger value will exceed this limit.
+   *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
    * @param expectedInsertions the number of expected insertions to the constructed {@code
    *     BloomFilter}; must be positive
    * @return a {@code BloomFilter}
+   * @throws IllegalArgumentException if the number of bits required to hold {@code
+   *     expectedInsertions} entries exceeds about {@code 64 * Integer.MAX_VALUE}
    */
   public static <T extends @Nullable Object> BloomFilter<T> create(
       Funnel<? super T> funnel, int expectedInsertions) {
@@ -531,10 +553,16 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * ensuring proper serialization and deserialization, which is important since {@link #equals}
    * also relies on object identity of funnels.
    *
+   * <p>Because a {@code BloomFilter} is backed by a single array, it can hold at most about {@code
+   * 64 * Integer.MAX_VALUE} bits, which at the default 3% false positive probability is reached at
+   * roughly {@code 2e10} {@code expectedInsertions}; a larger value will exceed this limit.
+   *
    * @param funnel the funnel of T's that the constructed {@code BloomFilter} will use
    * @param expectedInsertions the number of expected insertions to the constructed {@code
    *     BloomFilter}; must be positive
    * @return a {@code BloomFilter}
+   * @throws IllegalArgumentException if the number of bits required to hold {@code
+   *     expectedInsertions} entries exceeds about {@code 64 * Integer.MAX_VALUE}
    * @since 19.0
    */
   public static <T extends @Nullable Object> BloomFilter<T> create(
