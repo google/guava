@@ -23,6 +23,7 @@ import com.google.common.base.Ascii;
 import com.google.common.collect.testing.SpliteratorTester;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.stream.DoubleStream;
@@ -110,5 +111,50 @@ public class CollectSpliteratorsTest extends TestCase {
     List<String> actualValues = new ArrayList<>();
     multiset.spliterator().forEachRemaining(actualValues::add);
     assertThat(multiset).containsExactly("a", "a", "a", "b", "c", "c").inOrder();
+  }
+
+  // Regression tests for https://github.com/google/guava/issues/6187.
+
+  public void testIsNaturalOrder_null() {
+    assertThat(CollectSpliterators.isNaturalOrder(null)).isTrue();
+  }
+
+  public void testIsNaturalOrder_orderingNatural() {
+    assertThat(CollectSpliterators.isNaturalOrder(Ordering.natural())).isTrue();
+  }
+
+  public void testIsNaturalOrder_comparatorNaturalOrder() {
+    assertThat(CollectSpliterators.isNaturalOrder(Comparator.naturalOrder())).isTrue();
+  }
+
+  public void testIsNaturalOrder_reverseOrder_false() {
+    assertThat(CollectSpliterators.isNaturalOrder(Comparator.reverseOrder())).isFalse();
+    assertThat(CollectSpliterators.isNaturalOrder(Ordering.natural().reverse())).isFalse();
+  }
+
+  public void testIsNaturalOrder_customComparator_false() {
+    Comparator<Integer> custom = (a, b) -> a - b;
+    assertThat(CollectSpliterators.isNaturalOrder(custom)).isFalse();
+  }
+
+  public void testIndexedSortedSpliterator_naturalOrderReturnsNull() {
+    Spliterator<Integer> spliterator =
+        CollectSpliterators.indexed(
+            3, Spliterator.SORTED, i -> i + 1, Ordering.<Integer>natural());
+    assertThat(spliterator.getComparator()).isNull();
+    assertThat(spliterator.hasCharacteristics(Spliterator.SORTED)).isTrue();
+  }
+
+  public void testIndexedSortedSpliterator_comparatorNaturalOrderReturnsNull() {
+    Spliterator<Integer> spliterator =
+        CollectSpliterators.indexed(3, Spliterator.SORTED, i -> i + 1, Comparator.naturalOrder());
+    assertThat(spliterator.getComparator()).isNull();
+  }
+
+  public void testIndexedSortedSpliterator_customComparatorIsPreserved() {
+    Comparator<Integer> reverse = Comparator.reverseOrder();
+    Spliterator<Integer> spliterator =
+        CollectSpliterators.indexed(3, Spliterator.SORTED, i -> 3 - i, reverse);
+    assertThat(spliterator.getComparator()).isEqualTo(reverse);
   }
 }
