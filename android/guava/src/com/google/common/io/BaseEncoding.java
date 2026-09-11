@@ -125,6 +125,9 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 14.0
  */
+// We use `& 0xff` before casting to `(byte)` to keep GWT from letting the byte be out of range:
+// https://www.gwtproject.org/doc/latest/DevGuideCodingBasicsCompatibility
+@SuppressWarnings("MaskAndCastToByte")
 @GwtCompatible
 public abstract class BaseEncoding {
   // TODO(lowasser): consider making encodeTo(Appendable, byte[], int, int) public.
