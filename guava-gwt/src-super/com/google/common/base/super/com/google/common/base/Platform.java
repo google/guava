@@ -70,5 +70,22 @@ final class Platform {
     return String.valueOf(o);
   }
 
+  private static final char[] CHAR_BUFFER = new char[1024];
+  private static boolean inUse = false;
+
+  /** Acquires the static buffer if available, or returns null if busy (re-entrant call). */
+  static char @Nullable [] acquireCharBuffer() {
+    if (inUse) {
+      return null;
+    }
+    inUse = true;
+    return CHAR_BUFFER;
+  }
+
+  /** Releases the acquired buffer. */
+  static void releaseCharBuffer(char[] buffer) {
+    inUse = false;
+  }
+
   private Platform() {}
 }
