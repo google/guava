@@ -105,10 +105,10 @@ public class Joiner {
   public <A extends Appendable> A appendTo(A appendable, Iterator<?> parts) throws IOException {
     checkNotNull(appendable);
     if (parts.hasNext()) {
-      appendable.append(toString(parts.next()));
+      appendable.append(toCharSequence(parts.next()));
       while (parts.hasNext()) {
         appendable.append(separator);
-        appendable.append(toString(parts.next()));
+        appendable.append(toCharSequence(parts.next()));
       }
     }
     return appendable;
@@ -222,7 +222,7 @@ public class Joiner {
            */
           toJoin = Arrays.copyOf(toJoin, expandedCapacity(toJoin.length, toJoin.length + 1));
         }
-        toJoin[i++] = toString(part);
+        toJoin[i++] = toCharSequence(part);
       }
       // We might not have seen the expected number of elements, as discussed above.
       if (i != toJoin.length) {
@@ -278,8 +278,8 @@ public class Joiner {
     checkNotNull(nullText);
     return new Joiner(this) {
       @Override
-      CharSequence toString(@Nullable Object part) {
-        return (part == null) ? nullText : Joiner.this.toString(part);
+      CharSequence toCharSequence(@Nullable Object part) {
+        return (part == null) ? nullText : Joiner.this.toCharSequence(part);
       }
 
       @Override
@@ -313,7 +313,7 @@ public class Joiner {
         while (parts.hasNext()) {
           Object part = parts.next();
           if (part != null) {
-            appendable.append(Joiner.this.toString(part));
+            appendable.append(Joiner.this.toCharSequence(part));
             break;
           }
         }
@@ -321,7 +321,7 @@ public class Joiner {
           Object part = parts.next();
           if (part != null) {
             appendable.append(separator);
-            appendable.append(Joiner.this.toString(part));
+            appendable.append(Joiner.this.toCharSequence(part));
           }
         }
         return appendable;
@@ -427,15 +427,15 @@ public class Joiner {
       checkNotNull(appendable);
       if (parts.hasNext()) {
         Entry<?, ?> entry = parts.next();
-        appendable.append(joiner.toString(entry.getKey()));
+        appendable.append(joiner.toCharSequence(entry.getKey()));
         appendable.append(keyValueSeparator);
-        appendable.append(joiner.toString(entry.getValue()));
+        appendable.append(joiner.toCharSequence(entry.getValue()));
         while (parts.hasNext()) {
           appendable.append(joiner.separator);
           Entry<?, ?> e = parts.next();
-          appendable.append(joiner.toString(e.getKey()));
+          appendable.append(joiner.toCharSequence(e.getKey()));
           appendable.append(keyValueSeparator);
-          appendable.append(joiner.toString(e.getValue()));
+          appendable.append(joiner.toCharSequence(e.getValue()));
         }
       }
       return appendable;
@@ -507,8 +507,7 @@ public class Joiner {
     }
   }
 
-  // TODO(cpovirk): Rename to "toCharSequence."
-  CharSequence toString(@Nullable Object part) {
+  CharSequence toCharSequence(@Nullable Object part) {
     /*
      * requireNonNull is not safe: Joiner.on(...).join(somethingThatContainsNull) will indeed throw.
      * However, Joiner.on(...).useForNull(...).join(somethingThatContainsNull) *is* safe -- because
@@ -523,7 +522,7 @@ public class Joiner {
      * on what they know about the particular Joiner instances the calls are performed on.
      *
      * (In addition to useForNull, we also offer skipNulls. It, too, tolerates null inputs, but its
-     * tolerance is implemented differently: Its implementation avoids calling this toString(Object)
+     * tolerance is implemented differently: Its implementation avoids calling this toCharSequence(Object)
      * method in the first place.)
      */
     requireNonNull(part);
