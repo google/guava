@@ -77,13 +77,14 @@ public final class Lists {
    *
    * <p><b>Note:</b> if mutability is not required, use {@link ImmutableList#of()} instead.
    *
-   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
-   * use the {@code ArrayList} {@linkplain ArrayList#ArrayList() constructor} directly, taking
+   * @deprecated Use the {@code ArrayList} {@linkplain ArrayList#ArrayList() constructor} directly, taking
    * advantage of <a
    * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
    * syntax</a>.
    */
   @SuppressWarnings("NonApiType") // acts as a direct substitute for a constructor call
+  @Deprecated
+  @InlineMe(replacement = "new ArrayList<>()", imports = "java.util.ArrayList")
   public static <E extends @Nullable Object> ArrayList<E> newArrayList() {
     return new ArrayList<>();
   }
@@ -213,8 +214,7 @@ public final class Lists {
    * outperform {@code LinkedList} except in certain rare and specific situations. Unless you have
    * spent a lot of time benchmarking your specific needs, use one of those instead.
    *
-   * <p><b>Note:</b> this method is now unnecessary and should be treated as deprecated. Instead,
-   * use the {@code LinkedList} {@linkplain LinkedList#LinkedList() constructor} directly, taking
+   * @deprecated Use the {@code LinkedList} {@linkplain LinkedList#LinkedList() constructor} directly, taking
    * advantage of <a
    * href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
    * syntax</a>.
@@ -223,6 +223,8 @@ public final class Lists {
     "NonApiType", // acts as a direct substitute for a constructor call
     "JdkObsolete", // We recommend against this method but need to keep it for compatibility.
   })
+  @Deprecated
+  @InlineMe(replacement = "new LinkedList<>()", imports = "java.util.LinkedList")
   public static <E extends @Nullable Object> LinkedList<E> newLinkedList() {
     return new LinkedList<>();
   }
@@ -260,12 +262,17 @@ public final class Lists {
    *
    * @return a new, empty {@code CopyOnWriteArrayList}
    * @since 12.0
+   * @deprecated Use the {@code CopyOnWriteArrayList} {@linkplain
+   *     CopyOnWriteArrayList#CopyOnWriteArrayList() constructor} directly, taking advantage of <a
+   *     href="https://docs.oracle.com/javase/tutorial/java/generics/genTypeInference.html#type-inference-instantiation">"diamond"
+   *     syntax</a>.
    */
   @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList
   @InlineMe(
       replacement = "new CopyOnWriteArrayList<>()",
       imports = {"java.util.concurrent.CopyOnWriteArrayList"})
+  @Deprecated
   public static <E extends @Nullable Object> CopyOnWriteArrayList<E> newCopyOnWriteArrayList() {
     return new CopyOnWriteArrayList<>();
   }
