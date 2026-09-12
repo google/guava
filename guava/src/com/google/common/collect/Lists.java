@@ -51,7 +51,9 @@ import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.Objects;
 import java.util.RandomAccess;
+import java.util.Spliterator;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.jspecify.annotations.Nullable;
 
@@ -659,6 +661,18 @@ public final class Lists {
     @Override
     public boolean isEmpty() {
       return fromList.isEmpty();
+    }
+
+    @Override
+    @GwtIncompatible // Spliterator
+    public Spliterator<T> spliterator() {
+      return CollectSpliterators.map(fromList.spliterator(), 0, function);
+    }
+
+    @Override
+    public void forEach(Consumer<? super T> action) {
+      checkNotNull(action);
+      fromList.forEach((F f) -> action.accept(function.apply(f)));
     }
 
     @Override
