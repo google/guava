@@ -382,7 +382,10 @@ conversion is done lazily.
 
 <p>The returned iterable's iterator supports <code>remove()</code> if the input iterator does. After
 a successful <code>remove()</code> call, <code>fromIterable</code> no longer contains the corresponding
-element.</div>
+element.
+
+<p>We generally encourage using <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/stream/Stream.html" title="interface in java.util.stream" class="external-link"><code>Stream</code></a> over lazily computed views like this one. Here,
+that means using <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/stream/Stream.html#map(java.util.function.Function)" class="external-link"><code>stream.map(converter)</code></a>.</div>
 </div>
 </section>
 </li>
