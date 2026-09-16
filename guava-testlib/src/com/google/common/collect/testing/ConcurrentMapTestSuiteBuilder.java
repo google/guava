@@ -44,7 +44,8 @@ public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, 
           ConcurrentMapPutIfAbsentTester.class,
           ConcurrentMapRemoveTester.class,
           ConcurrentMapReplaceTester.class,
-          ConcurrentMapReplaceEntryTester.class);
+          ConcurrentMapReplaceEntryTester.class,
+          ConcurrentMapSpliteratorTester.class);
 
   @SuppressWarnings("rawtypes") // class literals
   @Override
