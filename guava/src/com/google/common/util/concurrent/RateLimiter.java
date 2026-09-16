@@ -156,6 +156,8 @@ public abstract class RateLimiter {
    * <p>The returned {@code RateLimiter} starts in a "cold" state (i.e. the warmup period will
    * follow), and if it is left unused for long enough, it will return to that state.
    *
+   * <p>A {@code warmupPeriod} of zero is equivalent to {@link #create(double)}.
+   *
    * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many
    *     permits become available per second
    * @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its rate,
@@ -184,6 +186,8 @@ public abstract class RateLimiter {
    * <p>The returned {@code RateLimiter} starts in a "cold" state (i.e. the warmup period will
    * follow), and if it is left unused for long enough, it will return to that state.
    *
+   * <p>A {@code warmupPeriod} of zero is equivalent to {@link #create(double)}.
+   *
    * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many
    *     permits become available per second
    * @param warmupPeriod the duration of the period where the {@code RateLimiter} ramps up its rate,
@@ -206,6 +210,11 @@ public abstract class RateLimiter {
       TimeUnit unit,
       double coldFactor,
       SleepingStopwatch stopwatch) {
+    checkNotNull(unit);
+    // SmoothWarmingUp operates in microseconds and cannot represent a shorter warmup period.
+    if (warmupPeriod >= 0 && unit.toMicros(warmupPeriod) == 0) {
+      return create(permitsPerSecond, stopwatch);
+    }
     RateLimiter rateLimiter = new SmoothWarmingUp(stopwatch, warmupPeriod, unit, coldFactor);
     rateLimiter.setRate(permitsPerSecond);
     return rateLimiter;
