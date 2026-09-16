@@ -231,10 +231,14 @@ function major_version {
 readonly SNAPSHOT_CEILING="999.999.999"
 
 # Prints the highest non-rc release from the sorted list of releases produced
-# by sort_releases. If a release argument is provided, print the highest non-rc
-# release that has a major or minor version that is lower than the given
-# release. For example, given "16.0.1", return "15.0". Given "16.1", return
-# "16.0.1".
+# by sort_releases. If a release argument is provided, print the immediately
+# previous non-rc release (by full version order, including patch), so JDiff
+# and release-note labels agree. For example, given "33.4.6-jre", return
+# "33.4.5-jre". Given "16.0.1", return "16.0". Given "16.1", return "16.0.1".
+#
+# (Older logic skipped to a lower major/minor only, so patch releases like
+# 33.4.6-jre were compared against 33.3.1-jre while GitHub release notes said
+# "vs. 33.4.5-jre". See https://github.com/google/guava/issues/7765.)
 #
 # If the release argument is a "-android" release, only look at other
 # "-android" releases.
@@ -265,27 +269,22 @@ function latest_release {
   fi
 
   # Add the release we're looking for to the list, uniqueify, then sort
-  # according to our release sort order.
+  # according to our release sort order (greatest → least).
   local releases="$((echo "$non_rc_releases" && echo "$ceiling") | sort -u | sort_releases)"
 
-  ceiling_expanded="$(expand_release "$ceiling")"
-  ceiling_major="$(cut -d. -f1 <<< "$ceiling_expanded")"
-  ceiling_minor="$(cut -d. -f2 <<< "$ceiling_expanded")"
-
+  # Return the release immediately after the ceiling in that list (i.e. the
+  # highest non-rc strictly older than the ceiling). Using an explicit boolean
+  # avoids a long-standing bash pitfall: [[ "0" ]] is true, so the previous
+  # seen_ceiling=0 sentinel never actually flipped the branch.
   local release
-  local seen_ceiling=1
+  local seen_ceiling=false
   for release in $releases; do
-    if [[ "$seen_ceiling" ]]; then
-      release_expanded="$(expand_release "$release")"
-      release_major="$(cut -d. -f1 <<< "$release_expanded")"
-      release_minor="$(cut -d. -f2 <<< "$release_expanded")"
-
-      if (( release_major < ceiling_major || release_minor < ceiling_minor )); then
-        echo "$release"
-        return
-      fi
-    elif [[ "$release" == "$ceiling" ]]; then
-      seen_ceiling=0
+    if $seen_ceiling; then
+      echo "$release"
+      return
+    fi
+    if [[ "$release" == "$ceiling" ]]; then
+      seen_ceiling=true
     fi
   done
 }
