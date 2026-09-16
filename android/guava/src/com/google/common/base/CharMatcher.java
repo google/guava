@@ -727,18 +727,59 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
 
     int len = string.length();
-    StringBuilder buf = new StringBuilder((len * 3 / 2) + 16);
 
-    int oldpos = 0;
+    // Count matches to pre-calculate the exact size of the destination array.
+    int count = 0;
+    int matchPos = pos;
     do {
-      buf.append(string, oldpos, pos);
-      buf.append(replacement);
-      oldpos = pos + 1;
-      pos = indexIn(string, oldpos);
-    } while (pos != -1);
+      count++;
+      matchPos = indexIn(string, matchPos + 1);
+    } while (matchPos != -1);
 
-    buf.append(string, oldpos, len);
-    return buf.toString();
+    long newLen = (long) len + (long) count * (replacementLen - 1);
+    if (newLen > Integer.MAX_VALUE) {
+      throw new IllegalArgumentException("Required length exceeds implementation limit");
+    }
+    int destSize = (int) newLen;
+
+    char[] dest = Platform.acquireCharBuffer();
+    boolean acquired = (dest != null);
+    if (dest == null) {
+      dest = new char[destSize];
+    } else if (dest.length < destSize) {
+      dest = new char[destSize];
+    }
+
+    try {
+      String replStr = replacement.toString();
+      int destIndex = 0;
+      int oldpos = 0;
+      matchPos = pos;
+
+      do {
+        int charsToCopy = matchPos - oldpos;
+        if (charsToCopy > 0) {
+          string.getChars(oldpos, matchPos, dest, destIndex);
+          destIndex += charsToCopy;
+        }
+        replStr.getChars(0, replacementLen, dest, destIndex);
+        destIndex += replacementLen;
+        oldpos = matchPos + 1;
+        matchPos = indexIn(string, oldpos);
+      } while (matchPos != -1);
+
+      int charsLeft = len - oldpos;
+      if (charsLeft > 0) {
+        string.getChars(oldpos, len, dest, destIndex);
+        destIndex += charsLeft;
+      }
+
+      return new String(dest, 0, destIndex);
+    } finally {
+      if (acquired) {
+        Platform.releaseCharBuffer(dest);
+      }
+    }
   }
 
   /**
