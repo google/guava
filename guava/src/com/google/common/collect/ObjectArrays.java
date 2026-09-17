@@ -93,10 +93,18 @@ public final class ObjectArrays {
    *     the first position, and the elements of {@code array} occupying the remaining elements.
    */
   public static <T extends @Nullable Object> T[] concat(@ParametricNullness T element, T[] array) {
-    T[] result = newArray(array, array.length + 1);
+    Object[] result;
+    if (element == null || array.getClass().getComponentType().isInstance(element)) {
+      result = newArray(array, array.length + 1);
+    } else {
+      result = new Object[array.length + 1];
+    }
     result[0] = element;
     arraycopy(array, 0, result, 1, array.length);
-    return result;
+    @SuppressWarnings(
+        "unchecked") // safe: result's component type accepts `element` and all of `array`
+    T[] typedResult = (T[]) result;
+    return typedResult;
   }
 
   /**
@@ -108,9 +116,18 @@ public final class ObjectArrays {
    *     array}, plus {@code element} occupying the last position.
    */
   public static <T extends @Nullable Object> T[] concat(T[] array, @ParametricNullness T element) {
-    T[] result = Arrays.copyOf(array, array.length + 1);
+    Object[] result;
+    if (element == null || array.getClass().getComponentType().isInstance(element)) {
+      result = Arrays.copyOf(array, array.length + 1);
+    } else {
+      result = new Object[array.length + 1];
+      arraycopy(array, 0, result, 0, array.length);
+    }
     result[array.length] = element;
-    return result;
+    @SuppressWarnings(
+        "unchecked") // safe: result's component type accepts `element` and all of `array`
+    T[] typedResult = (T[]) result;
+    return typedResult;
   }
 
   /**

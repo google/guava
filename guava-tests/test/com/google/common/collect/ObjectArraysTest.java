@@ -194,6 +194,30 @@ public class ObjectArraysTest extends TestCase {
     assertThat(array).asList().containsExactly("foo", "bar", "baz").inOrder();
   }
 
+  public void testPrependZeroElements_withIncompatibleElementType() {
+    String[] array = {};
+    Object[] result = ObjectArrays.<Object>concat(0, array);
+    assertThat(result).asList().containsExactly(0);
+  }
+
+  public void testPrependOneElement_withIncompatibleElementType() {
+    String[] array = {"bar"};
+    Object[] result = ObjectArrays.<Object>concat(0, array);
+    assertThat(result).asList().containsExactly(0, "bar").inOrder();
+  }
+
+  public void testAppendZeroElements_withIncompatibleElementType() {
+    String[] array = {};
+    Object[] result = ObjectArrays.<Object>concat(array, 0);
+    assertThat(result).asList().containsExactly(0);
+  }
+
+  public void testAppendOneElement_withIncompatibleElementType() {
+    String[] array = {"foo"};
+    Object[] result = ObjectArrays.<Object>concat(array, 0);
+    assertThat(result).asList().containsExactly("foo", 0).inOrder();
+  }
+
   public void testEmptyArrayToEmpty() {
     doTestNewArrayEquals(new Object[0], 0);
   }
