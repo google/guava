@@ -22,7 +22,6 @@ import com.google.common.testing.AbstractPackageSanityTests;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Basic sanity tests for classes in {@code common.base}. */
-
 @J2ktIncompatible
 @GwtIncompatible
 @NullUnmarked

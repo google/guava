@@ -151,7 +151,6 @@ public class AbstractIteratorTest extends TestCase {
     assertThrows(UnsupportedOperationException.class, iter::remove);
   }
 
-
   @GwtIncompatible // weak references
   @J2ktIncompatible
   public void testFreesNextReference() {
