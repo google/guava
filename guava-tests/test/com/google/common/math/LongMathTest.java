@@ -200,7 +200,6 @@ public class LongMathTest extends TestCase {
     assertThrows(ArithmeticException.class, () -> simpleBinomial(2 * k, k));
   }
 
-  @AndroidIncompatible // slow
   public void testLessThanBranchFree() {
     for (long x : ALL_LONG_CANDIDATES) {
       for (long y : ALL_LONG_CANDIDATES) {
@@ -390,7 +389,6 @@ public class LongMathTest extends TestCase {
   }
 
   @GwtIncompatible // TODO
-  @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testDivNonZeroExact() {
     for (long p : NONZERO_LONG_CANDIDATES) {
       for (long q : NONZERO_LONG_CANDIDATES) {
@@ -452,7 +450,6 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // TODO
   public void testMod() {
     for (long x : ALL_LONG_CANDIDATES) {
@@ -505,7 +502,6 @@ public class LongMathTest extends TestCase {
   }
 
   @SuppressWarnings("InlineMeInliner") // We need to test checkedAdd
-  @AndroidIncompatible // slow
   public void testCheckedAdd() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
@@ -526,7 +522,6 @@ public class LongMathTest extends TestCase {
   }
 
   @SuppressWarnings("InlineMeInliner") // We need to test checkedSubtract
-  @AndroidIncompatible // slow
   public void testCheckedSubtract() {
     for (long a : ALL_LONG_CANDIDATES) {
       for (long b : ALL_LONG_CANDIDATES) {
@@ -548,7 +543,6 @@ public class LongMathTest extends TestCase {
   }
 
   @SuppressWarnings("InlineMeInliner") // We need to test checkedMultiply
-  @AndroidIncompatible // slow
   public void testCheckedMultiply() {
     boolean isAndroid = TestPlatform.isAndroid();
     for (long a : ALL_LONG_CANDIDATES) {
@@ -600,7 +594,6 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // TODO
   public void testSaturatedAdd() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -611,7 +604,6 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // TODO
   public void testSaturatedSubtract() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -626,7 +618,6 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // TODO
   public void testSaturatedMultiply() {
     for (long a : ALL_LONG_CANDIDATES) {
@@ -687,6 +678,7 @@ public class LongMathTest extends TestCase {
 
 
   @GwtIncompatible // Slow
+  // Android: takes ~15s
   public void testBinomial_exhaustiveNotOverflowing() {
     // Tests all of the inputs to LongMath.binomial that won't cause it to overflow, that weren't
     // tested in the previous method, for k >= 3.
@@ -713,7 +705,7 @@ public class LongMathTest extends TestCase {
 
   @SuppressWarnings("AssertLongsEqual") // Truth would balloon the runtime from ~12s to ~2.5m
 
-  @AndroidIncompatible // slow enough to cause a timeout
+  @AndroidIncompatible // takes ~5 minutes
   @J2ktIncompatible // slow enough to cause flakiness
   @GwtIncompatible // far too slow
   public void testSqrtOfPerfectSquareAsDoubleIsPerfect() {
@@ -729,7 +721,6 @@ public class LongMathTest extends TestCase {
     assertThat(sqrtMaxLong).isAtMost(LongMath.FLOOR_SQRT_MAX_LONG);
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // java.math.BigInteger
   public void testMean() {
     // Odd-sized ranges have an obvious mean

@@ -163,7 +163,6 @@ public class ClassSanityTesterTest extends TestCase {
     private BadNullsFactory() {}
   }
 
-  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testSerializableOnReturnValues_good() throws Exception {
     tester.forAllPublicStaticMethods(GoodSerializableFactory.class).testSerializable();
   }
@@ -213,7 +212,6 @@ public class ClassSanityTesterTest extends TestCase {
                 .testEqualsAndSerializable());
   }
 
-  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testEqualsAndSerializableOnReturnValues_good() throws Exception {
     tester
         .forAllPublicStaticMethods(GoodEqualsAndSerializableFactory.class)
@@ -345,7 +343,6 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testNulls(WithStreamParameter.class);
   }
 
-  @AndroidIncompatible // problem with equality of Type objects?
   public void testEqualsUsingReferentialEquality() {
     if (!PRIMITIVE_EQUALITY_BASED_ON_VALUE) {
       assertBadUseOfReferentialEquality(SameIntegerInstance.class);
@@ -551,7 +548,6 @@ public class ClassSanityTesterTest extends TestCase {
     assertThat(tester.instantiate(InstantiableFactoryMethodChosen.class).name).isEqualTo("good");
   }
 
-  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testInterfaceProxySerializable() throws Exception {
     reserializeAndAssert(tester.instantiate(HasAnInterface.class));
   }

@@ -25,7 +25,6 @@ import java.util.List;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
-@AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 @NullUnmarked
 public class TypeTokenSubtypeTest extends TestCase {
 

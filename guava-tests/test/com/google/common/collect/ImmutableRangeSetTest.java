@@ -370,7 +370,6 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         () -> rangeSet.removeAll(ImmutableRangeSet.of(Range.closed(6, 8))));
   }
 
-  @AndroidIncompatible // slow
   public void testExhaustive() {
     ImmutableSet<Range<Integer>> ranges =
         ImmutableSet.of(

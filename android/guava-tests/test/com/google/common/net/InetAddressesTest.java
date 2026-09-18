@@ -142,6 +142,7 @@ public class InetAddressesTest extends TestCase {
     assertTrue(InetAddresses.isInetAddress(ipStr));
   }
 
+  @AndroidIncompatible // does hit DNS under Android, taking ~80s
   public void testForStringIPv4NonAsciiInput() {
     String ipStr = "૧૯૨.૧૬૮.૦.૧"; // 192.168.0.1 in Gujarati digits
     // Shouldn't hit DNS, because it's an IP string literal.
@@ -164,6 +165,7 @@ public class InetAddressesTest extends TestCase {
     assertTrue(InetAddresses.isInetAddress(ipStr));
   }
 
+  @AndroidIncompatible // does hit DNS under Android, taking ~80s
   public void testForStringIPv6NonAsciiInput() {
     String ipStr = "૩ffe::૧"; // 3ffe::1 with Gujarati digits for 3 and 1
     // Shouldn't hit DNS, because it's an IP string literal.

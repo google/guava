@@ -394,7 +394,7 @@ public class BigIntegerMathTest extends TestCase {
   }
 
   @GwtIncompatible // TODO
-  @AndroidIncompatible // slow
+  // Android: takes ~15s
   public void testDivNonZero() {
     for (BigInteger p : NONZERO_BIGINTEGER_CANDIDATES) {
       for (BigInteger q : NONZERO_BIGINTEGER_CANDIDATES) {
@@ -411,7 +411,6 @@ public class BigIntegerMathTest extends TestCase {
   private static final BigInteger BAD_FOR_ANDROID_Q = new BigInteger("-1");
 
   @GwtIncompatible // TODO
-  @AndroidIncompatible // slow
   public void testDivNonZeroExact() {
     String runtimeName = System.getProperty("java.runtime.name");
     boolean isAndroid = runtimeName != null && runtimeName.contains("Android");

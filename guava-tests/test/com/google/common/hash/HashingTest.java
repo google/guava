@@ -149,7 +149,7 @@ public class HashingTest extends TestCase {
   }
 
   @J2ktIncompatible
-  @AndroidIncompatible // slow TODO(cpovirk): Maybe just reduce iterations under Android.
+  @AndroidIncompatible // takes ~30s. TODO(cpovirk): Maybe just reduce iterations under Android.
   public void testGoodFastHash() {
     for (int i = 1; i < 200; i += 17) {
       HashFunction hasher = Hashing.goodFastHash(i);

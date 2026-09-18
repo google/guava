@@ -37,7 +37,6 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Chris Nokleberg
  */
-@AndroidIncompatible // occasionally very slow
 @NullUnmarked
 public class LineBufferTest extends IoTestCase {
 

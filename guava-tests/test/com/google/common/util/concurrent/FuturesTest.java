@@ -3286,7 +3286,6 @@ public class FuturesTest extends TestCase {
     assertTrue(future3.wasInterruptedInternal());
   }
 
-  @AndroidIncompatible // runs out of memory under some versions of the emulator
   public void testCancellingAllDelegatesIsNotQuadratic() {
     ImmutableList.Builder<SettableFuture<Long>> builder = ImmutableList.builder();
     for (int i = 0; i < 500_000; i++) {
