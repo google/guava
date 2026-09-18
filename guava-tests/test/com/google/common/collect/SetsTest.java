@@ -356,7 +356,7 @@ public class SetsTest extends TestCase {
 
   @GwtIncompatible
   @J2ktIncompatible
-    public void testImmutableEnumSet_deserializationMakesDefensiveCopy() throws Exception {
+  public void testImmutableEnumSet_deserializationMakesDefensiveCopy() throws Exception {
     ImmutableSet<SomeEnum> original = immutableEnumSet(SomeEnum.A, SomeEnum.B);
     int handleOffset = 6;
     byte[] serializedForm = serializeWithBackReference(original, handleOffset);
@@ -372,7 +372,7 @@ public class SetsTest extends TestCase {
 
   @GwtIncompatible
   @J2ktIncompatible
-    private static byte[] serializeWithBackReference(Object original, int handleOffset)
+  private static byte[] serializeWithBackReference(Object original, int handleOffset)
       throws IOException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     ObjectOutputStream out = new ObjectOutputStream(bos);
