@@ -208,7 +208,7 @@ public class PopulatedCachesTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // ~30s; doable but probably not worth it
+  // Android: tests ~20s
 
   public void testKeySet_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -260,7 +260,7 @@ public class PopulatedCachesTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // ~30s; doable but probably not worth it
+  // Android: tests ~20s
 
   public void testEntrySet_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {

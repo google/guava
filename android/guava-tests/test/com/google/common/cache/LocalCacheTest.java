@@ -763,7 +763,6 @@ public class LocalCacheTest extends TestCase {
     assertThat(segment.count).isEqualTo(1);
   }
 
-  @AndroidIncompatible // Perhaps emulator clock does not update between the two get() calls?
   public void testComputeExpiredEntry() throws ExecutionException {
     CacheBuilder<Object, Object> builder = createCacheBuilder().expireAfterWrite(1, NANOSECONDS);
     CountingLoader loader = new CountingLoader();

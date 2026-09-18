@@ -21,6 +21,7 @@ import static com.google.common.cache.TestingCacheLoaders.exceptionLoader;
 import static com.google.common.cache.TestingCacheLoaders.identityLoader;
 import static com.google.common.cache.TestingRemovalListeners.countingRemovalListener;
 import static com.google.common.collect.Lists.newArrayListWithExpectedSize;
+import static com.google.common.testing.GcFinalization.awaitClear;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.util.concurrent.Futures.immediateFailedFuture;
@@ -1677,43 +1678,37 @@ public class CacheLoadingTest extends TestCase {
   }
 
 
-  @AndroidIncompatible // Depends on GC behavior
-  public void testReloadAfterValueReclamation() throws InterruptedException {
+  public void testReloadAfterValueReclamation() {
     CountingLoader countingLoader = new CountingLoader();
     LoadingCache<Object, Object> cache =
         CacheBuilder.newBuilder().weakValues().build(countingLoader);
     ConcurrentMap<Object, Object> map = cache.asMap();
 
     int iterations = 10;
-    WeakReference<Object> ref = new WeakReference<>(null);
-    int expectedComputations = 0;
     for (int i = 0; i < iterations; i++) {
       // The entry should get garbage collected and recomputed.
-      Object oldValue = ref.get();
-      if (oldValue == null) {
-        expectedComputations++;
-      }
-      ref = new WeakReference<>(cache.getUnchecked(1));
-      oldValue = null;
-      Thread.sleep(i);
-      System.gc();
+      WeakReference<Object> ref = getUncheckedAsWeakReference(cache, 1);
+      awaitClear(ref);
     }
-    assertThat(countingLoader.getCount()).isEqualTo(expectedComputations);
+    assertThat(countingLoader.getCount()).isEqualTo(iterations);
 
     for (int i = 0; i < iterations; i++) {
       // The entry should get garbage collected and recomputed.
-      Object oldValue = ref.get();
-      if (oldValue == null) {
-        expectedComputations++;
-      }
       cache.refresh(1);
       checkNothingLogged();
-      ref = new WeakReference<>(map.get(1));
-      oldValue = null;
-      Thread.sleep(i);
-      System.gc();
+      WeakReference<Object> ref = getAsWeakReference(map, 1);
+      awaitClear(ref);
     }
-    assertThat(countingLoader.getCount()).isEqualTo(expectedComputations);
+    assertThat(countingLoader.getCount()).isEqualTo(iterations * 2);
+  }
+
+  private static WeakReference<Object> getUncheckedAsWeakReference(
+      LoadingCache<Object, Object> cache, Object key) {
+    return new WeakReference<>(cache.getUnchecked(key));
+  }
+
+  private static WeakReference<Object> getAsWeakReference(Map<Object, Object> map, Object key) {
+    return new WeakReference<>(map.get(key));
   }
 
   public void testReloadAfterSimulatedValueReclamation() {
@@ -1826,7 +1821,6 @@ public class CacheLoadingTest extends TestCase {
     assertThat(caughtEe).hasCauseThat().isEqualTo(ee);
   }
 
-  @AndroidIncompatible // Bug? expected:<1> but was:<2>
   public void testConcurrentLoading() throws InterruptedException {
     testConcurrentLoading(CacheBuilder.newBuilder());
   }
@@ -1839,7 +1833,6 @@ public class CacheLoadingTest extends TestCase {
     testConcurrentLoadingCheckedException(builder);
   }
 
-  @AndroidIncompatible // Bug? expected:<1> but was:<2>
   public void testConcurrentExpirationLoading() throws InterruptedException {
     testConcurrentLoading(CacheBuilder.newBuilder().expireAfterWrite(10, SECONDS));
   }
