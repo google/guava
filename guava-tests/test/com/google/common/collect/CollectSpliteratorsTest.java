@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Spliterator;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.stream.DoubleStream;
 import java.util.stream.IntStream;
 import java.util.stream.LongStream;
@@ -99,6 +100,32 @@ public class CollectSpliteratorsTest extends TestCase {
                     Spliterator.SIZED | Spliterator.DISTINCT | Spliterator.NONNULL,
                     4))
         .expect(1.0, 1.0, 2.0, 3.0);
+  }
+
+  @GwtIncompatible // CopyOnWriteArrayList
+  public void testFilterPreservesImmutableCharacteristic() {
+    CopyOnWriteArrayList<String> cow = new CopyOnWriteArrayList<>(Arrays.asList("a", "b", "c"));
+    Spliterator<String> source = cow.spliterator();
+    assertTrue((source.characteristics() & Spliterator.IMMUTABLE) != 0);
+
+    Spliterator<String> filtered =
+        CollectSpliterators.filter(cow.spliterator(), s -> !s.equals("b"));
+    assertTrue(
+        "filter() should preserve IMMUTABLE from source",
+        (filtered.characteristics() & Spliterator.IMMUTABLE) != 0);
+  }
+
+  @GwtIncompatible
+  public void testFilterDropsSized() {
+    Spliterator<String> source =
+        Arrays.spliterator(new String[] {"a", "b", "c"});
+    assertTrue((source.characteristics() & Spliterator.SIZED) != 0);
+
+    Spliterator<String> filtered =
+        CollectSpliterators.filter(source, s -> !s.equals("b"));
+    assertFalse(
+        "filter() should not preserve SIZED",
+        (filtered.characteristics() & Spliterator.SIZED) != 0);
   }
 
   public void testMultisetsSpliterator() {
