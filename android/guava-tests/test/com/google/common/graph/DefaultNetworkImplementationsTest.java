@@ -34,8 +34,6 @@ import org.junit.runner.RunWith;
  * implementations are in {@link AbstractNetwork}; in future they might be in {@link Network}
  * itself, once we are willing to use Java 8 default methods.
  */
-@AndroidIncompatible
-// TODO(cpovirk): Figure out Android JUnit 4 support. Does it work with Gingerbread? @RunWith?
 @RunWith(TestParameterInjector.class)
 @NullUnmarked
 public final class DefaultNetworkImplementationsTest {

@@ -22,7 +22,6 @@ import org.jspecify.annotations.NullUnmarked;
 import org.junit.runner.RunWith;
 
 /** Tests for a directed {@link StandardMutableGraph}. */
-@AndroidIncompatible
 @RunWith(TestParameterInjector.class)
 @NullUnmarked
 public final class StandardMutableDirectedGraphTest extends AbstractStandardDirectedGraphTest {

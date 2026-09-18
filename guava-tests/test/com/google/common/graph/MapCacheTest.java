@@ -29,8 +29,6 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 /** Tests for {@link MapIteratorCache} and {@link MapRetrievalCache}. */
-@AndroidIncompatible
-// TODO(cpovirk): Figure out Android JUnit 4 support. Does it work with Gingerbread? @RunWith?
 @RunWith(TestParameterInjector.class)
 @NullUnmarked
 public final class MapCacheTest {

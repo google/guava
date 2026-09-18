@@ -23,7 +23,6 @@ import org.jspecify.annotations.NullUnmarked;
 import org.junit.runner.RunWith;
 
 /** Tests for an undirected {@link StandardMutableNetwork}. */
-@AndroidIncompatible
 @RunWith(TestParameterInjector.class)
 @NullUnmarked
 public final class StandardMutableUndirectedNetworkTest
