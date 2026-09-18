@@ -16,8 +16,6 @@
 
 package com.google.common.graph;
 
-import static com.google.common.graph.TestUtil.EdgeType.DIRECTED;
-import static com.google.common.graph.TestUtil.EdgeType.UNDIRECTED;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.graph.TestUtil.EdgeType;
