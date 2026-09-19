@@ -122,6 +122,33 @@ public class RangeTest extends TestCase {
     assertFalse(Range.closed(3, 5).isConnected(Range.closedOpen(7, 7)));
   }
 
+  public void testOverlaps() {
+    // shares one or more values
+    assertTrue(Range.closed(3, 5).overlaps(Range.closed(4, 6)));
+    assertTrue(Range.closed(3, 5).overlaps(Range.closed(5, 7)));
+    assertTrue(Range.closed(3, 5).overlaps(Range.closed(3, 5)));
+    assertTrue(Range.closed(3, 5).overlaps(Range.open(2, 4)));
+    assertTrue(Range.atLeast(3).overlaps(Range.atMost(3)));
+    assertTrue(Range.<Integer>all().overlaps(Range.closed(3, 5)));
+
+    // connected but no shared value
+    assertFalse(Range.closed(3, 5).overlaps(Range.open(5, 7)));
+    assertFalse(Range.closedOpen(3, 5).overlaps(Range.closed(5, 7)));
+
+    // disconnected
+    assertFalse(Range.closed(3, 5).overlaps(Range.closed(7, 9)));
+    assertFalse(Range.lessThan(3).overlaps(Range.greaterThan(3)));
+
+    // empty ranges overlap nothing, not even themselves
+    assertFalse(Range.closedOpen(4, 4).overlaps(Range.closed(1, 9)));
+    assertFalse(Range.closed(1, 9).overlaps(Range.closedOpen(4, 4)));
+    assertFalse(Range.closedOpen(4, 4).overlaps(Range.closedOpen(4, 4)));
+
+    // symmetry
+    assertTrue(Range.closed(5, 7).overlaps(Range.closed(3, 5)));
+    assertFalse(Range.open(5, 7).overlaps(Range.closed(3, 5)));
+  }
+
   private static void checkContains(Range<Integer> range) {
     assertFalse(range.contains(4));
     assertTrue(range.contains(5));
