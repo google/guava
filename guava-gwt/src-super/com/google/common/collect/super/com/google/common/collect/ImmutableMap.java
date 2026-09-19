@@ -23,15 +23,19 @@ import static com.google.common.collect.Iterables.getOnlyElement;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.Serializable;
+import java.util.Arrays;
+import java.util.BitSet;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.EnumMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.stream.Collector;
@@ -404,6 +408,54 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
     } else {
       return fromEntryList(Lists.newArrayList(entries.iterator()));
     }
+  }
+
+  public static <K extends Comparable<? super K>, V> ImmutableMap<K, V> sortedCopyOf(
+      Map<? extends K, ? extends V> map) {
+    return sortedCopyOf(Ordering.natural(), map);
+  }
+
+  public static <K, V> ImmutableMap<K, V> sortedCopyOf(
+      Comparator<? super K> keyComparator, Map<? extends K, ? extends V> map) {
+    checkNotNull(keyComparator);
+    @SuppressWarnings({"unchecked", "rawtypes"}) // entries are non-null
+    Entry<K, V>[] entryArray = map.entrySet().toArray((Entry<K, V>[]) new Entry<?, ?>[map.size()]);
+    switch (entryArray.length) {
+      case 0:
+        return of();
+      case 1:
+        Entry<K, V> onlyEntry = entryArray[0];
+        return of(onlyEntry.getKey(), onlyEntry.getValue());
+      default:
+        @SuppressWarnings("nullness") // entries 0..entryArray.length-1 are non-null
+        Entry<K, V>[] nonNullEntries = entryArray;
+        Entry<K, V>[] lastEntryForEachKey = lastEntryForEachKey(nonNullEntries, entryArray.length);
+        Entry<K, V>[] toSort = (lastEntryForEachKey == null) ? nonNullEntries : lastEntryForEachKey;
+        Arrays.sort(toSort, Ordering.from(keyComparator).onResultOf(Entry::getKey));
+        return new RegularImmutableMap<K, V>(/* throwIfDuplicateKeys= */ false, toSort);
+    }
+  }
+
+  private static <K, V> Entry<K, V> @Nullable [] lastEntryForEachKey(
+      Entry<K, V>[] entries, int size) {
+    Set<K> seen = new HashSet<>();
+    BitSet dups = new BitSet(); // slots that are overridden by a later duplicate key
+    for (int i = size - 1; i >= 0; i--) {
+      if (!seen.add(entries[i].getKey())) {
+        dups.set(i);
+      }
+    }
+    if (dups.isEmpty()) {
+      return null;
+    }
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    Entry<K, V>[] newEntries = new Entry[size - dups.cardinality()];
+    for (int inI = 0, outI = 0; inI < size; inI++) {
+      if (!dups.get(inI)) {
+        newEntries[outI++] = entries[inI];
+      }
+    }
+    return newEntries;
   }
 
   abstract boolean isPartialView();
