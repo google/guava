@@ -61,7 +61,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.NoSuchElementException;
 import java.util.RandomAccess;
+import java.util.Spliterator;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -672,6 +674,57 @@ public class ListsTest extends TestCase {
   public void testTransformHashCodeSequential() {
     List<String> list = transform(SOME_SEQUENTIAL_LIST, SOME_FUNCTION);
     assertEquals(SOME_STRING_LIST.hashCode(), list.hashCode());
+  }
+
+  @GwtIncompatible // Spliterator
+  public void testTransformSpliterator_delegatesCharacteristics_randomAccess() {
+    CopyOnWriteArrayList<Integer> cowList = new CopyOnWriteArrayList<>(asList(1, 2, 3));
+    assertEquals(
+        cowList.spliterator().characteristics(),
+        transform(cowList, i -> i).spliterator().characteristics());
+
+    ArrayList<Integer> arrayList = new ArrayList<>(asList(1, 2, 3));
+    assertEquals(
+        arrayList.spliterator().characteristics(),
+        transform(arrayList, i -> i).spliterator().characteristics());
+  }
+
+  @GwtIncompatible // Spliterator
+  public void testTransformSpliterator_delegatesCharacteristics_sequential() {
+    LinkedList<Integer> fromList = new LinkedList<>(asList(1, 2, 3));
+    Spliterator<Integer> spliterator = transform(fromList, i -> i).spliterator();
+    assertTrue(spliterator.hasCharacteristics(Spliterator.ORDERED));
+    assertTrue(spliterator.hasCharacteristics(Spliterator.SIZED));
+  }
+
+  @GwtIncompatible // Spliterator, CopyOnWriteArrayList
+  public void testTransformSpliterator_concurrentStreamDoesNotThrow() throws Exception {
+    CopyOnWriteArrayList<Integer> fromList = new CopyOnWriteArrayList<>();
+    for (int i = 0; i < 1000; i++) {
+      fromList.add(i);
+    }
+    List<Integer> view = transform(fromList, i -> i);
+    AtomicBoolean stop = new AtomicBoolean();
+    Thread mutator =
+        new Thread(
+            () -> {
+              while (!stop.get()) {
+                for (int i = 0; i < 1000; i++) {
+                  fromList.add(i);
+                }
+                fromList.clear();
+              }
+            });
+    mutator.setDaemon(true);
+    mutator.start();
+    try {
+      for (int i = 0; i < 100; i++) {
+        view.stream().forEach(x -> {});
+      }
+    } finally {
+      stop.set(true);
+      mutator.join(1000);
+    }
   }
 
   public void testTransformModifiableRandomAccess() {
