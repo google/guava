@@ -58,7 +58,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public @Nullable Entry<E> firstEntry() {
-    Iterator<Entry<E>> entryIterator = entryIterator();
+    Iterator<Entry<E>> entryIterator = internalEntryIterator();
     return entryIterator.hasNext() ? entryIterator.next() : null;
   }
 
@@ -70,7 +70,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public @Nullable Entry<E> pollFirstEntry() {
-    Iterator<Entry<E>> entryIterator = entryIterator();
+    Iterator<Entry<E>> entryIterator = internalEntryIterator();
     if (entryIterator.hasNext()) {
       Entry<E> result = entryIterator.next();
       result = Multisets.immutableEntry(result.getElement(), result.getCount());

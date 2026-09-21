@@ -346,7 +346,7 @@ public final class Multisets {
     }
 
     @Override
-    Iterator<Entry<E>> entryIterator() {
+    Iterator<Entry<E>> internalEntryIterator() {
       throw new AssertionError("should never be called");
     }
 
@@ -435,7 +435,7 @@ public final class Multisets {
       }
 
       @Override
-      Iterator<Entry<E>> entryIterator() {
+      Iterator<Entry<E>> internalEntryIterator() {
         Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
         Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
         // TODO(lowasser): consider making the entries live views
@@ -497,7 +497,7 @@ public final class Multisets {
       }
 
       @Override
-      Iterator<Entry<E>> entryIterator() {
+      Iterator<Entry<E>> internalEntryIterator() {
         Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         // TODO(lowasser): consider making the entries live views
         return new AbstractIterator<Entry<E>>() {
@@ -571,7 +571,7 @@ public final class Multisets {
       }
 
       @Override
-      Iterator<Entry<E>> entryIterator() {
+      Iterator<Entry<E>> internalEntryIterator() {
         Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
         Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
         return new AbstractIterator<Entry<E>>() {
@@ -646,7 +646,7 @@ public final class Multisets {
       }
 
       @Override
-      Iterator<Entry<E>> entryIterator() {
+      Iterator<Entry<E>> internalEntryIterator() {
         Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         return new AbstractIterator<Entry<E>>() {
           @Override
@@ -665,8 +665,8 @@ public final class Multisets {
       }
 
       @Override
-      int distinctElements() {
-        return Iterators.size(entryIterator());
+      int internalDistinctElements() {
+        return Iterators.size(internalEntryIterator());
       }
     };
   }
@@ -1180,7 +1180,7 @@ public final class Multisets {
     }
 
     @Override
-    int distinctElements() {
+    int internalDistinctElements() {
       return elementSet().size();
     }
   }

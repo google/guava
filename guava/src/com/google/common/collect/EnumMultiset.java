@@ -118,7 +118,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   }
 
   @Override
-  int distinctElements() {
+  int internalDistinctElements() {
     return distinctElements;
   }
 
@@ -261,7 +261,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   }
 
   @Override
-  Iterator<Entry<E>> entryIterator() {
+  Iterator<Entry<E>> internalEntryIterator() {
     return new Itr<Entry<E>>() {
       @Override
       Entry<E> output(int index) {

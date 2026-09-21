@@ -155,18 +155,18 @@ abstract class AbstractMultiset<E extends @Nullable Object> extends AbstractColl
 
     @Override
     public final Iterator<Entry<E>> iterator() {
-      return entryIterator();
+      return internalEntryIterator();
     }
 
     @Override
     public final int size() {
-      return distinctElements();
+      return internalDistinctElements();
     }
   }
 
-  abstract Iterator<Entry<E>> entryIterator();
+  abstract Iterator<Entry<E>> internalEntryIterator();
 
-  abstract int distinctElements();
+  abstract int internalDistinctElements();
 
   // Object methods
 

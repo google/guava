@@ -238,7 +238,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
   }
 
   @Override
-  int distinctElements() {
+  int internalDistinctElements() {
     return Ints.saturatedCast(aggregateForEntries(Aggregate.DISTINCT));
   }
 
@@ -373,7 +373,7 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
       rootReference.clear();
     } else {
       // TODO(cpovirk): Perhaps we can optimize in this case, too?
-      Iterators.clear(entryIterator());
+      Iterators.clear(internalEntryIterator());
     }
   }
 
@@ -446,11 +446,11 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
 
   @Override
   Iterator<E> elementIterator() {
-    return Multisets.elementIterator(entryIterator());
+    return Multisets.elementIterator(internalEntryIterator());
   }
 
   @Override
-  Iterator<Entry<E>> entryIterator() {
+  Iterator<Entry<E>> internalEntryIterator() {
     return new Iterator<Entry<E>>() {
       private @Nullable AvlNode<E> current = firstNode();
       private @Nullable Entry<E> prevEntry;

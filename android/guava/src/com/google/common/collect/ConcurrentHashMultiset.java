@@ -520,7 +520,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   @Override
-  int distinctElements() {
+  int internalDistinctElements() {
     return countMap.size();
   }
 
@@ -530,7 +530,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
   }
 
   @Override
-  Iterator<Entry<E>> entryIterator() {
+  Iterator<Entry<E>> internalEntryIterator() {
     // AbstractIterator makes this fairly clean, but it doesn't support remove(). To support
     // remove(), we create an AbstractIterator, and then use ForwardingIterator to delegate to it.
     Iterator<Entry<E>> readOnlyIterator =

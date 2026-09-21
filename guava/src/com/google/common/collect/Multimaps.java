@@ -1694,7 +1694,7 @@ public final class Multimaps {
     }
 
     @Override
-    final Iterator<Multiset.Entry<K>> entryIterator() {
+    final Iterator<Multiset.Entry<K>> internalEntryIterator() {
       return new TransformedIterator<Map.Entry<K, Collection<V>>, Multiset.Entry<K>>(
           multimap.asMap().entrySet().iterator()) {
         @Override
@@ -1727,7 +1727,7 @@ public final class Multimaps {
     }
 
     @Override
-    int distinctElements() {
+    int internalDistinctElements() {
       return multimap.asMap().size();
     }
 

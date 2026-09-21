@@ -4113,13 +4113,13 @@ public final class Maps {
 
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          return entryIterator();
+          return internalEntryIterator();
         }
       }
       return new EntrySetImpl();
     }
 
-    abstract Iterator<Entry<K, V>> entryIterator();
+    abstract Iterator<Entry<K, V>> internalEntryIterator();
 
     @Override
     public Set<K> keySet() {

@@ -167,7 +167,7 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
     }
 
     @Override
-    Iterator<Entry<K, V>> entryIterator() {
+    Iterator<Entry<K, V>> internalEntryIterator() {
       return descendingEntryIterator();
     }
   }

@@ -392,7 +392,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
 
         @Override
         public Iterator<Multiset.Entry<K>> iterator() {
-          return Keys.this.entryIterator();
+          return Keys.this.internalEntryIterator();
         }
 
         @Override

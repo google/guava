@@ -137,11 +137,11 @@ public class SimpleAbstractMultisetTest extends TestCase {
 
     @Override
     Iterator<E> elementIterator() {
-      return Multisets.elementIterator(entryIterator());
+      return Multisets.elementIterator(internalEntryIterator());
     }
 
     @Override
-    Iterator<Entry<E>> entryIterator() {
+    Iterator<Entry<E>> internalEntryIterator() {
       Iterator<Map.Entry<E, Integer>> backingEntries = backingMap.entrySet().iterator();
       return new UnmodifiableIterator<Multiset.Entry<E>>() {
         @Override
@@ -174,7 +174,7 @@ public class SimpleAbstractMultisetTest extends TestCase {
     }
 
     @Override
-    int distinctElements() {
+    int internalDistinctElements() {
       return backingMap.size();
     }
   }
