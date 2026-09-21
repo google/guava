@@ -72,7 +72,9 @@ import org.jspecify.annotations.Nullable;
  *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
- * <p>If you do chain your operations manually, you may want to use {@link FluentFuture}.
+ * <p>If you do chain your operations manually, you may want to use {@link FluentFuture}. If those
+ * operations create objects that must be closed when the computation is done, see {@link
+ * ClosingFuture}.
  *
  * @author Kevin Bourrillion
  * @author Nishant Thakkar
