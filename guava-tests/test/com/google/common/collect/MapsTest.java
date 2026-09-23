@@ -1387,6 +1387,91 @@ public class MapsTest extends TestCase {
   }
 
   @GwtIncompatible // NavigableMap
+  public void testFilteredNavigableMapPollFirstEntry() {
+    TreeMap<Integer, String> unfiltered = Maps.newTreeMap();
+    unfiltered.put(1, "one");
+    unfiltered.put(2, "two");
+    unfiltered.put(3, "three");
+    NavigableMap<Integer, String> filtered = Maps.filterKeys(unfiltered, k -> k != 1);
+
+    // 2 is the root of the TreeMap, so removing it moves another mapping into its entry object.
+    assertThat(filtered.pollFirstEntry()).isEqualTo(immutableEntry(2, "two"));
+    assertThat(unfiltered).containsExactly(1, "one", 3, "three").inOrder();
+  }
+
+  @GwtIncompatible // NavigableMap
+  public void testFilteredNavigableMapPollEntriesDrainsInOrder() {
+    NavigableMap<Integer, String> unfiltered = Maps.newTreeMap();
+    for (int i = 0; i < 10; i++) {
+      unfiltered.put(i, Integer.toString(i));
+    }
+    NavigableMap<Integer, String> filtered = Maps.filterKeys(unfiltered, k -> k % 2 == 1);
+    List<Entry<Integer, String>> polled = Lists.newArrayList();
+    Entry<Integer, String> entry;
+    while ((entry = filtered.pollFirstEntry()) != null) {
+      polled.add(entry);
+    }
+    assertThat(polled)
+        .containsExactly(
+            immutableEntry(1, "1"),
+            immutableEntry(3, "3"),
+            immutableEntry(5, "5"),
+            immutableEntry(7, "7"),
+            immutableEntry(9, "9"))
+        .inOrder();
+    assertThat(unfiltered.keySet()).containsExactly(0, 2, 4, 6, 8).inOrder();
+
+    for (int i = 0; i < 10; i++) {
+      unfiltered.put(i, Integer.toString(i));
+    }
+    polled.clear();
+    while ((entry = filtered.pollLastEntry()) != null) {
+      polled.add(entry);
+    }
+    assertThat(polled)
+        .containsExactly(
+            immutableEntry(9, "9"),
+            immutableEntry(7, "7"),
+            immutableEntry(5, "5"),
+            immutableEntry(3, "3"),
+            immutableEntry(1, "1"))
+        .inOrder();
+    assertThat(unfiltered.keySet()).containsExactly(0, 2, 4, 6, 8).inOrder();
+  }
+
+  @GwtIncompatible // NavigableMap
+  public void testFilteredNavigableMapNavigationEntriesAreSnapshots() {
+    TreeMap<Integer, String> unfiltered = Maps.newTreeMap();
+    unfiltered.put(1, "one");
+    unfiltered.put(2, "two");
+    unfiltered.put(3, "three");
+    unfiltered.put(4, "four");
+    NavigableMap<Integer, String> filtered =
+        Maps.filterValues(unfiltered, v -> !v.equals("forbidden"));
+
+    List<Entry<Integer, String>> entries =
+        asList(
+            filtered.firstEntry(),
+            filtered.lastEntry(),
+            filtered.ceilingEntry(2),
+            filtered.floorEntry(2),
+            filtered.higherEntry(2),
+            filtered.lowerEntry(2),
+            filtered.descendingMap().firstEntry(),
+            filtered.headMap(3, true).lastEntry());
+    for (Entry<Integer, String> entry : entries) {
+      assertThrows(UnsupportedOperationException.class, () -> entry.setValue("forbidden"));
+    }
+    assertThat(unfiltered).containsExactly(1, "one", 2, "two", 3, "three", 4, "four").inOrder();
+
+    // Entries from entrySet() are still live and check the predicate.
+    Entry<Integer, String> liveEntry = filtered.entrySet().iterator().next();
+    assertThrows(IllegalArgumentException.class, () -> liveEntry.setValue("forbidden"));
+    liveEntry.setValue("uno");
+    assertThat(unfiltered).containsEntry(1, "uno");
+  }
+
+  @GwtIncompatible // NavigableMap
   public void testUnmodifiableNavigableMap() {
     TreeMap<Integer, String> mod = Maps.newTreeMap();
     mod.put(1, "one");

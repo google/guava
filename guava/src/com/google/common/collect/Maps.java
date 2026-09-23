@@ -26,7 +26,6 @@ import static com.google.common.collect.Collections2.newStringBuilderForCollecti
 import static com.google.common.collect.Collections2.safeContains;
 import static com.google.common.collect.Collections2.transform;
 import static com.google.common.collect.Iterables.any;
-import static com.google.common.collect.Iterables.removeFirstMatching;
 import static com.google.common.collect.Iterators.contains;
 import static com.google.common.collect.Iterators.filter;
 import static com.google.common.collect.Iterators.transform;
@@ -3237,14 +3236,27 @@ public final class Maps {
       return new FilteredMapValues<>(this, unfiltered, entryPredicate);
     }
 
+    /*
+     * These iterators back firstEntry(), lastEntry(), ceilingEntry(), etc. Like the corresponding
+     * NavigableMap methods of the unfiltered map, those methods return snapshot entries that don't
+     * support setValue. (Returning the unfiltered map's live entries would let setValue bypass the
+     * predicate.)
+     */
+
     @Override
     Iterator<Entry<K, V>> entryIterator() {
-      return filter(unfiltered.entrySet().iterator(), entryPredicate);
+      return snapshotEntries(filter(unfiltered.entrySet().iterator(), entryPredicate));
     }
 
     @Override
     Iterator<Entry<K, V>> descendingEntryIterator() {
-      return filter(unfiltered.descendingMap().entrySet().iterator(), entryPredicate);
+      return snapshotEntries(
+          filter(unfiltered.descendingMap().entrySet().iterator(), entryPredicate));
+    }
+
+    private static <K extends @Nullable Object, V extends @Nullable Object>
+        Iterator<Entry<K, V>> snapshotEntries(Iterator<Entry<K, V>> entries) {
+      return transform(entries, entry -> immutableEntry(entry.getKey(), entry.getValue()));
     }
 
     @Override
@@ -3294,12 +3306,31 @@ public final class Maps {
 
     @Override
     public @Nullable Entry<K, V> pollFirstEntry() {
-      return removeFirstMatching(unfiltered.entrySet(), entryPredicate);
+      return pollFirstMatching(unfiltered.entrySet().iterator(), entryPredicate);
     }
 
     @Override
     public @Nullable Entry<K, V> pollLastEntry() {
-      return removeFirstMatching(unfiltered.descendingMap().entrySet(), entryPredicate);
+      return pollFirstMatching(unfiltered.descendingMap().entrySet().iterator(), entryPredicate);
+    }
+
+    /**
+     * Removes the first entry that satisfies the predicate and returns a snapshot of it. The
+     * snapshot is taken before removal because some maps (such as {@link java.util.TreeMap}) reuse
+     * the removed entry object to hold a different mapping.
+     */
+    private static <K extends @Nullable Object, V extends @Nullable Object>
+        @Nullable Entry<K, V> pollFirstMatching(
+            Iterator<Entry<K, V>> entries, Predicate<? super Entry<K, V>> predicate) {
+      while (entries.hasNext()) {
+        Entry<K, V> entry = entries.next();
+        if (predicate.apply(entry)) {
+          Entry<K, V> snapshot = immutableEntry(entry.getKey(), entry.getValue());
+          entries.remove();
+          return snapshot;
+        }
+      }
+      return null;
     }
 
     @Override
