@@ -630,6 +630,9 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    * FluentIterable} in the order specified by {@code comparator}. To produce an {@code
    * ImmutableList} sorted by its natural ordering, use {@code toSortedList(Ordering.natural())}.
    *
+   * <p>The sorting algorithm used is stable, so elements that compare as equal will stay in the
+   * order in which they appear in this fluent iterable.
+   *
    * <p><b>{@code Stream} equivalent:</b> pass {@link ImmutableList#toImmutableList} to {@code
    * stream.sorted(comparator).collect()}.
    *
