@@ -205,7 +205,7 @@ key</code> and the value <code>value</code>.</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a <code>Collector</code> accumulating entries into an <code>ImmutableListMultimap</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>&gt;</code></div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>final <a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>&gt;</code></div>
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#get(K)" class="member-name-link">get</a><wbr>(<a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&nbsp;key)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns an immutable list of the values for the given key.</div>
@@ -332,7 +332,7 @@ multimap.</div>
 <div class="deprecation-comment">Unsupported operation.</div>
 </div>
 </div>
-<div class="col-first even-row-color"><code>boolean</code></div>
+<div class="col-first even-row-color"><code>final boolean</code></div>
 <div class="col-second even-row-color"><code><a href="ImmutableMultimap.html#containsKey(java.lang.Object)" class="member-name-link">containsKey</a><wbr>(<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&nbsp;key)</code></div>
 <div class="col-last even-row-color">
 <div class="block">Returns <code>true</code> if this multimap contains at least one key-value pair with the key <code>
@@ -361,7 +361,7 @@ key</code>.</div>
 with the same frequencies as they appear in this multimap; to get only a single occurrence of
 each key, use <a href="ImmutableMultimap.html#keySet()"><code>ImmutableMultimap.keySet()</code></a>.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a><wbr>&lt;<a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code>final <a href="ImmutableSet.html" title="class in com.google.common.collect">ImmutableSet</a><wbr>&lt;<a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="ImmutableMultimap.html#keySet()" class="member-name-link">keySet</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns an immutable set of the distinct keys in this multimap, in the same order as they
@@ -403,7 +403,7 @@ appear in this multimap.</div>
 <div class="col-last even-row-color">
 <div class="block">Returns the number of key-value pairs in this multimap.</div>
 </div>
-<div class="col-first odd-row-color"><code><a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>&gt;</code></div>
+<div class="col-first odd-row-color"><code>final <a href="ImmutableCollection.html" title="class in com.google.common.collect">ImmutableCollection</a><wbr>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>&gt;</code></div>
 <div class="col-second odd-row-color"><code><a href="ImmutableMultimap.html#values()" class="member-name-link">values</a>()</code></div>
 <div class="col-last odd-row-color">
 <div class="block">Returns an immutable collection of the values in this multimap.</div>
@@ -675,7 +675,7 @@ are iterated in the order they were encountered.</div>
 <section class="detail" id="get(K)">
 <h3 id="get(java.lang.Object)">get</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>&gt;</span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&nbsp;key)</span></div>
+<div class="member-signature"><span class="modifiers">public final</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;<a href="#type-param-V" title="type parameter in ImmutableListMultimap">V</a>&gt;</span>&nbsp;<span class="element-name">get</span><wbr><span class="parameters">(<a href="#type-param-K" title="type parameter in ImmutableListMultimap">K</a>&nbsp;key)</span></div>
 <div class="block">Returns an immutable list of the values for the given key. If no mappings in the multimap have
 the provided key, an empty immutable list is returned. The values are in the same order as the
 parameters used to build this multimap.</div>

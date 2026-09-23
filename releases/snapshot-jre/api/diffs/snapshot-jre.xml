@@ -18926,7 +18926,7 @@
     </method>
     <method name="get" return="com.google.common.collect.ImmutableList&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="key" type="K"/>
       <doc>
@@ -19714,7 +19714,7 @@
     </method>
     <method name="toString" return="java.lang.String"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
     </method>
     <doc>
@@ -20145,7 +20145,7 @@
     </method>
     <method name="containsKey" return="boolean"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <param name="key" type="Object"/>
     </method>
@@ -20162,7 +20162,7 @@
     </method>
     <method name="keySet" return="com.google.common.collect.ImmutableSet&lt;K&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an immutable set of the distinct keys in this multimap, in the same order as they
@@ -20204,7 +20204,7 @@
     </method>
     <method name="values" return="com.google.common.collect.ImmutableCollection&lt;V&gt;"
       abstract="false" native="false" synchronized="false"
-      static="false" final="false" visibility="public"
+      static="false" final="true" visibility="public"
       deprecated="not deprecated">
       <doc>
       <![CDATA[Returns an immutable collection of the values in this multimap. Its iterator traverses the
@@ -39640,7 +39640,7 @@
   <!-- start class com.google.common.eventbus.SubscriberExceptionContext -->
   <class name="SubscriberExceptionContext" extends="java.lang.Object"
     abstract="false"
-    static="false" final="false" visibility="public"
+    static="false" final="true" visibility="public"
     deprecated="not deprecated">
     <method name="getEventBus" return="com.google.common.eventbus.EventBus"
       abstract="false" native="false" synchronized="false"
