@@ -1241,7 +1241,7 @@ public abstract class ImmutableMap<K, V> implements Map<K, V>, Serializable {
   }
 
   @Override
-  public /* TODO(cpovirk): final */ String toString() {
+  public final String toString() {
     return toStringImpl(this);
   }
 

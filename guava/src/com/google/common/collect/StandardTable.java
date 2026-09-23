@@ -682,8 +682,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
    * etc., skipping any columns that have appeared previously.
    */
   @Override
-  // TODO(user): Make this `final` after cl/781580713 or a similar fix.
-  public Set<C> columnKeySet() {
+  public final Set<C> columnKeySet() {
     return new ColumnKeySet();
   }
 

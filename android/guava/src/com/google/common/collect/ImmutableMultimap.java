@@ -545,7 +545,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
   // accessors
 
   @Override
-  public /* TODO(cpovirk): final */ boolean containsKey(@Nullable Object key) {
+  public final boolean containsKey(@Nullable Object key) {
     return map.containsKey(key);
   }
 
@@ -566,7 +566,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    * appear in this multimap.
    */
   @Override
-  public /* TODO(cpovirk): final */ ImmutableSet<K> keySet() {
+  public final ImmutableSet<K> keySet() {
     return map.keySet();
   }
 
@@ -735,7 +735,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
    * values for the first key, the values for the second key, and so on.
    */
   @Override
-  public /* TODO(cpovirk): final */ ImmutableCollection<V> values() {
+  public final ImmutableCollection<V> values() {
     return new Values<>(this);
   }
 

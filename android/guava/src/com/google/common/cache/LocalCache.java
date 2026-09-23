@@ -4668,7 +4668,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     // Cache methods
 
     @Override
-    public /* TODO(cpovirk): final */ @Nullable V getIfPresent(Object key) {
+    public final @Nullable V getIfPresent(Object key) {
       return localCache.getIfPresent(key);
     }
 
@@ -4701,7 +4701,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
 
     @Override
-    public /* TODO(cpovirk): final */ void invalidate(Object key) {
+    public final void invalidate(Object key) {
       checkNotNull(key);
       localCache.remove(key);
     }
@@ -4712,22 +4712,22 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
 
     @Override
-    public /* TODO(cpovirk): final */ void invalidateAll() {
+    public final void invalidateAll() {
       localCache.clear();
     }
 
     @Override
-    public /* TODO(cpovirk): final */ long size() {
+    public final long size() {
       return localCache.longSize();
     }
 
     @Override
-    public /* TODO(cpovirk): final */ ConcurrentMap<K, V> asMap() {
+    public final ConcurrentMap<K, V> asMap() {
       return localCache;
     }
 
     @Override
-    public /* TODO(cpovirk): final */ CacheStats stats() {
+    public final CacheStats stats() {
       SimpleStatsCounter aggregator = new SimpleStatsCounter();
       aggregator.incrementBy(localCache.globalStatsCounter);
       for (Segment<K, V> segment : localCache.segments) {
@@ -4754,8 +4754,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
     }
   }
 
-  // TODO(cpovirk): Make this final (but that may break proxies).
-  static class LocalLoadingCache<K, V> extends LocalManualCache<K, V>
+  static final class LocalLoadingCache<K, V> extends LocalManualCache<K, V>
       implements LoadingCache<K, V> {
 
     LocalLoadingCache(
