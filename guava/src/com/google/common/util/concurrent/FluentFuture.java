@@ -298,7 +298,8 @@ public abstract class FluentFuture<V extends @Nullable Object>
   /**
    * Returns a new {@code Future} whose result is asynchronously derived from the result of this
    * {@code Future}. If the input {@code Future} fails, the returned {@code Future} fails with the
-   * same exception (and the function is not invoked).
+   * same exception (and the function is not invoked). If the function throws an exception, the
+   * returned {@code Future} fails with that exception.
    *
    * <p>More precisely, the returned {@code Future} takes its result from a {@code Future} produced
    * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
@@ -342,7 +343,8 @@ public abstract class FluentFuture<V extends @Nullable Object>
   /**
    * Returns a new {@code Future} whose result is derived from the result of this {@code Future}. If
    * this input {@code Future} fails, the returned {@code Future} fails with the same exception (and
-   * the function is not invoked). Example usage:
+   * the function is not invoked). If the function throws an exception, the returned {@code Future}
+   * fails with that exception. Example usage:
    *
    * {@snippet :
    * ListenableFuture<List<Row>> rowsFuture = queryFuture.transform(QueryResult::getRows, executor);
