@@ -82,6 +82,8 @@ Another easy way to get to the Javadoc is to open
 class by appending the class name to guava.dev. For example,
 [guava.dev/ImmutableList](https://guava.dev/ImmutableList)!
 
+[`cs.opensource.google`](https://cs.opensource.google/guava/guava) let's you browse the source code conveniently.
+
 ## Learn about Guava
 
 -   Our users' guide, [Guava Explained]
