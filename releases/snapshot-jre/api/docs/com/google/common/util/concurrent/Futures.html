@@ -734,7 +734,8 @@ the warnings the <a href="MoreExecutors.html#directExecutor()"><code>MoreExecuto
  <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Executor.html" title="interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Returns a new <code>Future</code> whose result is asynchronously derived from the result of the
 given <code>Future</code>. If the given <code>Future</code> fails, the returned <code>Future</code> fails with
-the same exception (and the function is not invoked).
+the same exception (and the function is not invoked). If the function throws an exception, the
+returned <code>Future</code> fails with that exception.
 
 <p>More precisely, the returned <code>Future</code> takes its result from a <code>Future</code> produced
 by applying the given <code>AsyncFunction</code> to the result of the original <code>Future</code>.
@@ -781,7 +782,8 @@ attempt to cancel itself.</div>
  <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/concurrent/Executor.html" title="interface in java.util.concurrent" class="external-link">Executor</a>&nbsp;executor)</span></div>
 <div class="block">Returns a new <code>Future</code> whose result is derived from the result of the given <code>
 Future</code>. If <code>input</code> fails, the returned <code>Future</code> fails with the same exception (and
-the function is not invoked). Example usage:
+the function is not invoked). If the function throws an exception, the returned <code>Future</code>
+fails with that exception. Example usage:
 
 <div class="snippet-container"><button class="copy snippet-copy" aria-label="Copy snippet" onclick="copySnippet(this)"><span data-copied="Copied!">Copy</span><img src="../../../../../resource-files/copy.svg" alt="Copy snippet"></button>
 <pre class="snippet" id="snippet-transform(com.google.common.util.concurrent.ListenableFuture,com.google.common.base.Function,java.util.concurrent.Executor)1"><code class="language-java">ListenableFuture&lt;QueryResult&gt; queryFuture = ...;
