@@ -1053,6 +1053,9 @@ stream.collect()</code>.</div>
 FluentIterable</code> in the order specified by <code>comparator</code>. To produce an <code>
 ImmutableList</code> sorted by its natural ordering, use <code>toSortedList(Ordering.natural())</code>.
 
+<p>The sorting algorithm used is <i>stable</i>, so elements that compare as equal will stay in
+the order in which they appear in this fluent iterable.
+
 <p><b><code>Stream</code> equivalent:</b> pass <a href="ImmutableList.html#toImmutableList()"><code>ImmutableList.toImmutableList()</code></a> to <code>
 stream.sorted(comparator).collect()</code>.</div>
 <dl class="notes">

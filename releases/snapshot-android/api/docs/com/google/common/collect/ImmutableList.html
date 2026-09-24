@@ -867,8 +867,8 @@ collection that is currently being modified by another thread.</div>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E extends <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Comparable.html" title="interface in java.lang" class="external-link">Comparable</a>&lt;? super E&gt;&gt;</span>
 <span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</span>&nbsp;<span class="element-name">sortedCopyOf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Iterable.html" title="interface in java.lang" class="external-link">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</span></div>
 <div class="block">Returns an immutable list containing the given elements, sorted according to their natural
-order. The sorting algorithm used is stable, so elements that compare as equal will stay in the
-order in which they appear in the input.
+order. The sorting algorithm used is <i>stable</i>, so elements that compare as equal will stay
+in the order in which they appear in the input.
 
 <p>If your data has no duplicates, or you wish to deduplicate elements, use <code>
 ImmutableSortedSet.copyOf(elements)</code>; if you want a <code>List</code> you can use its <code>
@@ -892,8 +892,8 @@ asList()</code> view.
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="type-parameters">&lt;E&gt;</span>&nbsp;<span class="return-type"><a href="ImmutableList.html" title="class in com.google.common.collect">ImmutableList</a>&lt;E&gt;</span>&nbsp;<span class="element-name">sortedCopyOf</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link">Comparator</a>&lt;? super E&gt;&nbsp;comparator,
  <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/Iterable.html" title="interface in java.lang" class="external-link">Iterable</a>&lt;? extends E&gt;&nbsp;elements)</span></div>
 <div class="block">Returns an immutable list containing the given elements, in sorted order relative to the
-specified comparator. The sorting algorithm used is stable, so elements that compare as equal
-will stay in the order in which they appear in the input.
+specified comparator. The sorting algorithm used is <i>stable</i>, so elements that compare as
+equal will stay in the order in which they appear in the input.
 
 <p>If your data has no duplicates, or you wish to deduplicate elements, use <code>
 ImmutableSortedSet.copyOf(comparator, elements)</code>; if you want a <code>List</code> you can use its
