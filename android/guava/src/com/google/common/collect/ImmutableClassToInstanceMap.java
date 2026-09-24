@@ -202,4 +202,6 @@ public final class ImmutableClassToInstanceMap<B>
   Object readResolve() {
     return isEmpty() ? of() : this;
   }
+
+  private static final long serialVersionUID = 7501988272684437179L;
 }
