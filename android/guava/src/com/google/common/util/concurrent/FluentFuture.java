@@ -65,6 +65,13 @@ import org.jspecify.annotations.Nullable;
  * need to adapt between {@code CompletableFuture} and {@code ListenableFuture}, consider <a
  * href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.)
  *
+ * <h3>{@link ClosingFuture}</h3>
+ *
+ * <p>If the steps of your pipeline create objects that must be closed when the computation is done,
+ * such as database connections or file handles, use {@code ClosingFuture}. It supports the same
+ * kinds of derived steps as {@code FluentFuture} but closes those objects once the pipeline
+ * completes, fails, or is cancelled.
+ *
  * <h2>Extension</h2>
  *
  * If you want a class like {@code FluentFuture} but with extra methods, we recommend declaring your
