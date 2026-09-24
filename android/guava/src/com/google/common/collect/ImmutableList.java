@@ -299,8 +299,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   /**
    * Returns an immutable list containing the given elements, sorted according to their natural
-   * order. The sorting algorithm used is stable, so elements that compare as equal will stay in the
-   * order in which they appear in the input.
+   * order. The sorting algorithm used is <i>stable</i>, so elements that compare as equal will stay
+   * in the order in which they appear in the input.
    *
    * <p>If your data has no duplicates, or you wish to deduplicate elements, use {@code
    * ImmutableSortedSet.copyOf(elements)}; if you want a {@code List} you can use its {@code
@@ -322,8 +322,8 @@ public abstract class ImmutableList<E> extends ImmutableCollection<E>
 
   /**
    * Returns an immutable list containing the given elements, in sorted order relative to the
-   * specified comparator. The sorting algorithm used is stable, so elements that compare as equal
-   * will stay in the order in which they appear in the input.
+   * specified comparator. The sorting algorithm used is <i>stable</i>, so elements that compare as
+   * equal will stay in the order in which they appear in the input.
    *
    * <p>If your data has no duplicates, or you wish to deduplicate elements, use {@code
    * ImmutableSortedSet.copyOf(comparator, elements)}; if you want a {@code List} you can use its
