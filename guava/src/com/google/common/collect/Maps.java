@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Predicates.alwaysTrue;
 import static com.google.common.base.Predicates.and;
 import static com.google.common.base.Predicates.compose;
 import static com.google.common.collect.CollectPreconditions.checkEntryNotNull;
@@ -26,9 +27,7 @@ import static com.google.common.collect.Collections2.newStringBuilderForCollecti
 import static com.google.common.collect.Collections2.safeContains;
 import static com.google.common.collect.Collections2.transform;
 import static com.google.common.collect.Iterables.any;
-import static com.google.common.collect.Iterables.removeFirstMatching;
 import static com.google.common.collect.Iterators.contains;
-import static com.google.common.collect.Iterators.filter;
 import static com.google.common.collect.Iterators.transform;
 import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.NullnessCasts.uncheckedCastNullableTToT;
@@ -3237,14 +3236,23 @@ public final class Maps {
       return new FilteredMapValues<>(this, unfiltered, entryPredicate);
     }
 
+    /*
+     * NavigableMap methods that directly return an individual Entry are required to return
+     * snapshots, but iteration (including through submaps and the descending map) should return
+     * live views if the backing collection supports them. We want to implement each method that
+     * deals with entries according to its specific contract, rather than picking a behavior for
+     * entryIterator and descendingEntryIterator and hoping that we use those methods from exactly
+     * the right set of other methods.
+     */
+
     @Override
     Iterator<Entry<K, V>> entryIterator() {
-      return filter(unfiltered.entrySet().iterator(), entryPredicate);
+      throw new AssertionError("should never be called");
     }
 
     @Override
     Iterator<Entry<K, V>> descendingEntryIterator() {
-      return filter(unfiltered.descendingMap().entrySet().iterator(), entryPredicate);
+      throw new AssertionError("should never be called");
     }
 
     @Override
@@ -3293,13 +3301,25 @@ public final class Maps {
     }
 
     @Override
+    public @Nullable Entry<K, V> firstEntry() {
+      return snapshotFirstMatching(unfiltered.entrySet(), entryPredicate, /* remove= */ false);
+    }
+
+    @Override
+    public @Nullable Entry<K, V> lastEntry() {
+      return snapshotFirstMatching(
+          unfiltered.descendingMap().entrySet(), entryPredicate, /* remove= */ false);
+    }
+
+    @Override
     public @Nullable Entry<K, V> pollFirstEntry() {
-      return removeFirstMatching(unfiltered.entrySet(), entryPredicate);
+      return snapshotFirstMatching(unfiltered.entrySet(), entryPredicate, /* remove= */ true);
     }
 
     @Override
     public @Nullable Entry<K, V> pollLastEntry() {
-      return removeFirstMatching(unfiltered.descendingMap().entrySet(), entryPredicate);
+      return snapshotFirstMatching(
+          unfiltered.descendingMap().entrySet(), entryPredicate, /* remove= */ true);
     }
 
     @Override
@@ -3326,6 +3346,42 @@ public final class Maps {
     public NavigableMap<K, V> tailMap(@ParametricNullness K fromKey, boolean inclusive) {
       return filterEntries(unfiltered.tailMap(fromKey, inclusive), entryPredicate);
     }
+  }
+
+  @GwtIncompatible // NavigableMap
+  static <K extends @Nullable Object, V extends @Nullable Object>
+      @Nullable Entry<K, V> snapshotFirst(Iterable<Entry<K, V>> entries, boolean remove) {
+    return snapshotFirstMatching(entries, alwaysTrue(), remove);
+  }
+
+  /**
+   * Finds (and optionally removes) the first entry that satisfies the predicate and returns a
+   * snapshot of it. This method always uses {@code entries.iterator()} so that it fulfills the
+   * contract of the methods in {@link ForwardingNavigableMap} that use it and that promise to use
+   * {@code iterator()}.
+   *
+   * <p>Returning a snapshot is required by various methods in the {@link NavigableMap}
+   * specification: Entries returned from methods like {@code firstEntry()} are required not to
+   * support {@code setValue}. Additionally, returning a snapshot is the only safe way to operate
+   * when <i>removing and returning</i> an entry from the iterator of an arbitrary map, since
+   * removal may invalidate the entry.
+   */
+  @GwtIncompatible // NavigableMap
+  private static <K extends @Nullable Object, V extends @Nullable Object>
+      @Nullable Entry<K, V> snapshotFirstMatching(
+          Iterable<Entry<K, V>> entries, Predicate<? super Entry<K, V>> predicate, boolean remove) {
+    for (Iterator<Entry<K, V>> itr = entries.iterator(); itr.hasNext(); ) {
+      Entry<K, V> entry = itr.next();
+      if (predicate.apply(entry)) {
+        // Snapshot before remove() because remove() can mutate the Entry in maps like TreeMap.
+        Entry<K, V> snapshot = immutableEntry(entry.getKey(), entry.getValue());
+        if (remove) {
+          itr.remove();
+        }
+        return snapshot;
+      }
+    }
+    return null;
   }
 
   private static final class FilteredEntryBiMap<
