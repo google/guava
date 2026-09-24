@@ -67,6 +67,7 @@ initTheme();
 <ol class="toc-list">
 <li><a href="#frameworks-heading" tabindex="0">Frameworks</a></li>
 <li><a href="#java-util-concurrent-completablefuture-java-util-concurrent-completionstage-heading" tabindex="0">java.util.concurrent.CompletableFuture / java.util.concurrent.CompletionStage</a></li>
+<li><a href="#closingfuture-heading" tabindex="0">ClosingFuture</a></li>
 </ol>
 </li>
 <li><a href="#extension-heading" tabindex="0">Extension</a></li>
@@ -149,6 +150,13 @@ debugging, and cancellation. Examples of frameworks include:
 CompletableFuture</code>. <code>FluentFuture</code> is targeted at people who use <code>ListenableFuture</code>,
 who can't use Java 8, or who want an API more focused than <code>CompletableFuture</code>. (If you
 need to adapt between <code>CompletableFuture</code> and <code>ListenableFuture</code>, consider <a href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.)
+
+<h3 id="closingfuture-heading"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a></h3>
+
+<p>If the steps of your pipeline create objects that must be closed when the computation is done,
+such as database connections or file handles, use <code>ClosingFuture</code>. It supports the same
+kinds of derived steps as <code>FluentFuture</code> but closes those objects once the pipeline
+completes, fails, or is cancelled.
 
 <h2 id="extension-heading">Extension</h2>
 

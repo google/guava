@@ -133,7 +133,8 @@ monitoring, debugging, and cancellation. Examples of frameworks include:
   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
 </ul>
 
-<p>If you do chain your operations manually, you may want to use <a href="FluentFuture.html" title="class in com.google.common.util.concurrent"><code>FluentFuture</code></a>.</div>
+<p>If you do chain your operations manually, you may want to use <a href="FluentFuture.html" title="class in com.google.common.util.concurrent"><code>FluentFuture</code></a>. If those
+operations create objects that must be closed when the computation is done, see <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0</dd>
