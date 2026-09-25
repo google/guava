@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
@@ -37,6 +38,7 @@ import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.TreeMap;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -298,6 +300,7 @@ public class ForwardingNavigableMapTest extends TestCase {
     NavigableMap<String, Integer> forwarding =
         new StandardLastEntryForwardingNavigableMap<>(new SafeTreeMap<String, Integer>());
     assertThat(forwarding.lastEntry()).isNull();
+
     forwarding.put("b", 2);
     assertEquals(immutableEntry("b", 2), forwarding.lastEntry());
     forwarding.put("c", 3);
@@ -306,6 +309,51 @@ public class ForwardingNavigableMapTest extends TestCase {
     assertEquals(immutableEntry("c", 3), forwarding.lastEntry());
     forwarding.remove("c");
     assertEquals(immutableEntry("b", 2), forwarding.lastEntry());
+
+    Entry<String, Integer> entry = forwarding.lastEntry();
+    assertThrows(UnsupportedOperationException.class, () -> entry.setValue(0));
+  }
+
+  public void testStandardPollFirstEntry_twoChildren() {
+    TreeMap<Integer, String> map = new TreeMap<>();
+    map.put(1, "one");
+    map.put(2, "two");
+    map.put(3, "three");
+    NavigableMap<Integer, String> forwarding =
+        new ForwardingNavigableMap<Integer, String>() {
+          @Override
+          protected NavigableMap<Integer, String> delegate() {
+            return map.tailMap(2, true);
+          }
+
+          @Override
+          public @Nullable Entry<Integer, String> pollFirstEntry() {
+            return standardPollFirstEntry();
+          }
+        };
+    assertThat(forwarding.pollFirstEntry()).isEqualTo(immutableEntry(2, "two"));
+  }
+
+  public void testStandardPollLastEntry_twoChildren() {
+    TreeMap<Integer, String> map = new TreeMap<>();
+    map.put(1, "one");
+    map.put(2, "two");
+    map.put(3, "three");
+    NavigableMap<Integer, String> forwarding =
+        new ForwardingNavigableMap<Integer, String>() {
+          @Override
+          protected NavigableMap<Integer, String> delegate() {
+            return map.headMap(2, true);
+          }
+
+          @Override
+          public @Nullable Entry<Integer, String> pollLastEntry() {
+            return standardPollLastEntry();
+          }
+        };
+    Entry<Integer, String> entry = forwarding.pollLastEntry();
+    assertThat(entry).isEqualTo(immutableEntry(2, "two"));
+    assertThrows(UnsupportedOperationException.class, () -> entry.setValue("modified"));
   }
 
   @SuppressWarnings({"rawtypes", "unchecked"})

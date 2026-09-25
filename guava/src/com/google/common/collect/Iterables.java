@@ -213,21 +213,6 @@ public final class Iterables {
     return Iterators.removeIf(removeFrom.iterator(), predicate);
   }
 
-  /** Removes and returns the first matching element, or returns {@code null} if there is none. */
-  static <T extends @Nullable Object> @Nullable T removeFirstMatching(
-      Iterable<T> removeFrom, Predicate<? super T> predicate) {
-    checkNotNull(predicate);
-    Iterator<T> iterator = removeFrom.iterator();
-    while (iterator.hasNext()) {
-      T next = iterator.next();
-      if (predicate.apply(next)) {
-        iterator.remove();
-        return next;
-      }
-    }
-    return null;
-  }
-
   /**
    * Determines whether two iterables contain equal elements in the same order. More specifically,
    * this method returns {@code true} if {@code iterable1} and {@code iterable2} contain the same

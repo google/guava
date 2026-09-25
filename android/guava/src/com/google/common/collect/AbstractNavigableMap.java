@@ -41,13 +41,25 @@ abstract class AbstractNavigableMap<K extends @Nullable Object, V extends @Nulla
   @Override
   public abstract @Nullable V get(@Nullable Object key);
 
+  /*
+   * firstEntry+lastEntry+pollFirstEntry+pollLastEntry are all required to return snapshots of the
+   * Entry. If an AbstractNavigableMap subclass may return live entries from its entryIterator or
+   * descendingEntryIterator, then it must override those *Entry methods to return snapshot entries
+   * because the implementations in this class would pass through the live views.
+   *
+   * In particular, the subclass may need to override the poll* methods to snapshot the entry
+   * *before* removing it from the map: Snapshotting the result of super.pollFirstEntry() is not
+   * enough if the Entry implementation came from the entrySet of a map that is implemented like
+   * TreeMap. See Maps.snapshotFirst.
+   */
+
   @Override
-  public final @Nullable Entry<K, V> firstEntry() {
+  public @Nullable Entry<K, V> firstEntry() {
     return Iterators.<@Nullable Entry<K, V>>getNext(entryIterator(), null);
   }
 
   @Override
-  public final @Nullable Entry<K, V> lastEntry() {
+  public @Nullable Entry<K, V> lastEntry() {
     return Iterators.<@Nullable Entry<K, V>>getNext(descendingEntryIterator(), null);
   }
 
