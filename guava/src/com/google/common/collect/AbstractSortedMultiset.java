@@ -50,11 +50,6 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public final NavigableSet<E> elementSet() {
-    return (NavigableSet<E>) super.elementSet();
-  }
-
-  @Override
-  final NavigableSet<E> createElementSet() {
     return new SortedMultisets.NavigableElementSet<>(this);
   }
 
@@ -65,7 +60,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public final @Nullable Entry<E> firstEntry() {
-    Iterator<Entry<E>> entryIterator = entryIterator();
+    Iterator<Entry<E>> entryIterator = internalEntryIterator();
     return entryIterator.hasNext() ? entryIterator.next() : null;
   }
 
@@ -77,7 +72,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
 
   @Override
   public final @Nullable Entry<E> pollFirstEntry() {
-    Iterator<Entry<E>> entryIterator = entryIterator();
+    Iterator<Entry<E>> entryIterator = internalEntryIterator();
     if (entryIterator.hasNext()) {
       Entry<E> result = entryIterator.next();
       result = Multisets.immutableEntry(result.getElement(), result.getCount());

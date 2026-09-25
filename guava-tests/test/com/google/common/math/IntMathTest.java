@@ -165,7 +165,6 @@ public class IntMathTest extends TestCase {
     assertThat(IntMath.FLOOR_SQRT_MAX_INT).isEqualTo(sqrt(Integer.MAX_VALUE, FLOOR));
   }
 
-  @AndroidIncompatible // presumably slow
   public void testLessThanBranchFree() {
     for (int x : ALL_INTEGER_CANDIDATES) {
       for (int y : ALL_INTEGER_CANDIDATES) {
@@ -333,7 +332,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // Math.floorDiv gets wrong answers for negative divisors
   public void testDivNonZero() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
@@ -362,7 +360,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // presumably slow
   public void testDivNonZeroExact() {
     for (int p : NONZERO_INTEGER_CANDIDATES) {
       for (int q : NONZERO_INTEGER_CANDIDATES) {
@@ -451,7 +448,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @SuppressWarnings("InlineMeInliner") // We need to test checkedAdd
   public void testCheckedAdd() {
     for (int a : ALL_INTEGER_CANDIDATES) {
@@ -470,7 +466,6 @@ public class IntMathTest extends TestCase {
   }
 
   @SuppressWarnings("InlineMeInliner") // We need to test checkedSubtract
-  @AndroidIncompatible // slow
   public void testCheckedSubtract() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
@@ -488,7 +483,6 @@ public class IntMathTest extends TestCase {
   }
 
   @SuppressWarnings("InlineMeInliner") // We need to test checkedMultiply
-  @AndroidIncompatible // presumably slow
   public void testCheckedMultiply() {
     for (int a : ALL_INTEGER_CANDIDATES) {
       for (int b : ALL_INTEGER_CANDIDATES) {
@@ -522,7 +516,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // TODO
   public void testSaturatedAdd() {
     for (int a : ALL_INTEGER_CANDIDATES) {
@@ -533,7 +526,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // TODO
   public void testSaturatedSubtract() {
     for (int a : ALL_INTEGER_CANDIDATES) {
@@ -548,7 +540,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // TODO
   public void testSaturatedMultiply() {
     for (int a : ALL_INTEGER_CANDIDATES) {
@@ -632,7 +623,6 @@ public class IntMathTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   @GwtIncompatible // java.math.BigInteger
   public void testMean() {
     // Odd-sized ranges have an obvious mean

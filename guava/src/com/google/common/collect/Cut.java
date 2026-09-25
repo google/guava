@@ -90,7 +90,7 @@ abstract class Cut<C extends Comparable> implements Comparable<Cut<C>>, Serializ
 
   @SuppressWarnings("unchecked") // catching CCE
   @Override
-  public boolean equals(@Nullable Object obj) {
+  public final boolean equals(@Nullable Object obj) {
     if (obj instanceof Cut) {
       // It might not really be a Cut<C>, but we'll catch a CCE if it's not
       Cut<C> that = (Cut<C>) obj;

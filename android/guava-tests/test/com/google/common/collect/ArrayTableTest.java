@@ -471,7 +471,7 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
 
   @GwtIncompatible
   @J2ktIncompatible
-    public void testSerializable() {
+  public void testSerializable() {
     reserializeAndAssert(create());
   }
 }

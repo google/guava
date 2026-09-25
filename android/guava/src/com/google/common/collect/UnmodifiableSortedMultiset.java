@@ -52,13 +52,8 @@ final class UnmodifiableSortedMultiset<E extends @Nullable Object> extends Unmod
   }
 
   @Override
-  NavigableSet<E> createElementSet() {
-    return unmodifiableNavigableSet(delegate().elementSet());
-  }
-
-  @Override
   public NavigableSet<E> elementSet() {
-    return (NavigableSet<E>) super.elementSet();
+    return unmodifiableNavigableSet(delegate().elementSet());
   }
 
   @LazyInit private transient @Nullable UnmodifiableSortedMultiset<E> descendingMultiset;

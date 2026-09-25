@@ -47,7 +47,7 @@ public final class LineReader {
   private final LineBuffer lineBuf =
       new LineBuffer() {
         @Override
-        protected void handleLine(String line, String end) {
+        void handleLine(String line, String end) {
           lines.add(line);
         }
       };

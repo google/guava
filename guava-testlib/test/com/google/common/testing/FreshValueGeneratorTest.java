@@ -122,7 +122,6 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class FreshValueGeneratorTest extends TestCase {
 
-  @AndroidIncompatible // problem with equality of Type objects?
   public void testFreshInstance() {
     assertFreshInstances(
         String.class,
@@ -433,7 +432,6 @@ public class FreshValueGeneratorTest extends TestCase {
     assertFreshInstance(new TypeToken<List<TwoConstantEnum>>() {}, 2);
   }
 
-  @AndroidIncompatible // problem with equality of Type objects?
   public void testGoogleOptional() {
     FreshValueGenerator generator = new FreshValueGenerator();
     assertEquals(

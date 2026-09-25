@@ -82,7 +82,7 @@ public class FakeTimeLimiterTest extends TestCase {
   }
 
   public void testRunWithTimeout_returnsWithoutException() throws Exception {
-    timeLimiter.runWithTimeout(Runnables.doNothing(), DELAY_MS, MILLISECONDS);
+    timeLimiter.runWithTimeout(() -> {}, DELAY_MS, MILLISECONDS);
   }
 
   public void testRunWithTimeout_wrapsUncheckedException() {

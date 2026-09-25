@@ -32,7 +32,6 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Ben Yu
  */
-@AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 @NullUnmarked
 public class TypeResolverTest extends TestCase {
 

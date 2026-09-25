@@ -221,16 +221,16 @@ public class OrderingTest extends TestCase {
 
   @J2ktIncompatible // ArbitraryOrdering
   public void testArbitrary_withCollisions() {
-    List<Integer> list = new ArrayList<>();
+    List<MyInteger> list = new ArrayList<>();
     for (int i = 0; i < 50; i++) {
-      list.add(i);
+      list.add(new MyInteger(i));
     }
 
     Ordering<Object> arbitrary =
         new ArbitraryOrdering() {
           @Override
           int identityHashCode(Object object) {
-            return ((Integer) object) % 5; // fake tons of collisions!
+            return ((MyInteger) object).intValue() % 5; // fake tons of collisions!
           }
         };
 

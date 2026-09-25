@@ -57,7 +57,7 @@ public final class BigDecimalMath {
    * @throws IllegalArgumentException if {@code maxIntegerDigits < 0}
    * @throws ArithmeticException if the integer part of {@code x} requires more than {@code
    *     maxIntegerDigits} digits
-   * @since NEXT
+   * @since 33.7.0
    */
   @Beta
   public static BigInteger toBigInteger(BigDecimal x, int maxIntegerDigits) {
@@ -94,7 +94,7 @@ public final class BigDecimalMath {
    * @throws IllegalArgumentException if {@code maxIntegerDigits < 0}
    * @throws ArithmeticException if {@code x} has a nonzero fractional part or if the integer part
    *     of {@code x} requires more than {@code maxIntegerDigits} digits
-   * @since NEXT
+   * @since 33.7.0
    */
   @Beta
   public static BigInteger toBigIntegerExact(BigDecimal x, int maxIntegerDigits) {

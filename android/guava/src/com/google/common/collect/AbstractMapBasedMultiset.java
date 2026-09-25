@@ -218,7 +218,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   @Override
-  final Iterator<Entry<E>> entryIterator() {
+  final Iterator<Entry<E>> internalEntryIterator() {
     return new Itr<Entry<E>>() {
       @Override
       Entry<E> result(int entryIndex) {
@@ -236,7 +236,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   @Override
-  final int distinctElements() {
+  final int internalDistinctElements() {
     return backingMap.size();
   }
 

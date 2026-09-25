@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -229,7 +228,6 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
 
   @Override
   public Set<Entry<K, V>> entrySet() {
-    @WeakOuter
     final class EntrySetImpl extends EntrySetView {
       @Override
       public Spliterator<Entry<K, V>> spliterator() {
@@ -241,7 +239,6 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
 
   @Override
   public Set<K> keySet() {
-    @WeakOuter
     final class KeySetImpl extends KeySetView {
       @Override
       public @Nullable Object[] toArray() {
@@ -264,7 +261,6 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
 
   @Override
   public Collection<V> values() {
-    @WeakOuter
     final class ValuesImpl extends ValuesView {
       @Override
       public @Nullable Object[] toArray() {

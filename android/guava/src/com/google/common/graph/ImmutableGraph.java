@@ -44,7 +44,7 @@ import com.google.errorprone.annotations.InlineMe;
  * @since 20.0
  */
 @Immutable(containerOf = {"N"})
-public class ImmutableGraph<N> extends ForwardingGraph<N> {
+public final class ImmutableGraph<N> extends ForwardingGraph<N> {
   @SuppressWarnings("Immutable") // The backing graph must be immutable.
   private final BaseGraph<N> backingGraph;
 
@@ -126,7 +126,7 @@ public class ImmutableGraph<N> extends ForwardingGraph<N> {
    *
    * @since 28.0
    */
-  public static class Builder<N> {
+  public static final class Builder<N> {
 
     private final MutableGraph<N> mutableGraph;
 

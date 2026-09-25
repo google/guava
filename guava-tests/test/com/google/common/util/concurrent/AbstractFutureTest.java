@@ -467,6 +467,7 @@ public class AbstractFutureTest extends TestCase {
    */
 
   @J2ktIncompatible
+  // Android: takes ~25s
   public void testFutureBash() {
     if (isWindows()) {
       return; // TODO(b/136041958): Running very slowly on Windows CI.

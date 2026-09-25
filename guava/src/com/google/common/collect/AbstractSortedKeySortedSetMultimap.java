@@ -18,7 +18,6 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Collection;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.jspecify.annotations.Nullable;
@@ -42,7 +41,7 @@ abstract class AbstractSortedKeySortedSetMultimap<
 
   @Override
   public SortedMap<K, Collection<V>> asMap() {
-    return (SortedMap<K, Collection<V>>) super.asMap();
+    return (SortedMap<K, Collection<V>>) createMaybeNavigableAsMap();
   }
 
   @Override
@@ -52,11 +51,6 @@ abstract class AbstractSortedKeySortedSetMultimap<
 
   @Override
   public SortedSet<K> keySet() {
-    return (SortedSet<K>) super.keySet();
-  }
-
-  @Override
-  final Set<K> createKeySet() {
-    return createMaybeNavigableKeySet();
+    return (SortedSet<K>) createMaybeNavigableKeySet();
   }
 }

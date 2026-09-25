@@ -25,7 +25,6 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Multisets.ImmutableEntry;
 import com.google.common.primitives.Ints;
-import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Objects;
@@ -48,7 +47,7 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     @SuppressWarnings({"unchecked", "rawtypes"})
     ImmutableEntry<E>[] entryArray = new ImmutableEntry[distinct];
     if (distinct == 0) {
-      return new RegularImmutableMultiset<>(entryArray, EMPTY_ARRAY, 0, 0, ImmutableSet.of());
+      return new RegularImmutableMultiset<>(entryArray, EMPTY_ARRAY, 0, 0);
     }
     int tableSize = closedTableSize(distinct, MAX_LOAD_FACTOR);
     int mask = tableSize - 1;
@@ -84,7 +83,7 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
     return hashFloodingDetected(hashTable)
         ? JdkBackedImmutableMultiset.create(asImmutableList(entryArray))
         : new RegularImmutableMultiset<E>(
-            entryArray, hashTable, Ints.saturatedCast(size), hashCode, null);
+            entryArray, hashTable, Ints.saturatedCast(size), hashCode);
   }
 
   private static boolean hashFloodingDetected(@Nullable ImmutableEntry<?>[] hashTable) {
@@ -124,19 +123,15 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
   private final transient int size;
   private final transient int hashCode;
 
-  @LazyInit private transient @Nullable ImmutableSet<E> elementSet;
-
   private RegularImmutableMultiset(
       ImmutableEntry<E>[] entries,
       @Nullable ImmutableEntry<?>[] hashTable,
       int size,
-      int hashCode,
-      @Nullable ImmutableSet<E> elementSet) {
+      int hashCode) {
     this.entries = entries;
     this.hashTable = hashTable;
     this.size = size;
     this.hashCode = hashCode;
-    this.elementSet = elementSet;
   }
 
   private static final class NonTerminalEntry<E> extends ImmutableEntry<E> {
@@ -183,11 +178,7 @@ final class RegularImmutableMultiset<E> extends ImmutableMultiset<E> {
 
   @Override
   public ImmutableSet<E> elementSet() {
-    ImmutableSet<E> result = elementSet;
-    if (result == null) {
-      result = elementSet = new ElementSet<>(Arrays.asList(entries), this);
-    }
-    return result;
+    return isEmpty() ? ImmutableSet.of() : new ElementSet<>(Arrays.asList(entries), this);
   }
 
   @Override

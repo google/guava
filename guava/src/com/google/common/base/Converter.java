@@ -27,6 +27,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -83,8 +84,7 @@ import org.jspecify.annotations.Nullable;
  *   <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
  *       converter.reverse().convertAll(bs)}.
  *   <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link
- *       java.util.function.Function} is accepted (for example {@link java.util.stream.Stream#map
- *       Stream.map}).
+ *       java.util.function.Function} is accepted (for example {@link Stream#map Stream.map}).
  *   <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to
  *       be overridden.
  * </ul>
@@ -256,6 +256,9 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * <p>The returned iterable's iterator supports {@code remove()} if the input iterator does. After
    * a successful {@code remove()} call, {@code fromIterable} no longer contains the corresponding
    * element.
+   *
+   * <p>We generally encourage using {@link Stream} over lazily computed views like this one. Here,
+   * that means using {@link Stream#map stream.map(converter)}.
    */
   /*
    * Just as Converter could implement `Function<@Nullable A, @Nullable B>` instead of `Function<A,

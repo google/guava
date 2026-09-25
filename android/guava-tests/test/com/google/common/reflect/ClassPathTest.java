@@ -66,13 +66,11 @@ public class ClassPathTest extends TestCase {
         .testEquals();
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_emptyURLClassLoader_noParent() {
     assertThat(ClassPath.getClassPathEntries(new URLClassLoader(new URL[0], null)).keySet())
         .isEmpty();
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_urlClassLoader_noParent() throws Exception {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
@@ -81,7 +79,6 @@ public class ClassPathTest extends TestCase {
         .containsExactly(new File("/a"), classloader, new File("/b"), classloader);
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_urlClassLoader_withParent() throws Exception {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
@@ -92,7 +89,6 @@ public class ClassPathTest extends TestCase {
         .inOrder();
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_duplicateUri_parentWins() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
@@ -100,12 +96,10 @@ public class ClassPathTest extends TestCase {
     assertThat(ClassPath.getClassPathEntries(child)).containsExactly(new File("/a"), parent);
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_noParent() {
     assertThat(ClassPath.getClassPathEntries(new ClassLoader(null) {})).isEmpty();
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_withParent() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader parent = new URLClassLoader(new URL[] {url}, null);
@@ -113,7 +107,6 @@ public class ClassPathTest extends TestCase {
         .containsExactly(new File("/a"), parent);
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_withParentAndGrandParent() throws Exception {
     URL url1 = new URL("file:/a");
     URL url2 = new URL("file:/b");
@@ -123,7 +116,6 @@ public class ClassPathTest extends TestCase {
         .containsExactly(new File("/a"), grandParent, new File("/b"), parent);
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   public void testClassPathEntries_notURLClassLoader_withGrandParent() throws Exception {
     URL url = new URL("file:/a");
     URLClassLoader grandParent = new URLClassLoader(new URL[] {url}, null);
@@ -132,7 +124,6 @@ public class ClassPathTest extends TestCase {
         .containsExactly(new File("/a"), grandParent);
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   // https://github.com/google/guava/issues/2152
   public void testClassPathEntries_urlClassLoader_pathWithSpace() throws Exception {
     URL url = new URL("file:///c:/Documents and Settings/");
@@ -141,7 +132,6 @@ public class ClassPathTest extends TestCase {
         .containsExactly(new File("/c:/Documents and Settings/"), classloader);
   }
 
-  @AndroidIncompatible // Android forbids null parent ClassLoader
   // https://github.com/google/guava/issues/2152
   public void testClassPathEntries_urlClassLoader_pathWithEscapedSpace() throws Exception {
     URL url = new URL("file:///c:/Documents%20and%20Settings/");
@@ -159,7 +149,6 @@ public class ClassPathTest extends TestCase {
   }
 
   // https://github.com/google/guava/issues/2152
-  @AndroidIncompatible // works in newer Android versions but fails at the version we test with
   public void testToFile_androidIncompatible() throws Exception {
     assertThat(ClassPath.toFile(new URL("file:///c:\\Documents ~ Settings, or not\\11-12 12:05")))
         .isEqualTo(new File("/c:\\Documents ~ Settings, or not\\11-12 12:05"));
@@ -202,7 +191,6 @@ public class ClassPathTest extends TestCase {
         .isEmpty();
   }
 
-  @AndroidIncompatible // ClassPath is documented as not supporting Android
 
   public void testScanFromFile_notJarFile() throws IOException {
     ClassLoader classLoader = ClassPathTest.class.getClassLoader();

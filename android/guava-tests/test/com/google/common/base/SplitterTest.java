@@ -359,7 +359,6 @@ public class SplitterTest extends TestCase {
 
   @J2ktIncompatible // Kotlin Native's regex is based on Apache Harmony, like old Android
   @GwtIncompatible // java.util.regex.Pattern
-  @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testPatternSplitLookBehind() {
     if (!CommonPattern.isPcreLike()) {
       return;
@@ -373,7 +372,6 @@ public class SplitterTest extends TestCase {
 
   @J2ktIncompatible // Kotlin Native's regex is based on Apache Harmony, like old Android
   @GwtIncompatible // java.util.regex.Pattern
-  @AndroidIncompatible // Bug in older versions of Android we test against, since fixed.
   public void testPatternSplitWordBoundary() {
     String string = "foo<bar>bletch";
     Iterable<String> words = Splitter.on(Pattern.compile("\\b")).split(string);
@@ -387,7 +385,6 @@ public class SplitterTest extends TestCase {
     assertThat(words).containsExactly("f").inOrder();
   }
 
-  @AndroidIncompatible // Apparently Gingerbread's regex API is buggy.
   @J2ktIncompatible // Kotlin Native's regex is based on Apache Harmony, like old Android
   @GwtIncompatible // java.util.regex.Pattern
   public void testPatternSplitWordBoundary_singleWordInput() {

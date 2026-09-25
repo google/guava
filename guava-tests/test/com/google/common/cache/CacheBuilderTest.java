@@ -26,6 +26,7 @@ import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
 import static com.google.common.collect.Sets.union;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
+import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
@@ -640,5 +641,9 @@ public class CacheBuilderTest extends TestCase {
       }
       return key;
     }
+  }
+
+  private static boolean isAndroid() {
+    return requireNonNull(System.getProperty("java.runtime.name", "")).contains("Android");
   }
 }

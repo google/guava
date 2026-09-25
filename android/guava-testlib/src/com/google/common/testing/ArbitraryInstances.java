@@ -198,6 +198,8 @@ public final class ArbitraryInstances {
     return matcher.toMatchResult();
   }
 
+  // We intentionally create empty MapDifference instances.
+  @SuppressWarnings("DistinctVarargsChecker")
   private static final ClassToInstanceMap<Object> DEFAULTS =
       ImmutableClassToInstanceMap.builder()
           // primitives
@@ -213,7 +215,7 @@ public final class ArbitraryInstances {
           .put(MatchResult.class, createMatchResult())
           .put(TimeUnit.class, SECONDS)
           .put(Charset.class, UTF_8)
-          .put(Currency.class, Currency.getInstance(Locale.US))
+          .put(Currency.class, requireNonNull(Currency.getInstance(Locale.US)))
           .put(Locale.class, Locale.US)
           .put(UUID.class, UUID.randomUUID())
           // common.base

@@ -471,7 +471,6 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // reflection
-  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
   public void testSuppliersSerializable() throws Exception {
     new ClassSanityTester()
         .setDefault(Duration.class, Duration.ofSeconds(1))

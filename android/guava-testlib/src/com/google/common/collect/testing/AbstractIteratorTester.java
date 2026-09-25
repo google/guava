@@ -99,7 +99,7 @@ abstract class AbstractIteratorTester<E extends @Nullable Object, I extends Iter
 
     abstract boolean isPermitted(Exception exception);
 
-    void assertPermitted(Exception exception) {
+    final void assertPermitted(Exception exception) {
       if (!isPermitted(exception)) {
         String message =
             "Exception "

@@ -193,7 +193,8 @@ public final class CacheBuilderSpec {
         case WEAK:
           builder.weakKeys();
           break;
-        default:
+        case SOFT:
+        case STRONG:
           throw new AssertionError();
       }
     }
@@ -205,7 +206,7 @@ public final class CacheBuilderSpec {
         case WEAK:
           builder.weakValues();
           break;
-        default:
+        case STRONG:
           throw new AssertionError();
       }
     }

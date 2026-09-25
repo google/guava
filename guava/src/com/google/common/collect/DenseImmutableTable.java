@@ -102,7 +102,7 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
       return size == keyToIndex().size();
     }
 
-    K getKey(int index) {
+    final K getKey(int index) {
       return keyToIndex().keySet().asList().get(index);
     }
 
@@ -114,12 +114,12 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     }
 
     @Override
-    public int size() {
+    public final int size() {
       return size;
     }
 
     @Override
-    public @Nullable V get(@Nullable Object key) {
+    public final @Nullable V get(@Nullable Object key) {
       Integer keyIndex = keyToIndex().get(key);
       return (keyIndex == null) ? null : getValue(keyIndex);
     }

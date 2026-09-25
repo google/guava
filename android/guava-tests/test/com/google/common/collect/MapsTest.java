@@ -413,6 +413,7 @@ public class MapsTest extends TestCase {
   private static final Map<Integer, Integer> SINGLETON = singletonMap(1, 2);
 
   public void testMapDifferenceEmptyEmpty() {
+    @SuppressWarnings("DistinctVarargsChecker")
     MapDifference<Integer, Integer> diff = Maps.difference(EMPTY, EMPTY);
     assertTrue(diff.areEqual());
     assertEquals(EMPTY, diff.entriesOnlyOnLeft());
@@ -538,6 +539,7 @@ public class MapsTest extends TestCase {
   }
 
   public void testSortedMapDifferenceEmptyEmpty() {
+    @SuppressWarnings("DistinctVarargsChecker")
     SortedMapDifference<Integer, Integer> diff = Maps.difference(SORTED_EMPTY, SORTED_EMPTY);
     assertTrue(diff.areEqual());
     assertEquals(SORTED_EMPTY, diff.entriesOnlyOnLeft());

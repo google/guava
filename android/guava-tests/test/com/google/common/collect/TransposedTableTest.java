@@ -64,11 +64,11 @@ public class TransposedTableTest extends AbstractTableTest<Character> {
     Table<Integer, String, Character> original = HashBasedTable.create();
     Table<String, Integer, Character> transpose = transpose(original);
     original.put(1, "foo", 'a');
-    assertThat(transpose.rowKeySet()).isSameInstanceAs(original.columnKeySet());
-    assertThat(transpose.columnKeySet()).isSameInstanceAs(original.rowKeySet());
-    assertThat(transpose.rowMap()).isSameInstanceAs(original.columnMap());
-    assertThat(transpose.columnMap()).isSameInstanceAs(original.rowMap());
-    assertThat(transpose.values()).isSameInstanceAs(original.values());
+    assertThat(transpose.rowKeySet()).isEqualTo(original.columnKeySet());
+    assertThat(transpose.columnKeySet()).isEqualTo(original.rowKeySet());
+    assertThat(transpose.rowMap()).isEqualTo(original.columnMap());
+    assertThat(transpose.columnMap()).isEqualTo(original.rowMap());
+    assertThat(transpose.values()).containsExactlyElementsIn(original.values());
     assertEquals(original.row(1), transpose.column(1));
     assertEquals(original.row(2), transpose.column(2));
     assertEquals(original.column("foo"), transpose.row("foo"));

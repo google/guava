@@ -1453,7 +1453,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
       }
 
       @Override
-      Class<?> getRawType(K type) {
+      final Class<?> getRawType(K type) {
         return delegate.getRawType(type);
       }
 

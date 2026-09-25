@@ -744,7 +744,7 @@ public final class Sets {
 
     @Override
     @SuppressWarnings("EqualsHashCode") // same semantics
-    public boolean equals(@Nullable Object object) {
+    public final boolean equals(@Nullable Object object) {
       if (object == this) {
         return true;
       }
@@ -1293,12 +1293,12 @@ public final class Sets {
     }
 
     @Override
-    public boolean equals(@Nullable Object object) {
+    public final boolean equals(@Nullable Object object) {
       return equalsImpl(this, object);
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       return hashCodeImpl(this);
     }
   }
@@ -1311,29 +1311,30 @@ public final class Sets {
     }
 
     @Override
-    public @Nullable Comparator<? super E> comparator() {
+    public final @Nullable Comparator<? super E> comparator() {
       return ((SortedSet<E>) unfiltered).comparator();
     }
 
     @Override
-    public SortedSet<E> subSet(@ParametricNullness E fromElement, @ParametricNullness E toElement) {
+    public final SortedSet<E> subSet(
+        @ParametricNullness E fromElement, @ParametricNullness E toElement) {
       return new FilteredSortedSet<>(
           ((SortedSet<E>) unfiltered).subSet(fromElement, toElement), predicate);
     }
 
     @Override
-    public SortedSet<E> headSet(@ParametricNullness E toElement) {
+    public final SortedSet<E> headSet(@ParametricNullness E toElement) {
       return new FilteredSortedSet<>(((SortedSet<E>) unfiltered).headSet(toElement), predicate);
     }
 
     @Override
-    public SortedSet<E> tailSet(@ParametricNullness E fromElement) {
+    public final SortedSet<E> tailSet(@ParametricNullness E fromElement) {
       return new FilteredSortedSet<>(((SortedSet<E>) unfiltered).tailSet(fromElement), predicate);
     }
 
     @Override
     @ParametricNullness
-    public E first() {
+    public final E first() {
       return find(unfiltered.iterator(), predicate);
     }
 

@@ -27,11 +27,9 @@ import org.jspecify.annotations.Nullable;
 
 @GwtCompatible
 @ReflectionSupport(value = ReflectionSupport.Level.FULL)
-// Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
-// getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
-// Since this class only needs CAS on one field, we can avoid this bug by extending AtomicReference
-// instead of using an AtomicReferenceFieldUpdater. This reference stores Thread instances
-// and DONE/INTERRUPTED - they have a common ancestor of Runnable.
+// Extending AtomicReference avoids needing an AtomicReferenceFieldUpdater. This reference stores
+// Thread instances and DONE/PARKED/Blocker - they have a common ancestor of Runnable.
+// TODO(b/542711604): Consider AtomicReferenceFieldUpdater (and VarHandle?) anyway for clarity.
 abstract class InterruptibleTask<T extends @Nullable Object>
     extends AtomicReference<@Nullable Runnable> implements Runnable {
   static {

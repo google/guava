@@ -82,7 +82,7 @@ interface SettableAbstractFuture<V extends @Nullable Object> {
       return wasInterrupted();
     }
 
-    public final @Nullable Throwable doTryInternalFastPathGetFailure() {
+    public @Nullable Throwable doTryInternalFastPathGetFailure() {
       return tryInternalFastPathGetFailure();
     }
   }
@@ -112,7 +112,7 @@ interface SettableAbstractFuture<V extends @Nullable Object> {
       return wasInterrupted();
     }
 
-    public final @Nullable Throwable doTryInternalFastPathGetFailure() {
+    public @Nullable Throwable doTryInternalFastPathGetFailure() {
       return tryInternalFastPathGetFailure();
     }
   }

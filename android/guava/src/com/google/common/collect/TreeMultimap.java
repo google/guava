@@ -27,7 +27,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.Comparator;
-import java.util.Map;
 import java.util.NavigableMap;
 import java.util.NavigableSet;
 import java.util.SortedSet;
@@ -122,11 +121,6 @@ public final class TreeMultimap<K extends @Nullable Object, V extends @Nullable 
       Multimap<? extends K, ? extends V> multimap) {
     this(keyComparator, valueComparator);
     putAll(multimap);
-  }
-
-  @Override
-  Map<K, Collection<V>> createAsMap() {
-    return createMaybeNavigableAsMap();
   }
 
   /**

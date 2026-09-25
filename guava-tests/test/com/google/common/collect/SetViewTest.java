@@ -55,6 +55,8 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Kevin Bourrillion
  */
+// We intentionally create degenerate views.
+@SuppressWarnings("DistinctVarargsChecker")
 @GwtCompatible
 @NullMarked
 public class SetViewTest extends TestCase {
@@ -723,6 +725,7 @@ public class SetViewTest extends TestCase {
    * A {@link Set} that throws {@link NullPointerException} and {@link ClassCastException} from
    * {@link #contains}.
    */
+  @SuppressWarnings("VoidMissingNullable")
   private static final class SetContainsThrows extends AbstractSet<Void> {
     @Override
     public boolean contains(@Nullable Object o) {

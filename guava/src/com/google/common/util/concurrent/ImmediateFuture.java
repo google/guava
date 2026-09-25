@@ -25,8 +25,7 @@ import org.jspecify.annotations.Nullable;
 
 /** Implementation of {@link Futures#immediateFuture}. */
 @GwtCompatible
-// TODO(cpovirk): Make this final (but that may break Mockito spy calls).
-class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V> {
+final class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V> {
   static final ListenableFuture<?> NULL = new ImmediateFuture<@Nullable Object>(null);
 
   private static final LazyLogger log = new LazyLogger(ImmediateFuture.class);

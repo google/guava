@@ -115,7 +115,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   @Override
-  final Iterator<Entry<E>> entryIterator() {
+  final Iterator<Entry<E>> internalEntryIterator() {
     Iterator<Map.Entry<E, Count>> backingEntries = backingMap.entrySet().iterator();
     return new Iterator<Entry<E>>() {
       Map.@Nullable Entry<E, Count> toRemove;
@@ -176,7 +176,7 @@ abstract class AbstractMapBasedMultiset<E extends @Nullable Object> extends Abst
   }
 
   @Override
-  final int distinctElements() {
+  final int internalDistinctElements() {
     return backingMap.size();
   }
 

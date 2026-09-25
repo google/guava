@@ -48,13 +48,13 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
     return delegate;
   }
 
-  ImmutableList<? extends E> delegateList() {
+  final ImmutableList<? extends E> delegateList() {
     return delegateList;
   }
 
   @SuppressWarnings("unchecked") // safe covariant cast!
   @Override
-  public UnmodifiableListIterator<E> listIterator(int index) {
+  public final UnmodifiableListIterator<E> listIterator(int index) {
     return (UnmodifiableListIterator<E>) delegateList.listIterator(index);
   }
 
@@ -86,7 +86,7 @@ class RegularImmutableAsList<E> extends ImmutableAsList<E> {
   }
 
   @Override
-  public E get(int index) {
+  public final E get(int index) {
     return delegateList.get(index);
   }
 

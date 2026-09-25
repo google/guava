@@ -204,7 +204,7 @@ public class Utf8Test extends TestCase {
 
   /** Tests that round tripping of all three byte permutations work. */
   @GwtIncompatible // java.nio.charset.Charset
-
+  // Android: takes ~70s
   public void testIsWellFormed_3Bytes() {
     testBytes(3, EXPECTED_THREE_BYTE_ROUNDTRIPPABLE_COUNT);
   }

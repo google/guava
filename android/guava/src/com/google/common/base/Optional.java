@@ -169,7 +169,7 @@ public abstract class Optional<T> implements Serializable {
   @SuppressWarnings("AmbiguousMethodReference") // We chose the name despite knowing this risk.
   // If users use this when they shouldn't, we hope that NewApi will catch subsequent Optional calls
   @IgnoreJRERequirement
-  public java.util.Optional<T> toJavaUtil() {
+  public final java.util.Optional<T> toJavaUtil() {
     return java.util.Optional.ofNullable(orNull());
   }
 

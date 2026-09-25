@@ -332,7 +332,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
-  @AndroidIncompatible // ~120s; doable but probably not worth it. We could test on fewer ranges
+  @AndroidIncompatible // ~90s; doable but probably not worth it. We could test on fewer ranges
 
   public void testComplementOfSubRangeSet() {
     for (Range<Integer> range1 : QUERY_RANGES) {

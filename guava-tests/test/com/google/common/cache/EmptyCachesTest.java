@@ -28,6 +28,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.cache.CacheBuilderFactory.DurationSpec;
 import com.google.common.cache.LocalCache.Strength;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.EqualsTester;
 import java.util.Collection;
@@ -154,14 +155,14 @@ public class EmptyCachesTest extends TestCase {
 
   public void testKeySet_remove() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      cache.getUnchecked(1);
-      cache.getUnchecked(2);
+      cache.getUnchecked(KEYS.get(1));
+      cache.getUnchecked(KEYS.get(2));
 
       Set<Object> keys = cache.asMap().keySet();
       // We don't know whether these are still in the cache, so we can't assert on the return
       // values of these removes, but the cache should be empty after the removes, regardless.
-      keys.remove(1);
-      keys.remove(2);
+      keys.remove(KEYS.get(1));
+      keys.remove(KEYS.get(2));
       assertThat(keys.remove(null)).isFalse();
       assertThat(keys.remove(6)).isFalse();
       assertThat(keys.remove(-6)).isFalse();
@@ -219,14 +220,14 @@ public class EmptyCachesTest extends TestCase {
 
   public void testValues_remove() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      cache.getUnchecked(1);
-      cache.getUnchecked(2);
+      cache.getUnchecked(KEYS.get(1));
+      cache.getUnchecked(KEYS.get(2));
 
       Collection<Object> values = cache.asMap().keySet();
       // We don't know whether these are still in the cache, so we can't assert on the return
       // values of these removes, but the cache should be empty after the removes, regardless.
-      values.remove(1);
-      values.remove(2);
+      values.remove(KEYS.get(1));
+      values.remove(KEYS.get(2));
       assertThat(values.remove(null)).isFalse();
       assertThat(values.remove(6)).isFalse();
       assertThat(values.remove(-6)).isFalse();
@@ -287,16 +288,16 @@ public class EmptyCachesTest extends TestCase {
 
   public void testEntrySet_remove() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      cache.getUnchecked(1);
-      cache.getUnchecked(2);
+      cache.getUnchecked(KEYS.get(1));
+      cache.getUnchecked(KEYS.get(2));
 
       Set<Entry<Object, Object>> entrySet = cache.asMap().entrySet();
       // We don't know whether these are still in the cache, so we can't assert on the return
       // values of these removes, but the cache should be empty after the removes, regardless.
-      entrySet.remove(entryOf(1, 1));
-      entrySet.remove(entryOf(2, 2));
+      entrySet.remove(entryOf(KEYS.get(1), KEYS.get(1)));
+      entrySet.remove(entryOf(KEYS.get(2), KEYS.get(2)));
       assertThat(entrySet.remove(null)).isFalse();
-      assertThat(entrySet.remove(entryOf(1, 1))).isFalse();
+      assertThat(entrySet.remove(entryOf(KEYS.get(1), KEYS.get(1)))).isFalse();
       assertThat(entrySet.remove(entryOf(6, 6))).isFalse();
       assertThat(entrySet.removeAll(asList(null, entryOf(1, 1), entryOf(15, 15)))).isFalse();
       assertThat(entrySet.retainAll(asList(null, entryOf(1, 1), entryOf(15, 15)))).isFalse();
@@ -306,6 +307,16 @@ public class EmptyCachesTest extends TestCase {
   }
 
   /* ---------------- Local utilities -------------- */
+
+  private static final ImmutableList<?> KEYS;
+
+  static {
+    ImmutableList.Builder<Object> keys = ImmutableList.builder();
+    for (int i = 0; i < 100; i++) {
+      keys.add(new Object());
+    }
+    KEYS = keys.build();
+  }
 
   /** Most of the tests in this class run against every one of these caches. */
   private Iterable<LoadingCache<Object, Object>> caches() {
@@ -332,7 +343,7 @@ public class EmptyCachesTest extends TestCase {
 
   private static void warmUp(LoadingCache<Object, Object> cache, int minimum, int maximum) {
     for (int i = minimum; i < maximum; i++) {
-      cache.getUnchecked(i);
+      cache.getUnchecked(KEYS.get(i));
     }
   }
 

@@ -548,8 +548,25 @@ public final class MediaType {
    */
   public static final MediaType GEO_JSON = createConstant(APPLICATION_TYPE, "geo+json");
 
-  /** Gzip-compressed data. */
-  public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
+  /**
+   * Gzip-compressed data, as registered in <a
+   * href="https://datatracker.ietf.org/doc/html/rfc6713">RFC 6713</a> ({@code application/gzip}).
+   *
+   * <p>Prefer this constant over {@link #GZIP}, which uses the legacy {@code application/x-gzip}
+   * type.
+   *
+   * @since NEXT
+   */
+  public static final MediaType APPLICATION_GZIP = createConstant(APPLICATION_TYPE, "gzip");
+
+  /**
+   * Gzip-compressed data using the legacy {@code application/x-gzip} type.
+   *
+   * @deprecated Prefer {@link #APPLICATION_GZIP}: <a
+   *     href="https://datatracker.ietf.org/doc/html/rfc6713">RFC 6713</a> registers {@code
+   *     application/gzip} and says the {@code x-} prefixed form should no longer be used.
+   */
+  @Deprecated public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
 
   /**
    * <a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3">JSON Hypertext
@@ -693,7 +710,7 @@ public final class MediaType {
    * The <a href="https://pki-tutorial.readthedocs.io/en/latest/mime.html">PEM format</a>. See also
    * <a href="https://github.com/ietf-wg-acme/acme/issues/120">ietf-wg-acme proposal</a>.
    *
-   * @since NEXT
+   * @since 33.7.0
    */
   public static final MediaType PEM = createConstant(APPLICATION_TYPE, "x-pem-file");
 
@@ -938,7 +955,7 @@ public final class MediaType {
    * <a href="https://yaml.org">YAML</a>, as standardized in <a
    * href="https://www.rfc-editor.org/info/rfc9512">RFC 9512</a>.
    *
-   * @since NEXT
+   * @since 33.7.0
    */
   public static final MediaType YAML = createConstant(APPLICATION_TYPE, "yaml");
 

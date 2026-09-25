@@ -635,7 +635,7 @@ public final class Hashing {
     int bits = iterator.next().bits();
     byte[] resultBytes = new byte[bits / 8];
     for (HashCode hashCode : hashCodes) {
-      byte[] nextBytes = hashCode.asBytes();
+      byte[] nextBytes = hashCode.getBytesInternal();
       checkArgument(
           nextBytes.length == resultBytes.length, "All hashcodes must have the same bit length.");
       for (int i = 0; i < nextBytes.length; i++) {
@@ -660,7 +660,7 @@ public final class Hashing {
     checkArgument(iterator.hasNext(), "Must be at least 1 hash code to combine.");
     byte[] resultBytes = new byte[iterator.next().bits() / 8];
     for (HashCode hashCode : hashCodes) {
-      byte[] nextBytes = hashCode.asBytes();
+      byte[] nextBytes = hashCode.getBytesInternal();
       checkArgument(
           nextBytes.length == resultBytes.length, "All hashcodes must have the same bit length.");
       for (int i = 0; i < nextBytes.length; i++) {

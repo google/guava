@@ -421,7 +421,7 @@ public class ConcurrentHashMultisetBenchmark {
     // Views
 
     @Override
-    Set<E> createElementSet() {
+    public Set<E> elementSet() {
       Set<E> delegate = countMap.keySet();
       return new ForwardingSet<E>() {
         @Override
@@ -457,7 +457,7 @@ public class ConcurrentHashMultisetBenchmark {
     }
 
     @Override
-    int distinctElements() {
+    int internalDistinctElements() {
       return countMap.size();
     }
 
@@ -467,7 +467,7 @@ public class ConcurrentHashMultisetBenchmark {
     }
 
     @Override
-    Iterator<Entry<E>> entryIterator() {
+    Iterator<Entry<E>> internalEntryIterator() {
       Iterator<Map.Entry<E, Integer>> backingIterator = countMap.entrySet().iterator();
       return new Iterator<Entry<E>>() {
         @Override

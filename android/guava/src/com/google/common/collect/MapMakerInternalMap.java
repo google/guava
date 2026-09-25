@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkRemove;
 import static java.lang.Math.min;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
@@ -27,9 +28,7 @@ import com.google.common.collect.MapMaker.Dummy;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
-import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.Weak;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.InvalidObjectException;
 import java.io.ObjectInputStream;
@@ -39,7 +38,6 @@ import java.lang.ref.Reference;
 import java.lang.ref.ReferenceQueue;
 import java.lang.ref.WeakReference;
 import java.util.AbstractCollection;
-import java.util.AbstractMap;
 import java.util.AbstractMap.SimpleEntry;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -82,7 +80,7 @@ final class MapMakerInternalMap<
         V,
         E extends MapMakerInternalMap.InternalEntry<K, V, E>,
         S extends MapMakerInternalMap.Segment<K, V, E, S>>
-    extends AbstractMap<K, V> implements ConcurrentMap<K, V>, Serializable {
+    implements ConcurrentMap<K, V>, Serializable {
 
   /*
    * The basic strategy is to subdivide the table among Segments, each of which itself is a
@@ -668,7 +666,7 @@ final class MapMakerInternalMap<
     final int hash;
 
     AbstractWeakKeyEntry(ReferenceQueue<K> queue, K key, int hash) {
-      super(key, queue);
+      super(checkNotValueType(key), queue);
       this.hash = hash;
     }
 
@@ -1060,7 +1058,7 @@ final class MapMakerInternalMap<
     @Weak final E entry;
 
     WeakValueReferenceImpl(ReferenceQueue<V> queue, V referent, E entry) {
-      super(referent, queue);
+      super(checkNotValueType(referent), queue);
       this.entry = entry;
     }
 
@@ -1252,20 +1250,20 @@ final class MapMakerInternalMap<
     void maybeClearReferenceQueues() {}
 
     /** Sets the value of the given {@code entry}. */
-    void setValue(E entry, V value) {
+    final void setValue(E entry, V value) {
       this.map.entryHelper.setValue(self(), entry, value);
     }
 
     /** Returns a copy of the given {@code entry}. */
-    @Nullable E copyEntry(E original, E newNext) {
+    final @Nullable E copyEntry(E original, E newNext) {
       return this.map.entryHelper.copy(self(), original, newNext);
     }
 
-    AtomicReferenceArray<E> newEntryArray(int size) {
+    final AtomicReferenceArray<E> newEntryArray(int size) {
       return new AtomicReferenceArray<>(size);
     }
 
-    void initTable(AtomicReferenceArray<E> newTable) {
+    final void initTable(AtomicReferenceArray<E> newTable) {
       this.threshold = newTable.length() * 3 / 4; // 0.75
       this.table = newTable;
     }
@@ -1352,14 +1350,14 @@ final class MapMakerInternalMap<
     /**
      * Unsafely returns the value of the given entry if it's still live, or {@code null} otherwise.
      */
-    @Nullable V getLiveValueForTesting(InternalEntry<K, V, ?> entry) {
+    final @Nullable V getLiveValueForTesting(InternalEntry<K, V, ?> entry) {
       return getLiveValue(castForTesting(entry));
     }
 
     // reference queues, for garbage collection cleanup
 
     /** Cleanup collected entries when the lock is available. */
-    void tryDrainReferenceQueues() {
+    final void tryDrainReferenceQueues() {
       if (tryLock()) {
         try {
           maybeDrainReferenceQueues();
@@ -1370,7 +1368,7 @@ final class MapMakerInternalMap<
     }
 
     @GuardedBy("this")
-    void drainKeyReferenceQueue(ReferenceQueue<K> keyReferenceQueue) {
+    final void drainKeyReferenceQueue(ReferenceQueue<K> keyReferenceQueue) {
       Reference<? extends K> ref;
       int i = 0;
       while ((ref = keyReferenceQueue.poll()) != null) {
@@ -1384,7 +1382,7 @@ final class MapMakerInternalMap<
     }
 
     @GuardedBy("this")
-    void drainValueReferenceQueue(ReferenceQueue<V> valueReferenceQueue) {
+    final void drainValueReferenceQueue(ReferenceQueue<V> valueReferenceQueue) {
       Reference<? extends V> ref;
       int i = 0;
       while ((ref = valueReferenceQueue.poll()) != null) {
@@ -1397,12 +1395,12 @@ final class MapMakerInternalMap<
       }
     }
 
-    <T> void clearReferenceQueue(ReferenceQueue<T> referenceQueue) {
+    final <T> void clearReferenceQueue(ReferenceQueue<T> referenceQueue) {
       while (referenceQueue.poll() != null) {}
     }
 
     /** Returns first entry of bin for given hash. */
-    @Nullable E getFirst(int hash) {
+    final @Nullable E getFirst(int hash) {
       // read this volatile field only once
       AtomicReferenceArray<E> table = this.table;
       return table.get(hash & (table.length() - 1));
@@ -1410,7 +1408,7 @@ final class MapMakerInternalMap<
 
     // Specialized implementations of map methods
 
-    @Nullable E getEntry(Object key, int hash) {
+    final @Nullable E getEntry(Object key, int hash) {
       if (count != 0) { // read-volatile
         for (E e = getFirst(hash); e != null; e = e.getNext()) {
           if (e.getHash() != hash) {
@@ -1432,11 +1430,11 @@ final class MapMakerInternalMap<
       return null;
     }
 
-    @Nullable E getLiveEntry(Object key, int hash) {
+    final @Nullable E getLiveEntry(Object key, int hash) {
       return getEntry(key, hash);
     }
 
-    @Nullable V get(Object key, int hash) {
+    final @Nullable V get(Object key, int hash) {
       try {
         E e = getLiveEntry(key, hash);
         if (e == null) {
@@ -1453,7 +1451,7 @@ final class MapMakerInternalMap<
       }
     }
 
-    boolean containsKey(Object key, int hash) {
+    final boolean containsKey(Object key, int hash) {
       try {
         if (count != 0) { // read-volatile
           E e = getLiveEntry(key, hash);
@@ -1495,7 +1493,7 @@ final class MapMakerInternalMap<
       }
     }
 
-    @Nullable V put(K key, int hash, V value, boolean onlyIfAbsent) {
+    final @Nullable V put(K key, int hash, V value, boolean onlyIfAbsent) {
       lock();
       try {
         preWriteCleanup();
@@ -1554,7 +1552,7 @@ final class MapMakerInternalMap<
 
     /** Expands the table if possible. */
     @GuardedBy("this")
-    void expand() {
+    final void expand() {
       AtomicReferenceArray<E> oldTable = table;
       int oldCapacity = oldTable.length();
       if (oldCapacity >= MAXIMUM_CAPACITY) {
@@ -1621,7 +1619,7 @@ final class MapMakerInternalMap<
       this.count = newCount;
     }
 
-    boolean replace(K key, int hash, V oldValue, V newValue) {
+    final boolean replace(K key, int hash, V oldValue, V newValue) {
       lock();
       try {
         preWriteCleanup();
@@ -1668,7 +1666,7 @@ final class MapMakerInternalMap<
       }
     }
 
-    @Nullable V replace(K key, int hash, V newValue) {
+    final @Nullable V replace(K key, int hash, V newValue) {
       lock();
       try {
         preWriteCleanup();
@@ -1710,7 +1708,7 @@ final class MapMakerInternalMap<
     }
 
     @CanIgnoreReturnValue
-    @Nullable V remove(Object key, int hash) {
+    final @Nullable V remove(Object key, int hash) {
       lock();
       try {
         preWriteCleanup();
@@ -1750,7 +1748,7 @@ final class MapMakerInternalMap<
       }
     }
 
-    boolean remove(Object key, int hash, Object value) {
+    final boolean remove(Object key, int hash, Object value) {
       lock();
       try {
         preWriteCleanup();
@@ -1791,7 +1789,7 @@ final class MapMakerInternalMap<
       }
     }
 
-    void clear() {
+    final void clear() {
       if (count != 0) {
         lock();
         try {
@@ -1823,7 +1821,7 @@ final class MapMakerInternalMap<
      * @return the new first entry for the table
      */
     @GuardedBy("this")
-    @Nullable E removeFromChain(E first, E entry) {
+    final @Nullable E removeFromChain(E first, E entry) {
       int newCount = count;
       E newFirst = entry.getNext();
       for (E e = first; e != entry; e = e.getNext()) {
@@ -1840,7 +1838,7 @@ final class MapMakerInternalMap<
 
     /** Removes an entry whose key has been garbage collected. */
     @CanIgnoreReturnValue
-    boolean reclaimKey(E entry, int hash) {
+    final boolean reclaimKey(E entry, int hash) {
       lock();
       try {
         int newCount = count - 1;
@@ -1867,7 +1865,7 @@ final class MapMakerInternalMap<
 
     /** Removes an entry whose value has been garbage collected. */
     @CanIgnoreReturnValue
-    boolean reclaimValue(K key, int hash, WeakValueReference<K, V, E> valueReference) {
+    final boolean reclaimValue(K key, int hash, WeakValueReference<K, V, E> valueReference) {
       lock();
       try {
         int newCount = this.count - 1;
@@ -1933,7 +1931,7 @@ final class MapMakerInternalMap<
     }
 
     @GuardedBy("this")
-    boolean removeEntryForTesting(E entry) {
+    final boolean removeEntryForTesting(E entry) {
       int hash = entry.getHash();
       int newCount = this.count - 1;
       AtomicReferenceArray<E> table = this.table;
@@ -1966,7 +1964,7 @@ final class MapMakerInternalMap<
      * Gets the value from an entry. Returns {@code null} if the entry is invalid or
      * partially-collected.
      */
-    @Nullable V getLiveValue(E entry) {
+    final @Nullable V getLiveValue(E entry) {
       if (entry.getKey() == null) {
         tryDrainReferenceQueues();
         return null;
@@ -1985,7 +1983,7 @@ final class MapMakerInternalMap<
      * the cleanupExecutor. If cleanup is not observed after a sufficient number of reads, try
      * cleaning up from the read thread.
      */
-    void postReadCleanup() {
+    final void postReadCleanup() {
       if ((readCount.incrementAndGet() & DRAIN_THRESHOLD) == 0) {
         runCleanup();
       }
@@ -1996,15 +1994,15 @@ final class MapMakerInternalMap<
      * thread acquires the segment lock, immediately after acquiring the lock.
      */
     @GuardedBy("this")
-    void preWriteCleanup() {
+    final void preWriteCleanup() {
       runLockedCleanup();
     }
 
-    void runCleanup() {
+    final void runCleanup() {
       runLockedCleanup();
     }
 
-    void runLockedCleanup() {
+    final void runLockedCleanup() {
       if (tryLock()) {
         try {
           maybeDrainReferenceQueues();
@@ -2105,7 +2103,7 @@ final class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link Segment} for strong keys and {@link Dummy} values. */
-  static final class StrongKeyDummyValueSegment<K>
+  private static final class StrongKeyDummyValueSegment<K>
       extends Segment<K, Dummy, StrongKeyDummyValueEntry<K>, StrongKeyDummyValueSegment<K>> {
     StrongKeyDummyValueSegment(
         MapMakerInternalMap<K, Dummy, StrongKeyDummyValueEntry<K>, StrongKeyDummyValueSegment<K>>
@@ -2166,7 +2164,7 @@ final class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link Segment} for weak keys and weak values. */
-  static final class WeakKeyWeakValueSegment<K, V>
+  private static final class WeakKeyWeakValueSegment<K, V>
       extends Segment<K, V, WeakKeyWeakValueEntry<K, V>, WeakKeyWeakValueSegment<K, V>> {
     private final ReferenceQueue<K> queueForKeys = new ReferenceQueue<>();
     private final ReferenceQueue<V> queueForValues = new ReferenceQueue<>();
@@ -2236,7 +2234,7 @@ final class MapMakerInternalMap<
   }
 
   /** Concrete implementation of {@link Segment} for weak keys and {@link Dummy} values. */
-  static final class WeakKeyDummyValueSegment<K>
+  private static final class WeakKeyDummyValueSegment<K>
       extends Segment<K, Dummy, WeakKeyDummyValueEntry<K>, WeakKeyDummyValueSegment<K>> {
     private final ReferenceQueue<K> queueForKeys = new ReferenceQueue<>();
 
@@ -2491,37 +2489,34 @@ final class MapMakerInternalMap<
     }
   }
 
-  @LazyInit transient @Nullable Set<K> keySet;
+  @Override
+  public boolean equals(@Nullable Object obj) {
+    return Maps.equalsImpl(this, obj);
+  }
+
+  @Override
+  public int hashCode() {
+    return entrySet().hashCode();
+  }
+
+  @Override
+  public String toString() {
+    return Maps.toStringImpl(this);
+  }
 
   @Override
   public Set<K> keySet() {
-    Set<K> result = keySet;
-    if (result == null) {
-      result = keySet = new KeySet();
-    }
-    return result;
+    return new KeySet();
   }
-
-  @LazyInit transient @Nullable Collection<V> values;
 
   @Override
   public Collection<V> values() {
-    Collection<V> result = values;
-    if (result == null) {
-      result = values = new Values();
-    }
-    return result;
+    return new Values();
   }
-
-  @LazyInit transient @Nullable Set<Entry<K, V>> entrySet;
 
   @Override
   public Set<Entry<K, V>> entrySet() {
-    Set<Entry<K, V>> result = entrySet;
-    if (result == null) {
-      result = entrySet = new EntrySet();
-    }
-    return result;
+    return new EntrySet();
   }
 
   // Iterator Support
@@ -2569,7 +2564,7 @@ final class MapMakerInternalMap<
     }
 
     /** Finds the next entry in the current chain. Returns {@code true} if an entry was found. */
-    boolean nextInChain() {
+    final boolean nextInChain() {
       if (nextEntry != null) {
         for (nextEntry = nextEntry.getNext(); nextEntry != null; nextEntry = nextEntry.getNext()) {
           if (advanceTo(nextEntry)) {
@@ -2581,7 +2576,7 @@ final class MapMakerInternalMap<
     }
 
     /** Finds the next entry in the current table. Returns {@code true} if an entry was found. */
-    boolean nextInTable() {
+    final boolean nextInTable() {
       while (nextTableIndex >= 0) {
         if ((nextEntry = currentTable.get(nextTableIndex--)) != null) {
           if (advanceTo(nextEntry) || nextInChain()) {
@@ -2596,7 +2591,7 @@ final class MapMakerInternalMap<
      * Advances to the given entry. Returns {@code true} if the entry was valid, {@code false} if it
      * should be skipped.
      */
-    boolean advanceTo(E entry) {
+    final boolean advanceTo(E entry) {
       try {
         K key = entry.getKey();
         V value = getLiveValue(entry);
@@ -2613,11 +2608,11 @@ final class MapMakerInternalMap<
     }
 
     @Override
-    public boolean hasNext() {
+    public final boolean hasNext() {
       return nextExternal != null;
     }
 
-    WriteThroughEntry nextEntry() {
+    final WriteThroughEntry nextEntry() {
       if (nextExternal == null) {
         throw new NoSuchElementException();
       }
@@ -2627,7 +2622,7 @@ final class MapMakerInternalMap<
     }
 
     @Override
-    public void remove() {
+    public final void remove() {
       checkRemove(lastReturned != null);
       MapMakerInternalMap.this.remove(lastReturned.getKey());
       lastReturned = null;
@@ -2679,7 +2674,6 @@ final class MapMakerInternalMap<
     }
   }
 
-  @WeakOuter
   final class KeySet extends AbstractSet<K> {
 
     @Override
@@ -2713,7 +2707,6 @@ final class MapMakerInternalMap<
     }
   }
 
-  @WeakOuter
   final class Values extends AbstractCollection<V> {
 
     @Override
@@ -2742,7 +2735,6 @@ final class MapMakerInternalMap<
     }
   }
 
-  @WeakOuter
   final class EntrySet extends AbstractSet<Entry<K, V>> {
 
     @Override
@@ -2771,8 +2763,7 @@ final class MapMakerInternalMap<
         return false;
       }
       Entry<?, ?> e = (Entry<?, ?>) o;
-      Object key = e.getKey();
-      return key != null && MapMakerInternalMap.this.remove(key, e.getValue());
+      return MapMakerInternalMap.this.remove(e.getKey(), e.getValue());
     }
 
     @Override
@@ -2845,7 +2836,7 @@ final class MapMakerInternalMap<
       return delegate;
     }
 
-    void writeMapTo(ObjectOutputStream out) throws IOException {
+    final void writeMapTo(ObjectOutputStream out) throws IOException {
       out.writeInt(delegate.size());
       for (Entry<K, V> entry : delegate.entrySet()) {
         out.writeObject(entry.getKey());
@@ -2854,7 +2845,7 @@ final class MapMakerInternalMap<
       out.writeObject(null); // terminate entries
     }
 
-    MapMaker readMapMaker(ObjectInputStream in) throws IOException {
+    final MapMaker readMapMaker(ObjectInputStream in) throws IOException {
       int size = in.readInt();
       return new MapMaker()
           .initialCapacity(size)
@@ -2865,7 +2856,7 @@ final class MapMakerInternalMap<
     }
 
     @SuppressWarnings("unchecked")
-    void readEntries(ObjectInputStream in) throws IOException, ClassNotFoundException {
+    final void readEntries(ObjectInputStream in) throws IOException, ClassNotFoundException {
       while (true) {
         K key = (K) in.readObject();
         if (key == null) {
@@ -2911,4 +2902,17 @@ final class MapMakerInternalMap<
       return delegate;
     }
   }
+
+  private static <T> @Nullable T checkNotValueType(@Nullable T referent) {
+    return referent;
+  }
+
+  private static IllegalArgumentException createException(Object referent) {
+    return new IllegalArgumentException(
+        "Cannot create a weak or soft reference to a value class: "
+            + referent.getClass().getName());
+  }
+
+  private static final boolean IS_ANDROID =
+      requireNonNull(System.getProperty("java.runtime.name", "")).contains("Android");
 }

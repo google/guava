@@ -364,7 +364,7 @@ class FreshValueGenerator {
   private @interface Empty {}
 
   @Generates
-  Class<?> generateClass() {
+  final Class<?> generateClass() {
     return pickInstance(
         ImmutableList.of(
             int.class, long.class, void.class, Object.class, Object[].class, Iterable.class),
@@ -382,7 +382,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  int generateInt() {
+  final int generateInt() {
     return freshness.get();
   }
 
@@ -393,7 +393,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  long generateLong() {
+  final long generateLong() {
     return generateInt();
   }
 
@@ -404,7 +404,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  float generateFloat() {
+  final float generateFloat() {
     return generateInt();
   }
 
@@ -415,7 +415,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  double generateDouble() {
+  final double generateDouble() {
     return generateInt();
   }
 
@@ -426,7 +426,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  short generateShort() {
+  final short generateShort() {
     return (short) generateInt();
   }
 
@@ -437,7 +437,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  byte generateByte() {
+  final byte generateByte() {
     return (byte) generateInt();
   }
 
@@ -448,7 +448,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  char generateChar() {
+  final char generateChar() {
     return generateString().charAt(0);
   }
 
@@ -459,7 +459,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  boolean generateBoolean() {
+  final boolean generateBoolean() {
     return generateInt() % 2 == 0;
   }
 
@@ -495,7 +495,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  String generateString() {
+  final String generateString() {
     return Integer.toString(generateInt());
   }
 
@@ -633,7 +633,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  <T extends @Nullable Object> Ordering<T> generateOrdering() {
+  final <T extends @Nullable Object> Ordering<T> generateOrdering() {
     return new Ordering<T>() {
       @Override
       @SuppressWarnings("UnusedVariable") // intentionally weird Comparator
@@ -972,12 +972,12 @@ class FreshValueGenerator {
   }
 
   @Generates
-  StringReader generateStringReader() {
+  final StringReader generateStringReader() {
     return new StringReader(generateString());
   }
 
   @Generates
-  Reader generateReader() {
+  final Reader generateReader() {
     return generateStringReader();
   }
 
@@ -992,7 +992,7 @@ class FreshValueGenerator {
   }
 
   @Generates
-  CharBuffer generateCharBuffer() {
+  final CharBuffer generateCharBuffer() {
     return CharBuffer.allocate(generateInt());
   }
 

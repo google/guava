@@ -139,7 +139,7 @@ abstract class TreeTraverser<T> {
     };
   }
 
-  UnmodifiableIterator<T> preOrderIterator(T root) {
+  final UnmodifiableIterator<T> preOrderIterator(T root) {
     return new PreOrderIterator(root);
   }
 
@@ -204,7 +204,7 @@ abstract class TreeTraverser<T> {
     };
   }
 
-  UnmodifiableIterator<T> postOrderIterator(T root) {
+  final UnmodifiableIterator<T> postOrderIterator(T root) {
     return new PostOrderIterator(root);
   }
 

@@ -239,7 +239,7 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
-   * Atomically remove {@code key} from the map iff its associated value is 0.
+   * Removes {@code key} from the map if its associated value is 0.
    *
    * @since 20.0
    */

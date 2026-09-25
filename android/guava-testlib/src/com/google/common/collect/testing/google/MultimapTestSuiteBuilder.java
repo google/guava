@@ -139,7 +139,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
     return derivedSuites;
   }
 
-  TestSuite computeValuesTestSuite(
+  final TestSuite computeValuesTestSuite(
       FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
           parentBuilder) {
     return CollectionTestSuiteBuilder.using(
@@ -194,7 +194,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
     }
   }
 
-  TestSuite computeKeysTestSuite(
+  final TestSuite computeKeysTestSuite(
       FeatureSpecificTestSuiteBuilder<?, ? extends OneSizeTestContainerGenerator<M, Entry<K, V>>>
           parentBuilder) {
     return MultisetTestSuiteBuilder.using(
@@ -300,7 +300,7 @@ public class MultimapTestSuiteBuilder<K, V, M extends Multimap<K, V>>
     return derivedFeatures;
   }
 
-  Set<Feature<?>> computeMultimapAsMapGetFeatures(Set<Feature<?>> multimapFeatures) {
+  final Set<Feature<?>> computeMultimapAsMapGetFeatures(Set<Feature<?>> multimapFeatures) {
     Set<Feature<?>> derivedFeatures = copyToSet(computeMultimapGetFeatures(multimapFeatures));
     if (derivedFeatures.remove(CollectionSize.ANY)) {
       derivedFeatures.addAll(CollectionSize.ANY.getImpliedFeatures());
