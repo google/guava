@@ -187,11 +187,13 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * Puts an element into this {@code BloomFilter}. Ensures that subsequent invocations of {@link
    * #mightContain(Object)} with the same element will always return {@code true}.
    *
-   * @return true if the Bloom filter's bits changed as a result of this operation. If the bits
-   *     changed, this is <i>definitely</i> the first time {@code object} has been added to the
-   *     filter. If the bits haven't changed, this <i>might</i> be the first time {@code object} has
-   *     been added to the filter. Note that {@code put(t)} always returns the <i>opposite</i>
-   *     result to what {@code mightContain(t)} would have returned at the time it is called.
+   * @return true if the Bloom filter's bits changed as a result of this operation. In the absence
+   *     of concurrent calls to {@code put}, if the bits changed, this is <i>definitely</i> the first
+   *     time {@code object} has been added to the filter. If the bits haven't changed, this
+   *     <i>might</i> be the first time {@code object} has been added to the filter. Note that, in the
+   *     absence of concurrent calls to {@code put}, {@code put(t)} always returns the
+   *     <i>opposite</i> result to what {@code mightContain(t)} would have returned at the time it is
+   *     called. With concurrent calls, multiple calls may return true for the same object.
    * @since 12.0 (present in 11.0 with {@code void} return type})
    */
   @CanIgnoreReturnValue
