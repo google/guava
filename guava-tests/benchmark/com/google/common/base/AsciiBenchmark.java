@@ -31,6 +31,7 @@ import org.jspecify.annotations.NullUnmarked;
  * Benchmarks for the ASCII class.
  *
  * @author Kevin Bourrillion
+ * @author François Martin
  */
 @NullUnmarked
 public class AsciiBenchmark {
@@ -170,5 +171,31 @@ public class AsciiBenchmark {
       newChars[i] = Ascii.toUpperCase(chars.charAt(i));
     }
     return String.valueOf(newChars);
+  }
+
+  @Benchmark
+  int indexOfIgnoreCaseInAdvance(int reps) {
+    int halfTestStringLength = testString.length() / 2;
+    String lhs = testString;
+    String rhs = testString.toUpperCase().substring(halfTestStringLength, halfTestStringLength);
+
+    int dummy = -1;
+    for (int i = 0; i < reps; i++) {
+      dummy ^= Ascii.toLowerCase(lhs).indexOf(Ascii.toLowerCase(rhs));
+    }
+    return dummy;
+  }
+
+  @Benchmark
+  int indexOfIgnoreCaseAscii(int reps) {
+    int halfTestStringLength = testString.length() / 2;
+    String lhs = testString;
+    String rhs = testString.toUpperCase().substring(halfTestStringLength, halfTestStringLength);
+
+    int dummy = -1;
+    for (int i = 0; i < reps; i++) {
+      dummy ^= Ascii.indexOfIgnoreCase(lhs, rhs);
+    }
+    return dummy;
   }
 }
