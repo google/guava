@@ -21,7 +21,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.and;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.Iterables.find;
-import static com.google.common.collect.Iterables.removeFirstMatching;
 import static com.google.common.collect.Iterators.addAll;
 import static com.google.common.collect.Iterators.find;
 import static com.google.common.collect.Iterators.removeAll;
@@ -1340,12 +1339,12 @@ public final class Sets {
 
     @Override
     public @Nullable E pollFirst() {
-      return removeFirstMatching(unfiltered(), predicate);
+      return pollFirstMatching(unfiltered(), predicate);
     }
 
     @Override
     public @Nullable E pollLast() {
-      return removeFirstMatching(unfiltered().descendingSet(), predicate);
+      return pollFirstMatching(unfiltered().descendingSet(), predicate);
     }
 
     @Override
@@ -2260,5 +2259,19 @@ public final class Sets {
       return set.headSet(range.upperEndpoint(), range.upperBoundType() == BoundType.CLOSED);
     }
     return checkNotNull(set);
+  }
+
+  /** Removes and returns the first matching element, or returns {@code null} if there is none. */
+  private static <T extends @Nullable Object> @Nullable T pollFirstMatching(
+      Iterable<T> removeFrom, Predicate<? super T> predicate) {
+    checkNotNull(predicate);
+    for (Iterator<T> iterator = removeFrom.iterator(); iterator.hasNext(); ) {
+      T next = iterator.next();
+      if (predicate.apply(next)) {
+        iterator.remove();
+        return next;
+      }
+    }
+    return null;
   }
 }

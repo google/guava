@@ -16,8 +16,8 @@
 
 package com.google.common.collect;
 
-import static com.google.common.collect.Iterators.pollNext;
 import static com.google.common.collect.Maps.keyOrNull;
+import static com.google.common.collect.Maps.snapshotFirst;
 
 import com.google.common.annotations.GwtIncompatible;
 import java.util.Iterator;
@@ -187,7 +187,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * forward to this implementation.
    */
   protected @Nullable Entry<K, V> standardFirstEntry() {
-    return Iterables.<@Nullable Entry<K, V>>getFirst(entrySet(), null);
+    return snapshotFirst(entrySet(), /* remove= */ false);
   }
 
   /**
@@ -215,7 +215,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * override {@code lastEntry} to forward to this implementation.
    */
   protected @Nullable Entry<K, V> standardLastEntry() {
-    return Iterables.<@Nullable Entry<K, V>>getFirst(descendingMap().entrySet(), null);
+    return snapshotFirst(descendingMap().entrySet(), /* remove= */ false);
   }
 
   /**
@@ -242,7 +242,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * forward to this implementation.
    */
   protected @Nullable Entry<K, V> standardPollFirstEntry() {
-    return pollNext(entrySet().iterator());
+    return snapshotFirst(entrySet(), /* remove= */ true);
   }
 
   @Override
@@ -256,7 +256,7 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    * override {@code pollFirstEntry} to forward to this implementation.
    */
   protected @Nullable Entry<K, V> standardPollLastEntry() {
-    return pollNext(descendingMap().entrySet().iterator());
+    return snapshotFirst(descendingMap().entrySet(), /* remove= */ true);
   }
 
   @Override
