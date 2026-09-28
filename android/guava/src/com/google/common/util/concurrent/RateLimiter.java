@@ -419,9 +419,8 @@ public abstract class RateLimiter {
       long nowMicros = stopwatch.readMicros();
       if (!canAcquire(nowMicros, timeoutMicros)) {
         return false;
-      } else {
-        microsToWait = reserveAndGetWaitLength(permits, nowMicros);
       }
+      microsToWait = reserveAndGetWaitLength(permits, nowMicros);
     }
     stopwatch.sleepMicrosUninterruptibly(microsToWait);
     return true;

@@ -866,10 +866,10 @@ public class FuturesTest extends TestCase {
     AsyncFunctionSpy<Throwable, Integer> fallback =
         spy(
             (Throwable unused) -> {
-              if (!wrapInFuture) {
-                throw expectedException;
-              } else {
+              if (wrapInFuture) {
                 return immediateFailedFuture(expectedException);
+              } else {
+                throw expectedException;
               }
             });
 
