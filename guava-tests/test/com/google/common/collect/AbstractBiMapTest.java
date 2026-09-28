@@ -14,27 +14,31 @@
 
 package com.google.common.collect;
 
-import java.util.IdentityHashMap;
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.collect.Iterators.transform;
+
+import com.google.common.collect.Maps.IteratorBasedAbstractMap;
+import java.util.AbstractMap.SimpleImmutableEntry;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Map.Entry;
 import junit.framework.TestCase;
-import org.jspecify.annotations.NullUnmarked;
+import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@code AbstractBiMap}.
  *
  * @author Mike Bostock
  */
-@NullUnmarked
+@NullMarked
 public class AbstractBiMapTest extends TestCase {
 
-  // The next two tests verify that map entries are not accessed after they're
-  // removed, since IdentityHashMap throws an exception when that occurs.
-  @SuppressWarnings("IdentityHashMapBoxing") // explicitly testing IdentityHashMap
-  public void testIdentityKeySetIteratorRemove() {
+  public void testEntryNotAccessedAfterKeySetIteratorRemove() {
     BiMap<Integer, String> bimap =
         new AbstractBiMap<Integer, String>(
-            new IdentityHashMap<Integer, String>(), new IdentityHashMap<String, Integer>()) {};
+            new InvalidatingEntryMap<>(), new InvalidatingEntryMap<>()) {};
     bimap.put(1, "one");
     bimap.put(2, "two");
     bimap.put(3, "three");
@@ -48,11 +52,10 @@ public class AbstractBiMapTest extends TestCase {
     assertEquals(1, bimap.inverse().size());
   }
 
-  @SuppressWarnings("IdentityHashMapBoxing") // explicitly testing IdentityHashMap
-  public void testIdentityEntrySetIteratorRemove() {
+  public void testEntryNotAccessedAfterEntrySetIteratorRemove() {
     BiMap<Integer, String> bimap =
         new AbstractBiMap<Integer, String>(
-            new IdentityHashMap<Integer, String>(), new IdentityHashMap<String, Integer>()) {};
+            new InvalidatingEntryMap<>(), new InvalidatingEntryMap<>()) {};
     bimap.put(1, "one");
     bimap.put(2, "two");
     bimap.put(3, "three");
@@ -64,5 +67,42 @@ public class AbstractBiMapTest extends TestCase {
     iterator.remove();
     assertEquals(1, bimap.size());
     assertEquals(1, bimap.inverse().size());
+  }
+
+  private static final class InvalidatingEntryMap<K, V> extends IteratorBasedAbstractMap<K, V> {
+    final Map<K, V> delegate = new HashMap<>();
+
+    @Override
+    public int size() {
+      return delegate.size();
+    }
+
+    @Override
+    public @Nullable V put(K key, V value) {
+      return delegate.put(key, value);
+    }
+
+    @Override
+    Iterator<Entry<K, V>> entryIterator() {
+      return transform(delegate.entrySet().iterator(), InvalidatingEntry::new);
+    }
+
+    private final class InvalidatingEntry extends SimpleImmutableEntry<K, V> {
+      InvalidatingEntry(Entry<? extends K, ? extends V> entry) {
+        super(entry);
+      }
+
+      @Override
+      public K getKey() {
+        checkState(delegate.containsKey(super.getKey()));
+        return super.getKey();
+      }
+
+      @Override
+      public V getValue() {
+        checkState(delegate.containsKey(super.getKey()));
+        return super.getValue();
+      }
+    }
   }
 }
