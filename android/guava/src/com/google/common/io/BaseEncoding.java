@@ -526,8 +526,8 @@ public abstract class BaseEncoding {
       return chars[bits];
     }
 
-    boolean isValidPaddingStartPosition(int index) {
-      return validPadding[index % charsPerChunk];
+    boolean isValidPaddingStartPosition(long index) {
+      return validPadding[(int) (index % charsPerChunk)];
     }
 
     boolean canDecode(char ch) {
@@ -789,7 +789,7 @@ public abstract class BaseEncoding {
       return new InputStream() {
         int bitBuffer = 0;
         int bitBufferLength = 0;
-        int readChars = 0;
+        long readChars = 0;
         boolean hitPadding = false;
 
         @Override
