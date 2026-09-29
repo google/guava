@@ -2848,7 +2848,7 @@ final class MapMakerInternalMap<
     final MapMaker readMapMaker(ObjectInputStream in) throws IOException {
       int size = in.readInt();
       return new MapMaker()
-          .initialCapacity(size)
+          .initialCapacity(min(size, 256))
           .setKeyStrength(keyStrength)
           .setValueStrength(valueStrength)
           .keyEquivalence(keyEquivalence)

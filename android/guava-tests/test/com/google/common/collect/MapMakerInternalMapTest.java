@@ -26,6 +26,11 @@ import com.google.common.collect.MapMakerInternalMap.Strength;
 import com.google.common.collect.MapMakerInternalMap.WeakValueEntry;
 import com.google.common.collect.MapMakerInternalMap.WeakValueReference;
 import com.google.common.testing.NullPointerTester;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.lang.ref.Reference;
 import java.util.concurrent.atomic.AtomicReferenceArray;
 import junit.framework.TestCase;
@@ -939,6 +944,26 @@ public class MapMakerInternalMapTest extends TestCase {
   public void testNullParameters() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(makeMap(createMapMaker()));
+  }
+
+  public void testDeserializeWithHugeSize() throws Exception {
+    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    try (ObjectOutputStream oos = new ObjectOutputStream(baos)) {
+      oos.writeObject(makeMap(createMapMaker()));
+    }
+    try (ObjectInputStream ois =
+        new ObjectInputStream(new ByteArrayInputStream(baos.toByteArray())) {
+          @Override
+          public int readInt() throws IOException {
+            int unused = super.readInt();
+            return Integer.MAX_VALUE;
+          }
+        }) {
+      MapMakerInternalMap<?, ?, ?, ?> deserialized =
+          (MapMakerInternalMap<?, ?, ?, ?>) ois.readObject();
+      assertThat(deserialized).isEmpty();
+      assertThat(deserialized.segments[0].table.length()).isEqualTo(64);
+    }
   }
 
   // Our tests are generally (always?) updating the count from only one thread.

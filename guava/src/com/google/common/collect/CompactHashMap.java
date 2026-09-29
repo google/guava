@@ -1129,7 +1129,7 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     if (elementCount < 0) {
       throw new InvalidObjectException("Invalid size: " + elementCount);
     }
-    init(elementCount);
+    init(min(elementCount, 256));
     for (int i = 0; i < elementCount; i++) {
       K key = (K) stream.readObject();
       V value = (V) stream.readObject();
