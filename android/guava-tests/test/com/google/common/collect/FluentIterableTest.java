@@ -337,10 +337,7 @@ public class FluentIterableTest extends TestCase {
   public void testAppend_nullPointerException() {
     assertThrows(
         NullPointerException.class,
-        () -> {
-          FluentIterable<Integer> unused =
-              FluentIterable.from(asList(1, 2)).append((List<Integer>) null);
-        });
+        () -> FluentIterable.from(asList(1, 2)).append((List<Integer>) null));
   }
 
   /*
@@ -660,10 +657,7 @@ public class FluentIterableTest extends TestCase {
   public void testLimit_illegalArgument() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          FluentIterable<String> unused =
-              FluentIterable.from(newArrayList("a", "b", "c")).limit(-1);
-        });
+        () -> FluentIterable.from(newArrayList("a", "b", "c")).limit(-1));
   }
 
   public void testIsEmpty() {
@@ -758,21 +752,12 @@ public class FluentIterableTest extends TestCase {
   }
 
   public void testIndex_nullKey() {
-    assertThrows(
-        NullPointerException.class,
-        () -> {
-          ImmutableListMultimap<Object, Integer> unused =
-              fluent(1, 2, 3).index(Functions.constant(null));
-        });
+    assertThrows(NullPointerException.class, () -> fluent(1, 2, 3).index(Functions.constant(null)));
   }
 
   public void testIndex_nullValue() {
     assertThrows(
-        NullPointerException.class,
-        () -> {
-          ImmutableListMultimap<String, Integer> unused =
-              fluent(1, null, 2).index(Functions.constant("foo"));
-        });
+        NullPointerException.class, () -> fluent(1, null, 2).index(Functions.constant("foo")));
   }
 
   public void testUniqueIndex() {
@@ -792,17 +777,15 @@ public class FluentIterableTest extends TestCase {
   public void testUniqueIndex_duplicateKey() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          ImmutableMap<Integer, String> unused =
-              FluentIterable.from(asList("one", "two", "three", "four"))
-                  .uniqueIndex(
-                      new Function<String, Integer>() {
-                        @Override
-                        public Integer apply(String input) {
-                          return input.length();
-                        }
-                      });
-        });
+        () ->
+            FluentIterable.from(asList("one", "two", "three", "four"))
+                .uniqueIndex(
+                    new Function<String, Integer>() {
+                      @Override
+                      public Integer apply(String input) {
+                        return input.length();
+                      }
+                    }));
   }
 
   public void testUniqueIndex_nullKey() {
@@ -813,17 +796,15 @@ public class FluentIterableTest extends TestCase {
   public void testUniqueIndex_nullValue() {
     assertThrows(
         NullPointerException.class,
-        () -> {
-          ImmutableMap<Object, Integer> unused =
-              fluent(1, null, 2)
-                  .uniqueIndex(
-                      new Function<Integer, Object>() {
-                        @Override
-                        public Object apply(@Nullable Integer input) {
-                          return String.valueOf(input);
-                        }
-                      });
-        });
+        () ->
+            fluent(1, null, 2)
+                .uniqueIndex(
+                    new Function<Integer, Object>() {
+                      @Override
+                      public Object apply(@Nullable Integer input) {
+                        return String.valueOf(input);
+                      }
+                    }));
   }
 
   public void testCopyInto_list() {

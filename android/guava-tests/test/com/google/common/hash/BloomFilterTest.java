@@ -286,10 +286,8 @@ public class BloomFilterTest extends TestCase {
     IllegalArgumentException expected =
         assertThrows(
             IllegalArgumentException.class,
-            () -> {
-              BloomFilter<String> unused =
-                  BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE);
-            });
+            () ->
+                BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE));
     assertThat(expected)
         .hasMessageThat()
         .isEqualTo("Could not create BloomFilter of 3327428144502 bits");

@@ -696,10 +696,6 @@ public class QuantilesTest extends TestCase {
 
   public void testScale_indexes_indexes_computeInPlace_empty() {
     int[] emptyIndexes = {};
-    assertThrows(
-        IllegalArgumentException.class,
-        () -> {
-          Quantiles.ScaleAndIndexes unused = Quantiles.scale(10).indexes(emptyIndexes);
-        });
+    assertThrows(IllegalArgumentException.class, () -> Quantiles.scale(10).indexes(emptyIndexes));
   }
 }

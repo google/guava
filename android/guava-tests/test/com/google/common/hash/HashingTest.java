@@ -291,11 +291,8 @@ public class HashingTest extends TestCase {
   public void testCombineOrdered_differentBitLengths() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          HashCode unused =
-              Hashing.combineOrdered(
-                  ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
-        });
+        () ->
+            Hashing.combineOrdered(ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L))));
   }
 
   @J2ktIncompatible
@@ -338,11 +335,9 @@ public class HashingTest extends TestCase {
   public void testCombineUnordered_differentBitLengths() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          HashCode unused =
-              Hashing.combineUnordered(
-                  ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L)));
-        });
+        () ->
+            Hashing.combineUnordered(
+                ImmutableList.of(HashCode.fromInt(32), HashCode.fromLong(32L))));
   }
 
   @J2ktIncompatible

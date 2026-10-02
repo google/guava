@@ -1526,20 +1526,12 @@ public class MapsTest extends TestCase {
     assertThrows(UnsupportedOperationException.class, () -> values.retainAll(singleton("four")));
     Iterator<String> valuesIterator = values.iterator();
     valuesIterator.next();
-    assertThrows(
-        UnsupportedOperationException.class,
-        () -> {
-          valuesIterator.remove();
-        });
+    assertThrows(UnsupportedOperationException.class, () -> valuesIterator.remove());
 
     Set<Entry<Integer, String>> entries = unmod.entrySet();
     Iterator<Entry<Integer, String>> entriesIterator = entries.iterator();
     entriesIterator.next();
-    assertThrows(
-        UnsupportedOperationException.class,
-        () -> {
-          entriesIterator.remove();
-        });
+    assertThrows(UnsupportedOperationException.class, () -> entriesIterator.remove());
     {
       Entry<Integer, String> entry = entries.iterator().next();
       assertThrows(UnsupportedOperationException.class, () -> entry.setValue("four"));
