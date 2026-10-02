@@ -553,10 +553,10 @@ public final class CacheBuilder<K, V> {
 
   /**
    * Specifies the weigher to use in determining the weight of entries. Entry weight is taken into
-   * consideration by {@link #maximumWeight(long)} when determining which entries to evict, and use
-   * of this method requires a corresponding call to {@link #maximumWeight(long)} prior to calling
-   * {@link #build}. Weights are measured and recorded when entries are inserted into the cache, and
-   * are thus effectively static during the lifetime of a cache entry.
+   * consideration by {@link #maximumWeight(long)} when determining whether the cache is over
+   * capacity, and use of this method requires a corresponding call to {@link #maximumWeight(long)}
+   * prior to calling {@link #build}. Weights are measured and recorded when entries are inserted
+   * into the cache, and are thus effectively static during the lifetime of a cache entry.
    *
    * <p>When the weight of an entry is zero it will not be considered for size-based eviction
    * (though it still may be evicted by other means).
