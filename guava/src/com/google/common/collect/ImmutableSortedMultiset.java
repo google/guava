@@ -594,6 +594,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
       }
       return builder.build();
     }
+
+    private static final long serialVersionUID = -1602158873381216563L;
   }
 
   @Override

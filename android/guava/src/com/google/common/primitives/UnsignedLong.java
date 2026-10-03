@@ -18,6 +18,8 @@ import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigInteger;
 import org.jspecify.annotations.Nullable;
@@ -267,4 +269,6 @@ public final class UnsignedLong extends Number implements Comparable<UnsignedLon
   public String toString(int radix) {
     return UnsignedLongs.toString(value, radix);
   }
+
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 389107927943716141L;
 }

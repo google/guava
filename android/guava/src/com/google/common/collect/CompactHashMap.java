@@ -1017,6 +1017,8 @@ class CompactHashMap<K extends @Nullable Object, V extends @Nullable Object>
     }
   }
 
+  @J2ktIncompatible private static final long serialVersionUID = -1932773068922399442L;
+
   /*
    * The following methods are safe to call as long as both of the following hold:
    *

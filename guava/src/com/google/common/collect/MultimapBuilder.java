@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -190,6 +192,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public List<V> get() {
       return new ArrayList<>(expectedValuesPerKey);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 5789124452413809038L;
   }
 
   private enum LinkedListSupplier implements Supplier<List<?>> {
@@ -222,6 +226,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public Set<V> get() {
       return Platform.newHashSetWithExpectedSize(expectedValuesPerKey);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 6136599187613520511L;
   }
 
   private static final class LinkedHashSetSupplier<V extends @Nullable Object>
@@ -236,6 +242,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public Set<V> get() {
       return Platform.newLinkedHashSetWithExpectedSize(expectedValuesPerKey);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = -1886791952729442050L;
   }
 
   private static final class TreeSetSupplier<V extends @Nullable Object>
@@ -250,6 +258,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public SortedSet<V> get() {
       return new TreeSet<>(comparator);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 7297924014757663263L;
   }
 
   private static final class EnumSetSupplier<V extends Enum<V>>
@@ -264,6 +274,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public Set<V> get() {
       return EnumSet.noneOf(clazz);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = -6321539988632337635L;
   }
 
   /**

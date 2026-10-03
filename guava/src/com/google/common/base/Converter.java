@@ -554,6 +554,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     public String toString() {
       return "Converter.from(" + forwardFunction + ", " + backwardFunction + ")";
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 6500462374954026321L;
   }
 
   /** Returns a serializable converter that always converts or reverses an object to itself. */

@@ -17,6 +17,8 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Collection;
 import java.util.SortedMap;
 import java.util.SortedSet;
@@ -53,4 +55,6 @@ abstract class AbstractSortedKeySortedSetMultimap<
   public SortedSet<K> keySet() {
     return (SortedSet<K>) createMaybeNavigableKeySet();
   }
+
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 5771213879749501946L;
 }

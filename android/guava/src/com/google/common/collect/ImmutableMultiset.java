@@ -419,6 +419,8 @@ public abstract class ImmutableMultiset<E> extends ImmutableCollection<E> implem
         Object readResolve() {
       return multiset.entrySet();
     }
+
+    private static final long serialVersionUID = -6456416336206982697L;
   }
 
   @GwtIncompatible

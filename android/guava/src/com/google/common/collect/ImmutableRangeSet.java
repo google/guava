@@ -749,6 +749,8 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
     Object readResolve() {
       return new ImmutableRangeSet<C>(ranges).asSet(domain);
     }
+
+    @J2ktIncompatible private static final long serialVersionUID = -2839311563508230214L;
   }
 
   /**
@@ -879,6 +881,8 @@ public final class ImmutableRangeSet<C extends Comparable> extends AbstractRange
         return new ImmutableRangeSet<C>(ranges);
       }
     }
+
+    @J2ktIncompatible private static final long serialVersionUID = 4183982527943143214L;
   }
 
   @J2ktIncompatible // java.io.ObjectInputStream

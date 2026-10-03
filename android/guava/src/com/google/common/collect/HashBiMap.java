@@ -1157,6 +1157,8 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       obverse.replaceKeyInEntry(index, obverseKey, false);
       return oldObverseKey;
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 2881074110665323944L;
   }
 
   /**

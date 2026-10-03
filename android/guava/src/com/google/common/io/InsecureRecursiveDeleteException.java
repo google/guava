@@ -46,4 +46,6 @@ public final class InsecureRecursiveDeleteException extends FileSystemException 
   public InsecureRecursiveDeleteException(@Nullable String file) {
     super(file, null, "unable to guarantee security of recursive delete");
   }
+
+  private static final long serialVersionUID = -826808058212488134L;
 }

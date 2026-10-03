@@ -925,4 +925,6 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
       }
     }
   }
+
+  private static final long serialVersionUID = 25682166307111266L;
 }

@@ -728,6 +728,8 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
     Object readResolve() {
       return multimap.keys();
     }
+
+    private static final long serialVersionUID = 3363316627763621892L;
   }
 
   /**

@@ -257,4 +257,6 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
    * they're defined above -- including logic to add and subtract 1 to map between the values stored
    * in the predecessor/successor arrays and the indexes in the elements array that they identify.
    */
+
+  private static final long serialVersionUID = 2360971274758481122L;
 }

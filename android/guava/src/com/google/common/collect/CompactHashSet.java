@@ -690,6 +690,8 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
     }
   }
 
+  @J2ktIncompatible private static final long serialVersionUID = -6187423658046915740L;
+
   /*
    * For discussion of the safety of the following methods, see the comments near the end of
    * CompactHashMap.

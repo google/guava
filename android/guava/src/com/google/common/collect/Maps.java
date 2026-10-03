@@ -3497,6 +3497,8 @@ public final class Maps {
     public NavigableMap<K, V> tailMap(@ParametricNullness K fromKey, boolean inclusive) {
       return unmodifiableNavigableMap(delegate.tailMap(fromKey, inclusive));
     }
+
+    @J2ktIncompatible private static final long serialVersionUID = 5041977376209497627L;
   }
 
   /**
