@@ -2852,7 +2852,7 @@ final class MapMakerInternalMap<
           .setKeyStrength(keyStrength)
           .setValueStrength(valueStrength)
           .keyEquivalence(keyEquivalence)
-          .concurrencyLevel(concurrencyLevel);
+          .concurrencyLevel(min(concurrencyLevel, 1024));
     }
 
     @SuppressWarnings("unchecked")

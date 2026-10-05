@@ -4559,7 +4559,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
               .setValueStrength(valueStrength)
               .keyEquivalence(keyEquivalence)
               .valueEquivalence(valueEquivalence)
-              .concurrencyLevel(concurrencyLevel)
+              .concurrencyLevel(min(concurrencyLevel, 1024))
               .removalListener(removalListener);
       builder.strictParsing = false;
       if (expireAfterWriteNanos > 0) {

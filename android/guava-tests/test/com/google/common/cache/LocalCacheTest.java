@@ -2722,6 +2722,15 @@ public class LocalCacheTest extends TestCase {
     assertThat(localCacheThree.ticker).isEqualTo(localCacheTwo.ticker);
   }
 
+  public void testDeserializeWithHugeConcurrencyLevel() {
+    LocalManualCache<?, ?> cache =
+        (LocalManualCache<?, ?>)
+            CacheBuilder.newBuilder().concurrencyLevel(Integer.MAX_VALUE).build();
+    assertThat(cache.localCache.segments).hasLength(65536);
+    LocalManualCache<?, ?> deserialized = reserialize(cache);
+    assertThat(deserialized.localCache.segments).hasLength(1024);
+  }
+
   public void testLoadDifferentKeyInLoader() throws ExecutionException {
     LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
     String key1 = "key1";

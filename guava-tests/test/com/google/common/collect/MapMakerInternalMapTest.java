@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.collect.MapMakerInternalMap.DRAIN_THRESHOLD;
+import static com.google.common.testing.SerializableTester.reserialize;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.base.Equivalence;
@@ -964,6 +965,14 @@ public class MapMakerInternalMapTest extends TestCase {
       assertThat(deserialized).isEmpty();
       assertThat(deserialized.segments[0].table.length()).isEqualTo(64);
     }
+  }
+
+  public void testDeserializeWithHugeConcurrencyLevel() {
+    MapMakerInternalMap<?, ?, ?, ?> map =
+        makeMap(createMapMaker().concurrencyLevel(Integer.MAX_VALUE));
+    assertThat(map.segments).hasLength(65536);
+    MapMakerInternalMap<?, ?, ?, ?> deserialized = reserialize(map);
+    assertThat(deserialized.segments).hasLength(1024);
   }
 
   // Our tests are generally (always?) updating the count from only one thread.
