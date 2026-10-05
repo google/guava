@@ -782,6 +782,11 @@ public final class ByteStreams {
     @Override
     public long skip(long n) throws IOException {
       n = min(n, left);
+      if (n <= 0) {
+        // Some streams, like FileInputStream, skip backward for a negative n. That would move
+        // before the position at which the limit began and increase the number of bytes left.
+        return 0;
+      }
       long skipped = in().skip(n);
       left -= skipped;
       return skipped;
