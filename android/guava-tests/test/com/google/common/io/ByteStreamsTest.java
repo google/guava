@@ -31,6 +31,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.EOFException;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FilterInputStream;
 import java.io.IOException;
@@ -608,6 +609,23 @@ public class ByteStreamsTest extends IoTestCase {
     assertEquals(2, lin.available());
     lin.skip(3);
     assertEquals(0, lin.available());
+  }
+
+  public void testLimit_skipNegative() throws Exception {
+    byte[] big = newPreFilledByteArray(5);
+    File file = createTempFile();
+    Files.write(big, file);
+    // Unlike most streams, FileInputStream moves backward when asked to skip a negative count.
+    try (InputStream fin = new FileInputStream(file)) {
+      ByteStreams.skipFully(fin, 2);
+      InputStream lin = ByteStreams.limit(fin, 2);
+
+      assertEquals(0, lin.skip(-2));
+      assertEquals(2, lin.available());
+      assertEquals(big[2], lin.read());
+      assertEquals(big[3], lin.read());
+      assertEquals(-1, lin.read());
+    }
   }
 
   public void testLimit_markNotSet() {
