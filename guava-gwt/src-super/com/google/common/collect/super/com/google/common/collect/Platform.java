@@ -50,11 +50,12 @@ final class Platform {
     return Sets.newHashSetWithExpectedSize(expectedSize);
   }
 
-  static <E extends @Nullable Object> Set<E> newConcurrentHashSet() {
+  static <E> Set<E> newConcurrentHashSet() {
     // GWT's ConcurrentHashMap is a wrapper around HashMap, but it rejects null keys, which matches
     // the behaviour of the non-GWT implementation of newConcurrentHashSet().
     // On the other hand HashSet might be better for code size if apps aren't
     // already using Collections.newSetFromMap and ConcurrentHashMap.
+    // And GWT/J2CL ConcurrentHashMap.newKeySet returns a plain HashSet (which permits nulls).
     return Collections.newSetFromMap(new ConcurrentHashMap<E, Boolean>());
   }
 
