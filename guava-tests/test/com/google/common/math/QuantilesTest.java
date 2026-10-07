@@ -42,6 +42,7 @@ import com.google.common.primitives.Longs;
 import com.google.common.truth.Correspondence;
 import com.google.common.truth.Correspondence.BinaryPredicate;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import junit.framework.TestCase;
@@ -61,11 +62,12 @@ public class QuantilesTest extends TestCase {
   /*
    * Since Quantiles provides a fluent-style API, each test covers a chain of methods resulting in
    * the computation of one or more quantiles (or in an error) rather than individual methods. The
-   * tests are divided into three sections:
+   * tests are divided into five sections:
    * 1. Tests on a hardcoded dataset for chains starting with median(), quartiles(), and scale(10);
    * 2. Tests on hardcoded datasets include non-finite values for chains starting with scale(10);
    * 3. Tests on a mechanically generated dataset for chains starting with percentiles();
-   * 4. Tests of illegal usages of the API.
+   * 4. Tests on mechanically generated datasets with many duplicate values;
+   * 5. Tests of illegal usages of the API.
    */
 
   /*
@@ -598,7 +600,80 @@ public class QuantilesTest extends TestCase {
     assertThat(dataset).usingExactEquality().containsExactlyElementsIn(PSEUDORANDOM_DATASET);
   }
 
-  // 4. Tests of illegal usages of the API:
+  // 4. Tests on datasets with many duplicate values:
+
+  // These datasets are large enough that a selection algorithm which degenerates on duplicate
+  // values (as ours did until https://github.com/google/guava/issues/3789) takes minutes rather
+  // than milliseconds to work through them.
+  private static final int DUPLICATE_HEAVY_DATASET_SIZE = 100_000;
+
+  public void testPercentiles_index_computeInPlace_allValuesEqual() {
+    for (int index = 0; index <= 100; index++) {
+      double[] dataset = new double[DUPLICATE_HEAVY_DATASET_SIZE];
+      Arrays.fill(dataset, 7.5);
+      assertWithMessage("quantile at index %s", index)
+          .that(percentiles().index(index).computeInPlace(dataset))
+          .isWithin(ALLOWED_ERROR)
+          .of(7.5);
+    }
+  }
+
+  public void testPercentiles_index_computeInPlace_fewDistinctValues() {
+    for (int index = 0; index <= 100; index++) {
+      double[] dataset = fewDistinctValuesDataset();
+      double[] sorted = dataset.clone();
+      Arrays.sort(sorted);
+      assertWithMessage("quantile at index %s", index)
+          .that(percentiles().index(index).computeInPlace(dataset))
+          .isWithin(ALLOWED_ERROR)
+          .of(expectedPercentileFromSorted(index, sorted));
+    }
+  }
+
+  public void testPercentiles_indexes_computeInPlace_fewDistinctValues() {
+    double[] dataset = fewDistinctValuesDataset();
+    double[] sorted = dataset.clone();
+    Arrays.sort(sorted);
+    List<Integer> indexes = new ArrayList<>();
+    ImmutableMap.Builder<Integer, Double> expectedBuilder = ImmutableMap.builder();
+    for (int index = 0; index <= 100; index++) {
+      indexes.add(index);
+      expectedBuilder.put(index, expectedPercentileFromSorted(index, sorted));
+    }
+    assertThat(percentiles().indexes(Ints.toArray(indexes)).computeInPlace(dataset))
+        .comparingValuesUsing(QUANTILE_CORRESPONDENCE)
+        .containsExactlyEntriesIn(expectedBuilder.buildOrThrow());
+
+    // Assert that the dataset still contains the same elements, although reordered. (We compare
+    // sorted copies directly rather than using containsExactlyElementsIn, which would build
+    // collections of 100,000 boxed doubles.)
+    double[] datasetSorted = dataset.clone();
+    Arrays.sort(datasetSorted);
+    assertWithMessage("dataset contains the same elements after computing in place")
+        .that(Arrays.equals(datasetSorted, sorted))
+        .isTrue();
+  }
+
+  /** Returns a pseudorandomly generated dataset drawn from only five distinct values. */
+  private static double[] fewDistinctValuesDataset() {
+    double[] dataset = new double[DUPLICATE_HEAVY_DATASET_SIZE];
+    Random random = new Random(4088805267152079440L);
+    for (int i = 0; i < dataset.length; i++) {
+      dataset[i] = random.nextInt(5);
+    }
+    return dataset;
+  }
+
+  private static double expectedPercentileFromSorted(int index, double[] sorted) {
+    double position = (double) index * (sorted.length - 1) / 100.0;
+    int positionFloor = (int) Math.floor(position);
+    int positionCeil = (int) Math.ceil(position);
+    double lowerValue = sorted[positionFloor];
+    double upperValue = sorted[positionCeil];
+    return lowerValue + (position - positionFloor) * (upperValue - lowerValue);
+  }
+
+  // 5. Tests of illegal usages of the API:
 
   private static final ImmutableList<Double> EMPTY_DATASET = ImmutableList.of();
 
