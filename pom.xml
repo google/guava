@@ -55,7 +55,7 @@
     <surefire.toolchain.version>${java.specification.version}</surefire.toolchain.version>
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
-    <animal-sniffer-maven-plugin.version>1.27</animal-sniffer-maven-plugin.version>
+    <animal-sniffer-maven-plugin.version>1.28</animal-sniffer-maven-plugin.version>
     <asm.version>9.10.1</asm.version>
     <build-helper-maven-plugin.version>3.6.1</build-helper-maven-plugin.version>
     <caliper.version>1.0-beta-3</caliper.version>
