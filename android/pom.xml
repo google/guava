@@ -313,6 +313,8 @@
           <configuration>
             <quiet>true</quiet>
             <notimestamp>true</notimestamp>
+            <doctitle>${project.name} API</doctitle>
+            <windowtitle>${project.name} API</windowtitle>
             <encoding>UTF-8</encoding>
             <docencoding>UTF-8</docencoding>
             <charset>UTF-8</charset>
