@@ -346,6 +346,8 @@ public final class TreeMultiset<E extends @Nullable Object> extends AbstractSort
         }
         return true;
       } else {
+        // Validate the element even when its count cannot match.
+        int unused = comparator().compare(element, element);
         return false;
       }
     }
