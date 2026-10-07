@@ -454,7 +454,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   /**
    * Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
    * according to <a
-   * href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
+   * href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-4.html#jls-4.5.1">the rules for
    * type arguments</a> introduced with Java generics.
    *
    * @since 19.0
@@ -466,7 +466,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   /**
    * Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
    * according to <a
-   * href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
+   * href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-4.html#jls-4.5.1">the rules for
    * type arguments</a> introduced with Java generics.
    *
    * @since 19.0
@@ -478,7 +478,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   /**
    * Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
    * according to <a
-   * href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
+   * href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-4.html#jls-4.5.1">the rules for
    * type arguments</a> introduced with Java generics.
    *
    * @since 19.0
@@ -490,7 +490,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   /**
    * Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
    * according to <a
-   * href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
+   * href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-4.html#jls-4.5.1">the rules for
    * type arguments</a> introduced with Java generics.
    *
    * @since 19.0

@@ -25,7 +25,7 @@ import org.jspecify.annotations.Nullable;
 
 /**
  * A trivial class {@code int} wrapper that is not a <a
- * href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based
+ * href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/doc-files/ValueBased.html">value-based
  * class</a> like {@link Integer}. That allows us to have different equivalent instances.
  */
 @NullMarked

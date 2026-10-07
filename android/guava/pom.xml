@@ -190,7 +190,7 @@
           </tags>
 
           <!-- TODO(cpovirk): Move this to the parent after making the package-list files available there. -->
-          <!-- We add the link ourselves so that we can choose Java 26 over the version that -source suggests. -->
+          <!-- We add the link ourselves so that we can choose Java 27 over the version that -source suggests. -->
           <detectJavaApiLink>false</detectJavaApiLink>
           <offlineLinks>
             <!-- We need local copies of some of these for 2 reasons: a User-Agent problem (https://stackoverflow.com/a/47891403/28465) and an SSL problem (https://issues.apache.org/jira/browse/MJAVADOC-507). If we choose to work around the User-Agent problem, we can go back to <links>, sidestepping the SSL problem. -->
@@ -204,7 +204,7 @@
             </offlineLink>
           </offlineLinks>
           <links>
-            <link>https://docs.oracle.com/en/java/javase/26/docs/api/</link>
+            <link>https://docs.oracle.com/en/java/javase/27/docs/api/</link>
             <link>https://jspecify.dev/docs/api/</link>
           </links>
           <overview>../../overview.html</overview>

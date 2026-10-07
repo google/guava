@@ -63,7 +63,7 @@ public class MacHashFunctionTest extends TestCase {
 
   // From https://docs.oracle.com/javase/7/docs/technotes/guides/security/StandardNames.html#Mac
   // TODO(cpovirk): Evaluate newer list:
-  // https://docs.oracle.com/en/java/javase/26/docs/specs/security/standard-names.html#mac-algorithms
+  // https://docs.oracle.com/en/java/javase/27/docs/specs/security/standard-names.html#mac-algorithms
   private static final ImmutableTable<String, SecretKey, HashFunction> ALGORITHMS =
       new ImmutableTable.Builder<String, SecretKey, HashFunction>()
           .put("HmacMD5", MD5_KEY, hmacMd5(MD5_KEY))
