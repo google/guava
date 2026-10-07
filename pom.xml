@@ -66,7 +66,7 @@
     <failureaccess.version>1.0.3</failureaccess.version>
     <gummy-bears-api-24-version>0.15.0</gummy-bears-api-24-version>
     <gwt-maven-plugin.version>1.1.0</gwt-maven-plugin.version>
-    <gwt.version>2.13.0</gwt.version>
+    <gwt.version>2.13.1</gwt.version>
     <j2objc.version>3.1</j2objc.version>
     <java18-signature.version>1.0</java18-signature.version>
     <javahome-resolver-maven-plugin.version>1.0.2</javahome-resolver-maven-plugin.version>
