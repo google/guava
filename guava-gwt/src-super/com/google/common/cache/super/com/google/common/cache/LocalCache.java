@@ -37,7 +37,6 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ConcurrentMap;
@@ -206,13 +205,16 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
   @CanIgnoreReturnValue
   @Override
   public boolean remove(@Nullable Object key, @Nullable Object value) {
+    if (key == null || value == null) {
+      return false;
+    }
     synchronized (lock) {
-      if (Objects.equals(value, get(key))) {
+      if (value.equals(get(key))) {
         // `key` was in the cache, so it's a K.
         // (Or it's a weird case like a LinkedList in a Cache<ArrayList, ...>, but *shrug*.)
-        @SuppressWarnings({"unchecked", "nullness"})
+        @SuppressWarnings("unchecked")
         K castKey = (K) key;
-        @SuppressWarnings({"unchecked", "nullness"}) // similar to the above
+        @SuppressWarnings("unchecked") // similar to the above
         V castValue = (V) value;
 
         alertListenerIfPresent(castKey, castValue, RemovalCause.EXPLICIT);
@@ -765,12 +767,12 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       return map.containsKey(o);
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(@Nullable Object o) {
       return map.remove(o) != null;
     }
   }
@@ -788,7 +790,7 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       return map.containsValue(o);
     }
 
@@ -820,7 +822,7 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
     }
 
     @Override
-    public boolean contains(Object o) {
+    public boolean contains(@Nullable Object o) {
       if (!(o instanceof Entry)) {
         return false;
       }
@@ -831,11 +833,11 @@ final class LocalCache<K, V> implements ConcurrentMap<K, V> {
       }
       V v = LocalCache.this.get(key);
 
-      return (v != null) && e.getValue().equals(v);
+      return (v != null) && v.equals(e.getValue());
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(@Nullable Object o) {
       if (!(o instanceof Entry)) {
         return false;
       }

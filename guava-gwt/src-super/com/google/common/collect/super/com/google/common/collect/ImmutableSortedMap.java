@@ -432,12 +432,12 @@ public final class ImmutableSortedMap<K, V> extends ForwardingImmutableMap<K, V>
   }
 
   @Override
-  public @Nullable K firstKey() {
+  public K firstKey() {
     return sortedDelegate.firstKey();
   }
 
   @Override
-  public @Nullable K lastKey() {
+  public K lastKey() {
     return sortedDelegate.lastKey();
   }
 

@@ -22,6 +22,7 @@ import static com.google.common.cache.TestingRemovalListeners.countingRemovalLis
 import static com.google.common.cache.TestingRemovalListeners.nullRemovalListener;
 import static com.google.common.cache.TestingRemovalListeners.queuingRemovalListener;
 import static com.google.common.cache.TestingWeighers.constantWeigher;
+import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Sets.newHashSetWithExpectedSize;
 import static com.google.common.collect.Sets.union;
 import static com.google.common.truth.Truth.assertThat;
@@ -44,6 +45,7 @@ import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -354,6 +356,34 @@ public class CacheBuilderTest extends TestCase {
   @J2ktIncompatible // asMap
   public void testValuesIsNotASet() {
     assertThat(CacheBuilder.newBuilder().build().asMap().values() instanceof Set).isFalse();
+  }
+
+  @J2ktIncompatible // asMap
+  public void testAsMapEntrySet_containsAndRemoveNulls() {
+    CountingRemovalListener<Integer, Integer> listener = countingRemovalListener();
+    Cache<Integer, Integer> cache = CacheBuilder.newBuilder().removalListener(listener).build();
+    cache.put(10, 20);
+
+    Set<Entry<Integer, Integer>> entries = cache.asMap().entrySet();
+    assertThat(entries.contains(null)).isFalse();
+    assertThat(entries.contains(immutableEntry(10, null))).isFalse();
+    assertThat(entries.contains(immutableEntry(99, null))).isFalse();
+    assertThat(entries.contains(immutableEntry(null, 20))).isFalse();
+    assertThat(entries.contains(immutableEntry(null, null))).isFalse();
+
+    assertThat(entries.remove(null)).isFalse();
+    assertThat(entries.remove(immutableEntry(10, null))).isFalse();
+    assertThat(entries.remove(immutableEntry(99, null))).isFalse();
+    assertThat(entries.remove(immutableEntry(null, 20))).isFalse();
+    assertThat(entries.remove(immutableEntry(null, null))).isFalse();
+
+    assertThat(cache.asMap().remove(10, null)).isFalse();
+    assertThat(cache.asMap().remove(99, null)).isFalse();
+    assertThat(cache.asMap().remove(null, 20)).isFalse();
+    assertThat(cache.asMap().remove(null, null)).isFalse();
+
+    assertThat(listener.getCount()).isEqualTo(0);
+    assertThat(cache.asMap()).containsExactly(10, 20);
   }
 
   @J2ktIncompatible
