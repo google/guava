@@ -30,6 +30,15 @@ updates:
       interval: "monthly"
     cooldown:
       default-days: 7
+    allow:
+      - dependency-name: "org.apache.maven.wrapper:maven-wrapper"
+      - dependency-name: "org.apache.maven:apache-maven"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
     groups:
       maven-wrapper:
         patterns:
