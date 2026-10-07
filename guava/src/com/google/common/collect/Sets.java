@@ -265,6 +265,8 @@ public final class Sets {
    *
    * <p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.
    *
+   * <p><b>Java 19+ users</b>: prefer {@code HashSet.newHashSet(expectedSize)}.
+   *
    * @param expectedSize the number of elements you expect to add to the returned set
    * @return a new, empty hash set with enough capacity to hold {@code expectedSize} elements
    *     without resizing
@@ -360,6 +362,8 @@ public final class Sets {
    * <i>should</i> hold {@code expectedSize} elements without growth. This behavior cannot be
    * broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
    * that the method isn't inadvertently <i>oversizing</i> the returned set.
+   *
+   * <p><b>Java 19+ users</b>: prefer {@code LinkedHashSet.newLinkedHashSet(expectedSize)}.
    *
    * @param expectedSize the number of elements you expect to add to the returned set
    * @return a new, empty {@code LinkedHashSet} with enough capacity to hold {@code expectedSize}

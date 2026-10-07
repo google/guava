@@ -256,6 +256,8 @@ public final class Maps {
    * but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the method
    * isn't inadvertently <i>oversizing</i> the returned map.
    *
+   * <p><b>Java 19+ users</b>: prefer {@code HashMap.newHashMap(expectedSize)}.
+   *
    * @param expectedSize the number of entries you expect to add to the returned map
    * @return a new, empty {@code HashMap} with enough capacity to hold {@code expectedSize} entries
    *     without resizing
@@ -337,6 +339,8 @@ public final class Maps {
    * <i>should</i> hold {@code expectedSize} elements without growth. This behavior cannot be
    * broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
    * that the method isn't inadvertently <i>oversizing</i> the returned map.
+   *
+   * <p><b>Java 19+ users</b>: prefer {@code LinkedHashMap.newLinkedHashMap(expectedSize)}.
    *
    * @param expectedSize the number of entries you expect to add to the returned map
    * @return a new, empty {@code LinkedHashMap} with enough capacity to hold {@code expectedSize}
