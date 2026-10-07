@@ -630,7 +630,9 @@ syntax</a>.</div>
 <div class="block">Creates a <code>HashMap</code> instance, with a high enough "initial capacity" that it <i>should</i>
 hold <code>expectedSize</code> elements without growth. This behavior cannot be broadly guaranteed,
 but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed that the method
-isn't inadvertently <i>oversizing</i> the returned map.</div>
+isn't inadvertently <i>oversizing</i> the returned map.
+
+<p><b>Java 19+ users</b>: prefer <code>HashMap.newHashMap(expectedSize)</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>expectedSize</code> - the number of entries you expect to add to the returned map</dd>
@@ -695,7 +697,9 @@ syntax</a>.</div>
 <div class="block">Creates a <code>LinkedHashMap</code> instance, with a high enough "initial capacity" that it
 <i>should</i> hold <code>expectedSize</code> elements without growth. This behavior cannot be
 broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
-that the method isn't inadvertently <i>oversizing</i> the returned map.</div>
+that the method isn't inadvertently <i>oversizing</i> the returned map.
+
+<p><b>Java 19+ users</b>: prefer <code>LinkedHashMap.newLinkedHashMap(expectedSize)</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>expectedSize</code> - the number of entries you expect to add to the returned map</dd>

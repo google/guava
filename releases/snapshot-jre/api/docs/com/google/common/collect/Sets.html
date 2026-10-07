@@ -548,7 +548,9 @@ instead.
 elements without resizing. Note that this is not what <a href="https://docs.oracle.com/en/java/javase/26/docs/api/java.base/java/util/HashSet.html#%3Cinit%3E(int)" class="external-link"><code>HashSet(int)</code></a> does, but it
 is what most users want and expect it to do.
 
-<p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.</div>
+<p>This behavior can't be broadly guaranteed, but has been tested with OpenJDK 1.7 and 1.8.
+
+<p><b>Java 19+ users</b>: prefer <code>HashSet.newHashSet(expectedSize)</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>expectedSize</code> - the number of elements you expect to add to the returned set</dd>
@@ -656,7 +658,9 @@ syntax</a>.
 <div class="block">Creates a <code>LinkedHashSet</code> instance, with a high enough "initial capacity" that it
 <i>should</i> hold <code>expectedSize</code> elements without growth. This behavior cannot be
 broadly guaranteed, but it is observed to be true for OpenJDK 1.7. It also can't be guaranteed
-that the method isn't inadvertently <i>oversizing</i> the returned set.</div>
+that the method isn't inadvertently <i>oversizing</i> the returned set.
+
+<p><b>Java 19+ users</b>: prefer <code>LinkedHashSet.newLinkedHashSet(expectedSize)</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>expectedSize</code> - the number of elements you expect to add to the returned set</dd>
