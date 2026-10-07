@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2010, 2025, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2010, 2026, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl/
@@ -82,9 +82,11 @@
     --search-input-background-color: #ffffff;
     --search-input-text-color: #000000;
     --search-input-placeholder-color: #757575;
+    --overlay-background: rgba(153, 169, 183, 0.3);
     /* Highlight color for active search tag target */
     --search-tag-background-color: #ffff66;
     --search-tag-text-color: var(--block-text-color);
+    --search-hover-background: #d8d8e0;
     /* Copy button colors and filters */
     --button-border-color: #b0b8c8;
     --button-active-filter: brightness(96%);
@@ -138,8 +140,10 @@
     --search-input-background-color: #303030;
     --search-input-text-color: #d0d0d0;
     --search-input-placeholder-color: #979797;
+    --overlay-background: rgba(0, 0, 0, 0.45);
     --search-tag-background-color: #c6c61e;
     --search-tag-text-color: #282828;
+    --search-hover-background: #484850;
     --button-border-color: #909090;
     --button-active-filter: brightness(96%);
     --button-focus-filter: brightness(104%);
@@ -295,6 +299,7 @@ hr {
     height: 100%;
     max-width: var(--max-content-width);
     margin: var(--content-margin);
+    position: relative;
 }
 .top-nav {
     background-color:var(--navbar-background-color);
@@ -380,7 +385,7 @@ div.sub-nav {
     min-height: var(--sub-nav-height);
 }
 ol.sub-nav-list {
-    flex: 1 1 90%;
+    flex: 1 1 auto;
     line-height: 1.7;
     overflow: auto;
     padding-left:6px;
@@ -410,11 +415,12 @@ ol.sub-nav-list a.current-selection {
     border-radius: 3px;
 }
 .sub-nav .nav-list-search {
-    flex: 1 1 10%;
+    flex: 0 0 auto;
     margin: 4.5px 15px auto 5px;
     padding: 1px 0;
     position:relative;
     white-space: nowrap;
+    width: 342px;
 }
 .top-nav .nav-list a:link, .top-nav .nav-list a:active, .top-nav .nav-list a:visited {
     color:var(--navbar-text-color);
@@ -1064,106 +1070,6 @@ main, nav, header, footer, section {
 /*
  * Styles for javadoc search.
  */
-.ui-menu .ui-state-active {
-    /* Overrides the color of selection used in jQuery UI */
-    background: var(--selected-background-color);
-    color: var(--selected-text-color);
-    /* Workaround for browser bug, see JDK-8275889 */
-    margin: -1px 0;
-    border-top: 1px solid var(--selected-background-color);
-    border-bottom: 1px solid var(--selected-background-color);
-}
-.ui-autocomplete-category {
-    font-weight:bold;
-    font-size:15px;
-    padding:7px 8px;
-    background-color:var(--navbar-background-color);
-    color:var(--navbar-text-color);
-    box-sizing: border-box;
-}
-.ui-autocomplete {
-    max-height:calc(98vh - var(--nav-height));
-    max-width:min(75vw, calc(var(--max-content-width) * 0.748));
-    overflow-y:auto;
-    white-space:nowrap;
-    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-    overscroll-behavior: contain;
-}
-ul.ui-autocomplete {
-    position:fixed;
-    z-index:10;
-    background-color: var(--body-background-color);
-}
-ul.ui-autocomplete li {
-    float:left;
-    clear:both;
-    min-width:100%;
-    box-sizing: border-box;
-}
-ul.ui-autocomplete li.ui-static-link {
-    position:sticky;
-    bottom:0;
-    left:0;
-    background: var(--subnav-background-color);
-    padding: 5px 0;
-    font-family: var(--body-font-family);
-    font-size: 0.93em;
-    font-weight: bold;
-    z-index: 10;
-}
-li.ui-static-link a, li.ui-static-link a:visited {
-    text-decoration:none;
-    color:var(--link-color);
-    float:right;
-    margin-right:20px;
-}
-.ui-autocomplete > li.result-item:nth-child(even) {
-    background-color: var(--even-row-color)
-}
-.ui-autocomplete > li.result-item:nth-child(odd) {
-    background-color: var(--odd-row-color)
-}
-.ui-autocomplete {
-    display: grid;
-    grid-template-columns: auto auto;
-}
-.ui-autocomplete > li,
-.ui-autocomplete > li > a {
-    grid-column: 1 / 3;
-}
-.ui-autocomplete > li.result-item,
-.ui-autocomplete > li.result-item > a {
-    display: grid;
-    grid-template-columns: subgrid;
-}
-.ui-autocomplete > li.result-item {
-    font-family: var(--body-font-family);
-    font-size: var(--body-font-size);
-    line-height: 1.7;
-}
-.ui-autocomplete .search-result-label {
-    padding: 1px 4px;
-    color: var(--block-text-color);
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.ui-autocomplete .search-result-desc {
-    font-size: var(--nav-font-size);
-    padding: 2px 4px;
-    color: var(--block-text-color);
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-.ui-autocomplete .result-highlight {
-    font-weight:bold;
-}
-.ui-menu .ui-state-active .search-result-label,
-.ui-menu .ui-state-active .search-result-desc {
-    color: var(--selected-text-color);
-}
-.ui-menu .ui-menu-item-wrapper {
-    padding: 3px 4px;
-}
 input[type="text"] {
     background-image:var(--glass-svg);
     background-size:13px;
@@ -1183,8 +1089,9 @@ input#page-search-input {
     margin: 10px 0;
 }
 input#search-input {
-    width: 270px;
+    width: 300px;
     margin: 0;
+    position: relative;
 }
 input.filter-input {
     min-width: 40px;
@@ -1204,6 +1111,7 @@ input#reset-search, input.reset-filter, input#page-search-reset {
     min-height:12px;
     font-size:0;
     visibility:hidden;
+    cursor: pointer;
 }
 input#reset-search {
     position:absolute;
@@ -1227,13 +1135,16 @@ input::placeholder {
 input:focus::placeholder {
     color: transparent;
 }
-select#search-modules {
+select {
     margin: 0 10px 10px 2px;
     font-size: var(--nav-font-size);
     padding: 3px 5px;
     border-radius: 4px;
     background: #f0f0f0;
     border: 1px solid #909090;
+}
+select#search-modules {
+    margin: 0 10px 10px 8px;
 }
 kbd {
     background-color: #eeeeee;
@@ -1261,55 +1172,148 @@ section.class-description h1 > span:target {
 details.page-search-details {
     display: inline-block;
 }
-div#result-container {
+div#search-result-container {
     font-size: 1em;
 }
-#result-container .result-highlight {
-    font-weight:bold;
+#search-result-container .result-highlight {
+    font-weight: bold;
 }
-#result-container div.result-table {
+#search-result-container div.result-table {
     display: grid;
     grid-template-columns: minmax(40%, max-content) minmax(40%, auto);
 }
-#result-container div.result-table > div.table-header,
-#result-container div.result-table > a.search-result-link {
+#search-result-container div.result-table > div.table-header,
+#search-result-container div.result-table > a.search-result-link {
     display: grid;
     grid-template-columns: subgrid;
     grid-column: 1 / 3;
     margin: 0;
 }
-#result-container div.result-table > div.table-header > span {
+#search-result-container div.result-table > div.table-header > span {
     padding: 5px 12px;
     font-size: 0.93em;
     background-color: var(--subnav-background-color);
 }
-#result-container div.result-table > a.search-result-link > span {
+#search-result-container a.search-result-link > span {
     padding: 8px 12px;
 }
-#result-container div.result-table > a.search-result-link:nth-child(odd) {
+#search-result-container a.search-result-link:nth-child(odd) {
     background-color: var(--odd-row-color)
 }
-#result-container div.result-table > a.search-result-link:nth-child(even) {
+#search-result-container a.search-result-link:nth-child(even) {
     background-color: var(--even-row-color)
 }
-#result-container div.result-table > a.search-result-link {
+#search-result-container a.search-result-link {
     color: var(--block-text-color);
     white-space: nowrap;
 }
-#result-container div.result-table > a.search-result-link:focus-visible,
-#result-container div.result-table > a.search-result-link.selected {
+#search-result-container a.search-result-link:hover {
+    background-color: var(--search-hover-background);
+}
+#search-result-container a.search-result-link:focus-visible,
+#search-result-container a.search-result-link.selected {
     background-color: var(--selected-background-color);
     color: var(--selected-text-color);
     outline: none;
 }
-#result-container div.result-table > a.search-result-link .search-result-label {
+#search-result-container a.search-result-link .search-result-label {
     overflow: hidden;
     text-overflow: ellipsis;
 }
-#result-container div.result-table > a.search-result-link .search-result-desc {
+#search-result-container a.search-result-link .search-result-desc {
     font-size: var(--nav-font-size);
     overflow: hidden;
     text-overflow: ellipsis;
+}
+div.overlay {
+    position: fixed;
+    left:0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: var(--overlay-background);
+    z-index: 3;
+    backdrop-filter: blur(0.3px);
+}
+div.sub-nav div.search-form {
+    display: grid;
+    grid-template-columns: auto min-content;
+    place-items: start end;
+    padding-top: 5px;
+}
+div.sub-nav div.search-form > div:has(label) {
+    padding: 10px 8px 7px 10px;
+}
+div.sub-nav div.search-form div#search-input-container {
+    position: relative;
+    padding: 1px 0;
+    margin-right: 9px;
+    margin-top: 3.5px;
+}
+div.sub-nav div.search-form > div:has(select) {
+    place-self: start;
+    padding: 0;
+    margin-top: 4px;
+}
+div.sub-nav div.search-form select#search-modules {
+    margin: 2px 0;
+}
+div.sub-nav div#search-result-section {
+    display: none;
+    position: absolute;
+    right: 5px;
+    top: -5px;
+    max-width: min(75vw, calc(var(--max-content-width) * 0.75));
+    z-index: 7;
+    background-color: var(--toc-background-color);
+    color: var(--body-text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.16), 0 3px 9px rgba(0,0,0,0.23);
+}
+div.sub-nav #search-result-container a.search-result-link {
+    display: grid;
+    grid-template-columns: subgrid;
+    grid-column: 1 / 3;
+    padding: 5px;
+}
+div.sub-nav #search-result-container a.search-result-link > span {
+    padding: 4px 8px;
+}
+div.sub-nav div#search-result-section:has(button.active-table-tab) {
+    width: calc(var(--max-content-width) * 0.75);
+}
+div.sub-nav div#search-result-section div.table-tabs {
+    padding-left: 3px;
+}
+div.sub-nav div.search-links {
+    display: grid;
+    grid-template-columns: auto auto;
+    background-color: var(--subnav-background-color);
+    color: var(--subnav-link-color);
+    margin-top: 6px;
+}
+div.sub-nav div.search-links > div {
+    padding: 10px;
+    font-size: var(--nav-font-size);
+}
+div.sub-nav div.search-links > div:first-child {
+    justify-self: start;
+}
+div.sub-nav div.search-links > div:last-child {
+    justify-self: end;
+}
+div.sub-nav div#search-result-container .result-table {
+    max-height: calc(96vh - var(--nav-height) - 110px);
+    overflow-y: scroll;
+    overscroll-behavior: contain;
+    margin-top: 3px;
+}
+div.sub-nav div#search-result-container .result-table:has(div.table-tabs) {
+    max-height: calc(96vh - var(--nav-height) - 74px);
+}
+div.sub-nav div#search-result-container > p {
+    text-align: center;
 }
 .page-search-info {
     background-color: var(--subnav-background-color);
@@ -1646,7 +1650,13 @@ table.striped > tbody > tr > th {
 }
 @media screen and (max-width: 1200px) {
     input#search-input {
-        width: 22.5vw;
+        width: 25vw;
+    }
+    .sub-nav .nav-list-search {
+        width: calc(25vw + 42px);
+    }
+    div.sub-nav select#search-modules {
+        max-width: calc(25vw + 50px);
     }
 }
 @media screen and (max-width: 1000px) {
@@ -1738,26 +1748,20 @@ table.striped > tbody > tr > th {
         transform-origin: 10% 90%;
         width: 26px;
     }
-    .ui-autocomplete {
+    #search-result-container div.result-table {
         display: block;
         grid-template-columns: none;
     }
-    .ui-autocomplete > li,
-    .ui-autocomplete > li > a,
-    .ui-autocomplete > li.result-item,
-    .ui-autocomplete > li.result-item > a {
+    #search-result-container div.result-table > a.search-result-link > span {
         grid-column: unset;
         display: block;
         grid-template-columns: none;
     }
-    .ui-autocomplete > li.result-item {
-        line-height: 1.45;
+    #search-result-container div.result-table > a.search-result-link > span {
+        padding: 3px 8px;
     }
-    .ui-autocomplete .search-result-label {
-        display: block;
-    }
-    .ui-autocomplete .search-result-desc {
-        display: block;
+    #search-result-container div.result-table > a.search-result-link {
+        padding: 3px 5px;
     }
     .top-nav nav.toc .toc-sort-toggle {
         background: transparent;
@@ -1778,6 +1782,12 @@ table.striped > tbody > tr > th {
     body {
         -webkit-text-size-adjust: none;
     }
+    div.sub-nav div#search-result-section {
+        max-width: 97vw;
+    }
+    div.sub-nav div#search-result-section:has(button.active-table-tab) {
+        width: calc(var(--max-content-width) * 0.9);
+    }
 }
 @media screen and (max-width: 600px) {
     .nav-list-search > a {
@@ -1790,7 +1800,13 @@ table.striped > tbody > tr > th {
         white-space: pre-wrap;
     }
     input#search-input {
-        width: 18vw;
+        width: calc(18vw + 30px);
+    }
+    .sub-nav .nav-list-search {
+        width: calc(18vw + 72px);
+    }
+    div.sub-nav select#search-modules {
+        max-width: calc(18vw + 68px);
     }
     .inherited-list h3 {
         overflow: auto clip;

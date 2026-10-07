@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2013, 2025, Oracle and/or its affiliates. All rights reserved.
+ * Copyright (c) 2013, 2026, Oracle and/or its affiliates. All rights reserved.
  * DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS FILE HEADER.
  *
  * Licensed under the Universal Permissive License v 1.0 as shown at https://oss.oracle.com/licenses/upl/
@@ -447,18 +447,12 @@ document.addEventListener("DOMContentLoaded", function(e) {
             e.preventDefault();
         } else if (e.key === "Escape") {
             closeThemePanel();
-            if (expanded) {
+            var filter = getVisibleFilterInput(false);
+            if (e.target === filter) {
+                resetInput(filter, e, true);
+            } else if (expanded) {
                 collapse();
                 e.preventDefault();
-            } else if (e.target.id === "page-search-input") {
-                resetInput(e.target, e, false);
-            } else if (isInput(e.target)) {
-                resetInput(e.target, e, true);
-            } else {
-                var filter = getVisibleFilterInput(false);
-                if (filter && filter.value) {
-                    resetInput(filterInput, e, true);
-                }
             }
         }
     });

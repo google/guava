@@ -50264,7 +50264,7 @@
  }
 
  @throws ArithmeticException if {@code m <= 0}
- @see <a href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-15.html#jls-15.17.3">
+ @see <a href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a>]]>
       </doc>
     </method>
@@ -50796,7 +50796,7 @@
  }
 
  @throws ArithmeticException if {@code m <= 0}
- @see <a href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-15.html#jls-15.17.3">
+ @see <a href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a>]]>
       </doc>
     </method>
@@ -50821,7 +50821,7 @@
  }
 
  @throws ArithmeticException if {@code m <= 0}
- @see <a href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-15.html#jls-15.17.3">
+ @see <a href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-15.html#jls-15.17.3">
      Remainder Operator</a>]]>
       </doc>
     </method>
@@ -65267,7 +65267,7 @@
       <doc>
       <![CDATA[Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
  according to <a
- href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
+ href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-4.html#jls-4.5.1">the rules for
  type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
@@ -65281,7 +65281,7 @@
       <doc>
       <![CDATA[Returns true if this type is a supertype of the given {@code type}. "Supertype" is defined
  according to <a
- href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
+ href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-4.html#jls-4.5.1">the rules for
  type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
@@ -65295,7 +65295,7 @@
       <doc>
       <![CDATA[Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
  according to <a
- href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
+ href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-4.html#jls-4.5.1">the rules for
  type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
@@ -65309,7 +65309,7 @@
       <doc>
       <![CDATA[Returns true if this type is a subtype of the given {@code type}. "Subtype" is defined
  according to <a
- href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-4.html#jls-4.5.1">the rules for
+ href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-4.html#jls-4.5.1">the rules for
  type arguments</a> introduced with Java generics.
 
  @since 19.0]]>
@@ -71957,7 +71957,7 @@
  Futures#addCallback addCallback()}.
 
  <p>Memory consistency effects: Actions in a thread prior to adding a listener <a
- href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-17.html#jls-17.4.5">
+ href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-17.html#jls-17.4.5">
  <i>happen-before</i></a> its execution begins, perhaps in another thread.
 
  <p>Guava implementations of {@code ListenableFuture} promptly release references to listeners
