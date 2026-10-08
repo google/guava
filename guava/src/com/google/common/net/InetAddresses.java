@@ -381,10 +381,9 @@ public final class InetAddresses {
 
   /** Returns a -1 if unable to parse */
   private static int tryParseDecimal(String string, int start, int end) {
-    int decimal = 0;
-    int max = Integer.MAX_VALUE / 10; // for int overflow detection
+    long decimal = 0;
     for (int i = start; i < end; i++) {
-      if (decimal > max) {
+      if (decimal > Integer.MAX_VALUE) {
         return -1;
       }
       decimal *= 10;
@@ -394,7 +393,7 @@ public final class InetAddresses {
       }
       decimal += digit;
     }
-    return decimal;
+    return decimal > Integer.MAX_VALUE ? -1 : (int) decimal;
   }
 
   // Parse a hextet out of the ipString from start (inclusive) to end (exclusive)
