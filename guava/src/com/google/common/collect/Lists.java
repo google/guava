@@ -619,6 +619,12 @@ public final class Lists {
       return fromList.removeIf(element -> filter.test(function.apply(element)));
     }
 
+    @Override
+    @GwtIncompatible // Spliterator
+    public Spliterator<T> spliterator() {
+      return CollectSpliterators.map(fromList.spliterator(), 0, function::apply);
+    }
+
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
   }
 
@@ -702,6 +708,12 @@ public final class Lists {
     @Override
     public int size() {
       return fromList.size();
+    }
+
+    @Override
+    @GwtIncompatible // Spliterator
+    public Spliterator<T> spliterator() {
+      return CollectSpliterators.map(fromList.spliterator(), 0, function::apply);
     }
 
     @GwtIncompatible @J2ktIncompatible private static final long serialVersionUID = 0;
