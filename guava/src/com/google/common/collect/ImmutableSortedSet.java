@@ -832,8 +832,11 @@ public abstract class ImmutableSortedSet<E> extends ImmutableSet.CachingAsList<E
       }
 
       @Override
-      public Comparator<? super E> getComparator() {
-        return comparator;
+      public @Nullable Comparator<? super E> getComparator() {
+        // Per Spliterator.getComparator()'s contract, null signals that the source is sorted in
+        // natural order.  Normalizing natural-ordering singletons to null allows Stream.sorted()
+        // to short-circuit instead of re-sorting already-sorted data.
+        return CollectSpliterators.isNaturalOrder(comparator) ? null : comparator;
       }
     };
   }
