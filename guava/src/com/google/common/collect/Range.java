@@ -518,6 +518,33 @@ public final class Range<C extends Comparable> implements Predicate<C>, Serializ
   }
 
   /**
+   * Returns {@code true} if there is at least one value {@linkplain #contains contained} by both
+   * this range and {@code other}; equivalently, if this range and {@code other} have a nonempty
+   * {@linkplain #intersection intersection}.
+   *
+   * <p>For example:
+   *
+   * <ul>
+   *   <li>{@code [2, 4)} and {@code [5, 7)} do not overlap
+   *   <li>{@code [2, 4)} and {@code [4, 6)} do not overlap: although they are {@linkplain
+   *       #isConnected connected}, the only range enclosed by both is empty
+   *   <li>{@code [2, 4)} and {@code [3, 5)} overlap, because both contain {@code 3}
+   * </ul>
+   *
+   * <p>The overlapping relation is symmetric. It is reflexive except that an {@linkplain #isEmpty
+   * empty} range does not overlap any range, not even itself.
+   *
+   * <p>Note that certain discrete ranges are not considered to overlap even though no elements lie
+   * "between them": for example, {@code [3, 5]} does not overlap {@code [6, 10]}. In such cases it
+   * may be desirable to preprocess both ranges with {@link #canonical(DiscreteDomain)} first.
+   *
+   * @since NEXT
+   */
+  public boolean overlaps(Range<C> other) {
+    return isConnected(other) && !intersection(other).isEmpty();
+  }
+
+  /**
    * Returns the maximal range {@linkplain #encloses enclosed} by both this range and {@code
    * connectedRange}, if such a range exists.
    *
