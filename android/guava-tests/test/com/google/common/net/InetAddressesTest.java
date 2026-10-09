@@ -331,6 +331,16 @@ public class InetAddressesTest extends TestCase {
         () -> InetAddresses.forString("1180::b059:65f4:e877:c40%eth9"));
   }
 
+  public void testIPv6AddressWithScopeIdThatOverflowsInt() {
+    // A numeric scope ID larger than Integer.MAX_VALUE must be rejected, not silently wrapped into
+    // a bogus (negative or truncated) interface index. 2147483648 overflows to a negative value and
+    // 21474836480 wraps to 0 under the old int-based parse.
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forString("fe80::1%2147483648"));
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forString("fe80::1%21474836480"));
+  }
+
   public void testToAddrStringIPv4() {
     // Don't need to test IPv4 much; it just calls getHostAddress().
     assertThat(InetAddresses.toAddrString(InetAddresses.forString("1.2.3.4"))).isEqualTo("1.2.3.4");
