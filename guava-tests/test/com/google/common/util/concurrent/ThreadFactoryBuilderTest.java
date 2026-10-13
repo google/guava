@@ -204,6 +204,11 @@ public class ThreadFactoryBuilderTest extends TestCase {
     assertTrue(completed);
   }
 
+  public void testThreadFactory_backingFactoryReturnsNull() {
+    ThreadFactory factory = builder.setThreadFactory(r -> null).build();
+    assertThrows(NullPointerException.class, () -> factory.newThread(monitoredRunnable));
+  }
+
   public void testNulls() {
     NullPointerTester npTester = new NullPointerTester();
     npTester.testAllPublicConstructors(ThreadFactoryBuilder.class);
