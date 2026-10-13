@@ -131,7 +131,11 @@ public final class FileBackedOutputStream extends OutputStream {
     static final Set<FinalizableReference> references = newConcurrentHashSet();
 
     static void register(FbosByteSource referent) {
-      references.add(new FinalizableReference(referent));
+      try {
+        references.add(new FinalizableReference(referent));
+      } finally {
+        FileBackedOutputStream.reachabilityFence(referent);
+      }
     }
 
     final State state;

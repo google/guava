@@ -67,21 +67,25 @@ import org.jspecify.annotations.Nullable;
  *   public static MyServer create(...) {
  *     MyServer myServer = new MyServer(...);
  *     ServerSocket serverSocket = myServer.serverSocket;
- *     Reference<?> reference = new FinalizablePhantomReference<MyServer>(myServer, frq) {
- *       @Override
- *       public void finalizeReferent() {
- *         references.remove(this):
- *         if (!serverSocket.isClosed()) {
- *           ...log a message about how nobody called close()...
- *           try {
- *             serverSocket.close();
- *           } catch (IOException e) {
- *             ...
+ *     try {
+ *       Reference<?> reference = new FinalizablePhantomReference<MyServer>(myServer, frq) {
+ *         @Override
+ *         public void finalizeReferent() {
+ *           references.remove(this);
+ *           if (!serverSocket.isClosed()) {
+ *             ...log a message about how nobody called close()...
+ *             try {
+ *               serverSocket.close();
+ *             } catch (IOException e) {
+ *               ...
+ *             }
  *           }
  *         }
- *       }
- *     };
- *     references.add(reference);
+ *       };
+ *       references.add(reference);
+ *     } finally {
+ *       Reference.reachabilityFence(myServer);
+ *     }
  *     return myServer;
  *   }
  *

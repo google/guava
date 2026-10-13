@@ -2356,7 +2356,11 @@ public final class ClosingFuture<V extends @Nullable Object> {
     static final Set<FinalizableReference> references = newConcurrentHashSet();
 
     static void register(ClosingFuture<?> future) {
-      references.add(new FinalizableReference(future));
+      try {
+        references.add(new FinalizableReference(future));
+      } finally {
+        ClosingFuture.reachabilityFence(future);
+      }
     }
 
     final State<?> state;

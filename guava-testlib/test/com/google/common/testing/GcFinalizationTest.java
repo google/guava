@@ -16,6 +16,7 @@
 
 package com.google.common.testing;
 
+import static com.google.common.testing.GcFinalization.reachabilityFence;
 import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -23,10 +24,7 @@ import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import com.google.common.util.concurrent.SettableFuture;
-import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.WeakHashMap;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -244,37 +242,5 @@ public class GcFinalizationTest {
             finalizerRan.countDown();
           }
         });
-  }
-
-  // We call the method only after checking that it's present.
-  @IgnoreJRERequirement
-  @SuppressWarnings({
-    "Java8ApiChecker",
-    // This method is a helper, which we call from a `finally` block, as recommended.
-    "ReachabilityFenceUsage",
-  })
-  static void reachabilityFence(@Nullable Object o) {
-    if (IS_REACHABILITY_FENCE_METHOD_USABLE) {
-      Reference.reachabilityFence(o);
-    }
-  }
-
-  private static final boolean IS_REACHABILITY_FENCE_METHOD_USABLE =
-      computeIsReachabilityFenceMethodUsable();
-
-  private static boolean computeIsReachabilityFenceMethodUsable() {
-    try {
-      Method method = Reference.class.getMethod("reachabilityFence", Object.class);
-      method.invoke(null, GcFinalizationTest.class); // to make sure the method is accessible
-      return true;
-    } catch (NoSuchMethodException | IllegalAccessException probablyBeforeJava9OrAndroid28) {
-      /*
-       * It's theoretically possible for Reference.reachabilityFence to exist under older VMs in an
-       * inaccessible form.
-       */
-      return false;
-    } catch (InvocationTargetException e) {
-      throw new AssertionError(e.getCause());
-    }
   }
 }
