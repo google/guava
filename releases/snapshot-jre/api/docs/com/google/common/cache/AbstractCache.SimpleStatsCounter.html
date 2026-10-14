@@ -113,7 +113,14 @@ initTheme();
 <div class="type-signature"><span class="modifiers">public static final class </span><span class="element-name type-name-label">AbstractCache.SimpleStatsCounter</span>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>
 implements <a href="AbstractCache.StatsCounter.html" title="interface in com.google.common.cache">AbstractCache.StatsCounter</a></span></div>
-<div class="block">A thread-safe <a href="AbstractCache.StatsCounter.html" title="interface in com.google.common.cache"><code>AbstractCache.StatsCounter</code></a> implementation for use by <a href="Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> implementors.</div>
+<div class="block">A thread-safe <a href="AbstractCache.StatsCounter.html" title="interface in com.google.common.cache"><code>AbstractCache.StatsCounter</code></a> implementation for use by <a href="Cache.html" title="interface in com.google.common.cache"><code>Cache</code></a> implementors.
+
+<p>Each counter is updated atomically, but the counters are not updated together: For
+performance, this class does not lock, so a <a href="#snapshot()"><code>snapshot()</code></a> taken concurrently with updates
+may reflect only part of an update. For example, it may include the increment of the
+load-success count from a call to <a href="#recordLoadSuccess(long)"><code>recordLoadSuccess(long)</code></a> but not the corresponding load
+time. As a result, values derived from a snapshot, like <a href="CacheStats.html#averageLoadPenalty()"><code>CacheStats.averageLoadPenalty()</code></a>,
+may be briefly inconsistent.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>10.0</dd>
