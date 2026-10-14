@@ -1242,6 +1242,10 @@ public final class MediaType {
   private static String normalizeParameterValue(String attribute, String value) {
     checkNotNull(value); // for GWT
     checkArgument(ascii().matchesAllOf(value), "parameter values must be ASCII: %s", value);
+    checkArgument(
+        javaIsoControl().matchesNoneOf(value),
+        "parameter values must not contain control characters: %s",
+        value);
     return attribute.equals(CHARSET_ATTRIBUTE) ? Ascii.toLowerCase(value) : value;
   }
 
