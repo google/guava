@@ -246,6 +246,13 @@ public class MediaTypeTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> mediaType.withParameters(parameters));
   }
 
+  public void testWithParameters_controlCharacterInParameterValue() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    ImmutableListMultimap<String, String> parameters =
+        ImmutableListMultimap.of("a", "injected\r\nX-Evil: true");
+    assertThrows(IllegalArgumentException.class, () -> mediaType.withParameters(parameters));
+  }
+
   public void testWithParameter() {
     assertEquals(
         MediaType.parse("text/plain; a=1"), MediaType.parse("text/plain").withParameter("a", "1"));
@@ -273,6 +280,15 @@ public class MediaTypeTest extends TestCase {
   public void testWithParameter_nonAsciiParameterValue() {
     MediaType mediaType = MediaType.parse("text/plain");
     assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "…"));
+  }
+
+  public void testWithParameter_controlCharacterInParameterValue() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "cr\r"));
+    assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "lf\n"));
+    assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "nul\0"));
+    // Horizontal tab is the one control character that a quoted-string can contain.
+    assertThat(mediaType.withParameter("a", "a\tb").toString()).isEqualTo("text/plain; a=\"a\tb\"");
   }
 
   public void testWithParameter_emptyParameter() {
@@ -377,6 +393,10 @@ public class MediaTypeTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=1; b"));
     assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=1; b="));
     assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\u2025"));
+    assertThrows(
+        IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"bare\nlinefeed\""));
+    assertThrows(
+        IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"quoted\\\rpair\""));
   }
 
   // https://github.com/google/guava/issues/6663

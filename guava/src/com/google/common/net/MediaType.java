@@ -88,6 +88,15 @@ public final class MediaType {
   private static final CharMatcher QUOTED_TEXT_MATCHER = ascii().and(CharMatcher.noneOf("\"\\\r"));
 
   /*
+   * A parameter value is serialized by toString() as either a token or a quoted-string, and
+   * neither form can represent a control character other than horizontal tab. In particular, a
+   * value containing CR or LF would be written out raw, splitting whatever header the string is
+   * used in.
+   */
+  private static final CharMatcher PARAMETER_VALUE_MATCHER =
+      javaIsoControl().negate().or(CharMatcher.is('\t'));
+
+  /*
    * This matches the same characters as linear-white-space from RFC 822, but we make no effort to
    * enforce any particular rules with regards to line folding as stated in the class docs.
    */
@@ -1242,6 +1251,10 @@ public final class MediaType {
   private static String normalizeParameterValue(String attribute, String value) {
     checkNotNull(value); // for GWT
     checkArgument(ascii().matchesAllOf(value), "parameter values must be ASCII: %s", value);
+    checkArgument(
+        PARAMETER_VALUE_MATCHER.matchesAllOf(value),
+        "parameter values must not contain control characters: %s",
+        value);
     return attribute.equals(CHARSET_ATTRIBUTE) ? Ascii.toLowerCase(value) : value;
   }
 
