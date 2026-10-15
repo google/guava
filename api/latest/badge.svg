@@ -1,0 +1,36 @@
+---
+# Generated from https://javadoc.io/badge2/com.google.guava/guava/javadoc.svg
+---
+{%- assign version = site.latest_release | append: "-jre" -%}
+
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+    width="118" height="20" role="img" aria-label="javadoc: {{ version }}">
+  <title>javadoc: {{ version }}</title>
+  <linearGradient id="s" x2="0" y2="100%">
+    <stop offset="0" stop-color="#bbb" stop-opacity=".1"/>
+    <stop offset="1" stop-opacity=".1"/>
+  </linearGradient>
+  <clipPath id="r">
+    <rect width="118" height="20" rx="3" fill="#fff"/>
+  </clipPath>
+  <g clip-path="url(#r)">
+    <rect width="53" height="20" fill="#555"/>
+    <rect x="53" width="65" height="20" fill="#4c1"/>
+    <rect width="118" height="20" fill="url(#s)"/>
+  </g>
+  <g fill="#fff" text-anchor="middle" font-family="Verdana,Geneva,DejaVu Sans,sans-serif"
+      text-rendering="geometricPrecision" font-size="110">
+    <text aria-hidden="true" x="275" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="430">
+      javadoc
+    </text>
+    <text x="275" y="140" transform="scale(.1)" fill="#fff" textLength="430">
+      javadoc
+    </text>
+    <text aria-hidden="true" x="845" y="150" fill="#010101" fill-opacity=".3" transform="scale(.1)" textLength="550">
+      {{ version }}
+    </text>
+    <text x="845" y="140" transform="scale(.1)" fill="#fff" textLength="550">
+      {{ version }}
+    </text>
+  </g>
+</svg>
