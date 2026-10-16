@@ -144,6 +144,59 @@ public class RateLimiterTest extends TestCase {
         "R0.20");
   }
 
+  public void testCreateWithMaxBurstSeconds_prefillsBucket() {
+    // Bucket starts full: burst of 5*2=10 permits available immediately (no prior sleep).
+    RateLimiter limiter = RateLimiter.create(5.0, 2.0, stopwatch);
+    limiter.acquire(1); // R0.00, from pre-filled bucket
+    limiter.acquire(1); // R0.00, from pre-filled bucket
+    limiter.acquire(3); // R0.00, from pre-filled bucket
+    limiter.acquire(5); // R0.00, drains remaining 5 permits from pre-filled bucket
+    limiter.acquire(); // R0.20, bucket exhausted
+    assertEvents("R0.00", "R0.00", "R0.00", "R0.00", "R0.20");
+  }
+
+  public void testCreateWithMaxBurstSeconds_vsCreateWithoutPrefill() {
+    // create(5.0) starts empty: first acquire is free but burst requires sleeping first.
+    RateLimiter empty = RateLimiter.create(5.0, stopwatch);
+    empty.acquire(5); // R0.00, first acquire always free
+    empty.acquire(1); // R1.00, must wait for 5 permits' debt
+    assertEvents("R0.00", "R1.00");
+
+    // create(5.0, 1.0) starts full: can serve 5-permit burst without any sleep.
+    RateLimiter prefilled = RateLimiter.create(5.0, 1.0, stopwatch);
+    prefilled.acquire(5); // R0.00, consumed from pre-filled bucket
+    prefilled.acquire(1); // R1.00, must wait after draining bucket
+    assertEvents("R0.00", "R1.00");
+  }
+
+  public void testCreateWithMaxBurstSeconds_rateAfterBurstIsStable() {
+    RateLimiter limiter = RateLimiter.create(5.0, 1.0, stopwatch);
+    limiter.acquire(5); // R0.00, drains the pre-filled bucket
+    limiter.acquire(); // R1.00, now at stable rate
+    limiter.acquire(); // R0.20
+    limiter.acquire(); // R0.20
+    assertEvents("R0.00", "R1.00", "R0.20", "R0.20");
+  }
+
+  public void testCreateWithMaxBurstSeconds_accumulatesAfterIdle() {
+    RateLimiter limiter = RateLimiter.create(5.0, 2.0, stopwatch);
+    limiter.acquire(10); // R0.00, drains pre-filled bucket (10 permits)
+    limiter.acquire();   // R2.00, repays 10-permit debt
+    stopwatch.sleepMillis(2000); // idle: accumulates up to 10 permits again
+    limiter.acquire(10); // R0.00, burst from re-accumulated permits
+    limiter.acquire();   // R2.00
+    assertEvents("R0.00", "R2.00", "U2.00", "R0.00", "R2.00");
+  }
+
+  public void testCreateWithMaxBurstSeconds_parameterValidation() {
+    assertThrows(
+        IllegalArgumentException.class, () -> RateLimiter.create(1.0, 0.0, stopwatch));
+    assertThrows(
+        IllegalArgumentException.class, () -> RateLimiter.create(1.0, -1.0, stopwatch));
+    assertThrows(
+        IllegalArgumentException.class, () -> RateLimiter.create(0.0, 1.0, stopwatch));
+  }
+
   public void testCreateWarmupParameterValidation() {
     RateLimiter unused;
     unused = RateLimiter.create(1.0, 1, NANOSECONDS);

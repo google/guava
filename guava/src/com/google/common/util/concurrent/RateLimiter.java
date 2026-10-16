@@ -141,6 +141,37 @@ public abstract class RateLimiter {
   }
 
   /**
+   * Creates a {@code RateLimiter} with the specified stable throughput and a pre-filled burst
+   * capacity. Unlike {@link #create(double)}, the returned {@code RateLimiter} starts with a full
+   * token bucket holding up to {@code maxBurstSeconds} seconds' worth of permits, enabling it to
+   * absorb an initial traffic surge immediately without throttling.
+   *
+   * <p>The returned {@code RateLimiter} ensures that on average no more than {@code
+   * permitsPerSecond} are issued during any given second. When unused, permits accumulate up to a
+   * maximum of {@code maxBurstSeconds * permitsPerSecond}.
+   *
+   * @param permitsPerSecond the rate of the returned {@code RateLimiter}, measured in how many
+   *     permits become available per second
+   * @param maxBurstSeconds the maximum number of seconds' worth of permits that can be saved up;
+   *     the token bucket is pre-filled to this capacity on creation
+   * @throws IllegalArgumentException if {@code permitsPerSecond} is negative or zero, or if
+   *     {@code maxBurstSeconds} is negative or zero
+   */
+  public static RateLimiter create(double permitsPerSecond, double maxBurstSeconds) {
+    return create(permitsPerSecond, maxBurstSeconds, SleepingStopwatch.createFromSystemTimer());
+  }
+
+  @VisibleForTesting
+  static RateLimiter create(
+      double permitsPerSecond, double maxBurstSeconds, SleepingStopwatch stopwatch) {
+    checkArgument(maxBurstSeconds > 0.0, "maxBurstSeconds must be positive");
+    SmoothBursty rateLimiter = new SmoothBursty(stopwatch, maxBurstSeconds);
+    rateLimiter.setRate(permitsPerSecond);
+    rateLimiter.prefillStoredPermits();
+    return rateLimiter;
+  }
+
+  /**
    * Creates a {@code RateLimiter} with the specified stable throughput, given as "permits per
    * second" (commonly referred to as <i>QPS</i>, queries per second), and a <i>warmup period</i>,
    * during which the {@code RateLimiter} smoothly ramps up its rate, until it reaches its maximum
