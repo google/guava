@@ -398,15 +398,20 @@ public final class InetAddresses {
 
   // Parse a hextet out of the ipString from start (inclusive) to end (exclusive)
   private static short parseHextet(String ipString, int start, int end) {
-    // Note: we already verified that this string contains only hex digits.
+    // Note: we already verified that the part of this string before any '%' contains only hex
+    // digits, '.', and ':', but a scope ID can still pull a '.' into a hextet here.
     int length = end - start;
     if (length <= 0 || length > 4) {
       throw new NumberFormatException();
     }
     int hextet = 0;
     for (int i = start; i < end; i++) {
+      int digit = Character.digit(ipString.charAt(i), 16);
+      if (digit < 0) {
+        throw new NumberFormatException();
+      }
       hextet = hextet << 4;
-      hextet |= Character.digit(ipString.charAt(i), 16);
+      hextet |= digit;
     }
     return (short) hextet;
   }
