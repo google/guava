@@ -156,6 +156,10 @@ public final class ThreadFactoryBuilder {
    * Sets the backing {@link ThreadFactory} for new threads created with this ThreadFactory. Threads
    * will be created by invoking #newThread(Runnable) on this backing {@link ThreadFactory}.
    *
+   * <p>Although {@link ThreadFactory#newThread} permits returning {@code null} to reject a request
+   * to create a thread, the backing factory must not do so: If it returns {@code null}, the {@code
+   * newThread} method of the built factory throws {@link NullPointerException}.
+   *
    * @param backingThreadFactory the backing {@link ThreadFactory} which will be delegated to during
    *     thread creation.
    * @return this for the builder pattern
