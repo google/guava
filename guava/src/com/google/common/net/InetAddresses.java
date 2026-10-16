@@ -111,6 +111,9 @@ public final class InetAddresses {
   private static final char IPV6_DELIMITER = ':';
   private static final CharMatcher IPV4_DELIMITER_MATCHER = CharMatcher.is(IPV4_DELIMITER);
   private static final CharMatcher IPV6_DELIMITER_MATCHER = CharMatcher.is(IPV6_DELIMITER);
+  // No interface name or index can contain these, so a scope ID that does is not an IP literal.
+  private static final CharMatcher SCOPE_ID_DISALLOWED_MATCHER =
+      CharMatcher.javaIsoControl().or(CharMatcher.whitespace());
   private static final Inet4Address LOOPBACK4 = (Inet4Address) forString("127.0.0.1");
   private static final Inet4Address ANY4 = (Inet4Address) forString("0.0.0.0");
 
@@ -229,8 +232,12 @@ public final class InetAddresses {
         }
       }
       if (percentIndex != -1) {
+        String scopeId = ipString.substring(percentIndex + 1);
+        if (SCOPE_ID_DISALLOWED_MATCHER.matchesAnyOf(scopeId)) {
+          return null; // The first pass above stops at '%', so the scope ID is checked here.
+        }
         if (scope != null) {
-          scope.scope = ipString.substring(percentIndex + 1);
+          scope.scope = scopeId;
         }
         ipString = ipString.substring(0, percentIndex);
       }
