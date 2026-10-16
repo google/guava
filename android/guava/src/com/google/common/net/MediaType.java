@@ -85,7 +85,11 @@ public final class MediaType {
           .and(CharMatcher.isNot(' '))
           .and(CharMatcher.noneOf("()<>@,;:\\\"/[]?="));
 
-  private static final CharMatcher QUOTED_TEXT_MATCHER = ascii().and(CharMatcher.noneOf("\"\\\r"));
+  private static final CharMatcher PARAMETER_VALUE_MATCHER =
+      ascii().and(javaIsoControl().negate()).or(CharMatcher.is('\t'));
+
+  private static final CharMatcher QUOTED_TEXT_MATCHER =
+      PARAMETER_VALUE_MATCHER.and(CharMatcher.noneOf("\"\\"));
 
   /*
    * This matches the same characters as linear-white-space from RFC 822, but we make no effort to
@@ -1241,7 +1245,10 @@ public final class MediaType {
 
   private static String normalizeParameterValue(String attribute, String value) {
     checkNotNull(value); // for GWT
-    checkArgument(ascii().matchesAllOf(value), "parameter values must be ASCII: %s", value);
+    checkArgument(
+        PARAMETER_VALUE_MATCHER.matchesAllOf(value),
+        "parameter values must contain only ASCII and no control characters: %s",
+        value);
     return attribute.equals(CHARSET_ATTRIBUTE) ? Ascii.toLowerCase(value) : value;
   }
 
@@ -1270,7 +1277,7 @@ public final class MediaType {
           while (tokenizer.previewChar() != '"') {
             if (tokenizer.previewChar() == '\\') {
               tokenizer.consumeCharacter('\\');
-              valueBuilder.append(tokenizer.consumeCharacter(ascii()));
+              valueBuilder.append(tokenizer.consumeCharacter(PARAMETER_VALUE_MATCHER));
             } else {
               valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));
             }
@@ -1406,7 +1413,7 @@ public final class MediaType {
     StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');
     for (int i = 0; i < value.length(); i++) {
       char ch = value.charAt(i);
-      if (ch == '\r' || ch == '\\' || ch == '"') {
+      if (ch == '\\' || ch == '"') {
         escaped.append('\\');
       }
       escaped.append(ch);

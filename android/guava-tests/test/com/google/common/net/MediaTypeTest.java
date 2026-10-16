@@ -275,6 +275,18 @@ public class MediaTypeTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "…"));
   }
 
+  public void testWithParameter_controlCharacterInParameterValue() {
+    MediaType mediaType = MediaType.parse("text/plain");
+    assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "a\r\nb"));
+    assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "a\nb"));
+    assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "a\rb"));
+    assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "a\u0000b"));
+    assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("a", "a\u007fb"));
+    assertThat(mediaType.withParameter("a", "a\tb"))
+        .isEqualTo(MediaType.parse("text/plain; a=\"a\tb\""));
+    assertThat(mediaType.withParameter("a", "a\tb").toString()).isEqualTo("text/plain; a=\"a\tb\"");
+  }
+
   public void testWithParameter_emptyParameter() {
     MediaType mediaType = MediaType.parse("text/plain");
     assertThrows(IllegalArgumentException.class, () -> mediaType.withParameter("", "a"));
@@ -377,6 +389,15 @@ public class MediaTypeTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=1; b"));
     assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=1; b="));
     assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\u2025"));
+    assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"b\r\nc\""));
+    assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"b\nc\""));
+    assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"b\rc\""));
+    assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"b\\\rc\""));
+    assertThrows(IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"b\\\nc\""));
+    assertThrows(
+        IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"b\u0000c\""));
+    assertThrows(
+        IllegalArgumentException.class, () -> MediaType.parse("text/plain; a=\"b\\\u0000c\""));
   }
 
   // https://github.com/google/guava/issues/6663
