@@ -76,7 +76,7 @@ final class ReaderInputStream extends InputStream {
 
   /**
    * Creates a new input stream that will encode the characters from {@code reader} into bytes using
-   * the given character set. Malformed input and unmappable characters will be replaced.
+   * the given character set.
    *
    * @param reader input source
    * @param charset character set used for encoding chars to bytes
@@ -87,9 +87,7 @@ final class ReaderInputStream extends InputStream {
     this(
         reader,
         charset
-            .newEncoder()
-            .onMalformedInput(CodingErrorAction.REPLACE)
-            .onUnmappableCharacter(CodingErrorAction.REPLACE),
+            .newEncoder(),
         bufferSize);
   }
 
