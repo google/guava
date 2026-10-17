@@ -22,6 +22,13 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.cache.TestingCacheLoaders.IncrementingLoader;
 import com.google.common.testing.FakeTicker;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -103,5 +110,69 @@ public class CacheRefreshTest extends TestCase {
     assertThat(cache.getUnchecked(2)).isEqualTo(3);
     assertThat(loader.getLoadCount()).isEqualTo(expectedLoads);
     assertThat(loader.getReloadCount()).isEqualTo(expectedReloads);
+  }
+
+  /**
+   * Tests that a refresh that was started before {@code invalidateAll()} does not clobber an
+   * in-flight load that was started after it, which previously corrupted the segment's count and
+   * left the cache unable to refresh or invalidate the entry ever again.
+   */
+  public void testInvalidateAllDuringRefresh_doesNotCorruptCount() throws Exception {
+    CountDownLatch refreshStarted = new CountDownLatch(1);
+    CountDownLatch releaseRefresh = new CountDownLatch(1);
+    CountDownLatch loadStarted = new CountDownLatch(1);
+    CountDownLatch releaseLoad = new CountDownLatch(1);
+    AtomicInteger loads = new AtomicInteger();
+    CacheLoader<String, String> loader =
+        new CacheLoader<String, String>() {
+          @Override
+          public String load(String key) throws Exception {
+            int n = loads.incrementAndGet();
+            if (n == 2) {
+              loadStarted.countDown();
+              releaseLoad.await();
+            }
+            return "loaded-" + n;
+          }
+
+          @Override
+          public ListenableFuture<String> reload(String key, String oldValue) throws Exception {
+            refreshStarted.countDown();
+            releaseRefresh.await();
+            return Futures.immediateFuture("refreshed");
+          }
+        };
+    LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(loader);
+    ExecutorService executor = Executors.newCachedThreadPool();
+    try {
+      assertThat(cache.getUnchecked("k")).isEqualTo("loaded-1");
+
+      // Start a refresh and leave it in flight, blocked inside reload().
+      Future<?> refresh = executor.submit(() -> cache.refresh("k"));
+      refreshStarted.await();
+
+      // Discard everything, then start a new load of the same key, also left in flight.
+      cache.invalidateAll();
+      Future<String> load = executor.submit(() -> cache.getUnchecked("k"));
+      loadStarted.await();
+
+      // The stale refresh completes while the newer load is still pending. It must not replace the
+      // pending load's reference or alter the entry count.
+      releaseRefresh.countDown();
+      refresh.get();
+      releaseLoad.countDown();
+      assertThat(load.get()).isEqualTo("loaded-2");
+
+      assertThat(cache.size()).isEqualTo(1);
+      assertThat(cache.getIfPresent("k")).isEqualTo("loaded-2");
+
+      // The entry must remain invalidatable, and must be reloaded afterwards.
+      cache.invalidateAll();
+      assertThat(cache.size()).isEqualTo(0);
+      assertThat(cache.getIfPresent("k")).isNull();
+      assertThat(cache.getUnchecked("k")).isEqualTo("loaded-3");
+    } finally {
+      executor.shutdownNow();
+    }
   }
 }
