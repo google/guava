@@ -15,8 +15,12 @@
 package com.google.common.io;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 import static com.google.common.base.Throwables.throwIfUnchecked;
 import static com.google.common.collect.Sets.newConcurrentHashSet;
+import static java.lang.Math.max;
+import static java.lang.Math.min;
+import static java.nio.channels.Channels.newOutputStream;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
@@ -25,19 +29,21 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.FinalizablePhantomReference;
 import com.google.common.base.FinalizableReferenceQueue;
+import com.google.common.io.TempFileCreator.TempFileAndChannel;
+import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.ref.Reference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.Set;
 import org.jspecify.annotations.Nullable;
 
@@ -246,7 +252,7 @@ public final class FileBackedOutputStream extends OutputStream {
     @Nullable MemoryOutput memory;
 
     @GuardedBy("this")
-    @Nullable File file;
+    @Nullable TempFileAndChannel fileAndChannel;
 
     @GuardedBy("this")
     OutputStream out;
@@ -259,36 +265,34 @@ public final class FileBackedOutputStream extends OutputStream {
     }
 
     synchronized @Nullable File getFile() {
-      return file;
+      return fileAndChannel != null ? fileAndChannel.file : null;
     }
 
     synchronized InputStream openInputStream() throws IOException {
-      if (file != null) {
-        return new FileInputStream(file);
+      if (fileAndChannel != null) {
+        return new ChannelInputStream(fileAndChannel.channel);
       } else {
-        // requireNonNull is safe because we always have either `file` or `memory`.
+        // requireNonNull is safe because we always have either `fileAndChannel` or `memory`.
         requireNonNull(memory);
         return new ByteArrayInputStream(memory.getBuffer(), 0, memory.getCount());
       }
     }
 
     synchronized void reset() throws IOException {
-      try {
-        close();
-      } finally {
-        if (memory == null) {
-          memory = new MemoryOutput();
-        } else {
-          memory.reset();
-        }
-        out = memory;
-        if (file != null) {
-          File deleteMe = file;
-          file = null;
-          if (!deleteMe.delete()) {
-            throw new IOException("Could not delete: " + deleteMe);
-          }
-        }
+      /*
+       * We don't need to call this.close(): It does nothing but update `out`, and we handle
+       * updating `out` here.
+       */
+
+      if (memory == null) {
+        memory = new MemoryOutput();
+      } else {
+        memory.reset();
+      }
+      out = memory;
+
+      try (TempFileAndChannel closeMe = fileAndChannel) {
+        fileAndChannel = null;
       }
     }
 
@@ -302,8 +306,22 @@ public final class FileBackedOutputStream extends OutputStream {
       out.write(b, off, len);
     }
 
-    synchronized void close() throws IOException {
-      out.close();
+    synchronized void close() {
+      /*
+       * It would make sense to switch to CLOSED_OUTPUT_STREAM whether we've spilled to a file or
+       * not. But that would be a difference from our initial behavior of allowing writes after
+       * close() in the non-spilled case, thanks to behavior inherited from ByteArrayOutputStream.
+       *
+       * TODO(cpovirk): Maybe change that behavior, which is fragile.
+       */
+      if (fileAndChannel != null) {
+        // Do not close the FileChannel; it must stay open for subsequent reads via asByteSource().
+        out = CLOSED_OUTPUT_STREAM;
+        /*
+         * We don't even need to set a bit that marks the old OutputStream as closed, since we
+         * control all access to that stream (and we have now cut off that access).
+         */
+      }
     }
 
     synchronized void flush() throws IOException {
@@ -317,32 +335,115 @@ public final class FileBackedOutputStream extends OutputStream {
     @GuardedBy("this")
     void update(int len) throws IOException {
       if (memory != null && (memory.getCount() + len > fileThreshold)) {
-        File temp = TempFileCreator.INSTANCE.createTempFile("FileBackedOutputStream");
+        TempFileAndChannel temp = TempFileCreator.INSTANCE.openTempFile("FileBackedOutputStream");
         if (resetWhenGarbageCollected) {
           // References are not guaranteed to be collected on system shutdown; this is insurance.
-          temp.deleteOnExit();
+          temp.file.deleteOnExit();
         }
-        FileOutputStream transfer = null;
         try {
-          transfer = new FileOutputStream(temp);
+          OutputStream transfer = newOutputStream(temp.channel);
           transfer.write(memory.getBuffer(), 0, memory.getCount());
           transfer.flush();
           // We've successfully transferred the data; switch to writing to file.
           out = transfer;
         } catch (IOException e) {
-          if (transfer != null) {
-            try {
-              transfer.close();
-            } catch (IOException closeException) {
-              e.addSuppressed(closeException);
-            }
+          try {
+            temp.close();
+          } catch (IOException closeException) {
+            e.addSuppressed(closeException);
           }
-          temp.delete();
           throw e;
         }
 
-        file = temp;
+        fileAndChannel = temp;
         memory = null;
+      }
+    }
+  }
+
+  private static final OutputStream CLOSED_OUTPUT_STREAM =
+      new OutputStream() {
+        @Override
+        public void write(int b) throws IOException {
+          throw new IOException("Stream closed");
+        }
+
+        @Override
+        public void write(byte[] b, int off, int len) throws IOException {
+          checkPositionIndexes(off, off + len, b.length);
+          throw new IOException("Stream closed");
+        }
+
+        @Override
+        public void flush() throws IOException {
+          throw new IOException("Stream closed");
+        }
+      };
+
+  private static final class ChannelInputStream extends InputStream {
+    final FileChannel channel;
+
+    @GuardedBy("this")
+    long position;
+
+    @GuardedBy("this")
+    boolean closed;
+
+    ChannelInputStream(FileChannel channel) {
+      this.channel = channel;
+    }
+
+    @Override
+    public synchronized int read() throws IOException {
+      byte[] b = new byte[1];
+      return read(b, 0, 1) == 1 ? b[0] & 0xFF : -1;
+    }
+
+    @Override
+    public synchronized int read(byte[] b, int off, int len) throws IOException {
+      ByteBuffer buf = ByteBuffer.wrap(b, off, len);
+      checkOpen();
+      if (len == 0) {
+        return 0;
+      }
+      int read = channel.read(buf, position);
+      if (read > 0) {
+        position += read;
+      }
+      return read;
+    }
+
+    @Override
+    public synchronized long skip(long n) throws IOException {
+      checkOpen();
+      if (n <= 0) {
+        return 0;
+      }
+      long available = channel.size() - position;
+      if (available <= 0) {
+        return 0;
+      }
+      long skipped = min(n, available);
+      position += skipped;
+      return skipped;
+    }
+
+    @Override
+    public synchronized int available() throws IOException {
+      checkOpen();
+      return Ints.saturatedCast(max(0, channel.size() - position));
+    }
+
+    @Override
+    public synchronized void close() {
+      // Do not close the FileChannel; it must stay open for subsequent reads via asByteSource().
+      closed = true;
+    }
+
+    @GuardedBy("this")
+    void checkOpen() throws IOException {
+      if (closed) {
+        throw new IOException("Stream closed");
       }
     }
   }
