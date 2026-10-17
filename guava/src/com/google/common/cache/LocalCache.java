@@ -2348,7 +2348,13 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
           throw new InvalidCacheLoadException("CacheLoader returned null for key " + key + ".");
         }
         statsCounter.recordLoadSuccess(loadingValueReference.elapsedNanos());
-        storeLoadedValue(key, hash, loadingValueReference, value);
+        try {
+          storeLoadedValue(key, hash, loadingValueReference, value);
+        } catch (RuntimeException | Error e) {
+          // For example, the Weigher threw. Don't leave the entry stuck in the loading state.
+          removeLoadingValue(key, hash, loadingValueReference);
+          throw e;
+        }
         return value;
       } finally {
         if (value == null) {
