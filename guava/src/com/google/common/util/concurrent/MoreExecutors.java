@@ -17,6 +17,7 @@ package com.google.common.util.concurrent;
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.newArrayListWithCapacity;
+import static com.google.common.collect.Sets.newConcurrentHashSet;
 import static com.google.common.util.concurrent.Callables.threadRenaming;
 import static com.google.common.util.concurrent.Internal.toNanosSaturated;
 import static com.google.common.util.concurrent.SneakyThrows.sneakyThrow;
@@ -39,6 +40,7 @@ import java.time.Duration;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Delayed;
@@ -480,6 +482,12 @@ public final class MoreExecutors {
    * must be implemented in the delegate's {@code execute} method or by wrapping the returned {@code
    * ListeningScheduledExecutorService}.
    *
+   * <p>When the delegate cancels the underlying task of a future returned by one of the {@code
+   * schedule} methods (as {@link ScheduledThreadPoolExecutor} does for periodic tasks when it is
+   * shut down), the returned executor cancels that future, too. It checks for such cancellations
+   * after {@code shutdown()} and {@code shutdownNow()} and whenever {@code isTerminated()} or
+   * {@code awaitTermination} reports that the delegate has terminated.
+   *
    * <p>If the delegate executor was already an instance of {@code
    * ListeningScheduledExecutorService}, it is returned untouched, and the rest of this
    * documentation does not apply.
@@ -503,7 +511,7 @@ public final class MoreExecutors {
     }
 
     @Override
-    public final boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+    public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
       return delegate.awaitTermination(timeout, unit);
     }
 
@@ -513,17 +521,17 @@ public final class MoreExecutors {
     }
 
     @Override
-    public final boolean isTerminated() {
+    public boolean isTerminated() {
       return delegate.isTerminated();
     }
 
     @Override
-    public final void shutdown() {
+    public void shutdown() {
       delegate.shutdown();
     }
 
     @Override
-    public final List<Runnable> shutdownNow() {
+    public List<Runnable> shutdownNow() {
       return delegate.shutdownNow();
     }
 
@@ -550,6 +558,13 @@ public final class MoreExecutors {
     @SuppressWarnings("hiding")
     final ScheduledExecutorService delegate;
 
+    /*
+     * The tasks we've returned that aren't done yet. The delegate may cancel the ScheduledFuture
+     * behind one of them (most notably when it shuts down) without any way for us to be notified,
+     * so we check for that at the points where it is most likely to have happened.
+     */
+    private final Set<ListenableScheduledTask<?>> pendingTasks = newConcurrentHashSet();
+
     ScheduledListeningDecorator(ScheduledExecutorService delegate) {
       super(delegate);
       this.delegate = checkNotNull(delegate);
@@ -560,7 +575,7 @@ public final class MoreExecutors {
       TrustedListenableFutureTask<@Nullable Void> task =
           TrustedListenableFutureTask.create(command, null);
       ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
-      return new ListenableScheduledTask<@Nullable Void>(task, scheduled);
+      return track(new ListenableScheduledTask<@Nullable Void>(task, scheduled));
     }
 
     @Override
@@ -568,7 +583,7 @@ public final class MoreExecutors {
         Callable<V> callable, long delay, TimeUnit unit) {
       TrustedListenableFutureTask<V> task = TrustedListenableFutureTask.create(callable);
       ScheduledFuture<?> scheduled = delegate.schedule(task, delay, unit);
-      return new ListenableScheduledTask<>(task, scheduled);
+      return track(new ListenableScheduledTask<>(task, scheduled));
     }
 
     @Override
@@ -576,7 +591,7 @@ public final class MoreExecutors {
         Runnable command, long initialDelay, long period, TimeUnit unit) {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
       ScheduledFuture<?> scheduled = delegate.scheduleAtFixedRate(task, initialDelay, period, unit);
-      return new ListenableScheduledTask<@Nullable Void>(task, scheduled);
+      return track(new ListenableScheduledTask<@Nullable Void>(task, scheduled));
     }
 
     @Override
@@ -585,7 +600,60 @@ public final class MoreExecutors {
       NeverSuccessfulListenableFutureTask task = new NeverSuccessfulListenableFutureTask(command);
       ScheduledFuture<?> scheduled =
           delegate.scheduleWithFixedDelay(task, initialDelay, delay, unit);
-      return new ListenableScheduledTask<@Nullable Void>(task, scheduled);
+      return track(new ListenableScheduledTask<@Nullable Void>(task, scheduled));
+    }
+
+    @Override
+    public void shutdown() {
+      super.shutdown();
+      cancelTasksCancelledByDelegate();
+    }
+
+    @Override
+    public List<Runnable> shutdownNow() {
+      List<Runnable> unstarted = super.shutdownNow();
+      cancelTasksCancelledByDelegate();
+      return unstarted;
+    }
+
+    @Override
+    public boolean isTerminated() {
+      boolean terminated = super.isTerminated();
+      if (terminated) {
+        cancelTasksCancelledByDelegate();
+      }
+      return terminated;
+    }
+
+    @Override
+    public boolean awaitTermination(long timeout, TimeUnit unit) throws InterruptedException {
+      boolean terminated = super.awaitTermination(timeout, unit);
+      if (terminated) {
+        cancelTasksCancelledByDelegate();
+      }
+      return terminated;
+    }
+
+    private <V extends @Nullable Object> ListenableScheduledTask<V> track(
+        ListenableScheduledTask<V> task) {
+      // Add before registering the listener so that a task that is already done is removed again.
+      pendingTasks.add(task);
+      task.addListener(() -> pendingTasks.remove(task), directExecutor());
+      return task;
+    }
+
+    /**
+     * Cancels each of our tasks whose {@link ScheduledFuture} the delegate has cancelled, as {@link
+     * ScheduledThreadPoolExecutor} does for periodic tasks (and, depending on its policies, delayed
+     * tasks) when it is shut down. This keeps our futures from waiting forever for runs that will
+     * never happen: https://github.com/google/guava/issues/3553
+     */
+    private void cancelTasksCancelledByDelegate() {
+      for (ListenableScheduledTask<?> task : pendingTasks) {
+        if (task.scheduledDelegate.isCancelled()) {
+          task.cancel(false);
+        }
+      }
     }
 
     private static final class ListenableScheduledTask<V extends @Nullable Object>
@@ -607,10 +675,9 @@ public final class MoreExecutors {
           scheduledDelegate.cancel(mayInterruptIfRunning);
 
           /*
-           * We'd love to also arrange for the inverse -- that is, to also automatically cancel this
-           * future if scheduledDelegate is cancelled (as happens after the delegate executor is
-           * shut down: https://github.com/google/guava/issues/3553). But it seems unlikely that
-           * that's possible to detect in general.
+           * The inverse -- cancelling this future when scheduledDelegate is cancelled -- can't be
+           * detected in general. ScheduledListeningDecorator handles the common case, cancellation
+           * caused by shutting down the delegate executor, in cancelTasksCancelledByDelegate().
            */
         }
         return cancelled;
@@ -655,9 +722,8 @@ public final class MoreExecutors {
            *
            * (Users who try to operate directly on the `ScheduledFuture` may have additional
            * problems. For example, if they cancel that `Future`, it won't cancel the user-visible
-           * `ListenableScheduledTask`. This is essentially the same problem as the
-           * `ListenableScheduledTask` has with executor shutdown:
-           * https://github.com/google/guava/issues/3553)
+           * `ListenableScheduledTask` until `ScheduledListeningDecorator` next checks for
+           * cancellations by the delegate, which it does only around shutdown and termination.)
            */
           throw t;
         }

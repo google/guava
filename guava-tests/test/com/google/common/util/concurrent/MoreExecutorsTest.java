@@ -63,6 +63,7 @@ import java.util.List;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Callable;
+import java.util.concurrent.CancellationException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.ExecutionException;
@@ -389,6 +390,130 @@ public class MoreExecutorsTest extends TestCase {
     assertTrue(future.isCancelled());
     delegateFuture = (ScheduledFuture<?>) delegateQueue.element();
     assertTrue(delegateFuture.isCancelled());
+  }
+
+  @J2ktIncompatible
+  public void testListeningDecorator_shutdownCancelsPeriodicTasks() throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    ListenableFuture<?> fixedRate = service.scheduleAtFixedRate(() -> {}, 5, 5, MINUTES);
+    ListenableFuture<?> fixedDelay = service.scheduleWithFixedDelay(() -> {}, 5, 5, MINUTES);
+
+    service.shutdown();
+
+    assertTrue(fixedRate.isCancelled());
+    assertTrue(fixedDelay.isCancelled());
+    assertListenerRunImmediately(fixedRate);
+    assertListenerRunImmediately(fixedDelay);
+    assertThrows(CancellationException.class, () -> fixedRate.get(10, SECONDS));
+    assertTrue(service.awaitTermination(10, SECONDS));
+  }
+
+  @J2ktIncompatible
+  public void testListeningDecorator_shutdownNowMatchesDelegateForDrainedTasks() throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    ListenableFuture<?> future = service.scheduleAtFixedRate(() -> {}, 5, 5, MINUTES);
+
+    // shutdownNow() hands queued tasks back to the caller without cancelling them.
+    ScheduledFuture<?> drained = (ScheduledFuture<?>) getOnlyElement(service.shutdownNow());
+
+    assertTrue(service.awaitTermination(10, SECONDS));
+    assertFalse(drained.isDone());
+    assertFalse(future.isDone());
+    assertTrue(future.cancel(false));
+    assertTrue(drained.isCancelled());
+  }
+
+  @J2ktIncompatible
+  public void testListeningDecorator_awaitTerminationCancelsTaskRunningDuringShutdown()
+      throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    CountDownLatch running = new CountDownLatch(1);
+    CountDownLatch release = new CountDownLatch(1);
+    ListenableFuture<?> future =
+        service.scheduleAtFixedRate(
+            () -> {
+              running.countDown();
+              Uninterruptibles.awaitUninterruptibly(release);
+            },
+            0,
+            1,
+            MILLISECONDS);
+    running.await();
+
+    service.shutdown();
+    // The run in progress isn't in the delegate's queue, so the delegate cancels it only after the
+    // run completes.
+    assertFalse(future.isDone());
+    release.countDown();
+
+    assertTrue(service.awaitTermination(10, SECONDS));
+    assertTrue(future.isCancelled());
+  }
+
+  @J2ktIncompatible
+  public void testListeningDecorator_isTerminatedCancelsTasksAfterDelegateShutdown()
+      throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    ListenableFuture<?> future = service.scheduleWithFixedDelay(() -> {}, 5, 5, MINUTES);
+
+    delegate.shutdown();
+    assertTrue(delegate.awaitTermination(10, SECONDS));
+    assertFalse(future.isDone());
+
+    assertTrue(service.isTerminated());
+    assertTrue(future.isCancelled());
+  }
+
+  @J2ktIncompatible
+  public void testListeningDecorator_shutdownCancelsDelayedTasksIfDelegatePolicyDoes()
+      throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    delegate.setExecuteExistingDelayedTasksAfterShutdownPolicy(false);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    ListenableFuture<?> runnableFuture = service.schedule(() -> {}, 5, MINUTES);
+    ListenableFuture<Integer> callableFuture =
+        service.schedule(Callables.returning(42), 5, MINUTES);
+
+    service.shutdown();
+
+    assertTrue(runnableFuture.isCancelled());
+    assertTrue(callableFuture.isCancelled());
+    assertTrue(service.awaitTermination(10, SECONDS));
+  }
+
+  @J2ktIncompatible
+  public void testListeningDecorator_shutdownRunsDelayedTasksIfDelegatePolicyDoes()
+      throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    ListenableFuture<Integer> future = service.schedule(Callables.returning(42), 10, MILLISECONDS);
+
+    service.shutdown();
+
+    assertFalse(future.isCancelled());
+    assertThat(future.get(10, SECONDS)).isEqualTo(42);
+    assertTrue(service.awaitTermination(10, SECONDS));
+  }
+
+  @J2ktIncompatible
+  public void testListeningDecorator_shutdownKeepsPeriodicTasksIfDelegatePolicyDoes()
+      throws Exception {
+    ScheduledThreadPoolExecutor delegate = new ScheduledThreadPoolExecutor(1);
+    delegate.setContinueExistingPeriodicTasksAfterShutdownPolicy(true);
+    delegate.setRemoveOnCancelPolicy(true);
+    ListeningScheduledExecutorService service = listeningDecorator(delegate);
+    ListenableFuture<?> future = service.scheduleAtFixedRate(() -> {}, 5, 5, MINUTES);
+
+    service.shutdown();
+
+    assertFalse(future.isDone());
+    assertFalse(service.isTerminated());
+    assertTrue(future.cancel(false));
+    assertTrue(service.awaitTermination(10, SECONDS));
   }
 
   private static final class ThrowingRunnable implements Runnable {
