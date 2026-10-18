@@ -3025,6 +3025,19 @@ public final class Maps {
           }
         };
       }
+
+      // See java.util.Collections.CheckedEntrySet for details on attacks.
+
+      @Override
+      public @Nullable Object[] toArray() {
+        return standardToArray();
+      }
+
+      @Override
+      @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
+      public <T extends @Nullable Object> T[] toArray(T[] array) {
+        return standardToArray(array);
+      }
     }
 
     @Override

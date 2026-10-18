@@ -122,6 +122,22 @@ abstract class AbstractFilteredMapTest extends TestCase {
     assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
   }
 
+  @SuppressWarnings("unchecked") // casting the elements of toArray() back to entries
+  public void testFilteredValuesIllegalSetValueViaToArray() {
+    Map<String, Integer> unfiltered = createUnfiltered();
+    Map<String, Integer> filtered = filterValues(unfiltered, EVEN);
+    filtered.put("a", 2);
+    filtered.put("b", 4);
+
+    Entry<String, Integer> entry = (Entry<String, Integer>) filtered.entrySet().toArray()[0];
+    assertThrows(IllegalArgumentException.class, () -> entry.setValue(5));
+    Entry<String, Integer> typedEntry =
+        (Entry<String, Integer>) filtered.entrySet().toArray(new Entry<?, ?>[0])[0];
+    assertThrows(IllegalArgumentException.class, () -> typedEntry.setValue(5));
+
+    assertEquals(ImmutableMap.of("a", 2, "b", 4), unfiltered);
+  }
+
   public void testFilteredValuesClear() {
     Map<String, Integer> unfiltered = createUnfiltered();
     unfiltered.put("one", 1);
