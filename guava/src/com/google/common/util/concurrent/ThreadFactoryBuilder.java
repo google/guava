@@ -156,6 +156,9 @@ public final class ThreadFactoryBuilder {
    * Sets the backing {@link ThreadFactory} for new threads created with this ThreadFactory. Threads
    * will be created by invoking #newThread(Runnable) on this backing {@link ThreadFactory}.
    *
+   * <p>If the backing {@link ThreadFactory#newThread} returns {@code null} to reject a request to
+   * create a thread, the {@code newThread} method of the built factory also returns {@code null}.
+   *
    * @param backingThreadFactory the backing {@link ThreadFactory} which will be delegated to during
    *     thread creation.
    * @return this for the builder pattern
@@ -193,27 +196,25 @@ public final class ThreadFactoryBuilder {
             ? builder.backingThreadFactory
             : defaultThreadFactory();
     AtomicLong count = (nameFormat != null) ? new AtomicLong(0) : null;
-    return new ThreadFactory() {
-      @Override
-      public Thread newThread(Runnable runnable) {
-        Thread thread = backingThreadFactory.newThread(runnable);
-        // TODO(b/139735208): Figure out what to do when the factory returns null.
-        requireNonNull(thread);
-        if (nameFormat != null) {
-          // requireNonNull is safe because we create `count` if (and only if) we have a nameFormat.
-          thread.setName(format(nameFormat, requireNonNull(count).getAndIncrement()));
-        }
-        if (daemon != null) {
-          thread.setDaemon(daemon);
-        }
-        if (priority != null) {
-          thread.setPriority(priority);
-        }
-        if (uncaughtExceptionHandler != null) {
-          thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
-        }
-        return thread;
+    return runnable -> {
+      Thread thread = backingThreadFactory.newThread(runnable);
+      if (thread == null) {
+        return null;
       }
+      if (nameFormat != null) {
+        // requireNonNull is safe because we create `count` if (and only if) we have a nameFormat.
+        thread.setName(format(nameFormat, requireNonNull(count).getAndIncrement()));
+      }
+      if (daemon != null) {
+        thread.setDaemon(daemon);
+      }
+      if (priority != null) {
+        thread.setPriority(priority);
+      }
+      if (uncaughtExceptionHandler != null) {
+        thread.setUncaughtExceptionHandler(uncaughtExceptionHandler);
+      }
+      return thread;
     };
   }
 
