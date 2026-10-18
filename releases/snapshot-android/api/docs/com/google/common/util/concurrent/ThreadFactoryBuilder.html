@@ -315,7 +315,10 @@ threadBuilder.name("rpc-pool-", 0)</code>.</div>
 <div class="member-signature"><span class="annotations">@CanIgnoreReturnValue
 </span><span class="modifiers">public</span>&nbsp;<span class="return-type"><a href="ThreadFactoryBuilder.html" title="class in com.google.common.util.concurrent">ThreadFactoryBuilder</a></span>&nbsp;<span class="element-name">setThreadFactory</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="interface in java.util.concurrent" class="external-link">ThreadFactory</a>&nbsp;backingThreadFactory)</span></div>
 <div class="block">Sets the backing <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> for new threads created with this ThreadFactory. Threads
-will be created by invoking #newThread(Runnable) on this backing <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a>.</div>
+will be created by invoking #newThread(Runnable) on this backing <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a>.
+
+<p>If the backing <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ThreadFactory.html#newThread(java.lang.Runnable)" class="external-link"><code>ThreadFactory.newThread(Runnable)</code></a> returns <code>null</code> to reject a request to
+create a thread, the <code>newThread</code> method of the built factory also returns <code>null</code>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>backingThreadFactory</code> - the backing <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/ThreadFactory.html" title="interface in java.util.concurrent" class="external-link"><code>ThreadFactory</code></a> which will be delegated to during

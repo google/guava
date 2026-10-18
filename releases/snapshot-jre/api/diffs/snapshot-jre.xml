@@ -75676,6 +75676,9 @@
       <![CDATA[Sets the backing {@link ThreadFactory} for new threads created with this ThreadFactory. Threads
  will be created by invoking #newThread(Runnable) on this backing {@link ThreadFactory}.
 
+ <p>If the backing {@link ThreadFactory#newThread} returns {@code null} to reject a request to
+ create a thread, the {@code newThread} method of the built factory also returns {@code null}.
+
  @param backingThreadFactory the backing {@link ThreadFactory} which will be delegated to during
      thread creation.
  @return this for the builder pattern
