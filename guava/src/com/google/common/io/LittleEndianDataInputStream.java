@@ -78,7 +78,18 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
 
   @Override
   public int skipBytes(int n) throws IOException {
-    return (int) in().skip(n);
+    // Like DataInputStream.skipBytes, treat a negative count as 0 (FileInputStream would otherwise
+    // move backward) and keep skipping until the delegate makes no progress (BufferedInputStream
+    // may skip only what it has buffered).
+    int total = 0;
+    while (total < n) {
+      long skipped = in().skip(n - total);
+      if (skipped <= 0) {
+        break;
+      }
+      total += (int) skipped;
+    }
+    return total;
   }
 
   @CanIgnoreReturnValue // to skip a byte
