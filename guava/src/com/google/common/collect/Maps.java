@@ -3437,11 +3437,27 @@ public final class Maps {
 
     @Override
     public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
+      checkNotNull(function);
+      /*
+       * We check every new value before modifying the backing map: Some BiMap implementations (like
+       * HashBiMap) clear themselves before reinserting, so throwing from inside their replaceAll
+       * would lose entries.
+       */
+      Map<K, V> newValues = new HashMap<>();
+      for (Entry<K, V> entry : unfiltered.entrySet()) {
+        K key = entry.getKey();
+        V value = entry.getValue();
+        if (apply(key, value)) {
+          V newValue = function.apply(key, value);
+          checkArgument(apply(key, newValue));
+          newValues.put(key, newValue);
+        }
+      }
       unfiltered()
           .replaceAll(
               (key, value) ->
-                  predicate.apply(Maps.<K, V>immutableEntry(key, value))
-                      ? function.apply(key, value)
+                  newValues.containsKey(key)
+                      ? uncheckedCastNullableTToT(newValues.get(key))
                       : value);
     }
 

@@ -16,6 +16,9 @@
 
 package com.google.common.collect;
 
+import static com.google.common.collect.Maps.filterValues;
+import static org.junit.Assert.assertThrows;
+
 import com.google.common.annotations.GwtCompatible;
 import org.jspecify.annotations.NullMarked;
 
@@ -25,5 +28,33 @@ public class FilteredBiMapTest extends AbstractFilteredMapTest {
   @Override
   BiMap<String, Integer> createUnfiltered() {
     return HashBiMap.create();
+  }
+
+  public void testFilteredValuesReplaceAll() {
+    BiMap<String, Integer> unfiltered = createUnfiltered();
+    unfiltered.put("a", 2);
+    unfiltered.put("b", 3);
+    unfiltered.put("c", 4);
+    BiMap<String, Integer> filtered = filterValues(unfiltered, value -> value % 2 == 0);
+
+    filtered.replaceAll((key, value) -> value * 10);
+    assertEquals(ImmutableMap.of("a", 20, "b", 3, "c", 40), unfiltered);
+  }
+
+  public void testFilteredValuesIllegalReplaceAll() {
+    BiMap<String, Integer> unfiltered = createUnfiltered();
+    unfiltered.put("a", 2);
+    unfiltered.put("b", 3);
+    unfiltered.put("c", 4);
+    BiMap<String, Integer> filtered = filterValues(unfiltered, value -> value % 2 == 0);
+
+    assertThrows(
+        IllegalArgumentException.class, () -> filtered.replaceAll((key, value) -> value + 11));
+    assertEquals(ImmutableMap.of("a", 2, "b", 3, "c", 4), unfiltered);
+
+    assertThrows(
+        IllegalArgumentException.class,
+        () -> filtered.replaceAll((key, value) -> key.equals("c") ? 5 : value * 10));
+    assertEquals(ImmutableMap.of("a", 2, "b", 3, "c", 4), unfiltered);
   }
 }
