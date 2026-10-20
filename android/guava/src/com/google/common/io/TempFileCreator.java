@@ -76,17 +76,16 @@ abstract class TempFileCreator {
     @Override
     public void close() throws IOException {
       /*
-       * We can't use try-with-resources here: That would perform the delete before the close, and
-       * that's bad under Windows.
-       *
-       * TODO(cpovirk): Maybe still arrange to use suppressed exceptions if both operations throw.
+       * The natural thing to do would be `try (channel) { if (!file.delete()) { throw ...; } }`.
+       * However, that would perform the delete before the close, and that's bad under Windows.
        */
-      try {
+      try (Closeable deleteFile =
+          () -> {
+            if (!file.delete()) {
+              throw new IOException("Could not delete: " + file);
+            }
+          }) {
         channel.close();
-      } finally {
-        if (!file.delete()) {
-          throw new IOException("Could not delete: " + file);
-        }
       }
     }
   }
