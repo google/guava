@@ -649,9 +649,11 @@ public abstract class BaseEncoding {
         int bitBuffer = 0;
         int bitBufferLength = 0;
         int writtenChars = 0;
+        boolean closed = false;
 
         @Override
         public void write(int b) throws IOException {
+          checkOpen();
           bitBuffer <<= 8;
           bitBuffer |= b & 0xFF;
           bitBufferLength += 8;
@@ -665,11 +667,22 @@ public abstract class BaseEncoding {
 
         @Override
         public void flush() throws IOException {
+          checkOpen();
           out.flush();
+        }
+
+        private void checkOpen() throws IOException {
+          if (closed) {
+            throw new IOException("stream closed");
+          }
         }
 
         @Override
         public void close() throws IOException {
+          if (closed) {
+            return;
+          }
+          closed = true;
           if (bitBufferLength > 0) {
             int charIndex = (bitBuffer << (alphabet.bitsPerChar - bitBufferLength)) & alphabet.mask;
             out.write(alphabet.encode(charIndex));
