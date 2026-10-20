@@ -26,6 +26,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.atomic.AtomicInteger;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullMarked;
 import org.jspecify.annotations.Nullable;
@@ -120,6 +121,59 @@ abstract class AbstractFilteredMapTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> entry.setValue(5));
 
     assertEquals(ImmutableMap.of("a", 2, "b", 4), filtered);
+  }
+
+  @SuppressWarnings("unchecked") // casting the elements of toArray() back to entries
+  public void testFilteredValuesIllegalSetValueViaToArray() {
+    Map<String, Integer> unfiltered = createUnfiltered();
+    Map<String, Integer> filtered = filterValues(unfiltered, EVEN);
+    filtered.put("a", 2);
+    filtered.put("b", 4);
+
+    Entry<?, Integer> entry = (Entry<?, Integer>) filtered.entrySet().toArray()[0];
+    assertThrows(IllegalArgumentException.class, () -> entry.setValue(5));
+    Entry<?, Integer> typedEntry =
+        (Entry<?, Integer>) filtered.entrySet().toArray(new Entry<?, ?>[0])[0];
+    assertThrows(IllegalArgumentException.class, () -> typedEntry.setValue(5));
+
+    assertEquals(ImmutableMap.of("a", 2, "b", 4), unfiltered);
+  }
+
+  public void testFilteredValuesToArrayEvaluatesPredicateOnce() {
+    Map<String, Integer> unfiltered = createUnfiltered();
+    unfiltered.put("a", 1);
+    unfiltered.put("b", 2);
+    AtomicInteger evaluations = new AtomicInteger();
+    Map<String, Integer> filtered =
+        filterValues(
+            unfiltered,
+            v -> {
+              evaluations.incrementAndGet();
+              return EVEN.apply(v);
+            });
+
+    assertEquals(1, filtered.entrySet().toArray().length);
+    assertEquals(2, evaluations.get());
+
+    evaluations.set(0);
+    assertEquals(1, filtered.entrySet().toArray(new Entry<?, ?>[0]).length);
+    assertEquals(2, evaluations.get());
+
+    evaluations.set(0);
+    assertEquals(1, filtered.keySet().toArray().length);
+    assertEquals(2, evaluations.get());
+
+    evaluations.set(0);
+    assertEquals(1, filtered.keySet().toArray(new String[0]).length);
+    assertEquals(2, evaluations.get());
+
+    evaluations.set(0);
+    assertEquals(1, filtered.values().toArray().length);
+    assertEquals(2, evaluations.get());
+
+    evaluations.set(0);
+    assertEquals(1, filtered.values().toArray(new Integer[0]).length);
+    assertEquals(2, evaluations.get());
   }
 
   public void testFilteredValuesClear() {
