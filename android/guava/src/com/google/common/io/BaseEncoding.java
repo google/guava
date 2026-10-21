@@ -31,6 +31,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ascii;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.IOException;
 import java.io.InputStream;
@@ -646,13 +647,25 @@ public abstract class BaseEncoding {
     public OutputStream encodingStream(Writer out) {
       checkNotNull(out);
       return new OutputStream() {
+        @GuardedBy("this")
         int bitBuffer = 0;
+
+        @GuardedBy("this")
         int bitBufferLength = 0;
+
+        @GuardedBy("this")
         int writtenChars = 0;
+
+        @GuardedBy("this")
         boolean closed = false;
 
         @Override
-        public void write(int b) throws IOException {
+        public synchronized void write(byte[] b, int off, int len) throws IOException {
+          super.write(b, off, len);
+        }
+
+        @Override
+        public synchronized void write(int b) throws IOException {
           checkOpen();
           bitBuffer <<= 8;
           bitBuffer |= b & 0xFF;
@@ -666,11 +679,12 @@ public abstract class BaseEncoding {
         }
 
         @Override
-        public void flush() throws IOException {
+        public synchronized void flush() throws IOException {
           checkOpen();
           out.flush();
         }
 
+        @GuardedBy("this")
         private void checkOpen() throws IOException {
           if (closed) {
             throw new IOException("stream closed");
@@ -678,7 +692,7 @@ public abstract class BaseEncoding {
         }
 
         @Override
-        public void close() throws IOException {
+        public synchronized void close() throws IOException {
           if (closed) {
             return;
           }
@@ -800,13 +814,20 @@ public abstract class BaseEncoding {
     public InputStream decodingStream(Reader reader) {
       checkNotNull(reader);
       return new InputStream() {
+        @GuardedBy("this")
         int bitBuffer = 0;
+
+        @GuardedBy("this")
         int bitBufferLength = 0;
+
+        @GuardedBy("this")
         long readChars = 0;
+
+        @GuardedBy("this")
         boolean hitPadding = false;
 
         @Override
-        public int read() throws IOException {
+        public synchronized int read() throws IOException {
           while (true) {
             int readChar = reader.read();
             if (readChar == -1) {
@@ -840,7 +861,7 @@ public abstract class BaseEncoding {
         }
 
         @Override
-        public int read(byte[] buf, int off, int len) throws IOException {
+        public synchronized int read(byte[] buf, int off, int len) throws IOException {
           // Overriding this to work around the fact that InputStream's default implementation of
           // this method will silently swallow exceptions thrown by the single-byte read() method
           // (other than on the first call to it), which in this case can cause invalid encoded
@@ -861,7 +882,7 @@ public abstract class BaseEncoding {
         }
 
         @Override
-        public void close() throws IOException {
+        public synchronized void close() throws IOException {
           reader.close();
         }
       };
