@@ -144,7 +144,8 @@ initTheme();
 <div class="col-second odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#isTopLevel()" class="member-name-link">isTopLevel</a>()</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">
 <div class="block">Returns true if the class name "looks to be" top level (not nested), that is, it includes no
-'$' in the name.</div>
+isolated '$' in the name other than at the beginning or end of the simple name (as in
+generated classes like <code>$AutoValue_Foo</code> or <code>$$AutoValue_Foo</code>).</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Class.html" title="class in java.lang" class="external-link">Class</a><wbr>&lt;?&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#load()" class="member-name-link">load</a>()</code></div>
@@ -257,9 +258,11 @@ loaded.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">boolean</span>&nbsp;<span class="element-name">isTopLevel</span>()</div>
 <div class="block">Returns true if the class name "looks to be" top level (not nested), that is, it includes no
-'$' in the name. This method may return false for a top-level class that's intentionally
-named with the '$' character. If this is a concern, you could use <a href="#load()"><code>load()</code></a> and then
-check on the loaded <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Class.html" title="class in java.lang" class="external-link"><code>Class</code></a> object instead.</div>
+isolated '$' in the name other than at the beginning or end of the simple name (as in
+generated classes like <code>$AutoValue_Foo</code> or <code>$$AutoValue_Foo</code>). This method may
+return false for a top-level class that's intentionally named with a '$' character elsewhere.
+If this is a concern, you could use <a href="#load()"><code>load()</code></a> and then check on the loaded <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Class.html" title="class in java.lang" class="external-link"><code>Class</code></a>
+object instead.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>30.1</dd>

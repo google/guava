@@ -11800,7 +11800,8 @@ greater than the element that preceded it, according to this ordering.</div>
 <dt><a href="com/google/common/reflect/ClassPath.ClassInfo.html#isTopLevel()" class="member-name-link">isTopLevel()</a> - Method in class com.google.common.reflect.<a href="com/google/common/reflect/ClassPath.ClassInfo.html" title="class in com.google.common.reflect">ClassPath.ClassInfo</a></dt>
 <dd>
 <div class="block">Returns true if the class name "looks to be" top level (not nested), that is, it includes no
-'$' in the name.</div>
+isolated '$' in the name other than at the beginning or end of the simple name (as in
+generated classes like <code>$AutoValue_Foo</code> or <code>$$AutoValue_Foo</code>).</div>
 </dd>
 <dt><a href="com/google/common/net/InternetDomainName.html#isTopPrivateDomain()" class="member-name-link">isTopPrivateDomain()</a> - Method in class com.google.common.net.<a href="com/google/common/net/InternetDomainName.html" title="class in com.google.common.net">InternetDomainName</a></dt>
 <dd>
