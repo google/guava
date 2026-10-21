@@ -405,11 +405,45 @@ public class ClassPathTest extends TestCase {
     assertThat(new ClassInfo(FILE, "a/b/Bar$Foo.class", classLoader).getSimpleName())
         .isEqualTo("Foo");
     assertThat(new ClassInfo(FILE, "a/b/Bar$1.class", classLoader).getSimpleName()).isEqualTo("");
-    assertThat(new ClassInfo(FILE, "a/b/Bar$Foo.class", classLoader).getSimpleName())
-        .isEqualTo("Foo");
-    assertThat(new ClassInfo(FILE, "a/b/Bar$1.class", classLoader).getSimpleName()).isEqualTo("");
     assertThat(new ClassInfo(FILE, "a/b/Bar$1Local.class", classLoader).getSimpleName())
         .isEqualTo("Local");
+    assertThat(new ClassInfo(FILE, "a/b/$Foo.class", classLoader).getSimpleName())
+        .isEqualTo("$Foo");
+    assertThat(new ClassInfo(FILE, "a/b/$$Foo.class", classLoader).getSimpleName())
+        .isEqualTo("$$Foo");
+    assertThat(new ClassInfo(FILE, "a/b/Foo$.class", classLoader).getSimpleName())
+        .isEqualTo("Foo$");
+    assertThat(new ClassInfo(FILE, "a/b/Foo$$.class", classLoader).getSimpleName())
+        .isEqualTo("Foo$$");
+    assertThat(new ClassInfo(FILE, "a/b/$$Foo$$.class", classLoader).getSimpleName())
+        .isEqualTo("$$Foo$$");
+    assertThat(new ClassInfo(FILE, "a/b/Foo$$Bar.class", classLoader).getSimpleName())
+        .isEqualTo("Foo$$Bar");
+    assertThat(new ClassInfo(FILE, "a/b/Bar$Foo$.class", classLoader).getSimpleName())
+        .isEqualTo("Foo$");
+    assertThat(new ClassInfo(FILE, "a/b/Bar$Foo$$.class", classLoader).getSimpleName())
+        .isEqualTo("Foo$$");
+  }
+
+  public void testIsTopLevel() {
+    ClassLoader classLoader = getClass().getClassLoader();
+    assertThat(new ClassInfo(FILE, "Foo.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/Foo.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/$Foo.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/$$Foo.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/$AutoValue_Foo.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/$$AutoValue_Foo.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/Foo$.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/Foo$$.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/$$Foo$$.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/Foo$$Bar.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/$.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/$$.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/$b/Foo.class", classLoader).isTopLevel()).isTrue();
+    assertThat(new ClassInfo(FILE, "a/b/Bar$Foo.class", classLoader).isTopLevel()).isFalse();
+    assertThat(new ClassInfo(FILE, "a/b/$Bar$Foo.class", classLoader).isTopLevel()).isFalse();
+    assertThat(new ClassInfo(FILE, "a/b/$$Bar$Foo.class", classLoader).isTopLevel()).isFalse();
+    assertThat(new ClassInfo(FILE, "a/b/Bar$1.class", classLoader).isTopLevel()).isFalse();
   }
 
   public void testGetPackageName() {
