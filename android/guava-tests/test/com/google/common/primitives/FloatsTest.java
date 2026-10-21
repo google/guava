@@ -80,6 +80,13 @@ public class FloatsTest extends TestCase {
 
   private static final float[] VALUES = Floats.concat(NUMBERS, new float[] {NaN});
 
+  @GwtIncompatible
+  // We want to test that we've defined the constant with the correct value.
+  @SuppressWarnings("TruthConstantAsserts")
+  public void testMinPositive() {
+    assertThat(Floats.MIN_POSITIVE_VALUE).isEqualTo(Math.nextUp(0.0f));
+  }
+
   // We need to test that our method behaves like the JDK method.
   @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {

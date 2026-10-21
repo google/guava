@@ -85,6 +85,13 @@ public class DoublesTest extends TestCase {
 
   private static final double[] VALUES = Doubles.concat(NUMBERS, new double[] {NaN});
 
+  @GwtIncompatible
+  // We want to test that we've defined the constant with the correct value.
+  @SuppressWarnings("TruthConstantAsserts")
+  public void testMinPositive() {
+    assertThat(Doubles.MIN_POSITIVE_VALUE).isEqualTo(Math.nextUp(0.0));
+  }
+
   // We need to test that our method behaves like the JDK method.
   @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
