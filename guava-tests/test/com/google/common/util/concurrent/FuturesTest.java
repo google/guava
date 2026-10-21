@@ -146,6 +146,39 @@ public class FuturesTest extends TestCase {
     assertThat(future.toString()).contains("[status=SUCCESS, result=[" + DATA1 + "]]");
   }
 
+  public void testImmediateFuture_boolean() throws Exception {
+    ListenableFuture<Boolean> trueFuture = immediateFuture(true);
+    assertThat(trueFuture).isSameInstanceAs(ImmediateFuture.TRUE);
+    assertThat(immediateFuture(Boolean.TRUE)).isSameInstanceAs(ImmediateFuture.TRUE);
+    assertThat(getDone(trueFuture)).isTrue();
+    assertThat(getDoneFromTimeoutOverload(trueFuture)).isTrue();
+    assertThat(trueFuture.toString()).contains("[status=SUCCESS, result=[true]]");
+
+    ListenableFuture<Boolean> falseFuture = immediateFuture(false);
+    assertThat(falseFuture).isSameInstanceAs(ImmediateFuture.FALSE);
+    assertThat(immediateFuture(Boolean.FALSE)).isSameInstanceAs(ImmediateFuture.FALSE);
+    assertThat(getDone(falseFuture)).isFalse();
+    assertThat(getDoneFromTimeoutOverload(falseFuture)).isFalse();
+    assertThat(falseFuture.toString()).contains("[status=SUCCESS, result=[false]]");
+  }
+
+  @J2ktIncompatible
+  @GwtIncompatible
+  @SuppressWarnings({"BoxedPrimitiveConstructor", "removal"})
+  public void testImmediateFuture_newBoolean() throws Exception {
+    Boolean customTrue = new Boolean(true);
+    ListenableFuture<Boolean> trueFuture = immediateFuture(customTrue);
+    assertThat(trueFuture).isNotSameInstanceAs(ImmediateFuture.TRUE);
+    assertThat(getDone(trueFuture)).isSameInstanceAs(customTrue);
+    assertThat(getDone(trueFuture)).isTrue();
+
+    Boolean customFalse = new Boolean(false);
+    ListenableFuture<Boolean> falseFuture = immediateFuture(customFalse);
+    assertThat(falseFuture).isNotSameInstanceAs(ImmediateFuture.FALSE);
+    assertThat(getDone(falseFuture)).isSameInstanceAs(customFalse);
+    assertThat(getDone(falseFuture)).isFalse();
+  }
+
   public void testImmediateVoidFuture() throws Exception {
     ListenableFuture<@Nullable Void> voidFuture = immediateVoidFuture();
 

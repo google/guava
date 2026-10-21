@@ -27,6 +27,8 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 final class ImmediateFuture<V extends @Nullable Object> implements ListenableFuture<V> {
   static final ListenableFuture<?> NULL = new ImmediateFuture<@Nullable Object>(null);
+  static final ListenableFuture<Boolean> TRUE = new ImmediateFuture<>(Boolean.TRUE);
+  static final ListenableFuture<Boolean> FALSE = new ImmediateFuture<>(Boolean.FALSE);
 
   private static final LazyLogger log = new LazyLogger(ImmediateFuture.class);
 

@@ -136,13 +136,19 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
    * getters just return the value. This {@code Future} can't be canceled or timed out and its
    * {@code isDone()} method always returns {@code true}.
    */
+  @SuppressWarnings("unchecked")
   public static <V extends @Nullable Object> ListenableFuture<V> immediateFuture(
       @ParametricNullness V value) {
     if (value == null) {
       // This cast is safe because null is assignable to V for all V (i.e. it is bivariant)
-      @SuppressWarnings("unchecked")
       ListenableFuture<V> typedNull = (ListenableFuture<V>) ImmediateFuture.NULL;
       return typedNull;
+    }
+    if (value == Boolean.TRUE) {
+      return (ListenableFuture<V>) ImmediateFuture.TRUE;
+    }
+    if (value == Boolean.FALSE) {
+      return (ListenableFuture<V>) ImmediateFuture.FALSE;
     }
     return new ImmediateFuture<>(value);
   }
