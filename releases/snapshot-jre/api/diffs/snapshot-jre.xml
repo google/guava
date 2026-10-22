@@ -47016,8 +47016,11 @@
       <![CDATA[Discards {@code n} bytes of data from the input stream. This method will block until the full
  amount has been skipped. Does not close the stream.
 
+ <p><b>Java 12+ users:</b> use {@link InputStream#skipNBytes} instead.
+
  @param in the input stream to read from
- @param n the number of bytes to skip
+ @param n the number of bytes to skip. If {@code n} is zero or negative, then no bytes are
+     skipped.
  @throws EOFException if this stream reaches the end before skipping all the bytes
  @throws IOException if an I/O error occurs, or the stream does not support skipping]]>
       </doc>
