@@ -596,13 +596,27 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   @Override
   public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
     checkNotNull(function);
     Node<K, V> oldFirst = firstInKeyInsertionOrder;
     clear();
+    try {
+      for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
+        put(node.key, function.apply(node.key, node.value));
+      }
+    } catch (Exception e) { // sneaky checked exception
+      restoreFromSavedNodes(oldFirst);
+      throw e;
+    }
+  }
+
+  private void restoreFromSavedNodes(@Nullable Node<K, V> oldFirst) {
+    clear();
     for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
-      put(node.key, function.apply(node.key, node.value));
+      insertSplicingIntoIterationOrder(
+          node, node.prevInKeyInsertionOrder, node.nextInKeyInsertionOrder);
     }
   }
 
@@ -785,13 +799,19 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       obverse.forEach((k, v) -> action.accept(v, k));
     }
 
+    @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
     @Override
     public void replaceAll(BiFunction<? super V, ? super K, ? extends K> function) {
       checkNotNull(function);
       Node<K, V> oldFirst = obverse.firstInKeyInsertionOrder;
       clear();
-      for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
-        put(node.value, function.apply(node.value, node.key));
+      try {
+        for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
+          put(node.value, function.apply(node.value, node.key));
+        }
+      } catch (Exception e) { // sneaky checked exception
+        obverse.restoreFromSavedNodes(oldFirst);
+        throw e;
       }
     }
 
