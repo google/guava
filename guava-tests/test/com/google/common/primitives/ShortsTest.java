@@ -443,6 +443,10 @@ public class ShortsTest extends TestCase {
   public void testRotateIndexed() {
     testRotate(new short[] {}, 0, 0, 0, new short[] {});
 
+    // An empty range inside a longer array is a no-op; it must not divide by zero.
+    testRotate(new short[] {0, 1, 2}, 1, 1, 1, new short[] {0, 1, 2});
+    testRotate(new short[] {0, 1, 2}, -1, 2, 2, new short[] {0, 1, 2});
+
     testRotate(new short[] {1}, 0, 0, 1, new short[] {1});
     testRotate(new short[] {1}, 1, 0, 1, new short[] {1});
     testRotate(new short[] {1}, 1, 1, 1, new short[] {1});

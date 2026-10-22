@@ -413,6 +413,10 @@ public class FloatsTest extends TestCase {
   public void testRotateIndexed() {
     testRotate(new float[] {}, 0, 0, 0, new float[] {});
 
+    // An empty range inside a longer array is a no-op; it must not divide by zero.
+    testRotate(new float[] {0, 1, 2}, 1, 1, 1, new float[] {0, 1, 2});
+    testRotate(new float[] {0, 1, 2}, -1, 2, 2, new float[] {0, 1, 2});
+
     testRotate(new float[] {1}, 0, 0, 1, new float[] {1});
     testRotate(new float[] {1}, 1, 0, 1, new float[] {1});
     testRotate(new float[] {1}, 1, 1, 1, new float[] {1});

@@ -420,6 +420,10 @@ public class IntsTest extends TestCase {
   public void testRotateIndexed() {
     testRotate(new int[] {}, 0, 0, 0, new int[] {});
 
+    // An empty range inside a longer array is a no-op; it must not divide by zero.
+    testRotate(new int[] {0, 1, 2}, 1, 1, 1, new int[] {0, 1, 2});
+    testRotate(new int[] {0, 1, 2}, -1, 2, 2, new int[] {0, 1, 2});
+
     testRotate(new int[] {1}, 0, 0, 1, new int[] {1});
     testRotate(new int[] {1}, 1, 0, 1, new int[] {1});
     testRotate(new int[] {1}, 1, 1, 1, new int[] {1});

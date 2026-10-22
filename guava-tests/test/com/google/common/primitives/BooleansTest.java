@@ -337,6 +337,10 @@ public class BooleansTest extends TestCase {
   public void testRotateIndexed() {
     testRotate(new boolean[] {}, 0, 0, 0, new boolean[] {});
 
+    // An empty range inside a longer array is a no-op; it must not divide by zero.
+    testRotate(new boolean[] {true, false, true}, 1, 1, 1, new boolean[] {true, false, true});
+    testRotate(new boolean[] {true, false, true}, -1, 2, 2, new boolean[] {true, false, true});
+
     testRotate(new boolean[] {true}, 0, 0, 1, new boolean[] {true});
     testRotate(new boolean[] {true}, 1, 0, 1, new boolean[] {true});
     testRotate(new boolean[] {true}, 1, 1, 1, new boolean[] {true});

@@ -413,6 +413,10 @@ public class LongsTest extends TestCase {
   public void testRotateIndexed() {
     testRotate(new long[] {}, 0, 0, 0, new long[] {});
 
+    // An empty range inside a longer array is a no-op; it must not divide by zero.
+    testRotate(new long[] {0, 1, 2}, 1, 1, 1, new long[] {0, 1, 2});
+    testRotate(new long[] {0, 1, 2}, -1, 2, 2, new long[] {0, 1, 2});
+
     testRotate(new long[] {1}, 0, 0, 1, new long[] {1});
     testRotate(new long[] {1}, 1, 0, 1, new long[] {1});
     testRotate(new long[] {1}, 1, 1, 1, new long[] {1});
