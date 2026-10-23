@@ -299,7 +299,8 @@ public class StreamsTest extends TestCase {
         .inOrder();
   }
 
-  private void testMapWithIndex(Function<Collection<String>, Stream<String>> collectionImpl) {
+  private static void testMapWithIndex(
+      Function<Collection<String>, Stream<String>> collectionImpl) {
     SpliteratorTester.of(
             () ->
                 Streams.mapWithIndex(
@@ -339,7 +340,7 @@ public class StreamsTest extends TestCase {
         Stream.<@Nullable Object>of((Object) null).flatMap(unused -> Stream.of("a", "b", "c")));
   }
 
-  private void checkMapWithIndexCloseIsPropagated(Stream<String> source) {
+  private static void checkMapWithIndexCloseIsPropagated(Stream<String> source) {
     AtomicInteger stringsCloseCount = new AtomicInteger();
     Stream<String> strings = source.onClose(stringsCloseCount::incrementAndGet);
     Stream<String> withIndex = Streams.mapWithIndex(strings, (str, i) -> str + ":" + i);
@@ -364,7 +365,7 @@ public class StreamsTest extends TestCase {
         IntStream.of(0).flatMap(unused -> IntStream.of(1, 2, 3)));
   }
 
-  private void checkMapWithIndexIntStreamCloseIsPropagated(IntStream source) {
+  private static void checkMapWithIndexIntStreamCloseIsPropagated(IntStream source) {
     AtomicInteger intStreamCloseCount = new AtomicInteger();
     IntStream intStream = source.onClose(intStreamCloseCount::incrementAndGet);
     Stream<String> withIndex = Streams.mapWithIndex(intStream, (str, i) -> str + ":" + i);
@@ -389,7 +390,7 @@ public class StreamsTest extends TestCase {
         LongStream.of(0).flatMap(unused -> LongStream.of(1, 2, 3)));
   }
 
-  private void checkMapWithIndexLongStreamCloseIsPropagated(LongStream source) {
+  private static void checkMapWithIndexLongStreamCloseIsPropagated(LongStream source) {
     AtomicInteger longStreamCloseCount = new AtomicInteger();
     LongStream longStream = source.onClose(longStreamCloseCount::incrementAndGet);
     Stream<String> withIndex = Streams.mapWithIndex(longStream, (str, i) -> str + ":" + i);
@@ -416,7 +417,7 @@ public class StreamsTest extends TestCase {
         DoubleStream.of(0).flatMap(unused -> DoubleStream.of(1, 2, 3)));
   }
 
-  private void checkMapWithIndexDoubleStreamCloseIsPropagated(DoubleStream source) {
+  private static void checkMapWithIndexDoubleStreamCloseIsPropagated(DoubleStream source) {
     AtomicInteger doubleStreamCloseCount = new AtomicInteger();
     DoubleStream doubleStream = source.onClose(doubleStreamCloseCount::incrementAndGet);
     Stream<String> withIndex = Streams.mapWithIndex(doubleStream, (str, i) -> str + ":" + i);

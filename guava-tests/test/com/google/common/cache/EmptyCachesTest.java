@@ -319,13 +319,13 @@ public class EmptyCachesTest extends TestCase {
   }
 
   /** Most of the tests in this class run against every one of these caches. */
-  private Iterable<LoadingCache<Object, Object>> caches() {
+  private static Iterable<LoadingCache<Object, Object>> caches() {
     // lots of different ways to configure a LoadingCache
     CacheBuilderFactory factory = cacheFactory();
     return transform(factory.buildAllPermutations(), builder -> builder.build(identityLoader()));
   }
 
-  private CacheBuilderFactory cacheFactory() {
+  private static CacheBuilderFactory cacheFactory() {
     return new CacheBuilderFactory()
         .withKeyStrengths(ImmutableSet.of(Strength.STRONG, Strength.WEAK))
         .withValueStrengths(ImmutableSet.copyOf(Strength.values()))
@@ -347,7 +347,7 @@ public class EmptyCachesTest extends TestCase {
     }
   }
 
-  private Entry<Object, Object> entryOf(Object key, Object value) {
+  private static Entry<Object, Object> entryOf(Object key, Object value) {
     return immutableEntry(key, value);
   }
 }

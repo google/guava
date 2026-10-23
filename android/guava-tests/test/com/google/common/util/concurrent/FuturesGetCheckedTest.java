@@ -358,7 +358,7 @@ public class FuturesGetCheckedTest extends TestCase {
    * test that the {@code ClassLoader} can still be GCed. The test amounts to a test that {@code
    * getChecked} holds no strong references to the class.
    */
-  private WeakReference<?> doTestClassUnloading() throws Exception {
+  private static WeakReference<?> doTestClassUnloading() throws Exception {
     URLClassLoader shadowLoader = new URLClassLoader(parseJavaClassPath(), null);
     @SuppressWarnings("unchecked")
     Class<WillBeUnloadedException> shadowClass =

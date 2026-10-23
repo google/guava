@@ -312,14 +312,14 @@ public class PopulatedCachesTest extends TestCase {
   /* ---------------- Local utilities -------------- */
 
   /** Most of the tests in this class run against every one of these caches. */
-  private Iterable<LoadingCache<Object, Object>> caches() {
+  private static Iterable<LoadingCache<Object, Object>> caches() {
     // lots of different ways to configure a LoadingCache
     CacheBuilderFactory factory = cacheFactory();
     return transform(
         factory.buildAllPermutations(), builder -> builder.recordStats().build(identityLoader()));
   }
 
-  private CacheBuilderFactory cacheFactory() {
+  private static CacheBuilderFactory cacheFactory() {
     // This is trickier than expected. We plan to put 15 values in each of these (WARMUP_MIN to
     // WARMUP_MAX), but the tests assume no values get evicted. Even with a maximumSize of 100, one
     // of the values gets evicted. With weak keys, we use identity equality, which means using
@@ -346,7 +346,7 @@ public class PopulatedCachesTest extends TestCase {
                 DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)));
   }
 
-  private List<Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
+  private static List<Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
     return warmUp(cache, WARMUP_MIN, WARMUP_MAX);
   }
 
@@ -354,7 +354,7 @@ public class PopulatedCachesTest extends TestCase {
    * Returns the entries that were added to the map, so they won't fall out of a map with weak or
    * soft references until the caller drops the reference to the returned entries.
    */
-  private List<Entry<Object, Object>> warmUp(
+  private static List<Entry<Object, Object>> warmUp(
       LoadingCache<Object, Object> cache, int minimum, int maximum) {
 
     List<Entry<Object, Object>> entries = new ArrayList<>();
@@ -366,11 +366,11 @@ public class PopulatedCachesTest extends TestCase {
     return entries;
   }
 
-  private Entry<Object, Object> entryOf(Object key, Object value) {
+  private static Entry<Object, Object> entryOf(Object key, Object value) {
     return immutableEntry(key, value);
   }
 
-  private void assertMapSize(Map<?, ?> map, int size) {
+  private static void assertMapSize(Map<?, ?> map, int size) {
     assertThat(map).hasSize(size);
     if (size > 0) {
       assertThat(map.isEmpty()).isFalse();
@@ -383,7 +383,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   @SuppressWarnings("IterablesSizeOfCollection") // we are testing our iterator implementation
-  private void assertCollectionSize(Collection<?> collection, int size) {
+  private static void assertCollectionSize(Collection<?> collection, int size) {
     assertThat(collection.size()).isEqualTo(size);
     if (size > 0) {
       assertThat(collection.isEmpty()).isFalse();

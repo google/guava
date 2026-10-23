@@ -195,17 +195,16 @@ public class MutableTypeToInstanceMapTest extends TestCase {
   }
 
   public void testGetInstance_withTypeVariable() {
-    assertThrows(
-        IllegalArgumentException.class, () -> map.getInstance(this.<Number>anyIterableType()));
+    assertThrows(IllegalArgumentException.class, () -> map.getInstance(anyIterableType()));
   }
 
   public void testPutInstance_withTypeVariable() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> map.putInstance(this.anyIterableType(), ImmutableList.of(1)));
+        () -> map.putInstance(anyIterableType(), ImmutableList.of(1)));
   }
 
-  private <T> TypeToken<Iterable<T>> anyIterableType() {
+  private static <T> TypeToken<Iterable<T>> anyIterableType() {
     return new TypeToken<Iterable<T>>() {};
   }
 }

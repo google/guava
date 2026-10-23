@@ -2832,7 +2832,7 @@ public class LocalCacheTest extends TestCase {
 
   // utility methods
 
-  private void testLoadThrows(
+  private static void testLoadThrows(
       String key, LocalCache<String, String> cache, CacheLoader<String, String> loader)
       throws InterruptedException {
     CountDownLatch doneSignal = new CountDownLatch(1);

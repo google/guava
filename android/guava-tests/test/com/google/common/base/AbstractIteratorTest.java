@@ -166,7 +166,7 @@ public class AbstractIteratorTest extends TestCase {
   }
 
   @GwtIncompatible // weak references
-  private WeakReference<Object> doNextAndGetWeakReference(Iterator<Object> itr) {
+  private static WeakReference<Object> doNextAndGetWeakReference(Iterator<Object> itr) {
     return new WeakReference<>(itr.next());
   }
 

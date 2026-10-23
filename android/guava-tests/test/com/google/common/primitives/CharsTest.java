@@ -83,7 +83,7 @@ public class CharsTest extends TestCase {
     assertThat(Chars.saturatedCast(Long.MIN_VALUE)).isEqualTo(LEAST);
   }
 
-  private void assertCastFails(long value) {
+  private static void assertCastFails(long value) {
     IllegalArgumentException ex =
         assertThrows(IllegalArgumentException.class, () -> Chars.checkedCast(value));
     assertThat(ex).hasMessageThat().contains(String.valueOf(value));

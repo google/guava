@@ -128,7 +128,7 @@ public class ObjectArraysTest extends TestCase {
     doTestToArrayImpl1(Lists.<@Nullable Integer>newArrayList(1, null, 3));
   }
 
-  private void doTestToArrayImpl1(List<Integer> list) {
+  private static void doTestToArrayImpl1(List<Integer> list) {
     Object[] reference = list.toArray();
     Object[] target = ObjectArrays.toArrayImpl(list);
     assertThat(target.getClass()).isEqualTo(reference.getClass());
@@ -148,7 +148,8 @@ public class ObjectArraysTest extends TestCase {
     doTestToArrayImpl2(Lists.<@Nullable Integer>newArrayList(1, null, 3), new Integer[3], true);
   }
 
-  private void doTestToArrayImpl2(List<Integer> list, Integer[] array1, boolean expectModify) {
+  private static void doTestToArrayImpl2(
+      List<Integer> list, Integer[] array1, boolean expectModify) {
     Integer[] starting = Arrays.copyOf(array1, array1.length);
     Integer[] array2 = Arrays.copyOf(array1, array1.length);
     Object[] reference = list.toArray(array1);

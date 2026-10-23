@@ -37,7 +37,7 @@ public class SubMapMultimapAsMapImplementsMapTest extends AbstractMultimapAsMapI
     super(true, true, true);
   }
 
-  private TreeMultimap<String, Integer> createMultimap() {
+  private static TreeMultimap<String, Integer> createMultimap() {
     TreeMultimap<String, Integer> multimap =
         TreeMultimap.create(
             Ordering.<String>natural().nullsFirst(), Ordering.<Integer>natural().nullsFirst());

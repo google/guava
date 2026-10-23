@@ -1196,7 +1196,7 @@ public class AbstractFutureTest extends TestCase {
         "Expected element " + clazz + "." + method + " not found in stack trace", e);
   }
 
-  private ExecutionException getExpectingExecutionException(AbstractFuture<String> future)
+  private static ExecutionException getExpectingExecutionException(AbstractFuture<String> future)
       throws InterruptedException {
     try {
       String got = future.get();

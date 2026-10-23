@@ -47,13 +47,13 @@ public class CacheReferencesTest extends TestCase {
         }
       };
 
-  private CacheBuilderFactory factoryWithAllKeyStrengths() {
+  private static CacheBuilderFactory factoryWithAllKeyStrengths() {
     return new CacheBuilderFactory()
         .withKeyStrengths(ImmutableSet.of(STRONG, Strength.WEAK))
         .withValueStrengths(ImmutableSet.of(STRONG, Strength.WEAK, Strength.SOFT));
   }
 
-  private Iterable<LoadingCache<Key, String>> caches() {
+  private static Iterable<LoadingCache<Key, String>> caches() {
     CacheBuilderFactory factory = factoryWithAllKeyStrengths();
     return transform(
         factory.buildAllPermutations(), builder -> builder.build(KEY_TO_STRING_LOADER));

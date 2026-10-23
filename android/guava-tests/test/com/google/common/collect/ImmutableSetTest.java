@@ -307,7 +307,7 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
   }
 
   @GwtIncompatible // RegularImmutableSet.table not in emulation
-  private void verifyTableSize(int inputSize, int setSize, int tableSize) {
+  private static void verifyTableSize(int inputSize, int setSize, int tableSize) {
     Builder<Integer> builder = ImmutableSet.builder();
     for (int i = 0; i < inputSize; i++) {
       builder.add(i % setSize);

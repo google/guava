@@ -102,7 +102,7 @@ public class GcFinalizationTest {
     assertThat(ref.get()).isNull();
   }
 
-  private WeakReference<Object> createWeakReference() {
+  private static WeakReference<Object> createWeakReference() {
     return new WeakReference<>(new Object());
   }
 
@@ -233,7 +233,8 @@ public class GcFinalizationTest {
     assertThat(ref.get()).isNull();
   }
 
-  private WeakReference<Object> createWeakReferenceWithFinalizer(CountDownLatch finalizerRan) {
+  private static WeakReference<Object> createWeakReferenceWithFinalizer(
+      CountDownLatch finalizerRan) {
     return new WeakReference<>(
         new Object() {
           @SuppressWarnings({"removal", "Finalize"}) // b/487687332

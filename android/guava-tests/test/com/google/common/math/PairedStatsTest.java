@@ -253,7 +253,7 @@ public class PairedStatsTest extends TestCase {
                 + "}");
   }
 
-  private PairedStats createSingleStats(double x, double y) {
+  private static PairedStats createSingleStats(double x, double y) {
     return createPairedStatsOf(ImmutableList.of(x), ImmutableList.of(y));
   }
 

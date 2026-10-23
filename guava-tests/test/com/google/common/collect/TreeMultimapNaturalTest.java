@@ -274,7 +274,7 @@ public class TreeMultimapNaturalTest extends TestCase {
   }
 
   /** Create and populate a {@code TreeMultimap} with the natural ordering of keys and values. */
-  private TreeMultimap<String, Integer> createPopulate() {
+  private static TreeMultimap<String, Integer> createPopulate() {
     TreeMultimap<String, Integer> multimap = TreeMultimap.create();
     multimap.put("google", 2);
     multimap.put("google", 6);

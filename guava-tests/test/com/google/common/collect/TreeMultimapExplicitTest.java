@@ -69,12 +69,12 @@ public class TreeMultimapExplicitTest extends TestCase {
   private static final Comparator<@Nullable Integer> DECREASING_INT_COMPARATOR =
       Ordering.<Integer>natural().reverse().nullsFirst();
 
-  private SetMultimap<String, Integer> create() {
+  private static SetMultimap<String, Integer> create() {
     return TreeMultimap.create(StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
   }
 
   /** Create and populate a {@code TreeMultimap} with explicit comparators. */
-  private TreeMultimap<@Nullable String, @Nullable Integer> createPopulate() {
+  private static TreeMultimap<@Nullable String, @Nullable Integer> createPopulate() {
     TreeMultimap<@Nullable String, @Nullable Integer> multimap =
         TreeMultimap.create(StringLength.COMPARATOR, DECREASING_INT_COMPARATOR);
     multimap.put("google", 2);

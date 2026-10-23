@@ -162,15 +162,15 @@ public final class PublicSuffixTrie {
     return ((metadata >> EXCLUSION_SHIFT) & EXCLUSION_MASK) != 0;
   }
 
-  private @Nullable PublicSuffixType getExactMatchType(int metadata) {
+  private static @Nullable PublicSuffixType getExactMatchType(int metadata) {
     return getType((metadata >> EXACT_SHIFT) & TYPE_MASK);
   }
 
-  private @Nullable PublicSuffixType getWildcardMatchType(int metadata) {
+  private static @Nullable PublicSuffixType getWildcardMatchType(int metadata) {
     return getType((metadata >> WILDCARD_SHIFT) & TYPE_MASK);
   }
 
-  private @Nullable PublicSuffixType getType(int typeBits) {
+  private static @Nullable PublicSuffixType getType(int typeBits) {
     if (typeBits == 1) {
       return PublicSuffixType.REGISTRY;
     } else if (typeBits == 2) {

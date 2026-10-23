@@ -101,7 +101,7 @@ public class FauxveridesTest extends TestCase {
     assertThrows(ClassCastException.class, () -> ImmutableSortedSet.copyOf(original.iterator()));
   }
 
-  private void doHasAllFauxveridesTest(Class<?> descendant, Class<?> ancestor) {
+  private static void doHasAllFauxveridesTest(Class<?> descendant, Class<?> ancestor) {
     Set<MethodSignature> required = getAllRequiredToFauxveride(ancestor);
     Set<MethodSignature> found = getAllFauxveridden(descendant, ancestor);
     Set<MethodSignature> missing = ImmutableSortedSet.copyOf(difference(required, found));

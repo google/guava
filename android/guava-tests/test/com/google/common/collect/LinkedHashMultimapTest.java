@@ -110,7 +110,7 @@ public class LinkedHashMultimapTest extends TestCase {
     }
   }
 
-  private SetMultimap<String, Integer> initializeMultimap5() {
+  private static SetMultimap<String, Integer> initializeMultimap5() {
     SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
     multimap.put("foo", 5);
     multimap.put("bar", 4);
@@ -171,7 +171,7 @@ public class LinkedHashMultimapTest extends TestCase {
     // note that the keys and entries are in different orders
   }
 
-  private void assertOrderingReadOnly(Multimap<String, Integer> multimap) {
+  private static void assertOrderingReadOnly(Multimap<String, Integer> multimap) {
     assertThat(multimap.get("foo")).containsExactly(5, 3).inOrder();
     assertThat(multimap.get("bar")).containsExactly(4, 1).inOrder();
     assertThat(multimap.get("cow")).contains(2);

@@ -257,7 +257,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     }
   }
 
-  private RangeSet<Integer> expectedSubRangeSet(
+  private static RangeSet<Integer> expectedSubRangeSet(
       RangeSet<Integer> rangeSet, Range<Integer> subRange) {
     RangeSet<Integer> expected = TreeRangeSet.create();
     for (Range<Integer> range : rangeSet.asRanges()) {
@@ -268,7 +268,7 @@ public class TreeRangeSetTest extends AbstractRangeSetTest {
     return expected;
   }
 
-  private RangeSet<Integer> expectedComplement(RangeSet<Integer> rangeSet) {
+  private static RangeSet<Integer> expectedComplement(RangeSet<Integer> rangeSet) {
     RangeSet<Integer> expected = TreeRangeSet.create();
     expected.add(Range.all());
     expected.removeAll(rangeSet);

@@ -212,7 +212,7 @@ public class LongMathTest extends TestCase {
 
   // Throws an ArithmeticException if "the simple implementation" of binomial coefficients overflows
   @GwtIncompatible // TODO
-  private long simpleBinomial(int n, int k) {
+  private static long simpleBinomial(int n, int k) {
     long accum = 1;
     for (long i = 0; i < k; i++) {
       accum = multiplyExact(accum, n - i);
@@ -642,7 +642,7 @@ public class LongMathTest extends TestCase {
     }
   }
 
-  private void assertOperationEquals(long a, long b, String op, long expected, long actual) {
+  private static void assertOperationEquals(long a, long b, String op, long expected, long actual) {
     if (expected != actual) {
       fail("Expected for " + a + " " + op + " " + b + " = " + expected + ", but got " + actual);
     }

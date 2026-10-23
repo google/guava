@@ -861,7 +861,7 @@ public class FuturesTest extends TestCase {
     runExpectedExceptionCatchingAsyncTest(expectedException, true);
   }
 
-  private void runExpectedExceptionCatchingAsyncTest(
+  private static void runExpectedExceptionCatchingAsyncTest(
       Exception expectedException, boolean wrapInFuture) {
     AsyncFunctionSpy<Throwable, Integer> fallback =
         spy(
@@ -1090,7 +1090,7 @@ public class FuturesTest extends TestCase {
    * or testCatching_fallbackReturnsCheckedException().
    */
 
-  private void runExpectedExceptionCatchingTest(RuntimeException expectedException) {
+  private static void runExpectedExceptionCatchingTest(RuntimeException expectedException) {
     FunctionSpy<Throwable, Integer> fallback =
         spy(
             (Function<Throwable, Integer>)
@@ -1394,11 +1394,11 @@ public class FuturesTest extends TestCase {
     assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
   }
 
-  private <X extends Throwable> Function<X, Integer> functionReturningOne() {
+  private static <X extends Throwable> Function<X, Integer> functionReturningOne() {
     return unused -> 1;
   }
 
-  private <X extends Throwable> AsyncFunction<X, Integer> asyncFunctionReturningOne() {
+  private static <X extends Throwable> AsyncFunction<X, Integer> asyncFunctionReturningOne() {
     return unused -> immediateFuture(1);
   }
 

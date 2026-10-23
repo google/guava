@@ -515,7 +515,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     assertEquals(0, (int) mmHeap.peekLast());
   }
 
-  private <T extends Comparable<T>> void runIterator(List<T> values, int steps) {
+  private static <T extends Comparable<T>> void runIterator(List<T> values, int steps) {
     IteratorTester<T> tester =
         new IteratorTester<T>(
             steps,
@@ -834,7 +834,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
   }
 
   /** Returns the seed used for the randomization. */
-  private long insertRandomly(ArrayList<Integer> elements, MinMaxPriorityQueue<Integer> q) {
+  private static long insertRandomly(ArrayList<Integer> elements, MinMaxPriorityQueue<Integer> q) {
     long seed = new Random().nextLong();
     Random random = new Random(seed);
     insertRandomly(elements, q, random);
@@ -849,7 +849,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
     }
   }
 
-  private ArrayList<Integer> createOrderedList(int size) {
+  private static ArrayList<Integer> createOrderedList(int size) {
     ArrayList<Integer> elements = new ArrayList<>(size);
     for (int i = 0; i < size; i++) {
       elements.add(i);

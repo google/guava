@@ -57,7 +57,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     testThreshold(1000, 100, false, false);
   }
 
-  private void testThreshold(
+  private static void testThreshold(
       int fileThreshold, int dataSize, boolean singleByte, boolean resetWhenGarbageCollected)
       throws IOException {
     byte[] data = newPreFilledByteArray(dataSize);
@@ -250,7 +250,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     assertThat(file.exists()).isFalse();
   }
 
-  private FileAndWeakByteSource leakFileBackedOutputStream() throws IOException {
+  private static FileAndWeakByteSource leakFileBackedOutputStream() throws IOException {
     FileBackedOutputStream out =
         new FileBackedOutputStream(0, /* resetWhenGarbageCollected= */ true);
     out.write(new byte[10]);

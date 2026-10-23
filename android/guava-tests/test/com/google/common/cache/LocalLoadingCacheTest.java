@@ -50,7 +50,7 @@ public class LocalLoadingCacheTest extends TestCase {
     return new LocalLoadingCache<>(builder, loader);
   }
 
-  private CacheBuilder<Object, Object> createCacheBuilder() {
+  private static CacheBuilder<Object, Object> createCacheBuilder() {
     return CacheBuilder.newBuilder().recordStats();
   }
 

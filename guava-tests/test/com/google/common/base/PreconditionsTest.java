@@ -354,7 +354,7 @@ public class PreconditionsTest extends TestCase {
    * Asserts that the given throwable has the given class and then asserts on the message as using
    * the full set of method parameters.
    */
-  private void assertFailureCause(
+  private static void assertFailureCause(
       Throwable throwable, Class<? extends Throwable> clazz, Object[] params) {
     assertThat(throwable).isInstanceOf(clazz);
     if (params.length == 1) {
@@ -377,7 +377,7 @@ public class PreconditionsTest extends TestCase {
    */
   @GwtIncompatible // ArbitraryInstances
   @J2ktIncompatible
-  private Object[] getParametersForSignature(
+  private static Object[] getParametersForSignature(
       @Nullable Object firstParam, ImmutableList<Class<?>> sig) {
     Object[] params = new Object[sig.size()];
     params[0] = firstParam;

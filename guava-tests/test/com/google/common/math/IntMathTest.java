@@ -577,7 +577,7 @@ public class IntMathTest extends TestCase {
     return big.intValue();
   }
 
-  private void assertOperationEquals(int a, int b, String op, int expected, int actual) {
+  private static void assertOperationEquals(int a, int b, String op, int expected, int actual) {
     if (expected != actual) {
       fail("Expected for " + a + " " + op + " " + b + " = " + expected + ", but got " + actual);
     }

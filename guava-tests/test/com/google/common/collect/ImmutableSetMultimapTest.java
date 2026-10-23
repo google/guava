@@ -684,7 +684,7 @@ public class ImmutableSetMultimapTest extends TestCase {
         Ordering.usingToString(), ((ImmutableSortedSet<Integer>) multimap.get("z")).comparator());
   }
 
-  private ImmutableSetMultimap<String, Integer> createMultimap() {
+  private static ImmutableSetMultimap<String, Integer> createMultimap() {
     return ImmutableSetMultimap.<String, Integer>builder()
         .put("foo", 1)
         .put("bar", 2)

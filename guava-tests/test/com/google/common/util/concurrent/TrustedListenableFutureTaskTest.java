@@ -180,7 +180,7 @@ public class TrustedListenableFutureTaskTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // used only in GwtIncompatible tests
-  private void awaitUnchecked(CyclicBarrier barrier) {
+  private static void awaitUnchecked(CyclicBarrier barrier) {
     try {
       barrier.await();
     } catch (Exception e) {

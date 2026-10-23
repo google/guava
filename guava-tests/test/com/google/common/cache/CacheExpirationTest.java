@@ -80,7 +80,7 @@ public class CacheExpirationTest extends TestCase {
     checkExpiration(cache, loader, ticker, removalListener);
   }
 
-  private void checkExpiration(
+  private static void checkExpiration(
       LoadingCache<String, Integer> cache,
       WatchedCreatorLoader loader,
       FakeTicker ticker,
@@ -138,7 +138,7 @@ public class CacheExpirationTest extends TestCase {
     runExpirationTest(cache, loader, ticker, removalListener);
   }
 
-  private void runExpirationTest(
+  private static void runExpirationTest(
       LoadingCache<String, Integer> cache,
       WatchedCreatorLoader loader,
       FakeTicker ticker,
@@ -443,7 +443,7 @@ public class CacheExpirationTest extends TestCase {
     assertThat(listener.poll().getCause()).isEqualTo(RemovalCause.EXPIRED);
   }
 
-  private void runRemovalScheduler(
+  private static void runRemovalScheduler(
       LoadingCache<String, Integer> cache,
       CountingRemovalListener<String, Integer> removalListener,
       WatchedCreatorLoader loader,

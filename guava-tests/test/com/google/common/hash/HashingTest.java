@@ -201,7 +201,7 @@ public class HashingTest extends TestCase {
   }
 
   @J2ktIncompatible
-  private void checkConsistentHashCorrectness(long hashCode) {
+  private static void checkConsistentHashCorrectness(long hashCode) {
     int last = 0;
     for (int shards = 1; shards <= 100000; shards++) {
       int b = Hashing.consistentHash(hashCode, shards);
@@ -226,7 +226,7 @@ public class HashingTest extends TestCase {
   }
 
   @J2ktIncompatible
-  private void countRemaps(long h, AtomicLongMap<Integer> map) {
+  private static void countRemaps(long h, AtomicLongMap<Integer> map) {
     int last = 0;
     for (int shards = 2; shards <= MAX_SHARDS; shards++) {
       int chosen = Hashing.consistentHash(h, shards);

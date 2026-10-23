@@ -755,7 +755,7 @@ public class TreeRangeMapTest extends TestCase {
         .testEquals();
   }
 
-  private void verify(Map<Integer, Integer> model, RangeMap<Integer, Integer> test) {
+  private static void verify(Map<Integer, Integer> model, RangeMap<Integer, Integer> test) {
     for (int i = MIN_BOUND - 1; i <= MAX_BOUND + 1; i++) {
       assertEquals(model.get(i), test.get(i));
 

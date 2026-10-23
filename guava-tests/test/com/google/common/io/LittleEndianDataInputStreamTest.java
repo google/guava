@@ -51,7 +51,7 @@ public class LittleEndianDataInputStreamTest extends TestCase {
     data = baos.toByteArray();
   }
 
-  private void initializeData(DataOutputStream out) throws IOException {
+  private static void initializeData(DataOutputStream out) throws IOException {
     /* Write out various test values NORMALLY */
     out.write(new byte[] {-100, 100});
     out.writeBoolean(true);
