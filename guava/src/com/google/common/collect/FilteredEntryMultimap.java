@@ -16,11 +16,13 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Predicates.in;
 import static com.google.common.base.Predicates.not;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.Collections2.filter;
+import static com.google.common.collect.Lists.newArrayList;
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.collect.Maps.keyPredicateOnEntries;
 import static com.google.common.collect.Maps.valuePredicateOnEntries;
@@ -130,7 +132,49 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
 
   @Override
   public Collection<Entry<K, V>> entries() {
-    return filterCollection(unfiltered.entries(), predicate);
+    return new Entries();
+  }
+
+  private final class Entries extends ForwardingCollection<Entry<K, V>> {
+    @Override
+    protected Collection<Entry<K, V>> delegate() {
+      return filterCollection(unfiltered.entries(), predicate);
+    }
+
+    @Override
+    public Iterator<Entry<K, V>> iterator() {
+      return new TransformedIterator<Entry<K, V>, Entry<K, V>>(delegate().iterator()) {
+        @Override
+        Entry<K, V> transform(Entry<K, V> entry) {
+          return new ForwardingMapEntry<K, V>() {
+            @Override
+            protected Entry<K, V> delegate() {
+              return entry;
+            }
+
+            @Override
+            @ParametricNullness
+            public V setValue(@ParametricNullness V newValue) {
+              checkArgument(satisfies(getKey(), newValue));
+              return super.setValue(newValue);
+            }
+          };
+        }
+      };
+    }
+
+    // See java.util.Collections.CheckedEntrySet for details on attacks.
+
+    @Override
+    public @Nullable Object[] toArray() {
+      return newArrayList(iterator()).toArray();
+    }
+
+    @Override
+    @SuppressWarnings("nullness") // b/192354773 in our checker affects toArray declarations
+    public <T extends @Nullable Object> T[] toArray(T[] array) {
+      return newArrayList(iterator()).toArray(array);
+    }
   }
 
   @Override
