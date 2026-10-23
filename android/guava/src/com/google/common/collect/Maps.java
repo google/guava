@@ -3349,6 +3349,9 @@ public final class Maps {
    * particular subtype of {@code K}, but promise that it's a {@code Comparator<? super K>}, which
    * must work on any type of {@code K}.
    *
+   * <p>Except for Android users prior to API Level 26, prefer {@link
+   * Collections#unmodifiableNavigableMap} over this method.
+   *
    * @param map the navigable map for which an unmodifiable view is to be returned
    * @return an unmodifiable view of the specified navigable map
    * @since 12.0
@@ -3559,6 +3562,9 @@ public final class Maps {
    *
    * <p>The returned navigable map will be serializable if the specified navigable map is
    * serializable.
+   *
+   * <p>Except for Android users prior to API Level 26, prefer {@link
+   * Collections#synchronizedNavigableMap} over this method.
    *
    * @param navigableMap the navigable map to be "wrapped" in a synchronized navigable map.
    * @return a synchronized view of the specified navigable map.

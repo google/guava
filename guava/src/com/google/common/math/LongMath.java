@@ -588,6 +588,10 @@ public final class LongMath {
   /**
    * Returns the {@code b} to the {@code k}th power, provided it does not overflow.
    *
+   * <p><b>Java 25+ users:</b> Prefer {@link Math#powExact(long, int)}. Note that if {@code b} is an
+   * {@code int} value, writing {@code Math.powExact(b, k)} will call the {@link Math#powExact(int,
+   * int)} overload, not {@link Math#powExact(long, int)}.
+   *
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
    *     long} arithmetic
    */

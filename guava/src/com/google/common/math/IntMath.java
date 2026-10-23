@@ -488,6 +488,8 @@ public final class IntMath {
    *
    * <p>{@link #pow} may be faster, but does not check for overflow.
    *
+   * <p><b>Java 25+ users:</b> Prefer {@link Math#powExact(int, int)}.
+   *
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
    *     int} arithmetic
    */
