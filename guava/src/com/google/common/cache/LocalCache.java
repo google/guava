@@ -2342,6 +2342,7 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         ListenableFuture<V> newValue)
         throws ExecutionException {
       V value = null;
+      boolean stored = false;
       try {
         value = getUninterruptibly(newValue);
         if (value == null) {
@@ -2349,10 +2350,15 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         }
         statsCounter.recordLoadSuccess(loadingValueReference.elapsedNanos());
         storeLoadedValue(key, hash, loadingValueReference, value);
+        stored = true;
         return value;
       } finally {
         if (value == null) {
           statsCounter.recordLoadException(loadingValueReference.elapsedNanos());
+          removeLoadingValue(key, hash, loadingValueReference);
+        } else if (!stored) {
+          // Storing the value failed (for example, because the Weigher threw). Don't leave the
+          // loading value in place, or the entry would never expire, be evicted, or be reloaded.
           removeLoadingValue(key, hash, loadingValueReference);
         }
       }
@@ -3170,13 +3176,14 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
             if (oldValueReference == valueReference
                 || (entryValue == null && valueReference != UNSET)) {
               ++modCount;
+              // Set the value first: If the Weigher throws, we haven't replaced the old value.
+              setValue(e, key, newValue, now);
               if (oldValueReference.isActive()) {
                 RemovalCause cause =
                     (entryValue == null) ? RemovalCause.COLLECTED : RemovalCause.REPLACED;
                 enqueueNotification(key, hash, entryValue, oldValueReference.getWeight(), cause);
                 newCount--;
               }
-              setValue(e, key, newValue, now);
               this.count = newCount; // write-volatile
               evictEntries(e);
               return true;
