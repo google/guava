@@ -77,6 +77,7 @@ import java.util.Objects;
 import java.util.Properties;
 import java.util.Set;
 import java.util.SortedMap;
+import java.util.Spliterator;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -3767,6 +3768,14 @@ public final class Maps {
     public void clear() {
       map().clear();
     }
+
+    @Override
+    @GwtIncompatible
+    @J2ktIncompatible
+    public Spliterator<K> spliterator() {
+      return CollectSpliterators.map(
+          map().entrySet().spliterator(), Entry::getKey);
+    }
   }
 
   static <K extends @Nullable Object> @Nullable K keyOrNull(@Nullable Entry<K, ?> entry) {
@@ -3988,6 +3997,14 @@ public final class Maps {
     @Override
     public final void clear() {
       map().clear();
+    }
+
+    @Override
+    @GwtIncompatible
+    @J2ktIncompatible
+    public Spliterator<V> spliterator() {
+      return CollectSpliterators.map(
+          map().entrySet().spliterator(), Entry::getValue);
     }
   }
 
