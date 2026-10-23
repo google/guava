@@ -434,6 +434,16 @@ public final class InternetDomainNameTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // Character.isDigit is ASCII-only under GWT
+  public void testIsValid_nonAsciiDigitsInFinalPart() {
+    // Fullwidth and Arabic-Indic digits, which InetAddresses parses as IPv4 literals.
+    assertFalse(
+        InternetDomainName.isValid("\uFF11\uFF12\uFF17\uFF0E\uFF10\uFF0E\uFF10\uFF0E\uFF11"));
+    assertFalse(InternetDomainName.isValid("127.0.0.\uFF11"));
+    assertFalse(InternetDomainName.isValid("10.0.0.\u0661"));
+    assertTrue(InternetDomainName.isValid("\uFF11\uFF12\uFF17.com"));
+  }
+
   public void testToString() {
     for (String inputName : SOMEWHERE_UNDER_PS) {
       InternetDomainName domain = InternetDomainName.from(inputName);
