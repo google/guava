@@ -545,7 +545,9 @@ mod(8, 4) == 0
  int&nbsp;k)</span></div>
 <div class="block">Returns the <code>b</code> to the <code>k</code>th power, provided it does not overflow.
 
-<p><a href="#pow(int,int)"><code>pow(int, int)</code></a> may be faster, but does not check for overflow.</div>
+<p><a href="#pow(int,int)"><code>pow(int, int)</code></a> may be faster, but does not check for overflow.
+
+<p><b>Java 25+ users:</b> Prefer <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Math.html#powExact(int,int)" class="external-link"><code>Math.powExact(int, int)</code></a>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/ArithmeticException.html" title="class in java.lang" class="external-link">ArithmeticException</a></code> - if <code>b</code> to the <code>k</code>th power overflows in signed <code>

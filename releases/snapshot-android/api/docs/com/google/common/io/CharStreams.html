@@ -191,7 +191,10 @@ or all lines have been read and returning the result produced by the processor.<
  <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Appendable.html" title="interface in java.lang" class="external-link">Appendable</a>&nbsp;to)</span>
                  throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></span></div>
 <div class="block">Copies all characters between the <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Readable.html" title="interface in java.lang" class="external-link"><code>Readable</code></a> and <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Appendable.html" title="interface in java.lang" class="external-link"><code>Appendable</code></a> objects. Does not
-close or flush either object.</div>
+close or flush either object.
+
+<p><b>Java 10+ users:</b> If the input is a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/Reader.html" title="class in java.io" class="external-link"><code>Reader</code></a> and the output is a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/Writer.html" title="class in java.io" class="external-link"><code>Writer</code></a>,
+prefer <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/Reader.html#transferTo(java.io.Writer)" class="external-link"><code>Reader.transferTo(Writer)</code></a>.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>from</code> - the object to read from</dd>

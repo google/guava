@@ -701,7 +701,9 @@ close the open underlying stream.</div>
 <div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="CharSource.html" title="class in com.google.common.io">CharSource</a></span>&nbsp;<span class="element-name">wrap</span><wbr><span class="parameters">(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/CharSequence.html" title="interface in java.lang" class="external-link">CharSequence</a>&nbsp;charSequence)</span></div>
 <div class="block">Returns a view of the given character sequence as a <a href="CharSource.html" title="class in com.google.common.io"><code>CharSource</code></a>. The behavior of the
 returned <code>CharSource</code> and any <code>Reader</code> instances created by it is unspecified if
-the <code>charSequence</code> is mutated while it is being read, so don't do that.</div>
+the <code>charSequence</code> is mutated while it is being read, so don't do that.
+
+<p><b>Java 24+ users:</b> If you only need a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/Reader.html" title="class in java.io" class="external-link"><code>Reader</code></a>, prefer <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/Reader.html#of(java.lang.CharSequence)" class="external-link"><code>Reader.of(CharSequence)</code></a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>15.0 (since 14.0 as <code>CharStreams.asCharSource(String)</code>)</dd>

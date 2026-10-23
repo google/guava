@@ -2046,7 +2046,9 @@ serializable.
 V&gt;</code> to a <code>NavigableMap&lt;K, V&gt;</code>. If it permitted this, the returned map's <code>
 comparator()</code> method might return a <code>Comparator&lt;? extends K&gt;</code>, which works only on a
 particular subtype of <code>K</code>, but promise that it's a <code>Comparator&lt;? super K&gt;</code>, which
-must work on any type of <code>K</code>.</div>
+must work on any type of <code>K</code>.
+
+<p>Except for Android users prior to API Level 26, prefer <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collections.html#unmodifiableNavigableMap(java.util.NavigableMap)" class="external-link"><code>Collections.unmodifiableNavigableMap(NavigableMap)</code></a> over this method.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>map</code> - the navigable map for which an unmodifiable view is to be returned</dd>
@@ -2111,7 +2113,9 @@ synchronized (map) { // Synchronizing on map, not map2 or set2!
 <p>Failure to follow this advice may result in non-deterministic behavior.
 
 <p>The returned navigable map will be serializable if the specified navigable map is
-serializable.</div>
+serializable.
+
+<p>Except for Android users prior to API Level 26, prefer <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collections.html#synchronizedNavigableMap(java.util.NavigableMap)" class="external-link"><code>Collections.synchronizedNavigableMap(NavigableMap)</code></a> over this method.</div>
 <dl class="notes">
 <dt>Parameters:</dt>
 <dd><code>navigableMap</code> - the navigable map to be "wrapped" in a synchronized navigable map.</dd>

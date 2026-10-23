@@ -601,7 +601,10 @@ b</code>.</div>
 <div class="member-signature"><span class="annotations"><a href="../annotations/GwtIncompatible.html" title="annotation in com.google.common.annotations">@GwtIncompatible</a>
 </span><span class="modifiers">public static</span>&nbsp;<span class="return-type">long</span>&nbsp;<span class="element-name">checkedPow</span><wbr><span class="parameters">(long&nbsp;b,
  int&nbsp;k)</span></div>
-<div class="block">Returns the <code>b</code> to the <code>k</code>th power, provided it does not overflow.</div>
+<div class="block">Returns the <code>b</code> to the <code>k</code>th power, provided it does not overflow.
+
+<p><b>Java 25+ users:</b> Prefer <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Math.html#powExact(long,int)" class="external-link"><code>Math.powExact(long, int)</code></a>. Note that if <code>b</code> is an
+<code>int</code> value, writing <code>Math.powExact(b, k)</code> will call the <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Math.html#powExact(int,int)" class="external-link"><code>Math.powExact(int, int)</code></a> overload, not <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Math.html#powExact(long,int)" class="external-link"><code>Math.powExact(long, int)</code></a>.</div>
 <dl class="notes">
 <dt>Throws:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/ArithmeticException.html" title="class in java.lang" class="external-link">ArithmeticException</a></code> - if <code>b</code> to the <code>k</code>th power overflows in signed <code>

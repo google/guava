@@ -29314,6 +29314,9 @@
  particular subtype of {@code K}, but promise that it's a {@code Comparator<? super K>}, which
  must work on any type of {@code K}.
 
+ <p>Except for Android users prior to API Level 26, prefer {@link
+ Collections#unmodifiableNavigableMap} over this method.
+
  @param map the navigable map for which an unmodifiable view is to be returned
  @return an unmodifiable view of the specified navigable map
  @since 12.0]]>
@@ -29368,6 +29371,9 @@
 
  <p>The returned navigable map will be serializable if the specified navigable map is
  serializable.
+
+ <p>Except for Android users prior to API Level 26, prefer {@link
+ Collections#synchronizedNavigableMap} over this method.
 
  @param navigableMap the navigable map to be "wrapped" in a synchronized navigable map.
  @return a synchronized view of the specified navigable map.
@@ -47155,6 +47161,9 @@
  returned {@code CharSource} and any {@code Reader} instances created by it is unspecified if
  the {@code charSequence} is mutated while it is being read, so don't do that.
 
+ <p><b>Java 24+ users:</b> If you only need a {@link Reader}, prefer {@link
+ Reader#of(CharSequence)}.
+
  @since 15.0 (since 14.0 as {@code CharStreams.asCharSource(String)})]]>
       </doc>
     </method>
@@ -47224,6 +47233,9 @@
       <doc>
       <![CDATA[Copies all characters between the {@link Readable} and {@link Appendable} objects. Does not
  close or flush either object.
+
+ <p><b>Java 10+ users:</b> If the input is a {@link Reader} and the output is a {@link Writer},
+ prefer {@link Reader#transferTo(Writer)}.
 
  @param from the object to read from
  @param to the object to write to
@@ -50351,6 +50363,8 @@
 
  <p>{@link #pow} may be faster, but does not check for overflow.
 
+ <p><b>Java 25+ users:</b> Prefer {@link Math#powExact(int, int)}.
+
  @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
      int} arithmetic]]>
       </doc>
@@ -50916,6 +50930,10 @@
       <param name="k" type="int"/>
       <doc>
       <![CDATA[Returns the {@code b} to the {@code k}th power, provided it does not overflow.
+
+ <p><b>Java 25+ users:</b> Prefer {@link Math#powExact(long, int)}. Note that if {@code b} is an
+ {@code int} value, writing {@code Math.powExact(b, k)} will call the {@link Math#powExact(int,
+ int)} overload, not {@link Math#powExact(long, int)}.
 
  @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
      long} arithmetic]]>
