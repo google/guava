@@ -20,6 +20,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.util.concurrent.InterruptionUtil.repeatedlyInterruptTestThread;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitTerminationUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.awaitUninterruptibly;
+import static com.google.common.util.concurrent.Uninterruptibles.getUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.joinUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.putUninterruptibly;
 import static com.google.common.util.concurrent.Uninterruptibles.takeUninterruptibly;
@@ -28,6 +29,7 @@ import static com.google.common.util.concurrent.Uninterruptibles.tryLockUninterr
 import static java.util.concurrent.Executors.newFixedThreadPool;
 import static java.util.concurrent.Executors.newScheduledThreadPool;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertThrows;
 
@@ -44,10 +46,13 @@ import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -640,6 +645,149 @@ public class UninterruptiblesTest extends TestCase {
     awaitTerminationUninterruptibly(executor);
     assertTrue(executor.isTerminated());
     assertInterrupted();
+  }
+
+  public void testAwaitMinimumTimeoutInterrupted() throws Exception {
+    CountDownLatch latch = new CountDownLatch(1);
+    assertNegativeTimeoutDoesNotWait(
+        () -> {
+          assertFalse(awaitUninterruptibly(latch, Long.MIN_VALUE, NANOSECONDS));
+          assertTrue(Thread.currentThread().isInterrupted());
+          assertFalse(awaitUninterruptibly(latch, Duration.ofSeconds(Long.MIN_VALUE)));
+        },
+        latch::countDown);
+  }
+
+  public void testGetMinimumTimeoutInterrupted() throws Exception {
+    FutureTask<String> future = new FutureTask<>(() -> "result");
+    assertNegativeTimeoutDoesNotWait(
+        () -> {
+          assertThrows(
+              TimeoutException.class,
+              () -> getUninterruptibly(future, Long.MIN_VALUE, NANOSECONDS));
+          assertTrue(Thread.currentThread().isInterrupted());
+          assertThrows(
+              TimeoutException.class,
+              () -> getUninterruptibly(future, Duration.ofSeconds(Long.MIN_VALUE)));
+        },
+        future::run);
+  }
+
+  public void testTryAcquireMinimumTimeoutInterrupted() throws Exception {
+    for (int permits : new int[] {1, 3}) {
+      Semaphore semaphore = new Semaphore(0);
+      assertNegativeTimeoutDoesNotWait(
+          () -> {
+            assertFalse(tryAcquireUninterruptibly(semaphore, permits, Long.MIN_VALUE, NANOSECONDS));
+            assertTrue(Thread.currentThread().isInterrupted());
+            assertFalse(
+                tryAcquireUninterruptibly(semaphore, permits, Duration.ofSeconds(Long.MIN_VALUE)));
+          },
+          () -> semaphore.release(permits));
+    }
+  }
+
+  public void testTryLockMinimumTimeoutInterrupted() throws Exception {
+    Lock lock = new ReentrantLock();
+    lock.lock();
+    assertNegativeTimeoutDoesNotWait(
+        () -> {
+          boolean acquired = tryLockUninterruptibly(lock, Long.MIN_VALUE, NANOSECONDS);
+          try {
+            assertFalse(acquired);
+          } finally {
+            if (acquired) {
+              lock.unlock();
+            }
+          }
+          assertTrue(Thread.currentThread().isInterrupted());
+          acquired = tryLockUninterruptibly(lock, Duration.ofSeconds(Long.MIN_VALUE));
+          try {
+            assertFalse(acquired);
+          } finally {
+            if (acquired) {
+              lock.unlock();
+            }
+          }
+        },
+        lock::unlock);
+  }
+
+  public void testAwaitTerminationMinimumTimeoutInterrupted() throws Exception {
+    CountDownLatch latch = new CountDownLatch(1);
+    ExecutorService executor = new ForkJoinPool(1);
+    executor.execute(() -> awaitUninterruptibly(latch));
+    executor.shutdown();
+    try {
+      assertNegativeTimeoutDoesNotWait(
+          () -> {
+            assertFalse(awaitTerminationUninterruptibly(executor, Long.MIN_VALUE, NANOSECONDS));
+            assertTrue(Thread.currentThread().isInterrupted());
+            assertFalse(
+                awaitTerminationUninterruptibly(executor, Duration.ofSeconds(Long.MIN_VALUE)));
+          },
+          latch::countDown);
+    } finally {
+      latch.countDown();
+      executor.shutdownNow();
+      assertTrue(executor.awaitTermination(LONG_DELAY_MS, MILLISECONDS));
+    }
+  }
+
+  @SuppressWarnings("WaitNotInLoop") // see comment on the other Condition tests
+  public void testConditionAwaitMinimumTimeoutInterrupted() {
+    Lock lock = new ReentrantLock();
+    Condition condition =
+        new TestCondition(lock, lock.newCondition()) {
+          @Override
+          public boolean await(long time, TimeUnit unit) throws InterruptedException {
+            // Interrupt after awaitUninterruptibly clears any preexisting interrupt.
+            Thread.currentThread().interrupt();
+            return super.await(time, unit);
+          }
+        };
+    assertFalse(awaitUninterruptibly(condition, Long.MIN_VALUE, NANOSECONDS));
+    assertTrue(Thread.currentThread().isInterrupted());
+    assertFalse(awaitUninterruptibly(condition, Duration.ofSeconds(Long.MIN_VALUE)));
+    assertTrue(Thread.currentThread().isInterrupted());
+  }
+
+  public void testMinimumTimeoutAlreadyAvailableInterrupted() throws Exception {
+    Thread.currentThread().interrupt();
+    assertTrue(awaitUninterruptibly(new CountDownLatch(0), Long.MIN_VALUE, NANOSECONDS));
+    assertTrue(tryAcquireUninterruptibly(new Semaphore(1), Long.MIN_VALUE, NANOSECONDS));
+    Lock lock = new ReentrantLock();
+    assertTrue(tryLockUninterruptibly(lock, Long.MIN_VALUE, NANOSECONDS));
+    try {
+      FutureTask<String> future = new FutureTask<>(() -> "result");
+      future.run();
+      assertThat(getUninterruptibly(future, Long.MIN_VALUE, NANOSECONDS)).isEqualTo("result");
+      assertTrue(Thread.currentThread().isInterrupted());
+    } finally {
+      lock.unlock();
+    }
+  }
+
+  private static void assertNegativeTimeoutDoesNotWait(Runnable operation, Runnable unblock)
+      throws Exception {
+    FutureTask<Boolean> result =
+        new FutureTask<>(
+            () -> {
+              Thread.currentThread().interrupt();
+              operation.run();
+              return Thread.currentThread().isInterrupted();
+            });
+    Thread thread = new Thread(result);
+    thread.start();
+    try {
+      assertTrue(result.get(LONG_DELAY_MS, MILLISECONDS));
+    } catch (TimeoutException e) {
+      throw new AssertionError("Interrupted negative timeout must not wait", e);
+    } finally {
+      unblock.run();
+      thread.join(LONG_DELAY_MS);
+      assertFalse(thread.isAlive());
+    }
   }
 
   /**
