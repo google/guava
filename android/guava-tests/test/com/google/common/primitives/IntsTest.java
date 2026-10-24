@@ -367,17 +367,25 @@ public class IntsTest extends TestCase {
     assertThat(input).isEqualTo(expectedOutput);
   }
 
-  public void testRotate() {
-    testRotate(new int[] {}, -1, new int[] {});
-    testRotate(new int[] {}, 0, new int[] {});
-    testRotate(new int[] {}, 1, new int[] {});
+  public void testRotate_emptyArray() {
+    int[] empty = {};
+    int[] expected = {};
+    testRotate(empty, -1, expected);
+    testRotate(empty, 0, expected);
+    testRotate(empty, 1, expected);
+  }
 
-    testRotate(new int[] {1}, -2, new int[] {1});
-    testRotate(new int[] {1}, -1, new int[] {1});
-    testRotate(new int[] {1}, 0, new int[] {1});
-    testRotate(new int[] {1}, 1, new int[] {1});
-    testRotate(new int[] {1}, 2, new int[] {1});
+  public void testRotate_singleElementArray() {
+    int[] single = {1};
+    int[] expected = {1};
+    testRotate(single, -2, expected);
+    testRotate(single, -1, expected);
+    testRotate(single, 0, expected);
+    testRotate(single, 1, expected);
+    testRotate(single, 2, expected);
+  }
 
+  public void testRotate_multiElementArray() {
     testRotate(new int[] {1, 2}, -3, new int[] {2, 1});
     testRotate(new int[] {1, 2}, -1, new int[] {2, 1});
     testRotate(new int[] {1, 2}, -2, new int[] {1, 2});
@@ -417,13 +425,34 @@ public class IntsTest extends TestCase {
     testRotate(new int[] {1, 2, 3, 4, 5}, 6, new int[] {5, 1, 2, 3, 4});
   }
 
-  public void testRotateIndexed() {
-    testRotate(new int[] {}, 0, 0, 0, new int[] {});
+  public void testRotateIndexed_emptyRange() {
+    int[] empty = {};
+    int[] expectedEmpty = {};
+    testRotate(empty, 0, 0, 0, expectedEmpty);
 
-    testRotate(new int[] {1}, 0, 0, 1, new int[] {1});
-    testRotate(new int[] {1}, 1, 0, 1, new int[] {1});
-    testRotate(new int[] {1}, 1, 1, 1, new int[] {1});
+    int[] single = {1};
+    int[] expectedSingle = {1};
+    testRotate(single, 1, 1, 1, expectedSingle);
 
+    int[] array = {0, 1, 2};
+    int[] expectedArray = {0, 1, 2};
+    testRotate(array, 1, 1, 1, expectedArray);
+    testRotate(array, -1, 2, 2, expectedArray);
+  }
+
+  public void testRotateIndexed_singleElementRange() {
+    int[] single = {1};
+    int[] expectedSingle = {1};
+    testRotate(single, 0, 0, 1, expectedSingle);
+    testRotate(single, 1, 0, 1, expectedSingle);
+
+    int[] array = {0, 1, 2};
+    int[] expectedArray = {0, 1, 2};
+    testRotate(array, 1, 1, 2, expectedArray);
+    testRotate(array, -1, 2, 3, expectedArray);
+  }
+
+  public void testRotateIndexed_multiElementRange() {
     // Rotate the central 5 elements, leaving the ends as-is
     testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new int[] {0, 2, 3, 4, 5, 1, 6});
     testRotate(new int[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new int[] {0, 2, 3, 4, 5, 1, 6});

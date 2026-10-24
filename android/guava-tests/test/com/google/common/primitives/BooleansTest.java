@@ -250,17 +250,25 @@ public class BooleansTest extends TestCase {
     assertThat(input).isEqualTo(expectedOutput);
   }
 
-  public void testRotate() {
-    testRotate(new boolean[] {}, -1, new boolean[] {});
-    testRotate(new boolean[] {}, 0, new boolean[] {});
-    testRotate(new boolean[] {}, 1, new boolean[] {});
+  public void testRotate_emptyArray() {
+    boolean[] empty = {};
+    boolean[] expected = {};
+    testRotate(empty, -1, expected);
+    testRotate(empty, 0, expected);
+    testRotate(empty, 1, expected);
+  }
 
-    testRotate(new boolean[] {true}, -2, new boolean[] {true});
-    testRotate(new boolean[] {true}, -1, new boolean[] {true});
-    testRotate(new boolean[] {true}, 0, new boolean[] {true});
-    testRotate(new boolean[] {true}, 1, new boolean[] {true});
-    testRotate(new boolean[] {true}, 2, new boolean[] {true});
+  public void testRotate_singleElementArray() {
+    boolean[] single = {true};
+    boolean[] expected = {true};
+    testRotate(single, -2, expected);
+    testRotate(single, -1, expected);
+    testRotate(single, 0, expected);
+    testRotate(single, 1, expected);
+    testRotate(single, 2, expected);
+  }
 
+  public void testRotate_multiElementArray() {
     testRotate(new boolean[] {true, false}, -3, new boolean[] {false, true});
     testRotate(new boolean[] {true, false}, -1, new boolean[] {false, true});
     testRotate(new boolean[] {true, false}, -2, new boolean[] {true, false});
@@ -334,13 +342,34 @@ public class BooleansTest extends TestCase {
         new boolean[] {true, true, false, true, false});
   }
 
-  public void testRotateIndexed() {
-    testRotate(new boolean[] {}, 0, 0, 0, new boolean[] {});
+  public void testRotateIndexed_emptyRange() {
+    boolean[] empty = {};
+    boolean[] expectedEmpty = {};
+    testRotate(empty, 0, 0, 0, expectedEmpty);
 
-    testRotate(new boolean[] {true}, 0, 0, 1, new boolean[] {true});
-    testRotate(new boolean[] {true}, 1, 0, 1, new boolean[] {true});
-    testRotate(new boolean[] {true}, 1, 1, 1, new boolean[] {true});
+    boolean[] single = {true};
+    boolean[] expectedSingle = {true};
+    testRotate(single, 1, 1, 1, expectedSingle);
 
+    boolean[] array = {true, false, true};
+    boolean[] expectedArray = {true, false, true};
+    testRotate(array, 1, 1, 1, expectedArray);
+    testRotate(array, -1, 2, 2, expectedArray);
+  }
+
+  public void testRotateIndexed_singleElementRange() {
+    boolean[] single = {true};
+    boolean[] expectedSingle = {true};
+    testRotate(single, 0, 0, 1, expectedSingle);
+    testRotate(single, 1, 0, 1, expectedSingle);
+
+    boolean[] array = {true, false, true};
+    boolean[] expectedArray = {true, false, true};
+    testRotate(array, 1, 1, 2, expectedArray);
+    testRotate(array, -1, 2, 3, expectedArray);
+  }
+
+  public void testRotateIndexed_multiElementRange() {
     // Rotate the central 5 elements, leaving the ends as-is
     testRotate(
         new boolean[] {false, true, false, true, false, true, false},

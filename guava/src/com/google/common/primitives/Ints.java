@@ -587,11 +587,11 @@ public final class Ints extends IntsMethodsForWeb {
     // especially since we already have a `reverse` method.
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
-    if (array.length <= 1) {
+    int length = toIndex - fromIndex;
+    if (length <= 1) {
       return;
     }
 
-    int length = toIndex - fromIndex;
     // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many
     // places left to rotate.
     int m = -distance % length;
