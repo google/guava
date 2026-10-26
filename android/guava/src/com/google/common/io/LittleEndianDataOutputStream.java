@@ -156,6 +156,15 @@ public final class LittleEndianDataOutputStream extends FilterOutputStream imple
     out.write(0xFF & (v >> 8));
   }
 
+  /**
+   * Writes a string as specified by {@link DataOutputStream#writeUTF(String)}.
+   *
+   * <p>The UTF-8 encoded string is prefixed by a 2-byte length in <b>big-endian</b> byte order,
+   * not little-endian. This matches the behavior of {@link DataOutputStream} and is not affected by
+   * the little-endian byte order used by other write methods in this class.
+   *
+   * @throws IOException if an I/O error occurs
+   */
   @Override
   public void writeUTF(String str) throws IOException {
     ((DataOutputStream) out).writeUTF(str);
