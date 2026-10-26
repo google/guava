@@ -322,7 +322,7 @@ public class SetsTest extends TestCase {
 
   @GwtIncompatible
   @J2ktIncompatible
-    public void testImmutableEnumSet_deserializationMakesDefensiveCopy() throws Exception {
+  public void testImmutableEnumSet_deserializationMakesDefensiveCopy() throws Exception {
     ImmutableSet<SomeEnum> original = immutableEnumSet(SomeEnum.A, SomeEnum.B);
     int handleOffset = 6;
     byte[] serializedForm = serializeWithBackReference(original, handleOffset);
@@ -338,7 +338,7 @@ public class SetsTest extends TestCase {
 
   @GwtIncompatible
   @J2ktIncompatible
-    private static byte[] serializeWithBackReference(Object original, int handleOffset)
+  private static byte[] serializeWithBackReference(Object original, int handleOffset)
       throws IOException {
     ByteArrayOutputStream bos = new ByteArrayOutputStream();
     ObjectOutputStream out = new ObjectOutputStream(bos);
@@ -880,20 +880,15 @@ public class SetsTest extends TestCase {
   public void testPowerSetCreationErrors() {
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          Set<Set<Character>> unused =
-              powerSet(
-                  newHashSet(
-                      'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o',
-                      'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4',
-                      '5'));
-        });
+        () ->
+            powerSet(
+                newHashSet(
+                    'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+                    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '1', '2', '3', '4', '5')));
 
     assertThrows(
         IllegalArgumentException.class,
-        () -> {
-          Set<Set<Integer>> unused = powerSet(ContiguousSet.closed(0, Integer.MAX_VALUE / 2));
-        });
+        () -> powerSet(ContiguousSet.closed(0, Integer.MAX_VALUE / 2)));
 
     assertThrows(NullPointerException.class, () -> powerSet(singleton(null)));
   }

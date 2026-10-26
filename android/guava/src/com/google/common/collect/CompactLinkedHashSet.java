@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Arrays;
 import java.util.Collection;
@@ -270,4 +271,6 @@ final class CompactLinkedHashSet<E extends @Nullable Object> extends CompactHash
    * they're defined above -- including logic to add and subtract 1 to map between the values stored
    * in the predecessor/successor arrays and the indexes in the elements array that they identify.
    */
+
+  @J2ktIncompatible private static final long serialVersionUID = -3537819119711266145L;
 }

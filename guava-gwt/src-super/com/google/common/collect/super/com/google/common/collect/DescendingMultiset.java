@@ -111,7 +111,10 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
   @Override
   public Set<Entry<E>> entrySet() {
     Set<Entry<E>> result = entrySet;
-    return (result == null) ? entrySet = createEntrySet() : result;
+    if (result == null) {
+      result = entrySet = createEntrySet();
+    }
+    return result;
   }
 
   Set<Entry<E>> createEntrySet() {

@@ -128,7 +128,7 @@ abstract class AbstractListMultimap<K extends @Nullable Object, V extends @Nulla
    * values.
    */
   @Override
-  public final Map<K, Collection<V>> asMap() {
+  public Map<K, Collection<V>> asMap() {
     return super.asMap();
   }
 

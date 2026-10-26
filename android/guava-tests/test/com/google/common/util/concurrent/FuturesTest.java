@@ -114,15 +114,13 @@ public class FuturesTest extends TestCase {
   private static final String DATA3 = "most data";
 
   @Override
-  // `public` so AggregateFutureStateFallbackAtomicHelperTest can call it without setAccessible
-  public void setUp() throws Exception {
+  protected void setUp() throws Exception {
     super.setUp();
     aggregateFutureLogger.addHandler(aggregateFutureLogHandler);
   }
 
   @Override
-  // `public` so AggregateFutureStateFallbackAtomicHelperTest can call it without setAccessible
-  public void tearDown() throws Exception {
+  protected void tearDown() throws Exception {
     /*
      * Clear interrupt for future tests.
      *
@@ -863,15 +861,15 @@ public class FuturesTest extends TestCase {
     runExpectedExceptionCatchingAsyncTest(expectedException, true);
   }
 
-  private void runExpectedExceptionCatchingAsyncTest(
+  private static void runExpectedExceptionCatchingAsyncTest(
       Exception expectedException, boolean wrapInFuture) {
     AsyncFunctionSpy<Throwable, Integer> fallback =
         spy(
             (Throwable unused) -> {
-              if (!wrapInFuture) {
-                throw expectedException;
-              } else {
+              if (wrapInFuture) {
                 return immediateFailedFuture(expectedException);
+              } else {
+                throw expectedException;
               }
             });
 
@@ -1092,7 +1090,7 @@ public class FuturesTest extends TestCase {
    * or testCatching_fallbackReturnsCheckedException().
    */
 
-  private void runExpectedExceptionCatchingTest(RuntimeException expectedException) {
+  private static void runExpectedExceptionCatchingTest(RuntimeException expectedException) {
     FunctionSpy<Throwable, Integer> fallback =
         spy(
             (Function<Throwable, Integer>)
@@ -1396,11 +1394,11 @@ public class FuturesTest extends TestCase {
     assertThat(expected).hasCauseThat().isInstanceOf(RejectedExecutionException.class);
   }
 
-  private <X extends Throwable> Function<X, Integer> functionReturningOne() {
+  private static <X extends Throwable> Function<X, Integer> functionReturningOne() {
     return unused -> 1;
   }
 
-  private <X extends Throwable> AsyncFunction<X, Integer> asyncFunctionReturningOne() {
+  private static <X extends Throwable> AsyncFunction<X, Integer> asyncFunctionReturningOne() {
     return unused -> immediateFuture(1);
   }
 
@@ -3288,7 +3286,6 @@ public class FuturesTest extends TestCase {
     assertTrue(future3.wasInterruptedInternal());
   }
 
-  @AndroidIncompatible // runs out of memory under some versions of the emulator
   public void testCancellingAllDelegatesIsNotQuadratic() {
     ImmutableList.Builder<SettableFuture<Long>> builder = ImmutableList.builder();
     for (int i = 0; i < 500_000; i++) {

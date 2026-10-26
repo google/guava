@@ -15,6 +15,7 @@
 package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.Beta;
 import com.google.common.annotations.J2ktIncompatible;
@@ -45,6 +46,10 @@ public final class HashingInputStream extends FilterInputStream {
     this.hasher = checkNotNull(hashFunction.newHasher());
   }
 
+  private InputStream in() {
+    return requireNonNull(in); // guaranteed safe by the constructor
+  }
+
   /**
    * Reads the next byte of data from the underlying input stream and updates the hasher with the
    * byte read.
@@ -52,7 +57,7 @@ public final class HashingInputStream extends FilterInputStream {
   @Override
   @CanIgnoreReturnValue
   public int read() throws IOException {
-    int b = in.read();
+    int b = in().read();
     if (b != -1) {
       hasher.putByte((byte) b);
     }
@@ -66,7 +71,7 @@ public final class HashingInputStream extends FilterInputStream {
   @Override
   @CanIgnoreReturnValue
   public int read(byte[] bytes, int off, int len) throws IOException {
-    int numOfBytesRead = in.read(bytes, off, len);
+    int numOfBytesRead = in().read(bytes, off, len);
     if (numOfBytesRead != -1) {
       hasher.putBytes(bytes, off, numOfBytesRead);
     }

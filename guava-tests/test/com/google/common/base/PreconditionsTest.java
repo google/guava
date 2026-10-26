@@ -354,7 +354,7 @@ public class PreconditionsTest extends TestCase {
    * Asserts that the given throwable has the given class and then asserts on the message as using
    * the full set of method parameters.
    */
-  private void assertFailureCause(
+  private static void assertFailureCause(
       Throwable throwable, Class<? extends Throwable> clazz, Object[] params) {
     assertThat(throwable).isInstanceOf(clazz);
     if (params.length == 1) {
@@ -377,7 +377,7 @@ public class PreconditionsTest extends TestCase {
    */
   @GwtIncompatible // ArbitraryInstances
   @J2ktIncompatible
-  private Object[] getParametersForSignature(
+  private static Object[] getParametersForSignature(
       @Nullable Object firstParam, ImmutableList<Class<?>> sig) {
     Object[] params = new Object[sig.size()];
     params[0] = firstParam;
@@ -427,7 +427,7 @@ public class PreconditionsTest extends TestCase {
   // 'test' to demonstrate some potentially ambiguous overloads.  This 'test' is kind of strange,
   // but essentially each line will be a call to a Preconditions method that, but for a documented
   // change would be a compiler error.
-  // See https://docs.oracle.com/javase/specs/jls/se26/html/jls-15.html#jls-15.12.2 for the spec on
+  // See https://docs.oracle.com/javase/specs/jls/se27/html/jls-15.html#jls-15.12.2 for the spec on
   // how javac selects overloads
   @SuppressWarnings("null")
   public void overloadSelection() {

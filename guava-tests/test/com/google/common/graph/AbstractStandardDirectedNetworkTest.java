@@ -25,7 +25,6 @@ import static org.junit.Assert.fail;
 
 import com.google.common.collect.ImmutableSet;
 import java.util.Collections;
-import java.util.Optional;
 import java.util.Set;
 import org.jspecify.annotations.NullUnmarked;
 import org.junit.After;
@@ -198,9 +197,7 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
     IllegalArgumentException e =
         assertThrows(
             IllegalArgumentException.class,
-            () -> {
-              Set<String> unused = network.edgesConnecting(EndpointPair.unordered(N1, N2));
-            });
+            () -> network.edgesConnecting(EndpointPair.unordered(N1, N2)));
     assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
   }
 
@@ -210,9 +207,7 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
     IllegalArgumentException e =
         assertThrows(
             IllegalArgumentException.class,
-            () -> {
-              Optional<String> unused = network.edgeConnecting(EndpointPair.unordered(N1, N2));
-            });
+            () -> network.edgeConnecting(EndpointPair.unordered(N1, N2)));
     assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
   }
 
@@ -222,9 +217,7 @@ public abstract class AbstractStandardDirectedNetworkTest extends AbstractNetwor
     IllegalArgumentException e =
         assertThrows(
             IllegalArgumentException.class,
-            () -> {
-              String unused = network.edgeConnectingOrNull(EndpointPair.unordered(N1, N2));
-            });
+            () -> network.edgeConnectingOrNull(EndpointPair.unordered(N1, N2)));
     assertThat(e).hasMessageThat().contains(ENDPOINTS_MISMATCH);
   }
 

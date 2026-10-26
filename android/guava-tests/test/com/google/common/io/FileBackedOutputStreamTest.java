@@ -57,7 +57,7 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     testThreshold(1000, 100, false, false);
   }
 
-  private void testThreshold(
+  private static void testThreshold(
       int fileThreshold, int dataSize, boolean singleByte, boolean resetWhenGarbageCollected)
       throws IOException {
     byte[] data = newPreFilledByteArray(dataSize);
@@ -223,7 +223,34 @@ public class FileBackedOutputStreamTest extends IoTestCase {
     }
   }
 
-  private FileAndWeakByteSource leakFileBackedOutputStream() throws IOException {
+
+  public void testFileReplacedOnDisk() throws Exception {
+    if (isWindows()) {
+      return;
+    }
+    byte[] chunk1 = newPreFilledByteArray(20);
+    byte[] chunk2 = newPreFilledByteArray(30);
+    FileBackedOutputStream out = new FileBackedOutputStream(/* fileThreshold= */ 10);
+    ByteSource source = out.asByteSource();
+
+    out.write(chunk1);
+    File file = out.getFile();
+    assertThat(file).isNotNull();
+
+    assertThat(file.delete()).isTrue();
+    byte[] replacementBytes = new byte[] {9, 9, 9};
+    Files.write(replacementBytes, file);
+
+    out.write(chunk2);
+    out.close();
+    assertThat(source.read()).isEqualTo(concat(chunk1, chunk2));
+    assertThat(Files.toByteArray(file)).isEqualTo(replacementBytes);
+
+    out.reset();
+    assertThat(file.exists()).isFalse();
+  }
+
+  private static FileAndWeakByteSource leakFileBackedOutputStream() throws IOException {
     FileBackedOutputStream out =
         new FileBackedOutputStream(0, /* resetWhenGarbageCollected= */ true);
     out.write(new byte[10]);

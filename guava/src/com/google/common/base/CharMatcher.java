@@ -415,7 +415,7 @@ public abstract class CharMatcher implements Predicate<Character> {
    * matcher which is faster to query than the original.
    */
   @GwtIncompatible // SmallCharMatcher
-  CharMatcher precomputedInternal() {
+  final CharMatcher precomputedInternal() {
     BitSet table = new BitSet();
     setBits(table);
     int totalCharacters = table.cardinality();
@@ -1346,7 +1346,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return description;
     }
   }
@@ -1552,7 +1552,7 @@ public abstract class CharMatcher implements Predicate<Character> {
     }
 
     @Override
-    public CharMatcher negate() {
+    public final CharMatcher negate() {
       return original;
     }
 

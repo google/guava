@@ -198,7 +198,10 @@ final class RegularImmutableBiMap<K, V> extends ImmutableBiMap<K, V> {
       return ImmutableBiMap.of();
     }
     ImmutableBiMap<V, K> result = inverse;
-    return (result == null) ? inverse = new Inverse() : result;
+    if (result == null) {
+      result = inverse = new Inverse();
+    }
+    return result;
   }
 
   private final class Inverse extends ImmutableBiMap<V, K> {

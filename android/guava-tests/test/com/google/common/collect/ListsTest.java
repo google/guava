@@ -470,7 +470,7 @@ public class ListsTest extends TestCase {
     }.test();
   }
 
-  private void checkFooBarBazList(List<String> list) {
+  private static void checkFooBarBazList(List<String> list) {
     assertThat(list).containsExactly("foo", "bar", "baz").inOrder();
     assertEquals(3, list.size());
     assertIndexIsOutOfBounds(list, -1);

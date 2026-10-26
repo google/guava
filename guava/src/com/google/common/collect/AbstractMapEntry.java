@@ -46,7 +46,7 @@ abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable 
   }
 
   @Override
-  public boolean equals(@Nullable Object object) {
+  public final boolean equals(@Nullable Object object) {
     if (object instanceof Entry) {
       Entry<?, ?> that = (Entry<?, ?>) object;
       return Objects.equals(this.getKey(), that.getKey())
@@ -56,7 +56,7 @@ abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable 
   }
 
   @Override
-  public int hashCode() {
+  public final int hashCode() {
     K k = getKey();
     V v = getValue();
     return ((k == null) ? 0 : k.hashCode()) ^ ((v == null) ? 0 : v.hashCode());
@@ -64,7 +64,7 @@ abstract class AbstractMapEntry<K extends @Nullable Object, V extends @Nullable 
 
   /** Returns a string representation of the form {@code {key}={value}}. */
   @Override
-  public String toString() {
+  public final String toString() {
     return getKey() + "=" + getValue();
   }
 }

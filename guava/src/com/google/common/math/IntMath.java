@@ -383,7 +383,7 @@ public final class IntMath {
    * }
    *
    * @throws ArithmeticException if {@code m <= 0}
-   * @see <a href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-15.html#jls-15.17.3">
+   * @see <a href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-15.html#jls-15.17.3">
    *     Remainder Operator</a>
    */
   public static int mod(int x, int m) {
@@ -487,6 +487,8 @@ public final class IntMath {
    * Returns the {@code b} to the {@code k}th power, provided it does not overflow.
    *
    * <p>{@link #pow} may be faster, but does not check for overflow.
+   *
+   * <p><b>Java 25+ users:</b> Prefer {@link Math#powExact(int, int)}.
    *
    * @throws ArithmeticException if {@code b} to the {@code k}th power overflows in signed {@code
    *     int} arithmetic

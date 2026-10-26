@@ -63,7 +63,8 @@ public class FinalizableReferenceQueueTest {
 
   @Test
   public void testFinalizeReferentCalled() {
-    MockReference reference = new MockReference(frq = new FinalizableReferenceQueue());
+    frq = new FinalizableReferenceQueue();
+    MockReference reference = new MockReference(frq);
 
     GcFinalization.awaitDone(() -> reference.finalizeReferentCalled);
   }
@@ -210,7 +211,7 @@ public class FinalizableReferenceQueueTest {
     }
   }
 
-  private ServerSocket makeMyServerExampleWithFrq(AtomicBoolean finalizeReferentRan)
+  private static ServerSocket makeMyServerExampleWithFrq(AtomicBoolean finalizeReferentRan)
       throws IOException {
     MyServerExampleWithFrq myServer = MyServerExampleWithFrq.create(finalizeReferentRan);
     assertThat(myServer.serverSocket.isClosed()).isFalse();
@@ -256,7 +257,8 @@ public class FinalizableReferenceQueueTest {
   }
 
   @SuppressWarnings("Java8ApiChecker")
-  private ServerSocket makeMyServerExampleWithCleaner(AtomicBoolean cleanerRan) throws IOException {
+  private static ServerSocket makeMyServerExampleWithCleaner(AtomicBoolean cleanerRan)
+      throws IOException {
     MyServerExampleWithCleaner myServer = new MyServerExampleWithCleaner(cleanerRan);
     assertThat(myServer.serverSocket.isClosed()).isFalse();
     return myServer.serverSocket;

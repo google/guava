@@ -369,7 +369,6 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
         () -> rangeSet.removeAll(ImmutableRangeSet.of(Range.closed(6, 8))));
   }
 
-  @AndroidIncompatible // slow
   public void testExhaustive() {
     ImmutableSet<Range<Integer>> ranges =
         ImmutableSet.of(
@@ -449,6 +448,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
           .add(Range.open(19, 20))
           .build();
 
+  @SuppressWarnings("TruthConstantAsserts") // We are testing our implementation of `union`.
   public void testUnion() {
     RangeSet<Integer> expected =
         ImmutableRangeSet.<Integer>builder()
@@ -462,6 +462,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     assertThat(RANGE_SET_ONE.union(RANGE_SET_TWO)).isEqualTo(expected);
   }
 
+  @SuppressWarnings("TruthConstantAsserts") // We are testing our implementation of `intersection`.
   public void testIntersection() {
     RangeSet<Integer> expected =
         ImmutableRangeSet.<Integer>builder()
@@ -473,6 +474,7 @@ public class ImmutableRangeSetTest extends AbstractRangeSetTest {
     assertThat(RANGE_SET_ONE.intersection(RANGE_SET_TWO)).isEqualTo(expected);
   }
 
+  @SuppressWarnings("TruthConstantAsserts") // We are testing our implementation of `difference`.
   public void testDifference() {
     RangeSet<Integer> expected =
         ImmutableRangeSet.<Integer>builder()

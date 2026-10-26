@@ -212,9 +212,7 @@ public class UnsignedIntegerTest extends TestCase {
     for (int a : TEST_INTS) {
       assertThrows(
           ArithmeticException.class,
-          () -> {
-            UnsignedInteger unused = UnsignedInteger.fromIntBits(a).dividedBy(UnsignedInteger.ZERO);
-          });
+          () -> UnsignedInteger.fromIntBits(a).dividedBy(UnsignedInteger.ZERO));
     }
   }
 
@@ -276,7 +274,7 @@ public class UnsignedIntegerTest extends TestCase {
 
   @GwtIncompatible
   @J2ktIncompatible
-    public void testSerialization() {
+  public void testSerialization() {
     for (int a : TEST_INTS) {
       reserializeAndAssert(UnsignedInteger.fromIntBits(a));
     }

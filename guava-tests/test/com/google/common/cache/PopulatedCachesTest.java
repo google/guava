@@ -30,6 +30,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.cache.CacheBuilderFactory.DurationSpec;
 import com.google.common.cache.LocalCache.Strength;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
@@ -54,11 +55,19 @@ import org.jspecify.annotations.NullUnmarked;
 
 @NullUnmarked
 public class PopulatedCachesTest extends TestCase {
-  // we use integers as keys; make sure the range covers some values that ARE cached by
-  // Integer.valueOf(int), and some that are not cached. (127 is the highest cached value.)
   static final int WARMUP_MIN = 120;
   static final int WARMUP_MAX = 135;
   static final int WARMUP_SIZE = WARMUP_MAX - WARMUP_MIN;
+
+  private static final ImmutableList<?> KEYS;
+
+  static {
+    ImmutableList.Builder<Object> keys = ImmutableList.builder();
+    for (int i = 0; i < WARMUP_MAX; i++) {
+      keys.add(new Object());
+    }
+    KEYS = keys.build();
+  }
 
   public void testSize_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -186,19 +195,20 @@ public class PopulatedCachesTest extends TestCase {
     for (LoadingCache<Object, Object> cache : caches()) {
       // don't let the entries get GCed
       List<Entry<Object, Object>> warmed = warmUp(cache);
+      Object wrongValue = new Object();
       for (int i = WARMUP_MIN; i < WARMUP_MAX; i++) {
         Object key = warmed.get(i - WARMUP_MIN).getKey();
         Object value = warmed.get(i - WARMUP_MIN).getValue();
-        assertThat(cache.asMap().remove(key, -1)).isFalse();
+        assertThat(cache.asMap().remove(key, wrongValue)).isFalse();
         assertThat(cache.asMap().remove(key, value)).isTrue();
-        assertThat(cache.asMap().remove(key, -1)).isFalse();
+        assertThat(cache.asMap().remove(key, wrongValue)).isFalse();
         assertThat(cache.asMap().containsKey(key)).isFalse();
       }
       checkEmpty(cache);
     }
   }
 
-  @AndroidIncompatible // ~30s; doable but probably not worth it
+  // Android: tests ~20s
 
   public void testKeySet_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -250,7 +260,7 @@ public class PopulatedCachesTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // ~30s; doable but probably not worth it
+  // Android: tests ~20s
 
   public void testEntrySet_populated() {
     for (LoadingCache<Object, Object> cache : caches()) {
@@ -281,15 +291,17 @@ public class PopulatedCachesTest extends TestCase {
 
   public void testWriteThroughEntry() {
     for (LoadingCache<Object, Object> cache : caches()) {
-      cache.getUnchecked(1);
+      Object key = new Object();
+      cache.getUnchecked(key);
       Entry<Object, Object> entry = getOnlyElement(cache.asMap().entrySet());
 
-      cache.invalidate(1);
+      cache.invalidate(key);
       assertThat(cache.size()).isEqualTo(0);
 
-      entry.setValue(3);
+      Object newValue = new Object();
+      entry.setValue(newValue);
       assertThat(cache.size()).isEqualTo(1);
-      assertThat(cache.getIfPresent(1)).isEqualTo(3);
+      assertThat(cache.getIfPresent(key)).isEqualTo(newValue);
       checkValidState(cache);
 
       assertThrows(NullPointerException.class, () -> entry.setValue(null));
@@ -300,14 +312,14 @@ public class PopulatedCachesTest extends TestCase {
   /* ---------------- Local utilities -------------- */
 
   /** Most of the tests in this class run against every one of these caches. */
-  private Iterable<LoadingCache<Object, Object>> caches() {
+  private static Iterable<LoadingCache<Object, Object>> caches() {
     // lots of different ways to configure a LoadingCache
     CacheBuilderFactory factory = cacheFactory();
     return transform(
         factory.buildAllPermutations(), builder -> builder.recordStats().build(identityLoader()));
   }
 
-  private CacheBuilderFactory cacheFactory() {
+  private static CacheBuilderFactory cacheFactory() {
     // This is trickier than expected. We plan to put 15 values in each of these (WARMUP_MIN to
     // WARMUP_MAX), but the tests assume no values get evicted. Even with a maximumSize of 100, one
     // of the values gets evicted. With weak keys, we use identity equality, which means using
@@ -334,7 +346,7 @@ public class PopulatedCachesTest extends TestCase {
                 DurationSpec.of(1, SECONDS), DurationSpec.of(1, DAYS)));
   }
 
-  private List<Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
+  private static List<Entry<Object, Object>> warmUp(LoadingCache<Object, Object> cache) {
     return warmUp(cache, WARMUP_MIN, WARMUP_MAX);
   }
 
@@ -342,23 +354,23 @@ public class PopulatedCachesTest extends TestCase {
    * Returns the entries that were added to the map, so they won't fall out of a map with weak or
    * soft references until the caller drops the reference to the returned entries.
    */
-  private List<Entry<Object, Object>> warmUp(
+  private static List<Entry<Object, Object>> warmUp(
       LoadingCache<Object, Object> cache, int minimum, int maximum) {
 
     List<Entry<Object, Object>> entries = new ArrayList<>();
     for (int i = minimum; i < maximum; i++) {
-      Object key = i;
+      Object key = KEYS.get(i);
       Object value = cache.getUnchecked(key);
       entries.add(entryOf(key, value));
     }
     return entries;
   }
 
-  private Entry<Object, Object> entryOf(Object key, Object value) {
+  private static Entry<Object, Object> entryOf(Object key, Object value) {
     return immutableEntry(key, value);
   }
 
-  private void assertMapSize(Map<?, ?> map, int size) {
+  private static void assertMapSize(Map<?, ?> map, int size) {
     assertThat(map).hasSize(size);
     if (size > 0) {
       assertThat(map.isEmpty()).isFalse();
@@ -371,7 +383,7 @@ public class PopulatedCachesTest extends TestCase {
   }
 
   @SuppressWarnings("IterablesSizeOfCollection") // we are testing our iterator implementation
-  private void assertCollectionSize(Collection<?> collection, int size) {
+  private static void assertCollectionSize(Collection<?> collection, int size) {
     assertThat(collection.size()).isEqualTo(size);
     if (size > 0) {
       assertThat(collection.isEmpty()).isFalse();

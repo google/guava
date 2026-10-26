@@ -346,7 +346,7 @@ public class FuturesGetCheckedTest extends TestCase {
 
   public static final class WillBeUnloadedException extends Exception {}
 
-  @AndroidIncompatible // "Parent ClassLoader may not be null"; maybe avoidable if we try?
+  @AndroidIncompatible // no class unloading? but error is hidden by b/31360928
   public void testGetChecked_classUnloading() throws Exception {
     WeakReference<?> classUsedByGetChecked = doTestClassUnloading();
     GcFinalization.awaitClear(classUsedByGetChecked);
@@ -358,7 +358,7 @@ public class FuturesGetCheckedTest extends TestCase {
    * test that the {@code ClassLoader} can still be GCed. The test amounts to a test that {@code
    * getChecked} holds no strong references to the class.
    */
-  private WeakReference<?> doTestClassUnloading() throws Exception {
+  private static WeakReference<?> doTestClassUnloading() throws Exception {
     URLClassLoader shadowLoader = new URLClassLoader(parseJavaClassPath(), null);
     @SuppressWarnings("unchecked")
     Class<WillBeUnloadedException> shadowClass =

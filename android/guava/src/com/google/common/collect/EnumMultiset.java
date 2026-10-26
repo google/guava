@@ -117,7 +117,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   }
 
   @Override
-  int distinctElements() {
+  int internalDistinctElements() {
     return distinctElements;
   }
 
@@ -217,7 +217,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     abstract T output(int index);
 
     @Override
-    public boolean hasNext() {
+    public final boolean hasNext() {
       for (; index < enumConstants.length; index++) {
         if (counts[index] > 0) {
           return true;
@@ -227,7 +227,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     }
 
     @Override
-    public T next() {
+    public final T next() {
       if (!hasNext()) {
         throw new NoSuchElementException();
       }
@@ -238,7 +238,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
     }
 
     @Override
-    public void remove() {
+    public final void remove() {
       checkRemove(toRemove >= 0);
       if (counts[toRemove] > 0) {
         distinctElements--;
@@ -260,7 +260,7 @@ public final class EnumMultiset<E extends Enum<E>> extends AbstractMultiset<E>
   }
 
   @Override
-  Iterator<Entry<E>> entryIterator() {
+  Iterator<Entry<E>> internalEntryIterator() {
     return new Itr<Entry<E>>() {
       @Override
       Entry<E> output(int index) {

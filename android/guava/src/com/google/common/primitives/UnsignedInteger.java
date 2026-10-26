@@ -255,4 +255,6 @@ public final class UnsignedInteger extends Number implements Comparable<Unsigned
   public String toString(int radix) {
     return UnsignedInts.toString(value, radix);
   }
+
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 4720406302515855051L;
 }

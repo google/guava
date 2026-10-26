@@ -919,7 +919,7 @@ public abstract class AbstractFuture<V extends @Nullable Object> extends Abstrac
    * @since 23.0
    */
   protected @Nullable String pendingToString() {
-    // TODO(diamondm) consider moving this into addPendingString so it's always in the output
+    // TODO(diamondm): consider moving this into addPendingString so it's always in the output
     if (this instanceof ScheduledFuture) {
       return "remaining delay=[" + ((ScheduledFuture<?>) this).getDelay(MILLISECONDS) + " ms]";
     }

@@ -58,12 +58,7 @@ final class FilteredEntrySetMultimap<K extends @Nullable Object, V extends @Null
   }
 
   @Override
-  Set<Entry<K, V>> createEntries() {
-    return filter(unfiltered().entries(), entryPredicate());
-  }
-
-  @Override
   public Set<Entry<K, V>> entries() {
-    return (Set<Entry<K, V>>) super.entries();
+    return filter(unfiltered().entries(), entryPredicate());
   }
 }

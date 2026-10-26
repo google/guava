@@ -55,14 +55,14 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
   }
 
   /**
-   * @since NEXT
+   * @since 33.7.0
    */
   public void testInverseEquals() {
     assertEquals(getMap(), getMap().inverse().inverse());
   }
 
   /**
-   * @since NEXT
+   * @since 33.7.0
    */
   @CollectionFeature.Require(SERIALIZABLE)
   public void testInverseSerializationEquals() {
@@ -90,7 +90,7 @@ public class BiMapInverseTester<K, V> extends AbstractBiMapTester<K, V> {
    * Returns {@link Method} instance for {@link #testInverseSame()} so that tests can suppress it
    * with {@code FeatureSpecificTestSuiteBuilder.suppressing()}.
    *
-   * @since NEXT
+   * @since 33.7.0
    */
   @J2ktIncompatible
   @GwtIncompatible // reflection

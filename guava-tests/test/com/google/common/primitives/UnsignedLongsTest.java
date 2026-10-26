@@ -267,9 +267,7 @@ public class UnsignedLongsTest extends TestCase {
       String overflowAsString = overflow.toString(radix);
       assertThrows(
           NumberFormatException.class,
-          () -> {
-            UnsignedLongs.parseUnsignedLong(overflowAsString, radix);
-          });
+          () -> UnsignedLongs.parseUnsignedLong(overflowAsString, radix));
     }
 
     assertThrows(

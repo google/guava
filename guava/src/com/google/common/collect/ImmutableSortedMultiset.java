@@ -341,10 +341,11 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
   public ImmutableSortedMultiset<E> descendingMultiset() {
     ImmutableSortedMultiset<E> result = descendingMultiset;
     if (result == null) {
-      return descendingMultiset =
-          this.isEmpty()
-              ? emptyMultiset(Ordering.from(comparator()).reverse())
-              : new DescendingImmutableSortedMultiset<E>(this);
+      result =
+          descendingMultiset =
+              this.isEmpty()
+                  ? emptyMultiset(Ordering.from(comparator()).reverse())
+                  : new DescendingImmutableSortedMultiset<E>(this);
     }
     return result;
   }
@@ -593,6 +594,8 @@ public abstract class ImmutableSortedMultiset<E> extends ImmutableMultiset<E>
       }
       return builder.build();
     }
+
+    private static final long serialVersionUID = -1602158873381216563L;
   }
 
   @Override

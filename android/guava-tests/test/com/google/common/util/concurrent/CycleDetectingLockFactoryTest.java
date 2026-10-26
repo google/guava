@@ -95,7 +95,7 @@ public class CycleDetectingLockFactoryTest extends TestCase {
   // In the unittest, create each ordered factory with its own set of lock
   // graph nodes (as opposed to using the static per-Enum map) to avoid
   // conflicts across different test runs.
-  private <E extends Enum<E>>
+  private static <E extends Enum<E>>
       CycleDetectingLockFactory.WithExplicitOrdering<E> newInstanceWithExplicitOrdering(
           Class<E> enumClass, Policy policy) {
     return new CycleDetectingLockFactory.WithExplicitOrdering<E>(
@@ -487,7 +487,7 @@ public class CycleDetectingLockFactoryTest extends TestCase {
   // (e.g. "LockA -> LockB", "LockB -> LockC", ...)
   // Checks that the exception.getMessage() matches a regex of the form:
   // "LockA -> LockB \b.*\b LockB -> LockC \b.*\b LockC -> LockA"
-  private void checkMessage(IllegalStateException exception, String... expectedLockCycle) {
+  private static void checkMessage(IllegalStateException exception, String... expectedLockCycle) {
     String regex = Joiner.on("\\b.*\\b").join(expectedLockCycle);
     assertThat(exception).hasMessageThat().containsMatch(regex);
   }

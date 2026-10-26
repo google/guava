@@ -152,6 +152,7 @@ class CollectionBenchmarkSampleData {
     }
 
     @Override
+    @SuppressWarnings("CompareToZero")
     public int compareTo(Element e) {
       int x = slowItDown();
       return x + super.compareTo(e) - x; // silly attempt to prevent opt

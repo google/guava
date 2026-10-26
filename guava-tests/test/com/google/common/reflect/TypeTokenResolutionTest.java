@@ -40,7 +40,6 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Ben Yu
  */
-@AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 @NullUnmarked
 public class TypeTokenResolutionTest extends TestCase {
 
@@ -330,6 +329,7 @@ public class TypeTokenResolutionTest extends TestCase {
     }
   }
 
+  @AndroidIncompatible // TODO(cpovirk): expected Integer but was String?
   public void test1() {
     Red<String> redString = new Red<String>() {};
     Red<Integer> redInteger = new Red<Integer>() {};
@@ -343,6 +343,7 @@ public class TypeTokenResolutionTest extends TestCase {
     assertThat(yellowInteger.getB().getClassDirect()).isEqualTo(Integer.class);
   }
 
+  @AndroidIncompatible // TODO(cpovirk): expected Integer but was String?
   public void test2() {
     Red<String> redString = new Red<>();
     Red<Integer> redInteger = new Red<>();

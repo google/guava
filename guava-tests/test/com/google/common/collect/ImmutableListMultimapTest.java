@@ -460,7 +460,7 @@ public class ImmutableListMultimapTest extends TestCase {
     UnmodifiableCollectionTests.assertMultimapIsUnmodifiable(multimap, "foo", 1);
   }
 
-  private Multimap<String, Integer> createMultimap() {
+  private static Multimap<String, Integer> createMultimap() {
     return ImmutableListMultimap.<String, Integer>builder()
         .put("foo", 1)
         .put("bar", 2)

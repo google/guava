@@ -181,7 +181,6 @@ public class RateLimiterTest extends TestCase {
     assertFalse(limiter.tryAcquire());
   }
 
-  @AndroidIncompatible // difference in String.format rounding?
   public void testWarmUp() {
     RateLimiter limiter = RateLimiter.create(2.0, 4000, MILLISECONDS, 3.0, stopwatch);
     for (int i = 0; i < 8; i++) {
@@ -247,7 +246,6 @@ public class RateLimiterTest extends TestCase {
         "R0.00, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20, R0.20"); // #3
   }
 
-  @AndroidIncompatible // difference in String.format rounding?
   public void testWarmUpAndUpdate() {
     RateLimiter limiter = RateLimiter.create(2.0, 4000, MILLISECONDS, 3.0, stopwatch);
     for (int i = 0; i < 8; i++) {

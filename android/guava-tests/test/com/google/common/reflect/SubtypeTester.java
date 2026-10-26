@@ -65,7 +65,6 @@ import org.jspecify.annotations.Nullable;
  *
  * <p>The declaration methods must be public.
  */
-@AndroidIncompatible // only used by android incompatible tests.
 @NullUnmarked
 abstract class SubtypeTester implements Cloneable {
 

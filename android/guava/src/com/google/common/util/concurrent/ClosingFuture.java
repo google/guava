@@ -2283,7 +2283,8 @@ public final class ClosingFuture<V extends @Nullable Object> {
           return new CountDownLatch(0);
         }
         checkState(whenClosed == null);
-        return whenClosed = new CountDownLatch(1);
+        whenClosed = new CountDownLatch(1);
+        return whenClosed;
       }
     }
   }
@@ -2340,7 +2341,11 @@ public final class ClosingFuture<V extends @Nullable Object> {
     static final Set<FinalizableReference> references = newConcurrentHashSet();
 
     static void register(ClosingFuture<?> future) {
-      references.add(new FinalizableReference(future));
+      try {
+        references.add(new FinalizableReference(future));
+      } finally {
+        ClosingFuture.reachabilityFence(future);
+      }
     }
 
     final State<?> state;

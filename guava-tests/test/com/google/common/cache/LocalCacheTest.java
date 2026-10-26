@@ -763,7 +763,6 @@ public class LocalCacheTest extends TestCase {
     assertThat(segment.count).isEqualTo(1);
   }
 
-  @AndroidIncompatible // Perhaps emulator clock does not update between the two get() calls?
   public void testComputeExpiredEntry() throws ExecutionException {
     CacheBuilder<Object, Object> builder = createCacheBuilder().expireAfterWrite(1, NANOSECONDS);
     CountingLoader loader = new CountingLoader();
@@ -2769,6 +2768,15 @@ public class LocalCacheTest extends TestCase {
     assertThat(localCacheThree.ticker).isEqualTo(localCacheTwo.ticker);
   }
 
+  public void testDeserializeWithHugeConcurrencyLevel() {
+    LocalManualCache<?, ?> cache =
+        (LocalManualCache<?, ?>)
+            CacheBuilder.newBuilder().concurrencyLevel(Integer.MAX_VALUE).build();
+    assertThat(cache.localCache.segments).hasLength(65536);
+    LocalManualCache<?, ?> deserialized = reserialize(cache);
+    assertThat(deserialized.localCache.segments).hasLength(1024);
+  }
+
   public void testLoadDifferentKeyInLoader() throws ExecutionException {
     LocalCache<String, String> cache = makeLocalCache(createCacheBuilder());
     String key1 = "key1";
@@ -2824,7 +2832,7 @@ public class LocalCacheTest extends TestCase {
 
   // utility methods
 
-  private void testLoadThrows(
+  private static void testLoadThrows(
       String key, LocalCache<String, String> cache, CacheLoader<String, String> loader)
       throws InterruptedException {
     CountDownLatch doneSignal = new CountDownLatch(1);

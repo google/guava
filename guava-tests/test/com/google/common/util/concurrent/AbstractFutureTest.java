@@ -467,6 +467,7 @@ public class AbstractFutureTest extends TestCase {
    */
 
   @J2ktIncompatible
+  // Android: takes ~25s
   public void testFutureBash() {
     if (isWindows()) {
       return; // TODO(b/136041958): Running very slowly on Windows CI.
@@ -1195,7 +1196,7 @@ public class AbstractFutureTest extends TestCase {
         "Expected element " + clazz + "." + method + " not found in stack trace", e);
   }
 
-  private ExecutionException getExpectingExecutionException(AbstractFuture<String> future)
+  private static ExecutionException getExpectingExecutionException(AbstractFuture<String> future)
       throws InterruptedException {
     try {
       String got = future.get();

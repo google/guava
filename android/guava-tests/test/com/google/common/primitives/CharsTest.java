@@ -83,7 +83,7 @@ public class CharsTest extends TestCase {
     assertThat(Chars.saturatedCast(Long.MIN_VALUE)).isEqualTo(LEAST);
   }
 
-  private void assertCastFails(long value) {
+  private static void assertCastFails(long value) {
     IllegalArgumentException ex =
         assertThrows(IllegalArgumentException.class, () -> Chars.checkedCast(value));
     assertThat(ex).hasMessageThat().contains(String.valueOf(value));
@@ -377,17 +377,25 @@ public class CharsTest extends TestCase {
     assertThat(input).isEqualTo(expectedOutput);
   }
 
-  public void testRotate() {
-    testRotate(new char[] {}, -1, new char[] {});
-    testRotate(new char[] {}, 0, new char[] {});
-    testRotate(new char[] {}, 1, new char[] {});
+  public void testRotate_emptyArray() {
+    char[] empty = {};
+    char[] expected = {};
+    testRotate(empty, -1, expected);
+    testRotate(empty, 0, expected);
+    testRotate(empty, 1, expected);
+  }
 
-    testRotate(new char[] {'1'}, -2, new char[] {'1'});
-    testRotate(new char[] {'1'}, -1, new char[] {'1'});
-    testRotate(new char[] {'1'}, 0, new char[] {'1'});
-    testRotate(new char[] {'1'}, 1, new char[] {'1'});
-    testRotate(new char[] {'1'}, 2, new char[] {'1'});
+  public void testRotate_singleElementArray() {
+    char[] single = {'1'};
+    char[] expected = {'1'};
+    testRotate(single, -2, expected);
+    testRotate(single, -1, expected);
+    testRotate(single, 0, expected);
+    testRotate(single, 1, expected);
+    testRotate(single, 2, expected);
+  }
 
+  public void testRotate_multiElementArray() {
     testRotate(new char[] {'1', '2'}, -3, new char[] {'2', '1'});
     testRotate(new char[] {'1', '2'}, -1, new char[] {'2', '1'});
     testRotate(new char[] {'1', '2'}, -2, new char[] {'1', '2'});
@@ -427,13 +435,34 @@ public class CharsTest extends TestCase {
     testRotate(new char[] {'1', '2', '3', '4', '5'}, 6, new char[] {'5', '1', '2', '3', '4'});
   }
 
-  public void testRotateIndexed() {
-    testRotate(new char[] {}, 0, 0, 0, new char[] {});
+  public void testRotateIndexed_emptyRange() {
+    char[] empty = {};
+    char[] expectedEmpty = {};
+    testRotate(empty, 0, 0, 0, expectedEmpty);
 
-    testRotate(new char[] {'1'}, 0, 0, 1, new char[] {'1'});
-    testRotate(new char[] {'1'}, 1, 0, 1, new char[] {'1'});
-    testRotate(new char[] {'1'}, 1, 1, 1, new char[] {'1'});
+    char[] single = {'1'};
+    char[] expectedSingle = {'1'};
+    testRotate(single, 1, 1, 1, expectedSingle);
 
+    char[] array = {'0', '1', '2'};
+    char[] expectedArray = {'0', '1', '2'};
+    testRotate(array, 1, 1, 1, expectedArray);
+    testRotate(array, -1, 2, 2, expectedArray);
+  }
+
+  public void testRotateIndexed_singleElementRange() {
+    char[] single = {'1'};
+    char[] expectedSingle = {'1'};
+    testRotate(single, 0, 0, 1, expectedSingle);
+    testRotate(single, 1, 0, 1, expectedSingle);
+
+    char[] array = {'0', '1', '2'};
+    char[] expectedArray = {'0', '1', '2'};
+    testRotate(array, 1, 1, 2, expectedArray);
+    testRotate(array, -1, 2, 3, expectedArray);
+  }
+
+  public void testRotateIndexed_multiElementRange() {
     // Rotate the central 5 elements, leaving the ends as-is
     testRotate(
         new char[] {'0', '1', '2', '3', '4', '5', '6'},

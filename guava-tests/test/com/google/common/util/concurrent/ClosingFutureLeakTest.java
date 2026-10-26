@@ -38,7 +38,7 @@ public class ClosingFutureLeakTest extends TestCase {
     assertThat(closeable.awaitClosed()).isTrue();
   }
 
-  private WeakReference<ClosingFuture<String>> leakClosingFuture(TestCloseable closeable) {
+  private static WeakReference<ClosingFuture<String>> leakClosingFuture(TestCloseable closeable) {
     ClosingFuture<String> willCloseCloseable =
         ClosingFuture.submit(
             closer -> {

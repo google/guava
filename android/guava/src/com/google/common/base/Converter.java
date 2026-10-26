@@ -27,6 +27,7 @@ import com.google.errorprone.annotations.concurrent.LazyInit;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.Serializable;
 import java.util.Iterator;
+import java.util.stream.Stream;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -83,8 +84,7 @@ import org.jspecify.annotations.Nullable;
  *   <li>Convert in the "backward" direction using {@code converter.reverse().convert(b)} or {@code
  *       converter.reverse().convertAll(bs)}.
  *   <li>Use {@code converter} or {@code converter.reverse()} anywhere a {@link
- *       java.util.function.Function} is accepted (for example {@link java.util.stream.Stream#map
- *       Stream.map}).
+ *       java.util.function.Function} is accepted (for example {@link Stream#map Stream.map}).
  *   <li><b>Do not</b> call {@link #doForward} or {@link #doBackward} directly; these exist only to
  *       be overridden.
  * </ul>
@@ -256,6 +256,9 @@ public abstract class Converter<A, B> implements Function<A, B> {
    * <p>The returned iterable's iterator supports {@code remove()} if the input iterator does. After
    * a successful {@code remove()} call, {@code fromIterable} no longer contains the corresponding
    * element.
+   *
+   * <p>We generally encourage using {@link Stream} over lazily computed views like this one. Here,
+   * that means using {@link Stream#map stream.map(converter)}.
    */
   /*
    * Just as Converter could implement `Function<@Nullable A, @Nullable B>` instead of `Function<A,
@@ -301,7 +304,10 @@ public abstract class Converter<A, B> implements Function<A, B> {
   @CheckReturnValue
   public Converter<B, A> reverse() {
     Converter<B, A> result = reverse;
-    return (result == null) ? reverse = new ReverseConverter<>(this) : result;
+    if (result == null) {
+      result = reverse = new ReverseConverter<>(this);
+    }
+    return result;
   }
 
   private static final class ReverseConverter<A, B> extends Converter<B, A>
@@ -548,6 +554,8 @@ public abstract class Converter<A, B> implements Function<A, B> {
     public String toString() {
       return "Converter.from(" + forwardFunction + ", " + backwardFunction + ")";
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 6500462374954026321L;
   }
 
   /** Returns a serializable converter that always converts or reverses an object to itself. */

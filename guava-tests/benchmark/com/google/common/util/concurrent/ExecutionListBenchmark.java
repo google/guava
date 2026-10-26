@@ -16,6 +16,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
@@ -25,7 +26,6 @@ import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.caliper.api.Footprint;
 import com.google.caliper.api.VmOptions;
-import com.google.common.base.Preconditions;
 import com.google.common.util.concurrent.AbstractFutureBenchmarks.OldAbstractFuture;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.util.LinkedList;
@@ -359,22 +359,17 @@ public class ExecutionListBenchmark {
     boolean executed = false;
 
     void add(Runnable runnable, Executor executor) {
-      Preconditions.checkNotNull(runnable, "Runnable was null.");
-      Preconditions.checkNotNull(executor, "Executor was null.");
-
-      boolean executeImmediate = false;
+      checkNotNull(runnable, "Runnable was null.");
+      checkNotNull(executor, "Executor was null.");
 
       synchronized (runnables) {
         if (!executed) {
           runnables.add(new RunnableExecutorPair(runnable, executor));
-        } else {
-          executeImmediate = true;
+          return;
         }
       }
 
-      if (executeImmediate) {
-        new RunnableExecutorPair(runnable, executor).execute();
-      }
+      new RunnableExecutorPair(runnable, executor).execute();
     }
 
     void execute() {
@@ -426,8 +421,8 @@ public class ExecutionListBenchmark {
     private boolean executed;
 
     void add(Runnable runnable, Executor executor) {
-      Preconditions.checkNotNull(runnable, "Runnable was null.");
-      Preconditions.checkNotNull(executor, "Executor was null.");
+      checkNotNull(runnable, "Runnable was null.");
+      checkNotNull(executor, "Executor was null.");
 
       synchronized (this) {
         if (!executed) {
@@ -493,8 +488,8 @@ public class ExecutionListBenchmark {
     private boolean executed;
 
     void add(Runnable runnable, Executor executor) {
-      Preconditions.checkNotNull(runnable, "Runnable was null.");
-      Preconditions.checkNotNull(executor, "Executor was null.");
+      checkNotNull(runnable, "Runnable was null.");
+      checkNotNull(executor, "Executor was null.");
 
       synchronized (this) {
         if (!executed) {

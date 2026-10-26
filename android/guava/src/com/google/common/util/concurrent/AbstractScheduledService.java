@@ -637,9 +637,8 @@ public abstract class AbstractScheduledService implements Service {
       @SuppressWarnings("GuardedBy")
       private Cancellable initializeOrUpdateCancellationDelegate(Schedule schedule) {
         if (cancellationDelegate == null) {
-          return cancellationDelegate = new SupplantableFuture(lock, submitToExecutor(schedule));
-        }
-        if (!cancellationDelegate.currentFuture.isCancelled()) {
+          cancellationDelegate = new SupplantableFuture(lock, submitToExecutor(schedule));
+        } else if (!cancellationDelegate.currentFuture.isCancelled()) {
           cancellationDelegate.currentFuture = submitToExecutor(schedule);
         }
         return cancellationDelegate;

@@ -701,7 +701,7 @@ public class IterablesTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> skip(list, -1));
   }
 
-  private void testGetOnAbc(Iterable<String> iterable) {
+  private static void testGetOnAbc(Iterable<String> iterable) {
     assertThrows(IndexOutOfBoundsException.class, () -> Iterables.get(iterable, -1));
     assertThat(Iterables.get(iterable, 0)).isEqualTo("a");
     assertThat(Iterables.get(iterable, 1)).isEqualTo("b");
@@ -710,7 +710,7 @@ public class IterablesTest extends TestCase {
     assertThrows(IndexOutOfBoundsException.class, () -> Iterables.get(iterable, 4));
   }
 
-  private void testGetOnEmpty(Iterable<String> iterable) {
+  private static void testGetOnEmpty(Iterable<String> iterable) {
     assertThrows(IndexOutOfBoundsException.class, () -> Iterables.get(iterable, 0));
   }
 

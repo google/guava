@@ -279,7 +279,7 @@ final class GeneralRange<T extends @Nullable Object> implements Serializable {
               getLowerEndpoint(),
               getLowerBoundType());
       result.reverse = this;
-      return this.reverse = result;
+      this.reverse = result;
     }
     return result;
   }

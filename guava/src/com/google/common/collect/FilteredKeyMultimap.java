@@ -26,7 +26,6 @@ import static java.util.Collections.emptySet;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -57,7 +56,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  public Predicate<? super Entry<K, V>> entryPredicate() {
+  public final Predicate<? super Entry<K, V>> entryPredicate() {
     return keyPredicateOnEntries(keyPredicate);
   }
 
@@ -71,7 +70,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  public boolean containsKey(@Nullable Object key) {
+  public final boolean containsKey(@Nullable Object key) {
     if (unfiltered.containsKey(key)) {
       @SuppressWarnings("unchecked") // k is equal to a K, if not one itself
       K k = (K) key;
@@ -86,7 +85,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @SuppressWarnings("EmptyList") // ImmutableList doesn't support nullable element types
-  Collection<V> unmodifiableEmptyCollection() {
+  final Collection<V> unmodifiableEmptyCollection() {
     if (unfiltered instanceof SetMultimap) {
       return emptySet();
     } else {
@@ -100,7 +99,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  Set<K> createKeySet() {
+  public Set<K> keySet() {
     return filter(unfiltered.keySet(), keyPredicate);
   }
 
@@ -188,11 +187,10 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  Collection<Entry<K, V>> createEntries() {
+  public Collection<Entry<K, V>> entries() {
     return new Entries();
   }
 
-  @WeakOuter
   class Entries extends ForwardingCollection<Entry<K, V>> {
     @Override
     protected Collection<Entry<K, V>> delegate() {
@@ -201,7 +199,7 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
 
     @Override
     @SuppressWarnings("unchecked")
-    public boolean remove(@Nullable Object o) {
+    public final boolean remove(@Nullable Object o) {
       if (o instanceof Entry) {
         Entry<?, ?> entry = (Entry<?, ?>) o;
         if (unfiltered.containsKey(entry.getKey())
@@ -215,17 +213,17 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
   }
 
   @Override
-  Collection<V> createValues() {
+  public Collection<V> values() {
     return new FilteredMultimapValues<>(this);
   }
 
   @Override
-  Map<K, Collection<V>> createAsMap() {
+  public Map<K, Collection<V>> asMap() {
     return filterKeys(unfiltered.asMap(), keyPredicate);
   }
 
   @Override
-  Multiset<K> createKeys() {
+  public Multiset<K> keys() {
     return Multisets.filter(unfiltered.keys(), keyPredicate);
   }
 }

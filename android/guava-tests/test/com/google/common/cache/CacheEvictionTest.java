@@ -416,7 +416,7 @@ public class CacheEvictionTest extends TestCase {
     }
   }
 
-  private Object objectWithHash(int hash) {
+  private static Object objectWithHash(int hash) {
     return new Object() {
       @Override
       public int hashCode() {

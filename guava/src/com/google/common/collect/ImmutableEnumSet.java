@@ -129,7 +129,10 @@ final class ImmutableEnumSet<E extends Enum<E>> extends ImmutableSet<E> {
   @Override
   public int hashCode() {
     int result = hashCode;
-    return (result == 0) ? hashCode = delegate.hashCode() : result;
+    if (result == 0) {
+      result = hashCode = delegate.hashCode();
+    }
+    return result;
   }
 
   @Override

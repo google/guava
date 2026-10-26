@@ -20,7 +20,6 @@ import static java.lang.Boolean.parseBoolean;
 import static java.util.Objects.requireNonNull;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.atomic.AtomicReferenceFieldUpdater.newUpdater;
-import static java.util.logging.Level.SEVERE;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.VisibleForTesting;
@@ -341,27 +340,14 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
 
   static {
     AtomicHelper helper;
-    Throwable thrownUnsafeFailure = null;
-    Throwable thrownAtomicReferenceFieldUpdaterFailure = null;
 
     helper = VarHandleAtomicHelperMaker.INSTANCE.tryMakeVarHandleAtomicHelper();
     if (helper == null) {
       try {
         helper = new UnsafeAtomicHelper();
       } catch (Exception | Error unsafeFailure) { // sneaky checked exception
-        thrownUnsafeFailure = unsafeFailure;
         // Catch absolutely everything and fall through to AtomicReferenceFieldUpdaterAtomicHelper.
-        try {
-          helper = new AtomicReferenceFieldUpdaterAtomicHelper();
-        } catch (Exception // sneaky checked exception
-            | Error atomicReferenceFieldUpdaterFailure) {
-          // Some Android 5.0.x Samsung devices have bugs in JDK reflection APIs that cause
-          // getDeclaredField to throw a NoSuchFieldException when the field is definitely there.
-          // For these users fallback to a suboptimal implementation, based on synchronized. This
-          // will be a definite performance hit to those users.
-          thrownAtomicReferenceFieldUpdaterFailure = atomicReferenceFieldUpdaterFailure;
-          helper = new SynchronizedHelper();
-        }
+        helper = new AtomicReferenceFieldUpdaterAtomicHelper();
       }
     }
     ATOMIC_HELPER = helper;
@@ -370,17 +356,6 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     // See: https://bugs.openjdk.org/browse/JDK-8074773
     @SuppressWarnings("unused")
     Class<?> ensureLoaded = LockSupport.class;
-
-    // Log after all static init is finished; if an installed logger uses any Futures methods, it
-    // shouldn't break in cases where reflection is missing/broken.
-    if (thrownAtomicReferenceFieldUpdaterFailure != null) {
-      log.get().log(SEVERE, "UnsafeAtomicHelper is broken!", thrownUnsafeFailure);
-      log.get()
-          .log(
-              SEVERE,
-              "AtomicReferenceFieldUpdaterAtomicHelper is broken!",
-              thrownAtomicReferenceFieldUpdaterFailure);
-    }
   }
 
   // TODO(lukes): Investigate using a @Contended annotation on these fields once one is available.
@@ -398,8 +373,7 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
    * are used from Java 9 or higher (i.e., high enough to trigger the VarHandle code path), such a
    * lookup would fail with an IllegalAccessException. That may then trigger use of Unsafe (possibly
    * with a warning under recent JVMs), or it may fall back even further to
-   * AtomicReferenceFieldUpdaterAtomicHelper, which would fail with a similar problem to
-   * VarHandleAtomicHelperMaker, forcing us all the way to SynchronizedHelper.
+   * AtomicReferenceFieldUpdaterAtomicHelper.
    *
    * Additionally, it seems that nestmates do not help with runtime reflection under *Android*, even
    * when we use a newer -source and -target. That doesn't normally matter for AbstractFutureState,
@@ -807,88 +781,6 @@ abstract class AbstractFutureState<V extends @Nullable Object> extends InternalF
     @Override
     String atomicHelperTypeForTest() {
       return "AtomicReferenceFieldUpdaterAtomicHelper";
-    }
-  }
-
-  /**
-   * {@link AtomicHelper} based on {@code synchronized} and volatile writes.
-   *
-   * <p>This is an implementation of last resort for when certain basic VM features are broken (like
-   * AtomicReferenceFieldUpdater).
-   */
-  // We use identity equality like all AtomicHelper implementations necessarily (and correctly) do.
-  @SuppressWarnings("ReferenceEquality")
-  private static final class SynchronizedHelper extends AtomicHelper {
-    @Override
-    void putThread(Waiter waiter, Thread newValue) {
-      waiter.thread = newValue;
-    }
-
-    @Override
-    void putNext(Waiter waiter, @Nullable Waiter newValue) {
-      waiter.next = newValue;
-    }
-
-    @Override
-    boolean casWaiters(
-        AbstractFutureState<?> future, @Nullable Waiter expect, @Nullable Waiter update) {
-      synchronized (future) {
-        if (future.waitersField == expect) {
-          future.waitersField = update;
-          return true;
-        }
-        return false;
-      }
-    }
-
-    @Override
-    boolean casListeners(
-        AbstractFutureState<?> future, @Nullable Listener expect, Listener update) {
-      synchronized (future) {
-        if (future.listenersField == expect) {
-          future.listenersField = update;
-          return true;
-        }
-        return false;
-      }
-    }
-
-    @Override
-    @Nullable Listener gasListeners(AbstractFutureState<?> future, Listener update) {
-      synchronized (future) {
-        Listener old = future.listenersField;
-        if (old != update) {
-          future.listenersField = update;
-        }
-        return old;
-      }
-    }
-
-    @Override
-    @Nullable Waiter gasWaiters(AbstractFutureState<?> future, Waiter update) {
-      synchronized (future) {
-        Waiter old = future.waitersField;
-        if (old != update) {
-          future.waitersField = update;
-        }
-        return old;
-      }
-    }
-
-    @Override
-    boolean casValue(AbstractFutureState<?> future, @Nullable Object expect, Object update) {
-      synchronized (future) {
-        if (future.valueField == expect) {
-          future.valueField = update;
-          return true;
-        }
-        return false;
-      }
-    }
-
-    @Override
-    String atomicHelperTypeForTest() {
-      return "SynchronizedHelper";
     }
   }
 }

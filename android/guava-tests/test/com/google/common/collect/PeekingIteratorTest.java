@@ -79,7 +79,7 @@ public class PeekingIteratorTest extends TestCase {
     }
   }
 
-  private <T extends @Nullable Object> void actsLikeIteratorHelper(List<T> list) {
+  private static <T extends @Nullable Object> void actsLikeIteratorHelper(List<T> list) {
     // Check with modifiable copies of the list
     new PeekingIteratorTester<T>(list).test();
 
@@ -231,7 +231,7 @@ public class PeekingIteratorTest extends TestCase {
     assertNextThrows(iterator);
   }
 
-  private void assertNextThrows(Iterator<?> iterator) {
+  private static void assertNextThrows(Iterator<?> iterator) {
     assertThrows(ThrowsAtEndException.class, () -> iterator.next());
   }
 }

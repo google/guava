@@ -204,6 +204,20 @@ public class ThreadFactoryBuilderTest extends TestCase {
     assertTrue(completed);
   }
 
+  // We need to test that we don't try to set the priority of a null thread.
+  @SuppressWarnings("ThreadPriorityCheck")
+  public void testThreadFactory_null() {
+    ThreadFactory factory =
+        builder
+            .setNameFormat("custom-thread-%d")
+            .setDaemon(true)
+            .setPriority(Thread.MIN_PRIORITY)
+            .setUncaughtExceptionHandler(UNCAUGHT_EXCEPTION_HANDLER)
+            .setThreadFactory(r -> null)
+            .build();
+    assertThat(factory.newThread(monitoredRunnable)).isNull();
+  }
+
   public void testNulls() {
     NullPointerTester npTester = new NullPointerTester();
     npTester.testAllPublicConstructors(ThreadFactoryBuilder.class);

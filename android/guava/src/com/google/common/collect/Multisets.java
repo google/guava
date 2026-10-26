@@ -39,7 +39,6 @@ import com.google.common.math.IntMath;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.InlineMe;
-import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.Comparator;
@@ -144,38 +143,26 @@ public final class Multisets {
       return (Multiset<E>) delegate;
     }
 
-    @LazyInit transient @Nullable Set<E> elementSet;
-
-    Set<E> createElementSet() {
-      return unmodifiableSet(delegate.elementSet());
-    }
-
     @Override
     public Set<E> elementSet() {
-      Set<E> es = elementSet;
-      return (es == null) ? elementSet = createElementSet() : es;
+      return unmodifiableSet(delegate.elementSet());
     }
-
-    @LazyInit transient @Nullable Set<Entry<E>> entrySet;
 
     @SuppressWarnings("unchecked")
     @Override
     public Set<Entry<E>> entrySet() {
-      Set<Entry<E>> es = entrySet;
-      return (es == null)
-          // Safe because the returned set is made unmodifiable and Entry
-          // itself is readonly
-          ? entrySet = (Set) unmodifiableSet(delegate.entrySet())
-          : es;
+      // Safe because the returned set is made unmodifiable and Entry
+      // itself is readonly
+      return (Set) unmodifiableSet(delegate.entrySet());
     }
 
     @Override
-    public Iterator<E> iterator() {
+    public final Iterator<E> iterator() {
       return unmodifiableIterator(delegate.iterator());
     }
 
     @Override
-    public boolean add(@ParametricNullness E element) {
+    public final boolean add(@ParametricNullness E element) {
       throw new UnsupportedOperationException();
     }
 
@@ -185,12 +172,12 @@ public final class Multisets {
     }
 
     @Override
-    public boolean addAll(Collection<? extends E> elementsToAdd) {
+    public final boolean addAll(Collection<? extends E> elementsToAdd) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean remove(@Nullable Object element) {
+    public final boolean remove(@Nullable Object element) {
       throw new UnsupportedOperationException();
     }
 
@@ -200,17 +187,17 @@ public final class Multisets {
     }
 
     @Override
-    public boolean removeAll(Collection<?> elementsToRemove) {
+    public final boolean removeAll(Collection<?> elementsToRemove) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public boolean retainAll(Collection<?> elementsToRetain) {
+    public final boolean retainAll(Collection<?> elementsToRetain) {
       throw new UnsupportedOperationException();
     }
 
     @Override
-    public void clear() {
+    public final void clear() {
       throw new UnsupportedOperationException();
     }
 
@@ -338,7 +325,7 @@ public final class Multisets {
     }
 
     @Override
-    Set<E> createElementSet() {
+    public Set<E> elementSet() {
       return Sets.filter(unfiltered.elementSet(), predicate);
     }
 
@@ -348,12 +335,12 @@ public final class Multisets {
     }
 
     @Override
-    Set<Entry<E>> createEntrySet() {
+    public Set<Entry<E>> entrySet() {
       return Sets.filter(unfiltered.entrySet(), entry -> predicate.apply(entry.getElement()));
     }
 
     @Override
-    Iterator<Entry<E>> entryIterator() {
+    Iterator<Entry<E>> internalEntryIterator() {
       throw new AssertionError("should never be called");
     }
 
@@ -432,7 +419,7 @@ public final class Multisets {
       }
 
       @Override
-      Set<E> createElementSet() {
+      public Set<E> elementSet() {
         return Sets.union(multiset1.elementSet(), multiset2.elementSet());
       }
 
@@ -442,7 +429,7 @@ public final class Multisets {
       }
 
       @Override
-      Iterator<Entry<E>> entryIterator() {
+      Iterator<Entry<E>> internalEntryIterator() {
         Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
         Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
         // TODO(lowasser): consider making the entries live views
@@ -494,7 +481,7 @@ public final class Multisets {
       }
 
       @Override
-      Set<E> createElementSet() {
+      public Set<E> elementSet() {
         return Sets.intersection(multiset1.elementSet(), multiset2.elementSet());
       }
 
@@ -504,7 +491,7 @@ public final class Multisets {
       }
 
       @Override
-      Iterator<Entry<E>> entryIterator() {
+      Iterator<Entry<E>> internalEntryIterator() {
         Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         // TODO(lowasser): consider making the entries live views
         return new AbstractIterator<Entry<E>>() {
@@ -568,7 +555,7 @@ public final class Multisets {
       }
 
       @Override
-      Set<E> createElementSet() {
+      public Set<E> elementSet() {
         return Sets.union(multiset1.elementSet(), multiset2.elementSet());
       }
 
@@ -578,7 +565,7 @@ public final class Multisets {
       }
 
       @Override
-      Iterator<Entry<E>> entryIterator() {
+      Iterator<Entry<E>> internalEntryIterator() {
         Iterator<? extends Entry<? extends E>> iterator1 = multiset1.entrySet().iterator();
         Iterator<? extends Entry<? extends E>> iterator2 = multiset2.entrySet().iterator();
         return new AbstractIterator<Entry<E>>() {
@@ -653,7 +640,7 @@ public final class Multisets {
       }
 
       @Override
-      Iterator<Entry<E>> entryIterator() {
+      Iterator<Entry<E>> internalEntryIterator() {
         Iterator<Entry<E>> iterator1 = multiset1.entrySet().iterator();
         return new AbstractIterator<Entry<E>>() {
           @Override
@@ -672,8 +659,8 @@ public final class Multisets {
       }
 
       @Override
-      int distinctElements() {
-        return Iterators.size(entryIterator());
+      int internalDistinctElements() {
+        return Iterators.size(internalEntryIterator());
       }
     };
   }
@@ -834,7 +821,7 @@ public final class Multisets {
      * Multiset.Entry#equals}.
      */
     @Override
-    public boolean equals(@Nullable Object object) {
+    public final boolean equals(@Nullable Object object) {
       if (object instanceof Multiset.Entry) {
         Multiset.Entry<?> that = (Multiset.Entry<?>) object;
         return this.getCount() == that.getCount()
@@ -848,7 +835,7 @@ public final class Multisets {
      * Multiset.Entry#hashCode}.
      */
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       E e = getElement();
       return ((e == null) ? 0 : e.hashCode()) ^ getCount();
     }
@@ -860,7 +847,7 @@ public final class Multisets {
      * counts are converted to strings as by {@code String.valueOf}.
      */
     @Override
-    public String toString() {
+    public final String toString() {
       String text = String.valueOf(getElement());
       int n = getCount();
       return (n == 1) ? text : (text + " x " + n);
@@ -1196,7 +1183,7 @@ public final class Multisets {
     }
 
     @Override
-    int distinctElements() {
+    int internalDistinctElements() {
       return elementSet().size();
     }
   }

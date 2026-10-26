@@ -127,7 +127,7 @@ public class PercentEscaperTest extends TestCase {
   }
 
   /** Helper to manually escape a 7-bit ascii character */
-  private String escapeAscii(char c) {
+  private static String escapeAscii(char c) {
     Preconditions.checkArgument(c < 128);
     String hex = "0123456789ABCDEF";
     return "%" + hex.charAt((c >> 4) & 0xf) + hex.charAt(c & 0xf);

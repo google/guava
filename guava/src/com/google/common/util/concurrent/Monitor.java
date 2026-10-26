@@ -682,7 +682,8 @@ public final class Monitor {
 
     boolean satisfied = false;
     try {
-      return satisfied = guard.isSatisfied();
+      satisfied = guard.isSatisfied();
+      return satisfied;
     } finally {
       if (!satisfied) {
         lock.unlock();
@@ -718,7 +719,8 @@ public final class Monitor {
 
     boolean satisfied = false;
     try {
-      return satisfied = guard.isSatisfied();
+      satisfied = guard.isSatisfied();
+      return satisfied;
     } finally {
       if (!satisfied) {
         lock.unlock();
@@ -742,7 +744,8 @@ public final class Monitor {
 
     boolean satisfied = false;
     try {
-      return satisfied = guard.isSatisfied();
+      satisfied = guard.isSatisfied();
+      return satisfied;
     } finally {
       if (!satisfied) {
         lock.unlock();
@@ -780,7 +783,8 @@ public final class Monitor {
 
     boolean satisfied = false;
     try {
-      return satisfied = guard.isSatisfied();
+      satisfied = guard.isSatisfied();
+      return satisfied;
     } finally {
       if (!satisfied) {
         lock.unlock();
@@ -807,7 +811,8 @@ public final class Monitor {
 
     boolean satisfied = false;
     try {
-      return satisfied = guard.isSatisfied();
+      satisfied = guard.isSatisfied();
+      return satisfied;
     } finally {
       if (!satisfied) {
         lock.unlock();

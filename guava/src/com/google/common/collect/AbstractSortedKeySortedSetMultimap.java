@@ -17,8 +17,9 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import java.util.Collection;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import org.jspecify.annotations.Nullable;
@@ -42,7 +43,7 @@ abstract class AbstractSortedKeySortedSetMultimap<
 
   @Override
   public SortedMap<K, Collection<V>> asMap() {
-    return (SortedMap<K, Collection<V>>) super.asMap();
+    return (SortedMap<K, Collection<V>>) createMaybeNavigableAsMap();
   }
 
   @Override
@@ -52,11 +53,8 @@ abstract class AbstractSortedKeySortedSetMultimap<
 
   @Override
   public SortedSet<K> keySet() {
-    return (SortedSet<K>) super.keySet();
+    return (SortedSet<K>) createMaybeNavigableKeySet();
   }
 
-  @Override
-  final Set<K> createKeySet() {
-    return createMaybeNavigableKeySet();
-  }
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 5771213879749501946L;
 }

@@ -285,7 +285,7 @@ public class UnsignedLongTest extends TestCase {
 
   @GwtIncompatible
   @J2ktIncompatible
-    public void testSerialization() {
+  public void testSerialization() {
     for (long a : TEST_LONGS) {
       reserializeAndAssert(UnsignedLong.fromLongBits(a));
     }

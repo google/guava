@@ -49,6 +49,7 @@ import org.jspecify.annotations.Nullable;
  * @author Jared Levy
  * @since 2.0
  */
+@SuppressWarnings("TooManyParameters")
 @GwtCompatible
 public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
     implements ListMultimap<K, V> {
@@ -452,7 +453,7 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
    * parameters used to build this multimap.
    */
   @Override
-  public /* TODO(cpovirk): final */ ImmutableList<V> get(K key) {
+  public final ImmutableList<V> get(K key) {
     // This cast is safe as its type is known in constructor.
     ImmutableList<V> list = (ImmutableList<V>) map.get(key);
     return (list == null) ? ImmutableList.of() : list;
@@ -472,7 +473,10 @@ public class ImmutableListMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public final ImmutableListMultimap<V, K> inverse() {
     ImmutableListMultimap<V, K> result = inverse;
-    return (result == null) ? (inverse = invert()) : result;
+    if (result == null) {
+      result = inverse = invert();
+    }
+    return result;
   }
 
   private ImmutableListMultimap<V, K> invert() {

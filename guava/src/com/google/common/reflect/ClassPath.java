@@ -270,12 +270,12 @@ public final class ClassPath {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       return resourceName.hashCode();
     }
 
     @Override
-    public boolean equals(@Nullable Object obj) {
+    public final boolean equals(@Nullable Object obj) {
       if (obj instanceof ResourceInfo) {
         ResourceInfo that = (ResourceInfo) obj;
         return resourceName.equals(that.resourceName) && loader == that.loader;
@@ -328,7 +328,7 @@ public final class ClassPath {
      * discussion in <a href="https://github.com/google/guava/issues/3349">issue 3349</a>.
      */
     public String getSimpleName() {
-      int lastDollarSign = className.lastIndexOf('$');
+      int lastDollarSign = lastNestedClassSeparator();
       if (lastDollarSign != -1) {
         String innerClassName = className.substring(lastDollarSign + 1);
         // local and anonymous classes are prefixed with number (1,2,3...), anonymous classes are
@@ -356,14 +356,37 @@ public final class ClassPath {
 
     /**
      * Returns true if the class name "looks to be" top level (not nested), that is, it includes no
-     * '$' in the name. This method may return false for a top-level class that's intentionally
-     * named with the '$' character. If this is a concern, you could use {@link #load} and then
-     * check on the loaded {@link Class} object instead.
+     * isolated '$' in the name other than at the beginning or end of the simple name (as in
+     * generated classes like {@code $AutoValue_Foo} or {@code $$AutoValue_Foo}). This method may
+     * return false for a top-level class that's intentionally named with a '$' character elsewhere.
+     * If this is a concern, you could use {@link #load} and then check on the loaded {@link Class}
+     * object instead.
      *
      * @since 30.1
      */
     public boolean isTopLevel() {
-      return className.indexOf('$') == -1;
+      return lastNestedClassSeparator() == -1;
+    }
+
+    /**
+     * Returns the index of the last '$' that "looks to be" a nested-class separator, or -1 if there
+     * is none. Leading, trailing, and repeated '$' characters in the part of the name after the
+     * package are ignored, since they are commonly part of the names of generated top-level
+     * classes.
+     */
+    private int lastNestedClassSeparator() {
+      for (int i = className.length() - 2; i >= 1; i--) {
+        char a = className.charAt(i - 1);
+        char b = className.charAt(i);
+        char c = className.charAt(i + 1);
+        if (a == '.' || b == '.' || c == '.') {
+          return -1;
+        }
+        if (a != '$' && b == '$' && c != '$') {
+          return i;
+        }
+      }
+      return -1;
     }
 
     /**
@@ -570,7 +593,7 @@ public final class ClassPath {
   /**
    * Returns the class path URIs specified by the {@code Class-Path} manifest attribute, according
    * to <a
-   * href="https://docs.oracle.com/en/java/javase/26/docs/specs/jar/jar.html#main-attributes">JAR
+   * href="https://docs.oracle.com/en/java/javase/27/docs/specs/jar/jar.html#main-attributes">JAR
    * File Specification</a>. If {@code manifest} is null, it means the jar file has no manifest, and
    * an empty set will be returned.
    */
@@ -652,7 +675,7 @@ public final class ClassPath {
 
   /**
    * Returns the absolute uri of the Class-Path entry value as specified in <a
-   * href="https://docs.oracle.com/en/java/javase/26/docs/specs/jar/jar.html#main-attributes">JAR
+   * href="https://docs.oracle.com/en/java/javase/27/docs/specs/jar/jar.html#main-attributes">JAR
    * File Specification</a>. Even though the specification only talks about relative urls, absolute
    * urls are actually supported too (for example, in Maven surefire plugin).
    */

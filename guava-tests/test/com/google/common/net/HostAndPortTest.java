@@ -93,11 +93,15 @@ public class HostAndPortTest extends TestCase {
     checkFromStringCase("[]:", 1, null, 99, false);
     checkFromStringCase("[]:80", 1, null, 99, false);
     checkFromStringCase("[]bad", 1, null, 99, false);
+    checkFromStringCase("[[:]]", 1, null, 99, false);
+    checkFromStringCase("[[:]]:108", 1, null, 99, false);
+    checkFromStringCase("[2001:db8::a]:25]:443", 1, null, 99, false);
+    checkFromStringCase("[::1]:22]", 1, null, 99, false);
   }
 
   public void testFromStringParseableNonsense() {
     // Examples of nonsense that gets through.
-    checkFromStringCase("[[:]]", 86, "[:]", 86, false);
+    checkFromStringCase("[[:]", 86, "[:", 86, false);
     checkFromStringCase("x:y:z", 87, "x:y:z", 87, false);
     checkFromStringCase("", 88, "", 88, false);
     checkFromStringCase(":", 99, "", 99, false);
@@ -182,6 +186,8 @@ public class HostAndPortTest extends TestCase {
     assertThrows(IllegalArgumentException.class, () -> HostAndPort.fromHost("gmail.com:80"));
 
     assertThrows(IllegalArgumentException.class, () -> HostAndPort.fromHost("[gmail.com]"));
+
+    assertThrows(IllegalArgumentException.class, () -> HostAndPort.fromHost("[::1]:22]"));
   }
 
   public void testGetPortOrDefault() {
@@ -236,7 +242,7 @@ public class HostAndPortTest extends TestCase {
 
     // Garbage in, garbage out.
     assertThat(HostAndPort.fromParts("::]", 107).toString()).isEqualTo("[::]]:107");
-    assertThat(HostAndPort.fromString("[[:]]:108").toString()).isEqualTo("[[:]]:108");
+    assertThat(HostAndPort.fromString("[[:]:108").toString()).isEqualTo("[[:]:108");
   }
 
   public void testSerialization() {

@@ -142,6 +142,7 @@ public class InetAddressesTest extends TestCase {
     assertTrue(InetAddresses.isInetAddress(ipStr));
   }
 
+  @AndroidIncompatible // does hit DNS under Android, taking ~80s
   public void testForStringIPv4NonAsciiInput() {
     String ipStr = "૧૯૨.૧૬૮.૦.૧"; // 192.168.0.1 in Gujarati digits
     // Shouldn't hit DNS, because it's an IP string literal.
@@ -164,6 +165,7 @@ public class InetAddressesTest extends TestCase {
     assertTrue(InetAddresses.isInetAddress(ipStr));
   }
 
+  @AndroidIncompatible // does hit DNS under Android, taking ~80s
   public void testForStringIPv6NonAsciiInput() {
     String ipStr = "૩ffe::૧"; // 3ffe::1 with Gujarati digits for 3 and 1
     // Shouldn't hit DNS, because it's an IP string literal.
@@ -327,6 +329,16 @@ public class InetAddressesTest extends TestCase {
     assertThrows(
         IllegalArgumentException.class,
         () -> InetAddresses.forString("1180::b059:65f4:e877:c40%eth9"));
+  }
+
+  public void testIPv6AddressWithScopeIdThatOverflowsInt() {
+    // A numeric scope ID larger than Integer.MAX_VALUE must be rejected, not silently wrapped into
+    // a bogus (negative or truncated) interface index. 2147483648 overflows to a negative value and
+    // 21474836480 wraps to 0 under the old int-based parse.
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forString("fe80::1%2147483648"));
+    assertThrows(
+        IllegalArgumentException.class, () -> InetAddresses.forString("fe80::1%21474836480"));
   }
 
   public void testToAddrStringIPv4() {

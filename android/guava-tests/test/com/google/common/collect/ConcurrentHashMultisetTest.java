@@ -380,7 +380,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     testIdentityKeyEquality(WEAK);
   }
 
-  private void testIdentityKeyEquality(MapMakerInternalMap.Strength keyStrength) {
+  private static void testIdentityKeyEquality(MapMakerInternalMap.Strength keyStrength) {
 
     ConcurrentMap<String, AtomicInteger> map =
         new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.identity()).makeMap();
@@ -416,7 +416,7 @@ public class ConcurrentHashMultisetTest extends TestCase {
     testLogicalKeyEquality(WEAK);
   }
 
-  private void testLogicalKeyEquality(MapMakerInternalMap.Strength keyStrength) {
+  private static void testLogicalKeyEquality(MapMakerInternalMap.Strength keyStrength) {
 
     ConcurrentMap<String, AtomicInteger> map =
         new MapMaker().setKeyStrength(keyStrength).keyEquivalence(Equivalence.equals()).makeMap();

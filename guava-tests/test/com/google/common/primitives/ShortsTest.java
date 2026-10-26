@@ -390,17 +390,25 @@ public class ShortsTest extends TestCase {
     assertThat(input).isEqualTo(expectedOutput);
   }
 
-  public void testRotate() {
-    testRotate(new short[] {}, -1, new short[] {});
-    testRotate(new short[] {}, 0, new short[] {});
-    testRotate(new short[] {}, 1, new short[] {});
+  public void testRotate_emptyArray() {
+    short[] empty = {};
+    short[] expected = {};
+    testRotate(empty, -1, expected);
+    testRotate(empty, 0, expected);
+    testRotate(empty, 1, expected);
+  }
 
-    testRotate(new short[] {1}, -2, new short[] {1});
-    testRotate(new short[] {1}, -1, new short[] {1});
-    testRotate(new short[] {1}, 0, new short[] {1});
-    testRotate(new short[] {1}, 1, new short[] {1});
-    testRotate(new short[] {1}, 2, new short[] {1});
+  public void testRotate_singleElementArray() {
+    short[] single = {1};
+    short[] expected = {1};
+    testRotate(single, -2, expected);
+    testRotate(single, -1, expected);
+    testRotate(single, 0, expected);
+    testRotate(single, 1, expected);
+    testRotate(single, 2, expected);
+  }
 
+  public void testRotate_multiElementArray() {
     testRotate(new short[] {1, 2}, -3, new short[] {2, 1});
     testRotate(new short[] {1, 2}, -1, new short[] {2, 1});
     testRotate(new short[] {1, 2}, -2, new short[] {1, 2});
@@ -440,13 +448,34 @@ public class ShortsTest extends TestCase {
     testRotate(new short[] {1, 2, 3, 4, 5}, 6, new short[] {5, 1, 2, 3, 4});
   }
 
-  public void testRotateIndexed() {
-    testRotate(new short[] {}, 0, 0, 0, new short[] {});
+  public void testRotateIndexed_emptyRange() {
+    short[] empty = {};
+    short[] expectedEmpty = {};
+    testRotate(empty, 0, 0, 0, expectedEmpty);
 
-    testRotate(new short[] {1}, 0, 0, 1, new short[] {1});
-    testRotate(new short[] {1}, 1, 0, 1, new short[] {1});
-    testRotate(new short[] {1}, 1, 1, 1, new short[] {1});
+    short[] single = {1};
+    short[] expectedSingle = {1};
+    testRotate(single, 1, 1, 1, expectedSingle);
 
+    short[] array = {0, 1, 2};
+    short[] expectedArray = {0, 1, 2};
+    testRotate(array, 1, 1, 1, expectedArray);
+    testRotate(array, -1, 2, 2, expectedArray);
+  }
+
+  public void testRotateIndexed_singleElementRange() {
+    short[] single = {1};
+    short[] expectedSingle = {1};
+    testRotate(single, 0, 0, 1, expectedSingle);
+    testRotate(single, 1, 0, 1, expectedSingle);
+
+    short[] array = {0, 1, 2};
+    short[] expectedArray = {0, 1, 2};
+    testRotate(array, 1, 1, 2, expectedArray);
+    testRotate(array, -1, 2, 3, expectedArray);
+  }
+
+  public void testRotateIndexed_multiElementRange() {
     // Rotate the central 5 elements, leaving the ends as-is
     testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new short[] {0, 2, 3, 4, 5, 1, 6});
     testRotate(new short[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new short[] {0, 2, 3, 4, 5, 1, 6});

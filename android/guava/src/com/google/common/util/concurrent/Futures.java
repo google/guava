@@ -72,7 +72,9 @@ import org.jspecify.annotations.Nullable;
  *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
- * <p>If you do chain your operations manually, you may want to use {@link FluentFuture}.
+ * <p>If you do chain your operations manually, you may want to use {@link FluentFuture}. If those
+ * operations create objects that must be closed when the computation is done, see {@link
+ * ClosingFuture}.
  *
  * @author Kevin Bourrillion
  * @author Nishant Thakkar
@@ -414,6 +416,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
       long time,
       TimeUnit unit,
       ScheduledExecutorService scheduledExecutor) {
+    checkNotNull(unit);
+    checkNotNull(scheduledExecutor);
     if (delegate.isDone()) {
       return delegate;
     }
@@ -423,7 +427,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /**
    * Returns a new {@code Future} whose result is asynchronously derived from the result of the
    * given {@code Future}. If the given {@code Future} fails, the returned {@code Future} fails with
-   * the same exception (and the function is not invoked).
+   * the same exception (and the function is not invoked). If the function throws an exception, the
+   * returned {@code Future} fails with that exception.
    *
    * <p>More precisely, the returned {@code Future} takes its result from a {@code Future} produced
    * by applying the given {@code AsyncFunction} to the result of the original {@code Future}.
@@ -463,7 +468,8 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
   /**
    * Returns a new {@code Future} whose result is derived from the result of the given {@code
    * Future}. If {@code input} fails, the returned {@code Future} fails with the same exception (and
-   * the function is not invoked). Example usage:
+   * the function is not invoked). If the function throws an exception, the returned {@code Future}
+   * fails with that exception. Example usage:
    *
    * {@snippet :
    * ListenableFuture<QueryResult> queryFuture = ...;

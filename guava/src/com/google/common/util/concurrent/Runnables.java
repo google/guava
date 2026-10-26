@@ -32,7 +32,11 @@ public final class Runnables {
   @SuppressWarnings({"InlineLambdaConstant", "UnnecessaryLambda"})
   private static final Runnable EMPTY_RUNNABLE = () -> {};
 
-  /** Returns a {@link Runnable} instance that does nothing when run. */
+  /**
+   * Returns a {@link Runnable} instance that does nothing when run.
+   *
+   * <p>Most users should just use {@code () -> {}}.
+   */
   public static Runnable doNothing() {
     return EMPTY_RUNNABLE;
   }

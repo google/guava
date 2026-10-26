@@ -67,21 +67,25 @@ import org.jspecify.annotations.Nullable;
  *   public static MyServer create(...) {
  *     MyServer myServer = new MyServer(...);
  *     ServerSocket serverSocket = myServer.serverSocket;
- *     Reference<?> reference = new FinalizablePhantomReference<MyServer>(myServer, frq) {
- *       @Override
- *       public void finalizeReferent() {
- *         references.remove(this):
- *         if (!serverSocket.isClosed()) {
- *           ...log a message about how nobody called close()...
- *           try {
- *             serverSocket.close();
- *           } catch (IOException e) {
- *             ...
+ *     try {
+ *       Reference<?> reference = new FinalizablePhantomReference<MyServer>(myServer, frq) {
+ *         @Override
+ *         public void finalizeReferent() {
+ *           references.remove(this);
+ *           if (!serverSocket.isClosed()) {
+ *             ...log a message about how nobody called close()...
+ *             try {
+ *               serverSocket.close();
+ *             } catch (IOException e) {
+ *               ...
+ *             }
  *           }
  *         }
- *       }
- *     };
- *     references.add(reference);
+ *       };
+ *       references.add(reference);
+ *     } finally {
+ *       Reference.reachabilityFence(myServer);
+ *     }
  *     return myServer;
  *   }
  *
@@ -236,7 +240,7 @@ public class FinalizableReferenceQueue implements Closeable {
    * FinalizableReference#finalizeReferent()} on them until the queue is empty. This method is a
    * no-op if the background thread was created successfully.
    */
-  void cleanUp() {
+  final void cleanUp() {
     if (threadStarted) {
       return;
     }
@@ -358,7 +362,7 @@ public class FinalizableReferenceQueue implements Closeable {
     }
 
     /** Gets URL for base of path containing Finalizer.class. */
-    URL getBaseUrl() throws IOException {
+    final URL getBaseUrl() throws IOException {
       // Find URL pointing to Finalizer.class file.
       String finalizerPath = FINALIZER_CLASS_NAME.replace('.', '/') + ".class";
       URL finalizerUrl = getClass().getClassLoader().getResource(finalizerPath);

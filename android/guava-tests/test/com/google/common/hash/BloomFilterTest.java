@@ -93,6 +93,7 @@ public class BloomFilterTest extends TestCase {
     assertThat(bf.approximateElementCount()).isAtMost((long) (sizeGuess * 1.01));
   }
 
+  // Android: takes ~20s
   public void testCreateAndCheckMitz32BloomFilterWithKnownFalsePositives() {
     int numInsertions = 1000000;
     BloomFilter<String> bf =
@@ -135,6 +136,7 @@ public class BloomFilterTest extends TestCase {
     assertThat(actualReportedFpp).isWithin(0.00015).of(expectedReportedFpp);
   }
 
+  // Android: takes ~20s
   public void testCreateAndCheckBloomFilterWithKnownFalsePositives64() {
     int numInsertions = 1000000;
     BloomFilter<String> bf =
@@ -176,6 +178,7 @@ public class BloomFilterTest extends TestCase {
     assertThat(actualReportedFpp).isWithin(0.00033).of(expectedReportedFpp);
   }
 
+  // Android: takes ~20s
   public void testCreateAndCheckBloomFilterWithKnownUtf8FalsePositives64() {
     int numInsertions = 1000000;
     BloomFilter<String> bf =
@@ -283,10 +286,8 @@ public class BloomFilterTest extends TestCase {
     IllegalArgumentException expected =
         assertThrows(
             IllegalArgumentException.class,
-            () -> {
-              BloomFilter<String> unused =
-                  BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE);
-            });
+            () ->
+                BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE));
     assertThat(expected)
         .hasMessageThat()
         .isEqualTo("Could not create BloomFilter of 3327428144502 bits");
@@ -333,7 +334,6 @@ public class BloomFilterTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
   public void testBitSize() {
     double fpp = 0.03;
     for (int i = 1; i < 10000; i++) {

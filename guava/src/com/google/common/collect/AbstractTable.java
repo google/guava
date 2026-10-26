@@ -24,8 +24,6 @@ import static com.google.common.collect.Maps.safeRemove;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.errorprone.annotations.concurrent.LazyInit;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.AbstractCollection;
 import java.util.AbstractSet;
 import java.util.Collection;
@@ -119,15 +117,8 @@ abstract class AbstractTable<
     }
   }
 
-  @LazyInit private transient @Nullable Set<Cell<R, C, V>> cellSet;
-
   @Override
   public Set<Cell<R, C, V>> cellSet() {
-    Set<Cell<R, C, V>> result = cellSet;
-    return (result == null) ? cellSet = createCellSet() : result;
-  }
-
-  Set<Cell<R, C, V>> createCellSet() {
     return new CellSet();
   }
 
@@ -137,7 +128,6 @@ abstract class AbstractTable<
     return Spliterators.spliterator(cellSet(), Spliterator.NONNULL | Spliterator.DISTINCT);
   }
 
-  @WeakOuter
   private final class CellSet extends AbstractSet<Cell<R, C, V>> {
     @Override
     public boolean contains(@Nullable Object o) {
@@ -182,15 +172,8 @@ abstract class AbstractTable<
     }
   }
 
-  @LazyInit private transient @Nullable Collection<V> values;
-
   @Override
   public Collection<V> values() {
-    Collection<V> result = values;
-    return (result == null) ? values = createValues() : result;
-  }
-
-  Collection<V> createValues() {
     return new Values();
   }
 
@@ -209,7 +192,6 @@ abstract class AbstractTable<
     return CollectSpliterators.map(cellSpliterator(), 0, Cell::getValue);
   }
 
-  @WeakOuter
   private final class Values extends AbstractCollection<V> {
     @Override
     public Iterator<V> iterator() {

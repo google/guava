@@ -28,7 +28,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.Weak;
-import com.google.j2objc.annotations.WeakOuter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -209,7 +208,8 @@ public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nul
       tail = node;
       KeyList<K, V> keyList = keyToKeyList.get(key);
       if (keyList == null) {
-        keyToKeyList.put(key, keyList = new KeyList<>(node));
+        keyList = new KeyList<>(node);
+        keyToKeyList.put(key, keyList);
         modCount++;
       } else {
         keyList.count++;
@@ -705,8 +705,7 @@ public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nul
   }
 
   @Override
-  Set<K> createKeySet() {
-    @WeakOuter
+  public Set<K> keySet() {
     final class KeySetImpl extends Sets.ImprovedAbstractSet<K> {
       @Override
       public int size() {
@@ -732,7 +731,7 @@ public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nul
   }
 
   @Override
-  Multiset<K> createKeys() {
+  public Multiset<K> keys() {
     return new Multimaps.Keys<K, V>(this);
   }
 
@@ -746,12 +745,6 @@ public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nul
    */
   @Override
   public List<V> values() {
-    return (List<V>) super.values();
-  }
-
-  @Override
-  List<V> createValues() {
-    @WeakOuter
     final class ValuesImpl extends AbstractSequentialList<V> {
       @Override
       public int size() {
@@ -796,12 +789,6 @@ public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nul
    */
   @Override
   public List<Entry<K, V>> entries() {
-    return (List<Entry<K, V>>) super.entries();
-  }
-
-  @Override
-  List<Entry<K, V>> createEntries() {
-    @WeakOuter
     final class EntriesImpl extends AbstractSequentialList<Entry<K, V>> {
       @Override
       public int size() {
@@ -822,7 +809,7 @@ public final class LinkedListMultimap<K extends @Nullable Object, V extends @Nul
   }
 
   @Override
-  Map<K, Collection<V>> createAsMap() {
+  public Map<K, Collection<V>> asMap() {
     return new Multimaps.AsMap<>(this);
   }
 

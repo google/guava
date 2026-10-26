@@ -240,7 +240,7 @@ public class CycleDetectingLockFactory {
    * Creates a {@link ReentrantLock} with the given fairness policy. The {@code lockName} is used in
    * the warning or exception output to help identify the locks involved in the detected deadlock.
    */
-  public ReentrantLock newReentrantLock(String lockName, boolean fair) {
+  public final ReentrantLock newReentrantLock(String lockName, boolean fair) {
     return policy == Policies.DISABLED
         ? new ReentrantLock(fair)
         : new CycleDetectingReentrantLock(new LockGraphNode(lockName), fair);
@@ -256,7 +256,7 @@ public class CycleDetectingLockFactory {
    * is used in the warning or exception output to help identify the locks involved in the detected
    * deadlock.
    */
-  public ReentrantReadWriteLock newReentrantReadWriteLock(String lockName, boolean fair) {
+  public final ReentrantReadWriteLock newReentrantReadWriteLock(String lockName, boolean fair) {
     return policy == Policies.DISABLED
         ? new ReentrantReadWriteLock(fair)
         : new CycleDetectingReentrantReadWriteLock(new LockGraphNode(lockName), fair);

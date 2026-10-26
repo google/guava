@@ -174,7 +174,7 @@ public abstract class IoTestCase extends TestCase {
   }
 
   @CanIgnoreReturnValue
-  private boolean delete(File file) {
+  private static boolean delete(File file) {
     if (file.isDirectory()) {
       File[] files = file.listFiles();
       if (files != null) {

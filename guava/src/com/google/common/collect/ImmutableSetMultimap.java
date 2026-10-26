@@ -58,6 +58,7 @@ import org.jspecify.annotations.Nullable;
  * @author Mike Ward
  * @since 2.0
  */
+@SuppressWarnings("TooManyParameters")
 @GwtCompatible
 public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     implements SetMultimap<K, V> {
@@ -560,7 +561,10 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
   @Override
   public final ImmutableSetMultimap<V, K> inverse() {
     ImmutableSetMultimap<V, K> result = inverse;
-    return (result == null) ? (inverse = invert()) : result;
+    if (result == null) {
+      result = inverse = invert();
+    }
+    return result;
   }
 
   private ImmutableSetMultimap<V, K> invert() {
@@ -601,16 +605,13 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     throw new UnsupportedOperationException();
   }
 
-  @LazyInit @RetainedWith private transient @Nullable ImmutableSet<Entry<K, V>> entries;
-
   /**
    * Returns an immutable collection of all key-value pairs in the multimap. Its iterator traverses
    * the values for the first key, the values for the second key, and so on.
    */
   @Override
   public final ImmutableSet<Entry<K, V>> entries() {
-    ImmutableSet<Entry<K, V>> result = entries;
-    return result == null ? (entries = new EntrySet<>(this)) : result;
+    return new EntrySet<>(this);
   }
 
   private static final class EntrySet<K, V> extends ImmutableSet<Entry<K, V>> {

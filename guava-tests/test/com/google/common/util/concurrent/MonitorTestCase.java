@@ -66,8 +66,10 @@ public abstract class MonitorTestCase extends TestCase {
   protected final void setUp() {
     boolean fair = new Random().nextBoolean();
     monitor = new Monitor(fair);
-    tearDownStack.addTearDown(thread1 = new TestThread<>(monitor, "TestThread #1"));
-    tearDownStack.addTearDown(thread2 = new TestThread<>(monitor, "TestThread #2"));
+    thread1 = new TestThread<>(monitor, "TestThread #1");
+    tearDownStack.addTearDown(thread1);
+    thread2 = new TestThread<>(monitor, "TestThread #2");
+    tearDownStack.addTearDown(thread2);
   }
 
   @Override
@@ -79,7 +81,7 @@ public abstract class MonitorTestCase extends TestCase {
     return interruptible ? "enterInterruptibly" : "enter";
   }
 
-  private String tryEnter() {
+  private static String tryEnter() {
     return "tryEnter";
   }
 
@@ -87,7 +89,7 @@ public abstract class MonitorTestCase extends TestCase {
     return interruptible ? "enterIfInterruptibly" : "enterIf";
   }
 
-  private String tryEnterIf() {
+  private static String tryEnterIf() {
     return "tryEnterIf";
   }
 
@@ -99,7 +101,7 @@ public abstract class MonitorTestCase extends TestCase {
     return interruptible ? "waitFor" : "waitForUninterruptibly";
   }
 
-  private String leave() {
+  private static String leave() {
     return "leave";
   }
 

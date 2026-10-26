@@ -50,7 +50,7 @@ public class AbstractNonStreamingHashFunctionTest extends TestCase {
             new NonStreamingVersion().newHasher(), new NonStreamingVersion().newHasher(123)));
   }
 
-  private void runExhaustive(List<Hasher> hashers) {
+  private static void runExhaustive(List<Hasher> hashers) {
     Random random = new Random(0);
     for (int i = 0; i < 200; i++) {
       RandomHasherAction.pickAtRandom(random).performAction(random, hashers);

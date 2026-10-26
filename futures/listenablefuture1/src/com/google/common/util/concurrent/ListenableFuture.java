@@ -47,6 +47,10 @@ import org.jspecify.annotations.Nullable;
  *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
+ * <p>If the operations in your chain create objects that must be closed when the computation is
+ * done, such as database connections or file handles, consider {@link ClosingFuture}. It closes
+ * them once the whole computation completes, fails, or is cancelled.
+ *
  * <p>The main purpose of {@link #addListener addListener} is to support this chaining. You will
  * rarely use it directly, in part because it does not provide direct access to the {@code Future}
  * result. (If you want such access, you may prefer {@link Futures#addCallback
@@ -143,7 +147,7 @@ public interface ListenableFuture<V extends @Nullable Object> extends Future<V> 
    * Futures#addCallback addCallback()}.
    *
    * <p>Memory consistency effects: Actions in a thread prior to adding a listener <a
-   * href="https://docs.oracle.com/javase/specs/jls/se26/html/jls-17.html#jls-17.4.5">
+   * href="https://docs.oracle.com/javase/specs/jls/se27/html/jls-17.html#jls-17.4.5">
    * <i>happen-before</i></a> its execution begins, perhaps in another thread.
    *
    * <p>Guava implementations of {@code ListenableFuture} promptly release references to listeners

@@ -34,34 +34,40 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class CharsetsTest extends TestCase {
 
+  @SuppressWarnings("TruthConstantAsserts") // We are testing our constant definition.
   @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testUsAscii() {
     assertThat(Charsets.US_ASCII).isEqualTo(Charset.forName("US-ASCII"));
   }
 
+  @SuppressWarnings("TruthConstantAsserts") // We are testing our constant definition.
   @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testIso88591() {
     assertThat(Charsets.ISO_8859_1).isEqualTo(Charset.forName("ISO-8859-1"));
   }
 
+  @SuppressWarnings("TruthConstantAsserts") // We are testing our constant definition.
   public void testUtf8() {
     assertThat(Charsets.UTF_8).isEqualTo(Charset.forName("UTF-8"));
   }
 
+  @SuppressWarnings("TruthConstantAsserts") // We are testing our constant definition.
   @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testUtf16be() {
     assertThat(Charsets.UTF_16BE).isEqualTo(Charset.forName("UTF-16BE"));
   }
 
+  @SuppressWarnings("TruthConstantAsserts") // We are testing our constant definition.
   @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testUtf16le() {
     assertThat(Charsets.UTF_16LE).isEqualTo(Charset.forName("UTF-16LE"));
   }
 
+  @SuppressWarnings("TruthConstantAsserts") // We are testing our constant definition.
   @J2ktIncompatible
   @GwtIncompatible // Non-UTF-8 Charset
   public void testUtf16() {

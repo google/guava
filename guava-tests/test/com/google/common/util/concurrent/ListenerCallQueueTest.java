@@ -186,12 +186,12 @@ public class ListenerCallQueueTest extends TestCase {
     }
   }
 
-  private ListenerCallQueue.Event<Object> incrementingEvent(
+  private static ListenerCallQueue.Event<Object> incrementingEvent(
       Multiset<Object> counters, Object expectedListener, int expectedCount) {
     return incrementingEvent(counters, multiset(expectedListener, expectedCount));
   }
 
-  private ListenerCallQueue.Event<Object> incrementingEvent(
+  private static ListenerCallQueue.Event<Object> incrementingEvent(
       Multiset<Object> counters, Multiset<Object> expected) {
     return new ListenerCallQueue.Event<Object>() {
       @Override
@@ -223,7 +223,7 @@ public class ListenerCallQueueTest extends TestCase {
     return builder.build();
   }
 
-  private ListenerCallQueue.Event<Object> countDownEvent(CountDownLatch latch) {
+  private static ListenerCallQueue.Event<Object> countDownEvent(CountDownLatch latch) {
     return new ListenerCallQueue.Event<Object>() {
       @Override
       public void call(Object listener) {

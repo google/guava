@@ -64,6 +64,16 @@ public final class Doubles extends DoublesMethodsForWeb {
   public static final int BYTES = Double.BYTES;
 
   /**
+   * Represents the smallest {@code double} value that is strictly greater than zero. This is an
+   * alias for {@link Double#MIN_VALUE}, but has a name that more clearly expresses its meaning.
+   *
+   * <p><b>Note:</b> the most negative finite double value is {@code -Double.MAX_VALUE}.
+   *
+   * @since NEXT
+   */
+  public static final double MIN_POSITIVE_VALUE = Double.MIN_VALUE;
+
+  /**
    * Returns a hash code for {@code value}; obsolete alternative to {@link Double#hashCode(double)}.
    *
    * @param value a primitive {@code double} value
@@ -507,11 +517,11 @@ public final class Doubles extends DoublesMethodsForWeb {
     // See Ints.rotate for more details about possible algorithms here.
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
-    if (array.length <= 1) {
+    int length = toIndex - fromIndex;
+    if (length <= 1) {
       return;
     }
 
-    int length = toIndex - fromIndex;
     // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many
     // places left to rotate.
     int m = -distance % length;

@@ -57,6 +57,9 @@ public final class CharStreams {
    * Copies all characters between the {@link Readable} and {@link Appendable} objects. Does not
    * close or flush either object.
    *
+   * <p><b>Java 10+ users:</b> If the input is a {@link Reader} and the output is a {@link Writer},
+   * prefer {@link Reader#transferTo(Writer)}.
+   *
    * @param from the object to read from
    * @param to the object to write to
    * @return the number of characters copied

@@ -596,13 +596,27 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
   }
 
+  @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
   @Override
   public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
     checkNotNull(function);
     Node<K, V> oldFirst = firstInKeyInsertionOrder;
     clear();
+    try {
+      for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
+        put(node.key, function.apply(node.key, node.value));
+      }
+    } catch (Exception e) { // sneaky checked exception
+      restoreFromSavedNodes(oldFirst);
+      throw e;
+    }
+  }
+
+  private void restoreFromSavedNodes(@Nullable Node<K, V> oldFirst) {
+    clear();
     for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
-      put(node.key, function.apply(node.key, node.value));
+      insertSplicingIntoIterationOrder(
+          node, node.prevInKeyInsertionOrder, node.nextInKeyInsertionOrder);
     }
   }
 
@@ -611,7 +625,10 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public BiMap<V, K> inverse() {
     BiMap<V, K> result = inverse;
-    return (result == null) ? inverse = new Inverse<>(this) : result;
+    if (result == null) {
+      result = inverse = new Inverse<>(this);
+    }
+    return result;
   }
 
   private static final class Inverse<K extends @Nullable Object, V extends @Nullable Object>
@@ -782,13 +799,19 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       obverse.forEach((k, v) -> action.accept(v, k));
     }
 
+    @SuppressWarnings("CatchingUnchecked") // sneaky checked exception
     @Override
     public void replaceAll(BiFunction<? super V, ? super K, ? extends K> function) {
       checkNotNull(function);
       Node<K, V> oldFirst = obverse.firstInKeyInsertionOrder;
       clear();
-      for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
-        put(node.value, function.apply(node.value, node.key));
+      try {
+        for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
+          put(node.value, function.apply(node.value, node.key));
+        }
+      } catch (Exception e) { // sneaky checked exception
+        obverse.restoreFromSavedNodes(oldFirst);
+        throw e;
       }
     }
 
@@ -823,6 +846,8 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     Object readResolve() {
       return bimap.inverse();
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 2881074110665323944L;
   }
 
   /**

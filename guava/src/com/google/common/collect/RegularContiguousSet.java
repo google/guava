@@ -255,6 +255,8 @@ final class RegularContiguousSet<C extends Comparable> extends ContiguousSet<C> 
     private Object readResolve() {
       return new RegularContiguousSet<>(range, domain);
     }
+
+    private static final long serialVersionUID = 8555423162527582369L;
   }
 
   @GwtIncompatible

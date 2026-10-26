@@ -34,7 +34,7 @@ import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Tests for {@link AbstractFuture} with the cancellation cause system property set */
-@AndroidIncompatible // custom classloading
+@AndroidIncompatible // custom classloading, though b/31360928 hides whatever the error is
 
 @NullUnmarked
 @GwtIncompatible

@@ -51,11 +51,7 @@ public class CollectionCreationTester<E> extends AbstractCollectionTester<E> {
   public void testCreateWithNull_unsupported() {
     E[] array = createArrayWithNullElement();
 
-    assertThrows(
-        NullPointerException.class,
-        () -> {
-          Object unused = getSubjectGenerator().create(array);
-        });
+    assertThrows(NullPointerException.class, () -> getSubjectGenerator().create(array));
   }
 
   /**

@@ -21,6 +21,7 @@ import static com.google.common.collect.Sets.newTreeSet;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
 import static java.util.Collections.sort;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -307,6 +308,72 @@ public class TreeMultisetTest extends TestCase {
     assertThat(elementSet.first()).isNull();
     assertThat(elementSet.last()).isEqualTo("b");
     assertEquals(comparator, elementSet.comparator());
+  }
+
+  public void testSetCountConditional_nullEmpty_decrease() {
+    Multiset<String> ms = TreeMultiset.create();
+    assertThrows(NullPointerException.class, () -> ms.setCount(null, 1, 0));
+    assertThat(ms).isEmpty();
+  }
+
+  public void testSetCountConditional_nullEmpty_noChange() {
+    Multiset<String> ms = TreeMultiset.create();
+    assertThrows(NullPointerException.class, () -> ms.setCount(null, 1, 1));
+    assertThat(ms).isEmpty();
+  }
+
+  public void testSetCountConditional_nullEmpty_increase() {
+    Multiset<String> ms = TreeMultiset.create();
+    assertThrows(NullPointerException.class, () -> ms.setCount(null, 1, 2));
+    assertThat(ms).isEmpty();
+  }
+
+  public void testSetCountConditional_nullAfterClear() {
+    Multiset<String> ms = TreeMultiset.create();
+    ms.add("a");
+    ms.clear();
+
+    assertThrows(NullPointerException.class, () -> ms.setCount(null, 1, 0));
+    assertThrows(NullPointerException.class, () -> ms.setCount(null, 1, 1));
+    assertThrows(NullPointerException.class, () -> ms.setCount(null, 1, 2));
+    assertThat(ms).isEmpty();
+  }
+
+  public void testSetCountConditional_nullNonEmpty() {
+    Multiset<String> ms = TreeMultiset.create();
+    ms.add("a");
+
+    assertThrows(NullPointerException.class, () -> ms.setCount(null, 1, 0));
+    assertThrows(NullPointerException.class, () -> ms.setCount(null, 1, 1));
+    assertThrows(NullPointerException.class, () -> ms.setCount(null, 1, 2));
+    assertThat(ms).containsExactly("a");
+  }
+
+  public void testSetCountConditional_nullEmpty_zeroCounts() {
+    Multiset<String> ms = TreeMultiset.create();
+    assertTrue(((Multiset<@Nullable String>) ms).setCount(null, 0, 0));
+    assertThat(ms).isEmpty();
+  }
+
+  public void testSetCountConditional_nullAcceptingComparator() {
+    Multiset<@Nullable String> ms = TreeMultiset.create(Ordering.<String>natural().nullsFirst());
+    assertFalse(ms.setCount(null, 1, 0));
+    assertFalse(ms.setCount(null, 1, 1));
+    assertFalse(ms.setCount(null, 1, 2));
+    assertThat(ms).isEmpty();
+
+    assertTrue(ms.setCount(null, 0, 2));
+    assertEquals(2, ms.count(null));
+    assertTrue(ms.setCount(null, 2, 0));
+    assertThat(ms).isEmpty();
+  }
+
+  public void testSetCountConditional_empty_wrongCount() {
+    Multiset<String> ms = TreeMultiset.create();
+    assertFalse(ms.setCount("a", 1, 0));
+    assertFalse(ms.setCount("a", 1, 1));
+    assertFalse(ms.setCount("a", 1, 2));
+    assertThat(ms).isEmpty();
   }
 
   private static final Comparator<String> DEGENERATE_COMPARATOR =

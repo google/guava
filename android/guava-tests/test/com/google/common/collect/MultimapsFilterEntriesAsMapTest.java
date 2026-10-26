@@ -44,7 +44,7 @@ public class MultimapsFilterEntriesAsMapTest extends AbstractMultimapAsMapImplem
     super(true, true, false);
   }
 
-  private Multimap<String, Integer> createMultimap() {
+  private static Multimap<String, Integer> createMultimap() {
     Multimap<String, Integer> unfiltered = HashMultimap.create();
     unfiltered.put("zero", 55556);
     unfiltered.put("one", 55556);

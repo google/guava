@@ -255,21 +255,6 @@ public final class Iterables {
     }
   }
 
-  /** Removes and returns the first matching element, or returns {@code null} if there is none. */
-  static <T extends @Nullable Object> @Nullable T removeFirstMatching(
-      Iterable<T> removeFrom, Predicate<? super T> predicate) {
-    checkNotNull(predicate);
-    Iterator<T> iterator = removeFrom.iterator();
-    while (iterator.hasNext()) {
-      T next = iterator.next();
-      if (predicate.apply(next)) {
-        iterator.remove();
-        return next;
-      }
-    }
-    return null;
-  }
-
   /**
    * Determines whether two iterables contain equal elements in the same order. More specifically,
    * this method returns {@code true} if {@code iterable1} and {@code iterable2} contain the same
@@ -562,6 +547,9 @@ public final class Iterables {
    *
    * <p><b>Note:</b> if {@code iterable} is a {@link List}, use {@link Lists#partition(List, int)}
    * instead.
+   *
+   * <p><b>Java 24+ users:</b> The {@code Stream} equivalent of this method is {@code
+   * stream.gather(Gatherers.windowFixed(size))}.
    *
    * @param iterable the iterable to return a partitioned view of
    * @param size the desired size of each partition (the last may be smaller)

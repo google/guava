@@ -41,22 +41,14 @@ public class ClosingFutureFinishToFutureTest extends AbstractClosingFutureTest {
     ClosingFuture<Closeable> closingFuture =
         ClosingFuture.submit(closer -> closer.eventuallyClose(mockCloseable, executor), executor);
     FluentFuture<Closeable> unused = closingFuture.finishToFuture();
-    assertThrows(
-        IllegalStateException.class,
-        () -> {
-          FluentFuture<Closeable> unused2 = closingFuture.finishToFuture();
-        });
+    assertThrows(IllegalStateException.class, () -> closingFuture.finishToFuture());
   }
 
   public void testFinishToFuture_throwsAfterCallingFinishToValueAndCloser() {
     ClosingFuture<Closeable> closingFuture =
         ClosingFuture.submit(closer -> closer.eventuallyClose(mockCloseable, executor), executor);
     closingFuture.finishToValueAndCloser(new NoOpValueAndCloserConsumer<>(), directExecutor());
-    assertThrows(
-        IllegalStateException.class,
-        () -> {
-          FluentFuture<Closeable> unused = closingFuture.finishToFuture();
-        });
+    assertThrows(IllegalStateException.class, () -> closingFuture.finishToFuture());
   }
 
   public void testFinishToFuture_preventsFurtherDerivation() {

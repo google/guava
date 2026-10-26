@@ -58,7 +58,6 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Sven Mawson
  * @author Ben Yu
  */
-@AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 @NullUnmarked
 public class TypeTokenTest extends TestCase {
 
@@ -1812,6 +1811,7 @@ public class TypeTokenTest extends TestCase {
         new IKnowMyType<Map<String, Integer>>() {}.type());
   }
 
+  @AndroidIncompatible // TODO(cpovirk): hashCode mismatch for at least Map<String, Integer>
   public <A extends Iterable<? extends String>, B extends A> void testSerializable() {
     reserialize(TypeToken.of(String.class));
     reserialize(TypeToken.of(String.class).getTypes());
@@ -1846,6 +1846,7 @@ public class TypeTokenTest extends TestCase {
     return copy;
   }
 
+  @AndroidIncompatible // TODO(cpovirk): hashCode mismatch, as in testSerializable
   public void testTypeResolutionAfterReserialized() {
     reserialize(new TypeToken<String>() {});
     reserialize(new TypeToken<Map<String, Integer>>() {});

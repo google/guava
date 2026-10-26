@@ -595,6 +595,9 @@ public final class Iterators {
    * As a consequence, passing values like {@code Integer.MAX_VALUE} can lead to {@link
    * OutOfMemoryError}.
    *
+   * <p><b>Java 24+ users:</b> The {@code Stream} equivalent of this method is {@code
+   * stream.gather(Gatherers.windowFixed(size))}.
+   *
    * @param iterator the iterator to return a partitioned view of
    * @param size the desired size of each partition (the last may be smaller)
    * @return an iterator of immutable lists containing the elements of {@code iterator} divided into
@@ -1317,7 +1320,7 @@ public final class Iterators {
       extends UnmodifiableIterator<T> {
 
     // Wrapper class to track insertion order for stable sorting
-    private static class IndexedIterator<E extends @Nullable Object> {
+    private static final class IndexedIterator<E extends @Nullable Object> {
       final PeekingIterator<E> iterator;
       final int index;
 

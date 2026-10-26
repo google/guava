@@ -19,6 +19,8 @@ import static com.google.common.collect.Maps.transformValues;
 import static java.util.Collections.unmodifiableMap;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -287,7 +289,7 @@ public final class AtomicLongMap<K> implements Serializable {
   }
 
   /**
-   * Atomically remove {@code key} from the map iff its associated value is 0.
+   * Removes {@code key} from the map if its associated value is 0.
    *
    * @since 20.0
    */
@@ -331,7 +333,10 @@ public final class AtomicLongMap<K> implements Serializable {
   /** Returns a live, read-only view of the map backing this {@code AtomicLongMap}. */
   public Map<K, Long> asMap() {
     Map<K, Long> result = asMap;
-    return (result == null) ? asMap = createAsMap() : result;
+    if (result == null) {
+      result = asMap = createAsMap();
+    }
+    return result;
   }
 
   private Map<K, Long> createAsMap() {
@@ -447,4 +452,6 @@ public final class AtomicLongMap<K> implements Serializable {
       return (atomic == null) ? false : atomic.compareAndSet(expectedOldValue, newValue);
     }
   }
+
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = -193610662228457848L;
 }

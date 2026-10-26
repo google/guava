@@ -31,6 +31,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Ascii;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.IOException;
 import java.io.InputStream;
@@ -125,6 +126,9 @@ import org.jspecify.annotations.Nullable;
  * @author Louis Wasserman
  * @since 14.0
  */
+// We use `& 0xff` before casting to `(byte)` to keep GWT from letting the byte be out of range:
+// https://www.gwtproject.org/doc/latest/DevGuideCodingBasicsCompatibility
+@SuppressWarnings("MaskAndCastToByte")
 @GwtCompatible
 public abstract class BaseEncoding {
   // TODO(lowasser): consider making encodeTo(Appendable, byte[], int, int) public.
@@ -523,8 +527,8 @@ public abstract class BaseEncoding {
       return chars[bits];
     }
 
-    boolean isValidPaddingStartPosition(int index) {
-      return validPadding[index % charsPerChunk];
+    boolean isValidPaddingStartPosition(long index) {
+      return validPadding[(int) (index % charsPerChunk)];
     }
 
     boolean canDecode(char ch) {
@@ -643,12 +647,26 @@ public abstract class BaseEncoding {
     public OutputStream encodingStream(Writer out) {
       checkNotNull(out);
       return new OutputStream() {
+        @GuardedBy("this")
         int bitBuffer = 0;
+
+        @GuardedBy("this")
         int bitBufferLength = 0;
+
+        @GuardedBy("this")
         int writtenChars = 0;
 
+        @GuardedBy("this")
+        boolean closed = false;
+
         @Override
-        public void write(int b) throws IOException {
+        public synchronized void write(byte[] b, int off, int len) throws IOException {
+          super.write(b, off, len);
+        }
+
+        @Override
+        public synchronized void write(int b) throws IOException {
+          checkOpen();
           bitBuffer <<= 8;
           bitBuffer |= b & 0xFF;
           bitBufferLength += 8;
@@ -661,12 +679,24 @@ public abstract class BaseEncoding {
         }
 
         @Override
-        public void flush() throws IOException {
+        public synchronized void flush() throws IOException {
+          checkOpen();
           out.flush();
         }
 
+        @GuardedBy("this")
+        private void checkOpen() throws IOException {
+          if (closed) {
+            throw new IOException("stream closed");
+          }
+        }
+
         @Override
-        public void close() throws IOException {
+        public synchronized void close() throws IOException {
+          if (closed) {
+            return;
+          }
+          closed = true;
           if (bitBufferLength > 0) {
             int charIndex = (bitBuffer << (alphabet.bitsPerChar - bitBufferLength)) & alphabet.mask;
             out.write(alphabet.encode(charIndex));
@@ -692,7 +722,7 @@ public abstract class BaseEncoding {
       }
     }
 
-    void encodeChunkTo(Appendable target, byte[] bytes, int off, int len) throws IOException {
+    final void encodeChunkTo(Appendable target, byte[] bytes, int off, int len) throws IOException {
       checkNotNull(target);
       checkPositionIndexes(off, off + len, bytes.length);
       checkArgument(len <= alphabet.bytesPerChunk);
@@ -723,7 +753,7 @@ public abstract class BaseEncoding {
     }
 
     @Override
-    CharSequence trimTrailingPadding(CharSequence chars) {
+    final CharSequence trimTrailingPadding(CharSequence chars) {
       checkNotNull(chars);
       if (paddingChar == null) {
         return chars;
@@ -784,13 +814,20 @@ public abstract class BaseEncoding {
     public InputStream decodingStream(Reader reader) {
       checkNotNull(reader);
       return new InputStream() {
+        @GuardedBy("this")
         int bitBuffer = 0;
+
+        @GuardedBy("this")
         int bitBufferLength = 0;
-        int readChars = 0;
+
+        @GuardedBy("this")
+        long readChars = 0;
+
+        @GuardedBy("this")
         boolean hitPadding = false;
 
         @Override
-        public int read() throws IOException {
+        public synchronized int read() throws IOException {
           while (true) {
             int readChar = reader.read();
             if (readChar == -1) {
@@ -824,7 +861,7 @@ public abstract class BaseEncoding {
         }
 
         @Override
-        public int read(byte[] buf, int off, int len) throws IOException {
+        public synchronized int read(byte[] buf, int off, int len) throws IOException {
           // Overriding this to work around the fact that InputStream's default implementation of
           // this method will silently swallow exceptions thrown by the single-byte read() method
           // (other than on the first call to it), which in this case can cause invalid encoded
@@ -845,7 +882,7 @@ public abstract class BaseEncoding {
         }
 
         @Override
-        public void close() throws IOException {
+        public synchronized void close() throws IOException {
           reader.close();
         }
       };
@@ -921,7 +958,7 @@ public abstract class BaseEncoding {
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       StringBuilder builder = new StringBuilder("BaseEncoding.");
       builder.append(alphabet);
       if (8 % alphabet.bitsPerChar != 0) {
@@ -935,7 +972,7 @@ public abstract class BaseEncoding {
     }
 
     @Override
-    public boolean equals(@Nullable Object other) {
+    public final boolean equals(@Nullable Object other) {
       if (other instanceof StandardBaseEncoding) {
         StandardBaseEncoding that = (StandardBaseEncoding) other;
         return this.alphabet.equals(that.alphabet)
@@ -945,7 +982,7 @@ public abstract class BaseEncoding {
     }
 
     @Override
-    public int hashCode() {
+    public final int hashCode() {
       return alphabet.hashCode() ^ Objects.hashCode(paddingChar);
     }
   }

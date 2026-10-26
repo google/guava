@@ -80,6 +80,13 @@ public class FloatsTest extends TestCase {
 
   private static final float[] VALUES = Floats.concat(NUMBERS, new float[] {NaN});
 
+  @GwtIncompatible
+  // We want to test that we've defined the constant with the correct value.
+  @SuppressWarnings("TruthConstantAsserts")
+  public void testMinPositive() {
+    assertThat(Floats.MIN_POSITIVE_VALUE).isEqualTo(Math.nextUp(0.0f));
+  }
+
   // We need to test that our method behaves like the JDK method.
   @SuppressWarnings("InlineMeInliner")
   public void testHashCode() {
@@ -360,17 +367,25 @@ public class FloatsTest extends TestCase {
     assertThat(input).isEqualTo(expectedOutput);
   }
 
-  public void testRotate() {
-    testRotate(new float[] {}, -1, new float[] {});
-    testRotate(new float[] {}, 0, new float[] {});
-    testRotate(new float[] {}, 1, new float[] {});
+  public void testRotate_emptyArray() {
+    float[] empty = {};
+    float[] expected = {};
+    testRotate(empty, -1, expected);
+    testRotate(empty, 0, expected);
+    testRotate(empty, 1, expected);
+  }
 
-    testRotate(new float[] {1}, -2, new float[] {1});
-    testRotate(new float[] {1}, -1, new float[] {1});
-    testRotate(new float[] {1}, 0, new float[] {1});
-    testRotate(new float[] {1}, 1, new float[] {1});
-    testRotate(new float[] {1}, 2, new float[] {1});
+  public void testRotate_singleElementArray() {
+    float[] single = {1};
+    float[] expected = {1};
+    testRotate(single, -2, expected);
+    testRotate(single, -1, expected);
+    testRotate(single, 0, expected);
+    testRotate(single, 1, expected);
+    testRotate(single, 2, expected);
+  }
 
+  public void testRotate_multiElementArray() {
     testRotate(new float[] {1, 2}, -3, new float[] {2, 1});
     testRotate(new float[] {1, 2}, -1, new float[] {2, 1});
     testRotate(new float[] {1, 2}, -2, new float[] {1, 2});
@@ -410,13 +425,34 @@ public class FloatsTest extends TestCase {
     testRotate(new float[] {1, 2, 3, 4, 5}, 6, new float[] {5, 1, 2, 3, 4});
   }
 
-  public void testRotateIndexed() {
-    testRotate(new float[] {}, 0, 0, 0, new float[] {});
+  public void testRotateIndexed_emptyRange() {
+    float[] empty = {};
+    float[] expectedEmpty = {};
+    testRotate(empty, 0, 0, 0, expectedEmpty);
 
-    testRotate(new float[] {1}, 0, 0, 1, new float[] {1});
-    testRotate(new float[] {1}, 1, 0, 1, new float[] {1});
-    testRotate(new float[] {1}, 1, 1, 1, new float[] {1});
+    float[] single = {1};
+    float[] expectedSingle = {1};
+    testRotate(single, 1, 1, 1, expectedSingle);
 
+    float[] array = {0, 1, 2};
+    float[] expectedArray = {0, 1, 2};
+    testRotate(array, 1, 1, 1, expectedArray);
+    testRotate(array, -1, 2, 2, expectedArray);
+  }
+
+  public void testRotateIndexed_singleElementRange() {
+    float[] single = {1};
+    float[] expectedSingle = {1};
+    testRotate(single, 0, 0, 1, expectedSingle);
+    testRotate(single, 1, 0, 1, expectedSingle);
+
+    float[] array = {0, 1, 2};
+    float[] expectedArray = {0, 1, 2};
+    testRotate(array, 1, 1, 2, expectedArray);
+    testRotate(array, -1, 2, 3, expectedArray);
+  }
+
+  public void testRotateIndexed_multiElementRange() {
     // Rotate the central 5 elements, leaving the ends as-is
     testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -6, 1, 6, new float[] {0, 2, 3, 4, 5, 1, 6});
     testRotate(new float[] {0, 1, 2, 3, 4, 5, 6}, -1, 1, 6, new float[] {0, 2, 3, 4, 5, 1, 6});
@@ -625,7 +661,7 @@ public class FloatsTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
+  @AndroidIncompatible // takes ~30s
   @GwtIncompatible // Floats.tryParse
   public void testTryParseAllCodePoints() {
     // Exercise non-ASCII digit test cases and the like.

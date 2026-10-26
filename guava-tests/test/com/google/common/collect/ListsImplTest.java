@@ -229,7 +229,7 @@ public class ListsImplTest extends TestCase {
     checkLastIndexOf(toTest, expected);
   }
 
-  private void checkIndexOf(List<?> toTest, int[] expected) {
+  private static void checkIndexOf(List<?> toTest, int[] expected) {
     int index = 0;
     for (Object obj : toTest) {
       String name = "toTest[" + index + "] (" + obj + ")";
@@ -238,7 +238,7 @@ public class ListsImplTest extends TestCase {
     }
   }
 
-  private void checkLastIndexOf(List<?> toTest, int[] expected) {
+  private static void checkLastIndexOf(List<?> toTest, int[] expected) {
     int index = 0;
     for (Object obj : toTest) {
       String name = "toTest[" + index + "] (" + obj + ")";

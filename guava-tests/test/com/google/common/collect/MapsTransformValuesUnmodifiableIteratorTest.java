@@ -169,7 +169,7 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
   }
 
   /** Helper assertion comparing two maps */
-  private void assertMapsEqual(Map<?, ?> expected, Map<?, ?> map) {
+  private static void assertMapsEqual(Map<?, ?> expected, Map<?, ?> map) {
     assertEquals(expected, map);
     assertEquals(expected.hashCode(), map.hashCode());
     assertEquals(expected.entrySet(), map.entrySet());

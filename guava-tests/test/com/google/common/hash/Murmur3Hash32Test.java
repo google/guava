@@ -84,7 +84,7 @@ public class Murmur3Hash32Test extends TestCase {
   }
 
   @SuppressWarnings("deprecation")
-  private void assertStringHash(int expected, String string, Charset charset) {
+  private static void assertStringHash(int expected, String string, Charset charset) {
     if (allBmp(string)) {
       assertHash(expected, murmur3_32().hashString(string, charset));
     }
@@ -97,7 +97,7 @@ public class Murmur3Hash32Test extends TestCase {
     assertHash(expected, murmur3_32_fixed().newHasher().putBytes(string.getBytes(charset)).hash());
   }
 
-  private boolean allBmp(String string) {
+  private static boolean allBmp(String string) {
     // Ordinarily we'd use something like i += Character.charCount(string.codePointAt(i)) here. But
     // we can get away with i++ because the whole point of this method is to return false if we find
     // a code point that doesn't fit in a char.

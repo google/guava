@@ -368,7 +368,7 @@ public class FilesTest extends IoTestCase {
     assertThrows(IllegalArgumentException.class, () -> moveHelper(false, asciiFile, asciiFile));
   }
 
-  private void moveHelper(boolean success, File from, File to) throws IOException {
+  private static void moveHelper(boolean success, File from, File to) throws IOException {
     try {
       Files.move(from, to);
       if (success) {

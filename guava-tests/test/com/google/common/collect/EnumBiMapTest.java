@@ -292,7 +292,7 @@ public class EnumBiMapTest extends TestCase {
   }
 
   @GwtIncompatible
-    public void testSerializable() {
+  public void testSerializable() {
     reserializeAndAssert(EnumBiMap.create(ImmutableMap.of(Currency.DOLLAR, Country.CANADA)));
   }
 

@@ -330,7 +330,8 @@ public final class MoreFiles {
   /** Returns whether or not the file with the given name in the given dir is a directory. */
   private static boolean isDirectory(
       SecureDirectoryStream<Path> dir, Path name, LinkOption... options) throws IOException {
-    return dir.getFileAttributeView(name, BasicFileAttributeView.class, options)
+    // getFileAttributeView is required to return an instance for BasicFileAttributeView.class.
+    return requireNonNull(dir.getFileAttributeView(name, BasicFileAttributeView.class, options))
         .readAttributes()
         .isDirectory();
   }

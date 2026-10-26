@@ -44,6 +44,7 @@ public class MoreObjectsTest extends TestCase {
     assertThat(b2).isSameInstanceAs(b1);
   }
 
+  @SuppressWarnings("DistinctVarargsChecker")
   public void testFirstNonNull_throwsNullPointerException() {
     assertThrows(NullPointerException.class, () -> MoreObjects.firstNonNull(null, null));
   }

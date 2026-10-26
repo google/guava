@@ -425,9 +425,8 @@ public abstract class RateLimiter {
       long nowMicros = stopwatch.readMicros();
       if (!canAcquire(nowMicros, timeoutMicros)) {
         return false;
-      } else {
-        microsToWait = reserveAndGetWaitLength(permits, nowMicros);
       }
+      microsToWait = reserveAndGetWaitLength(permits, nowMicros);
     }
     stopwatch.sleepMicrosUninterruptibly(microsToWait);
     return true;
@@ -465,7 +464,7 @@ public abstract class RateLimiter {
   abstract long reserveEarliestAvailable(int permits, long nowMicros);
 
   @Override
-  public String toString() {
+  public final String toString() {
     return String.format(Locale.ROOT, "RateLimiter[stableRate=%3.1fqps]", getRate());
   }
 

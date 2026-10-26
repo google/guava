@@ -145,7 +145,7 @@ public final class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, 
       replacement = "requireNonNull(this.rowKeySet().comparator())",
       staticImports = "java.util.Objects.requireNonNull")
   @Deprecated
-  public final Comparator<? super R> rowComparator() {
+  public Comparator<? super R> rowComparator() {
     /*
      * requireNonNull is safe because the factories require non-null Comparators, which they pass on
      * to the backing collections.

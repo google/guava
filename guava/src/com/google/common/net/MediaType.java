@@ -54,8 +54,10 @@ import org.jspecify.annotations.Nullable;
  * type or subtype value. A media type may not have wildcard type with a declared subtype. The
  * {@code *} character has no special meaning as part of a parameter. All values for type, subtype,
  * parameter attributes or parameter values must be valid according to RFCs <a
- * href="https://tools.ietf.org/html/rfc2045">2045</a> and <a
- * href="https://tools.ietf.org/html/rfc2046">2046</a>.
+ * href="https://datatracker.ietf.org/doc/html/rfc2045">2045</a> and <a
+ * href="https://datatracker.ietf.org/doc/html/rfc2046">2046</a>, except that parameter values may
+ * not contain ASCII control characters other than {@code '\t'} (matching HTTP's <a
+ * href="https://datatracker.ietf.org/doc/html/rfc9110#section-5.6.4">RFC 9110</a>).
  *
  * <p>All portions of the media type that are case-insensitive (type, subtype, parameter attributes)
  * are normalized to lowercase. The value of the {@code charset} parameter is normalized to
@@ -85,7 +87,11 @@ public final class MediaType {
           .and(CharMatcher.isNot(' '))
           .and(CharMatcher.noneOf("()<>@,;:\\\"/[]?="));
 
-  private static final CharMatcher QUOTED_TEXT_MATCHER = ascii().and(CharMatcher.noneOf("\"\\\r"));
+  private static final CharMatcher PARAMETER_VALUE_MATCHER =
+      ascii().and(javaIsoControl().negate()).or(CharMatcher.is('\t'));
+
+  private static final CharMatcher QUOTED_TEXT_MATCHER =
+      PARAMETER_VALUE_MATCHER.and(CharMatcher.noneOf("\"\\"));
 
   /*
    * This matches the same characters as linear-white-space from RFC 822, but we make no effort to
@@ -548,8 +554,25 @@ public final class MediaType {
    */
   public static final MediaType GEO_JSON = createConstant(APPLICATION_TYPE, "geo+json");
 
-  /** Gzip-compressed data. */
-  public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
+  /**
+   * Gzip-compressed data, as registered in <a
+   * href="https://datatracker.ietf.org/doc/html/rfc6713">RFC 6713</a> ({@code application/gzip}).
+   *
+   * <p>Prefer this constant over {@link #GZIP}, which uses the legacy {@code application/x-gzip}
+   * type.
+   *
+   * @since NEXT
+   */
+  public static final MediaType APPLICATION_GZIP = createConstant(APPLICATION_TYPE, "gzip");
+
+  /**
+   * Gzip-compressed data using the legacy {@code application/x-gzip} type.
+   *
+   * @deprecated Prefer {@link #APPLICATION_GZIP}: <a
+   *     href="https://datatracker.ietf.org/doc/html/rfc6713">RFC 6713</a> registers {@code
+   *     application/gzip} and says the {@code x-} prefixed form should no longer be used.
+   */
+  @Deprecated public static final MediaType GZIP = createConstant(APPLICATION_TYPE, "x-gzip");
 
   /**
    * <a href="https://tools.ietf.org/html/draft-kelly-json-hal-08#section-3">JSON Hypertext
@@ -693,7 +716,7 @@ public final class MediaType {
    * The <a href="https://pki-tutorial.readthedocs.io/en/latest/mime.html">PEM format</a>. See also
    * <a href="https://github.com/ietf-wg-acme/acme/issues/120">ietf-wg-acme proposal</a>.
    *
-   * @since NEXT
+   * @since 33.7.0
    */
   public static final MediaType PEM = createConstant(APPLICATION_TYPE, "x-pem-file");
 
@@ -938,7 +961,7 @@ public final class MediaType {
    * <a href="https://yaml.org">YAML</a>, as standardized in <a
    * href="https://www.rfc-editor.org/info/rfc9512">RFC 9512</a>.
    *
-   * @since NEXT
+   * @since 33.7.0
    */
   public static final MediaType YAML = createConstant(APPLICATION_TYPE, "yaml");
 
@@ -1224,7 +1247,10 @@ public final class MediaType {
 
   private static String normalizeParameterValue(String attribute, String value) {
     checkNotNull(value); // for GWT
-    checkArgument(ascii().matchesAllOf(value), "parameter values must be ASCII: %s", value);
+    checkArgument(
+        PARAMETER_VALUE_MATCHER.matchesAllOf(value),
+        "parameter values must contain only ASCII and no control characters: %s",
+        value);
     return attribute.equals(CHARSET_ATTRIBUTE) ? Ascii.toLowerCase(value) : value;
   }
 
@@ -1253,7 +1279,7 @@ public final class MediaType {
           while (tokenizer.previewChar() != '"') {
             if (tokenizer.previewChar() == '\\') {
               tokenizer.consumeCharacter('\\');
-              valueBuilder.append(tokenizer.consumeCharacter(ascii()));
+              valueBuilder.append(tokenizer.consumeCharacter(PARAMETER_VALUE_MATCHER));
             } else {
               valueBuilder.append(tokenizer.consumeToken(QUOTED_TEXT_MATCHER));
             }
@@ -1389,7 +1415,7 @@ public final class MediaType {
     StringBuilder escaped = new StringBuilder(value.length() + 16).append('"');
     for (int i = 0; i < value.length(); i++) {
       char ch = value.charAt(i);
-      if (ch == '\r' || ch == '\\' || ch == '"') {
+      if (ch == '\\' || ch == '"') {
         escaped.append('\\');
       }
       escaped.append(ch);

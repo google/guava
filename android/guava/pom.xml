@@ -86,8 +86,8 @@
         </executions>
         <configuration>
           <instructions>
-            <!-- Silence a warning that claims that META-INF/versions/9/... is the "wrong directory" for our classes. -->
-            <_fixupmessages>^Classes found in the wrong directory: .*</_fixupmessages>
+            <!-- Silence a warning that claims the default package is a "split package" because both Guava and JSpecify have a root `module-info.class`. -->
+            <_fixupmessages>^Split package, multiple jars provide the same package:.*</_fixupmessages>
             <Export-Package>
               !com.google.common.base.internal,
               !com.google.common.util.concurrent.internal,
@@ -110,7 +110,7 @@
           <execution>
             <id>default-compile</id>
             <configuration>
-              <compilerArgs combine.children="append" combine.self="append">
+              <compilerArgs combine.children="append">
                 <arg>-XDignore.symbol.file</arg>
               </compilerArgs>
             </configuration>
@@ -141,7 +141,6 @@
                 <!-- https://errorprone.info/docs/installation#maven -->
                 <arg>-XDcompilePolicy=simple</arg>
               </compilerArgs>
-              <multiReleaseOutput>true</multiReleaseOutput>
             </configuration>
           </execution>
         </executions>
@@ -191,7 +190,7 @@
           </tags>
 
           <!-- TODO(cpovirk): Move this to the parent after making the package-list files available there. -->
-          <!-- We add the link ourselves so that we can choose Java 26 over the version that -source suggests. -->
+          <!-- We add the link ourselves so that we can choose Java 27 over the version that -source suggests. -->
           <detectJavaApiLink>false</detectJavaApiLink>
           <offlineLinks>
             <!-- We need local copies of some of these for 2 reasons: a User-Agent problem (https://stackoverflow.com/a/47891403/28465) and an SSL problem (https://issues.apache.org/jira/browse/MJAVADOC-507). If we choose to work around the User-Agent problem, we can go back to <links>, sidestepping the SSL problem. -->
@@ -205,7 +204,7 @@
             </offlineLink>
           </offlineLinks>
           <links>
-            <link>https://docs.oracle.com/en/java/javase/26/docs/api/</link>
+            <link>https://docs.oracle.com/en/java/javase/27/docs/api/</link>
             <link>https://jspecify.dev/docs/api/</link>
           </links>
           <overview>../../overview.html</overview>

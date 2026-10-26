@@ -157,7 +157,8 @@ public class ApacheBenchmark {
         }
       } while (!Impl.GUAVA.noMulOverflow(longsToMul[i][0], longsToMul[i][1]));
 
-      int k = binomials[i][1] = RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials.length);
+      int k = RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials.length);
+      binomials[i][1] = k;
       binomials[i][0] = RANDOM_SOURCE.nextInt(MathBenchmarking.biggestBinomials[k] - k) + k;
     }
   }

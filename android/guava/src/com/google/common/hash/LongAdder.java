@@ -57,6 +57,7 @@ final class LongAdder extends Striped64 implements Serializable, LongAddable {
    *
    * @param x the value to add
    */
+  @SuppressWarnings("AssignmentExpression") // rather than introduce non-trivial diffs vs. upstream
   @Override
   public void add(long x) {
     Cell[] as;

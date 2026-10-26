@@ -44,7 +44,6 @@ import org.jspecify.annotations.Nullable;
  *
  * @author Ben Yu
  */
-@AndroidIncompatible // lots of failures, possibly some related to bad equals() implementations?
 @NullUnmarked
 public class InvokableTest extends TestCase {
   // Historically Invokable inherited from java.lang.reflect.AccessibleObject. That's no longer the

@@ -210,6 +210,8 @@ public final class Funnels {
     public int hashCode() {
       return SequentialFunnel.class.hashCode() ^ elementFunnel.hashCode();
     }
+
+    private static final long serialVersionUID = 9033121045301066662L;
   }
 
   /**

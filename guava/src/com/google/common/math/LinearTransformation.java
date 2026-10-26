@@ -206,7 +206,10 @@ public abstract class LinearTransformation {
     @Override
     public LinearTransformation inverse() {
       LinearTransformation result = inverse;
-      return (result == null) ? inverse = createInverse() : result;
+      if (result == null) {
+        result = inverse = createInverse();
+      }
+      return result;
     }
 
     @Override
@@ -262,7 +265,10 @@ public abstract class LinearTransformation {
     @Override
     public LinearTransformation inverse() {
       LinearTransformation result = inverse;
-      return (result == null) ? inverse = createInverse() : result;
+      if (result == null) {
+        result = inverse = createInverse();
+      }
+      return result;
     }
 
     @Override

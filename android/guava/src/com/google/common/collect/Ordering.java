@@ -354,7 +354,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
     }
 
     @Override
-    public int compare(@Nullable Object left, @Nullable Object right) {
+    public final int compare(@Nullable Object left, @Nullable Object right) {
       if (left == right) {
         return 0;
       } else if (left == null) {
@@ -377,7 +377,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
     }
 
     @Override
-    public String toString() {
+    public final String toString() {
       return "Ordering.arbitrary()";
     }
 
@@ -460,7 +460,7 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
     return new ByFunctionOrdering<>(function, this);
   }
 
-  <T2 extends T> Ordering<Entry<T2, ?>> onKeys() {
+  final <T2 extends T> Ordering<Entry<T2, ?>> onKeys() {
     return onResultOf(Entry::getKey);
   }
 

@@ -284,9 +284,10 @@ public final class Longs {
    * use a shared {@link java.nio.ByteBuffer} instance, or use {@link
    * com.google.common.io.ByteStreams#newDataOutput()} to get a growable buffer.
    */
+  // We use `& 0xff` before casting to `(byte)` to keep GWT from letting the byte be out of range:
+  // https://www.gwtproject.org/doc/latest/DevGuideCodingBasicsCompatibility
+  @SuppressWarnings("MaskAndCastToByte")
   public static byte[] toByteArray(long value) {
-    // Note that this code needs to stay compatible with GWT, which has known
-    // bugs when narrowing byte casts of long values occur.
     byte[] result = new byte[8];
     for (int i = 7; i >= 0; i--) {
       result[i] = (byte) (value & 0xffL);
@@ -644,11 +645,11 @@ public final class Longs {
     // See Ints.rotate for more details about possible algorithms here.
     checkNotNull(array);
     checkPositionIndexes(fromIndex, toIndex, array.length);
-    if (array.length <= 1) {
+    int length = toIndex - fromIndex;
+    if (length <= 1) {
       return;
     }
 
-    int length = toIndex - fromIndex;
     // Obtain m = (-distance mod length), a non-negative value less than "length". This is how many
     // places left to rotate.
     int m = -distance % length;

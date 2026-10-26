@@ -28,6 +28,7 @@ import com.google.common.base.FinalizableReferenceQueue;
 import com.google.errorprone.annotations.DoNotMock;
 import com.google.errorprone.annotations.FormatMethod;
 import com.google.j2objc.annotations.J2ObjCIncompatible;
+import java.lang.ref.Reference;
 import java.lang.ref.WeakReference;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -320,7 +321,11 @@ public final class GcFinalization {
     static final Set<FinalizableReference> references = newConcurrentHashSet();
 
     static void register(Object referent, CountDownLatch latch) {
-      references.add(new FinalizableReference(referent, latch));
+      try {
+        references.add(new FinalizableReference(referent, latch));
+      } finally {
+        GcFinalization.reachabilityFence(referent);
+      }
     }
 
     final CountDownLatch latch;
@@ -363,6 +368,47 @@ public final class GcFinalization {
       throw new AssertionError(e.getCause());
     } catch (IllegalAccessException e) {
       throw new AssertionError(e);
+    }
+  }
+
+  // We call the method only after checking that it's present.
+  @IgnoreJRERequirement
+  @SuppressWarnings({
+    "Java8ApiChecker",
+    "NewApi",
+    // This method is a helper, which we call from a `finally` block, as recommended.
+    "ReachabilityFenceUsage",
+  })
+  static void reachabilityFence(@Nullable Object o) {
+    if (IS_REACHABILITY_FENCE_METHOD_USABLE) {
+      Reference.reachabilityFence(o);
+    }
+  }
+
+  private static final boolean IS_REACHABILITY_FENCE_METHOD_USABLE =
+      computeIsReachabilityFenceMethodUsable();
+
+  private static boolean computeIsReachabilityFenceMethodUsable() {
+    try {
+      Method method = Reference.class.getMethod("reachabilityFence", Object.class);
+      method.invoke(null, GcFinalization.class); // to make sure the method is accessible
+      return true;
+    } catch (NoSuchMethodException | IllegalAccessException probablyBeforeJava9OrAndroid28) {
+      /*
+       * It's theoretically possible for Reference.reachabilityFence to exist under older VMs in an
+       * inaccessible form.
+       */
+      return false;
+    } catch (InvocationTargetException e) {
+      /*
+       * It's theoretically possible for Reference.reachabilityFence to exist under older VMs but
+       * not work. (Under Android in particular, we really should check the API Level instead of
+       * probing for methods....) But it's hard to imagine how reachabilityFence in particular could
+       * exist but throw, so we propagate anything that's thrown, presumably an unchecked Exception
+       * or Error.
+       */
+      throwIfUnchecked(e.getCause());
+      throw new AssertionError(e.getCause());
     }
   }
 }

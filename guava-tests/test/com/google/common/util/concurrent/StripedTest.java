@@ -113,7 +113,7 @@ public class StripedTest extends TestCase {
     }
   }
 
-  private WeakReference<Object> getWeakReferenceToStripe(Striped<?> striped) {
+  private static WeakReference<Object> getWeakReferenceToStripe(Striped<?> striped) {
     return new WeakReference<>(striped.get(new Object()));
   }
 
@@ -132,7 +132,7 @@ public class StripedTest extends TestCase {
     }
   }
 
-  private WeakReference<Object> createGarbage() {
+  private static WeakReference<Object> createGarbage() {
     return new WeakReference<>(new Object());
   }
 

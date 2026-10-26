@@ -137,7 +137,7 @@ class CacheBuilderFactory {
    * method wraps the elements in the input sets (which may contain null) as Optionals, calls
    * Sets.cartesianProduct with those, then transforms the result to unwrap the Optionals.
    */
-  private Iterable<List<Object>> buildCartesianProduct(Set<?>... sets) {
+  private static Iterable<List<Object>> buildCartesianProduct(Set<?>... sets) {
     List<Set<Optional<?>>> optionalSets = newArrayListWithExpectedSize(sets.length);
     for (Set<?> set : sets) {
       Set<Optional<?>> optionalSet = newLinkedHashSet(transform(set, Optional::fromNullable));
@@ -147,7 +147,7 @@ class CacheBuilderFactory {
     return transform(cartesianProduct, objs -> transform(objs, Optional::orNull));
   }
 
-  private CacheBuilder<Object, Object> createCacheBuilder(
+  private static CacheBuilder<Object, Object> createCacheBuilder(
       @Nullable Integer concurrencyLevel,
       @Nullable Integer initialCapacity,
       @Nullable Integer maximumSize,

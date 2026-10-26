@@ -22,7 +22,6 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
-import com.google.j2objc.annotations.WeakOuter;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedHashMap;
@@ -228,8 +227,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
   }
 
   @Override
-  Set<Entry<K, V>> createEntrySet() {
-    @WeakOuter
+  public Set<Entry<K, V>> entrySet() {
     final class EntrySetImpl extends EntrySetView {
       @Override
       public Spliterator<Entry<K, V>> spliterator() {
@@ -240,8 +238,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
   }
 
   @Override
-  Set<K> createKeySet() {
-    @WeakOuter
+  public Set<K> keySet() {
     final class KeySetImpl extends KeySetView {
       @Override
       public @Nullable Object[] toArray() {
@@ -263,8 +260,7 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
   }
 
   @Override
-  Collection<V> createValues() {
-    @WeakOuter
+  public Collection<V> values() {
     final class ValuesImpl extends ValuesView {
       @Override
       public @Nullable Object[] toArray() {
@@ -320,4 +316,6 @@ final class CompactLinkedHashMap<K extends @Nullable Object, V extends @Nullable
    * they're defined above -- including logic to add and subtract 1 to map between the values stored
    * in the predecessor/successor arrays and the indexes in the elements array that they identify.
    */
+
+  private static final long serialVersionUID = 2360971274758481122L;
 }

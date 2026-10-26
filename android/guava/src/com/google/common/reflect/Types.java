@@ -306,6 +306,9 @@ final class Types {
 
     @Override
     public boolean equals(@Nullable Object other) {
+      if (other == this) {
+        return true;
+      }
       if (!(other instanceof ParameterizedType)) {
         return false;
       }
@@ -506,6 +509,9 @@ final class Types {
 
     @Override
     public boolean equals(@Nullable Object obj) {
+      if (obj == this) {
+        return true;
+      }
       if (obj instanceof WildcardType) {
         WildcardType that = (WildcardType) obj;
         return lowerBounds.equals(asList(that.getLowerBounds()))

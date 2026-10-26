@@ -90,6 +90,44 @@ public class BaseEncodingTest extends TestCase {
     testStreamingEncodingWithSeparators(base64(), "foobar", "Zm9vYmFy");
   }
 
+  @GwtIncompatible // Reader
+  @AndroidIncompatible // ~40s
+
+  public void testBase64StreamingLargeInput() throws IOException {
+    // (1L << 31) is a multiple of 4 (charsPerChunk for Base64); adding 2 'A's and "==" gives a
+    // valid stream whose character count exceeds Integer.MAX_VALUE (b/533864962).
+    long numAs = (1L << 31) + 2;
+    Reader reader =
+        new Reader() {
+          long remainingAs = numAs;
+          int remainingEquals = 2;
+
+          @Override
+          public int read() {
+            if (remainingAs > 0) {
+              remainingAs--;
+              return 'A';
+            }
+            if (remainingEquals > 0) {
+              remainingEquals--;
+              return '=';
+            }
+            return -1;
+          }
+
+          @Override
+          public int read(char[] cbuf, int off, int len) {
+            throw new UnsupportedOperationException();
+          }
+
+          @Override
+          public void close() {}
+        };
+    try (InputStream decoded = base64().decodingStream(reader)) {
+      assertThat(ByteStreams.exhaust(decoded)).isEqualTo((1L << 31) / 4 * 3 + 1);
+    }
+  }
+
   public void testBase64LenientPadding() {
     testDecodes(base64(), "Zg", "f");
     testDecodes(base64(), "Zg=", "f");
@@ -556,6 +594,17 @@ public class BaseEncodingTest extends TestCase {
       }
       assertThat(decodingStream.read()).isEqualTo(-1);
     }
+  }
+
+  @GwtIncompatible // Writer
+  public void testEncodingStream_closeIsIdempotent() throws IOException {
+    StringWriter writer = new StringWriter();
+    OutputStream encodingStream = base64().encodingStream(writer);
+    encodingStream.write(0);
+    encodingStream.close();
+    assertThat(writer.toString()).isEqualTo("AA==");
+    encodingStream.close();
+    assertThat(writer.toString()).isEqualTo("AA==");
   }
 
   public void testToString() {

@@ -214,7 +214,7 @@ public final class HostAndPort implements Serializable {
         "Bracketed host-port string must start with a bracket: %s",
         hostPortString);
     int colonIndex = hostPortString.indexOf(':');
-    int closeBracketIndex = hostPortString.lastIndexOf(']');
+    int closeBracketIndex = hostPortString.indexOf(']');
     checkArgument(
         colonIndex > -1 && closeBracketIndex > colonIndex,
         "Invalid bracketed host/port: %s",

@@ -155,7 +155,7 @@ public class CompactLinkedHashMapTest extends TestCase {
     testHasMapEntriesInOrder(map, 1, "a", 4, "b", 3, "d", 2, "c");
   }
 
-  private void testHasMapEntriesInOrder(Map<?, ?> map, Object... alternatingKeysAndValues) {
+  private static void testHasMapEntriesInOrder(Map<?, ?> map, Object... alternatingKeysAndValues) {
     List<? extends Entry<?, ?>> entries = new ArrayList<>(map.entrySet());
     List<Object> keys = new ArrayList<>(map.keySet());
     List<Object> values = new ArrayList<>(map.values());

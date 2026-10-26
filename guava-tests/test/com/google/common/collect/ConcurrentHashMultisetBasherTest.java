@@ -62,7 +62,7 @@ public class ConcurrentHashMultisetBasherTest extends TestCase {
     testAddAndRemove(mapMaker.makeMap());
   }
 
-  private void testAddAndRemove(ConcurrentMap<String, AtomicInteger> map)
+  private static void testAddAndRemove(ConcurrentMap<String, AtomicInteger> map)
       throws ExecutionException, InterruptedException {
 
     ConcurrentHashMultiset<String> multiset = ConcurrentHashMultiset.create(map);

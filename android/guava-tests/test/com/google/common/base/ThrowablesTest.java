@@ -41,7 +41,6 @@ import com.google.common.base.TestExceptions.SomeError;
 import com.google.common.base.TestExceptions.SomeOtherCheckedException;
 import com.google.common.base.TestExceptions.SomeUncheckedException;
 import com.google.common.base.TestExceptions.YetAnotherCheckedException;
-import com.google.common.primitives.Ints;
 import com.google.common.testing.NullPointerTester;
 import java.util.List;
 import junit.framework.TestCase;
@@ -350,17 +349,12 @@ public class ThrowablesTest extends TestCase {
     assertThat(expected).hasCauseThat().isEqualTo(thrown);
   }
 
-  @AndroidIncompatible // No getJavaLangAccess in Android (at least not in the version we use).
   @J2ktIncompatible
   @GwtIncompatible // lazyStackTraceIsLazy()
   public void testLazyStackTraceWorksInProd() {
-    // TODO(b/64442212): Remove this guard once lazyStackTrace() works in Java 9+.
-    Integer javaVersion = Ints.tryParse(JAVA_SPECIFICATION_VERSION.value());
-    if (javaVersion != null && javaVersion >= 9) {
-      return;
-    }
-    // Obviously this isn't guaranteed in every environment, but it works well enough for now:
-    assertTrue(lazyStackTraceIsLazy());
+    String javaVersion = JAVA_SPECIFICATION_VERSION.value();
+    assertThat(lazyStackTraceIsLazy()).isEqualTo(isJava8());
+    // TODO(b/64442212): Someday make lazyStackTrace() works in Java 9+?
   }
 
   @J2ktIncompatible
@@ -387,5 +381,10 @@ public class ThrowablesTest extends TestCase {
   @GwtIncompatible // NullPointerTester
   public void testNullPointers() {
     new NullPointerTester().testAllPublicStaticMethods(Throwables.class);
+  }
+
+  @GwtIncompatible
+  private static boolean isJava8() {
+    return JAVA_SPECIFICATION_VERSION.value().equals("1.8");
   }
 }

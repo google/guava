@@ -19,6 +19,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static java.lang.System.arraycopy;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.Immutable;
@@ -568,6 +570,8 @@ public final class ImmutableDoubleArray implements Serializable {
     public String toString() {
       return parent.toString();
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = -4939467387665637038L;
   }
 
   /**
@@ -650,4 +654,6 @@ public final class ImmutableDoubleArray implements Serializable {
   Object readResolve() {
     return isEmpty() ? EMPTY : this;
   }
+
+  @GwtIncompatible @J2ktIncompatible   private static final long serialVersionUID = 679347448744984100L;
 }

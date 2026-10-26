@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static java.util.Objects.requireNonNull;
 
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.ArrayList;
@@ -230,7 +231,7 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
   static <E> ImmutableSortedSet<E> unsafeDelegateSortedSet(
       SortedSet<E> delegate, boolean isSubset) {
     return delegate.isEmpty()
-        ? emptySet(delegate.comparator())
+        ? emptySet(requireNonNull(delegate.comparator()))
         : new RegularImmutableSortedSet<E>(delegate, isSubset);
   }
 
@@ -258,7 +259,7 @@ public abstract class ImmutableSortedSet<E> extends ForwardingImmutableSet<E>
 
   @Override
   public Comparator<? super E> comparator() {
-    return sortedDelegate.comparator();
+    return requireNonNull(sortedDelegate.comparator());
   }
 
   @Override // needed to unify SortedIterable and Collection iterator() methods

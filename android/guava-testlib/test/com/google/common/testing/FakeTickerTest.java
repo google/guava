@@ -169,7 +169,7 @@ public class FakeTickerTest {
 
   /** Runs {@code callable} concurrently {@code numberOfThreads} times. */
   @GwtIncompatible // concurrency
-  private void runConcurrentTest(int numberOfThreads, Callable<@Nullable Void> callable)
+  private static void runConcurrentTest(int numberOfThreads, Callable<@Nullable Void> callable)
       throws Exception {
     ExecutorService executorService = newFixedThreadPool(numberOfThreads);
     try {

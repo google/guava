@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 
 import com.google.common.annotations.GwtCompatible;
+import com.google.common.annotations.GwtIncompatible;
+import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Supplier;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -103,7 +105,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
   }
 
   /**
-   * Uses an hash table to map keys to value collections, initialized to expect the specified number
+   * Uses a hash table to map keys to value collections, initialized to expect the specified number
    * of keys.
    *
    * <p>The collections returned by {@link Multimap#keySet()}, {@link Multimap#keys()}, and {@link
@@ -190,6 +192,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public List<V> get() {
       return new ArrayList<>(expectedValuesPerKey);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 5789124452413809038L;
   }
 
   private enum LinkedListSupplier implements Supplier<List<?>> {
@@ -222,6 +226,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public Set<V> get() {
       return Platform.newHashSetWithExpectedSize(expectedValuesPerKey);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 6136599187613520511L;
   }
 
   private static final class LinkedHashSetSupplier<V extends @Nullable Object>
@@ -236,6 +242,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public Set<V> get() {
       return Platform.newLinkedHashSetWithExpectedSize(expectedValuesPerKey);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = -1886791952729442050L;
   }
 
   private static final class TreeSetSupplier<V extends @Nullable Object>
@@ -250,6 +258,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public SortedSet<V> get() {
       return new TreeSet<>(comparator);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = 7297924014757663263L;
   }
 
   private static final class EnumSetSupplier<V extends Enum<V>>
@@ -264,6 +274,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     public Set<V> get() {
       return EnumSet.noneOf(clazz);
     }
+
+    @GwtIncompatible @J2ktIncompatible     private static final long serialVersionUID = -6321539988632337635L;
   }
 
   /**
@@ -282,7 +294,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     abstract <K extends K0, V extends @Nullable Object> Map<K, Collection<V>> createMap();
 
     /** Uses an {@link ArrayList} to store value collections. */
-    public ListMultimapBuilder<K0, @Nullable Object> arrayListValues() {
+    public final ListMultimapBuilder<K0, @Nullable Object> arrayListValues() {
       return arrayListValues(DEFAULT_EXPECTED_VALUES_PER_KEY);
     }
 
@@ -292,7 +304,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
-    public ListMultimapBuilder<K0, @Nullable Object> arrayListValues(int expectedValuesPerKey) {
+    public final ListMultimapBuilder<K0, @Nullable Object> arrayListValues(
+        int expectedValuesPerKey) {
       checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
       return new ListMultimapBuilder<K0, @Nullable Object>() {
         @Override
@@ -313,7 +326,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      * do not currently offer a {@link Multimap} implementation based on {@link
      * java.util.ArrayDeque}.)
      */
-    public ListMultimapBuilder<K0, @Nullable Object> linkedListValues() {
+    public final ListMultimapBuilder<K0, @Nullable Object> linkedListValues() {
       return new ListMultimapBuilder<K0, @Nullable Object>() {
         @Override
         public <K extends K0, V extends @Nullable Object> ListMultimap<K, V> build() {
@@ -324,7 +337,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     }
 
     /** Uses a hash-based {@code Set} to store value collections. */
-    public SetMultimapBuilder<K0, @Nullable Object> hashSetValues() {
+    public final SetMultimapBuilder<K0, @Nullable Object> hashSetValues() {
       return hashSetValues(DEFAULT_EXPECTED_VALUES_PER_KEY);
     }
 
@@ -334,7 +347,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
-    public SetMultimapBuilder<K0, @Nullable Object> hashSetValues(int expectedValuesPerKey) {
+    public final SetMultimapBuilder<K0, @Nullable Object> hashSetValues(int expectedValuesPerKey) {
       checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
       return new SetMultimapBuilder<K0, @Nullable Object>() {
         @Override
@@ -347,7 +360,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     }
 
     /** Uses an insertion-ordered hash-based {@code Set} to store value collections. */
-    public SetMultimapBuilder<K0, @Nullable Object> linkedHashSetValues() {
+    public final SetMultimapBuilder<K0, @Nullable Object> linkedHashSetValues() {
       return linkedHashSetValues(DEFAULT_EXPECTED_VALUES_PER_KEY);
     }
 
@@ -357,7 +370,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      *
      * @throws IllegalArgumentException if {@code expectedValuesPerKey < 0}
      */
-    public SetMultimapBuilder<K0, @Nullable Object> linkedHashSetValues(int expectedValuesPerKey) {
+    public final SetMultimapBuilder<K0, @Nullable Object> linkedHashSetValues(
+        int expectedValuesPerKey) {
       checkNonnegative(expectedValuesPerKey, "expectedValuesPerKey");
       return new SetMultimapBuilder<K0, @Nullable Object>() {
         @Override
@@ -371,7 +385,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
 
     /** Uses a naturally-ordered {@link TreeSet} to store value collections. */
     @SuppressWarnings("rawtypes")
-    public SortedSetMultimapBuilder<K0, Comparable> treeSetValues() {
+    public final SortedSetMultimapBuilder<K0, Comparable> treeSetValues() {
       return treeSetValues(Ordering.natural());
     }
 
@@ -381,7 +395,7 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
      * <p>Multimaps generated by the resulting builder will not be serializable if {@code
      * comparator} is not serializable.
      */
-    public <V0 extends @Nullable Object> SortedSetMultimapBuilder<K0, V0> treeSetValues(
+    public final <V0 extends @Nullable Object> SortedSetMultimapBuilder<K0, V0> treeSetValues(
         Comparator<V0> comparator) {
       checkNotNull(comparator, "comparator");
       return new SortedSetMultimapBuilder<K0, V0>() {
@@ -394,7 +408,8 @@ public abstract class MultimapBuilder<K0 extends @Nullable Object, V0 extends @N
     }
 
     /** Uses an {@link EnumSet} to store value collections. */
-    public <V0 extends Enum<V0>> SetMultimapBuilder<K0, V0> enumSetValues(Class<V0> valueClass) {
+    public final <V0 extends Enum<V0>> SetMultimapBuilder<K0, V0> enumSetValues(
+        Class<V0> valueClass) {
       checkNotNull(valueClass, "valueClass");
       return new SetMultimapBuilder<K0, V0>() {
         @Override

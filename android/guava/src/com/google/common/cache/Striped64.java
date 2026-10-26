@@ -183,6 +183,7 @@ abstract class Striped64 extends Number {
    * @param hc the hash code holder
    * @param wasUncontended false if CAS failed before call
    */
+  @SuppressWarnings("AssignmentExpression") // rather than introduce non-trivial diffs vs. upstream
   final void retryUpdate(long x, int @Nullable [] hc, boolean wasUncontended) {
     int h;
     if (hc == null) {

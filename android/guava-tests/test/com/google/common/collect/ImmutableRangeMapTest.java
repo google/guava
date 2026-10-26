@@ -172,7 +172,7 @@ public class ImmutableRangeMapTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // slow
+  // Android: takes ~25s
   public void testAsMapOfRanges() {
     for (Range<Integer> range1 : RANGES) {
       for (Range<Integer> range2 : RANGES) {
@@ -200,7 +200,7 @@ public class ImmutableRangeMapTest extends TestCase {
     }
   }
 
-  @AndroidIncompatible // ~40s; doable but probably not worth it. We could test on fewer ranges
+  @AndroidIncompatible // ~30s; doable but probably not worth it. We could test on fewer ranges
 
   public void testSubRangeMap() {
     for (Range<Integer> range1 : RANGES) {

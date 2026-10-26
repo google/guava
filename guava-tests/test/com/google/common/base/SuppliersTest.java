@@ -101,7 +101,7 @@ public class SuppliersTest extends TestCase {
     memoizeTest(new SerializableCountingSupplier());
   }
 
-  private void memoizeTest(CountingSupplier countingSupplier) {
+  private static void memoizeTest(CountingSupplier countingSupplier) {
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
     checkMemoize(countingSupplier, memoizedSupplier);
   }
@@ -111,7 +111,7 @@ public class SuppliersTest extends TestCase {
     memoizeRedudantlyTest(new SerializableCountingSupplier());
   }
 
-  private void memoizeRedudantlyTest(CountingSupplier countingSupplier) {
+  private static void memoizeRedudantlyTest(CountingSupplier countingSupplier) {
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(countingSupplier);
     assertThat(Suppliers.memoize(memoizedSupplier)).isSameInstanceAs(memoizedSupplier);
   }
@@ -121,7 +121,7 @@ public class SuppliersTest extends TestCase {
     memoizeExceptionThrownTest(new SerializableThrowingSupplier());
   }
 
-  private void memoizeExceptionThrownTest(ThrowingSupplier throwingSupplier) {
+  private static void memoizeExceptionThrownTest(ThrowingSupplier throwingSupplier) {
     Supplier<Integer> memoizedSupplier = Suppliers.memoize(throwingSupplier);
     // call get() twice to make sure that memoization doesn't interfere
     // with throwing the exception
@@ -266,7 +266,7 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Thread.sleep
-  private void checkExpiration(
+  private static void checkExpiration(
       CountingSupplier countingSupplier, Supplier<Integer> memoizedSupplier)
       throws InterruptedException {
     // the underlying supplier hasn't executed yet
@@ -319,8 +319,8 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // Thread
-  private void testSupplierThreadSafe(Function<Supplier<Boolean>, Supplier<Boolean>> memoizer)
-      throws Throwable {
+  private static void testSupplierThreadSafe(
+      Function<Supplier<Boolean>, Supplier<Boolean>> memoizer) throws Throwable {
     AtomicInteger count = new AtomicInteger(0);
     AtomicReference<Throwable> thrown = new AtomicReference<>(null);
     int numThreads = 3;
@@ -471,7 +471,6 @@ public class SuppliersTest extends TestCase {
 
   @J2ktIncompatible
   @GwtIncompatible // reflection
-  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException: com.google.common.base.Function
   public void testSuppliersSerializable() throws Exception {
     new ClassSanityTester()
         .setDefault(Duration.class, Duration.ofSeconds(1))

@@ -24,6 +24,26 @@ updates:
 #        applies-to: version-updates
 #        patterns:
 #          - "*"
+  - package-ecosystem: "maven"
+    directory: "/"
+    schedule:
+      interval: "monthly"
+    cooldown:
+      default-days: 7
+    allow:
+      - dependency-name: "org.apache.maven.wrapper:maven-wrapper"
+      - dependency-name: "org.apache.maven:apache-maven"
+    ignore:
+      - dependency-name: "*"
+        update-types:
+          - "version-update:semver-major"
+          - "version-update:semver-minor"
+          - "version-update:semver-patch"
+    groups:
+      maven-wrapper:
+        patterns:
+          - "org.apache.maven.wrapper:maven-wrapper"
+          - "org.apache.maven:apache-maven"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:

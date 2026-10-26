@@ -33,27 +33,27 @@ jobs:
       ROOT_POM: ${{ matrix.root-pom }}
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       # When we specify multiple JDKs, the final one becomes the default, which is used to execute Maven itself.
       # Our Maven configuration then specifies different JDKs to use for some of the steps:
       # - 11 (sometimes) to *download* to support anyone who runs JDiff or our Gradle integration tests (including our doc snapshots and our Java 11 CI test run) but not to use directly
-      # - 26 for running Javadoc and javac (to help people who build Guava locally and might not use a recent JDK to run Maven)
+      # - 27 for running Javadoc and javac (to help people who build Guava locally and might not use a recent JDK to run Maven)
       - name: 'Set up JDKs'
-        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           java-version: |
             ${{ matrix.java }}
-            26
+            27
           distribution: 'temurin'
           cache: 'maven'
       - name: 'Install'
         shell: bash
-        run: ./mvnw -B -ntp -Dtoolchain.skip install -U -DskipTests=true -f $ROOT_POM
+        run: ./mvnw -B -Dtoolchain.skip install -U -DskipTests=true -f $ROOT_POM
       - name: 'Test'
         shell: bash
-        run: ./mvnw -B -ntp -P!standard-with-extra-repos -Dtoolchain.skip verify -U -Dmaven.javadoc.skip=true -Dsurefire.toolchain.version=${{ matrix.java }} -f $ROOT_POM
+        run: ./mvnw -B -P!standard-with-extra-repos -Dtoolchain.skip verify -U -Dmaven.javadoc.skip=true -Dsurefire.toolchain.version=${{ matrix.java }} -f $ROOT_POM
       - name: 'Print Surefire reports'
         # Note: Normally a step won't run if the job has failed, but this causes it to
         if: ${{ failure() }}
@@ -65,22 +65,22 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: 'Set up JDKs'
-        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         # For the usage of the JDK 11+17, see util/gradle_integration_tests.sh
-        # And 26 is for running javac (as configured in the Maven build), as usual.
+        # And 27 is for running javac (as configured in the Maven build), as usual.
         with:
           java-version: |
             11
             17
-            26
+            27
           distribution: 'temurin'
           cache: 'maven'
       - name: 'Set up Gradle'
-        uses: gradle/actions/setup-gradle@3f131e8634966bd73d06cc69884922b02e6faf92 # v6.2.0
+        uses: gradle/actions/setup-gradle@3f5f9adaf7d9fecd50b5935e54106014257a94e6 # v6.4.0
       - name: 'Integration Test'
         shell: bash
         run: util/gradle_integration_tests.sh
@@ -92,15 +92,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: 'Set up JDKs'
-        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           # For discussion, see the first setup-java block.
           # The publish-snapshot workflow doesn't run tests, so we don't have to care which version Maven would select for that step.
-          java-version: 26
+          java-version: 27
           distribution: 'temurin'
           cache: 'maven'
           server-id: central
@@ -121,18 +121,18 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 'Check out repository'
-        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7.0.0
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
       - name: 'Set up JDKs'
-        uses: actions/setup-java@03ad4de0992f5dab5e18fcb136590ce7c4a0ac95 # v5.6.0
+        uses: actions/setup-java@de7274f081f381c8f8158605e0321c36c376e2e6 # v6.0.1
         with:
           # For discussion, see the first setup-java block.
           # The generate-docs workflow doesn't run tests, so we don't have to care which version Maven would select for that step.
           # But we need Java 11 for JDiff.
           java-version: |
             11
-            26
+            27
           distribution: 'temurin'
           cache: 'maven'
       - name: 'Generate latest docs'

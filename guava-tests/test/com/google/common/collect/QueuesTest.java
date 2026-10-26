@@ -175,7 +175,7 @@ public class QueuesTest extends TestCase {
     }
   }
 
-  private void checkZeroElements(BlockingQueue<Object> q) throws InterruptedException {
+  private static void checkZeroElements(BlockingQueue<Object> q) throws InterruptedException {
     for (boolean interruptibly : new boolean[] {true, false}) {
       // asking to drain zero elements
       assertEquals(0, doDrain(q, ImmutableList.of(), 0, 10, MILLISECONDS, interruptibly));

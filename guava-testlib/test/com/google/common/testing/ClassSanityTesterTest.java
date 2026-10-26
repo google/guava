@@ -163,7 +163,6 @@ public class ClassSanityTesterTest extends TestCase {
     private BadNullsFactory() {}
   }
 
-  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testSerializableOnReturnValues_good() throws Exception {
     tester.forAllPublicStaticMethods(GoodSerializableFactory.class).testSerializable();
   }
@@ -213,7 +212,6 @@ public class ClassSanityTesterTest extends TestCase {
                 .testEqualsAndSerializable());
   }
 
-  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testEqualsAndSerializableOnReturnValues_good() throws Exception {
     tester
         .forAllPublicStaticMethods(GoodEqualsAndSerializableFactory.class)
@@ -345,16 +343,17 @@ public class ClassSanityTesterTest extends TestCase {
     tester.testNulls(WithStreamParameter.class);
   }
 
-  @AndroidIncompatible // problem with equality of Type objects?
   public void testEqualsUsingReferentialEquality() {
-    assertBadUseOfReferentialEquality(SameIntegerInstance.class);
-    assertBadUseOfReferentialEquality(SameLongInstance.class);
-    assertBadUseOfReferentialEquality(SameFloatInstance.class);
-    assertBadUseOfReferentialEquality(SameDoubleInstance.class);
-    assertBadUseOfReferentialEquality(SameShortInstance.class);
-    assertBadUseOfReferentialEquality(SameByteInstance.class);
-    assertBadUseOfReferentialEquality(SameCharacterInstance.class);
-    assertBadUseOfReferentialEquality(SameBooleanInstance.class);
+    if (!PRIMITIVE_EQUALITY_BASED_ON_VALUE) {
+      assertBadUseOfReferentialEquality(SameIntegerInstance.class);
+      assertBadUseOfReferentialEquality(SameLongInstance.class);
+      assertBadUseOfReferentialEquality(SameFloatInstance.class);
+      assertBadUseOfReferentialEquality(SameDoubleInstance.class);
+      assertBadUseOfReferentialEquality(SameShortInstance.class);
+      assertBadUseOfReferentialEquality(SameByteInstance.class);
+      assertBadUseOfReferentialEquality(SameCharacterInstance.class);
+      assertBadUseOfReferentialEquality(SameBooleanInstance.class);
+    }
     assertBadUseOfReferentialEquality(SameObjectInstance.class);
     assertBadUseOfReferentialEquality(SameStringInstance.class);
     assertBadUseOfReferentialEquality(SameInterfaceInstance.class);
@@ -549,7 +548,6 @@ public class ClassSanityTesterTest extends TestCase {
     assertThat(tester.instantiate(InstantiableFactoryMethodChosen.class).name).isEqualTo("good");
   }
 
-  @AndroidIncompatible // TODO(cpovirk): ClassNotFoundException... ClassSanityTesterTest$AnInterface
   public void testInterfaceProxySerializable() throws Exception {
     reserializeAndAssert(tester.instantiate(HasAnInterface.class));
   }
@@ -1319,4 +1317,14 @@ public class ClassSanityTesterTest extends TestCase {
   }
 
   @interface MyAnnotation {}
+
+  // We intentionally test whether we're seeing the JEP 401 behavior.
+  @SuppressWarnings({
+    "BoxedPrimitiveConstructor",
+    "BoxedPrimitiveEquality",
+    "IdentityBinaryExpression",
+    "ReferenceEquality",
+    "deprecation"
+  })
+  private static final boolean PRIMITIVE_EQUALITY_BASED_ON_VALUE = new Integer(1) == new Integer(1);
 }

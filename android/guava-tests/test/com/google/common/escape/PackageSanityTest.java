@@ -26,7 +26,6 @@ import org.jspecify.annotations.NullUnmarked;
  *
  * @author Ben Yu
  */
-
 @NullUnmarked
 @J2ktIncompatible
 @GwtIncompatible

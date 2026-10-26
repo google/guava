@@ -466,18 +466,19 @@ public class Collections2Test extends TestCase {
     assertFalse(permutationSet.contains(null));
   }
 
-  private <T> void assertNextPermutation(
+  private static <T> void assertNextPermutation(
       List<T> expectedPermutation, Iterator<List<T>> permutations) {
     assertTrue("Expected another permutation, but there was none.", permutations.hasNext());
     assertEquals(expectedPermutation, permutations.next());
   }
 
-  private <T> void assertNoMorePermutations(Iterator<List<T>> permutations) {
+  private static <T> void assertNoMorePermutations(Iterator<List<T>> permutations) {
     assertFalse("Expected no more permutations, but there was one.", permutations.hasNext());
     assertThrows(NoSuchElementException.class, () -> permutations.next());
   }
 
-  private <T> void assertPermutationsCount(int expected, Collection<List<T>> permutationSet) {
+  private static <T> void assertPermutationsCount(
+      int expected, Collection<List<T>> permutationSet) {
     assertEquals(expected, permutationSet.size());
     Iterator<List<T>> permutations = permutationSet.iterator();
     for (int i = 0; i < expected; i++) {

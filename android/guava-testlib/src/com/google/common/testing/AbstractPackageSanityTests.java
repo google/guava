@@ -329,7 +329,7 @@ public abstract class AbstractPackageSanityTests extends TestCase {
    * is {@code explicitTestNames}.
    */
   @VisibleForTesting
-  List<Class<?>> findClassesToTest(
+  final List<Class<?>> findClassesToTest(
       Iterable<? extends Class<?>> classes, Iterable<String> explicitTestNames) {
     // "a.b.Foo" -> a.b.Foo.class
     TreeMap<String, Class<?>> classMap = newTreeMap();

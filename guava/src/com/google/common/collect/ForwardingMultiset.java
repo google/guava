@@ -243,7 +243,7 @@ public abstract class ForwardingMultiset<E extends @Nullable Object> extends For
     public StandardElementSet() {}
 
     @Override
-    Multiset<E> multiset() {
+    final Multiset<E> multiset() {
       return ForwardingMultiset.this;
     }
 
