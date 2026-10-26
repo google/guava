@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Multimaps.filterKeys;
 import static com.google.common.collect.Multimaps.filterValues;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
@@ -81,6 +82,28 @@ public class FilteredMultimapTest extends TestCase {
     assertTrue(filtered.containsEntry("foo", 1));
     assertTrue(filtered.keySet().retainAll(asList("cat", "dog")));
     assertEquals(0, filtered.size());
+  }
+
+  public void testFilterValuesEntrySetValue() {
+    Multimap<String, Integer> unfiltered = LinkedListMultimap.create();
+    unfiltered.put("foo", 1);
+    Multimap<String, Integer> filtered = filterValues(unfiltered, VALUE_PREDICATE);
+    Entry<String, Integer> entry = filtered.entries().iterator().next();
+    assertThrows(IllegalArgumentException.class, () -> entry.setValue(55556));
+    assertEquals(1, (int) entry.setValue(2));
+    assertEquals(ImmutableList.of(Maps.immutableEntry("foo", 2)), unfiltered.entries());
+  }
+
+  @SuppressWarnings("unchecked") // the array contains only entries
+  public void testFilterEntriesEntriesToArraySetValue() {
+    Multimap<String, Integer> unfiltered = LinkedListMultimap.create();
+    unfiltered.put("foo", 1);
+    Multimap<String, Integer> filtered = Multimaps.filterEntries(unfiltered, ENTRY_PREDICATE);
+    Entry<String, Integer> entry = (Entry<String, Integer>) filtered.entries().toArray()[0];
+    assertThrows(IllegalArgumentException.class, () -> entry.setValue(55556));
+    Entry<String, Integer> typedEntry = filtered.entries().toArray(new Entry[0])[0];
+    assertThrows(IllegalArgumentException.class, () -> typedEntry.setValue(55556));
+    assertEquals(ImmutableList.of(Maps.immutableEntry("foo", 1)), unfiltered.entries());
   }
 
   // TODO(jlevy): Many more tests needed.
