@@ -18,10 +18,14 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Multimaps.filterKeys;
 import static com.google.common.collect.Multimaps.filterValues;
+import static com.google.common.collect.Multimaps.forMap;
 import static java.util.Arrays.asList;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.base.Predicate;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import junit.framework.TestCase;
@@ -35,45 +39,29 @@ import org.jspecify.annotations.NullUnmarked;
 @GwtIncompatible // nottested
 @NullUnmarked
 public class FilteredMultimapTest extends TestCase {
-
-  private static final Predicate<Entry<String, Integer>> ENTRY_PREDICATE =
-      entry ->
-          !Objects.equals(entry.getKey(), "badkey") && !Objects.equals(entry.getValue(), 55556);
-
-  protected Multimap<String, Integer> create() {
-    Multimap<String, Integer> unfiltered = HashMultimap.create();
-    unfiltered.put("foo", 55556);
-    unfiltered.put("badkey", 1);
-    return Multimaps.filterEntries(unfiltered, ENTRY_PREDICATE);
-  }
-
-  private static final Predicate<String> KEY_PREDICATE = key -> !Objects.equals(key, "badkey");
-
   public void testFilterKeys() {
     Multimap<String, Integer> unfiltered = HashMultimap.create();
-    unfiltered.put("foo", 55556);
-    unfiltered.put("badkey", 1);
+    unfiltered.put("foo", BAD_VALUE);
+    unfiltered.put(BAD_KEY, 1);
     Multimap<String, Integer> filtered = filterKeys(unfiltered, KEY_PREDICATE);
     assertEquals(1, filtered.size());
-    assertTrue(filtered.containsEntry("foo", 55556));
+    assertTrue(filtered.containsEntry("foo", BAD_VALUE));
   }
-
-  private static final Predicate<Integer> VALUE_PREDICATE = value -> !Objects.equals(value, 55556);
 
   public void testFilterValues() {
     Multimap<String, Integer> unfiltered = HashMultimap.create();
-    unfiltered.put("foo", 55556);
-    unfiltered.put("badkey", 1);
+    unfiltered.put("foo", BAD_VALUE);
+    unfiltered.put(BAD_KEY, 1);
     Multimap<String, Integer> filtered = filterValues(unfiltered, VALUE_PREDICATE);
     assertEquals(1, filtered.size());
-    assertFalse(filtered.containsEntry("foo", 55556));
-    assertTrue(filtered.containsEntry("badkey", 1));
+    assertFalse(filtered.containsEntry("foo", BAD_VALUE));
+    assertTrue(filtered.containsEntry(BAD_KEY, 1));
   }
 
   public void testFilterFiltered() {
     Multimap<String, Integer> unfiltered = HashMultimap.create();
-    unfiltered.put("foo", 55556);
-    unfiltered.put("badkey", 1);
+    unfiltered.put("foo", BAD_VALUE);
+    unfiltered.put(BAD_KEY, 1);
     unfiltered.put("foo", 1);
     Multimap<String, Integer> keyFiltered = filterKeys(unfiltered, KEY_PREDICATE);
     Multimap<String, Integer> filtered = filterValues(keyFiltered, VALUE_PREDICATE);
@@ -82,6 +70,56 @@ public class FilteredMultimapTest extends TestCase {
     assertTrue(filtered.keySet().retainAll(asList("cat", "dog")));
     assertEquals(0, filtered.size());
   }
+
+  public void testFilterValuesIllegalSetValue() {
+    Multimap<String, Integer> unfiltered = LinkedListMultimap.create();
+    unfiltered.put("foo", 1);
+    Multimap<String, Integer> filtered = filterValues(unfiltered, VALUE_PREDICATE);
+
+    Entry<String, Integer> entry = filtered.entries().iterator().next();
+    assertThrows(IllegalArgumentException.class, () -> entry.setValue(BAD_VALUE));
+    assertEquals(ImmutableListMultimap.of("foo", 1), unfiltered);
+
+    entry.setValue(2);
+    assertEquals(ImmutableListMultimap.of("foo", 2), unfiltered);
+  }
+
+  @SuppressWarnings("unchecked") // casting the elements of toArray() back to entries
+  public void testFilterValuesIllegalSetValueViaToArray() {
+    Multimap<String, Integer> unfiltered = LinkedListMultimap.create();
+    unfiltered.put("foo", 1);
+    Multimap<String, Integer> filtered = filterValues(unfiltered, VALUE_PREDICATE);
+
+    Entry<?, Integer> entry = (Entry<?, Integer>) filtered.entries().toArray()[0];
+    assertThrows(IllegalArgumentException.class, () -> entry.setValue(BAD_VALUE));
+    Entry<?, Integer> typedEntry =
+        (Entry<?, Integer>) filtered.entries().toArray(new Entry<?, ?>[0])[0];
+    assertThrows(IllegalArgumentException.class, () -> typedEntry.setValue(BAD_VALUE));
+
+    assertEquals(ImmutableListMultimap.of("foo", 1), unfiltered);
+  }
+
+  public void testFilterValuesSetMultimapIllegalSetValue() {
+    Map<String, Integer> backing = new HashMap<>();
+    backing.put("foo", 1);
+    SetMultimap<String, Integer> unfiltered = forMap(backing);
+    SetMultimap<String, Integer> filtered = filterValues(unfiltered, VALUE_PREDICATE);
+
+    Entry<String, Integer> entry = filtered.entries().iterator().next();
+    assertThrows(IllegalArgumentException.class, () -> entry.setValue(BAD_VALUE));
+    assertEquals(ImmutableSetMultimap.of("foo", 1), unfiltered);
+
+    entry.setValue(2);
+    assertEquals(ImmutableSetMultimap.of("foo", 2), unfiltered);
+  }
+
+  private static final String BAD_KEY = "badkey";
+  private static final int BAD_VALUE = 55556;
+
+  private static final Predicate<String> KEY_PREDICATE = key -> !Objects.equals(key, BAD_KEY);
+
+  private static final Predicate<Integer> VALUE_PREDICATE =
+      value -> !Objects.equals(value, BAD_VALUE);
 
   // TODO(jlevy): Many more tests needed.
 }
