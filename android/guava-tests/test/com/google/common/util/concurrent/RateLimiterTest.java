@@ -30,6 +30,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.ImmutableClassToInstanceMap;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.primitives.Doubles;
 import com.google.common.testing.NullPointerTester;
 import com.google.common.testing.NullPointerTester.Visibility;
 import com.google.common.util.concurrent.RateLimiter.SleepingStopwatch;
@@ -71,7 +72,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testDoubleMinValueCanAcquireExactlyOnce() {
-    RateLimiter r = RateLimiter.create(Double.MIN_VALUE, stopwatch);
+    RateLimiter r = RateLimiter.create(Doubles.MIN_POSITIVE_VALUE, stopwatch);
     assertTrue("Unable to acquire initial permit", r.tryAcquire());
     assertFalse("Capable of acquiring an additional permit", r.tryAcquire());
     stopwatch.sleepMillis(Integer.MAX_VALUE);
@@ -469,7 +470,7 @@ public class RateLimiterTest extends TestCase {
   }
 
   public void testVerySmallDoubleValues() {
-    RateLimiter rateLimiter = RateLimiter.create(Double.MIN_VALUE, stopwatch);
+    RateLimiter rateLimiter = RateLimiter.create(Doubles.MIN_POSITIVE_VALUE, stopwatch);
     assertTrue("Should acquire initial permit", rateLimiter.tryAcquire());
     assertFalse("Should not acquire additional permit", rateLimiter.tryAcquire());
     stopwatch.sleepMillis(5000);

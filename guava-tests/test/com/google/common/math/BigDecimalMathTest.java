@@ -30,6 +30,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.primitives.Doubles;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.math.BigDecimal;
 import java.math.BigInteger;
@@ -108,21 +109,21 @@ public class BigDecimalMathTest extends TestCase {
   }
 
   public void testRoundToDouble_halfMinDouble() {
-    BigDecimal minDouble = new BigDecimal(Double.MIN_VALUE);
+    BigDecimal minDouble = new BigDecimal(Doubles.MIN_POSITIVE_VALUE);
     BigDecimal halfMinDouble = minDouble.divide(BigDecimal.valueOf(2));
     new RoundToDoubleTester(halfMinDouble)
         .roundUnnecessaryShouldThrow()
-        .setExpectation(Double.MIN_VALUE, UP, CEILING, HALF_UP)
+        .setExpectation(Doubles.MIN_POSITIVE_VALUE, UP, CEILING, HALF_UP)
         .setExpectation(0.0, HALF_EVEN, FLOOR, DOWN, HALF_DOWN)
         .test();
   }
 
   public void testRoundToDouble_halfNegativeMinDouble() {
-    BigDecimal minDouble = new BigDecimal(-Double.MIN_VALUE);
+    BigDecimal minDouble = new BigDecimal(-Doubles.MIN_POSITIVE_VALUE);
     BigDecimal halfMinDouble = minDouble.divide(BigDecimal.valueOf(2));
     new RoundToDoubleTester(halfMinDouble)
         .roundUnnecessaryShouldThrow()
-        .setExpectation(-Double.MIN_VALUE, UP, FLOOR, HALF_UP)
+        .setExpectation(-Doubles.MIN_POSITIVE_VALUE, UP, FLOOR, HALF_UP)
         .setExpectation(-0.0, HALF_EVEN, CEILING, DOWN, HALF_DOWN)
         .test();
   }

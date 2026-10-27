@@ -20,6 +20,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.primitives.Doubles;
 import com.google.common.testing.NullPointerTester;
 import java.util.Arrays;
 import java.util.concurrent.Callable;
@@ -40,10 +41,10 @@ public class AtomicDoubleArrayTest extends JSR166TestCase {
     (double) Integer.MIN_VALUE,
     -Math.PI,
     -1.0,
-    -Double.MIN_VALUE,
+    -Doubles.MIN_POSITIVE_VALUE,
     -0.0,
     +0.0,
-    Double.MIN_VALUE,
+    Doubles.MIN_POSITIVE_VALUE,
     1.0,
     Math.PI,
     (double) Integer.MAX_VALUE,

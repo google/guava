@@ -514,7 +514,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
       extends TestDoubleListGenerator {
     @Override
     protected List<Double> create(Double[] elements) {
-      Double[] suffix = {Double.MIN_VALUE, Double.MAX_VALUE};
+      Double[] suffix = {Doubles.MIN_POSITIVE_VALUE, Double.MAX_VALUE};
       Double[] all = concat(elements, suffix);
       return makeArray(all).subArray(0, elements.length).asList();
     }
@@ -540,7 +540,7 @@ public class ImmutableDoubleArrayTest extends TestCase {
       extends TestDoubleListGenerator {
     @Override
     protected List<Double> create(Double[] elements) {
-      Double[] prefix = {Double.MIN_VALUE, Double.MAX_VALUE};
+      Double[] prefix = {Doubles.MIN_POSITIVE_VALUE, Double.MAX_VALUE};
       Double[] suffix = {86.0, 99.0};
       Double[] all = concat(concat(prefix, elements), suffix);
       return makeArray(all).subArray(2, elements.length + 2).asList();

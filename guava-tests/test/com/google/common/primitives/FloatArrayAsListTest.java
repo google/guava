@@ -93,7 +93,7 @@ public class FloatArrayAsListTest extends TestCase {
   public static final class FloatsAsListHeadSubListGenerator extends TestFloatListGenerator {
     @Override
     protected List<Float> create(Float[] elements) {
-      Float[] suffix = {Float.MIN_VALUE, Float.MAX_VALUE};
+      Float[] suffix = {Floats.MIN_POSITIVE_VALUE, Float.MAX_VALUE};
       Float[] all = concat(elements, suffix);
       return asList(all).subList(0, elements.length);
     }
@@ -111,7 +111,7 @@ public class FloatArrayAsListTest extends TestCase {
   public static final class FloatsAsListMiddleSubListGenerator extends TestFloatListGenerator {
     @Override
     protected List<Float> create(Float[] elements) {
-      Float[] prefix = {Float.MIN_VALUE, Float.MAX_VALUE};
+      Float[] prefix = {Floats.MIN_POSITIVE_VALUE, Float.MAX_VALUE};
       Float[] suffix = {86.0f, 99.0f};
       Float[] all = concat(concat(prefix, elements), suffix);
       return asList(all).subList(2, elements.length + 2);

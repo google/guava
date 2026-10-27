@@ -19,6 +19,7 @@ import static java.lang.Math.max;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.primitives.Doubles;
 import org.jspecify.annotations.NullUnmarked;
 
 /** Unit test for {@link AtomicDouble}. */
@@ -34,10 +35,10 @@ public class AtomicDoubleTest extends JSR166TestCase {
     (double) Integer.MIN_VALUE,
     -Math.PI,
     -1.0,
-    -Double.MIN_VALUE,
+    -Doubles.MIN_POSITIVE_VALUE,
     -0.0,
     +0.0,
-    Double.MIN_VALUE,
+    Doubles.MIN_POSITIVE_VALUE,
     1.0,
     Math.PI,
     (double) Integer.MAX_VALUE,

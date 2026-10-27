@@ -234,7 +234,7 @@ public final class PairedStatsAccumulator {
     if (value > 0.0) {
       return value;
     } else {
-      return Double.MIN_VALUE;
+      return Doubles.MIN_POSITIVE_VALUE;
     }
   }
 

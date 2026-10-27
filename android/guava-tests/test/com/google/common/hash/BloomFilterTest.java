@@ -35,6 +35,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.math.LongMath;
+import com.google.common.primitives.Doubles;
 import com.google.common.primitives.Ints;
 import com.google.common.testing.EqualsTester;
 import com.google.common.testing.NullPointerTester;
@@ -269,7 +270,7 @@ public class BloomFilterTest extends TestCase {
   /** Tests that we always get a non-negative optimal size. */
   public void testOptimalSize() {
     for (int n = 1; n < 1000; n++) {
-      for (double fpp = Double.MIN_VALUE; fpp < 1.0; fpp += 0.001) {
+      for (double fpp = Doubles.MIN_POSITIVE_VALUE; fpp < 1.0; fpp += 0.001) {
         assertThat(BloomFilter.optimalNumOfBits(n, fpp)).isAtLeast(0);
       }
     }
@@ -281,13 +282,16 @@ public class BloomFilterTest extends TestCase {
           .isAtLeast(0);
     }
 
-    // and some crazy values (this used to be capped to Integer.MAX_VALUE, now it can go bigger
-    assertEquals(3327428144502L, BloomFilter.optimalNumOfBits(Integer.MAX_VALUE, Double.MIN_VALUE));
+    // and some crazy values (this used to be capped to Integer.MAX_VALUE; now it can go bigger)
+    assertEquals(
+        3327428144502L,
+        BloomFilter.optimalNumOfBits(Integer.MAX_VALUE, Doubles.MIN_POSITIVE_VALUE));
     IllegalArgumentException expected =
         assertThrows(
             IllegalArgumentException.class,
             () ->
-                BloomFilter.create(HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Double.MIN_VALUE));
+                BloomFilter.create(
+                    HashTestUtils.BAD_FUNNEL, Integer.MAX_VALUE, Doubles.MIN_POSITIVE_VALUE));
     assertThat(expected)
         .hasMessageThat()
         .isEqualTo("Could not create BloomFilter of 3327428144502 bits");

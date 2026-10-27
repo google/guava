@@ -193,9 +193,9 @@ public final class MathTesting {
     ImmutableSet.Builder<Double> integralBuilder = ImmutableSet.builder();
     ImmutableSet.Builder<Double> fractionalBuilder = ImmutableSet.builder();
     integralBuilder.addAll(Doubles.asList(0.0, -0.0, Double.MAX_VALUE, -Double.MAX_VALUE));
-    // Add small multiples of MIN_VALUE and MIN_NORMAL
+    // Add small multiples of MIN_POSITIVE_VALUE and MIN_NORMAL
     for (int scale = 1; scale <= 4; scale++) {
-      for (double d : Doubles.asList(Double.MIN_VALUE, Double.MIN_NORMAL)) {
+      for (double d : Doubles.asList(Doubles.MIN_POSITIVE_VALUE, Double.MIN_NORMAL)) {
         fractionalBuilder.add(d * scale).add(-d * scale);
       }
     }

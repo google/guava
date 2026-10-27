@@ -27,6 +27,7 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Predicate;
 import com.google.common.hash.BloomFilterStrategies.LockFreeBitArray;
 import com.google.common.math.DoubleMath;
+import com.google.common.primitives.Doubles;
 import com.google.common.primitives.SignedBytes;
 import com.google.common.primitives.UnsignedBytes;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -570,7 +571,7 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
   @VisibleForTesting
   static long optimalNumOfBits(long n, double p) {
     if (p == 0) {
-      p = Double.MIN_VALUE;
+      p = Doubles.MIN_POSITIVE_VALUE;
     }
     return (long) (-n * log(p) / SQUARED_LOG_TWO);
   }

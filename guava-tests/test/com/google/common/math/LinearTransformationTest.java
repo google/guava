@@ -25,6 +25,7 @@ import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.primitives.Doubles;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -146,7 +147,7 @@ public class LinearTransformationTest extends TestCase {
   public void testMappingWithSlope_minimalSlope() {
     double x1 = 1.2;
     double y1 = 3.4;
-    double slope = Double.MIN_VALUE;
+    double slope = Doubles.MIN_POSITIVE_VALUE;
     LinearTransformation transformation = LinearTransformation.mapping(x1, y1).withSlope(slope);
     assertThat(transformation.isVertical()).isFalse();
     assertThat(transformation.isHorizontal()).isFalse();

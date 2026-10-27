@@ -517,7 +517,7 @@ public class DoubleMathTest extends TestCase {
   private static final ImmutableList<Double> BAD_TOLERANCE_CANDIDATES =
       ImmutableList.copyOf(
           Doubles.asList(
-              -Double.MIN_VALUE,
+              -Doubles.MIN_POSITIVE_VALUE,
               -Double.MIN_NORMAL,
               -1,
               -20,
