@@ -59,8 +59,8 @@
     <build-helper-maven-plugin.version>3.6.2</build-helper-maven-plugin.version>
     <caliper.version>1.0-beta-3</caliper.version>
     <central-publishing-maven-plugin.version>0.11.0</central-publishing-maven-plugin.version>
-    <error_prone_annotations.version>2.50.0</error_prone_annotations.version>
-    <error_prone_core.version>2.50.0</error_prone_core.version>
+    <error_prone_annotations.version>2.51.0</error_prone_annotations.version>
+    <error_prone_core.version>2.51.0</error_prone_core.version>
     <exec-maven-plugin.version>3.5.0</exec-maven-plugin.version>
     <failureaccess.version>1.0.3</failureaccess.version>
     <gummy-bears-api-24-version>0.15.0</gummy-bears-api-24-version>
