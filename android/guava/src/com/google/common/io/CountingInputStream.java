@@ -19,6 +19,7 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.io.FilterInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -34,6 +35,8 @@ import java.io.InputStream;
 public final class CountingInputStream extends FilterInputStream {
 
   private long count;
+
+  @GuardedBy("this")
   private long mark = -1;
 
   /**

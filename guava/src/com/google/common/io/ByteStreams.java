@@ -27,6 +27,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInput;
@@ -714,6 +715,8 @@ public final class ByteStreams {
   @J2ktIncompatible
   private static final class LimitedInputStream extends FilterInputStream {
     private long left;
+
+    @GuardedBy("this")
     private long mark = -1;
 
     LimitedInputStream(InputStream in, long limit) {

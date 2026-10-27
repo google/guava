@@ -57,6 +57,7 @@ import com.google.common.base.Suppliers;
 import com.google.common.collect.ImmutableList;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.util.concurrent.MoreExecutors.Application;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.lang.Thread.State;
 import java.util.ArrayList;
 import java.util.List;
@@ -633,6 +634,7 @@ public class MoreExecutorsTest extends TestCase {
 
   @J2ktIncompatible
   private static class TestApplication extends Application {
+    @GuardedBy("this")
     private final List<Thread> hooks = new ArrayList<>();
 
     @Override

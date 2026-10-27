@@ -22,6 +22,7 @@ import static java.util.Collections.unmodifiableList;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Method;
@@ -44,11 +45,14 @@ import org.jspecify.annotations.NullMarked;
 @GwtIncompatible
 public final class FeatureUtil {
   /** A cache of annotated objects (typically a Class or Method) to its set of annotations. */
+  @GuardedBy("annotationCache")
   private static final Map<AnnotatedElement, List<Annotation>> annotationCache = new HashMap<>();
 
+  @GuardedBy("classTesterRequirementsCache")
   private static final Map<Class<?>, TesterRequirements> classTesterRequirementsCache =
       new HashMap<>();
 
+  @GuardedBy("methodTesterRequirementsCache")
   private static final Map<Method, TesterRequirements> methodTesterRequirementsCache =
       new HashMap<>();
 

@@ -23,6 +23,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.cache.LocalCache.Strength;
 import com.google.common.collect.ImmutableSet;
+import com.google.errorprone.annotations.concurrent.GuardedBy;
 import java.lang.ref.WeakReference;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
@@ -124,6 +125,8 @@ public class CacheReferencesTest extends TestCase {
   // a strong reference to that value.
   private static final class Key {
     private final int value;
+
+    @GuardedBy("this")
     private @Nullable WeakReference<String> toString;
 
     Key(int value) {

@@ -356,6 +356,8 @@ public class ExecutionListBenchmark {
   private static final class OldExecutionList {
     static final Logger log = Logger.getLogger(OldExecutionList.class.getName());
     final Queue<OldExecutionList.RunnableExecutorPair> runnables = new LinkedList<>();
+
+    @GuardedBy("runnables")
     boolean executed = false;
 
     void add(Runnable runnable, Executor executor) {
