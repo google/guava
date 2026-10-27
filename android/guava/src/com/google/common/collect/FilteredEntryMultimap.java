@@ -35,6 +35,7 @@ import static java.util.Collections.unmodifiableSet;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -135,18 +136,14 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
     return new Entries();
   }
 
-  class Entries extends ForwardingCollection<Entry<K, V>> {
-    private final Collection<Entry<K, V>> delegate =
-        filterCollection(unfiltered.entries(), predicate);
-
-    @Override
-    protected final Collection<Entry<K, V>> delegate() {
-      return delegate;
+  class Entries extends SimpleForwardingCollection<Entry<K, V>> {
+    Entries() {
+      super(filterCollection(unfiltered.entries(), predicate));
     }
 
     @Override
     public final Iterator<Entry<K, V>> iterator() {
-      return new TransformedIterator<Entry<K, V>, Entry<K, V>>(delegate.iterator()) {
+      return new TransformedIterator<Entry<K, V>, Entry<K, V>>(delegate().iterator()) {
         @Override
         Entry<K, V> transform(Entry<K, V> entry) {
           return new ForwardingMapEntry<K, V>() {

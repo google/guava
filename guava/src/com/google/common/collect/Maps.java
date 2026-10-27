@@ -49,6 +49,7 @@ import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -1531,21 +1532,14 @@ public final class Maps {
 
   /** The implementation of {@code Multimaps.unmodifiableEntries}. */
   static class UnmodifiableEntries<K extends @Nullable Object, V extends @Nullable Object>
-      extends ForwardingCollection<Entry<K, V>> {
-    private final Collection<Entry<K, V>> entries;
-
+      extends SimpleForwardingCollection<Entry<K, V>> {
     UnmodifiableEntries(Collection<Entry<K, V>> entries) {
-      this.entries = entries;
-    }
-
-    @Override
-    protected Collection<Entry<K, V>> delegate() {
-      return entries;
+      super(entries);
     }
 
     @Override
     public final Iterator<Entry<K, V>> iterator() {
-      return unmodifiableEntryIterator(entries.iterator());
+      return unmodifiableEntryIterator(delegate().iterator());
     }
 
     // See java.util.Collections.UnmodifiableEntrySet for details on attacks.

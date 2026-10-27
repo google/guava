@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static java.util.Arrays.asList;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
 import com.google.common.collect.testing.CollectionTestSuiteBuilder;
 import com.google.common.collect.testing.MinimalCollection;
 import com.google.common.collect.testing.TestStringCollectionGenerator;
@@ -41,16 +42,9 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @NullUnmarked
 public class ForwardingCollectionTest extends TestCase {
-  static final class StandardImplForwardingCollection<T> extends ForwardingCollection<T> {
-    private final Collection<T> backingCollection;
-
+  static final class StandardImplForwardingCollection<T> extends SimpleForwardingCollection<T> {
     StandardImplForwardingCollection(Collection<T> backingCollection) {
-      this.backingCollection = backingCollection;
-    }
-
-    @Override
-    protected Collection<T> delegate() {
-      return backingCollection;
+      super(backingCollection);
     }
 
     @Override

@@ -39,6 +39,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2.FilteredCollection;
+import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
 import com.google.common.math.IntMath;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.DoNotCall;
@@ -1544,10 +1545,9 @@ public final class Sets {
     return cartesianProduct(asList(sets));
   }
 
-  private static final class CartesianSet<E> extends ForwardingCollection<List<E>>
+  private static final class CartesianSet<E> extends SimpleForwardingCollection<List<E>>
       implements Set<List<E>> {
     private final transient ImmutableList<ImmutableSet<E>> axes;
-    private final transient CartesianList<E> delegate;
 
     static <E> Set<List<E>> create(List<? extends Set<? extends E>> sets) {
       ImmutableList.Builder<ImmutableSet<E>> axesBuilder = new ImmutableList.Builder<>(sets.size());
@@ -1589,13 +1589,8 @@ public final class Sets {
     }
 
     private CartesianSet(ImmutableList<ImmutableSet<E>> axes, CartesianList<E> delegate) {
+      super(delegate);
       this.axes = axes;
-      this.delegate = delegate;
-    }
-
-    @Override
-    protected Collection<List<E>> delegate() {
-      return delegate;
     }
 
     @Override

@@ -26,6 +26,7 @@ import static com.google.common.collect.Sets.hashCodeImpl;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
 import com.google.errorprone.annotations.concurrent.LazyInit;
 import java.io.Serializable;
 import java.util.Collection;
@@ -91,17 +92,9 @@ public class TreeRangeSet<C extends Comparable<?>> extends AbstractRangeSet<C>
     return new AsRanges(rangesByLowerBound.descendingMap().values());
   }
 
-  final class AsRanges extends ForwardingCollection<Range<C>> implements Set<Range<C>> {
-
-    final Collection<Range<C>> delegate;
-
+  final class AsRanges extends SimpleForwardingCollection<Range<C>> implements Set<Range<C>> {
     AsRanges(Collection<Range<C>> delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override
-    protected Collection<Range<C>> delegate() {
-      return delegate;
+      super(delegate);
     }
 
     @Override

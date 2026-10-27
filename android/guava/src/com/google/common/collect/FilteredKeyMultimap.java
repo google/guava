@@ -25,6 +25,7 @@ import static java.util.Collections.emptySet;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Collection;
 import java.util.Iterator;
@@ -191,10 +192,9 @@ class FilteredKeyMultimap<K extends @Nullable Object, V extends @Nullable Object
     return new Entries();
   }
 
-  class Entries extends ForwardingCollection<Entry<K, V>> {
-    @Override
-    protected Collection<Entry<K, V>> delegate() {
-      return filter(unfiltered.entries(), entryPredicate());
+  class Entries extends SimpleForwardingCollection<Entry<K, V>> {
+    Entries() {
+      super(filter(unfiltered.entries(), entryPredicate()));
     }
 
     @Override

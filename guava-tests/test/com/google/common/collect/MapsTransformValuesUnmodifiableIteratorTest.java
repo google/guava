@@ -26,6 +26,7 @@ import static org.junit.Assert.assertThrows;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
 import com.google.common.collect.testing.MapInterfaceTest;
 import java.util.Collection;
 import java.util.HashMap;
@@ -92,25 +93,20 @@ public class MapsTransformValuesUnmodifiableIteratorTest extends MapInterfaceTes
 
     @Override
     public Collection<V> values() {
-      return new ForwardingCollection<V>() {
-        @Override
-        protected Collection<V> delegate() {
-          return delegate.values();
-        }
-
+      return new SimpleForwardingCollection<V>(delegate.values()) {
         @Override
         public Iterator<V> iterator() {
-          return unmodifiableIterator(delegate.values().iterator());
+          return unmodifiableIterator(delegate().iterator());
         }
 
         @Override
         public boolean removeAll(Collection<?> c) {
-          return delegate.values().removeAll(c);
+          return delegate().removeAll(c);
         }
 
         @Override
         public boolean retainAll(Collection<?> c) {
-          return delegate.values().retainAll(c);
+          return delegate().retainAll(c);
         }
       };
     }
