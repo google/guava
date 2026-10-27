@@ -440,7 +440,7 @@ public class GeneratedMonitorTest extends TestCase {
 
     private boolean satisfied;
 
-    protected FlagGuard(Monitor monitor) {
+    FlagGuard(Monitor monitor) {
       super(monitor);
     }
 

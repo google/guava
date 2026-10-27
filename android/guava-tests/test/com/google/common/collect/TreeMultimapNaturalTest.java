@@ -269,10 +269,6 @@ public class TreeMultimapNaturalTest extends TestCase {
     return suite;
   }
 
-  protected SetMultimap<String, Integer> create() {
-    return TreeMultimap.create();
-  }
-
   /** Create and populate a {@code TreeMultimap} with the natural ordering of keys and values. */
   private static TreeMultimap<String, Integer> createPopulate() {
     TreeMultimap<String, Integer> multimap = TreeMultimap.create();
@@ -287,7 +283,7 @@ public class TreeMultimapNaturalTest extends TestCase {
   }
 
   public void testToString() {
-    SetMultimap<String, Integer> multimap = create();
+    SetMultimap<String, Integer> multimap = TreeMultimap.create();
     multimap.putAll("bar", asList(3, 1, 2));
     multimap.putAll("foo", asList(2, 3, 1, -1, 4));
     assertThat(multimap.toString()).isEqualTo("{bar=[1, 2, 3], foo=[-1, 1, 2, 3, 4]}");
@@ -339,7 +335,7 @@ public class TreeMultimapNaturalTest extends TestCase {
   }
 
   public void testMultimapConstructor() {
-    SetMultimap<String, Integer> multimap = create();
+    SetMultimap<String, Integer> multimap = TreeMultimap.create();
     multimap.putAll("bar", asList(3, 1, 2));
     multimap.putAll("foo", asList(2, 3, 1, -1, 4));
     TreeMultimap<String, Integer> copy = TreeMultimap.create(multimap);

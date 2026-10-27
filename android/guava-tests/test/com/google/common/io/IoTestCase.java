@@ -95,7 +95,7 @@ public abstract class IoTestCase extends TestCase {
   }
 
   /** Returns the file with the given name under the testdata directory. */
-  protected final @Nullable File getTestFile(String name) throws IOException {
+  final @Nullable File getTestFile(String name) throws IOException {
     File file = new File(getTestDir(), name);
     if (!file.exists()) {
       URL resourceUrl = IoTestCase.class.getResource("testdata/" + name);
@@ -112,7 +112,7 @@ public abstract class IoTestCase extends TestCase {
    * Creates a new temp dir for testing. The returned directory and all contents of it will be
    * deleted in the tear-down for this test.
    */
-  protected final File createTempDir() throws IOException {
+  final File createTempDir() throws IOException {
     File tempFile = File.createTempFile("IoTestCase", "");
     if (!tempFile.delete() || !tempFile.mkdir()) {
       throw new IOException("failed to create temp dir");
@@ -126,7 +126,7 @@ public abstract class IoTestCase extends TestCase {
    * the tear-down for this test. Subsequent invocations of this method will return the same
    * directory.
    */
-  protected final File getTempDir() throws IOException {
+  final File getTempDir() throws IOException {
     if (tempDir == null) {
       tempDir = createTempDir();
     }
@@ -138,7 +138,7 @@ public abstract class IoTestCase extends TestCase {
    * Creates a new temp file in the temp directory returned by {@link #getTempDir()}. The file will
    * be deleted in the tear-down for this test.
    */
-  protected final File createTempFile() throws IOException {
+  final File createTempFile() throws IOException {
     return File.createTempFile("test", null, getTempDir());
   }
 

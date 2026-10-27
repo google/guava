@@ -147,58 +147,57 @@ public class ImmutableSetTest extends AbstractImmutableSetTest {
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> of() {
+  <E extends Comparable<? super E>> Set<E> of() {
     return ImmutableSet.of();
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> of(E e) {
+  <E extends Comparable<? super E>> Set<E> of(E e) {
     return ImmutableSet.of(e);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> of(E e1, E e2) {
+  <E extends Comparable<? super E>> Set<E> of(E e1, E e2) {
     return ImmutableSet.of(e1, e2);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3) {
+  <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3) {
     return ImmutableSet.of(e1, e2, e3);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4) {
+  <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4) {
     return ImmutableSet.of(e1, e2, e3, e4);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5) {
+  <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5) {
     return ImmutableSet.of(e1, e2, e3, e4, e5);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> of(
-      E e1, E e2, E e3, E e4, E e5, E e6, E... rest) {
+  <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... rest) {
     return ImmutableSet.of(e1, e2, e3, e4, e5, e6, rest);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> copyOf(E[] elements) {
+  <E extends Comparable<? super E>> Set<E> copyOf(E[] elements) {
     return ImmutableSet.copyOf(elements);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> copyOf(Collection<? extends E> elements) {
+  <E extends Comparable<? super E>> Set<E> copyOf(Collection<? extends E> elements) {
     return ImmutableSet.copyOf(elements);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> copyOf(Iterable<? extends E> elements) {
+  <E extends Comparable<? super E>> Set<E> copyOf(Iterable<? extends E> elements) {
     return ImmutableSet.copyOf(elements);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> Set<E> copyOf(Iterator<? extends E> elements) {
+  <E extends Comparable<? super E>> Set<E> copyOf(Iterator<? extends E> elements) {
     return ImmutableSet.copyOf(elements);
   }
 

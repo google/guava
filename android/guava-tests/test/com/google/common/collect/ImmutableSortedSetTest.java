@@ -190,59 +190,57 @@ public class ImmutableSortedSetTest extends AbstractImmutableSetTest {
       (a, b) -> Integer.compare(~a, ~b);
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> of() {
+  <E extends Comparable<? super E>> SortedSet<E> of() {
     return ImmutableSortedSet.of();
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> of(E e) {
+  <E extends Comparable<? super E>> SortedSet<E> of(E e) {
     return ImmutableSortedSet.of(e);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> of(E e1, E e2) {
+  <E extends Comparable<? super E>> SortedSet<E> of(E e1, E e2) {
     return ImmutableSortedSet.of(e1, e2);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> of(E e1, E e2, E e3) {
+  <E extends Comparable<? super E>> SortedSet<E> of(E e1, E e2, E e3) {
     return ImmutableSortedSet.of(e1, e2, e3);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> of(E e1, E e2, E e3, E e4) {
+  <E extends Comparable<? super E>> SortedSet<E> of(E e1, E e2, E e3, E e4) {
     return ImmutableSortedSet.of(e1, e2, e3, e4);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> of(E e1, E e2, E e3, E e4, E e5) {
+  <E extends Comparable<? super E>> SortedSet<E> of(E e1, E e2, E e3, E e4, E e5) {
     return ImmutableSortedSet.of(e1, e2, e3, e4, e5);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> of(
-      E e1, E e2, E e3, E e4, E e5, E e6, E... rest) {
+  <E extends Comparable<? super E>> SortedSet<E> of(E e1, E e2, E e3, E e4, E e5, E e6, E... rest) {
     return ImmutableSortedSet.of(e1, e2, e3, e4, e5, e6, rest);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> copyOf(E[] elements) {
+  <E extends Comparable<? super E>> SortedSet<E> copyOf(E[] elements) {
     return ImmutableSortedSet.copyOf(elements);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> copyOf(
-      Collection<? extends E> elements) {
+  <E extends Comparable<? super E>> SortedSet<E> copyOf(Collection<? extends E> elements) {
     return ImmutableSortedSet.copyOf(elements);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> copyOf(Iterable<? extends E> elements) {
+  <E extends Comparable<? super E>> SortedSet<E> copyOf(Iterable<? extends E> elements) {
     return ImmutableSortedSet.copyOf(elements);
   }
 
   @Override
-  protected <E extends Comparable<? super E>> SortedSet<E> copyOf(Iterator<? extends E> elements) {
+  <E extends Comparable<? super E>> SortedSet<E> copyOf(Iterator<? extends E> elements) {
     return ImmutableSortedSet.copyOf(elements);
   }
 

@@ -61,7 +61,7 @@ public class ListsImplTest extends TestCase {
     private final String name;
     private final Modifiability modifiability;
 
-    protected ListExample(String name, Modifiability modifiability) {
+    ListExample(String name, Modifiability modifiability) {
       this.name = name;
       this.modifiability = modifiability;
     }

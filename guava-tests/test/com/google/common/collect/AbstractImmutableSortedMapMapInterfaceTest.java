@@ -31,7 +31,7 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public abstract class AbstractImmutableSortedMapMapInterfaceTest<K, V>
     extends SortedMapInterfaceTest<K, V> {
-  protected AbstractImmutableSortedMapMapInterfaceTest() {
+  AbstractImmutableSortedMapMapInterfaceTest() {
     super(false, false, false, false, false);
   }
 

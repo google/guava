@@ -33,7 +33,7 @@ import org.jspecify.annotations.Nullable;
 public class TransposedTableTest extends AbstractTableTest<Character> {
 
   @Override
-  protected Table<String, Integer, Character> create(@Nullable Object... data) {
+  Table<String, Integer, Character> create(@Nullable Object... data) {
     Table<Integer, String, Character> original = HashBasedTable.create();
     Table<String, Integer, Character> table = transpose(original);
     table.clear();

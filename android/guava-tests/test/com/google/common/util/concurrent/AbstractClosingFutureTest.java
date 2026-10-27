@@ -1246,8 +1246,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
     assertFinalStepThrowsIllegalStateException(closingFuture);
   }
 
-  protected final void assertDerivingThrowsIllegalStateException(
-      ClosingFuture<String> closingFuture) {
+  final void assertDerivingThrowsIllegalStateException(ClosingFuture<String> closingFuture) {
     assertThrows(
         IllegalStateException.class,
         () -> closingFuture.transform((closer3, v1) -> "value3", executor));
@@ -1273,7 +1272,7 @@ public abstract class AbstractClosingFutureTest extends TestCase {
   }
 
   /** Asserts that marking this step a final step throws {@link IllegalStateException}. */
-  protected void assertFinalStepThrowsIllegalStateException(ClosingFuture<?> closingFuture) {
+  private void assertFinalStepThrowsIllegalStateException(ClosingFuture<?> closingFuture) {
     assertThrows(IllegalStateException.class, () -> closingFuture.finishToFuture());
 
     NoOpValueAndCloserConsumer<Object> consumer = new NoOpValueAndCloserConsumer<>();

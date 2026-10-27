@@ -53,7 +53,7 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
   private CountDownLatch funcCompletionLatch;
 
   @Override
-  protected ListenableFuture<String> buildChainingFuture(ListenableFuture<Input> inputFuture) {
+  ListenableFuture<String> buildChainingFuture(ListenableFuture<Input> inputFuture) {
     outputFuture = SettableFuture.create();
     funcIsWaitingLatch = new CountDownLatch(1);
     funcCompletionLatch = new CountDownLatch(1);
@@ -61,7 +61,7 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
   }
 
   @Override
-  protected String getSuccessfulResult() {
+  String getSuccessfulResult() {
     return RESULT_DATA;
   }
 
@@ -162,7 +162,7 @@ public class FuturesTransformAsyncTest extends AbstractChainedListenableFutureTe
 
   /** Proxy to throw a {@link RuntimeException} out of the {@link #get()} method. */
   public static class BadFuture extends SimpleForwardingListenableFuture<Input> {
-    protected BadFuture(ListenableFuture<Input> delegate) {
+    BadFuture(ListenableFuture<Input> delegate) {
       super(delegate);
     }
 

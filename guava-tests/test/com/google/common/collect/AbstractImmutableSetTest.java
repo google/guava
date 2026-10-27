@@ -55,31 +55,28 @@ import org.jspecify.annotations.Nullable;
 @NullMarked
 public abstract class AbstractImmutableSetTest extends TestCase {
 
-  protected abstract <E extends Comparable<? super E>> Set<E> of();
+  abstract <E extends Comparable<? super E>> Set<E> of();
 
-  protected abstract <E extends Comparable<? super E>> Set<E> of(E e);
+  abstract <E extends Comparable<? super E>> Set<E> of(E e);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2);
+  abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3);
+  abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4);
+  abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5);
+  abstract <E extends Comparable<? super E>> Set<E> of(E e1, E e2, E e3, E e4, E e5);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> of(
+  abstract <E extends Comparable<? super E>> Set<E> of(
       E e1, E e2, E e3, E e4, E e5, E e6, E... rest);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(E[] elements);
+  abstract <E extends Comparable<? super E>> Set<E> copyOf(E[] elements);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
-      Collection<? extends E> elements);
+  abstract <E extends Comparable<? super E>> Set<E> copyOf(Collection<? extends E> elements);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
-      Iterable<? extends E> elements);
+  abstract <E extends Comparable<? super E>> Set<E> copyOf(Iterable<? extends E> elements);
 
-  protected abstract <E extends Comparable<? super E>> Set<E> copyOf(
-      Iterator<? extends E> elements);
+  abstract <E extends Comparable<? super E>> Set<E> copyOf(Iterator<? extends E> elements);
 
   public void testCreation_noArgs() {
     Set<String> set = of();

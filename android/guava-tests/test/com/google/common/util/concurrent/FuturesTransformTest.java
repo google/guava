@@ -41,12 +41,12 @@ public class FuturesTransformTest extends AbstractChainedListenableFutureTest<St
       new UndeclaredThrowableException(EXCEPTION);
 
   @Override
-  protected ListenableFuture<String> buildChainingFuture(ListenableFuture<Input> inputFuture) {
+  ListenableFuture<String> buildChainingFuture(ListenableFuture<Input> inputFuture) {
     return transform(inputFuture, new ComposeFunction(), directExecutor());
   }
 
   @Override
-  protected String getSuccessfulResult() {
+  String getSuccessfulResult() {
     return RESULT_DATA;
   }
 

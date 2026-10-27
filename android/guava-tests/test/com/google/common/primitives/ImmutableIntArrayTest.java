@@ -475,7 +475,7 @@ public class ImmutableIntArrayTest extends TestCase {
   @GwtIncompatible // used only from suite
   public static final class ImmutableIntArrayAsListGenerator extends TestIntegerListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
+    List<Integer> create(Integer[] elements) {
       return makeArray(elements).asList();
     }
   }
@@ -485,7 +485,7 @@ public class ImmutableIntArrayTest extends TestCase {
   public static final class ImmutableIntArrayHeadSubListAsListGenerator
       extends TestIntegerListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
+    List<Integer> create(Integer[] elements) {
       Integer[] suffix = {Integer.MIN_VALUE, Integer.MAX_VALUE};
       Integer[] all = concat(elements, suffix);
       return makeArray(all).subArray(0, elements.length).asList();
@@ -497,7 +497,7 @@ public class ImmutableIntArrayTest extends TestCase {
   public static final class ImmutableIntArrayTailSubListAsListGenerator
       extends TestIntegerListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
+    List<Integer> create(Integer[] elements) {
       Integer[] prefix = {86, 99};
       Integer[] all = concat(prefix, elements);
       return makeArray(all).subArray(2, elements.length + 2).asList();
@@ -509,7 +509,7 @@ public class ImmutableIntArrayTest extends TestCase {
   public static final class ImmutableIntArrayMiddleSubListAsListGenerator
       extends TestIntegerListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
+    List<Integer> create(Integer[] elements) {
       Integer[] prefix = {Integer.MIN_VALUE, Integer.MAX_VALUE};
       Integer[] suffix = {86, 99};
       Integer[] all = concat(concat(prefix, elements), suffix);
@@ -545,7 +545,7 @@ public class ImmutableIntArrayTest extends TestCase {
      * Creates a new collection containing the given elements; implement this method instead of
      * {@link #create(Object...)}.
      */
-    protected abstract List<Integer> create(Integer[] elements);
+    abstract List<Integer> create(Integer[] elements);
 
     @Override
     public Integer[] createArray(int length) {

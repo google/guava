@@ -45,7 +45,7 @@ public class TablesTransformValuesTest extends AbstractTableTest<Character> {
       };
 
   @Override
-  protected Table<String, Integer, Character> create(@Nullable Object... data) {
+  Table<String, Integer, Character> create(@Nullable Object... data) {
     Table<String, Integer, String> table = HashBasedTable.create();
     checkArgument(data.length % 3 == 0);
     for (int i = 0; i < data.length; i += 3) {

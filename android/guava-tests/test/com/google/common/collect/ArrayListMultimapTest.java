@@ -78,13 +78,9 @@ public class ArrayListMultimapTest extends TestCase {
     return suite;
   }
 
-  protected ListMultimap<String, Integer> create() {
-    return ArrayListMultimap.create();
-  }
-
   /** Confirm that get() returns a List implementing RandomAccess. */
   public void testGetRandomAccess() {
-    Multimap<String, Integer> multimap = create();
+    Multimap<String, Integer> multimap = ArrayListMultimap.create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
     assertTrue(multimap.get("foo") instanceof RandomAccess);
@@ -93,7 +89,7 @@ public class ArrayListMultimapTest extends TestCase {
 
   /** Confirm that removeAll() returns a List implementing RandomAccess. */
   public void testRemoveAllRandomAccess() {
-    Multimap<String, Integer> multimap = create();
+    Multimap<String, Integer> multimap = ArrayListMultimap.create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
     assertTrue(multimap.removeAll("foo") instanceof RandomAccess);
@@ -102,7 +98,7 @@ public class ArrayListMultimapTest extends TestCase {
 
   /** Confirm that replaceValues() returns a List implementing RandomAccess. */
   public void testReplaceValuesRandomAccess() {
-    Multimap<String, Integer> multimap = create();
+    Multimap<String, Integer> multimap = ArrayListMultimap.create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
     assertTrue(multimap.replaceValues("foo", asList(2, 4)) instanceof RandomAccess);
@@ -111,7 +107,7 @@ public class ArrayListMultimapTest extends TestCase {
 
   /** Test throwing ConcurrentModificationException when a sublist's ancestor's delegate changes. */
   public void testSublistConcurrentModificationException() {
-    ListMultimap<String, Integer> multimap = create();
+    ListMultimap<String, Integer> multimap = ArrayListMultimap.create();
     multimap.putAll("foo", asList(1, 2, 3, 4, 5));
     List<Integer> list = multimap.get("foo");
     assertThat(multimap.get("foo")).containsExactly(1, 2, 3, 4, 5).inOrder();
@@ -126,7 +122,7 @@ public class ArrayListMultimapTest extends TestCase {
   }
 
   public void testCreateFromMultimap() {
-    Multimap<String, Integer> multimap = create();
+    Multimap<String, Integer> multimap = ArrayListMultimap.create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
     multimap.put("bar", 2);

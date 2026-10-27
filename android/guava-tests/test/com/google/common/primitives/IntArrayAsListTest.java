@@ -86,14 +86,14 @@ public class IntArrayAsListTest extends TestCase {
 
   public static final class IntsAsListGenerator extends TestIntegerListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
+    List<Integer> create(Integer[] elements) {
       return asList(elements);
     }
   }
 
   public static final class IntsAsListHeadSubListGenerator extends TestIntegerListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
+    List<Integer> create(Integer[] elements) {
       Integer[] suffix = {Integer.MIN_VALUE, Integer.MAX_VALUE};
       Integer[] all = concat(elements, suffix);
       return asList(all).subList(0, elements.length);
@@ -102,7 +102,7 @@ public class IntArrayAsListTest extends TestCase {
 
   public static final class IntsAsListTailSubListGenerator extends TestIntegerListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
+    List<Integer> create(Integer[] elements) {
       Integer[] prefix = {(int) 86, (int) 99};
       Integer[] all = concat(prefix, elements);
       return asList(all).subList(2, elements.length + 2);
@@ -111,7 +111,7 @@ public class IntArrayAsListTest extends TestCase {
 
   public static final class IntsAsListMiddleSubListGenerator extends TestIntegerListGenerator {
     @Override
-    protected List<Integer> create(Integer[] elements) {
+    List<Integer> create(Integer[] elements) {
       Integer[] prefix = {Integer.MIN_VALUE, Integer.MAX_VALUE};
       Integer[] suffix = {(int) 86, (int) 99};
       Integer[] all = concat(concat(prefix, elements), suffix);
@@ -146,7 +146,7 @@ public class IntArrayAsListTest extends TestCase {
      * Creates a new collection containing the given elements; implement this method instead of
      * {@link #create(Object...)}.
      */
-    protected abstract List<Integer> create(Integer[] elements);
+    abstract List<Integer> create(Integer[] elements);
 
     @Override
     public Integer[] createArray(int length) {

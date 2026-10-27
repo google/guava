@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
 @GwtCompatible
 @NullMarked
 public abstract class AbstractTableReadTest<C extends @Nullable Character> extends TestCase {
-  protected Table<String, Integer, C> table;
+  Table<String, Integer, C> table;
 
   /**
    * Creates a table with the specified data.
@@ -46,9 +46,9 @@ public abstract class AbstractTableReadTest<C extends @Nullable Character> exten
    * @throws IllegalArgumentException if the size of {@code data} isn't a multiple of 3
    * @throws ClassCastException if a data element has the wrong type
    */
-  protected abstract Table<String, Integer, C> create(@Nullable Object... data);
+  abstract Table<String, Integer, C> create(@Nullable Object... data);
 
-  protected void assertSize(int expectedSize) {
+  void assertSize(int expectedSize) {
     assertEquals(expectedSize, table.size());
   }
 

@@ -73,9 +73,9 @@ public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends T
           .put("lorem ipsum", LOREM_IPSUM)
           .buildOrThrow();
 
-  protected final F factory;
-  protected final T data;
-  protected final T expected;
+  final F factory;
+  final T data;
+  final T expected;
 
   private final String suiteName;
   private final String caseDesc;
@@ -94,7 +94,7 @@ public class SourceSinkTester<S, T, F extends SourceSinkFactory<S, T>> extends T
     return super.getName() + " [" + suiteName + " [" + caseDesc + "]]";
   }
 
-  protected static ImmutableList<String> getLines(String string) {
+  static ImmutableList<String> getLines(String string) {
     try {
       return new CharSource() {
         @Override

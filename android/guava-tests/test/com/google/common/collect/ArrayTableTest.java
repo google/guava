@@ -45,7 +45,7 @@ import org.jspecify.annotations.Nullable;
 public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
 
   @Override
-  protected ArrayTable<String, Integer, Character> create(@Nullable Object... data) {
+  ArrayTable<String, Integer, Character> create(@Nullable Object... data) {
     // TODO: Specify different numbers of rows and columns, to detect problems
     // that arise when the wrong size is used.
     ArrayTable<String, Integer, Character> table =
@@ -55,17 +55,17 @@ public class ArrayTableTest extends AbstractTableTest<@Nullable Character> {
   }
 
   @Override
-  protected void assertSize(int expectedSize) {
+  void assertSize(int expectedSize) {
     assertEquals(9, table.size());
   }
 
   @Override
-  protected boolean supportsRemove() {
+  boolean supportsRemove() {
     return false;
   }
 
   @Override
-  protected boolean supportsNullValues() {
+  boolean supportsNullValues() {
     return true;
   }
 

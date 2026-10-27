@@ -85,14 +85,14 @@ public class CharArrayAsListTest extends TestCase {
 
   public static final class CharsAsListGenerator extends TestCharListGenerator {
     @Override
-    protected List<Character> create(Character[] elements) {
+    List<Character> create(Character[] elements) {
       return asList(elements);
     }
   }
 
   public static final class CharsAsListHeadSubListGenerator extends TestCharListGenerator {
     @Override
-    protected List<Character> create(Character[] elements) {
+    List<Character> create(Character[] elements) {
       Character[] suffix = {Character.MIN_VALUE, Character.MAX_VALUE};
       Character[] all = concat(elements, suffix);
       return asList(all).subList(0, elements.length);
@@ -101,7 +101,7 @@ public class CharArrayAsListTest extends TestCase {
 
   public static final class CharsAsListTailSubListGenerator extends TestCharListGenerator {
     @Override
-    protected List<Character> create(Character[] elements) {
+    List<Character> create(Character[] elements) {
       Character[] prefix = {(char) 86, (char) 99};
       Character[] all = concat(prefix, elements);
       return asList(all).subList(2, elements.length + 2);
@@ -110,7 +110,7 @@ public class CharArrayAsListTest extends TestCase {
 
   public static final class CharsAsListMiddleSubListGenerator extends TestCharListGenerator {
     @Override
-    protected List<Character> create(Character[] elements) {
+    List<Character> create(Character[] elements) {
       Character[] prefix = {Character.MIN_VALUE, Character.MAX_VALUE};
       Character[] suffix = {(char) 86, (char) 99};
       Character[] all = concat(concat(prefix, elements), suffix);
@@ -145,7 +145,7 @@ public class CharArrayAsListTest extends TestCase {
      * Creates a new collection containing the given elements; implement this method instead of
      * {@link #create(Object...)}.
      */
-    protected abstract List<Character> create(Character[] elements);
+    abstract List<Character> create(Character[] elements);
 
     @Override
     public Character[] createArray(int length) {

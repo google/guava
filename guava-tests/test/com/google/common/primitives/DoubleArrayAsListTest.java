@@ -85,14 +85,14 @@ public class DoubleArrayAsListTest extends TestCase {
 
   public static final class DoublesAsListGenerator extends TestDoubleListGenerator {
     @Override
-    protected List<Double> create(Double[] elements) {
+    List<Double> create(Double[] elements) {
       return asList(elements);
     }
   }
 
   public static final class DoublesAsListHeadSubListGenerator extends TestDoubleListGenerator {
     @Override
-    protected List<Double> create(Double[] elements) {
+    List<Double> create(Double[] elements) {
       Double[] suffix = {Doubles.MIN_POSITIVE_VALUE, Double.MAX_VALUE};
       Double[] all = concat(elements, suffix);
       return asList(all).subList(0, elements.length);
@@ -101,7 +101,7 @@ public class DoubleArrayAsListTest extends TestCase {
 
   public static final class DoublesAsListTailSubListGenerator extends TestDoubleListGenerator {
     @Override
-    protected List<Double> create(Double[] elements) {
+    List<Double> create(Double[] elements) {
       Double[] prefix = {86.0, 99.0};
       Double[] all = concat(prefix, elements);
       return asList(all).subList(2, elements.length + 2);
@@ -110,7 +110,7 @@ public class DoubleArrayAsListTest extends TestCase {
 
   public static final class DoublesAsListMiddleSubListGenerator extends TestDoubleListGenerator {
     @Override
-    protected List<Double> create(Double[] elements) {
+    List<Double> create(Double[] elements) {
       Double[] prefix = {Doubles.MIN_POSITIVE_VALUE, Double.MAX_VALUE};
       Double[] suffix = {86.0, 99.0};
       Double[] all = concat(concat(prefix, elements), suffix);
@@ -145,7 +145,7 @@ public class DoubleArrayAsListTest extends TestCase {
      * Creates a new collection containing the given elements; implement this method instead of
      * {@link #create(Object...)}.
      */
-    protected abstract List<Double> create(Double[] elements);
+    abstract List<Double> create(Double[] elements);
 
     @Override
     public Double[] createArray(int length) {

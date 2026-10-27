@@ -45,11 +45,11 @@ public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
     SLOW_FUNC_VALID_INPUT_DATA,
   }
 
-  protected static final Exception EXCEPTION = new Exception("Test exception");
+  static final Exception EXCEPTION = new Exception("Test exception");
 
-  protected SettableFuture<Input> inputFuture;
-  protected ListenableFuture<T> resultFuture;
-  protected MockFutureListener listener;
+  SettableFuture<Input> inputFuture;
+  ListenableFuture<T> resultFuture;
+  MockFutureListener listener;
 
   @Override
   protected void setUp() throws Exception {
@@ -99,11 +99,11 @@ public abstract class AbstractChainedListenableFutureTest<T> extends TestCase {
    * when inputFuture returns VALID_INPUT_DATA, and sets the exception to EXCEPTION in all other
    * cases.
    */
-  protected abstract ListenableFuture<T> buildChainingFuture(ListenableFuture<Input> inputFuture);
+  abstract ListenableFuture<T> buildChainingFuture(ListenableFuture<Input> inputFuture);
 
   /**
    * Override to return the result when VALID_INPUT_DATA is passed in to the chaining
    * listenableFuture
    */
-  protected abstract T getSuccessfulResult();
+  abstract T getSuccessfulResult();
 }

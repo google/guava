@@ -33,7 +33,7 @@ import org.jspecify.annotations.Nullable;
 @NullUnmarked
 public class SynchronizedQueueTest extends TestCase {
 
-  protected Queue<String> create() {
+  private Queue<String> create() {
     TestQueue<String> inner = new TestQueue<>();
     Queue<String> outer = Synchronized.queue(inner, inner.mutex);
     outer.add("foo"); // necessary because we try to remove elements later on

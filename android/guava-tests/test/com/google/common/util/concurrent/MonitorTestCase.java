@@ -58,7 +58,7 @@ public abstract class MonitorTestCase extends TestCase {
   private TestThread<Monitor> thread1;
   private TestThread<Monitor> thread2;
 
-  protected MonitorTestCase(boolean interruptible) {
+  MonitorTestCase(boolean interruptible) {
     this.interruptible = interruptible;
   }
 

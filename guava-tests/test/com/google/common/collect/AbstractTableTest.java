@@ -37,7 +37,7 @@ import org.jspecify.annotations.Nullable;
 public abstract class AbstractTableTest<C extends @Nullable Character>
     extends AbstractTableReadTest<C> {
 
-  protected void populate(Table<String, Integer, C> table, @Nullable Object... data) {
+  void populate(Table<String, Integer, C> table, @Nullable Object... data) {
     checkArgument(data.length % 3 == 0);
     for (int i = 0; i < data.length; i += 3) {
       table.put(
@@ -45,11 +45,11 @@ public abstract class AbstractTableTest<C extends @Nullable Character>
     }
   }
 
-  protected boolean supportsRemove() {
+  boolean supportsRemove() {
     return true;
   }
 
-  protected boolean supportsNullValues() {
+  boolean supportsNullValues() {
     return false;
   }
 
@@ -157,13 +157,13 @@ public abstract class AbstractTableTest<C extends @Nullable Character>
   }
 
   @SuppressWarnings("unchecked") // C can only be @Nullable Character or Character
-  protected @NonNull C cellValue(Character character) {
+  private @NonNull C cellValue(Character character) {
     return (C) character;
   }
 
   // Only safe wrt. ClassCastException. Not null-safe (can be used to test expected Table NPEs)
   @SuppressWarnings("unchecked")
-  protected C nullableCellValue(@Nullable Character character) {
+  private C nullableCellValue(@Nullable Character character) {
     return (C) character;
   }
 }

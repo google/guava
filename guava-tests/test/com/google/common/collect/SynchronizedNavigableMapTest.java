@@ -46,7 +46,7 @@ import org.jspecify.annotations.Nullable;
 @NullUnmarked
 public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
   @Override
-  protected <K, V> NavigableMap<K, V> create() {
+  <K, V> NavigableMap<K, V> create() {
     @SuppressWarnings("unchecked")
     NavigableMap<K, V> innermost =
         new SafeTreeMap<>((Comparator<? super K>) Ordering.natural().nullsFirst());

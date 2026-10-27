@@ -95,13 +95,9 @@ public class LinkedListMultimapTest extends TestCase {
     return suite;
   }
 
-  protected LinkedListMultimap<String, Integer> create() {
-    return LinkedListMultimap.create();
-  }
-
   /** Confirm that get() returns a List that doesn't implement RandomAccess. */
   public void testGetRandomAccess() {
-    Multimap<String, Integer> multimap = create();
+    Multimap<String, Integer> multimap = LinkedListMultimap.create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
     assertFalse(multimap.get("foo") instanceof RandomAccess);
@@ -113,7 +109,7 @@ public class LinkedListMultimapTest extends TestCase {
    * doesn't.
    */
   public void testRemoveAllRandomAccess() {
-    Multimap<String, Integer> multimap = create();
+    Multimap<String, Integer> multimap = LinkedListMultimap.create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
     assertTrue(multimap.removeAll("foo") instanceof RandomAccess);
@@ -125,7 +121,7 @@ public class LinkedListMultimapTest extends TestCase {
    * doesn't.
    */
   public void testReplaceValuesRandomAccess() {
-    Multimap<String, Integer> multimap = create();
+    Multimap<String, Integer> multimap = LinkedListMultimap.create();
     multimap.put("foo", 1);
     multimap.put("foo", 3);
     assertTrue(multimap.replaceValues("foo", asList(2, 4)) instanceof RandomAccess);
@@ -155,7 +151,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedGetAdd() {
-    LinkedListMultimap<String, Integer> map = create();
+    LinkedListMultimap<String, Integer> map = LinkedListMultimap.create();
     map.put("bar", 1);
     Collection<Integer> foos = map.get("foo");
     foos.add(2);
@@ -167,7 +163,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedGetInsert() {
-    ListMultimap<String, Integer> map = create();
+    ListMultimap<String, Integer> map = LinkedListMultimap.create();
     map.put("bar", 1);
     List<Integer> foos = map.get("foo");
     foos.add(2);
@@ -179,7 +175,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedPutInOrder() {
-    Multimap<String, Integer> map = create();
+    Multimap<String, Integer> map = LinkedListMultimap.create();
     map.put("foo", 1);
     map.put("bar", 2);
     map.put("bar", 3);
@@ -188,7 +184,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedPutOutOfOrder() {
-    Multimap<String, Integer> map = create();
+    Multimap<String, Integer> map = LinkedListMultimap.create();
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
@@ -197,18 +193,18 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedPutAllMultimap() {
-    Multimap<String, Integer> src = create();
+    Multimap<String, Integer> src = LinkedListMultimap.create();
     src.put("bar", 1);
     src.put("foo", 2);
     src.put("bar", 3);
-    Multimap<String, Integer> dst = create();
+    Multimap<String, Integer> dst = LinkedListMultimap.create();
     dst.putAll(src);
     assertThat(dst.toString()).isEqualTo("{bar=[1, 3], foo=[2]}");
     assertThat(src.entries().toString()).isEqualTo("[bar=1, foo=2, bar=3]");
   }
 
   public void testLinkedReplaceValues() {
-    Multimap<String, Integer> map = create();
+    Multimap<String, Integer> map = LinkedListMultimap.create();
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
@@ -220,7 +216,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedClear() {
-    ListMultimap<String, Integer> map = create();
+    ListMultimap<String, Integer> map = LinkedListMultimap.create();
     map.put("foo", 1);
     map.put("foo", 2);
     map.put("bar", 3);
@@ -236,7 +232,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedKeySet() {
-    Multimap<String, Integer> map = create();
+    Multimap<String, Integer> map = LinkedListMultimap.create();
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
@@ -247,7 +243,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedKeys() {
-    Multimap<String, Integer> map = create();
+    Multimap<String, Integer> map = LinkedListMultimap.create();
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
@@ -259,7 +255,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedValues() {
-    Multimap<String, Integer> map = create();
+    Multimap<String, Integer> map = LinkedListMultimap.create();
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
@@ -270,7 +266,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedEntries() {
-    Multimap<String, Integer> map = create();
+    Multimap<String, Integer> map = LinkedListMultimap.create();
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
@@ -291,7 +287,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testLinkedAsMapEntries() {
-    Multimap<String, Integer> map = create();
+    Multimap<String, Integer> map = LinkedListMultimap.create();
     map.put("bar", 1);
     map.put("foo", 2);
     map.put("bar", 3);
@@ -309,7 +305,7 @@ public class LinkedListMultimapTest extends TestCase {
   }
 
   public void testEntriesAfterMultimapUpdate() {
-    ListMultimap<String, Integer> multimap = create();
+    ListMultimap<String, Integer> multimap = LinkedListMultimap.create();
     multimap.put("foo", 2);
     multimap.put("bar", 3);
     Collection<Entry<String, Integer>> entries = multimap.entries();
@@ -352,7 +348,7 @@ public class LinkedListMultimapTest extends TestCase {
 
         @Override
         protected ListIterator<Entry<String, Integer>> newTargetIterator() {
-          multimap = create();
+          multimap = LinkedListMultimap.create();
           multimap.putAll("foo", asList(2, 3));
           multimap.putAll("bar", asList(4, 5));
           multimap.put("foo", 6);
@@ -378,7 +374,7 @@ public class LinkedListMultimapTest extends TestCase {
 
       @Override
       protected Iterator<String> newTargetIterator() {
-        multimap = create();
+        multimap = LinkedListMultimap.create();
         multimap.putAll("foo", asList(2, 3));
         multimap.putAll("bar", asList(4, 5));
         multimap.putAll("foo", asList(6));
@@ -407,7 +403,7 @@ public class LinkedListMultimapTest extends TestCase {
 
         @Override
         protected ListIterator<Integer> newTargetIterator() {
-          multimap = create();
+          multimap = LinkedListMultimap.create();
           multimap.put("bar", 2);
           multimap.putAll("foo", asList(3, 4));
           multimap.put("bar", 5);
@@ -434,7 +430,7 @@ public class LinkedListMultimapTest extends TestCase {
 
       @Override
       protected Iterator<String> newTargetIterator() {
-        multimap = create();
+        multimap = LinkedListMultimap.create();
         multimap.putAll("foo", asList(2, 3));
         multimap.putAll("bar", asList(4, 5));
         multimap.putAll("foo", asList(6));
@@ -469,7 +465,7 @@ public class LinkedListMultimapTest extends TestCase {
 
       @Override
       protected Iterator<Entry<String, Collection<Integer>>> newTargetIterator() {
-        multimap = create();
+        multimap = LinkedListMultimap.create();
         multimap.putAll("foo", asList(2, 3));
         multimap.putAll("bar", asList(4, 5));
         multimap.putAll("foo", asList(6));

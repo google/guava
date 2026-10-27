@@ -33,7 +33,7 @@ import org.jspecify.annotations.Nullable;
 @NullUnmarked
 public class SynchronizedDequeTest extends TestCase {
 
-  protected Deque<String> create() {
+  private Deque<String> create() {
     TestDeque<String> inner = new TestDeque<>();
     Deque<String> outer = Synchronized.deque(inner, inner.mutex);
     outer.add("foo"); // necessary because we try to remove elements later on

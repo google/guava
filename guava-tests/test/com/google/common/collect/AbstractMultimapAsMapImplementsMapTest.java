@@ -36,12 +36,12 @@ import org.jspecify.annotations.NullMarked;
 public abstract class AbstractMultimapAsMapImplementsMapTest
     extends MapInterfaceTest<String, Collection<Integer>> {
 
-  protected AbstractMultimapAsMapImplementsMapTest(
+  AbstractMultimapAsMapImplementsMapTest(
       boolean modifiable, boolean allowsNulls, boolean supportsIteratorRemove) {
     super(allowsNulls, allowsNulls, false, modifiable, modifiable, supportsIteratorRemove);
   }
 
-  protected void populate(Multimap<String, Integer> multimap) {
+  void populate(Multimap<String, Integer> multimap) {
     multimap.put("one", 1);
     multimap.put("two", 2);
     multimap.put("two", 22);

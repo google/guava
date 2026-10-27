@@ -46,7 +46,7 @@ import org.jspecify.annotations.Nullable;
 public class SynchronizedNavigableSetTest extends TestCase {
   private static final Object MUTEX = new Object[0]; // something Serializable
 
-  protected <E extends Comparable<E>> NavigableSet<E> create() {
+  private <E extends Comparable<E>> NavigableSet<E> create() {
     LockHeldAssertingNavigableSet<E> inner =
         new LockHeldAssertingNavigableSet<>(new TreeSet<>(Ordering.natural().nullsFirst()), MUTEX);
     NavigableSet<E> outer = Synchronized.navigableSet(inner, MUTEX);

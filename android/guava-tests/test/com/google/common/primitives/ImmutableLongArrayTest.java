@@ -480,7 +480,7 @@ public class ImmutableLongArrayTest extends TestCase {
   @AndroidIncompatible
   public static final class ImmutableLongArrayAsListGenerator extends TestLongListGenerator {
     @Override
-    protected List<Long> create(Long[] elements) {
+    List<Long> create(Long[] elements) {
       return makeArray(elements).asList();
     }
   }
@@ -491,7 +491,7 @@ public class ImmutableLongArrayTest extends TestCase {
   public static final class ImmutableLongArrayHeadSubListAsListGenerator
       extends TestLongListGenerator {
     @Override
-    protected List<Long> create(Long[] elements) {
+    List<Long> create(Long[] elements) {
       Long[] suffix = {Long.MIN_VALUE, Long.MAX_VALUE};
       Long[] all = concat(elements, suffix);
       return makeArray(all).subArray(0, elements.length).asList();
@@ -504,7 +504,7 @@ public class ImmutableLongArrayTest extends TestCase {
   public static final class ImmutableLongArrayTailSubListAsListGenerator
       extends TestLongListGenerator {
     @Override
-    protected List<Long> create(Long[] elements) {
+    List<Long> create(Long[] elements) {
       Long[] prefix = {86L, 99L};
       Long[] all = concat(prefix, elements);
       return makeArray(all).subArray(2, elements.length + 2).asList();
@@ -517,7 +517,7 @@ public class ImmutableLongArrayTest extends TestCase {
   public static final class ImmutableLongArrayMiddleSubListAsListGenerator
       extends TestLongListGenerator {
     @Override
-    protected List<Long> create(Long[] elements) {
+    List<Long> create(Long[] elements) {
       Long[] prefix = {Long.MIN_VALUE, Long.MAX_VALUE};
       Long[] suffix = {86L, 99L};
       Long[] all = concat(concat(prefix, elements), suffix);
@@ -555,7 +555,7 @@ public class ImmutableLongArrayTest extends TestCase {
      * Creates a new collection containing the given elements; implement this method instead of
      * {@link #create(Object...)}.
      */
-    protected abstract List<Long> create(Long[] elements);
+    abstract List<Long> create(Long[] elements);
 
     @Override
     public Long[] createArray(int length) {

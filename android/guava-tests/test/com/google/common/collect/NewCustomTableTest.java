@@ -38,7 +38,7 @@ import org.jspecify.annotations.Nullable;
 public class NewCustomTableTest extends AbstractTableTest<Character> {
 
   @Override
-  protected Table<String, Integer, Character> create(@Nullable Object... data) {
+  Table<String, Integer, Character> create(@Nullable Object... data) {
     Supplier<TreeMap<Integer, Character>> factory =
         new Supplier<TreeMap<Integer, Character>>() {
           @Override

@@ -76,7 +76,7 @@ public class SynchronizedBiMapTest extends SynchronizedMapTest {
   }
 
   @Override
-  protected <K, V> BiMap<K, V> create() {
+  <K, V> BiMap<K, V> create() {
     TestBiMap<K, V> inner = new TestBiMap<>(HashBiMap.create(), mutex);
     BiMap<K, V> outer = Synchronized.biMap(inner, mutex);
     return outer;

@@ -166,7 +166,7 @@ public class SynchronizedTableTest extends AbstractTableTest<Character> {
   }
 
   @Override
-  protected Table<String, Integer, Character> create(@Nullable Object... data) {
+  Table<String, Integer, Character> create(@Nullable Object... data) {
     TestTable<String, Integer, Character> table = new TestTable<>();
     Table<String, Integer, Character> synced = Synchronized.table(table, table.mutex);
     populate(synced, data);

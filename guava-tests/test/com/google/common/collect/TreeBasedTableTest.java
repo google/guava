@@ -81,7 +81,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
 
   private TreeBasedTable<String, Integer, Character> sortedTable;
 
-  protected TreeBasedTable<String, Integer, Character> create(
+  private TreeBasedTable<String, Integer, Character> create(
       Comparator<? super String> rowComparator,
       Comparator<? super Integer> columnComparator,
       Object... data) {
@@ -95,7 +95,7 @@ public class TreeBasedTableTest extends AbstractTableTest<Character> {
   }
 
   @Override
-  protected TreeBasedTable<String, Integer, Character> create(@Nullable Object... data) {
+  TreeBasedTable<String, Integer, Character> create(@Nullable Object... data) {
     TreeBasedTable<String, Integer, Character> table = TreeBasedTable.create();
     table.put("foo", 4, 'a');
     table.put("cat", 1, 'b');

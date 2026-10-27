@@ -43,7 +43,7 @@ import org.jspecify.annotations.Nullable;
 public class SynchronizedMapTest extends TestCase {
   public final Object mutex = new Object[0]; // something Serializable
 
-  protected <K, V> Map<K, V> create() {
+  <K, V> Map<K, V> create() {
     TestMap<K, V> inner = new TestMap<>(new HashMap<K, V>(), mutex);
     Map<K, V> outer = Synchronized.map(inner, mutex);
     return outer;
