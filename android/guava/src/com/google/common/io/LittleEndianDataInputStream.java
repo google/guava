@@ -76,9 +76,16 @@ public final class LittleEndianDataInputStream extends FilterInputStream impleme
     ByteStreams.readFully(this, b, off, len);
   }
 
+  /**
+   * {@inheritDoc}
+   *
+   * <p>{@link LittleEndianDataInputStream} ignores negative values of {@code n} (returning zero).
+   * Otherwise, it skips the full requested number of bytes unless it reaches end of file or throws
+   * an exception.
+   */
   @Override
   public int skipBytes(int n) throws IOException {
-    return (int) in().skip(n);
+    return (int) ByteStreams.skipUpTo(in(), n);
   }
 
   @CanIgnoreReturnValue // to skip a byte

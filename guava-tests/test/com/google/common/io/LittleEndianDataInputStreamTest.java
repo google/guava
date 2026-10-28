@@ -18,6 +18,7 @@ package com.google.common.io;
 
 import static com.google.common.primitives.Bytes.asList;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.min;
 import static org.junit.Assert.assertThrows;
 
 import java.io.ByteArrayInputStream;
@@ -25,8 +26,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataInput;
 import java.io.DataOutputStream;
 import java.io.EOFException;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FilterInputStream;
 import java.io.IOException;
-import junit.framework.TestCase;
+import java.io.InputStream;
 import org.jspecify.annotations.NullUnmarked;
 
 /**
@@ -35,7 +39,7 @@ import org.jspecify.annotations.NullUnmarked;
  * @author Chris Nokleberg
  */
 @NullUnmarked
-public class LittleEndianDataInputStreamTest extends TestCase {
+public class LittleEndianDataInputStreamTest extends IoTestCase {
 
   private byte[] data;
 
@@ -141,5 +145,69 @@ public class LittleEndianDataInputStreamTest extends TestCase {
     assertEquals(100, b[1]);
     assertTrue(in.readBoolean());
     assertFalse(in.readBoolean());
+  }
+
+  public void testSkipBytes_negative() throws IOException {
+    byte[] data = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    File file = createTempFile();
+    Files.write(data, file);
+    // Unlike most streams, FileInputStream moves backward when asked to skip a negative count.
+    try (FileInputStream fin = new FileInputStream(file)) {
+      DataInput in = new LittleEndianDataInputStream(fin);
+      assertEquals(0x03020100, in.readInt());
+
+      assertEquals(0, in.skipBytes(-4));
+      assertEquals(4, in.readUnsignedByte());
+    }
+  }
+
+  public void testSkipBytes_shortSkip() throws IOException {
+    byte[] data = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    // A delegate that skips at most one byte per call, as BufferedInputStream can.
+    InputStream oneAtATime =
+        new FilterInputStream(new ByteArrayInputStream(data)) {
+          @Override
+          public long skip(long n) throws IOException {
+            return super.skip(min(n, 1));
+          }
+        };
+    DataInput in = new LittleEndianDataInputStream(oneAtATime);
+
+    assertEquals(8, in.skipBytes(8));
+    assertEquals(8, in.readUnsignedByte());
+  }
+
+  public void testSkipBytes_zeroSkip() throws IOException {
+    byte[] data = new byte[] {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+    // A delegate whose skip returns 0 before EOF, as CipherInputStream can.
+    InputStream zeroSkipper =
+        new FilterInputStream(new ByteArrayInputStream(data)) {
+          @Override
+          public long skip(long n) {
+            return 0;
+          }
+        };
+    DataInput in = new LittleEndianDataInputStream(zeroSkipper);
+
+    assertEquals(8, in.skipBytes(8));
+    assertEquals(8, in.readUnsignedByte());
+  }
+
+  public void testSkipBytes_eof() throws IOException {
+    DataInput in = new LittleEndianDataInputStream(new ByteArrayInputStream(new byte[] {0, 1, 2}));
+
+    assertEquals(3, in.skipBytes(10));
+    assertEquals(0, in.skipBytes(1));
+  }
+
+  public void testSkipBytes_eofFileInputStream() throws IOException {
+    File file = createTempFile();
+    Files.write(new byte[] {0, 1, 2}, file);
+    // Unlike most streams, FileInputStream can skip past EOF.
+    try (FileInputStream fin = new FileInputStream(file)) {
+      DataInput in = new LittleEndianDataInputStream(fin);
+      assertEquals(3, in.skipBytes(10));
+      assertEquals(0, in.skipBytes(1));
+    }
   }
 }
