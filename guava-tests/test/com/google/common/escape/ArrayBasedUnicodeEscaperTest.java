@@ -95,7 +95,7 @@ public class ArrayBasedUnicodeEscaperTest extends TestCase {
   public void testReplacementPriority() {
     UnicodeEscaper replacingEscaper =
         new ArrayBasedUnicodeEscaper(SIMPLE_REPLACEMENTS, ' ', '~', null) {
-          private final char[] unknown = new char[] {'?'};
+          final char[] unknown = new char[] {'?'};
 
           @Override
           protected char[] escapeUnsafe(int c) {
@@ -113,7 +113,7 @@ public class ArrayBasedUnicodeEscaperTest extends TestCase {
   public void testCodePointsFromSurrogatePairs() {
     UnicodeEscaper surrogateEscaper =
         new ArrayBasedUnicodeEscaper(NO_REPLACEMENTS, 0, 0x20000, null) {
-          private final char[] escaped = new char[] {'X'};
+          final char[] escaped = new char[] {'X'};
 
           @Override
           protected char[] escapeUnsafe(int c) {

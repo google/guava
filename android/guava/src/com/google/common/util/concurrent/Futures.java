@@ -555,7 +555,7 @@ public final class Futures extends GwtFuturesCatchingSpecialization {
         return applyTransformation(input.get(timeout, unit));
       }
 
-      private O applyTransformation(I input) throws ExecutionException {
+      O applyTransformation(I input) throws ExecutionException {
         try {
           return function.apply(input);
         } catch (Throwable t) {

@@ -197,7 +197,7 @@ public class Helpers {
   static <T extends @Nullable Object> Iterable<T> reverse(List<T> list) {
     return () ->
         new Iterator<T>() {
-          private final ListIterator<T> listIter = list.listIterator(list.size());
+          final ListIterator<T> listIter = list.listIterator(list.size());
 
           @Override
           public boolean hasNext() {

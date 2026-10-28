@@ -502,7 +502,7 @@ public class MultimapsTest extends TestCase {
     IteratorTester<Integer> tester =
         new IteratorTester<Integer>(
             4, MODIFIABLE, newHashSet(1), IteratorTester.KnownOrder.KNOWN_ORDER) {
-          private @Nullable Multimap<String, Integer> multimap;
+          @Nullable Multimap<String, Integer> multimap;
 
           @Override
           protected Iterator<Integer> newTargetIterator() {

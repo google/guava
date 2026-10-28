@@ -266,7 +266,7 @@ public class SynchronizedNavigableMapTest extends SynchronizedMapTest {
     suite.addTest(
         NavigableMapTestSuiteBuilder.using(
                 new TestStringSortedMapGenerator() {
-                  private final Object mutex = new Object[0]; // something Serializable
+                  final Object mutex = new Object[0]; // something Serializable
 
                   @Override
                   protected SortedMap<String, String> create(Entry<String, String>[] entries) {

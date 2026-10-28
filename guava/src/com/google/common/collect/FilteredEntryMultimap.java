@@ -445,7 +445,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
           return FilteredEntryMultimap.this.keySet().size();
         }
 
-        private boolean removeEntriesIf(Predicate<? super Multiset.Entry<K>> predicate) {
+        boolean removeEntriesIf(Predicate<? super Multiset.Entry<K>> predicate) {
           return FilteredEntryMultimap.this.removeEntriesIf(
               (Map.Entry<K, Collection<V>> entry) ->
                   predicate.apply(

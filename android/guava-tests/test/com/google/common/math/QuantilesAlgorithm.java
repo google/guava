@@ -63,7 +63,7 @@ enum QuantilesAlgorithm {
       return builder.buildOrThrow();
     }
 
-    private double singleQuantileFromSorted(int index, int scale, double[] dataset) {
+    double singleQuantileFromSorted(int index, int scale, double[] dataset) {
       long numerator = (long) index * (dataset.length - 1);
       int positionFloor = (int) LongMath.divide(numerator, scale, RoundingMode.DOWN);
       int remainder = (int) (numerator - positionFloor * scale);

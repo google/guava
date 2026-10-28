@@ -685,7 +685,7 @@ public abstract class BaseEncoding {
         }
 
         @GuardedBy("this")
-        private void checkOpen() throws IOException {
+        void checkOpen() throws IOException {
           if (closed) {
             throw new IOException("stream closed");
           }

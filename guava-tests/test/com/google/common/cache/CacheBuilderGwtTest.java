@@ -55,7 +55,7 @@ public class CacheBuilderGwtTest {
 
     Callable<Integer> loader =
         new Callable<Integer>() {
-          private int i = 0;
+          int i = 0;
 
           @Override
           public Integer call() {

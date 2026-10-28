@@ -575,7 +575,7 @@ class CompactHashSet<E extends @Nullable Object> extends AbstractSet<E> implemen
         expectedMetadata += CompactHashing.MODIFICATION_COUNT_INCREMENT;
       }
 
-      private void checkForConcurrentModification() {
+      void checkForConcurrentModification() {
         if (metadata != expectedMetadata) {
           throw new ConcurrentModificationException();
         }

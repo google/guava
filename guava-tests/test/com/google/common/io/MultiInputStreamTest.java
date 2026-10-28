@@ -54,7 +54,7 @@ public class MultiInputStreamTest extends IoTestCase {
     ByteSource checker =
         new ByteSource() {
 
-          private int counter = 0;
+          int counter = 0;
 
           @Override
           public InputStream openStream() throws IOException {

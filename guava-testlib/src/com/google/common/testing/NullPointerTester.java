@@ -492,7 +492,7 @@ public final class NullPointerTester {
         return doConvert(convertFromType);
       }
 
-      private /*static*/ <S> S doConvert(TypeToken<S> type) {
+      /*static*/ <S> S doConvert(TypeToken<S> type) {
         return checkNotNull(getDefaultValue(type));
       }
     };

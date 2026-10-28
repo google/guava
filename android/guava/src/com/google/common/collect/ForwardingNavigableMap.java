@@ -290,8 +290,8 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
 
     protected Iterator<Entry<K, V>> entryIterator() {
       return new Iterator<Entry<K, V>>() {
-        private @Nullable Entry<K, V> toRemove = null;
-        private @Nullable Entry<K, V> nextOrNull = forward().lastEntry();
+        @Nullable Entry<K, V> toRemove = null;
+        @Nullable Entry<K, V> nextOrNull = forward().lastEntry();
 
         @Override
         public boolean hasNext() {

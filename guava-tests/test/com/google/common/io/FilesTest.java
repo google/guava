@@ -614,7 +614,7 @@ public class FilesTest extends IoTestCase {
   public void testReadBytes() throws IOException {
     ByteProcessor<byte[]> processor =
         new ByteProcessor<byte[]>() {
-          private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+          final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
           @Override
           public boolean processBytes(byte[] buffer, int offset, int length) {
@@ -638,7 +638,7 @@ public class FilesTest extends IoTestCase {
   public void testReadBytes_returnFalse() throws IOException {
     ByteProcessor<byte[]> processor =
         new ByteProcessor<byte[]>() {
-          private final ByteArrayOutputStream out = new ByteArrayOutputStream();
+          final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
           @Override
           public boolean processBytes(byte[] buffer, int offset, int length) {

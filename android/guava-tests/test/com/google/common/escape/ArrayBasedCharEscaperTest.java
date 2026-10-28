@@ -68,7 +68,7 @@ public class ArrayBasedCharEscaperTest extends TestCase {
   public void testDeleteUnsafeChars() {
     CharEscaper deletingEscaper =
         new ArrayBasedCharEscaper(NO_REPLACEMENTS, ' ', '~') {
-          private final char[] noChars = new char[0];
+          final char[] noChars = new char[0];
 
           @Override
           protected char[] escapeUnsafe(char c) {
@@ -86,7 +86,7 @@ public class ArrayBasedCharEscaperTest extends TestCase {
   public void testReplacementPriority() {
     CharEscaper replacingEscaper =
         new ArrayBasedCharEscaper(SIMPLE_REPLACEMENTS, ' ', '~') {
-          private final char[] unknown = new char[] {'?'};
+          final char[] unknown = new char[] {'?'};
 
           @Override
           protected char[] escapeUnsafe(char c) {

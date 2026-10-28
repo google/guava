@@ -169,12 +169,12 @@ public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
                 : invokeListMethod(method, args);
           }
 
-          private Set<List<Integer>> getAllStates() {
+          Set<List<Integer>> getAllStates() {
             return allStates;
           }
 
-          private @Nullable Object invokeListMethod(
-              Method method, @Nullable Object @Nullable [] args) throws Throwable {
+          @Nullable Object invokeListMethod(Method method, @Nullable Object @Nullable [] args)
+              throws Throwable {
             try {
               Object returnValue = method.invoke(delegate, args);
               mutateDelegate();
@@ -186,7 +186,7 @@ public class ImmutableListCopyOfConcurrentlyModifiedInputTest extends TestCase {
             }
           }
 
-          private void mutateDelegate() {
+          void mutateDelegate() {
             allStates.add(ImmutableList.copyOf(delegate));
             remainingActions.next().perform(delegate);
             allStates.add(ImmutableList.copyOf(delegate));

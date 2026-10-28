@@ -165,7 +165,7 @@ public class MultimapPutIterableTester<K, V> extends AbstractMultimapTester<K, V
   public void testPutAllOnlyCallsIteratorOnce() {
     Iterable<V> iterable =
         new Iterable<V>() {
-          private boolean calledIteratorAlready = false;
+          boolean calledIteratorAlready = false;
 
           @Override
           public Iterator<V> iterator() {

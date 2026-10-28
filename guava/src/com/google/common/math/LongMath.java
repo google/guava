@@ -1109,12 +1109,12 @@ public final class LongMath {
     /** Works for all nonnegative signed longs. */
     LARGE {
       /** Returns (a + b) mod m. Precondition: {@code 0 <= a}, {@code b < m < 2^63}. */
-      private long plusMod(long a, long b, long m) {
+      long plusMod(long a, long b, long m) {
         return (a >= m - b) ? (a + b - m) : (a + b);
       }
 
       /** Returns (a * 2^32) mod m. a may be any unsigned long. */
-      private long times2ToThe32Mod(long a, long m) {
+      long times2ToThe32Mod(long a, long m) {
         int remainingPowersOf2 = 32;
         do {
           int shift = min(remainingPowersOf2, Long.numberOfLeadingZeros(a));

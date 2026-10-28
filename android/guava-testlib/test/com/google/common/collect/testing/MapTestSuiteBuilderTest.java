@@ -175,7 +175,7 @@ public final class MapTestSuiteBuilderTest extends TestCase {
                       return transform(iterator.next());
                     }
 
-                    private Entry<String, String> transform(Entry<String, String> next) {
+                    Entry<String, String> transform(Entry<String, String> next) {
                       return new Entry<String, String>() {
 
                         @Override

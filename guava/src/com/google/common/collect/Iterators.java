@@ -957,7 +957,7 @@ public final class Iterators {
     checkNotNull(iterator);
     checkArgument(limitSize >= 0, "limit is negative");
     return new Iterator<T>() {
-      private int count;
+      int count;
 
       @Override
       public boolean hasNext() {

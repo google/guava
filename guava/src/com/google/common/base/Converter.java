@@ -274,7 +274,7 @@ public abstract class Converter<A, B> implements Function<A, B> {
     checkNotNull(fromIterable, "fromIterable");
     return () ->
         new Iterator<B>() {
-          private final Iterator<? extends A> fromIterator = fromIterable.iterator();
+          final Iterator<? extends A> fromIterator = fromIterable.iterator();
 
           @Override
           public boolean hasNext() {

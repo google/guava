@@ -38,7 +38,7 @@ public class MultiReaderTest extends TestCase {
     CharSource source = newCharSource(testString);
     CharSource reader =
         new CharSource() {
-          private int openStreams = 0;
+          int openStreams = 0;
 
           @Override
           public Reader openStream() throws IOException {

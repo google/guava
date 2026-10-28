@@ -159,7 +159,7 @@ public class ForwardingSortedMapTest extends TestCase {
     suite.addTest(
         SortedMapTestSuiteBuilder.using(
                 new TestStringSortedMapGenerator() {
-                  private final Comparator<String> comparator = NullsBeforeTwo.INSTANCE;
+                  final Comparator<String> comparator = NullsBeforeTwo.INSTANCE;
 
                   @Override
                   protected SortedMap<String, String> create(Entry<String, String>[] entries) {

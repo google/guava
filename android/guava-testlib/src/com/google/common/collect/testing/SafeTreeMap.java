@@ -121,7 +121,7 @@ public final class SafeTreeMap<K, V> implements Serializable, NavigableMap<K, V>
   @Override
   public Set<Entry<K, V>> entrySet() {
     return new AbstractSet<Entry<K, V>>() {
-      private Set<Entry<K, V>> delegate() {
+      Set<Entry<K, V>> delegate() {
         return delegate.entrySet();
       }
 

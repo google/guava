@@ -144,12 +144,12 @@ enum BloomFilterStrategies implements BloomFilter.Strategy {
       return true;
     }
 
-    private /* static */ long lowerEight(byte[] bytes) {
+    /* static */ long lowerEight(byte[] bytes) {
       return Longs.fromBytes(
           bytes[7], bytes[6], bytes[5], bytes[4], bytes[3], bytes[2], bytes[1], bytes[0]);
     }
 
-    private /* static */ long upperEight(byte[] bytes) {
+    /* static */ long upperEight(byte[] bytes) {
       return Longs.fromBytes(
           bytes[15], bytes[14], bytes[13], bytes[12], bytes[11], bytes[10], bytes[9], bytes[8]);
     }

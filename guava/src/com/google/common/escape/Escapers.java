@@ -148,7 +148,7 @@ public final class Escapers {
     /** Returns a new escaper based on the current state of the builder. */
     public Escaper build() {
       return new ArrayBasedCharEscaper(replacementMap, safeMin, safeMax) {
-        private final char @Nullable [] replacementChars =
+        final char @Nullable [] replacementChars =
             unsafeReplacement != null ? unsafeReplacement.toCharArray() : null;
 
         @Override

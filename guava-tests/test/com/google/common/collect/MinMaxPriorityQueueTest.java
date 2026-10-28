@@ -522,7 +522,7 @@ public class MinMaxPriorityQueueTest extends TestCase {
             IteratorFeature.MODIFIABLE,
             new LinkedList<>(values),
             IteratorTester.KnownOrder.UNKNOWN_ORDER) {
-          private @Nullable MinMaxPriorityQueue<T> mmHeap;
+          @Nullable MinMaxPriorityQueue<T> mmHeap;
 
           @Override
           protected Iterator<T> newTargetIterator() {

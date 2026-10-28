@@ -316,7 +316,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
         @Nullable ValueEntry<K, V> toRemove;
         int expectedModCount = modCount;
 
-        private void checkForComodification() {
+        void checkForComodification() {
           if (modCount != expectedModCount) {
             throw new ConcurrentModificationException();
           }

@@ -67,10 +67,10 @@ public class FutureCallbackTest extends TestCase {
     SettableFuture<String> f = SettableFuture.create();
     FutureCallback<String> callback =
         new FutureCallback<String>() {
-          private final Object monitor = new Object();
+          final Object monitor = new Object();
 
           @GuardedBy("monitor")
-          private boolean called = false;
+          boolean called = false;
 
           @Override
           public void onSuccess(String result) {

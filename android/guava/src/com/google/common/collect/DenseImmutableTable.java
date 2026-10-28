@@ -127,8 +127,8 @@ final class DenseImmutableTable<R, C, V> extends RegularImmutableTable<R, C, V> 
     @Override
     UnmodifiableIterator<Entry<K, V>> entryIterator() {
       return new AbstractIterator<Entry<K, V>>() {
-        private int index = -1;
-        private final int maxIndex = keyToIndex().size();
+        int index = -1;
+        final int maxIndex = keyToIndex().size();
 
         @Override
         protected @Nullable Entry<K, V> computeNext() {

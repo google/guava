@@ -344,7 +344,7 @@ public class LinkedListMultimapTest extends TestCase {
               immutableEntry("foo", 6));
       new ListIteratorTester<Entry<String, Integer>>(
           3, addItems, ImmutableList.of(SUPPORTS_REMOVE), list, startIndex) {
-        private @Nullable LinkedListMultimap<String, Integer> multimap;
+        @Nullable LinkedListMultimap<String, Integer> multimap;
 
         @Override
         protected ListIterator<Entry<String, Integer>> newTargetIterator() {
@@ -370,7 +370,7 @@ public class LinkedListMultimapTest extends TestCase {
         MODIFIABLE,
         newArrayList("foo", "foo", "bar", "bar", "foo"),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private @Nullable Multimap<String, Integer> multimap;
+      @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<String> newTargetIterator() {
@@ -399,7 +399,7 @@ public class LinkedListMultimapTest extends TestCase {
           ImmutableList.of(SUPPORTS_REMOVE, SUPPORTS_SET),
           newArrayList(2, 3, 4, 5, 6),
           startIndex) {
-        private @Nullable LinkedListMultimap<String, Integer> multimap;
+        @Nullable LinkedListMultimap<String, Integer> multimap;
 
         @Override
         protected ListIterator<Integer> newTargetIterator() {
@@ -426,7 +426,7 @@ public class LinkedListMultimapTest extends TestCase {
         MODIFIABLE,
         new LinkedHashSet<>(asList("foo", "bar", "baz", "dog", "cat")),
         IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private @Nullable Multimap<String, Integer> multimap;
+      @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<String> newTargetIterator() {
@@ -461,7 +461,7 @@ public class LinkedListMultimapTest extends TestCase {
 
     new IteratorTester<Entry<String, Collection<Integer>>>(
         6, MODIFIABLE, set, IteratorTester.KnownOrder.KNOWN_ORDER) {
-      private @Nullable Multimap<String, Integer> multimap;
+      @Nullable Multimap<String, Integer> multimap;
 
       @Override
       protected Iterator<Entry<String, Collection<Integer>>> newTargetIterator() {
