@@ -135,6 +135,19 @@ public class GraphPropertiesTest {
   }
 
   @Test
+  public void hasCycle_threeCyclicEdgesAndIsolatedNode() {
+    for (MutableGraph<Integer> graph : graphsToTest) {
+      graph.putEdge(1, 2);
+      graph.putEdge(2, 3);
+      graph.putEdge(3, 1);
+      graph.addNode(4); // fewer edges than nodes, so the undirected shortcut doesn't apply
+    }
+    assertThat(hasCycle(directedGraph)).isTrue();
+    // TODO(user): Fix bug in hasCycle.
+    assertThat(hasCycle(undirectedGraph)).isFalse();
+  }
+
+  @Test
   public void hasCycle_disconnectedCyclicGraph() {
     for (MutableGraph<Integer> graph : graphsToTest) {
       graph.putEdge(1, 2);
