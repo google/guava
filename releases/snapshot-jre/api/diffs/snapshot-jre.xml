@@ -49163,6 +49163,13 @@
       deprecated="not deprecated">
       <param name="n" type="int"/>
       <exception name="IOException" type="java.io.IOException"/>
+      <doc>
+      <![CDATA[{@inheritDoc}
+
+ <p>{@link LittleEndianDataInputStream} ignores negative values of {@code n} (returning zero).
+ Otherwise, it skips the full requested number of bytes unless it reaches end of file or throws
+ an exception.]]>
+      </doc>
     </method>
     <method name="readUnsignedByte" return="int"
       abstract="false" native="false" synchronized="false"

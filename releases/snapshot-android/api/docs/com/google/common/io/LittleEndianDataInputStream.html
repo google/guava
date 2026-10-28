@@ -247,7 +247,7 @@ except using little-endian byte order.</div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"><code><a href="#skipBytes(int)" class="member-name-link">skipBytes</a><wbr>(int&nbsp;n)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4">&nbsp;</div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4"></div>
 </div>
 </div>
 </div>
@@ -344,6 +344,11 @@ except using little-endian byte order.</div>
 <div class="horizontal-scroll">
 <div class="member-signature"><span class="modifiers">public</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">skipBytes</span><wbr><span class="parameters">(int&nbsp;n)</span>
               throws <span class="exceptions"><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/IOException.html" title="class in java.io" class="external-link">IOException</a></span></div>
+<div class="block">
+
+<p><a href="LittleEndianDataInputStream.html" title="class in com.google.common.io"><code>LittleEndianDataInputStream</code></a> ignores negative values of <code>n</code> (returning zero).
+Otherwise, it skips the full requested number of bytes unless it reaches end of file or throws
+an exception.</div>
 <dl class="notes">
 <dt>Specified by:</dt>
 <dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/DataInput.html#skipBytes(int)" class="external-link">skipBytes</a></code>&nbsp;in interface&nbsp;<code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/io/DataInput.html" title="interface in java.io" class="external-link">DataInput</a></code></dd>
