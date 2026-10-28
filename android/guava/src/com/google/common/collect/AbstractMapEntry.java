@@ -17,13 +17,18 @@
 package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.Map.Entry;
 import java.util.Objects;
 import org.jspecify.annotations.Nullable;
 
 /**
  * Implementation of the {@code equals}, {@code hashCode}, and {@code toString} methods of {@code
- * Entry}.
+ * Entry}, while still allowing even for dynamic lookup or mutation of keys and values.
+ *
+ * <p>If you are considering writing a subclass with a {@code value} field, you probably want {@link
+ * SimpleEntry} or even {@link SimpleImmutableEntry} instead.
  *
  * @author Jared Levy
  */

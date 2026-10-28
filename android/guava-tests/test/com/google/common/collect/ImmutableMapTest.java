@@ -48,7 +48,8 @@ import com.google.common.testing.NullPointerTester;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.util.AbstractMap;
+import java.util.AbstractMap.SimpleEntry;
+import java.util.AbstractMap.SimpleImmutableEntry;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -361,27 +362,6 @@ public class ImmutableMapTest extends TestCase {
     assertThrows(NullPointerException.class, () -> builder.put(immutableEntry(null, 1)));
     builder.put("foo", 2);
     assertMapEquals(builder.buildOrThrow(), "foo", 2);
-  }
-
-  // for GWT compatibility
-  static class SimpleEntry<K, V> extends AbstractMapEntry<K, V> {
-    public K key;
-    public V value;
-
-    SimpleEntry(K key, V value) {
-      this.key = key;
-      this.value = value;
-    }
-
-    @Override
-    public K getKey() {
-      return key;
-    }
-
-    @Override
-    public V getValue() {
-      return value;
-    }
   }
 
   public void testBuilderPutMutableEntryWithNullKeyFailsAtomically() {
@@ -1016,12 +996,12 @@ public class ImmutableMapTest extends TestCase {
   }
 
   private static <T extends @Nullable Object> Entry<T, T> entry(T key, T value) {
-    return new AbstractMap.SimpleImmutableEntry<>(key, value);
+    return new SimpleImmutableEntry<>(key, value);
   }
 
   public void testCopyOfMutableEntryList() {
     List<Entry<String, String>> entryList =
-        asList(new AbstractMap.SimpleEntry<>("a", "1"), new AbstractMap.SimpleEntry<>("b", "2"));
+        asList(new SimpleEntry<>("a", "1"), new SimpleEntry<>("b", "2"));
     ImmutableMap<String, String> map = ImmutableMap.copyOf(entryList);
     assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
     entryList.get(0).setValue("3");
@@ -1030,7 +1010,7 @@ public class ImmutableMapTest extends TestCase {
 
   public void testBuilderPutAllEntryList() {
     List<Entry<String, String>> entryList =
-        asList(new AbstractMap.SimpleEntry<>("a", "1"), new AbstractMap.SimpleEntry<>("b", "2"));
+        asList(new SimpleEntry<>("a", "1"), new SimpleEntry<>("b", "2"));
     ImmutableMap<String, String> map =
         ImmutableMap.<String, String>builder().putAll(entryList).buildOrThrow();
     assertThat(map).containsExactly("a", "1", "b", "2").inOrder();
