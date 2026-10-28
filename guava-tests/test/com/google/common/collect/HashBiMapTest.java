@@ -196,6 +196,9 @@ public class HashBiMapTest extends TestCase {
     assertThat(map.entrySet())
         .containsExactly(immutableEntry("bar", 2), immutableEntry("quux", 1))
         .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(immutableEntry(2, "bar"), immutableEntry(1, "quux"))
+        .inOrder();
   }
 
   public void testInsertionOrderAfterInverseForcePut() {
@@ -244,6 +247,10 @@ public class HashBiMapTest extends TestCase {
         .containsExactly(
             immutableEntry("foo", 1), immutableEntry("bar", 4), immutableEntry("quux", 3))
         .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(
+            immutableEntry(1, "foo"), immutableEntry(4, "bar"), immutableEntry(3, "quux"))
+        .inOrder();
   }
 
   public void testInverseEntrySetValueNewKey() {
@@ -257,6 +264,39 @@ public class HashBiMapTest extends TestCase {
     assertFalse(inverseEntryItr.hasNext());
     assertThat(map.entrySet())
         .containsExactly(immutableEntry(2, "b"), immutableEntry(3, "a"))
+        .inOrder();
+  }
+
+  public void testInverseIterationOrderAfterUpdate() {
+    BiMap<String, String> map = HashBiMap.create();
+    map.put("a", "1");
+    map.put("b", "2");
+    map.put("c", "3");
+    map.put("a", "4");
+
+    assertThat(map.entrySet())
+        .containsExactly(
+            immutableEntry("a", "4"), immutableEntry("b", "2"), immutableEntry("c", "3"))
+        .inOrder();
+
+    assertThat(map.inverse().entrySet())
+        .containsExactly(
+            immutableEntry("4", "a"), immutableEntry("2", "b"), immutableEntry("3", "c"))
+        .inOrder();
+  }
+
+  public void testInverseReplaceAllIterationOrder() {
+    BiMap<String, String> map = HashBiMap.create();
+    map.put("bar", "2");
+    map.put("quux", "1");
+
+    map.inverse().replaceAll((v, k) -> k + v);
+
+    assertThat(map.entrySet())
+        .containsExactly(immutableEntry("bar2", "2"), immutableEntry("quux1", "1"))
+        .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(immutableEntry("2", "bar2"), immutableEntry("1", "quux1"))
         .inOrder();
   }
 }
