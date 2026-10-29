@@ -16,6 +16,7 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.CollectPreconditions.checkNonnegative;
 import static com.google.common.collect.Hashing.closedTableSize;
 import static com.google.common.collect.Hashing.smearedHash;
@@ -567,6 +568,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         @Override
         @ParametricNullness
         public V setValue(@ParametricNullness V value) {
+          checkState(seekByKey(node.key, node.keyHash) == node, "entry no longer in map");
           V oldValue = node.value;
           int valueHash = smearedHash(value);
           if (valueHash == node.valueHash && Objects.equals(value, oldValue)) {
@@ -770,6 +772,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
           @ParametricNullness
           private K setObverseKey(@ParametricNullness K obverseKey) {
+            checkState(obverse.seekByKey(node.key, node.keyHash) == node, "entry no longer in map");
             int obverseKeyHash = smearedHash(obverseKey);
             if (obverseKeyHash == node.keyHash && Objects.equals(obverseKey, node.key)) {
               return obverseKey;

@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import static com.google.common.collect.Maps.immutableEntry;
 import static com.google.common.truth.Truth.assertThat;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
@@ -297,6 +298,58 @@ public class HashBiMapTest extends TestCase {
         .inOrder();
     assertThat(map.inverse().entrySet())
         .containsExactly(immutableEntry("2", "bar2"), immutableEntry("1", "quux1"))
+        .inOrder();
+  }
+
+  public void testEntrySetSetValueAfterRemove() {
+    BiMap<Integer, String> map = HashBiMap.create();
+    map.put(1, "a");
+    map.put(2, "b");
+    map.put(3, "c");
+
+    Iterator<Entry<Integer, String>> it = map.entrySet().iterator();
+    Entry<Integer, String> first = it.next();
+    it.remove();
+    assertThrows(IllegalStateException.class, () -> first.setValue("x"));
+    assertThrows(IllegalStateException.class, () -> first.setValue("a"));
+
+    Entry<Integer, String> second = it.next();
+    map.remove(2);
+    assertThrows(IllegalStateException.class, () -> second.setValue("y"));
+    map.put(2, "b");
+    assertThrows(IllegalStateException.class, () -> second.setValue("y"));
+
+    assertThat(map.entrySet())
+        .containsExactly(immutableEntry(3, "c"), immutableEntry(2, "b"))
+        .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(immutableEntry("c", 3), immutableEntry("b", 2))
+        .inOrder();
+  }
+
+  public void testInverseEntrySetSetValueAfterRemove() {
+    BiMap<Integer, String> map = HashBiMap.create();
+    map.put(1, "a");
+    map.put(2, "b");
+    map.put(3, "c");
+
+    Iterator<Entry<String, Integer>> it = map.inverse().entrySet().iterator();
+    Entry<String, Integer> first = it.next();
+    it.remove();
+    assertThrows(IllegalStateException.class, () -> first.setValue(10));
+    assertThrows(IllegalStateException.class, () -> first.setValue(1));
+
+    Entry<String, Integer> second = it.next();
+    map.inverse().remove("b");
+    assertThrows(IllegalStateException.class, () -> second.setValue(20));
+    map.put(2, "b");
+    assertThrows(IllegalStateException.class, () -> second.setValue(20));
+
+    assertThat(map.entrySet())
+        .containsExactly(immutableEntry(3, "c"), immutableEntry(2, "b"))
+        .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(immutableEntry("c", 3), immutableEntry("b", 2))
         .inOrder();
   }
 }

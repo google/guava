@@ -299,4 +299,58 @@ public class HashBiMapTest extends TestCase {
         .containsExactly(immutableEntry("2", "bar2"), immutableEntry("1", "quux1"))
         .inOrder();
   }
+
+  public void testEntrySetSetValueAfterRemove() {
+    BiMap<Integer, String> map = HashBiMap.create();
+    map.put(1, "a");
+    map.put(2, "b");
+    map.put(3, "c");
+
+    Iterator<Entry<Integer, String>> it = map.entrySet().iterator();
+    Entry<Integer, String> first = it.next();
+    it.remove();
+    assertThat(first.setValue("x")).isNull();
+    assertThat(first.setValue("a")).isEqualTo("x");
+
+    Entry<Integer, String> second = map.entrySet().iterator().next();
+    map.remove(2);
+    assertThat(second.setValue("y")).isNull();
+    map.remove(2);
+    map.put(2, "b");
+    assertThat(second.setValue("y")).isEqualTo("b");
+
+    assertThat(map.entrySet())
+        .containsExactly(immutableEntry(3, "c"), immutableEntry(1, "a"), immutableEntry(2, "y"))
+        .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(immutableEntry("c", 3), immutableEntry("a", 1), immutableEntry("y", 2))
+        .inOrder();
+  }
+
+  public void testInverseEntrySetSetValueAfterRemove() {
+    BiMap<Integer, String> map = HashBiMap.create();
+    map.put(1, "a");
+    map.put(2, "b");
+    map.put(3, "c");
+
+    Iterator<Entry<String, Integer>> it = map.inverse().entrySet().iterator();
+    Entry<String, Integer> first = it.next();
+    it.remove();
+    assertThat(first.setValue(10)).isNull();
+    assertThat(first.setValue(1)).isEqualTo(10);
+
+    Entry<String, Integer> second = map.inverse().entrySet().iterator().next();
+    map.inverse().remove("b");
+    assertThat(second.setValue(20)).isNull();
+    map.inverse().remove("b");
+    map.put(2, "b");
+    assertThat(second.setValue(20)).isEqualTo(2);
+
+    assertThat(map.entrySet())
+        .containsExactly(immutableEntry(3, "c"), immutableEntry(1, "a"), immutableEntry(20, "b"))
+        .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(immutableEntry("c", 3), immutableEntry("a", 1), immutableEntry("b", 20))
+        .inOrder();
+  }
 }
