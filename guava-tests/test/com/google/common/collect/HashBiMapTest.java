@@ -28,6 +28,7 @@ import com.google.common.collect.testing.features.CollectionSize;
 import com.google.common.collect.testing.features.MapFeature;
 import com.google.common.collect.testing.google.BiMapTestSuiteBuilder;
 import com.google.common.collect.testing.google.TestStringBiMapGenerator;
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -36,6 +37,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 import org.jspecify.annotations.NullMarked;
+import org.jspecify.annotations.Nullable;
 
 /**
  * Tests for {@link HashBiMap}.
@@ -350,6 +352,99 @@ public class HashBiMapTest extends TestCase {
         .inOrder();
     assertThat(map.inverse().entrySet())
         .containsExactly(immutableEntry("c", 3), immutableEntry("b", 2))
+        .inOrder();
+  }
+
+  public void testEntrySetNullKeyAfterRemoveOther() {
+    BiMap<@Nullable Integer, String> map = HashBiMap.create();
+    map.put(1, "a");
+    map.put(null, "b");
+    Iterator<Entry<@Nullable Integer, String>> iterator = map.entrySet().iterator();
+    iterator.next();
+    Entry<@Nullable Integer, String> nullEntry = iterator.next();
+    map.remove(1);
+    assertThat(nullEntry.getValue()).isEqualTo("b");
+    assertThat(nullEntry.setValue("c")).isEqualTo("b");
+    assertThat(nullEntry.getValue()).isEqualTo("c");
+    assertThat(map).containsExactly(null, "c");
+  }
+
+  public void testInverseEntrySetNullKeyAfterRemoveOther() {
+    BiMap<Integer, @Nullable String> map = HashBiMap.create();
+    map.put(1, "a");
+    map.put(2, null);
+    Iterator<Entry<@Nullable String, Integer>> iterator = map.inverse().entrySet().iterator();
+    iterator.next();
+    Entry<@Nullable String, Integer> nullEntry = iterator.next();
+    map.remove(1);
+    assertThat(nullEntry.getValue()).isEqualTo(2);
+    assertThat(nullEntry.setValue(3)).isEqualTo(2);
+    assertThat(nullEntry.getValue()).isEqualTo(3);
+    assertThat(map).containsExactly(3, null);
+  }
+
+  public void testInversePutConcurrentModificationException() {
+    BiMap<Integer, String> map = HashBiMap.create();
+    map.put(1, "a");
+    map.put(2, "b");
+    Iterator<Entry<Integer, String>> iterator = map.entrySet().iterator();
+    map.inverse().put("a", 3);
+    assertThrows(ConcurrentModificationException.class, () -> iterator.next());
+  }
+
+  public void testInverseForcePutConcurrentModificationException() {
+    BiMap<Integer, String> map = HashBiMap.create();
+    map.put(1, "a");
+    map.put(2, "b");
+    Iterator<Entry<Integer, String>> iterator = map.entrySet().iterator();
+    map.inverse().forcePut("a", 3);
+    assertThrows(ConcurrentModificationException.class, () -> iterator.next());
+  }
+
+  public void testInverseForcePutPredecessorMoved() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("a", 1);
+    map.put("b", 2);
+    map.put("c", 3);
+    map.remove("a");
+    map.inverse().forcePut(4, "c");
+    assertThat(map.entrySet())
+        .containsExactly(immutableEntry("b", 2), immutableEntry("c", 4))
+        .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(immutableEntry(2, "b"), immutableEntry(4, "c"))
+        .inOrder();
+  }
+
+  public void testInverseForcePutPresentValueAndKeyPredecessorWasEntryAndMoved() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("a", 1);
+    map.put("b", 2);
+    map.put("c", 3);
+    map.put("d", 4);
+    map.remove("a");
+    map.inverse().forcePut(3, "d");
+    assertThat(map.entrySet())
+        .containsExactly(immutableEntry("b", 2), immutableEntry("d", 3))
+        .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(immutableEntry(2, "b"), immutableEntry(3, "d"))
+        .inOrder();
+  }
+
+  public void testInverseForcePutPresentValueAndKeySuccessorWasEntryAndMoved() {
+    BiMap<String, Integer> map = HashBiMap.create();
+    map.put("a", 1);
+    map.put("b", 2);
+    map.put("c", 3);
+    map.put("d", 4);
+    map.remove("a");
+    map.inverse().forcePut(3, "b");
+    assertThat(map.entrySet())
+        .containsExactly(immutableEntry("b", 3), immutableEntry("d", 4))
+        .inOrder();
+    assertThat(map.inverse().entrySet())
+        .containsExactly(immutableEntry(3, "b"), immutableEntry(4, "d"))
         .inOrder();
   }
 }

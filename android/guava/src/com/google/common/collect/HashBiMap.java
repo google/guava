@@ -340,6 +340,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         return key;
       } else {
         replaceKeyInEntry(entryForValue, key, force);
+        modCount++;
         return oldKey;
       }
     }
@@ -351,6 +352,9 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       if (keyEntry != ABSENT) {
         predecessor = prevInInsertionOrder[keyEntry];
         removeEntryKeyHashKnown(keyEntry, keyHash);
+        if (predecessor == size) {
+          predecessor = keyEntry;
+        }
       }
     } else {
       checkArgument(keyEntry == ABSENT, "Key already present: %s", key);
@@ -520,16 +524,19 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         throw new IllegalArgumentException("Key already present in map: " + newKey);
       }
     }
-    if (newPredecessor == entry) {
-      newPredecessor = prevInInsertionOrder[entry];
-    } else if (newPredecessor == size) {
+
+    if (newPredecessor == size) {
       newPredecessor = newKeyIndex;
     }
+    if (newPredecessor == entry) {
+      newPredecessor = prevInInsertionOrder[entry];
+    }
 
+    if (newSuccessor == size) {
+      newSuccessor = newKeyIndex;
+    }
     if (newSuccessor == entry) {
       newSuccessor = nextInInsertionOrder[entry];
-    } else if (newSuccessor == size) {
-      newSuccessor = newKeyIndex;
     }
 
     int oldPredecessor = prevInInsertionOrder[entry];
@@ -904,7 +911,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     }
 
     void updateIndex() {
-      if (index == ABSENT || index > size || !Objects.equals(keys[index], key)) {
+      if (index == ABSENT || index >= size || !Objects.equals(keys[index], key)) {
         index = findEntryByKey(key);
       }
     }
@@ -1120,7 +1127,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
     private void updateIndex() {
       if (index == ABSENT
-          || index > obverse.size
+          || index >= obverse.size
           || !Objects.equals(obverseValue, obverse.values[index])) {
         index = obverse.findEntryByValue(obverseValue);
       }
