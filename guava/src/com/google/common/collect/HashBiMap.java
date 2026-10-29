@@ -382,10 +382,8 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       replaceNodeForKey(oldNodeForKey, newNode);
     } else {
       insertPlacingAtEndOfIterationOrder(newNode);
+      rehashIfNecessary();
     }
-
-    // TODO(cpovirk): Don't perform rehash check if we replaced an existing entry (as in `put`)?
-    rehashIfNecessary();
     return keyOrNull(oldNodeForValue);
   }
 
@@ -422,8 +420,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       return null;
     } else {
       delete(node);
-      node.prevInKeyInsertionOrder = null;
-      node.nextInKeyInsertionOrder = null;
       return node.value;
     }
   }
@@ -526,8 +522,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         return false;
       } else {
         delete(node);
-        node.prevInKeyInsertionOrder = null;
-        node.nextInKeyInsertionOrder = null;
         return true;
       }
     }
@@ -688,8 +682,6 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
         return null;
       }
       obverse.delete(node);
-      node.prevInKeyInsertionOrder = null;
-      node.nextInKeyInsertionOrder = null;
       return node.key;
     }
 

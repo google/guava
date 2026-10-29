@@ -435,6 +435,7 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
           }
           deleteFromValueSet(entry);
           multimapIterationChain.delete(entry);
+          // TODO(cpovirk): See the TODO in clear() about clearing links from removed entries.
           size--;
           modCount++;
           return true;
@@ -449,7 +450,15 @@ public final class LinkedHashMultimap<K extends @Nullable Object, V extends @Nul
       size = 0;
       for (ValueEntry<K, V> entry = firstEntry; entry != null; entry = entry.successorInValueSet) {
         multimapIterationChain.delete(entry);
-        // TODO(cpovirk): Also clear *InValueSet (after reading next) and nextInValueBucket?
+        /*
+         * TODO(cpovirk): Also clear *InValueSet (after reading next), *InMultimap, and
+         * nextInValueBucket (both here and in remove)? Because entryIterator() returns ValueEntry
+         * instances directly to callers of entries(), a caller that retains a removed Entry can
+         * otherwise keep the rest of the multimap's entries alive through those links (similar to
+         * what cl/846336997 fixed for HashBiMap). However, entryIterator() does not currently check
+         * for concurrent modification, so clearing successorInMultimap on removal could cause an
+         * in-progress entryIterator() to stop early if its nextEntry is removed externally.
+         */
       }
       firstEntry = null;
       lastEntry = null;
