@@ -35,7 +35,7 @@ abstract class DescendingMultiset<E extends @Nullable Object> extends Forwarding
     implements SortedMultiset<E> {
   abstract SortedMultiset<E> forwardMultiset();
 
-  @LazyInit private transient @Nullable Comparator<? super E> comparator;
+  @LazyInit private @Nullable Comparator<? super E> comparator;
 
   @Override
   public Comparator<? super E> comparator() {

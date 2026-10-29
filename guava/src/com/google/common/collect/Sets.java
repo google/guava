@@ -1547,7 +1547,7 @@ public final class Sets {
 
   private static final class CartesianSet<E> extends SimpleForwardingCollection<List<E>>
       implements Set<List<E>> {
-    private final transient ImmutableList<ImmutableSet<E>> axes;
+    private final ImmutableList<ImmutableSet<E>> axes;
 
     static <E> Set<List<E>> create(List<? extends Set<? extends E>> sets) {
       ImmutableList.Builder<ImmutableSet<E>> axesBuilder = new ImmutableList.Builder<>(sets.size());

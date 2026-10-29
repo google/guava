@@ -112,7 +112,7 @@ abstract class AbstractSortedMultiset<E extends @Nullable Object> extends Abstra
     return Multisets.iteratorImpl(descendingMultiset());
   }
 
-  @LazyInit private transient @Nullable SortedMultiset<E> descendingMultiset;
+  @LazyInit private @Nullable SortedMultiset<E> descendingMultiset;
 
   @Override
   public final SortedMultiset<E> descendingMultiset() {

@@ -56,7 +56,7 @@ final class UndirectedMultiNetworkConnections<N, E>
     return new UndirectedMultiNetworkConnections<>(ImmutableMap.copyOf(incidentEdges));
   }
 
-  @LazyInit private transient @Nullable Reference<Multiset<N>> adjacentNodesReference;
+  @LazyInit private @Nullable Reference<Multiset<N>> adjacentNodesReference;
 
   @Override
   public Set<N> adjacentNodes() {

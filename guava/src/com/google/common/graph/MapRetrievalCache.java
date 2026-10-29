@@ -29,8 +29,8 @@ import org.jspecify.annotations.Nullable;
  */
 final class MapRetrievalCache<K, V> extends MapIteratorCache<K, V> {
   // See the note about volatile in the superclass.
-  private transient volatile @Nullable CacheEntry<K, V> cacheEntry1;
-  private transient volatile @Nullable CacheEntry<K, V> cacheEntry2;
+  private volatile @Nullable CacheEntry<K, V> cacheEntry1;
+  private volatile @Nullable CacheEntry<K, V> cacheEntry2;
 
   MapRetrievalCache(Map<K, V> backingMap) {
     super(backingMap);

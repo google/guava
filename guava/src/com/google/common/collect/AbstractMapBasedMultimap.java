@@ -1325,7 +1325,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
      * Usually the same as map, but smaller for the headMap(), tailMap(), or subMap() of a
      * SortedAsMap.
      */
-    final transient Map<K, Collection<V>> submap;
+    final Map<K, Collection<V>> submap;
 
     AsMap(Map<K, Collection<V>> submap) {
       this.submap = submap;

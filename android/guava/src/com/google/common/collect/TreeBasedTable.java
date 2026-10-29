@@ -258,7 +258,7 @@ public final class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, 
       return ((SortedMap<C, V>) backingRowMap).lastKey();
     }
 
-    transient @Nullable SortedMap<C, V> wholeRow;
+    @Nullable SortedMap<C, V> wholeRow;
 
     // If the row was previously empty, we check if there's a new row here every time we're queried.
     void updateWholeRowField() {

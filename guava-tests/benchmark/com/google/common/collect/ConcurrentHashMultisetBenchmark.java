@@ -169,7 +169,7 @@ public class ConcurrentHashMultisetBenchmark {
    */
   private static final class OldConcurrentHashMultiset<E> extends AbstractMultiset<E> {
     /** The number of occurrences of each element. */
-    private final transient ConcurrentMap<E, Integer> countMap;
+    private final ConcurrentMap<E, Integer> countMap;
 
     /**
      * Creates a new, empty {@code OldConcurrentHashMultiset} using the default initial capacity,
@@ -445,7 +445,7 @@ public class ConcurrentHashMultisetBenchmark {
       throw new AssertionError("should never be called");
     }
 
-    private transient EntrySet entrySet;
+    private EntrySet entrySet;
 
     @Override
     public Set<Multiset.Entry<E>> entrySet() {

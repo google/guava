@@ -4077,7 +4077,7 @@ public final class Maps {
       return forward();
     }
 
-    @LazyInit private transient @Nullable Comparator<? super K> comparator;
+    @LazyInit private @Nullable Comparator<? super K> comparator;
 
     @SuppressWarnings("unchecked")
     @Override
