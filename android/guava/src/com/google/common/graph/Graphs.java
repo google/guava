@@ -128,8 +128,8 @@ public final class Graphs extends GraphsBridgeMethods {
         N nextNode = top.remainingSuccessors.remove();
         if (canTraverseWithoutReusingEdge(graph, nextNode, previousNode)) {
           stack.addLast(new NodeAndRemainingSuccessors<>(nextNode));
-          continue;
         }
+        continue;
       }
 
       stack.removeLast();

@@ -143,8 +143,7 @@ public class GraphPropertiesTest {
       graph.addNode(4); // fewer edges than nodes, so the undirected shortcut doesn't apply
     }
     assertThat(hasCycle(directedGraph)).isTrue();
-    // TODO(user): Fix bug in hasCycle.
-    assertThat(hasCycle(undirectedGraph)).isFalse();
+    assertThat(hasCycle(undirectedGraph)).isTrue();
   }
 
   @Test
