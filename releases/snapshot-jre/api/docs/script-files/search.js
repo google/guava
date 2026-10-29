@@ -449,7 +449,7 @@ window.addEventListener("load", () => {
         if (redirect.checked) {
             href += "&r=1";
         }
-        searchLink.innerHTML = href;
+        searchLink.textContent = href;
         copy.onmouseenter();
     }
     function copyLink(e) {
@@ -670,7 +670,7 @@ window.addEventListener("load", () => {
 
         const descSpan = document.createElement("span");
         descSpan.className = "search-result-desc";
-        descSpan.innerHTML = desc;
+        descSpan.textContent = desc;
 
         link.appendChild(labelSpan);
         link.appendChild(descSpan);

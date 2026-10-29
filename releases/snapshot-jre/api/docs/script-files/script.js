@@ -235,13 +235,13 @@ function isInput(elem) {
 function switchCopyLabel(button, span) {
     var copied = span.getAttribute("data-copied");
     button.classList.add("visible");
-    var initialLabel = span.innerHTML;
-    span.innerHTML = copied;
+    var initialLabel = span.textContent;
+    span.textContent = copied;
     setTimeout(function() {
         button.classList.remove("visible");
         setTimeout(function() {
             if (initialLabel !== copied) {
-                span.innerHTML = initialLabel;
+                span.textContent = initialLabel;
             }
         }, 100);
     }, 1900);
