@@ -71,8 +71,8 @@ initTheme();
 <ol class="toc-list" tabindex="-1">
 <li><a href="#" tabindex="0">Description</a>
 <ol class="toc-list">
-<li><a href="#prefer-classgraph-over-classpath-heading" tabindex="0">Prefer ClassGraph over 
-ClassPath</a></li>
+<li><a href="#prefer-alternatives-to-classpath-scanning-heading" tabindex="0">Prefer alternatives to classpath scanning</a></li>
+<li><a href="#limitations-of-classpath-for-those-who-do-need-classpath-scanning--heading" tabindex="0">Limitations of ClassPath (for those who do need classpath scanning)</a></li>
 <li><a href="#classpath-and-symlinks-heading" tabindex="0">ClassPath and symlinks</a></li>
 </ol>
 </li>
@@ -105,27 +105,36 @@ ClassPath</a></li>
 <span class="extends-implements">extends <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a></span></div>
 <div class="block">Scans the source of a <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/ClassLoader.html" title="class in java.lang" class="external-link"><code>ClassLoader</code></a> and finds all loadable classes and resources.
 
-<h2 id="prefer-classgraph-over-classpath-heading">Prefer <a href="https://github.com/classgraph/classgraph/wiki">ClassGraph</a> over <code>
-ClassPath</code></h2>
+<h2 id="prefer-alternatives-to-classpath-scanning-heading">Prefer alternatives to classpath scanning</h2>
 
-<p>We recommend using <a href="https://github.com/classgraph/classgraph/wiki">ClassGraph</a>
-instead of <code>ClassPath</code>. ClassGraph improves upon <code>ClassPath</code> in several ways,
-including addressing many of its limitations. Limitations of <code>ClassPath</code> include:
+<p>Runtime classpath scanning is expensive because it traverses the entire transitive classpath,
+which can cause performance issues such as startup latency regressions. (It also does not support
+Android.) Before scanning the classpath at runtime, consider whether your use case can be solved
+with compile-time or static mechanisms:
+
+<ul>
+  <li>Compile-time service registration / annotation processors (e.g., <code>@AutoService</code>)
+  <li>Dependency injection (e.g., Dagger, Guice)
+  <li>Explicit static registries or configuration
+  <li>Compile-time classpath scanning, such as <a href="https://github.com/classgraph/classgraph/wiki/Build-Time-Scanning">that of
+      ClassGraph</a>, but compile-time scanning is likewise costly, so prefer the other options
+      when possible
+</ul>
+
+<h2 id="limitations-of-classpath-for-those-who-do-need-classpath-scanning--heading">Limitations of <code>ClassPath</code> (for those who do need classpath scanning)</h2>
 
 <ul>
   <li>It looks only for files and JARs in URLs available from <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/net/URLClassLoader.html" title="class in java.net" class="external-link"><code>URLClassLoader</code></a> instances or
       the <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/ClassLoader.html#getSystemClassLoader()" class="external-link">system class loader</a>. This means it does
-      not look for classes in the <i>module path</i>.
-  <li>It understands only <code>file:</code> URLs. This means that it does not understand <a href="https://openjdk.java.net/jeps/220"><code>jrt:/</code> URLs</a>, among <a href="https://github.com/classgraph/classgraph/wiki/Classpath-specification-mechanisms">others</a>.
-  <li>It does not know how to look for classes when running under an Android VM. (ClassGraph does
-      not support this directly, either, but ClassGraph documents how to <a href="https://github.com/classgraph/classgraph/wiki/Build-Time-Scanning">perform build-time
-      classpath scanning and make the results available to an Android app</a>.)
-  <li>Like all of Guava, it is not tested under Windows. We have gotten <a href="https://github.com/google/guava/issues/2130">a report of a specific bug under
-      Windows</a>.
+      not look for classes in the <i>module path</i> or in <a href="https://github.com/classgraph/classgraph/wiki/Classpath-specification-mechanisms">other
+      environments</a>. If you need to scan one of those locations, consider <a href="https://github.com/classgraph/classgraph/wiki">ClassGraph</a>.
+  <li>Like all of Guava, it is less battle-tested under Windows and other non-Linux systems. We
+      have gotten <a href="https://github.com/google/guava/issues/2130">a report of a specific
+      bug under Windows</a>.
   <li>It <a href="https://github.com/google/guava/issues/2712">returns only one resource for a
       given path</a>, even if resources with that path appear in multiple jars or directories.
-  <li>It assumes that <a href="https://github.com/google/guava/issues/3349">any class with a
-      <code>$</code> in its name is a nested class</a>.
+  <li>It <a href="https://github.com/google/guava/issues/3349">uses heuristics to guess at which
+      classes are nested and which are not</a>.
 </ul>
 
 <h2 id="classpath-and-symlinks-heading"><code>ClassPath</code> and symlinks</h2>
