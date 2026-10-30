@@ -435,6 +435,16 @@ public class CharsTest extends TestCase {
     testRotate(new char[] {'1', '2', '3', '4', '5'}, 6, new char[] {'5', '1', '2', '3', '4'});
   }
 
+  public void testRotate_minValueDistance() {
+    testRotate(new char[] {'1', '2', '3'}, Integer.MIN_VALUE, new char[] {'3', '1', '2'});
+    testRotate(
+        new char[] {'0', '1', '2', '3', '4'},
+        Integer.MIN_VALUE,
+        1,
+        4,
+        new char[] {'0', '3', '1', '2', '4'});
+  }
+
   public void testRotateIndexed_emptyRange() {
     char[] empty = {};
     char[] expectedEmpty = {};
