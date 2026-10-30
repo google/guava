@@ -343,7 +343,10 @@ public class BooleansTest extends TestCase {
   }
 
   public void testRotate_minValueDistance() {
-    testRotate(new boolean[] {true, false, false}, Integer.MIN_VALUE, new boolean[] {false, true, false});
+    testRotate(
+        new boolean[] {true, false, false},
+        Integer.MIN_VALUE,
+        new boolean[] {false, true, false});
     testRotate(
         new boolean[] {false, true, false, false, true},
         Integer.MIN_VALUE,
