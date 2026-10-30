@@ -14,6 +14,7 @@
 
 package com.google.common.util.concurrent;
 
+import static com.google.common.math.LongMath.saturatedAbs;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 
@@ -130,7 +131,7 @@ final class TimeoutFuture<V extends @Nullable Object> extends FluentFuture.Trust
           // to produce the message throws (probably StackOverflowError from delegate.toString())
           try {
             if (timer != null) {
-              long overDelayMs = Math.abs(timer.getDelay(MILLISECONDS));
+              long overDelayMs = saturatedAbs(timer.getDelay(MILLISECONDS));
               if (overDelayMs > 10) { // Not all timing drift is worth reporting
                 message += " (timeout delayed by " + overDelayMs + " ms after scheduled time)";
               }
