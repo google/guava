@@ -360,8 +360,9 @@ public final class Iterables {
    * <p>To cycle over the iterable {@code n} times, use the following: {@code
    * Iterables.concat(Collections.nCopies(n, iterable))}
    *
-   * <p><b>Java 8+ users:</b> The {@code Stream} equivalent of this method is {@code
-   * Stream.generate(() -> iterable).flatMap(Streams::stream)}.
+   * <p><b>Java 8+ users:</b> For a non-empty iterable, the {@code Stream} equivalent of this method
+   * is {@code Stream.generate(() -> iterable).flatMap(Streams::stream)}. For an empty iterable, use
+   * {@code Stream.empty()} instead; the expression above never terminates when asked for an element.
    */
   public static <T extends @Nullable Object> Iterable<T> cycle(Iterable<T> iterable) {
     checkNotNull(iterable);
@@ -401,7 +402,9 @@ public final class Iterables {
    *
    * <p><b>Java 8+ users:</b> If passing a single element {@code e}, the {@code Stream} equivalent
    * of this method is {@code Stream.generate(() -> e)}. Otherwise, put the elements in a collection
-   * and use {@code Stream.generate(() -> collection).flatMap(Collection::stream)}.
+   * and use {@code Stream.generate(() -> collection).flatMap(Collection::stream)}. If there are no
+   * elements, use {@code Stream.empty()} instead; flattening an infinite stream of empty collections
+   * never terminates when asked for an element.
    */
   @SafeVarargs
   public static <T extends @Nullable Object> Iterable<T> cycle(T... elements) {
