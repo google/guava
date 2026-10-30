@@ -342,6 +342,16 @@ public class BooleansTest extends TestCase {
         new boolean[] {true, true, false, true, false});
   }
 
+  public void testRotate_minValueDistance() {
+    testRotate(new boolean[] {true, false, false}, Integer.MIN_VALUE, new boolean[] {false, true, false});
+    testRotate(
+        new boolean[] {false, true, false, false, true},
+        Integer.MIN_VALUE,
+        1,
+        4,
+        new boolean[] {false, false, true, false, true});
+  }
+
   public void testRotateIndexed_emptyRange() {
     boolean[] empty = {};
     boolean[] expectedEmpty = {};
