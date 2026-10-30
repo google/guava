@@ -16,8 +16,10 @@ package com.google.common.net;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.base.CharMatcher;
 import com.google.common.base.Preconditions;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
+import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.text.ParseException;
 import org.jspecify.annotations.Nullable;
@@ -53,6 +55,16 @@ import org.jspecify.annotations.Nullable;
 @GwtIncompatible
 public final class HostSpecifier {
 
+  /**
+   * The characters allowed in an IPv6 scope ID (zone ID), such as the {@code eth0} in {@code
+   * fe80::1%eth0}: the "unreserved" characters of RFC 3986, as required by RFC 6874.
+   */
+  private static final CharMatcher SCOPE_ID_MATCHER =
+      CharMatcher.inRange('a', 'z')
+          .or(CharMatcher.inRange('A', 'Z'))
+          .or(CharMatcher.inRange('0', '9'))
+          .or(CharMatcher.anyOf("-._~"));
+
   private final String canonicalForm;
 
   private HostSpecifier(String canonicalForm) {
@@ -70,7 +82,8 @@ public final class HostSpecifier {
    *   <li>A domain name, like {@code google.com}
    *   <li>A IPv4 address string, like {@code 127.0.0.1}
    *   <li>An IPv6 address string with or without brackets, like {@code [2001:db8::1]} or {@code
-   *       2001:db8::1}
+   *       2001:db8::1}, optionally with a scope ID, like {@code [fe80::1%eth0]}. The scope ID is
+   *       checked only syntactically; it is not validated against the interfaces on the machine.
    * </ul>
    *
    * @throws IllegalArgumentException if the specifier is not valid.
@@ -82,19 +95,35 @@ public final class HostSpecifier {
     Preconditions.checkArgument(!parsedHost.hasPort());
     String host = parsedHost.getHost();
 
+    // Split off any IPv6 scope ID before parsing. InetAddresses.forString would validate it
+    // against the network interfaces on the machine, which is an OS lookup whose result depends on
+    // where the code runs, while this class promises purely syntactic checks.
+    int percentIndex = host.indexOf('%');
+    String ipString = (percentIndex == -1) ? host : host.substring(0, percentIndex);
+    String scopeId = (percentIndex == -1) ? null : host.substring(percentIndex + 1);
+
     // Try to interpret the specifier as an IP address. Note we build
     // the address rather than using the .is* methods because we want to
     // use InetAddresses.toUriString to convert the result to a string in
     // canonical form.
     InetAddress addr = null;
     try {
-      addr = InetAddresses.forString(host);
+      addr = InetAddresses.forString(ipString);
     } catch (IllegalArgumentException e) {
       // It is not an IPv4 or IPv6 literal
     }
 
     if (addr != null) {
-      return new HostSpecifier(InetAddresses.toUriString(addr));
+      if (scopeId == null) {
+        return new HostSpecifier(InetAddresses.toUriString(addr));
+      }
+      if (addr instanceof Inet6Address
+          && !scopeId.isEmpty()
+          && SCOPE_ID_MATCHER.matchesAllOf(scopeId)) {
+        return new HostSpecifier("[" + InetAddresses.toAddrString(addr) + "%" + scopeId + "]");
+      }
+      // An IPv4 address with a scope ID, or an invalid scope ID. Fall through to the domain name
+      // check, which rejects the '%'.
     }
 
     // It is not any kind of IP address; must be a domain name or invalid.

@@ -42,10 +42,25 @@ import org.jspecify.annotations.NullUnmarked;
 public final class HostSpecifierTest extends TestCase {
 
   private static final ImmutableList<String> GOOD_IPS =
-      ImmutableList.of("1.2.3.4", "2001:db8::1", "[2001:db8::1]");
+      ImmutableList.of(
+          "1.2.3.4",
+          "2001:db8::1",
+          "[2001:db8::1]",
+          "fe80::1%1",
+          "[fe80::1%eth0]",
+          // The scope ID is checked syntactically, not against the interfaces on the machine.
+          "[fe80::1%no-such_interface.0]");
 
   private static final ImmutableList<String> BAD_IPS =
-      ImmutableList.of("1.2.3", "2001:db8::1::::::0", "[2001:db8::1", "[::]:80");
+      ImmutableList.of(
+          "1.2.3",
+          "2001:db8::1::::::0",
+          "[2001:db8::1",
+          "[::]:80",
+          "[fe80::1%]",
+          "[fe80::1%eth0/1]",
+          "1.2.3.4%eth0",
+          "[::ffff:1.2.3.4%eth0]");
 
   private static final ImmutableList<String> GOOD_DOMAINS =
       ImmutableList.of("com", "google.com", "foo.co.uk");
@@ -77,11 +92,19 @@ public final class HostSpecifierTest extends TestCase {
     }
   }
 
+  public void testScopeId() {
+    assertThat(spec("fe80::1%eth0").toString()).isEqualTo("[fe80::1%eth0]");
+    assertThat(spec("[FE80:0:0:0:0:0:0:1%eth0]").toString()).isEqualTo("[fe80::1%eth0]");
+    assertThat(spec("[fe80::1%1]").toString()).isEqualTo("[fe80::1%1]");
+  }
+
   public void testEquality() {
     new EqualsTester()
         .addEqualityGroup(spec("1.2.3.4"), spec("1.2.3.4"))
         .addEqualityGroup(spec("2001:db8::1"), spec("2001:db8::1"), spec("[2001:db8::1]"))
         .addEqualityGroup(spec("2001:db8::2"))
+        .addEqualityGroup(spec("fe80::1%eth0"), spec("[fe80::1%eth0]"))
+        .addEqualityGroup(spec("fe80::1%eth1"))
         .addEqualityGroup(spec("google.com"), spec("google.com"))
         .addEqualityGroup(spec("www.google.com"))
         .testEquals();
