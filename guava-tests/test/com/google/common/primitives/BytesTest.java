@@ -367,6 +367,16 @@ public class BytesTest extends TestCase {
     testRotate(new byte[] {1, 2, 3, 4, 5}, 6, new byte[] {5, 1, 2, 3, 4});
   }
 
+  public void testRotate_minValueDistance() {
+    testRotate(new byte[] {1, 2, 3}, Integer.MIN_VALUE, new byte[] {3, 1, 2});
+    testRotate(
+        new byte[] {0, 1, 2, 3, 4},
+        Integer.MIN_VALUE,
+        1,
+        4,
+        new byte[] {0, 3, 1, 2, 4});
+  }
+
   public void testRotateIndexed_emptyRange() {
     byte[] empty = {};
     byte[] expectedEmpty = {};
