@@ -425,6 +425,11 @@ public class IntsTest extends TestCase {
     testRotate(new int[] {1, 2, 3, 4, 5}, 6, new int[] {5, 1, 2, 3, 4});
   }
 
+  public void testRotate_minValueDistance() {
+    testRotate(new int[] {1, 2, 3}, Integer.MIN_VALUE, new int[] {3, 1, 2});
+    testRotate(new int[] {0, 1, 2, 3, 4}, Integer.MIN_VALUE, 1, 4, new int[] {0, 3, 1, 2, 4});
+  }
+
   public void testRotateIndexed_emptyRange() {
     int[] empty = {};
     int[] expectedEmpty = {};

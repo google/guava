@@ -418,6 +418,11 @@ public class LongsTest extends TestCase {
     testRotate(new long[] {1, 2, 3, 4, 5}, 6, new long[] {5, 1, 2, 3, 4});
   }
 
+  public void testRotate_minValueDistance() {
+    testRotate(new long[] {1, 2, 3}, Integer.MIN_VALUE, new long[] {3, 1, 2});
+    testRotate(new long[] {0, 1, 2, 3, 4}, Integer.MIN_VALUE, 1, 4, new long[] {0, 3, 1, 2, 4});
+  }
+
   public void testRotateIndexed_emptyRange() {
     long[] empty = {};
     long[] expectedEmpty = {};

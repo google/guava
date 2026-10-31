@@ -432,6 +432,11 @@ public class DoublesTest extends TestCase {
     testRotate(new double[] {1, 2, 3, 4, 5}, 6, new double[] {5, 1, 2, 3, 4});
   }
 
+  public void testRotate_minValueDistance() {
+    testRotate(new double[] {1, 2, 3}, Integer.MIN_VALUE, new double[] {3, 1, 2});
+    testRotate(new double[] {0, 1, 2, 3, 4}, Integer.MIN_VALUE, 1, 4, new double[] {0, 3, 1, 2, 4});
+  }
+
   public void testRotateIndexed_emptyRange() {
     double[] empty = {};
     double[] expectedEmpty = {};
