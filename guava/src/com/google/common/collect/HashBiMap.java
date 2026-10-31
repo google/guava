@@ -25,6 +25,7 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.errorprone.annotations.concurrent.LazyInit;
@@ -37,6 +38,7 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.ConcurrentModificationException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -123,6 +125,30 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   private static final double LOAD_FACTOR = 1.0;
 
+  /**
+   * Maximum allowed false positive probability of detecting a hash flooding attack given random
+   * input.
+   */
+  @VisibleForTesting(
+      )
+  static final double HASH_FLOODING_FPP = 0.001;
+
+  /**
+   * Maximum allowed length of a hash table bucket before falling back to a j.u.HashMap-based
+   * implementation. Experimentally determined.
+   */
+  private static final int MAX_HASH_BUCKET_LENGTH = 9;
+
+  static final class FloodedTables<K extends @Nullable Object, V extends @Nullable Object> {
+    final Map<K, Node<K, V>> kToV;
+    final Map<V, Node<K, V>> vToK;
+
+    FloodedTables(int tableSize) {
+      this.kToV = new HashMap<>(tableSize, 1.0f);
+      this.vToK = new HashMap<>(tableSize, 1.0f);
+    }
+  }
+
   /*
    * The following two arrays may *contain* nulls, but they are never *themselves* null: Even though
    * they are not initialized inline in the constructor, they are initialized from init(), which the
@@ -133,6 +159,8 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   @SuppressWarnings("nullness:initialization.field.uninitialized") // For J2KT (see above)
   private transient @Nullable Node<K, V>[] hashTableVToK;
+
+  private transient @Nullable FloodedTables<K, V> floodedTables;
 
   @Weak private transient @Nullable Node<K, V> firstInKeyInsertionOrder;
   @Weak private transient @Nullable Node<K, V> lastInKeyInsertionOrder;
@@ -149,6 +177,7 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     int tableSize = closedTableSize(expectedSize, LOAD_FACTOR);
     this.hashTableKToV = createTable(tableSize);
     this.hashTableVToK = createTable(tableSize);
+    this.floodedTables = null;
     this.firstInKeyInsertionOrder = null;
     this.lastInKeyInsertionOrder = null;
     this.size = 0;
@@ -156,41 +185,69 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
     this.modCount = 0;
   }
 
+  @VisibleForTesting
+  boolean isUsingHashFloodingResistance() {
+    return floodedTables != null;
+  }
+
+  @VisibleForTesting
+  @CanIgnoreReturnValue
+  FloodedTables<K, V> convertToHashFloodingResistantImplementation() {
+    FloodedTables<K, V> tables = new FloodedTables<>(hashTableKToV.length);
+    for (Node<K, V> node = firstInKeyInsertionOrder;
+        node != null;
+        node = node.nextInKeyInsertionOrder) {
+      tables.kToV.put(node.key, node);
+      tables.vToK.put(node.value, node);
+      node.nextInKToVBucket = null;
+      node.nextInVToKBucket = null;
+    }
+    this.floodedTables = tables;
+    this.hashTableKToV = createTable(0);
+    this.hashTableVToK = createTable(0);
+    return tables;
+  }
+
   /**
    * Finds and removes {@code node} from the key-to-value hash table, the value-to-key hash table,
    * and the iteration-order chain. This includes clearing its own references to other entries.
    */
   private void delete(Node<K, V> node) {
-    int keyBucket = node.keyHash & mask;
-    Node<K, V> prevBucketNode = null;
-    for (Node<K, V> bucketNode = hashTableKToV[keyBucket];
-        true;
-        bucketNode = bucketNode.nextInKToVBucket) {
-      if (bucketNode == node) {
-        if (prevBucketNode == null) {
-          hashTableKToV[keyBucket] = node.nextInKToVBucket;
-        } else {
-          prevBucketNode.nextInKToVBucket = node.nextInKToVBucket;
+    if (floodedTables != null) {
+      floodedTables.kToV.remove(node.key);
+      floodedTables.vToK.remove(node.value);
+    } else {
+      int keyBucket = node.keyHash & mask;
+      Node<K, V> prevBucketNode = null;
+      for (Node<K, V> bucketNode = hashTableKToV[keyBucket];
+          true;
+          bucketNode = bucketNode.nextInKToVBucket) {
+        if (bucketNode == node) {
+          if (prevBucketNode == null) {
+            hashTableKToV[keyBucket] = node.nextInKToVBucket;
+          } else {
+            prevBucketNode.nextInKToVBucket = node.nextInKToVBucket;
+          }
+          break;
         }
-        break;
+        prevBucketNode = bucketNode;
       }
-      prevBucketNode = bucketNode;
-    }
 
-    int valueBucket = node.valueHash & mask;
-    prevBucketNode = null;
-    for (Node<K, V> bucketNode = hashTableVToK[valueBucket];
-        true;
-        bucketNode = bucketNode.nextInVToKBucket) {
-      if (bucketNode == node) {
-        if (prevBucketNode == null) {
-          hashTableVToK[valueBucket] = node.nextInVToKBucket;
-        } else {
-          prevBucketNode.nextInVToKBucket = node.nextInVToKBucket;
+      int valueBucket = node.valueHash & mask;
+      prevBucketNode = null;
+      for (Node<K, V> bucketNode = hashTableVToK[valueBucket];
+          true;
+          bucketNode = bucketNode.nextInVToKBucket) {
+        if (bucketNode == node) {
+          if (prevBucketNode == null) {
+            hashTableVToK[valueBucket] = node.nextInVToKBucket;
+          } else {
+            prevBucketNode.nextInVToKBucket = node.nextInVToKBucket;
+          }
+          break;
         }
-        break;
+        prevBucketNode = bucketNode;
       }
-      prevBucketNode = bucketNode;
     }
 
     if (node.prevInKeyInsertionOrder == null) {
@@ -248,16 +305,45 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   private void insertIntoHashBucketsOnly(Node<K, V> node) {
-    int keyBucket = node.keyHash & mask;
-    node.nextInKToVBucket = hashTableKToV[keyBucket];
-    hashTableKToV[keyBucket] = node;
+    FloodedTables<K, V> tables = floodedTables;
+    if (tables == null) {
+      int keyBucket = node.keyHash & mask;
+      int valueBucket = node.valueHash & mask;
+      if (bucketLengthKToV(hashTableKToV[keyBucket]) >= MAX_HASH_BUCKET_LENGTH
+          || bucketLengthVToK(hashTableVToK[valueBucket]) >= MAX_HASH_BUCKET_LENGTH) {
+        tables = convertToHashFloodingResistantImplementation();
+      } else {
+        node.nextInKToVBucket = hashTableKToV[keyBucket];
+        hashTableKToV[keyBucket] = node;
 
-    int valueBucket = node.valueHash & mask;
-    node.nextInVToKBucket = hashTableVToK[valueBucket];
-    hashTableVToK[valueBucket] = node;
+        node.nextInVToKBucket = hashTableVToK[valueBucket];
+        hashTableVToK[valueBucket] = node;
 
+        size++;
+        modCount++;
+        return;
+      }
+    }
+    tables.kToV.put(node.key, node);
+    tables.vToK.put(node.value, node);
     size++;
     modCount++;
+  }
+
+  private static int bucketLengthKToV(@Nullable Node<?, ?> bucketHead) {
+    int length = 0;
+    for (Node<?, ?> node = bucketHead; node != null; node = node.nextInKToVBucket) {
+      length++;
+    }
+    return length;
+  }
+
+  private static int bucketLengthVToK(@Nullable Node<?, ?> bucketHead) {
+    int length = 0;
+    for (Node<?, ?> node = bucketHead; node != null; node = node.nextInVToKBucket) {
+      length++;
+    }
+    return length;
   }
 
   private void replaceNodeForKey(Node<K, V> oldNode, Node<K, V> newNode) {
@@ -268,6 +354,9 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   private @Nullable Node<K, V> seekByKey(@Nullable Object key, int keyHash) {
+    if (floodedTables != null) {
+      return floodedTables.kToV.get(key);
+    }
     for (Node<K, V> node = hashTableKToV[keyHash & mask];
         node != null;
         node = node.nextInKToVBucket) {
@@ -279,6 +368,9 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   private @Nullable Node<K, V> seekByValue(@Nullable Object value, int valueHash) {
+    if (floodedTables != null) {
+      return floodedTables.vToK.get(value);
+    }
     for (Node<K, V> node = hashTableVToK[valueHash & mask];
         node != null;
         node = node.nextInVToKBucket) {
@@ -388,6 +480,9 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   }
 
   private void rehashIfNecessary() {
+    if (floodedTables != null) {
+      return;
+    }
     @Nullable Node<K, V>[] oldKToV = hashTableKToV;
     if (Hashing.needsResizing(size, oldKToV.length, LOAD_FACTOR)) {
       int newTableSize = oldKToV.length * 2;
@@ -397,12 +492,10 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
       this.mask = newTableSize - 1;
       this.size = 0;
 
-      for (Node<K, V> node = firstInKeyInsertionOrder;
-          node != null;
-          node = node.nextInKeyInsertionOrder) {
-        insertSplicingIntoIterationOrder(
-            node, node.prevInKeyInsertionOrder, node.nextInKeyInsertionOrder);
-      }
+      Node<K, V> oldFirst = firstInKeyInsertionOrder;
+      this.firstInKeyInsertionOrder = null;
+      this.lastInKeyInsertionOrder = null;
+      reinsertNodes(oldFirst);
       this.modCount++;
     }
   }
@@ -427,8 +520,13 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
   @Override
   public void clear() {
     size = 0;
-    Arrays.fill(hashTableKToV, null);
-    Arrays.fill(hashTableVToK, null);
+    if (floodedTables != null) {
+      floodedTables.kToV.clear();
+      floodedTables.vToK.clear();
+    } else {
+      Arrays.fill(hashTableKToV, null);
+      Arrays.fill(hashTableVToK, null);
+    }
     firstInKeyInsertionOrder = null;
     lastInKeyInsertionOrder = null;
     modCount++;
@@ -610,9 +708,18 @@ public final class HashBiMap<K extends @Nullable Object, V extends @Nullable Obj
 
   private void restoreFromSavedNodes(@Nullable Node<K, V> oldFirst) {
     clear();
-    for (Node<K, V> node = oldFirst; node != null; node = node.nextInKeyInsertionOrder) {
-      insertSplicingIntoIterationOrder(
-          node, node.prevInKeyInsertionOrder, node.nextInKeyInsertionOrder);
+    reinsertNodes(oldFirst);
+  }
+
+  private void reinsertNodes(@Nullable Node<K, V> oldFirst) {
+    for (Node<K, V> node = oldFirst; node != null; ) {
+      Node<K, V> next = node.nextInKeyInsertionOrder;
+      node.prevInKeyInsertionOrder = null;
+      node.nextInKeyInsertionOrder = null;
+      node.nextInKToVBucket = null;
+      node.nextInVToKBucket = null;
+      insertPlacingAtEndOfIterationOrder(node);
+      node = next;
     }
   }
 

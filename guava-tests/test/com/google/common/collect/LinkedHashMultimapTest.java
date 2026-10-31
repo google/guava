@@ -26,6 +26,7 @@ import static com.google.common.collect.testing.IteratorFeature.MODIFIABLE;
 import static com.google.common.testing.SerializableTester.reserializeAndAssert;
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.Arrays.asList;
+import static java.util.Objects.requireNonNull;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtCompatible;
@@ -90,6 +91,36 @@ public class LinkedHashMultimapTest extends TestCase {
                 CollectionFeature.SERIALIZABLE,
                 CollectionSize.ANY)
             .createTestSuite());
+    suite.addTest(
+        SetMultimapTestSuiteBuilder.using(
+                new TestStringSetMultimapGenerator() {
+                  @Override
+                  protected SetMultimap<String, String> create(Entry<String, String>[] entries) {
+                    LinkedHashMultimap<String, String> multimap = LinkedHashMultimap.create();
+                    for (Entry<String, String> entry : entries) {
+                      multimap.put(entry.getKey(), entry.getValue());
+                      LinkedHashMultimap<?, ?>.ValueSet valueSet =
+                          (LinkedHashMultimap.ValueSet)
+                              requireNonNull(multimap.backingMap().get(entry.getKey()));
+                      if (valueSet.delegateOrNull() == null) {
+                        valueSet.convertToHashFloodingResistantImplementation();
+                      }
+                    }
+                    return multimap;
+                  }
+                })
+            .named("LinkedHashMultimap with flooding resistance")
+            .withFeatures(
+                MapFeature.ALLOWS_NULL_KEYS,
+                MapFeature.ALLOWS_NULL_VALUES,
+                MapFeature.ALLOWS_ANY_NULL_QUERIES,
+                MapFeature.GENERAL_PURPOSE,
+                MapFeature.FAILS_FAST_ON_CONCURRENT_MODIFICATION,
+                CollectionFeature.SUPPORTS_ITERATOR_REMOVE,
+                CollectionFeature.KNOWN_ORDER,
+                CollectionFeature.SERIALIZABLE,
+                CollectionSize.ANY)
+            .createTestSuite());
     suite.addTestSuite(LinkedHashMultimapTest.class);
     return suite;
   }
@@ -101,12 +132,12 @@ public class LinkedHashMultimapTest extends TestCase {
       // The Eclipse compiler (and hence GWT) rejects a parameterized cast.
       @SuppressWarnings("unchecked")
       LinkedHashMultimap<String, Integer>.ValueSet valueSet =
-          (LinkedHashMultimap.ValueSet) multimap.backingMap().get("a");
+          (LinkedHashMultimap.ValueSet) requireNonNull(multimap.backingMap().get("a"));
       assertEquals(z, valueSet.size());
       assertFalse(
           Hashing.needsResizing(
               valueSet.size(),
-              valueSet.hashTable.length,
+              requireNonNull(valueSet.hashTableArray()).length,
               LinkedHashMultimap.VALUE_SET_LOAD_FACTOR));
     }
   }
