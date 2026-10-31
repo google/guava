@@ -3170,10 +3170,12 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
             if (oldValueReference == valueReference
                 || (entryValue == null && valueReference != UNSET)) {
               ++modCount;
-              if (oldValueReference.isActive()) {
+              // Check the entry's current value reference, not oldValueReference: If the entry was
+              // removed and recreated while we were loading, the old value is no longer counted.
+              if (valueReference.isActive()) {
                 RemovalCause cause =
                     (entryValue == null) ? RemovalCause.COLLECTED : RemovalCause.REPLACED;
-                enqueueNotification(key, hash, entryValue, oldValueReference.getWeight(), cause);
+                enqueueNotification(key, hash, entryValue, valueReference.getWeight(), cause);
                 newCount--;
               }
               setValue(e, key, newValue, now);
