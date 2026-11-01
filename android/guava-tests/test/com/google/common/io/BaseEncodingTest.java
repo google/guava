@@ -150,6 +150,18 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base64(), "?", "Invalid input length 1");
   }
 
+  public void testBase64RejectsNonCanonicalPaddingBits() {
+    // Bits of the final character that are not part of any decoded byte must be zero (RFC 4648
+    // section 3.5); otherwise many distinct strings decode to the same bytes.
+    assertFailsToDecode(base64(), "AB==", "Unused bits set in encoded input");
+    assertFailsToDecode(base64(), "QE==", "Unused bits set in encoded input");
+    assertFailsToDecode(base64(), "AAB=", "Unused bits set in encoded input");
+    // The canonical siblings still decode.
+    testDecodesByBytes(base64(), "AA==", new byte[] {0x00});
+    testDecodesByBytes(base64(), "QA==", new byte[] {0x40});
+    testDecodesByBytes(base64(), "AAA=", new byte[] {0x00, 0x00});
+  }
+
   public void testBase64CannotUpperCase() {
     assertThrows(IllegalStateException.class, () -> base64().upperCase());
   }
@@ -226,6 +238,10 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base64Url(), "/zzz", "Unrecognized character: /");
   }
 
+  public void testBase64UrlRejectsNonCanonicalPaddingBits() {
+    assertFailsToDecode(base64Url(), "AB", "Unused bits set in encoded input");
+  }
+
   public void testBase32() {
     // The following test vectors are specified in RFC 4648 itself
     testEncodingWithCasing(base32(), "", "");
@@ -283,6 +299,15 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base32(), "AB=C", "Unrecognized character: =");
     assertFailsToDecode(base32(), "A=BCDE", "Invalid input length 6");
     assertFailsToDecode(base32(), "?", "Invalid input length 1");
+  }
+
+  public void testBase32RejectsNonCanonicalPaddingBits() {
+    // Bits of the final character that are not part of any decoded byte must be zero (RFC 4648
+    // section 3.5); "MZXW7" and "MZXW6" would otherwise both decode to "foo".
+    assertFailsToDecode(base32(), "MZXW7===", "Unused bits set in encoded input");
+    assertFailsToDecode(base32(), "AAAB====", "Unused bits set in encoded input");
+    testDecodes(base32(), "MZXW6===", "foo");
+    testDecodesByBytes(base32(), "AAAA====", new byte[] {0x00, 0x00});
   }
 
   public void testBase32UpperCaseIsNoOp() {
@@ -351,6 +376,12 @@ public class BaseEncodingTest extends TestCase {
     assertFailsToDecode(base32Hex(), "A");
     assertFailsToDecode(base32Hex(), "ABC");
     assertFailsToDecode(base32Hex(), "ABCDEF");
+  }
+
+  public void testBase32HexRejectsNonCanonicalPaddingBits() {
+    assertFailsToDecode(base32Hex(), "CPNMV===", "Unused bits set in encoded input");
+    assertFailsToDecode(base32Hex(), "0001====", "Unused bits set in encoded input");
+    testDecodes(base32Hex(), "CPNMU===", "foo");
   }
 
   public void testBase32HexUpperCaseIsNoOp() {
