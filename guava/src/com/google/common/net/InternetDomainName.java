@@ -301,10 +301,11 @@ public final class InternetDomainName {
      * Note that we allow (in contravention of a strict interpretation of the relevant RFCs) domain
      * parts other than the last may begin with a digit (for example, "3com.com"). It's important to
      * disallow an initial digit in the last part; it's the only thing that stops an IPv4 numeric
-     * address like 127.0.0.1 from looking like a valid domain name.
+     * address like 127.0.0.1 from looking like a valid domain name. Non-ASCII digits count, too,
+     * since InetAddresses and IDNA both accept, for example, a fullwidth "127.0.0.1".
      */
 
-    if (isFinalPart && DIGIT_MATCHER.matches(part.charAt(0))) {
+    if (isFinalPart && Character.isDigit(part.charAt(0))) {
       return false;
     }
 
