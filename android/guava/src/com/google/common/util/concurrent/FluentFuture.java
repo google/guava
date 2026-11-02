@@ -56,27 +56,26 @@ import org.jspecify.annotations.Nullable;
  *   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
  * </ul>
  *
- * <h3>{@link java.util.concurrent.CompletableFuture} / {@link java.util.concurrent.CompletionStage}
- * </h3>
+ * <h3>{@link java.util.CompletableFuture} / {@link java.util.concurrent.CompletionStage} </h3>
  *
  * <p>Users of {@code CompletableFuture} will likely want to continue using {@code
- * CompletableFuture}. {@code FluentFuture} is targeted at people who use {@code ListenableFuture},
- * who can't use Java 8, or who want an API more focused than {@code CompletableFuture}. (If you
- * need to adapt between {@code CompletableFuture} and {@code ListenableFuture}, consider <a
- * href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.)
+ * CompletableFuture}. {@link FluentFuture} is targeted at people who use {@link ListenableFuture},
+ * who can't use Java 8, or who want an API more focused than {@code CompletableFuture}. If you need
+ * to adapt between {@code CompletableFuture} and {@link ListenableFuture}, consider <a
+ * href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.
  *
  * <h3>{@link ClosingFuture}</h3>
  *
  * <p>If the steps of your pipeline create objects that must be closed when the computation is done,
- * such as database connections or file handles, use {@code ClosingFuture}. It supports the same
- * kinds of derived steps as {@code FluentFuture} but closes those objects once the pipeline
+ * such as database connections or file handles, use {@link ClosingFuture}. It supports the same
+ * kinds of derived steps as {@link FluentFuture} but closes those objects once the pipeline
  * completes, fails, or is cancelled.
  *
  * <h2>Extension</h2>
  *
- * If you want a class like {@code FluentFuture} but with extra methods, we recommend declaring your
+ * If you want a class like {@link FluentFuture} but with extra methods, we recommend declaring your
  * own subclass of {@link ListenableFuture}, complete with a method like {@link #from} to adapt an
- * existing {@code ListenableFuture}, implemented atop a {@link ForwardingListenableFuture} that
+ * existing {@link ListenableFuture}, implemented atop a {@link ForwardingListenableFuture} that
  * forwards to that future and adds the desired methods.
  *
  * @since 23.0

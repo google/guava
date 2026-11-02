@@ -20,6 +20,7 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
 import java.util.concurrent.ThreadFactory;
@@ -31,7 +32,7 @@ import org.jspecify.annotations.Nullable;
  * that, whenever possible, it is strongly preferred to modify those libraries to return {@code
  * ListenableFuture} directly.
  *
- * <p>For interoperability between {@code ListenableFuture} and <b>{@code CompletableFuture}</b>,
+ * <p>For interoperability between {@link ListenableFuture} and <b>{@link CompletableFuture}</b>,
  * consider <a href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.
  *
  * @author Sven Mawson

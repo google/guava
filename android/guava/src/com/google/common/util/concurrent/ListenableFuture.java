@@ -102,6 +102,10 @@ import org.jspecify.annotations.Nullable;
  * JdkFutureAdapters}. However, when possible, it is more efficient and reliable to create a {@code
  * ListenableFuture} directly.
  *
+ * <p><b>{@link java.util.concurrent.CompletableFuture}</b>: If you need to adapt between {@link
+ * ListenableFuture} and {@code CompletableFuture}, consider <a
+ * href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.
+ *
  * @author Sven Mawson
  * @author Nishant Thakkar
  * @since 1.0
