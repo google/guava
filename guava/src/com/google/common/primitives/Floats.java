@@ -68,7 +68,7 @@ public final class Floats extends FloatsMethodsForWeb {
    *
    * <p><b>Note:</b> the most negative finite float value is {@code -Float.MAX_VALUE}.
    *
-   * @since NEXT
+   * @since 33.8.0
    */
   public static final float MIN_POSITIVE_VALUE = Float.MIN_VALUE;
 

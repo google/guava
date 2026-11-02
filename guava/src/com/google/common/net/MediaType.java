@@ -561,7 +561,7 @@ public final class MediaType {
    * <p>Prefer this constant over {@link #GZIP}, which uses the legacy {@code application/x-gzip}
    * type.
    *
-   * @since NEXT
+   * @since 33.8.0
    */
   public static final MediaType APPLICATION_GZIP = createConstant(APPLICATION_TYPE, "gzip");
 

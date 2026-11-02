@@ -70,7 +70,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    *
    * <p><b>Note:</b> the most negative finite double value is {@code -Double.MAX_VALUE}.
    *
-   * @since NEXT
+   * @since 33.8.0
    */
   public static final double MIN_POSITIVE_VALUE = Double.MIN_VALUE;
 
