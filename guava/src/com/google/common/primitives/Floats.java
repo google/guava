@@ -70,6 +70,7 @@ public final class Floats extends FloatsMethodsForWeb {
    *
    * @since 33.8.0
    */
+  @SuppressWarnings("MinPositive")
   public static final float MIN_POSITIVE_VALUE = Float.MIN_VALUE;
 
   /**

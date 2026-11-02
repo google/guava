@@ -72,6 +72,7 @@ public final class Doubles extends DoublesMethodsForWeb {
    *
    * @since 33.8.0
    */
+  @SuppressWarnings("MinPositive")
   public static final double MIN_POSITIVE_VALUE = Double.MIN_VALUE;
 
   /**
