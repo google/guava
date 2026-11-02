@@ -401,6 +401,15 @@ public class BloomFilterTest extends TestCase {
     assertApproximateElementCountGuess(bf, numInsertions);
   }
 
+  public void testApproximateElementCount_allBitsSet() {
+    BloomFilter<Integer> bf = BloomFilter.create(integerFunnel(), 10, 0.03);
+    // Keep inserting past expectedInsertions until every bit is set.
+    for (int i = 0; bf.expectedFpp() != 1.0; i++) {
+      bf.put(i);
+    }
+    assertThat(bf.approximateElementCount()).isEqualTo(Long.MAX_VALUE);
+  }
+
   public void testEquals_empty() {
     new EqualsTester()
         .addEqualityGroup(BloomFilter.create(byteArrayFunnel(), 100, 0.01))

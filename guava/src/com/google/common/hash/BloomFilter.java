@@ -220,11 +220,18 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * Bloom filter. This approximation is reasonably accurate if it does not exceed the value of
    * {@code expectedInsertions} that was used when constructing the filter.
    *
+   * <p>If every bit of the filter is set, there is no finite estimate, and this method returns
+   * {@link Long#MAX_VALUE}.
+   *
    * @since 22.0
    */
   public long approximateElementCount() {
     long bitSize = bits.bitSize();
     long bitCount = bits.bitCount();
+    if (bitCount == bitSize) {
+      // The formula below would compute log(0) and round an infinite value.
+      return Long.MAX_VALUE;
+    }
 
     /*
      * Each insertion is expected to reduce the # of clear bits by a factor of
