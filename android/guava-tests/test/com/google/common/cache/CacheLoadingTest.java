@@ -2322,22 +2322,14 @@ public class CacheLoadingTest extends TestCase {
     assertThat(cache.getUnchecked(key)).isEqualTo("barfoo");
   }
 
-  // Test ignored because it is extremely flaky in CI builds
-  @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
-  public void
-      ignoreTestExpandDuringRefresh()
-      throws InterruptedException {
+  public void testExpandDuringRefresh() throws InterruptedException {
     AtomicInteger callCount = new AtomicInteger();
     // tells the computing thread when to start computing
     CountDownLatch computeSignal = new CountDownLatch(1);
     // tells the main thread when computation is pending
     CountDownLatch secondSignal = new CountDownLatch(1);
-    // tells the main thread when the second get has started
-    CountDownLatch thirdSignal = new CountDownLatch(1);
-    // tells the main thread when the third get has started
-    CountDownLatch fourthSignal = new CountDownLatch(1);
-    // tells the test when all gets have returned
-    CountDownLatch doneSignal = new CountDownLatch(3);
+    // tells the test when refresh has returned
+    CountDownLatch doneSignal = new CountDownLatch(1);
     String suffix = "Suffix";
 
     CacheLoader<String, String> computeFunction =
@@ -2350,8 +2342,6 @@ public class CacheLoadingTest extends TestCase {
             return key + suffix;
           }
         };
-
-    AtomicReferenceArray<String> result = new AtomicReferenceArray<>(2);
 
     LoadingCache<String, String> cache = CacheBuilder.newBuilder().build(computeFunction);
     String key = "bar";
@@ -2370,46 +2360,18 @@ public class CacheLoadingTest extends TestCase {
     secondSignal.await();
     checkNothingLogged();
 
-    // start waiting thread
-    new Thread() {
-      @Override
-      public void run() {
-        thirdSignal.countDown();
-        result.set(0, cache.getUnchecked(key));
-        doneSignal.countDown();
-      }
-    }.start();
-
-    // give the second get a chance to run; it is okay for this to be racy
-    // as the end result should be the same either way
-    thirdSignal.await();
-    Thread.yield();
+    assertThat(cache.getUnchecked(key)).isEqualTo(key);
 
     // Expand!
     CacheTesting.forceExpandSegment(cache, key);
 
-    // start another waiting thread
-    new Thread() {
-      @Override
-      public void run() {
-        fourthSignal.countDown();
-        result.set(1, cache.getUnchecked(key));
-        doneSignal.countDown();
-      }
-    }.start();
-
-    // give the third get a chance to run; it is okay for this to be racy
-    // as the end result should be the same either way
-    fourthSignal.await();
-    Thread.yield();
+    assertThat(cache.getUnchecked(key)).isEqualTo(key);
 
     // let computation finish
     computeSignal.countDown();
     doneSignal.await();
 
     assertThat(callCount.get()).isEqualTo(1);
-    assertThat(result.get(0)).isEqualTo(key);
-    assertThat(result.get(1)).isEqualTo(key);
     assertThat(cache.getUnchecked(key)).isEqualTo(key + suffix);
   }
 

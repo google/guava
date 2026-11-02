@@ -1188,6 +1188,39 @@ public class LocalCacheTest extends TestCase {
     }
   }
 
+  public void testCopyEntryDrainsRecencyQueue() {
+    for (CacheBuilder<Object, Object> builder : allEvictingMakers()) {
+      FakeTicker ticker = new FakeTicker();
+      LocalCache<Object, Object> map = makeLocalCache(builder.concurrencyLevel(1).ticker(ticker));
+      Segment<Object, Object> segment = map.segments[0];
+
+      Object keyOne = new Object();
+      Object valueOne = new Object();
+      ReferenceEntry<Object, Object> entryOne =
+          createDummyEntry(keyOne, map.hash(keyOne), valueOne, null);
+      ticker.advance(10, NANOSECONDS);
+      segment.recordWrite(entryOne, 1, ticker.read());
+
+      Object keyTwo = new Object();
+      Object valueTwo = new Object();
+      ReferenceEntry<Object, Object> entryTwo =
+          createDummyEntry(keyTwo, map.hash(keyTwo), valueTwo, entryOne);
+      ticker.advance(10, NANOSECONDS);
+      segment.recordWrite(entryTwo, 1, ticker.read());
+
+      // Read entryOne so its accessTime is updated and it is placed in recencyQueue.
+      ticker.advance(10, NANOSECONDS);
+      segment.recordRead(entryOne, ticker.read());
+
+      // Copying entryOne before draining recencyQueue must still move it after entryTwo in
+      // accessQueue.
+      ReferenceEntry<Object, Object> copyOne = segment.copyEntry(entryOne, null);
+      checkEvictionQueues(
+          map, segment, ImmutableList.of(entryTwo, copyOne), ImmutableList.of(entryOne, entryTwo));
+      checkExpirationTimes(map);
+    }
+  }
+
   private static <K, V> void assertConnected(
       LocalCache<K, V> map, ReferenceEntry<K, V> one, ReferenceEntry<K, V> two) {
     if (map.usesWriteQueue()) {
