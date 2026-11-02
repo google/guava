@@ -74,7 +74,7 @@ initTheme();
 <li><a href="#alternatives-heading" tabindex="0">Alternatives</a>
 <ol class="toc-list">
 <li><a href="#frameworks-heading" tabindex="0">Frameworks</a></li>
-<li><a href="#java-util-concurrent-completablefuture-java-util-concurrent-completionstage-heading" tabindex="0">java.util.concurrent.CompletableFuture / java.util.concurrent.CompletionStage</a></li>
+<li><a href="#java-util-completablefuture-java-util-concurrent-completionstage-heading" tabindex="0">java.util.CompletableFuture / java.util.concurrent.CompletionStage</a></li>
 <li><a href="#closingfuture-heading" tabindex="0">ClosingFuture</a></li>
 </ol>
 </li>
@@ -151,26 +151,30 @@ debugging, and cancellation. Examples of frameworks include:
   <li><a href="https://dagger.dev/producers.html">Dagger Producers</a>
 </ul>
 
-<h3 id="java-util-concurrent-completablefuture-java-util-concurrent-completionstage-heading"><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class in java.util.concurrent" class="external-link"><code>CompletableFuture</code></a> / <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="interface in java.util.concurrent" class="external-link"><code>CompletionStage</code></a>
-</h3>
+<h3 id="java-util-completablefuture-java-util-concurrent-completionstage-heading">
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>java.util.CompletableFuture</code></pre>
+</details>
+ / <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/CompletionStage.html" title="interface in java.util.concurrent" class="external-link"><code>CompletionStage</code></a> </h3>
 
 <p>Users of <code>CompletableFuture</code> will likely want to continue using <code>
-CompletableFuture</code>. <code>FluentFuture</code> is targeted at people who use <code>ListenableFuture</code>,
-who can't use Java 8, or who want an API more focused than <code>CompletableFuture</code>. (If you
-need to adapt between <code>CompletableFuture</code> and <code>ListenableFuture</code>, consider <a href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.)
+CompletableFuture</code>. <a href="FluentFuture.html" title="class in com.google.common.util.concurrent"><code>FluentFuture</code></a> is targeted at people who use <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>,
+who can't use Java 8, or who want an API more focused than <code>CompletableFuture</code>. If you need
+to adapt between <code>CompletableFuture</code> and <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>, consider <a href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.
 
 <h3 id="closingfuture-heading"><a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a></h3>
 
 <p>If the steps of your pipeline create objects that must be closed when the computation is done,
-such as database connections or file handles, use <code>ClosingFuture</code>. It supports the same
-kinds of derived steps as <code>FluentFuture</code> but closes those objects once the pipeline
+such as database connections or file handles, use <a href="ClosingFuture.html" title="class in com.google.common.util.concurrent"><code>ClosingFuture</code></a>. It supports the same
+kinds of derived steps as <a href="FluentFuture.html" title="class in com.google.common.util.concurrent"><code>FluentFuture</code></a> but closes those objects once the pipeline
 completes, fails, or is cancelled.
 
 <h2 id="extension-heading">Extension</h2>
 
-If you want a class like <code>FluentFuture</code> but with extra methods, we recommend declaring your
+If you want a class like <a href="FluentFuture.html" title="class in com.google.common.util.concurrent"><code>FluentFuture</code></a> but with extra methods, we recommend declaring your
 own subclass of <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>, complete with a method like <a href="#from(com.google.common.util.concurrent.ListenableFuture)"><code>from(ListenableFuture)</code></a> to adapt an
-existing <code>ListenableFuture</code>, implemented atop a <a href="ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent"><code>ForwardingListenableFuture</code></a> that
+existing <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a>, implemented atop a <a href="ForwardingListenableFuture.html" title="class in com.google.common.util.concurrent"><code>ForwardingListenableFuture</code></a> that
 forwards to that future and adds the desired methods.</div>
 <dl class="notes">
 <dt>Since:</dt>

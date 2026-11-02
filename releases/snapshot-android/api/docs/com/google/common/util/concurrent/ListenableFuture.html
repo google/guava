@@ -180,7 +180,9 @@ with the methods in <a href="Futures.html" title="class in com.google.common.uti
 <p>Occasionally, an API will return a plain <code>Future</code> and it will be impossible to change
 the return type. For this case, we provide a more expensive workaround in <code>
 JdkFutureAdapters</code>. However, when possible, it is more efficient and reliable to create a <code>
-ListenableFuture</code> directly.</div>
+ListenableFuture</code> directly.
+
+<p><b><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/concurrent/CompletableFuture.html" title="class in java.util.concurrent" class="external-link"><code>CompletableFuture</code></a></b>: If you need to adapt between <a href="ListenableFuture.html" title="interface in com.google.common.util.concurrent"><code>ListenableFuture</code></a> and <code>CompletableFuture</code>, consider <a href="https://github.com/lukas-krecan/future-converter">Future Converter</a>.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>1.0</dd>
