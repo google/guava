@@ -270,7 +270,7 @@ public final class InternetDomainName {
     // These tests could be collapsed into one big boolean expression, but
     // they have been left as independent tests for clarity.
 
-    if (part.length() < 1 || part.length() > MAX_DOMAIN_PART_LENGTH) {
+    if (part.isEmpty() || part.length() > MAX_DOMAIN_PART_LENGTH) {
       return false;
     }
 

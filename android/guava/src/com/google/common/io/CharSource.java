@@ -538,7 +538,7 @@ public abstract class CharSource {
 
     @Override
     public String toString() {
-      return CharSource.this.toString() + ".asByteSource(" + charset + ")";
+      return CharSource.this + ".asByteSource(" + charset + ")";
     }
   }
 

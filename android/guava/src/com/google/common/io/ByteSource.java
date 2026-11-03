@@ -475,7 +475,7 @@ public abstract class ByteSource {
 
     @Override
     public final String toString() {
-      return ByteSource.this.toString() + ".asCharSource(" + charset + ")";
+      return ByteSource.this + ".asCharSource(" + charset + ")";
     }
   }
 
@@ -554,7 +554,7 @@ public abstract class ByteSource {
 
     @Override
     public String toString() {
-      return ByteSource.this.toString() + ".slice(" + offset + ", " + length + ")";
+      return ByteSource.this + ".slice(" + offset + ", " + length + ")";
     }
   }
 

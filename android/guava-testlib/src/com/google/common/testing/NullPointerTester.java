@@ -599,7 +599,7 @@ public final class NullPointerTester {
       return false;
     }
     Method method = (Method) member;
-    if (!method.getName().contentEquals("equals")) {
+    if (!method.getName().equals("equals")) {
       return false;
     }
     Class<?>[] parameters = method.getParameterTypes();

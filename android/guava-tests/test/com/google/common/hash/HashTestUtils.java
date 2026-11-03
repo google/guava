@@ -225,7 +225,7 @@ final class HashTestUtils {
     PUT_STRING_LOW_SURROGATE() {
       @Override
       void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
-        String s = new String(new char[] {randomLowSurrogate(random)});
+        String s = Character.toString(randomLowSurrogate(random));
         for (PrimitiveSink sink : sinks) {
           sink.putUnencodedChars(s);
         }
@@ -234,7 +234,7 @@ final class HashTestUtils {
     PUT_STRING_HIGH_SURROGATE() {
       @Override
       void performAction(Random random, Iterable<? extends PrimitiveSink> sinks) {
-        String s = new String(new char[] {randomHighSurrogate(random)});
+        String s = Character.toString(randomHighSurrogate(random));
         for (PrimitiveSink sink : sinks) {
           sink.putUnencodedChars(s);
         }

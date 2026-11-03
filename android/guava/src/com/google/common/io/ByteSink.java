@@ -138,7 +138,7 @@ public abstract class ByteSink {
 
     @Override
     public String toString() {
-      return ByteSink.this.toString() + ".asCharSink(" + charset + ")";
+      return ByteSink.this + ".asCharSink(" + charset + ")";
     }
   }
 }
