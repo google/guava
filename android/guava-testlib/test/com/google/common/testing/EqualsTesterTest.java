@@ -227,7 +227,7 @@ public class EqualsTesterTest {
       assertErrorMessage(e, "bar [group 1, item 2] must be Object#equals to foo [group 1, item 1]");
       return;
     }
-    fail("should failed because symmetry is broken");
+    fail("should fail because symmetry is broken");
   }
 
   @Test
@@ -244,7 +244,7 @@ public class EqualsTesterTest {
       assertErrorMessage(e, "bar [group 1, item 2] must be Object#equals to baz [group 1, item 3]");
       return;
     }
-    fail("should failed because transitivity is broken");
+    fail("should fail because transitivity is broken");
   }
 
   @Test
@@ -256,7 +256,7 @@ public class EqualsTesterTest {
       assertErrorMessage(e, "foo [group 1, item 1] must be Object#equals to bar [group 1, item 2]");
       return;
     }
-    fail("should failed because of unequal objects in the same equality group");
+    fail("should fail because of unequal objects in the same equality group");
   }
 
   @Test
@@ -272,7 +272,7 @@ public class EqualsTesterTest {
           e, "bar [group 1, item 2] must not be Object#equals to x [group 2, item 2]");
       return;
     }
-    fail("should failed because transitivity is broken");
+    fail("should fail because transitivity is broken");
   }
 
   @Test
