@@ -27,6 +27,8 @@ import static java.util.Objects.requireNonNull;
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ForwardingMapEntry.SimpleForwardingMapEntry;
+import com.google.common.collect.ForwardingSet.SimpleForwardingSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.IOException;
@@ -211,10 +213,9 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return new KeySet();
   }
 
-  private final class KeySet extends ForwardingSet<K> {
-    @Override
-    protected Set<K> delegate() {
-      return delegate.keySet();
+  private final class KeySet extends SimpleForwardingSet<K> {
+    KeySet() {
+      super(delegate.keySet());
     }
 
     @Override
@@ -256,12 +257,9 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return new ValueSet();
   }
 
-  private final class ValueSet extends ForwardingSet<V> {
-    final Set<V> valuesDelegate = inverse.keySet();
-
-    @Override
-    protected Set<V> delegate() {
-      return valuesDelegate;
+  private final class ValueSet extends SimpleForwardingSet<V> {
+    ValueSet() {
+      super(inverse.keySet());
     }
 
     @Override
@@ -291,16 +289,9 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     return new EntrySet();
   }
 
-  private final class BiMapEntry extends ForwardingMapEntry<K, V> {
-    private final Entry<K, V> delegate;
-
+  private final class BiMapEntry extends SimpleForwardingMapEntry<K, V> {
     BiMapEntry(Entry<K, V> delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override
-    protected Entry<K, V> delegate() {
-      return delegate;
+      super(delegate);
     }
 
     @Override
@@ -313,7 +304,7 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
         return value;
       }
       checkArgument(!containsValue(value), "value already present: %s", value);
-      V oldValue = delegate.setValue(value);
+      V oldValue = delegate().setValue(value);
       checkState(Objects.equals(value, get(getKey())), "entry no longer in map");
       updateInverseMap(getKey(), true, oldValue, value);
       return oldValue;
@@ -349,12 +340,9 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
     };
   }
 
-  private final class EntrySet extends ForwardingSet<Entry<K, V>> {
-    final Set<Entry<K, V>> esDelegate = delegate.entrySet();
-
-    @Override
-    protected Set<Entry<K, V>> delegate() {
-      return esDelegate;
+  private final class EntrySet extends SimpleForwardingSet<Entry<K, V>> {
+    EntrySet() {
+      super(delegate.entrySet());
     }
 
     @Override
@@ -368,18 +356,18 @@ abstract class AbstractBiMap<K extends @Nullable Object, V extends @Nullable Obj
        * `o instanceof Entry` is guaranteed by `contains`, but we check it here to satisfy our
        * nullness checker.
        */
-      if (!esDelegate.contains(object) || !(object instanceof Entry)) {
+      if (!delegate().contains(object) || !(object instanceof Entry)) {
         return false;
       }
 
       Entry<?, ?> entry = (Entry<?, ?>) object;
       inverse.delegate.remove(entry.getValue());
       /*
-       * Remove the mapping in inverse before removing from esDelegate because
-       * if entry is part of esDelegate, entry might be invalidated after the
-       * mapping is removed from esDelegate.
+       * We remove the mapping in inverse before removing from delegate() because, if entry is part
+       * of delegate(), then entry might be invalidated after the mapping is removed from
+       * delegate().
        */
-      esDelegate.remove(entry);
+      delegate().remove(entry);
       return true;
     }
 

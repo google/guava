@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingSortedMap.SimpleForwardingSortedMap;
 import com.google.common.collect.testing.Helpers.NullsBeforeTwo;
 import com.google.common.collect.testing.SafeTreeMap;
 import com.google.common.collect.testing.SortedMapTestSuiteBuilder;
@@ -46,16 +47,9 @@ import org.jspecify.annotations.Nullable;
  */
 @NullUnmarked
 public class ForwardingSortedMapTest extends TestCase {
-  static class StandardImplForwardingSortedMap<K, V> extends ForwardingSortedMap<K, V> {
-    private final SortedMap<K, V> backingSortedMap;
-
+  static class StandardImplForwardingSortedMap<K, V> extends SimpleForwardingSortedMap<K, V> {
     StandardImplForwardingSortedMap(SortedMap<K, V> backingSortedMap) {
-      this.backingSortedMap = backingSortedMap;
-    }
-
-    @Override
-    protected SortedMap<K, V> delegate() {
-      return backingSortedMap;
+      super(backingSortedMap);
     }
 
     @Override
@@ -108,7 +102,7 @@ public class ForwardingSortedMapTest extends TestCase {
       return new StandardEntrySet() {
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          return backingSortedMap.entrySet().iterator();
+          return delegate().entrySet().iterator();
         }
       };
     }

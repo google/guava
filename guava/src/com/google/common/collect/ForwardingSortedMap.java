@@ -17,6 +17,7 @@
 package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
@@ -152,5 +153,28 @@ public abstract class ForwardingSortedMap<K extends @Nullable Object, V extends 
   protected SortedMap<K, V> standardSubMap(K fromKey, K toKey) {
     checkArgument(unsafeCompare(comparator(), fromKey, toKey) <= 0, "fromKey must be <= toKey");
     return tailMap(fromKey).headMap(toKey);
+  }
+
+  /**
+   * A simplified version of {@link ForwardingSortedMap} where subclasses can pass in an already
+   * constructed {@link SortedMap} as the delegate.
+   *
+   * <p>TODO(b/3417232): Consider making this public, but take into consideration whether it would
+   * then appear as a user-visible supertype for any classes.
+   */
+  abstract static class SimpleForwardingSortedMap<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingSortedMap<K, V> {
+    private final SortedMap<K, V> delegate;
+
+    /** Constructor for use by subclasses. */
+    SimpleForwardingSortedMap(SortedMap<K, V> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    protected final SortedMap<K, V> delegate() {
+      return delegate;
+    }
   }
 }

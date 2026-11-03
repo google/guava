@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static com.google.common.collect.Lists.newArrayList;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingList.SimpleForwardingList;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringListGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -44,16 +45,9 @@ import org.jspecify.annotations.Nullable;
  */
 @NullUnmarked
 public class ForwardingListTest extends TestCase {
-  static final class StandardImplForwardingList<T> extends ForwardingList<T> {
-    private final List<T> backingList;
-
+  static final class StandardImplForwardingList<T> extends SimpleForwardingList<T> {
     StandardImplForwardingList(List<T> backingList) {
-      this.backingList = backingList;
-    }
-
-    @Override
-    protected List<T> delegate() {
-      return backingList;
+      super(backingList);
     }
 
     @Override

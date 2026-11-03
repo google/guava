@@ -18,8 +18,8 @@ package com.google.common.collect;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ForwardingConcurrentMap.SimpleForwardingConcurrentMap;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.ConcurrentMap;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -31,12 +31,9 @@ import org.jspecify.annotations.NullUnmarked;
 @NullUnmarked
 public class ForwardingConcurrentMapTest extends TestCase {
 
-  private static class TestMap extends ForwardingConcurrentMap<String, Integer> {
-    final ConcurrentMap<String, Integer> delegate = new ConcurrentHashMap<>();
-
-    @Override
-    protected ConcurrentMap<String, Integer> delegate() {
-      return delegate;
+  private static class TestMap extends SimpleForwardingConcurrentMap<String, Integer> {
+    TestMap() {
+      super(new ConcurrentHashMap<>());
     }
   }
 

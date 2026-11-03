@@ -18,9 +18,9 @@ package com.google.common.collect;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ForwardingSet.SimpleForwardingSet;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Set;
 import org.jspecify.annotations.Nullable;
 
 /**
@@ -77,12 +77,7 @@ public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
   @Override
   ImmutableSet<Entry<K, V>> createEntrySet() {
     return ImmutableSet.unsafeDelegate(
-        new ForwardingSet<Entry<K, V>>() {
-          @Override
-          protected Set<Entry<K, V>> delegate() {
-            return delegate.entrySet();
-          }
-
+        new SimpleForwardingSet<Entry<K, V>>(delegate.entrySet()) {
           @Override
           public boolean contains(@Nullable Object object) {
             if (object instanceof Entry<?, ?> && ((Entry<?, ?>) object).getKey() == null) {

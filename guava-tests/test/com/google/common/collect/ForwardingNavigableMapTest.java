@@ -21,6 +21,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingNavigableMap.SimpleForwardingNavigableMap;
 import com.google.common.collect.testing.NavigableMapTestSuiteBuilder;
 import com.google.common.collect.testing.SafeTreeMap;
 import com.google.common.collect.testing.TestStringSortedMapGenerator;
@@ -53,16 +54,9 @@ import org.jspecify.annotations.Nullable;
  */
 @NullUnmarked
 public class ForwardingNavigableMapTest extends TestCase {
-  static class StandardImplForwardingNavigableMap<K, V> extends ForwardingNavigableMap<K, V> {
-    private final NavigableMap<K, V> backingMap;
-
+  static class StandardImplForwardingNavigableMap<K, V> extends SimpleForwardingNavigableMap<K, V> {
     StandardImplForwardingNavigableMap(NavigableMap<K, V> backingMap) {
-      this.backingMap = backingMap;
-    }
-
-    @Override
-    protected NavigableMap<K, V> delegate() {
-      return backingMap;
+      super(backingMap);
     }
 
     @Override
@@ -119,7 +113,7 @@ public class ForwardingNavigableMapTest extends TestCase {
       return new StandardEntrySet() {
         @Override
         public Iterator<Entry<K, V>> iterator() {
-          return backingMap.entrySet().iterator();
+          return delegate().entrySet().iterator();
         }
       };
     }
@@ -235,16 +229,10 @@ public class ForwardingNavigableMapTest extends TestCase {
     }
   }
 
-  static class StandardLastEntryForwardingNavigableMap<K, V> extends ForwardingNavigableMap<K, V> {
-    private final NavigableMap<K, V> backingMap;
-
+  static class StandardLastEntryForwardingNavigableMap<K, V>
+      extends SimpleForwardingNavigableMap<K, V> {
     StandardLastEntryForwardingNavigableMap(NavigableMap<K, V> backingMap) {
-      this.backingMap = backingMap;
-    }
-
-    @Override
-    protected NavigableMap<K, V> delegate() {
-      return backingMap;
+      super(backingMap);
     }
 
     @Override
@@ -320,12 +308,7 @@ public class ForwardingNavigableMapTest extends TestCase {
     map.put(2, "two");
     map.put(3, "three");
     NavigableMap<Integer, String> forwarding =
-        new ForwardingNavigableMap<Integer, String>() {
-          @Override
-          protected NavigableMap<Integer, String> delegate() {
-            return map.tailMap(2, true);
-          }
-
+        new SimpleForwardingNavigableMap<Integer, String>(map.tailMap(2, true)) {
           @Override
           public @Nullable Entry<Integer, String> pollFirstEntry() {
             return standardPollFirstEntry();
@@ -340,12 +323,7 @@ public class ForwardingNavigableMapTest extends TestCase {
     map.put(2, "two");
     map.put(3, "three");
     NavigableMap<Integer, String> forwarding =
-        new ForwardingNavigableMap<Integer, String>() {
-          @Override
-          protected NavigableMap<Integer, String> delegate() {
-            return map.headMap(2, true);
-          }
-
+        new SimpleForwardingNavigableMap<Integer, String>(map.headMap(2, true)) {
           @Override
           public @Nullable Entry<Integer, String> pollLastEntry() {
             return standardPollLastEntry();

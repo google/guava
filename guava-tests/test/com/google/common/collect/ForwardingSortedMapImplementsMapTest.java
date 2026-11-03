@@ -18,6 +18,7 @@ package com.google.common.collect;
 
 import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ForwardingSortedMap.SimpleForwardingSortedMap;
 import com.google.common.collect.testing.MapInterfaceTest;
 import com.google.common.collect.testing.SortedMapInterfaceTest;
 import java.util.SortedMap;
@@ -33,27 +34,14 @@ import org.jspecify.annotations.NullMarked;
 @NullMarked
 public class ForwardingSortedMapImplementsMapTest extends SortedMapInterfaceTest<String, Integer> {
 
-  private static class SimpleForwardingSortedMap<K, V> extends ForwardingSortedMap<K, V> {
-    final SortedMap<K, V> delegate;
-
-    SimpleForwardingSortedMap(SortedMap<K, V> delegate) {
-      this.delegate = delegate;
-    }
-
-    @Override
-    protected SortedMap<K, V> delegate() {
-      return delegate;
-    }
-  }
-
   public ForwardingSortedMapImplementsMapTest() {
     super(true, true, true, true, true);
   }
 
   @Override
   protected SortedMap<String, Integer> makeEmptyMap() {
-    return new SimpleForwardingSortedMap<>(
-        new TreeMap<String, Integer>(Ordering.<String>natural().nullsFirst()));
+    return new SimpleForwardingSortedMap<String, Integer>(
+        new TreeMap<String, Integer>(Ordering.<String>natural().nullsFirst())) {};
   }
 
   @Override

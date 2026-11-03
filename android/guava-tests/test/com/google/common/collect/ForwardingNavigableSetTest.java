@@ -20,6 +20,7 @@ import static com.google.common.collect.Sets.newTreeSet;
 import static java.util.Arrays.asList;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingNavigableSet.SimpleForwardingNavigableSet;
 import com.google.common.collect.testing.SafeTreeSet;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -47,16 +48,9 @@ import org.jspecify.annotations.Nullable;
  */
 @NullUnmarked
 public class ForwardingNavigableSetTest extends TestCase {
-  static class StandardImplForwardingNavigableSet<T> extends ForwardingNavigableSet<T> {
-    private final NavigableSet<T> backingSet;
-
+  static class StandardImplForwardingNavigableSet<T> extends SimpleForwardingNavigableSet<T> {
     StandardImplForwardingNavigableSet(NavigableSet<T> backingSet) {
-      this.backingSet = backingSet;
-    }
-
-    @Override
-    protected NavigableSet<T> delegate() {
-      return backingSet;
+      super(backingSet);
     }
 
     @Override

@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static java.util.Arrays.asList;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingSet.SimpleForwardingSet;
 import com.google.common.collect.testing.MinimalSet;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -43,16 +44,9 @@ import org.jspecify.annotations.Nullable;
  */
 @NullUnmarked
 public class ForwardingSetTest extends TestCase {
-  static class StandardImplForwardingSet<T> extends ForwardingSet<T> {
-    private final Set<T> backingSet;
-
+  static class StandardImplForwardingSet<T> extends SimpleForwardingSet<T> {
     StandardImplForwardingSet(Set<T> backingSet) {
-      this.backingSet = backingSet;
-    }
-
-    @Override
-    protected Set<T> delegate() {
-      return backingSet;
+      super(backingSet);
     }
 
     @Override

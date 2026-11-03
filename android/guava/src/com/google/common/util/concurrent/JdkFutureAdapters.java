@@ -20,6 +20,7 @@ import static java.util.concurrent.Executors.newCachedThreadPool;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.util.concurrent.ForwardingFuture.SimpleForwardingFuture;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Future;
@@ -101,7 +102,7 @@ public final class JdkFutureAdapters {
    * listeners will not be invoked.
    */
   private static final class ListenableFutureAdapter<V extends @Nullable Object>
-      extends ForwardingFuture<V> implements ListenableFuture<V> {
+      extends SimpleForwardingFuture<V> implements ListenableFuture<V> {
 
     private static final ThreadFactory threadFactory =
         new ThreadFactoryBuilder()
@@ -119,21 +120,13 @@ public final class JdkFutureAdapters {
     // listener is added.
     private final AtomicBoolean hasListeners = new AtomicBoolean(false);
 
-    // The delegate future.
-    private final Future<V> delegate;
-
     ListenableFutureAdapter(Future<V> delegate) {
       this(delegate, defaultAdapterExecutor);
     }
 
     ListenableFutureAdapter(Future<V> delegate, Executor adapterExecutor) {
-      this.delegate = checkNotNull(delegate);
+      super(delegate);
       this.adapterExecutor = checkNotNull(adapterExecutor);
-    }
-
-    @Override
-    protected Future<V> delegate() {
-      return delegate;
     }
 
     @Override
@@ -143,7 +136,7 @@ public final class JdkFutureAdapters {
       // When a listener is first added, we run a task that will wait for the delegate to finish,
       // and when it is done will run the listeners.
       if (hasListeners.compareAndSet(false, true)) {
-        if (delegate.isDone()) {
+        if (delegate().isDone()) {
           // If the delegate is already done, run the execution list immediately on the current
           // thread.
           executionList.execute();
@@ -159,7 +152,7 @@ public final class JdkFutureAdapters {
                  * user-supplied executor might be, but... what can we do? This is another reason
                  * to return a proper ListenableFuture instead of using listenInPoolThread.
                  */
-                getUninterruptibly(delegate);
+                getUninterruptibly(delegate());
               } catch (Throwable t) {
                 // (including CancellationException and sneaky checked exception)
                 // The task is presumably done, run the listeners.

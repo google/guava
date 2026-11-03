@@ -43,6 +43,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.collect.ForwardingList.SimpleForwardingList;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.ListTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringListGenerator;
@@ -883,17 +884,11 @@ public class ListsTest extends TestCase {
   @J2ktIncompatible
   @GwtIncompatible // CopyOnWriteArrayList, Spliterator
   public void testTransformSpliteratorSequentialPropagatesBackingListCharacteristics() {
-    CopyOnWriteArrayList<Integer> cowal = new CopyOnWriteArrayList<>(SOME_LIST);
     List<Integer> nonRandomAccess =
-        new ForwardingList<Integer>() {
-          @Override
-          protected List<Integer> delegate() {
-            return cowal;
-          }
-
+        new SimpleForwardingList<Integer>(new CopyOnWriteArrayList<>(SOME_LIST)) {
           @Override
           public Spliterator<Integer> spliterator() {
-            return cowal.spliterator();
+            return delegate().spliterator();
           }
         };
     assertFalse(nonRandomAccess instanceof RandomAccess);

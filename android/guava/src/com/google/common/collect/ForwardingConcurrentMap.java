@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.concurrent.ConcurrentMap;
@@ -69,5 +71,26 @@ public abstract class ForwardingConcurrentMap<K, V> extends ForwardingMap<K, V>
   @SuppressWarnings("nullness") // https://github.com/jspecify/jdk/issues/118
   public boolean replace(K key, V oldValue, V newValue) {
     return delegate().replace(key, oldValue, newValue);
+  }
+
+  /**
+   * A simplified version of {@link ForwardingConcurrentMap} where subclasses can pass in an already
+   * constructed {@link ConcurrentMap} as the delegate.
+   *
+   * <p>TODO(b/3417232): Consider making this public, but take into consideration whether it would
+   * then appear as a user-visible supertype for any classes.
+   */
+  abstract static class SimpleForwardingConcurrentMap<K, V> extends ForwardingConcurrentMap<K, V> {
+    private final ConcurrentMap<K, V> delegate;
+
+    /** Constructor for use by subclasses. */
+    SimpleForwardingConcurrentMap(ConcurrentMap<K, V> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    protected final ConcurrentMap<K, V> delegate() {
+      return delegate;
+    }
   }
 }

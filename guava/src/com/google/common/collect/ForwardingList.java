@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Lists.addAllImpl;
 import static com.google.common.collect.Lists.equalsImpl;
 import static com.google.common.collect.Lists.hashCodeImpl;
@@ -243,5 +244,26 @@ public abstract class ForwardingList<E extends @Nullable Object> extends Forward
    */
   protected int standardHashCode() {
     return hashCodeImpl(this);
+  }
+
+  /**
+   * A simplified version of {@link ForwardingList} where subclasses can pass in an already
+   * constructed {@link List} as the delegate.
+   *
+   * <p>TODO(b/3417232): Consider making this public, but take into consideration whether it would
+   * then appear as a user-visible supertype for any classes.
+   */
+  abstract static class SimpleForwardingList<E extends @Nullable Object> extends ForwardingList<E> {
+    private final List<E> delegate;
+
+    /** Constructor for use by subclasses. */
+    SimpleForwardingList(List<E> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    protected final List<E> delegate() {
+      return delegate;
+    }
   }
 }

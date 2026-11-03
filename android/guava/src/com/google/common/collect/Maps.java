@@ -50,6 +50,10 @@ import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
+import com.google.common.collect.ForwardingMapEntry.SimpleForwardingMapEntry;
+import com.google.common.collect.ForwardingNavigableSet.SimpleForwardingNavigableSet;
+import com.google.common.collect.ForwardingSet.SimpleForwardingSet;
+import com.google.common.collect.ForwardingSortedSet.SimpleForwardingSortedSet;
 import com.google.common.collect.MapDifference.ValueDifference;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -1092,12 +1096,7 @@ public final class Maps {
   }
 
   private static <E extends @Nullable Object> Set<E> removeOnlySet(Set<E> set) {
-    return new ForwardingSet<E>() {
-      @Override
-      protected Set<E> delegate() {
-        return set;
-      }
-
+    return new SimpleForwardingSet<E>(set) {
       @Override
       public boolean add(@ParametricNullness E element) {
         throw new UnsupportedOperationException();
@@ -1111,12 +1110,7 @@ public final class Maps {
   }
 
   private static <E extends @Nullable Object> SortedSet<E> removeOnlySortedSet(SortedSet<E> set) {
-    return new ForwardingSortedSet<E>() {
-      @Override
-      protected SortedSet<E> delegate() {
-        return set;
-      }
-
+    return new SimpleForwardingSortedSet<E>(set) {
       @Override
       public boolean add(@ParametricNullness E element) {
         throw new UnsupportedOperationException();
@@ -1148,12 +1142,7 @@ public final class Maps {
   @GwtIncompatible // NavigableSet
   private static <E extends @Nullable Object> NavigableSet<E> removeOnlyNavigableSet(
       NavigableSet<E> set) {
-    return new ForwardingNavigableSet<E>() {
-      @Override
-      protected NavigableSet<E> delegate() {
-        return set;
-      }
-
+    return new SimpleForwardingNavigableSet<E>(set) {
       @Override
       public boolean add(@ParametricNullness E element) {
         throw new UnsupportedOperationException();
@@ -2881,10 +2870,9 @@ public final class Maps {
       return new EntrySet();
     }
 
-    private final class EntrySet extends ForwardingSet<Entry<K, V>> {
-      @Override
-      protected Set<Entry<K, V>> delegate() {
-        return filteredEntrySet;
+    private final class EntrySet extends SimpleForwardingSet<Entry<K, V>> {
+      EntrySet() {
+        super(filteredEntrySet);
       }
 
       @Override
@@ -2892,12 +2880,7 @@ public final class Maps {
         return new TransformedIterator<Entry<K, V>, Entry<K, V>>(filteredEntrySet.iterator()) {
           @Override
           Entry<K, V> transform(Entry<K, V> entry) {
-            return new ForwardingMapEntry<K, V>() {
-              @Override
-              protected Entry<K, V> delegate() {
-                return entry;
-              }
-
+            return new SimpleForwardingMapEntry<K, V>(entry) {
               @Override
               @ParametricNullness
               public V setValue(@ParametricNullness V newValue) {

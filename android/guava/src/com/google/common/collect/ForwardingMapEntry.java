@@ -16,6 +16,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.util.Map;
@@ -124,5 +126,28 @@ public abstract class ForwardingMapEntry<K extends @Nullable Object, V extends @
    */
   protected String standardToString() {
     return getKey() + "=" + getValue();
+  }
+
+  /**
+   * A simplified version of {@link ForwardingMapEntry} where subclasses can pass in an already
+   * constructed {@link Entry} as the delegate.
+   *
+   * <p>TODO(b/3417232): Consider making this public, but take into consideration whether it would
+   * then appear as a user-visible supertype for any classes.
+   */
+  abstract static class SimpleForwardingMapEntry<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingMapEntry<K, V> {
+    private final Entry<K, V> delegate;
+
+    /** Constructor for use by subclasses. */
+    SimpleForwardingMapEntry(Entry<K, V> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    protected final Entry<K, V> delegate() {
+      return delegate;
+    }
   }
 }

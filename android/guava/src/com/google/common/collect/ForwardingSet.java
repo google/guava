@@ -101,4 +101,25 @@ public abstract class ForwardingSet<E extends @Nullable Object> extends Forwardi
   protected int standardHashCode() {
     return hashCodeImpl(this);
   }
+
+  /**
+   * A simplified version of {@link ForwardingSet} where subclasses can pass in an already
+   * constructed {@link Set} as the delegate.
+   *
+   * <p>TODO(b/3417232): Consider making this public, but take into consideration whether it would
+   * then appear as a user-visible supertype for any classes.
+   */
+  abstract static class SimpleForwardingSet<E extends @Nullable Object> extends ForwardingSet<E> {
+    private final Set<E> delegate;
+
+    /** Constructor for use by subclasses. */
+    SimpleForwardingSet(Set<E> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    protected final Set<E> delegate() {
+      return delegate;
+    }
+  }
 }

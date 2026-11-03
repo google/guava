@@ -19,6 +19,7 @@ package com.google.common.collect;
 import static java.util.Arrays.asList;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingMultiset.SimpleForwardingMultiset;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.SetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSetGenerator;
@@ -46,16 +47,9 @@ import org.jspecify.annotations.Nullable;
 @NullUnmarked
 public class ForwardingMultisetTest extends TestCase {
 
-  static final class StandardImplForwardingMultiset<T> extends ForwardingMultiset<T> {
-    private final Multiset<T> backingCollection;
-
+  static final class StandardImplForwardingMultiset<T> extends SimpleForwardingMultiset<T> {
     StandardImplForwardingMultiset(Multiset<T> backingMultiset) {
-      this.backingCollection = backingMultiset;
-    }
-
-    @Override
-    protected Multiset<T> delegate() {
-      return backingCollection;
+      super(backingMultiset);
     }
 
     @Override

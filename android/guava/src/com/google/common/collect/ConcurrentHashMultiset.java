@@ -30,6 +30,8 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ForwardingIterator.SimpleForwardingIterator;
+import com.google.common.collect.ForwardingSet.SimpleForwardingSet;
 import com.google.common.primitives.Ints;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.IOException;
@@ -472,16 +474,10 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
   @Override
   public Set<E> elementSet() {
-    Set<E> delegate = countMap.keySet();
-    return new ForwardingSet<E>() {
-      @Override
-      protected Set<E> delegate() {
-        return delegate;
-      }
-
+    return new SimpleForwardingSet<E>(countMap.keySet()) {
       @Override
       public boolean contains(@Nullable Object object) {
-        return object != null && safeContains(delegate, object);
+        return object != null && safeContains(delegate(), object);
       }
 
       @Override
@@ -491,7 +487,7 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
 
       @Override
       public boolean remove(@Nullable Object object) {
-        return object != null && safeRemove(delegate, object);
+        return object != null && safeRemove(delegate(), object);
       }
 
       @Override
@@ -552,13 +548,8 @@ public final class ConcurrentHashMultiset<E> extends AbstractMultiset<E> impleme
           }
         };
 
-    return new ForwardingIterator<Entry<E>>() {
+    return new SimpleForwardingIterator<Entry<E>>(readOnlyIterator) {
       @Nullable Entry<E> last;
-
-      @Override
-      protected Iterator<Entry<E>> delegate() {
-        return readOnlyIterator;
-      }
 
       @Override
       public Entry<E> next() {

@@ -44,6 +44,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.collect.Range;
 import com.google.common.primitives.Ints;
+import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import com.google.common.util.concurrent.SettableAbstractFuture.TrustedAbstractFuture;
 import com.google.common.util.concurrent.SettableAbstractFuture.UntrustedAbstractFuture;
 import com.google.common.util.concurrent.internal.InternalFutureFailureAccess;
@@ -1014,13 +1015,7 @@ public class AbstractFutureTest extends TestCase {
   public void testSetIndirectSelf_toString() {
     SettableFuture<Object> orig = SettableFuture.create();
     // unlike the above this indirection defeats the trivial cycle detection and causes a SOE
-    orig.setFuture(
-        new ForwardingListenableFuture<Object>() {
-          @Override
-          protected ListenableFuture<Object> delegate() {
-            return orig;
-          }
-        });
+    orig.setFuture(new SimpleForwardingListenableFuture<Object>(orig) {});
     assertThat(orig.toString())
         .contains("Exception thrown from implementation: class java.lang.StackOverflowError");
   }

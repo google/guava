@@ -42,6 +42,7 @@ import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
 import com.google.common.base.Supplier;
+import com.google.common.collect.ForwardingSet.SimpleForwardingSet;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.collect.testing.google.UnmodifiableCollectionTests;
@@ -560,13 +561,7 @@ public class MultimapsTest extends TestCase {
         new SetSupplier() {
           @Override
           public Set<Integer> getImpl() {
-            Set<Integer> backing = super.getImpl();
-            return new ForwardingSet<Integer>() {
-              @Override
-              protected Set<Integer> delegate() {
-                return backing;
-              }
-
+            return new SimpleForwardingSet<Integer>(super.getImpl()) {
               @Override
               public boolean add(Integer element) {
                 checkArgument(element >= 0);

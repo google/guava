@@ -14,6 +14,8 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.annotations.GwtCompatible;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -227,5 +229,27 @@ public abstract class ForwardingSortedMultiset<E extends @Nullable Object>
   @Override
   public SortedMultiset<E> tailMultiset(@ParametricNullness E lowerBound, BoundType boundType) {
     return delegate().tailMultiset(lowerBound, boundType);
+  }
+
+  /**
+   * A simplified version of {@link ForwardingSortedMultiset} where subclasses can pass in an
+   * already constructed {@link SortedMultiset} as the delegate.
+   *
+   * <p>TODO(b/3417232): Consider making this public, but take into consideration whether it would
+   * then appear as a user-visible supertype for any classes.
+   */
+  abstract static class SimpleForwardingSortedMultiset<E extends @Nullable Object>
+      extends ForwardingSortedMultiset<E> {
+    private final SortedMultiset<E> delegate;
+
+    /** Constructor for use by subclasses. */
+    SimpleForwardingSortedMultiset(SortedMultiset<E> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    protected final SortedMultiset<E> delegate() {
+      return delegate;
+    }
   }
 }

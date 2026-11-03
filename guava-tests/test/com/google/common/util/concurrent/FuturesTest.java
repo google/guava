@@ -69,6 +69,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.GcFinalization;
 import com.google.common.testing.TestLogHandler;
+import com.google.common.util.concurrent.ForwardingListenableFuture.SimpleForwardingListenableFuture;
 import com.google.common.util.concurrent.TestExceptions.SomeError;
 import com.google.common.util.concurrent.TestExceptions.SomeUncheckedException;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -2555,14 +2556,7 @@ public class FuturesTest extends TestCase {
     }
 
     final ListenableFuture<String> doneRuntimeException =
-        new ForwardingListenableFuture<String>() {
-          final ListenableFuture<String> delegate = immediateFuture("Should never be seen");
-
-          @Override
-          protected ListenableFuture<String> delegate() {
-            return delegate;
-          }
-
+        new SimpleForwardingListenableFuture<String>(immediateFuture("Should never be seen")) {
           @Override
           public String get() {
             throw new RuntimeException();
@@ -2580,22 +2574,17 @@ public class FuturesTest extends TestCase {
 
     final SettableFuture<String> delegateForDelayedRuntimeException = SettableFuture.create();
     final ListenableFuture<String> delayedRuntimeException =
-        new ForwardingListenableFuture<String>() {
-          @Override
-          protected ListenableFuture<String> delegate() {
-            return delegateForDelayedRuntimeException;
-          }
-
+        new SimpleForwardingListenableFuture<String>(delegateForDelayedRuntimeException) {
           @Override
           public String get() throws ExecutionException, InterruptedException {
-            delegateForDelayedRuntimeException.get();
+            delegate().get();
             throw new RuntimeException();
           }
 
           @Override
           public String get(long timeout, TimeUnit unit)
               throws ExecutionException, InterruptedException, TimeoutException {
-            delegateForDelayedRuntimeException.get(timeout, unit);
+            delegate().get(timeout, unit);
             throw new RuntimeException();
           }
         };

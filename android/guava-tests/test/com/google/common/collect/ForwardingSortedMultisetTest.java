@@ -17,6 +17,7 @@ package com.google.common.collect;
 import static java.util.Arrays.asList;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingSortedMultiset.SimpleForwardingSortedMultiset;
 import com.google.common.collect.Multiset.Entry;
 import com.google.common.collect.testing.features.CollectionFeature;
 import com.google.common.collect.testing.features.CollectionSize;
@@ -41,16 +42,9 @@ import org.jspecify.annotations.Nullable;
  */
 @NullUnmarked
 public class ForwardingSortedMultisetTest extends TestCase {
-  static class StandardImplForwardingSortedMultiset<E> extends ForwardingSortedMultiset<E> {
-    private final SortedMultiset<E> backingMultiset;
-
+  static class StandardImplForwardingSortedMultiset<E> extends SimpleForwardingSortedMultiset<E> {
     StandardImplForwardingSortedMultiset(SortedMultiset<E> backingMultiset) {
-      this.backingMultiset = backingMultiset;
-    }
-
-    @Override
-    protected SortedMultiset<E> delegate() {
-      return backingMultiset;
+      super(backingMultiset);
     }
 
     @Override
@@ -59,7 +53,11 @@ public class ForwardingSortedMultisetTest extends TestCase {
 
         @Override
         Iterator<Entry<E>> entryIterator() {
-          return backingMultiset.descendingMultiset().entrySet().iterator();
+          return StandardImplForwardingSortedMultiset.this
+              .delegate()
+              .descendingMultiset()
+              .entrySet()
+              .iterator();
         }
       };
     }

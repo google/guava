@@ -42,6 +42,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Predicate;
 import com.google.common.base.Supplier;
+import com.google.common.collect.ForwardingMapEntry.SimpleForwardingMapEntry;
 import com.google.common.collect.Maps.IteratorBasedAbstractMap;
 import com.google.common.collect.Sets.ImprovedAbstractSet;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
@@ -406,12 +407,7 @@ class StandardTable<R, C, V> extends AbstractTable<R, C, V> implements Serializa
     }
 
     final Entry<C, V> wrapEntry(Entry<C, V> entry) {
-      return new ForwardingMapEntry<C, V>() {
-        @Override
-        protected Entry<C, V> delegate() {
-          return entry;
-        }
-
+      return new SimpleForwardingMapEntry<C, V>(entry) {
         @Override
         public V setValue(V value) {
           return super.setValue(checkNotNull(value));

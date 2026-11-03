@@ -26,6 +26,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingMap.SimpleForwardingMap;
 import com.google.common.collect.testing.MapTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringMapGenerator;
 import com.google.common.collect.testing.features.CollectionFeature;
@@ -63,16 +64,9 @@ import org.jspecify.annotations.Nullable;
  */
 @NullUnmarked
 public class ForwardingMapTest extends TestCase {
-  static class StandardImplForwardingMap<K, V> extends ForwardingMap<K, V> {
-    private final Map<K, V> backingMap;
-
+  static class StandardImplForwardingMap<K, V> extends SimpleForwardingMap<K, V> {
     StandardImplForwardingMap(Map<K, V> backingMap) {
-      this.backingMap = backingMap;
-    }
-
-    @Override
-    protected Map<K, V> delegate() {
-      return backingMap;
+      super(backingMap);
     }
 
     @Override
@@ -220,12 +214,7 @@ public class ForwardingMapTest extends TestCase {
     Map<String, Boolean> map = mock(Map.class);
 
     Map<String, Boolean> forward =
-        new ForwardingMap<String, Boolean>() {
-          @Override
-          protected Map<String, Boolean> delegate() {
-            return map;
-          }
-
+        new SimpleForwardingMap<String, Boolean>(map) {
           @Override
           public Set<Entry<String, Boolean>> entrySet() {
             return new StandardEntrySet() {
@@ -253,12 +242,7 @@ public class ForwardingMapTest extends TestCase {
     Map<String, Boolean> map = mock(Map.class);
 
     Map<String, Boolean> forward =
-        new ForwardingMap<String, Boolean>() {
-          @Override
-          protected Map<String, Boolean> delegate() {
-            return map;
-          }
-
+        new SimpleForwardingMap<String, Boolean>(map) {
           @Override
           public Set<String> keySet() {
             return new StandardKeySet();
@@ -281,12 +265,7 @@ public class ForwardingMapTest extends TestCase {
     Map<String, Boolean> map = mock(Map.class);
 
     Map<String, Boolean> forward =
-        new ForwardingMap<String, Boolean>() {
-          @Override
-          protected Map<String, Boolean> delegate() {
-            return map;
-          }
-
+        new SimpleForwardingMap<String, Boolean>(map) {
           @Override
           public Collection<Boolean> values() {
             return new StandardValues();

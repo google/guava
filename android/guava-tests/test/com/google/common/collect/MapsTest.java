@@ -45,6 +45,8 @@ import com.google.common.base.Converter;
 import com.google.common.base.Equivalence;
 import com.google.common.base.Function;
 import com.google.common.base.Functions;
+import com.google.common.collect.ForwardingSortedMap.SimpleForwardingSortedMap;
+import com.google.common.collect.ForwardingSortedSet.SimpleForwardingSortedSet;
 import com.google.common.collect.Maps.EntryTransformer;
 import com.google.common.collect.Maps.ValueDifferenceImpl;
 import com.google.common.testing.EqualsTester;
@@ -706,12 +708,9 @@ public class MapsTest extends TestCase {
     assertThat(map.get("five")).isNull();
   }
 
-  private static class NonNavigableSortedSet extends ForwardingSortedSet<String> {
-    private final SortedSet<String> delegate = newTreeSet();
-
-    @Override
-    protected SortedSet<String> delegate() {
-      return delegate;
+  private static class NonNavigableSortedSet extends SimpleForwardingSortedSet<String> {
+    NonNavigableSortedSet() {
+      super(newTreeSet());
     }
   }
 
@@ -1320,12 +1319,7 @@ public class MapsTest extends TestCase {
 
   // Logically this would accept a NavigableMap, but that won't work under GWT.
   private static <K, V> SortedMap<K, V> sortedNotNavigable(SortedMap<K, V> map) {
-    return new ForwardingSortedMap<K, V>() {
-      @Override
-      protected SortedMap<K, V> delegate() {
-        return map;
-      }
-    };
+    return new SimpleForwardingSortedMap<K, V>(map) {};
   }
 
   public void testSortedMapTransformValues() {

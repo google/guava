@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ForwardingMapEntry.SimpleForwardingMapEntry;
+import com.google.common.collect.ForwardingSet.SimpleForwardingSet;
 import com.google.common.primitives.Primitives;
 import com.google.errorprone.annotations.CanIgnoreReturnValue;
 import java.io.InvalidObjectException;
@@ -85,12 +87,7 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
    */
   private static <B extends @Nullable Object> Entry<Class<? extends @NonNull B>, B> checkedEntry(
       Entry<Class<? extends @NonNull B>, B> entry) {
-    return new ForwardingMapEntry<Class<? extends @NonNull B>, B>() {
-      @Override
-      protected Entry<Class<? extends @NonNull B>, B> delegate() {
-        return entry;
-      }
-
+    return new SimpleForwardingMapEntry<Class<? extends @NonNull B>, B>(entry) {
       @Override
       @ParametricNullness
       public B setValue(@ParametricNullness B value) {
@@ -102,13 +99,7 @@ public final class MutableClassToInstanceMap<B extends @Nullable Object>
 
   @Override
   public Set<Entry<Class<? extends @NonNull B>, B>> entrySet() {
-    return new ForwardingSet<Entry<Class<? extends @NonNull B>, B>>() {
-
-      @Override
-      protected Set<Entry<Class<? extends @NonNull B>, B>> delegate() {
-        return MutableClassToInstanceMap.this.delegate().entrySet();
-      }
-
+    return new SimpleForwardingSet<Entry<Class<? extends @NonNull B>, B>>(delegate().entrySet()) {
       @Override
       public Iterator<Entry<Class<? extends @NonNull B>, B>> iterator() {
         return new TransformedIterator<

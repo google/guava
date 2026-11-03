@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.ForwardingSortedMap.unsafeCompare;
 
 import com.google.common.annotations.GwtCompatible;
@@ -156,5 +157,27 @@ public abstract class ForwardingSortedSet<E extends @Nullable Object> extends Fo
   protected SortedSet<E> standardSubSet(
       @ParametricNullness E fromElement, @ParametricNullness E toElement) {
     return tailSet(fromElement).headSet(toElement);
+  }
+
+  /**
+   * A simplified version of {@link ForwardingSortedSet} where subclasses can pass in an already
+   * constructed {@link SortedSet} as the delegate.
+   *
+   * <p>TODO(b/3417232): Consider making this public, but take into consideration whether it would
+   * then appear as a user-visible supertype for any classes.
+   */
+  abstract static class SimpleForwardingSortedSet<E extends @Nullable Object>
+      extends ForwardingSortedSet<E> {
+    private final SortedSet<E> delegate;
+
+    /** Constructor for use by subclasses. */
+    SimpleForwardingSortedSet(SortedSet<E> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    protected final SortedSet<E> delegate() {
+      return delegate;
+    }
   }
 }

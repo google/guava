@@ -16,6 +16,7 @@
 
 package com.google.common.collect;
 
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.collect.Maps.keyOrNull;
 import static com.google.common.collect.Maps.snapshotFirst;
 
@@ -411,5 +412,28 @@ public abstract class ForwardingNavigableMap<K extends @Nullable Object, V exten
    */
   protected SortedMap<K, V> standardTailMap(@ParametricNullness K fromKey) {
     return tailMap(fromKey, true);
+  }
+
+  /**
+   * A simplified version of {@link ForwardingNavigableMap} where subclasses can pass in an already
+   * constructed {@link NavigableMap} as the delegate.
+   *
+   * <p>TODO(b/3417232): Consider making this public, but take into consideration whether it would
+   * then appear as a user-visible supertype for any classes.
+   */
+  abstract static class SimpleForwardingNavigableMap<
+          K extends @Nullable Object, V extends @Nullable Object>
+      extends ForwardingNavigableMap<K, V> {
+    private final NavigableMap<K, V> delegate;
+
+    /** Constructor for use by subclasses. */
+    SimpleForwardingNavigableMap(NavigableMap<K, V> delegate) {
+      this.delegate = checkNotNull(delegate);
+    }
+
+    @Override
+    protected final NavigableMap<K, V> delegate() {
+      return delegate;
+    }
   }
 }

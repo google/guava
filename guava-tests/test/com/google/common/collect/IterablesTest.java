@@ -51,6 +51,7 @@ import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ForwardingQueue.SimpleForwardingQueue;
 import com.google.common.collect.testing.IteratorTester;
 import com.google.common.testing.ClassSanityTester;
 import com.google.common.testing.NullPointerTester;
@@ -1212,21 +1213,14 @@ public class IterablesTest extends TestCase {
     assertEquals(5, consumingIterator.next().intValue());
   }
 
-  private static class UnIterableQueue<T> extends ForwardingQueue<T> {
-    private final Queue<T> queue;
-
+  private static class UnIterableQueue<T> extends SimpleForwardingQueue<T> {
     UnIterableQueue(Queue<T> queue) {
-      this.queue = queue;
+      super(queue);
     }
 
     @Override
     public Iterator<T> iterator() {
       throw new UnsupportedOperationException();
-    }
-
-    @Override
-    protected Queue<T> delegate() {
-      return queue;
     }
   }
 

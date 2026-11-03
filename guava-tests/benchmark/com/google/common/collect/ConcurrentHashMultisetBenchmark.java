@@ -25,6 +25,7 @@ import com.google.caliper.BeforeExperiment;
 import com.google.caliper.Benchmark;
 import com.google.caliper.Param;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ForwardingSet.SimpleForwardingSet;
 import com.google.common.primitives.Ints;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import java.util.Iterator;
@@ -422,17 +423,11 @@ public class ConcurrentHashMultisetBenchmark {
 
     @Override
     public Set<E> elementSet() {
-      Set<E> delegate = countMap.keySet();
-      return new ForwardingSet<E>() {
-        @Override
-        protected Set<E> delegate() {
-          return delegate;
-        }
-
+      return new SimpleForwardingSet<E>(countMap.keySet()) {
         @Override
         public boolean remove(Object object) {
           try {
-            return delegate.remove(object);
+            return delegate().remove(object);
           } catch (NullPointerException | ClassCastException e) {
             return false;
           }

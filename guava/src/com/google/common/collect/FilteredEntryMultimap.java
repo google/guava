@@ -36,6 +36,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Predicate;
 import com.google.common.collect.ForwardingCollection.SimpleForwardingCollection;
+import com.google.common.collect.ForwardingMapEntry.SimpleForwardingMapEntry;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -146,12 +147,7 @@ class FilteredEntryMultimap<K extends @Nullable Object, V extends @Nullable Obje
       return new TransformedIterator<Entry<K, V>, Entry<K, V>>(delegate().iterator()) {
         @Override
         Entry<K, V> transform(Entry<K, V> entry) {
-          return new ForwardingMapEntry<K, V>() {
-            @Override
-            protected Entry<K, V> delegate() {
-              return entry;
-            }
-
+          return new SimpleForwardingMapEntry<K, V>(entry) {
             @Override
             @ParametricNullness
             public V setValue(@ParametricNullness V newValue) {

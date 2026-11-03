@@ -27,6 +27,7 @@ import com.google.common.annotations.GwtCompatible;
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ForwardingMapEntry.SimpleForwardingMapEntry;
 import com.google.errorprone.annotations.concurrent.GuardedBy;
 import com.google.j2objc.annotations.RetainedWith;
 import java.io.IOException;
@@ -925,15 +926,10 @@ final class Synchronized {
           super.iterator()) {
         @Override
         Map.Entry<K, Collection<V>> transform(Map.Entry<K, Collection<V>> entry) {
-          return new ForwardingMapEntry<K, Collection<V>>() {
-            @Override
-            protected Map.Entry<K, Collection<V>> delegate() {
-              return entry;
-            }
-
+          return new SimpleForwardingMapEntry<K, Collection<V>>(entry) {
             @Override
             public Collection<V> getValue() {
-              return typePreservingCollection(entry.getValue(), mutex);
+              return typePreservingCollection(delegate().getValue(), mutex);
             }
           };
         }

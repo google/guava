@@ -20,6 +20,7 @@ import static com.google.common.collect.Sets.newTreeSet;
 import static java.util.Arrays.asList;
 
 import com.google.common.base.Function;
+import com.google.common.collect.ForwardingSortedSet.SimpleForwardingSortedSet;
 import com.google.common.collect.testing.SafeTreeSet;
 import com.google.common.collect.testing.SortedSetTestSuiteBuilder;
 import com.google.common.collect.testing.TestStringSortedSetGenerator;
@@ -44,16 +45,9 @@ import org.jspecify.annotations.Nullable;
  */
 @NullUnmarked
 public class ForwardingSortedSetTest extends TestCase {
-  static class StandardImplForwardingSortedSet<T> extends ForwardingSortedSet<T> {
-    private final SortedSet<T> backingSortedSet;
-
+  static class StandardImplForwardingSortedSet<T> extends SimpleForwardingSortedSet<T> {
     StandardImplForwardingSortedSet(SortedSet<T> backingSortedSet) {
-      this.backingSortedSet = backingSortedSet;
-    }
-
-    @Override
-    protected SortedSet<T> delegate() {
-      return backingSortedSet;
+      super(backingSortedSet);
     }
 
     @Override
