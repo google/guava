@@ -18,16 +18,19 @@ package com.google.common.cache;
 
 import static com.google.common.truth.Truth.assertThat;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
+import static java.util.concurrent.TimeUnit.MINUTES;
 import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.GwtIncompatible;
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.testing.FakeTicker;
 import com.google.common.util.concurrent.UncheckedExecutionException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.IntConsumer;
 import java.util.stream.IntStream;
 import junit.framework.TestCase;
@@ -62,6 +65,49 @@ public class LocalCacheMapComputeTest extends TestCase {
     // simultaneous insertion for same key, expect 1 winner
     doParallelCacheOp(count, n -> cache.asMap().computeIfAbsent(key, k -> "value" + n));
     assertThat(cache.size()).isEqualTo(1);
+  }
+
+  public void testComputeIfAbsentDoesNotRefreshWriteTime() {
+    // https://github.com/google/guava/issues/3700
+    FakeTicker ticker = new FakeTicker();
+    Cache<String, String> cache =
+        CacheBuilder.newBuilder().expireAfterWrite(10, MINUTES).ticker(ticker).build();
+    cache.put("key", "value");
+    ticker.advance(9, MINUTES);
+    AtomicBoolean functionCalled = new AtomicBoolean();
+    assertThat(
+            cache
+                .asMap()
+                .computeIfAbsent(
+                    "key",
+                    k -> {
+                      functionCalled.set(true);
+                      return "new value";
+                    }))
+        .isEqualTo("value");
+    assertThat(functionCalled.get()).isFalse();
+    // 11 minutes after the write, but only 2 minutes after the computeIfAbsent call: the entry
+    // must expire based on its write time, not on the computeIfAbsent call.
+    ticker.advance(2, MINUTES);
+    cache.cleanUp();
+    assertThat(cache.getIfPresent("key")).isNull();
+  }
+
+  public void testComputeIfAbsentStillRefreshesAccessTime() {
+    FakeTicker ticker = new FakeTicker();
+    Cache<String, String> cache =
+        CacheBuilder.newBuilder().expireAfterAccess(10, MINUTES).ticker(ticker).build();
+    cache.put("key", "value");
+    ticker.advance(9, MINUTES);
+    cache.asMap().computeIfAbsent("key", k -> "new value");
+    // 9 minutes after the access, the entry must still be present.
+    ticker.advance(9, MINUTES);
+    cache.cleanUp();
+    assertThat(cache.size()).isEqualTo(1);
+    // 11 minutes after the access, it must be gone.
+    ticker.advance(2, MINUTES);
+    cache.cleanUp();
+    assertThat(cache.size()).isEqualTo(0);
   }
 
   public void testComputeIfAbsentEviction() {
