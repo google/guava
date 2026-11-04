@@ -434,6 +434,18 @@ public final class InternetDomainNameTest extends TestCase {
     }
   }
 
+  @GwtIncompatible // Character.isDigit is ASCII-only under GWT
+  public void testIsValid_nonAsciiDigitsInFinalPart() {
+    // InetAddress/InetAddresses parse single-char non-ASCII decimal digits; supplementary code
+    // points are not supported.
+    assertFalse(InternetDomainName.isValid("127.0.0.１")); // Final 1 is full-width
+    assertFalse(InternetDomainName.isValid("127.0.0.١")); // Final 1 is Arabic-Indic
+
+    // Final 1 is Mathematical Bold (supplementary code point U+1D7CF)
+    // Character.isDigit(char) returns false; Character.isDigit(int) returns true
+    assertTrue(InternetDomainName.isValid("127.0.0.𝟏"));
+  }
+
   public void testToString() {
     for (String inputName : SOMEWHERE_UNDER_PS) {
       InternetDomainName domain = InternetDomainName.from(inputName);
