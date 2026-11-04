@@ -113,6 +113,75 @@ public class FilteredMultimapTest extends TestCase {
     assertEquals(ImmutableSetMultimap.of("foo", 2), unfiltered);
   }
 
+  public void testFilterValuesViewsRemoveIf() {
+    ListMultimap<String, Integer> unfiltered = LinkedListMultimap.create();
+    unfiltered.putAll("foo", asList(1, 2, BAD_VALUE));
+    unfiltered.putAll("bar", asList(3, BAD_VALUE));
+    unfiltered.putAll("baz", asList(4, 5));
+    unfiltered.put("qux", BAD_VALUE);
+    Multimap<String, Integer> filtered = filterValues(unfiltered, VALUE_PREDICATE);
+
+    assertTrue(filtered.entries().removeIf(e -> e.getValue() == 1));
+    assertTrue(filtered.values().removeIf(v -> v == 2 || v == 5));
+    assertFalse(filtered.values().removeIf(v -> v == BAD_VALUE));
+    assertEquals(
+        ImmutableListMultimap.<String, Integer>builder()
+            .putAll("foo", BAD_VALUE)
+            .putAll("bar", 3, BAD_VALUE)
+            .putAll("baz", 4)
+            .put("qux", BAD_VALUE)
+            .build(),
+        unfiltered);
+
+    assertTrue(filtered.keySet().removeIf(k -> k.equals("bar")));
+    assertFalse(filtered.keySet().removeIf(k -> k.equals("qux")));
+    assertTrue(filtered.asMap().values().removeIf(c -> c.contains(4)));
+    assertEquals(
+        ImmutableListMultimap.<String, Integer>builder()
+            .putAll("foo", BAD_VALUE)
+            .putAll("bar", BAD_VALUE)
+            .put("qux", BAD_VALUE)
+            .build(),
+        unfiltered);
+    assertTrue(filtered.isEmpty());
+  }
+
+  public void testFilterValuesAsMapEntrySetAndKeysRemoveIf() {
+    SetMultimap<String, Integer> unfiltered = LinkedHashMultimap.create();
+    unfiltered.putAll("foo", asList(1, 2, BAD_VALUE));
+    unfiltered.putAll("bar", asList(3, BAD_VALUE));
+    unfiltered.putAll("baz", asList(4, 5));
+    SetMultimap<String, Integer> filtered = filterValues(unfiltered, VALUE_PREDICATE);
+
+    assertTrue(filtered.asMap().entrySet().removeIf(e -> e.getValue().size() == 1));
+    assertEquals(
+        ImmutableSetMultimap.<String, Integer>builder()
+            .putAll("foo", 1, 2, BAD_VALUE)
+            .put("bar", BAD_VALUE)
+            .putAll("baz", 4, 5)
+            .build(),
+        unfiltered);
+
+    assertTrue(filtered.keys().removeIf(k -> k.equals("foo")));
+    assertTrue(filtered.keys().entrySet().removeIf(e -> e.getCount() == 2));
+    assertFalse(filtered.keys().removeIf(k -> true));
+    assertEquals(ImmutableSetMultimap.of("foo", BAD_VALUE, "bar", BAD_VALUE), unfiltered);
+  }
+
+  public void testFilterKeysViewsRemoveIf() {
+    ListMultimap<String, Integer> unfiltered = LinkedListMultimap.create();
+    unfiltered.putAll("foo", asList(1, 2));
+    unfiltered.putAll(BAD_KEY, asList(1, 2));
+    unfiltered.putAll("bar", asList(3, 4));
+    Multimap<String, Integer> filtered = filterKeys(unfiltered, KEY_PREDICATE);
+
+    assertTrue(filtered.entries().removeIf(e -> e.getValue() == 1));
+    assertTrue(filtered.values().removeIf(v -> v == 2));
+    assertTrue(filtered.keys().removeIf(k -> k.equals("bar")));
+    assertFalse(filtered.keys().removeIf(k -> k.equals(BAD_KEY)));
+    assertEquals(ImmutableListMultimap.of(BAD_KEY, 1, BAD_KEY, 2), unfiltered);
+  }
+
   private static final String BAD_KEY = "badkey";
   private static final int BAD_VALUE = 55556;
 
