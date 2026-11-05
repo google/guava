@@ -3954,22 +3954,22 @@ public final class Maps {
     }
 
     @Override
-    public final int size() {
+    public int size() {
       return map().size();
     }
 
     @Override
-    public final boolean isEmpty() {
+    public boolean isEmpty() {
       return map().isEmpty();
     }
 
     @Override
-    public final boolean contains(@Nullable Object o) {
+    public boolean contains(@Nullable Object o) {
       return map().containsValue(o);
     }
 
     @Override
-    public final void clear() {
+    public void clear() {
       map().clear();
     }
   }
