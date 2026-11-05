@@ -101,7 +101,7 @@ public class LinkedHashMultimapTest extends TestCase {
                       LinkedHashMultimap<?, ?>.ValueSet valueSet =
                           (LinkedHashMultimap.ValueSet)
                               requireNonNull(multimap.backingMap().get(entry.getKey()));
-                      if (valueSet.delegateOrNull() == null) {
+                      if (!valueSet.hasBeenHashFlooded()) {
                         valueSet.convertToHashFloodingResistantImplementation();
                       }
                     }
@@ -136,7 +136,7 @@ public class LinkedHashMultimapTest extends TestCase {
       assertFalse(
           Hashing.needsResizing(
               valueSet.size(),
-              requireNonNull(valueSet.hashTableArray()).length,
+              valueSet.hashTableArrayLengthForTesting(),
               LinkedHashMultimap.VALUE_SET_LOAD_FACTOR));
     }
   }

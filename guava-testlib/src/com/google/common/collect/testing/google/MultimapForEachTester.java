@@ -16,6 +16,7 @@
 package com.google.common.collect.testing.google;
 
 import static com.google.common.collect.testing.Helpers.assertEqualIgnoringOrder;
+import static com.google.common.collect.testing.Helpers.assertEqualInOrder;
 import static com.google.common.collect.testing.Helpers.mapEntry;
 import static com.google.common.collect.testing.features.CollectionFeature.KNOWN_ORDER;
 
@@ -36,13 +37,13 @@ public class MultimapForEachTester<K, V> extends AbstractMultimapTester<K, V, Mu
   public void testForEach() {
     List<Entry<K, V>> entries = new ArrayList<>();
     multimap().forEach((k, v) -> entries.add(mapEntry(k, v)));
-    assertEqualIgnoringOrder(getSampleElements(), multimap().entries());
+    assertEqualIgnoringOrder(getSampleElements(), entries);
   }
 
   @CollectionFeature.Require(KNOWN_ORDER)
   public void testForEachOrder() {
     List<Entry<K, V>> entries = new ArrayList<>();
     multimap().forEach((k, v) -> entries.add(mapEntry(k, v)));
-    assertEqualIgnoringOrder(getSampleElements(), multimap().entries());
+    assertEqualInOrder(getOrderedElements(), entries);
   }
 }

@@ -47,6 +47,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.Spliterator;
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -102,7 +103,7 @@ public class LinkedHashMultimapTest extends TestCase {
                       LinkedHashMultimap<?, ?>.ValueSet valueSet =
                           (LinkedHashMultimap.ValueSet)
                               requireNonNull(multimap.backingMap().get(entry.getKey()));
-                      if (valueSet.delegateOrNull() == null) {
+                      if (!valueSet.hasBeenHashFlooded()) {
                         valueSet.convertToHashFloodingResistantImplementation();
                       }
                     }
@@ -137,7 +138,7 @@ public class LinkedHashMultimapTest extends TestCase {
       assertFalse(
           Hashing.needsResizing(
               valueSet.size(),
-              requireNonNull(valueSet.hashTableArray()).length,
+              valueSet.hashTableArrayLengthForTesting(),
               LinkedHashMultimap.VALUE_SET_LOAD_FACTOR));
     }
   }
@@ -217,6 +218,17 @@ public class LinkedHashMultimapTest extends TestCase {
     assertEquals(immutableEntry("foo", 3), entryIterator.next());
     assertEquals(immutableEntry("cow", 2), entryIterator.next());
     assertEquals(immutableEntry("bar", 1), entryIterator.next());
+
+    List<Entry<String, Integer>> forEachEntries = new ArrayList<>();
+    multimap.forEach((k, v) -> forEachEntries.add(immutableEntry(k, v)));
+    assertThat(forEachEntries)
+        .containsExactly(
+            immutableEntry("foo", 5),
+            immutableEntry("bar", 4),
+            immutableEntry("foo", 3),
+            immutableEntry("cow", 2),
+            immutableEntry("bar", 1))
+        .inOrder();
 
     Iterator<Entry<String, Collection<Integer>>> collectionIterator =
         multimap.asMap().entrySet().iterator();
@@ -530,5 +542,17 @@ public class LinkedHashMultimapTest extends TestCase {
     assertThat(actualValues)
         .containsExactlyElementsIn(transform(expectedEntries, Entry::getValue))
         .inOrder();
+  }
+
+  public void testGetSpliterator() {
+    SetMultimap<String, Integer> multimap = LinkedHashMultimap.create();
+    multimap.putAll("foo", asList(2, 3, 4));
+    multimap.putAll("bar", asList(5, 6));
+    multimap.putAll("foo", asList(7, 8));
+    Spliterator<Integer> spliterator = multimap.get("foo").spliterator();
+    assertTrue(spliterator.hasCharacteristics(Spliterator.DISTINCT | Spliterator.ORDERED));
+    List<Integer> actualValues = new ArrayList<>();
+    spliterator.forEachRemaining(actualValues::add);
+    assertThat(actualValues).containsExactly(2, 3, 4, 7, 8).inOrder();
   }
 }

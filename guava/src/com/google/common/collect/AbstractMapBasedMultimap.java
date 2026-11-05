@@ -1299,7 +1299,7 @@ abstract class AbstractMapBasedMultimap<K extends @Nullable Object, V extends @N
   }
 
   @Override
-  public final void forEach(BiConsumer<? super K, ? super V> action) {
+  public void forEach(BiConsumer<? super K, ? super V> action) {
     checkNotNull(action);
     map.forEach(
         (key, valueCollection) -> valueCollection.forEach(value -> action.accept(key, value)));
