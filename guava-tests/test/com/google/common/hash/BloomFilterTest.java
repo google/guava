@@ -407,7 +407,9 @@ public class BloomFilterTest extends TestCase {
     for (int i = 0; bf.expectedFpp() != 1.0; i++) {
       bf.put(i);
     }
-    assertThat(bf.approximateElementCount()).isEqualTo(Long.MAX_VALUE);
+    IllegalStateException expected =
+        assertThrows(IllegalStateException.class, () -> bf.approximateElementCount());
+    assertThat(expected).hasMessageThat().contains("all " + bf.bitSize() + " bits set");
   }
 
   public void testEquals_empty() {
