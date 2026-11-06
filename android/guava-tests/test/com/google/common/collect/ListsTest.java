@@ -980,4 +980,12 @@ public class ListsTest extends TestCase {
   public void testPartitionSize_2() {
     assertEquals(2, partition(nCopies(0x40000001, 1), 0x40000000).size());
   }
+
+  @GwtIncompatible // cannot do such a big explicit copy
+  @J2ktIncompatible // too slow
+  public void testPartitionSize_2_lastPartition() {
+    List<List<Integer>> partitions = partition(nCopies(0x40000001, 1), 0x40000000);
+    assertEquals(0x40000000, partitions.get(0).size());
+    assertEquals(1, partitions.get(1).size());
+  }
 }
