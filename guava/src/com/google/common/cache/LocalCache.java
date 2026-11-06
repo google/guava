@@ -2242,15 +2242,26 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
               && entryKey != null
               && map.keyEquivalence.equivalent(key, entryKey)) {
             valueReference = e.getValueReference();
-            if (map.isExpired(e, now)) {
-              // This is a duplicate check, as preWriteCleanup already purged expired
-              // entries, but let's accommodate an incorrect expiration queue.
-              enqueueNotification(
-                  entryKey,
-                  hash,
-                  valueReference.get(),
-                  valueReference.getWeight(),
-                  RemovalCause.EXPIRED);
+            if (!valueReference.isLoading()) {
+              V value = valueReference.get();
+              RemovalCause cause = null;
+              if (value == null) {
+                // preWriteCleanup drains a bounded number of references, so the value may have
+                // been collected without its entry being reclaimed yet.
+                cause = RemovalCause.COLLECTED;
+              } else if (map.isExpired(e, now)) {
+                // This is a duplicate check, as preWriteCleanup already purged expired
+                // entries, but let's accommodate an incorrect expiration queue.
+                cause = RemovalCause.EXPIRED;
+              }
+              if (cause != null) {
+                // remove the invalid entry and compute as if it were absent
+                removeEntry(e, hash, cause);
+                first = table.get(index);
+                e = null;
+                valueReference = null;
+                break;
+              }
             }
 
             // immediately reuse invalid entries

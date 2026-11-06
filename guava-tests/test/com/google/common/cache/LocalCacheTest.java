@@ -798,6 +798,215 @@ public class LocalCacheTest extends TestCase {
     assertThat(notifications).isEmpty();
   }
 
+  public void testCompute_collectedValue_removed() {
+    for (CacheBuilder<Object, Object> builder :
+        ImmutableList.of(createCacheBuilder().weakValues(), createCacheBuilder().softValues())) {
+      QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+      LocalCache<Object, Object> map =
+          makeLocalCache(builder.concurrencyLevel(1).removalListener(listener));
+      Segment<Object, Object> segment = map.segments[0];
+      Object key = new Object();
+      Object value = new Object();
+      map.put(key, value);
+      clearValueReference(map, key);
+
+      assertThat(
+              map.compute(
+                  key,
+                  (k, v) -> {
+                    assertThat(v).isNull();
+                    return null;
+                  }))
+          .isNull();
+      assertNotified(listener, key, null, RemovalCause.COLLECTED);
+      assertThat(listener.isEmpty()).isTrue();
+      assertThat(map.containsKey(key)).isFalse();
+      assertThat(segment.count).isEqualTo(0);
+      assertThat(segment.totalWeight).isEqualTo(0);
+      assertThat(segment.writeQueue).isEmpty();
+      assertThat(segment.accessQueue).isEmpty();
+    }
+  }
+
+  public void testCompute_collectedValue_replaced() {
+    for (CacheBuilder<Object, Object> builder :
+        ImmutableList.of(createCacheBuilder().weakValues(), createCacheBuilder().softValues())) {
+      QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+      LocalCache<Object, Object> map =
+          makeLocalCache(builder.concurrencyLevel(1).removalListener(listener));
+      Segment<Object, Object> segment = map.segments[0];
+      Object key = new Object();
+      Object value = new Object();
+      Object newValue = new Object();
+      map.put(key, value);
+      clearValueReference(map, key);
+
+      assertThat(
+              map.compute(
+                  key,
+                  (k, v) -> {
+                    assertThat(v).isNull();
+                    return newValue;
+                  }))
+          .isSameInstanceAs(newValue);
+      assertNotified(listener, key, null, RemovalCause.COLLECTED);
+      assertThat(listener.isEmpty()).isTrue();
+      assertThat(map.get(key)).isSameInstanceAs(newValue);
+      assertThat(segment.count).isEqualTo(1);
+    }
+  }
+
+  public void testComputeIfPresent_collectedValue() {
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCache<Object, Object> map =
+        makeLocalCache(
+            createCacheBuilder().concurrencyLevel(1).weakValues().removalListener(listener));
+    Object key = new Object();
+    Object value = new Object();
+    map.put(key, value);
+    clearValueReference(map, key);
+
+    assertThat(
+            map.computeIfPresent(
+                key,
+                (k, v) -> {
+                  throw new AssertionError();
+                }))
+        .isNull();
+    assertNotified(listener, key, null, RemovalCause.COLLECTED);
+    assertThat(listener.isEmpty()).isTrue();
+    assertThat(map.segments[0].count).isEqualTo(0);
+  }
+
+  public void testCompute_expiredEntry_removed() {
+    FakeTicker ticker = new FakeTicker();
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCache<Object, Object> map =
+        makeLocalCache(
+            createCacheBuilder()
+                .concurrencyLevel(1)
+                .ticker(ticker)
+                .expireAfterWrite(1, MINUTES)
+                .removalListener(listener));
+    Segment<Object, Object> segment = map.segments[0];
+    Object key = new Object();
+    Object value = new Object();
+    map.put(key, value);
+    detachFromExpirationQueues(map, key);
+    ticker.advance(2, MINUTES);
+
+    assertThat(
+            map.compute(
+                key,
+                (k, v) -> {
+                  assertThat(v).isNull();
+                  return null;
+                }))
+        .isNull();
+    assertNotified(listener, key, value, RemovalCause.EXPIRED);
+    assertThat(listener.isEmpty()).isTrue();
+    assertThat(map.containsKey(key)).isFalse();
+    assertThat(segment.count).isEqualTo(0);
+  }
+
+  public void testCompute_expiredEntry_replaced() {
+    FakeTicker ticker = new FakeTicker();
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCache<Object, Object> map =
+        makeLocalCache(
+            createCacheBuilder()
+                .concurrencyLevel(1)
+                .ticker(ticker)
+                .expireAfterWrite(1, MINUTES)
+                .removalListener(listener));
+    Segment<Object, Object> segment = map.segments[0];
+    Object key = new Object();
+    Object value = new Object();
+    Object newValue = new Object();
+    map.put(key, value);
+    detachFromExpirationQueues(map, key);
+    ticker.advance(2, MINUTES);
+
+    assertThat(
+            map.compute(
+                key,
+                (k, v) -> {
+                  assertThat(v).isNull();
+                  return newValue;
+                }))
+        .isSameInstanceAs(newValue);
+    assertNotified(listener, key, value, RemovalCause.EXPIRED);
+    assertThat(listener.isEmpty()).isTrue();
+    assertThat(map.get(key)).isSameInstanceAs(newValue);
+    assertThat(segment.count).isEqualTo(1);
+    assertThat(segment.writeQueue).hasSize(1);
+  }
+
+  public void testComputeIfAbsent_expiredEntry() {
+    FakeTicker ticker = new FakeTicker();
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCache<Object, Object> map =
+        makeLocalCache(
+            createCacheBuilder()
+                .concurrencyLevel(1)
+                .ticker(ticker)
+                .expireAfterWrite(1, MINUTES)
+                .removalListener(listener));
+    Object key = new Object();
+    Object value = new Object();
+    Object newValue = new Object();
+    map.put(key, value);
+    detachFromExpirationQueues(map, key);
+    ticker.advance(2, MINUTES);
+
+    assertThat(map.computeIfAbsent(key, k -> newValue)).isSameInstanceAs(newValue);
+    assertNotified(listener, key, value, RemovalCause.EXPIRED);
+    assertThat(listener.isEmpty()).isTrue();
+    assertThat(map.get(key)).isSameInstanceAs(newValue);
+    assertThat(map.segments[0].count).isEqualTo(1);
+  }
+
+  public void testCompute_liveValue() {
+    QueuingRemovalListener<Object, Object> listener = queuingRemovalListener();
+    LocalCache<Object, Object> map =
+        makeLocalCache(
+            createCacheBuilder().concurrencyLevel(1).weakValues().removalListener(listener));
+    Object key = new Object();
+    Object value = new Object();
+    Object newValue = new Object();
+    map.put(key, value);
+
+    assertThat(map.compute(key, (k, v) -> v)).isSameInstanceAs(value);
+    assertThat(listener.isEmpty()).isTrue();
+
+    assertThat(map.compute(key, (k, v) -> newValue)).isSameInstanceAs(newValue);
+    assertNotified(listener, key, value, RemovalCause.REPLACED);
+    assertThat(listener.isEmpty()).isTrue();
+
+    assertThat(map.compute(key, (k, v) -> null)).isNull();
+    assertNotified(listener, key, newValue, RemovalCause.EXPLICIT);
+    assertThat(listener.isEmpty()).isTrue();
+    assertThat(map.segments[0].count).isEqualTo(0);
+  }
+
+  /**
+   * Clears the value's reference without enqueueing it, simulating a value that was collected but
+   * not yet reclaimed, e.g. because {@code preWriteCleanup} stopped draining at {@code DRAIN_MAX}.
+   */
+  private static void clearValueReference(LocalCache<Object, Object> map, Object key) {
+    ReferenceEntry<Object, Object> entry =
+        map.segmentFor(map.hash(key)).getEntry(key, map.hash(key));
+    ((Reference<?>) entry.getValueReference()).clear();
+  }
+
+  /** Simulates an incorrect expiration queue, so that {@code preWriteCleanup} misses the entry. */
+  private static void detachFromExpirationQueues(LocalCache<Object, Object> map, Object key) {
+    Segment<Object, Object> segment = map.segmentFor(map.hash(key));
+    ReferenceEntry<Object, Object> entry = segment.getEntry(key, map.hash(key));
+    segment.writeQueue.remove(entry);
+    segment.accessQueue.remove(entry);
+  }
+
   public void testCopyEntry_computing() {
     CountDownLatch startSignal = new CountDownLatch(1);
     CountDownLatch computingSignal = new CountDownLatch(1);
