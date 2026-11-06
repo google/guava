@@ -85,33 +85,6 @@ jobs:
         shell: bash
         run: util/gradle_integration_tests.sh
 
-  publish_snapshot:
-    name: 'Publish snapshot'
-    needs: [ test, gradle-test ]
-    if: github.event_name == 'push' && github.repository == 'google/guava'
-    runs-on: ubuntu-latest
-    steps:
-      - name: 'Check out repository'
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: 'Set up JDKs'
-        uses: actions/setup-java@b843ebf9b913146b38da2eaa7aeddf76074ae1ad # v6.1.0
-        with:
-          # For discussion, see the first setup-java block.
-          # The publish-snapshot workflow doesn't run tests, so we don't have to care which version Maven would select for that step.
-          java-version: 27
-          distribution: 'temurin'
-          cache: 'maven'
-          server-id: central
-          server-username: CI_DEPLOY_USERNAME
-          server-password: CI_DEPLOY_PASSWORD
-      - name: 'Publish'
-        env:
-          CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
-          CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
-        run: ./util/deploy_snapshot.sh
-
   generate_docs:
     permissions:
       contents: write
