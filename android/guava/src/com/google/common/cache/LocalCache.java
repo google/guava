@@ -2025,6 +2025,12 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
         return null;
       }
 
+      // If `original` was recently read, it sits in `recencyQueue` with its updated `accessTime`
+      // waiting to be moved to the tail of `accessQueue`. Drain `recencyQueue` before copying so
+      // `newEntry` doesn't inherit the new `accessTime` at `original`'s old position in
+      // `accessQueue` (where `drainRecencyQueue` would later ignore `original` after
+      // `copyAccessEntry` removes it from `accessQueue`).
+      drainRecencyQueue();
       ReferenceEntry<K, V> newEntry = map.entryFactory.copyEntry(this, original, newNext, key);
       newEntry.setValueReference(valueReference.copyFor(this.valueReferenceQueue, value, newEntry));
       return newEntry;
