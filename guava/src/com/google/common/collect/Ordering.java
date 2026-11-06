@@ -134,12 +134,13 @@ import org.jspecify.annotations.Nullable;
  *
  * <h2>Java 8+ users</h2>
  *
- * <p>If you are using Java 8+, this class is now obsolete. Most of its functionality is now
- * provided by {@link java.util.stream.Stream Stream} and by {@link Comparator} itself, and the rest
- * can now be found as static methods in our new {@link Comparators} class. See each method below
- * for further instructions. Whenever possible, you should change any references of type {@code
- * Ordering} to be of type {@code Comparator} instead. However, at this time we have no plan to
- * <i>deprecate</i> this class.
+ * <p>If you are using Java 8+, this class is now mostly obsolete. Most of its functionality is
+ * now provided by {@link java.util.stream.Stream Stream}, by {@link Comparator} itself, or by
+ * static methods in {@link Comparators}. However, some functionality, such as {@link
+ * #explicit(List)}, has no replacement in those APIs. See each method below for further
+ * instructions. Whenever possible, you should change any references of type {@code Ordering} to
+ * be of type {@code Comparator} instead. However, at this time we have no plan to <i>deprecate</i>
+ * this class.
  *
  * <p>Many replacements involve adopting {@code Stream}, and these changes can sometimes make your
  * code verbose. Whenever following this advice, you should check whether {@code Stream} could be
