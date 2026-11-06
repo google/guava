@@ -2281,7 +2281,14 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
           if (valueReference != null && newValue == valueReference.get()) {
             computingValueReference.set(newValue);
             e.setValueReference(valueReference);
-            recordWrite(e, 0, now); // no change in weight
+            // The remapping function returned the existing value, so nothing was
+            // written. Treat this as a read, not a write: refresh the access time
+            // but leave the write time alone, so expireAfterWrite keeps measuring
+            // from the write that actually stored the value. The entry was removed
+            // from the eviction queues above, so it still needs to be re-added to
+            // the write queue in order to expire.
+            recordLockedRead(e, now);
+            writeQueue.add(e);
             return newValue;
           }
           try {
