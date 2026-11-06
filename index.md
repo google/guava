@@ -65,14 +65,15 @@ consult the
 
 ## Snapshots and Documentation
 
-Snapshots of Guava built from the `master` branch are available through Maven
-using version `999.0.0-HEAD-jre-SNAPSHOT`, or `999.0.0-HEAD-android-SNAPSHOT`
-for the Android flavor.
+We no longer publish binary snapshot releases to Sonatype's Maven Central, only
+versioned releases.
 
-[Snapshot API Javadoc][guava-snapshot-api-docs] as well as
-[Snapshot API Diffs][guava-snapshot-api-diffs] are also available.
+We continue to publish snapshot *documentation*
+([API Javadoc][guava-snapshot-api-docs] and
+[API Diffs][guava-snapshot-api-diffs]), and we encourage you to refer and link
+to the snapshot Javadoc rather than to that of specific releases.
 
-Another easy way to get to the Javadoc is to open
+An easy way to get to the snapshot Javadoc is to open
 [guava.dev/api](https://guava.dev/api). You can also jump right to a specific
 class by appending the class name to guava.dev. For example,
 [guava.dev/ImmutableList](https://guava.dev/ImmutableList)!
