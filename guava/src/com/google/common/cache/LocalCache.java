@@ -3167,8 +3167,10 @@ final class LocalCache<K, V> extends AbstractMap<K, V> implements ConcurrentMap<
             V entryValue = valueReference.get();
             // replace the old LoadingValueReference if it's live, otherwise
             // perform a putIfAbsent
+            // A null value in a different loading reference is a newer in-flight load, not a
+            // collected value, so it must not be replaced.
             if (oldValueReference == valueReference
-                || (entryValue == null && valueReference != UNSET)) {
+                || (entryValue == null && valueReference != UNSET && !valueReference.isLoading())) {
               ++modCount;
               if (oldValueReference.isActive()) {
                 RemovalCause cause =
