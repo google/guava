@@ -1503,6 +1503,22 @@ public class MapsTest extends TestCase {
   }
 
   @GwtIncompatible // NavigableMap
+  public void testFilteredNavigableMapViewsRemoveIf() {
+    NavigableMap<Integer, String> unfiltered = new TreeMap<>();
+    for (int i = 0; i < 10; i++) {
+      unfiltered.put(i, Integer.toString(i));
+    }
+    NavigableMap<Integer, String> filtered = filterKeys(unfiltered, k -> k % 2 == 1);
+
+    assertTrue(filtered.navigableKeySet().removeIf(k -> k < 3));
+    assertTrue(filtered.descendingMap().values().removeIf(v -> v.equals("3") || v.equals("4")));
+    assertTrue(filtered.descendingKeySet().removeIf(k -> k == 5 || k == 6));
+    assertTrue(filtered.headMap(8, false).entrySet().removeIf(e -> e.getKey() >= 7));
+    assertFalse(filtered.keySet().removeIf(k -> k % 2 == 0));
+    assertThat(unfiltered.keySet()).containsExactly(0, 2, 4, 6, 8, 9).inOrder();
+  }
+
+  @GwtIncompatible // NavigableMap
   public void testUnmodifiableNavigableMap() {
     TreeMap<Integer, String> mod = new TreeMap<>();
     mod.put(1, "one");
