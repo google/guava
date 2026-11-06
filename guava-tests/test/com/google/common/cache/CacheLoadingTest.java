@@ -2418,4 +2418,61 @@ public class CacheLoadingTest extends TestCase {
       throw exception;
     };
   }
+
+  public void testLoad_weigherThrows_doesNotStrandEntry() {
+    AtomicInteger loads = new AtomicInteger();
+    AtomicInteger weighs = new AtomicInteger();
+    LoadingCache<String, String> cache =
+        CacheBuilder.newBuilder()
+            .maximumWeight(100)
+            .weigher(
+                (String key, String value) -> {
+                  if (weighs.incrementAndGet() == 1) {
+                    throw new IllegalStateException("weigher failed");
+                  }
+                  return 1;
+                })
+            .build(CacheLoader.from(key -> "loaded-" + loads.incrementAndGet()));
+
+    assertThrows(IllegalStateException.class, () -> cache.getUnchecked("k"));
+    assertThat(cache.size()).isEqualTo(0);
+
+    // The failed entry must not linger: the next lookup loads (and weighs) the value afresh.
+    assertThat(cache.getUnchecked("k")).isEqualTo("loaded-2");
+    assertThat(loads.get()).isEqualTo(2);
+    assertThat(cache.size()).isEqualTo(1);
+    assertThat(cache.getUnchecked("k")).isEqualTo("loaded-2");
+    assertThat(loads.get()).isEqualTo(2);
+  }
+
+  public void testRefresh_weigherThrows_stillRefreshesLater() {
+    FakeTicker ticker = new FakeTicker();
+    AtomicInteger loads = new AtomicInteger();
+    AtomicInteger weighs = new AtomicInteger();
+    LoadingCache<String, String> cache =
+        CacheBuilder.newBuilder()
+            .ticker(ticker)
+            .refreshAfterWrite(1, SECONDS)
+            .maximumWeight(100)
+            .weigher(
+                (String key, String value) -> {
+                  if (weighs.incrementAndGet() == 2) {
+                    throw new IllegalStateException("weigher failed");
+                  }
+                  return 1;
+                })
+            .build(CacheLoader.from(key -> "loaded-" + loads.incrementAndGet()));
+
+    assertThat(cache.getUnchecked("k")).isEqualTo("loaded-1");
+
+    // This refresh loads a value, but the weigher rejects it, so it is never stored.
+    ticker.advance(2, SECONDS);
+    cache.getUnchecked("k");
+    assertThat(loads.get()).isEqualTo(2);
+
+    // The failed refresh must not block later ones.
+    ticker.advance(2, SECONDS);
+    assertThat(cache.getUnchecked("k")).isEqualTo("loaded-3");
+    assertThat(loads.get()).isEqualTo(3);
+  }
 }
