@@ -20,6 +20,7 @@
 package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkPositionIndexes;
 
 import com.google.common.annotations.J2ktIncompatible;
 import com.google.errorprone.annotations.Immutable;
@@ -39,6 +40,17 @@ import org.jspecify.annotations.Nullable;
 final class SipHashFunction extends AbstractHashFunction implements Serializable {
   static final HashFunction SIP_HASH_24 =
       new SipHashFunction(2, 4, 0x0706050403020100L, 0x0f0e0d0c0b0a0908L);
+
+  private static final int CHUNK_SIZE = 8;
+
+  // Four 64-bit words of internal state.
+  // The initial state corresponds to the ASCII string "somepseudorandomlygeneratedbytes",
+  // big-endian encoded. There is nothing special about this value; the only requirement
+  // was some asymmetry so that the initial v0 and v1 differ from v2 and v3.
+  private static final long V0_INIT = 0x736f6d6570736575L;
+  private static final long V1_INIT = 0x646f72616e646f6dL;
+  private static final long V2_INIT = 0x6c7967656e657261L;
+  private static final long V3_INIT = 0x7465646279746573L;
 
   // The number of compression rounds.
   private final int c;
@@ -75,7 +87,45 @@ final class SipHashFunction extends AbstractHashFunction implements Serializable
     return new SipHasher(c, d, k0, k1);
   }
 
-  // TODO(kak): Implement and benchmark the hashFoo() shortcuts.
+  @Override
+  public HashCode hashBytes(byte[] input, int off, int len) {
+    checkPositionIndexes(off, off + len, input.length);
+    long v0 = V0_INIT ^ k0;
+    long v1 = V1_INIT ^ k1;
+    long v2 = V2_INIT ^ k0;
+    long v3 = V3_INIT ^ k1;
+    int end = off + (len & ~(CHUNK_SIZE - 1));
+    int p = off;
+    for (; p < end; p += CHUNK_SIZE) {
+      long m = LittleEndianByteArray.load64(input, p);
+      v3 ^= m;
+      for (int i = 0; i < c; i++) {
+        v0 += v1;
+        v2 += v3;
+        v1 = Long.rotateLeft(v1, 13);
+        v3 = Long.rotateLeft(v3, 16);
+        v1 ^= v0;
+        v3 ^= v2;
+        v0 = Long.rotateLeft(v0, 32);
+        v2 += v1;
+        v0 += v3;
+        v1 = Long.rotateLeft(v1, 17);
+        v3 = Long.rotateLeft(v3, 21);
+        v1 ^= v2;
+        v3 ^= v0;
+        v2 = Long.rotateLeft(v2, 32);
+      }
+      v0 ^= m;
+    }
+    long finalM = (long) len << 56;
+    int rem = len & (CHUNK_SIZE - 1);
+    if (rem > 0) {
+      finalM |= LittleEndianByteArray.load64Safely(input, p, rem);
+    }
+    return HashCode.fromLong(finish(c, d, v0, v1, v2, v3, finalM));
+  }
+
+  // TODO(kak): Implement and benchmark the remaining hashFoo() shortcuts.
 
   @Override
   public String toString() {
@@ -96,22 +146,55 @@ final class SipHashFunction extends AbstractHashFunction implements Serializable
     return (int) (getClass().hashCode() ^ c ^ d ^ k0 ^ k1);
   }
 
-  private static final class SipHasher extends AbstractStreamingHasher {
-    private static final int CHUNK_SIZE = 8;
+  private static long finish(int c, int d, long v0, long v1, long v2, long v3, long finalM) {
+    v3 ^= finalM;
+    for (int i = 0; i < c; i++) {
+      v0 += v1;
+      v2 += v3;
+      v1 = Long.rotateLeft(v1, 13);
+      v3 = Long.rotateLeft(v3, 16);
+      v1 ^= v0;
+      v3 ^= v2;
+      v0 = Long.rotateLeft(v0, 32);
+      v2 += v1;
+      v0 += v3;
+      v1 = Long.rotateLeft(v1, 17);
+      v3 = Long.rotateLeft(v3, 21);
+      v1 ^= v2;
+      v3 ^= v0;
+      v2 = Long.rotateLeft(v2, 32);
+    }
+    v0 ^= finalM;
+    v2 ^= 0xFFL;
+    for (int i = 0; i < d; i++) {
+      v0 += v1;
+      v2 += v3;
+      v1 = Long.rotateLeft(v1, 13);
+      v3 = Long.rotateLeft(v3, 16);
+      v1 ^= v0;
+      v3 ^= v2;
+      v0 = Long.rotateLeft(v0, 32);
+      v2 += v1;
+      v0 += v3;
+      v1 = Long.rotateLeft(v1, 17);
+      v3 = Long.rotateLeft(v3, 21);
+      v1 ^= v2;
+      v3 ^= v0;
+      v2 = Long.rotateLeft(v2, 32);
+    }
+    return v0 ^ v1 ^ v2 ^ v3;
+  }
 
+  private static final class SipHasher extends AbstractStreamingHasher {
     // The number of compression rounds.
     private final int c;
     // The number of finalization rounds.
     private final int d;
 
-    // Four 64-bit words of internal state.
-    // The initial state corresponds to the ASCII string "somepseudorandomlygeneratedbytes",
-    // big-endian encoded. There is nothing special about this value; the only requirement
-    // was some asymmetry so that the initial v0 and v1 differ from v2 and v3.
-    private long v0 = 0x736f6d6570736575L;
-    private long v1 = 0x646f72616e646f6dL;
-    private long v2 = 0x6c7967656e657261L;
-    private long v3 = 0x7465646279746573L;
+    private long v0;
+    private long v1;
+    private long v2;
+    private long v3;
 
     // The number of bytes in the input.
     private long b = 0;
@@ -124,10 +207,10 @@ final class SipHashFunction extends AbstractHashFunction implements Serializable
       super(CHUNK_SIZE);
       this.c = c;
       this.d = d;
-      this.v0 ^= k0;
-      this.v1 ^= k1;
-      this.v2 ^= k0;
-      this.v3 ^= k1;
+      this.v0 = V0_INIT ^ k0;
+      this.v1 = V1_INIT ^ k1;
+      this.v2 = V2_INIT ^ k0;
+      this.v3 = V3_INIT ^ k1;
     }
 
     @Override
@@ -147,13 +230,7 @@ final class SipHashFunction extends AbstractHashFunction implements Serializable
     @Override
     protected HashCode makeHash() {
       // End with a byte encoding the positive integer b mod 256.
-      finalM ^= b << 56;
-      processM(finalM);
-
-      // Finalization
-      v2 ^= 0xFFL;
-      sipRound(d);
-      return HashCode.fromLong(v0 ^ v1 ^ v2 ^ v3);
+      return HashCode.fromLong(finish(c, d, v0, v1, v2, v3, finalM ^ (b << 56)));
     }
 
     private void processM(long m) {
