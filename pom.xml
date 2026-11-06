@@ -190,7 +190,12 @@
         <groupId>org.sonatype.central</groupId>
         <artifactId>central-publishing-maven-plugin</artifactId>
         <version>${central-publishing-maven-plugin.version}</version>
-        <extensions>true</extensions>
+        <extensions>
+      <extension>
+        <groupId>com.google.cloud.artifactregistry</groupId>
+        <artifactId>artifactregistry-maven-wagon</artifactId>
+        <version>2.2.5</version>
+      </extension>true</extensions>
       </plugin>
     </plugins>
     <pluginManagement>
@@ -697,6 +702,43 @@
           </plugin>
         </plugins>
       </build>
+    </profile>
+    <!-- OSS Exit Gate publishing profile (mvn deploy -P sonatype-oss-release,oss-exit-gate) -->
+    <profile>
+      <id>oss-exit-gate</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <configuration>
+              <skipPublishing>true</skipPublishing>
+            </configuration>
+          </plugin>
+          <!-- central-publishing-maven-plugin (extensions=true) disables default-deploy;
+               this execution restores deploy behaviour when skipPublishing=true. -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-deploy-plugin</artifactId>
+            <version>${maven-deploy-plugin.version}</version>
+            <executions>
+              <execution>
+                <id>oss-exit-gate-deploy</id>
+                <phase>deploy</phase>
+                <goals>
+                  <goal>deploy</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+      <distributionManagement>
+        <repository>
+          <id>oss-exit-gate</id>
+          <url>artifactregistry://us-maven.pkg.dev/oss-exit-gate-prod/guava--mavencentral</url>
+        </repository>
+      </distributionManagement>
     </profile>
   </profiles>
 </project>
