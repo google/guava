@@ -16,10 +16,15 @@ package com.google.common.hash;
 
 import static com.google.common.hash.Hashing.sipHash24;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import java.nio.ByteBuffer;
+import java.util.Arrays;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -168,6 +173,74 @@ public class SipHashFunctionTest extends TestCase {
     assertThat(SIP_WITH_KEY.toString()).isEqualTo("Hashing.sipHash24(" + K0 + ", " + K1 + ")");
     assertThat(SIP_WITHOUT_KEY.toString()).isEqualTo("Hashing.sipHash24(" + K0 + ", " + K1 + ")");
     assertThat(sipHash24(20, 13).toString()).isEqualTo("Hashing.sipHash24(20, 13)");
+  }
+
+  public void testHashBytesOffsetsLengthsAndVariants() {
+    byte[] buf = createPatternBuffer(4128);
+    int[] offsets = {0, 1, 7, 8, 15, 16};
+    int[] extraLengths = {128, 255, 256, 260, 2048, 4096};
+
+    for (HashFunction hf : testFunctions()) {
+      for (int off : offsets) {
+        for (int len = 0; len <= 65; len++) {
+          assertHashBytesMatchesReference(hf, buf, off, len, /* checkCopy= */ true);
+        }
+        for (int len : extraLengths) {
+          assertHashBytesMatchesReference(hf, buf, off, len, /* checkCopy= */ false);
+        }
+      }
+    }
+  }
+
+  public void testHashBytesBoundsChecks() {
+    byte[] input = new byte[8];
+    for (HashFunction hf : testFunctions()) {
+      assertThat(hf.hashBytes(input, input.length, 0)).isEqualTo(hf.hashBytes(new byte[0]));
+      assertThrows(NullPointerException.class, () -> hf.hashBytes((byte[]) null, 0, 0));
+      assertThrows(IndexOutOfBoundsException.class, () -> hf.hashBytes(input, -1, 0));
+      assertThrows(IndexOutOfBoundsException.class, () -> hf.hashBytes(input, 0, -1));
+      assertThrows(IndexOutOfBoundsException.class, () -> hf.hashBytes(input, 8, 1));
+      assertThrows(IndexOutOfBoundsException.class, () -> hf.hashBytes(input, 9, 0));
+      assertThrows(IndexOutOfBoundsException.class, () -> hf.hashBytes(input, 4, 5));
+      assertThrows(
+          IndexOutOfBoundsException.class, () -> hf.hashBytes(input, 1, Integer.MAX_VALUE));
+      assertThrows(
+          IndexOutOfBoundsException.class, () -> hf.hashBytes(input, Integer.MAX_VALUE, 1));
+    }
+  }
+
+  private static ImmutableList<HashFunction> testFunctions() {
+    return ImmutableList.of(
+        SIP_WITH_KEY,
+        SIP_WITHOUT_KEY,
+        new SipHashFunction(1, 3, 0xdeadbeefcafebabeL, 0x0123456789abcdefL),
+        new SipHashFunction(4, 8, -1L, Long.MIN_VALUE));
+  }
+
+  private static byte[] createPatternBuffer(int size) {
+    byte[] buf = new byte[size];
+    for (int i = 0; i < buf.length; i++) {
+      buf[i] = (byte) (i * 137 + 0x81);
+    }
+    return buf;
+  }
+
+  private static void assertHashBytesMatchesReference(
+      HashFunction hf, byte[] buf, int off, int len, boolean checkCopy) {
+    String context = "hf=" + hf + ", off=" + off + ", len=" + len;
+    HashCode expected = hf.hashBytes(ByteBuffer.wrap(buf, off, len));
+    assertWithMessage(context)
+        .that(hf.newHasher().putBytes(buf, off, len).hash())
+        .isEqualTo(expected);
+    assertWithMessage(context).that(hf.hashBytes(buf, off, len)).isEqualTo(expected);
+    if (checkCopy) {
+      assertWithMessage(context)
+          .that(hf.hashBytes(Arrays.copyOfRange(buf, off, off + len)))
+          .isEqualTo(expected);
+      assertWithMessage(context)
+          .that(hf.hashBytes(Arrays.copyOf(buf, off + len), off, len))
+          .isEqualTo(expected);
+    }
   }
 
   private static void assertSip(String input, long expected) {
