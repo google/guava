@@ -376,7 +376,9 @@ public abstract class FluentIterable<E extends @Nullable Object> implements Iter
    *
    * <p><b>{@code Stream} equivalent:</b> if the source iterable has only a single element {@code
    * e}, use {@code Stream.generate(() -> e)}. Otherwise, collect your stream into a collection and
-   * use {@code Stream.generate(() -> collection).flatMap(Collection::stream)}.
+   * use {@code Stream.generate(() -> collection).flatMap(Collection::stream)}. If the source iterable
+   * is empty, use {@code Stream.empty()} instead; flattening an infinite stream of empty collections
+   * never terminates when asked for an element.
    */
   public final FluentIterable<E> cycle() {
     return from(Iterables.cycle(getDelegate()));
