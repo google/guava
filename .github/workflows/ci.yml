@@ -28,6 +28,9 @@ jobs:
           - os: windows-latest
             java: 25
             root-pom: pom.xml
+          - os: macos-latest
+            java: 25
+            root-pom: pom.xml
     runs-on: ${{ matrix.os }}
     env:
       ROOT_POM: ${{ matrix.root-pom }}
