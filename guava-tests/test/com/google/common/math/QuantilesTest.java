@@ -403,6 +403,27 @@ public class QuantilesTest extends TestCase {
     assertThat(dataset).usingExactEquality().containsExactlyElementsIn(SIXTEEN_SQUARES_DOUBLES);
   }
 
+  public void testPercentiles_index_compute_largeFiniteValues() {
+    assertThat(percentiles().index(50).compute(0.0, Double.MAX_VALUE))
+        .isEqualTo(Double.MAX_VALUE / 2);
+    assertThat(percentiles().index(50).compute(-Double.MAX_VALUE, 0.0))
+        .isEqualTo(-Double.MAX_VALUE / 2);
+    assertThat(percentiles().index(50).compute(Double.MAX_VALUE / 2, Double.MAX_VALUE))
+        .isEqualTo(Double.MAX_VALUE * 0.75);
+  }
+
+  public void testMedian_compute_largeFiniteValues() {
+    assertThat(median().compute(-Double.MAX_VALUE, Double.MAX_VALUE)).isEqualTo(0.0);
+  }
+
+  public void testPercentiles_indexes_computeInPlace_largeFiniteValues() {
+    assertThat(percentiles().indexes(25, 50, 75).computeInPlace(0.0, Double.MAX_VALUE))
+        .containsExactly(
+            25, Double.MAX_VALUE / 4,
+            50, Double.MAX_VALUE / 2,
+            75, Double.MAX_VALUE * 0.75);
+  }
+
   // 2. Tests on hardcoded datasets include non-finite values for chains starting with scale(10):
 
   private static final ImmutableList<Double> ONE_TO_FIVE_AND_POSITIVE_INFINITY =
