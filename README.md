@@ -68,6 +68,23 @@ For more information on when to use `api` and when to use `implementation`,
 consult the
 [Gradle documentation on API and implementation separation](https://docs.gradle.org/current/userguide/java_library_plugin.html#sec:java_library_separation).
 
+If your Gradle project applies only the `base` plugin (not `java`,
+`java-library`, or `jvm-ecosystem`) and picks up Guava only transitively
+(through another dependency), you may see dependency resolution fail with
+`NoCompatibleVariantsFailure`. This happens because Guava's Gradle module
+metadata tags each variant with an `org.gradle.jvm.environment` attribute (to
+pick between `-jre` and `-android`), and only Java-aware plugins register the
+Gradle schema needed to interpret that attribute. Applying
+[`jvm-ecosystem`](https://docs.gradle.org/current/userguide/jvm_ecosystem_plugin.html)
+alongside `base` registers that schema, without adding any Java build tasks:
+
+```gradle
+plugins {
+  base
+  `jvm-ecosystem`
+}
+```
+
 ## Snapshots and Documentation
 
 Snapshots of Guava built from the `master` branch are available through Maven
