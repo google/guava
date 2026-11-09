@@ -57922,6 +57922,25 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="array" type="boolean[]"/>
+      <param name="target" type="boolean"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the first appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the least index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i] ==
+     target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="indexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="boolean[]"/>
       <param name="target" type="boolean[]"/>
       <doc>
       <![CDATA[Returns the start position of the first occurrence of the specified {@code target} within
@@ -57947,6 +57966,25 @@
  @param target a primitive {@code boolean} value
  @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
      such index exists.]]>
+      </doc>
+    </method>
+    <method name="lastIndexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="boolean[]"/>
+      <param name="target" type="boolean"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the last appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the greatest index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i]
+     == target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="concat" return="boolean[]"
@@ -58201,6 +58239,25 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="array" type="byte[]"/>
+      <param name="target" type="byte"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the first appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the least index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i] ==
+     target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="indexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
       <param name="target" type="byte[]"/>
       <doc>
       <![CDATA[Returns the start position of the first occurrence of the specified {@code target} within
@@ -58226,6 +58283,25 @@
  @param target a primitive {@code byte} value
  @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
      such index exists.]]>
+      </doc>
+    </method>
+    <method name="lastIndexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="byte[]"/>
+      <param name="target" type="byte"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the last appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the greatest index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i]
+     == target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="concat" return="byte[]"
@@ -58484,6 +58560,25 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="array" type="char[]"/>
+      <param name="target" type="char"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the first appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the least index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i] ==
+     target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="indexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="char[]"/>
       <param name="target" type="char[]"/>
       <doc>
       <![CDATA[Returns the start position of the first occurrence of the specified {@code target} within
@@ -58509,6 +58604,25 @@
  @param target a primitive {@code char} value
  @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
      such index exists.]]>
+      </doc>
+    </method>
+    <method name="lastIndexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="char[]"/>
+      <param name="target" type="char"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the last appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the greatest index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i]
+     == target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="min" return="char"
@@ -58918,6 +59032,26 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="array" type="double[]"/>
+      <param name="target" type="double"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the first appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive. Note that this always returns {@code
+ -1} when {@code target} is {@code NaN}.
+
+ @return the least index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i] ==
+     target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="indexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="double[]"/>
       <param name="target" type="double[]"/>
       <doc>
       <![CDATA[Returns the start position of the first occurrence of the specified {@code target} within
@@ -58946,6 +59080,26 @@
  @param target a primitive {@code double} value
  @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
      such index exists.]]>
+      </doc>
+    </method>
+    <method name="lastIndexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="double[]"/>
+      <param name="target" type="double"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the last appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive. Note that this always returns {@code
+ -1} when {@code target} is {@code NaN}.
+
+ @return the greatest index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i]
+     == target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="min" return="double"
@@ -59377,6 +59531,26 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="array" type="float[]"/>
+      <param name="target" type="float"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the first appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive. Note that this always returns {@code
+ -1} when {@code target} is {@code NaN}.
+
+ @return the least index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i] ==
+     target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="indexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="float[]"/>
       <param name="target" type="float[]"/>
       <doc>
       <![CDATA[Returns the start position of the first occurrence of the specified {@code target} within
@@ -59405,6 +59579,26 @@
  @param target a primitive {@code float} value
  @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
      such index exists.]]>
+      </doc>
+    </method>
+    <method name="lastIndexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="float[]"/>
+      <param name="target" type="float"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the last appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive. Note that this always returns {@code
+ -1} when {@code target} is {@code NaN}.
+
+ @return the greatest index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i]
+     == target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="min" return="float"
@@ -61215,6 +61409,25 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="array" type="int[]"/>
+      <param name="target" type="int"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the first appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the least index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i] ==
+     target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="indexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
       <param name="target" type="int[]"/>
       <doc>
       <![CDATA[Returns the start position of the first occurrence of the specified {@code target} within
@@ -61240,6 +61453,25 @@
  @param target a primitive {@code int} value
  @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
      such index exists.]]>
+      </doc>
+    </method>
+    <method name="lastIndexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="int[]"/>
+      <param name="target" type="int"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the last appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the greatest index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i]
+     == target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="min" return="int"
@@ -61712,6 +61944,25 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="array" type="long[]"/>
+      <param name="target" type="long"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the first appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the least index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i] ==
+     target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="indexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
       <param name="target" type="long[]"/>
       <doc>
       <![CDATA[Returns the start position of the first occurrence of the specified {@code target} within
@@ -61737,6 +61988,25 @@
  @param target a primitive {@code long} value
  @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
      such index exists.]]>
+      </doc>
+    </method>
+    <method name="lastIndexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="long[]"/>
+      <param name="target" type="long"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the last appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the greatest index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i]
+     == target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="min" return="long"
@@ -62323,6 +62593,25 @@
       static="true" final="false" visibility="public"
       deprecated="not deprecated">
       <param name="array" type="short[]"/>
+      <param name="target" type="short"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the first appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the least index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i] ==
+     target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
+      </doc>
+    </method>
+    <method name="indexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="short[]"/>
       <param name="target" type="short[]"/>
       <doc>
       <![CDATA[Returns the start position of the first occurrence of the specified {@code target} within
@@ -62348,6 +62637,25 @@
  @param target a primitive {@code short} value
  @return the greatest index {@code i} for which {@code array[i] == target}, or {@code -1} if no
      such index exists.]]>
+      </doc>
+    </method>
+    <method name="lastIndexOf" return="int"
+      abstract="false" native="false" synchronized="false"
+      static="true" final="false" visibility="public"
+      deprecated="not deprecated">
+      <param name="array" type="short[]"/>
+      <param name="target" type="short"/>
+      <param name="fromIndex" type="int"/>
+      <param name="toIndex" type="int"/>
+      <doc>
+      <![CDATA[Returns the index of the last appearance of the value {@code target} in {@code array} between
+ {@code fromIndex} inclusive and {@code toIndex} exclusive.
+
+ @return the greatest index {@code i} in {@code [fromIndex, toIndex)} for which {@code array[i]
+     == target}, or {@code -1} if no such index exists.
+ @throws IndexOutOfBoundsException if {@code fromIndex < 0}, {@code toIndex > array.length}, or
+     {@code fromIndex > toIndex}
+ @since NEXT]]>
       </doc>
     </method>
     <method name="min" return="short"

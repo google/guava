@@ -85,8 +85,10 @@ initTheme();
 <li><a href="#compare(char,char)" tabindex="0">compare(char, char)</a></li>
 <li><a href="#contains(char%5B%5D,char)" tabindex="0">contains(char[], char)</a></li>
 <li><a href="#indexOf(char%5B%5D,char)" tabindex="0">indexOf(char[], char)</a></li>
+<li><a href="#indexOf(char%5B%5D,char,int,int)" tabindex="0">indexOf(char[], char, int, int)</a></li>
 <li><a href="#indexOf(char%5B%5D,char%5B%5D)" tabindex="0">indexOf(char[], char[])</a></li>
 <li><a href="#lastIndexOf(char%5B%5D,char)" tabindex="0">lastIndexOf(char[], char)</a></li>
+<li><a href="#lastIndexOf(char%5B%5D,char,int,int)" tabindex="0">lastIndexOf(char[], char, int, int)</a></li>
 <li><a href="#min(char...)" tabindex="0">min(char...)</a></li>
 <li><a href="#max(char...)" tabindex="0">max(char...)</a></li>
 <li><a href="#constrainToRange(char,char,char)" tabindex="0">constrainToRange(char, char, char)</a></li>
@@ -241,17 +243,35 @@ order; equivalent to <code>Chars.fromByteArray(new byte[] {b1, b2})</code>.</div
 <div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within
 <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#join(java.lang.String,char...)" class="member-name-link">join</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;separator,
- char...&nbsp;array)</code></div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#indexOf(char%5B%5D,char,int,int)" class="member-name-link">indexOf</a><wbr>(char[]&nbsp;array,
+ char&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code> between
+<code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#join(java.lang.String,char...)" class="member-name-link">join</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;separator,
+ char...&nbsp;array)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a string containing the supplied <code>char</code> values separated by <code>separator</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(char%5B%5D,char)" class="member-name-link">lastIndexOf</a><wbr>(char[]&nbsp;array,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(char%5B%5D,char)" class="member-name-link">lastIndexOf</a><wbr>(char[]&nbsp;array,
  char&nbsp;target)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(char%5B%5D,char,int,int)" class="member-name-link">lastIndexOf</a><wbr>(char[]&nbsp;array,
+ char&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code> between
+<code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link">Comparator</a><wbr>&lt;char[]&gt;</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lexicographicalComparator()" class="member-name-link">lexicographicalComparator</a>()</code></div>
@@ -484,6 +504,29 @@ equivalent <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base
 </section>
 </li>
 <li>
+<section class="detail" id="indexOf(char[],char,int,int)">
+<h3>indexOf</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">indexOf</span><wbr><span class="parameters">(char[]&nbsp;array,
+ char&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</span></div>
+<div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code> between
+<code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the least index <code>i</code> in <code>[fromIndex, toIndex)</code> for which <code>array[i] ==
+    target</code>, or <code>-1</code> if no such index exists.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>fromIndex &lt; 0</code>, <code>toIndex &gt; array.length</code>, or
+    <code>fromIndex &gt; toIndex</code></dd>
+<dt>Since:</dt>
+<dd>NEXT</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="indexOf(char[],char[])">
 <h3>indexOf</h3>
 <div class="horizontal-scroll">
@@ -516,6 +559,29 @@ i, i + target.length)</code> contains exactly the same elements as <code>target<
 <dt>Returns:</dt>
 <dd>the greatest index <code>i</code> for which <code>array[i] == target</code>, or <code>-1</code> if no
     such index exists.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="lastIndexOf(char[],char,int,int)">
+<h3>lastIndexOf</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">lastIndexOf</span><wbr><span class="parameters">(char[]&nbsp;array,
+ char&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</span></div>
+<div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code> between
+<code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the greatest index <code>i</code> in <code>[fromIndex, toIndex)</code> for which <code>array[i]
+    == target</code>, or <code>-1</code> if no such index exists.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>fromIndex &lt; 0</code>, <code>toIndex &gt; array.length</code>, or
+    <code>fromIndex &gt; toIndex</code></dd>
+<dt>Since:</dt>
+<dd>NEXT</dd>
 </dl>
 </div>
 </section>

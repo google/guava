@@ -76,8 +76,10 @@ initTheme();
 <li><a href="#hashCode(byte)" tabindex="0">hashCode(byte)</a></li>
 <li><a href="#contains(byte%5B%5D,byte)" tabindex="0">contains(byte[], byte)</a></li>
 <li><a href="#indexOf(byte%5B%5D,byte)" tabindex="0">indexOf(byte[], byte)</a></li>
+<li><a href="#indexOf(byte%5B%5D,byte,int,int)" tabindex="0">indexOf(byte[], byte, int, int)</a></li>
 <li><a href="#indexOf(byte%5B%5D,byte%5B%5D)" tabindex="0">indexOf(byte[], byte[])</a></li>
 <li><a href="#lastIndexOf(byte%5B%5D,byte)" tabindex="0">lastIndexOf(byte[], byte)</a></li>
+<li><a href="#lastIndexOf(byte%5B%5D,byte,int,int)" tabindex="0">lastIndexOf(byte[], byte, int, int)</a></li>
 <li><a href="#concat(byte%5B%5D...)" tabindex="0">concat(byte[]...)</a></li>
 <li><a href="#ensureCapacity(byte%5B%5D,int,int)" tabindex="0">ensureCapacity(byte[], int, int)</a></li>
 <li><a href="#toArray(java.util.Collection)" tabindex="0">toArray(Collection)</a></li>
@@ -174,10 +176,28 @@ specified minimum length.</div>
 <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(byte%5B%5D,byte)" class="member-name-link">lastIndexOf</a><wbr>(byte[]&nbsp;array,
- byte&nbsp;target)</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#indexOf(byte%5B%5D,byte,int,int)" class="member-name-link">indexOf</a><wbr>(byte[]&nbsp;array,
+ byte&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code> between
+<code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(byte%5B%5D,byte)" class="member-name-link">lastIndexOf</a><wbr>(byte[]&nbsp;array,
+ byte&nbsp;target)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(byte%5B%5D,byte,int,int)" class="member-name-link">lastIndexOf</a><wbr>(byte[]&nbsp;array,
+ byte&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code> between
+<code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reverse(byte%5B%5D)" class="member-name-link">reverse</a><wbr>(byte[]&nbsp;array)</code></div>
@@ -284,6 +304,29 @@ in the manner of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/jav
 </section>
 </li>
 <li>
+<section class="detail" id="indexOf(byte[],byte,int,int)">
+<h3>indexOf</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">indexOf</span><wbr><span class="parameters">(byte[]&nbsp;array,
+ byte&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</span></div>
+<div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code> between
+<code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the least index <code>i</code> in <code>[fromIndex, toIndex)</code> for which <code>array[i] ==
+    target</code>, or <code>-1</code> if no such index exists.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>fromIndex &lt; 0</code>, <code>toIndex &gt; array.length</code>, or
+    <code>fromIndex &gt; toIndex</code></dd>
+<dt>Since:</dt>
+<dd>NEXT</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
 <section class="detail" id="indexOf(byte[],byte[])">
 <h3>indexOf</h3>
 <div class="horizontal-scroll">
@@ -316,6 +359,29 @@ i, i + target.length)</code> contains exactly the same elements as <code>target<
 <dt>Returns:</dt>
 <dd>the greatest index <code>i</code> for which <code>array[i] == target</code>, or <code>-1</code> if no
     such index exists.</dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="lastIndexOf(byte[],byte,int,int)">
+<h3>lastIndexOf</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">lastIndexOf</span><wbr><span class="parameters">(byte[]&nbsp;array,
+ byte&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</span></div>
+<div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code> between
+<code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
+<dl class="notes">
+<dt>Returns:</dt>
+<dd>the greatest index <code>i</code> in <code>[fromIndex, toIndex)</code> for which <code>array[i]
+    == target</code>, or <code>-1</code> if no such index exists.</dd>
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>fromIndex &lt; 0</code>, <code>toIndex &gt; array.length</code>, or
+    <code>fromIndex &gt; toIndex</code></dd>
+<dt>Since:</dt>
+<dd>NEXT</dd>
 </dl>
 </div>
 </section>
