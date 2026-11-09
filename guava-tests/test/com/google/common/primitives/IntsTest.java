@@ -126,6 +126,28 @@ public class IntsTest extends TestCase {
     assertThat(Ints.indexOf(new int[] {(int) 2, (int) 3, (int) 2, (int) 3}, (int) 3)).isEqualTo(1);
   }
 
+  public void testIndexOfIndexed() {
+    assertThat(Ints.indexOf(EMPTY, (int) 1, 0, 0)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY1, (int) 2, 0, 1)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY234, (int) 1, 0, 3)).isEqualTo(-1);
+    assertThat(Ints.indexOf(new int[] {(int) -1}, (int) -1, 0, 1)).isEqualTo(0);
+    assertThat(Ints.indexOf(ARRAY234, (int) 2, 0, 3)).isEqualTo(0);
+    assertThat(Ints.indexOf(ARRAY234, (int) 2, 0, 0)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY234, (int) 2, 1, 3)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY234, (int) 3, 1, 2)).isEqualTo(1);
+    assertThat(Ints.indexOf(ARRAY234, (int) 3, 0, 1)).isEqualTo(-1);
+    assertThat(Ints.indexOf(ARRAY234, (int) 4, 2, 3)).isEqualTo(2);
+    assertThat(Ints.indexOf(ARRAY234, (int) 4, 0, 2)).isEqualTo(-1);
+    assertThat(Ints.indexOf(new int[] {(int) 2, (int) 3, (int) 2, (int) 3}, (int) 3, 2, 4))
+        .isEqualTo(3);
+    assertThat(Ints.indexOf(new int[] {(int) 3, (int) 3, (int) 3, (int) 3}, (int) 3, 1, 3))
+        .isEqualTo(1);
+
+    assertThrows(IndexOutOfBoundsException.class, () -> Ints.indexOf(ARRAY234, (int) 2, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Ints.indexOf(ARRAY234, (int) 2, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Ints.indexOf(ARRAY234, (int) 2, 2, 1));
+  }
+
   public void testIndexOf_arrayTarget() {
     assertThat(Ints.indexOf(EMPTY, EMPTY)).isEqualTo(0);
     assertThat(Ints.indexOf(ARRAY234, EMPTY)).isEqualTo(0);
@@ -168,6 +190,28 @@ public class IntsTest extends TestCase {
     assertThat(Ints.lastIndexOf(ARRAY234, (int) 4)).isEqualTo(2);
     assertThat(Ints.lastIndexOf(new int[] {(int) 2, (int) 3, (int) 2, (int) 3}, (int) 3))
         .isEqualTo(3);
+  }
+
+  public void testLastIndexOfIndexed() {
+    assertThat(Ints.lastIndexOf(EMPTY, (int) 1, 0, 0)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(ARRAY1, (int) 2, 0, 1)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 1, 0, 3)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(new int[] {(int) -1}, (int) -1, 0, 1)).isEqualTo(0);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 2, 0, 3)).isEqualTo(0);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 2, 0, 0)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 2, 1, 3)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 3, 1, 2)).isEqualTo(1);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 3, 0, 1)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 4, 2, 3)).isEqualTo(2);
+    assertThat(Ints.lastIndexOf(ARRAY234, (int) 4, 0, 2)).isEqualTo(-1);
+    assertThat(Ints.lastIndexOf(new int[] {(int) 2, (int) 3, (int) 2, (int) 3}, (int) 3, 0, 3))
+        .isEqualTo(1);
+    assertThat(Ints.lastIndexOf(new int[] {(int) 3, (int) 3, (int) 3, (int) 3}, (int) 3, 1, 3))
+        .isEqualTo(2);
+
+    assertThrows(IndexOutOfBoundsException.class, () -> Ints.lastIndexOf(ARRAY234, (int) 2, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Ints.lastIndexOf(ARRAY234, (int) 2, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Ints.lastIndexOf(ARRAY234, (int) 2, 2, 1));
   }
 
   @GwtIncompatible

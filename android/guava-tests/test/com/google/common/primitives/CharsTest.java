@@ -123,6 +123,28 @@ public class CharsTest extends TestCase {
         .isEqualTo(1);
   }
 
+  public void testIndexOfIndexed() {
+    assertThat(Chars.indexOf(EMPTY, (char) 1, 0, 0)).isEqualTo(-1);
+    assertThat(Chars.indexOf(ARRAY1, (char) 2, 0, 1)).isEqualTo(-1);
+    assertThat(Chars.indexOf(ARRAY234, (char) 1, 0, 3)).isEqualTo(-1);
+    assertThat(Chars.indexOf(new char[] {(char) -1}, (char) -1, 0, 1)).isEqualTo(0);
+    assertThat(Chars.indexOf(ARRAY234, (char) 2, 0, 3)).isEqualTo(0);
+    assertThat(Chars.indexOf(ARRAY234, (char) 2, 0, 0)).isEqualTo(-1);
+    assertThat(Chars.indexOf(ARRAY234, (char) 2, 1, 3)).isEqualTo(-1);
+    assertThat(Chars.indexOf(ARRAY234, (char) 3, 1, 2)).isEqualTo(1);
+    assertThat(Chars.indexOf(ARRAY234, (char) 3, 0, 1)).isEqualTo(-1);
+    assertThat(Chars.indexOf(ARRAY234, (char) 4, 2, 3)).isEqualTo(2);
+    assertThat(Chars.indexOf(ARRAY234, (char) 4, 0, 2)).isEqualTo(-1);
+    assertThat(Chars.indexOf(new char[] {(char) 2, (char) 3, (char) 2, (char) 3}, (char) 3, 2, 4))
+        .isEqualTo(3);
+    assertThat(Chars.indexOf(new char[] {(char) 3, (char) 3, (char) 3, (char) 3}, (char) 3, 1, 3))
+        .isEqualTo(1);
+
+    assertThrows(IndexOutOfBoundsException.class, () -> Chars.indexOf(ARRAY234, (char) 2, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Chars.indexOf(ARRAY234, (char) 2, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Chars.indexOf(ARRAY234, (char) 2, 2, 1));
+  }
+
   public void testIndexOf_arrayTarget() {
     assertThat(Chars.indexOf(EMPTY, EMPTY)).isEqualTo(0);
     assertThat(Chars.indexOf(ARRAY234, EMPTY)).isEqualTo(0);
@@ -167,6 +189,33 @@ public class CharsTest extends TestCase {
     assertThat(Chars.lastIndexOf(ARRAY234, (char) 4)).isEqualTo(2);
     assertThat(Chars.lastIndexOf(new char[] {(char) 2, (char) 3, (char) 2, (char) 3}, (char) 3))
         .isEqualTo(3);
+  }
+
+  public void testLastIndexOfIndexed() {
+    assertThat(Chars.lastIndexOf(EMPTY, (char) 1, 0, 0)).isEqualTo(-1);
+    assertThat(Chars.lastIndexOf(ARRAY1, (char) 2, 0, 1)).isEqualTo(-1);
+    assertThat(Chars.lastIndexOf(ARRAY234, (char) 1, 0, 3)).isEqualTo(-1);
+    assertThat(Chars.lastIndexOf(new char[] {(char) -1}, (char) -1, 0, 1)).isEqualTo(0);
+    assertThat(Chars.lastIndexOf(ARRAY234, (char) 2, 0, 3)).isEqualTo(0);
+    assertThat(Chars.lastIndexOf(ARRAY234, (char) 2, 0, 0)).isEqualTo(-1);
+    assertThat(Chars.lastIndexOf(ARRAY234, (char) 2, 1, 3)).isEqualTo(-1);
+    assertThat(Chars.lastIndexOf(ARRAY234, (char) 3, 1, 2)).isEqualTo(1);
+    assertThat(Chars.lastIndexOf(ARRAY234, (char) 3, 0, 1)).isEqualTo(-1);
+    assertThat(Chars.lastIndexOf(ARRAY234, (char) 4, 2, 3)).isEqualTo(2);
+    assertThat(Chars.lastIndexOf(ARRAY234, (char) 4, 0, 2)).isEqualTo(-1);
+    assertThat(
+            Chars.lastIndexOf(new char[] {(char) 2, (char) 3, (char) 2, (char) 3}, (char) 3, 0, 3))
+        .isEqualTo(1);
+    assertThat(
+            Chars.lastIndexOf(new char[] {(char) 3, (char) 3, (char) 3, (char) 3}, (char) 3, 1, 3))
+        .isEqualTo(2);
+
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Chars.lastIndexOf(ARRAY234, (char) 2, -1, 1));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Chars.lastIndexOf(ARRAY234, (char) 2, 0, 4));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Chars.lastIndexOf(ARRAY234, (char) 2, 2, 1));
   }
 
   public void testMax_noArgs() {

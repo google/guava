@@ -114,6 +114,27 @@ public class BooleansTest extends TestCase {
     assertThat(Booleans.indexOf(new boolean[] {false, false, true}, true)).isEqualTo(2);
   }
 
+  public void testIndexOfIndexed() {
+    assertThat(Booleans.indexOf(EMPTY, false, 0, 0)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, true, 0, 1)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_FALSE, true, 0, 2)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, false, 0, 1)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, false, 0, 0)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, false, 0, 2)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, false, 1, 2)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, true, 0, 2)).isEqualTo(1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, true, 0, 1)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(new boolean[] {false, true, false, true}, true, 2, 4)).isEqualTo(3);
+    assertThat(Booleans.indexOf(new boolean[] {true, true, true, true}, true, 1, 3)).isEqualTo(1);
+
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Booleans.indexOf(ARRAY_FALSE_TRUE, true, -1, 1));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Booleans.indexOf(ARRAY_FALSE_TRUE, true, 0, 3));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Booleans.indexOf(ARRAY_FALSE_TRUE, true, 2, 1));
+  }
+
   public void testLastIndexOf() {
     assertThat(Booleans.lastIndexOf(EMPTY, false)).isEqualTo(-1);
     assertThat(Booleans.lastIndexOf(ARRAY_FALSE, true)).isEqualTo(-1);
@@ -122,6 +143,29 @@ public class BooleansTest extends TestCase {
     assertThat(Booleans.lastIndexOf(ARRAY_FALSE_TRUE, false)).isEqualTo(0);
     assertThat(Booleans.lastIndexOf(ARRAY_FALSE_TRUE, true)).isEqualTo(1);
     assertThat(Booleans.lastIndexOf(new boolean[] {false, true, true}, true)).isEqualTo(2);
+  }
+
+  public void testLastIndexOfIndexed() {
+    assertThat(Booleans.lastIndexOf(EMPTY, false, 0, 0)).isEqualTo(-1);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE, true, 0, 1)).isEqualTo(-1);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE_FALSE, true, 0, 2)).isEqualTo(-1);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE, false, 0, 1)).isEqualTo(0);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE, false, 0, 0)).isEqualTo(-1);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE_TRUE, false, 0, 2)).isEqualTo(0);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE_TRUE, false, 1, 2)).isEqualTo(-1);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE_TRUE, true, 0, 2)).isEqualTo(1);
+    assertThat(Booleans.lastIndexOf(ARRAY_FALSE_TRUE, true, 0, 1)).isEqualTo(-1);
+    assertThat(Booleans.lastIndexOf(new boolean[] {false, true, false, true}, true, 0, 3))
+        .isEqualTo(1);
+    assertThat(Booleans.lastIndexOf(new boolean[] {true, true, true, true}, true, 1, 3))
+        .isEqualTo(2);
+
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Booleans.lastIndexOf(ARRAY_FALSE_TRUE, true, -1, 1));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Booleans.lastIndexOf(ARRAY_FALSE_TRUE, true, 0, 3));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Booleans.lastIndexOf(ARRAY_FALSE_TRUE, true, 2, 1));
   }
 
   public void testConcat() {
