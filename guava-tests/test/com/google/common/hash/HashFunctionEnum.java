@@ -41,7 +41,8 @@ import org.jspecify.annotations.NullUnmarked;
 @SuppressWarnings("deprecation") // We still need to test our deprecated APIs.
 @NullUnmarked
 @J2ktIncompatible
-enum HashFunctionEnum {
+// Public so JMH-generated harness classes in com.google.common.hash.jmh_generated can access it.
+public enum HashFunctionEnum {
   ADLER32(adler32()),
   CRC32(crc32()),
   GOOD_FAST_HASH_32(goodFastHash(32)),
