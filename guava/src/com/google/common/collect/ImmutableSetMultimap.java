@@ -275,7 +275,7 @@ public class ImmutableSetMultimap<K, V> extends ImmutableMultimap<K, V>
     @Override
     int expectedValueCollectionSize(int defaultExpectedValues, Iterable<?> values) {
       // Only trust the size of `values` if it is a Set and therefore probably already deduplicated.
-      if (values instanceof Set<?>) {
+      if (values instanceof Set) {
         Set<?> collection = (Set<?>) values;
         return max(defaultExpectedValues, collection.size());
       } else {

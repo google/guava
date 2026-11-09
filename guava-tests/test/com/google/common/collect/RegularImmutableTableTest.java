@@ -82,14 +82,14 @@ public class RegularImmutableTableTest extends AbstractImmutableTableTest {
   }
 
   public void testForCells() {
-    assertTrue(RegularImmutableTable.forCells(CELLS) instanceof DenseImmutableTable<?, ?, ?>);
-    assertTrue(
-        RegularImmutableTable.forCells(
+    assertThat(RegularImmutableTable.forCells(CELLS)).isInstanceOf(DenseImmutableTable.class);
+    assertThat(
+            RegularImmutableTable.forCells(
                 ImmutableSet.of(
                     immutableCell('a', 1, "blah"),
                     immutableCell('b', 2, "blah"),
-                    immutableCell('c', 3, "blah")))
-            instanceof SparseImmutableTable<?, ?, ?>);
+                    immutableCell('c', 3, "blah"))))
+        .isInstanceOf(SparseImmutableTable.class);
   }
 
   public void testGet() {

@@ -222,7 +222,7 @@ public abstract class ImmutableMultimap<K, V> extends BaseImmutableMultimap<K, V
      * values} if it is a Set and therefore probably already deduplicated.
      */
     int expectedValueCollectionSize(int defaultExpectedValues, Iterable<?> values) {
-      if (values instanceof Collection<?>) {
+      if (values instanceof Collection) {
         Collection<?> collection = (Collection<?>) values;
         return max(defaultExpectedValues, collection.size());
       } else {

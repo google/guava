@@ -80,7 +80,7 @@ public abstract class ForwardingImmutableMap<K, V> extends ImmutableMap<K, V> {
         new SimpleForwardingSet<Entry<K, V>>(delegate.entrySet()) {
           @Override
           public boolean contains(@Nullable Object object) {
-            if (object instanceof Entry<?, ?> && ((Entry<?, ?>) object).getKey() == null) {
+            if (object instanceof Entry && ((Entry<?, ?>) object).getKey() == null) {
               return false;
             }
             try {

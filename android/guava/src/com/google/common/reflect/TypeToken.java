@@ -1154,7 +1154,7 @@ public abstract class TypeToken<T> extends TypeCapture<T> implements Serializabl
   private @Nullable Type getOwnerTypeIfPresent() {
     if (runtimeType instanceof ParameterizedType) {
       return ((ParameterizedType) runtimeType).getOwnerType();
-    } else if (runtimeType instanceof Class<?>) {
+    } else if (runtimeType instanceof Class) {
       return ((Class<?>) runtimeType).getEnclosingClass();
     } else {
       return null;
