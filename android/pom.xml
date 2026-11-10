@@ -55,6 +55,7 @@
     <!-- Override this with -Dtest.include="**/SomeTest.java" on the CLI -->
     <test.include>%regex[.*.class]</test.include>
     <animal-sniffer-maven-plugin.version>1.28</animal-sniffer-maven-plugin.version>
+    <artifactregistry-maven-wagon.version>2.2.5</artifactregistry-maven-wagon.version>
     <asm.version>9.11.1</asm.version>
     <build-helper-maven-plugin.version>3.6.2</build-helper-maven-plugin.version>
     <caliper.version>1.0-beta-3</caliper.version>
@@ -185,12 +186,6 @@
           </execution>
         </executions>
       </plugin>
-      <plugin>
-        <groupId>org.sonatype.central</groupId>
-        <artifactId>central-publishing-maven-plugin</artifactId>
-        <version>${central-publishing-maven-plugin.version}</version>
-        <extensions>true</extensions>
-      </plugin>
     </plugins>
     <pluginManagement>
       <plugins>
@@ -284,7 +279,7 @@
         <plugin>
           <artifactId>maven-deploy-plugin</artifactId>
           <version>${maven-deploy-plugin.version}</version>
-          <!-- Warning: Guava uses central-publishing-maven-plugin, not maven-deploy-plugin, so any configuration here does not apply to it. This section exists only to quiet warnings when Maven tries to pick a version of the plugin anyway (and it tries one that requires Maven 4). -->
+          <!-- Used when deploying to Artifact Registry for OSS Exit Gate; replaced by central-publishing-maven-plugin when bypass-oss-exit-gate is active. -->
         </plugin>
         <plugin>
           <artifactId>maven-enforcer-plugin</artifactId>
@@ -507,6 +502,39 @@
                 </goals>
               </execution>
             </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.google.cloud.artifactregistry</groupId>
+            <artifactId>artifactregistry-maven-wagon</artifactId>
+            <version>${artifactregistry-maven-wagon.version}</version>
+            <extensions>true</extensions>
+          </plugin>
+        </plugins>
+      </build>
+      <distributionManagement>
+        <repository>
+          <id>oss-exit-gate</id>
+          <url>artifactregistry://us-maven.pkg.dev/oss-exit-gate-prod/guava--mavencentral</url>
+        </repository>
+      </distributionManagement>
+    </profile>
+    <profile>
+      <id>bypass-oss-exit-gate</id>
+      <!-- TODO(cpovirk): Remove <activation> once OSS Exit Gate setup is complete. -->
+      <activation>
+        <property>
+          <!-- We would use activeByDefault, but then it would be deactivated automatically when any *other* profile is activated, including sonatype-oss-release. -->
+          <name>bypass-oss-exit-gate</name>
+          <value>!false</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>${central-publishing-maven-plugin.version}</version>
+            <extensions>true</extensions>
           </plugin>
         </plugins>
       </build>

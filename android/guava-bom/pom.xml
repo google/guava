@@ -45,7 +45,9 @@
   </issueManagement>
 
   <properties>
+    <artifactregistry-maven-wagon.version>2.2.5</artifactregistry-maven-wagon.version>
     <central-publishing-maven-plugin.version>0.12.0</central-publishing-maven-plugin.version>
+    <maven-deploy-plugin.version>3.2.0</maven-deploy-plugin.version>
     <maven-gpg-plugin.version>3.0.1</maven-gpg-plugin.version>
   </properties>
 
@@ -74,13 +76,15 @@
         <artifactId>maven-install-plugin</artifactId>
         <version>3.1.4</version>
       </plugin>
-      <plugin>
-        <groupId>org.sonatype.central</groupId>
-        <artifactId>central-publishing-maven-plugin</artifactId>
-        <version>${central-publishing-maven-plugin.version}</version>
-        <extensions>true</extensions>
-      </plugin>
     </plugins>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${maven-deploy-plugin.version}</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
   </build>
 
   <profiles>
@@ -100,6 +104,39 @@
                 </goals>
               </execution>
             </executions>
+          </plugin>
+          <plugin>
+            <groupId>com.google.cloud.artifactregistry</groupId>
+            <artifactId>artifactregistry-maven-wagon</artifactId>
+            <version>${artifactregistry-maven-wagon.version}</version>
+            <extensions>true</extensions>
+          </plugin>
+        </plugins>
+      </build>
+      <distributionManagement>
+        <repository>
+          <id>oss-exit-gate</id>
+          <url>artifactregistry://us-maven.pkg.dev/oss-exit-gate-prod/guava--mavencentral</url>
+        </repository>
+      </distributionManagement>
+    </profile>
+    <profile>
+      <id>bypass-oss-exit-gate</id>
+      <!-- TODO(cpovirk): Remove <activation> once OSS Exit Gate setup is complete; see main pom.xml. -->
+      <activation>
+        <!-- We would use activeByDefault, but then it would be deactivated automatically when any *other* profile is activated, including sonatype-oss-release. -->
+        <property>
+          <name>bypass-oss-exit-gate</name>
+          <value>!false</value>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.sonatype.central</groupId>
+            <artifactId>central-publishing-maven-plugin</artifactId>
+            <version>${central-publishing-maven-plugin.version}</version>
+            <extensions>true</extensions>
           </plugin>
         </plugins>
       </build>
