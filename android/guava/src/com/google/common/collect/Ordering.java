@@ -43,6 +43,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.NoSuchElementException;
+import java.util.PriorityQueue;
 import java.util.SortedMap;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -319,8 +320,43 @@ public abstract class Ordering<T extends @Nullable Object> implements Comparator
    * System#identityHashCode(Object)}, so its behavior cannot be preserved across serialization.
    *
    * @since 2.0
+   * @deprecated This method is a frequent source of bugs: Its ordering varies across runs, it is
+   *     inconsistent with {@link Object}, and its tie-breaking logic will throw {@code
+   *     IdentityException} on value objects (<a href="https://openjdk.org/jeps/401">JEP 401</a>)
+   *     whose hash codes collide. Instead:
+   *     <ul>
+   *       <li>If you want a {@link Multimap} with sorted keys and unsorted values: Instead of
+   *           {@code TreeMultimap.create(keyComparator, Ordering.arbitrary())}, use {@link
+   *           MultimapBuilder#treeKeys(Comparator) MultimapBuilder.treeKeys(keyComparator)} with
+   *           either {@link MultimapBuilder.MultimapBuilderWithKeys#arrayListValues()
+   *           arrayListValues()} or {@link
+   *           MultimapBuilder.MultimapBuilderWithKeys#linkedHashSetValues() linkedHashSetValues()}.
+   *       <li>If you want to randomize the order of a list: Use {@link Collections#shuffle}. (Using
+   *           {@code arbitrary()} produces the same "shuffled" order on every call within a VM,
+   *           while {@code shuffle} does not. If you want consistent order within a VM, you'll want
+   *           to store the shuffled result.)
+   *       <li>If you want to break ties in a consistent order in {@link List#sort}, {@link
+   *           Stream#sorted}, or {@link PriorityQueue}: {@code sort} and {@code sorted} are already
+   *           stable, so they maintain any existing ordering among "equal" elements. Although
+   *           {@code Ordering.arbitrary()} can impose some new ordering on equal elements during a
+   *           sort or in a {@code PriorityQueue}, the ordering is arbitrary, including that it
+   *           varies across runs of your application. Its only virtue is that <i>multiple</i>
+   *           sorting operations on <i>identical instances</i> (not multiple instances that are
+   *           merely {@code equals} to one another) will end up in the same order <i>within a given
+   *           run of an application</i>, even if they were inserted in a different order.
+   *       <li>If you want a sorted map or set to contain multiple objects that your primary {@link
+   *           Comparator} considers to be equal (and you are using {@code arbitrary()} as a
+   *           tie-breaker): Prefer to break ties by comparing an existing unique field or by
+   *           assigning each object a sequential ID (such as from an {@link AtomicLong}) and
+   *           comparing that. Or consider storing your objects in a different data structure, like
+   *           by switching from a {@link Set} to the {@link Multimap} discussed in the first list
+   *           item above: You can insert your objects as values, and your keys can be the objects
+   *           themselves or objects that contain only the fields compared by your {@link
+   *           Comparator}.
+   *     </ul>
+   *     We do not plan to remove this API, but we recommend that almost all users move off it.
    */
-  // TODO(kevinb): copy to Comparators, etc.
+  @Deprecated
   @J2ktIncompatible // MapMaker
   public static Ordering<@Nullable Object> arbitrary() {
     return ArbitraryOrderingHolder.ARBITRARY_ORDERING;
