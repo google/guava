@@ -238,12 +238,11 @@ well.
 
 <h2 id="java-8-users-heading">Java 8+ users</h2>
 
-<p>If you are using Java 8+, this class is now obsolete. Most of its functionality is now
-provided by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html" title="interface in java.util.stream" class="external-link"><code>Stream</code></a> and by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a> itself, and the rest
-can now be found as static methods in our new <a href="Comparators.html" title="class in com.google.common.collect"><code>Comparators</code></a> class. See each method below
-for further instructions. Whenever possible, you should change any references of type <code>
-Ordering</code> to be of type <code>Comparator</code> instead. However, at this time we have no plan to
-<i>deprecate</i> this class.
+<p>If you are using Java 8+, this class is now mostly obsolete. Most of its functionality is now
+provided by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html" title="interface in java.util.stream" class="external-link"><code>Stream</code></a>, by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a> itself, or by static methods in <a href="Comparators.html" title="class in com.google.common.collect"><code>Comparators</code></a>. However, some functionality, such as <a href="#explicit(java.util.List)"><code>explicit(List)</code></a>, has no replacement in
+those APIs. See each method below for further instructions. Whenever possible, you should change
+any references of type <code>Ordering</code> to be of type <code>Comparator</code> instead. However, at
+this time we have no plan to <i>deprecate</i> this class.
 
 <p>Many replacements involve adopting <code>Stream</code>, and these changes can sometimes make your
 code verbose. Whenever following this advice, you should check whether <code>Stream</code> could be
