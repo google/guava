@@ -458,8 +458,12 @@ in <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/la
 <div class="col-first even-row-color"><code>static <a href="../../collect/Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</code></div>
 <div class="col-second even-row-color"><span class="type-name-label">Ordering.</span><code><a href="../../collect/Ordering.html#arbitrary()" class="member-name-link">arbitrary</a>()</code></div>
 <div class="col-last even-row-color">
-<div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a, b) == 0</code> implies
-<code>a == b</code> (identity equality).</div>
+<div class="block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">This method is a frequent source of bugs: Its ordering varies across runs, it is
+    inconsistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link"><code>Object</code></a>, and its tie-breaking logic will throw <code>
+    IdentityException</code> on value objects (<a href="https://openjdk.org/jeps/401">JEP 401</a>)
+    whose hash codes collide.</div>
+</div>
 </div>
 <div class="col-first odd-row-color"><code>static &lt;E extends <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Enum.html" title="class in java.lang" class="external-link">Enum</a>&lt;E&gt;&gt;<br><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/EnumSet.html" title="class in java.util" class="external-link">EnumSet</a><wbr>&lt;E&gt;</code></div>
 <div class="col-second odd-row-color"><span class="type-name-label">Sets.</span><code><a href="../../collect/Sets.html#complementOf(java.util.Collection)" class="member-name-link">complementOf</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link">Collection</a>&lt;E&gt;&nbsp;collection)</code></div>

@@ -1410,8 +1410,47 @@ Bloom filter.</div>
 </dd>
 <dt><a href="com/google/common/collect/Ordering.html#arbitrary()" class="member-name-link">arbitrary()</a> - Static method in class com.google.common.collect.<a href="com/google/common/collect/Ordering.html" title="class in com.google.common.collect">Ordering</a></dt>
 <dd>
-<div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a, b) == 0</code> implies
-<code>a == b</code> (identity equality).</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">This method is a frequent source of bugs: Its ordering varies across runs, it is
+    inconsistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link"><code>Object</code></a>, and its tie-breaking logic will throw <code>
+    IdentityException</code> on value objects (<a href="https://openjdk.org/jeps/401">JEP 401</a>)
+    whose hash codes collide. Instead:
+    <ul>
+      <li>If you want a <a href="com/google/common/collect/Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> with sorted keys and unsorted values: Instead of
+          <code>TreeMultimap.create(keyComparator, Ordering.arbitrary())</code>, use <a href="com/google/common/collect/MultimapBuilder.html#treeKeys(java.util.Comparator)"><code>MultimapBuilder.treeKeys(keyComparator)</code></a> with
+          either <a href="com/google/common/collect/MultimapBuilder.MultimapBuilderWithKeys.html#arrayListValues()"><code>arrayListValues()</code></a> or <a href="com/google/common/collect/MultimapBuilder.MultimapBuilderWithKeys.html#linkedHashSetValues()"><code>linkedHashSetValues()</code></a>.
+      <li>If you want to randomize the order of a list: Use <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collections.html#shuffle(java.util.List)" class="external-link"><code>Collections.shuffle(List)</code></a>. (Using
+          <code>arbitrary()</code> produces the same "shuffled" order on every call within a VM,
+          while <code>shuffle</code> does not. If you want consistent order within a VM, you'll want
+          to store the shuffled result.)
+      <li>If you want to break ties in a consistent order in <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/List.html#sort(java.util.Comparator)" class="external-link"><code>List.sort(Comparator)</code></a>, <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html#sorted()" class="external-link"><code>Stream.sorted()</code></a>, or <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/PriorityQueue.html" title="class in java.util" class="external-link"><code>PriorityQueue</code></a>: <code>sort</code> and <code>sorted</code> are already
+          stable, so they maintain any existing ordering among "equal" elements. Although
+          <code>Ordering.arbitrary()</code> can impose some new ordering on equal elements during a
+          sort or in a <code>PriorityQueue</code>, the ordering is arbitrary, including that it
+          varies across runs of your application. Its only virtue is that <i>multiple</i>
+          sorting operations on <i>identical instances</i> (not multiple instances that are
+          merely <code>equals</code> to one another) will end up in the same order <i>within a given
+          run of an application</i>, even if they were inserted in a different order.
+      <li>If you want a sorted map or set to contain multiple objects that your primary <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a> considers to be equal (and you are using <code>arbitrary()</code> as a
+          tie-breaker): Prefer to break ties by comparing an existing unique field or by
+          assigning each object a sequential ID (such as from an 
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>AtomicLong</code></pre>
+</details>
+) and
+          comparing that. Or consider storing your objects in a different data structure, like
+          by switching from a 
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>Set</code></pre>
+</details>
+ to the <a href="com/google/common/collect/Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> discussed in the first list
+          item above: You can insert your objects as values, and your keys can be the objects
+          themselves or objects that contain only the fields compared by your <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a>.
+    </ul>
+    We do not plan to remove this API, but we recommend that almost all users move off it.</div>
+</div>
 </dd>
 <dt><a href="com/google/common/collect/MapDifference.html#areEqual()" class="member-name-link">areEqual()</a> - Method in interface com.google.common.collect.<a href="com/google/common/collect/MapDifference.html" title="interface in com.google.common.collect">MapDifference</a></dt>
 <dd>

@@ -295,11 +295,15 @@ implicit).</div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns an ordering which treats all values as equal, indicating "no ordering."</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#arbitrary()" class="member-name-link">arbitrary</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
-<div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a, b) == 0</code> implies
-<code>a == b</code> (identity equality).</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code>static <a href="Ordering.html" title="class in com.google.common.collect">Ordering</a><wbr>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#arbitrary()" class="member-name-link">arbitrary</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4 method-summary-table-tab6">
+<div class="block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">This method is a frequent source of bugs: Its ordering varies across runs, it is
+    inconsistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link"><code>Object</code></a>, and its tie-breaking logic will throw <code>
+    IdentityException</code> on value objects (<a href="https://openjdk.org/jeps/401">JEP 401</a>)
+    whose hash codes collide.</div>
+</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code>int</code></div>
 <div class="col-second even-row-color method-summary-table method-summary-table-tab2 method-summary-table-tab4 method-summary-table-tab6"><code><a href="#binarySearch(java.util.List,T)" class="member-name-link">binarySearch</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/List.html" title="interface in java.util" class="external-link">List</a>&lt;? extends <a href="#type-param-T" title="type parameter in Ordering">T</a>&gt;&nbsp;sortedList,
@@ -696,7 +700,49 @@ representations as returned by <code>toString()</code>. It does not support null
 <section class="detail" id="arbitrary()">
 <h3>arbitrary</h3>
 <div class="horizontal-scroll">
-<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">arbitrary</span>()</div>
+<div class="member-signature"><span class="annotations"><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Deprecated.html" title="annotation in java.lang" class="external-link">@Deprecated</a>
+</span><span class="modifiers">public static</span>&nbsp;<span class="return-type"><a href="Ordering.html" title="class in com.google.common.collect">Ordering</a>&lt;<a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link">Object</a>&gt;</span>&nbsp;<span class="element-name">arbitrary</span>()</div>
+<div class="deprecation-block"><span class="deprecated-label">Deprecated.</span>
+<div class="deprecation-comment">This method is a frequent source of bugs: Its ordering varies across runs, it is
+    inconsistent with <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Object.html" title="class in java.lang" class="external-link"><code>Object</code></a>, and its tie-breaking logic will throw <code>
+    IdentityException</code> on value objects (<a href="https://openjdk.org/jeps/401">JEP 401</a>)
+    whose hash codes collide. Instead:
+    <ul>
+      <li>If you want a <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> with sorted keys and unsorted values: Instead of
+          <code>TreeMultimap.create(keyComparator, Ordering.arbitrary())</code>, use <a href="MultimapBuilder.html#treeKeys(java.util.Comparator)"><code>MultimapBuilder.treeKeys(keyComparator)</code></a> with
+          either <a href="MultimapBuilder.MultimapBuilderWithKeys.html#arrayListValues()"><code>arrayListValues()</code></a> or <a href="MultimapBuilder.MultimapBuilderWithKeys.html#linkedHashSetValues()"><code>linkedHashSetValues()</code></a>.
+      <li>If you want to randomize the order of a list: Use <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collections.html#shuffle(java.util.List)" class="external-link"><code>Collections.shuffle(List)</code></a>. (Using
+          <code>arbitrary()</code> produces the same "shuffled" order on every call within a VM,
+          while <code>shuffle</code> does not. If you want consistent order within a VM, you'll want
+          to store the shuffled result.)
+      <li>If you want to break ties in a consistent order in <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/List.html#sort(java.util.Comparator)" class="external-link"><code>List.sort(Comparator)</code></a>, <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/stream/Stream.html#sorted()" class="external-link"><code>Stream.sorted()</code></a>, or <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/PriorityQueue.html" title="class in java.util" class="external-link"><code>PriorityQueue</code></a>: <code>sort</code> and <code>sorted</code> are already
+          stable, so they maintain any existing ordering among "equal" elements. Although
+          <code>Ordering.arbitrary()</code> can impose some new ordering on equal elements during a
+          sort or in a <code>PriorityQueue</code>, the ordering is arbitrary, including that it
+          varies across runs of your application. Its only virtue is that <i>multiple</i>
+          sorting operations on <i>identical instances</i> (not multiple instances that are
+          merely <code>equals</code> to one another) will end up in the same order <i>within a given
+          run of an application</i>, even if they were inserted in a different order.
+      <li>If you want a sorted map or set to contain multiple objects that your primary <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a> considers to be equal (and you are using <code>arbitrary()</code> as a
+          tie-breaker): Prefer to break ties by comparing an existing unique field or by
+          assigning each object a sequential ID (such as from an 
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>AtomicLong</code></pre>
+</details>
+) and
+          comparing that. Or consider storing your objects in a different data structure, like
+          by switching from a 
+<details class="invalid-tag">
+<summary>invalid reference</summary>
+<pre><code>Set</code></pre>
+</details>
+ to the <a href="Multimap.html" title="interface in com.google.common.collect"><code>Multimap</code></a> discussed in the first list
+          item above: You can insert your objects as values, and your keys can be the objects
+          themselves or objects that contain only the fields compared by your <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link"><code>Comparator</code></a>.
+    </ul>
+    We do not plan to remove this API, but we recommend that almost all users move off it.</div>
+</div>
 <div class="block">Returns an arbitrary ordering over all objects, for which <code>compare(a, b) == 0</code> implies
 <code>a == b</code> (identity equality). There is no meaning whatsoever to the order imposed, but it
 is constant for the life of the VM.
