@@ -7,7 +7,7 @@ updates:
 #    schedule:
 #      interval: "weekly"
 #    cooldown:
-#      default-days: 7
+#      default-days: 14
 #    groups:
 #      dependencies:
 #        applies-to: version-updates
@@ -18,7 +18,7 @@ updates:
 #    schedule:
 #      interval: "weekly"
 #    cooldown:
-#      default-days: 7
+#      default-days: 14
 #    groups:
 #      dependencies:
 #        applies-to: version-updates
@@ -29,7 +29,7 @@ updates:
     schedule:
       interval: "monthly"
     cooldown:
-      default-days: 7
+      default-days: 14
     allow:
       - dependency-name: "org.apache.maven.wrapper:maven-wrapper"
       - dependency-name: "org.apache.maven:apache-maven"
@@ -49,7 +49,7 @@ updates:
     schedule:
       interval: "monthly"
     cooldown:
-      default-days: 7
+      default-days: 14
     groups:
       github-actions:
         applies-to: version-updates
@@ -61,7 +61,7 @@ updates:
     schedule:
       interval: "monthly"
     cooldown:
-      default-days: 7
+      default-days: 14
     groups:
       github-actions:
         applies-to: version-updates
