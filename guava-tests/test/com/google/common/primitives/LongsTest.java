@@ -141,6 +141,53 @@ public class LongsTest extends TestCase {
     assertThat(Longs.indexOf(new long[] {4L, 3L, 2L}, new long[] {2L, 3L, 4L})).isEqualTo(-1);
   }
 
+  public void testIndexOf_arrayTargetIndexed() {
+    assertThat(Longs.indexOf(EMPTY, EMPTY, 0, 0)).isEqualTo(0);
+    assertThat(Longs.indexOf(ARRAY234, EMPTY, 0, 3)).isEqualTo(0);
+    assertThat(Longs.indexOf(ARRAY234, EMPTY, 1, 3)).isEqualTo(1);
+    assertThat(Longs.indexOf(ARRAY234, EMPTY, 2, 2)).isEqualTo(2);
+    assertThat(Longs.indexOf(ARRAY234, EMPTY, 3, 3)).isEqualTo(3);
+    assertThat(Longs.indexOf(EMPTY, ARRAY234, 0, 0)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY234, ARRAY1, 0, 3)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY1, ARRAY234, 0, 1)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY1, ARRAY1, 0, 1)).isEqualTo(0);
+    assertThat(Longs.indexOf(ARRAY1, ARRAY1, 0, 0)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY1, ARRAY1, 1, 1)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY234, ARRAY234, 0, 3)).isEqualTo(0);
+    assertThat(Longs.indexOf(ARRAY234, ARRAY234, 0, 2)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY234, ARRAY234, 1, 3)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY234, new long[] {2L, 3L}, 0, 3)).isEqualTo(0);
+    assertThat(Longs.indexOf(ARRAY234, new long[] {2L, 3L}, 0, 2)).isEqualTo(0);
+    assertThat(Longs.indexOf(ARRAY234, new long[] {2L, 3L}, 0, 1)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY234, new long[] {2L, 3L}, 1, 3)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY234, new long[] {3L, 4L}, 0, 3)).isEqualTo(1);
+    assertThat(Longs.indexOf(ARRAY234, new long[] {3L, 4L}, 1, 3)).isEqualTo(1);
+    assertThat(Longs.indexOf(ARRAY234, new long[] {3L, 4L}, 1, 2)).isEqualTo(-1);
+    assertThat(Longs.indexOf(ARRAY234, new long[] {3L}, 1, 2)).isEqualTo(1);
+    assertThat(Longs.indexOf(ARRAY234, new long[] {4L}, 2, 3)).isEqualTo(2);
+    assertThat(Longs.indexOf(new long[] {2L, 3L, 3L, 3L, 3L}, new long[] {3L}, 2, 5)).isEqualTo(2);
+    assertThat(
+            Longs.indexOf(new long[] {2L, 3L, 2L, 3L, 4L, 2L, 3L}, new long[] {2L, 3L, 4L}, 0, 7))
+        .isEqualTo(2);
+    assertThat(
+            Longs.indexOf(new long[] {2L, 3L, 2L, 3L, 4L, 2L, 3L}, new long[] {2L, 3L, 4L}, 2, 5))
+        .isEqualTo(2);
+    assertThat(
+            Longs.indexOf(new long[] {2L, 3L, 2L, 3L, 4L, 2L, 3L}, new long[] {2L, 3L, 4L}, 2, 4))
+        .isEqualTo(-1);
+    assertThat(
+            Longs.indexOf(new long[] {2L, 2L, 3L, 4L, 2L, 3L, 4L}, new long[] {2L, 3L, 4L}, 2, 7))
+        .isEqualTo(4);
+    assertThat(Longs.indexOf(new long[] {4L, 3L, 2L}, new long[] {2L, 3L, 4L}, 0, 3)).isEqualTo(-1);
+
+    assertThrows(IndexOutOfBoundsException.class, () -> Longs.indexOf(ARRAY234, ARRAY1, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Longs.indexOf(ARRAY234, ARRAY1, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Longs.indexOf(ARRAY234, ARRAY1, 2, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Longs.indexOf(ARRAY234, EMPTY, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Longs.indexOf(ARRAY234, EMPTY, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Longs.indexOf(ARRAY234, EMPTY, 2, 1));
+  }
+
   public void testLastIndexOf() {
     assertThat(Longs.lastIndexOf(EMPTY, 1L)).isEqualTo(-1);
     assertThat(Longs.lastIndexOf(ARRAY1, 2L)).isEqualTo(-1);

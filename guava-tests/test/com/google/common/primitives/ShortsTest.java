@@ -202,6 +202,89 @@ public class ShortsTest extends TestCase {
         .isEqualTo(-1);
   }
 
+  public void testIndexOf_arrayTargetIndexed() {
+    assertThat(Shorts.indexOf(EMPTY, EMPTY, 0, 0)).isEqualTo(0);
+    assertThat(Shorts.indexOf(ARRAY234, EMPTY, 0, 3)).isEqualTo(0);
+    assertThat(Shorts.indexOf(ARRAY234, EMPTY, 1, 3)).isEqualTo(1);
+    assertThat(Shorts.indexOf(ARRAY234, EMPTY, 2, 2)).isEqualTo(2);
+    assertThat(Shorts.indexOf(ARRAY234, EMPTY, 3, 3)).isEqualTo(3);
+    assertThat(Shorts.indexOf(EMPTY, ARRAY234, 0, 0)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY234, ARRAY1, 0, 3)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY1, ARRAY234, 0, 1)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY1, ARRAY1, 0, 1)).isEqualTo(0);
+    assertThat(Shorts.indexOf(ARRAY1, ARRAY1, 0, 0)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY1, ARRAY1, 1, 1)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY234, ARRAY234, 0, 3)).isEqualTo(0);
+    assertThat(Shorts.indexOf(ARRAY234, ARRAY234, 0, 2)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY234, ARRAY234, 1, 3)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY234, new short[] {(short) 2, (short) 3}, 0, 3)).isEqualTo(0);
+    assertThat(Shorts.indexOf(ARRAY234, new short[] {(short) 2, (short) 3}, 0, 2)).isEqualTo(0);
+    assertThat(Shorts.indexOf(ARRAY234, new short[] {(short) 2, (short) 3}, 0, 1)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY234, new short[] {(short) 2, (short) 3}, 1, 3)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY234, new short[] {(short) 3, (short) 4}, 0, 3)).isEqualTo(1);
+    assertThat(Shorts.indexOf(ARRAY234, new short[] {(short) 3, (short) 4}, 1, 3)).isEqualTo(1);
+    assertThat(Shorts.indexOf(ARRAY234, new short[] {(short) 3, (short) 4}, 1, 2)).isEqualTo(-1);
+    assertThat(Shorts.indexOf(ARRAY234, new short[] {(short) 3}, 1, 2)).isEqualTo(1);
+    assertThat(Shorts.indexOf(ARRAY234, new short[] {(short) 4}, 2, 3)).isEqualTo(2);
+    assertThat(
+            Shorts.indexOf(
+                new short[] {(short) 2, (short) 3, (short) 3, (short) 3, (short) 3},
+                new short[] {(short) 3},
+                2,
+                5))
+        .isEqualTo(2);
+    assertThat(
+            Shorts.indexOf(
+                new short[] {
+                  (short) 2, (short) 3, (short) 2, (short) 3, (short) 4, (short) 2, (short) 3
+                },
+                new short[] {(short) 2, (short) 3, (short) 4},
+                0,
+                7))
+        .isEqualTo(2);
+    assertThat(
+            Shorts.indexOf(
+                new short[] {
+                  (short) 2, (short) 3, (short) 2, (short) 3, (short) 4, (short) 2, (short) 3
+                },
+                new short[] {(short) 2, (short) 3, (short) 4},
+                2,
+                5))
+        .isEqualTo(2);
+    assertThat(
+            Shorts.indexOf(
+                new short[] {
+                  (short) 2, (short) 3, (short) 2, (short) 3, (short) 4, (short) 2, (short) 3
+                },
+                new short[] {(short) 2, (short) 3, (short) 4},
+                2,
+                4))
+        .isEqualTo(-1);
+    assertThat(
+            Shorts.indexOf(
+                new short[] {
+                  (short) 2, (short) 2, (short) 3, (short) 4, (short) 2, (short) 3, (short) 4
+                },
+                new short[] {(short) 2, (short) 3, (short) 4},
+                2,
+                7))
+        .isEqualTo(4);
+    assertThat(
+            Shorts.indexOf(
+                new short[] {(short) 4, (short) 3, (short) 2},
+                new short[] {(short) 2, (short) 3, (short) 4},
+                0,
+                3))
+        .isEqualTo(-1);
+
+    assertThrows(IndexOutOfBoundsException.class, () -> Shorts.indexOf(ARRAY234, ARRAY1, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Shorts.indexOf(ARRAY234, ARRAY1, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Shorts.indexOf(ARRAY234, ARRAY1, 2, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Shorts.indexOf(ARRAY234, EMPTY, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Shorts.indexOf(ARRAY234, EMPTY, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Shorts.indexOf(ARRAY234, EMPTY, 2, 1));
+  }
+
   public void testLastIndexOf() {
     assertThat(Shorts.lastIndexOf(EMPTY, (short) 1)).isEqualTo(-1);
     assertThat(Shorts.lastIndexOf(ARRAY1, (short) 2)).isEqualTo(-1);

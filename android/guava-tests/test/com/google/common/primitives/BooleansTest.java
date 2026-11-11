@@ -104,6 +104,57 @@ public class BooleansTest extends TestCase {
     assertThat(Booleans.indexOf(ARRAY_TRUE, new boolean[0])).isEqualTo(0);
   }
 
+  public void testIndexOf_arrayTargetIndexed() {
+    assertThat(Booleans.indexOf(EMPTY, EMPTY, 0, 0)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, EMPTY, 0, 2)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, EMPTY, 1, 2)).isEqualTo(1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, EMPTY, 1, 1)).isEqualTo(1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, EMPTY, 2, 2)).isEqualTo(2);
+    assertThat(Booleans.indexOf(EMPTY, ARRAY_FALSE, 0, 0)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE_TRUE, 0, 1)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_FALSE, ARRAY_FALSE, 0, 2)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_FALSE, ARRAY_FALSE, 1, 2)).isEqualTo(1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_FALSE, ARRAY_FALSE, 1, 1)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE, 0, 1)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE, ARRAY_FALSE, 0, 0)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE, 0, 2)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE, 1, 2)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_TRUE, 0, 2)).isEqualTo(1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_TRUE, 0, 1)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_TRUE, 1, 2)).isEqualTo(1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE_TRUE, 0, 2)).isEqualTo(0);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE_TRUE, 0, 1)).isEqualTo(-1);
+    assertThat(Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE_TRUE, 1, 2)).isEqualTo(-1);
+    assertThat(
+            Booleans.indexOf(
+                new boolean[] {false, true, false, true}, new boolean[] {false, true}, 0, 4))
+        .isEqualTo(0);
+    assertThat(
+            Booleans.indexOf(
+                new boolean[] {false, true, false, true}, new boolean[] {false, true}, 1, 4))
+        .isEqualTo(2);
+    assertThat(
+            Booleans.indexOf(
+                new boolean[] {false, true, false, true}, new boolean[] {false, true}, 1, 3))
+        .isEqualTo(-1);
+
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () -> Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE, -1, 1));
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () -> Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE, 0, 3));
+    assertThrows(
+        IndexOutOfBoundsException.class,
+        () -> Booleans.indexOf(ARRAY_FALSE_TRUE, ARRAY_FALSE, 2, 1));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Booleans.indexOf(ARRAY_FALSE_TRUE, EMPTY, -1, 1));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Booleans.indexOf(ARRAY_FALSE_TRUE, EMPTY, 0, 3));
+    assertThrows(
+        IndexOutOfBoundsException.class, () -> Booleans.indexOf(ARRAY_FALSE_TRUE, EMPTY, 2, 1));
+  }
+
   public void testIndexOf_arrays() {
     assertThat(Booleans.indexOf(EMPTY, false)).isEqualTo(-1);
     assertThat(Booleans.indexOf(ARRAY_FALSE, true)).isEqualTo(-1);

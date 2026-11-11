@@ -209,6 +209,80 @@ public class FloatsTest extends TestCase {
         .isEqualTo(-1);
   }
 
+  public void testIndexOf_arrayTargetIndexed() {
+    assertThat(Floats.indexOf(EMPTY, EMPTY, 0, 0)).isEqualTo(0);
+    assertThat(Floats.indexOf(ARRAY234, EMPTY, 0, 3)).isEqualTo(0);
+    assertThat(Floats.indexOf(ARRAY234, EMPTY, 1, 3)).isEqualTo(1);
+    assertThat(Floats.indexOf(ARRAY234, EMPTY, 2, 2)).isEqualTo(2);
+    assertThat(Floats.indexOf(ARRAY234, EMPTY, 3, 3)).isEqualTo(3);
+    assertThat(Floats.indexOf(EMPTY, ARRAY234, 0, 0)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY234, ARRAY1, 0, 3)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY1, ARRAY234, 0, 1)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY1, ARRAY1, 0, 1)).isEqualTo(0);
+    assertThat(Floats.indexOf(ARRAY1, ARRAY1, 0, 0)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY1, ARRAY1, 1, 1)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY234, ARRAY234, 0, 3)).isEqualTo(0);
+    assertThat(Floats.indexOf(ARRAY234, ARRAY234, 0, 2)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY234, ARRAY234, 1, 3)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY234, new float[] {2.0f, 3.0f}, 0, 3)).isEqualTo(0);
+    assertThat(Floats.indexOf(ARRAY234, new float[] {2.0f, 3.0f}, 0, 2)).isEqualTo(0);
+    assertThat(Floats.indexOf(ARRAY234, new float[] {2.0f, 3.0f}, 0, 1)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY234, new float[] {2.0f, 3.0f}, 1, 3)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY234, new float[] {3.0f, 4.0f}, 0, 3)).isEqualTo(1);
+    assertThat(Floats.indexOf(ARRAY234, new float[] {3.0f, 4.0f}, 1, 3)).isEqualTo(1);
+    assertThat(Floats.indexOf(ARRAY234, new float[] {3.0f, 4.0f}, 1, 2)).isEqualTo(-1);
+    assertThat(Floats.indexOf(ARRAY234, new float[] {3.0f}, 1, 2)).isEqualTo(1);
+    assertThat(Floats.indexOf(ARRAY234, new float[] {4.0f}, 2, 3)).isEqualTo(2);
+    assertThat(Floats.indexOf(new float[] {2.0f, 3.0f, 3.0f, 3.0f, 3.0f}, new float[] {3.0f}, 2, 5))
+        .isEqualTo(2);
+    assertThat(
+            Floats.indexOf(
+                new float[] {2.0f, 3.0f, 2.0f, 3.0f, 4.0f, 2.0f, 3.0f},
+                new float[] {2.0f, 3.0f, 4.0f},
+                0,
+                7))
+        .isEqualTo(2);
+    assertThat(
+            Floats.indexOf(
+                new float[] {2.0f, 3.0f, 2.0f, 3.0f, 4.0f, 2.0f, 3.0f},
+                new float[] {2.0f, 3.0f, 4.0f},
+                2,
+                5))
+        .isEqualTo(2);
+    assertThat(
+            Floats.indexOf(
+                new float[] {2.0f, 3.0f, 2.0f, 3.0f, 4.0f, 2.0f, 3.0f},
+                new float[] {2.0f, 3.0f, 4.0f},
+                2,
+                4))
+        .isEqualTo(-1);
+    assertThat(
+            Floats.indexOf(
+                new float[] {2.0f, 2.0f, 3.0f, 4.0f, 2.0f, 3.0f, 4.0f},
+                new float[] {2.0f, 3.0f, 4.0f},
+                2,
+                7))
+        .isEqualTo(4);
+    assertThat(Floats.indexOf(new float[] {4.0f, 3.0f, 2.0f}, new float[] {2.0f, 3.0f, 4.0f}, 0, 3))
+        .isEqualTo(-1);
+
+    for (float value : NUMBERS) {
+      assertWithMessage("%s", value)
+          .that(
+              Floats.indexOf(new float[] {5f, value, value, 5f}, new float[] {value, value}, 1, 3))
+          .isEqualTo(1);
+    }
+    assertThat(Floats.indexOf(new float[] {5f, NaN, NaN, 5f}, new float[] {NaN, NaN}, 0, 4))
+        .isEqualTo(-1);
+
+    assertThrows(IndexOutOfBoundsException.class, () -> Floats.indexOf(ARRAY234, ARRAY1, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Floats.indexOf(ARRAY234, ARRAY1, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Floats.indexOf(ARRAY234, ARRAY1, 2, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Floats.indexOf(ARRAY234, EMPTY, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Floats.indexOf(ARRAY234, EMPTY, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Floats.indexOf(ARRAY234, EMPTY, 2, 1));
+  }
+
   public void testLastIndexOf() {
     assertThat(Floats.lastIndexOf(EMPTY, 1.0f)).isEqualTo(-1);
     assertThat(Floats.lastIndexOf(ARRAY1, 2.0f)).isEqualTo(-1);

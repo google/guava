@@ -216,6 +216,81 @@ public class DoublesTest extends TestCase {
         .isEqualTo(-1);
   }
 
+  public void testIndexOf_arrayTargetIndexed() {
+    assertThat(Doubles.indexOf(EMPTY, EMPTY, 0, 0)).isEqualTo(0);
+    assertThat(Doubles.indexOf(ARRAY234, EMPTY, 0, 3)).isEqualTo(0);
+    assertThat(Doubles.indexOf(ARRAY234, EMPTY, 1, 3)).isEqualTo(1);
+    assertThat(Doubles.indexOf(ARRAY234, EMPTY, 2, 2)).isEqualTo(2);
+    assertThat(Doubles.indexOf(ARRAY234, EMPTY, 3, 3)).isEqualTo(3);
+    assertThat(Doubles.indexOf(EMPTY, ARRAY234, 0, 0)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY234, ARRAY1, 0, 3)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY1, ARRAY234, 0, 1)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY1, ARRAY1, 0, 1)).isEqualTo(0);
+    assertThat(Doubles.indexOf(ARRAY1, ARRAY1, 0, 0)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY1, ARRAY1, 1, 1)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY234, ARRAY234, 0, 3)).isEqualTo(0);
+    assertThat(Doubles.indexOf(ARRAY234, ARRAY234, 0, 2)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY234, ARRAY234, 1, 3)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY234, new double[] {2.0, 3.0}, 0, 3)).isEqualTo(0);
+    assertThat(Doubles.indexOf(ARRAY234, new double[] {2.0, 3.0}, 0, 2)).isEqualTo(0);
+    assertThat(Doubles.indexOf(ARRAY234, new double[] {2.0, 3.0}, 0, 1)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY234, new double[] {2.0, 3.0}, 1, 3)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY234, new double[] {3.0, 4.0}, 0, 3)).isEqualTo(1);
+    assertThat(Doubles.indexOf(ARRAY234, new double[] {3.0, 4.0}, 1, 3)).isEqualTo(1);
+    assertThat(Doubles.indexOf(ARRAY234, new double[] {3.0, 4.0}, 1, 2)).isEqualTo(-1);
+    assertThat(Doubles.indexOf(ARRAY234, new double[] {3.0}, 1, 2)).isEqualTo(1);
+    assertThat(Doubles.indexOf(ARRAY234, new double[] {4.0}, 2, 3)).isEqualTo(2);
+    assertThat(Doubles.indexOf(new double[] {2.0, 3.0, 3.0, 3.0, 3.0}, new double[] {3.0}, 2, 5))
+        .isEqualTo(2);
+    assertThat(
+            Doubles.indexOf(
+                new double[] {2.0, 3.0, 2.0, 3.0, 4.0, 2.0, 3.0},
+                new double[] {2.0, 3.0, 4.0},
+                0,
+                7))
+        .isEqualTo(2);
+    assertThat(
+            Doubles.indexOf(
+                new double[] {2.0, 3.0, 2.0, 3.0, 4.0, 2.0, 3.0},
+                new double[] {2.0, 3.0, 4.0},
+                2,
+                5))
+        .isEqualTo(2);
+    assertThat(
+            Doubles.indexOf(
+                new double[] {2.0, 3.0, 2.0, 3.0, 4.0, 2.0, 3.0},
+                new double[] {2.0, 3.0, 4.0},
+                2,
+                4))
+        .isEqualTo(-1);
+    assertThat(
+            Doubles.indexOf(
+                new double[] {2.0, 2.0, 3.0, 4.0, 2.0, 3.0, 4.0},
+                new double[] {2.0, 3.0, 4.0},
+                2,
+                7))
+        .isEqualTo(4);
+    assertThat(Doubles.indexOf(new double[] {4.0, 3.0, 2.0}, new double[] {2.0, 3.0, 4.0}, 0, 3))
+        .isEqualTo(-1);
+
+    for (double value : NUMBERS) {
+      assertWithMessage("%s", value)
+          .that(
+              Doubles.indexOf(
+                  new double[] {5.0, value, value, 5.0}, new double[] {value, value}, 1, 3))
+          .isEqualTo(1);
+    }
+    assertThat(Doubles.indexOf(new double[] {5.0, NaN, NaN, 5.0}, new double[] {NaN, NaN}, 0, 4))
+        .isEqualTo(-1);
+
+    assertThrows(IndexOutOfBoundsException.class, () -> Doubles.indexOf(ARRAY234, ARRAY1, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Doubles.indexOf(ARRAY234, ARRAY1, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Doubles.indexOf(ARRAY234, ARRAY1, 2, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Doubles.indexOf(ARRAY234, EMPTY, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Doubles.indexOf(ARRAY234, EMPTY, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Doubles.indexOf(ARRAY234, EMPTY, 2, 1));
+  }
+
   public void testLastIndexOf() {
     assertThat(Doubles.lastIndexOf(EMPTY, 1.0)).isEqualTo(-1);
     assertThat(Doubles.lastIndexOf(ARRAY1, 2.0)).isEqualTo(-1);

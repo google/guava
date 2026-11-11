@@ -133,6 +133,81 @@ public class BytesTest extends TestCase {
         .isEqualTo(-1);
   }
 
+  public void testIndexOf_arrayTargetIndexed() {
+    assertThat(Bytes.indexOf(EMPTY, EMPTY, 0, 0)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, 0, 3)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, 1, 3)).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, 2, 2)).isEqualTo(2);
+    assertThat(Bytes.indexOf(ARRAY234, EMPTY, 3, 3)).isEqualTo(3);
+    assertThat(Bytes.indexOf(EMPTY, ARRAY234, 0, 0)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, ARRAY1, 0, 3)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY1, ARRAY234, 0, 1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY1, ARRAY1, 0, 1)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY1, ARRAY1, 0, 0)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY1, ARRAY1, 1, 1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, ARRAY234, 0, 3)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, ARRAY234, 0, 2)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, ARRAY234, 1, 3)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 2, (byte) 3}, 0, 3)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 2, (byte) 3}, 0, 2)).isEqualTo(0);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 2, (byte) 3}, 0, 1)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 2, (byte) 3}, 1, 3)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 3, (byte) 4}, 0, 3)).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 3, (byte) 4}, 1, 3)).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 3, (byte) 4}, 1, 2)).isEqualTo(-1);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 3}, 1, 2)).isEqualTo(1);
+    assertThat(Bytes.indexOf(ARRAY234, new byte[] {(byte) 4}, 2, 3)).isEqualTo(2);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 2, (byte) 3, (byte) 3, (byte) 3, (byte) 3},
+                new byte[] {(byte) 3},
+                2,
+                5))
+        .isEqualTo(2);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3},
+                new byte[] {(byte) 2, (byte) 3, (byte) 4},
+                0,
+                7))
+        .isEqualTo(2);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3},
+                new byte[] {(byte) 2, (byte) 3, (byte) 4},
+                2,
+                5))
+        .isEqualTo(2);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 2, (byte) 3, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3},
+                new byte[] {(byte) 2, (byte) 3, (byte) 4},
+                2,
+                4))
+        .isEqualTo(-1);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 2, (byte) 2, (byte) 3, (byte) 4, (byte) 2, (byte) 3, (byte) 4},
+                new byte[] {(byte) 2, (byte) 3, (byte) 4},
+                2,
+                7))
+        .isEqualTo(4);
+    assertThat(
+            Bytes.indexOf(
+                new byte[] {(byte) 4, (byte) 3, (byte) 2},
+                new byte[] {(byte) 2, (byte) 3, (byte) 4},
+                0,
+                3))
+        .isEqualTo(-1);
+
+    assertThrows(IndexOutOfBoundsException.class, () -> Bytes.indexOf(ARRAY234, ARRAY1, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Bytes.indexOf(ARRAY234, ARRAY1, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Bytes.indexOf(ARRAY234, ARRAY1, 2, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Bytes.indexOf(ARRAY234, EMPTY, -1, 1));
+    assertThrows(IndexOutOfBoundsException.class, () -> Bytes.indexOf(ARRAY234, EMPTY, 0, 4));
+    assertThrows(IndexOutOfBoundsException.class, () -> Bytes.indexOf(ARRAY234, EMPTY, 2, 1));
+  }
+
   public void testLastIndexOf() {
     assertThat(Bytes.lastIndexOf(EMPTY, (byte) 1)).isEqualTo(-1);
     assertThat(Bytes.lastIndexOf(ARRAY1, (byte) 2)).isEqualTo(-1);
