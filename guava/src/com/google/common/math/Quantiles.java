@@ -552,7 +552,30 @@ public final class Quantiles {
 
     // Let's play quickselect! We'll repeatedly partition the range [from, to] containing the
     // required element, as long as it has more than one element.
+    //
+    // partition() puts values equal to the pivot on the low side, so a dataset with many
+    // duplicates can shrink the range by only one element per iteration, which is quadratic. To
+    // stay linear-ish on such datasets without slowing down the common case, we give the plain
+    // partition a budget of iterations which is comfortably more than well-behaved data needs, and
+    // fall back to a three-way partition once that budget runs out.
+    int budget = 2 * IntMath.log2(to - from + 1, RoundingMode.UP) + 4;
     while (to > from) {
+      if (--budget < 0) {
+        // We're not making progress, so duplicates are likely. partitionAroundEqualValues() gathers
+        // every value equal to the pivot into one run, which we can then exclude in its entirety.
+        long equalValues = partitionAroundEqualValues(array, from, to);
+        int firstEqual = (int) (equalValues >>> Integer.SIZE);
+        int lastEqual = (int) equalValues;
+        if (required >= firstEqual && required <= lastEqual) {
+          return; // The required index holds a value equal to the pivot, so it's already in place.
+        }
+        if (required < firstEqual) {
+          to = firstEqual - 1;
+        } else {
+          from = lastEqual + 1;
+        }
+        continue;
+      }
       int partitionPoint = partition(array, from, to);
       if (partitionPoint >= required) {
         to = partitionPoint - 1;
@@ -591,6 +614,51 @@ public final class Quantiles {
     // it. We swap the pivot into partitionPoint and we know the array is partitioned around that.
     swap(array, from, partitionPoint);
     return partitionPoint;
+  }
+
+  /**
+   * Performs a three-way partition operation on the slice of {@code array} with elements in the
+   * range [{@code from}, {@code to}], using the same pivot selection as {@link #partition}. Unlike
+   * that method, this one groups <i>all</i> the values equal to the pivot, not just one of them,
+   * into a single run: if it returns {@code first} and {@code last} then we know that the values
+   * with indexes in [{@code from}, {@code first}) are less than the pivot, the values with indexes
+   * in [{@code first}, {@code last}] are equal to it, and the values with indexes in ({@code last},
+   * {@code to}] are greater than it. Every value in that run is therefore already at an index it
+   * would occupy in the sorted dataset.
+   *
+   * <p>Returns those two indexes packed into a single {@code long}, with {@code first} in the high
+   * 32 bits and {@code last} in the low 32 bits, to avoid allocating.
+   */
+  private static long partitionAroundEqualValues(double[] array, int from, int to) {
+    // Select a pivot, and move it to the start of the slice i.e. to index from.
+    movePivotToStartOfSlice(array, from, to);
+    double pivot = array[from];
+
+    // Sweep the slice, maintaining the invariant that the values with indexes in [from, first) are
+    // less than the pivot, those in [first, index) are equal to it, and those in (last, to] are
+    // greater than it. The values in [index, last] have not been examined yet.
+    int first = from;
+    int last = to;
+    int index = from;
+    while (index <= last) {
+      double value = array[index];
+      if (value < pivot) {
+        // While first is still tracking index, this swap would be a no-op, so skip it.
+        if (first != index) {
+          swap(array, first, index);
+        }
+        first++;
+        index++;
+      } else if (value > pivot) {
+        // The value swapped into index hasn't been examined yet, so don't advance index.
+        swap(array, index, last);
+        last--;
+      } else {
+        index++;
+      }
+    }
+
+    return ((long) first << Integer.SIZE) | (last & 0xffffffffL);
   }
 
   /**
