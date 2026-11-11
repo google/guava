@@ -102,11 +102,10 @@ public final class FilteredCollectionsTestUtil {
         C unfiltered = createUnfiltered(contents);
         C filtered = filter(unfiltered, EVEN);
         List<Integer> foundElements = new ArrayList<>();
-        filtered.forEach(
-            (Integer i) -> {
-              assertTrue("Unexpected element: " + i, EVEN.apply(i));
-              foundElements.add(i);
-            });
+        filtered.forEach((Integer i) -> {
+          assertTrue("Unexpected element: " + i, EVEN.apply(i));
+          foundElements.add(i);
+        });
         assertEquals(ImmutableList.copyOf(filtered), foundElements);
       }
     }

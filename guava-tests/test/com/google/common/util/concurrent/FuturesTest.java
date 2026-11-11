@@ -805,11 +805,10 @@ public class FuturesTest extends TestCase {
   public void testCatchingAsync_inputRaisesException() throws Exception {
     RuntimeException raisedException = new RuntimeException();
     AsyncFunctionSpy<Throwable, Integer> fallback =
-        spy(
-            (Throwable t) -> {
-              assertThat(t).isEqualTo(raisedException);
-              return immediateFuture(20);
-            });
+        spy((Throwable t) -> {
+          assertThat(t).isEqualTo(raisedException);
+          return immediateFuture(20);
+        });
     ListenableFuture<Integer> failingFuture = immediateFailedFuture(raisedException);
     ListenableFuture<Integer> faultTolerantFuture =
         catchingAsync(failingFuture, Throwable.class, fallback, directExecutor());
@@ -865,14 +864,13 @@ public class FuturesTest extends TestCase {
   private static void runExpectedExceptionCatchingAsyncTest(
       Exception expectedException, boolean wrapInFuture) {
     AsyncFunctionSpy<Throwable, Integer> fallback =
-        spy(
-            (Throwable unused) -> {
-              if (wrapInFuture) {
-                return immediateFailedFuture(expectedException);
-              } else {
-                throw expectedException;
-              }
-            });
+        spy((Throwable unused) -> {
+          if (wrapInFuture) {
+            return immediateFailedFuture(expectedException);
+          } else {
+            throw expectedException;
+          }
+        });
 
     ListenableFuture<Integer> failingFuture = immediateFailedFuture(new RuntimeException());
 
@@ -918,11 +916,10 @@ public class FuturesTest extends TestCase {
     SettableFuture<Integer> secondary = SettableFuture.create();
     RuntimeException raisedException = new RuntimeException();
     AsyncFunctionSpy<Throwable, Integer> fallback =
-        spy(
-            (Throwable t) -> {
-              assertThat(t).isEqualTo(raisedException);
-              return secondary;
-            });
+        spy((Throwable t) -> {
+          assertThat(t).isEqualTo(raisedException);
+          return secondary;
+        });
 
     ListenableFuture<Integer> failingFuture = immediateFailedFuture(raisedException);
 
@@ -1040,11 +1037,10 @@ public class FuturesTest extends TestCase {
   public void testCatching_inputRaisesException() throws Exception {
     RuntimeException raisedException = new RuntimeException();
     FunctionSpy<Throwable, Integer> fallback =
-        spy(
-            (Throwable t) -> {
-              assertThat(t).isEqualTo(raisedException);
-              return 20;
-            });
+        spy((Throwable t) -> {
+          assertThat(t).isEqualTo(raisedException);
+          return 20;
+        });
     ListenableFuture<Integer> failingFuture = immediateFailedFuture(raisedException);
     ListenableFuture<Integer> faultTolerantFuture =
         catching(failingFuture, Throwable.class, fallback, directExecutor());

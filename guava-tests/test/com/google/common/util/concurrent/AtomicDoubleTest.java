@@ -107,12 +107,11 @@ public class AtomicDoubleTest extends JSR166TestCase {
     AtomicDouble at = new AtomicDouble(1.0);
     @SuppressWarnings("ThreadPriorityCheck") // doing our best to test for races
     Thread t =
-        newStartedThread(
-            () -> {
-              while (!at.compareAndSet(2.0, 3.0)) {
-                Thread.yield();
-              }
-            });
+        newStartedThread(() -> {
+          while (!at.compareAndSet(2.0, 3.0)) {
+            Thread.yield();
+          }
+        });
 
     assertTrue(at.compareAndSet(1.0, 2.0));
     awaitTermination(t);

@@ -374,13 +374,12 @@ final class CollectSpliterators {
         prefix.forEachRemaining(action);
         prefix = null;
       }
-      from.forEachRemaining(
-          fromElement -> {
-            Spliterator<OutElementT> elements = function.apply(fromElement);
-            if (elements != null) {
-              elements.forEachRemaining(action);
-            }
-          });
+      from.forEachRemaining(fromElement -> {
+        Spliterator<OutElementT> elements = function.apply(fromElement);
+        if (elements != null) {
+          elements.forEachRemaining(action);
+        }
+      });
       estimatedSize = 0;
     }
 
@@ -500,13 +499,12 @@ final class CollectSpliterators {
         prefix.forEachRemaining(action);
         prefix = null;
       }
-      from.forEachRemaining(
-          fromElement -> {
-            OutSpliteratorT elements = function.apply(fromElement);
-            if (elements != null) {
-              elements.forEachRemaining(action);
-            }
-          });
+      from.forEachRemaining(fromElement -> {
+        OutSpliteratorT elements = function.apply(fromElement);
+        if (elements != null) {
+          elements.forEachRemaining(action);
+        }
+      });
       estimatedSize = 0;
     }
   }

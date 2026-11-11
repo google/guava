@@ -228,9 +228,8 @@ final class SubscriberRegistry {
       CacheBuilder.newBuilder()
           .weakKeys()
           .build(
-              CacheLoader.from(
-                  concreteClass ->
-                      ImmutableSet.copyOf(TypeToken.of(concreteClass).getTypes().rawTypes())));
+              CacheLoader.from(concreteClass ->
+                  ImmutableSet.copyOf(TypeToken.of(concreteClass).getTypes().rawTypes())));
 
   /**
    * Flattens a class's type hierarchy into a set of {@code Class} objects including all

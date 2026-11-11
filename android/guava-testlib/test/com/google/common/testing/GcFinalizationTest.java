@@ -128,13 +128,12 @@ public class GcFinalizationTest {
 
     @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
     Interruptenator(Thread interruptee, AtomicBoolean shutdown) {
-      super(
-          () -> {
-            while (!shutdown.get()) {
-              interruptee.interrupt();
-              Thread.yield();
-            }
-          });
+      super(() -> {
+        while (!shutdown.get()) {
+          interruptee.interrupt();
+          Thread.yield();
+        }
+      });
       this.shutdown = shutdown;
       start();
     }

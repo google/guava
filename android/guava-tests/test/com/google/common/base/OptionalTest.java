@@ -191,10 +191,9 @@ public final class OptionalTest extends TestCase {
   public void testTransform_absent_functionNotCalled() {
     assertThat(
             Optional.absent()
-                .transform(
-                    input -> {
-                      throw new AssertionError();
-                    }))
+                .transform(input -> {
+                  throw new AssertionError();
+                }))
         .isAbsent();
   }
 

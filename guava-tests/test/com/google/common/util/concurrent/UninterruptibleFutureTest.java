@@ -230,25 +230,23 @@ public class UninterruptibleFutureTest extends TestCase {
 
   private static FutureTask<Boolean> untimedInterruptReporter(
       Future<?> future, boolean allowInterruption) {
-    return new FutureTask<>(
-        () -> {
-          Object actual;
-          if (allowInterruption) {
-            actual = future.get();
-          } else {
-            actual = getUninterruptibly(future);
-          }
-          assertEquals(RESULT, actual);
-          return Thread.interrupted();
-        });
+    return new FutureTask<>(() -> {
+      Object actual;
+      if (allowInterruption) {
+        actual = future.get();
+      } else {
+        actual = getUninterruptibly(future);
+      }
+      assertEquals(RESULT, actual);
+      return Thread.interrupted();
+    });
   }
 
   private static FutureTask<Boolean> timedInterruptReporter(Future<?> future) {
-    return new FutureTask<>(
-        () -> {
-          assertEquals(RESULT, getUninterruptibly(future, 10, MINUTES));
-          return Thread.interrupted();
-        });
+    return new FutureTask<>(() -> {
+      assertEquals(RESULT, getUninterruptibly(future, 10, MINUTES));
+      return Thread.interrupted();
+    });
   }
 
   private static final String RESULT = "result";

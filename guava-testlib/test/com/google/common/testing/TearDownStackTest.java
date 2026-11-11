@@ -113,15 +113,14 @@ public class TearDownStackTest extends TestCase {
   /** Builds a {@link TearDownStack} that makes sure it's clear by the end of this test. */
   private TearDownStack buildTearDownStack() {
     TearDownStack result = new TearDownStack();
-    tearDownStack.addTearDown(
-        () -> {
-          synchronized (result.lock) {
-            assertEquals(
-                "The test should have cleared the stack (say, by virtue of running runTearDown)",
-                0,
-                result.stack.size());
-          }
-        });
+    tearDownStack.addTearDown(() -> {
+      synchronized (result.lock) {
+        assertEquals(
+            "The test should have cleared the stack (say, by virtue of running runTearDown)",
+            0,
+            result.stack.size());
+      }
+    });
     return result;
   }
 

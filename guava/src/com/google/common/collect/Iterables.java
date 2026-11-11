@@ -578,12 +578,11 @@ public final class Iterables {
       @Override
       public void forEach(Consumer<? super T> action) {
         checkNotNull(action);
-        unfiltered.forEach(
-            (@ParametricNullness T a) -> {
-              if (retainIfTrue.test(a)) {
-                action.accept(a);
-              }
-            });
+        unfiltered.forEach((@ParametricNullness T a) -> {
+          if (retainIfTrue.test(a)) {
+            action.accept(a);
+          }
+        });
       }
 
       @Override

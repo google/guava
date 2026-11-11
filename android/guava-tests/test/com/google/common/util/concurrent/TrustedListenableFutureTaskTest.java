@@ -66,10 +66,9 @@ public class TrustedListenableFutureTaskTest extends TestCase {
   public void testFailed() {
     Exception e = new Exception();
     TrustedListenableFutureTask<Integer> task =
-        TrustedListenableFutureTask.create(
-            () -> {
-              throw e;
-            });
+        TrustedListenableFutureTask.create(() -> {
+          throw e;
+        });
     task.run();
     assertTrue(task.isDone());
     assertFalse(task.isCancelled());
@@ -85,28 +84,26 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     CountDownLatch enterLatch = new CountDownLatch(1);
     CountDownLatch exitLatch = new CountDownLatch(1);
     TrustedListenableFutureTask<Integer> task =
-        TrustedListenableFutureTask.create(
-            () -> {
-              enterLatch.countDown();
-              try {
-                new CountDownLatch(1).await(); // wait forever
-                throw new AssertionError();
-              } catch (InterruptedException e) {
-                interruptedExceptionThrown.set(true);
-                throw e;
-              } finally {
-              }
-            });
+        TrustedListenableFutureTask.create(() -> {
+          enterLatch.countDown();
+          try {
+            new CountDownLatch(1).await(); // wait forever
+            throw new AssertionError();
+          } catch (InterruptedException e) {
+            interruptedExceptionThrown.set(true);
+            throw e;
+          } finally {
+          }
+        });
     assertFalse(task.isDone());
     Thread thread =
-        new Thread(
-            () -> {
-              try {
-                task.run();
-              } finally {
-                exitLatch.countDown();
-              }
-            });
+        new Thread(() -> {
+          try {
+            task.run();
+          } finally {
+            exitLatch.countDown();
+          }
+        });
     thread.start();
     enterLatch.await();
     assertFalse(task.isDone());
@@ -152,12 +149,11 @@ public class TrustedListenableFutureTaskTest extends TestCase {
     CountDownLatch enterLatch = new CountDownLatch(1);
     CountDownLatch exitLatch = new CountDownLatch(1);
     TrustedListenableFutureTask<@Nullable Void> task =
-        TrustedListenableFutureTask.create(
-            () -> {
-              enterLatch.countDown();
-              new CountDownLatch(1).await(); // wait forever
-              return immediateFuture(null);
-            });
+        TrustedListenableFutureTask.create(() -> {
+          enterLatch.countDown();
+          new CountDownLatch(1).await(); // wait forever
+          return immediateFuture(null);
+        });
     assertFalse(task.isDone());
     Thread thread =
         new Thread(

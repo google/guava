@@ -2077,15 +2077,14 @@ public final class ClosingFuture<V extends @Nullable Object> {
       return;
     }
     try {
-      executor.execute(
-          () -> {
-            try {
-              closeable.close();
-            } catch (Exception e) {
-              restoreInterruptIfIsInterruptedException(e);
-              logger.get().log(WARNING, "thrown by close()", e);
-            }
-          });
+      executor.execute(() -> {
+        try {
+          closeable.close();
+        } catch (Exception e) {
+          restoreInterruptIfIsInterruptedException(e);
+          logger.get().log(WARNING, "thrown by close()", e);
+        }
+      });
     } catch (RejectedExecutionException e) {
       if (logger.get().isLoggable(WARNING)) {
         logger

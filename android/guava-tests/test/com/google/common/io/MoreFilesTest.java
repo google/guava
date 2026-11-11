@@ -644,27 +644,26 @@ public class MoreFilesTest extends TestCase {
   @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
   private static Future<?> startDirectorySymlinkSwitching(
       Path file, Path target, ExecutorService executor) {
-    return executor.submit(
-        () -> {
-          boolean createSymlink = false;
-          while (!Thread.interrupted()) {
-            try {
-              // trying to switch between a real directory and a symlink (dir -> /a)
-              if (Files.deleteIfExists(file)) {
-                if (createSymlink) {
-                  Files.createSymbolicLink(file, target);
-                } else {
-                  Files.createDirectory(file);
-                }
-                createSymlink = !createSymlink;
-              }
-            } catch (IOException tolerated) {
-              // it's expected that some of these will fail
+    return executor.submit(() -> {
+      boolean createSymlink = false;
+      while (!Thread.interrupted()) {
+        try {
+          // trying to switch between a real directory and a symlink (dir -> /a)
+          if (Files.deleteIfExists(file)) {
+            if (createSymlink) {
+              Files.createSymbolicLink(file, target);
+            } else {
+              Files.createDirectory(file);
             }
-
-            Thread.yield();
+            createSymlink = !createSymlink;
           }
-        });
+        } catch (IOException tolerated) {
+          // it's expected that some of these will fail
+        }
+
+        Thread.yield();
+      }
+    });
   }
 
   /** Enum defining the two MoreFiles methods that delete directory contents. */

@@ -467,14 +467,13 @@ public interface Multiset<E extends @Nullable Object> extends Collection<E> {
   default void forEach(Consumer<? super E> action) {
     checkNotNull(action);
     entrySet()
-        .forEach(
-            entry -> {
-              E elem = entry.getElement();
-              int count = entry.getCount();
-              for (int i = 0; i < count; i++) {
-                action.accept(elem);
-              }
-            });
+        .forEach(entry -> {
+          E elem = entry.getElement();
+          int count = entry.getCount();
+          for (int i = 0; i < count; i++) {
+            action.accept(elem);
+          }
+        });
   }
 
   @Override

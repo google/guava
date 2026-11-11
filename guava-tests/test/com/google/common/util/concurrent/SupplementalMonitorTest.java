@@ -115,16 +115,15 @@ public class SupplementalMonitorTest extends TestCase {
     AtomicInteger actualOccupiedDepth = new AtomicInteger();
     AtomicReference<Throwable> thrown = new AtomicReference<>();
     joinUninterruptibly(
-        startThread(
-            () -> {
-              try {
-                actualIsOccupied.set(monitor.isOccupied());
-                actualIsOccupiedByCurrentThread.set(monitor.isOccupiedByCurrentThread());
-                actualOccupiedDepth.set(monitor.getOccupiedDepth());
-              } catch (Throwable t) {
-                thrown.set(t);
-              }
-            }));
+        startThread(() -> {
+          try {
+            actualIsOccupied.set(monitor.isOccupied());
+            actualIsOccupiedByCurrentThread.set(monitor.isOccupiedByCurrentThread());
+            actualOccupiedDepth.set(monitor.getOccupiedDepth());
+          } catch (Throwable t) {
+            thrown.set(t);
+          }
+        }));
     assertThat(thrown.get()).isNull();
     assertEquals(expectedIsOccupied, actualIsOccupied.get());
     assertEquals(expectedIsOccupiedByCurrentThread, actualIsOccupiedByCurrentThread.get());

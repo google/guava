@@ -430,20 +430,19 @@ public final class ValueGraphTest {
     ImmutableList.Builder<Future<?>> futures = ImmutableList.builder();
     for (int i = 0; i < threadCount; i++) {
       futures.add(
-          executor.submit(
-              () -> {
-                barrier.await();
-                Integer first = graph.nodes().iterator().next();
-                for (Integer node : graph.nodes()) {
-                  Set<Integer> unused = graph.successors(node);
-                }
-                /*
-                 * Also look up an earlier node so that, if the graph is using MapRetrievalCache,
-                 * we read one of the fields declared in that class.
-                 */
-                Set<Integer> unused = graph.successors(first);
-                return null; // so the lambda is a Callable to propagate checked await() exceptions
-              }));
+          executor.submit(() -> {
+            barrier.await();
+            Integer first = graph.nodes().iterator().next();
+            for (Integer node : graph.nodes()) {
+              Set<Integer> unused = graph.successors(node);
+            }
+            /*
+             * Also look up an earlier node so that, if the graph is using MapRetrievalCache,
+             * we read one of the fields declared in that class.
+             */
+            Set<Integer> unused = graph.successors(first);
+            return null; // so the lambda is a Callable to propagate checked await() exceptions
+          }));
     }
 
     // For more about this test, see the equivalent in AbstractNetworkTest.

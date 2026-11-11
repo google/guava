@@ -188,12 +188,11 @@ public final class Collections2 {
     @Override
     public final void forEach(Consumer<? super E> action) {
       checkNotNull(action);
-      unfiltered.forEach(
-          (E e) -> {
-            if (predicate.test(e)) {
-              action.accept(e);
-            }
-          });
+      unfiltered.forEach((E e) -> {
+        if (predicate.test(e)) {
+          action.accept(e);
+        }
+      });
     }
 
     @Override

@@ -150,10 +150,9 @@ public class StreamsTest extends TestCase {
     assertThat(Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d")))
         .containsExactly("a", "b", "c", "d")
         .inOrder();
-    SpliteratorTester.of(
-            () ->
-                Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d"))
-                    .spliterator())
+    SpliteratorTester.of(() ->
+            Streams.concat(Stream.of("a"), Stream.of("b"), Stream.empty(), Stream.of("c", "d"))
+                .spliterator())
         .expect("a", "b", "c", "d");
   }
 
@@ -301,18 +300,16 @@ public class StreamsTest extends TestCase {
 
   private static void testMapWithIndex(
       Function<Collection<String>, Stream<String>> collectionImpl) {
-    SpliteratorTester.of(
-            () ->
-                Streams.mapWithIndex(
-                        collectionImpl.apply(ImmutableList.of()), (str, i) -> str + ":" + i)
-                    .spliterator())
+    SpliteratorTester.of(() ->
+            Streams.mapWithIndex(
+                    collectionImpl.apply(ImmutableList.of()), (str, i) -> str + ":" + i)
+                .spliterator())
         .expect(ImmutableList.of());
-    SpliteratorTester.of(
-            () ->
-                Streams.mapWithIndex(
-                        collectionImpl.apply(ImmutableList.of("a", "b", "c", "d", "e")),
-                        (str, i) -> str + ":" + i)
-                    .spliterator())
+    SpliteratorTester.of(() ->
+            Streams.mapWithIndex(
+                    collectionImpl.apply(ImmutableList.of("a", "b", "c", "d", "e")),
+                    (str, i) -> str + ":" + i)
+                .spliterator())
         .expect("a:0", "b:1", "c:2", "d:3", "e:4");
   }
 
@@ -325,10 +322,9 @@ public class StreamsTest extends TestCase {
   }
 
   public void testMapWithIndex_unsizedSource() {
-    testMapWithIndex(
-        elems ->
-            Stream.<@Nullable Object>of((Object) null)
-                .flatMap(unused -> ImmutableList.copyOf(elems).stream()));
+    testMapWithIndex(elems ->
+        Stream.<@Nullable Object>of((Object) null)
+            .flatMap(unused -> ImmutableList.copyOf(elems).stream()));
   }
 
   public void testMapWithIndex_closeIsPropagated_sizedSource() {
@@ -402,9 +398,8 @@ public class StreamsTest extends TestCase {
 
   @GwtIncompatible // TODO(b/38490623): reenable after GWT double-to-string conversion is fixed
   public void testMapWithIndex_doubleStream() {
-    SpliteratorTester.of(
-            () ->
-                Streams.mapWithIndex(DoubleStream.of(0, 1, 2), (x, i) -> x + ":" + i).spliterator())
+    SpliteratorTester.of(() ->
+            Streams.mapWithIndex(DoubleStream.of(0, 1, 2), (x, i) -> x + ":" + i).spliterator())
         .expect("0.0:0", "1.0:1", "2.0:2");
   }
 

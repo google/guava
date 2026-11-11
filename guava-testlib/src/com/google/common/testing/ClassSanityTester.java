@@ -593,14 +593,13 @@ public final class ClassSanityTester {
     List<List<List<Object>>> argGroups = new ArrayList<>();
     argGroups.add(ImmutableList.of(args, equalArgs));
     EqualsTester tester =
-        new EqualsTester(
-            /* itemReporter= */ item -> {
-              List<Object> factoryArgs = argGroups.get(item.groupNumber).get(item.itemNumber);
-              return factory.getName()
-                  + "("
-                  + Joiner.on(", ").useForNull("null").join(factoryArgs)
-                  + ")";
-            });
+        new EqualsTester(/* itemReporter= */ item -> {
+          List<Object> factoryArgs = argGroups.get(item.groupNumber).get(item.itemNumber);
+          return factory.getName()
+              + "("
+              + Joiner.on(", ").useForNull("null").join(factoryArgs)
+              + ")";
+        });
     tester.addEqualityGroup(instance, createInstance(factory, equalArgs));
     for (int i = 0; i < params.size(); i++) {
       List<Object> newArgs = new ArrayList<>(args);

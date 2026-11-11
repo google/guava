@@ -264,10 +264,9 @@ final class CollectCollectors {
     checkNotNull(valueFunction);
     return Collector.of(
         () ->
-            new EnumMapAccumulator<K, V>(
-                (v1, v2) -> {
-                  throw new IllegalArgumentException("Multiple values for key: " + v1 + ", " + v2);
-                }),
+            new EnumMapAccumulator<K, V>((v1, v2) -> {
+              throw new IllegalArgumentException("Multiple values for key: " + v1 + ", " + v2);
+            }),
         (accum, t) -> {
           /*
            * We assign these to variables before calling checkNotNull to work around a bug in our

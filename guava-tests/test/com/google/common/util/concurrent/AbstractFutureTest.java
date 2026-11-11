@@ -448,27 +448,24 @@ public class AbstractFutureTest extends TestCase {
     for (int i = 0; i < 50000; i++) {
       AbstractFuture<String> future = new AbstractFuture<String>() {};
       AtomicReference<String> errorMessage = Atomics.newReference();
-      executor.execute(
-          () -> {
-            future.set("success");
-            if (!future.isDone()) {
-              errorMessage.set("Set call exited before future was complete.");
-            }
-          });
-      executor.execute(
-          () -> {
-            future.setExceptionInternal(new IllegalArgumentException("failure"));
-            if (!future.isDone()) {
-              errorMessage.set("SetException call exited before future was complete.");
-            }
-          });
-      executor.execute(
-          () -> {
-            future.cancel(true);
-            if (!future.isDone()) {
-              errorMessage.set("Cancel call exited before future was complete.");
-            }
-          });
+      executor.execute(() -> {
+        future.set("success");
+        if (!future.isDone()) {
+          errorMessage.set("Set call exited before future was complete.");
+        }
+      });
+      executor.execute(() -> {
+        future.setExceptionInternal(new IllegalArgumentException("failure"));
+        if (!future.isDone()) {
+          errorMessage.set("SetException call exited before future was complete.");
+        }
+      });
+      executor.execute(() -> {
+        future.cancel(true);
+        if (!future.isDone()) {
+          errorMessage.set("Cancel call exited before future was complete.");
+        }
+      });
       try {
         future.get();
       } catch (Throwable t) {
@@ -615,11 +612,10 @@ public class AbstractFutureTest extends TestCase {
       // racing addListener calls and addListener calls completing after the future completes.
       Runnable listener = k % 2 == 0 ? collectResultsRunnable : collectResultsTimedGetRunnable;
       allTasks.add(callable(listener));
-      allTasks.add(
-          () -> {
-            currentFuture.get().addListener(listener, executor);
-            return null;
-          });
+      allTasks.add(() -> {
+        currentFuture.get().addListener(listener, executor);
+        return null;
+      });
     }
     assertEquals(allTasks.size() + 1, barrier.getParties());
     for (int i = 0; i < 1000; i++) {

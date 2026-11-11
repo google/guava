@@ -114,13 +114,12 @@ public final class NullPointerTester {
     concat(
             stream(AbstractFuture.class.getDeclaredMethods()),
             stream(requireNonNull(AbstractFuture.class.getSuperclass()).getDeclaredMethods()))
-        .filter(
-            m ->
-                m.getName().equals("getDoneValue")
-                    || m.getName().equals("getKnownSuccessfulDoneValue")
-                    || m.getName().equals("casValue")
-                    || m.getName().equals("casListeners")
-                    || m.getName().equals("gasListeners"))
+        .filter(m ->
+            m.getName().equals("getDoneValue")
+                || m.getName().equals("getKnownSuccessfulDoneValue")
+                || m.getName().equals("casValue")
+                || m.getName().equals("casListeners")
+                || m.getName().equals("gasListeners"))
         .forEach(ignoredMembers::add);
   }
 

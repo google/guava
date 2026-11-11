@@ -37,14 +37,11 @@ public class ImmutableBiMapFloodingTest extends AbstractHashFloodingTest<BiMap<O
   public ImmutableBiMapFloodingTest() {
     super(
         EnumSet.allOf(ConstructionPathway.class).stream()
-            .flatMap(
-                path ->
-                    Stream.<Construction<BiMap<Object, Object>>>of(
-                        keys ->
-                            path.create(transform(keys, key -> immutableEntry(key, new Object()))),
-                        keys ->
-                            path.create(transform(keys, key -> immutableEntry(new Object(), key))),
-                        keys -> path.create(transform(keys, key -> immutableEntry(key, key)))))
+            .flatMap(path ->
+                Stream.<Construction<BiMap<Object, Object>>>of(
+                    keys -> path.create(transform(keys, key -> immutableEntry(key, new Object()))),
+                    keys -> path.create(transform(keys, key -> immutableEntry(new Object(), key))),
+                    keys -> path.create(transform(keys, key -> immutableEntry(key, key)))))
             .collect(toImmutableList()),
         n -> n * log(n),
         ImmutableList.of(

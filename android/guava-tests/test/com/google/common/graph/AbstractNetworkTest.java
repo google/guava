@@ -815,20 +815,19 @@ public abstract class AbstractNetworkTest {
     ImmutableList.Builder<Future<?>> futures = ImmutableList.builder();
     for (int i = 0; i < threadCount; i++) {
       futures.add(
-          executor.submit(
-              () -> {
-                barrier.await();
-                Integer first = network.nodes().iterator().next();
-                for (Integer node : network.nodes()) {
-                  Set<Integer> unused = network.successors(node);
-                }
-                /*
-                 * Also look up an earlier node so that, if the graph is using MapRetrievalCache, we
-                 * read one of the fields declared in that class.
-                 */
-                Set<Integer> unused = network.successors(first);
-                return null; // so the lambda is a Callable to propagate checked await() exceptions
-              }));
+          executor.submit(() -> {
+            barrier.await();
+            Integer first = network.nodes().iterator().next();
+            for (Integer node : network.nodes()) {
+              Set<Integer> unused = network.successors(node);
+            }
+            /*
+             * Also look up an earlier node so that, if the graph is using MapRetrievalCache, we
+             * read one of the fields declared in that class.
+             */
+            Set<Integer> unused = network.successors(first);
+            return null; // so the lambda is a Callable to propagate checked await() exceptions
+          }));
     }
 
     /*

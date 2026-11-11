@@ -100,28 +100,26 @@ public class MediaTypeTest extends TestCase {
   @GwtIncompatible // reflection
   private static FluentIterable<Field> getConstantFields() {
     return FluentIterable.from(asList(MediaType.class.getDeclaredFields()))
-        .filter(
-            field -> {
-              int modifiers = field.getModifiers();
-              return isPublic(modifiers)
-                  && isStatic(modifiers)
-                  && isFinal(modifiers)
-                  && MediaType.class.equals(field.getType());
-            });
+        .filter(field -> {
+          int modifiers = field.getModifiers();
+          return isPublic(modifiers)
+              && isStatic(modifiers)
+              && isFinal(modifiers)
+              && MediaType.class.equals(field.getType());
+        });
   }
 
   @J2ktIncompatible
   @GwtIncompatible // reflection
   private static FluentIterable<MediaType> getConstants() {
     return getConstantFields()
-        .transform(
-            field -> {
-              try {
-                return (MediaType) field.get(null);
-              } catch (Exception e) {
-                throw new RuntimeException(e);
-              }
-            });
+        .transform(field -> {
+          try {
+            return (MediaType) field.get(null);
+          } catch (Exception e) {
+            throw new RuntimeException(e);
+          }
+        });
   }
 
   public void testCreate_invalidType() {

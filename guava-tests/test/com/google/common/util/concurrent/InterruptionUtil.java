@@ -81,22 +81,21 @@ final class InterruptionUtil {
     Interruptenator interruptingTask = new Interruptenator(Thread.currentThread());
     Thread interruptingThread = new Thread(interruptingTask);
     interruptingThread.start();
-    tearDownAccepter.addTearDown(
-        () -> {
-          interruptingTask.stopInterrupting();
-          interruptingThread.interrupt();
-          joinUninterruptibly(interruptingThread, 2500, MILLISECONDS);
-          Thread.interrupted();
-          if (interruptingThread.isAlive()) {
-            // This will be hidden by test-output redirection:
-            logger.severe("InterruptenatorTask did not exit; future tests may be affected");
-            /*
-             * This fail() helps as long as TearDownAccepter is a TearDownStack that was *not*
-             * configured with suppressThrows=true.
-             */
-            fail();
-          }
-        });
+    tearDownAccepter.addTearDown(() -> {
+      interruptingTask.stopInterrupting();
+      interruptingThread.interrupt();
+      joinUninterruptibly(interruptingThread, 2500, MILLISECONDS);
+      Thread.interrupted();
+      if (interruptingThread.isAlive()) {
+        // This will be hidden by test-output redirection:
+        logger.severe("InterruptenatorTask did not exit; future tests may be affected");
+        /*
+         * This fail() helps as long as TearDownAccepter is a TearDownStack that was *not*
+         * configured with suppressThrows=true.
+         */
+        fail();
+      }
+    });
   }
 
   private InterruptionUtil() {}

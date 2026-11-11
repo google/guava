@@ -176,14 +176,13 @@ public class FakeTickerTest {
       for (int i = numberOfThreads; i > 0; i--) {
         @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
         Future<?> possiblyIgnoredError =
-            executorService.submit(
-                () -> {
-                  startLatch.countDown();
-                  startLatch.await();
-                  callable.call();
-                  doneLatch.countDown();
-                  return null;
-                });
+            executorService.submit(() -> {
+              startLatch.countDown();
+              startLatch.await();
+              callable.call();
+              doneLatch.countDown();
+              return null;
+            });
       }
       doneLatch.await();
     } finally {

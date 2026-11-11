@@ -569,18 +569,16 @@ public class LocalCacheTest extends TestCase {
             @Override
             @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
             public ListenableFuture<String> reload(String key, String oldValue) {
-              return refreshExecutor.submit(
-                  () -> {
-                    reloadStarted.countDown();
+              return refreshExecutor.submit(() -> {
+                reloadStarted.countDown();
 
-                    Thread blockingForRefresh = threadAboutToBlockForRefresh.get();
-                    while (blockingForRefresh.isAlive()
-                        && blockingForRefresh.getState() != WAITING) {
-                      Thread.yield();
-                    }
+                Thread blockingForRefresh = threadAboutToBlockForRefresh.get();
+                while (blockingForRefresh.isAlive() && blockingForRefresh.getState() != WAITING) {
+                  Thread.yield();
+                }
 
-                    return key + "Reload";
-                  });
+                return key + "Reload";
+              });
             }
           };
       LocalCache<String, String> cache = makeLocalCache(builder, loader);
@@ -2791,14 +2789,13 @@ public class LocalCacheTest extends TestCase {
       throws InterruptedException {
     CountDownLatch doneSignal = new CountDownLatch(1);
     Thread thread =
-        new Thread(
-            () -> {
-              try {
-                cache.get(key, loader);
-              } catch (UncheckedExecutionException | ExecutionException e) {
-                doneSignal.countDown();
-              }
-            });
+        new Thread(() -> {
+          try {
+            cache.get(key, loader);
+          } catch (UncheckedExecutionException | ExecutionException e) {
+            doneSignal.countDown();
+          }
+        });
     thread.start();
 
     boolean done = doneSignal.await(1, SECONDS);

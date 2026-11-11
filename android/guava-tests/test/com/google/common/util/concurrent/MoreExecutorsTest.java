@@ -107,13 +107,12 @@ public class MoreExecutorsTest extends TestCase {
     Runnable incrementTask = () -> threadLocalCount.set(threadLocalCount.get() + 1);
 
     FutureTask<@Nullable Void> otherTask =
-        new FutureTask<>(
-            () -> {
-              Future<?> future = executor.submit(incrementTask);
-              assertTrue(future.isDone());
-              assertEquals(1, threadLocalCount.get().intValue());
-              return null;
-            });
+        new FutureTask<>(() -> {
+          Future<?> future = executor.submit(incrementTask);
+          assertTrue(future.isDone());
+          assertEquals(1, threadLocalCount.get().intValue());
+          return null;
+        });
     new Thread(otherTask).start();
 
     ListenableFuture<?> future = executor.submit(incrementTask);
@@ -157,28 +156,26 @@ public class MoreExecutorsTest extends TestCase {
     CyclicBarrier barrier = new CyclicBarrier(2);
 
     FutureTask<@Nullable Void> otherTask =
-        new FutureTask<>(
-            () -> {
-              Future<?> future =
-                  executor.submit(
-                      () -> {
-                        // WAIT #1
-                        barrier.await(1, SECONDS);
+        new FutureTask<>(() -> {
+          Future<?> future =
+              executor.submit(() -> {
+                // WAIT #1
+                barrier.await(1, SECONDS);
 
-                        // WAIT #2
-                        barrier.await(1, SECONDS);
-                        assertTrue(executor.isShutdown());
-                        assertFalse(executor.isTerminated());
+                // WAIT #2
+                barrier.await(1, SECONDS);
+                assertTrue(executor.isShutdown());
+                assertFalse(executor.isTerminated());
 
-                        // WAIT #3
-                        barrier.await(1, SECONDS);
-                        return null;
-                      });
-              assertTrue(future.isDone());
-              assertTrue(executor.isShutdown());
-              assertTrue(executor.isTerminated());
-              return null;
-            });
+                // WAIT #3
+                barrier.await(1, SECONDS);
+                return null;
+              });
+          assertTrue(future.isDone());
+          assertTrue(executor.isShutdown());
+          assertTrue(executor.isTerminated());
+          return null;
+        });
     new Thread(otherTask).start();
 
     // WAIT #1
@@ -451,10 +448,9 @@ public class MoreExecutorsTest extends TestCase {
   public void testInvokeAnyImpl_nullElement() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     List<Callable<Integer>> l = new ArrayList<>();
-    l.add(
-        () -> {
-          throw new ArithmeticException("/ by zero");
-        });
+    l.add(() -> {
+      throw new ArithmeticException("/ by zero");
+    });
     l.add(null);
     try {
       invokeAnyImpl(e, l, false, 0, NANOSECONDS);
@@ -470,10 +466,9 @@ public class MoreExecutorsTest extends TestCase {
   public void testInvokeAnyImpl_noTaskCompletes() throws Exception {
     ListeningExecutorService e = newDirectExecutorService();
     List<Callable<String>> l = new ArrayList<>();
-    l.add(
-        () -> {
-          throw new NullPointerException();
-        });
+    l.add(() -> {
+      throw new NullPointerException();
+    });
     try {
       invokeAnyImpl(e, l, false, 0, NANOSECONDS);
       fail();
@@ -713,11 +708,10 @@ public class MoreExecutorsTest extends TestCase {
     // we need to use another thread because it will be interrupted and thus using
     // the current one, owned by JUnit, would make the test fail
     Thread thread =
-        new Thread(
-            () -> {
-              terminated.set(shutdownAndAwaitTermination(service, 1L, SECONDS));
-              interrupted.set(Thread.currentThread().isInterrupted());
-            });
+        new Thread(() -> {
+          terminated.set(shutdownAndAwaitTermination(service, 1L, SECONDS));
+          interrupted.set(Thread.currentThread().isInterrupted());
+        });
     thread.start();
     thread.join();
     verify(service).shutdown();

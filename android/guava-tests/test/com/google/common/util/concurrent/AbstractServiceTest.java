@@ -468,24 +468,22 @@ public class AbstractServiceTest extends TestCase {
     @Override
     protected void doStart() {
       assertThat(state()).isEqualTo(State.STARTING);
-      invokeOnExecutionThreadForTest(
-          () -> {
-            assertThat(state()).isEqualTo(State.STARTING);
-            notifyStarted();
-            assertThat(state()).isEqualTo(State.RUNNING);
-            hasConfirmedIsRunning.countDown();
-          });
+      invokeOnExecutionThreadForTest(() -> {
+        assertThat(state()).isEqualTo(State.STARTING);
+        notifyStarted();
+        assertThat(state()).isEqualTo(State.RUNNING);
+        hasConfirmedIsRunning.countDown();
+      });
     }
 
     @Override
     protected void doStop() {
       assertThat(state()).isEqualTo(State.STOPPING);
-      invokeOnExecutionThreadForTest(
-          () -> {
-            assertThat(state()).isEqualTo(State.STOPPING);
-            notifyStopped();
-            assertThat(state()).isEqualTo(State.TERMINATED);
-          });
+      invokeOnExecutionThreadForTest(() -> {
+        assertThat(state()).isEqualTo(State.STOPPING);
+        notifyStopped();
+        assertThat(state()).isEqualTo(State.TERMINATED);
+      });
     }
   }
 

@@ -191,10 +191,9 @@ public abstract class AbstractClosingFutureTest extends TestCase {
   public void testEventuallyClosing_throws() {
     assertFinallyFailsWithException(
         ClosingFuture.eventuallyClosing(
-            executor.submit(
-                () -> {
-                  throw exception;
-                }),
+            executor.submit(() -> {
+              throw exception;
+            }),
             closingExecutor));
   }
 
@@ -596,12 +595,11 @@ public abstract class AbstractClosingFutureTest extends TestCase {
         ClosingFuture.submit(
                 closer -> closer.eventuallyClose(closeable1, closingExecutor), executor)
             .transformAsync(
-                withoutCloser(
-                    (TestCloseable v) -> {
-                      assertThat(v).isSameInstanceAs(closeable1);
-                      assertStillOpen(closeable1);
-                      return immediateFuture("value");
-                    }),
+                withoutCloser((TestCloseable v) -> {
+                  assertThat(v).isSameInstanceAs(closeable1);
+                  assertStillOpen(closeable1);
+                  return immediateFuture("value");
+                }),
                 executor);
     assertThat(getFinalValue(closingFuture)).isEqualTo("value");
     waitUntilClosed(closingFuture);
@@ -806,13 +804,12 @@ public abstract class AbstractClosingFutureTest extends TestCase {
                 ClosingFuture.from(immediateFuture(closeable1)),
                 ClosingFuture.from(immediateFuture(closeable2)))
             .call(
-                waiter.waitFor(
-                    (DeferredCloser closer, TestCloseable v1, TestCloseable v2) -> {
-                      awaitUninterruptibly(futureCancelled);
-                      closer.eventuallyClose(closeable1, closingExecutor);
-                      closer.eventuallyClose(closeable2, closingExecutor);
-                      return closeable3;
-                    }),
+                waiter.waitFor((DeferredCloser closer, TestCloseable v1, TestCloseable v2) -> {
+                  awaitUninterruptibly(futureCancelled);
+                  closer.eventuallyClose(closeable1, closingExecutor);
+                  closer.eventuallyClose(closeable2, closingExecutor);
+                  return closeable3;
+                }),
                 executor);
     waiter.awaitStarted();
     cancelFinalStepAndWait(closingFuture);
@@ -882,14 +879,13 @@ public abstract class AbstractClosingFutureTest extends TestCase {
                 ClosingFuture.from(immediateFuture(closeable1)),
                 ClosingFuture.from(immediateFuture(closeable2)))
             .callAsync(
-                waiter.waitFor(
-                    (DeferredCloser closer, TestCloseable v1, TestCloseable v2) -> {
-                      awaitUninterruptibly(futureCancelled);
-                      closer.eventuallyClose(closeable1, closingExecutor);
-                      closer.eventuallyClose(closeable2, closingExecutor);
-                      return ClosingFuture.eventuallyClosing(
-                          immediateFuture(closeable3), closingExecutor);
-                    }),
+                waiter.waitFor((DeferredCloser closer, TestCloseable v1, TestCloseable v2) -> {
+                  awaitUninterruptibly(futureCancelled);
+                  closer.eventuallyClose(closeable1, closingExecutor);
+                  closer.eventuallyClose(closeable2, closingExecutor);
+                  return ClosingFuture.eventuallyClosing(
+                      immediateFuture(closeable3), closingExecutor);
+                }),
                 executor);
     waiter.awaitStarted();
     cancelFinalStepAndWait(closingFuture);

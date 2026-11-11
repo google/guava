@@ -2011,26 +2011,25 @@ public class CacheLoadingTest extends TestCase {
     for (int i = 0; i < nThreads; i++) {
       int index = i;
       Thread thread =
-          new Thread(
-              () -> {
-                gettersStartedSignal.countDown();
-                Object value = null;
-                try {
-                  int mod = index % 3;
-                  if (mod == 0) {
-                    value = cache.get(key);
-                  } else if (mod == 1) {
-                    value = cache.getUnchecked(key);
-                  } else {
-                    cache.refresh(key);
-                    value = cache.get(key);
-                  }
-                  result.set(index, value);
-                } catch (Throwable t) {
-                  result.set(index, t);
-                }
-                gettersComplete.countDown();
-              });
+          new Thread(() -> {
+            gettersStartedSignal.countDown();
+            Object value = null;
+            try {
+              int mod = index % 3;
+              if (mod == 0) {
+                value = cache.get(key);
+              } else if (mod == 1) {
+                value = cache.getUnchecked(key);
+              } else {
+                cache.refresh(key);
+                value = cache.get(key);
+              }
+              result.set(index, value);
+            } catch (Throwable t) {
+              result.set(index, t);
+            }
+            gettersComplete.countDown();
+          });
       thread.start();
       // we want to wait until each thread is WAITING - one thread waiting inside CacheLoader.load
       // (in startSignal.await()), and the others waiting for that thread's result.

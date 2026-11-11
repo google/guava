@@ -58,31 +58,29 @@ public abstract class AbstractIdleService implements Service {
     @Override
     protected void doStart() {
       renamingDecorator(executor(), threadNameSupplier)
-          .execute(
-              () -> {
-                try {
-                  startUp();
-                  notifyStarted();
-                } catch (Throwable t) {
-                  restoreInterruptIfIsInterruptedException(t);
-                  notifyFailed(t);
-                }
-              });
+          .execute(() -> {
+            try {
+              startUp();
+              notifyStarted();
+            } catch (Throwable t) {
+              restoreInterruptIfIsInterruptedException(t);
+              notifyFailed(t);
+            }
+          });
     }
 
     @Override
     protected void doStop() {
       renamingDecorator(executor(), threadNameSupplier)
-          .execute(
-              () -> {
-                try {
-                  shutDown();
-                  notifyStopped();
-                } catch (Throwable t) {
-                  restoreInterruptIfIsInterruptedException(t);
-                  notifyFailed(t);
-                }
-              });
+          .execute(() -> {
+            try {
+              shutDown();
+              notifyStopped();
+            } catch (Throwable t) {
+              restoreInterruptIfIsInterruptedException(t);
+              notifyFailed(t);
+            }
+          });
     }
 
     @Override

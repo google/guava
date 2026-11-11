@@ -472,9 +472,8 @@ public class ImmutableSetMultimapTest extends TestCase {
         toImmutableSetMultimap(Entry::getKey, Entry::getValue);
     BiPredicate<ImmutableSetMultimap<?, ?>, ImmutableSetMultimap<?, ?>> equivalence =
         Equivalence.equals()
-            .onResultOf(
-                (ImmutableSetMultimap<?, ?> mm) ->
-                    ImmutableListMultimap.copyOf(mm).asMap().entrySet().asList())
+            .onResultOf((ImmutableSetMultimap<?, ?> mm) ->
+                ImmutableListMultimap.copyOf(mm).asMap().entrySet().asList())
             .and(Equivalence.equals());
     CollectorTester.of(collector, equivalence)
         .expectCollects(ImmutableSetMultimap.of())

@@ -62,11 +62,10 @@ public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_PUT)
   public void testReplaceAllRotate() {
     getMap()
-        .replaceAll(
-            (K k, V v) -> {
-              int index = keys().asList().indexOf(k);
-              return values().asList().get(index + 1);
-            });
+        .replaceAll((K k, V v) -> {
+          int index = keys().asList().indexOf(k);
+          return values().asList().get(index + 1);
+        });
     List<Entry<K, V>> expectedEntries = new ArrayList<>();
     for (Entry<K, V> entry : getSampleEntries()) {
       int index = keys().asList().indexOf(entry.getKey());
@@ -79,11 +78,10 @@ public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
   @CollectionFeature.Require(KNOWN_ORDER)
   public void testReplaceAllPreservesOrder() {
     getMap()
-        .replaceAll(
-            (K k, V v) -> {
-              int index = keys().asList().indexOf(k);
-              return values().asList().get(index + 1);
-            });
+        .replaceAll((K k, V v) -> {
+          int index = keys().asList().indexOf(k);
+          return values().asList().get(index + 1);
+        });
     List<Entry<K, V>> orderedEntries = getOrderedElements();
     int index = 0;
     for (K key : getMap().keySet()) {
@@ -101,11 +99,10 @@ public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
   @MapFeature.Require(SUPPORTS_PUT)
   @CollectionSize.Require(SEVERAL)
   public void testReplaceAllThrowsMidwayThroughExistingValue() {
-    doTestReplaceAllThrowsMidwayThrough(
-        (k, v) -> {
-          int index = keys().asList().indexOf(k);
-          return values().asList().get((index + 1) % getNumEntries());
-        });
+    doTestReplaceAllThrowsMidwayThrough((k, v) -> {
+      int index = keys().asList().indexOf(k);
+      return values().asList().get((index + 1) % getNumEntries());
+    });
   }
 
   private void doTestReplaceAllThrowsMidwayThrough(BiFunction<K, V, V> functionForFirstEntry) {
@@ -127,15 +124,14 @@ public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
     assertThrows(
         SomeUncheckedException.class,
         () ->
-            map.replaceAll(
-                (k, v) -> {
-                  if (firstReplacement.get() == null) {
-                    V newValue = functionForFirstEntry.apply(k, v);
-                    firstReplacement.set(mapEntry(k, newValue));
-                    return newValue;
-                  }
-                  throw new SomeUncheckedException();
-                }));
+            map.replaceAll((k, v) -> {
+              if (firstReplacement.get() == null) {
+                V newValue = functionForFirstEntry.apply(k, v);
+                firstReplacement.set(mapEntry(k, newValue));
+                return newValue;
+              }
+              throw new SomeUncheckedException();
+            }));
     Entry<K, V> replacement = firstReplacement.get();
     if (Objects.equals(map.get(replacement.getKey()), replacement.getValue())) {
       expectReplacement(replacement);
@@ -176,11 +172,10 @@ public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
         UnsupportedOperationException.class,
         () ->
             getMap()
-                .replaceAll(
-                    (K k, V v) -> {
-                      int index = keys().asList().indexOf(k);
-                      return values().asList().get(index + 1);
-                    }));
+                .replaceAll((K k, V v) -> {
+                  int index = keys().asList().indexOf(k);
+                  return values().asList().get(index + 1);
+                }));
     expectUnchanged();
   }
 
@@ -189,11 +184,10 @@ public class MapReplaceAllTester<K, V> extends AbstractMapTester<K, V> {
   public void testReplaceAll_unsupportedByEmptyCollection() {
     try {
       getMap()
-          .replaceAll(
-              (K k, V v) -> {
-                int index = keys().asList().indexOf(k);
-                return values().asList().get(index + 1);
-              });
+          .replaceAll((K k, V v) -> {
+            int index = keys().asList().indexOf(k);
+            return values().asList().get(index + 1);
+          });
     } catch (UnsupportedOperationException tolerated) {
     }
     expectUnchanged();

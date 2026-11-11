@@ -46,11 +46,10 @@ public class TestLogHandlerTest extends TestCase {
 
     ExampleClassUnderTest.logger.setUseParentHandlers(false); // optional
 
-    stack.addTearDown(
-        () -> {
-          ExampleClassUnderTest.logger.setUseParentHandlers(true);
-          ExampleClassUnderTest.logger.removeHandler(handler);
-        });
+    stack.addTearDown(() -> {
+      ExampleClassUnderTest.logger.setUseParentHandlers(true);
+      ExampleClassUnderTest.logger.removeHandler(handler);
+    });
   }
 
   public void test() {

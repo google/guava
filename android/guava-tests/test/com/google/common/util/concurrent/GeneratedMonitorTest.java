@@ -688,27 +688,25 @@ public class GeneratedMonitorTest extends TestCase {
 
   private void enterSatisfyGuardAndLeaveInAnotherThread() {
     CountDownLatch startedLatch = new CountDownLatch(1);
-    startThread(
-        () -> {
-          startedLatch.countDown();
-          enterSatisfyGuardAndLeaveInCurrentThread();
-        });
+    startThread(() -> {
+      startedLatch.countDown();
+      enterSatisfyGuardAndLeaveInCurrentThread();
+    });
     awaitUninterruptibly(startedLatch);
   }
 
   private void enterAndRemainOccupyingInAnotherThread() {
     CountDownLatch enteredLatch = new CountDownLatch(1);
-    startThread(
-        () -> {
-          monitor.enter();
-          try {
-            enteredLatch.countDown();
-            awaitUninterruptibly(tearDownLatch);
-            guard.setSatisfied(true);
-          } finally {
-            monitor.leave();
-          }
-        });
+    startThread(() -> {
+      monitor.enter();
+      try {
+        enteredLatch.countDown();
+        awaitUninterruptibly(tearDownLatch);
+        guard.setSatisfied(true);
+      } finally {
+        monitor.leave();
+      }
+    });
     awaitUninterruptibly(enteredLatch);
   }
 

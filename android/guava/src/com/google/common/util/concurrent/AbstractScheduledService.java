@@ -259,29 +259,28 @@ public abstract class AbstractScheduledService implements Service {
     @Override
     protected void doStart() {
       executorService = renamingDecorator(executor(), () -> serviceName() + " " + state());
-      executorService.execute(
-          () -> {
-            lock.lock();
-            try {
-              startUp();
-              /*
-               * requireNonNull is safe because executorService is never cleared after the
-               * assignment above.
-               */
-              requireNonNull(executorService);
-              runningTask = scheduler().schedule(delegate, executorService, task);
-              notifyStarted();
-            } catch (Throwable t) {
-              restoreInterruptIfIsInterruptedException(t);
-              notifyFailed(t);
-              if (runningTask != null) {
-                // prevent the task from running if possible
-                runningTask.cancel(false);
-              }
-            } finally {
-              lock.unlock();
-            }
-          });
+      executorService.execute(() -> {
+        lock.lock();
+        try {
+          startUp();
+          /*
+           * requireNonNull is safe because executorService is never cleared after the
+           * assignment above.
+           */
+          requireNonNull(executorService);
+          runningTask = scheduler().schedule(delegate, executorService, task);
+          notifyStarted();
+        } catch (Throwable t) {
+          restoreInterruptIfIsInterruptedException(t);
+          notifyFailed(t);
+          if (runningTask != null) {
+            // prevent the task from running if possible
+            runningTask.cancel(false);
+          }
+        } finally {
+          lock.unlock();
+        }
+      });
     }
 
     @Override
@@ -290,28 +289,27 @@ public abstract class AbstractScheduledService implements Service {
       requireNonNull(runningTask);
       requireNonNull(executorService);
       runningTask.cancel(false);
-      executorService.execute(
-          () -> {
-            try {
-              lock.lock();
-              try {
-                if (state() != State.STOPPING) {
-                  // This means that the state has changed since we were scheduled. This implies
-                  // that an execution of runOneIteration has thrown an exception and we have
-                  // transitioned to a failed state, also this means that shutDown has already
-                  // been called, so we do not want to call it again.
-                  return;
-                }
-                shutDown();
-              } finally {
-                lock.unlock();
-              }
-              notifyStopped();
-            } catch (Throwable t) {
-              restoreInterruptIfIsInterruptedException(t);
-              notifyFailed(t);
+      executorService.execute(() -> {
+        try {
+          lock.lock();
+          try {
+            if (state() != State.STOPPING) {
+              // This means that the state has changed since we were scheduled. This implies
+              // that an execution of runOneIteration has thrown an exception and we have
+              // transitioned to a failed state, also this means that shutDown has already
+              // been called, so we do not want to call it again.
+              return;
             }
-          });
+            shutDown();
+          } finally {
+            lock.unlock();
+          }
+          notifyStopped();
+        } catch (Throwable t) {
+          restoreInterruptIfIsInterruptedException(t);
+          notifyFailed(t);
+        }
+      });
     }
 
     @Override

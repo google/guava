@@ -577,13 +577,12 @@ public class HashBiMapTest extends TestCase {
     assertThrows(
         IllegalStateException.class,
         () ->
-            map.replaceAll(
-                (k, v) -> {
-                  if (k < 15) {
-                    return new ConstantHashObject(k);
-                  }
-                  throw new IllegalStateException();
-                }));
+            map.replaceAll((k, v) -> {
+              if (k < 15) {
+                return new ConstantHashObject(k);
+              }
+              throw new IllegalStateException();
+            }));
     assertThat(map.isUsingHashFloodingResistance()).isTrue();
     assertThat(map.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
     assertThat(map.inverse().entrySet())
@@ -602,13 +601,12 @@ public class HashBiMapTest extends TestCase {
     assertThrows(
         IllegalArgumentException.class,
         () ->
-            map.replaceAll(
-                (k, v) -> {
-                  if (k < 15) {
-                    return new ConstantHashObject(k);
-                  }
-                  return new ConstantHashObject(0);
-                }));
+            map.replaceAll((k, v) -> {
+              if (k < 15) {
+                return new ConstantHashObject(k);
+              }
+              return new ConstantHashObject(0);
+            }));
     assertThat(map.isUsingHashFloodingResistance()).isTrue();
     assertThat(map.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
     assertThat(map.inverse().entrySet())
@@ -628,13 +626,12 @@ public class HashBiMapTest extends TestCase {
     assertThrows(
         IllegalStateException.class,
         () ->
-            inverse.replaceAll(
-                (v, k) -> {
-                  if (v < 15) {
-                    return new ConstantHashObject(v);
-                  }
-                  throw new IllegalStateException();
-                }));
+            inverse.replaceAll((v, k) -> {
+              if (v < 15) {
+                return new ConstantHashObject(v);
+              }
+              throw new IllegalStateException();
+            }));
     assertThat(map.isUsingHashFloodingResistance()).isTrue();
     assertThat(map.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
     assertThat(map.inverse().entrySet())
@@ -654,13 +651,12 @@ public class HashBiMapTest extends TestCase {
     assertThrows(
         IllegalArgumentException.class,
         () ->
-            inverse.replaceAll(
-                (v, k) -> {
-                  if (v < 15) {
-                    return new ConstantHashObject(v);
-                  }
-                  return new ConstantHashObject(0);
-                }));
+            inverse.replaceAll((v, k) -> {
+              if (v < 15) {
+                return new ConstantHashObject(v);
+              }
+              return new ConstantHashObject(0);
+            }));
     assertThat(map.isUsingHashFloodingResistance()).isTrue();
     assertThat(map.entrySet()).containsExactlyElementsIn(expected.entrySet()).inOrder();
     assertThat(map.inverse().entrySet())

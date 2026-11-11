@@ -48,11 +48,9 @@ public enum CollectionFeature implements Feature<Collection> {
    * documentation for {@link Collection}:
    *
    * <blockquote>
-   *
    * "Some collection implementations have restrictions on the elements that they may contain. For
    * example, some implementations prohibit null elements, and some have restrictions on the types
    * of their elements."
-   *
    * </blockquote>
    */
   RESTRICTS_ELEMENTS,

@@ -144,23 +144,22 @@ public final class JdkFutureAdapters {
         }
 
         // TODO(lukes): handle RejectedExecutionException
-        adapterExecutor.execute(
-            () -> {
-              try {
-                /*
-                 * Threads from our private pool are never interrupted. Threads from a
-                 * user-supplied executor might be, but... what can we do? This is another reason
-                 * to return a proper ListenableFuture instead of using listenInPoolThread.
-                 */
-                getUninterruptibly(delegate());
-              } catch (Throwable t) {
-                // (including CancellationException and sneaky checked exception)
-                // The task is presumably done, run the listeners.
-                // TODO(cpovirk): Do *something* in case of Error (and maybe
-                // non-CancellationException, non-ExecutionException exceptions)?
-              }
-              executionList.execute();
-            });
+        adapterExecutor.execute(() -> {
+          try {
+            /*
+             * Threads from our private pool are never interrupted. Threads from a
+             * user-supplied executor might be, but... what can we do? This is another reason
+             * to return a proper ListenableFuture instead of using listenInPoolThread.
+             */
+            getUninterruptibly(delegate());
+          } catch (Throwable t) {
+            // (including CancellationException and sneaky checked exception)
+            // The task is presumably done, run the listeners.
+            // TODO(cpovirk): Do *something* in case of Error (and maybe
+            // non-CancellationException, non-ExecutionException exceptions)?
+          }
+          executionList.execute();
+        });
       }
     }
   }

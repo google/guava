@@ -3416,15 +3416,14 @@ public final class Maps {
     public void replaceAll(BiFunction<? super K, ? super V, ? extends V> function) {
       checkNotNull(function);
       unfiltered()
-          .replaceAll(
-              (key, value) -> {
-                if (apply(key, value)) {
-                  V newValue = function.apply(key, value);
-                  checkArgument(apply(key, newValue));
-                  return newValue;
-                }
-                return value;
-              });
+          .replaceAll((key, value) -> {
+            if (apply(key, value)) {
+              V newValue = function.apply(key, value);
+              checkArgument(apply(key, newValue));
+              return newValue;
+            }
+            return value;
+          });
     }
 
     @Override

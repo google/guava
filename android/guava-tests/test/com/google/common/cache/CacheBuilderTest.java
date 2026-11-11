@@ -506,12 +506,11 @@ public class CacheBuilderTest extends TestCase {
       String s = "a" + i;
       @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =
-          threadPool.submit(
-              () -> {
-                cache.getUnchecked(s);
-                computedCount.incrementAndGet();
-                tasksFinished.countDown();
-              });
+          threadPool.submit(() -> {
+            cache.getUnchecked(s);
+            computedCount.incrementAndGet();
+            tasksFinished.countDown();
+          });
       expectedKeys.add(s);
     }
 
@@ -603,15 +602,14 @@ public class CacheBuilderTest extends TestCase {
     for (int i = 0; i < nTasks; i++) {
       @SuppressWarnings("unused") // https://errorprone.info/bugpattern/FutureReturnValueIgnored
       Future<?> possiblyIgnoredError =
-          threadPool.submit(
-              () -> {
-                for (int j = 0; j < getsPerTask; j++) {
-                  try {
-                    cache.getUnchecked("key" + random.nextInt(nUniqueKeys));
-                  } catch (RuntimeException e) {
-                  }
-                }
-              });
+          threadPool.submit(() -> {
+            for (int j = 0; j < getsPerTask; j++) {
+              try {
+                cache.getUnchecked("key" + random.nextInt(nUniqueKeys));
+              } catch (RuntimeException e) {
+              }
+            }
+          });
     }
 
     threadPool.shutdown();

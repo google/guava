@@ -569,18 +569,16 @@ public class LocalCacheTest extends TestCase {
             @Override
             @SuppressWarnings("ThreadPriorityCheck") // TODO(b/175898629): Consider onSpinWait.
             public ListenableFuture<String> reload(String key, String oldValue) {
-              return refreshExecutor.submit(
-                  () -> {
-                    reloadStarted.countDown();
+              return refreshExecutor.submit(() -> {
+                reloadStarted.countDown();
 
-                    Thread blockingForRefresh = threadAboutToBlockForRefresh.get();
-                    while (blockingForRefresh.isAlive()
-                        && blockingForRefresh.getState() != WAITING) {
-                      Thread.yield();
-                    }
+                Thread blockingForRefresh = threadAboutToBlockForRefresh.get();
+                while (blockingForRefresh.isAlive() && blockingForRefresh.getState() != WAITING) {
+                  Thread.yield();
+                }
 
-                    return key + "Reload";
-                  });
+                return key + "Reload";
+              });
             }
           };
       LocalCache<String, String> cache = makeLocalCache(builder, loader);
@@ -1874,15 +1872,14 @@ public class LocalCacheTest extends TestCase {
     map.put(2, 1);
     map.put(3, 1);
     map.entrySet()
-        .removeIf(
-            entry -> {
-              if (entry.getValue().equals(1)) {
-                map.put(entry.getKey(), 2);
-                return true;
-              } else {
-                return false;
-              }
-            });
+        .removeIf(entry -> {
+          if (entry.getValue().equals(1)) {
+            map.put(entry.getKey(), 2);
+            return true;
+          } else {
+            return false;
+          }
+        });
     assertThat(map).hasSize(3);
     assertThat(map.containsValue(1)).isFalse();
   }
@@ -1894,12 +1891,11 @@ public class LocalCacheTest extends TestCase {
     map.put(1, 1);
     map.put(2, 1);
     map.entrySet()
-        .removeIf(
-            entry -> {
-              assertThat(entry.getValue()).isNotNull();
-              map.remove((entry.getKey() + 1) % 3);
-              return false;
-            });
+        .removeIf(entry -> {
+          assertThat(entry.getValue()).isNotNull();
+          map.remove((entry.getKey() + 1) % 3);
+          return false;
+        });
     assertThat(map).hasSize(1);
   }
 
@@ -2837,14 +2833,13 @@ public class LocalCacheTest extends TestCase {
       throws InterruptedException {
     CountDownLatch doneSignal = new CountDownLatch(1);
     Thread thread =
-        new Thread(
-            () -> {
-              try {
-                cache.get(key, loader);
-              } catch (UncheckedExecutionException | ExecutionException e) {
-                doneSignal.countDown();
-              }
-            });
+        new Thread(() -> {
+          try {
+            cache.get(key, loader);
+          } catch (UncheckedExecutionException | ExecutionException e) {
+            doneSignal.countDown();
+          }
+        });
     thread.start();
 
     boolean done = doneSignal.await(1, SECONDS);

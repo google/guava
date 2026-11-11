@@ -103,12 +103,11 @@ public class WriteReplaceOverridesTest extends TestCase {
           FluentIterable.from(TypeToken.of(clazz).getTypes())
               .transform(TypeToken::getRawType)
               .transformAndConcat(c -> asList(c.getDeclaredMethods()))
-              .firstMatch(
-                  m ->
-                      m.getName().equals("writeReplace")
-                          && m.getParameterTypes().length == 0
-                          // Only package-private methods are a problem.
-                          && (m.getModifiers() & (PUBLIC | PROTECTED | PRIVATE)) == 0)
+              .firstMatch(m ->
+                  m.getName().equals("writeReplace")
+                      && m.getParameterTypes().length == 0
+                      // Only package-private methods are a problem.
+                      && (m.getModifiers() & (PUBLIC | PROTECTED | PRIVATE)) == 0)
               .transform(Method::getDeclaringClass);
       if (!supersWithPackagePrivateWriteReplace.isPresent()) {
         continue;
