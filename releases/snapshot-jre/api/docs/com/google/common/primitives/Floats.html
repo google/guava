@@ -87,6 +87,7 @@ initTheme();
 <li><a href="#indexOf(float%5B%5D,float)" tabindex="0">indexOf(float[], float)</a></li>
 <li><a href="#indexOf(float%5B%5D,float,int,int)" tabindex="0">indexOf(float[], float, int, int)</a></li>
 <li><a href="#indexOf(float%5B%5D,float%5B%5D)" tabindex="0">indexOf(float[], float[])</a></li>
+<li><a href="#indexOf(float%5B%5D,float%5B%5D,int,int)" tabindex="0">indexOf(float[], float[], int, int)</a></li>
 <li><a href="#lastIndexOf(float%5B%5D,float)" tabindex="0">lastIndexOf(float[], float)</a></li>
 <li><a href="#lastIndexOf(float%5B%5D,float,int,int)" tabindex="0">lastIndexOf(float[], float, int, int)</a></li>
 <li><a href="#min(float...)" tabindex="0">min(float...)</a></li>
@@ -227,114 +228,124 @@ specified minimum length.</div>
 <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
 </div>
 <div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#indexOf(float%5B%5D,float,int,int)" class="member-name-link">indexOf</a><wbr>(float[]&nbsp;array,
- float&nbsp;target,
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#indexOf(float%5B%5D,float%5B%5D,int,int)" class="member-name-link">indexOf</a><wbr>(float[]&nbsp;array,
+ float[]&nbsp;target,
  int&nbsp;fromIndex,
  int&nbsp;toIndex)</code></div>
 <div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within
+<code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code> exclusive, or <code>-1</code>
+if there is no such occurrence.</div>
+</div>
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#indexOf(float%5B%5D,float,int,int)" class="member-name-link">indexOf</a><wbr>(float[]&nbsp;array,
+ float&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code> between
 <code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isFinite(float)" class="member-name-link">isFinite</a><wbr>(float&nbsp;value)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#isFinite(float)" class="member-name-link">isFinite</a><wbr>(float&nbsp;value)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns <code>true</code> if <code>value</code> represents a real number.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#join(java.lang.String,float...)" class="member-name-link">join</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;separator,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#join(java.lang.String,float...)" class="member-name-link">join</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;separator,
  float...&nbsp;array)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a string containing the supplied <code>float</code> values, converted to strings as
 specified by <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Float.html#toString(float)" class="external-link"><code>Float.toString(float)</code></a>, and separated by <code>separator</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(float%5B%5D,float)" class="member-name-link">lastIndexOf</a><wbr>(float[]&nbsp;array,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(float%5B%5D,float)" class="member-name-link">lastIndexOf</a><wbr>(float[]&nbsp;array,
  float&nbsp;target)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(float%5B%5D,float,int,int)" class="member-name-link">lastIndexOf</a><wbr>(float[]&nbsp;array,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(float%5B%5D,float,int,int)" class="member-name-link">lastIndexOf</a><wbr>(float[]&nbsp;array,
  float&nbsp;target,
  int&nbsp;fromIndex,
  int&nbsp;toIndex)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code> between
 <code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link">Comparator</a><wbr>&lt;float[]&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lexicographicalComparator()" class="member-name-link">lexicographicalComparator</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link">Comparator</a><wbr>&lt;float[]&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lexicographicalComparator()" class="member-name-link">lexicographicalComparator</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a comparator that compares two <code>float</code> arrays <a href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#max(float...)" class="member-name-link">max</a><wbr>(float...&nbsp;array)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#max(float...)" class="member-name-link">max</a><wbr>(float...&nbsp;array)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the greatest value present in <code>array</code>, using the same rules of comparison as
 <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Math.html#max(float,float)" class="external-link"><code>Math.max(float, float)</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#min(float...)" class="member-name-link">min</a><wbr>(float...&nbsp;array)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#min(float...)" class="member-name-link">min</a><wbr>(float...&nbsp;array)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the least value present in <code>array</code>, using the same rules of comparison as <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Math.html#min(float,float)" class="external-link"><code>Math.min(float, float)</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reverse(float%5B%5D)" class="member-name-link">reverse</a><wbr>(float[]&nbsp;array)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reverse(float%5B%5D)" class="member-name-link">reverse</a><wbr>(float[]&nbsp;array)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Reverses the elements of <code>array</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reverse(float%5B%5D,int,int)" class="member-name-link">reverse</a><wbr>(float[]&nbsp;array,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reverse(float%5B%5D,int,int)" class="member-name-link">reverse</a><wbr>(float[]&nbsp;array,
  int&nbsp;fromIndex,
  int&nbsp;toIndex)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Reverses the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
 exclusive.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rotate(float%5B%5D,int)" class="member-name-link">rotate</a><wbr>(float[]&nbsp;array,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rotate(float%5B%5D,int)" class="member-name-link">rotate</a><wbr>(float[]&nbsp;array,
  int&nbsp;distance)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
 moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
 + i) mod array.length</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rotate(float%5B%5D,int,int,int)" class="member-name-link">rotate</a><wbr>(float[]&nbsp;array,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rotate(float%5B%5D,int,int,int)" class="member-name-link">rotate</a><wbr>(float[]&nbsp;array,
  int&nbsp;distance,
  int&nbsp;fromIndex,
  int&nbsp;toIndex)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Performs a right rotation of <code>array</code> between <code>fromIndex</code> inclusive and <code>
 toIndex</code> exclusive.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sortDescending(float%5B%5D)" class="member-name-link">sortDescending</a><wbr>(float[]&nbsp;array)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sortDescending(float%5B%5D)" class="member-name-link">sortDescending</a><wbr>(float[]&nbsp;array)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Sorts the elements of <code>array</code> in descending order.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sortDescending(float%5B%5D,int,int)" class="member-name-link">sortDescending</a><wbr>(float[]&nbsp;array,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#sortDescending(float%5B%5D,int,int)" class="member-name-link">sortDescending</a><wbr>(float[]&nbsp;array,
  int&nbsp;fromIndex,
  int&nbsp;toIndex)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Sorts the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
 exclusive in descending order.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../base/Converter.html" title="class in com.google.common.base">Converter</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Float.html" title="class in java.lang" class="external-link">Float</a>&gt;</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringConverter()" class="member-name-link">stringConverter</a>()</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="../base/Converter.html" title="class in com.google.common.base">Converter</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>,<wbr><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Float.html" title="class in java.lang" class="external-link">Float</a>&gt;</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#stringConverter()" class="member-name-link">stringConverter</a>()</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a serializable converter object that converts between strings and floats using <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Float.html#valueOf(java.lang.String)" class="external-link"><code>Float.valueOf(String)</code></a> and <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Float.html#toString()" class="external-link"><code>Float.toString()</code></a>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float[]</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toArray(java.util.Collection)" class="member-name-link">toArray</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link">Collection</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Number.html" title="class in java.lang" class="external-link">Number</a>&gt;&nbsp;collection)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static float[]</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toArray(java.util.Collection)" class="member-name-link">toArray</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link">Collection</a>&lt;? extends <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Number.html" title="class in java.lang" class="external-link">Number</a>&gt;&nbsp;collection)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns an array containing each value of <code>collection</code>, converted to a <code>float</code>
 value in the manner of <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Number.html#floatValue()" class="external-link"><code>Number.floatValue()</code></a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Float.html" title="class in java.lang" class="external-link">Float</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#tryParse(java.lang.String)" class="member-name-link">tryParse</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;string)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://jspecify.dev/docs/api/org/jspecify/annotations/Nullable.html" title="annotation in org.jspecify.annotations" class="external-link">@Nullable</a> <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Float.html" title="class in java.lang" class="external-link">Float</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#tryParse(java.lang.String)" class="member-name-link">tryParse</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;string)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Parses the specified string as a single-precision floating point value.</div>
 </div>
 </div>
@@ -540,6 +551,33 @@ i, i + target.length)</code> contains exactly the same elements as <code>target<
 <dt>Parameters:</dt>
 <dd><code>array</code> - the array to search for the sequence <code>target</code></dd>
 <dd><code>target</code> - the array to search for as a sub-sequence of <code>array</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="indexOf(float[],float[],int,int)">
+<h3>indexOf</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">indexOf</span><wbr><span class="parameters">(float[]&nbsp;array,
+ float[]&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</span></div>
+<div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within
+<code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code> exclusive, or <code>-1</code>
+if there is no such occurrence.
+
+<p>More formally, returns the lowest index <code>i</code> such that <code>i &gt;= fromIndex</code>, <code>i
++ target.length &lt;= toIndex</code>, and <code>Arrays.copyOfRange(array, i, i + target.length)</code>
+contains exactly the same elements as <code>target</code>.
+
+<p>Note that this always returns <code>-1</code> when <code>target</code> contains <code>NaN</code>.</div>
+<dl class="notes">
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>fromIndex &lt; 0</code>, <code>toIndex &gt; array.length</code>, or
+    <code>fromIndex &gt; toIndex</code></dd>
+<dt>Since:</dt>
+<dd>NEXT</dd>
 </dl>
 </div>
 </section>

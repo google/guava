@@ -81,6 +81,7 @@ initTheme();
 <li><a href="#indexOf(boolean%5B%5D,boolean)" tabindex="0">indexOf(boolean[], boolean)</a></li>
 <li><a href="#indexOf(boolean%5B%5D,boolean,int,int)" tabindex="0">indexOf(boolean[], boolean, int, int)</a></li>
 <li><a href="#indexOf(boolean%5B%5D,boolean%5B%5D)" tabindex="0">indexOf(boolean[], boolean[])</a></li>
+<li><a href="#indexOf(boolean%5B%5D,boolean%5B%5D,int,int)" tabindex="0">indexOf(boolean[], boolean[], int, int)</a></li>
 <li><a href="#lastIndexOf(boolean%5B%5D,boolean)" tabindex="0">lastIndexOf(boolean[], boolean)</a></li>
 <li><a href="#lastIndexOf(boolean%5B%5D,boolean,int,int)" tabindex="0">lastIndexOf(boolean[], boolean, int, int)</a></li>
 <li><a href="#concat(boolean%5B%5D...)" tabindex="0">concat(boolean[]...)</a></li>
@@ -197,79 +198,89 @@ specified minimum length.</div>
 <code>array</code>, or <code>-1</code> if there is no such occurrence.</div>
 </div>
 <div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#indexOf(boolean%5B%5D,boolean,int,int)" class="member-name-link">indexOf</a><wbr>(boolean[]&nbsp;array,
- boolean&nbsp;target,
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#indexOf(boolean%5B%5D,boolean%5B%5D,int,int)" class="member-name-link">indexOf</a><wbr>(boolean[]&nbsp;array,
+ boolean[]&nbsp;target,
  int&nbsp;fromIndex,
  int&nbsp;toIndex)</code></div>
 <div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within
+<code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code> exclusive, or <code>-1</code>
+if there is no such occurrence.</div>
+</div>
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#indexOf(boolean%5B%5D,boolean,int,int)" class="member-name-link">indexOf</a><wbr>(boolean[]&nbsp;array,
+ boolean&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the index of the first appearance of the value <code>target</code> in <code>array</code> between
 <code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#join(java.lang.String,boolean...)" class="member-name-link">join</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;separator,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a></code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#join(java.lang.String,boolean...)" class="member-name-link">join</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/String.html" title="class in java.lang" class="external-link">String</a>&nbsp;separator,
  boolean...&nbsp;array)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a string containing the supplied <code>boolean</code> values separated by <code>separator</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(boolean%5B%5D,boolean)" class="member-name-link">lastIndexOf</a><wbr>(boolean[]&nbsp;array,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(boolean%5B%5D,boolean)" class="member-name-link">lastIndexOf</a><wbr>(boolean[]&nbsp;array,
  boolean&nbsp;target)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(boolean%5B%5D,boolean,int,int)" class="member-name-link">lastIndexOf</a><wbr>(boolean[]&nbsp;array,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static int</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lastIndexOf(boolean%5B%5D,boolean,int,int)" class="member-name-link">lastIndexOf</a><wbr>(boolean[]&nbsp;array,
  boolean&nbsp;target,
  int&nbsp;fromIndex,
  int&nbsp;toIndex)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns the index of the last appearance of the value <code>target</code> in <code>array</code> between
 <code>fromIndex</code> inclusive and <code>toIndex</code> exclusive.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link">Comparator</a><wbr>&lt;boolean[]&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lexicographicalComparator()" class="member-name-link">lexicographicalComparator</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link">Comparator</a><wbr>&lt;boolean[]&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#lexicographicalComparator()" class="member-name-link">lexicographicalComparator</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a comparator that compares two <code>boolean</code> arrays <a href="http://en.wikipedia.org/wiki/Lexicographical_order">lexicographically</a>.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reverse(boolean%5B%5D)" class="member-name-link">reverse</a><wbr>(boolean[]&nbsp;array)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reverse(boolean%5B%5D)" class="member-name-link">reverse</a><wbr>(boolean[]&nbsp;array)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Reverses the elements of <code>array</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reverse(boolean%5B%5D,int,int)" class="member-name-link">reverse</a><wbr>(boolean[]&nbsp;array,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#reverse(boolean%5B%5D,int,int)" class="member-name-link">reverse</a><wbr>(boolean[]&nbsp;array,
  int&nbsp;fromIndex,
  int&nbsp;toIndex)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Reverses the elements of <code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code>
 exclusive.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rotate(boolean%5B%5D,int)" class="member-name-link">rotate</a><wbr>(boolean[]&nbsp;array,
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rotate(boolean%5B%5D,int)" class="member-name-link">rotate</a><wbr>(boolean[]&nbsp;array,
  int&nbsp;distance)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Performs a right rotation of <code>array</code> of "distance" places, so that the first element is
 moved to index "distance", and the element at index <code>i</code> ends up at index <code>(distance
 + i) mod array.length</code>.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rotate(boolean%5B%5D,int,int,int)" class="member-name-link">rotate</a><wbr>(boolean[]&nbsp;array,
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static void</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#rotate(boolean%5B%5D,int,int,int)" class="member-name-link">rotate</a><wbr>(boolean[]&nbsp;array,
  int&nbsp;distance,
  int&nbsp;fromIndex,
  int&nbsp;toIndex)</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Performs a right rotation of <code>array</code> between <code>fromIndex</code> inclusive and <code>
 toIndex</code> exclusive.</div>
 </div>
-<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean[]</code></div>
-<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toArray(java.util.Collection)" class="member-name-link">toArray</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Boolean.html" title="class in java.lang" class="external-link">Boolean</a>&gt;&nbsp;collection)</code></div>
-<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static boolean[]</code></div>
+<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#toArray(java.util.Collection)" class="member-name-link">toArray</a><wbr>(<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Collection.html" title="interface in java.util" class="external-link">Collection</a>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Boolean.html" title="class in java.lang" class="external-link">Boolean</a>&gt;&nbsp;collection)</code></div>
+<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Copies a collection of <code>Boolean</code> instances into a new array of primitive <code>boolean</code>
 values.</div>
 </div>
-<div class="col-first even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link">Comparator</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Boolean.html" title="class in java.lang" class="external-link">Boolean</a>&gt;</code></div>
-<div class="col-second even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#trueFirst()" class="member-name-link">trueFirst</a>()</code></div>
-<div class="col-last even-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
+<div class="col-first odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code>static <a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/util/Comparator.html" title="interface in java.util" class="external-link">Comparator</a><wbr>&lt;<a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/Boolean.html" title="class in java.lang" class="external-link">Boolean</a>&gt;</code></div>
+<div class="col-second odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4"><code><a href="#trueFirst()" class="member-name-link">trueFirst</a>()</code></div>
+<div class="col-last odd-row-color method-summary-table method-summary-table-tab1 method-summary-table-tab4">
 <div class="block">Returns a <code>Comparator&lt;Boolean&gt;</code> that sorts <code>true</code> before <code>false</code>.</div>
 </div>
 </div>
@@ -441,6 +452,31 @@ i, i + target.length)</code> contains exactly the same elements as <code>target<
 <dt>Parameters:</dt>
 <dd><code>array</code> - the array to search for the sequence <code>target</code></dd>
 <dd><code>target</code> - the array to search for as a sub-sequence of <code>array</code></dd>
+</dl>
+</div>
+</section>
+</li>
+<li>
+<section class="detail" id="indexOf(boolean[],boolean[],int,int)">
+<h3>indexOf</h3>
+<div class="horizontal-scroll">
+<div class="member-signature"><span class="modifiers">public static</span>&nbsp;<span class="return-type">int</span>&nbsp;<span class="element-name">indexOf</span><wbr><span class="parameters">(boolean[]&nbsp;array,
+ boolean[]&nbsp;target,
+ int&nbsp;fromIndex,
+ int&nbsp;toIndex)</span></div>
+<div class="block">Returns the start position of the first occurrence of the specified <code>target</code> within
+<code>array</code> between <code>fromIndex</code> inclusive and <code>toIndex</code> exclusive, or <code>-1</code>
+if there is no such occurrence.
+
+<p>More formally, returns the lowest index <code>i</code> such that <code>i &gt;= fromIndex</code>, <code>i
++ target.length &lt;= toIndex</code>, and <code>Arrays.copyOfRange(array, i, i + target.length)</code>
+contains exactly the same elements as <code>target</code>.</div>
+<dl class="notes">
+<dt>Throws:</dt>
+<dd><code><a href="https://docs.oracle.com/en/java/javase/27/docs/api/java.base/java/lang/IndexOutOfBoundsException.html" title="class in java.lang" class="external-link">IndexOutOfBoundsException</a></code> - if <code>fromIndex &lt; 0</code>, <code>toIndex &gt; array.length</code>, or
+    <code>fromIndex &gt; toIndex</code></dd>
+<dt>Since:</dt>
+<dd>NEXT</dd>
 </dl>
 </div>
 </section>
