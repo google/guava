@@ -57,6 +57,21 @@ import org.jspecify.annotations.Nullable;
  * return joiner.join("wrong", null, "wrong");
  * }
  *
+ * <p>To transform elements before joining them, use a {@link java.util.stream.Stream}:
+ *
+ * {@snippet :
+ * return people.stream().map(Person::name).collect(Collectors.joining(", "));
+ * }
+ *
+ * <p>Note that {@link java.util.stream.Collectors#joining(CharSequence) Collectors.joining} accepts
+ * only {@link CharSequence} elements, and it appends a null element as the string {@code "null"}
+ * rather than supporting options like {@link #skipNulls()} and {@link #useForNull(String)}. To use
+ * a configured joiner instead, pass the stream's iterator to {@link #join(Iterator)}:
+ *
+ * {@snippet :
+ * return joiner.join(people.stream().map(Person::name).iterator());
+ * }
+ *
  * <p>See the Guava User Guide article on <a
  * href="https://github.com/google/guava/wiki/StringsExplained#joiner">{@code Joiner}</a>.
  *
