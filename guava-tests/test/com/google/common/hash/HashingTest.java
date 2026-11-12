@@ -162,7 +162,7 @@ public class HashingTest extends TestCase {
   @J2ktIncompatible
   public void testGoodFastHash32() {
     HashTestUtils.check2BitAvalanche(Hashing.goodFastHash(32), 250, 0.20);
-    HashTestUtils.checkAvalanche(Hashing.goodFastHash(32), 250, 0.17);
+    HashTestUtils.checkAvalanche(Hashing.goodFastHash(32), 500, 0.17);
     HashTestUtils.checkNo2BitCharacteristics(Hashing.goodFastHash(32));
     HashTestUtils.checkNoFunnels(Hashing.goodFastHash(32));
     HashTestUtils.assertInvariants(Hashing.goodFastHash(32));
