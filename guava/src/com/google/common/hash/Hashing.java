@@ -579,6 +579,9 @@ public final class Hashing {
    * href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
    * <a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.
    *
+   * <p>Note: The {@link Hasher} returned by this {@link HashFunction} buffers the entire input in
+   * memory before computing the hash, so it is not suitable for streaming very large inputs.
+   *
    * @since 31.1
    */
   @J2ktIncompatible

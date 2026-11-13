@@ -19,10 +19,19 @@ package com.google.common.hash;
 import static com.google.common.base.Strings.repeat;
 import static com.google.common.hash.Hashing.farmHashFingerprint64;
 import static com.google.common.truth.Truth.assertThat;
+import static java.lang.Math.min;
+import static java.lang.System.arraycopy;
+import static java.nio.ByteOrder.BIG_ENDIAN;
+import static java.nio.ByteOrder.LITTLE_ENDIAN;
 import static java.nio.charset.StandardCharsets.ISO_8859_1;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.Arrays.asList;
 
+import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ImmutableList;
+import com.google.common.hash.HashTestUtils.RandomHasherAction;
+import java.nio.ByteBuffer;
+import java.util.Random;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -199,5 +208,245 @@ public class FarmHashFingerprint64Test extends TestCase {
 
   private static byte getChar(long h) {
     return (byte) ('a' + ((h & 0xfffff) % 26));
+  }
+
+  public void testStreamingAllLengthsByteByByte() {
+    byte[] data = new byte[260];
+    new Random(0x12345678L).nextBytes(data);
+    for (int len = 0; len <= data.length; len++) {
+      Hasher hasher = HASH_FN.newHasher();
+      for (int i = 0; i < len; i++) {
+        hasher.putByte(data[i]);
+      }
+      assertEquals("byte-by-byte length " + len, HASH_FN.hashBytes(data, 0, len), hasher.hash());
+    }
+  }
+
+  public void testStreamingChunkSizesAndBoundaries() {
+    byte[] data = new byte[320];
+    new Random(0x87654321L).nextBytes(data);
+    int sliceOffset = 3;
+    int slicePosition = 4;
+    int totalPrefix = sliceOffset + slicePosition;
+    byte[] padded = new byte[totalPrefix + data.length];
+    new Random(0x11223344L).nextBytes(padded);
+    arraycopy(data, 0, padded, totalPrefix, data.length);
+
+    int[] lengths = {
+      0, 1, 7, 8, 16, 17, 32, 33, 63, 64, 65, 66, 127, 128, 129, 191, 192, 193, 255, 256, 257, 320
+    };
+    int[] chunkSizes = {1, 2, 3, 7, 16, 31, 32, 63, 64, 65, 99, 128, 129, 256};
+    byte[] empty = new byte[0];
+
+    for (int len : lengths) {
+      HashCode expected = HASH_FN.hashBytes(data, 0, len);
+      for (int chunkSize : chunkSizes) {
+        Hasher arrayHasher = HASH_FN.newHasher();
+        Hasher slicedArrayBufferHasher = HASH_FN.newHasher();
+        Hasher readOnlyBufferHasher = HASH_FN.newHasher();
+        for (int off = 0; off < len; off += chunkSize) {
+          int n = min(chunkSize, len - off);
+          // Interleave empty writes to verify zero-length puts never prematurely mix a full block.
+          arrayHasher.putBytes(empty);
+          arrayHasher.putBytes(data, off, n);
+
+          slicedArrayBufferHasher.putBytes(ByteBuffer.wrap(padded, sliceOffset, 0).slice());
+          ByteBuffer sliced = ByteBuffer.wrap(padded, sliceOffset + off, slicePosition + n).slice();
+          Java8Compatibility.position(sliced, slicePosition);
+          assertEquals(sliceOffset + off, sliced.arrayOffset());
+          slicedArrayBufferHasher.putBytes(sliced);
+          assertEquals(0, sliced.remaining());
+
+          ByteBuffer ro = ByteBuffer.wrap(data, off, n).asReadOnlyBuffer();
+          readOnlyBufferHasher.putBytes(ByteBuffer.wrap(empty).asReadOnlyBuffer());
+          readOnlyBufferHasher.putBytes(ro);
+          assertEquals(0, ro.remaining());
+        }
+        arrayHasher.putBytes(empty);
+        slicedArrayBufferHasher.putBytes(ByteBuffer.wrap(padded, sliceOffset, 0).slice());
+        readOnlyBufferHasher.putBytes(ByteBuffer.wrap(empty).asReadOnlyBuffer());
+        assertEquals("array len=" + len + " chunk=" + chunkSize, expected, arrayHasher.hash());
+        assertEquals(
+            "slicedArrayBuffer len=" + len + " chunk=" + chunkSize,
+            expected,
+            slicedArrayBufferHasher.hash());
+        assertEquals(
+            "readOnlyBuffer len=" + len + " chunk=" + chunkSize,
+            expected,
+            readOnlyBufferHasher.hash());
+      }
+      // Also test hashBytes(ByteBuffer) on a sliced array-backed buffer (arrayOffset > 0 and
+      // position > 0) and on a read-only (non-array-backed) ByteBuffer.
+      ByteBuffer fullSliced = ByteBuffer.wrap(padded, sliceOffset, slicePosition + len).slice();
+      Java8Compatibility.position(fullSliced, slicePosition);
+      assertEquals(sliceOffset, fullSliced.arrayOffset());
+      assertEquals("hashBytes(sliced) len=" + len, expected, HASH_FN.hashBytes(fullSliced));
+      assertEquals(0, fullSliced.remaining());
+
+      ByteBuffer fullReadOnly = ByteBuffer.wrap(data, 0, len).asReadOnlyBuffer();
+      assertEquals("hashBytes(ro) len=" + len, expected, HASH_FN.hashBytes(fullReadOnly));
+      assertEquals(0, fullReadOnly.remaining());
+    }
+  }
+
+  private static HashFunction nonStreamingFarmHash() {
+    return new AbstractNonStreamingHashFunction() {
+      @Override
+      public HashCode hashBytes(byte[] input, int off, int len) {
+        return HASH_FN.hashBytes(input, off, len);
+      }
+
+      @Override
+      public int bits() {
+        return 64;
+      }
+    };
+  }
+
+  public void testStreamingRandomActionsAgainstNonStreaming() {
+    HashFunction nonStreaming = nonStreamingFarmHash();
+    Random random = new Random(0xCAFEBABEL);
+    for (int trial = 0; trial < 200; trial++) {
+      Hasher streamingHasher = HASH_FN.newHasher();
+      Hasher nonStreamingHasher = nonStreaming.newHasher();
+      ImmutableList<Hasher> hashers = ImmutableList.of(streamingHasher, nonStreamingHasher);
+      int ops = random.nextInt(40);
+      for (int op = 0; op < ops; op++) {
+        if (random.nextInt(10) == 0) {
+          // RandomHasherAction.PUT_BYTE_BUFFER only uses array-backed buffers; also mix in
+          // non-array-backed read-only buffers.
+          byte[] buf = new byte[random.nextInt(220)];
+          random.nextBytes(buf);
+          int pos = random.nextInt(buf.length + 1);
+          int len = random.nextInt(buf.length - pos + 1);
+          for (Hasher hasher : hashers) {
+            ByteBuffer bb =
+                ByteBuffer.wrap(buf, pos, len)
+                    .asReadOnlyBuffer()
+                    .order(random.nextBoolean() ? LITTLE_ENDIAN : BIG_ENDIAN);
+            hasher.putBytes(bb);
+            assertEquals(0, bb.remaining());
+          }
+        } else {
+          RandomHasherAction.pickAtRandom(random).performAction(random, hashers);
+        }
+        if (random.nextInt(10) == 0) {
+          assertEquals(nonStreamingHasher.hash(), streamingHasher.hash());
+        }
+      }
+      assertEquals(nonStreamingHasher.hash(), streamingHasher.hash());
+    }
+  }
+
+  public void testStreamingPrimitivesAcrossBlockBoundaries() {
+    HashFunction nonStreaming = nonStreamingFarmHash();
+    Random random = new Random(0x12345678L);
+
+    // prefixBytes in 0..7 covers aligned pos == 64 boundaries and every possible straddling offset
+    // (pos == 63 for short/char, 61..63 for int, 57..63 for long).
+    for (int prefixBytes = 0; prefixBytes <= 7; prefixBytes++) {
+      Hasher shortStreaming = HASH_FN.newHasher();
+      Hasher shortNonStreaming = nonStreaming.newHasher();
+      Hasher charStreaming = HASH_FN.newHasher();
+      Hasher charNonStreaming = nonStreaming.newHasher();
+      Hasher intStreaming = HASH_FN.newHasher();
+      Hasher intNonStreaming = nonStreaming.newHasher();
+      Hasher longStreaming = HASH_FN.newHasher();
+      Hasher longNonStreaming = nonStreaming.newHasher();
+
+      for (int p = 0; p < prefixBytes; p++) {
+        byte b = (byte) random.nextInt();
+        shortStreaming.putByte(b);
+        shortNonStreaming.putByte(b);
+        charStreaming.putByte(b);
+        charNonStreaming.putByte(b);
+        intStreaming.putByte(b);
+        intNonStreaming.putByte(b);
+        longStreaming.putByte(b);
+        longNonStreaming.putByte(b);
+      }
+
+      for (int i = 0; i < 100; i++) {
+        short s = (short) random.nextInt();
+        shortStreaming.putShort(s);
+        shortNonStreaming.putShort(s);
+        assertEquals(
+            "short prefix=" + prefixBytes + " step=" + i,
+            shortNonStreaming.hash(),
+            shortStreaming.hash());
+      }
+      for (int i = 0; i < 100; i++) {
+        char c = (char) random.nextInt();
+        charStreaming.putChar(c);
+        charNonStreaming.putChar(c);
+        assertEquals(
+            "char prefix=" + prefixBytes + " step=" + i,
+            charNonStreaming.hash(),
+            charStreaming.hash());
+      }
+      for (int i = 0; i < 50; i++) {
+        int value = random.nextInt();
+        intStreaming.putInt(value);
+        intNonStreaming.putInt(value);
+        assertEquals(
+            "int prefix=" + prefixBytes + " step=" + i,
+            intNonStreaming.hash(),
+            intStreaming.hash());
+      }
+      for (int i = 0; i < 25; i++) {
+        long value = random.nextLong();
+        longStreaming.putLong(value);
+        longNonStreaming.putLong(value);
+        assertEquals(
+            "long prefix=" + prefixBytes + " step=" + i,
+            longNonStreaming.hash(),
+            longStreaming.hash());
+      }
+    }
+  }
+
+  public void testStreamingLargeInput() {
+    byte[] large = new byte[200_000];
+    new Random(0xDEADBEEFL).nextBytes(large);
+    HashCode expected = HASH_FN.hashBytes(large);
+
+    Hasher hasher = HASH_FN.newHasher();
+    for (int off = 0; off < large.length; off += 777) {
+      hasher.putBytes(large, off, min(777, large.length - off));
+    }
+    assertEquals(expected, hasher.hash());
+  }
+
+  @J2ktIncompatible
+  public void testStreamingDirectByteBuffer() {
+    byte[] data = new byte[1024];
+    new Random(0xBEEFCAFEL).nextBytes(data);
+    int[] lengths = {0, 1, 63, 64, 65, 127, 128, 129, 500, 1000};
+    for (int len : lengths) {
+      ByteBuffer direct = ByteBuffer.allocateDirect(len + 10);
+      Java8Compatibility.position(direct, 5);
+      direct.put(data, 0, len);
+      Java8Compatibility.limit(direct, 5 + len);
+      Java8Compatibility.position(direct, 5);
+
+      HashCode expected = HASH_FN.hashBytes(data, 0, len);
+
+      direct.order(BIG_ENDIAN);
+      assertEquals(expected, HASH_FN.hashBytes(direct));
+      assertEquals(BIG_ENDIAN, direct.order());
+      assertEquals(0, direct.remaining());
+
+      Java8Compatibility.position(direct, 5);
+      direct.order(LITTLE_ENDIAN);
+      Hasher hasher = HASH_FN.newHasher();
+      // Feed in two halves (testing partial buffer + direct buffer streaming).
+      int mid = len / 2;
+      Java8Compatibility.limit(direct, 5 + mid);
+      hasher.putBytes(direct);
+      Java8Compatibility.limit(direct, 5 + len);
+      hasher.putBytes(direct);
+      assertEquals(LITTLE_ENDIAN, direct.order());
+      assertEquals(expected, hasher.hash());
+    }
   }
 }
