@@ -51,6 +51,16 @@ public class MultisetsTest extends TestCase {
 
   /* See MultisetsImmutableEntryTest for immutableEntry() tests. */
 
+  public void testFilterRemoveIf() {
+    Multiset<String> unfiltered = HashMultiset.create(asList("a", "a", "b", "b", "c", "cc"));
+    Multiset<String> filtered = Multisets.filter(unfiltered, s -> !s.equals("b"));
+
+    assertTrue(filtered.removeIf(s -> s.startsWith("c") || s.equals("b")));
+    assertThat(unfiltered).containsExactly("a", "a", "b", "b");
+    assertFalse(filtered.removeIf(s -> s.equals("b")));
+    assertThat(unfiltered).containsExactly("a", "a", "b", "b");
+  }
+
   public void testNewTreeMultisetDerived() {
     TreeMultiset<DerivedComparable> set = TreeMultiset.create();
     assertTrue(set.isEmpty());

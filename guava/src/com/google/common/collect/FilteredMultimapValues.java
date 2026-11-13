@@ -88,6 +88,16 @@ final class FilteredMultimapValues<K extends @Nullable Object, V extends @Nullab
   }
 
   @Override
+  public boolean removeIf(java.util.function.Predicate<? super V> filter) {
+    checkNotNull(filter);
+    Predicate<? super Entry<K, V>> entryPredicate = multimap.entryPredicate();
+    return multimap
+        .unfiltered()
+        .entries()
+        .removeIf(entry -> entryPredicate.apply(entry) && filter.test(entry.getValue()));
+  }
+
+  @Override
   public void clear() {
     multimap.clear();
   }
