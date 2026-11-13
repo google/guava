@@ -834,7 +834,10 @@ combination is that CityHash has a bunch of special cases for short strings that
 be replicated here. The result will never be 0 or 1.
 
 <p>This function is best understood as a <a href="https://en.wikipedia.org/wiki/Fingerprint_(computing)">fingerprint</a> rather than a true
-<a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.</div>
+<a href="https://en.wikipedia.org/wiki/Hash_function">hash function</a>.
+
+<p>Note: The <a href="Hasher.html" title="interface in com.google.common.hash"><code>Hasher</code></a> returned by this <a href="HashFunction.html" title="interface in com.google.common.hash"><code>HashFunction</code></a> buffers the entire input in
+memory before computing the hash, so it is not suitable for streaming very large inputs.</div>
 <dl class="notes">
 <dt>Since:</dt>
 <dd>31.1</dd>
