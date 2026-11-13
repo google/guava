@@ -1175,6 +1175,12 @@ public class TypeTokenTest extends TestCase {
 
   private interface StringListMap<V> extends ListMap<String, V> {}
 
+  private interface MyType<T> {}
+
+  private interface SubTypeBounded<T extends Number> extends MyType<T> {}
+
+  private interface ComparableHolder<T extends Comparable<T>> extends MyType<T> {}
+
   public <V> void testGetSupertype_partiallySpecializedType() {
     Type expectedType = new TypeToken<Map<String, List<V>>>() {}.getType();
     assertEquals(
@@ -1191,6 +1197,17 @@ public class TypeTokenTest extends TestCase {
     assertEquals(
         new TypeToken<ListArrayIterable<String>[]>() {},
         new TypeToken<Iterable<List<String>[]>[]>() {}.getSubtype(ListArrayIterable[].class));
+  }
+
+  public void testGetSubtype_actualTypeOutsideTypeVariableBounds() {
+    TypeToken<MyType<String>> type = new TypeToken<MyType<String>>() {};
+    assertThrows(IllegalArgumentException.class, () -> type.getSubtype(SubTypeBounded.class));
+  }
+
+  public void testGetSubtype_recursiveBoundStillResolves() {
+    TypeToken<MyType<String>> type = new TypeToken<MyType<String>>() {};
+    assertEquals(
+        new TypeToken<ComparableHolder<String>>() {}, type.getSubtype(ComparableHolder.class));
   }
 
   public void testGetSubtype_withoutTypeVariable() {
