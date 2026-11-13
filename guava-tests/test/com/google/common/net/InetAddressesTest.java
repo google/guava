@@ -118,7 +118,9 @@ public class InetAddressesTest extends TestCase {
             ":2001:db8::1",
             ":1:2:3:4:5:6:7",
             "1:2:3:4:5:6:7:",
-            ":1:2:3:4:5:6:");
+            ":1:2:3:4:5:6:",
+            "::1.2%:1.2.3.4", // dotted quad in the scope ID must not be merged into a hextet
+            "1::1.2%:0.0.0.0");
 
     for (String bogusInput : bogusInputs) {
       assertThrows(
