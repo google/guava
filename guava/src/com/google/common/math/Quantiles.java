@@ -485,7 +485,14 @@ public final class Quantiles {
       // Return POSITIVE_INFINITY when NEGATIVE_INFINITY < lower <= upper == POSITIVE_INFINITY:
       return POSITIVE_INFINITY;
     }
-    return lower + (upper - lower) * remainder / scale;
+    double result = lower + (upper - lower) * remainder / scale;
+    if (result == POSITIVE_INFINITY) {
+      // Both inputs are finite, but the difference or its multiplication by remainder overflowed.
+      // Use a weighted average in that case, retaining the existing rounding otherwise.
+      double fraction = remainder / scale;
+      return lower * (1.0 - fraction) + upper * fraction;
+    }
+    return result;
   }
 
   private static void checkIndex(int index, int scale) {
