@@ -16,6 +16,7 @@ package com.google.common.hash;
 
 import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 import static java.lang.Byte.toUnsignedInt;
 import static java.lang.Math.log;
 import static java.lang.Math.max;
@@ -220,11 +221,19 @@ public final class BloomFilter<T extends @Nullable Object> implements Predicate<
    * Bloom filter. This approximation is reasonably accurate if it does not exceed the value of
    * {@code expectedInsertions} that was used when constructing the filter.
    *
+   * @throws IllegalStateException if every bit of the filter is set, which leaves nothing to base
+   *     an estimate on. The filter has usually received far more elements than its {@code
+   *     expectedInsertions} by then. {@link #expectedFpp} returns {@code 1.0} in this state.
    * @since 22.0
    */
   public long approximateElementCount() {
     long bitSize = bits.bitSize();
     long bitCount = bits.bitCount();
+    checkState(
+        bitCount < bitSize,
+        "Cannot estimate the element count of a BloomFilter with all %s bits set. It has received"
+            + " too many elements for its size.",
+        bitSize);
 
     /*
      * Each insertion is expected to reduce the # of clear bits by a factor of
