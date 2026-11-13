@@ -17,14 +17,19 @@
 package com.google.common.hash;
 
 import static com.google.common.hash.Funnels.byteArrayFunnel;
+import static com.google.common.hash.Hashing.goodFastHash;
 import static com.google.common.hash.Hashing.murmur3_128;
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.common.truth.Truth.assertWithMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static org.junit.Assert.assertThrows;
 
 import com.google.common.annotations.J2ktIncompatible;
+import com.google.common.collect.ImmutableList;
 import com.google.common.hash.HashTestUtils.HashFn;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.Arrays;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -83,5 +88,64 @@ public class Murmur3Hash128Test extends TestCase {
 
   public void testInvariants() {
     HashTestUtils.assertInvariants(murmur3_128());
+  }
+
+  private static ImmutableList<HashFunction> testFunctions() {
+    return ImmutableList.of(
+        murmur3_128(0),
+        murmur3_128(1),
+        murmur3_128(-1),
+        murmur3_128(Integer.MIN_VALUE),
+        murmur3_128(Integer.MAX_VALUE),
+        goodFastHash(128));
+  }
+
+  private static byte[] createPatternBuffer(int size) {
+    byte[] buf = new byte[size];
+    for (int i = 0; i < buf.length; i++) {
+      buf[i] = (byte) (i * 131 + 0x80);
+    }
+    return buf;
+  }
+
+  public void testHashBytesOffsetsAndLengths() {
+    byte[] buf = createPatternBuffer(4128);
+    int[] offsets = {0, 1, 7, 8, 15, 16};
+    int[] extraLengths = {128, 2048, 4096};
+
+    for (HashFunction hf : testFunctions()) {
+      for (int off : offsets) {
+        for (int len = 0; len <= 65; len++) {
+          assertHashBytesMatchesReference(hf, buf, off, len, /* checkCopy= */ true);
+        }
+        for (int len : extraLengths) {
+          assertHashBytesMatchesReference(hf, buf, off, len, /* checkCopy= */ false);
+        }
+      }
+    }
+  }
+
+  private static void assertHashBytesMatchesReference(
+      HashFunction hf, byte[] buf, int off, int len, boolean checkCopy) {
+    String context = "hf=" + hf + ", off=" + off + ", len=" + len;
+    HashCode expected = hf.hashBytes(ByteBuffer.wrap(buf, off, len));
+    assertWithMessage(context)
+        .that(hf.newHasher().putBytes(buf, off, len).hash())
+        .isEqualTo(expected);
+    assertWithMessage(context).that(hf.hashBytes(buf, off, len)).isEqualTo(expected);
+    if (checkCopy) {
+      assertWithMessage(context)
+          .that(hf.hashBytes(Arrays.copyOfRange(buf, off, off + len)))
+          .isEqualTo(expected);
+    }
+  }
+
+  public void testHashBytesBoundsChecks() {
+    for (HashFunction hf : testFunctions()) {
+      assertThrows(IndexOutOfBoundsException.class, () -> hf.hashBytes(new byte[8], -1, 0));
+      assertThrows(IndexOutOfBoundsException.class, () -> hf.hashBytes(new byte[8], 0, -1));
+      assertThrows(IndexOutOfBoundsException.class, () -> hf.hashBytes(new byte[8], 9, 0));
+      assertThrows(IndexOutOfBoundsException.class, () -> hf.hashBytes(new byte[8], 4, 5));
+    }
   }
 }
