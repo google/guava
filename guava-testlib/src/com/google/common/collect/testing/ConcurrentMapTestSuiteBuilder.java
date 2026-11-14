@@ -22,6 +22,7 @@ import com.google.common.collect.testing.testers.ConcurrentMapPutIfAbsentTester;
 import com.google.common.collect.testing.testers.ConcurrentMapRemoveTester;
 import com.google.common.collect.testing.testers.ConcurrentMapReplaceEntryTester;
 import com.google.common.collect.testing.testers.ConcurrentMapReplaceTester;
+import com.google.common.collect.testing.testers.ConcurrentMapSpliteratorTester;
 import java.util.List;
 
 /**
@@ -44,7 +45,8 @@ public class ConcurrentMapTestSuiteBuilder<K, V> extends MapTestSuiteBuilder<K, 
           ConcurrentMapPutIfAbsentTester.class,
           ConcurrentMapRemoveTester.class,
           ConcurrentMapReplaceTester.class,
-          ConcurrentMapReplaceEntryTester.class);
+          ConcurrentMapReplaceEntryTester.class,
+          ConcurrentMapSpliteratorTester.class);
 
   @SuppressWarnings("rawtypes") // class literals
   @Override

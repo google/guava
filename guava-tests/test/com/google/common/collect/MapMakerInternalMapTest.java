@@ -33,7 +33,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.ref.Reference;
+import java.util.Spliterator;
 import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.stream.Collectors;
 import junit.framework.TestCase;
 import org.jspecify.annotations.NullUnmarked;
 
@@ -945,6 +947,23 @@ public class MapMakerInternalMapTest extends TestCase {
   public void testNullParameters() {
     NullPointerTester tester = new NullPointerTester();
     tester.testAllPublicInstanceMethods(makeMap(createMapMaker()));
+  }
+
+  public void testSpliterators() {
+    MapMakerInternalMap<Object, Object, ?, ?> map = makeMap(createMapMaker());
+    map.put("a", "b");
+
+    assertThat(map.keySet().spliterator().characteristics())
+        .isEqualTo(Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.CONCURRENT);
+    assertThat(map.values().spliterator().characteristics())
+        .isEqualTo(Spliterator.NONNULL | Spliterator.CONCURRENT);
+    assertThat(map.entrySet().spliterator().characteristics())
+        .isEqualTo(Spliterator.DISTINCT | Spliterator.NONNULL | Spliterator.CONCURRENT);
+
+    assertThat(map.keySet().stream().collect(Collectors.toList())).containsExactly("a");
+    assertThat(map.values().stream().collect(Collectors.toList())).containsExactly("b");
+    assertThat(map.entrySet().stream().collect(Collectors.toList()))
+        .containsExactly(Maps.immutableEntry("a", "b"));
   }
 
   public void testDeserializeWithHugeSize() throws Exception {
