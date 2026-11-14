@@ -39,7 +39,6 @@ import org.jspecify.annotations.Nullable;
  * @author Sven Mawson
  * @since 10.0 (replacing {@code Futures.makeListenable}, which existed in 1.0)
  */
-@J2ktIncompatible
 @GwtIncompatible
 public final class JdkFutureAdapters {
   /**
@@ -55,6 +54,7 @@ public final class JdkFutureAdapters {
    * ListenableFutureTask}, {@link AbstractFuture}, and other utilities over creating plain {@code
    * Future} instances to be upgraded to {@code ListenableFuture} after the fact.
    */
+  @J2ktIncompatible
   public static <V extends @Nullable Object> ListenableFuture<V> listenInPoolThread(
       Future<V> future) {
     if (future instanceof ListenableFuture) {
@@ -104,11 +104,14 @@ public final class JdkFutureAdapters {
   private static final class ListenableFutureAdapter<V extends @Nullable Object>
       extends SimpleForwardingFuture<V> implements ListenableFuture<V> {
 
+    @J2ktIncompatible
     private static final ThreadFactory threadFactory =
         new ThreadFactoryBuilder()
             .setDaemon(true)
             .setNameFormat("ListenableFutureAdapter-thread-%d")
             .build();
+
+    @J2ktIncompatible
     private static final Executor defaultAdapterExecutor = newCachedThreadPool(threadFactory);
 
     private final Executor adapterExecutor;
@@ -120,6 +123,7 @@ public final class JdkFutureAdapters {
     // listener is added.
     private final AtomicBoolean hasListeners = new AtomicBoolean(false);
 
+    @J2ktIncompatible
     ListenableFutureAdapter(Future<V> delegate) {
       this(delegate, defaultAdapterExecutor);
     }

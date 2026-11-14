@@ -23,6 +23,7 @@ import static com.google.common.util.concurrent.Futures.immediateFuture;
 import static com.google.common.util.concurrent.JdkFutureAdapters.listenInPoolThread;
 import static com.google.common.util.concurrent.MoreExecutors.directExecutor;
 import static java.util.concurrent.Executors.newCachedThreadPool;
+import static java.util.concurrent.Executors.newScheduledThreadPool;
 import static java.util.concurrent.TimeUnit.SECONDS;
 
 import com.google.common.annotations.GwtIncompatible;
@@ -47,10 +48,10 @@ import org.jspecify.annotations.NullUnmarked;
  */
 @NullUnmarked
 @GwtIncompatible
-@J2ktIncompatible
 public class JdkFutureAdaptersTest extends TestCase {
   private static final String DATA1 = "data";
 
+  @J2ktIncompatible
   public void testListenInPoolThreadReturnsSameFuture() {
     ListenableFuture<String> listenableFuture = immediateFuture(DATA1);
     assertThat(listenInPoolThread(listenableFuture)).isSameInstanceAs(listenableFuture);
@@ -108,6 +109,7 @@ public class JdkFutureAdaptersTest extends TestCase {
     assertTrue(listenableFuture.isDone());
   }
 
+  @J2ktIncompatible
   public void testListenInPoolThreadUsesGivenExecutor() throws Exception {
     ExecutorService executorService =
         newCachedThreadPool(new ThreadFactoryBuilder().setDaemon(true).build());
@@ -132,6 +134,31 @@ public class JdkFutureAdaptersTest extends TestCase {
     assertTrue(listenableFuture.isDone());
   }
 
+  public void testListenInPoolThreadUsesGivenScheduledExecutor() throws Exception {
+    ExecutorService executorService = newScheduledThreadPool(2);
+    NonListenableSettableFuture<String> abstractFuture = NonListenableSettableFuture.create();
+    ExecutorSpy spy = new ExecutorSpy(executorService);
+    ListenableFuture<String> listenableFuture = listenInPoolThread(abstractFuture, spy);
+
+    SingleCallListener singleCallListener = new SingleCallListener();
+    singleCallListener.expectCall();
+
+    assertFalse(spy.wasExecuted);
+    assertFalse(singleCallListener.wasCalled());
+    assertFalse(listenableFuture.isDone());
+
+    listenableFuture.addListener(singleCallListener, executorService);
+    abstractFuture.set(DATA1);
+    assertThat(listenableFuture.get()).isEqualTo(DATA1);
+    singleCallListener.waitForCall();
+
+    assertTrue(spy.wasExecuted);
+    assertTrue(singleCallListener.wasCalled());
+    assertTrue(listenableFuture.isDone());
+    executorService.shutdown();
+  }
+
+  @J2ktIncompatible
   public void testListenInPoolThreadCustomExecutorInterrupted() throws Exception {
     CountDownLatch submitSuccessful = new CountDownLatch(1);
     ExecutorService executorService =
@@ -241,6 +268,7 @@ public class JdkFutureAdaptersTest extends TestCase {
     }
   }
 
+  @J2ktIncompatible
   public void testListenInPoolThreadRunsListenerAfterRuntimeException() throws Exception {
     RuntimeExceptionThrowingFuture<String> input = new RuntimeExceptionThrowingFuture<>();
     /*
@@ -271,6 +299,7 @@ public class JdkFutureAdaptersTest extends TestCase {
     assertTrue(lateListener.wasRun.await(1, SECONDS));
   }
 
+  @J2ktIncompatible
   public void testAdapters_nullChecks() throws Exception {
     new ClassSanityTester()
         .forAllPublicStaticMethods(JdkFutureAdapters.class)
