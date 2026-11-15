@@ -260,11 +260,14 @@ public final class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, 
 
     @Nullable SortedMap<C, V> wholeRow;
 
-    // If the row was previously empty, we check if there's a new row here every time we're queried.
+    @Override
+    boolean isBackingRowMapCurrent() {
+      // A bounded backingRowMap is a view of wholeRow, not the row stored in backingMap.
+      return wholeRow == backingMap.get(rowKey);
+    }
+
     void updateWholeRowField() {
-      if (wholeRow == null || (wholeRow.isEmpty() && backingMap.containsKey(rowKey))) {
-        wholeRow = (SortedMap<C, V>) backingMap.get(rowKey);
-      }
+      wholeRow = (SortedMap<C, V>) backingMap.get(rowKey);
     }
 
     @Override
