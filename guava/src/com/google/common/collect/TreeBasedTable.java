@@ -217,20 +217,26 @@ public final class TreeBasedTable<R, C, V> extends StandardRowSortedTable<R, C, 
     }
 
     boolean rangeContains(@Nullable Object o) {
+      return rangeContains(o, false);
+    }
+
+    boolean rangeContains(@Nullable Object o, boolean upperBoundInclusive) {
       return o != null
           && (lowerBound == null || compare(lowerBound, o) <= 0)
-          && (upperBound == null || compare(upperBound, o) > 0);
+          && (upperBound == null
+              || (upperBoundInclusive ? compare(upperBound, o) >= 0 : compare(upperBound, o) > 0));
     }
 
     @Override
     public SortedMap<C, V> subMap(C fromKey, C toKey) {
-      checkArgument(rangeContains(checkNotNull(fromKey)) && rangeContains(checkNotNull(toKey)));
+      checkArgument(
+          rangeContains(checkNotNull(fromKey)) && rangeContains(checkNotNull(toKey), true));
       return new TreeRow(rowKey, fromKey, toKey);
     }
 
     @Override
     public SortedMap<C, V> headMap(C toKey) {
-      checkArgument(rangeContains(checkNotNull(toKey)));
+      checkArgument(rangeContains(checkNotNull(toKey), true));
       return new TreeRow(rowKey, lowerBound, toKey);
     }
 
