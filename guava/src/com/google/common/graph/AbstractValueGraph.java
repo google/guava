@@ -90,6 +90,11 @@ public abstract class AbstractValueGraph<N, V> extends AbstractBaseGraph<N>
       }
 
       @Override
+      public Set<EndpointPair<N>> incidentEdges(N node) {
+        return AbstractValueGraph.this.incidentEdges(node);
+      }
+
+      @Override
       public int degree(N node) {
         return AbstractValueGraph.this.degree(node);
       }
