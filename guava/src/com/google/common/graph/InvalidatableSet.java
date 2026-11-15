@@ -34,11 +34,11 @@ final class InvalidatableSet<E> extends ForwardingSet<E> {
     this.errorMessage = errorMessage;
   }
 
-  // Override hashCode() to access delegate directly (so that it doesn't trigger the validate() call
-  // via delegate()); it seems inappropriate to throw ISE on this method.
+  // An invalidated delegate may itself contain invalidated views or look up a removed node.
+  // Avoid accessing it; no particular hash code is promised for an invalidated set.
   @Override
   public int hashCode() {
-    return delegate.hashCode();
+    return validator.get() ? delegate.hashCode() : 0;
   }
 
   private void validate() {
