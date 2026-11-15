@@ -471,6 +471,20 @@ public final class TreeRangeMap<K extends Comparable, V> implements RangeMap<K, 
           checkNotNull(range);
           return this;
         }
+
+        @Override
+        public boolean equals(@Nullable Object o) {
+          if (o instanceof RangeMap) {
+            RangeMap<?, ?> rangeMap = (RangeMap<?, ?>) o;
+            return asMapOfRanges().equals(rangeMap.asMapOfRanges());
+          }
+          return false;
+        }
+
+        @Override
+        public int hashCode() {
+          return asMapOfRanges().hashCode();
+        }
       };
 
   private final class SubRangeMap implements RangeMap<K, V> {
